@@ -1,0 +1,2297 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = "Resources\App.ico"
+                AssemblyKeyContainerName = ""
+                AssemblyName = "RSSBandit"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "WinExe"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "RssBandit"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = "RssBandit.RssBanditApplication"
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE;"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "true"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Web.dll"
+                />
+                <Reference
+                    Name = "mscorlib"
+                    AssemblyName = "mscorlib"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.0.3705\mscorlib.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Serialization.Formatters.Soap"
+                    AssemblyName = "System.Runtime.Serialization.Formatters.Soap"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Runtime.Serialization.Formatters.Soap.dll"
+                />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Design.dll"
+                />
+                <Reference
+                    Name = "blogExtension"
+                    AssemblyName = "blogExtension"
+                    HintPath = "bin\blogExtension.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Remoting"
+                    AssemblyName = "System.Runtime.Remoting"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Runtime.Remoting.dll"
+                />
+                <Reference
+                    Name = "System.Web.Services"
+                    AssemblyName = "System.Web.Services"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Web.Services.dll"
+                />
+                <Reference
+                    Name = "SandBar"
+                    AssemblyName = "SandBar"
+                    HintPath = "bin\SandBar.dll"
+                />
+                <Reference
+                    Name = "Genghis"
+                    AssemblyName = "Genghis"
+                    HintPath = "bin\Genghis.dll"
+                />
+                <Reference
+                    Name = "ShellBasics"
+                    AssemblyName = "ShellBasics"
+                    HintPath = "bin\ShellBasics.dll"
+                />
+                <Reference
+                    Name = "Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces"
+                    AssemblyName = "Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces"
+                    HintPath = "bin\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll"
+                />
+                <Reference
+                    Name = "Microsoft.ApplicationBlocks.ExceptionManagement"
+                    AssemblyName = "Microsoft.ApplicationBlocks.ExceptionManagement"
+                    HintPath = "bin\Microsoft.ApplicationBlocks.ExceptionManagement.dll"
+                />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\Common\bin\log4net.dll"
+                />
+                <Reference
+                    Name = "Interop.SHDocVw"
+                    AssemblyName = "Interop.SHDocVw"
+                    HintPath = "bin\Interop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "IEControl"
+                    AssemblyName = "IEControl"
+                    HintPath = "bin\IEControl.dll"
+                />
+                <Reference
+                    Name = "NewsComponents"
+                    Project = "{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "ICSharpCode.SharpZipLib"
+                    AssemblyName = "ICSharpCode.SharpZipLib"
+                    HintPath = "..\NewsComponents\bin\ICSharpCode.SharpZipLib.dll"
+                />
+                <Reference
+                    Name = "SandDock"
+                    AssemblyName = "SandDock"
+                    HintPath = "bin\SandDock.dll"
+                />
+                <Reference
+                    Name = "Eyefinder"
+                    AssemblyName = "Eyefinder"
+                    HintPath = "bin\Eyefinder.dll"
+                />
+                <Reference
+                    Name = "edtftpnet-1.1.3"
+                    AssemblyName = "edtftpnet-1.1.3"
+                    HintPath = "bin\edtftpnet-1.1.3.dll"
+                />
+                <Reference
+                    Name = "XPExplorerBar"
+                    AssemblyName = "XPExplorerBar"
+                    HintPath = "bin\XPExplorerBar.dll"
+                />
+                <Reference
+                    Name = "WizardFramework"
+                    AssemblyName = "WizardFramework"
+                    HintPath = "bin\WizardFramework.dll"
+                />
+                <Reference
+                    Name = "RssBandit.AppServices"
+                    Project = "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "app.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Log.cs"
+                    Link = "..\Common\Log.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProfilerHelper.cs"
+                    Link = "..\Common\ProfilerHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "readme.txt"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "RssBandit.exe.log4net.config"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "RssBandit.exe.manifest"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "VersionInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\BanditApplicationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\BanditExceptionPublisher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\CommandLineParser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\ExceptionLog4netPublisher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\IdentityNewsServerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\InitialInstanceActivator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\Resource.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\RssBanditApplication.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\RssBanditPreferences.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\RssBanditUpdateManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\RssItemFilters.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\SearchEngineHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\ServiceContainerBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\ServiceManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\SpecialLocalFeeds.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\ThreadWorker.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Resources\AniImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\AniImagesXP.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\App.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\AppBusy.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\AppBusyXP.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\AppTray.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\AppTrayXP.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\BanditHelp.chm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Resources\BrowserImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Connected.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Disconnected.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\feedlist2subscriptions.xslt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\feedRefresh.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\iecontext_subscribebandit.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\iecontext_subscribefeed.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\ListImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\ListStateImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.de.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.es.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.fr.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.hi.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.it.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.ja.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.pl.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.pt-BR.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.ru.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.sr-SP-Cyrl.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.sr-SP-Latn.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.tr.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.zh-CHS.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RSSBanditText.zh-CHT.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered0.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered1.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered2.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered3.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered4.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered5.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered6.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered7.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered8.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscovered9.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\RssDiscoveredXX.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\SearchEnginesConfig.xsd"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\SearchEnginesConfig.xsx"
+                    DependentUpon = "SearchEnginesConfig.xsd"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Resources\ShortcutSettings.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\ShortcutSettings.xsd"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\ShortcutSettings.xsx"
+                    DependentUpon = "ShortcutSettings.xsd"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Resources\ToolImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\TreeImages.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\UnreadFeedItems.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\UnreadFeedItemsXP.ico"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "templates\aura-8.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\C64.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\DOS.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\Film.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\formal-red.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\Headlines.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\holiday-halloween.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\kuro5hin.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\neo-blue.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\outlook2003-orange.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\outlook-express.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\Polaroid.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\readme.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "templates\slashdot.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\Sticky Notes.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "templates\unwise-terminal.fdxsl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\DasBlog\ConfigEditingService.disco"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\DasBlog\ConfigEditingService.wsdl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\DasBlog\Reference.map"
+                    BuildAction = "None"
+                    Generator = "MSDiscoCodeGenerator"
+                    LastGenOutput = "Reference.cs"
+                />
+                <File
+                    RelPath = "Web References\DasBlog\Reference.cs"
+                    DependentUpon = "Reference.map"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                    DesignTime = "True"
+                    AutoGen = "True"
+                />
+                <Folder
+                    RelPath = "Web References\DasBlog\"
+                    WebReferenceUrl = "http://localhost/dasBlog/ConfigEditingService.asmx"
+                    UrlBehavior = "Static"
+                />
+                <File
+                    RelPath = "Web References\DasBlog_1_3\ConfigEditingService.disco"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\DasBlog_1_3\ConfigEditingService.wsdl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\DasBlog_1_3\Reference.map"
+                    BuildAction = "None"
+                    Generator = "MSDiscoCodeGenerator"
+                    LastGenOutput = "Reference.cs"
+                />
+                <File
+                    RelPath = "Web References\DasBlog_1_3\Reference.cs"
+                    DependentUpon = "Reference.map"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                    DesignTime = "True"
+                    AutoGen = "True"
+                />
+                <Folder
+                    RelPath = "Web References\DasBlog_1_3\"
+                    WebReferenceUrl = "http://localhost/dasBlog1.3/ConfigEditingService.asmx"
+                    UrlBehavior = "Static"
+                />
+                <File
+                    RelPath = "Web References\RssBandit.UpdateService\Reference.map"
+                    BuildAction = "None"
+                    Generator = "MSDiscoCodeGenerator"
+                    LastGenOutput = "Reference.cs"
+                />
+                <File
+                    RelPath = "Web References\RssBandit.UpdateService\Reference.cs"
+                    DependentUpon = "Reference.map"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                    DesignTime = "True"
+                    AutoGen = "True"
+                />
+                <File
+                    RelPath = "Web References\RssBandit.UpdateService\UpdateService.disco"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\RssBandit.UpdateService\UpdateService.wsdl"
+                    BuildAction = "None"
+                />
+                <Folder
+                    RelPath = "Web References\RssBandit.UpdateService\"
+                    WebReferenceUrl = "http://localhost/RssBandit.UpdateService/UpdateService.asmx"
+                    UrlBehavior = "Static"
+                />
+                <Folder
+                    RelPath = "Web References\"
+                    WebReferences = "TRUE"
+                />
+                <File
+                    RelPath = "WinGui\AutoDiscoveredFeedsMenuHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\AutoDiscoverFeedsThreadHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\EntertainmentThreadHandlerBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\GuiStateManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\HttpRequestFileThreadHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Interfaces.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\PostReplyThreadHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\PrefetchFeedThreadHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\RemoteFeedlistThreadHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\ToastNotifier.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\TrayStateManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\CollapsibleSplitter.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\CollapsibleSplitter.resx"
+                    DependentUpon = "CollapsibleSplitter.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\Line.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\MenuCommands.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\MenuCommands.resx"
+                    DependentUpon = "MenuCommands.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\OptionSectionPanel.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\OptionSectionPanel.resx"
+                    DependentUpon = "OptionSectionPanel.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ToolCommands.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ToolCommands.resx"
+                    DependentUpon = "ToolCommands.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\TrayAnimation.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\TrayAnimation.resx"
+                    DependentUpon = "TrayAnimation.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\WindowSerializer.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\DesignerSupport.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ListHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListView.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListView.resx"
+                    DependentUpon = "ThreadedListView.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewColumnHeader.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewColumnHeader.resx"
+                    DependentUpon = "ThreadedListViewColumnHeader.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewColumnHeaderCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewEnums.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewEventArgs.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewGroup.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewGroupCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\ThreadedListViewItemCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\Win32.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\Sorting\ThreadedListViewItemComparer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Controls\ThListView\Sorting\ThreadedListViewSorter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AddSubscriptionWizard.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AddSubscriptionWizard.resx"
+                    DependentUpon = "AddSubscriptionWizard.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.de.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.es.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.fr.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.hi.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.it.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.ja.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.pl.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.pt-BR.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.ru.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Cyrl.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Latn.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.tr.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.zh-CHS.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AskForDefaultAggregator.zh-CHT.resx"
+                    DependentUpon = "AskForDefaultAggregator.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.de.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.es.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.fr.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.hi.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.it.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.ja.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.pl.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.pt-BR.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.ru.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.sr-SP-Latn.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.tr.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.zh-CHS.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\AutoDiscoverFeedsDialog.zh-CHT.resx"
+                    DependentUpon = "AutoDiscoverFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.de.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.es.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.fr.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.hi.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.it.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.ja.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.pl.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.pt-BR.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.ru.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.sr-SP-Cyrl.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.sr-SP-Latn.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.tr.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.zh-CHS.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\CategoryProperties.zh-CHT.resx"
+                    DependentUpon = "CategoryProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.de.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.es.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.fr.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.hi.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.it.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.ja.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.pl.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.pt-BR.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.ru.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Latn.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.tr.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHS.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHT.resx"
+                    DependentUpon = "DiscoveredFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.de.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.es.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.fr.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.hi.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.it.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.ja.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.pl.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.pt-BR.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.ru.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.sr-SP-Latn.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.tr.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.zh-CHS.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\EntertainmentDialog.zh-CHT.resx"
+                    DependentUpon = "EntertainmentDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.de.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.es.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.fr.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.hi.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.it.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.ja.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.pl.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.pt-BR.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.ru.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.sr-SP-Latn.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.tr.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.zh-CHS.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ExportFeedsDialog.zh-CHT.resx"
+                    DependentUpon = "ExportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.de.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.es.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.fr.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.hi.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.it.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.ja.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.pl.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.pt-BR.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.ru.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.sr-SP-Cyrl.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.sr-SP-Latn.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.tr.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.zh-CHS.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\FeedProperties.zh-CHT.resx"
+                    DependentUpon = "FeedProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.de.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.es.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.fr.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.hi.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.it.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.ja.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.pl.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.pt-BR.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.ru.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.sr-SP-Latn.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.tr.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.zh-CHS.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\ImportFeedsDialog.zh-CHT.resx"
+                    DependentUpon = "ImportFeedsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.de.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.es.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.fr.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.hi.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.it.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.ja.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.pl.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.pt-BR.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.ru.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.sr-SP-Latn.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.tr.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.zh-CHS.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\NewFeedDialog.zh-CHT.resx"
+                    DependentUpon = "NewFeedDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.de.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.es.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.fr.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.hi.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.it.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.ja.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.pl.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.pt-BR.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.ru.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.sr-SP-Cyrl.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.sr-SP-Latn.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.tr.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.zh-CHS.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PostReplyForm.zh-CHT.resx"
+                    DependentUpon = "PostReplyForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.de.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.es.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.fr.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.hi.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.it.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.ja.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.pl.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.pt-BR.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.ru.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.sr-SP-Latn.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.tr.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.zh-CHS.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\PreferencesDialog.zh-CHT.resx"
+                    DependentUpon = "PreferencesDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.de.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.es.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.fr.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.hi.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.it.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.ja.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.pl.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.pt-BR.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.ru.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.sr-SP-Cyrl.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.sr-SP-Latn.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.tr.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.zh-CHS.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SearchEngineProperties.zh-CHT.resx"
+                    DependentUpon = "SearchEngineProperties.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.de.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.es.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.fr.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.hi.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.it.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.ja.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.pl.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.pt-BR.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.ru.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.sr-SP-Cyrl.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.sr-SP-Latn.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.tr.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.zh-CHS.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Dialogs\SecurityIssueDialog.zh-CHT.resx"
+                    DependentUpon = "SecurityIssueDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.de.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.es.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.fr.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.hi.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.it.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.ja.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.pl.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.pt-BR.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.ru.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.sr-SP-Cyrl.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.sr-SP-Latn.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.tr.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.zh-CHS.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\NewsGroupsConfiguration.zh-CHT.resx"
+                    DependentUpon = "NewsGroupsConfiguration.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.de.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.es.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.fr.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.hi.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.it.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.ja.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.pl.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.pt-BR.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.ru.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.sr-SP-Cyrl.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.sr-SP-Latn.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.tr.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.zh-CHS.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\SplashScreen.zh-CHT.resx"
+                    DependentUpon = "SplashScreen.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.de.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.es.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.fr.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.hi.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.it.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.ja.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.pl.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.pt-BR.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.ru.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.sr-SP-Cyrl.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.sr-SP-Latn.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.tr.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.zh-CHS.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ToastNotify.zh-CHT.resx"
+                    DependentUpon = "ToastNotify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.de.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.es.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.fr.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.hi.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.it.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.ja.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.pl.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.pt-BR.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.ru.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.sr-SP-Cyrl.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.sr-SP-Latn.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.tr.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.zh-CHS.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\WinGUIMain.zh-CHT.resx"
+                    DependentUpon = "WinGUIMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WinGui\Forms\ControlHelpers\IdleTask.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Keyboard\ShortcutHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\ColorEx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\CommandMediator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\RssItemFormatter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\WheelSupport.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\Win32.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WinGui\Utility\WinGUIWidgetHelpers.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

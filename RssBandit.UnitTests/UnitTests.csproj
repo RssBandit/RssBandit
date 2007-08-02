@@ -1,0 +1,427 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{4E99B96D-9389-4762-A69A-0F1DD3761DAA}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "RssBandit.UnitTests"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "RssBandit.UnitTests"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = "UnitTests.xml"
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "Cassini"
+                    AssemblyName = "Cassini"
+                    HintPath = "ExternalDependencies\Cassini.dll"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "NewsComponents"
+                    Project = "{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "ExternalDependencies\nunit.framework.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CassiniHelperTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileCacheManagerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewsHandlerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RssItemTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RssLocaterTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RssParserTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\Cassini.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\Cassini.pdb"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\mock-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\mock-assembly.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nonamespace-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\notestfixtures-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.core.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.extensions.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.testutilities.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.exe"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.exe.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console-runner.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui.exe"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui.exe.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui-runner.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\NUnitTests.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\NUnitTests.nunit"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\timing-tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Resources\Cache\172.0.0.1.8081.1214057202.df05c3d0bd8748e68f121451084e3e62.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Expected\RssItemTests\TestToString.NoGMT.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Expected\RssItemTests\TestToString.NotStandalone.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Expected\RssItemTests\TestToString.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Settings\DefaultSettings.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Settings\DefaultSettingsWithNoWhitespace.xml"
+                    SubType = "Code"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Settings\ValidShortcutSettings.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\FeedList03Feeds.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\FeedList04Feeds.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\FeedListWithDuplicateFrom03.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\FeedWithWeirdLineBreaks.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\LocalArchiveItem01.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\LocalArchiveItem02.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\LocalTestFeed.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\NewsHandlerTestFiles\LocalTestFeedList.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\AutoDiscovery1.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\feedProtocol.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\GetRssAutoDiscoveryLinks.html"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\GetRssFeedsForUrl.html"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\LinksToExternalFeed.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\localListeners.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\NoFeeds.html"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\NotAFeed.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\PageWithAtomLinks.htm"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleATOM0.3Feed.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleFeed001Rss2.0.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleFeed002Rss2.0.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleFeed003Rss2.0.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleFeed004Rss2.0.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleRss0.91Feed.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleRss0.92Feed.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleRss1.0Feed.rss"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\WebRoot\RssLocaterTestFiles\SampleRss2.0Feed.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Utils\ShortcutManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utils\ShortcutManagerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utils\StringHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

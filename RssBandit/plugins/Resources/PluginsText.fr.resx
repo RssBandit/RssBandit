@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="RES_MenuEmailThisCaption">
+		<value>Envoyer par mail...</value>
+	</data>
+	<data name="RES_MenuDeliciousCaption">
+		<value>Envoyer à del.icio.us</value>
+	</data>
+	<data name="RES_MenuWBloggarCaption">
+		<value>Blog avec W::Bloggar...</value>
+	</data>
+	<data name="RES_ExceptionWBloggarNotFound">
+		<value>Aucun paramètre de base de registre pour w::bloggar. Veuillez installer w::bloggar à partir de http://www.bloggar.com pour bénéficier de cette fonctionnalité.</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionTitle">
+		<value>Envoi incomplet</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionMessage">
+		<value>Un des champs de texte n'a pas été rempli.</value>
+	</data>
+	<data name="RES_DeliciousFormTags">
+		<value>&amp;Tags</value>
+	</data>
+	<data name="RES_DeliciousFormUrl">
+		<value>&amp;URL</value>
+	</data>
+	<data name="RES_DeliciousFormDescription">
+		<value>&amp;Description</value>
+	</data>
+	<data name="RES_DeliciousFormCancel">
+		<value>Annuler</value>
+	</data>
+	<data name="RES_DeliciousFormPost">
+		<value>Envoi</value>
+	</data>
+	<data name="RES_DeliciousFormOk">
+		<value>OK</value>
+	</data>
+	<data name="RES_DeliciousFormAuthentication">
+		<value>Authentification</value>
+	</data>
+	<data name="RES_DeliciousFormPassword">
+		<value>&amp;Mot de passe</value>
+	</data>
+	<data name="RES_DeliciousFormUsername">
+		<value>&amp;Nom utilisateur</value>
+	</data>
+	<data name="RES_DeliciousFormApiUrl">
+		<value>URL d'API &amp;del.icio.us</value>
+	</data>
+	<data name="RES_DeliciousFormConfiguration">
+		<value>Configuration du plugin Del.icio.us</value>
+	</data>
+</root>

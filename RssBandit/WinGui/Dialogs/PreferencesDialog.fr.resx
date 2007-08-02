@@ -1,0 +1,888 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnOK.Text">
+    <value>&amp;Ok</value>
+  </data>
+  <data name="btnCancel.Text">
+    <value>Annuler</value>
+  </data>
+  <data name="tabGeneral.Text">
+    <value>Général</value>
+  </data>
+  <data name="tabGeneral.ToolTipText">
+    <value>Paramètres généraux de l'application</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text">
+    <value>Démarrage</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 20</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text">
+    <value>Forcer le téléchargement des flux au démarrage</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text">
+    <value>Comportement de l'application</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text">
+    <value>Agrégateur par défaut</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip">
+    <value>Utilise RSS Bandit comme l'agrégateur par défaut écoutant le protocole 'feed:'...</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 173</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 50</value>
+  </data>
+  <data name="label12.Text">
+    <value>Si ce bouton est désactivé, RSS Bandit est votre agrégateur par défaut. S'il est actif, vous pouvez faire de RssBandit votre agrégateur par défaut en pressant ce bouton.</value>
+  </data>
+  <data name="radioTrayActionNone.Text">
+    <value>&amp;Aucune</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip">
+    <value>L'application sera toujours visible dans la barre des tâches</value>
+  </data>
+  <data name="label1.Text">
+    <value>Choisissez l'action que doit exécuter l'application lorsqu'elle se 'Réduit dans la barre de notification'.</value>
+  </data>
+  <data name="radioTrayActionClose.Text">
+    <value>&amp;Fermeture de l'application</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip">
+    <value>L'application ne sera pas visible dans la barre des tâches</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text">
+    <value>&amp;Réduction de l'application (recommandé)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip">
+    <value>L'application ne sera pas visible dans la barre des tâches</value>
+  </data>
+  <data name="labelCheckForUpdates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 145</value>
+  </data>
+  <data name="labelCheckForUpdates.Text">
+    <value>&amp;Vérifier les mises à jour :</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items">
+    <value>Manuellement</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1">
+    <value>A chaque démarrage de l'application</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2">
+    <value>Une fois toutes les 2 semaines</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3">
+    <value>Une fois par mois</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>170, 140</value>
+  </data>
+  <data name="tabRemoteStorage.Text">
+    <value>Stockage distant</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Stockage distant de la liste des flux</value>
+  </data>
+  <data name="textRemoteStorageLocation.IconPadding" type="System.Int32, mscorlib, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>140</value>
+  </data>
+  <data name="textRemoteStorageLocation.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>181, 132</value>
+  </data>
+  <data name="textRemoteStorageLocation.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 21</value>
+  </data>
+  <data name="textRemoteStoragePassword.IconPadding" type="System.Int32, mscorlib, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>140</value>
+  </data>
+  <data name="textRemoteStoragePassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>181, 188</value>
+  </data>
+  <data name="textRemoteStoragePassword.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 21</value>
+  </data>
+  <data name="textRemoteStoragePassword.ToolTip">
+    <value>Mot de passe du proxy</value>
+  </data>
+  <data name="textRemoteStorageUserName.IconPadding" type="System.Int32, mscorlib, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>140</value>
+  </data>
+  <data name="textRemoteStorageUserName.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>181, 163</value>
+  </data>
+  <data name="textRemoteStorageUserName.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 21</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip">
+    <value>Nom d'utilisateur. Peut être défini sous la forme "Domaine\Utilisateur".</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.IconPadding" type="System.Int32, mscorlib, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>140</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items">
+    <value>Partage de fichiers</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>181, 103</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>167, 21</value>
+  </data>
+  <data name="checkUseRemoteStorage.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 78</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text">
+    <value>Utiliser un &amp;stockage distant</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 45</value>
+  </data>
+  <data name="label10.Text">
+    <value>Ceci vous permet de sauvegarder vos flux sur un emplacement distant et de les partager entre plusieurs ordinateurs.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 135</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>143, 22</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text">
+    <value>&amp;URL du service de stockage :</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip">
+    <value />
+  </data>
+  <data name="labelRemoteStoragePassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 190</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>146, 20</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text">
+    <value>&amp;Mot de passe :</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip">
+    <value>Mot de passe du proxy</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 165</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>147, 20</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text">
+    <value>&amp;Nom d'utilisateur :</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip">
+    <value>Nom d'utilisateur. Peut être défini sous la forme "Domaine\Utilisateur".</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 106</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>144, 20</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text">
+    <value>Protocole :</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip">
+    <value />
+  </data>
+  <data name="labelExperimental.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 216</value>
+  </data>
+  <data name="labelExperimental.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>303, 108</value>
+  </data>
+  <data name="tabNewsItems.Text">
+    <value>Affichage</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text">
+    <value>Général</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 40</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 27</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>Marquer tous les éléments comme lus lorsque vous quittez un flux ou une catégorie</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>Ouvrir les liens directement s'il n'y a pas de description</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Formattage d'un message</value>
+  </data>
+  <data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>165, 95</value>
+  </data>
+  <data name="comboFormatters.ToolTip">
+    <value>Choisir une feuille de style pour le formatage</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 42</value>
+  </data>
+  <data name="label2.Text">
+    <value>Choisir le formatage par défaut ou sélectionner un formatage xslt personnalisé dans la liste des modèles.</value>
+  </data>
+  <data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 75</value>
+  </data>
+  <data name="checkCustomFormatter.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 19</value>
+  </data>
+  <data name="checkCustomFormatter.Text">
+    <value>Utiliser un &amp;formatage par défaut</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip">
+    <value>Cochez cette option pour utiliser un formatage personnalisé</value>
+  </data>
+  <data name="labelFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 100</value>
+  </data>
+  <data name="labelFormatters.Text">
+    <value>&amp;Feuille de style :</value>
+  </data>
+  <data name="tabFeeds.Text">
+    <value>Flux</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Paramètres par défaut des commentaires</value>
+  </data>
+  <data name="linkCommentAPI.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>167, 62</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip">
+    <value>En savoir plus sur "CommentAPI"...</value>
+  </data>
+  <data name="btnManageIdentities.Text">
+    <value>Identités...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 20</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text">
+    <value>Identité utilisateur pour les commentaires</value>
+  </data>
+  <data name="label6.Text">
+    <value>Spécifier vos paramètres personnels par défaut pour répondre aux messages. Cette fonctionnalité est uniquement  disponible pour les flux compatibles avec CommentAPI.</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text">
+    <value>Flux, Périodicité</value>
+  </data>
+  <data name="label15.Text">
+    <value>Age maximum d'un message :</value>
+  </data>
+  <data name="linkLabel1.ToolTip">
+    <value>En savoir plus à propos du "conditional get"...</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>270, 99</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 94</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>145, 24</value>
+  </data>
+  <data name="label4.Text">
+    <value>&amp;Mettre à jour les flux tous les</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 jour</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21  jours</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 mois</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 mois</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 trimestre</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 trimestres</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 trimestres</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 an</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Illimité</value>
+  </data>
+  <data name="label3.Text">
+    <value>Spécifier l'intervalle au cours duquel les flux doivent être mis à jour. Chaque flux avec un taux de mise à jour dans cet intervalle sera téléchargé à nouveau (Conditional Get).</value>
+  </data>
+  <data name="tabNetConnection.Text">
+    <value>Connexion réseau</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Serveur de Proxy</value>
+  </data>
+  <data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="textProxyBypassList.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>42, 205</value>
+  </data>
+  <data name="textProxyBypassList.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 21</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip">
+    <value>Liste des adresses d'exception</value>
+  </data>
+  <data name="checkNoProxy.Text">
+    <value>&amp;Ne pas utiliser un serveur de proxy</value>
+  </data>
+  <data name="textProxyCredentialPassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>147, 300</value>
+  </data>
+  <data name="textProxyCredentialPassword.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>192, 21</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 300</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text">
+    <value>&amp;Mot de passe:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip">
+    <value>Mot de passe du proxy</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 280</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text">
+    <value>Nom d'&amp;utilisateur:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip">
+    <value>Nom d'utilisateur.Peut être défini sous la forme "Domaine\Utilisateur".</value>
+  </data>
+  <data name="textProxyCredentialUser.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>147, 275</value>
+  </data>
+  <data name="textProxyCredentialUser.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>192, 21</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip">
+    <value>Nom d'utilisateur. Peut être défini sous la forme "Domaine\Utilisateur".</value>
+  </data>
+  <data name="checkProxyAuth.Text">
+    <value>Ce proxy nécessite une &amp;authentification</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text">
+    <value>Utiliser des points virgule ( ; ) pour séparer les entrées.</value>
+  </data>
+  <data name="labelProxyBypassList.Text">
+    <value>Ne &amp;pas utiliser le proxy pour les adresses commençant par :</value>
+  </data>
+  <data name="checkUseProxy.Text">
+    <value>Utiliser des &amp;paramètres de proxy privés:</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text">
+    <value>Utiliser les paramètres de connexion de &amp;Internet Explorer</value>
+  </data>
+  <data name="labelProxyServerSummery.Text">
+    <value>Un serveur de proxy tient lieu d'intermédiaire entre votre machine et Internet en récupérant les fichiers provenant de serveurs Web distants.</value>
+  </data>
+  <data name="textProxyPort.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>287, 120</value>
+  </data>
+  <data name="textProxyPort.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>54, 21</value>
+  </data>
+  <data name="textProxyPort.ToolTip">
+    <value>Numéro de port du proxy</value>
+  </data>
+  <data name="labelProxyPort.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>240, 125</value>
+  </data>
+  <data name="labelProxyPort.Text">
+    <value>Por&amp;t : </value>
+  </data>
+  <data name="labelProxyAddress.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 125</value>
+  </data>
+  <data name="labelProxyAddress.Text">
+    <value>Adr&amp;esse: </value>
+  </data>
+  <data name="textProxyAddress.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>124, 21</value>
+  </data>
+  <data name="textProxyAddress.ToolTip">
+    <value>L'adresse IP du proxy</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text">
+    <value>&amp;Ne pas interroger le proxy pour les adresses locales</value>
+  </data>
+  <data name="tabFonts.Text">
+    <value>Polices</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text">
+    <value>Abonnements, éléments de nouvelle</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text">
+    <value>Configure la police, les styles et les couleurs utilisées pour mettre en valeur ou indiquer l'état des abonnements et des éléments de nouvelle.</value>
+  </data>
+  <data name="btnChangeFont.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>262, 70</value>
+  </data>
+  <data name="btnChangeFont.Text">
+    <value>&amp;Modifier...</value>
+  </data>
+  <data name="lblUsedFontNameSize.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 65</value>
+  </data>
+  <data name="lblUsedFontNameSize.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>211, 32</value>
+  </data>
+  <data name="chkFontItalic.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>200, 149</value>
+  </data>
+  <data name="chkFontItalic.Text">
+    <value>I&amp;taliques</value>
+  </data>
+  <data name="chkFontBold.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>200, 125</value>
+  </data>
+  <data name="chkFontBold.Text">
+    <value>&amp;Gras</value>
+  </data>
+  <data name="btnChangeColor.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 220</value>
+  </data>
+  <data name="btnChangeColor.Text">
+    <value>C&amp;ouleur...</value>
+  </data>
+  <data name="lblItemStates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 110</value>
+  </data>
+  <data name="lblItemStates.Text">
+    <value>&amp;Etats des éléments:</value>
+  </data>
+  <data name="lstItemStates.Items">
+    <value>Lire (normal)</value>
+  </data>
+  <data name="lstItemStates.Items1">
+    <value>Non lu</value>
+  </data>
+  <data name="lstItemStates.Items3">
+    <value>Référant (referrer)</value>
+  </data>
+  <data name="lstItemStates.Items4">
+    <value>Erreur</value>
+  </data>
+  <data name="lstItemStates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 130</value>
+  </data>
+  <data name="lstItemStates.ToolTip">
+    <value>Sélectionnez un état d'élément pour modifier les paramètres...</value>
+  </data>
+  <data name="chkFontUnderline.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>200, 193</value>
+  </data>
+  <data name="chkFontUnderline.Text">
+    <value>&amp;Soulignement</value>
+  </data>
+  <data name="chkFontStrikeout.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>200, 170</value>
+  </data>
+  <data name="chkFontStrikeout.Text">
+    <value>&amp;Barré</value>
+  </data>
+  <data name="lblFontSampleCaption.Text">
+    <value>Exemple :</value>
+  </data>
+  <data name="tabWebBrowser.Text">
+    <value>Navigateur Internet</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>350, 162</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Sécurité, restrictions</value>
+  </data>
+  <data name="labelCheckToAllow.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>36, 75</value>
+  </data>
+  <data name="labelCheckToAllow.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>165, 21</value>
+  </data>
+  <data name="labelCheckToAllow.Text">
+    <value>Cocher pour autoriser :</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 120</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text">
+    <value>Contrôle ActiveX</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 100</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 140</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text">
+    <value>Applets Java</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 119</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 14</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text">
+    <value>Sons</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 99</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 15</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Text">
+    <value>Vidéo</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 139</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 15</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text">
+    <value>Images</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 54</value>
+  </data>
+  <data name="label19.Text">
+    <value>Si vous modifiez des paramètres de sécurité, ces paramètres ne seront actifs que pour les nouveaux onglets, ou pour tous les onglets si vous redémarrez l'application. Ces paramètres sont sans effet sur la fenêtre des messages.</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>Sur la sélection d'un lien et une nouvelle fenêtre</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text">
+    <value>Démarrer cet e&amp;xécutable :</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Ouvrir le &amp;navigateur par défault</value>
+  </data>
+  <data name="optNewWindowOnTab.Text">
+    <value>Ouvrir un nouvel &amp;onglet (par défaut)</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text">
+    <value>Réutiliser les onglets du navigateur</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text">
+    <value>&amp;Fichier :</value>
+  </data>
+  <data name="label16.Text">
+    <value>Choisir comment le navigateur interne doit gérer un clic sur un lien HTML ou ouvrir une nouvelle fenêtre.</value>
+  </data>
+  <data name="tabWebSearch.Text">
+    <value>Recherche Internet</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text">
+    <value>Moteurs de recherche</value>
+  </data>
+  <data name="btnSERemove.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 230</value>
+  </data>
+  <data name="btnSERemove.Text">
+    <value>Supprimer</value>
+  </data>
+  <data name="btnSERemove.ToolTip">
+    <value>Supprime le moteur de recherche sélectionné</value>
+  </data>
+  <data name="btnSEAdd.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 200</value>
+  </data>
+  <data name="btnSEAdd.Text">
+    <value>Ajouter...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip">
+    <value>Ajouter un nouveau moteur de recherche</value>
+  </data>
+  <data name="btnSEProperties.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 170</value>
+  </data>
+  <data name="btnSEProperties.Text">
+    <value>Propriétés...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip">
+    <value>Ouvre la boîte de dialogue des propriétés des moteurs de recherche</value>
+  </data>
+  <data name="btnSEMoveDown.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 138</value>
+  </data>
+  <data name="btnSEMoveDown.Text">
+    <value>Descendre</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip">
+    <value>Déplace l'élément vers le bas</value>
+  </data>
+  <data name="btnSEMoveUp.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 108</value>
+  </data>
+  <data name="btnSEMoveUp.Text">
+    <value>Monter</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip">
+    <value>Déplace l'élément vers le haut</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="listSearchEngines.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 108</value>
+  </data>
+  <data name="listSearchEngines.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>209, 145</value>
+  </data>
+  <data name="columnHeader1.Text">
+    <value>Titre du moteur</value>
+  </data>
+  <data name="label17.Text">
+    <value>Choisir le(s) moteur(s) de recherche, qui seront actif(s) si vous cliquez sur l'icône "Recherche" </value>
+  </data>
+  <data name="btnApply.Text">
+    <value>Appliquer</value>
+  </data>
+  <data name="openExeFileDialog.Filter">
+    <value>Fichiers éxécutables|*.exe|Tous les fichiers|*.*</value>
+  </data>
+  <data name="openExeFileDialog.Title">
+    <value>Choisir un fichier exécutable</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+<data name="comboRemoteStorageProtocol.Items1">
+    <value>FTP</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items2">
+    <value>dasBlog</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items3">
+    <value>dasBlog 1.3</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items4">
+    <value>WebDAV</value>
+  </data>
+	<data name="linkCommentAPI.Text">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+	<data name="linkLabel1.Text">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+	<data name="comboRefreshRate.Items">
+    <value>15</value>
+  </data>
+	<data name="comboRefreshRate.Items1">
+    <value>30</value>
+  </data>
+	<data name="comboRefreshRate.Items2">
+    <value>45</value>
+  </data>
+	<data name="comboRefreshRate.Items3">
+    <value>60</value>
+  </data>
+	<data name="comboRefreshRate.Items4">
+    <value>75</value>
+  </data>
+	<data name="comboRefreshRate.Items5">
+    <value>90</value>
+  </data>
+	<data name="comboRefreshRate.Items6">
+    <value>105</value>
+  </data>
+	<data name="comboRefreshRate.Items7">
+    <value>120</value>
+  </data>
+	<data name="comboRefreshRate.Items8">
+    <value>240</value>
+  </data>
+	<data name="comboRefreshRate.Items9">
+    <value>480</value>
+  </data>
+	<data name="comboRefreshRate.Items10">
+    <value>720</value>
+  </data>
+	<data name="comboRefreshRate.Items11">
+    <value>1440</value>
+  </data>
+	<data name="label5.Text">
+    <value>minutes</value>
+  </data>
+	<data name="lblUsedFontNameSize.Text">
+    <value>Tahoma, 8pt</value>
+  </data>
+	<data name="lstItemStates.Items2">
+    <value>Flag</value>
+  </data>
+	<data name="lblFontSampleABC.Text">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+	<data name="btnSelectExecutable.Text">
+    <value>...</value>
+  </data>
+	<data name="columnHeader2.Text">
+    <value>Description</value>
+  </data>
+	<data name="$this.Text">
+    <value>Options</value>
+  </data>
+	</root>

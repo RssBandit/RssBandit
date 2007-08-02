@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailThis", "MailThis\MailThis.csproj", "{0FE0B444-A9FD-4077-9E35-8E76B420A37C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogThis.WBloggar", "BlogThis.WBloggar\BlogThis.WBloggar.csproj", "{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delicious", "Delicious\Delicious.csproj", "{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug.ActiveCfg = Debug|.NET
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug.Build.0 = Debug|.NET
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release.ActiveCfg = Release|.NET
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release.Build.0 = Release|.NET
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug.ActiveCfg = Debug|.NET
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug.Build.0 = Debug|.NET
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release.ActiveCfg = Release|.NET
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release.Build.0 = Release|.NET
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug.ActiveCfg = Debug|.NET
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug.Build.0 = Debug|.NET
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release.ActiveCfg = Release|.NET
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

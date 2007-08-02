@@ -1,0 +1,645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnOK.Text">
+    <value>&amp;U redu</value>
+  </data>
+  <data name="btnCancel.Text">
+    <value>Otkaži</value>
+  </data>
+  <data name="tabGeneral.Text">
+    <value>Generalno</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text">
+    <value>Početak</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text">
+    <value>Forsiraj skidanje izvora prilikom startovanja</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text">
+    <value>Podesi RSS Bandit kao osnovni agregator</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip">
+    <value>Napravi RSS Bandit osnovnom aplikacijom koja oslupkuje za 'izvor:' Url protokola...</value>
+  </data>
+  <data name="label12.Text">
+    <value>Ako je dugme onemogućeno, RSS Bandit je vaš osnovni agregator. Ako je omogućeno, možete ga napraviti svojim osnovinim agregatorom pritisnuvši dugme.</value>
+  </data>
+  <data name="radioTrayActionNone.Text">
+    <value>Nijed&amp;na</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip">
+    <value>Aplikacija će uvek biti vidljiva unutar radnog bara</value>
+  </data>
+  <data name="label1.Text">
+    <value>Izaberite opciju kako bi odredili prilikom koje akcije aplikacija treba da se 'Minimize to Tray'.</value>
+  </data>
+  <data name="radioTrayActionClose.Text">
+    <value>Kad se aplikacija &amp;zatvori</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip">
+    <value>Aplikacija neće biti vidljiva unutar bara aplikacija</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text">
+    <value>Kad se aplikacija M&amp;inimizira (preporučljivo)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip">
+    <value>Aplikacija neće biti vidljiva unutar radnoe trake</value>
+  </data>
+  <data name="labelCheckForUpdates.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>131, 18</value>
+  </data>
+  <data name="labelCheckForUpdates.Text">
+    <value>Selektujte za &amp;nadogradnje:</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items">
+    <value>Ručno</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1">
+    <value>Svaku put kad se aplikacija startuje</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2">
+    <value>Jednom u 14 dana</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3">
+    <value>Jednom mesečno</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>174, 139</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>163, 21</value>
+  </data>
+  <data name="tabRemoteStorage.Text">
+    <value>Udaljeni smeštaj</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Udaljeni smeštaj liste izvora</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip">
+    <value>Akreditiva korisničko ime. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items">
+    <value>Deljenje fajlova</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>189, 21</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text">
+    <value>Koristi &amp;udaljeni smeštaj</value>
+  </data>
+  <data name="label10.Text">
+    <value>Ova opcija vam omogućava da smestite vaše liste izvora na udaljene lokacije, kako bi mogle biti deljene između više računara.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text">
+    <value>&amp;URL servisa smeštaja:</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip">
+    <value>Lozinka Proxy akreditiva</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text">
+    <value>Korisničko &amp;ime:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip">
+    <value>Proxy akreditiva lozinka</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text">
+    <value>Korisničko &amp;ime:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip">
+    <value>Korisničko ime Proxy akreditiva. Može biti navedeno kao 'Domain\Username'.</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text">
+    <value>Protokol:</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip">
+    <value>Proxy akreditiva lozinka</value>
+  </data>
+  <data name="tabNewsItems.Text">
+    <value>Prikaži</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text">
+    <value>Generalno</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 40</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 29</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>Markiraj sve predmete pročitanim na izlasku izvora ili kategorije</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>Uako nema opisa otvori link u panelu za čitanje</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Formatiranje predmeta</value>
+  </data>
+  <data name="comboFormatters.ToolTip">
+    <value>Izaerite stylesheet formatera</value>
+  </data>
+  <data name="label2.Text">
+    <value>Koristite osvnovno formatiranje predmeta ili izaberite prilagođeni XSLT formater.</value>
+  </data>
+  <data name="checkCustomFormatter.Text">
+    <value>Koristi &amp;prilagođeni formater</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip">
+    <value>Selektujte ovu opciju za prilagođeni formater</value>
+  </data>
+  <data name="labelFormatters.Text">
+    <value>&amp;Kaskadni stil formatera</value>
+  </data>
+  <data name="tabFeeds.Text">
+    <value>Izvori</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Osnovno komentara</value>
+  </data>
+  <data name="btnManageIdentities.Text">
+    <value>Identiteti...</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip">
+    <value>Čitajte više o 'CommentAPI'...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>183, 20</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text">
+    <value>Korisnički identitet za komentare</value>
+  </data>
+  <data name="label6.Text">
+    <value>Navedite vaše lične osnovne paramtetre za postiranje odgovora na predmete izvora. Ova opcija je moguća samo na izvorima koji podržavaju CommentAPI. Vidi isto</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text">
+    <value>Izvori, tajming</value>
+  </data>
+  <data name="label15.Text">
+    <value>Ukloni predmete &amp;starije od:</value>
+  </data>
+  <data name="linkLabel1.ToolTip">
+    <value>Pročitajte više o 'kondicionalno uzmi'...</value>
+  </data>
+  <data name="label5.Text">
+    <value>minuta</value>
+  </data>
+  <data name="label4.Text">
+    <value>&amp;Ažuriraj izvore svakih</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 dan</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 dan</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 mesec</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 meseca</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 kvartal</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 kvartala</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 kvartala</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 godina</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Neograničeno</value>
+  </data>
+  <data name="label3.Text">
+    <value>Navedite interval u kojem bi izvori na koje ste potpisani trebali biti ažurirani. Svaki izvor sa određenim osvežavanjem unutar ovog intervala će biti tražen opet (kondicionalno uzmi). Vidi isto</value>
+  </data>
+  <data name="tabNetConnection.Text">
+    <value>Mrežna konekcija</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip">
+    <value>Lista iznimki adresa</value>
+  </data>
+  <data name="checkNoProxy.Text">
+    <value>&amp;Ne koristi proxy server</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text">
+    <value>&amp;Lozinka:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip">
+    <value>Proxy akreditiva lozinka</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text">
+    <value>Korisničko &amp;ime:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip">
+    <value>Korisničko ime Proxy akredatia. Mođe biti navedeno kao 'Domain\KorisničkoIme'.</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip">
+    <value>Korisničko ime akreditiva. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
+  </data>
+  <data name="checkProxyAuth.Text">
+    <value>Proxy zahteva &amp;autorizaciju</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text">
+    <value>Koristi tačkazarez( ; ) za odvajanje unosa.</value>
+  </data>
+  <data name="labelProxyBypassList.Text">
+    <value>N&amp;e koristi proxy za adrese koje počinju sa:</value>
+  </data>
+  <data name="checkUseProxy.Text">
+    <value>Koristi privatne paramtetre &amp;proxy servera</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text">
+    <value>Uzmi proxy server paramtetre iz &amp;Internet Explorer-a</value>
+  </data>
+  <data name="labelProxyServerSummery.Text">
+    <value>Proxy server se ponaša kao posrednik između vaše mašine i Interneta, skidajući stranice sa udaljenih Web servera.</value>
+  </data>
+  <data name="textProxyPort.ToolTip">
+    <value>Broj Proxy porta</value>
+  </data>
+  <data name="labelProxyAddress.Text">
+    <value>Adr&amp;resa: </value>
+  </data>
+  <data name="textProxyAddress.ToolTip">
+    <value>Proxy adresa</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text">
+    <value>&amp;Zaobiđi proxy server za lokalne adrese</value>
+  </data>
+  <data name="tabFonts.Text">
+    <value>fontovi</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text">
+    <value>Potpisi, Novi predmete</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text">
+    <value>Konfigurišite font, stilove i boje korištene da se označe stanja potpisa i predmeta vesti.</value>
+  </data>
+  <data name="btnChangeFont.Text">
+    <value>&amp;Izmeni</value>
+  </data>
+  <data name="chkFontItalic.Text">
+    <value>N&amp;akošeno</value>
+  </data>
+  <data name="btnChangeColor.Text">
+    <value>B&amp;oja...</value>
+  </data>
+  <data name="lblItemStates.Text">
+    <value>&amp;Stanje predmeta:</value>
+  </data>
+  <data name="lstItemStates.Items">
+    <value>Čitaj (normalno)</value>
+  </data>
+  <data name="lstItemStates.Items1">
+    <value>Nepročitano</value>
+  </data>
+  <data name="lstItemStates.Items2">
+    <value>Zastava</value>
+  </data>
+  <data name="lstItemStates.Items4">
+    <value>Greška</value>
+  </data>
+  <data name="lstItemStates.ToolTip">
+    <value>Izaberite stanje nekog predmeta da izmenite parametre...</value>
+  </data>
+  <data name="chkFontUnderline.Text">
+    <value>&amp;Podvučeno</value>
+  </data>
+  <data name="lblFontSampleCaption.Text">
+    <value>Primer:</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Sigurnost, Zabrane</value>
+  </data>
+  <data name="labelCheckToAllow.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>168, 21</value>
+  </data>
+  <data name="labelCheckToAllow.Text">
+    <value>Selektujte da dozvolite:</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text">
+    <value>ActiveX kontrole</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript izvršavanje</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text">
+    <value>Zvuk pozadine</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Text">
+    <value>Video</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text">
+    <value>Skidanje slika</value>
+  </data>
+  <data name="label19.Text">
+    <value>Ako promenite bilo koje parametre sigurnosti, podešavanja će biti aktivna trenutno samo u novom odeljku pretraživača, ili bilo kojem odeljku pretraživača nakon što restartujete aplikaciju! Ovi parametri nemaju nikakav efekt na panel za čitanje!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>Na kliknut link i na novi prozor</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text">
+    <value>Startuj ovaj I&amp;zvršni fajl:</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Otvori konfigurisani &amp;Osnovni Web Browser</value>
+  </data>
+  <data name="optNewWindowOnTab.Text">
+    <value>Otvori novi &amp;Odeljak (osnovno)</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text">
+    <value>Iskoristi otvorene odeljke pretraživača</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text">
+    <value>&amp;Fajl programa:</value>
+  </data>
+  <data name="label16.Text">
+    <value>Izaberite opciju da odredite ponašanje koje treba da reši interni pretraživač prilikom klika na HTML link ili otvaranjem novog prozora.</value>
+  </data>
+  <data name="tabWebSearch.Text">
+    <value>Web pretraga</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text">
+    <value>Pretraživači</value>
+  </data>
+  <data name="btnSERemove.Text">
+    <value>Ukloni</value>
+  </data>
+  <data name="btnSERemove.ToolTip">
+    <value>Ukloni izabrani pretraživač</value>
+  </data>
+  <data name="btnSEAdd.Text">
+    <value>Dodaj...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip">
+    <value>Dodaj novi pretraživač</value>
+  </data>
+  <data name="btnSEProperties.Text">
+    <value>Parametri...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip">
+    <value>Otvori dijalog parametara pretraživača</value>
+  </data>
+  <data name="btnSEMoveDown.Text">
+    <value>Pomeri dole</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip">
+    <value>Pomeri predmet gore</value>
+  </data>
+  <data name="btnSEMoveUp.Text">
+    <value>Pomeri gore</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip">
+    <value>Pomeri predmet gore</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="columnHeader1.Text">
+    <value>Naslov</value>
+  </data>
+  <data name="columnHeader2.Text">
+    <value>Opis</value>
+  </data>
+  <data name="label17.Text">
+    <value>Izaberite pretraživač(e), koji bi trebali biti aktivni ako pritisnete 'Pretražuj Web' komandu pored polja za selektovanje u listi ispod. </value>
+  </data>
+  <data name="btnApply.Text">
+    <value>Primeni</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.Text">
+    <value>Opcije</value>
+  </data>
+<data name="sectionPanelGeneralBehavior.Text">
+    <value>Application Behavior</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items1">
+    <value>FTP</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items2">
+    <value>dasBlog</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items3">
+    <value>dasBlog 1.3</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items4">
+    <value>WebDAV</value>
+  </data>
+	<data name="linkCommentAPI.Text">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+	<data name="linkLabel1.Text">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+	<data name="comboRefreshRate.Items">
+    <value>15</value>
+  </data>
+	<data name="comboRefreshRate.Items1">
+    <value>30</value>
+  </data>
+	<data name="comboRefreshRate.Items2">
+    <value>45</value>
+  </data>
+	<data name="comboRefreshRate.Items3">
+    <value>60</value>
+  </data>
+	<data name="comboRefreshRate.Items4">
+    <value>75</value>
+  </data>
+	<data name="comboRefreshRate.Items5">
+    <value>90</value>
+  </data>
+	<data name="comboRefreshRate.Items6">
+    <value>105</value>
+  </data>
+	<data name="comboRefreshRate.Items7">
+    <value>120</value>
+  </data>
+	<data name="comboRefreshRate.Items8">
+    <value>240</value>
+  </data>
+	<data name="comboRefreshRate.Items9">
+    <value>480</value>
+  </data>
+	<data name="comboRefreshRate.Items10">
+    <value>720</value>
+  </data>
+	<data name="comboRefreshRate.Items11">
+    <value>1440</value>
+  </data>
+	<data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Proxy server</value>
+  </data>
+	<data name="labelProxyPort.Text">
+    <value>Por&amp;t: </value>
+  </data>
+	<data name="lblUsedFontNameSize.Text">
+    <value>Tahoma, 8pt</value>
+  </data>
+	<data name="chkFontBold.Text">
+    <value>&amp;Bold</value>
+  </data>
+	<data name="lstItemStates.Items3">
+    <value>Referrer</value>
+  </data>
+	<data name="chkFontStrikeout.Text">
+    <value>&amp;Strikeout</value>
+  </data>
+	<data name="lblFontSampleABC.Text">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+	<data name="tabWebBrowser.Text">
+    <value>Web Browser</value>
+  </data>
+	<data name="checkBrowserJavaAllowed.Text">
+    <value>Java Applets</value>
+  </data>
+	<data name="btnSelectExecutable.Text">
+    <value>...</value>
+  </data>
+	</root>

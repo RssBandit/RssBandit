@@ -1,0 +1,284 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Creating Search Folders</title>
+
+<!--(Meta)==========================================================-->
+
+<meta name="template" content="Bandit Topic.htt">
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=3206>
+<meta name=layout-width content=683>
+
+
+ <meta name="topic-status" content="In Progress">
+ <meta name="topic-priority" content="0">
+ <meta name="topic-time-estimate" content="0">
+ <meta name="topic-comment" content="">
+ <meta name="topic-id" content="Creating_Search_Folders"><!--(Links)=========================================================-->
+
+<link rel="StyleSheet" href="..\..\default.css">
+
+
+
+<!--(Style Sheet)===================================================-->
+
+<style>
+<!--
+
+body {
+	border-bottom-style: Groove;
+	border-bottom-width: 3px;
+	border-bottom-color: #000000;
+}
+
+-->
+</style>
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<!--kadov_tag{{<placeholder id="header">}}-->
+<h1><!--kadov_tag{{<variable name=title
+							x-format=default
+							x-value="Creating Search Folders">}}-->Creating 
+ Search Folders<!--kadov_tag{{</variable>}}--></h1>
+
+<p>It doesn't take a Scoble to quickly acquire a huge list of subscribed 
+ feeds. After a certain point, it becomes quite easy to become overwhelmed 
+ by the deluge of incoming information. That's when RSS Bandit's <b>Search 
+ Folders</b> can be of service. </p>
+
+<p>RSS Bandit has two search facilities built in: <a href="adding_integration_with_your_favorite_search_engine.htm">web 
+ search</a> and local search. Local Search searches the contents of all 
+ your downloaded items and returns the results within a folder underneath 
+ the folder named <b>Search Folders</b> in the <b>Feed Subscriptions</b> 
+ tree. </p>
+
+<p>Clicking on the <b>Search</b> button in the toolbar (see Figure 1) will 
+ bring up the search window (see Figure 2). This is a dockable window so 
+ it can be dragged and docked anywhere within RSS Bandit or separated out 
+ as a its own floating window. The window contains a textbox for entering 
+ the search phrase, a button to initiate the search, and several search 
+ options within collapsible panes below. </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\SearchButton.jpg"
+						alt="Figure 1: Search Button."
+						/
+						style="width: 197px;
+								height: 109px;
+								border-style: none;"
+						width=197
+						height=109
+						border=0> <br/><span class=figure>Figure 1: Search 
+ Button.</span> </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_SearchWindow.gif"
+						alt="Figure 2: Docked Search Window."
+						style="width: 254px;
+								height: 316px;
+								border-style: none;"
+						width="254"
+						height="316"
+						border="0"> <br/><span class=figure>Figure 2: Docked 
+ Search Window.</span> </p>
+
+<p>By default, entering text into the textbox and clicking &quot;Search&quot; 
+ will perform a simple text search within the Title, Description, and Topic 
+ elements of every RSS Item. </p>
+
+<p>This may be enough for many searches, but sometimes you need a little 
+ more power under the search hood. That's where the other search options 
+ come into play. Let's take a look at the options by expanding each one 
+ at a time. </p>
+
+<p><b style="font-weight: bold;">Search Type</b><br />
+Figure 3 shows the three search types available: <b>Text</b>, <b>Regular 
+ Expression</b>, and <b>XPath</b>. </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_SearchTypes.gif"
+						alt="Figure 3: Search Types."
+						style="width: 202px;
+								height: 155px;
+								border-style: none;"
+						width="202"
+						height="155"
+						border=0> <br/><span class=figure>Figure 3: Search 
+ Types.</span> </p>
+
+<ul>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Text</b> (the default) 
+ indicates a simple case-insensitive search for strings containing the 
+ search phrase. For example, entering the phrase &quot;RSS Bandit&quot; 
+ will find posts that have content such as &quot;I think <b>Rss Bandit</b> 
+ is a wonderful aggregator&quot; and &quot;blabla<b>RSS bandit</b>blabla&quot; 
+ but not &quot;Rss is a bandit of fun.&quot; </li>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Regular Expression</b> 
+ uses, well, <a href="http://www.regexlib.com/CheatSheet.htm">regular expressions</a> 
+ to search for feed items. Regular Expressions is a powerful language for 
+ textual searches. </li>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">XPath</b> is a syntax 
+ for searching for specific nodes within xml, notably the underlying xml 
+ for the RSS (or ATOM) feeds.</li>
+</ul>
+
+<p><b style="font-weight: bold;">Search Fields</b><br />
+Figure 4 shows the fields that are available for searching: </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_SearchFields.gif"
+						alt="Figure 4: Search Fields."
+						style="width: 202px;
+								height: 169px;
+								border-style: none;"
+						width="202"
+						height="169"
+						border=0> <br/><span class=figure>Figure 4: Search 
+ Fields.</span> </p>
+
+<ul>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Title</b></li>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Description</b> - Typically 
+ this is the content of the feed item that you see in the aggregator's 
+ reading pane.</li>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Topic</b> - aka. feed 
+ item categories</li>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Item Link</b></li>
+</ul>
+
+<p><b style="font-weight: bold;">Advanced Fields</b><br />
+The Advanced Fields option shown in figure 5 provides several options for 
+ tuning search results. </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_AdvancedFields.gif"
+						alt="Figure 5: Advanced Fields."
+						style="width: 206px;
+								height: 383px;
+								border-style: none;"
+						width="206"
+						height="383"
+						border="0"> <br/><span class=figure>Figure 5: Advanced 
+ Fields.</span> </p>
+
+<p><b style="font-weight: bold;">Read Status</b> - checking this option 
+ allows you to check <b>Unread Posts</b> in order to include only unread 
+ messages within the search results. If you checked the Read Status on 
+ and leave the Unread Posts checkbox off, you will get only read messages.</p>
+
+<p>There are three mutually exclusive ways to filter search results based 
+ on the date of the items. </p>
+
+<ul>
+	
+	<li class=kadov-p
+		class=kadov-p><b style="font-weight: bold;">Item Age</b> - checking 
+ this option lets you filter search results by the age of the feed item. 
+ The age is determined by the date when the item was downloaded into RSS 
+ Bandit. For example, you can check <b>Older than</b> and then select <b>2 
+ hours</b> in the dropdown to limit search results to feed items that were 
+ downloaded over two hours ago. Likewise, selecting <b>Younger than</b> 
+ and <b>1 day</b> will limit search results to items that are less than 
+ a day old. </li>
+	
+	<li class="kadov-p"><b style="font-weight: bold;">Item posted</b> - checking 
+ this option lets you filter items by the date they were posted. The post 
+ date is determined by the date the item was posted to the server as indicated 
+ by the RSS (or ATOM) feed. RSS indicates this via the <b>pubDate</b> element. 
+ The dropdown gives you the option to filter posts at, before, or after 
+ the date selected in the datepicker control. </li>
+	
+	<li class="kadov-p"><b style="font-weight: bold;">Item posted between</b> 
+ - checking this option filters items based on a date range. This is similar 
+ to the <b>Item posted</b> option described above. </li>
+</ul>
+
+<p><b style="font-weight: bold;">Search Folder Name</b><br/> Assign a name 
+ to the search folder in order to make it persistent. This allows you to 
+ create custom RSS feeds based on your search criteria and keep your results 
+ organized. You can create search folder hierarchies by delimiting folders 
+ with backslashes. For example, if you enter &quot;Technology\Xml\RSS&quot; 
+ as the Search Folder Name as in Figure 6, RSS Bandit will create a folder 
+ named &quot;Technology&quot; with a sub-folder named &quot;Xml&quot; containing 
+ a sub-folder named &quot;RSS&quot; within the <b>Search Folders</b> section 
+ (see Figure 7). </p>
+
+<p style="text-align: center;"><img src="..\..\images\rssbandit_SearchFolderName.gif"
+						alt="Figure 6: Search Folder Name Field."
+						style="width: 218px;
+								height: 186px;
+								border-style: none;"
+						width="218"
+						height="186"
+						border=0> <br/><span class="figure">Figure 6: Search 
+ Folder Name Field.</span> </p>
+
+<p style="text-align: center;"><img src="..\..\images\rssbandit_SearchFolders.gif"
+						alt="Figure 7: Search Folders."
+						style="width: 212x;
+								height: 164px;
+								border-style: none;"
+						width="212"
+						height="164"
+						border="0"> <br/><span class=figure>Figure 7: Search 
+ Folders.</span> </p>
+ 
+ <p><b style="font-weight: bold;">Search Scope</b><br />
+The scope for a search can be narrowed to a selection of categories or even 
+individual feeds.  Figure 8 shows the Search Scope option.  It contains a 
+tree view with a checkbox next to each category and feed.  By selecting and 
+unselecting feeds and categories, you can narrow or expand the scope of your 
+search.
+</p>
+<p align="center" style="text-align: center;">
+		<img src="..\..\images\rssbandit_SearchScope.gif"
+			alt="Figure 8: Search Scope."
+			width="231"
+			height="232"
+			border="0"><br />
+	<span class="figure">Figure 8: Search Scope.</span>
+</p>
+<p>
+For example, suppose you're interested in being aware of when news organizations 
+mention RSS.  Assuming you have a feed category of "News", you might create a 
+search folder on the term RSS and narrow the scope to the "News" category.
+</p>
+<!--kadov_tag{{<placeholder id="footer">}}-->
+</body>
+
+</html>

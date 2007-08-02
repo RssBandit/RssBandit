@@ -1,0 +1,2325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- unicode file! -->
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>CHANGED: default stylesheet</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>used to validate a RSSfeed, default on invalid config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>News page at Sourceforge, default on invalid config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki Site, default on invalid .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit User Forum, default on invalid .config</comment>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[Canal não classificado]</value>
+		<comment>localizable</comment>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>Informação de Atualização</value>
+		<comment>Caption of the Upgrade Info Messagebox</comment>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>A versão atual do(a) {0} suporta novas caracteristicas ou correções de erros de programa, que
+requerem uma mudança no formato do seu arquivo de lista de canais.
+Para manter suas versões mais antigas executando, a aplicação tentará criar um novo arquivo de lista de canais usando sua lista de canais atual.
+
+O arquivo antigo será mantido intacto.
+
+Você deseja continuar?</value>
+		<comment>Info text used to inform a user about a feedlist file format change.</comment>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>Arquivo de canal inválido</value>
+		<comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>A URL especificada para o novo canal não é uma URL válida</value>
+		<comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>URL inválida</value>
+		<comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>Erro inesperado ao carregar lista de canais: 
+  '{0}'.
+Por favor veja o arquivo 
+  '{1}' 
+para informações detalhadas a respeito do erro ocorrido.</value>
+		<comment>Mensagem de exceção</comment>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>Erro ao carregar o arquivo de lista de canais.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>O arquivo do canal é inválido. Veja o arquivo 
+  '{0}' 
+para informações detalhadas a respeito do erro ocorrido.</value>
+		<comment>Validation Error message</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>Finalizado</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>Solicitando comentário ao canal RSS, por favor aguarde...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>Erro ao solicitar comentário ao canal RSS: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>Erro de validação ao carregar lista de canais.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>Lista de canais inexistente.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>Desocupado</value>
+		<comment>also displayed as a Tooltip on the tray icon</comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>Novos itens do canal recebidos...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} canal(is) com {1} nova(s) mensagem(ns)</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>Ocupado, atualizando...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>Itens do canal não lidos disponíveis...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} Canal(is) Atualizados.</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>Canal sem atualizações.</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>{0} item(ns) do canal ainda não lidos.</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>Não há mais itens do canal não lidos.</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>Nem o endereço nem o titulo do canal RSS pode ser vazio!</value>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>O título para a categoria não pode ser branco!</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>Campo vazio detectado</value>
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>Nenhum endereço de página de internet especificada</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>Nenhuma palavra chave especificada</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>Localizando canais para página:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>Localizando canais contendo a(s) palavra(s) chave:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>Solicitando canal:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>Solicitando arquivo:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>Desculpe, nenhum canal RSS Feed pode ser localizado.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>Subindo lista de canais ({0}), por favor aguarde...</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>Transferência de lista de canais falhou com erro:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>Baixando lista de canais ({0}), por favor aguarde...</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>Baixa da lista de canais falhou com erro:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>Canal não encontrado</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>Você já está inscrito neste canal.
+ Categoria/Nome: {0}
+ Link: {1}.</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIFieldLinkRedundant">
+		<value>Você já está inscrito neste canal</value>
+		<comment>Obsolete: see RES_GUIFieldLinkRedundantInfo</comment>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>Você já está inscrito neste canal</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>Atualizando: {0} ...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>Atualizando {0} falhou (erro XML): {1}</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>Atualizando {0} falhou (erro fatal): {1}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>Solicitação da URL {0} falhou: {1}</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>Descoberta automática de canais falhou</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>Atualizando canais...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>Carregando lista de canais...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>Carregando, por favor aguarde...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>Incapaz de carregar itens filhos, você está desconectado.</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>Verifique o estado atual da conexão à internet...</value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>Estado atual da conexão à internet...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>Carregando...</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>Erro inesperado ao carregar configurações de pesquisa: {0}.
+Por favor veja o arquivo '{1}' para detalhes a respeito do erro.</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>Ocorrência de erro</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>Erro enquanto carregando configurações de pesquisa</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>Erro de validação enquanto carregando lista de configurações de pesquisa</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>Erro de validação enquanto carregando configurações de pesquisa.
+Por favor, veja o arquivo '{0}' para detalhes acerca do erro.</value>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[Novo]</value>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[Novo {0}]</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>Canal inválido.</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>Carga de canal falhou: {0}</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>Ação cancelada. Canal '{0}' gerou um erro: {1}</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>RSS item não pode ser transformado para HTML.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>Folha de estilo Xslt não pode ser compilada.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>Folha de estilo Xslt é inválida.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>A folha de estiloXslt selecionada para formatar itens relatou este problema:
+{0}
+Detalhe: {1}</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>um caracter inválido</value>
+		<comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>Ação cancelada. Titulo não pode ser deixado vazio.</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>&amp;Arquivo</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>Menu de comandos de arquivo do RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>&amp;Vizualizar</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>Comandos de controle de vizualização do RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>&amp;Ferramentas</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>Comandos de ferramentas do RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>&amp;Pesquisa</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>Comandos de configuração de pesquisa web do RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>&amp;Ajuda</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>Ajuda do RSS Bandit...</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>Nova aba para resultados</value>
+		<comment>Caption within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>Resultados de pesquisa(s) Web devem ser apresentadas em nova(s) aba(s)...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>Verifique esta entrada, para incluí-la dentro de pesquisas simultâneas...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>Sobre...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>Fornece informações acerca desta aplicação</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>Documentação Online</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>Obtem ajuda acerca da aplicação, Começando, Questões freqüentemente perguntadas, etc.</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>Apresenta notícias (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>Lê últimas notícias acerca desta aplicação em Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>Relatar um erro (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>Permite a você relatar um erro para esta aplicação em Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>Procurar por atualizações...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>Procura por atualizações do programa</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>Visitar a página principal do RSS Bandit na internet...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>Leia notícias, sugira novas caracteristicas, Questões freqüentemente perguntadas e mais...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>Visitar fóruns RSS Bandit...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>Discutir qualquer tema relacionado...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>Assinaturas de canais</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>Alterna o estado de vizualização do painel da lista de canais.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>Localizar</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>Alterna o estado de vizualização do painel de pesquisa de RSS.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>Barras de ferramentas</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>Alterna o estado de vizualização das várias barras de ferramentas.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>Padrão</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>Alterna o estado de vizualização da barra de ferramentas padrão.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Navegação na internet</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Alterna o estado de vizualização da barra de ferramentas de navegação web.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Pesquisa na internet</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Alterna o estado de vizualização da barra de ferramentas de pesquisa na web.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>Importar Canais...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>Importa a lista de canais (.xml, .ocs ou .opml)</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>Exportar Canais...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>Exporta a lista de canais...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>Opções...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>Apresenta a caixa de diálogo de opções da aplicação...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>S&amp;air</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>Fecha e sai da aplicação RSS Bandit</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>Trabalhar Offline</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>Alterna o modo de conexão à Internet</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[Trabalhando Offline]</value>
+		<comment>Caption Postfix on the main window</comment>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>Novo Canal...</value>
+		<comment>Caption within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>Inscreva-se em um novo canal</value>
+		<comment>Description within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>Nova Categoria</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>Adiciona uma nova categoria ao grupo</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>Abre RSS Bandit</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>Re-Apresenta/Abre a janela principal do RSS Bandit...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>Apresenta janelas de alerta de Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>Controla a apresentação de notificações em janelas de alertas configurados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>Como configurado por canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>Apresenta notificações em janelas de alerta conforme configurado por canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>Nunca</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>Não apresenta notificações em janelas de alerta...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>Sempre</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>Apresenta notificações em janelas de alerta para todas as novas postagens recebidas...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>Apresenta Alertas de Área de Trabalho para Novos itens</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>Controla a apresentação de balões de notificação de alerta acerca de novos itens recebidos...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>Atualizar Todos os Canais</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>Inicia uma atualização de todos os canais...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>Marcar Todos os itens como Lidos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>Marca Todos os itens como Lidos</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>Excluir Todos os Canais</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>Exclui Todos os Canais...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>Atualizar Categoria</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>Atualiza todos os canais dentro desta categoria...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>Marcar Todos os itens na Categoria como Lidos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>Marca todos os canais dentro desta categoria como lidos...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>Renomear Categoria</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>Renomeia esta categoria...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>Excluir Categoria</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>Exclui esta categoria e canais contidos nela...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>Propriedades...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>Apresenta a caixa de diálogo Propriedades da Categoria...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>Atualizar Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>Atualiza este canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>Marcar Todos os itens como Lidos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>Marca todos os itens do canal como lidos...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>Renomear Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>Renomeia este canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>Excluir Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>Exclui este Canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>Marcar como Lido</value>
+		<comment>Caption within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>Marca todos os itens do canal como lidos no nó de assinaturas selecionado no painel...</value>
+		<comment>Description within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value></value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>Apresenta todos os canais descobertos nos endereços de internet visitados...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>Limpar lista de canais descobertos</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>Limpa todos os canais descobertos apresentados abaixo...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>Você realmente deseja excluir todos os canais?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>Você realmente deseja excluir esta categoria e todas as categorias/canais contidos nela?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>Você realmente deseja excluir esta assinatura de canal?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>Ver fonte</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>Ver fonte deste canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>Validar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>Valida a fonte deste canal (endereço internet)...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>Este Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>Avançado/Mais informações do Canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>Página Principal na internet</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>Navega para a página de internet principal do Canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>Link Cosmos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>Navega para Technorati and vizualiza link cosmos do Canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>Propriedades...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>Apresenta a caixa de diálogo de propriedades do Canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>Marcar como não &amp;lido</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>Marca os itens do canal selecionado como não lidos...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>Postar resposta...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>Posta uma resposta para este item do canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>Nenhum item de Canal selecionado.</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>Nova Pasta de Pesquisa</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>Cria uma nova pasta de pesquisa...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>Renomear Pasta de Pesquisa</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>Renomeia esta pasta de pesquisa...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>Você realmente deseja excluir esta pasta de pesquisa?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>Excluir</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>Exclui a pasta de pesquisa selecionada...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>Atualizar Pesquisa</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>Atualiza os resultados da busca na pasta de pesquisa...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>Excluir Todos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>Exclui todas as pastas de pesquisa abaixo do nó selecionado...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>Propriedades...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>Apresenta a caixa de diálogo de propriedades de pesquisa...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>Inscrever-se...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>Apresenta a caixa de diálogo Novo Canal para inscrever-se no resultado da busca...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>Carregando a aplicação...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>Carregando a interface gráfica de usuário principal...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>Sinalizar item...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>Acompanhamento</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>Revisar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>Responder</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>Ler</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>Encaminhar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>Adiciona o(s) item(ns) selecionado(s) para a coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>Concluir</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>Remove o(s) item(ns) selecionado(s) da coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>Limpar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>Remove o(s) item(ns) selecionado(s) da coleção de itens sinalizados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>Copiar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>Copia campos de um item RSS para...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>Endereço de internet do item para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>Copia o endereço de internet do item RSS atual para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>Titulo do item como endereço de internet para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>Copia o titulo do item RSS atualmente selecionado como endereço de internet para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>Conteúdo do item para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>Copia o conteúdo do item RSS atualmente selecionado para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>Copiar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>Copia campos do Canal RSS selecionado para...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>Endereço de internet do Canal para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>Copia o endereço de internet do Canal do nó de canal atualmente selecionado para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>Página principal de internet do Canal como endereço de internet para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>Copia a página principal de internet do canal RSS atualmente selecionado como endereço de internet para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>Página principal de internet do Canal com o titulo dela como endereço de internet para a área de transferência</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>Copia a página principal de internet do canal RSS atualmente selecionado com o titulo dela como endereço de internet para a área de transferência...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>Exluir todos os itens</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>Exclui todos os itens...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>Excluir itens selecionados</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>Remove todos os itens de canal selecionados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>Restaurar</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>Restaura todos os itens selecionados...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>Próximo item não lido</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>Move para o próximo item de canal não lido...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>Localizar Canal</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>Localiza o Canal RSS para um endereço de internet ou tópico especifico</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>Postar resposta...</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>Posta uma resposta para este item do canal...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>Localizar</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>Procura localmente por itens...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>Navega de volta no histórico...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>Navega adiante...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>Endereço de internet para navegar para...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>Cancela navegação...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>Atualiza...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>Ir</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>Navega para um endereço de internet especifico...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>Cria uma nova aba de navegação...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>Abre o endereço de internet na aplicação de navegação de internet padrão...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>Palavra(s) a procurar na internet...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>Procura pela frase na internet...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>Comando IBlogExtension (AddIn)</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>Configurar...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>Configuração de IBlogExtension (AddIn)</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>Fechar documento</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>Fecha a aba de documento atualmente selecionada...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>Fechar todos os documentos na faixa</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>Fecha as abas de documentos na faixa selecionada...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>Fechar todos os documentos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>Fecha todos as abas de documentos em todas as faixas...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>Disposição com divisão Horizontal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>Se selecionado, abas de documentos divididas podem ser dispostas horizontalmente...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>Chamado de função IBlogExtension (AddIn) '{0}' causou um erro:
+'{1}'.        
+        </value>
+		<comment>Error message text</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>Erros de Canal</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>Recipiente para erros de canal causados por canais inscritos</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>Itens Sinalizados</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>Recipiente para canais sinalizados</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>Itens para Acompanhamento</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>Itens para Leitura</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>Itens para Revisão</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>Itens para Encaminhamento</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>Itens para Respondere</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>Meus canais</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>Recipiente para canais inscritos</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>Canais especiais</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>Recipiente para canais especiais</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>Pastas de pesquisa</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>Recipiente para canais persistentes de persquisa</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>Itens enviados</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>Recipient para Itens Enviados (Resposta)</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>Resultado de validação de canal</value>
+		<comment>Tab caption of the feed validation results (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>Endereço principal de internet do canal: {0}</value>
+		<comment>Tab caption of the feed home page (Webpage)</comment>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>Link Cosmos do canal: {0}</value>
+		<comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>Fonte do canal: {0}</value>
+		<comment>Tab caption of the feed source view (Xml Webpage)</comment>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>Inicia minimizado na area de notificação da barra de tarefas</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>Inscrever-se no canal(is) especificado(s)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>Imprimi esta mensagem</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>Inicia a Aplicação em uma língua diferente (Código de linguagem ISO)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>Subir Canais...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>Baixar Canais...</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>Sobe lista de canais para armazenamento remoto.</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>Baixa lista de canais de armazenamento remoto.</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>Ocorreu um problema ao iniciar seu navegador de internet padrão:
+		
+		'{0}'.
+		
+		Devemos abrir o endereço de internet '{1}' em uma nova aba?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>Ocorreu um problema ao iniciar seu executável customizado configurado '{0}':
+		
+		'{1}'.
+		
+		Devemos abrir o endereço de internet '{2}' em uma nova aba?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>Não foi possível abrir o arquivo '{0}' porque:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>Não foi possível salvar o arquivo  '{0}' porque:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>Arquivos OPML</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>Arquivos XML</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>Todos os arquivos</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>A imagem não é do tamanho de 16x16 pixels.</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>Exceção em definições de preferências</value>
+		<comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>Taxa de Atualização não é um número.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>O valor especificado para a taxa de atualização é muito alta.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>Taxa de atualização inválida.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>Forneça o endereço do Proxy (IP ou Host name), por favor.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>Porta do Proxy não é um número.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>O valor especificado para a porta do proxy não está entre a faixa válida de 0 até 65535.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>Porta do proxy inválida.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>Forneça o usuário de autenticação do proxy , por favor.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>Forneça o caminho e nome do arquivo executável, por favor.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>Forneça a localização de armazenamento remoto, por favor.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>Localizações remotas FTP precisam usar o esquema de nome de endereço de internet 'ftp:'.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>Forneça um nome de usuário para autenticação de armazenamento remoto, por favor.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>Endereço de internet da pasta WebDAV:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>Você pode armazenar o estado da aplicação como rssbandit-state.zip dentro de uma pasta WebDAV. O endereço de internet do serviço de armazenamento deve apontar para uma pasta WebDAV, e. g. 'http://mywebdav.com/personal/' e você deve ser capaz de salvar e ler arquivos armazenados lá.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>Endereço de internet de Web service:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>Você pode armazenar seus canais inscritos como blogroll.opml se você for um usuário do dasBlog (http://www.dasblog.net). O endereço de internet do serviço de armazenamento deve ser http://yourblog.com/dasblog/ConfigEditingService.asmx e você deve habilitar o serviço de Edição de Configuração no dasBlog.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>Caminho do diretório UNC:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>Voce pode armazenar seus canais inscritos como feedlist.xml em um compartilhamento de rede. Forneça o caminho de rede do arquivo tal como '\\SeuCompartilhamentoDeRede\ListaDeCanais\'.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>Servidor FTP/caminho:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>Você pode armazenar seus canais inscritos como feedlist.xml usando um servidor FTP. Forneça o nome do servidor FTP e caminho tal como 'ftp://SeuServidor.com:7788/PastaDeListaDeCanais/'.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>Você deve configurar o Armazenamento Remoto através da caixa de diálogo Opções antes que você possa usar este comando.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>Isto irá subir sua lista de canais para o serviço 
+configurado usando a aba de Armazenamento Remoto da caixa de diálogo Opções. 
+        
+Proceed?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>Lista de canais transferida com sucesso.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>Isto trocará sua lista de canais locais por uma baixada 
+do serviço configurado usando a aba de Armazenamento Remoto da caixa de diálogo de Opções.  
+        
+Proceed?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>Ocorreu um erro inexperado ao salvar definições do mecanismo de pesquisa na internet:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>Desculpe, mas esta caracteristica não foi implementada ainda.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>Ocorreu um erro inexperado ao carregar a folha de estilo XSLT para a formatação do item do canal:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>Ocorreu um erro ao importar a lista de canais de
+'{0}':
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>Postando a resposta, por favor aguarde...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>Ocorreu um erro ao postar uma resposta ao item  
+'{0}' (Endereço de internet do Item RSS/Titulo):
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>Desculpe, mas um erro ocorreu:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>Desculpe, mas o nome '{0}' parece já estar em uso.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>O Sistema relatou este erro na tentativa de definir o Aggregator padrão:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>Cabeçalho</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>Tópico</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>Data</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>Titulo do Canal</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>Criador</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>Descrição do Canal</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>Endereço de internet do Canal</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>Endereço de internet do Site</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>Comentários</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>Anexo</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[Descoberta automática]</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>Detalhes do Canal</value>
+		<comment>Document Tab Caption</comment>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>Adiciona ou Remove Botões</value>
+		<comment>Toolbar chevron dropdown menu caption</comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>Opções da barra de ferramentas</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>Pressione CTRL para prevenir a ancoragem.</value>
+		<comment>StatusBar feedback text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>Localizar</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>Pressione para iniciar a pesquisa definida...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>Cancelar</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>Pressione para cancelar a pesquisa atual...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>Pesquisando, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>Cancelamento da pesquisa em andamento, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>Nenhum item encontrado.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>{0} item(ns) encontrado(s).</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>Resultado da Pesquisa</value>
+		<comment>SearchResultNode caption</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>Posição do Painel de Leitura</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>Seleciona/Muda os detalhes de disposição do canal...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>Painel de Leitura abaixo</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>Lista de itens do Canal no topo, conteúdo abaixo...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>Painel de Leitura à direita</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>Lista de itens do Canal à esquerda, conteúdo à direita...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>Painel de Leitura à esquerda</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>Lista de itens do Canal à direita, conteúdo à esquerda...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>Painel de Leitura no Topo</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>Lista de itens do Canal abaixo, conteúdo acima...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>Recebido: {0} item(ns)</value>
+		<comment>displayed in the Toast window(s)</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>Expandir painel...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>Recolher painel...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>Localizar todas as postagens que contenham a palavra ou frase especifica.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>Localizar todas as postagens que contenham palavras ou frases que sejam compatíveis com a expressão regular.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>Localizar todas as postagens cuja representação RSS 2.0 seja compatível com o XPath especificado.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>Sobre {0}</value>
+		<comment>window caption. Parameter is the product name</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>Atualização do canal '&lt;strong&gt;{0}&lt;/strong&gt;' falhou com o erro: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>Clique aqui para &lt;strong&gt;validar&lt;/strong&gt; o canal.</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>O Canal foi gerado por '{0}'.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>Informação(ões) de contato:</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>Editor de gerenciamento</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Responsável pelo endereço de internet</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>Página principal de internet do Canal</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Exceção Xml</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Exceção Web</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>Exceção de Violação de Protocolo</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Exceção Geral</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>Inscreva-se no agregador padrão</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>Inscreva-se no Rss Bandit</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>Resposta à postagem - RE: {0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Res: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>Nome do usuário: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;nenhum&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>Canais inscritos: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>Seleção contém {0} itens</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>Diretório especificado não existe</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>Erro inexperado ao salvar definições da interface de usuário (.settings.xml):
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>Você deve fornecer um nome quando postar uma resposta</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>Arquivo de definições de atalho não pode ser validado</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>Um erro ocorreu e foi registrado no arquivo 
+'{0}'.
+Por favor envie o conteúdo dele para o time de desenvolvimeento dev.rssbandit.org 
+junto com a seguinte informação:
+</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Falha Geral</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Falha Web</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Falha Xml</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>Para aplicar esta funcionalidade, a aplicação precisa ter direitos de acesso e escrita
+à chave do registro do Windows: '{0}'.
+        
+Para que isto funcione, por favor inicie a aplicação de dentro do Windows Explorer,
+selecionando 'Executar como...' no menu de contexto apresentado ao clicar com o botão direito no arquivo executável.
+Então escolha a conta Administrador Local para executar a aplicação e tente novamente.
+
+Os direitos administrativos são apenas necessários para aplicar a funcionalidade solicitada.
+Não é necessário ter eles toda vez que executar a aplicação. Desculpe pela inconveniência.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>Itens excluidos</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>Repositório de itens excluidos</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>Você realmente deseja excluir todas as pastas de pesquisa?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>Você realmente deseja excluir todos os itens?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>Gerenciar Identidades...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>Abre uma caixa de diálogo para gerenciar identidades...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>Grupos de Notícias...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>Abre uma caixa de diálogo para gerenciar servidores NNTP e grupos de notícias...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>Gerenciar Identidades</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>Gerenciar Grupos de Notícias</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>Informação que você troca com o canal '{0}' não pode ser vista ou alterada por outros usuários. Entretanto, há um problema com o certificado de segurança do canal.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>Informação que você troca com a página de internet '{0}' não pode ser vista ou alterada por outros usuários. Entretanto, há um problema com o certificado de segurança da página de internet.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>O nome no certificado de segurança é inválido ou não confere com o nome do endereço de internet.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>O certificado emitido expirou em {0}.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>O certificado vou revogado.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>O certificado tem uma Autoridade Certificadora (CA) não confiável.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>O certificado tem uma raiz CA (Autoridade Certificadora) não confiável.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>O certificado tem uma raiz de teste CA (Autoridade Certificadora) não confiável.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>O propósito do certificado não confere com a tarefa requerida.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>O certificado já é um membro da cadeia de confiança.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>O certificado causou um erro crítico.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>O emissor do certificado já é um membro da cadeia de confiança.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>O certificado é inválido (mal formado).</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>O certificado causou um erro: "path length const".</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>A revogação do certificado falhou.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>O papel do certificado está errado.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>O periodo de validade do certificado está aninhado.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>O certificado não pode ser usado para a tarefa solicitada.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>O certificado de segurança causou um problema geral desconhecido: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>Disposição das Colunas</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>Gerencia colunas apresentadas e disposições...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>Apresentar Título</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>Apresenta a coluna de título de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>Apresenta Data</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>Apresenta a coluna de data de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>Apresentar Tópico</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>Apresenta a coluna de assunto (categoria, tópico) de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>Apresentar Autor</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>Apresenta a coluna de autor de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>Apresenta o Título do Canal</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>Apresenta o título do canal de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>Apresentar contador de Comentários</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>Apresenta a coluna do contador de comentário de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>Apresentar o estado do Anexo</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>Apresenta a coluna de estado do anexo de um item de notícia...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>Apresentar Bandeira de estado</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>Apresenta a coluna de bandeira de estado de um item de notícias...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Usar disposição padrão para categorias</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Disposição será válida para todas os nós de categorias sem uma disposição individual definida...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Usar disposição padrão para canais</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Disposição será válida para todos os nós de canais sem uma disposição individual definida...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Redefinir disposição para o padrão</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Disposição será removida dos nó selecionado...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Bandeira</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectCaption">
+		<value>Doação...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectDesc">
+		<value>Navega para um endereço de internet onde você pode ajudar o projeto...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

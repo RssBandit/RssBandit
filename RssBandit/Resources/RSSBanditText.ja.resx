@@ -1,0 +1,2260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>default stylesheet</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>used to validate a RSSfeed, default on invalid .config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>News page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki Site, default on invalid .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit User Forum, default on invalid .config</comment>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[分類していないフィード]</value>
+		<comment>localizable</comment>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>更新情報</value>
+		<comment>Caption of the Upgrade Info Messagebox</comment>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>{0} の現在のバージョンは、新機能、バグ修正をサポートします.
+requires a change of your feedlist file format.
+To keep your older versions running, the application will try to create a new feedlist file from your current list.
+
+The old file will be left untouched.
+
+Do you want to continue?</value>
+		<comment>Info text used to inform a user about a feedlist file format change.</comment>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>フィードファイルに問題があります</value>
+		<comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>フィード用に指定された URL に問題があります</value>
+		<comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>不正な URL です</value>
+		<comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>フィード一覧の読み込み中に不明なエラーが発生しました</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>フィードファイルの読み込みエラー</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>フィードファイルに問題があります。確認してください: </value>
+		<comment>Validation Error message</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>完了</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>commentRss フィードを読み込み中...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>commentRss フィード読み込みエラー: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>フィード一覧読み込み中の検査エラー</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>フィード一覧がありません</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>アイドル</value>
+		<comment>also displayed as a Tooltip on the tray icon</comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>新着記事の受信中</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} フィード, {1} 新着記事</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>更新中...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>未読記事があります...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} フィードを更新</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>フィード更新なし</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>{0} 未読記事</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>未読記事なし</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>RSSフィードのタイトルとリンクは必須です</value>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>カテゴリのタイトルは必須です</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>指定されていない項目があります</value>
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>WebページのURL が指定されていません</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>キーワードが指定されていません</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>ページ内のフィードを検索中:</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>キーワードを含んだフィードを検索中</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>フィード更新中:</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>ファイル更新中:</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>RSSフィードが見つかりませんでした</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>フィード一覧のアップロード中 ( {0} ) しばらくお待ちください...</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>フィード一覧アップロードエラー:</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>フィード一覧のダウンロード中 ({0}) しばらくお待ちください...</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>フィード一覧ダウンロードエラー:</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>フィードが見つかまりません</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>このフィードは購読済みです</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>更新中: {0} ...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>更新失敗 {0} (XML エラー): {1}</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>更新失敗 {0} (致命的なエラー): {1}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>要求失敗 URL {0} : {1}</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>フィード自動検索失敗:</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>フィード更新中...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>フィード一覧読み込み中...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>読み込み中, しばらくお待ちください...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>関連する記事を読み込めません。接続を切断されました</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>インターネット接続状況を検査中...</value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>インターネット接続状況...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>読み込み中...</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>検索設定の読み込み中に不明なエラー: {0} ({1})</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>エラー発生:</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>検索設定読み込み中にエラー</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>検索設定一覧読み込み中に検査エラー</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>検索設定読み込み中に検査エラー</value>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[新規]</value>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[新規 {0}]</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>フィードに問題があります</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>フィード読み込みエラー: {0}</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>処理中止. フィード {0} エラー {1}</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>RSS記事を HTMLに変換できません</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>XSLT スタイルシートをコンパイルできません</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>XSLT スタイルシートに問題があります</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>指定の XSLT スタイルシートで記事の変換時にエラー:</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>文字に問題があります</value>
+		<comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>処理中止. タイトルは必須です</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>ファイル(&amp;F)</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>RSS Bandit ファイルコマンドメニュー</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>表示(&amp;V)</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>RSS Bandit 表示設定コマンド</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>ツール(&amp;T)</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>RSS Bandit ツールコマンド</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>検索(S)</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>RSS Bandit Web検索設定コマンド</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>ヘルプ(&amp;H)</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>RSS Bandit ヘルプ...</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>結果を新しいタブで開く</value>
+		<comment>Caption within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>Web検索の結果を新しいタブに表示</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>このエントリを確認する</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>RSS Bandit について(&amp;A)</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>このアプリケーションについての説明</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>オンラインドキュメント(&amp;O)</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>ヘルプ、チュートリアル、FAQ</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>ニュースの表示 (Sourceforge) (&amp;D)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>Sourceforge.net からこのアプリケーションの最新ニュースを表示</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>バグを報告 (Sourceforge)... (&amp;R)</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>このアプリケーションのバグを  Sourceforge.net で報告</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>更新を確認する...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>プログラムの更新を確認する</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>RSS Bandit ホームページの表示(&amp;H)</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>ニュース、要望、FAQ など...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>RSS Bandit フォーラムの表示(&amp;F)</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>関連するテーマについて議論</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>フィード(&amp;F)</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>フィード一覧ツリーパネルの表示を切り替える</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>検索(&amp;S)</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>検索パネルの表示を切り替える</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>ツールバー(&amp;T)</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>ツールバーの表示の切り替え</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>標準</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>標準ツールバーの表示の切り替え</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Web</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Web ツールバーの表示の切り替え</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Web 検索</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Web 検索ツールバーの表示の切り替え</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>フィードのインポート(&amp;I)...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>フィードリスト (.xml, .ocs, .opml) からインポート</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>フィードのエクスポート(&amp;E)...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>フィードをエクスポート</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>オプション(&amp;O)</value>
+		<comment>Caption within tools menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>オプションダイアログを表示...</value>
+		<comment>Description within tools menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>終了(&amp;X)</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>RSS Bandit の終了</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>オフライン作業(&amp;O)</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>インターネット接続モードの切り替え</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[オフライン作業中]</value>
+		<comment>Caption Postfix on the main window</comment>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>フィードの追加(&amp;N)</value>
+		<comment>Caption within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>新しくフィードを購読する</value>
+		<comment>Description within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>カテゴリの作成(&amp;C)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>グループにカテゴリを作成</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>RSS Bandit を開く</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>RSS Bandit ウィンドウを開く</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>フィードアラートウィンドウの表示</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>アラートウィンドウの表示を設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>フィード単位に設定</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>フィード単位にアラートウィンドウの表示を設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>表示しない</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>アラートウィンドウを表示しない</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>常に表示</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>新しい投稿があるたびに表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>新しい記事をアラート表示</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>新しい記事があるたびにアラートを表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>すべてのフィードを更新(&amp;A)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>すべてのフィードの更新を初期化</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>すべて開封済みにする</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>すべて開封済みにする...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>すべてのフィードを削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>すべてのフィードを削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>カテゴリの更新</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>このカテゴリのフィードをすべて更新</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>カテゴリをすべて開封済みにする</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>カテゴリをすべて開封済みにする...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>カテゴリの名前の変更</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>このカテゴリの名前の変更</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>カテゴリを削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>カテゴリをフィードも含めて削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>プロパティ...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>カテゴリのプロパティダイアログを開く</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>フィードの更新(&amp;U)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>このフィードを更新</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>すべて開封済みにする</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>すべての記事を開封済みにする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>フィードの名前の変更(&amp;n)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>このフィードの名前の変更</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>フィードを削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>このフィードを削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>開封済みにする</value>
+		<comment>Caption within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>ツリービューの選択したノードの記事をすべて開封済みにする</value>
+		<comment>Description within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value></value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>訪問したウェブサイトから集めたすべてのフィードを表示</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>発見したフィードの一覧をクリア</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>下記の発見したフィードをすべてクリアする</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>フィードをすべ削除していいですか ?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>このカテゴリを、カテゴリの中に含まれるフィードやカテゴリを含めて削除していいですか ?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>このフィードを削除していいですか ?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>ソースの表示</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>フィードのソースを表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>検査</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>フィード、リンクのソースを検査</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>このフィード</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>詳細フィード情報...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>ホームページ</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>フィードのホームページへ移動</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>Cosmos リンク</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>Technorati へ移動し、フィードリンクの Cosmos を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>プロパティ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>フィードのプロパティのダイアログを開く...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>未読にする(&amp;u)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>フィード記事を未読にする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>返信(&amp;P)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>この記事へ返信する</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>フィード記事が選択されていません</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>検索フォルダの作成</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>検索フォルダを作成する</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>検索したフォルダの名前を変更</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>検索フォルダの名前の変更</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>この検索フォルダを削除していいですか ?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>選択した検索フォルダを削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>再検索</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>検索フォルダの結果を更新</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>すべて削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>選択したノードから検索したフォルダをすべて削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>プロパティ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>検索のプロパティのダイアログを開く...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>購読</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>検索結果を購読するために、フィードの追加ダイアログを開く</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>アプリケーション起動中...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>メイン GUI 起動中...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>フラグの設定</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>選択したフィードにフラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>調査</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>「調査」フラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>レビュー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>「レビュー」フラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>返信</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>「返信」フラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>監視</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>「監視」フラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>転送</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>「転送」フラグを設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>完了</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>選択したフィードを「完了」に設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>クリア</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>選択したフィード記事のフラグをクリア</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>コピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>RSS記事をコピー...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>記事のリンクをコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>選択したRSS記事のリンクをコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>記事をタイトル付リンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>選択した記事をタイトル付リンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>記事の内容をコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>選択したRSSフィードの内容をコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>コピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>選択したRSSフィードをコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>フィードリンクをコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>フィードのリンクをコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>フィードホームページをリンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>選択したRSSフィードをリンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>フィードホームページをタイトル付リンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>選択したRSSフィードをタイトル付リンクとしてコピー</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>すべてのフィードを削除</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>すべてのアイテムを削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>削除</value>
+		<comment>Caption within context menu, was formerly "Delete selected items"</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>選択したアイテムをすべて削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>リストア</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>選択したすべての記事をリストア</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>次の未読記事</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>次の未読記事へ移動</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>フィード設置(&amp;L)</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>特定のWebサイトやトピック用のRSSフィードを設置</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>返信(&amp;P)...</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>この記事に返信する</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>検索</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>記事をローカルで検索</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>戻る</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>進む</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>移動先の Webアドレス</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>移動を中止</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>更新</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>移動</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>特定のURL へ移動</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>新しくブラウザタブを開く</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>デフォルトWebブラウザでリンクを開く...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>Web検索用キーワード</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>Web検索用フレーズ</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>IBlogExtension (アドイン) コマンド</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>設定...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>IBlogExtension (アドイン) 設定</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>ドキュメントを閉じる</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>選択したドキュメントタブを閉じる</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>ストリップ内のすべてのドキュメントを閉じる</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>選択したストリップのドキュメントタブを閉じる</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>すべてのドキュメントを閉じる</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>すべてのドキュメントタブを閉じる</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>水平分割レイアウト</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>チェックした場合、分割ドキュメントタブは水平にレイアウトする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>IBlogExtension (アドイン) function '{0}' がエラーになりました:
+'{1}'.        
+        </value>
+		<comment>Error message text</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>フィード エラー</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>フィード一覧に問題があります</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>Flagged Items</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>フラグ設定記事のフォルダ</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>調査 記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>監視 記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>レビュー 記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>転送 記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>返信 記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>フィード</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>購読中のフィードのフォルダ</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>特別 フィード</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>特別 フィードのフォルダ</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>検索フォルダ</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>検索フィードのフォルダ</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>送信済み記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>送信、返信した記事</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>フィード検査結果</value>
+		<comment>Tab caption of the feed validation results (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>フィード ホーム: {0}</value>
+		<comment>Tab caption of the feed home page (Webpage)</comment>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>フィード リンク Cosmos: {0}</value>
+		<comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>フィード ソース: {0}</value>
+		<comment>Tab caption of the feed source view (Xml Webpage)</comment>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>タスクバーの通知領域に最小化してスタート</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>指定のフィードを購読</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>このメッセージの印刷</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>アプリケーションを別の言語で開始 (ISO 言語コード)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>フィードのアップロード(&amp;U)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>フィードのダウンロード(&amp;D)</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>リモートストレージにフィードリストをアップロード</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>リモートストレージからフィードリストをダウンロード</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>指定のデフォルト Web ブラウザの起動に問題が発生しました</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>指定のプログラムの軌道に問題が発生しました '{0}':
+		
+		'{1}'.
+		
+		Should we open the Url '{2}' on a new Tab?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>ファイル '{0}' を開けません, 原因: 
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>ファイル '{0}' に保存できません, 原因:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>OPML ファイル</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>XML ファイル</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>すべてのファイル</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>イメージは 16x16ピクセルではありません</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>プリファレンス設定エラー</value>
+		<comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>更新間隔が数字ではありません</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>入力した値では、更新が頻繁すぎます</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>更新間隔に問題があります</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>PROXYアドレス を指定してください (IPアドレス、ホスト名)</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>PROXY ポートが数字ではありません</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>PROXY ポートが, 0 ～ 65535 の範囲外です</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>PROXY ポートに問題があります</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>PROXY 認証ユーザーを指定してください</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>実行ファイルのパスと名前を指定してください</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>リモートストレージの場所を指定してください</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>FTP のリモートストレージの URL は、"ftp:" をつけてください</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>リモートストレージの認証ユーザを指定してください</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>WebDAV フォルダ URL:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>WebDAV フォルダに rssbandit-state.zip とししてアプリケーションの状態を保存できます。ストレージサービス URL に、WebDAV フォルダを指定します. 例: http://mywebdav.com/personal/。WebDAV フォルダに保存、読み込みの権限が必要です。</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>Web サービス URL:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>dasBlog のユーザーは、購読しているフィードリストを blogroll.opml として保存できます。(http://www.dasblog.net). ストレージサービス URL に、http://ドメイン名/dasblog/ConfigEditingService.asmx のように指定し、dasBlog の Configuration Editing を有効にしてください。</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>ディレクトリパス:</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>ローカルハードティスクやネットワーク上のファイル共有フォルダに、アプリケーションの状態を rssbandit-state.zip として保存できます。ディレクトリパスを指定してください。(例:  '\\yournetworkshare\feedlist\'、'H:\')</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>FTP サーバー/パス:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>FTPサーバにrssbandit-state.zip ファイルとしてアプリケーションの状態を保存できます。FTPサーバとパスを指定してください。(例:ftp//サーバー:7788/パス/)</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>このコマンドを利用するには、オプションダイアログにてリモートストレージを設定してください。</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>サービスにフィード一覧をアップロードします</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>フィード一覧のアップロード成功</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>ダウンロードしたフィード一覧で、現在の一覧を置き換えます</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>Web検索エンジンの設定中に不明なエラーが発生しました</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>申し訳ありません。この機能はまだ提供しておりません</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>記事フォーマット用XSLTスタイルシートの読み込み中に不明なエラーが発生しました</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>フィード一覧のインポート中にエラー: </value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>返信を送信中. しばらくお待ちください...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>返信中にエラー</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>エラーが発生しました:</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>名前 '{0}' は、使用中です</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>デフォルトアグリゲータの設定中にエラーが発生しました</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>ヘッドライン</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>トピック</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>日時</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>フィードタイトル</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>著者</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>フィード説明</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>フィードURL</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>サイトURL</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>コメント</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>添付</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[自動探索]</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>フィード詳細</value>
+		<comment>Document Tab Caption</comment>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>ボタンの表示/非表示</value>
+		<comment>Toolbar chevron dropdown menu caption</comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>ツールバーオプション</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>CTRLキーを押すと、ドッキングしません</value>
+		<comment>StatusBar feedback text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>検索</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>検索を開始します</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>キャンセル</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>検索をキャンセルします</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>検索中...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>検索中にキャンセルしました...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>記事は見つかませんでした</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>{0} 個、検索しました</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>検索結果</value>
+		<comment>SearchResultNode caption</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>閲覧ウィンドウ(&amp;R)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>閲覧ウィンドウの位置を選択する</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>下</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>閲覧ウィンドウを下、記事一覧を上にする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>右</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>閲覧ウィンドウを右、記事一覧を左にする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>左</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>閲覧ウィンドウを左、記事一覧を右にする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>上</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>閲覧ウィンドウを上、記事一覧を下にする</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>受信記事: {0} 個</value>
+		<comment>displayed in the Toast window(s)</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>パネルを拡大する</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>パネルを縮小する</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>指定の単語やフレーズを含む記事を検索</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>正規表現に一致する記事を検索</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>RSS 2.0表現の中で XPath に一致する記事を検索</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>{0} について</value>
+		<comment>window caption. Parameter is the product name</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>Refresh feed '&lt;strong&gt;{0}&lt;/strong&gt;' failed with error: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>フィードの &lt;strong&gt;検査&lt;/strong&gt;をクリックしてください</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>フィード作成 '{0}'.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>連絡先</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>編集者</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Web 管理者</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>フィード ホームページ</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml 例外</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web 例外</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>プロトコル違反例外</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>一般例外</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>デフォルト RSS リーダで購読</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>RSS Bandit で購読</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>返信 - フィード:{0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Re: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>ユーザー名: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;none&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>購読中のフィード: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>選択した記事: {0}</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>指定したディレクトリは存在しません</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>UI設定の保存中にエラーが発生しました (setting.xml)</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>返信するには名前を指定してください</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>ショートカット設定ファイルを検査できませんでした</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>エラーが発生しました。ログをファイルに保存しました</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>一般エラー</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web エラー</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml エラー</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>この機能を利用するには、書き込み権限を設定してください</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>削除済み記事</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>削除した記事</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>検索フォルダをすべて削除していいですか ?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>記事をすべて削除していいですか ?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>アカウント管理...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>アカウントを管理するダイアログを開く</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>ニュースグループ...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>NNTPサーバとニュースグループを管理するダイアログを開く</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>アカウント管理</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>ニュースグループ管理</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>フィード {0} との通信は、盗聴や改ざんの危険はありませんが、フィードのセキュリティ証明書に問題があります</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>フィード {0}との通信は、盗聴や改ざんの危険はありませんが、サイトのセキュリティ証明書に問題があります</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>セキュリティ証明書の名前は、サイトの名前と一致しません</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>証明書は、 {0} に有効期限が切れました</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>証明書は取り消されています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>証明書は、信頼していない認証局 (CA) を持っています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>証明書は、信頼していない CA root を持っています。</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>証明書は、信頼していないテスト CA root を持っています。</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>証明書の目的は、要求された処理に適応しません</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>証明書は、すでに信頼済みチェインに含まれています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>証明書は深刻なエラーを発生</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>証明書発行元は、すでに信頼チェインに含まれています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>証明書が壊れています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>証明書にエラーがあります: path length const</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>証明書の取り消しに失敗しました</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>証明書の役割が間違っています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>証明書の有効期間がネストしています</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>証明書は、要求された処理に使えません</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>セキュリティ証明書に不明な問題がありますm: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>列レイアウト</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>表示する列とレイアウトを管理</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>ヘッドライン</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>ニュース記事の「ヘッドライン(タイトル)」を列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>日時</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>ニュース記事の「日時」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>トピック</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>ニュース記事の「カテゴリ(トピック)」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>著者</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>ニュース記事の「著者」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>フィードタイトル</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>ニュース記事の「フィードタイトル」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>コメント数</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>ニュース記事の「コメント数」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>添付状態</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>ニュース記事の「添付状態」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>フラグ</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>ニュース記事の「フラグ」列を表示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>カテゴリのデフォルトレイアウトを使う</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>個別にレイアウトせずに、すべてのカテゴリでレイアウトが有効</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>このレイアウトをフィードのデフォルトとする</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>個別にレイアウトせずに、すべてのフィードノードでレイアウトが有効</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>レイアウトを初期設定に戻す</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>選択したノードからレイアウト情報を削除</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectCaption">
+		<value>寄付...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectDesc">
+		<value>プロジェクト支援をするサイトを表示...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Flag</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

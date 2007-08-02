@@ -1,0 +1,291 @@
+<xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'>
+
+<xsl:output method='xml' indent='yes' /> 
+
+
+<!-- channel group newspaper -->
+<xsl:template match="newspaper[@type='group']">
+<html><head><title><xsl:value-of select='title'/></title>
+<!-- <base href="{//channel/link}" /> -->
+<xsl:call-template name="embedded_style" />
+</head>
+<body>
+<table height="100%" width="100%">			  
+<xsl:for-each select="//channel">
+<tr>
+<td class="PostFrame" height="100%" width="100%" valign="top">
+  <xsl:if test="current()/image">
+<div class="PostTitle" style="FLOAT: right">
+  <a href="{current()/image/link}" title="{current()/image/title}"><img src="{current()/image/url}"  alt="{current()/image/title}" border="0">
+  <xsl:if test="current()/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="current()/image/width"/></xsl:attribute></xsl:if>
+  <xsl:if test="current()/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="current()/image/height"/></xsl:attribute></xsl:if>
+  </img></a>
+</div>
+  </xsl:if>
+  <div class="PostTitle">			
+<a href='{current()/link}'>
+  <xsl:value-of  disable-output-escaping='yes' select='current()/title'/>
+</a>
+  </div>
+  <!-- <div class="PostInfos">
+  <b><xsl:value-of disable-output-escaping='yes' select="current()/category"/></b>
+  </div> -->
+  <div class="PostContent">
+<xsl:for-each select='current()//item'>
+  <div class="PostInfos">	
+	<a href='{current()/link}'>
+	  <b><xsl:value-of disable-output-escaping='yes' select="current()/title"/></b>
+	</a>
+  </div>
+  <xsl:choose>
+	<xsl:when test='current()/xhtml:body'>
+	  <xsl:copy-of select='current()/xhtml:body'/>
+	</xsl:when>
+	<xsl:when test='current()/content:encoded'>
+	  <xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+	</xsl:otherwise>
+  </xsl:choose>
+  
+  <div class="PostSignature">			
+	<br />Published:
+	<xsl:if test="current()/dc:creator and current()/dc:creator!=''">
+	  <xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/>
+	  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+	  </xsl:if><xsl:if test="current()/author and current()/author!=''">
+	  by  <xsl:value-of disable-output-escaping='yes' select='current()/author'/>
+	  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+	  </xsl:if>on
+	  <xsl:value-of select='current()/pubDate'/>
+	  <xsl:if test='current()/enclosure'>
+	<br />
+	<xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+	<xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text>
+	Enclosure (<xsl:value-of select='current()/enclosure/@type'/>, <xsl:value-of select='current()/enclosure/@length'/> Bytes)
+	<xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>				
+	  </xsl:if>			
+	  
+	</div>
+  </xsl:for-each>
+</div>
+  </td>
+</tr>
+</xsl:for-each>
+</table>
+</body></html>
+</xsl:template>
+
+<!-- channel newspaper -->
+<xsl:template match="newspaper[@type='channel']">
+<html><head><title><xsl:value-of select='//channel/title'/></title>
+<base href="{//channel/link}" />
+<xsl:call-template name="embedded_style" />
+</head>
+<body>
+  <table height="100%" width="100%">
+<tr>
+  <td class="PostFrame" height="100%" width="100%" valign="top">
+	<xsl:if test="//channel/image">
+	  <div class="PostTitle" style="FLOAT: right">
+	<a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
+	<xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
+	<xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>
+	</img></a>
+	  </div>
+	</xsl:if>
+	<div class="PostTitle">			
+	  <a href='{//channel/link}'>
+	<xsl:value-of  disable-output-escaping='yes' select='//channel/title'/>
+	  </a>
+	</div>
+	<!-- <div class="PostInfos">
+	<b><xsl:value-of disable-output-escaping='yes' select="current()/category"/></b>
+	</div> -->
+	<div class="PostContent">
+	  <xsl:for-each select='//item'>
+	<div class="PostInfos">	
+	  <a href='{current()/link}'>
+		<b><xsl:value-of disable-output-escaping='yes' select="current()/title"/></b>
+	  </a>
+	</div>
+	<xsl:choose>
+	  <xsl:when test='current()/xhtml:body'>
+		<xsl:copy-of select='current()/xhtml:body'/>
+	  </xsl:when>
+	  <xsl:when test='current()/content:encoded'>
+		<xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+	  </xsl:when>
+	  <xsl:otherwise>
+		<xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+	  </xsl:otherwise>
+	</xsl:choose>
+	
+	<div class="PostSignature">			
+	  <br />Published:
+	  <xsl:if test="current()/dc:creator and current()/dc:creator!=''">
+		<xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/>
+		<xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		</xsl:if><xsl:if test="current()/author and current()/author!=''">
+		by  <xsl:value-of disable-output-escaping='yes' select='current()/author'/>
+		<xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		</xsl:if>on
+		<xsl:value-of select='current()/pubDate'/>
+		<xsl:if test='current()/enclosure'>
+		  <br />
+		  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		  <xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text>
+		  Enclosure (<xsl:value-of select='current()/enclosure/@type'/>, <xsl:value-of select='current()/enclosure/@length'/> Bytes)
+		  <xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>				
+		</xsl:if>			
+		
+	  </div>
+	</xsl:for-each>
+	  </div>
+	</td>
+  </tr>
+</table>
+</body></html>
+  </xsl:template>
+
+
+  <!-- single news item -->
+  <xsl:template match="newspaper[@type='newsitem']">
+<html><head><title><xsl:value-of select='//item/title'/></title>
+<base href="{//item/link}" />
+<xsl:call-template name="embedded_style" />
+</head>
+  <body>
+	<table height="100%" width="100%">
+	  <tr>
+	<td class="PostFrame" height="100%" width="100%" valign="top">
+	  <xsl:if test="//channel/image">
+		<div class="PostTitle" style="FLOAT: right">
+		  <a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
+		  <xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
+		  <xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>
+		  </img></a>
+		</div>
+	  </xsl:if>
+	  <div class="PostTitle">
+		<a href='{//item/link}'>
+		  <xsl:value-of  disable-output-escaping='yes' select='//item/title'/>
+		</a>
+	  </div>
+	  <div class="PostInfos">
+		<b><xsl:value-of disable-output-escaping='yes' select="//item/category"/></b>
+	  </div>
+	  <div class="PostContent">
+		<xsl:choose>
+		  <xsl:when test='//item/xhtml:body'>
+		<xsl:copy-of select='//item/xhtml:body'/>
+		  </xsl:when>
+		  <xsl:when test='//item/content:encoded'>
+		<xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		<xsl:value-of disable-output-escaping='yes' select='//item/description'/>
+		  </xsl:otherwise>
+		</xsl:choose>
+	  </div>
+	  <div class="PostSignature">
+		<a href='{//channel/link}' title='{//channel/description}'><xsl:value-of disable-output-escaping='yes'  select='//channel/title'/></a>
+		<br />Published:
+		<xsl:if test="//item/dc:creator and //item/dc:creator!=''">
+		  <xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/>
+		  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		  </xsl:if><xsl:if test="//item/author and //item/author!=''">
+		  <xsl:value-of disable-output-escaping='yes' select='//item/author'/>
+		  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		</xsl:if>
+		<xsl:value-of select='//item/pubDate'/>
+		<xsl:if test='//item/enclosure'>
+		  <br />
+		  <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>
+		  <xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text>
+		  Enclosure (<xsl:value-of select='//item/enclosure/@type'/>, <xsl:value-of select='//item/enclosure/@length'/> Bytes)
+		  <xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>				
+		</xsl:if>			
+	  </div>
+	</td>
+	  </tr>
+	</table>
+	</body></html>
+  </xsl:template>
+  
+<xsl:template name="embedded_style">
+<style type="text/css">
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+</style>
+</xsl:template>
+
+</xsl:stylesheet>

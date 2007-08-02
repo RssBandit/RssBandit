@@ -1,0 +1,730 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFT
+        eXN0ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6wAA
+        AAIBAAAAAQAAAAAAAAAAAAAAANYAAABMAAAAqh0AAOQFAAABAAAAAQIAAAAAAAAAAAAAAAAAAAAAAABM
+        AAAAAAAAAAAAAAABAAAA4NBXAHM1zxGuaQgAKy4SYggAAAAAAAAATAAAAAEUAgAAAAAAwAAAAAAAAEaB
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAADgAFAAf
+        AIBTHIegQmkQouoIACswMJ0iAGGAAAAAAGEAYgBvAHUAdAA6AGIAbABhAG4AawAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="colHeadline.Text">
+    <value>Titre</value>
+  </data>
+  <data name="colTopic.Text">
+    <value>Sujet</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items">
+    <value>à</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items1">
+    <value>avant</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items2">
+    <value>après</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.ToolTip">
+    <value>Choisir l'opération de comparaison...</value>
+  </data>
+  <data name="dateTimeRssSearchItemPost.ToolTip">
+    <value>Choisir une date à comparer...</value>
+  </data>
+  <data name="dateTimeRssSearchPostAfter.ToolTip">
+    <value>Choisir la date la plus ancienne</value>
+  </data>
+  <data name="dateTimeRssSearchPostBefore.ToolTip">
+    <value>Choisir la date la plus ancienne</value>
+  </data>
+  <data name="resource.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGlhQRXhwbG9yZXJCYXIuVGFza1BhbmVJbmZvCAAAABJncmFkaWVudFN0
+        YXJ0Q29sb3IQZ3JhZGllbnRFbmRDb2xvcglkaXJlY3Rpb24HcGFkZGluZwliYWNrSW1hZ2ULc3RyZXRj
+        aE1vZGUJd2F0ZXJtYXJrEndhdGVybWFya0FsaWdubWVudAQEBAQEBAQEFFN5c3RlbS5EcmF3aW5nLkNv
+        bG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAArU3lzdGVtLkRyYXdpbmcuRHJhd2luZzJELkxp
+        bmVhckdyYWRpZW50TW9kZQMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABRTeXN0ZW0uRHJhd2lu
+        Zy5JbWFnZQMAAAAeWFBFeHBsb3JlckJhci5JbWFnZVN0cmV0Y2hNb2RlAgAAABRTeXN0ZW0uRHJhd2lu
+        Zy5JbWFnZQMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAACAAAABfz///8UU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IEAAAABXZhbHVlCmtub3duQ29sb3IFc3RhdGUEbmFtZQAAAAEJBwcDAAAA
+        AAAAAAAAAAAAAAAACgH7/////P///wAAAAAAAAAAAAAAAAoF+v///ytTeXN0ZW0uRHJhd2luZy5EcmF3
+        aW5nMkQuTGluZWFyR3JhZGllbnRNb2RlAQAAAAd2YWx1ZV9fAAgDAAAAAQAAAAkHAAAACgX4////HlhQ
+        RXhwbG9yZXJCYXIuSW1hZ2VTdHJldGNoTW9kZQEAAAAHdmFsdWVfXwAIAgAAAAMAAAAKBff///8fU3lz
+        dGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAEAAAAHdmFsdWVfXwAIAwAAAAACAAAFBwAAABVYUEV4
+        cGxvcmVyQmFyLlBhZGRpbmcEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAA
+        AAAAAAAAAAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelSearchNameEx.CustomHeaderSettings.CustomHeaderSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGFhQRXhwbG9yZXJCYXIuSGVhZGVySW5mbyQAAAAJdGl0bGVGb250Bm1h
+        cmdpbhBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQ5iYWNrSW1hZ2VXaWR0aA9iYWNrSW1h
+        Z2VIZWlnaHQMc3BlY2lhbFRpdGxlC25vcm1hbFRpdGxlD3NwZWNpYWxUaXRsZUhvdA5ub3JtYWxUaXRs
+        ZUhvdBBzcGVjaWFsQWxpZ25tZW50D25vcm1hbEFsaWdubWVudA5zcGVjaWFsUGFkZGluZw1ub3JtYWxQ
+        YWRkaW5nDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3JkZXJDb2xvchFub3JtYWxC
+        b3JkZXJDb2xvchBzcGVjaWFsQmFja0NvbG9yD25vcm1hbEJhY2tDb2xvcg5zcGVjaWFsQXJyb3dVcBFz
+        cGVjaWFsQXJyb3dVcEhvdBBzcGVjaWFsQXJyb3dEb3duE3NwZWNpYWxBcnJvd0Rvd25Ib3QNbm9ybWFs
+        QXJyb3dVcBBub3JtYWxBcnJvd1VwSG90D25vcm1hbEFycm93RG93bhJub3JtYWxBcnJvd0Rvd25Ib3QQ
+        dXNlVGl0bGVHcmFkaWVudBlzcGVjaWFsR3JhZGllbnRTdGFydENvbG9yF3NwZWNpYWxHcmFkaWVudEVu
+        ZENvbG9yGG5vcm1hbEdyYWRpZW50U3RhcnRDb2xvchZub3JtYWxHcmFkaWVudEVuZENvbG9yDmdyYWRp
+        ZW50T2Zmc2V0C3RpdGxlUmFkaXVzB1ZlcnNpb24EAAQEAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQE
+        BAQAAAETU3lzdGVtLkRyYXdpbmcuRm9udAMAAAAIFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAICBRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVu
+        dEFsaWdubWVudAMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABVYUEV4cGxvcmVyQmFyLlBhZGRp
+        bmcCAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRYUEV4cGxvcmVyQmFyLkJvcmRlcgIAAAAUU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2lu
+        Zy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAA
+        ABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAFFN5c3RlbS5E
+        cmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1h
+        Z2UDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAABFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAAAsIAgAAAAoPAAAACgq6AAAAGQAAAAX8
+        ////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAAB
+        CQcHAwAAAAAAAAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKAfr////8////AAAAAAAAAAAA
+        AAAACgH5/////P///wAAAAAAAAAAAAAAAAoF+P///x9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25t
+        ZW50AQAAAAd2YWx1ZV9fAAgDAAAAEAAAAAH3////+P///xAAAAAJCgAAAAkKAAAACQsAAAAJCwAAAAH0
+        /////P///wAAAAAAAAAAAAAAAAoB8/////z///8AAAAAAAAAAAAAAAAKAfL////8////AAAAAAAAAAAA
+        AAAACgHx/////P///wAAAAAAAAAAAAAAAAoKCgoKCgoKCgAB8P////z///8AAAAAAAAAAAAAAAAKAe//
+        ///8////AAAAAAAAAAAAAAAACgHu/////P///wAAAAAAAAAAAAAAAAoB7f////z///8AAAAAAAAAAAAA
+        AAAKAAAAPwIAAAAGFAAAAAczLjIuMS4wBQoAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nBAAAAARsZWZ0
+        BXJpZ2h0A3RvcAZib3R0b20AAAAACAgICAIAAAAAAAAAAAAAAAAAAAAAAAAABQsAAAAUWFBFeHBsb3Jl
+        ckJhci5Cb3JkZXIEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelSearchNameEx.CustomSettings.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGVhQRXhwbG9yZXJCYXIuRXhwYW5kb0luZm8LAAAAEHNwZWNpYWxCYWNr
+        Q29sb3IPbm9ybWFsQmFja0NvbG9yDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3Jk
+        ZXJDb2xvchFub3JtYWxCb3JkZXJDb2xvcg5zcGVjaWFsUGFkZGluZw1ub3JtYWxQYWRkaW5nEndhdGVy
+        bWFya0FsaWdubWVudBBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQQEBAQEBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUWFBFeHBsb3JlckJh
+        ci5Cb3JkZXICAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwIAAAAVWFBFeHBs
+        b3JlckJhci5QYWRkaW5nAgAAAB9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25tZW50AwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAAgAAAAX8////FFN5c3Rl
+        bS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAA
+        AAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKCQYAAAAJBgAAAAH5/////P///wAAAAAAAAAA
+        AAAAAAoB+P////z///8AAAAAAAAAAAAAAAAKCQkAAAAJCQAAAAX2////H1N5c3RlbS5EcmF3aW5nLkNv
+        bnRlbnRBbGlnbm1lbnQBAAAAB3ZhbHVlX18ACAMAAAAABAAACgoFBgAAABRYUEV4cGxvcmVyQmFyLkJv
+        cmRlcgQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgCAAAAAAAAAAAAAAAAAAAAAAAAAAUJ
+        AAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="collapsiblePanelSearchNameEx.Text">
+    <value>Nom du dossier de recherche</value>
+  </data>
+  <data name="btnRssSearchSave.Text">
+    <value>Enregistrer</value>
+  </data>
+  <data name="labelSearchFolderNameHint.Text">
+    <value>Donner un nom à la recherche prédéfinie pour la rendre persistante. Vous pouvez préfixer le nom avec une ou plusieurs catégories, délimitées par des barres obliques inverses (\).</value>
+  </data>
+  <data name="collapsiblePanelRssSearchExprKindEx.CustomHeaderSettings.CustomHeaderSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGFhQRXhwbG9yZXJCYXIuSGVhZGVySW5mbyQAAAAJdGl0bGVGb250Bm1h
+        cmdpbhBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQ5iYWNrSW1hZ2VXaWR0aA9iYWNrSW1h
+        Z2VIZWlnaHQMc3BlY2lhbFRpdGxlC25vcm1hbFRpdGxlD3NwZWNpYWxUaXRsZUhvdA5ub3JtYWxUaXRs
+        ZUhvdBBzcGVjaWFsQWxpZ25tZW50D25vcm1hbEFsaWdubWVudA5zcGVjaWFsUGFkZGluZw1ub3JtYWxQ
+        YWRkaW5nDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3JkZXJDb2xvchFub3JtYWxC
+        b3JkZXJDb2xvchBzcGVjaWFsQmFja0NvbG9yD25vcm1hbEJhY2tDb2xvcg5zcGVjaWFsQXJyb3dVcBFz
+        cGVjaWFsQXJyb3dVcEhvdBBzcGVjaWFsQXJyb3dEb3duE3NwZWNpYWxBcnJvd0Rvd25Ib3QNbm9ybWFs
+        QXJyb3dVcBBub3JtYWxBcnJvd1VwSG90D25vcm1hbEFycm93RG93bhJub3JtYWxBcnJvd0Rvd25Ib3QQ
+        dXNlVGl0bGVHcmFkaWVudBlzcGVjaWFsR3JhZGllbnRTdGFydENvbG9yF3NwZWNpYWxHcmFkaWVudEVu
+        ZENvbG9yGG5vcm1hbEdyYWRpZW50U3RhcnRDb2xvchZub3JtYWxHcmFkaWVudEVuZENvbG9yDmdyYWRp
+        ZW50T2Zmc2V0C3RpdGxlUmFkaXVzB1ZlcnNpb24EAAQEAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQE
+        BAQAAAETU3lzdGVtLkRyYXdpbmcuRm9udAMAAAAIFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAICBRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVu
+        dEFsaWdubWVudAMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABVYUEV4cGxvcmVyQmFyLlBhZGRp
+        bmcCAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRYUEV4cGxvcmVyQmFyLkJvcmRlcgIAAAAUU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2lu
+        Zy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAA
+        ABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAFFN5c3RlbS5E
+        cmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1h
+        Z2UDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAABFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAAAsIAgAAAAoPAAAACgq6AAAAGQAAAAX8
+        ////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAAB
+        CQcHAwAAAAAAAAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKAfr////8////AAAAAAAAAAAA
+        AAAACgH5/////P///wAAAAAAAAAAAAAAAAoF+P///x9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25t
+        ZW50AQAAAAd2YWx1ZV9fAAgDAAAAEAAAAAH3////+P///xAAAAAJCgAAAAkKAAAACQsAAAAJCwAAAAH0
+        /////P///wAAAAAAAAAAAAAAAAoB8/////z///8AAAAAAAAAAAAAAAAKAfL////8////AAAAAAAAAAAA
+        AAAACgHx/////P///wAAAAAAAAAAAAAAAAoKCgoKCgoKCgAB8P////z///8AAAAAAAAAAAAAAAAKAe//
+        ///8////AAAAAAAAAAAAAAAACgHu/////P///wAAAAAAAAAAAAAAAAoB7f////z///8AAAAAAAAAAAAA
+        AAAKAAAAPwIAAAAGFAAAAAczLjIuMS4wBQoAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nBAAAAARsZWZ0
+        BXJpZ2h0A3RvcAZib3R0b20AAAAACAgICAIAAAAAAAAAAAAAAAAAAAAAAAAABQsAAAAUWFBFeHBsb3Jl
+        ckJhci5Cb3JkZXIEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelRssSearchExprKindEx.CustomSettings.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGVhQRXhwbG9yZXJCYXIuRXhwYW5kb0luZm8LAAAAEHNwZWNpYWxCYWNr
+        Q29sb3IPbm9ybWFsQmFja0NvbG9yDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3Jk
+        ZXJDb2xvchFub3JtYWxCb3JkZXJDb2xvcg5zcGVjaWFsUGFkZGluZw1ub3JtYWxQYWRkaW5nEndhdGVy
+        bWFya0FsaWdubWVudBBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQQEBAQEBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUWFBFeHBsb3JlckJh
+        ci5Cb3JkZXICAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwIAAAAVWFBFeHBs
+        b3JlckJhci5QYWRkaW5nAgAAAB9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25tZW50AwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAAgAAAAX8////FFN5c3Rl
+        bS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAA
+        AAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKCQYAAAAJBgAAAAH5/////P///wAAAAAAAAAA
+        AAAAAAoB+P////z///8AAAAAAAAAAAAAAAAKCQkAAAAJCQAAAAX2////H1N5c3RlbS5EcmF3aW5nLkNv
+        bnRlbnRBbGlnbm1lbnQBAAAAB3ZhbHVlX18ACAMAAAAABAAACgoFBgAAABRYUEV4cGxvcmVyQmFyLkJv
+        cmRlcgQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgCAAAAAAAAAAAAAAAAAAAAAAAAAAUJ
+        AAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="collapsiblePanelRssSearchExprKindEx.Text">
+    <value>Type de recherche</value>
+  </data>
+  <data name="radioRssSearchSimpleText.Text">
+    <value>Texte</value>
+  </data>
+  <data name="labelRssSearchTypeHint.Text">
+    <value>Trouver tous les posts contenant le mot ou la phrase spécifié</value>
+  </data>
+  <data name="radioRssSearchRegEx.Text">
+    <value>Expression régulière</value>
+  </data>
+  <data name="collapsiblePanelItemPropertiesEx.CustomHeaderSettings.CustomHeaderSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGFhQRXhwbG9yZXJCYXIuSGVhZGVySW5mbyQAAAAJdGl0bGVGb250Bm1h
+        cmdpbhBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQ5iYWNrSW1hZ2VXaWR0aA9iYWNrSW1h
+        Z2VIZWlnaHQMc3BlY2lhbFRpdGxlC25vcm1hbFRpdGxlD3NwZWNpYWxUaXRsZUhvdA5ub3JtYWxUaXRs
+        ZUhvdBBzcGVjaWFsQWxpZ25tZW50D25vcm1hbEFsaWdubWVudA5zcGVjaWFsUGFkZGluZw1ub3JtYWxQ
+        YWRkaW5nDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3JkZXJDb2xvchFub3JtYWxC
+        b3JkZXJDb2xvchBzcGVjaWFsQmFja0NvbG9yD25vcm1hbEJhY2tDb2xvcg5zcGVjaWFsQXJyb3dVcBFz
+        cGVjaWFsQXJyb3dVcEhvdBBzcGVjaWFsQXJyb3dEb3duE3NwZWNpYWxBcnJvd0Rvd25Ib3QNbm9ybWFs
+        QXJyb3dVcBBub3JtYWxBcnJvd1VwSG90D25vcm1hbEFycm93RG93bhJub3JtYWxBcnJvd0Rvd25Ib3QQ
+        dXNlVGl0bGVHcmFkaWVudBlzcGVjaWFsR3JhZGllbnRTdGFydENvbG9yF3NwZWNpYWxHcmFkaWVudEVu
+        ZENvbG9yGG5vcm1hbEdyYWRpZW50U3RhcnRDb2xvchZub3JtYWxHcmFkaWVudEVuZENvbG9yDmdyYWRp
+        ZW50T2Zmc2V0C3RpdGxlUmFkaXVzB1ZlcnNpb24EAAQEAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQE
+        BAQAAAETU3lzdGVtLkRyYXdpbmcuRm9udAMAAAAIFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAICBRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVu
+        dEFsaWdubWVudAMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABVYUEV4cGxvcmVyQmFyLlBhZGRp
+        bmcCAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRYUEV4cGxvcmVyQmFyLkJvcmRlcgIAAAAUU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2lu
+        Zy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAA
+        ABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAFFN5c3RlbS5E
+        cmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1h
+        Z2UDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAABFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAAAsIAgAAAAoPAAAACgq6AAAAGQAAAAX8
+        ////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAAB
+        CQcHAwAAAAAAAAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKAfr////8////AAAAAAAAAAAA
+        AAAACgH5/////P///wAAAAAAAAAAAAAAAAoF+P///x9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25t
+        ZW50AQAAAAd2YWx1ZV9fAAgDAAAAEAAAAAH3////+P///xAAAAAJCgAAAAkKAAAACQsAAAAJCwAAAAH0
+        /////P///wAAAAAAAAAAAAAAAAoB8/////z///8AAAAAAAAAAAAAAAAKAfL////8////AAAAAAAAAAAA
+        AAAACgHx/////P///wAAAAAAAAAAAAAAAAoKCgoKCgoKCgAB8P////z///8AAAAAAAAAAAAAAAAKAe//
+        ///8////AAAAAAAAAAAAAAAACgHu/////P///wAAAAAAAAAAAAAAAAoB7f////z///8AAAAAAAAAAAAA
+        AAAKAAAAPwIAAAAGFAAAAAczLjIuMS4wBQoAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nBAAAAARsZWZ0
+        BXJpZ2h0A3RvcAZib3R0b20AAAAACAgICAIAAAAAAAAAAAAAAAAAAAAAAAAABQsAAAAUWFBFeHBsb3Jl
+        ckJhci5Cb3JkZXIEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelItemPropertiesEx.CustomSettings.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGVhQRXhwbG9yZXJCYXIuRXhwYW5kb0luZm8LAAAAEHNwZWNpYWxCYWNr
+        Q29sb3IPbm9ybWFsQmFja0NvbG9yDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3Jk
+        ZXJDb2xvchFub3JtYWxCb3JkZXJDb2xvcg5zcGVjaWFsUGFkZGluZw1ub3JtYWxQYWRkaW5nEndhdGVy
+        bWFya0FsaWdubWVudBBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQQEBAQEBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUWFBFeHBsb3JlckJh
+        ci5Cb3JkZXICAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwIAAAAVWFBFeHBs
+        b3JlckJhci5QYWRkaW5nAgAAAB9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25tZW50AwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAAgAAAAX8////FFN5c3Rl
+        bS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAA
+        AAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKCQYAAAAJBgAAAAH5/////P///wAAAAAAAAAA
+        AAAAAAoB+P////z///8AAAAAAAAAAAAAAAAKCQkAAAAJCQAAAAX2////H1N5c3RlbS5EcmF3aW5nLkNv
+        bnRlbnRBbGlnbm1lbnQBAAAAB3ZhbHVlX18ACAMAAAAABAAACgoFBgAAABRYUEV4cGxvcmVyQmFyLkJv
+        cmRlcgQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgCAAAAAAAAAAAAAAAAAAAAAAAAAAUJ
+        AAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="collapsiblePanelItemPropertiesEx.Text">
+    <value>Champs de recherche</value>
+  </data>
+  <data name="checkBoxRssSearchInCategory.Text">
+    <value>Sujet</value>
+  </data>
+  <data name="checkBoxRssSearchInTitle.Text">
+    <value>Titre</value>
+  </data>
+  <data name="checkBoxRssSearchInLink.Text">
+    <value>Lien</value>
+  </data>
+  <data name="label1.Text">
+    <value>Cochez toutes les options voulues pour les inclure dans la recherche.</value>
+  </data>
+  <data name="collapsiblePanelAdvancedOptionsEx.CustomHeaderSettings.CustomHeaderSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGFhQRXhwbG9yZXJCYXIuSGVhZGVySW5mbyQAAAAJdGl0bGVGb250Bm1h
+        cmdpbhBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQ5iYWNrSW1hZ2VXaWR0aA9iYWNrSW1h
+        Z2VIZWlnaHQMc3BlY2lhbFRpdGxlC25vcm1hbFRpdGxlD3NwZWNpYWxUaXRsZUhvdA5ub3JtYWxUaXRs
+        ZUhvdBBzcGVjaWFsQWxpZ25tZW50D25vcm1hbEFsaWdubWVudA5zcGVjaWFsUGFkZGluZw1ub3JtYWxQ
+        YWRkaW5nDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3JkZXJDb2xvchFub3JtYWxC
+        b3JkZXJDb2xvchBzcGVjaWFsQmFja0NvbG9yD25vcm1hbEJhY2tDb2xvcg5zcGVjaWFsQXJyb3dVcBFz
+        cGVjaWFsQXJyb3dVcEhvdBBzcGVjaWFsQXJyb3dEb3duE3NwZWNpYWxBcnJvd0Rvd25Ib3QNbm9ybWFs
+        QXJyb3dVcBBub3JtYWxBcnJvd1VwSG90D25vcm1hbEFycm93RG93bhJub3JtYWxBcnJvd0Rvd25Ib3QQ
+        dXNlVGl0bGVHcmFkaWVudBlzcGVjaWFsR3JhZGllbnRTdGFydENvbG9yF3NwZWNpYWxHcmFkaWVudEVu
+        ZENvbG9yGG5vcm1hbEdyYWRpZW50U3RhcnRDb2xvchZub3JtYWxHcmFkaWVudEVuZENvbG9yDmdyYWRp
+        ZW50T2Zmc2V0C3RpdGxlUmFkaXVzB1ZlcnNpb24EAAQEAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQE
+        BAQAAAETU3lzdGVtLkRyYXdpbmcuRm9udAMAAAAIFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAICBRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVu
+        dEFsaWdubWVudAMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABVYUEV4cGxvcmVyQmFyLlBhZGRp
+        bmcCAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRYUEV4cGxvcmVyQmFyLkJvcmRlcgIAAAAUU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2lu
+        Zy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAA
+        ABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAFFN5c3RlbS5E
+        cmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1h
+        Z2UDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAABFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAAAsIAgAAAAoPAAAACgq6AAAAGQAAAAX8
+        ////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAAB
+        CQcHAwAAAAAAAAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKAfr////8////AAAAAAAAAAAA
+        AAAACgH5/////P///wAAAAAAAAAAAAAAAAoF+P///x9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25t
+        ZW50AQAAAAd2YWx1ZV9fAAgDAAAAEAAAAAH3////+P///xAAAAAJCgAAAAkKAAAACQsAAAAJCwAAAAH0
+        /////P///wAAAAAAAAAAAAAAAAoB8/////z///8AAAAAAAAAAAAAAAAKAfL////8////AAAAAAAAAAAA
+        AAAACgHx/////P///wAAAAAAAAAAAAAAAAoKCgoKCgoKCgAB8P////z///8AAAAAAAAAAAAAAAAKAe//
+        ///8////AAAAAAAAAAAAAAAACgHu/////P///wAAAAAAAAAAAAAAAAoB7f////z///8AAAAAAAAAAAAA
+        AAAKAAAAPwIAAAAGFAAAAAczLjIuMS4wBQoAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nBAAAAARsZWZ0
+        BXJpZ2h0A3RvcAZib3R0b20AAAAACAgICAIAAAAAAAAAAAAAAAAAAAAAAAAABQsAAAAUWFBFeHBsb3Jl
+        ckJhci5Cb3JkZXIEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelAdvancedOptionsEx.CustomSettings.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGVhQRXhwbG9yZXJCYXIuRXhwYW5kb0luZm8LAAAAEHNwZWNpYWxCYWNr
+        Q29sb3IPbm9ybWFsQmFja0NvbG9yDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3Jk
+        ZXJDb2xvchFub3JtYWxCb3JkZXJDb2xvcg5zcGVjaWFsUGFkZGluZw1ub3JtYWxQYWRkaW5nEndhdGVy
+        bWFya0FsaWdubWVudBBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQQEBAQEBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUWFBFeHBsb3JlckJh
+        ci5Cb3JkZXICAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwIAAAAVWFBFeHBs
+        b3JlckJhci5QYWRkaW5nAgAAAB9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25tZW50AwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAAgAAAAX8////FFN5c3Rl
+        bS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAA
+        AAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKCQYAAAAJBgAAAAH5/////P///wAAAAAAAAAA
+        AAAAAAoB+P////z///8AAAAAAAAAAAAAAAAKCQkAAAAJCQAAAAX2////H1N5c3RlbS5EcmF3aW5nLkNv
+        bnRlbnRBbGlnbm1lbnQBAAAAB3ZhbHVlX18ACAMAAAAABAAACgoFBgAAABRYUEV4cGxvcmVyQmFyLkJv
+        cmRlcgQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgCAAAAAAAAAAAAAAAAAAAAAAAAAAUJ
+        AAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="collapsiblePanelAdvancedOptionsEx.Text">
+    <value>Champs avancés</value>
+  </data>
+  <data name="checkBoxConsiderItemReadState.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>102, 20</value>
+  </data>
+  <data name="checkBoxConsiderItemReadState.Text">
+    <value>Etat de lecture</value>
+  </data>
+  <data name="checkBoxRssSearchUnreadItems.Text">
+    <value>Posts non lus</value>
+  </data>
+  <data name="horizontalEdge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>108, 39</value>
+  </data>
+  <data name="horizontalEdge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>95, 3</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>120, 99</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>83, 3</value>
+  </data>
+  <data name="checkBoxRssSearchTimeSpan.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>105, 20</value>
+  </data>
+  <data name="checkBoxRssSearchTimeSpan.Text">
+    <value>Age du message</value>
+  </data>
+  <data name="radioRssSearchItemsOlderThan.Text">
+    <value>Plus anciens</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items">
+    <value>1 heure</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items1">
+    <value>2 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items2">
+    <value>3 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items3">
+    <value>4 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items4">
+    <value>5 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items5">
+    <value>6 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items6">
+    <value>12 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items7">
+    <value>18 heures</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items8">
+    <value>1 jour</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items9">
+    <value>2 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items10">
+    <value>3 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items11">
+    <value>4 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items12">
+    <value>5 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items13">
+    <value>6 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items14">
+    <value>7 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items15">
+    <value>14 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items16">
+    <value>21 jours</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items17">
+    <value>1 mois</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items18">
+    <value>2 mois</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items19">
+    <value>1 trimestre</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items20">
+    <value>2 trimestres</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items21">
+    <value>3 trimestres</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items22">
+    <value>1 an</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items23">
+    <value>2 ans</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items24">
+    <value>3 ans</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items25">
+    <value>5 ans</value>
+  </data>
+  <data name="radioRssSearchItemsYoungerThan.Text">
+    <value>Plus récents</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>108, 199</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>95, 3</value>
+  </data>
+  <data name="checkBoxRssSearchByDate.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>102, 20</value>
+  </data>
+  <data name="checkBoxRssSearchByDate.Text">
+    <value>Message posté</value>
+  </data>
+  <data name="checkBoxRssSearchByDateRange.Text">
+    <value>Messages postés entre</value>
+  </data>
+  <data name="collapsiblePanelRssSearchScopeEx.CustomHeaderSettings.CustomHeaderSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGFhQRXhwbG9yZXJCYXIuSGVhZGVySW5mbyQAAAAJdGl0bGVGb250Bm1h
+        cmdpbhBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQ5iYWNrSW1hZ2VXaWR0aA9iYWNrSW1h
+        Z2VIZWlnaHQMc3BlY2lhbFRpdGxlC25vcm1hbFRpdGxlD3NwZWNpYWxUaXRsZUhvdA5ub3JtYWxUaXRs
+        ZUhvdBBzcGVjaWFsQWxpZ25tZW50D25vcm1hbEFsaWdubWVudA5zcGVjaWFsUGFkZGluZw1ub3JtYWxQ
+        YWRkaW5nDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3JkZXJDb2xvchFub3JtYWxC
+        b3JkZXJDb2xvchBzcGVjaWFsQmFja0NvbG9yD25vcm1hbEJhY2tDb2xvcg5zcGVjaWFsQXJyb3dVcBFz
+        cGVjaWFsQXJyb3dVcEhvdBBzcGVjaWFsQXJyb3dEb3duE3NwZWNpYWxBcnJvd0Rvd25Ib3QNbm9ybWFs
+        QXJyb3dVcBBub3JtYWxBcnJvd1VwSG90D25vcm1hbEFycm93RG93bhJub3JtYWxBcnJvd0Rvd25Ib3QQ
+        dXNlVGl0bGVHcmFkaWVudBlzcGVjaWFsR3JhZGllbnRTdGFydENvbG9yF3NwZWNpYWxHcmFkaWVudEVu
+        ZENvbG9yGG5vcm1hbEdyYWRpZW50U3RhcnRDb2xvchZub3JtYWxHcmFkaWVudEVuZENvbG9yDmdyYWRp
+        ZW50T2Zmc2V0C3RpdGxlUmFkaXVzB1ZlcnNpb24EAAQEAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQE
+        BAQAAAETU3lzdGVtLkRyYXdpbmcuRm9udAMAAAAIFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAICBRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAfU3lzdGVtLkRyYXdpbmcuQ29udGVudEFsaWdubWVudAMAAAAfU3lzdGVtLkRyYXdpbmcuQ29udGVu
+        dEFsaWdubWVudAMAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nAgAAABVYUEV4cGxvcmVyQmFyLlBhZGRp
+        bmcCAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRYUEV4cGxvcmVyQmFyLkJvcmRlcgIAAAAUU3lz
+        dGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2lu
+        Zy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAA
+        ABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAFFN5c3RlbS5E
+        cmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1h
+        Z2UDAAAAFFN5c3RlbS5EcmF3aW5nLkltYWdlAwAAABRTeXN0ZW0uRHJhd2luZy5JbWFnZQMAAAABFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAAAsIAgAAAAoPAAAACgq6AAAAGQAAAAX8
+        ////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAAB
+        CQcHAwAAAAAAAAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKAfr////8////AAAAAAAAAAAA
+        AAAACgH5/////P///wAAAAAAAAAAAAAAAAoF+P///x9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25t
+        ZW50AQAAAAd2YWx1ZV9fAAgDAAAAEAAAAAH3////+P///xAAAAAJCgAAAAkKAAAACQsAAAAJCwAAAAH0
+        /////P///wAAAAAAAAAAAAAAAAoB8/////z///8AAAAAAAAAAAAAAAAKAfL////8////AAAAAAAAAAAA
+        AAAACgHx/////P///wAAAAAAAAAAAAAAAAoKCgoKCgoKCgAB8P////z///8AAAAAAAAAAAAAAAAKAe//
+        ///8////AAAAAAAAAAAAAAAACgHu/////P///wAAAAAAAAAAAAAAAAoB7f////z///8AAAAAAAAAAAAA
+        AAAKAAAAPwIAAAAGFAAAAAczLjIuMS4wBQoAAAAVWFBFeHBsb3JlckJhci5QYWRkaW5nBAAAAARsZWZ0
+        BXJpZ2h0A3RvcAZib3R0b20AAAAACAgICAIAAAAAAAAAAAAAAAAAAAAAAAAABQsAAAAUWFBFeHBsb3Jl
+        ckJhci5Cb3JkZXIEAAAABGxlZnQFcmlnaHQDdG9wBmJvdHRvbQAAAAAICAgIAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAL
+</value>
+  </data>
+  <data name="collapsiblePanelRssSearchScopeEx.CustomSettings.CustomSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFBYUEV4cGxvcmVyQmFyLCBWZXJzaW9uPTMuMi4xLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49NDJmNjlmZjNmYTdiMGQ5MQwDAAAAVFN5c3RlbS5EcmF3
+        aW5nLCBWZXJzaW9uPTEuMC41MDAwLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAz
+        ZjVmN2YxMWQ1MGEzYQUBAAAAGVhQRXhwbG9yZXJCYXIuRXhwYW5kb0luZm8LAAAAEHNwZWNpYWxCYWNr
+        Q29sb3IPbm9ybWFsQmFja0NvbG9yDXNwZWNpYWxCb3JkZXIMbm9ybWFsQm9yZGVyEnNwZWNpYWxCb3Jk
+        ZXJDb2xvchFub3JtYWxCb3JkZXJDb2xvcg5zcGVjaWFsUGFkZGluZw1ub3JtYWxQYWRkaW5nEndhdGVy
+        bWFya0FsaWdubWVudBBzcGVjaWFsQmFja0ltYWdlD25vcm1hbEJhY2tJbWFnZQQEBAQEBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUWFBFeHBsb3JlckJh
+        ci5Cb3JkZXICAAAAFFhQRXhwbG9yZXJCYXIuQm9yZGVyAgAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwIAAAAVWFBFeHBs
+        b3JlckJhci5QYWRkaW5nAgAAAB9TeXN0ZW0uRHJhd2luZy5Db250ZW50QWxpZ25tZW50AwAAABRTeXN0
+        ZW0uRHJhd2luZy5JbWFnZQMAAAAUU3lzdGVtLkRyYXdpbmcuSW1hZ2UDAAAAAgAAAAX8////FFN5c3Rl
+        bS5EcmF3aW5nLkNvbG9yBAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAA
+        AAAAAAAAAAAAAAoB+/////z///8AAAAAAAAAAAAAAAAKCQYAAAAJBgAAAAH5/////P///wAAAAAAAAAA
+        AAAAAAoB+P////z///8AAAAAAAAAAAAAAAAKCQkAAAAJCQAAAAX2////H1N5c3RlbS5EcmF3aW5nLkNv
+        bnRlbnRBbGlnbm1lbnQBAAAAB3ZhbHVlX18ACAMAAAAABAAACgoFBgAAABRYUEV4cGxvcmVyQmFyLkJv
+        cmRlcgQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgCAAAAAAAAAAAAAAAAAAAAAAAAAAUJ
+        AAAAFVhQRXhwbG9yZXJCYXIuUGFkZGluZwQAAAAEbGVmdAVyaWdodAN0b3AGYm90dG9tAAAAAAgICAgC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="btnNewSearch.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>105, 43</value>
+  </data>
+  <data name="btnNewSearch.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>115, 23</value>
+  </data>
+  <data name="btnNewSearch.Text">
+    <value>Nouvelle recherche</value>
+  </data>
+  <data name="btnSearchCancel.Text">
+    <value>Recherche</value>
+  </data>
+  <data name="labelRssSearchState.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>85, 15</value>
+  </data>
+  <data name="statusBarBrowser.Text">
+    <value>Navigateur</value>
+  </data>
+  <data name="statusBarBrowser.ToolTipText">
+    <value>Etat du navigateur...</value>
+  </data>
+  <data name="statusBarBrowserProgress.ToolTipText">
+    <value>Avancement de la demande de la page...</value>
+  </data>
+  <data name="statusBarConnectionState.ToolTipText">
+    <value>Etat de la connexion réseau...</value>
+  </data>
+  <data name="statusBarRssParser.ToolTipText">
+    <value>Etat du moteur RSS...</value>
+  </data>
+  <data name="toolBarMain.Text">
+    <value>Outils principaux</value>
+  </data>
+  <data name="menuBarMain.Text">
+    <value>Barre de menu</value>
+  </data>
+  <data name="toolBarBrowser.Text">
+    <value>Outils de navigation</value>
+  </data>
+  <data name="toolBarWebSearch.Text">
+    <value>Outils de recherche</value>
+  </data>
+<data name="colDate.Text">
+    <value>Date</value>
+  </data>
+	<data name="taskPaneSearchOptions.Text">
+    <value>Volet des options de recherche</value>
+  </data>
+	<data name="radioRssSearchExprXPath.Text">
+    <value>XPath</value>
+  </data>
+	<data name="checkBoxRssSearchInDesc.Text">
+    <value>Description</value>
+  </data>
+	<data name="collapsiblePanelRssSearchScopeEx.Text">
+    <value>Portée de la recherche</value>
+  </data>
+	<data name="bottomSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="leftSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="rightSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="topSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="dockSubscriptions.Text">
+    <value>Abonnements aux flux</value>
+  </data>
+	<data name="dockSearch.Text">
+    <value>Rechercher</value>
+  </data>
+	<data name="_docFeedDetails.Text">
+    <value>Détails du flux</value>
+  </data>
+	<data name="$this.Text">
+    <value>RSS Bandit</value>
+  </data>
+	</root>

@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RssBandit Installer", "RssBandit Installer.vdproj", "{EE8098C6-3B18-4AF6-8C54-BF777020D4B7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{EE8098C6-3B18-4AF6-8C54-BF777020D4B7}.Debug.ActiveCfg = Debug
+		{EE8098C6-3B18-4AF6-8C54-BF777020D4B7}.Debug.Build.0 = Debug
+		{EE8098C6-3B18-4AF6-8C54-BF777020D4B7}.Release.ActiveCfg = Release
+		{EE8098C6-3B18-4AF6-8C54-BF777020D4B7}.Release.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

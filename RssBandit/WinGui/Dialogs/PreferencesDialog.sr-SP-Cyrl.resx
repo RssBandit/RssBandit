@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnOK.Text">
+    <value>&amp;У реду</value>
+  </data>
+  <data name="btnCancel.Text">
+    <value>Откажи</value>
+  </data>
+  <data name="tabGeneral.Text">
+    <value>Генерално</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text">
+    <value>Почетак</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text">
+    <value>Форсирај скидање извора приликом стартовања</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text">
+    <value>Подеси RSS Bandit као основни агрегатор</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip">
+    <value>Направи RSS Bandit основном апликацијом која ослупкује за 'извор:' Url протокола...</value>
+  </data>
+  <data name="label12.Text">
+    <value>Ако је дугме онемогућено, RSS Bandit је ваш основни агрегатор. Ако је омогућено, можете га направити својим основиним агрегатором притиснувши дугме.</value>
+  </data>
+  <data name="radioTrayActionNone.Text">
+    <value>Нијед&amp;на</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip">
+    <value>Апликација ће увек бити видљива унутар радног бара</value>
+  </data>
+  <data name="label1.Text">
+    <value>Изаберите опцију како би одредили приликом које акције апликација треба да се 'Minimize to Tray'.</value>
+  </data>
+  <data name="radioTrayActionClose.Text">
+    <value>Кад се апликација &amp;затвори</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip">
+    <value>Апликација неће бити видљива унутар бара апликација</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text">
+    <value>Кад се апликација М&amp;инимизира (препоручљиво)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip">
+    <value>Апликација неће бити видљива унутар радное траке</value>
+  </data>
+  <data name="labelCheckForUpdates.Text">
+    <value>Селектујте за &amp;надоградње:</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items">
+    <value>Ручно</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1">
+    <value>Сваку пут кад се апликација стартује</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2">
+    <value>Једном у 14 дана</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3">
+    <value>Једном месечно</value>
+  </data>
+  <data name="tabRemoteStorage.Text">
+    <value>Удаљени смештај</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Удаљени смештај листе извора</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip">
+    <value>Акредитива корисничко име. Може бити наведено као 'Domain\КорисничкоИме'.</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items">
+    <value>Дељење фајлова</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>189, 21</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text">
+    <value>Користи &amp;удаљени смештај</value>
+  </data>
+  <data name="label10.Text">
+    <value>Ова опција вам омогућава да сместите ваше листе извора на удаљене локације, како би могле бити дељене између више рачунара.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text">
+    <value>&amp;URL сервиса смештаја:</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip">
+    <value>Лозинка Proxy акредитива</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text">
+    <value>Корисничко &amp;име:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip">
+    <value>Proxy акредитива лозинка</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text">
+    <value>Корисничко &amp;име:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip">
+    <value>Корисничко име Proxy акредитива. Може бити наведено као 'Domain\Username'.</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text">
+    <value>Протокол:</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip">
+    <value>Proxy акредитива лозинка</value>
+  </data>
+  <data name="tabNewsItems.Text">
+    <value>Прикажи</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text">
+    <value>Генерално</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 39</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 28</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>Маркирај све предмете прочитаним на изласку извора или категорије</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>Уако нема описа отвори линк у панелу за читање</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Форматирање предмета</value>
+  </data>
+  <data name="comboFormatters.ToolTip">
+    <value>Изаерите stylesheet форматера</value>
+  </data>
+  <data name="label2.Text">
+    <value>Користите освновно форматирање предмета или изаберите прилагођени XSLT форматер.</value>
+  </data>
+  <data name="checkCustomFormatter.Text">
+    <value>Користи &amp;прилагођени форматер</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip">
+    <value>Селектујте ову опцију за прилагођени форматер</value>
+  </data>
+  <data name="labelFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 83</value>
+  </data>
+  <data name="labelFormatters.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>130, 27</value>
+  </data>
+  <data name="labelFormatters.Text">
+    <value>&amp;Каскадни стил форматера</value>
+  </data>
+  <data name="tabFeeds.Text">
+    <value>Извори</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Основно коментара</value>
+  </data>
+  <data name="btnManageIdentities.Text">
+    <value>Идентитети...</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip">
+    <value>Читајте више о 'CommentAPI'...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>241, 20</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text">
+    <value>Кориснички идентитет за коментаре</value>
+  </data>
+  <data name="label6.Text">
+    <value>Наведите ваше личне основне парамтетре за постирање одговора на предмете извора. Ова опција је могућа само на изворима који подржавају CommentAPI. Види исто</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text">
+    <value>Извори, тајминг</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 20</value>
+  </data>
+  <data name="label15.Text">
+    <value>Уклони предмете &amp;старије од:</value>
+  </data>
+  <data name="linkLabel1.ToolTip">
+    <value>Прочитајте више о 'кондиционално узми'...</value>
+  </data>
+  <data name="comboRefreshRate.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>191, 95</value>
+  </data>
+  <data name="comboRefreshRate.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>72, 21</value>
+  </data>
+  <data name="label5.Text">
+    <value>минута</value>
+  </data>
+  <data name="label4.Text">
+    <value>&amp;Ажурирај изворе сваких</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 дан</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 дана</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 дан</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 месец</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 месеца</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 квартал</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 квартала</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 квартала</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 година</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Неограничено</value>
+  </data>
+  <data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>191, 120</value>
+  </data>
+  <data name="comboMaxItemAge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>151, 21</value>
+  </data>
+  <data name="label3.Text">
+    <value>Наведите интервал у којем би извори на које сте потписани требали бити ажурирани. Сваки извор са одређеним освежавањем унутар овог интервала ће бити тражен опет (кондиционално узми). Види исто</value>
+  </data>
+  <data name="tabNetConnection.Text">
+    <value>Мрежна конекција</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Proxy сервер</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip">
+    <value>Листа изнимки адреса</value>
+  </data>
+  <data name="checkNoProxy.Text">
+    <value>&amp;Не користи proxy сервер</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text">
+    <value>&amp;Лозинка:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip">
+    <value>Proxy акредитива лозинка</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text">
+    <value>Корисничко &amp;име:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip">
+    <value>Корисничко име Proxy акредатиа. Мође бити наведено као 'Domain\КорисничкоИме'.</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip">
+    <value>Корисничко име акредитива. Може бити наведено као 'Domain\КорисничкоИме'.</value>
+  </data>
+  <data name="checkProxyAuth.Text">
+    <value>Proxy захтева &amp;ауторизацију</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text">
+    <value>Користи тачказарез( ; ) за одвајање уноса.</value>
+  </data>
+  <data name="labelProxyBypassList.Text">
+    <value>Н&amp;е користи proxy за адресе које почињу са:</value>
+  </data>
+  <data name="checkUseProxy.Text">
+    <value>Користи приватне парамтетре &amp;proxy сервера</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text">
+    <value>Узми proxy сервер парамтетре из &amp;Internet Explorer-а</value>
+  </data>
+  <data name="labelProxyServerSummery.Text">
+    <value>Proxy сервер се понаша као посредник између ваше машине и Интернета, скидајући странице са удаљених Web сервера.</value>
+  </data>
+  <data name="textProxyPort.ToolTip">
+    <value>Број Proxy порта</value>
+  </data>
+  <data name="labelProxyPort.Text">
+    <value>Пор&amp;т: </value>
+  </data>
+  <data name="labelProxyAddress.Text">
+    <value>Адр&amp;реса: </value>
+  </data>
+  <data name="textProxyAddress.ToolTip">
+    <value>Proxy адреса</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text">
+    <value>&amp;Заобиђи proxy сервер за локалне адресе</value>
+  </data>
+  <data name="tabFonts.Text">
+    <value>фонтови</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text">
+    <value>Потписи, Нови предмете</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text">
+    <value>Конфигуришите фонт, стилове и боје кориштене да се означе стања потписа и предмета вести.</value>
+  </data>
+  <data name="btnChangeFont.Text">
+    <value>&amp;Измени</value>
+  </data>
+  <data name="chkFontItalic.Text">
+    <value>Н&amp;акошено</value>
+  </data>
+  <data name="btnChangeColor.Text">
+    <value>Б&amp;оја...</value>
+  </data>
+  <data name="lblItemStates.Text">
+    <value>&amp;Стање предмета:</value>
+  </data>
+  <data name="lstItemStates.Items">
+    <value>Читај (нормално)</value>
+  </data>
+  <data name="lstItemStates.Items1">
+    <value>Непрочитано</value>
+  </data>
+  <data name="lstItemStates.Items2">
+    <value>Застава</value>
+  </data>
+  <data name="lstItemStates.Items4">
+    <value>Грешка</value>
+  </data>
+  <data name="lstItemStates.ToolTip">
+    <value>Изаберите стање неког предмета да измените параметре...</value>
+  </data>
+  <data name="chkFontUnderline.Text">
+    <value>&amp;Подвучено</value>
+  </data>
+  <data name="lblFontSampleCaption.Text">
+    <value>Пример:</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Сигурност, Забране</value>
+  </data>
+  <data name="labelCheckToAllow.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>36, 86</value>
+  </data>
+  <data name="labelCheckToAllow.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>186, 20</value>
+  </data>
+  <data name="labelCheckToAllow.Text">
+    <value>Селектујте да дозволите:</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 127</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text">
+    <value>ActiveX контроле</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 107</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript извршавање</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>40, 147</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>185, 127</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text">
+    <value>Звук позадине</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>185, 107</value>
+  </data>
+  <data name="checkBrowserVdieoAllowed.Text">
+    <value>Видео</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>185, 147</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text">
+    <value>Скидање слика</value>
+  </data>
+  <data name="label19.Text">
+    <value>Ако промените било које параметре сигурности, подешавања ће бити активна тренутно само у новом одељку претраживача, или било којем одељку претраживача након што рестартујете апликацију! Ови параметри немају никакав ефект на панел за читање!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>На кликнут линк и на нови прозор</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text">
+    <value>Стартуј овај И&amp;звршни фајл:</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Отвори конфигурисани &amp;Основни Web Browser</value>
+  </data>
+  <data name="optNewWindowOnTab.Text">
+    <value>Отвори нови &amp;Одељак (основно)</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text">
+    <value>Искористи отворене одељке претраживача</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text">
+    <value>&amp;Фајл програма:</value>
+  </data>
+  <data name="label16.Text">
+    <value>Изаберите опцију да одредите понашање које треба да реши интерни претраживач приликом клика на HTML линк или отварањем новог прозора.</value>
+  </data>
+  <data name="tabWebSearch.Text">
+    <value>Web претрага</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text">
+    <value>Претраживачи</value>
+  </data>
+  <data name="btnSERemove.Text">
+    <value>Уклони</value>
+  </data>
+  <data name="btnSERemove.ToolTip">
+    <value>Уклони изабрани претраживач</value>
+  </data>
+  <data name="btnSEAdd.Text">
+    <value>Додај...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip">
+    <value>Додај нови претраживач</value>
+  </data>
+  <data name="btnSEProperties.Text">
+    <value>Параметри...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip">
+    <value>Отвори дијалог параметара претраживача</value>
+  </data>
+  <data name="btnSEMoveDown.Text">
+    <value>Помери доле</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip">
+    <value>Помери предмет горе</value>
+  </data>
+  <data name="btnSEMoveUp.Text">
+    <value>Помери горе</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip">
+    <value>Помери предмет горе</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="columnHeader1.Text">
+    <value>Наслов</value>
+  </data>
+  <data name="columnHeader2.Text">
+    <value>Опис</value>
+  </data>
+  <data name="label17.Text">
+    <value>Изаберите претраживач(е), који би требали бити активни ако притиснете 'Претражуј Web' команду поред поља за селектовање у листи испод. </value>
+  </data>
+  <data name="btnApply.Text">
+    <value>Примени</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.Text">
+    <value>Опције</value>
+  </data>
+<data name="sectionPanelGeneralBehavior.Text">
+    <value>Application Behavior</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items1">
+    <value>FTP</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items2">
+    <value>dasBlog</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items3">
+    <value>dasBlog 1.3</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items4">
+    <value>WebDAV</value>
+  </data>
+	<data name="linkCommentAPI.Text">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+	<data name="linkLabel1.Text">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+	<data name="comboRefreshRate.Items">
+    <value>15</value>
+  </data>
+	<data name="comboRefreshRate.Items1">
+    <value>30</value>
+  </data>
+	<data name="comboRefreshRate.Items2">
+    <value>45</value>
+  </data>
+	<data name="comboRefreshRate.Items3">
+    <value>60</value>
+  </data>
+	<data name="comboRefreshRate.Items4">
+    <value>75</value>
+  </data>
+	<data name="comboRefreshRate.Items5">
+    <value>90</value>
+  </data>
+	<data name="comboRefreshRate.Items6">
+    <value>105</value>
+  </data>
+	<data name="comboRefreshRate.Items7">
+    <value>120</value>
+  </data>
+	<data name="comboRefreshRate.Items8">
+    <value>240</value>
+  </data>
+	<data name="comboRefreshRate.Items9">
+    <value>480</value>
+  </data>
+	<data name="comboRefreshRate.Items10">
+    <value>720</value>
+  </data>
+	<data name="comboRefreshRate.Items11">
+    <value>1440</value>
+  </data>
+	<data name="lblUsedFontNameSize.Text">
+    <value>Tahoma, 8pt</value>
+  </data>
+	<data name="chkFontBold.Text">
+    <value>&amp;Bold</value>
+  </data>
+	<data name="lstItemStates.Items3">
+    <value>Referrer</value>
+  </data>
+	<data name="chkFontStrikeout.Text">
+    <value>&amp;Strikeout</value>
+  </data>
+	<data name="lblFontSampleABC.Text">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+	<data name="tabWebBrowser.Text">
+    <value>Web Browser</value>
+  </data>
+	<data name="checkBrowserJavaAllowed.Text">
+    <value>Java Applets</value>
+  </data>
+	<data name="btnSelectExecutable.Text">
+    <value>...</value>
+  </data>
+	</root>

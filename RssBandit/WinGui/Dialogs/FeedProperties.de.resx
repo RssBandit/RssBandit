@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="button2.Text">
+    <value>Abbrechen</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 15</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>100, 16</value>
+  </data>
+  <data name="label2.Text">
+    <value>Feed &amp;Url</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 40</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>100, 16</value>
+  </data>
+  <data name="label1.Text">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 65</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>100, 16</value>
+  </data>
+  <data name="label5.Text">
+    <value>&amp;Kategorie</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 Tag</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 Tage</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 Monat</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 Monate</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 Quartal</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 Quartale</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 Quartale</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 Jahr</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Unbegrenzt</value>
+  </data>
+  <data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>160, 45</value>
+  </data>
+  <data name="comboMaxItemAge.ToolTip">
+    <value>Wählen Sie das max. Alter der Nachrichten, bis zu dem Sie noch nicht gelöscht werden sollen</value>
+  </data>
+  <data name="tabItemControl.Text">
+    <value>Nachrichten</value>
+  </data>
+  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>160, 20</value>
+  </data>
+  <data name="comboBox1.ToolTip">
+    <value>Wählen Sie einen Zeitabstand aus, nach dessen Ablauf dieser Feed wieder auf neue Nachrichten geprüft werden soll</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 50</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>145, 16</value>
+  </data>
+  <data name="label15.Text">
+    <value>Maximales Nachrichten-&amp;Alter</value>
+  </data>
+  <data name="label15.ToolTip">
+    <value>Nachrichten, die älter als das angegebene Alter sind, werden automatisch gelöscht</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 25</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>145, 16</value>
+  </data>
+  <data name="label4.Text">
+    <value>Updatefrequenz</value>
+  </data>
+  <data name="label4.ToolTip">
+    <value>Die Updatefrequenz 0 (null) führt dazu, dass dieser Feed deaktiviert wird. Dieser Feed wird dann so lange nicht auf neue Nachrichten geprüft, bis Sie wieder eine von 0 abweichende Frequenz einstellen</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>300, 25</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>65, 16</value>
+  </data>
+  <data name="label3.Text">
+    <value>Minuten</value>
+  </data>
+  <data name="tabAuthentication.Text">
+    <value>Authentifizierung</value>
+  </data>
+  <data name="tabAuthentication.ToolTip">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="tabAuthentication.ToolTipText">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 50</value>
+  </data>
+  <data name="label7.Text">
+    <value>&amp;Passwort</value>
+  </data>
+  <data name="label6.Text">
+    <value>Benutzer&amp;name</value>
+  </data>
+  <data name="tabDisplay.Text">
+    <value>Anzeige</value>
+  </data>
+  <data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 55</value>
+  </data>
+  <data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>25, 40</value>
+  </data>
+  <data name="checkCustomFormatter.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>317, 15</value>
+  </data>
+  <data name="checkCustomFormatter.Text">
+    <value>&amp;Eigene XSLT-Formatierung verwenden</value>
+  </data>
+  <data name="labelFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>20, 60</value>
+  </data>
+  <data name="labelFormatters.Text">
+    <value>&amp;Formatierung mit:</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>347, 27</value>
+  </data>
+  <data name="label9.Text">
+    <value>Verwenden Sie die Standardformatierung für Nachrichten, oder wählen Sie eine eigne XSLT-Formatierung.</value>
+  </data>
+  <data name="checkEnableAlerts.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>15, 90</value>
+  </data>
+  <data name="checkEnableAlerts.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>365, 15</value>
+  </data>
+  <data name="checkEnableAlerts.Text">
+    <value>&amp;Benachrichtigung einblenden, wenn neue Nachrichten eintreffen</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>15, 110</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>365, 20</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>Beim Verlassen des Feed &amp;Nachrichten als gelesen markieren</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.Text">
+    <value>Feed Eigenschaften</value>
+  </data>
+<data name="comboBox1.Items">
+    <value>0</value>
+  </data>
+	<data name="button1.Text">
+    <value>&amp;OK</value>
+  </data>
+	<data name="comboFormatters.ToolTip">
+    <value>Select a formatter stylesheet</value>
+  </data>
+	<data name="checkCustomFormatter.ToolTip">
+    <value>Check this option to use a custom formatter</value>
+  </data>
+	<data name="comboBox1.Items8">
+    <value>120</value>
+  </data>
+	<data name="comboBox1.Items2">
+    <value>30</value>
+  </data>
+	<data name="comboBox1.Items3">
+    <value>45</value>
+  </data>
+	<data name="comboBox1.Items1">
+    <value>15</value>
+  </data>
+	<data name="comboBox1.Items6">
+    <value>90</value>
+  </data>
+	<data name="comboBox1.Items7">
+    <value>105</value>
+  </data>
+	<data name="comboBox1.Items4">
+    <value>60</value>
+  </data>
+	<data name="comboBox1.Items5">
+    <value>75</value>
+  </data>
+	</root>

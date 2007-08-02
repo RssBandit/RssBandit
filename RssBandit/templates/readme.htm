@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>RSS Bandit Templates Readme</title>
+	<style>
+  		body, td, li		{ font-family:Verdana;Arial; font-size:11pt;font-weight:normal;}
+  		h1,h2,h3,h4,h5 { font-family:Verdana;Arial; }
+			code { font-size:12pt; }
+			p  { font-family:Verdana,Arial;font-size:11pt; font-weight:normal; margin:5pt;padding:5pt;  }
+			a:link      { color:#336699;text-decoration:none; }
+			a:visited   { color:#336699;text-decoration:none; }
+			a:hover		{ color:#99CCFF;text-decoration:none; }
+		</style>
+</head>
+<body>
+<h2>RSS Bandit Templates Readme<h2>
+<p style="font-size:xx-small;">Last modified Feb. 03, 2004<br />
+<a href="http://www.rssbandit.org">www.rssbandit.org</a></p>
+<h2 id="preface">Preface</h2>
+<p>This folder contains the RSS Bandit Item formatting samples.
+If you start experimenting with these, ensure you use your own: copy/rename
+the interesting one, and change it to apply your needs.</p>
+
+<h3 id="toc">Table of contents</h3>
+<ul>
+<li><a href="#preface">Preface</a></li>
+<li><a href="#basics">Basics</a></li>
+<li><a href="#elements">Elements</a></li>
+<li><a href="#bestpractice">Best practice</a></li>
+<li><a href="#getinvolved">Get involved</a></li>
+</ul>
+<h3 id="basics">Basics</h3>
+<p>You should be familiar with XSLT to be able to get it work.
+The input of each XSLT stylesheet is a XML document fragment describing an RSS item.
+The root element will be a <code>newspaper</code> element which will have contain one or more <a href="http://blogs.law.harvard.edu/tech/rss#whatIsRss">
+RSS 2.0 <code>channel</code> elements</a> as children. 
+The subelements of the <code>channel</code> element depend on the information 
+provided by a particular RSS feed. This format is identical to that emitted by <a href="http://www.bradsoft.com/feeddemon/help/1.0/newspapers/index.asp">FeedDemon's Newspaper Styles</a> which means all FeedDemon styles are valid RSS Bandit styles and vice versa. 
+</p>
+<h3 id="elements">Elements</h3>
+<p>The <a href="http://blogs.law.harvard.edu/tech/rss#requiredChannelElements">required base elements</a>
+ of the channel element are provided for custom formatting.
+</p>
+<p>
+Besides the <a href="http://blogs.law.harvard.edu/tech/rss#hrelementsOfLtitemgt">subelements of the 
+<code>item</code> element</a> specified in the RSS 2.0 spec there may also be elements from other 
+namespaces which correspond to various RSS 2.0 modules. Brief descriptions of such modules and elements
+are provided in the table below. 
+<br /><br />
+<table border="0">
+<tr><td><b>Module Name</b></td><td><b>Description</b></td></tr>
+<tr><td><a href="http://web.resource.org/rss/1.0/modules/dc/">Dublin Core</a></td>
+<td>The Dublin Core Metadata Element Set provides some standard metadata elements for describing 
+published content on the web.</td></tr>
+<tr><td><a href="http://web.resource.org/rss/1.0/modules/content/">Content</a></td>
+<td>A module for the actual content of websites, in multiple formats. The most commonly used 
+element from this module is <code>content:encoded</code></td></tr>
+<tr><td><a href="http://web.resource.org/rss/1.0/modules/slash/">Slash</a></td><td>
+The Slash RSS 1.0 module augments the RSS core and Dublin Core module's metadata with channel and item-level elements specific to <a href="http://slashcode.com/">SlashCode</a>-based sites</td></tr>
+<tr><td><a href="http://wellformedweb.org/story/9#autorss">CommentAPI</a></td>
+<td>Describes the <code>wfw:comment</code> element which is used to provide the location of the 
+CommentAPI endpoint to aggregator software.</td></tr>
+<tr><td><a href="http://www.intertwingly.net/blog/1299.html">XHTML in RSS 2.0</a></td>
+<td>Specifies the use of the <code>xhtml:body</code> element to provide content in an RSS feed.</td></tr>
+<tr><td><a href="http://matt.blogs.it/specs/ENT/1.0/">Easy News Topics</a></td>
+<td>ENT is provides a mechanism for describing how topic information can be introduced into an RSS 2.0 news feed</td></tr>
+<tr><td></td><td></td></tr>
+</table>
+</p>
+
+<h3 id="bestpractice">Best practice</h3>
+<p>At first you have to enable the usage of a custom formatter within the options dialog: select the menu File|Options...
+and then the tab named "Display". Ensure the checkbox "Use a custom formatter" is checked. Then play with the existing formatter 
+stylesheets.</p>
+<!-- <p>If you are familar with the differences, or you have your own ideas born go back to the options dialog and check on the option "Formatter design mode".
+This option is valid as long the progam is running. The next time you start Bandit, it is checked off again.
+Now you can start editing the selected stylesheet with you favourite text editor. Each change will be immediatly active
+if you select a feed's rss item to display. Errors are reported by a message box and the display switches back to a working internal 
+simple formatting temporary. Next time you have corrected the error, your stylesheet is used again. 
+</p>
+<p>Additionally the input used by your stylesheet is saved each time you select an rss item to display to your 
+system temporary folder as a file named "RSSItem.xml" for your reference.
+</p> -->
+<p>Your stylesheet should produce valid (X)HTML. If you want to use CSS for visual effects, ensure to use it in
+the embedded form to keep it with your formatting templates. Do not forget to insert an HTML <b><code>base</code> element</b> 
+within the HTML HEAD section to get relative links of images resolved by the browser control! The existing stylesheets can be used as examples as to how to generate this correctly for the different views. </p>
+<p>There is support to split the css stylesheet to a separate file. If your formatter stylesheet
+want to use that, you have to add these two prameters on the root level (child of &lt;xsl:stylesheet>):
+<xmp>
+  <xsl:param name='AppStartupPath'/>
+  <xsl:param name='AppUserDataPath'/>
+</xmp>
+<p>
+They are filled by RssBandit to reflect:
+<ul><li>AppStartupPath: the current path to the executable RssBandit.exe (C:\Program Files\RssBandit)
+<li>AppUserDataPath: the path to the Application Data folder <br />
+	(usually C:\Documents and Settings\<username>\Application Data\RssBandit)
+</ul>
+<p>
+Now you can code a line like this:
+<xmp>
+<link rel="stylesheet" type="text/css" href="{$AppStartupPath}/templates/my-new.css" />
+</xmp>
+<p>
+pointing to a css file located at C:\Program Files\RssBandit\templates.
+</p>
+
+<h3 id="getinvolved">Get involved</h3>
+<p>Feel free to join the Developer community at <a href="http://dev.rssbandit.org">dev.rssbandit.org</a> 
+by providing patches, suggestions or error reporting! 
+<br />
+Rss Bandit users may visit our forum at <a href="http://www.rssbandit.org/forum/">www.rssbandit.org/forum</a>.
+</p>
+
+</body>
+</html>
