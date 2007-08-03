@@ -1,0 +1,2724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="URL_WebHelp">
+    <value>http://www.rssbandit.org/docs/</value>
+    <comment>Utilizzato per andare alla documentazion del Bandit (Help)</comment>
+  </data>
+  <data name="URL_FeedValidationBase">
+    <value>http://www.feedvalidator.org/check?url=</value>
+    <comment>Utilizzato per validare un RSSfeed, default nel caso di .config non valido</comment>
+  </data>
+  <data name="URL_FeedLinkCosmosUrlBase">
+    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+    <comment>Utilizzato per navigare al Technorati Link Cosmos, default nel caso di .config non valido</comment>
+  </data>
+  <data name="URL_BugReport">
+    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+    <comment>Pagina di segnalazione Bug a Sourceforge (non richiesto il logon), default nel caso di .config non valido</comment>
+  </data>
+  <data name="URL_ProjectNews">
+    <value>http://sourceforge.net/news/?group_id=96589</value>
+    <comment>Pagina di novita' a Sourceforge, default nel caso di .config non valido</comment>
+  </data>
+  <data name="URL_WikiWebNews">
+    <value>http://www.rssbandit.org/</value>
+    <comment>Sito Wiki Bandit, default nel caso di .config non valido</comment>
+  </data>
+  <data name="URL_UserForum">
+    <value>http://www.rssbandit.org/forum/</value>
+    <comment>Forum utenti Bandit, default nel caso di .config non valido</comment>
+  </data>
+  <data name="FeedDefaultCategory">
+    <value>[Feeds non classificati]</value>
+    <comment>localizable</comment>
+  </data>
+  <data name="UpgradeInfoBoxCaption">
+    <value>Informazioni di aggiornamento</value>
+    <comment>Caption of the Upgrade Info Messagebox</comment>
+  </data>
+  <data name="UpgradeFeedlistInfoText">
+    <value>La versione corrente di {0} supporta nuove funzionalita' o fix, che richiedono un cambiamento nel formato della tua lista dei feed.
+Per mantenere funzionante le tue vecchie versioni, l'applicazione cercehra' di creare un nuovo file della lista dei feed dalla tua lista corrente.
+Il file vecchio non sara' toccato.
+Vuoi continuare?</value>
+    <comment>Info text used to inform a user about a feedlist file format change.</comment>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption">
+    <value>File dei feed non valido</value>
+    <comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+  </data>
+  <data name="InvalidFeedURIBoxText">
+    <value>L'URL specificato per il nuovo feed non e' un URL valido</value>
+    <comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="InvalidFeedURIBoxCaption">
+    <value>URL errato</value>
+    <comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="ExceptionReadingFeedlistFile">
+    <value>Errore non previsto caricando la lista dei feed: 
+  '{0}'.
+Controlla il file 
+  '{1}' 
+per maggiori dettagli sull'errore.</value>
+    <comment>Exception message</comment>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile">
+    <value>Errore nel caricamento del file della lista dei feed.</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="InvalidFeedlistFileMessage">
+    <value>Il file dei feed è errato. Controlla il file
+  '{0}' 
+per informazioni dettagliate sull'errore.</value>
+    <comment>Validation Error message</comment>
+  </data>
+  <data name="GUIStatusDone">
+    <value>Fatto</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed">
+    <value>Caricamento feed commentRss, attendere...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed">
+    <value>Errore nella richiesta del feed commentRss: {0}</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile">
+    <value>Errore di validazione nel caricamento della lista dei feed.</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusNoFeedlistFile">
+    <value>Nessuna lista dei feed.</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusIdle">
+    <value>Inattivo</value>
+    <comment>also displayed as a Tooltip on the tray icon</comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived">
+    <value>Nuovi feed ricevuti...</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage">
+    <value>{0} feed con {1} nuovi messaggi</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusBusyRefresh">
+    <value>Occupato, refresh...</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable">
+    <value>Disponibili feed non letti...</value>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage">
+    <value>{0} Feed aggiornati.</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated">
+    <value>Nessun aggiornamento dei feed.</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage">
+    <value>{0} elementi dei feed rimasti.</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft">
+    <value>Nessun elemento non letto dei feed.</value>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid">
+    <value>Ne il link ne il titolo per il feed RRS può essere vuoto!</value>
+  </data>
+  <data name="GUIFieldTitleInvalid">
+    <value>Il titolo della categoria non puo' esere vuoto!</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption">
+    <value>Trovato campo vuoto</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid">
+    <value>Non e' stato specificato l'URL della pagina web</value>
+  </data>
+  <data name="GUIFieldKeywordsInvalid">
+    <value>Nessuna parola chiave specificata</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds">
+    <value>Ricerca feed per la pagina:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords">
+    <value>Ricerca feed contenenti le parole chiave:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed">
+    <value>Sto' richiedendo il feed:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile">
+    <value>Sto' richiedendo il file:
+{0}</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound">
+    <value>Spiacente, nessun feed RSS puo' essere trovato.</value>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist">
+    <value>Caricamento lista feed ({0}), attendere...</value>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage">
+    <value>Il caricamento della lista feed e' fallito con l'errore:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist">
+    <value>Scaricamento lista feed ({0}), attendere...</value>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage">
+    <value>Scaricamento della lista feed fallito con l'errore:
+{0}</value>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds">
+    <value>Feed non trovato</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo">
+    <value>Sei gia' sottoscritto a questo feed.
+ Categoria/Nome: {0}
+ Link: {1}.</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage">
+    <value>Aggiornamento: {0} ...</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed">
+    <value>Aggiornamento {0} fallito (errore XML): {1}</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed">
+    <value>Aggiornamento {0} fallito (fatal error): {1}</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess">
+    <value>Richiesta dell'URL {0} fallita: {1}</value>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption">
+    <value>Autodiscover dei feeds fallita</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage">
+    <value>Aggiornamento Feeds...</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist">
+    <value>Caricamento lista feed...</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems">
+    <value>Caricamento, attendere...</value>
+  </data>
+  <data name="GUIStatusChildItemsNA">
+    <value>Impossibile caricare elementi child, sei disconnesso.</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState">
+    <value>Controlla lo stato della connessione internet attuale...</value>
+  </data>
+  <data name="GUICurrentConnectionState_Info">
+    <value>Connessione internet attuale...</value>
+  </data>
+  <data name="GUIStatusLoadingFeed">
+    <value>Caricamento...</value>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage">
+    <value>Errore inaspettato caricando la configurazione di ricerca: {0}.
+Controlla il file '{1}' per dettagli sull'errore.</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption">
+    <value>Ci sono stati degli errori</value>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig">
+    <value>Errore caricando la configurazione di ricerca</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig">
+    <value>Errore di validazione caricando la configurazione di ricerca</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage">
+    <value>Errore di validazione caricando la configurazione di ricerca.
+Controlla il file  '{0}' per dettagli sull'errore.</value>
+  </data>
+  <data name="GeneralNewItemText">
+    <value>[Nuovo]</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter">
+    <value>[Nuovo {0}]</value>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed">
+    <value>Feed non valido.</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage">
+    <value>Caricamento feed fallito: {0}</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage">
+    <value>Operazione cancellata. Il feed '{0}' ha generato un errore: {1}</value>
+  </data>
+  <data name="ExceptionNewsItemTransformation">
+    <value>L'elemento RSS non pue' essere trasformato in HTML.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile">
+    <value>Il foglio di stile Xslt non puo' essere compilato.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet">
+    <value>Foglio di stile Xslt non e' valido.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage">
+    <value>Il foglio di stile Xslt selezionato per formattare gli elementi ha ritornato l'errore:
+{0}
+Dettagli: {1}</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage">
+    <value>un carattere non valido</value>
+    <comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed">
+    <value>Operazione cancellata. Il titolo non puo' essere lasciato vuoto.</value>
+  </data>
+  <data name="MainMenuFileCaption">
+    <value>&amp;File</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuFileDesc">
+    <value>Menu' file di RSS Bandit</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuViewCaption">
+    <value>&amp;Visualizza</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuViewDesc">
+    <value>Menu' visualizza di RSS Bandit</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuToolsCaption">
+    <value>&amp;Strumenti</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuToolsDesc">
+    <value>Menu' strumenti di RSS Bandit</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuSearchCaption">
+    <value>&amp;Ricerca</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuSearchDesc">
+    <value>Menu' configurazione ricerca web di RSS Bandit</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuHelpCaption">
+    <value>&amp;Help</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuHelpDesc">
+    <value>Help di RSS Bandit...</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption">
+    <value>Nuovo Tab per risultati</value>
+    <comment>Caption within search menu</comment>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc">
+    <value>I risultati della ricerca web devono essere visualizzati in un nuovo Tab...</value>
+    <comment>Description within search menu</comment>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc">
+    <value>Seleziona questa voce, per includerla nella ricerca simultanea...</value>
+    <comment>Description within search menu</comment>
+  </data>
+  <data name="MenuAboutCaption">
+    <value>&amp;Informazioni su...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuAboutDesc">
+    <value>Visualizza informazioni sull'applicazione</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuWebHelpCaption">
+    <value>Documentazione &amp;Online </value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuWebHelpDesc">
+    <value>Offre l'help sull'applicazione, primi passi, FAQ, etc.</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuWorkspaceNewsCaption">
+    <value>&amp;Visualizza news (Sourceforge)...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuWorkspaceNewsDesc">
+    <value>Leggi le ultime notizie di questa applicazione su Sourceforge.net</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBugReportCaption">
+    <value>&amp;Segnala un Bug (Sourceforge)...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBugReportDesc">
+    <value>Ti permette di segnalare un bug per questa applicazione su Sourceforge.net</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuCheckForUpdatesCaption">
+    <value>Controlla presenza aggiornamenti...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuCheckForUpdatesDesc">
+    <value>Verifica la presenza di aggiornamenti</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBanditWikiCaption">
+    <value>Visita la &amp;Homepage di RSS Bandit...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBanditWikiDesc">
+    <value>Leggi le News, suggerisci nuove funzionalita', FAQ e altro...</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBanditForumCaption">
+    <value>Visita i &amp;Forums di RSS Bandit...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBanditForumDesc">
+    <value>Discuti argomenti collegati...</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption">
+    <value>Sottoscrizione &amp;Feed</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc">
+    <value>Attiva/disattiva la visualizzazione del pannello con l'albero della lista dei feed.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption">
+    <value>&amp;Ricerca</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc">
+    <value>Attiva/disattiva la visualizzazione del pannello di ricerca RSS.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarsCaption">
+    <value>&amp;Toolbar</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarsDesc">
+    <value>Attiva/disattiva la visualizzazione delle varie toolbar.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarMainCaption">
+    <value>Standard</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarMainDesc">
+    <value>Attiva/disattiva la visualizzazione della toolbar standard.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption">
+    <value>Navigazione Web</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc">
+    <value>Attiva/disattiva la visualizzazione della toolbar di navigazione web.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption">
+    <value>Ricerca web</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc">
+    <value>Attiva/disattiva la visualizzazione delle toolbar di ricerca web.</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuImportFeedsCaption">
+    <value>&amp;Importa i Feeds...</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuImportFeedsDesc">
+    <value>Importa una lista di feed (.xml, .ocs or .opml)</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuExportFeedsCaption">
+    <value>&amp;Esporta i Feeds...</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuExportFeedsDesc">
+    <value>Esporta la lista dei feed...</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppOptionsCaption">
+    <value>&amp;Opzioni...</value>
+    <comment>Caption within tools menu</comment>
+  </data>
+  <data name="MenuAppOptionsDesc">
+    <value>Visualizza la finestra delle opzioni dell'applicazione...</value>
+    <comment>Description within tools menu</comment>
+  </data>
+  <data name="MenuAppCloseExitCaption">
+    <value>E&amp;sci</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuAppCloseExitDesc">
+    <value>Chiudi e esci da RSS Bandit</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption">
+    <value>Lavora &amp;Offline</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc">
+    <value>Attiva/disattiva la modalita' di connessione Internet</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline">
+    <value>[Funzionamento Offline]</value>
+    <comment>Caption Postfix on the main window</comment>
+  </data>
+  <data name="MenuViewOutlookReadingPane">
+    <value>Show Items in Groups</value>
+  </data>
+  <data name="MenuNewFeedCaption">
+    <value>Sottoscrizione &amp;Feed...</value>
+    <comment>CHANGED: Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewFeedDesc">
+    <value>Sottoscriviti ad un nuovo feed</value>
+    <comment>Description within file/context menu</comment>
+  </data>
+  <data name="MenuNewCategoryCaption">
+    <value>Nuova &amp;Categoria</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuNewCategoryDesc">
+    <value>Aggiungi una nuova categoria ai gruppi dei feeds</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowMainGuiCaption">
+    <value>Apri RSS Bandit</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowMainGuiDesc">
+    <value>Rivisualizza/apri la finestra principale di RSS Bandit...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowAlertWindowsCaption">
+    <value>Visualizza la finestra degli allert dei feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowAlertWindowsDesc">
+    <value>Controlla la visualizzazione della notifica su finestre di alert impostate....</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption">
+    <value>Come configurato per feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc">
+    <value>Visualizza la notifica su finestre di alert come configurato per feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption">
+    <value>Mai</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc">
+    <value>Non visualizzare nessuna notifica su finestra di alert...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption">
+    <value>Sempre</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc">
+    <value>Visualizza le notifihce su finestre di alert per ogni nuovo post ricevuto...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption">
+    <value>Visualizza l'alert di nuovo elemento</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc">
+    <value>Controlla la visualizzazione della notifica tramite balloon riguardo i nuovi item ricevuti...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption">
+    <value>Aggiorna &amp;tutti i feeds</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc">
+    <value>Inizia l'aggiornamento di tutti i feeds...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpOnAllCaption">
+    <value>Imposta tutti gli item come letti</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpOnAllDesc">
+    <value>Imposta tutti gli item come letti</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption">
+    <value>Cancella tutti i feeds</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc">
+    <value>Cancella tutti i feeds...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuUpdateCategoryCaption">
+    <value>Aggiorna la categoria</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateCategoryDesc">
+    <value>Aggiorna tutti i feeds di questa categoria...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpCategoryCaption">
+    <value>Imposta tutti gli item nella categoria come letti</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpCategoryDesc">
+    <value>Imposta tutti i feeds in questa categoria come letti...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRenameCategoryCaption">
+    <value>Rinomina la categoria</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRenameCategoryDesc">
+    <value>Rinomina questa categoria...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteCategoryCaption">
+    <value>Cancella la categoria</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteCategoryDesc">
+    <value>Cancella questa categoira e i feeds contenuti...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption">
+    <value>Proprieta'...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc">
+    <value>Visualizza la finestra delle proprieta' della categoria...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuUpdateThisFeedCaption">
+    <value>&amp;Aggiorna feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateThisFeedDesc">
+    <value>Aggiorna questo feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption">
+    <value>Imposta tutti gli item come letti</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc">
+    <value>Imposta tutti gli item come letti...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRenameThisFeedCaption">
+    <value>Ri&amp;nomina Feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRenameThisFeedDesc">
+    <value>Rinomina questo feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteThisFeedCaption">
+    <value>Cancella Feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteThisFeedDesc">
+    <value>Cancella questo feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption">
+    <value>Imposta come letto</value>
+    <comment>Caption within menu/tool/context</comment>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc">
+    <value>Imposta tutti gli item dei feed come letti nel nodo della sottoscrizione selezionato nella visualizzazione ad albero...</value>
+    <comment>Description within menu/tool/context</comment>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption">
+    <value>Discovered Feeds</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc">
+    <value>Visualizza tutti i feed trovati nei siti web visitati...</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption">
+    <value>Pulisci la lista dei feed trovati</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc">
+    <value>Cancella tutti i sottostanti feed trovati ...</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion">
+    <value>Vuoi proprio cancellare tutti i feeds?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion">
+    <value>Vuoi proprio cancellare questa categoria e tutte le categorie/feed contenuti?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion">
+    <value>Vuoi veramente cancelare questa sottoscrizione di feed?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption">
+    <value>Visualizza sorgente</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc">
+    <value>Visualizza il sorgente di questo feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuValidateFeedCaption">
+    <value>Valida</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuValidateFeedDesc">
+    <value>Valida la sorgente di questo feed (link)...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption">
+    <value>Questo Feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc">
+    <value>Informazioni avanzate/ulteriori del Feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption">
+    <value>Homepage</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc">
+    <value>Naviga alla homepage del feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowLinkCosmosCaption">
+    <value>Link Cosmos</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowLinkCosmosDesc">
+    <value>Naviga al Technorati e visualizza il link cosmos del feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption">
+    <value>Proprieta'...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc">
+    <value>Visualizza la finestra delle proprieta' del feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption">
+    <value>Imposta come non &amp;letto</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc">
+    <value>Imposta l'item del feed selezionato come non letto...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption">
+    <value>Fai il &amp;Post della risposta...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc">
+    <value>Fai il post di una risposta a questo item del feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage">
+    <value>Nessun item del feed selezioato.</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNewFinderCaption">
+    <value>Nuova cartella di ricerca</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuNewFinderDesc">
+    <value>Crea una nuova cartella di ricerca...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderRenameCaption">
+    <value>Rinomina la cartella di ricerca</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuRenameCaptionDesc">
+    <value>Rinomina questa cartella di ricerca...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion">
+    <value>Vuoi veramente cancellare questa cartella di ricerca?</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderDeleteCaption">
+    <value>Cancella</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFinderDeleteDesc">
+    <value>Cancella la cartella di ricerca selezionata...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRefreshFinderCaption">
+    <value>Aggiorna ricerca</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuRefreshFinderDesc">
+    <value>Aggiorna i risultati della ricerca nella cartella principale di ricerca...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderDeleteAllCaption">
+    <value>Cancella tutto</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFinderDeleteAllDesc">
+    <value>Cancella tutte le cartelle di ricerca sotto il nodo selezionato...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption">
+    <value>Proprieta'...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc">
+    <value>Visualizza la finestra delle proprieta' di ricerca...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption">
+    <value>Sottoscrivi...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc">
+    <value>Visualizza la finestra di nuovo feed per sottoscrivere i risultati del finder...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="AppLoadStateLoading">
+    <value>Caricamento applicazione...</value>
+    <comment>Splash screen state message</comment>
+  </data>
+  <data name="AppLoadStateGuiLoading">
+    <value>Caricamento finestra principale...</value>
+    <comment>Splash screen state message</comment>
+  </data>
+  <data name="MenuFlagFeedItemCaption">
+    <value>Contrassegna l'elemento</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione dgli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption">
+    <value>Follow Up</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption">
+    <value>Review</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption">
+    <value>Rispondi</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption">
+    <value>Leggi</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption">
+    <value>Inoltra</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc">
+    <value>Aggiungi gli elementi selezionati del feed alla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption">
+    <value>Completa</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc">
+    <value>Rimuove gli elementi selezionati del feed dalla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption">
+    <value>Cancella</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc">
+    <value>Rimuove gli elementi selezionati del feed dalla collezione degli elementi contrassegnati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemCaption">
+    <value>Copia</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemDesc">
+    <value>Copia i campi di un elemento RSS in...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption">
+    <value>Copia il link dell'elemento nella Clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc">
+    <value>Copia i link dell'elemento RSS selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption">
+    <value>Titolo dell'elemento come link nella Clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc">
+    <value>Copia il titolo come link dell'elemento RSS selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption">
+    <value>Contenuto dell'elemento nella clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc">
+    <value>Copia il contenuto dell'elemento RSS selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedCaption">
+    <value>Copia</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedDesc">
+    <value>Copia i campi del feed RSS selezionto in...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption">
+    <value>Link del feed nella clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc">
+    <value>Copia il link del feed del nodo attualmente selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption">
+    <value>Homepage del feed come link nella clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc">
+    <value>Copia la homepage del feed come link del Feed RSS attualmente selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+    <value>Homepage del feed con il suo titolo come link nella clipboard</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+    <value>Copia la homepage del feed con il suo titolo come link del Feed RSS attualente selezionato nella clipboard...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption">
+    <value>Cancella tutti gli elementi</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc">
+    <value>Rimuovi tutti gli elementi contenuti...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption">
+    <value>Cancella</value>
+    <comment>Caption within context menu, was formerly "Delete selected items"</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc">
+    <value>Cancella tutti gli elementi selezionati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption">
+    <value>Recupera</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc">
+    <value>Recupera tutti gli elementi selezionati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNextUnreadItemCaption">
+    <value>I prossimi elementi non letti</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuNextUnreadItemDesc">
+    <value>Vai al prossimo elemento non letto...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption">
+    <value>&amp;Trova feed</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc">
+    <value>Trova il feed RSS per uno specifico sito web o argomento</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption">
+    <value>&amp;Post di una risposta...</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc">
+    <value>Post di una risposta a questo elemento del feed...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuNewRssSearchCaption">
+    <value>Ricerca</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuNewRssSearchDesc">
+    <value>Ricerca elementi localmente...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateBackCaption">
+    <value>Indietro</value>
+    <comment>CHANGED Caption within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc">
+    <value>Naviga all'indietro nella cronologia...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption">
+    <value>Forward</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc">
+    <value>Navia avanti...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption">
+    <value>Url</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc">
+    <value>Indirizzo web dove navigare...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption">
+    <value>Stop</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc">
+    <value>Cancella la navigazione...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserRefreshCaption">
+    <value>Refresh</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserRefreshDesc">
+    <value>Aggiorna...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption">
+    <value>Vai</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc">
+    <value>Naviga all'Url specificato...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNewTabCaption">
+    <value>New Tab</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNewTabDesc">
+    <value>Crea un nuovo tab con il browser...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption">
+    <value>Open in default Web Browser</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc">
+    <value>Apre il link con il browser web di default...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption">
+    <value>Web Search For</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuDoSearchComboBoxDesc">
+    <value>Parole con cui ricercare nel web...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuDoSearchWebCaption">
+    <value>Search the Web</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuDoSearchWebDesc">
+    <value>Ricerca la frase nel web...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc">
+    <value>Comando IBlogExtension (AddIn)</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuConfigCommandCaption">
+    <value>Configura...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc">
+    <value>Configurazione IBlogExtension (AddIn)</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption">
+    <value>Chiudi documento</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc">
+    <value>Chiude il tab del documento selezionato...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption">
+    <value>Chiude tutti i documenti nella strip</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc">
+    <value>Chiude i tab dei documenti nella strip selezionata...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption">
+    <value>Chiude tutti i documenti</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc">
+    <value>Chiude le tab di tutti i documenti in tutte le strip...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption">
+    <value>Disposizione suddivisa orizontalmente</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc">
+    <value>Se selezionato, i tab suddivisi dei documenti possono avere un layout orizzontale...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall">
+    <value>Chiamata alla funzione '{0}' del IBlogExtension (AddIn) ha causato un errore:
+'{1}'.        
+        </value>
+    <comment>Error message text</comment>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption">
+    <value>Errori del feed</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc">
+    <value>Contenitore degli errori dei feed causati dai feed sottoscritti</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption">
+    <value>Elementi contrassegnati</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc">
+    <value>Contentitore dei feed contrassegnati</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption">
+    <value>Elementi per il Follow Up</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption">
+    <value>Elementi da leggere</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption">
+    <value>Elementi per Review</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption">
+    <value>Elementi per inoltro</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption">
+    <value>Elementi da rispondere</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsCaption">
+    <value>I miei feed</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsDesc">
+    <value>Contenitore dei feed sottoscritti</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption">
+    <value>Feed speciali</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc">
+    <value>Contenitore dei feed speciali</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeFinderRootCaption">
+    <value>Cartelle di ricerca</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeFinderRootDesc">
+    <value>Contenitore dei feed di ricerca persistenti</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeSentItemsCaption">
+    <value>Elementi inviati</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeSentItemsDesc">
+    <value>Contenitore degli item inviati (risposta)</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="TabValidationResultCaption">
+    <value>Risultato della validazione del feed</value>
+    <comment>Tab caption of the feed validation results (Webpage)</comment>
+  </data>
+  <data name="TabFeedHomeCaption">
+    <value>Home del feed: {0}</value>
+    <comment>Tab caption of the feed home page (Webpage)</comment>
+  </data>
+  <data name="TabLinkCosmosCaption">
+    <value>Feed Link Cosmos: {0}</value>
+    <comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+  </data>
+  <data name="TabFeedSourceCaption">
+    <value>Feed Source: {0}</value>
+    <comment>Tab caption of the feed source view (Xml Webpage)</comment>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc">
+    <value>Parti minimizzato nell'area delle notifiche nella taskbar</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineSubscribeToDesc">
+    <value>Sottoscrivi ai feed speciali</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineHelpDesc">
+    <value>Stampa il messaggio</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineCultureDesc">
+    <value>Avvia l'applicazione con un linguaggio differente (codice linguaggio ISO)</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="MenuUploadFeedsCaption">
+    <value>&amp;Upload Feeds...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDownloadFeedsCaption">
+    <value>&amp;Download Feeds...</value>
+  </data>
+  <data name="MenuUploadFeedsDesc">
+    <value>Upload delle lista feed nello storage remoto.</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc">
+    <value>Download list dei feed dallo storage remoto.</value>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage">
+    <value>C'e' stato un problema lanciando il tuo browser web di default configurato:
+		
+		'{0}'.
+		
+		Dobbiamo aprire l'Url '{1}' in un nuovo Tab?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage">
+    <value>C'e' stato un problema lanciando l'eseguibile '{0}' configurato:
+		
+		'{1}'.
+		
+		Dobbiamo aprire l'Url '{2}' in un nuovo Tab?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionOpenFileMessage">
+    <value>Non posso aprire il file '{0}', perche':
+		
+		'{1}'.
+	</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionSaveFileMessage">
+    <value>Non posso salvare il file '{0}', perche':
+		
+		'{1}'.
+	</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="FileDialogFilterOPMLFiles">
+    <value>Files OPML</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterXMLFiles">
+    <value>Files XML</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterAllFiles">
+    <value>Tutti i files</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="WrongImageSizeMessage">
+    <value>L'immagine non e' di dimensione 16x16 pixel.</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="PreferencesExceptionMessageTitle">
+    <value>Eccezione di impostazione preferenze</value>
+    <comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+  </data>
+  <data name="FormatExceptionRefreshRate">
+    <value>Il tasso di aggiornamento non e' un numero.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="OverflowExceptionRefreshRate">
+    <value>Il valore per il tasso di aggiornamento e' troppo alto.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionRefreshRateInvalid">
+    <value>Tasso di aggiornamento non valido.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyUrl">
+    <value>Inserisci l'indirizzo del proxy (IP o Host name), grazie.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="FormatExceptionProxyPort">
+    <value>La porta del proxy non e' un numero.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionProxyPortRange">
+    <value>Il valore specificato per il numero porta del proxy non e' nell'intervallo da 0 a 65535.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionProxyPortInvalid">
+    <value>Porta del proxy non valida.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyAuthUser">
+    <value>Inserisci l'utente di autenticazione del proxy, grazie.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable">
+    <value>Inserisci il nome e percorso dell'eseguibile, grazie.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation">
+    <value>Inserisci l'indirizzo dello storage remoto, grazie.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+    <value>L'indirizzo dell'FTP remoto deve usare lo schema url 'ftp:'.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser">
+    <value>Inserisci il nome utente di autenticazione dello storage remoto, grazie.</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV">
+    <value>Url cartella WebDAV:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint">
+    <value>Puoi memorizzare lo stato dell'applicazione come rssbandit-state.zip all'intenro di un folder WebDAV. L'URL del servizio dello storage punta ad una cartella WebDAV, i.e. 'http://mywebdav.com/personal/' e dovresti essere in grado di salvare e leggere i files da li'.</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog">
+    <value>Web service Url:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint">
+    <value>Puoi memorizzare i tuoi feed sottoscritti come blogroll.opml se sei un utente di dasBlog (http://www.dasblog.net). L'URL del servizio di storage dovrebbe essere http://yourblog.com/dasblog/ConfigEditingService.asmx e dovresti abilitare il servizio di modifica configurazione (Configuration Editing service) in dasBlog.</value>
+    <comment>Dynamic hint label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare">
+    <value>Path cartella:</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint">
+    <value>Puoi memorizzare lo stato dell'applicazione come rssbandit-state.zip in una cartella condivisa locale o di rete. Inserisci il percorso della cartella tipo '\\yournetworkshare\feedlist\' o 'H:\'.</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp">
+    <value>Server FTP/percorso:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint">
+    <value>Puoi memorizzare lo stato dell'applicazione come rssbandit-state.zip utilizzando un server FTP. Inserisci il nome del server FTP e il percorso tipo 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="RemoteStorageFeature_Info">
+    <value>Devi configurare lo storage remoto dalla finestra delle opzioni prima di poter usare questo comando.</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="RemoteStorageUpload_Question">
+    <value>Questo effettuera' l'upload della lista dei tuoi feed al servizio
+configurato utilizzando il tab dello storage remoto nella finestra delle opzioni. 
+        
+Continuare?</value>
+    <comment>Messagebox question text</comment>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info">
+    <value>Lista dei feed correttamente caricata.</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="RemoteStorageDownload_Question">
+    <value>Questo rimpiazzera la tua lista dei feed locale con quella scaricata 
+dal servizio configurato utilizzando il tab dello storage remoto della finestra delle opzioni.  
+        
+Continuare?</value>
+    <comment>Messagebox question text</comment>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave">
+    <value>Errore inatteso nel salvataggio delle impostazioni del motore di ricerca web:
+        
+'{0}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="NotYetImplementedFeature_Info">
+    <value>Spiacente, ma questa caratteristica non e' ancora implementata.</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet">
+    <value>Errore inatteso nel caricamento del foglio di stile XSLT stylesheet per la formattazione degli elementi:
+        
+'{0}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionImportFeedlist">
+    <value>Si e' verificato un errore nell'importare la lista dei feed da
+'{0}':
+        
+'{1}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="GUIStatusPostReplyToItem">
+    <value>Post della risposta, attendere...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem">
+    <value>Si e' verificato un errore nel post di una risposta all'elemento 
+'{0}' (Link elemento RSS/titolo):
+        
+'{1}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionGeneral">
+    <value>Spiacente, ma si e' verificato un errore:
+        
+'{0}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionDuplicateCategoryName">
+    <value>Spiacente, ma il nome '{0}' sembra essere gia' in uso.</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator">
+    <value>Il sistema ha segnalato un errore tentando di impostare l'aggregatore di default:
+        
+'{0}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ListviewColumnCaptionHeadline">
+    <value>Headline</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionTopic">
+    <value>Argomento</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionDate">
+    <value>Data</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle">
+    <value>Titolo del feed</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionCreator">
+    <value>Autore</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc">
+    <value>Descrizione feed</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl">
+    <value>Url del feed</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl">
+    <value>Url del sito</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount">
+    <value>Commenti</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure">
+    <value>Enclosure</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle">
+    <value>[Autodiscovered]</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="FeedDetailDocumentTabCaption">
+    <value>Dettagli feed</value>
+    <comment>Document Tab Caption</comment>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption">
+    <value>Aggiungi o rimuovi bottoni</value>
+    <comment>Toolbar chevron dropdown menu caption</comment>
+  </data>
+  <data name="ToolbarOptionsCaption">
+    <value>Opzioni toolbar</value>
+    <comment>Toolbar chevron dropdown menu tip</comment>
+  </data>
+  <data name="DragDockablePanelInfo">
+    <value>Tieni premuto il tasto CTRL per evitare il docking.</value>
+    <comment>StatusBar feedback text</comment>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption">
+    <value>Ricerca</value>
+    <comment>Dialog button text</comment>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc">
+    <value>Premi per lanciare la ricerca impostata...</value>
+    <comment>Dialog button text tooltip</comment>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption">
+    <value>Annulla</value>
+    <comment>Dialog button text</comment>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc">
+    <value>Premi per annullare la ricerca corrente...</value>
+    <comment>Dialog button text tooltip</comment>
+  </data>
+  <data name="RssSearchStateMessage">
+    <value>Ricerca, ...</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchCancelledStateMessage">
+    <value>Annullamento della ricerca in corso, ...</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchNoResultMessage">
+    <value>Nessun elemento trovato.</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchSuccessResultMessage">
+    <value>{0} elementi trovati.</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchResultNodeCaption">
+    <value>Risultati ricerca</value>
+    <comment>SearchResultNode caption</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption">
+    <value>Posizione del pannello di lettu&amp;ra</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc">
+    <value>Seleziona/cambia la disposizione dei dettagli del feed...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption">
+    <value>Pannello di lettura in fondo</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc">
+    <value>Lista elementi del feed in cima, contenuto sotto...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption">
+    <value>Pannello di lettura a destra</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc">
+    <value>Lista degli elementi del feed a sinistra, contenuto alla destra...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption">
+    <value>Pannello di lettura alla destra</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc">
+    <value>Lista degli elementi del feed alla destra, contenuto alla sinistra...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption">
+    <value>Pannello di lettura in cima</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc">
+    <value>Lista degli elementi del feed in fondo, contenuto in cima...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage">
+    <value>Ricevuti: {0} elementi</value>
+    <comment>displayed in the Toast window(s)</comment>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip">
+    <value>Espandi pannello...</value>
+    <comment>displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip">
+    <value>Riduci pannello...</value>
+    <comment>displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="RssSearchTypeTextHintCaption">
+    <value>Trova tutti i post contenenti la specifica parola o frase.</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption">
+    <value>Trova tutti i post che contengono parole o frasei che soddisfano la regular expression.</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption">
+    <value>Trova tutti i post di cui la rappresentazione RSS 2.0 soddisfa la query XPath specificata.</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="WindowAboutCaption">
+    <value>Informazioni su {0}</value>
+    <comment>window caption. Parameter is the product name</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart">
+    <value>Aggiornamento del feed '&lt;strong&gt;{0}&lt;/strong&gt;' fallita con l'errore: {1}</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart">
+    <value>Clicka qui per &lt;strong&gt;validare&lt;/strong&gt; il feed.</value>
+    <comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart">
+    <value>Il feed e' stato generato da '{0}'.</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo">
+    <value>Contatti:</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor">
+    <value>Managing Editor</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster">
+    <value>Web Master</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage">
+    <value>Homepage Feed</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="XmlExceptionCategory">
+    <value>Malfunzionamento Xml</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="WebExceptionCategory">
+    <value>Malfunzionamento Web</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="ProtocolViolationExceptionCategory">
+    <value>Eccezione di violazione protocollo</value>
+    <comment>Category name displayed for refresh feed exceptions (listview)</comment>
+  </data>
+  <data name="ExceptionCategory">
+    <value>Malfunzionamento generale</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption">
+    <value>Sottoscrivi nel RSS reader di default</value>
+    <comment>Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption">
+    <value>Sottoscrivi con RSS Bandit</value>
+    <comment>Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="PostReplyFormCaption">
+    <value>Post di una risposta - Feed: {0}</value>
+    <comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
+  </data>
+  <data name="PostReplyTitlePrefix">
+    <value>Re: {0}</value>
+    <comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+  </data>
+  <data name="PostReplySentIdentityInfoText">
+    <value>user-name: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+    <comment>Post reply identity infos about properties we provide to the receiver.</comment>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue">
+    <value>&lt;nessuna&gt;</value>
+    <comment>Post reply identity info displayed for an empty property</comment>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage">
+    <value>Feed sottoscritti: {0}</value>
+    <comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage">
+    <value>La selezione contiene {0} elementi</value>
+    <comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+  </data>
+  <data name="DirectoryDoesNotExistMessage">
+    <value>La cartella specificata non esiste</value>
+    <comment>Used in Options dialog for remote storage UNC.</comment>
+  </data>
+  <data name="ExceptionUISettingsSave">
+    <value>Errore inatteso salvando le impostazioni della UI (.settings.xml):
+        
+'{0}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="NameRequiredInPostReplyMessage">
+    <value>Devi fornire un nome quando fai un post di una risposta</value>
+    <comment>Message used in Post reply dialog.</comment>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile">
+    <value>Il file delle impostazioni shortcut non puo' essere validato</value>
+    <comment>Failure Message if the file is not valid XML.</comment>
+  </data>
+  <data name="ExceptionGeneralCritical">
+    <value>Si e' vericato un errore ed e' stato loggato nel file
+'{0}'.
+Per favore invia il suo contenuto la team di sviluppo dev.rssbandit.org 
+assieme alle seguenti informazioni:
+</value>
+    <comment>Exception message</comment>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess">
+    <value>Per applicare questa funzionalita' l'applicazione necessita' dei diritti di scrittura
+alla chiave del registry: '{0}'.
+        
+Per farlo funzionare, lancia l'applicazione dal Windows File Explorer
+selezionando 'Run as...' dal menu di contesto visualizzato clickando con il tasto del mouse destro sull'eseguibile.
+Quindi seleziona l'utenza dell'amministratore locale per eseguire l'applicazione e riprova.
+
+I diritti di amministrazione sono necessari per applicare la funzionalita' richiesta.
+Non e' necessario avere tali diritti ogni volta che lanciate l'applicazione. Spiacenti per 
+l'inconveniente.</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption">
+    <value>Cancella elementi</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc">
+    <value>Contenitore degli elementi cancellati</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion">
+    <value>Vuoi proprio cancellare tutte le cartelle di ricerca?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion">
+    <value>Vuoi veramente cancellare tutti gli elementi?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption">
+    <value>Gestisci identita'...</value>
+    <comment>menu caption text</comment>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc">
+    <value>Apre una finestra per gestire le identita'...</value>
+    <comment>menu caption tooltip text</comment>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption">
+    <value>Newsgroups...</value>
+    <comment>menu caption text</comment>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc">
+    <value>Apre una finestra per gestire i server NNTP e i newsgroups...</value>
+    <comment>menu caption tooltip text</comment>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption">
+    <value>Gestisci identita'</value>
+    <comment>window caption text</comment>
+  </data>
+  <data name="ConfigNewsServerDialogCaption">
+    <value>Gestisci Newsgroups</value>
+    <comment>window caption text</comment>
+  </data>
+  <data name="CertificateIssueOnFeedCaption">
+    <value>Le informazioni che scambi con i feed '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'e' un problema con il certificato di sicurezza del feed.</value>
+    <comment>Certificate issue dialog heading text</comment>
+  </data>
+  <data name="CertificateIssueOnSiteCaption">
+    <value>Le informazioni che scambi con il sito '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'e' un problema con il certificato di sicurezza del sito.</value>
+    <comment>Certificate issue dialog heading text</comment>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH">
+    <value>Il nome del certificato di sicurezza non e' valdo o non corrisponde al nome del sito.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED">
+    <value>Il certificato rilasciato scade nel {0}.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertREVOKED">
+    <value>Il certificato e' stato revocato.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA">
+    <value>Il certificato ha una certification authority (CA) non affidabile (not trusted).</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT">
+    <value>Il certificato ha una root CA untrusted (Certification Authory).</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT">
+    <value>Il certificato ha una root test CA untrusted (Certification Authory).</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE">
+    <value>The purpose of the certificate does not match the required task.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertCHAINING">
+    <value>The certificate is already a member of the trust chain.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL">
+    <value>Il certificato ha causato un errore critico.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING">
+    <value>The certificate issuer is already a member of the trust chain.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED">
+    <value>The certificate is malformed.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST">
+    <value>The certificate caused an error: path length const.</value>
+    <comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE">
+    <value>The revocation of the certificate failed.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertROLE">
+    <value>The role of the certificate is wrong.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING">
+    <value>The validity period of the certificate is nesting.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE">
+    <value>The certificate cannot be used for the required task.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_Unknown">
+    <value>The security certificate caused a general unknown problem: '{0}'.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="MenuColumnChooserCaption">
+    <value>Disposizione colonne</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDesc">
+    <value>Gestisce le colonne visualizzate e la disposizione...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserTitleCaption">
+    <value>Visualizza Headline</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserTitleDesc">
+    <value>Visualizza la colonna titolo headline di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDateCaption">
+    <value>Visualizza la data</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDateDesc">
+    <value>Visualizza la colonna data di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption">
+    <value>Visualizza argomento</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc">
+    <value>Visualizza la colonna oggetto (categoria, argomento) di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption">
+    <value>Visualizza autore</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc">
+    <value>Visualizza la colonna autore di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption">
+    <value>Visualizza il titolo della sottoscrizione</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc">
+    <value>Visualizza la colonna titolo sottoscrizione di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption">
+    <value>Visualizza il numero di commenti</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc">
+    <value>Visualizza la colonna del numero di commenti di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption">
+    <value>Visualizza lo stato Enclosure</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc">
+    <value>Visualizza la colonna dello stato enclosure di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFlagCaption">
+    <value>Visualizza lo stato del contrassegno</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFlagDesc">
+    <value>Visualizza la colonna dello stato del contrassegno di un elemento news...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption">
+    <value>Utilizza la disposizione come default per le categorie</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
+    <value>La disposizione sara' valida per tutti i nodi delle categorie senza una assegnazione individuale...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
+    <value>Utilizza la disposizione come default per i feed</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc">
+    <value>La disposizione sara' valida per tutti i nodi del feed senza una assegnazione individuale...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption">
+    <value>Reimposta la disposizione al default</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc">
+    <value>La disposizione sara' rimossa dai nodi delle sottoscrizioni selezionati...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus">
+    <value>Contrassegno</value>
+    <comment>Column caption within listview</comment>
+  </data>
+  <data name="URL_ProjectDonation">
+    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+    <comment>Bandit Project Donation Url, default nel caso di .config non valido</comment>
+  </data>
+  <data name="MenuDonateToProjectCaption">
+    <value>Donazione...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuDonateToProjectDesc">
+    <value>Naviga ad un Url dove puoi contribuire il progetto...</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="URL_ProjectDownload">
+    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+    <comment>Download package page at Sourceforge, default nel caso di .config non valido</comment>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable">
+    <value>C'e' una nuova versione disponibile per il download.
+Vuoi saperne di piu'?
+
+Se selezioni NO, ti verra' ricordato ancora in futuro.</value>
+    <comment>Question Dialog Text</comment>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion">
+    <value>Controllo aggiornamenti...</value>
+    <comment>Waiting Message Dialog Text</comment>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable">
+    <value>Non ci sono al momento aggiornamenti da scaricare.</value>
+    <comment>Message Dialog Text</comment>
+  </data>
+  <data name="FeedListNoChildsMessage">
+    <value>Nessun elemento figlio...</value>
+    <comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline">
+    <value>Indirizzo:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint">
+    <value>Puoi sincronizzare lo stato dell'applicazione con i tuoi feed sottoscritti su Newsgator Online. Per registrarti su for Newsgator Online vai a http://www.newsgator.com</value>
+    <comment>Dynamic hint label text (Preferences)</comment>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage">
+    <value>Caricamento Newsgroups. Puoì richiedere qualche istante, ...</value>
+    <comment>Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed">
+    <value>Caricamento Newsgroups da '{0}' fallito: {1}</value>
+    <comment>{0} param is the news server, {1} the exception message</comment>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption">
+    <value>Caricamento Newsgroups fallito</value>
+  </data>
+  <data name="Syndic8FeedSearchTitle">
+    <value>Syndic8 Service</value>
+    <comment>syndic8.com Feed search service caption</comment>
+  </data>
+  <data name="MainMenuEditCaption">
+    <value>&amp;Modifica</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuEditDesc">
+    <value>Comandi di modifica di RSS Bandit</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MenuListViewSelectAllCaption">
+    <value>Seleziona &amp;tutti</value>
+    <comment>Caption edit view menu</comment>
+  </data>
+  <data name="MenuListViewSelectAllDesc">
+    <value>Seleziona tutti gli elementi del pannello con la lista degli elementi news.</value>
+    <comment>Description within edit menu</comment>
+  </data>
+  <data name="MenuNewCmdsCaption">
+    <value>&amp;Nuovo...</value>
+    <comment>Caption for the 'new' command toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewCmdsDesc">
+    <value>Crea una nuova sottoscrizione</value>
+    <comment>Caption within toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption">
+    <value>&amp;Nuova sottoscrizione...</value>
+    <comment>Caption within menu to call the subscription wizard</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc">
+    <value>Crea una nuova sottoscrizione con l'aiuto di un wizard</value>
+    <comment>Caption within menu</comment>
+  </data>
+  <data name="MenuNewFeedCaption2">
+    <value>&amp;Nuova sottoscrizione feed...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuNewNntpFeedCaption">
+    <value>Sottoscrizione &amp;Newsgroup...</value>
+    <comment>Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewNntpFeedDesc">
+    <value>Sottoscrive ad un nuovo feed</value>
+    <comment>Description within tool dropdown</comment>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption">
+    <value>Sottoscrizione ai risultati di &amp;Ricerca...</value>
+    <comment>Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc">
+    <value>Trova un feed o sottoscrivi ad un feed dei risultati di ricerca</value>
+    <comment>Description within tool dropdown</comment>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption">
+    <value>&amp;Add-Ins...</value>
+    <comment>Caption within tools menu</comment>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc">
+    <value>Visualizza la finestra di gestione degli Add-In...</value>
+    <comment>Description within tools menu</comment>
+  </data>
+  <data name="ExceptionProxyConfiguration">
+    <value>Configurazione errata del proxy: 
+{0}.
+
+Le impostazioni sono ripristinate per non utilizzare il proxy.</value>
+    <comment>Failure message on proxy config errors</comment>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage">
+    <value>Web feed recuperato.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message">
+    <value>{0} Web feed(s) trovati.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage">
+    <value>Verifica URL...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage">
+    <value>Recupera il titolo del web feed...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage">
+    <value>Ricerca...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage">
+    <value>Precaricamento del web feed annullato.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage">
+    <value>Precaricamento del web feed fallito.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage">
+    <value>Ricerca annullata.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage">
+    <value>Ricerca fallita.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage">
+    <value>Web feed non valido.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage">
+    <value>Ritorna indietro per cambiare le parole chiave o clicka annulla</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage">
+    <value>Ritorna indietro per cambiare l'URL o clicka Annulla</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="AddInLoadFailure">
+    <value>Caricamento AddIn '{1}' fallito:
+        
+{0}</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption">
+    <value>Impostazioni generali</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption">
+    <value>Impostazioni server</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption">
+    <value>Impostazioni avanzate</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="MenuPostNewFeedItemCaption">
+    <value>Nuovo post</value>
+    <comment>Toolbar button caption (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="MenuPostNewFeedItemDesc">
+    <value>Crea un nuovo post da inviare al feed selezionato</value>
+    <comment>Toolbar button descr. (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="NewPostToFeedFormCaption">
+    <value>Nuovo post nel feed: {0}</value>
+    <comment>New Post to a Feed Form Caption. Param {0} is the feed title.</comment>
+  </data>
+  <data name="GUIStatusPostNewFeedItem">
+    <value>Post del nuovo elemento, attendere prego...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="ExceptionPostNewFeedItem">
+    <value>Si è verificato un errore nel post del nuovo elemento
+'{0}' (link all'elemento RSS /titolo):
+       
+'{1}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="AddInUnloadFailure">
+    <value>Unload AddIn '{1}' fallito:
+        
+{0}</value>
+    <comment>AddIn failure message box</comment>
+  </data>
+  <data name="AddInGeneralFailure">
+    <value>Malfunzionamento generale nell'AddIn '{1}':
+        
+{0}</value>
+    <comment>AddIn failure message box</comment>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher">
+    <value>Publisher</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor">
+    <value>Autore</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate">
+    <value>postato in</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure">
+    <value>Chiusura</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState">
+    <value>Imposta come letto o non letto</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState">
+    <value>Imposta o resetta un flag</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty">
+    <value>Imposta un url di ricerca</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty">
+    <value>Imposta un titolo di ricerca</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam">
+    <value>Manca l'impostazione del  '{0}' parametro</value>
+    <comment>.
+ Parameters: 0 - parameter (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved">
+    <value>La posizione della cache dei dati
+
+{0}
+
+seems to be a child of the old cache, so old cache folder cannot be automatically moved.
+Will continue using the old cache folder...</value>
+    <comment>.
+ Parameters: 0 - folderName (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException">
+    <value>Non posso spostare la vecchia cartella della cache nella nuova cartella di cache in
+
+{0}
+
+Un errore si è verificato:
+{1}
+
+Verrà utilizzata la vecchia cartella di cache...</value>
+    <comment>.
+ Parameters: 0 - folderName (string), 1 - exception (string) </comment>
+  </data>
+  <data name="MenuFinderRenameDesc">
+    <value>Rinomina la cartella di ricerca selezionata</value>
+  </data>
+  <data name="DetailHeaderCaptionWelcome">
+    <value>Benvenuto!</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption">
+    <value>Elementi sotto controllo</value>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc">
+    <value>Contenitore di elementi sotto controllo </value>
+  </data>
+  <data name="MenuSendLogsByMailCaption">
+    <value>Invia i files di log via mail...</value>
+    <comment> Improve the Bandit</comment>
+  </data>
+  <data name="MenuSendLogsByMailDesc">
+    <value>Inviera' una mail con i log files per analisi del malfunzionamento</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption">
+    <value>&amp;Tieni sotto controllo i commenti</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc">
+    <value>Notifica in caso di nuovi commenti a questo elemento</value>
+  </data>
+  <data name="CmdLineResetUIDesc">
+    <value>Reimposta l'interfaccia utente ai valori di default</value>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure">
+    <value>Il sistema ha restituito un errore cercando di eseguire l'allegato:
+
+{0}
+
+Errore:{1}.</value>
+    <comment>.
+ Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption">
+    <value>Articoli non letti</value>
+    <comment> Special local feed for unread items</comment>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc">
+    <value>Contenitore di articoli non letti</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation">
+    <value>Seleziona o crea una cartella dove salvare gli allegati</value>
+    <comment> Text in the browse for folder dialog</comment>
+  </data>
+  <data name="MenuDownloadAttachmentCaption">
+    <value>Scarica attachment</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc">
+    <value>Scarica gli allegati dell'articolo nella cartella dei Podcast specificata</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip">
+    <value>Accetta tutte le modifiche e chiudi</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption">
+    <value>Annulla</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip">
+    <value>Annulla tutte le modifiche e chiudi</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath">
+    <value>E' stato specificato un percorso errato per la directory di download</value>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture">
+    <value>Non posso cambiare la cultura dell'applicazione in '{0}':
+
+Errore:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage">
+    <value>Ricevuto: 1 file</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+  <data name="PodcastOptionDialog_Title">
+    <value>Opzioni Podcast</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption">
+    <value>Generale</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption">
+    <value>Tratta questi tipi di file come podcast - usa punto e virgola (';') per separare i valori:</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip">
+    <value>Elenco delle estensioni dei file podcast separati da punto e virgola</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption">
+    <value>Dopo il download copia il podcast in:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip">
+    <value>Cartella di destinazione dei podcast</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip">
+    <value>Clicka per selezionare la cartella di destinazione dei podcast</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
+    <value>Windows Media Player playlist</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
+    <value>iTunes playlist</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
+    <value>Queste cartelle:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption">
+    <value>Playlist</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
+    <value>Come nome playlist:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
+    <value>Usa il nome del file sorgente</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption">
+    <value>Usa il nome del Feed</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption">
+    <value>Aggiungi tutti i files ad una singola playlist con questo nome:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip">
+    <value>Inserisci il nome della playlist</value>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption">
+    <value>Barra menu principale</value>
+    <comment> Main Form control captions</comment>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption">
+    <value>Strumenti applicazione principale</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption">
+    <value>Strumenti Web Browser</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption">
+    <value>Strumenti di ricerca</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu">
+    <value>Menu</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile">
+    <value>File</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit">
+    <value>Edit</value>
+  </data>
+  <data name="MainForm_ToolCategoryView">
+    <value>Visualizza</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools">
+    <value>Strumenti</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp">
+    <value>Aiuto</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse">
+    <value>Browse</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch">
+    <value>Ricerca</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText">
+    <value>Scrivi un URL su cui navigare</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered">
+    <value>Feed trovato</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived">
+    <value>Nuovi articoli ricevuti</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded">
+    <value>Scaricati nuovi attachment</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed">
+    <value>Spiacente, impossibile visualizzare il pannello di controllo Windows per configurare i suoni di sistema e dell'applicazione:
+
+{0}
+
+Prova ad aprire il pannello di controllo manualmente usanto il comando di esecutione del Pannello di controllo dal menu di avvio.</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption">
+    <value>Strumenti principali</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption">
+    <value>Aggiungi identita'</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc">
+    <value>Crea una nuova identita'...</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption">
+    <value>Aggiungi un server di news</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc">
+    <value>Aggiungi un NNTP server...</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption">
+    <value>Delete</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc">
+    <value>Rimuove gli elementi selezionati</value>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks">
+    <value>Related Links</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState">
+    <value>Controlla o termina il controllo dei commenti</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption">
+    <value>Sottoscrizioni del Feed</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption">
+    <value>Ricerca</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText">
+    <value>Stato del browser web...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText">
+    <value>Avanzamento della richiest...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText">
+    <value>Stato della connessione di rete...</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText">
+    <value>Stato del motore RSS...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup">
+    <value>Benvenuto!</value>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text">
+    <value>Salva</value>
+    <comment> SearchPanel control</comment>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text">
+    <value>Item &amp;Link</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text">
+    <value>Top&amp;ic</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text">
+    <value>&amp;Descrizione</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text">
+    <value>&amp;Titolo</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text">
+    <value>Seleziona tutti i campi che vuoi siano ricercati</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text">
+    <value>Item &amp;posted</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text">
+    <value>Et&amp;a' Item</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text">
+    <value>Precede&amp;nte di</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text">
+    <value>Stato lettu&amp;ra</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text">
+    <value>&amp;Unread Posts</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text">
+    <value>Reimposta ricerca</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text">
+    <value>Ricerca</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text">
+    <value>Annulla</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text">
+    <value>&amp;Salva questa ricerca come</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text">
+    <value>Search &amp;Fields</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text">
+    <value>&amp;Opzioni avanzate</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text">
+    <value>Ambito ricerca</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at">
+    <value>a</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before">
+    <value>prima</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after">
+    <value>dopo</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between">
+    <value>tra</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour">
+    <value>1 ora</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours">
+    <value>{0} ore</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day">
+    <value>1 giorno</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days">
+    <value>{0} giorni</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month">
+    <value>1 mese</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months">
+    <value>{0} mesi</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter">
+    <value>1 quadrimestre</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters">
+    <value>{0} quadrimestri</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year">
+    <value>1 anno</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years">
+    <value>{0} anni</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+  <data name="DialogBase_UACShieldedHint">
+    <value>L'opzione richiede maggiori permessi utente (Administrator)...</value>
+  </data>
+  <data name="ExceptionEnclosureDownloadError">
+    <value>Errore Download</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption">
+    <value>Visualizza sunto nei risultati ricerca</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc">
+    <value>Cambia fra sommario e testo completo</value>
+  </data>
+<data name="SearchPanel_optionSetItemAgeOlderThan_Text">
+    <value>&amp;Older than</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionIntroText">
+    <value>What do you want to do now?</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionNavigateToSubscription">
+    <value>Navigate to the subscription...</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionDeleteSubscription">
+    <value>Remove this subscription...</value>
+  </data>
+	<data name="XsltDefaultTemplate_Previous">
+    <value>Previous</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+	<data name="XsltDefaultTemplate_Next">
+    <value>Next</value>
+  </data>
+	<data name="XsltDefaultTemplate_Displaying_page">
+    <value>Displaying page</value>
+  </data>
+	<data name="XsltDefaultTemplate_of">
+    <value>of</value>
+  </data>
+	<data name="GUILoadFileOperationExceptionMessage">
+    <value>Loading of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUISaveFileOperationExceptionMessage">
+    <value>Saving of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUIUserInfoAboutDefaultTreeState">
+    <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+	</root>

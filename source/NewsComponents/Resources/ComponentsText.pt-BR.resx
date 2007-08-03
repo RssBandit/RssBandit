@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExceptionUnsupportedAtomVersion">
+    <value>Versão ATOM não suportada</value>
+  </data>
+  <data name="ExceptionUnknownXmlDialect">
+    <value>Este documento XML não parece ser um canal RSS</value>
+  </data>
+  <data name="ExceptionDirectoryNotExistsMessage">
+    <value>Diretório inexistente: {0}</value>
+  </data>
+  <data name="ExceptionRFC2822ParseGroupsMessage">
+    <value>Comparação regex de data RFC2822 bem sucedida, mas análise de grupos causou uma exceção '{0}'.</value>
+  </data>
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage">
+    <value>Formato de Fuso Horário inválido: {0}.</value>
+  </data>
+  <data name="ExceptionNoProcessingHandlerMessage">
+    <value>O endereço de internet do canal '{0}' não pode ser processado. Nenhum manuseador implementado.</value>
+  </data>
+  <data name="ExceptionEnclosureCacheLimitReached">
+    <value>A tentativa de baixar o arquivo '{0}' falhou porque ele excederia o tamanho limite de {1}MB dedicado a podcasts e anexos. Ou aumente o tamanho do limite ou exclua anexos baixados anteriormente para liberar espaço para esta baixa.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+  <data name="ExceptionSearchNoSearchCriteria">
+    <value>Nenhum critério de pesquisa especificado</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilder">
+    <value>Consulta não pode ser construida de critérios de pesquisa</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilderFatal">
+    <value>Consulta não pode ser construida de critérios de pesquisa. Ocorreu um erro: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLuceneSearchKindNotSupported">
+    <value>Este tipo de pesquisa não é mais suportado ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+  <data name="ExceptionSearchFatal">
+    <value>Erro fatal na pesquisa</value>
+  </data>
+  <data name="ExceptionHelpFeedTitle">
+    <value>Ajuda acerca de erros</value>
+  </data>
+  <data name="ExceptionHelpFeedItemTitle">
+    <value>Tipo do erro: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+  <data name="ExceptionHelpFeedDesc">
+    <value>Fornece ajuda acerca de erros</value>
+  </data>
+</root>

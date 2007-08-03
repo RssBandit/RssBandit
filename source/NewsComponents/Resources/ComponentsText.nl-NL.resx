@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.w3.org/XML/1998/namespace">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ComponentsText_app1.xsd" />
+    <xs:element name="root" msdata:IsDataSet="true" msdata:Locale="en-US">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+              <xs:attribute ref="app1:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xs:string" />
+              <xs:attribute name="name" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+              <xs:attribute ref="app1:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <data name="ExceptionUnsupportedAtomVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>ATOM version wordt niet ondersteund</value>
+  </data>
+  <data name="ExceptionUnknownXmlDialect" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Dit XML document is geen RSS feed</value>
+  </data>
+  <data name="ExceptionDirectoryNotExistsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Map bestaat niet: {0}</value>
+    <comment>.
+ Parameters: 0 - directoryName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822ParseGroupsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>RFC2822 datum regex match succesvol, maar parsen van de groepen resulteert in een '{0}'-exception.</value>
+    <comment>.
+ Parameters: 0 - exceptionTypeName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Onjuiste Tijdzone formaat: {0}.</value>
+    <comment>.
+ Parameters: 0 - originalDateTimeString (string) </comment>
+  </data>
+  <data name="ExceptionNoProcessingHandlerMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feedadres '{0}' kan niet worden verwerkt. Er is geen handler geïmplementeerd.</value>
+    <comment>.
+ Parameters: 0 - url (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureCacheLimitReached" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Downloaden van '{0}' is niet gelukt, omdat het de grootte limiet van {1}MB gereserveerd voor podcasts en bijlagen zou overschreiden. Verkleind de grootte limiet of verwijder eerder gedownloade bijlagen.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+  <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Geen zoekterm opgegeven</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilder" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Er kan geen zoekopdracht worden gemaakt met deze zoektermen</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilderFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Er kan geen zoekopdracht worden gemaakt met deze zoektermen. Een fout is opgetreden: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLuceneSearchKindNotSupported" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Ditsoort zoektermen worden niet meer ondersteund ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+  <data name="ExceptionSearchFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Fatale zoekfout</value>
+  </data>
+  <data name="ExceptionHelpFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Help bij fouten</value>
+  </data>
+  <data name="ExceptionHelpFeedItemTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Foutsoort: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+  <data name="ExceptionHelpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Biedt hulp bij fouten</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+</root>

@@ -1,0 +1,1398 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>RSSBandit</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RssBandit</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>RssBandit.RssBanditApplication</StartupObject>
+    <WebReference_EnableProperties>true</WebReference_EnableProperties>
+    <WebReference_EnableSQLTypes>false</WebReference_EnableSQLTypes>
+    <WebReference_EnableLegacyEventingModel>true</WebReference_EnableLegacyEventingModel>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;CLR_20;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;CLR_11</DefineConstants>
+    <DocumentationFile>doc\RssBandit.xml</DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <Name>Accessibility</Name>
+    </Reference>
+    <Reference Include="blogExtension">
+      <Name>blogExtension</Name>
+      <HintPath>bin\blogExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="edtftpnet-1.1.3">
+      <Name>edtftpnet-1.1.3</Name>
+      <HintPath>bin\edtftpnet-1.1.3.dll</HintPath>
+    </Reference>
+    <Reference Include="Eyefinder">
+      <Name>Eyefinder</Name>
+      <HintPath>bin\Eyefinder.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IEControl">
+      <Name>IEControl</Name>
+      <HintPath>bin\IEControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Shared.v7.1">
+      <Name>Infragistics.Shared.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Shared.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.Misc.v7.1">
+      <Name>Infragistics.Win.Misc.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.Misc.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinEditors.v7.1">
+      <Name>Infragistics.Win.UltraWinEditors.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinEditors.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinExplorerBar.v7.1">
+      <Name>Infragistics.Win.UltraWinExplorerBar.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinExplorerBar.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinStatusBar.v7.1">
+      <Name>Infragistics.Win.UltraWinStatusBar.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinStatusBar.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinTabControl.v7.1">
+      <Name>Infragistics.Win.UltraWinTabControl.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinTabControl.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinToolbars.v7.1">
+      <Name>Infragistics.Win.UltraWinToolbars.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinToolbars.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.UltraWinTree.v7.1">
+      <Name>Infragistics.Win.UltraWinTree.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinTree.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics.Win.v7.1">
+      <Name>Infragistics.Win.v7.1</Name>
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.v7.1.dll</HintPath>
+      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Interop.iTunesLib">
+      <Name>Interop.iTunesLib</Name>
+      <HintPath>bin\Interop.iTunesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw">
+      <Name>Interop.SHDocVw</Name>
+      <HintPath>bin\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.WMPLib">
+      <Name>Interop.WMPLib</Name>
+      <HintPath>bin\Interop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <Name>log4net</Name>
+      <HintPath>..\Common\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement">
+      <Name>Microsoft.ApplicationBlocks.ExceptionManagement</Name>
+      <HintPath>bin\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces">
+      <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
+      <HintPath>bin\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Name>mscorlib</Name>
+    </Reference>
+    <Reference Include="SandDock">
+      <Name>SandDock</Name>
+      <HintPath>bin\SandDock.dll</HintPath>
+    </Reference>
+    <Reference Include="ShellBasics">
+      <Name>ShellBasics</Name>
+      <HintPath>bin\ShellBasics.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Name>System.Web.Services</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="WizardFramework">
+      <Name>WizardFramework</Name>
+      <HintPath>bin\WizardFramework.dll</HintPath>
+    </Reference>
+    <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
+      <Name>NewsComponents</Name>
+      <Project>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
+      <Name>RssBandit.AppServices</Name>
+      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CLR\1.x\RssBandit\app.config">
+      <Link>app.config</Link>
+    </None>
+    <None Include="readme.txt" />
+    <None Include="Resources\SearchEnginesConfig.xsx">
+      <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\ShortcutSettings.xsx">
+      <DependentUpon>ShortcutSettings.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\SR.strings">
+      <Generator>StringResourceTool</Generator>
+      <LastGenOutput>SR.cs</LastGenOutput>
+    </None>
+    <None Include="templates\aura-8.fdxsl" />
+    <None Include="templates\C64.fdxsl" />
+    <None Include="templates\DOS.fdxsl" />
+    <None Include="templates\Film.fdxsl" />
+    <None Include="templates\formal-red.fdxsl" />
+    <None Include="templates\Headlines.fdxsl" />
+    <None Include="templates\holiday-halloween.fdxsl" />
+    <None Include="templates\kuro5hin.fdxsl" />
+    <None Include="templates\neo-blue.fdxsl" />
+    <None Include="templates\outlook-express.fdxsl" />
+    <None Include="templates\outlook2003-orange.fdxsl" />
+    <None Include="templates\Polaroid.fdxsl" />
+    <None Include="templates\slashdot.fdxsl" />
+    <None Include="templates\Sticky Notes.fdxsl" />
+    <None Include="templates\unwise-terminal.fdxsl" />
+    <None Include="Web References\CLR20.com.newsgator.services1\Folder.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services1\Folder.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services1\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.com.newsgator.services2\Feed.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services2\Feed.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services2\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.com.newsgator.services3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.com.newsgator.services3\Subscription.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services3\Subscription.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services4\PostItem.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services4\PostItem.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services4\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.com.newsgator.services\Location.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services\Location.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.disco" />
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.wsdl" />
+    <None Include="Web References\CLR20.DasBlog\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.RssBandit.UpdateService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="WinGui\Genghis\Info.txt" />
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Resources\2003Comment.png" />
+    <EmbeddedResource Include="Resources\2003Left.png" />
+    <EmbeddedResource Include="Resources\2003Minus.gif" />
+    <EmbeddedResource Include="Resources\2003Plus.gif" />
+    <EmbeddedResource Include="Resources\add.newsserver.16.png" />
+    <EmbeddedResource Include="Resources\add.user.16.png" />
+    <EmbeddedResource Include="Resources\AllToolImages.bmp" />
+    <EmbeddedResource Include="Resources\AniImagesXP.png" />
+    <EmbeddedResource Include="Resources\App.ico" />
+    <EmbeddedResource Include="Resources\AppBusy.ico" />
+    <EmbeddedResource Include="Resources\AppBusyXP.ico" />
+    <EmbeddedResource Include="Resources\AppTray.ico" />
+    <EmbeddedResource Include="Resources\AppTrayXP.ico" />
+    <EmbeddedResource Include="Resources\Connected.ico" />
+    <EmbeddedResource Include="Resources\default-feedlist.xml" />
+    <EmbeddedResource Include="Resources\DefaultTemplate.xslt" />
+    <EmbeddedResource Include="Resources\delete.16.png" />
+    <EmbeddedResource Include="Resources\Disconnected.ico" />
+    <EmbeddedResource Include="Resources\feed.discovered.16.png" />
+    <EmbeddedResource Include="Resources\feed.discovered.32.png" />
+    <EmbeddedResource Include="Resources\feedlist2subscriptions.xslt" />
+    <EmbeddedResource Include="Resources\feedRefresh.ico" />
+    <EmbeddedResource Include="Resources\Html.16.png" />
+    <EmbeddedResource Include="Resources\Html.32.png" />
+    <EmbeddedResource Include="Resources\iecontext_subscribebandit.htm" />
+    <EmbeddedResource Include="Resources\iecontext_subscribefeed.htm" />
+    <EmbeddedResource Include="Resources\ListImages.bmp" />
+    <EmbeddedResource Include="Resources\ListStateImages.bmp" />
+    <EmbeddedResource Include="Resources\nntp.doc.png" />
+    <EmbeddedResource Include="Resources\no.feed.discovered.16.png" />
+    <EmbeddedResource Include="Resources\no.feed.discovered.32.png" />
+    <EmbeddedResource Include="Resources\rssbandit.16.png" />
+    <EmbeddedResource Include="Resources\rssbandit.32.png" />
+    <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
+    <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
+    <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd" />
+    <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
+    <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
+    <EmbeddedResource Include="Resources\ShortcutSettings.xsd" />
+    <EmbeddedResource Include="Resources\SR.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.resx">
+      <DependentUpon>SR.strings</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TreeImages.bmp" />
+    <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
+    <EmbeddedResource Include="Resources\UnreadFeedItemsXP.ico" />
+    <EmbeddedResource Include="Resources\WizardTask.Failed.png" />
+    <EmbeddedResource Include="Resources\WizardTask.InProgress.png" />
+    <EmbeddedResource Include="Resources\WizardTask.Pending.png" />
+    <EmbeddedResource Include="Resources\WizardTask.Success.png" />
+    <EmbeddedResource Include="WinGui\Controls\CollapsibleSplitter.resx">
+      <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\MenuCommands.resx">
+      <DependentUpon>MenuCommands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\OptionSectionPanel.resx">
+      <DependentUpon>OptionSectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\SearchPanel.resx">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ThListView\ThreadedListView.resx">
+      <DependentUpon>ThreadedListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeader.resx">
+      <DependentUpon>ThreadedListViewColumnHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ToolCommands.resx">
+      <DependentUpon>ToolCommands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\TrayAnimation.resx">
+      <DependentUpon>TrayAnimation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\VerticalHeaderLabel.resx">
+      <DependentUpon>VerticalHeaderLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DialogBase.resx">
+      <DependentUpon>DialogBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedSourceDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PodcastOptionsDialog.resx">
+      <DependentUpon>PodcastOptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.bg.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.de.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.es.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.fr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.hi.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.it.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ja.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.nl-NL.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pt-BR.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ru.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-SP-Cyrl.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-SP-Latn.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.tr.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHS.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHT.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.resx">
+      <DependentUpon>WinGUIMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="..\Common\Log.cs">
+      <Link>Log.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Common\ProfilerHelper.cs">
+      <Link>ProfilerHelper.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\AdditionalElements.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\BanditApplicationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\BanditExceptionPublisher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\CommandLineParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ExceptionLog4netPublisher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\IdentityNewsServerManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\InitialInstanceActivator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Resource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditApplication.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditPreferences.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditUpdateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssItemFilters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\SearchEngineHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ServiceManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\SpecialLocalFeeds.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ThreadWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ThreadWorkerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\UACManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\SR.cs">
+      <DependentUpon>SR.strings</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="VersionInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web References\CLR20.com.newsgator.services1\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CLR20.com.newsgator.services2\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CLR20.com.newsgator.services3\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CLR20.com.newsgator.services4\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CLR20.com.newsgator.services\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CLR20.DasBlog\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\CLR20.RssBandit.UpdateService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="WinGui\AutoDiscoveredFeedsMenuHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\AutoDiscoverFeedsThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\CommandBarManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\CollapsibleSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\DirectoryBrowser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\Line.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\MenuCommands.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\NavigatorHeaderDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\NavigatorHeaderHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\OptionSectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\SearchPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\SmoothLabelDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\StateSerializationHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\DesignerSupport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ListHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Sorting\ThreadedListViewItemComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Sorting\ThreadedListViewSorter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeaderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewGroupCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewItemCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Win32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ToolCommands.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TrayAnimation.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\ListFeedsDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\SmartFolderNodeBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeGroupHeaderPainter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeImplementations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\UltraTreeExtended.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\VerticalHeaderLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\WindowSerializer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\AddSubscriptionWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\AskForDefaultAggregator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\CategoryProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DiscoveredFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\EntertainmentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ExportFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedSourceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ImportFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ManageAddInDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PodcastOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PostReplyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PreferencesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SearchEngineProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SecurityIssueDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\DisplayingNewsChannelProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\EntertainmentThreadHandlerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ControlHelpers\IdleTask.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ControlHelpers\ToolbarHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\NewsGroupsConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ToastNotify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGUIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\AniForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\CursorChanger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\Preferences.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\GuiStateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\HttpRequestFileThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Interfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Keyboard\ShortcutHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\PostReplyThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\PrefetchFeedThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\RemoteFeedlistThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\ToastNotifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\TrayStateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\ColorEx.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\CommandMediator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\FontColorHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\MultiIcon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\NavigationHistory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\RssItemFormatter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\WheelSupport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\Win32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\WinGUIWidgetHelpers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Namespaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="Resources\BanditHelp.chm" />
+    <Content Include="RssBandit.exe.log4net.config" />
+    <Content Include="RssBandit.exe.manifest" />
+    <Content Include="templates\readme.htm" />
+    <WebReferenceUrl Include="http://www.rendelmann.info/blog/ConfigEditingService.asmx">
+      <RelPath>Web References\CLR20.DasBlog\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://www.rendelmann.info/blog/ConfigEditingService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/RssBandit.UpdateService/UpdateService.asmx">
+      <RelPath>Web References\CLR20.RssBandit.UpdateService\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://localhost/RssBandit.UpdateService/UpdateService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Feed.asmx">
+      <RelPath>Web References\CLR20.com.newsgator.services2\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Folder.asmx">
+      <RelPath>Web References\CLR20.com.newsgator.services1\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Location.asmx">
+      <RelPath>Web References\CLR20.com.newsgator.services\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/PostItem.asmx">
+      <RelPath>Web References\CLR20.com.newsgator.services4\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Subscription.asmx">
+      <RelPath>Web References\CLR20.com.newsgator.services3\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+    </WebReferenceUrl>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

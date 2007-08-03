@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="root" msdata:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <data name="ExceptionUnsupportedAtomVersion">
+    <value>Unsupported ATOM version</value>
+  </data>
+  <data name="ExceptionUnknownXmlDialect">
+    <value>This XML document does not look like an RSS feed</value>
+  </data>
+  <data name="ExceptionDirectoryNotExistsMessage">
+    <value>Non-Existent Directory: {0}</value>
+    <comment>.
+ Parameters: 0 - directoryName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822ParseGroupsMessage">
+    <value>RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.</value>
+    <comment>.
+ Parameters: 0 - exceptionTypeName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage">
+    <value>Invalid Timezone Format: {0}.</value>
+    <comment>.
+ Parameters: 0 - originalDateTimeString (string) </comment>
+  </data>
+  <data name="ExceptionNoProcessingHandlerMessage">
+    <value>Feed Url '{0}' cannot be processed. No handler implemented.</value>
+    <comment>.
+ Parameters: 0 - url (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureCacheLimitReached">
+    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+  <data name="ExceptionSearchNoSearchCriteria">
+    <value>No search criteria specified</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilder">
+    <value>Query could not be build from search criterias</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilderFatal">
+    <value>Query could not be build from search criterias. An error was caused: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLuceneSearchKindNotSupported">
+    <value>This kind of search is not anymore supported ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+  <data name="ExceptionSearchFatal">
+    <value>Fatal search error</value>
+  </data>
+  <data name="ExceptionHelpFeedTitle">
+    <value>Help on errors</value>
+  </data>
+  <data name="ExceptionHelpFeedItemTitle">
+    <value>Kind of error: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+  <data name="ExceptionHelpFeedDesc">
+    <value>Provides help on errors</value>
+  </data>
+  <data name="ExceptionNntpServerAuthenticationFailed">
+    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <comment>.
+ Parameters: 0 - nntpServer (string) </comment>
+  </data>
+  <data name="ExceptionResourceAuthorization">
+    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+  </data>
+  <data name="ExceptionResourceGone">
+    <value>The requested resource is not longer available (HTTP status 410)</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+</root>

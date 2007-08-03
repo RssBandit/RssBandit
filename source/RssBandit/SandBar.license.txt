@@ -1,0 +1,43 @@
+Divelements Software License Agreement
+Copyright (c) 2005 by Divelements Limited.
+
+Product: SandBar
+License Type: Free Software
+Redistributables: sandbar.dll
+
+END-USER LICENSE AGREEMENT FOR DIVELEMENTS SOFTWARE
+---------------------------------------------------
+
+IMPORTANT - This license ("EULA") is a legal agreement between you (an individual software developer) and Divelements Limited, its owners and contributors ("DIVELEMENTS") for the software product accompanying this EULA. The software product includes any associated media, documentation, source code, binaries and redistributables ("SOFTWARE"). By installing, copying or possessing this product you agree to be bound by the terms of this EULA. If you do not agree to any of the terms in this license document you must destroy all copies of the SOFTWARE in your possession.
+
+The SOFTWARE is not sold, it is licensed. One license is required for every developer using the SOFTWARE on one computer at a time. The SOFTWARE is runtime royalty-free. DIVELEMENTS hereby grants to you a non-exclusive, worldwide, perpetual, irrevocable (except for a material breach of this EULA as set forth below), royalty-free license to use the SOFTWARE and distribute the redistributable portions of the SOFTWARE as combined with your products in accordance with this EULA. You may also grant your customers the right to use your products that contain the SOFTWARE.
+
+The SOFTWARE is proprietary to DIVELEMENTS and ownership and copyright of the product is retained. Use of the product by anyone not covered by this license results in the immediate termination of the license along with your right to use the SOFTWARE, without notice. Such termination will not revoke your right to distribute or license any of your software products that contain the SOFTWARE in accordance with this EULA and that were created prior to the violation of this EULA, but will mean that you cannot rebuild or distribute new products that contain the SOFTWARE.
+
+Neither the name of the copyright holder(s) nor the names of any contributors may be used to endorse or promote products derived from or using this software without specific prior written permission. Also DIVELEMENTS will not be held responsible for support requests for products developed using the SOFTWARE.
+
+RESTRICTIONS
+------------
+
+1. You agree not to compete with DIVELEMENTS by rebranding, repackaging, renaming or otherwise directly extending the SOFTWARE. Applications developed using the SOFTWARE must not be used for a similar purpose as the SOFTWARE itself. The SOFTWARE must only be used to add value to existing applications.
+
+2. This license is not transferable and you may not sell, rent, sub-license or otherwise make available this license to any third party without prior written consent from DIVELEMENTS. In the case where consent is given, the third party must agree to abide by the terms of this license agreement. You may assign this license to a third party acquiring all or substantially all of your business if the third party agrees to abide by the terms of this EULA. In this situation DIVELEMENTS must be notified but consent does not have to be sought.
+
+3. The only distributable portions of the SOFTWARE are those files marked redistributable at the top of this document. No other portion of the software may be distributed except for storage purposes. When stored the SOFTWARE must be stored as a whole, with all associated files and media. The exception to this is when you are distributing applications with source code. In this instance this license must accompany the redistributables listed above.
+
+4. You agree not to modify, decompile, disassemble, reverse engineer or otherwise deface any part of the SOFTWARE.
+
+5. You agree to display the following text in the About dialog of your application. If your application does not have an About dialog the text must be displayed prominently elsewhere.
+
+"SandBar Copyright (c) 2005 by Divelements Limited, http://www.divil.co.uk/net/"
+
+6. Applications developed using the SOFTWARE must be free of charge and publicly displayed and downloadable over the internet. No revenue of any kind may be generated with an application built using the SOFTWARE - this includes revenue generated from advertising, but excludes voluntary donations.
+
+A grace period of 30 days is allowed for initial closed development of your application using the SOFTWARE before the application must become publicly downloadable in some form. After this period has elapsed there is no obligation to release your software publicly if a decision is made to cease using the SOFTWARE.
+
+LIMITED WARRANTY
+----------------
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+This license is subject to change without notice in future updates to the SOFTWARE and such changes will be binding on any future licenses entered into between DIVELEMENTS and you.
