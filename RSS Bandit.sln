@@ -1,4 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4} = {9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}
@@ -13,70 +14,55 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RssBandit Installer", "RssB
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rssbandit Feed Installer", "RssBandit Installer\Rssbandit Feed Installer\Rssbandit Feed Installer.csproj", "{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsComponents", "NewsComponents\NewsComponents.csproj", "{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailThis", "RssBandit\plugins\MailThis\MailThis.csproj", "{0FE0B444-A9FD-4077-9E35-8E76B420A37C}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delicious", "RssBandit\plugins\Delicious\Delicious.csproj", "{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogThis.WBloggar", "RssBandit\plugins\BlogThis.WBloggar\BlogThis.WBloggar.csproj", "{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit.AppServices", "RssBandit.AppServices\RssBandit.AppServices.csproj", "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogThis.LiveWriter", "RssBandit\plugins\BlogThis.LiveWriter\BlogThis.LiveWriter.csproj", "{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}"
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug.ActiveCfg = Debug|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug.Build.0 = Debug|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release.ActiveCfg = Release|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release.Build.0 = Release|.NET
-		{A72B454A-C305-45E3-BC4C-6A490705D384}.Debug.ActiveCfg = Debug
-		{A72B454A-C305-45E3-BC4C-6A490705D384}.Debug.Build.0 = Debug
-		{A72B454A-C305-45E3-BC4C-6A490705D384}.Release.ActiveCfg = Release
-		{A72B454A-C305-45E3-BC4C-6A490705D384}.Release.Build.0 = Release
-		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Debug.ActiveCfg = Debug|.NET
-		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Debug.Build.0 = Debug|.NET
-		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Release.ActiveCfg = Release|.NET
-		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Release.Build.0 = Release|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug.ActiveCfg = Debug|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug.Build.0 = Debug|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release.ActiveCfg = Release|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release.Build.0 = Release|.NET
-		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug.ActiveCfg = Debug|.NET
-		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug.Build.0 = Debug|.NET
-		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release.ActiveCfg = Release|.NET
-		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release.Build.0 = Release|.NET
-		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug.ActiveCfg = Debug|.NET
-		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug.Build.0 = Debug|.NET
-		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release.ActiveCfg = Release|.NET
-		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release.Build.0 = Release|.NET
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug.ActiveCfg = Debug|.NET
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug.Build.0 = Debug|.NET
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release.ActiveCfg = Release|.NET
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release.Build.0 = Release|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug.ActiveCfg = Debug|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug.Build.0 = Debug|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release.ActiveCfg = Release|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A72B454A-C305-45E3-BC4C-6A490705D384}.Debug|Any CPU.ActiveCfg = Debug
+		{A72B454A-C305-45E3-BC4C-6A490705D384}.Release|Any CPU.ActiveCfg = Release
+		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{110BDCA6-5CC7-4E95-B317-0D62FA8CFE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE0B444-A9FD-4077-9E35-8E76B420A37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

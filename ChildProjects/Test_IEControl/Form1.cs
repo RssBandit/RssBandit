@@ -1,11 +1,26 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
+#region Copyright
+/*
+Copyright (c) 2004-2006 by Torsten Rendelmann
 
-using SHDocVw;
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+#endregion
+
+using System;
+using System.Windows.Forms;
+
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using IEControl;
@@ -36,18 +51,45 @@ namespace Test
 
 		private System.ComponentModel.Container components = null;
 
-		public Form1()
-		{
+		public Form1() {
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			
+			//htmlControl1.EnhanceBrowserSecurityForProcess();
+			htmlControl1.FrameDownloadEnabled = true;
 			htmlControl1.FlatScrollBars = true;
-			htmlControl1.ActiveXEnabled = false;
+			bool useX = false;
+			
+			if (useX) 
+			{
+				HtmlControl.SetInternetFeatureEnabled(
+					InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
+					SetFeatureFlag.SET_FEATURE_ON_PROCESS, true);
+				htmlControl1.ActiveXEnabled = true;
+			}
+			else 
+			{
+				htmlControl1.ActiveXEnabled = true;
+				HtmlControl.SetInternetFeatureEnabled(
+					InternetFeatureList.FEATURE_SECURITYBAND,
+					SetFeatureFlag.SET_FEATURE_ON_PROCESS, true);
+				HtmlControl.SetInternetFeatureEnabled(
+					InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
+					SetFeatureFlag.SET_FEATURE_ON_PROCESS, false);
+				HtmlControl.SetInternetFeatureEnabled(
+					InternetFeatureList.FEATURE_RESTRICT_FILEDOWNLOAD,
+					SetFeatureFlag.SET_FEATURE_ON_PROCESS, false);
+				
+				
+				
+			}
+			
 			htmlControl1.ImagesDownloadEnabled = true;
 			htmlControl1.SilentModeEnabled = true;
 			htmlControl1.Clear();
-			htmlControl1.ScriptObject = this;
+			htmlControl1.ScriptObject = new HTMLBrowserExternalCallImplementation();
 			htmlControl1.Html = htmText;
 			
 		}
@@ -98,7 +140,7 @@ namespace Test
 			this.textUrl.Name = "textUrl";
 			this.textUrl.Size = new System.Drawing.Size(445, 20);
 			this.textUrl.TabIndex = 0;
-			this.textUrl.Text = "http://www.telegraaf.nl/i-mail/article20065191.ece?rss";
+			this.textUrl.Text = "http://www.adobe.com/";
 			// 
 			// button1
 			// 
@@ -234,22 +276,6 @@ namespace Test
 			Application.Run(new Form1());
 		}
 
-		public void MyCustomMethod([MarshalAs(UnmanagedType.BStr)] string theCaption) {
-			// just use a MessageBox
-			string msg = "This messageBox was shown by a call from script on an HTML page, such as \n\n" +
-				"<script language=\"javascript\">\n" + 
-				"function Button1_onclick()\n" + 
-				"{\n" +
-				"  external.MyCustomMethod();\n" + 
-				"}\n" + 
-				"</script>\n\n" +
-				"You can also pass parameters to the custom method.\n" +
-				"The parameter passed in this demo was the string '" + theCaption + "'.";
-
-			string caption = "Custom callback using javscript external.Function()";
-			MessageBox.Show(msg, caption);
-		}
-
 		private void button1_Click(object sender, System.EventArgs e) {
 			htmlControl1.Navigate(textUrl.Text);
 		}
@@ -337,5 +363,29 @@ namespace Test
 				if (i % 2 == 0) Application.DoEvents();
 			}
 		}
+	}
+	
+	/// <summary>
+	/// Demonstrate the usage/impl. of a external object.
+	/// Important is the flag COMVisible(true) to get it work.
+	/// Javascript can now call external.MyCustomMethod("Hello");
+	/// </summary>
+	[ComVisible(true)]
+	public class HTMLBrowserExternalCallImplementation {
+		public void MyCustomMethod([MarshalAs(UnmanagedType.BStr)] string theCaption) {
+			// just use a MessageBox
+			string msg = "This messageBox was shown by a call from script on an HTML page, such as \n\n" +
+				"<script language=\"javascript\">\n" + 
+				"function Button1_onclick()\n" + 
+				"{\n" +
+				"  external.MyCustomMethod();\n" + 
+				"}\n" + 
+				"</script>\n\n" +
+				"You can also pass parameters to the custom method.\n" +
+				"The parameter passed in this demo was the string '" + theCaption + "'.";
+
+			string caption = "Custom callback using javscript external.Function()";
+			MessageBox.Show(msg, caption);
+		}		
 	}
 }

@@ -50,6 +50,10 @@ namespace RssBandit.Utility.Keyboard
 						reader.Close();
 				}
 			}
+			catch(InvalidShortcutSettingsFileException)
+			{
+				throw;
+			}
 			catch(Exception e)
 			{
 				throw new InvalidShortcutSettingsFileException("The Shortcut Settings File is not valid.", e);
@@ -382,7 +386,7 @@ namespace RssBandit.Utility.Keyboard
 							if(display)
 								_displayedShortcuts.Add(command, true);
 						}
-						catch(FormatException e)
+						catch(System.FormatException e)
 						{
 							//TODO: Log this.
 							Console.WriteLine(e.Message);
@@ -432,7 +436,9 @@ namespace RssBandit.Utility.Keyboard
 		void AddShortcut(string command, Shortcut shortcut)
 		{
 			if(_shortcuts.ContainsKey(command))
-				throw new InvalidOperationException("A shortcut for the command \"" + command + "\" already exists." + _shortcuts[command]);
+			{
+				throw new DuplicateShortcutSettingException("A shortcut \"" + _shortcuts[command] + "\"for the command \"" + command + "\" already exists.", command);
+			}
 			
 			_shortcuts.Add(command, shortcut);
 		}
@@ -507,9 +513,11 @@ namespace RssBandit.Utility.Keyboard
 				if(_availableMenuCommands == null)
 					_availableMenuCommands = new string[] 
 					{
-						//Menu Commands	
-						"cmdNewFeed", 
-						"cmdNewCategory",
+						//Menu Commands
+						"cmdNewSubscription",	// calls the wizard in general
+						"cmdNewFeed",			// wizard for Url
+						"cmdNewCategory",		
+						"cmdNewNntpFeed",		// wizard for nntp subscription
 						"cmdImportFeeds",
 						"cmdExportFeeds",
 						"cmdCloseExit",
@@ -520,7 +528,7 @@ namespace RssBandit.Utility.Keyboard
 						"cmdToggleWebTBViewState",
 						"cmdToggleWebSearchTBViewState",
 						"cmdRefreshFeeds",
-						"cmdAutoDiscoverFeed",
+						"cmdAutoDiscoverFeed",	// wizard for search
 						"cmdFeedItemPostReply",
 						"cmdUploadFeeds",
 						"cmdDownloadFeeds",
@@ -554,7 +562,6 @@ namespace RssBandit.Utility.Keyboard
 						"cmdRenameFinder",
 						"cmdRefreshFinder",
 						"cmdDeleteFinder",
-						"cmdDeleteFinder",
 						"cmdDeleteAllFinders",
 						"cmdShowFinderProperties",
 						"cmdMarkSelectedFeedItemsUnread",
@@ -583,6 +590,7 @@ namespace RssBandit.Utility.Keyboard
 						"cmdFeedDetailLayoutPosLeft",
 						"cmdFeedDetailLayoutPosRight",
 						"cmdFeedDetailLayoutPosBottom",
+						"cmdSelectAllFeedItems",						
 						"cmdShowGUI",
 						"cmdShowConfiguredAlertWindows",
 						"cmdShowAlertWindowNone",
@@ -621,12 +629,57 @@ namespace RssBandit.Utility.Keyboard
 						"UpdateFeed",
 						"GiveFocusToUrlTextBox",
 						"GiveFocusToSearchTextBox",
-						"DeleteItem"
+						"DeleteItem",
+						"BrowserCreateNewTab",						
+						"Help"
 					};
 				return _availableComboCommands;
 			}
 		}
 		#endregion
+	}
+
+	/// <summary>
+	/// Exception thrown when trying to load an invalid 
+	/// settings file.
+	/// </summary>
+	[Serializable]
+	public class DuplicateShortcutSettingException : InvalidShortcutSettingsFileException
+	{
+		string _shortcutKey;
+
+		/// <summary>
+		/// Creates a new <see cref="DuplicateShortcutSettingException"/> instance.
+		/// </summary>
+		public DuplicateShortcutSettingException() : base()
+		{}
+
+		/// <summary>
+		/// Creates a new <see cref="DuplicateShortcutSettingException"/> instance.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		public DuplicateShortcutSettingException(string message) : base(message)
+		{}
+
+		/// <summary>
+		/// Creates a new <see cref="DuplicateShortcutSettingException"/> instance.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		/// <param name="shortcutKey">Shortcut key.</param>
+		public DuplicateShortcutSettingException(string message, string shortcutKey) : base(message)
+		{
+			_shortcutKey = shortcutKey;
+		}
+
+		/// <summary>
+		/// Gets the shortcut key.
+		/// </summary>
+		/// <value></value>
+		public string ShortcutKey
+		{
+			get { return _shortcutKey; }
+		}
+
 	}
 
 	/// <summary>

@@ -1,19 +1,20 @@
 #region CVS Version Header
 /*
- * $Id: ExportFeedsDialog.cs,v 1.1 2005/02/17 11:01:30 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/02/17 11:01:30 $
- * $Revision: 1.1 $
+ * $Id: ExportFeedsDialog.cs,v 1.3 2006/09/07 16:47:44 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/09/07 16:47:44 $
+ * $Revision: 1.3 $
  */
 #endregion
-using System;using System.Drawing;using System.Collections;using System.ComponentModel;using System.Windows.Forms;using System.Diagnostics;using System.Threading;using RssBandit.WinGui;using RssBandit.WinGui.Utility;using NewsComponents.Utils;using NewsComponents.Collections;namespace RssBandit.WinGui.Forms{	/// <summary>	/// Summary description for ExportFeedsDialog.	/// </summary>	public class ExportFeedsDialog : System.Windows.Forms.Form	{        private System.Windows.Forms.Button btnOk;        private System.Windows.Forms.Button btnCancel;		private System.Windows.Forms.ToolTip toolTip1;		private System.Windows.Forms.Label label4;
+using System.Drawing;using System.Collections;using System.Windows.Forms;using RssBandit.WinGui.Controls;
+using Infragistics.Win.UltraWinTree;namespace RssBandit.WinGui.Forms{	/// <summary>	/// ExportFeedsDialog.	/// </summary>	public class ExportFeedsDialog : System.Windows.Forms.Form	{        private System.Windows.Forms.Button btnOk;        private System.Windows.Forms.Button btnCancel;		private System.Windows.Forms.ToolTip toolTip1;		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label labelForCheckedTree;
 		internal System.Windows.Forms.TreeView treeExportFeedsSelection;
 		private System.Windows.Forms.Label labelFormats;
 		internal System.Windows.Forms.RadioButton radioFormatNative;
 		internal System.Windows.Forms.RadioButton radioFormatOPML;
 		internal System.Windows.Forms.CheckBox checkFormatOPMLIncludeCats;
-		internal System.Windows.Forms.CheckBox checkFormatNativeFull;		private System.ComponentModel.IContainer components;				/// <summary>		/// Constructor is private because we always want to populate the tree		/// </summary>		private ExportFeedsDialog()		{			//			// Required for Windows Form Designer support			//			InitializeComponent();		}				public ExportFeedsDialog(TreeNode exportRootNode, Font treeFont, ImageList treeImages):this()	{			this.treeExportFeedsSelection.Font = treeFont;			this.treeExportFeedsSelection.ImageList = treeImages;			TreeHelper.CopyNodes(exportRootNode, this.treeExportFeedsSelection, true);			if (this.treeExportFeedsSelection.Nodes.Count > 0) {
+		internal System.Windows.Forms.CheckBox checkFormatNativeFull;		private System.ComponentModel.IContainer components;				/// <summary>		/// Constructor is private because we always want to populate the tree		/// </summary>		private ExportFeedsDialog()		{			//			// Required for Windows Form Designer support			//			InitializeComponent();		}				public ExportFeedsDialog(TreeFeedsNodeBase exportRootNode, Font treeFont, ImageList treeImages):this()	{			this.treeExportFeedsSelection.Font = treeFont;			this.treeExportFeedsSelection.ImageList = treeImages;			TreeHelper.CopyNodes(exportRootNode, this.treeExportFeedsSelection, true);			if (this.treeExportFeedsSelection.Nodes.Count > 0) {
 				this.treeExportFeedsSelection.Nodes[0].Expand();
 			}		}				public ArrayList GetSelectedFeedUrls() {			ArrayList result = new ArrayList(100);			if (this.treeExportFeedsSelection.Nodes.Count > 0) {				ArrayList nodes = new ArrayList(100);				TreeHelper.GetCheckedNodes(this.treeExportFeedsSelection.Nodes[0], nodes);				foreach (TreeNode n in nodes) {					if (n.Tag != null)						result.Add((string)n.Tag);				}			}			return result;		}		/// <summary>		/// Clean up any resources being used.		/// </summary>		protected override void Dispose( bool disposing )		{			if( disposing )			{				if(components != null)				{					components.Dispose();				}			}			base.Dispose( disposing );		}		#region Windows Form Designer generated code		/// <summary>		/// Required method for Designer support - do not modify		/// the contents of this method with the code editor.		/// </summary>		private void InitializeComponent()		{			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ExportFeedsDialog));

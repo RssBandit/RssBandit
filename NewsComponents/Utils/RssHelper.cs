@@ -1,15 +1,17 @@
 #region CVS Version Header
 /*
- * $Id: RssHelper.cs,v 1.12 2005/04/02 20:01:14 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/02 20:01:14 $
- * $Revision: 1.12 $
+ * $Id: RssHelper.cs,v 1.15 2006/11/21 06:34:52 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2006/11/21 06:34:52 $
+ * $Revision: 1.15 $
  */
 #endregion
 
 using System;
 using System.Collections;
+using System.IO;
 using System.Xml;
+using NewsComponents.News;
 
 namespace NewsComponents.Utils
 {
@@ -35,7 +37,7 @@ namespace NewsComponents.Utils
 	public sealed class RssHelper {
 
 		private RssHelper() {}
-
+		
 		/// <summary>
 		/// </summary>
 		public const string NsSlashModules = "http://purl.org/rss/1.0/modules/slash/";
@@ -199,13 +201,39 @@ namespace NewsComponents.Utils
 			
 			XmlQualifiedName qname = GetOptionalElementKey(elements, elementName, elementNamespace);
 			if (qname != null) {
-				XmlElement elem  = (XmlElement) elements[qname];
+				string elem  = (string) elements[qname];
 				if(elem != null) {
-					return elem; 
+					return (XmlElement) elementCreator.ReadNode(new XmlTextReader(new System.IO.StringReader(elem))); 
 				}
 			}
 			return null;
 		}
+		/// <summary>
+		/// Returns the optional XmlElement if found within the provided list,
+		/// else null.
+		/// </summary>
+		/// <param name="elements"></param>
+		/// <param name="elementName"></param>
+		/// <param name="elementNamespace"></param>
+		/// <returns></returns>
+		static public XmlElement[] GetOptionalElements(IDictionary elements, string elementName, string elementNamespace) {
+			if (elements == null || elements.Count == 0)
+				return null;
+			
+			XmlQualifiedName[] qnames = GetOptionalElementKeys(elements, elementName, elementNamespace);
+			if (qnames != null) {
+				ArrayList xElements = new ArrayList();
+				foreach (XmlQualifiedName qname in qnames) {
+					string elem  = (string) elements[qname];
+					if(elem != null) {
+						xElements.Add(elementCreator.ReadNode(new XmlTextReader(new System.IO.StringReader(elem)))); 
+					}
+				}
+				return (XmlElement[])xElements.ToArray( typeof(XmlElement) );
+			}
+			return null;
+		}
+
 		/// <summary>
 		/// Returns the optional XmlElement if found within the provided list,
 		/// else null.
@@ -241,6 +269,28 @@ namespace NewsComponents.Utils
 		}
 
 		/// <summary>
+		/// Returns the optional XmlElements if found within the provided list,
+		/// else null.
+		/// </summary>
+		/// <param name="elements"></param>
+		/// <param name="elementName"></param>
+		/// <param name="elementNamespace"></param>
+		/// <returns>XmlQualifiedName[] or null</returns>
+		static public XmlQualifiedName[] GetOptionalElementKeys(IDictionary elements, string elementName, string elementNamespace) {
+			if (elements == null || elements.Count == 0)
+				return null;
+
+			ArrayList names = new ArrayList();
+			//have to do this because XmlQualifiedName.Equals() is stupid
+			foreach(XmlQualifiedName qname in elements.Keys){						
+				if (qname.Namespace.Equals(elementNamespace) && qname.Name.IndexOf(elementName) >= 0) {
+					names.Add(qname);
+				}
+			}
+			return (XmlQualifiedName[])names.ToArray( typeof(XmlQualifiedName) );
+		}
+
+		/// <summary>
 		/// Creates and returns a new XmlElement with the specified
 		/// prefix, elementName, elementNamespace and value.
 		/// </summary>
@@ -253,6 +303,15 @@ namespace NewsComponents.Utils
 			XmlElement e = elementCreator.CreateElement(prefix, elementName, elementNamespace); 
 			e.InnerText  = value; 
 			return e;
+		}
+
+		/// <summary>
+		/// Creates and returns a new XmlElement from the provided XmlReader
+		/// </summary>
+		/// <param name="reader">The XmlReader positioned on the element to create</param>	
+		/// <returns>XmlElement</returns>
+		static public XmlElement CreateXmlElement(XmlReader reader) {
+			return (XmlElement) elementCreator.ReadNode(reader); 		
 		}
 
 		/// <summary>
@@ -285,6 +344,31 @@ namespace NewsComponents.Utils
 			return new NewsItemComparer(sortDescending, sortField);
 		}
 
+		/// <summary>
+		/// Returns true, if the url is a valid feed Url
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static bool IsFeedUrl(string url) {
+			if (StringHelper.EmptyOrNull(url))
+				return false;
+			if (url.StartsWith("http") || url.StartsWith("file") || File.Exists(url))
+				return true;
+			return false;
+		}
+
+		/// <summary>
+		/// Returns true, if the url is a valid NNTP Url
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static bool IsNntpUrl(string url) {
+			if (StringHelper.EmptyOrNull(url))
+				return false;
+			if (url.StartsWith(NntpWebRequest.NntpUriScheme) || url.StartsWith(NntpWebRequest.NewsUriScheme) || url.StartsWith(NntpWebRequest.NntpsUriScheme))
+				return true;
+			return false;
+		}
 		internal class NewsItemComparer: IComparer {
 		
 			#region private fields
@@ -311,48 +395,52 @@ namespace NewsComponents.Utils
 
 			#region Implementation of IComparer
 			public int Compare(object x, object y) {
+				try {
+					NewsItem ri1 = x as NewsItem, ri2 = y as NewsItem;
 				
-				NewsItem ri1 = x as NewsItem, ri2 = y as NewsItem;
+					if (ri1 == null || ri2 == null)
+						return 0;
 				
-				if (ri1 == null || ri2 == null)
-					return 0;
-				
-				int reverse = (this.sortDescending ? 1: -1);
+					int reverse = (this.sortDescending ? 1: -1);
 
-				switch(this.sortField){
-					case NewsItemSortField.Date:
-						return reverse * DateTime.Compare(ri2.Date, ri1.Date);
+					switch(this.sortField){
+						case NewsItemSortField.Date:
+							return reverse * DateTime.Compare(ri2.Date, ri1.Date);
 
-					case NewsItemSortField.Author:
-						return reverse * String.Compare(ri2.Author, ri1.Author); 
+						case NewsItemSortField.Author:
+							return reverse * String.Compare(ri2.Author, ri1.Author); 
 
-					case NewsItemSortField.CommentCount:
-						return  reverse * ri2.CommentCount.CompareTo(ri1.CommentCount); 
+						case NewsItemSortField.CommentCount:
+							return  reverse * ri2.CommentCount.CompareTo(ri1.CommentCount); 
 
-					case NewsItemSortField.Subject:
-						return reverse * String.Compare(ri2.Subject, ri1.Subject); 
+						case NewsItemSortField.Subject:
+							return reverse * String.Compare(ri2.Subject, ri1.Subject); 
 
-					case NewsItemSortField.Title:
-						return reverse * String.Compare(ri2.Title, ri1.Title); 
+						case NewsItemSortField.Title:
+							return reverse * String.Compare(ri2.Title, ri1.Title); 
 					
-					case NewsItemSortField.FeedTitle:
-						return reverse * String.Compare(ri2.Feed.title, ri1.Feed.title);
+						case NewsItemSortField.FeedTitle:
+							return reverse * String.Compare(ri2.Feed.title, ri1.Feed.title);
 
-					case NewsItemSortField.Flag:
-						return reverse * ri2.FlagStatus.CompareTo(ri1.FlagStatus);
+						case NewsItemSortField.Flag:
+							return reverse * ri2.FlagStatus.CompareTo(ri1.FlagStatus);
 
-					case NewsItemSortField.Enclosure:
-						XmlElement x1 = RssHelper.GetOptionalElement(ri1, "enclosure", String.Empty);
-						XmlElement x2 = RssHelper.GetOptionalElement(ri2, "enclosure", String.Empty);
-						if (x1 == null && x2 == null) return 0;
-						if (x2 != null) 
-							return reverse * 1;
-						else
-							return reverse * -1;
+						case NewsItemSortField.Enclosure:
+							XmlElement x1 = RssHelper.GetOptionalElement(ri1, "enclosure", String.Empty);
+							XmlElement x2 = RssHelper.GetOptionalElement(ri2, "enclosure", String.Empty);
+							if (x1 == null && x2 == null) return 0;
+							if (x2 != null) 
+								return reverse * 1;
+							else
+								return reverse * -1;
 
-					default: 
-						return 0; 
-				}
+						default: 
+							return 0; 
+					}
+				} 
+				catch (System.Threading.ThreadAbortException) {}
+				
+				return 0; 
 			}
 		
 			#endregion
@@ -362,3 +450,12 @@ namespace NewsComponents.Utils
 	}
 
 }
+
+#region CVS Version Log
+/*
+ * $Log: RssHelper.cs,v $
+ * Revision 1.15  2006/11/21 06:34:52  t_rendelmann
+ * fixed: ThreadAbortException can occur while sorting
+ *
+ */
+#endregion

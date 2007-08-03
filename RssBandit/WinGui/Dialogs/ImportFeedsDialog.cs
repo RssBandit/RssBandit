@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ImportFeedsDialog.cs,v 1.10 2005/04/05 17:06:20 t_rendelmann Exp $
+ * $Id: ImportFeedsDialog.cs,v 1.11 2005/12/02 14:32:00 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/05 17:06:20 $
- * $Revision: 1.10 $
+ * Last modified at $Date: 2005/12/02 14:32:00 $
+ * $Revision: 1.11 $
  */
 #endregion
 using System;using System.Drawing;using System.Collections;using System.ComponentModel;using System.Windows.Forms;using System.Diagnostics;using System.Threading;using RssBandit.WinGui;using RssBandit.WinGui.Utility;using NewsComponents.Utils;using NewsComponents.Collections;namespace RssBandit.WinGui.Forms{	/// <summary>	/// Summary description for ImportFeedsDialog.	/// </summary>	public class ImportFeedsDialog : System.Windows.Forms.Form	{		private UrlCompletionExtender urlExtender;
@@ -43,7 +43,6 @@
 			this.label2.AutoSize = ((bool)(resources.GetObject("label2.AutoSize")));
 			this.label2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label2.Dock")));
 			this.label2.Enabled = ((bool)(resources.GetObject("label2.Enabled")));
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label2.Font = ((System.Drawing.Font)(resources.GetObject("label2.Font")));
 			this.label2.Image = ((System.Drawing.Image)(resources.GetObject("label2.Image")));
 			this.label2.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label2.ImageAlign")));
@@ -219,7 +218,6 @@
 			this.label3.AutoSize = ((bool)(resources.GetObject("label3.AutoSize")));
 			this.label3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label3.Dock")));
 			this.label3.Enabled = ((bool)(resources.GetObject("label3.Enabled")));
-			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label3.Font = ((System.Drawing.Font)(resources.GetObject("label3.Font")));
 			this.label3.Image = ((System.Drawing.Image)(resources.GetObject("label3.Image")));
 			this.label3.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.ImageAlign")));

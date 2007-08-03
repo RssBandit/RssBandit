@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: EntertainmentDialog.cs,v 1.7 2005/04/08 15:00:20 t_rendelmann Exp $
+ * $Id: EntertainmentDialog.cs,v 1.8 2005/09/03 18:19:20 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/08 15:00:20 $
- * $Revision: 1.7 $
+ * Last modified at $Date: 2005/09/03 18:19:20 $
+ * $Revision: 1.8 $
  */
 #endregion
 
@@ -20,7 +20,7 @@ namespace RssBandit.WinGui.Forms
 	/// EntertainmentDialog used by EntertainmentThreadHandlerBase
 	/// inherited classes.
 	/// </summary>
-	public class EntertainmentDialog : System.Windows.Forms.Form
+	public class EntertainmentDialog : System.Windows.Forms.Form, IWaitDialog
 	{
 		private TimeSpan timeout = TimeSpan.Zero;	// no timeout
 		private bool operationTimeout = false;
@@ -31,26 +31,21 @@ namespace RssBandit.WinGui.Forms
         private System.Windows.Forms.Label messageLabel;
         private System.ComponentModel.IContainer components;
 
-		private EntertainmentDialog() {
+		public EntertainmentDialog() {
 			InitializeComponent();
 		}
 		
 		public EntertainmentDialog( AutoResetEvent waitHandle ):
-			this(waitHandle, TimeSpan.Zero) {
+			this(waitHandle, TimeSpan.Zero, null) {
         }
 
-		public EntertainmentDialog( AutoResetEvent waitHandle, TimeSpan timeout ):this() {
-			this.waitHandle = waitHandle;
-			this.timeout = timeout;
-			this.timeCounter = 0;
-			if (timeout != TimeSpan.Zero)
-				this.timeCounter = (int)(timeout.TotalMilliseconds / this.timer.Interval);
-			this.DialogResult = DialogResult.OK;
+		public EntertainmentDialog( AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon ):this() {
+			this.Initialize(waitHandle, timeout, dialogIcon);
 		}
 
         public string Message {
-					get { return messageLabel.Text;		}
-					set { messageLabel.Text = value;  }
+			get { return messageLabel.Text;		}
+			set { messageLabel.Text = value;  }
         }
 
 		public bool OperationTimeout {
@@ -195,6 +190,51 @@ namespace RssBandit.WinGui.Forms
 			} else {
 				progressBar.Increment(progressBar.Step);
 			}
-        }
+		}
+
+		#region IWaitDialog Members
+
+		public void Initialize(AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon) {
+			this.waitHandle = waitHandle;
+			this.timeout = timeout;
+			this.timeCounter = 0;
+			if (timeout != TimeSpan.Zero)
+				this.timeCounter = (int)(timeout.TotalMilliseconds / this.timer.Interval);
+			this.DialogResult = DialogResult.OK;
+			if (dialogIcon != null) {
+				this.Icon = dialogIcon;
+			}
+		}
+
+		public System.Windows.Forms.DialogResult StartWaiting(IWin32Window owner, string waitMessage, bool allowCancel) {
+			this.Message = (waitMessage != null ? waitMessage: String.Empty);
+			this.ControlBox = allowCancel;
+			return this.ShowDialog(owner);
+		}
+
+		#endregion
+	}
+
+	/// <summary>
+	/// Detach wait thread dialog implementation. This interface allows
+	/// other forms to act like the build in EntertainmentDialog.
+	/// </summary>
+	public interface IWaitDialog
+	{
+		/// <summary>
+		/// Initialize the wait dialog states.
+		/// </summary>
+		/// <param name="waitHandle"></param>
+		/// <param name="timeout"></param>
+		/// <param name="dialogIcon"></param>
+		void Initialize(AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon);
+		/// <summary>
+		/// Starts the waiting for thread operation end.
+		/// </summary>
+		/// <param name="owner">Dialog owner</param>
+		/// <param name="waitMessage">Thread operation message to display</param>
+		/// <param name="allowCancel">indicates if the thread operation can be cancelled by the user/UI</param>
+		/// <returns>On user cancel: any DialogResult except of DialogResult.OK, else DialogResult.OK</returns>
+		DialogResult StartWaiting(IWin32Window owner, string waitMessage, bool allowCancel);
 	}
 }

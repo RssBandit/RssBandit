@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationBase.cs,v 1.3 2005/06/10 18:25:59 t_rendelmann Exp $
+ * $Id: RelationBase.cs,v 1.6 2006/10/17 15:33:01 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/10 18:25:59 $
- * $Revision: 1.3 $
+ * Last modified at $Date: 2006/10/17 15:33:01 $
+ * $Revision: 1.6 $
  */
 #endregion
 
@@ -23,9 +23,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		protected RelationBase() {
 			hReference = String.Empty;
-			// for mem perf. we can play with that capacity. In RelationCosmos it is later reducted to
-			// the used size by calling TrimToSize().
-			outgoingRelationships = new RelationHRefDictionary(5);	
+			outgoingRelationships = RelationHRefDictionary.Empty;	
 			aPointInTime = RelationCosmos.UnknownPointInTime;
 			pointInTimeIsAdjustable = true;
 			externalRelations = null;
@@ -43,7 +41,10 @@ namespace NewsComponents.RelationCosmos
 		/// <summary>
 		/// The unique identifier.
 		/// </summary>
-		public virtual string Id { get { return p_id; } }
+		public virtual string Id {
+			get { return p_id; }
+			set { p_id = value; }
+		}
 		/// <summary>
 		/// A resource ID, mail/message ID, NNTP post ID.
 		/// </summary>
@@ -108,7 +109,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		public virtual RelationList GetExternalRelations() { 
 			if (externalRelations == null)
-				return RelationCosmos.EmptyRelationList; 
+				return RelationList.Empty; 
 			return externalRelations;
 		}
 		/// <summary>
@@ -216,3 +217,12 @@ namespace NewsComponents.RelationCosmos
 
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: RelationBase.cs,v $
+ * Revision 1.6  2006/10/17 15:33:01  t_rendelmann
+ * made the Id public writable
+ *
+ */
+#endregion

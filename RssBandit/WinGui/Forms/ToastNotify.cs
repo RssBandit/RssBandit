@@ -1,66 +1,56 @@
 #region CVS Version Header
 /*
- * $Id: ToastNotify.cs,v 1.13 2005/04/06 13:07:53 t_rendelmann Exp $
+ * $Id: ToastNotify.cs,v 1.21 2007/07/01 17:58:11 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/06 13:07:53 $
- * $Revision: 1.13 $
+ * Last modified at $Date: 2007/07/01 17:58:11 $
+ * $Revision: 1.21 $
  */
 #endregion
 
 using System;
+using System.IO;
 using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-
+using Genghis.Windows.Forms;
 using NewsComponents; 
-using NewsComponents.Feed;
+using NewsComponents.Net;
 using NewsComponents.Utils;
+
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Forms
 {
-	public class ToastNotify : Genghis.Windows.Forms.AniForm
+	public abstract class ToastNotify : Genghis.Windows.Forms.AniForm
 	{
-		private ItemActivateCallback _itemActivateCallback;
-		private DisplayFeedPropertiesCallback _displayFeedPropertiesCallback;
-		private FeedActivateCallback _feedActivateCallback;
+		protected ItemActivateCallback itemActivateCallback;
+		protected DisplayFeedPropertiesCallback displayFeedPropertiesCallback;
+		protected FeedActivateCallback feedActivateCallback;
+		protected EnclosureActivateCallback enclosureActivateCallback;
 
-		private LinkLabel[] _linkLabels = new LinkLabel[4];
-		private Label[] _linkIcons = new Label[4];
+		protected LinkLabel[] linkLabels = new LinkLabel[4];
+		protected Label[] linkIcons = new Label[4];
 
-		private System.Windows.Forms.Label labelAppIcon;
-		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.Label labelCloseIcon;
-		private System.Windows.Forms.LinkLabel labelFeedInfo;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.LinkLabel linkFeedProperties;
-		private System.Windows.Forms.Label labelNewItemsArrived;
-		private System.Windows.Forms.LinkLabel linkLabel1;
-		private System.Windows.Forms.LinkLabel linkLabel2;
-		private System.Windows.Forms.LinkLabel linkLabel3;
-		private System.Windows.Forms.LinkLabel linkLabel4;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.ToolTip _toolTip;
-		private System.ComponentModel.IContainer components = null;
+		protected System.Windows.Forms.Label labelAppIcon;
+		protected System.Windows.Forms.ImageList imageList1;
+		protected System.Windows.Forms.Label labelCloseIcon;
+		protected System.Windows.Forms.LinkLabel labelFeedInfo;
+		protected System.Windows.Forms.Label label8;
+		protected System.Windows.Forms.LinkLabel linkFeedProperties;
+		protected System.Windows.Forms.Label labelNewItemsArrived;
+		protected System.Windows.Forms.LinkLabel linkLabel1;
+		protected System.Windows.Forms.LinkLabel linkLabel2;
+		protected System.Windows.Forms.LinkLabel linkLabel3;
+		protected System.Windows.Forms.LinkLabel linkLabel4;
+		protected System.Windows.Forms.Label label1;
+		protected System.Windows.Forms.Label label2;
+		protected System.Windows.Forms.Label label3;
+		protected System.Windows.Forms.Label label4;
+		protected System.Windows.Forms.ToolTip toolTip;
+		protected System.ComponentModel.IContainer components = null;
 
-		public ToastNotify()
+		protected void Init()
 		{
-			// This call is required by the Windows Form Designer.
-			InitializeComponent();
-			// our "stacking" implemetation is reduced to provide only one stack of toasts only
-			// not flooding the whole screen...
-			this.StackMode = Genghis.Windows.Forms.StackMode.None;
-			this._linkLabels[0] = this.linkLabel1;
-			this._linkLabels[1] = this.linkLabel2;
-			this._linkLabels[2] = this.linkLabel3;
-			this._linkLabels[3] = this.linkLabel4;
-			this._linkIcons[0] = this.label1;
-			this._linkIcons[1] = this.label2;
-			this._linkIcons[2] = this.label3;
-			this._linkIcons[3] = this.label4;
+			Init(null, null, null, null);
 		}
 
 		/// <summary>
@@ -68,8 +58,8 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="onItemActivateCallback"></param>
 		/// <param name="onFeedPropertiesDialog"></param>
-		public ToastNotify(ItemActivateCallback onItemActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog):
-			this(onItemActivateCallback, onFeedPropertiesDialog, null) {
+		protected void Init(ItemActivateCallback onItemActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
+			Init(onItemActivateCallback, onFeedPropertiesDialog, null, null); 
 		}
 
 		/// <summary>
@@ -78,12 +68,60 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="onItemActivateCallback"></param>
 		/// <param name="onFeedPropertiesDialog"></param>
 		/// <param name="onFeedActivateCallback"></param>
-		public ToastNotify(ItemActivateCallback onItemActivateCallback, 
+		protected void Init(ItemActivateCallback onItemActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog, 	FeedActivateCallback onFeedActivateCallback){
+			Init(onItemActivateCallback, onFeedPropertiesDialog, onFeedActivateCallback, null); 
+		}
+
+		/// <summary>
+		/// Init the ToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="enclosureActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		protected void Init(EnclosureActivateCallback enclosureActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
+			Init(null, onFeedPropertiesDialog, null, enclosureActivateCallback); 
+		}
+
+		/// <summary>
+		/// Init the ToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="enclosureActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		protected void Init(EnclosureActivateCallback enclosureActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog, 	FeedActivateCallback onFeedActivateCallback){
+			Init(null, onFeedPropertiesDialog, onFeedActivateCallback, enclosureActivateCallback); 
+		}
+
+		/// <summary>
+		/// Init the ToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="onItemActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		/// <param name="onFeedActivateCallback"></param>
+		protected void Init(ItemActivateCallback onItemActivateCallback, 
 			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
-			FeedActivateCallback onFeedActivateCallback):this() {
-			this._itemActivateCallback = onItemActivateCallback;
-			this._displayFeedPropertiesCallback = onFeedPropertiesDialog;
-			this._feedActivateCallback = onFeedActivateCallback;
+			FeedActivateCallback onFeedActivateCallback, 
+			EnclosureActivateCallback enclosureActivateCallback){
+			// This call is required by the Windows Form Designer.
+			InitializeComponent();
+			// our "stacking" implemetation is reduced to provide only one stack of toasts only
+			// not flooding the whole screen...
+			this.StackMode = Genghis.Windows.Forms.StackMode.FirstAvailable;
+			this.Placement = FormPlacement.Tray;
+			this.linkLabels[0] = this.linkLabel1;
+			this.linkLabels[1] = this.linkLabel2;
+			this.linkLabels[2] = this.linkLabel3;
+			this.linkLabels[3] = this.linkLabel4;
+			this.linkIcons[0] = this.label1;
+			this.linkIcons[1] = this.label2;
+			this.linkIcons[2] = this.label3;
+			this.linkIcons[3] = this.label4;
+
+			//fix the link label size(s)
+			this.linkFeedProperties.LinkArea = new LinkArea(0, this.linkFeedProperties.Text.Length);
+	
+			this.itemActivateCallback = onItemActivateCallback;
+			this.displayFeedPropertiesCallback = onFeedPropertiesDialog;
+			this.feedActivateCallback = onFeedActivateCallback;					
+			this.enclosureActivateCallback = enclosureActivateCallback;
 		}
 
 		/// <summary>
@@ -94,50 +132,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="items"></param>
 		/// <returns>true, if items found to display, else false </returns>
 		/// <exception cref="InvalidOperationException">If no new items was found</exception>
-		public bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items) {
-			
-			int unreadCount = 0, currentIndex = 0, maxLabels = _linkLabels.GetLength(0);
-
-			for (int i = 0; i < items.Count; i++) {
-				NewsItem item = (NewsItem)items[i];
-				if (!item.BeenRead) {
-					if (unreadCount < maxLabels) {
-						_linkLabels[unreadCount].Text = StringHelper.ShortenByEllipsis(item.Title, 36);
-						if (_linkLabels[unreadCount].Text.Length < item.Title.Length)
-							_toolTip.SetToolTip(_linkLabels[unreadCount], item.Title);
-						else
-							_toolTip.SetToolTip(_linkLabels[unreadCount], String.Empty);
-						_linkLabels[unreadCount].Tag = item;
-						_linkLabels[unreadCount].Visible = true;
-						_linkIcons[unreadCount].Visible = true;
-					}
-					unreadCount++;
-				}
-			}
-
-			if (unreadCount > unreadItemsYetDisplayed) {
-				currentIndex = Math.Min(maxLabels, unreadCount - unreadItemsYetDisplayed);
-			} else {
-				currentIndex = 0;
-			}
-
-			for (int i = currentIndex; i < maxLabels; i ++) {
-				_linkLabels[i].Tag = null;
-				_linkLabels[i].Visible = false;
-				_linkIcons[i].Visible = false;
-				_toolTip.SetToolTip(_linkLabels[i], String.Empty);
-			}
-			
-			if (currentIndex == 0)
-				return false;
-
-			this.labelFeedInfo.Text = feedName + " (" + unreadCount.ToString() + ")";
-			this.labelFeedInfo.LinkArea = new  LinkArea(0, feedName.Length);
-			unreadCount = unreadCount - unreadItemsYetDisplayed;	// recalc difference for display
-			this.labelNewItemsArrived.Text = Resource.Manager["RES_GUIStatusFeedJustReceivedItemsMessage", unreadCount];
-
-			return true;
-		}
+		public abstract bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items);
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -178,7 +173,7 @@ namespace RssBandit.WinGui.Forms
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// linkFeedProperties
@@ -205,7 +200,7 @@ namespace RssBandit.WinGui.Forms
 			this.linkFeedProperties.TabStop = true;
 			this.linkFeedProperties.Text = resources.GetString("linkFeedProperties.Text");
 			this.linkFeedProperties.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("linkFeedProperties.TextAlign")));
-			this._toolTip.SetToolTip(this.linkFeedProperties, resources.GetString("linkFeedProperties.ToolTip"));
+			this.toolTip.SetToolTip(this.linkFeedProperties, resources.GetString("linkFeedProperties.ToolTip"));
 			this.linkFeedProperties.Visible = ((bool)(resources.GetObject("linkFeedProperties.Visible")));
 			this.linkFeedProperties.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkFeedProperties_LinkClicked);
 			// 
@@ -231,7 +226,7 @@ namespace RssBandit.WinGui.Forms
 			this.labelAppIcon.TabIndex = ((int)(resources.GetObject("labelAppIcon.TabIndex")));
 			this.labelAppIcon.Text = resources.GetString("labelAppIcon.Text");
 			this.labelAppIcon.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelAppIcon.TextAlign")));
-			this._toolTip.SetToolTip(this.labelAppIcon, resources.GetString("labelAppIcon.ToolTip"));
+			this.toolTip.SetToolTip(this.labelAppIcon, resources.GetString("labelAppIcon.ToolTip"));
 			this.labelAppIcon.Visible = ((bool)(resources.GetObject("labelAppIcon.Visible")));
 			// 
 			// imageList1
@@ -262,7 +257,7 @@ namespace RssBandit.WinGui.Forms
 			this.labelCloseIcon.TabIndex = ((int)(resources.GetObject("labelCloseIcon.TabIndex")));
 			this.labelCloseIcon.Text = resources.GetString("labelCloseIcon.Text");
 			this.labelCloseIcon.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelCloseIcon.TextAlign")));
-			this._toolTip.SetToolTip(this.labelCloseIcon, resources.GetString("labelCloseIcon.ToolTip"));
+			this.toolTip.SetToolTip(this.labelCloseIcon, resources.GetString("labelCloseIcon.ToolTip"));
 			this.labelCloseIcon.Visible = ((bool)(resources.GetObject("labelCloseIcon.Visible")));
 			this.labelCloseIcon.Click += new System.EventHandler(this.labelCloseIcon_Click);
 			this.labelCloseIcon.MouseEnter += new System.EventHandler(this.labelCloseIcon_MouseEnter);
@@ -292,7 +287,7 @@ namespace RssBandit.WinGui.Forms
 			this.labelFeedInfo.TabStop = true;
 			this.labelFeedInfo.Text = resources.GetString("labelFeedInfo.Text");
 			this.labelFeedInfo.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelFeedInfo.TextAlign")));
-			this._toolTip.SetToolTip(this.labelFeedInfo, resources.GetString("labelFeedInfo.ToolTip"));
+			this.toolTip.SetToolTip(this.labelFeedInfo, resources.GetString("labelFeedInfo.ToolTip"));
 			this.labelFeedInfo.UseMnemonic = false;
 			this.labelFeedInfo.Visible = ((bool)(resources.GetObject("labelFeedInfo.Visible")));
 			this.labelFeedInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnFeedLabelLinkClicked);
@@ -321,7 +316,7 @@ namespace RssBandit.WinGui.Forms
 			this.label8.TabIndex = ((int)(resources.GetObject("label8.TabIndex")));
 			this.label8.Text = resources.GetString("label8.Text");
 			this.label8.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.TextAlign")));
-			this._toolTip.SetToolTip(this.label8, resources.GetString("label8.ToolTip"));
+			this.toolTip.SetToolTip(this.label8, resources.GetString("label8.ToolTip"));
 			this.label8.Visible = ((bool)(resources.GetObject("label8.Visible")));
 			// 
 			// labelNewItemsArrived
@@ -345,7 +340,7 @@ namespace RssBandit.WinGui.Forms
 			this.labelNewItemsArrived.TabIndex = ((int)(resources.GetObject("labelNewItemsArrived.TabIndex")));
 			this.labelNewItemsArrived.Text = resources.GetString("labelNewItemsArrived.Text");
 			this.labelNewItemsArrived.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelNewItemsArrived.TextAlign")));
-			this._toolTip.SetToolTip(this.labelNewItemsArrived, resources.GetString("labelNewItemsArrived.ToolTip"));
+			this.toolTip.SetToolTip(this.labelNewItemsArrived, resources.GetString("labelNewItemsArrived.ToolTip"));
 			this.labelNewItemsArrived.UseMnemonic = false;
 			this.labelNewItemsArrived.Visible = ((bool)(resources.GetObject("labelNewItemsArrived.Visible")));
 			// 
@@ -374,7 +369,7 @@ namespace RssBandit.WinGui.Forms
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = resources.GetString("linkLabel1.Text");
 			this.linkLabel1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("linkLabel1.TextAlign")));
-			this._toolTip.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
+			this.toolTip.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
 			this.linkLabel1.UseMnemonic = false;
 			this.linkLabel1.Visible = ((bool)(resources.GetObject("linkLabel1.Visible")));
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -404,7 +399,7 @@ namespace RssBandit.WinGui.Forms
 			this.linkLabel2.TabStop = true;
 			this.linkLabel2.Text = resources.GetString("linkLabel2.Text");
 			this.linkLabel2.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("linkLabel2.TextAlign")));
-			this._toolTip.SetToolTip(this.linkLabel2, resources.GetString("linkLabel2.ToolTip"));
+			this.toolTip.SetToolTip(this.linkLabel2, resources.GetString("linkLabel2.ToolTip"));
 			this.linkLabel2.UseMnemonic = false;
 			this.linkLabel2.Visible = ((bool)(resources.GetObject("linkLabel2.Visible")));
 			this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -434,7 +429,7 @@ namespace RssBandit.WinGui.Forms
 			this.linkLabel3.TabStop = true;
 			this.linkLabel3.Text = resources.GetString("linkLabel3.Text");
 			this.linkLabel3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("linkLabel3.TextAlign")));
-			this._toolTip.SetToolTip(this.linkLabel3, resources.GetString("linkLabel3.ToolTip"));
+			this.toolTip.SetToolTip(this.linkLabel3, resources.GetString("linkLabel3.ToolTip"));
 			this.linkLabel3.UseMnemonic = false;
 			this.linkLabel3.Visible = ((bool)(resources.GetObject("linkLabel3.Visible")));
 			this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -464,7 +459,7 @@ namespace RssBandit.WinGui.Forms
 			this.linkLabel4.TabStop = true;
 			this.linkLabel4.Text = resources.GetString("linkLabel4.Text");
 			this.linkLabel4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("linkLabel4.TextAlign")));
-			this._toolTip.SetToolTip(this.linkLabel4, resources.GetString("linkLabel4.ToolTip"));
+			this.toolTip.SetToolTip(this.linkLabel4, resources.GetString("linkLabel4.ToolTip"));
 			this.linkLabel4.UseMnemonic = false;
 			this.linkLabel4.Visible = ((bool)(resources.GetObject("linkLabel4.Visible")));
 			this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -491,7 +486,7 @@ namespace RssBandit.WinGui.Forms
 			this.label1.TabIndex = ((int)(resources.GetObject("label1.TabIndex")));
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label1.TextAlign")));
-			this._toolTip.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
+			this.toolTip.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
 			this.label1.Visible = ((bool)(resources.GetObject("label1.Visible")));
 			// 
 			// label2
@@ -516,7 +511,7 @@ namespace RssBandit.WinGui.Forms
 			this.label2.TabIndex = ((int)(resources.GetObject("label2.TabIndex")));
 			this.label2.Text = resources.GetString("label2.Text");
 			this.label2.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label2.TextAlign")));
-			this._toolTip.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
+			this.toolTip.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
 			this.label2.Visible = ((bool)(resources.GetObject("label2.Visible")));
 			// 
 			// label3
@@ -541,7 +536,7 @@ namespace RssBandit.WinGui.Forms
 			this.label3.TabIndex = ((int)(resources.GetObject("label3.TabIndex")));
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.TextAlign")));
-			this._toolTip.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
+			this.toolTip.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
 			this.label3.Visible = ((bool)(resources.GetObject("label3.Visible")));
 			// 
 			// label4
@@ -566,12 +561,12 @@ namespace RssBandit.WinGui.Forms
 			this.label4.TabIndex = ((int)(resources.GetObject("label4.TabIndex")));
 			this.label4.Text = resources.GetString("label4.Text");
 			this.label4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.TextAlign")));
-			this._toolTip.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
+			this.toolTip.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
 			this.label4.Visible = ((bool)(resources.GetObject("label4.Visible")));
 			// 
-			// _toolTip
+			// toolTip
 			// 
-			this._toolTip.ShowAlways = true;
+			this.toolTip.ShowAlways = true;
 			// 
 			// ToastNotify
 			// 
@@ -601,7 +596,7 @@ namespace RssBandit.WinGui.Forms
 			this.Controls.Add(this.linkFeedProperties);
 			this.Delay = 15000;
 			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
-			this.EndColor = System.Drawing.Color.FromArgb(((System.Byte)(255)), ((System.Byte)(224)), ((System.Byte)(192)));
+			this.EndColor = System.Drawing.Color.FromArgb(((System.Byte)(112)), ((System.Byte)(163)), ((System.Byte)(239)));
 			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
@@ -611,71 +606,281 @@ namespace RssBandit.WinGui.Forms
 			this.Name = "ToastNotify";
 			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.Speed = 50;
-			this.StartColor = System.Drawing.Color.White;
+			this.StartColor = System.Drawing.Color.AliceBlue;
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
 			this.Text = resources.GetString("$this.Text");
-			this._toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+			this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
 			this.VisibleChanged += new System.EventHandler(this.OnVisibleChanged);
+			this.MouseEnter += new System.EventHandler(this.OnMouseEnter);
+			this.MouseLeave += new System.EventHandler(this.OnMouseLeave);
 			this.ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void labelCloseIcon_Click(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_Click(object sender, System.EventArgs e) {
 			this.RequestClose();
 		}
 
-		private void labelCloseIcon_MouseEnter(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_MouseEnter(object sender, System.EventArgs e) {
 			if (labelCloseIcon.ImageIndex != 2)
 				labelCloseIcon.ImageIndex = 2;
 		}
 
-		private void labelCloseIcon_MouseLeave(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_MouseLeave(object sender, System.EventArgs e) {
 			if (labelCloseIcon.ImageIndex != 1)
 				labelCloseIcon.ImageIndex = 1;
 		}
 
-		private void OnVisibleChanged(object sender, System.EventArgs e) {
+		protected void OnVisibleChanged(object sender, System.EventArgs e) {
 			if (!base.Visible) {
 				// remove NewsItem refs:
 				this.linkLabel1.Tag = this.linkLabel2.Tag = this.linkLabel3.Tag = this.linkLabel4.Tag = null;
 			}
 		}
 
-		private void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
-			//navigate to feed options dialog
-			if (_displayFeedPropertiesCallback != null) {
-				try {
-					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
-					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
-					_displayFeedPropertiesCallback(item.Feed);
-				} catch {}
-			}
-			this.RequestClose();
+		protected abstract void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);
+
+		protected abstract void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);
+
+		protected abstract void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);		
+
+		protected void OnMouseEnter(object sender, System.EventArgs e) {
+			this.Activate();
 		}
 
-		private void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
-			//navigate to feed item 
-			if (_itemActivateCallback != null) {
-				try {
-					NewsItem item = (NewsItem)((LinkLabel)sender).Tag;
-					_itemActivateCallback(item);
-				} catch {}
-			}
-			this.RequestClose();
-		}
-
-		private void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
-			//navigate to feed item 
-			if (_feedActivateCallback != null) {
-				try {
-					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
-					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
-					_feedActivateCallback(item.Feed);
-				} catch {}
-			}
-			this.RequestClose();
+		protected void OnMouseLeave(object sender, System.EventArgs e) {
+			//
 		}
 	}
+
+	public class NewsItemToastNotify : ToastNotify {
+		/// <summary>
+		/// Default constructor calls base
+		/// </summary>
+		public NewsItemToastNotify() : base(){;}
+
+		/// <summary>
+		/// Init the NewsItemToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="onItemActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		public NewsItemToastNotify(ItemActivateCallback onItemActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
+			Init(onItemActivateCallback, onFeedPropertiesDialog, null);
+		}
+
+		/// <summary>
+		/// Init the NewsItemToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="onItemActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		/// <param name="onFeedActivateCallback"></param>
+		public NewsItemToastNotify(ItemActivateCallback onItemActivateCallback, 
+			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
+			FeedActivateCallback onFeedActivateCallback){
+			Init(onItemActivateCallback,onFeedPropertiesDialog,onFeedActivateCallback);
+		}
+
+		/// <summary>
+		/// Init the toast display.
+		/// </summary>
+		/// <param name="feedName">Feed name</param>
+		/// <param name="unreadItemsYetDisplayed"></param>
+		/// <param name="items"></param>
+		/// <returns>true, if items found to display, else false </returns>
+		/// <exception cref="InvalidOperationException">If no new items was found</exception>
+		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items) {
+			
+			int unreadCount = 0, currentIndex = 0, maxLabels = linkLabels.GetLength(0);
+
+			for (int i = 0; i < items.Count; i++) {
+				NewsItem item = (NewsItem)items[i];
+				if (!item.BeenRead) {
+					if (unreadCount < maxLabels) {
+						linkLabels[unreadCount].Text = StringHelper.ShortenByEllipsis(item.Title, 36);
+						if (linkLabels[unreadCount].Text.Length < item.Title.Length)
+							toolTip.SetToolTip(linkLabels[unreadCount], item.Title);
+						else
+							toolTip.SetToolTip(linkLabels[unreadCount], String.Empty);
+						linkLabels[unreadCount].Tag = item;
+						linkLabels[unreadCount].Visible = true;
+						linkIcons[unreadCount].Visible = true;
+					}
+					unreadCount++;
+				}
+			}
+
+			if (unreadCount > unreadItemsYetDisplayed) {
+				currentIndex = Math.Min(maxLabels, unreadCount - unreadItemsYetDisplayed);
+			} else {
+				currentIndex = 0;
+			}
+
+			for (int i = currentIndex; i < maxLabels; i ++) {
+				linkLabels[i].Tag = null;
+				linkLabels[i].Visible = false;
+				linkIcons[i].Visible = false;
+				toolTip.SetToolTip(linkLabels[i], String.Empty);
+			}
+			
+			if (currentIndex == 0)
+				return false;
+
+			this.labelFeedInfo.Text = feedName + " (" + unreadCount.ToString() + ")";
+			this.labelFeedInfo.LinkArea = new  LinkArea(0, feedName.Length);
+			unreadCount = unreadCount - unreadItemsYetDisplayed;	// recalc difference for display
+			this.labelNewItemsArrived.Text = SR.GUIStatusFeedJustReceivedItemsMessage(unreadCount);
+
+			return true;
+		}
+
+		
+
+		protected override void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed options dialog
+			if (displayFeedPropertiesCallback != null) {
+				try {
+					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
+					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
+					displayFeedPropertiesCallback(item.Feed);
+				} catch {}
+			}
+			this.RequestClose();
+		}
+
+		protected override void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed item 
+			if (itemActivateCallback != null) {
+				try {
+					NewsItem item = (NewsItem)((LinkLabel)sender).Tag;
+					itemActivateCallback(item);
+				} catch {}
+			}
+			this.RequestClose();
+		}
+
+		protected override void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed item 
+			if (feedActivateCallback != null) {
+				try {
+					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
+					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
+					feedActivateCallback(item.Feed);
+				} catch {}
+			}
+			this.RequestClose();
+		}	
+	}
+
+	public class EnclosureToastNotify : ToastNotify {
+		/// <summary>
+		/// Default constructor calls base
+		/// </summary>
+		public EnclosureToastNotify() : base(){;}
+
+		/// <summary>
+		/// Init the NewsItemToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="onEnclosureActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		public EnclosureToastNotify(EnclosureActivateCallback onEnclosureActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
+			Init(onEnclosureActivateCallback, onFeedPropertiesDialog, null);
+		}
+
+		/// <summary>
+		/// Init the NewsItemToastNotify with the needed callbacks.
+		/// </summary>
+		/// <param name="onEnclosureActivateCallback"></param>
+		/// <param name="onFeedPropertiesDialog"></param>
+		/// <param name="onFeedActivateCallback"></param>
+		public EnclosureToastNotify(EnclosureActivateCallback onEnclosureActivateCallback, 
+			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
+			FeedActivateCallback onFeedActivateCallback){
+			Init(onEnclosureActivateCallback,onFeedPropertiesDialog,onFeedActivateCallback);
+		}
+
+		/// <summary>
+		/// Init the toast display.
+		/// </summary>
+		/// <param name="feedName">Feed name</param>
+		/// <param name="unreadItemsYetDisplayed"></param>
+		/// <param name="items"></param>
+		/// <returns>true, if items found to display, else false </returns>
+		/// <exception cref="InvalidOperationException">If no new items was found</exception>
+		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items) {
+			
+			int unreadCount = 0, maxLabels = linkLabels.GetLength(0);
+			
+			for (int i = 0; i < items.Count; i++) {
+				DownloadItem item = (DownloadItem) items[i]; 				
+					
+				if (unreadCount < maxLabels) {
+					linkLabels[unreadCount].Text = StringHelper.ShortenByEllipsis(item.File.LocalName, 36);
+					if (linkLabels[unreadCount].Text.Length < item.File.LocalName.Length)
+						toolTip.SetToolTip(linkLabels[unreadCount], item.File.LocalName);
+					else
+						toolTip.SetToolTip(linkLabels[unreadCount], String.Empty);
+					linkLabels[unreadCount].Tag = item;
+					linkLabels[unreadCount].Visible = true;
+					linkIcons[unreadCount].Visible = true;
+				}
+				unreadCount++;
+				
+			}//for
+
+			//clear out remaining link labels
+			for (int i = 1; i < maxLabels; i ++) {
+				linkLabels[i].Tag = null;
+				linkLabels[i].Visible = false;
+				linkIcons[i].Visible = false;
+				toolTip.SetToolTip(linkLabels[i], String.Empty);
+			}
+						
+ 
+			this.labelFeedInfo.Text = feedName;
+			this.labelFeedInfo.LinkArea = new  LinkArea(0, feedName.Length);
+			this.labelNewItemsArrived.Text = SR.GUIStatusEnclosureJustReceivedItemsMessage;
+
+			return true;
+		}
+
+		
+
+		protected override void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed options dialog
+			if (displayFeedPropertiesCallback != null) {
+				try {
+					DownloadItem item = (DownloadItem)this.linkLabel1.Tag;	// we should have always at least one
+					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
+					displayFeedPropertiesCallback(item.OwnerFeed);
+				} catch {}
+			}
+			this.RequestClose();
+		}
+
+		protected override void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed item 
+			if (enclosureActivateCallback != null) {
+				try {
+					DownloadItem item = (DownloadItem)((LinkLabel)sender).Tag;
+					this.enclosureActivateCallback(item);					
+				} catch {}
+			}
+			this.RequestClose();
+		}
+
+		protected override void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+			//navigate to feed item 
+			if (feedActivateCallback != null) {
+				try {
+					DownloadItem item = (DownloadItem)this.linkLabel1.Tag;	// we should have always at least one
+					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
+					feedActivateCallback(item.OwnerFeed);
+				} catch {}
+			}
+			this.RequestClose();
+		}	
+	}
+
 }
 

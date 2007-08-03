@@ -1,18 +1,15 @@
 #region CVS Version Header
 /*
- * $Id: Win32.cs,v 1.5 2005/03/30 12:28:40 t_rendelmann Exp $
+ * $Id: Win32.cs,v 1.8 2007/03/13 16:50:49 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/30 12:28:40 $
- * $Revision: 1.5 $
+ * Last modified at $Date: 2007/03/13 16:50:49 $
+ * $Revision: 1.8 $
  */
 #endregion
 
 using System;
-using System.IO;
-using System.Collections;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Microsoft.Win32;
 
 namespace System.Windows.Forms.ThListView
 {
@@ -22,36 +19,6 @@ namespace System.Windows.Forms.ThListView
 	internal sealed class Win32
 	{
 		
-		#region static helpers
-
-		public static bool IsOSAtLeastWindowsXP {
-			get { 
-				return (Environment.OSVersion.Platform == PlatformID.Win32NT && 
-					(Environment.OSVersion.Version.Major > 5 || 
-					(Environment.OSVersion.Version.Major == 5 && 
-					Environment.OSVersion.Version.Minor >= 1)));
-			}
-		}
-
-		private static int[] GetColumnOrderArray(IntPtr listviewHandle, int columnCount) {
-			int[] lParam	= new int[columnCount];
-			int result = Win32.API.SendMessage(listviewHandle, Win32.W32_LVM.LVM_GETCOLUMNORDERARRAY, columnCount, lParam);
-			if (result == 0) {
-				// something wrong
-			}
-			return lParam;
-		}
-
-		private static void SetColumnOrderArray(IntPtr listviewHandle, int[] columnArray) {
-			int columnCount	= columnArray.GetLength(0);
-			int result = Win32.API.SendMessage(listviewHandle, Win32.W32_LVM.LVM_SETCOLUMNORDERARRAY, columnCount, columnArray);
-			if (result == 0) {
-				// something wrong
-			}
-		}
-
-		#endregion
-
 		#region ComInterop stuff
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -785,7 +752,8 @@ namespace System.Windows.Forms.ThListView
 		#endregion
 
 		#region Windows API
-		
+
+		[System.Security.SuppressUnmanagedCodeSecurity]
 		internal sealed class API {
 			
 			#region Post/SendMessage overloads
@@ -861,7 +829,7 @@ namespace System.Windows.Forms.ThListView
 					apiGroup.state = LVGS_NORMAL;
 					apiGroup.cbSize = Marshal.SizeOf(typeof(LVGROUP));
 
-					ptrRetVal = (int)SendMessage(listHandle, W32_LVM.LVM_INSERTGROUP, -1, ref apiGroup);
+					ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_INSERTGROUP, -1, ref apiGroup);
 					return ptrRetVal;
 				}
 				catch(Exception ex){
@@ -872,13 +840,12 @@ namespace System.Windows.Forms.ThListView
 
 
 			public static int RemoveListViewGroup(IntPtr listHandle, int index){ 
-				int ptrRetVal;
-
+				
 				try {
 					if(listHandle == IntPtr.Zero){ return -1; }
 
 					int param = 0;
-					ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
+					int ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
 
 					return ptrRetVal;
 				}
@@ -889,13 +856,12 @@ namespace System.Windows.Forms.ThListView
 
 
 			public static void ClearListViewGroup(IntPtr listHandle){
-				int ptrRetVal;
 
 				try{
 					if(listHandle == IntPtr.Zero){ return; }
 
 					int param = 0;
-					ptrRetVal = (int)SendMessage(listHandle, W32_LVM.LVM_REMOVEALLGROUPS, 0, ref param);
+					SendMessage(listHandle, W32_LVM.LVM_REMOVEALLGROUPS, 0, ref param);
 				}catch(Exception ex) {
 					throw new System.Exception("An exception in API.ClearListViewGroup occured: " + ex.Message);
 				}
@@ -903,13 +869,12 @@ namespace System.Windows.Forms.ThListView
 
 
 			public static void RedrawItems(ListView lst, bool update){
-				int ptrRetVal;
-
+				
 				try{
 					if(lst != null){ return; }
 
 					int param = lst.Items.Count - 1;
-					ptrRetVal = SendMessage(lst.Handle, W32_LVM.LVM_REDRAWITEMS, 0, ref param);
+					SendMessage(lst.Handle, W32_LVM.LVM_REDRAWITEMS, 0, ref param);
 
 					if (update) { UpdateItems(lst); }
 	
@@ -922,14 +887,13 @@ namespace System.Windows.Forms.ThListView
 
 
 			public static void UpdateItems(ListView lst){
-				int ptrRetVal;
-
+				
 				try{
 					if( lst != null){ return; }
 
 					for(int i = 0; i < lst.Items.Count - 1; i++){
 						int param = 0;
-						ptrRetVal = (int)SendMessage(lst.Handle, W32_LVM.LVM_UPDATE, i, ref param);
+						SendMessage(lst.Handle, W32_LVM.LVM_UPDATE, i, ref param);
 					}
 				}
 				catch(Exception ex){

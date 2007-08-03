@@ -1,17 +1,17 @@
 #region CVS Version Header
 /*
- * $Id: DiscoveredFeedsDialog.cs,v 1.5 2004/02/10 11:09:28 t_rendelmann Exp $
+ * $Id: DiscoveredFeedsDialog.cs,v 1.7 2006/04/06 11:08:10 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/02/10 11:09:28 $
- * $Revision: 1.5 $
+ * Last modified at $Date: 2006/04/06 11:08:10 $
+ * $Revision: 1.7 $
  */
 #endregion
 
 using System;
-using System.Drawing;
 using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
+
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -24,7 +24,7 @@ namespace RssBandit.WinGui.Forms
         private System.Windows.Forms.Button btnAddFeeds;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label horizontalEdge;
-        public System.Windows.Forms.ListView listFeeds;
+        internal System.Windows.Forms.ListView listFeeds;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -32,13 +32,13 @@ namespace RssBandit.WinGui.Forms
 
 		private DiscoveredFeedsDialog(){;}
 
-		public DiscoveredFeedsDialog(Hashtable rssFeeds)
+		public DiscoveredFeedsDialog(Hashtable feeds)
 		{
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-			this.rssFeeds = rssFeeds;		
+			this.rssFeeds = feeds;		
             
 		}
 
@@ -213,18 +213,18 @@ namespace RssBandit.WinGui.Forms
 				if (t.IsArray) {
 					string[] subItems = (string[])feedinfo;
 					if (subItems.GetLength(0) != listFeeds.Columns.Count) {	// additional fields
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionFeedTitle"], 80, HorizontalAlignment.Left);
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionFeedDesc"], 80, HorizontalAlignment.Left);
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionSiteUrl"], 80, HorizontalAlignment.Left);
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionFeedUrl"], 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionFeedTitle, 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionFeedDesc, 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionSiteUrl, 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionFeedUrl, 80, HorizontalAlignment.Left);
 					}
 					lv = new ListViewItem((string[])feedinfo);
 				} else { // obsolete, not used anymore
 					if (2 != listFeeds.Columns.Count) {	// additional fields
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionFeedTitle"], 80, HorizontalAlignment.Left);
-						listFeeds.Columns.Add(Resource.Manager["RES_ListviewColumnCaptionFeedUrl"], 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionFeedTitle, 80, HorizontalAlignment.Left);
+						listFeeds.Columns.Add(SR.ListviewColumnCaptionFeedUrl, 80, HorizontalAlignment.Left);
 					}
-					lv = new ListViewItem(new string[]{Resource.Manager["RES_AutoDiscoveredDefaultTitle"], (string)feedUrl});
+					lv = new ListViewItem(new string[]{SR.AutoDiscoveredDefaultTitle, (string)feedUrl});
 				}
 				lv.Tag = feedUrl;
                 listFeeds.Items.Add(lv);

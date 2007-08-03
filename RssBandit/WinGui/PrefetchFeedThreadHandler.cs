@@ -1,23 +1,20 @@
 #region CVS Version Header
 /*
- * $Id: PrefetchFeedThreadHandler.cs,v 1.11 2005/04/08 15:00:18 t_rendelmann Exp $
+ * $Id: PrefetchFeedThreadHandler.cs,v 1.12 2005/09/06 20:07:11 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/08 15:00:18 $
- * $Revision: 1.11 $
+ * Last modified at $Date: 2005/09/06 20:07:11 $
+ * $Revision: 1.12 $
  */
 #endregion
 
 using System;
+using System.IO;
 using System.Net;
-using System.Xml;
 using System.Threading;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Windows.Forms;
 
 using NewsComponents;
 using NewsComponents.Feed;
-using RssBandit.WinGui.Utility;
+using NewsComponents.Net;
 
 namespace RssBandit.WinGui
 {
@@ -29,14 +26,14 @@ namespace RssBandit.WinGui
 	{
 		private string feedUrl = String.Empty;
 		private feedsFeed discoveredFeed = null;
-		private IFeedDetails feedInfo = null;
-		private NewsHandler feedHandler; 
+		private FeedInfo feedInfo = null;
+		private IWebProxy proxy; 
 		private ICredentials credentials = null;
 		
 		private PrefetchFeedThreadHandler() {;}
-		public PrefetchFeedThreadHandler(string feedUrl, NewsHandler handler) {
+		public PrefetchFeedThreadHandler(string feedUrl, IWebProxy proxy) {
 			this.feedUrl = feedUrl;
-			this.feedHandler = handler; 
+			this.proxy = proxy; 
 		}
 	
 		public string FeedUrl {
@@ -52,9 +49,18 @@ namespace RssBandit.WinGui
 			get {	return feedInfo;	}
 		}
 
+		internal FeedInfo FeedInfo {
+			get {	return feedInfo;	}
+		}
+
 		public ICredentials Credentials {
 			get {	return this.credentials;	}
 			set {	this.credentials = value;	}
+		}
+
+		public IWebProxy Proxy {
+			get {	return this.proxy;	}
+			set {	this.proxy = value;	}
 		}
 
 		protected override void Run() {
@@ -63,7 +69,16 @@ namespace RssBandit.WinGui
 
 			try {
 				
-				feedInfo = feedHandler.GetFeedInfo(this.feedUrl, this.credentials);
+				//feedInfo = feedHandler.GetFeedInfo(this.feedUrl, this.credentials);
+				using (Stream mem = AsyncWebRequest.GetSyncResponseStream(this.feedUrl, this.credentials, RssBanditApplication.UserAgent, this.Proxy)) {
+					feedsFeed f = new feedsFeed();
+					f.link = feedUrl;
+					if (RssParser.CanProcessUrl(feedUrl)) {
+						feedInfo = RssParser.GetItemsForFeed(f, mem, false); 
+						if (feedInfo.ItemsList != null && feedInfo.ItemsList.Count > 0)
+							f.containsNewMessages = true;
+					}
+				}
 
 			} catch (ThreadAbortException) {
 				// eat up

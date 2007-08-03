@@ -1,5 +1,5 @@
 Software License Agreement
-Copyright (c) 2004 by Torsten Rendelmann
+Copyright (c) 2004-2006 by Torsten Rendelmann
 
 Product: IEControl
 License Type: Free Software
@@ -29,5 +29,5 @@ RESTRICTIONS
     If your application does not have an About dialog the text must be displayed 
     prominently elsewhere.
 
-"IEControl Copyright (c) 2004 by Torsten Rendelmann, http://www.rendelmann.info/blog/"
+"IEControl Copyright (c) 2004-2006 by Torsten Rendelmann, http://www.rendelmann.info/blog/"
 

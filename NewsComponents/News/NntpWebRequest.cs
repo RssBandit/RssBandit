@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using NewsComponents.Resources;
+using NewsComponents.Utils;
 
 
 namespace NewsComponents.News {
@@ -60,7 +62,7 @@ namespace NewsComponents.News {
 		/// The number of articles the NntpWebRequest should fetch from the server on a 
 		/// NEWNEWS request. 
 		/// </summary>
-		private int downloadCount = 200; 
+		private int downloadCount = 500; 
 
 		/// <summary>
 		/// The credentials associated with this request.
@@ -264,10 +266,19 @@ namespace NewsComponents.News {
 				NetworkCredential nc = this.credentials as NetworkCredential; 
 
 				if(nc == null){
-					throw new WebException("Credentials property not an instance of NetworkCredential");
+					throw new NntpWebException("Credentials property not an instance of NetworkCredential");
 				}
-
-				client.AuthInfo(nc.UserName, nc.Password); 
+				
+				bool authOK = false;
+				
+				if(StringHelper.EmptyOrNull(nc.Domain)){
+					authOK = client.AuthInfo(nc.UserName, nc.Password); 
+				}else{
+					authOK = client.AuthInfo(nc.Domain + "\\" + nc.UserName, nc.Password); 
+				}
+				
+				if (!authOK)
+					throw new NntpWebException(ComponentsText.ExceptionNntpServerAuthenticationFailed(requestUri.Host));
 			}
 
 			return client; 
@@ -323,7 +334,7 @@ namespace NewsComponents.News {
 				(GetResponseDelegate) this.delegateTable[asyncResult]; 
 
 			if(getResponse == null){
-				throw new WebException("GetRequestStreamDelegate for " 
+				throw new NntpWebException("GetRequestStreamDelegate for " 
 					+ this.requestUri + 
 					"not found in delegates table of NntpWebRequest");
 			}
@@ -370,7 +381,7 @@ namespace NewsComponents.News {
 					(GetRequestStreamDelegate) this.delegateTable[asyncResult]; 
 
 			if(getRequestStream == null){
-				throw new WebException("GetRequestStreamDelegate for " 
+				throw new NntpWebException("GetRequestStreamDelegate for " 
 										+ this.requestUri + 
 										"not found in delegates table of NntpWebRequest");
 			}
@@ -395,7 +406,7 @@ namespace NewsComponents.News {
 			if((!uri.Scheme.Equals(NntpUriScheme)) && (!uri.Scheme.Equals(NewsUriScheme))){
 				throw new NotSupportedException(); 
 			}
-			Console.WriteLine(uri.AbsolutePath.Substring(1)); 
+			//Console.WriteLine(uri.AbsolutePath.Substring(1)); 
 			return new NntpWebRequest(uri); 
 		}
 

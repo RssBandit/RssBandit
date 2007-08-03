@@ -1,9 +1,25 @@
 #region CVS Version Header
 /*
- * $Id: IdentityNewsServerManager.cs,v 1.13 2005/06/10 13:09:48 t_rendelmann Exp $
+ * $Id: IdentityNewsServerManager.cs,v 1.18 2006/10/31 13:36:35 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/10 13:09:48 $
- * $Revision: 1.13 $
+ * Last modified at $Date: 2006/10/31 13:36:35 $
+ * $Revision: 1.18 $
+ */
+#endregion
+
+#region CVS Version Log
+/*
+ * $Log: IdentityNewsServerManager.cs,v $
+ * Revision 1.18  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ * Revision 1.17  2006/09/29 18:14:36  t_rendelmann
+ * a) integrated lucene index refreshs;
+ * b) now using a centralized defined category separator;
+ * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
+ * d) fixed: issue [ 1546921 ] Extra Category Folders Created
+ * e) fixed: issue [ 1550083 ] Problem when renaming categories
+ *
  */
 #endregion
 
@@ -18,7 +34,7 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.News;
 using NewsComponents.Utils;
-
+using RssBandit.Resources;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Forms;
 
@@ -31,8 +47,11 @@ namespace RssBandit
 	/// </summary>
 	public class IdentityNewsServerManager: IServiceProvider
 	{
+		public event EventHandler NewsServerDefinitionsModified;
+		public event EventHandler IdentityDefinitionsModified;
+
 		// logging/tracing:
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(IdentityNewsServerManager));
+		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(IdentityNewsServerManager));
 
 		private static UserIdentity anonymous;
 
@@ -184,22 +203,22 @@ namespace RssBandit
 		/// <param name="owner">Windows handle</param>
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <returns>List of groups a server offer</returns>
-		/// <exception cref="ArgumentNullException">If <see cref="sd">param sd</see> is null</exception>
+		/// <exception cref="ArgumentNullException">If <see paramref="sd">param sd</see> is null</exception>
 		/// <exception cref="Exception">On any failure we get on request</exception>
 		IList FetchNewsGroupsFromServer(IWin32Window owner, NntpServerDefinition sd) {
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
 			FetchNewsgroupsThreadHandler threadHandler = new FetchNewsgroupsThreadHandler(sd);
-			DialogResult result = threadHandler.Start(owner, Resource.Manager["RES_NntpLoadingGroupsWaitMessage"], true);
+			DialogResult result = threadHandler.Start(owner, SR.NntpLoadingGroupsWaitMessage, true);
 
 			if (DialogResult.OK != result)
 				return new ArrayList(0);	// cancelled
                     
 			if (!threadHandler.OperationSucceeds) {
 				MessageBox.Show(
-					Resource.Manager["RES_ExceptionNntpLoadingGroupsFailed", sd.Server, threadHandler.OperationException.Message], 
-					Resource.Manager["RES_GUINntpLoadingGroupsFailedCaption"], MessageBoxButtons.OK,MessageBoxIcon.Error);
+					SR.ExceptionNntpLoadingGroupsFailed(sd.Server, threadHandler.OperationException.Message), 
+					SR.GUINntpLoadingGroupsFailedCaption, MessageBoxButtons.OK,MessageBoxIcon.Error);
 
 				return new ArrayList(0);	// failed
 			}
@@ -211,19 +230,23 @@ namespace RssBandit
 
 		#region ShowDialog()'s 
 		public void ShowIdentityDialog(IWin32Window owner) {
-			this.ShowDialog(owner, NewsGroupSettingsView.Identity);
+			this.ShowDialog(owner, NewsgroupSettingsView.Identity);
 		}
 		public void ShowNewsServerSubscriptionsDialog(IWin32Window owner) {
-			this.ShowDialog(owner, NewsGroupSettingsView.NewsServerSubscriptions);
+			this.ShowDialog(owner, NewsgroupSettingsView.NewsServerSubscriptions);
 		}
 		
-		public void ShowDialog(IWin32Window owner, NewsGroupSettingsView view) {
-			NewsGroupsConfiguration cfg = new NewsGroupsConfiguration(this, view);
+		public void ShowDialog(IWin32Window owner, NewsgroupSettingsView view) {
+			NewsgroupsConfiguration cfg = new NewsgroupsConfiguration(this, view);
 			cfg.DefinitionsModified += new EventHandler(OnCfgDefinitionsModified);
 			try {
 				if (DialogResult.OK == cfg.ShowDialog(owner)) {
-					if (!app.FeedlistModified)
-						app.FeedlistModified = true;
+					//TODO: we should differ between the two kinds of general modifications
+					RaiseNewsServerDefinitionsModified();
+					RaiseIdentityDefinitionsModified();
+//					if (!app.FeedlistModified)
+//						app.FeedlistModified = true;
+					app.SubscriptionModified(NewsFeedProperty.General);
 				}
 			} catch (Exception ex) {
 				Trace.WriteLine("Exception in NewsGroupsConfiguration dialog: "+ex.Message);
@@ -231,10 +254,21 @@ namespace RssBandit
 		}
 		#endregion
 
+		#region private members
+		void RaiseNewsServerDefinitionsModified() {
+			if (NewsServerDefinitionsModified != null)
+				NewsServerDefinitionsModified(this, EventArgs.Empty);
+		}
+		void RaiseIdentityDefinitionsModified() {
+			if (IdentityDefinitionsModified != null)
+				IdentityDefinitionsModified(this, EventArgs.Empty);
+		}
+		#endregion
+
 		#region event handling
 		private void OnCfgDefinitionsModified(object sender, EventArgs e) {
 			
-			NewsGroupsConfiguration cfg = sender as NewsGroupsConfiguration;
+			NewsgroupsConfiguration cfg = sender as NewsgroupsConfiguration;
 
 			// take over the copies from local userIdentities and nntpServers 
 			// to app.FeedHandler.Identity and app.FeedHandler.NntpServers
@@ -256,8 +290,14 @@ namespace RssBandit
 				}
 			}
 
-			if (!app.FeedlistModified)
-				app.FeedlistModified = true;
+			//if (!app.FeedlistModified)
+			//	app.FeedlistModified = true;
+			app.SubscriptionModified(NewsFeedProperty.General);
+
+			//TODO: we should differ between the two kinds of general modifications
+			RaiseNewsServerDefinitionsModified();
+			RaiseIdentityDefinitionsModified();
+
 		}
 		#endregion
 

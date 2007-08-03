@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CommandLineParser.cs,v 1.2 2003/12/17 14:03:23 t_rendelmann Exp $
+ * $Id: CommandLineParser.cs,v 1.3 2006/03/28 08:43:18 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2003/12/17 14:03:23 $
- * $Revision: 1.2 $
+ * Last modified at $Date: 2006/03/28 08:43:18 $
+ * $Revision: 1.3 $
  */
 #endregion
 
@@ -16,6 +16,7 @@ using System.Collections;
 using System.Text;
 using System.Security.Permissions;
 using System.Runtime.Serialization;
+using RssBandit.Resources;
 
 namespace RssBandit.Utility {
 
@@ -959,7 +960,7 @@ namespace RssBandit.Utility {
 		/// </summary>
 		/// <param name="arguments">The collection that should be enumerated.</param>
 		internal CommandLineArgumentEnumerator(CommandLineArgumentCollection arguments) {
-			IEnumerable temp = (IEnumerable) (arguments);
+			IEnumerable temp = arguments;
 			_baseEnumerator = temp.GetEnumerator();
 		}
 
@@ -1119,7 +1120,7 @@ namespace RssBandit.Utility {
 			get { 
 				if (_descriptionIsResourceId) {
 					
-					string s = Resource.Manager[_description];
+					string s = SR.Keys.GetString(_description);
 					if (s == null || s.Length == 0)
 						return _description;
 					else

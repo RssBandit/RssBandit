@@ -1,21 +1,20 @@
 #region CVS Version Header
 /*
- * $Id: SearchEngineHandler.cs,v 1.11 2005/03/08 19:04:01 t_rendelmann Exp $
+ * $Id: SearchEngineHandler.cs,v 1.18 2006/10/31 13:36:35 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/08 19:04:01 $
- * $Revision: 1.11 $
+ * Last modified at $Date: 2006/10/31 13:36:35 $
+ * $Revision: 1.18 $
  */
 #endregion
 
 using System;
 using System.IO; 
-using System.Text; 
 using System.Xml;
-using System.Xml.Xsl;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Collections;
-
+using NewsComponents;
+using RssBandit.Xml;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using Logger = RssBandit.Common.Logging;
 
@@ -110,10 +109,11 @@ namespace RssBandit.WebSearch
 			}			
 		}
 
-		///<summary>Loads the schema for search Engines into an XmlSchema object. 
-		///<seealso cref="SearchConfigSchema"/></summary>		
+		///<summary>
+		/// Loads the schema for search Engines into an XmlSchema object. 
+		///</summary>		
 		private void LoadSearchConfigSchema()	{
-			using (Stream stream = Resource.Manager.GetStream("Resources.SearchEnginesConfig.xsd")) {
+			using (Stream stream = Resource.GetStream("Resources.SearchEnginesConfig.xsd")) {
 				searchConfigSchema = XmlSchema.Read(stream, null); 
 			}
 		}
@@ -146,7 +146,7 @@ namespace RssBandit.WebSearch
 
 				//convert XML to objects 
 				XmlNodeReader reader = new XmlNodeReader(doc);		
-				XmlSerializer serializer = new XmlSerializer(typeof(SearchEngines));
+				XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SearchEngines));
 				SearchEngines mySearchEngines = (SearchEngines)serializer.Deserialize(reader); 
 				reader.Close(); 
 
@@ -209,7 +209,7 @@ namespace RssBandit.WebSearch
 		/// <exception cref="Exception">Exception thrown on file access errors</exception>
 		public void SaveEngines(Stream configUrl)
 		{
-			XmlSerializer serializer = new XmlSerializer(typeof(SearchEngines));
+			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SearchEngines));
 
 
 			if(_engines != null)
@@ -251,20 +251,30 @@ namespace RssBandit.WebSearch
 			s1 = new SearchEngine();
 			s1.Title = "Feedster";
 			s1.SearchLink = @"http://www.feedster.com/search.php?hl=en&ie=ISO-8859-1&q={0}&btnG=Search&sort=date&type=rss";
-			s1.Description = "Search RSS with Feedster...";			
-			s1.ImageName = "feedster.bmp";
+			s1.Description = "Search RSS feeds with Feedster...";			
+			s1.ImageName = "feedster.gif";
 			s1.IsActive = true;
 			s1.ReturnRssResult = true; 
 			
 			_engines.Engines.Add(s1);
 
 			s1 = new SearchEngine();
-			s1.Title = "msn.com";
+			s1.Title = "MSN Search";
 			s1.SearchLink = @"http://search.msn.com/results.aspx?q={0}&FORM=SMCRT&x=32&y=15";
-			s1.Description = "Search the web with msn.com...";			
-			s1.ImageName = "msn.bmp";
+			s1.Description = "Search the web with MSN Search...";			
+			s1.ImageName = "msn.ico";
 			s1.IsActive = true;
 			
+			
+			_engines.Engines.Add(s1);
+
+			s1 = new SearchEngine();
+			s1.Title = "Yahoo! News";
+			s1.SearchLink = @"http://news.search.yahoo.com/news/rss?p={0}&ie=UTF-8";
+			s1.Description = "Search news with Yahoo! News...";			
+			s1.ImageName = "yahoo.ico";
+			s1.IsActive = true;
+			s1.ReturnRssResult = true; 			
 			
 			_engines.Engines.Add(s1);
 
@@ -283,8 +293,8 @@ namespace RssBandit.WebSearch
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/")]
-	[System.Xml.Serialization.XmlRootAttribute("searchConfiguration", Namespace="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/", IsNullable=false)]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
+	[System.Xml.Serialization.XmlRootAttribute("searchConfiguration", Namespace=RssBanditNamespace.SearchConfiguration, IsNullable=false)]
 	public class SearchEngines
 	{
 		/// <remarks/>
@@ -297,36 +307,64 @@ namespace RssBandit.WebSearch
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/")]
-	public class SearchEngine: ICloneable
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
+	public class SearchEngine: ISearchEngine, ICloneable
 	{
+		private string title = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("title")]
-		public string Title = String.Empty;
+		[System.Xml.Serialization.XmlElementAttribute("title")] 
+		public string Title {
+			get { return title; }
+			set { title = value; }
+		}
 
+		private string searchLink = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("search-link", DataType="anyURI")]
-		public string SearchLink = String.Empty;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("description")]
-		public string Description = String.Empty;
+		[System.Xml.Serialization.XmlElementAttribute("search-link", DataType="anyURI")] 
+		public string SearchLink {
+			get { return searchLink; }
+			set { searchLink = value; }
+		}
 
+		private string description = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("image-name")]
-		public string ImageName = String.Empty;
+		[System.Xml.Serialization.XmlElementAttribute("description")] 
+		public string Description {
+			get { return description; }
+			set { description = value; }
+		}
 
+		private string imageName = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("active", DataType="boolean") ]
-		public bool IsActive;
+		[System.Xml.Serialization.XmlElementAttribute("image-name")] 
+		public string ImageName {
+			get { return imageName; }
+			set { imageName = value; }
+		}
 
+		private bool isActive;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("rss-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ]
-		public bool ReturnRssResult;
+		[System.Xml.Serialization.XmlAttributeAttribute("active", DataType="boolean") ] 
+		public bool IsActive {
+			get { return isActive; }
+			set { isActive = value; }
+		}
 
+		private bool returnRssResult;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("merge-with-local-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ]
-		public bool MergeRssResult;
+		[System.Xml.Serialization.XmlAttributeAttribute("rss-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
+		public bool ReturnRssResult {
+			get { return returnRssResult; }
+			set { returnRssResult = value; }
+		}
+
+		private bool mrergeRssResult;
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute("merge-with-local-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
+		public bool MergeRssResult {
+			get { return mrergeRssResult; }
+			set { mrergeRssResult = value; }
+		}
 
 		#region ICloneable Members
 
@@ -349,10 +387,19 @@ namespace RssBandit.WebSearch
 				else
 					return this.Title;
 			} else
-				return Resource.Manager["RES_GeneralNewItemText"];
+				return Resources.SR.GeneralNewItemText;
 		}
 
 
 		#endregion
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: SearchEngineHandler.cs,v $
+ * Revision 1.18  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ */
+#endregion

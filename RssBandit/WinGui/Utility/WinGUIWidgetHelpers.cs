@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: WinGUIWidgetHelpers.cs,v 1.72 2005/05/08 17:03:22 t_rendelmann Exp $
+ * $Id: WinGUIWidgetHelpers.cs,v 1.91 2007/07/21 12:26:57 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:22 $
- * $Revision: 1.72 $
+ * Last modified at $Date: 2007/07/21 12:26:57 $
+ * $Revision: 1.91 $
  */
 #endregion
 
@@ -21,103 +21,29 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Net;
 using System.Text;
-
-using RssBandit.AppServices;
-using RssBandit.WinGui.Interfaces;
-using RssBandit.SpecialFeeds;
-using RssBandit.WinGui.Utility;
 using NewsComponents;
+using RssBandit.Resources;
+using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Interfaces;
+using RssBandit.WinGui.Utility;
+using RssBandit.Xml;
 using NewsComponents.Feed;
 using NewsComponents.Search;
 using NewsComponents.Utils;
 using Genghis;
 #endregion
 
-namespace RssBandit.WinGui.Utility
-{
-
-	#region FontColorHelper
-	/// <summary>
-	/// Used item states that have different font/color settings
-	/// </summary>
-	public enum FontStates: int {
-		Read = 0,
-		Unread = 1,
-		Flag = 2,
-		Referrer = 3,
-		Error = 4,
-	}
-
-	/// <summary>
-	/// Maintain Font and Color infos used to highlight items in the UI
-	/// </summary>
-	public class FontColorHelper {
-		// one default font, but different font styles/colors
-		protected static Font	_defaultFont = new Font(Control.DefaultFont, Control.DefaultFont.Style);
-
-		protected static FontStyle[]	_fontStyles = new FontStyle[5]{FontStyle.Regular,FontStyle.Italic, FontStyle.Bold, FontStyle.Regular, FontStyle.Regular};
-		protected static Color []		_foreColors = new Color[5]{SystemColors.ControlText, SystemColors.ControlText, SystemColors.ControlText, Color.Blue, Color.Red};
-
-		public static Font DefaultFont { get { return _defaultFont; } set { _defaultFont = value; } }
-
-		public static Font NormalFont { get { return new Font(_defaultFont, NormalStyle); }  }
-		public static Font HighlightFont { get { return new Font(_defaultFont, HighlightStyle); }  }
-		public static Font UnreadFont { get { return new Font(_defaultFont, UnreadStyle); } }
-		public static Font ReferenceFont { get { return new Font(_defaultFont, ReferenceStyle); }  }
-		public static Font FailureFont { get { return new Font(_defaultFont, FailureStyle); }  }
-
-		public static FontStyle NormalStyle {   get { return _fontStyles[0]; }    set { _fontStyles[0] = value;} 	}
-		public static FontStyle HighlightStyle { get { return _fontStyles[1]; } set { _fontStyles[1] = value; }}
-		public static FontStyle UnreadStyle {   get { return _fontStyles[2]; }   set { _fontStyles[2] = value; }}
-		public static FontStyle ReferenceStyle {   get { return _fontStyles[3]; }    set { _fontStyles[3] = value;} }
-		public static FontStyle FailureStyle {   get { return _fontStyles[4]; }    set { _fontStyles[4] = value;} }
-
-		public static Color NormalColor {   get { return _foreColors[0]; }	set { _foreColors[0] = value;} }
-		public static Color HighlightColor { get { return _foreColors[1]; }	set { _foreColors[1] = value; }}
-		public static Color UnreadColor {   get { return _foreColors[2]; }	set { _foreColors[2] = value; }}
-		public static Color ReferenceColor { get { return _foreColors[3]; }	set { _foreColors[3] = value;} }
-		public static Color FailureColor { get { return _foreColors[4]; }	set { _foreColors[4] = value;} }
-
-		/// <summary>
-		/// Used to fix the font size issue with some UI widgets (e.g. TreeView)
-		/// </summary>
-		/// <returns></returns>
-		public static Font FontWithMaxWidth() {
-			int max = 0, index = 0;
-			for (int i = 0; i < _fontStyles.Length; i++) {
-				int m = (int) (_fontStyles[i] & ( FontStyle.Bold | FontStyle.Italic));
-				if (m > max) {
-					max = m; index = i;
-				}
-			}
-			 return new Font(_defaultFont, _fontStyles[index]);
-		}
-
-		/// <summary>
-		/// Return a new Font with the FontStyle of leadingFont and style merged
-		/// if the styles are differ. The leadingFont else.
-		/// </summary>
-		/// <param name="leadingFont"></param>
-		/// <param name="style"></param>
-		/// <returns>Font</returns> 
-		public static Font MergeFontStyles(Font leadingFont, FontStyle style) {
-			if (leadingFont.Style == style)
-				return leadingFont;
-			return new Font(leadingFont, leadingFont.Style | style);
-		}
-	}
-
-	#endregion
+namespace RssBandit.WinGui.Utility {
 
 	#region UrlCompletionExtender
 
 	public class UrlCompletionExtender {
 		// used for Alt-Enter completion
 		private string[] urlTemplates = new string[] {
-			"http://www.{0}.com/",
-			"http://www.{0}.net/",
-			"http://www.{0}.org/",
-			"http://www.{0}.info/",
+														 "http://www.{0}.com/",
+														 "http://www.{0}.net/",
+														 "http://www.{0}.org/",
+														 "http://www.{0}.info/",
 		};
 		private Form ownerForm;
 		private IButtonControl ownerCancelButton;
@@ -161,8 +87,8 @@ namespace RssBandit.WinGui.Utility
 			TextBox tb = sender as TextBox;
 			ComboBox cb = sender as ComboBox;
 
-			bool alt = (Control.ModifierKeys & Keys.Alt) == Keys.Alt;
-			if (e.KeyCode == Keys.Return && alt) {
+			bool ctrlKeyPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
+			if (e.KeyCode == Keys.Return && ctrlKeyPressed) {
 				if (lastExpIndex < 0 || toExpand == null) {
 					string txt = ctrl.Text;
 					if (txt.Length > 0 && txt.IndexOfAny(new char[]{':', '.', '/'}) < 0) {
@@ -207,14 +133,32 @@ namespace RssBandit.WinGui.Utility
 	/// </code>
 	/// </example>
 	public class CultureChanger: IDisposable {
+		
+		/// <summary>
+		/// Gets the CultureChanger for the invariant culture.
+		/// </summary>
+		/// <value>The invariant culture.</value>
+		public static CultureChanger InvariantCulture {
+			get { return new CultureChanger(String.Empty); }
+		}
+
 		private CultureInfo _oldCulture;
-		public CultureChanger(CultureInfo culture)
-		{
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CultureChanger"/> class.
+		/// </summary>
+		/// <param name="culture">The culture.</param>
+		public CultureChanger(CultureInfo culture) {
 			_oldCulture = Thread.CurrentThread.CurrentCulture;
 			Thread.CurrentThread.CurrentCulture = culture;
 		}
 		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CultureChanger"/> class.
+		/// </summary>
+		/// <param name="culture">The culture.</param>
 		public CultureChanger(string culture):this(new CultureInfo(culture)) {}
+		
 		private CultureChanger(){}
 
 		#region IDisposable Members
@@ -233,8 +177,7 @@ namespace RssBandit.WinGui.Utility
 	/// encoding directives: {0:&lt;encoding&gt;}
 	/// e.g. {0:euc-jp}
 	/// </summary>
-	public class UrlFormatter: IFormatProvider, ICustomFormatter 	
-	{
+	public class UrlFormatter: IFormatProvider, ICustomFormatter {
 		
 		#region IFormatProvider Members
 
@@ -277,12 +220,12 @@ namespace RssBandit.WinGui.Utility
 	/// When publishing events in C#, you need to test that the delegate has targets. 
 	/// You also must handle exceptions the subscribers throw, otherwise, the publishing 
 	/// sequence is aborted. You can iterate over the delegate’s internal invocation list 
-	/// and handle individual exceptions that way. The zip file contains a generic 
-	/// helper class called EventsHelper that does just that. 
+	/// and handle individual exceptions that way. 
+	/// This generic helper class called EventsHelper that does just that. 
 	/// EventsHelper can publish to any delegate, accepting any collection of parameters. 
 	/// EventsHelper can also publish asynchronously and concurrently to the subscribers 
 	/// using the thread pool, turning any subscriber’s target method into a fire-and-forget 
-	/// method
+	/// method.
 	/// </summary>
 	/// <remarks>Thanks to http://www.idesign.net/ </remarks>
 	public class EventsHelper {
@@ -332,7 +275,8 @@ namespace RssBandit.WinGui.Utility
 	/// Helper to save/restore Gui Settings (other than User Preferences).
 	/// This includes such things like Window size and position, panel sizes, dock layout etc.
 	/// </summary>
-	public class Settings: Preferences {
+	public class Settings: Preferences , IPersistedSettings
+	{
 		
 		static System.Collections.Specialized.StringDictionary userStore;
 		static bool userStoreModified;
@@ -364,6 +308,39 @@ namespace RssBandit.WinGui.Utility
 			}
 		}
 
+		#region IPersistedSettings
+		/// <summary>
+		/// Gets the property value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="returnType">Type of the return.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		object IPersistedSettings.GetProperty(string name, Type returnType, object defaultValue) {
+			return this.GetProperty(name, defaultValue, returnType);
+		}
+		/// <summary>
+		/// Sets a property
+		/// </summary>
+		/// <param name="name">The property name.<br/>
+		/// Use slash (/) to logically separate groups of settings.</param>
+		/// <param name="value">The property value.</param>
+		void IPersistedSettings.SetProperty(string name, object value) {
+			this.SetProperty(name, value);
+		}
+		#endregion
+		
+		/// <summary>
+		/// Sets a property
+		/// </summary>
+		/// <param name="name">The property name.<br/>
+		/// Use slash (/) to logically separate groups of settings.</param>
+		/// <param name="value">The property value.</param>
+		/// <remarks>
+		/// Currently, the value parameter must be a type supported by the
+		/// System.Convert class.  The supported types are: Boolean, Char, SByte,
+		/// Byte, Int16, Int32, Int64, UInt16, UInt32, UInt64, Single, Double,
+		/// Decimal, DateTime and String.</remarks>
 		public override void SetProperty(string name, object value) {
 			if (value == null && userStore.ContainsKey(Path + name)) {
 				userStore.Remove(Path + name);
@@ -373,6 +350,7 @@ namespace RssBandit.WinGui.Utility
 			userStoreModified = true;
 		}
         
+		
 		/// <summary>
 		/// Flushes any outstanding properties to disk.</summary>
 		public override void Flush() {
@@ -386,7 +364,7 @@ namespace RssBandit.WinGui.Utility
 		}
 
 		private static FileStream CreateSettingsStream() {
-			return FileHelper.OpenForWrite(System.IO.Path.Combine(RssBanditApplication.GetUserPath(), ".settings.xml"));
+			return FileHelper.OpenForWrite(RssBanditApplication.GetSettingsFileName());
 		}
 
 		/// <summary>
@@ -394,7 +372,7 @@ namespace RssBandit.WinGui.Utility
 		/// <returns>
 		/// A stream to read from.</returns>
 		private static FileStream OpenSettingsStream() {
-			return FileHelper.OpenForRead(System.IO.Path.Combine(RssBanditApplication.GetUserPath(), ".settings.xml"));
+			return FileHelper.OpenForRead(RssBanditApplication.GetSettingsFileName());
 		}
         
 		/// <summary>Deserializes to the userStore hashtable from an storage stream.</summary>
@@ -475,8 +453,60 @@ namespace RssBandit.WinGui.Utility
 	#endregion
 
 	#region WebTabState
-	internal class WebTabState: ITabState
-	{
+
+	public class SerializableWebTabState{
+		
+		[System.Xml.Serialization.XmlArrayAttribute("urls")]
+		[System.Xml.Serialization.XmlArrayItemAttribute("url", Type = typeof(System.String), IsNullable = false)]
+		public ArrayList Urls = new ArrayList();	
+		
+
+		/// <summary>
+		/// Saves the SerializableWebTabState instance to specified stream.
+		/// </summary>
+		/// <param name="stream">The stream.</param>
+		public static void Save(Stream stream, SerializableWebTabState s) {
+			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
+				typeof(SerializableWebTabState), RssBanditNamespace.BrowserTabState);
+			serializer.Serialize(stream, s);
+		}
+		
+		/// <summary>
+		/// Loads the SerializableWebTabState from specified stream.
+		/// </summary>
+		/// <param name="stream">The stream.</param>
+		/// <returns></returns>
+		public static SerializableWebTabState Load(Stream stream) {
+			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
+				typeof(SerializableWebTabState), RssBanditNamespace.BrowserTabState);
+			return (SerializableWebTabState)serializer.Deserialize(stream); 
+		}
+		
+	}
+
+	internal class TextImageItem: ITextImageItem {
+		private Image image;
+		private string text;
+
+		public TextImageItem(string text, Image image) {
+			this.text = text;
+			this.image = image;
+		}
+
+		#region ITextImageItem Members
+
+		public Image Image {
+			get { return this.image; }
+		}
+
+		public string Text {
+			get { return this.text; }
+		}
+
+		#endregion
+	}
+	internal class WebTabState: ITabState {
+		private static ITextImageItem[] EmptyHistoryItems = new ITextImageItem[]{};
 		private string _title;
 		private string _currentUrl;
 		private bool _canGoBack;
@@ -525,261 +555,17 @@ namespace RssBandit.WinGui.Utility
 			set { _currentUrl = value; }
 		}
 
-		#endregion
-
-	}
-	#endregion
-
-	#region TreeNodesSortHelper
-	internal class TreeNodesSortHelper: IComparer {
-		private System.Windows.Forms.SortOrder _sortOrder;
-
-		public TreeNodesSortHelper():this(System.Windows.Forms.SortOrder.Ascending) {}
-		public TreeNodesSortHelper(System.Windows.Forms.SortOrder sortOrder) {
-			_sortOrder = sortOrder;
+		public ITextImageItem[] GoBackHistoryItems(int maxItems) {
+			//TODO: impl. by IEControl
+			return EmptyHistoryItems;
 		}
-
-		public void InitFromConfig(string section, Settings reader) {
-			_sortOrder = (System.Windows.Forms.SortOrder)reader.GetInt32(section+"/SubscribedFeedNodes.Sorter.SortOrder", (int)System.Windows.Forms.SortOrder.Descending);
-		}
-
-		public void SaveToConfig(string section, Settings writer) {
-			writer.SetProperty(section+"/SubscribedFeedNodes.Sorter.SortOrder", (int)this._sortOrder);
-		}
-
-		public System.Windows.Forms.SortOrder Sorting {
-			get { return _sortOrder;  }
-			set { _sortOrder = value; }
-		}
-
-		#region Implementation of IComparer
-		public virtual int Compare(object x, object y) {
-			
-			if (_sortOrder == System.Windows.Forms.SortOrder.None)
-				return 0;
-
-			if (Object.ReferenceEquals(x, y))
-				return 0;
-			if (x == null) 
-				return -1;
-			if (y == null) 
-				return 1;
-
-			FeedTreeNodeBase n1 = (FeedTreeNodeBase)x;
-			FeedTreeNodeBase n2 = (FeedTreeNodeBase)y;
-
-			// root entries are not sorted: they stay there where they are inserted on creation:
-			if (n1.Type == FeedNodeType.Root && n2.Type == FeedNodeType.Root)
-				return 0;
-
-			if (n1.Type == n2.Type)
-				return (_sortOrder == System.Windows.Forms.SortOrder.Ascending ? String.Compare(n1.Key, n2.Key) : String.Compare(n2.Key, n1.Key));
-
-			if (n1.Type == FeedNodeType.Category)
-				return -1;
-
-			if (n2.Type == FeedNodeType.Category)
-				return 1;
-
-			if (n1.Type == FeedNodeType.FinderCategory)
-				return -1;
-
-			if (n2.Type == FeedNodeType.FinderCategory)
-				return 1;
-			
-			return 0;
-		}
-
-		#endregion
-
-	}
-	#endregion
-
-	#region TreeHelper
-	internal class TreeHelper {
 		
-		public static void CopyNodes(TreeNode[] nodes, TreeView destinationTree) {
-			CopyNodes(nodes, destinationTree, false);			
-		}		
-		public static void CopyNodes(TreeNode[] nodes, TreeView destinationTree, bool isChecked) {
-			if (nodes == null) return;
-			if (destinationTree == null) return;
-
-			destinationTree.BeginUpdate();
-			destinationTree.Nodes.Clear();
-			foreach (TreeNode n in nodes) {
-				int i = destinationTree.Nodes.Add((TreeNode)n.Clone());
-				destinationTree.Nodes[i].Tag = n.Tag;
-				destinationTree.Nodes[i].Checked = isChecked;
-				if (n.Nodes.Count > 0)
-					CopyNodes(n.Nodes, destinationTree.Nodes[i], isChecked);
-			}
-			destinationTree.EndUpdate();
+		public  ITextImageItem[] GoForwardHistoryItems(int maxItems) {
+			//TODO: impl. by IEControl
+			return EmptyHistoryItems;
 		}
 
-		public static void CopyNodes(TreeNode node, TreeView destinationTree) {
-			CopyNodes(node, destinationTree, false);
-		}
-		public static void CopyNodes(TreeNode node, TreeView destinationTree, bool isChecked) {
-			if (node == null) return;
-			if (destinationTree == null) return;
-
-			destinationTree.BeginUpdate();
-			destinationTree.Nodes.Clear();
-			int i = destinationTree.Nodes.Add((TreeNode)node.Clone());
-			destinationTree.Nodes[i].Tag = node.Tag;
-			destinationTree.Nodes[i].Checked = isChecked;
-			if (node.Nodes.Count > 0)
-				CopyNodes(node.Nodes, destinationTree.Nodes[i], isChecked);
-			destinationTree.EndUpdate();
-		}
-
-		private static void CopyNodes(ICollection nodes, TreeNode parent, bool isChecked) {
-			foreach (TreeNode n in nodes) {
-				int i = parent.Nodes.Add((TreeNode)n.Clone());
-				parent.Nodes[i].Tag = n.Tag;
-				parent.Nodes[i].Checked= isChecked;
-				if (n.Nodes.Count > 0)
-					CopyNodes(n.Nodes, parent.Nodes[i], isChecked);
-			}
-
-		}
-
-		/// <summary>
-		/// We assume: leave nodes are nodes with a Tag != null.
-		/// </summary>
-		/// <param name="startNode"></param>
-		/// <param name="folders"></param>
-		/// <param name="leaveNodes"></param>
-		public static void GetCheckedNodes(TreeNode startNode, ArrayList folders, ArrayList leaveNodes) {
-			if (startNode == null) 
-				return;
-			
-			if (startNode.Checked) {
-
-				if (startNode.Tag == null) {
-					folders.Add(startNode);
-					return;	// all childs are checked. They will be resolved later dynamically
-				} else
-					leaveNodes.Add(startNode);
-			}
-
-			foreach (TreeNode n in startNode.Nodes) {
-				GetCheckedNodes(n, folders, leaveNodes);
-			}
-		}
-
-		/// <summary>
-		/// Fills the checkedNodes list with all nodes that are checked.
-		/// </summary>
-		/// <param name="startNode"></param>
-		/// <param name="checkedNodes">List will be filled with nodes that are checked</param>
-		public static void GetCheckedNodes(TreeNode startNode, ArrayList checkedNodes) {
-			if (startNode == null) 
-				return;
-			
-			if (startNode.Checked) {
-				if (startNode.Tag != null) 
-					checkedNodes.Add(startNode);
-			}
-
-			if (startNode.Nodes.Count > 0) {
-				foreach (TreeNode n in startNode.Nodes) {
-					GetCheckedNodes(n, checkedNodes);
-				}
-			}
-		}
-
-		/// <summary>
-		/// We assume: leave nodes are nodes with a Tag != null.
-		/// </summary>
-		/// <param name="startNode"></param>
-		/// <param name="folders"></param>
-		/// <param name="leaveNodeTags"></param>
-		/// <param name="separator"></param>
-		public static void SetCheckedNodes(TreeNode startNode, ArrayList folders, ArrayList leaveNodeTags, char[] separator) {
-			if (startNode == null) 
-				return;
-
-			if (startNode.Tag == null) {
-				
-				string catName = BuildCategoryStoreName(startNode, separator);
-				if (catName != null && folders != null) {
-					foreach (string folder in folders) {
-						if (catName.Equals(folder)) {
-							startNode.Checked = true;
-							PerformOnCheckStateChanged(startNode);
-							break;
-						}
-					}
-				}
-			
-			} else {
-				
-				if (leaveNodeTags != null) {
-					foreach (string tagString in leaveNodeTags) {
-						if (tagString != null && tagString.Equals(startNode.Tag)) {
-							startNode.Checked = true;
-							PerformOnCheckStateChanged(startNode);
-							break;
-						}
-					}
-				}
-
-			}
-			
-			foreach (TreeNode n in startNode.Nodes) {
-				SetCheckedNodes(n, folders, leaveNodeTags, separator);
-			}
-		}
-
-		/// <summary>
-		/// Helper that builds the full path trimmed category name (without root caption)
-		/// </summary>
-		/// <param name="theNode">a TreeNode</param>
-		/// <param name="separator">char[]</param>
-		/// <returns>Category name in this form: 
-		/// 'Main Category\Sub Category\...\catNode Category' without the root node caption.
-		/// </returns>
-		public static string BuildCategoryStoreName(TreeNode theNode, char[] separator) {
-			string s = theNode.FullPath.Trim();
-			string[] a = s.Split(separator);
-
-			if (a.GetLength(0) > 1)
-				return String.Join(@"\",a, 1,a.GetLength(0)-1);
-			
-			return null;	
-		}
-
-		public static void PerformOnCheckStateChanged(TreeNode node) {
-			if (node != null) {
-				if (node.Nodes.Count > 0) {
-					TreeHelper.CheckChildNodes(node, node.Checked);
-				}
-				TreeHelper.CheckParentNodes(node, node.Checked);
-			}
-		}
-
-		public static void CheckChildNodes(TreeNode parent, bool isChecked) {
-			foreach (TreeNode child in parent.Nodes) {
-				child.Checked = isChecked;
-				if (child.Nodes.Count > 0)
-					CheckChildNodes(child, isChecked);
-			}
-		}
-		public static void CheckParentNodes(TreeNode node, bool isChecked) {
-			if (node == null) return;
-			if (node.Parent == null) return;
-			foreach (TreeNode child in node.Parent.Nodes) {
-				if (child.Checked != isChecked) {
-					node.Parent.Checked = false;
-					CheckParentNodes(node.Parent, isChecked);
-					return;	// not all childs have the same state
-				}
-			}
-			node.Parent.Checked = isChecked;
-			CheckParentNodes(node.Parent, isChecked);
-		}
+		#endregion
 
 	}
 	#endregion
@@ -1030,10 +816,12 @@ namespace RssBandit.WinGui.Utility
 		// some probe Urls, used by CurrentINetState() (no, that is NOT my favourites list... ;-)
 		// They have better ping timings than all the other....
 		private static string[] probeUrls = new string[]{
-															"http://www.w3c.org/",	"http://www.google.com/",
-															"http://www.heise.de/", "http://www.nyi.com/",
-															"http://www.olm.net"
-														};
+			"http://www.w3c.org/",	"http://www.google.com/",
+			"http://www.heise.de/", "http://www.nyse.com/",
+			"http://www.olm.net"
+		};
+
+		static Random probeUrlRandomizer = new Random();
 
 		[DllImport("wininet.dll", SetLastError=true)]
 		private extern static bool InternetGetConnectedState(out int flags, int reserved);
@@ -1109,12 +897,18 @@ namespace RssBandit.WinGui.Utility
 			try {
 				connected = InternetGetConnectedState(out f, 0);
 			} catch (Exception ex) {
-				Common.Logging.Log.Error("InternetGetConnectedState() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
+				_log.Error("InternetGetConnectedState() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
 			}
 
 			InternetStates flags =  (InternetStates)f;
 
-			Common.Logging.Log.Info("InternetGetConnectedState() returned " + connected.ToString());
+			//_log.Info("InternetGetConnectedState() returned " + connected.ToString());
+
+			//Some people have reported problems with return value of InternetGetConnectedState 
+			//on Windows Vista
+			if (!connected && Win32.IsOSWindowsVista){
+				connected = true;
+			}
 
 			// not sure here, if we are really connected. 
 			// So we test it explicitly.
@@ -1127,7 +921,7 @@ namespace RssBandit.WinGui.Utility
 						connected = false;
 					}
 				} catch (Exception ex) {	// catch all
-					Common.Logging.Log.Error("IsNetworkAlive() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
+					_log.Error("IsNetworkAlive() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
 					sensApiSucceeds = false;
 				}
 
@@ -1154,52 +948,62 @@ namespace RssBandit.WinGui.Utility
 						connected = FrameworkCheckConnection(currentProxy);
 					}
 				} else {
-					Common.Logging.Log.Info("InternetGetConnectedState() flag INTERNET_CONNECTION_MODEM is set. Give up further tests...");
+					_log.Info("InternetGetConnectedState() flag INTERNET_CONNECTION_MODEM is set. Give up further tests...");
 				}
 
 			}
 			
 			state |= connected ? INetState.Connected: INetState.DisConnected;
 
-			offline = ((flags & InternetStates.INTERNET_CONNECTION_OFFLINE) == InternetStates.INTERNET_CONNECTION_OFFLINE);
-			state |= offline ? INetState.Offline: INetState.Online;
+			if (connected) {	// also consider on-/offline state
+				offline = ((flags & InternetStates.INTERNET_CONNECTION_OFFLINE) == InternetStates.INTERNET_CONNECTION_OFFLINE);
+				state |= offline ? INetState.Offline: INetState.Online;
+			}
 			
 			return state;
 		}
 		
+		private static string GetProbeUrl() {
+			return probeUrls[probeUrlRandomizer.Next(0, probeUrls.GetUpperBound(0))];
+		}
+
 		public static bool ApiCheckConnection(IWebProxy proxy) {
 			//TODO: how about the proxy if we call the API function?
-			string url = probeUrls[new Random().Next(0,probeUrls.GetUpperBound(0))];	
+			string url = GetProbeUrl();	
 			try {
-				Common.Logging.Log.Info("ApiCheckConnection('"+url+"') ");
+				//_log.Info("ApiCheckConnection('"+url+"') ");
 				if (InternetCheckConnection(url, 0, 0)) 
 					return true;
 			} catch (Exception ex) {
-				Common.Logging.Log.Error("ApiCheckConnection('"+url+"') failed with error: " + Marshal.GetLastWin32Error(), ex);
+				_log.Error("ApiCheckConnection('"+url+"') failed with error: " + Marshal.GetLastWin32Error(), ex);
 			}
-			Common.Logging.Log.Info("ApiCheckConnection() returns false");
+			//_log.Info("ApiCheckConnection() returns false");
 			return false;
 		}
 
 		public static bool FrameworkCheckConnection(IWebProxy proxy) {
-			string url = probeUrls[new Random().Next(0,probeUrls.GetUpperBound(0))];	
+			string url = GetProbeUrl();	
 
 			if (proxy == null) 
 				proxy = GlobalProxySelection.GetEmptyWebProxy(); 
 							
 			try {
-				Common.Logging.Log.Info("FrameworkCheckConnection('"+url+"') ");
-				using (HttpWebResponse response = (HttpWebResponse)NewsComponents.Net.AsyncWebRequest.GetSyncResponseHeadersOnly(url, proxy, 20 * 1000)) {	
+				//_log.Info("FrameworkCheckConnection('"+url+"') ");
+				using (HttpWebResponse response = (HttpWebResponse)NewsComponents.Net.AsyncWebRequest.GetSyncResponseHeadersOnly(url, proxy, 3 * 60 * 1000)) {	
 					if (response != null && String.Compare(response.Method, "HEAD") == 0) {	// success
 						response.Close();
 						return true;
 					}
 				}
+			} catch (WebException ex) {
+				_log.Error("FrameworkCheckConnection('"+url+"') ", ex);
+				if (ex.Status == WebExceptionStatus.Timeout)
+					return true;	// try again later on another probeUrl maybe
 			} catch (Exception ex) {
-				Common.Logging.Log.Error("FrameworkCheckConnection('"+url+"') ", ex);
+				_log.Error("FrameworkCheckConnection('"+url+"') ", ex);
 			}
 
-			Common.Logging.Log.Info("FrameworkCheckConnection() returns false");
+			//_log.Info("FrameworkCheckConnection() returns false");
 			return false;
 		}
 
@@ -1270,6 +1074,38 @@ namespace RssBandit.WinGui.Utility
 				return   9;	// 30 days, one month
 		}
 
+		public static string MapRssSearchItemAgeString(int index) {
+			switch (index) {
+				case 0: return SR.SearchPanel_comboRssSearchItemAge_1_hour;
+				case 1: return SR.SearchPanel_comboRssSearchItemAge_x_hours(2);
+				case 2: return SR.SearchPanel_comboRssSearchItemAge_x_hours(3);
+				case 3: return SR.SearchPanel_comboRssSearchItemAge_x_hours(4);
+				case 4: return SR.SearchPanel_comboRssSearchItemAge_x_hours(5);
+				case 5: return SR.SearchPanel_comboRssSearchItemAge_x_hours(6);
+				case 6: return SR.SearchPanel_comboRssSearchItemAge_x_hours(12);
+				case 7: return SR.SearchPanel_comboRssSearchItemAge_x_hours(18);
+				case 8: return SR.SearchPanel_comboRssSearchItemAge_1_day;
+				case 9: return SR.SearchPanel_comboRssSearchItemAge_x_days(2);
+				case 10: return SR.SearchPanel_comboRssSearchItemAge_x_days(3);
+				case 11: return SR.SearchPanel_comboRssSearchItemAge_x_days(4);
+				case 12: return SR.SearchPanel_comboRssSearchItemAge_x_days(5);
+				case 13: return SR.SearchPanel_comboRssSearchItemAge_x_days(6);
+				case 14: return SR.SearchPanel_comboRssSearchItemAge_x_days(7);
+				case 15: return SR.SearchPanel_comboRssSearchItemAge_x_days(14);
+				case 16: return SR.SearchPanel_comboRssSearchItemAge_x_days(21);
+				case 17: return SR.SearchPanel_comboRssSearchItemAge_1_month;
+				case 18: return SR.SearchPanel_comboRssSearchItemAge_x_months(2);
+				case 19: return SR.SearchPanel_comboRssSearchItemAge_1_quarter;
+				case 20: return SR.SearchPanel_comboRssSearchItemAge_x_quarters(2);
+				case 21: return SR.SearchPanel_comboRssSearchItemAge_x_quarters(3);
+				case 22: return SR.SearchPanel_comboRssSearchItemAge_1_year;
+				case 23: return SR.SearchPanel_comboRssSearchItemAge_x_years(2);
+				case 24: return SR.SearchPanel_comboRssSearchItemAge_x_years(3);
+				case 25: return SR.SearchPanel_comboRssSearchItemAge_x_years(5);
+				default: return String.Empty;
+			}
+		}
+		
 		public static TimeSpan MapRssSearchItemAge(int index) {
 			switch (index) {
 				case 0: return new TimeSpan(1,0,0);	// 1 hour
@@ -1353,7 +1189,7 @@ namespace RssBandit.WinGui.Utility
 						if (info.hwndEdit != IntPtr.Zero)
 							ac.EditHandle = info.hwndEdit;
 						else {
-							Common.Logging.Log.Debug("ApplyUrlCompletionToControl()::ComboBox must have the DropDown style!");
+							_log.Debug("ApplyUrlCompletionToControl()::ComboBox must have the DropDown style!");
 							return;
 						}
 					} 
@@ -1375,8 +1211,9 @@ namespace RssBandit.WinGui.Utility
 					multi.Append(ShellLib.ShellAutoComplete.GetACListISF());
 				ac.ListSource = multi;
 			
-				// activate AutoComplete
-				ac.SetAutoComplete(true, "http://www./%s/.com");
+				// activate AutoComplete, but no CTRL-ENTER handling! 
+				// Seems there is an issue with it (expanding also yet expanded Urls)
+				ac.SetAutoComplete(true, null);
 
 			} catch (Exception ex) {
 				_log.Fatal("ApplyUrlCompletionToControl() failed on Control " + control.Name + ". No completion will be available there.", ex);
@@ -1411,183 +1248,15 @@ namespace RssBandit.WinGui.Utility
 
 	#endregion
 
-	#region RootNode
-	internal class RootNode: FeedTreeNodeBase
-	{
-		private static ContextMenu _popup = null;	// share one context menu
-
-		public RootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Root, false, imageIndex, selectedImageIndex) 
-		{
-			_popup = menu; 
-			base.Editable = false;
-		}
-
-		public override object Clone() {
-			return new RootNode(this.Key, this.ImageIndex, this.SelectedImageIndex, _popup);
-		}
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType)
-		{
-			return (nsType == FeedNodeType.Feed || nsType == FeedNodeType.Category);
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos)
-		{ /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu()
-		{
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-
-		#endregion
-	}
-	#endregion
-
-	#region CategoryNode
-	internal class CategoryNode: FeedTreeNodeBase
-	{
-		private static ContextMenu _popup = null;	// share one context menu
-
-		public CategoryNode(string text):base(text,FeedNodeType.Category, true, 2, 3) {}
-		public CategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Category, true, imageIndex, selectedImageIndex) 
-		{
-			_popup = menu; 
-		}
-
-		public override object Clone() {
-			return new CategoryNode(this.Key, this.ImageIndex, this.SelectedImageIndex, _popup);
-		}
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType)
-		{
-			return (nsType == FeedNodeType.Category || nsType == FeedNodeType.Feed);
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos)
-		{ /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu()
-		{
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-		#endregion
-	}
-	#endregion
-
-	#region FeedNode
-	internal class FeedNode: FeedTreeNodeBase
-	{
-		private static ContextMenu _popup = null;	// share one context menu
-
-		public FeedNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Feed, true, imageIndex, selectedImageIndex) 
-		{
-			_popup = menu; 
-		}
-
-		public override object Clone() {
-			return new FeedNode(this.Key, this.ImageIndex, this.SelectedImageIndex, _popup);
-		}
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType)
-		{	// no childs allowed
-			return false;
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos)
-		{ /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu()
-		{
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-
-		#endregion
-	}
-	#endregion
-
-	#region SpecialRootNode
-	/// <summary>
-	/// Root node to hold special folders, like Feed Errors and Flagged Item nodes.
-	/// </summary>
-	internal class SpecialRootNode:FeedTreeNodeBase {
-		private ContextMenu _popup = null;						// context menu
-
-		public SpecialRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Root, true, imageIndex, selectedImageIndex) {
-			_popup = menu; 
-			base.Editable = false;
-		}
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType) {
-		 	// some childs allowed
-			if (nsType == FeedNodeType.Finder ||
-					nsType == FeedNodeType.SmartFolder
-				)
-				return true;
-
-			return false;
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos) {
-		  /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu() {
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-
-		#endregion
-
-	}
-	#endregion
-
-	#region WasteBasketNode
-	/// <summary>
-	/// Stores the deleted items.
-	/// </summary>
-	internal class WasteBasketNode: SmartFolderNodeBase {
-
-		public WasteBasketNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
-			base(itemStore, imageIndex, selectedImageIndex, menu) {}
-
-	}
-	#endregion
-
-	#region SentItemsNode
-	/// <summary>
-	/// Stores the sent items (reply comments, NNTP Posts).
-	/// </summary>
-	internal class SentItemsNode: SmartFolderNodeBase {
-
-		public SentItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
-			base(itemStore, imageIndex, selectedImageIndex, menu) {	}
-
-	}
-	#endregion
-
 	#region FinderSearchNodes
 	[Serializable]
 	public class FinderSearchNodes {
 		
 		[XmlArrayItem(typeof(RssFinder))]
-		public ArrayList RssFinderNodes = new ArrayList();
+		public ArrayList RssFinderNodes = new ArrayList(2);
 		
-		public FinderSearchNodes(FeedTreeNodeBase[] nodes) {
-			foreach (FeedTreeNodeBase node in nodes) {
+		public FinderSearchNodes(TreeFeedsNodeBase[] nodes) {
+			foreach (TreeFeedsNodeBase node in nodes) {
 				this.GetFinders(node);
 			}
 		}
@@ -1603,7 +1272,7 @@ namespace RssBandit.WinGui.Utility
 		/// Iterate recursivly to get all finders from the treenode collection(s)
 		/// </summary>
 		/// <param name="startNode"></param>
-		private void GetFinders(FeedTreeNodeBase startNode) {
+		private void GetFinders(TreeFeedsNodeBase startNode) {
 			if (startNode == null)
 				return;
 			if (startNode.Nodes.Count == 0) {
@@ -1611,394 +1280,12 @@ namespace RssBandit.WinGui.Utility
 				if (agn != null)
 					this.RssFinderNodes.Add(agn.Finder);
 			} else {
-				foreach (FeedTreeNodeBase node in startNode.Nodes) {
+				foreach (TreeFeedsNodeBase node in startNode.Nodes) {
 					this.GetFinders(node);
 				}
 			}
 		}
 		
-	}
-	#endregion
-
-	#region FinderRootNode
-	/// <summary>
-	/// Root node to hold persistent FinderNodes.
-	/// </summary>
-	internal class FinderRootNode:FeedTreeNodeBase {
-		private ContextMenu _popup = null;						// context menu
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(FinderRootNode));
-
-		public FinderRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Root, true, imageIndex, selectedImageIndex) {
-			_popup = menu; 
-			base.Editable = false;
-		}
-
-		public void InitFromFinders(ArrayList finderList, ContextMenu menu) {
-			
-			Hashtable categories = new Hashtable();
-			
-			foreach (RssFinder finder in finderList) {
-				FeedTreeNodeBase parent = this;
-
-				finder.Container = null;	// may contain old node references on a re-populate call
-
-				if (finder.FullPath.IndexOf("\\") > 0) {	// one with category
-					
-					string[] a = finder.FullPath.Split(new char[]{'\\'});
-					int aLen = a.GetLength(0);
-					string sCat = String.Join(@"\",a, 0, aLen-1);
-
-					if (categories.ContainsKey(sCat)) {
-						parent = (FeedTreeNodeBase)categories[sCat];
-					} else {	// create category/categories
-						
-						StringBuilder sb = new StringBuilder();
-						sb.Append(a[0]);
-						for (int i = 0; i <= aLen - 2; i++) {
-							sCat = sb.ToString();
-							if (categories.ContainsKey(sCat)) {
-								parent = (FeedTreeNodeBase)categories[sCat];
-							} else {
-								FeedTreeNodeBase cn = new FinderCategoryNode(a[i], 2, 3, menu);	// menu???
-								categories.Add(sCat, cn);
-								parent.Nodes.Add(cn);
-								parent = cn;
-							}
-							sb.Append("\\" + a[i+1]);
-						}
-					}
-				}
-
-				FinderNode n = new FinderNode(finder.Text, 10, 10, menu);
-				n.Finder = finder;		// interconnect
-				finder.Container = n;
-				parent.Nodes.Add(n);
-			}//foreach finder
-		
-		}
-
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType) {
-			// some childs allowed
-			if (nsType == FeedNodeType.Finder)
-				return true;
-
-			return false;
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos) {
-			/*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
-			  */
-		}
-		public override void UpdateContextMenu() {
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-
-		#endregion
-
-	}
-	#endregion
-
-	#region FinderCategoryNode
-	internal class FinderCategoryNode: FeedTreeNodeBase {
-		private static ContextMenu _popup = null;	// share one context menu
-
-		public FinderCategoryNode(string text):base(text,FeedNodeType.FinderCategory, true, 2, 3) {}
-		public FinderCategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.FinderCategory, true, imageIndex, selectedImageIndex) {
-			_popup = menu; 
-		}
-
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType) {
-			return (nsType == FeedNodeType.FinderCategory || nsType == FeedNodeType.Finder);
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos) {
-		  /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu() {
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-		#endregion
-	}
-	#endregion
-
-	#region ExceptionReportNode
-	/// <summary>
-	/// Stores the feed failures and exceptions reported while retrieving.
-	/// </summary>
-	internal class ExceptionReportNode: SmartFolderNodeBase {
-
-		public ExceptionReportNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):
-			base(null, text, imageIndex, selectedImageIndex, menu) {
-		}
-
-		#region Overrides of ISmartFolder to delegate item handling to ExceptionManager instance
-		public override void MarkItemRead(NewsItem item) {
-			if (item == null) return;
-			foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
-				if (item.Equals(ri)) {
-					ri.BeenRead = true;
-					base.UpdateReadStatus(this, -1);
-					break;
-				}
-			}
-		}
-
-		public override void MarkItemUnread(NewsItem item) {
-			if (item == null) return;
-			foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
-				if (item.Equals(ri)) {
-					ri.BeenRead = false;
-					break;
-				}
-			}
-		}
-
-		public override bool ContainsNewMessages {
-			get {
-				foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
-					if (!ri.BeenRead) return true;
-				}
-				return false;
-			}
-		}
-
-		public override int NewMessagesCount {
-			get {
-				int i = 0;
-				foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
-					if (!ri.BeenRead) i++;
-				}
-				return i;
-			}
-		}
-
-		public override ArrayList Items {
-			get {	return ExceptionManager.GetInstance().Items;	}
-		}
-
-		public override void Add(NewsItem item) {	// not the preferred way to add exceptions, but impl. the interface
-			ExceptionManager.GetInstance().Add(item);
-		}
-		public override void Remove(NewsItem item) {
-			ExceptionManager.GetInstance().Remove(item);
-		}
-
-		public override bool Modified {
-			get { return ExceptionManager.GetInstance().Modified;  }
-			set { ExceptionManager.GetInstance().Modified = value; }
-		}
-
-		#endregion
-
-	}
-	#endregion
-
-	#region FlaggedItemsNode
-	/// <summary>
-	/// Stores the various flagged items.
-	/// </summary>
-	internal class FlaggedItemsNode: SmartFolderNodeBase {
-		private Flagged flagsFiltered = Flagged.None;
-
-		public FlaggedItemsNode(Flagged flag, LocalFeedsFeed itemStore, string text, int imageIndex, int selectedImageIndex, ContextMenu menu):
-			base(itemStore, text, imageIndex, selectedImageIndex, menu) {
-			flagsFiltered = flag;
-		}
-
-		public Flagged FlagFilter {
-			get { return flagsFiltered; }
-		}
-
-		#region Some Overrides of ISmartFolder to filter items by flags
-		public override void MarkItemRead(NewsItem item) {
-			if (item == null) return;
-			foreach (NewsItem ri in base.itemsFeed.Items) {
-				if (item.Equals(ri) && ri.FlagStatus == flagsFiltered) {
-					ri.BeenRead = true;
-					base.UpdateReadStatus(this, -1);
-					break;
-				}
-			}
-		}
-
-		public override void MarkItemUnread(NewsItem item) {
-			if (item == null) return;
-			foreach (NewsItem ri in base.itemsFeed.Items) {
-				if (item.Equals(ri) && ri.FlagStatus == flagsFiltered) {
-					ri.BeenRead = false;
-					break;
-				}
-			}
-		}
-
-		public override bool ContainsNewMessages {
-			get {
-				foreach (NewsItem ri in base.itemsFeed.Items) {
-					if (!ri.BeenRead  && ri.FlagStatus == flagsFiltered) return true;
-				}
-				return false;
-			}
-		}
-
-		public override int NewMessagesCount {
-			get {
-				int i = 0;
-				foreach (NewsItem ri in base.itemsFeed.Items) {
-					if (!ri.BeenRead && ri.FlagStatus == flagsFiltered) i++;
-				}
-				return i;
-			}
-		}
-
-		public override ArrayList Items {
-			get {	
-				ArrayList a = new ArrayList(base.itemsFeed.Items.Count);
-				foreach (NewsItem ri in base.itemsFeed.Items) {
-					if (ri.FlagStatus == flagsFiltered)
-						a.Add(ri);	
-				}
-				return a;
-			}
-		}
-
-		#endregion
-
-	}
-	#endregion
-
-	#region FinderNode
-	/// <summary>
-	/// Represents a search folder in the tree.
-	/// </summary>
-	public class FinderNode:FeedTreeNodeBase, ISmartFolder {
-		private ContextMenu _popup = null;						// context menu
-		private LocalFeedsFeed itemsFeed;
-		private Hashtable items = Hashtable.Synchronized(new Hashtable(17));	// do we need the syncronized version?
-		private RssFinder finder = null;
-
-		public FinderNode():base() {}
-		public FinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu):base(text,FeedNodeType.Finder, true, imageIndex, selectedImageIndex) {
-			itemsFeed = new LocalFeedsFeed(
-				"http://localhost/rssbandit/searchfolder?id="+Guid.NewGuid(),
-				text,	String.Empty, false);
-			_popup = menu; 
-		}
-		
-		public RssFinder Finder {
-			get { return finder;	}
-			set { finder = value;  }
-		}
-
-		public string InternalFeedLink {
-			get { return itemsFeed.link; }
-		}
-
-		public bool Contains(NewsItem item) {	
-			return items.ContainsKey(item);
-		}
-
-		public void Clear() {	
-			items.Clear();
-		}
-
-		#region Implementation of FeedTreeNodeBase
-		public override bool AllowedChild(FeedNodeType nsType) {
-		 	// no childs allowed
-			return false;
-		}
-		public override void PopupMenu(System.Drawing.Point screenPos) {
-		  /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
-			*/
-		}
-		public override void UpdateContextMenu() {
-			if (base.TreeView != null)
-				base.TreeView.ContextMenu = _popup;
-		}
-
-		#endregion
-
-		#region ISmartFolder Members
-
-		public bool ContainsNewMessages {
-			get {
-				foreach (NewsItem ri in items.Keys) {
-					if (!ri.BeenRead) return true;
-				}
-				return false;
-			}
-		}
-
-		public int NewMessagesCount {
-			get {
-				int i = 0;
-				foreach (NewsItem ri in items.Keys) {
-					if (!ri.BeenRead) i++;
-				}
-				return i;
-			}
-		}
-
-		public void MarkItemRead(NewsItem item) {
-			if (item == null) return;
-			if (items.ContainsKey(item)) {
-				NewsItem ri = (NewsItem)items[item];
-				if (!ri.BeenRead) {
-					ri.BeenRead = true;
-					base.UpdateReadStatus(this, -1);
-				}
-			}
-		}
-
-		public void MarkItemUnread(NewsItem item) {
-			if (item == null) return;
-			if (items.ContainsKey(item)) {
-				NewsItem ri = (NewsItem)items[item];
-				if (ri.BeenRead) {
-					ri.BeenRead = false;
-					base.UpdateReadStatus(this, 1);
-				}
-			}
-		}
-
-		public ArrayList Items {
-			get {	
-				return new ArrayList(items.Keys);	
-			}
-		}
-
-		public void Add(NewsItem item) {	
-			if (item == null) return;
-			if (!items.ContainsKey(item))
-				items.Add(item, null);
-		}
-		public void Remove(NewsItem item) {
-			if (item == null) return;
-			if (items.ContainsKey(item))
-				items.Remove(item);
-		}
-
-		public void UpdateReadStatus() {
-			base.UpdateReadStatus(this, this.NewMessagesCount);
-		}
-
-		public bool Modified {
-			get { return itemsFeed.Modified;  }
-			set { itemsFeed.Modified = value; }
-		}
-
-		#endregion
-
 	}
 	#endregion
 
@@ -2031,9 +1318,10 @@ namespace RssBandit.WinGui.Utility
 		#region ctor's
 		public RssFinder(){
 			dynamicItemContentChecked = false;
-			categoryPathScope = new ArrayList();
-			feedUrlScope = new ArrayList();
+			categoryPathScope = new ArrayList(1);
+			feedUrlScope = new ArrayList(1);
 			searchCriterias = new SearchCriteriaCollection();
+			ShowFullItemContent = true;
 		}
 		public RssFinder(FinderNode resultContainer, SearchCriteriaCollection criterias, ArrayList categoryPathScope, ArrayList feedUrlScope, SearchScopeResolveCallback resolveSearchScope,  bool doHighlight):this(){
 			this.container = resultContainer; 
@@ -2056,11 +1344,19 @@ namespace RssBandit.WinGui.Utility
 
 		#region public properties/methods
 		[XmlIgnore]
+		public bool IsPersisted {
+			get { if (container != null) 
+					  return !container.IsTempFinderNode; 
+				return false;
+			}	
+		}
+		
+		[XmlIgnore]
 		public string Text {
 			get { 
 				if (container != null)
 					return container.Text;
-				string[] a = fullpathname.Split(new char[]{'\\'});
+				string[] a = fullpathname.Split(NewsHandler.CategorySeparator.ToCharArray());
 				return a[a.GetLength(0)-1];
 			}
 			set { 
@@ -2073,9 +1369,9 @@ namespace RssBandit.WinGui.Utility
 			get {
 				if (container != null) {
 					string s = container.FullPath.Trim();
-					string[] a = s.Split(new char[]{'\\'});
+					string[] a = s.Split(NewsHandler.CategorySeparator.ToCharArray());
 					if (a.GetLength(0) > 1)
-						return String.Join(@"\",a, 1, a.GetLength(0)-1);
+						return String.Join(NewsHandler.CategorySeparator,a, 1, a.GetLength(0)-1);
 			
 					return s;	// name only
 				} else {
@@ -2161,6 +1457,13 @@ namespace RssBandit.WinGui.Utility
 			set { resolve = value;	}
 		}
 
+		[XmlAttribute("show-full-item-content"), System.ComponentModel.DefaultValue(true)]
+		public bool ShowFullItemContent;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
+		public System.Xml.XmlAttribute[] AnyAttr;
+
 		public void SetSearchScope(ArrayList categoryPathScope, ArrayList feedUrlScope) {
 			this.categoryPathScope = categoryPathScope;
 			this.feedUrlScope = feedUrlScope;
@@ -2224,3 +1527,43 @@ namespace RssBandit.WinGui.Utility
 
 	#endregion
 }
+
+#region CVS Version Log
+/*
+ * $Log: WinGUIWidgetHelpers.cs,v $
+ * Revision 1.91  2007/07/21 12:26:57  t_rendelmann
+ * added support for "portable Bandit" version
+ *
+ * Revision 1.90  2007/03/19 10:43:05  t_rendelmann
+ * changed: better handling of favicon's (driven by extension now); we are now looking for the smallest and smoothest icon image to use (if ICO)
+ *
+ * Revision 1.89  2007/02/17 12:35:28  t_rendelmann
+ * new: "Show item full texts" is now a context menu option on search folders
+ *
+ * Revision 1.88  2007/01/30 21:17:43  carnage4life
+ * Added support for remembering browser tab state on restart
+ *
+ * Revision 1.87  2007/01/12 14:55:26  t_rendelmann
+ * cont. SearchPanel: added localization support
+ *
+ * Revision 1.86  2006/11/23 18:16:23  t_rendelmann
+ * give Vista/MS a chance to fix that issue with the next hotfix
+ *
+ * Revision 1.85  2006/11/22 22:44:20  carnage4life
+ * Made change to handle issue where Bandit always thinks it is offline on Windows Vista
+ *
+ * Revision 1.84  2006/10/28 16:38:27  t_rendelmann
+ * added: new "Unread Items" folder, not anymore based on search, but populated directly with the unread items
+ *
+ * Revision 1.83  2006/09/29 18:14:38  t_rendelmann
+ * a) integrated lucene index refreshs;
+ * b) now using a centralized defined category separator;
+ * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
+ * d) fixed: issue [ 1546921 ] Extra Category Folders Created
+ * e) fixed: issue [ 1550083 ] Problem when renaming categories
+ *
+ * Revision 1.82  2006/08/18 14:15:39  t_rendelmann
+ * fixed: www.nyi.com is not anymore available (was used as one of the probe Urls)
+ *
+ */
+#endregion

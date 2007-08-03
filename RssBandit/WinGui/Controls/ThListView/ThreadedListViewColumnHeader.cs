@@ -1,19 +1,14 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewColumnHeader.cs,v 1.4 2005/01/15 17:11:39 t_rendelmann Exp $
+ * $Id: ThreadedListViewColumnHeader.cs,v 1.5 2006/10/31 13:36:35 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/15 17:11:39 $
- * $Revision: 1.4 $
+ * Last modified at $Date: 2006/10/31 13:36:35 $
+ * $Revision: 1.5 $
  */
 #endregion
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace System.Windows.Forms.ThListView
 {
@@ -41,8 +36,9 @@ namespace System.Windows.Forms.ThListView
 
 		public string Key { get { return _id; } set { _id = value; } }
 		public Type ColumnValueType { get { return _colValueType; } set { _colValueType = value; } }
+#if CLR_11		
 		public object Tag;
-
+#endif
 		public virtual new object Clone() {
 			ThreadedListViewColumnHeader nh = new ThreadedListViewColumnHeader(this._id, this._colValueType);
 			nh.Text = this.Text;
@@ -68,3 +64,12 @@ namespace System.Windows.Forms.ThListView
 
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: ThreadedListViewColumnHeader.cs,v $
+ * Revision 1.5  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ */
+#endregion

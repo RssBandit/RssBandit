@@ -1,35 +1,64 @@
 #region CVS Version Header
 /*
- * $Id: HtmlHelper.cs,v 1.6 2005/04/29 11:32:56 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/29 11:32:56 $
- * $Revision: 1.6 $
+ * $Id: HtmlHelper.cs,v 1.18 2007/08/01 19:14:17 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2007/08/01 19:14:17 $
+ * $Revision: 1.18 $
  */
 #endregion
 
 using System;
 using System.Collections;
-using System.IO; 
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Xml; 
-using System.Diagnostics;
 
 using NewsComponents.Collections;
 
 namespace NewsComponents.Utils
 {
+
+
+	/// <summary>
+	/// helper class used for expanding relative URLs. 
+	/// </summary>
+	internal class RelativeUrlExpander{
+
+		internal string baseUrl; 
+  
+		/// <summary>
+		/// Converts the URL in the regex matched to an absolute URL with the base as this.baseUrl 
+		/// then returns the entire match
+		/// </summary>
+		/// <param name="m"></param>
+		/// <returns>The matched string with the contained uRL replaced with its absolute URL</returns>
+		internal string ConvertToAbsoluteUrl(Match m){
+
+			string href = m.Groups[1].ToString();	// filter non-real relation urls:
+			if (href.StartsWith("mailto:") || href.StartsWith("javascript:")){
+				return m.Groups[0].ToString();
+			}      
+    
+			return m.Groups[0].ToString().Replace(href, HtmlHelper.ConvertToAbsoluteUrl(href, baseUrl, true));
+		}
+
+	}
+
+
 	/// <summary>
 	/// Helper class to work on HTML content.
 	/// </summary>
 	public sealed class HtmlHelper {
 		
-		private static Regex RegExFindHref = new Regex(@"<a\s+([^>]+\s+)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private static Regex RegExBadTags = new Regex(@"<(?:script|object|meta|embed|frameset|i?frame|style|link)[\s>]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+		private static Regex RegExFindHrefOrSrc = new Regex(@"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static Regex RegExBadTags = new Regex(@"<(?:script|object|meta|embed|frameset|i?frame|link)[\s>]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled); 
-		private static Regex RegExAnyEntity = new Regex("&[#a-zA-z0-9]+;", RegexOptions.Compiled); 
+		// according to http://www.w3.org/TR/REC-html40/charset.html#entities
+		// Note: In SGML, it is possible to eliminate the final ";" after a character reference in some cases 
+		// (e.g., at a line break or immediately before a tag). In other circumstances it may not be eliminated 
+		// (e.g., in the middle of a word) - so we make use of the zero or one quantifier for ";":  
+		private static Regex RegExAnyEntity = new Regex("(?:&#[0-9]+;?|&#x[a-f0-9]+;?|&[a-z0-9]+;?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex RegExFindTitle = new Regex(@"<head\s*>.*<title\s*>(?<title>[^<]+)</title>.*</head>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		
 		private static Hashtable _htmlEntities;
@@ -43,6 +72,8 @@ namespace NewsComponents.Utils
 		/// <param name="baseUrl">base Url to be used</param>
 		/// <returns></returns>
 		public static string ConvertToAbsoluteUrl(string url, string baseUrl) {
+			if (url == null || url.Length == 0)
+				return null;
 			return ConvertToAbsoluteUrl(url, baseUrl, false);
 		}
 
@@ -52,43 +83,108 @@ namespace NewsComponents.Utils
 		/// <param name="url">Url to fix</param>
 		/// <param name="baseUrl">base Url to be used</param>
 		/// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
-		/// <returns></returns>
+		/// <returns>converted Url</returns>
 		public static string ConvertToAbsoluteUrl(string url, string baseUrl, bool onlyValid) {
-			
-			// we try to prevent the exception caused in the case the url is relative
-			// (no scheme info) just for speed
-			if (url.IndexOf(Uri.SchemeDelimiter) < 0 && baseUrl != null) {
-				try {
-					Uri baseUri= new Uri(baseUrl);
-					return (new Uri(baseUri,url).ToString()); 
-				} catch {
-					if (onlyValid)
-						return null;
-				}
-			} 
-			
-			try{ 
-				Uri uri = new Uri(url); 
-				return uri.ToString(); 
-			}catch(Exception){
 
-				if (baseUrl != null) {
-					try {
-						Uri baseUri= new Uri(baseUrl);
-						return (new Uri(baseUri,url).ToString()); 
-					} catch (Exception) {
-						if (onlyValid)
-							return null;
-						return url;
-					}
-				} else {
-					if (onlyValid)
-						return null;
-					return url;
-				}
-			}
+			if (url == null || url.Length == 0)
+				return null;
+
+			Uri baseUri = null;
+			try {
+				if (baseUrl != null && baseUrl.Length > 0)
+					baseUri = new Uri(baseUrl);
+			} catch (UriFormatException) {}
+
+			return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
+
 		}
 
+		/// <summary>
+		/// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
+		/// </summary>
+		/// <param name="url">Url to fix</param>
+		/// <param name="baseUri">base Uri to be used</param>
+		/// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
+		/// <returns>converted Url, or null</returns>
+		public static string ConvertToAbsoluteUrl(string url, Uri baseUri, bool onlyValid) {
+			
+			Uri uri = ConvertToAbsoluteUri(url, baseUri, onlyValid);
+			if (uri != null)
+				return uri.AbsoluteUri;
+
+			if (!onlyValid)	// return original:
+				return url;
+			return null;
+		}
+		
+		/// <summary>
+		/// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
+		/// </summary>
+		/// <param name="url">Url to fix</param>
+		/// <param name="baseUri">base Uri to be used</param>
+		/// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
+		/// <returns>converted Url, or null</returns>
+		public static Uri ConvertToAbsoluteUri(string url, Uri baseUri, bool onlyValid) {
+			
+			if (url == null)
+				return null;
+
+			try {
+				// we must check baseUri, because the Uri constructor
+				// will raise a NullRefEx in case it is used internally:
+				if (baseUri != null) {
+					return new Uri(baseUri,url); 
+				} else {
+					return new Uri(url); 
+				}
+			} catch (UriFormatException) {
+				if (onlyValid) return null;
+			}
+			// return original:
+			return null;
+		}
+		
+		/// <summary>
+		/// Converts to absolute URL path. 
+		/// E.g. a url "http://www.myserver.com/karli/feed.aspx?q=1"
+		/// will return "http://www.myserver.com/karli/"
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns>string</returns>
+		public static string ConvertToAbsoluteUrlPath(string url) {
+			
+			if (url == null)
+				return null;
+
+			try {
+				Uri uri = ConvertToAbsoluteUriPath(new Uri(url)); 
+				return uri.AbsoluteUri;
+			} catch (UriFormatException) {
+				// one very last try:
+				if (url.IndexOf("/") >= 0)
+					return url.Substring(0, url.LastIndexOf("/")+1);
+				return url;
+			}
+			
+		}
+		
+		/// <summary>
+		/// Converts to absolute URI path.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
+		public static Uri ConvertToAbsoluteUriPath(Uri uri) {
+			
+			if (uri == null)
+				return null;
+
+			UriBuilder b = new UriBuilder(uri);
+			b.Path = b.Path.Substring(0, b.Path.LastIndexOf("/") + 1);
+			b.Query = null;
+			b.Fragment = null;
+			return b.Uri;
+		}
+		
 		/// <summary>
 		/// Returns a RelationHRefDictionary with links found in HTML &lt;a href=""> attributes.
 		/// </summary>
@@ -96,19 +192,40 @@ namespace NewsComponents.Utils
 		/// <param name="baseUrl">An absolute Url to be used to fix relative links</param>
 		/// <returns>RelationHRefDictionary with string Urls as key(s), and link text as items</returns>
 		public static RelationHRefDictionary RetrieveLinks(string html, string baseUrl) {
-			RelationHRefDictionary tbl = new RelationHRefDictionary();
+			if (html == null || html.Length == 0)
+				return RelationHRefDictionary.Empty;
+			Uri baseUri = null;
+			try { 
+				if(baseUrl != null){
+					baseUri = new Uri(baseUrl);
+				}
+			} catch (UriFormatException) {}
+			return RetrieveLinks(html, baseUri);
+		}
+
+		/// <summary>
+		/// Returns a RelationHRefDictionary with links found in HTML &lt;a href=""> attributes.
+		/// </summary>
+		/// <param name="html">String to work on</param>
+		/// <param name="baseUri">An absolute Uri to be used to fix relative links</param>
+		/// <returns>RelationHRefDictionary with string Urls as key(s), and link text as items</returns>
+		public static RelationHRefDictionary RetrieveLinks(string html, Uri baseUri) {
 
 			if (html == null || html.Length == 0)
-				return tbl;
+				return RelationHRefDictionary.Empty;
+
+			RelationHRefDictionary tbl = new RelationHRefDictionary();
 
 			for (Match m = RegExFindHref.Match(html); m.Success; m = m.NextMatch()) {
 				
 				string href = m.Groups[1].ToString();	// filter non-real relation urls:
-				if (href.StartsWith("mailto:") || href.StartsWith("javascript:") ||
-					href.EndsWith(".gif") || href.EndsWith(".jpg") || href.EndsWith(".png")){
+				if (href.StartsWith("mailto:") || href.StartsWith("javascript:")){
 					continue;
 				}
-				href = ConvertToAbsoluteUrl(href, baseUrl, true);
+				
+				// We now do this in ExpandRelativeUrls 				
+				// href = ConvertToAbsoluteUrl(href, baseUri, true);				  
+
 				if (href == null || href.Length == 0)
 					continue;
 				
@@ -121,7 +238,27 @@ namespace NewsComponents.Utils
 					tbl.Add(href, new RelationHRefEntry(href, linkText, m.Index));
 			}
 
+			if (tbl.Count == 0)
+				tbl = RelationHRefDictionary.Empty;
+
 			return tbl; 
+		}
+
+
+		/// <summary>
+		/// Expands relative links in the HTML input. 
+		/// </summary>
+		/// <param name="html">String to work on</param>
+		/// <param name="baseUri">An absolute Uri to be used to fix relative links</param>
+		/// <returns>The HTML content with all relative links in anchor and img tags expanded</returns></returns>
+		public static string ExpandRelativeUrls(string html, string baseUrl) {
+    
+			if (html == null || html.Length == 0)
+				return html;    
+
+			RelativeUrlExpander expander = new RelativeUrlExpander(); 
+			expander.baseUrl  = baseUrl;
+			return RegExFindHrefOrSrc.Replace(html, new MatchEvaluator(expander.ConvertToAbsoluteUrl));
 		}
 
 		/// <summary>
@@ -155,13 +292,16 @@ namespace NewsComponents.Utils
 					b.Append(decoded);
 				} else if (entity[1] == '#') {	// numeric entity
 					try {
-						int etp; 
+						int etp;
+						int lCorr = 0;
+						if (entity[entity.Length-1] == ';')
+							lCorr = 1;
 						if ((entity[2] == 'x') || (entity[2] == 'X')) {
-							string ets = entity.Substring(3, entity.Length - 4);
+							string ets = entity.Substring(3, entity.Length - 3 - lCorr);
 							etp = int.Parse(ets, System.Globalization.NumberStyles.AllowHexSpecifier);
 						}
 						else {
-							string ets = entity.Substring(2, entity.Length - 3);
+							string ets = entity.Substring(2, entity.Length - 2 - lCorr);
 							etp = int.Parse(ets);
 						}
 						// in contrast to HttpUtility.HtmlDecode() we use the Encoding class and do not
@@ -180,7 +320,7 @@ namespace NewsComponents.Utils
 					}
 				}
 				else {
-					_log.Warn("HtmlDecode() unknown HTML entity: " + entity);
+					//_log.Warn("HtmlDecode() unknown HTML entity: " + entity);
 					b.Append(entity);		// just take over
 				}
 	
@@ -231,17 +371,61 @@ namespace NewsComponents.Utils
 		/// Replace any bad tag of the form &lt;object> by &lt;bject> to make
 		/// it does not work on rendering later
 		/// </summary>
+		/// <remarks>THIS METHOD SHOULD NOT BE USED!!! IT CAUSES SCRIPT BLOCKS
+		/// TO SHOW UP IN TEXT OF ITEMS. Users can control bad tags by disabling
+		/// script instead which is more of a complete solution to the problem.</remarks>
 		/// <param name="html">string to work on</param>
 		/// <returns>A cleaner version of the provided input.</returns>
 		public static string StripBadTags(string html) {
 			if (html == null)
 				return String.Empty;
-			if (RegExBadTags.IsMatch(html)) {
+			/* if (RegExBadTags.IsMatch(html)) {
 				html = RegExBadTags.Replace(html, new MatchEvaluator(HtmlHelper.RegexTagEvaluate));
-			}
+			} */ 
 			return html;
 		}
 
+		/// <summary>
+		/// URL-encode a provided string (Does NOT use the
+		/// CLR function to do so).
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns>Null in case value is null</returns>
+		public static string UrlEncode( string value ) {
+			if (value == null)
+				return null;
+			
+			StringBuilder result = new StringBuilder();
+
+			foreach( char c in value ) {
+				if( c < ' ' || c > 128 || c == '(' || c == ')' 
+					|| c == '/' || c == ' ' || c == '+' || c == ',' || 
+					c == ':' || c == '"' || c == '&' ) {
+					result.Append( '%' );
+					result.AppendFormat( System.Globalization.CultureInfo.InvariantCulture, "{0:X2}", (int)c );
+				}
+				else
+					result.Append( c );
+			}
+
+			return result.ToString();
+		}
+		
+		/// <summary>
+		/// URL-decode the provided value. It use the CLR function to do 
+		/// so, but protects against the "+" replacement issue of the
+		/// framework function.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns>Null in case value is null</returns>
+		public static string UrlDecode(string value) {
+			if (value == null)
+				return null;
+			// this just safe on more replacement op. after calling CLR function:
+			string result = value.Replace("+", "%2b");
+			return System.Web.HttpUtility.UrlDecode(result);
+		}
+		
 		private static string RegexTagEvaluate(Match m) {
 			return string.Concat("<", m.ToString().Substring(2));
 		}
@@ -516,3 +700,27 @@ namespace NewsComponents.Utils
 	}
 
 }
+#region CVS Version Log
+/*
+ * $Log: HtmlHelper.cs,v $
+ * Revision 1.18  2007/08/01 19:14:17  carnage4life
+ * RetrieveLinks() now handles null baseUrl
+ *
+ * Revision 1.17  2007/07/08 07:14:45  carnage4life
+ * Images don't show up on certain items when clicking on feed or category view if the feed uses relative links such as http://www.tbray.org/ongoing/ongoing.atom
+ *
+ * Revision 1.16  2007/05/03 15:58:06  t_rendelmann
+ * fixed: toggle read state from within html detail pane (javascript initiated) not always toggle the read state within the listview and subscription tree (caused if item ID is Url-encoded)
+ *
+ * Revision 1.15  2006/10/19 19:48:28  t_rendelmann
+ * commented the _log call
+ *
+ * Revision 1.14  2006/10/17 10:42:56  t_rendelmann
+ * fixed: not all HTML entity encoding handled (like that of SGML without the trailing ";")
+ * fixed: now trim the NewsItem.Title to get rid of tabs and spaces
+ *
+ * Revision 1.13  2006/10/15 17:22:47  t_rendelmann
+ * fixed: relative urls in feed links (feed homepage urls)
+ *
+ */
+#endregion

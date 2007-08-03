@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationCosmos.cs,v 1.7 2005/06/10 18:25:59 t_rendelmann Exp $
+ * $Id: RelationCosmos.cs,v 1.12 2005/10/02 12:21:31 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/10 18:25:59 $
- * $Revision: 1.7 $
+ * Last modified at $Date: 2005/10/02 12:21:31 $
+ * $Revision: 1.12 $
  */
 #endregion
 
@@ -15,20 +15,19 @@ using System.Threading;
 using NewsComponents.Collections;
 using NewsComponents.Utils;
 using NewsComponents.Threading;
-using RssBandit.Common.Logging;
 
 namespace NewsComponents.RelationCosmos
 {
 	/// <summary>
-	/// Summary description for RelationCosmos.
+	/// RelationCosmos1: the current impl.
 	/// </summary>
-	public class RelationCosmos
+	public class RelationCosmos1 : IRelationCosmos
 	{
 		#region ctor's
 		/// <summary>
 		/// Initializer
 		/// </summary>
-		public RelationCosmos()	{
+		public RelationCosmos1()	{
 			worker = new PriorityThread();
 			allRelations = new Relations();
 			registeredRelations = new Relations();
@@ -37,31 +36,6 @@ namespace NewsComponents.RelationCosmos
 		}
 		#endregion
 
-		#region public static methods
-		/// <summary>
-		/// Provides a empty RelationList instance.
-		/// </summary>
-		public static RelationList EmptyRelationList { get { return emptyRelationList; } }
-		/// <summary>
-		/// This provides a empty RelationHRefDictionary instance
-		/// </summary>
-		public static RelationHRefDictionary EmptyRelationHRefDictionary { get { return emptyHRefDictionary; } }
-		/// <summary>
-		/// A timespan that express the time subtracted from a known point in time to get
-		/// another related relation point in time adjusted. Default is one second.
-		/// </summary>
-		public static TimeSpan DefaultRelationTimeCorrection { get { return defaultRelationTimeCorrection; } }
-		/// <summary>
-		/// A default date representing the unknown point in time of a relation.
-		/// </summary>
-		public static DateTime UnknownPointInTime { get { return DateTime.MinValue; } }
-		/// <summary>
-		/// A hashtable table for adding URLs. This allows us to implement the equivalent 
-		/// of string interning without the performance overhead of String.Intern
-		/// </summary>
-		public static StringTable UrlTable{ get { return urlTable; } }
-		#endregion
-		
 		#region public methods
 		/// <summary>
 		/// Add a new Relation to the RelationCosmos. 
@@ -134,7 +108,7 @@ namespace NewsComponents.RelationCosmos
 					}
 
 					// ensure new relation have a valid point in time entry.
-					if (relation.PointInTime == UnknownPointInTime)
+					if (relation.PointInTime == RelationCosmos.UnknownPointInTime)
 						relation.SetInternalPointInTime(DateTime.UtcNow);	// keep the movable information
 
 					// If we get relation(s) to add in unordered manner, that relation can be older then some known.
@@ -198,6 +172,8 @@ namespace NewsComponents.RelationCosmos
 				if (relation.Id != relation.HRef)
 					selfIncomingLookup.Add(relation.Id, relation);	
 			}			
+
+			Thread.Sleep(150);
 
 			for (int i = 0, len = relations.Count; i < len; i++) 
 			{
@@ -274,10 +250,12 @@ namespace NewsComponents.RelationCosmos
 				}//lock
 				
 				// ensure new relation have a valid point in time entry.
-				if (relation.PointInTime == UnknownPointInTime)
+				if (relation.PointInTime == RelationCosmos.UnknownPointInTime)
 					relation.SetInternalPointInTime(DateTime.UtcNow);	// keep the movable information
 
 			}//foreach(RelationBase)	
+
+			Thread.Sleep(150);
 
 			// If we get relation(s) to add in unordered manner, that relation can be older then some known.
 			// So we have to loop over yet known relations and test, if the known outgoing contains
@@ -438,12 +416,12 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>RelationList</returns>
 		public RelationList GetIncoming(RelationBase relation, IList excludeRelations) {
 			if (relation == null || relation.HRef == null)
-				return RelationCosmos.emptyRelationList;
+				return RelationList.Empty;
 
 			lock(syncRoot) {
 				try {
 					if (excludeRelations == null)
-						excludeRelations = RelationCosmos.emptyRelationList;
+						excludeRelations = RelationList.Empty;
 
 					// check incoming (HRef):
 					RelationList list = registeredIncomingRelations[relation.HRef];
@@ -459,7 +437,7 @@ namespace NewsComponents.RelationCosmos
 
 					// check incoming (Id):
 					if (relation.Id == null || relation.Id == relation.HRef)
-						return RelationCosmos.emptyRelationList;
+						return RelationList.Empty;
 
 					list = registeredIncomingRelations[relation.Id];
 					if (list != null && list.Count > 0) {
@@ -479,7 +457,7 @@ namespace NewsComponents.RelationCosmos
 					Trace.Write("RelationCosmos.GetIncoming() exception:"+ ex.Message);
 				}
 
-				return RelationCosmos.emptyRelationList;
+				return RelationList.Empty;
 			}			
 		}
 
@@ -493,12 +471,12 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>RelationList</returns>
 		public RelationList GetOutgoing(RelationBase relation, IList excludeRelations) { 
 			if (relation == null || relation.HRef == null)
-				return RelationCosmos.emptyRelationList;
+				return RelationList.Empty;
 
 			lock(syncRoot) {
 				try {
 					if (excludeRelations == null)
-						excludeRelations = RelationCosmos.emptyRelationList;
+						excludeRelations = RelationList.Empty;
 
 					// check incoming:
 					RelationHRefDictionary list = relation.outgoingRelationships;
@@ -517,7 +495,7 @@ namespace NewsComponents.RelationCosmos
 					Trace.Write("RelationCosmos.GetOutgoing() exception:"+ ex.Message);
 				}
 
-				return RelationCosmos.emptyRelationList;
+				return RelationList.Empty;
 			}			
 		}
 		/// <summary>
@@ -533,7 +511,7 @@ namespace NewsComponents.RelationCosmos
 			if (returnList.Count > 0) {
 				return returnList;
 			}
-			return RelationCosmos.emptyRelationList;
+			return RelationList.Empty;
 		}
 		
 		/// <summary>
@@ -552,7 +530,7 @@ namespace NewsComponents.RelationCosmos
 			lock(syncRoot) {
 				try {
 					if (excludeRelations == null)
-						excludeRelations = RelationCosmos.emptyRelationList;
+						excludeRelations = RelationList.Empty;
 
 					// check outgoing:
 					foreach (string hrefOut in relation.outgoingRelationships.Keys) {
@@ -648,6 +626,7 @@ namespace NewsComponents.RelationCosmos
 			}
 			return false;
 		}
+/*
 		private static bool RelationListContainsHRef(IList relationList, string href) 
 		{
 			foreach (RelationBase r in relationList) {
@@ -656,6 +635,7 @@ namespace NewsComponents.RelationCosmos
 			}
 			return false;
 		}
+*/
 		/// <summary>
 		/// If the PointInTime of parameter <c>relation</c> is greater than <c>registeredRelation</c>,
 		/// we adjust the them. We favor to adjust only relations with <c>PointInTimeIsAdjustable</c> set to true.
@@ -669,11 +649,11 @@ namespace NewsComponents.RelationCosmos
 		private static void AdjustRelationPointInTime(RelationBase relation, RelationBase registeredRelation, bool force) {
 			if (relation.PointInTime > registeredRelation.PointInTime) {
 				if (relation.PointInTimeIsAdjustable) {
-					relation.SetInternalPointInTime(registeredRelation.PointInTime.Subtract(defaultRelationTimeCorrection));
-				} else if (registeredRelation.PointInTimeIsAdjustable && relation.PointInTime != UnknownPointInTime) {
-					registeredRelation.SetInternalPointInTime(relation.PointInTime.Add(defaultRelationTimeCorrection));
+					relation.SetInternalPointInTime(registeredRelation.PointInTime.Subtract(RelationCosmos.DefaultRelationTimeCorrection));
+				} else if (registeredRelation.PointInTimeIsAdjustable && relation.PointInTime != RelationCosmos.UnknownPointInTime) {
+					registeredRelation.SetInternalPointInTime(relation.PointInTime.Add(RelationCosmos.DefaultRelationTimeCorrection));
 				} else if (force) {
-					relation.SetInternalPointInTime(registeredRelation.PointInTime.Subtract(defaultRelationTimeCorrection));
+					relation.SetInternalPointInTime(registeredRelation.PointInTime.Subtract(RelationCosmos.DefaultRelationTimeCorrection));
 				}
 			}
 		}
@@ -684,19 +664,15 @@ namespace NewsComponents.RelationCosmos
 		private void ThreadRunAddRange(object state) {
 			IList relations = (IList)state;
 			
-			long secs = 0;
-			ProfilerHelper.StartMeasure(ref secs);
+			//long secs = 0;
+			//ProfilerHelper.StartMeasure(ref secs);
 			this.InternalAddRange(relations);
-			Trace.WriteLine(ProfilerHelper.StopMeasureString(secs) + "(" + relations.Count.ToString() + " items)", "RelationCosmos.InternalAddRange(relations) Profiling");
+			//Trace.WriteLine(ProfilerHelper.StopMeasureString(secs) + "(" + relations.Count.ToString() + " items)", "RelationCosmos.InternalAddRange(relations) Profiling");
 		}
 		#endregion
 
 		#region private vars
 		//private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(RelationCosmos));
-		private static RelationList emptyRelationList = RelationList.ReadOnly(new RelationList(0));
-		private static TimeSpan defaultRelationTimeCorrection = new TimeSpan(100);	// 100 nanosecs == 1 sec
-		private static RelationHRefDictionary emptyHRefDictionary = new RelationHRefDictionary(0);
-		private static StringTable urlTable = new StringTable(); 
 
 		private Relations allRelations;
 		private Relations registeredRelations;

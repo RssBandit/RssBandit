@@ -1,26 +1,25 @@
 #region CVS Version Header
 /*
- * $Id: RssItemFormatter.cs,v 1.20 2005/06/07 17:56:42 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/07 17:56:42 $
- * $Revision: 1.20 $
+ * $Id: RssItemFormatter.cs,v 1.34 2007/06/07 02:04:18 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2007/06/07 02:04:18 $
+ * $Revision: 1.34 $
  */
 #endregion
 
 using System;
+using System.Threading;
 using System.Xml;
 using System.Xml.XPath; 
 using System.Xml.Xsl;
-using System.Collections;
 using System.IO;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Text; 
 using System.Collections.Specialized;
 
 using NewsComponents;
 using NewsComponents.Feed;
 using RssBandit.Exceptions;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Utility
 {
@@ -35,21 +34,28 @@ namespace RssBandit.WinGui.Utility
 
 		static private string _defaultTmpl = null;
 
-		private XsltArgumentList _xslArgs = null;
-		
+		static private string _searchTmpl  = null; 
+
+		public const string SearchTemplateId = ":*<>?"; 
 
 		//the table of XSLT transforms
 		private ListDictionary stylesheetTable = new ListDictionary(); 
 
 		static NewsItemFormatter() {
-			_defaultTmpl = Resource.Manager["XSLT_DefaultTemplate"];
+			//_defaultTmpl = Resource.Manager["XSLT_DefaultTemplate"];
+			using (Stream xsltStream = Resource.GetStream("Resources.DefaultTemplate.xslt")) {
+				_defaultTmpl = new StreamReader(xsltStream).ReadToEnd();	
+			}
+
+			using (Stream xsltStream = Resource.GetStream("Resources.SearchResultsTemplate.xslt")) {
+				_searchTmpl = new StreamReader(xsltStream).ReadToEnd();	
+			}
 		}
 
-		public NewsItemFormatter():this(String.Empty, _defaultTmpl) {}
+		public NewsItemFormatter():this(String.Empty, _defaultTmpl) {
+			this.AddXslStyleSheet(SearchTemplateId, _searchTmpl); 
+		}
 		public NewsItemFormatter(string xslStyleSheetName, string xslStyleSheet) {		
-			_xslArgs = new XsltArgumentList();
-			_xslArgs.AddParam("AppStartupPath", String.Empty, Application.StartupPath);
-			_xslArgs.AddParam("AppUserDataPath", String.Empty, RssBanditApplication.GetUserPath());
 			this.AddXslStyleSheet(xslStyleSheetName, xslStyleSheet);
 		}
 		
@@ -94,18 +100,21 @@ namespace RssBandit.WinGui.Utility
 
 				this.stylesheetTable.Add(name, transform); 
 				
-			} catch (XsltCompileException e){
+			}catch (XsltCompileException e){
 				stylesheet = DefaultNewsItemTemplate;
-				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 
-				this.OnStylesheetError(this, new ExceptionEventArgs(e, Resource.Manager["RES_ExceptionNewsItemFormatterStylesheetCompile"]));
-				throw e;
-
-			}	catch (XmlException e){
+				//transform.Load(new XmlTextReader(new StringReader(stylesheet))); 
+				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterStylesheetCompile));
+				if(!(e.InnerException is ThreadAbortException)){				
+					RssBanditApplication.PublishException(new BanditApplicationException("Error in AddXslStyleSheet()", e)); 				
+				}
+			}catch (XmlException e){
 				stylesheet = DefaultNewsItemTemplate;
-				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 
-				this.OnStylesheetError(this, new ExceptionEventArgs(e, Resource.Manager["RES_ExceptionNewsItemFormatterStylesheetCompile"]));
-				throw e;				
-			}						
+				//transform.Load(new XmlTextReader(new StringReader(stylesheet))); 				
+				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterStylesheetCompile));
+				if(!(e.InnerException is ThreadAbortException)){
+					RssBanditApplication.PublishException(new BanditApplicationException("Error in AddXslStyleSheet()", e)); 					
+				}
+			}
 		}
 
 
@@ -114,8 +123,9 @@ namespace RssBandit.WinGui.Utility
 		/// </summary>
 		/// <param name="stylesheet">The stylesheet to use for transformation</param>
 		/// <param name="transformTarget">The object to transform</param>
+		/// <param name="xslArgs"></param>
 		/// <returns>The results of the transformation</returns>
-		public virtual string ToHtml(string stylesheet, object transformTarget) {
+		public virtual string ToHtml(string stylesheet, object transformTarget, XsltArgumentList xslArgs) {
 
 			NewsItemSerializationFormat format = NewsItemSerializationFormat.NewsPaper;
 			string link = String.Empty, content = String.Empty;
@@ -132,7 +142,7 @@ namespace RssBandit.WinGui.Utility
 				
 				if(transformTarget is NewsItem){
 					NewsItem item = (NewsItem) transformTarget;
-					link = item.Link;
+					link = item.FeedLink;
 					content = item.Content;
 					doc = new XPathDocument(new XmlTextReader(new StringReader(item.ToString(format, false))), XmlSpace.Preserve);				
 				}else if(transformTarget is FeedInfo){
@@ -152,12 +162,16 @@ namespace RssBandit.WinGui.Utility
 					transform = (XslTransform) this.stylesheetTable[stylesheet];
 				}else{
 					transform = (XslTransform) this.stylesheetTable[String.Empty];
-				}				
+				}	
 				
-				transform.Transform(doc, _xslArgs, swr);
+				// support simple localizations (some common predefined strings to display):
+				xslArgs.AddExtensionObject("urn:localization-extension", new LocalizerExtensionObject());
+				transform.Transform(doc, xslArgs, swr);
 
+			} catch (ThreadAbortException) {
+				// ignored
 			}	catch (Exception e)	{
-				this.OnTransformationError(this, new FeedExceptionEventArgs(e, link, Resource.Manager["RES_ExceptionNewsItemTransformation"]));
+				this.OnTransformationError(this, new FeedExceptionEventArgs(e, link, SR.ExceptionNewsItemTransformation));
 				return content;	// try to display unformatted simple text
 			}
 		
@@ -189,7 +203,7 @@ namespace RssBandit.WinGui.Utility
 				_transform.Transform(item.CreateNavigator(standalone), null, new StringWriter(sb));
 				doc.LoadXml(sb.ToString());
 			}	catch (Exception e)	{
-				this.OnTransformationError(this, new FeedExceptionEventArgs(e, item.Feed.link, Resource.Manager["RES_ExceptionNewsItemTransformation"]));
+				this.OnTransformationError(this, new FeedExceptionEventArgs(e, item.Feed.link, SR.ExceptionNewsItemTransformation"]));
 				// try to display unformatted simple text
 				doc.LoadXml("<html><head><title>" + item.Title + "</title></head><body><![CDATA[" + item.Description + "]]></body></html>");			
 			}
@@ -220,5 +234,113 @@ namespace RssBandit.WinGui.Utility
 					eh.BeginInvoke(this, e, null, null);
 		}
 
+		#region LocalizerExtensionObject class
+
+		/// <summary>
+		/// Xslt Transformation extension to provide localized strings 
+		/// to Xslt templates
+		/// </summary>
+		public class LocalizerExtensionObject
+		{
+			
+			/// <summary>
+			/// Gets the localized related links text.
+			/// </summary>
+			/// <returns></returns>
+			public string RelatedLinksText(){
+				return SR.XsltDefaultTemplate_RelatedLinks;
+			}
+
+			/// <summary>
+			/// Returns the localized previous text.
+			/// </summary>
+			/// <returns></returns>
+			public string PreviousPageText(){
+				return SR.XsltDefaultTemplate_Previous;
+			}
+
+			/// <summary>
+			/// Returns the localized next text.
+			/// </summary>
+			/// <returns></returns>
+			public string NextPageText(){
+				return SR.XsltDefaultTemplate_Next;
+			}
+
+			/// <summary>
+			/// Returns the localized displaying page text.
+			/// </summary>
+			/// <returns></returns>
+			public string DisplayingPageText(){
+				return SR.XsltDefaultTemplate_Displaying_page;
+			}
+
+			/// <summary>
+			/// Returns the localized of text.
+			/// </summary>
+			/// <returns></returns>
+			public string PageOfText(){
+				return SR.XsltDefaultTemplate_of;
+			}
+
+			/// <summary>
+			/// Gets the localized item publisher text.
+			/// </summary>
+			/// <returns></returns>
+			public string ItemPublisherText() {
+				return SR.XsltDefaultTemplate_ItemPublisher;	
+			}
+
+			/// <summary>
+			/// Gets the localized item author text.
+			/// </summary>
+			/// <returns></returns>
+			public string ItemAuthorText() {
+				return SR.XsltDefaultTemplate_ItemAuthor;
+			}
+
+			/// <summary>
+			/// Gets the localized item date text.
+			/// </summary>
+			/// <returns></returns>
+			public string ItemDateText() {
+				return SR.XsltDefaultTemplate_ItemDate;
+			}
+
+			/// <summary>
+			/// Gets the localized item enclosure text.
+			/// </summary>
+			/// <returns></returns>
+			public string ItemEnclosureText() {
+				return SR.XsltDefaultTemplate_ItemEnclosure;
+			}
+			/// <summary>
+			/// Gets the localized text to indicate toggle of flag states.
+			/// </summary>
+			/// <returns></returns>
+			public string ToggleFlagStateText() {
+				return SR.XsltDefaultTemplate_ToggleFlagState;
+			}
+
+			/// <summary>
+			/// Gets the localized text to indicate toggle of read state.
+			/// </summary>
+			/// <returns></returns>
+			public string ToggleReadStateText() {
+				return SR.XsltDefaultTemplate_ToggleReadState;
+			}
+
+			/// <summary>
+			/// Gets the localized text to indicate toggle of watched state.
+			/// </summary>
+			/// <returns></returns>
+			public string ToggleWatchStateText() {
+				return SR.XsltDefaultTemplate_ToggleWatchState;
+			}
+		}
+
+		#endregion
 	}
+
+	
 }

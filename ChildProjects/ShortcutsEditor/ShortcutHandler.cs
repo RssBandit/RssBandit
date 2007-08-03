@@ -567,6 +567,7 @@ namespace RssBandit.Utility.Keyboard
 						"cmdCopyNewsItem",
 						"cmdRestoreSelectedNewsItem",
 						"cmdFlagNewsItem",
+						"cmdWatchItemComments",						
 						"cmdFlagNewsItemForFollowUp",
 						"cmdFlagNewsItemForReview",
 						"cmdFlagNewsItemForReply",

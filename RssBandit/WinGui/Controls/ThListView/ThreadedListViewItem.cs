@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewItem.cs,v 1.3 2005/01/15 17:11:39 t_rendelmann Exp $
+ * $Id: ThreadedListViewItem.cs,v 1.5 2005/08/14 16:20:29 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/15 17:11:39 $
- * $Revision: 1.3 $
+ * Last modified at $Date: 2005/08/14 16:20:29 $
+ * $Revision: 1.5 $
  */
 #endregion
 
@@ -27,6 +27,7 @@ namespace System.Windows.Forms.ThListView
 		private int _indentLevel = 0;
 		private int _groupIndex = 0; 
 		private bool _hasChilds = false;
+		private bool _isComment = false;
 		internal bool _expanded = false;
 		private object _key = null;
 		private static int _originalIndex = 0;
@@ -167,6 +168,22 @@ namespace System.Windows.Forms.ThListView
 		}
 
 		/// <summary>
+		/// Set an image for a sub-item column.
+		/// </summary>
+		/// <param name="subItemIndex">int. The sub-item index</param>
+		/// <param name="imageIndex">int. The image index.</param>
+		public void SetSubItemImage(int subItemIndex, int imageIndex) {
+			this.SetListViewSubItemImage(subItemIndex, imageIndex);
+		}
+		/// <summary>
+		/// Reset/Clear an previously set sub-item image.
+		/// </summary>
+		/// <param name="subItemIndex">int. The sub-item index</param>
+		public void ClearSubItemImage(int subItemIndex) {
+			this.SetListViewSubItemImage(subItemIndex, -1);
+		}
+
+		/// <summary>
 		/// Gets the original index (item creation order). 
 		/// This usually does NOT start with an index of 0 (zero).
 		/// Used to enable a sort by original creation order.
@@ -202,6 +219,15 @@ namespace System.Windows.Forms.ThListView
 				_hasChilds = value; 
 			}
 		}
+
+		/// <summary>
+		/// Indicates that the threaded listview item is a threaded comment. 
+		/// </summary>
+		public virtual bool IsComment{
+			get { return _isComment; }	
+			set { _isComment = value; }
+		}
+
 
 		/// <summary>
 		/// Sets or gets the item's Expanded state
@@ -257,6 +283,16 @@ namespace System.Windows.Forms.ThListView
 			if ((Win32.ListViewHitTestFlags)htInfo.flags == Win32.ListViewHitTestFlags.LVHT_ONITEMSTATEICON)
 				return true;
 			return false;
+		}
+
+		private void SetListViewSubItemImage(int subItem, int imageIndex) {
+			Win32.LVITEM lvi = new Win32.LVITEM();
+
+			lvi.iItem = base.Index;
+			lvi.iSubItem = subItem;
+			lvi.iImage = imageIndex;
+			lvi.mask = Win32.ListViewItemFlags.LVIF_IMAGE;
+			Win32.API.SendMessage((IntPtr)base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
 		}
 
 		private void SetListViewItemIndent(int level) 

@@ -38,14 +38,13 @@ try
 		if(parentevent)
 		{
 			var url = escape(parentwindow.location.href);
-			var selectedElement = doc.elementFromPoint(parentevent.clientX, parentevent.clientY );
-			var tag = selectedElement.tagName;
-			if(tag == "A" || tag == "a")
-				url = selectedElement;
-			if(tag == "IMG" || tag == "img") {
-				selectedElement = getContainingA(selectedElement);
-				url = selectedElement;
+			var selectedElement = doc.elementFromPoint(parentevent.clientX, parentevent.clientY );			
+			var tag = getContainingA(selectedElement);
+						
+			if(tag.nodeName == "A" || tag.nodeName == "a"){				
+				url = tag.href;
 			}
+			
 			url = ""+url;
 			var prefix = "";
 			if (url && url.indexOf("feed:") == -1)

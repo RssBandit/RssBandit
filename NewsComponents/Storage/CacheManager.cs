@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CacheManager.cs,v 1.6 2005/04/04 02:55:14 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/04 02:55:14 $
- * $Revision: 1.6 $
+ * $Id: CacheManager.cs,v 1.8 2006/09/03 19:08:50 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/09/03 19:08:50 $
+ * $Revision: 1.8 $
  */
 #endregion
 
@@ -19,6 +19,13 @@ namespace NewsComponents.Storage {
 	/// </summary>
 	public abstract class CacheManager
 	{
+
+		/// <summary>
+		/// Returns the location of the cache. The format of the location is dependent 
+		/// on the CacheManager implementation. 
+		/// </summary>
+		internal abstract string CacheLocation {get;}
+
 		/// <summary>
 		/// Returns an RSS feed as an XmlReader. 
 		/// </summary>
@@ -54,5 +61,12 @@ namespace NewsComponents.Storage {
 		/// Removes every item in the cache. 
 		/// </summary>
 		public abstract void ClearCache(); 
+
+		/// <summary>
+		/// Loads the contents of the NewsItem from the cache. The provided NewsItem must have 
+		/// non-null value for its Id property. 
+		/// </summary>
+		/// <param name="item"></param>
+		public abstract void LoadItemContent(NewsItem item); 
 	}
 }

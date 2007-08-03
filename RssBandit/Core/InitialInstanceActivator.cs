@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: InitialInstanceActivator.cs,v 1.3 2004/02/15 14:50:10 t_rendelmann Exp $
+ * $Id: InitialInstanceActivator.cs,v 1.4 2006/10/31 13:36:35 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/02/15 14:50:10 $
- * $Revision: 1.3 $
+ * Last modified at $Date: 2006/10/31 13:36:35 $
+ * $Revision: 1.4 $
  */
 #endregion
 
@@ -86,13 +86,13 @@ namespace RssBandit
 
 	  public static int GetPort() {
 		  if (usedPort == IPEndPoint.MinPort) {
-			  int configPort = RssBandit.Win32.Registry.InstanceActivatorPort;
+			  int configPort = Win32.Registry.InstanceActivatorPort;
 			  if (configPort != 0) {
 				  usedPort = configPort;
 			  } else {
 				  Random rnd = new Random();
 				  usedPort = rnd.Next(49153, 65535);	// The Dynamic and/or Private Ports are those from 49152 through 65535.
-				  RssBandit.Win32.Registry.InstanceActivatorPort = usedPort;
+				  Win32.Registry.InstanceActivatorPort = usedPort;
 			  }
 		  }
 		  return usedPort;
@@ -103,7 +103,7 @@ namespace RssBandit
 	  }
 
 	  public static string GetChannelName() {
-		  return GetChannelName(RssBandit.RssBanditApplication.GetUserPath());
+		  return GetChannelName(RssBanditApplication.GetUserPath());
 	  }
 
 	  public static string GetChannelName(string userApp) {
@@ -156,7 +156,7 @@ namespace RssBandit
 				  maxRetry--;
 				  if (maxRetry > 0 && sx.ErrorCode == 10048)	{ // WSAEADDRINUSE (10048) Address already in use.
 					  usedPort++;
-					  RssBandit.Win32.Registry.InstanceActivatorPort = usedPort;
+					  Win32.Registry.InstanceActivatorPort = usedPort;
 				  } else {
 					throw;
 				  }
@@ -210,8 +210,8 @@ namespace RssBandit
       
 			  // Transition to the UI thread
 			  if( this.context.MainForm.InvokeRequired ) {
-				  OtherInstanceCallback callback = new OtherInstanceCallback(OnOtherInstance);
-				  this.context.MainForm.Invoke(callback, new object[] { args });
+				  OtherInstanceCallback cb = new OtherInstanceCallback(OnOtherInstance);
+				  this.context.MainForm.Invoke(cb, new object[] { args });
 				  return;
 			  }
 

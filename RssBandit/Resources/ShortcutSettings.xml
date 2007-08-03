@@ -19,11 +19,15 @@
 		</shortcut>
 		<shortcut display="true">
 			<command>cmdCloseExit</command>
-			<shortcutEnumValue>AltF4</shortcutEnumValue>
+			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
 		<shortcut>
 			<command>cmdToggleOfflineMode</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
+		</shortcut>
+		<shortcut display="true">
+			<command>cmdSelectAllFeedItems</command>
+			<shortcutEnumValue>CtrlA</shortcutEnumValue>
 		</shortcut>
 		<shortcut>
 			<command>cmdToggleTreeViewState</command>
@@ -90,8 +94,9 @@
 			<shortcutEnumValue>F5</shortcutEnumValue>
 		</shortcut>
 		<shortcut display="true">
+			<!-- There is also a keyboardCombinations shortcut for this command -->
 			<command>cmdCatchUpCurrentSelectedNode</command>
-			<shortcutEnumValue>CtrlM</shortcutEnumValue>
+			<shortcutEnumValue>CtrlQ</shortcutEnumValue>
 		</shortcut>
 		<shortcut display="true">
 			<command>cmdRenameFeed</command>
@@ -209,6 +214,10 @@
 			<command>cmdRestoreSelectedNewsItems</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
+		<shortcut>
+			<command>cmdWatchItemComments</command>
+			<shortcutEnumValue>None</shortcutEnumValue>
+		</shortcut>		
 		<shortcut>
 			<command>cmdFlagNewsItem</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
@@ -340,8 +349,9 @@
 			<keyCombination>F4,Control</keyCombination>
 		</shortcut>
 		<shortcut>
+			<!-- There is also a menu shortcut for this command -->
 			<command>CatchUpCurrentSelectedNode</command>
-			<keyCombination>M,Control</keyCombination>
+			<keyCombination>Q,Control</keyCombination>
 		</shortcut>
 		<shortcut>
 			<command>MarkFeedItemsUnread</command>

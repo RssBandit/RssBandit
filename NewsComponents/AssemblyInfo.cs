@@ -1,21 +1,22 @@
 #region CVS Version Header
 /*
- * $Id: AssemblyInfo.cs,v 1.2 2005/04/02 19:27:34 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/02 19:27:34 $
- * $Revision: 1.2 $
+ * $Id: AssemblyInfo.cs,v 1.5 2007/06/16 19:55:23 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2007/06/16 19:55:23 $
+ * $Revision: 1.5 $
  */
 #endregion
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("NewsComponents")]
+[assembly: AssemblyTitle("News Components")]
 [assembly: AssemblyDescription("News Components")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("rssbandit.org")]
@@ -26,20 +27,8 @@ using System.Reflection;
 
 // FxCop CA1014	
 // http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&&url=/Design/MarkAssembliesWithClsCompliant.html
-[assembly: CLSCompliant(false)]
-
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.1.*")]
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

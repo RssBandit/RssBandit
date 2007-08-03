@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -58,811 +59,550 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
 		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="btnOK.Text">
-		<value>&amp;Tamam</value>
-	</data>
-	<data name="btnCancel.Text">
-		<value>&amp;Vazgeç</value>
-	</data>
-	<data name="tabGeneral.Text">
-		<value>Genel</value>
-	</data>
-	<data name="tabGeneral.ToolTipText">
-		<value>Programın genel ayarları</value>
-	</data>
-	<data name="sectionPanelGeneralStartup.Text">
-		<value>Başlangıç</value>
-	</data>
-	<data name="checkRefreshFeedsOnStartup.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 20</value>
-	</data>
-	<data name="checkRefreshFeedsOnStartup.Text">
-		<value>Program başladığında beslemeleri güncelle</value>
-	</data>
-	<data name="sectionPanelGeneralBehavior.Text">
-		<value>Programın Tavrı</value>
-	</data>
-	<data name="btnMakeDefaultAggregator.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>260, 24</value>
-	</data>
-	<data name="btnMakeDefaultAggregator.Text">
-		<value>RSS Bandit i varsayılan RSS okuyucu yap.</value>
-	</data>
-	<data name="btnMakeDefaultAggregator.ToolTip">
-		<value>RSS Bandit i besleme Url portunu dinleyen program olarak ayarlar...</value>
-	</data>
-	<data name="label12.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 182</value>
-	</data>
-	<data name="label12.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>296, 42</value>
-	</data>
-	<data name="label12.Text">
-		<value>Eğer düğme görünmüyorsa RSS Bandit varsayılan RSS okuyucunuz demektir. Eğer görünüyorsa düğmeye basarak RSS Bandit i varsayılan okuyucunuz yapabilirsiniz.</value>
-	</data>
-	<data name="radioTrayActionNone.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>32, 74</value>
-	</data>
-	<data name="radioTrayActionNone.Text">
-		<value>&amp;Hiçbiri</value>
-	</data>
-	<data name="radioTrayActionNone.ToolTip">
-		<value>Program görev çubuğunda sürekli görünür olacak.</value>
-	</data>
-	<data name="label1.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 43</value>
-	</data>
-	<data name="label1.Text">
-		<value>Aşağıdakilerden hangisinde programın sistem bildiri alanına küçülmesini istersiniz.</value>
-	</data>
-	<data name="radioTrayActionClose.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>32, 114</value>
-	</data>
-	<data name="radioTrayActionClose.Text">
-		<value>Program &amp;kapatılınca</value>
-	</data>
-	<data name="radioTrayActionMinimize.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>32, 94</value>
-	</data>
-	<data name="radioTrayActionMinimize.Text">
-		<value>&amp;Simge durumuna küçültülünce (önerilen)</value>
-	</data>
-	<data name="labelCheckForUpdates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 145</value>
-	</data>
-	<data name="labelCheckForUpdates.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>100, 18</value>
-	</data>
-	<data name="labelCheckForUpdates.Text">
-		<value>&amp;Yeni Sürüm bak</value>
-	</data>
-	<data name="comboAppUpdateFrequency.Items">
-		<value>Elle kontrol</value>
-	</data>
-	<data name="comboAppUpdateFrequency.Items1">
-		<value>Program her başladığında</value>
-	</data>
-	<data name="comboAppUpdateFrequency.Items2">
-		<value>İki haftada bir</value>
-	</data>
-	<data name="comboAppUpdateFrequency.Items3">
-		<value>Ayda bir</value>
-	</data>
-	<data name="comboAppUpdateFrequency.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>150, 142</value>
-	</data>
-	<data name="tabNetConnection.Text">
-		<value>Ağ Bağlantısı</value>
-	</data>
-	<data name="sectionPanelNetworkConnectionProxy.Text">
-		<value>Proxy sunucusu</value>
-	</data>
-	<data name="checkNoProxy.Text">
-		<value>Proxy &amp;sunucusu kullanma</value>
-	</data>
-	<data name="textProxyCredentialPassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>145, 300</value>
-	</data>
-	<data name="labelProxyCredentialPassword.Text">
-		<value>&amp;Şifre:</value>
-	</data>
-	<data name="labelProxyCredentialPassword.ToolTip">
-		<value />
-	</data>
-	<data name="labelProxyCredentialUserName.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 280</value>
-	</data>
-	<data name="labelProxyCredentialUserName.Text">
-		<value>Kullanıcı &amp;Adı:</value>
-	</data>
-	<data name="labelProxyCredentialUserName.ToolTip">
-		<value>Proxy Kullanıcı Adı. Alan/Kullanıcı Adı şeklinde belirtilebilir.</value>
-	</data>
-	<data name="textProxyCredentialUser.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>145, 275</value>
-	</data>
-	<data name="checkProxyAuth.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>297, 21</value>
-	</data>
-	<data name="checkProxyAuth.Text">
-		<value>&amp;Proxy kimlik doğrulaması gerektiriyor</value>
-	</data>
-	<data name="labelProxyBypassListHint.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>294, 18</value>
-	</data>
-	<data name="labelProxyBypassListHint.Text">
-		<value>Girdileri ayırmak için noktalı virgül ( ; ) kullan.</value>
-	</data>
-	<data name="labelProxyBypassList.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 185</value>
-	</data>
-	<data name="labelProxyBypassList.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>293, 18</value>
-	</data>
-	<data name="labelProxyBypassList.Text">
-		<value>Aşağıdakiler ile başlayan a&amp;dresler için proxy kullanma:</value>
-	</data>
-	<data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value>MiddleLeft</value>
-	</data>
-	<data name="checkUseProxy.Text">
-		<value>Ö&amp;zel proxy sunucusu ayarları kullan</value>
-	</data>
-	<data name="checkUseIEProxySettings.Text">
-		<value>Proxy sunucusu ayarlarını I&amp;nternet Explorer dan al</value>
-	</data>
-	<data name="labelProxyServerSummery.Text">
-		<value>Bir proxy sunucusu, uzaktaki web sunucularından dosyaları alırken, bilgisayarınızla İnternet arasında bir aracı gibi davranır.</value>
-	</data>
-	<data name="labelProxyPort.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>240, 125</value>
-	</data>
-	<data name="labelProxyAddress.Text">
-		<value>A&amp;dres:</value>
-	</data>
-	<data name="textProxyAddress.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>102, 120</value>
-	</data>
-	<data name="textProxyAddress.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>130, 21</value>
-	</data>
-	<data name="checkProxyBypassLocal.Text">
-		<value>&amp;Yerel adresler için proxy adresini es geç</value>
-	</data>
-	<data name="tabFonts.Text">
-		<value>Yazıtipleri</value>
-	</data>
-	<data name="sectionPanelFontsSubscriptions.Text">
-		<value>Abonelikler, Haber Mesajları</value>
-	</data>
-	<data name="labelFontsSubscriptionsSummery.Text">
-		<value>Aboneliklerin ve Haber Mesajlarının durumlarını belirten veya işaretleyen yazıların tipini, stilini ve rengini ayarlayın.</value>
-	</data>
-	<data name="btnChangeFont.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>262, 75</value>
-	</data>
-	<data name="btnChangeFont.Text">
-		<value>&amp;Değiştir...</value>
-	</data>
-	<data name="lblUsedFontNameSize.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 70</value>
-	</data>
-	<data name="chkFontItalic.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>200, 150</value>
-	</data>
-	<data name="chkFontItalic.Text">
-		<value>&amp;Yatık</value>
-	</data>
-	<data name="chkFontBold.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>200, 130</value>
-	</data>
-	<data name="chkFontBold.Text">
-		<value>&amp;Kalın</value>
-	</data>
-	<data name="btnChangeColor.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>261, 220</value>
-	</data>
-	<data name="btnChangeColor.Text">
-		<value>&amp;Renk...</value>
-	</data>
-	<data name="lblItemStates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 110</value>
-	</data>
-	<data name="lblItemStates.Text">
-		<value>&amp;Mesaj Durumları:</value>
-	</data>
-	<data name="lstItemStates.Items">
-		<value>Okunmuş (normal)</value>
-	</data>
-	<data name="lstItemStates.Items1">
-		<value>Okunmamış</value>
-	</data>
-	<data name="lstItemStates.Items2">
-		<value>Bayrak</value>
-	</data>
-	<data name="lstItemStates.Items3">
-		<value>Yönlendirici</value>
-	</data>
-	<data name="lstItemStates.Items4">
-		<value>Hata</value>
-	</data>
-	<data name="lstItemStates.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 130</value>
-	</data>
-	<data name="chkFontUnderline.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>200, 190</value>
-	</data>
-	<data name="chkFontUnderline.Text">
-		<value>&amp;Altı Çizgili</value>
-	</data>
-	<data name="chkFontStrikeout.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>200, 170</value>
-	</data>
-	<data name="chkFontStrikeout.Text">
-		<value>&amp;Üstü Çizgili</value>
-	</data>
-	<data name="lblFontSampleCaption.Text">
-		<value>Örnek:</value>
-	</data>
-	<data name="tabNewsItems.Text">
-		<value>Görünüm</value>
-	</data>
-	<data name="sectionPanelDisplayGeneral.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>350, 81</value>
-	</data>
-	<data name="sectionPanelDisplayGeneral.Text">
-		<value>Genel</value>
-	</data>
-	<data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 27</value>
-	</data>
-	<data name="checkMarkItemsReadOnExit.Text">
-		<value>Bir beslemeden veya kategoriden çıkarken, bütün mesajları okunmuş olarak işaretle</value>
-	</data>
-	<data name="chkNewsItemOpenLinkInDetailWindow.Text">
-		<value>Aksi belirtilmemişse, bağlantıyı okuma panosunda aç</value>
-	</data>
-	<data name="sectionPanelDisplayItemFormatting.Text">
-		<value>Mesaj Biçimlendirme</value>
-	</data>
-	<data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>160, 95</value>
-	</data>
-	<data name="comboFormatters.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>190, 21</value>
-	</data>
-	<data name="comboFormatters.ToolTip">
-		<value>Biçimleme için bir biçemsayfası seçiniz...</value>
-	</data>
-	<data name="label2.Text">
-		<value>Varsayılan biçimleme şeklini kullanabilir veya aşağıdaki listeden özel bir XSLT biçimleme şablonu seçebilirsiniz.  </value>
-	</data>
-	<data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 65</value>
-	</data>
-	<data name="checkCustomFormatter.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>285, 24</value>
-	</data>
-	<data name="checkCustomFormatter.Text">
-		<value>Ö&amp;zel bir biçimleyici kullan</value>
-	</data>
-	<data name="checkCustomFormatter.ToolTip">
-		<value>Özel bir biçimleyici kullanmak için bu seçeneği işaretleyin</value>
-	</data>
-	<data name="labelFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 95</value>
-	</data>
-	<data name="labelFormatters.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>115, 20</value>
-	</data>
-	<data name="labelFormatters.Text">
-		<value>XSLT &amp;biçemsayfası:</value>
-	</data>
-	<data name="tabFeeds.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>4, 22</value>
-	</data>
-	<data name="tabFeeds.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>377, 369</value>
-	</data>
-	<data name="tabFeeds.Text">
-		<value>Beslemeler</value>
-	</data>
-	<data name="sectionPanelFeedsCommentDefs.Text">
-		<value>Yorum Varsayılan Ayarları</value>
-	</data>
-	<data name="linkCommentAPI.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>167, 65</value>
-	</data>
-	<data name="linkCommentAPI.ToolTip">
-		<value>'CommentAPI' hakkında daha fazla bilgi...</value>
-	</data>
-	<data name="btnManageIdentities.Text">
-		<value>Kimlikler...</value>
-	</data>
-	<data name="lblIdentityDropdownCaption.Text">
-		<value>Yorumlar için Kullanıcı Kimliği</value>
-	</data>
-	<data name="label6.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 55</value>
-	</data>
-	<data name="label6.Text">
-		<value>Besleme mesajlarını cevaplarken kullanacağınız kişisel bilgileri giriniz. Bu özellik sadece CommentAPI yi destekleyen beslemeler için geçerlidir. Ayrıca bakınız..</value>
-	</data>
-	<data name="sectionPanelFeedsTimings.Text">
-		<value>Beslemeler, Zamanlama</value>
-	</data>
-	<data name="label15.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>148, 20</value>
-	</data>
-	<data name="label15.Text">
-		<value>den eski mesajları kaldır.</value>
-	</data>
-	<data name="linkLabel1.ToolTip">
-		<value>'Conditional Get' hakkında daha fala bilgi...</value>
-	</data>
-	<data name="comboRefreshRate.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>189, 96</value>
-	</data>
-	<data name="comboRefreshRate.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>79, 21</value>
-	</data>
-	<data name="label5.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>280, 100</value>
-	</data>
-	<data name="label5.Text">
-		<value>dakikada bir</value>
-	</data>
-	<data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>148, 20</value>
-	</data>
-	<data name="label4.Text">
-		<value>Beslemeleri &amp;Güncelle:</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 Gün</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 Ay</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 Ay</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>3 Ay</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>6 Ay</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>9 Ay</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 Yıl</value>
-	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Sınırsız</value>
-	</data>
-	<data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>189, 123</value>
-	</data>
-	<data name="comboMaxItemAge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>158, 21</value>
-	</data>
-	<data name="label3.Text">
-		<value>Abonesi olduğunuz beslemelerin güncelleme aralığını belirtiniz. Yenileme oranı bu aralık içinde olan her besleme tekrar istenecek. (Conditional Get). Ayrıca bakınız... </value>
-	</data>
-	<data name="tabRemoteStorage.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>4, 22</value>
-	</data>
-	<data name="tabRemoteStorage.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>377, 369</value>
-	</data>
-	<data name="tabRemoteStorage.Text">
-		<value>Uzak Depolama</value>
-	</data>
-	<data name="sectionPanelRemoteStorageFeedlist.Text">
-		<value>Besleme listesini uzakta saklama</value>
-	</data>
-	<data name="textRemoteStoragePassword.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>160, 175</value>
-	</data>
-	<data name="textRemoteStorageUserName.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>160, 150</value>
-	</data>
-	<data name="textRemoteStorageUserName.ToolTip">
-		<value>Proxy Kullanıcı Adı. Alan/Kullanıcı Adı şeklinde belirtilebilir.</value>
-	</data>
-	<data name="comboRemoteStorageProtocol.Items">
-		<value>Dosya Paylaşımı</value>
-	</data>
-	<data name="comboRemoteStorageProtocol.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>189, 21</value>
-	</data>
-	<data name="checkUseRemoteStorage.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>286, 24</value>
-	</data>
-	<data name="checkUseRemoteStorage.Text">
-		<value>&amp;Uzak depolama kullan</value>
-	</data>
-	<data name="label10.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 46</value>
-	</data>
-	<data name="label10.Text">
-		<value>Bu özellik besleme listenizi uzak bir konumda saklamanızı sağlar, böylece listenizi birden fazla bilgisayarda kullanabilirsiniz.</value>
-	</data>
-	<data name="labelRemoteStorageLocation.Text">
-		<value>Depolama servisi Url si:</value>
-	</data>
-	<data name="labelRemoteStorageLocation.ToolTip">
-		<value>Depolama servisi Url si:</value>
-	</data>
-	<data name="labelRemoteStoragePassword.Text">
-		<value>Şifre:</value>
-	</data>
-	<data name="labelRemoteStoragePassword.ToolTip">
-		<value />
-	</data>
-	<data name="labelRemoteStorageUserName.Text">
-		<value>Kullanıcı Adı:</value>
-	</data>
-	<data name="labelRemoteStorageUserName.ToolTip">
-		<value>Proxy Kullanıcı Adı. Alan/Kullanıcı Adı şeklinde belirtilebilir.</value>
-	</data>
-	<data name="labelRemoteStorageProtocol.Text">
-		<value>Protokol:</value>
-	</data>
-	<data name="labelExperimental.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 214</value>
-	</data>
-	<data name="labelExperimental.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 108</value>
-	</data>
-	<data name="tabWebBrowser.Text">
-		<value>Web Gezgini</value>
-	</data>
-	<data name="sectionPanelWebBrowserSecurity.Text">
-		<value>Güvenlik, Kısıtlamalar</value>
-	</data>
-	<data name="labelCheckToAllow.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>187, 21</value>
-	</data>
-	<data name="labelCheckToAllow.Text">
-		<value>İzin vermek için işaretle:</value>
-	</data>
-	<data name="checkBrowserActiveXAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 124</value>
-	</data>
-	<data name="checkBrowserActiveXAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>127, 15</value>
-	</data>
-	<data name="checkBrowserActiveXAllowed.Text">
-		<value>ActiveX Kontrolleri</value>
-	</data>
-	<data name="checkBrowserJavascriptAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 104</value>
-	</data>
-	<data name="checkBrowserJavascriptAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>127, 15</value>
-	</data>
-	<data name="checkBrowserJavascriptAllowed.Text">
-		<value>Javascript</value>
-	</data>
-	<data name="checkBrowserJavaAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 144</value>
-	</data>
-	<data name="checkBrowserJavaAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>127, 15</value>
-	</data>
-	<data name="checkBrowserJavaAllowed.Text">
-		<value>Java Applet</value>
-	</data>
-	<data name="checkBrowserBGSoundAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>190, 123</value>
-	</data>
-	<data name="checkBrowserBGSoundAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>144, 15</value>
-	</data>
-	<data name="checkBrowserBGSoundAllowed.Text">
-		<value>Arkaplan Sesleri</value>
-	</data>
-	<data name="checkBrowserVdieoAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>190, 103</value>
-	</data>
-	<data name="checkBrowserVdieoAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>144, 15</value>
-	</data>
-	<data name="checkBrowserVdieoAllowed.Text">
-		<value>Videolar</value>
-	</data>
-	<data name="checkBrowserImagesAllowed.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>190, 143</value>
-	</data>
-	<data name="checkBrowserImagesAllowed.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>144, 15</value>
-	</data>
-	<data name="checkBrowserImagesAllowed.Text">
-		<value>Resimlerin indirilmesi</value>
-	</data>
-	<data name="label19.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>301, 55</value>
-	</data>
-	<data name="label19.Text">
-		<value>Herhangi bir güvenlik ayarını değiştirdiğinizde, yeni ayarlar bundan sonra açılacak bütün pencerelerde geçerli olacak. Daha önceden açılmış bir pencere varsa orada geçersiz olabilir.</value>
-	</data>
-	<data name="sectionPanelWebBrowserOnNewWindow.Text">
-		<value>Bağlantıya tıklandığında ve yeni pencerede</value>
-	</data>
-	<data name="optNewWindowCustomExec.Text">
-		<value>&amp;Bu programla aç:</value>
-	</data>
-	<data name="optNewWindowDefaultWebBrowser.Text">
-		<value>Varsayılan web &amp;gezgini ile aç</value>
-	</data>
-	<data name="optNewWindowOnTab.Text">
-		<value>Program içinde &amp;yeni bir sayfada aç (varsayılan)</value>
-	</data>
-	<data name="checkReuseFirstBrowserTab.Text">
-		<value>Açık gezgin sekmelerini tekrar kullan</value>
-	</data>
-	<data name="labelBrowserStartExecutable.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 145</value>
-	</data>
-	<data name="labelBrowserStartExecutable.Text">
-		<value>&amp;Program:</value>
-	</data>
-	<data name="label16.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>301, 31</value>
-	</data>
-	<data name="label16.Text">
-		<value>Bütünleşik gezginin bir sayfayı yeni pencerede açması istendiğinde nasıl davranacağını seçiniz.</value>
-	</data>
-	<data name="tabWebSearch.Text">
-		<value>Webde Arama</value>
-	</data>
-	<data name="sectionPanelWebSearchEngines.Text">
-		<value>Arama Motorları</value>
-	</data>
-	<data name="btnSERemove.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>252, 217</value>
-	</data>
-	<data name="btnSERemove.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>88, 23</value>
-	</data>
-	<data name="btnSERemove.Text">
-		<value>Kaldır</value>
-	</data>
-	<data name="btnSERemove.ToolTip">
-		<value>Seçili arama motorunu kaldırır...</value>
-	</data>
-	<data name="btnSEAdd.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>252, 187</value>
-	</data>
-	<data name="btnSEAdd.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>88, 23</value>
-	</data>
-	<data name="btnSEAdd.Text">
-		<value>Ekle...</value>
-	</data>
-	<data name="btnSEAdd.ToolTip">
-		<value>Yeni bir arama motoru ekler...</value>
-	</data>
-	<data name="btnSEProperties.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>252, 158</value>
-	</data>
-	<data name="btnSEProperties.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>88, 23</value>
-	</data>
-	<data name="btnSEProperties.Text">
-		<value>Özellikler...</value>
-	</data>
-	<data name="btnSEProperties.ToolTip">
-		<value>Arama Motoru Özellikleri penceresini açar...</value>
-	</data>
-	<data name="btnSEMoveDown.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>252, 118</value>
-	</data>
-	<data name="btnSEMoveDown.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>88, 23</value>
-	</data>
-	<data name="btnSEMoveDown.Text">
-		<value>Aşağı Al</value>
-	</data>
-	<data name="btnSEMoveDown.ToolTip">
-		<value>Motoru aşağıya kaydırır...</value>
-	</data>
-	<data name="btnSEMoveUp.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>252, 88</value>
-	</data>
-	<data name="btnSEMoveUp.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>88, 23</value>
-	</data>
-	<data name="btnSEMoveUp.Text">
-		<value>Yukarı Al</value>
-	</data>
-	<data name="btnSEMoveUp.ToolTip">
-		<value>Motoru yukarıya kaydırır...</value>
-	</data>
-	<data name="listSearchEngines.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>40, 87</value>
-	</data>
-	<data name="listSearchEngines.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>206, 152</value>
-	</data>
-	<data name="columnHeader1.Text">
-		<value>Motor Adı</value>
-	</data>
-	<data name="columnHeader2.Text">
-		<value>Tanımlama</value>
-	</data>
-	<data name="label17.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-		<value>300, 47</value>
-	</data>
-	<data name="label17.Text">
-		<value>Araç çubuğundaki web arama düğmesine basıldığında aktif olacak arama motorlarını seçiniz.</value>
-	</data>
-	<data name="btnApply.Text">
-		<value>&amp;Uygula</value>
-	</data>
-	<data name="$this.Text">
-		<value>Seçenekler</value>
-	</data>
-	<data name="lstItemStates.ToolTip">
-		<value>Ayarını değiştirmek istediğiniz mesaj durumunu seçin...</value>
-	</data>
-	<data name="openExeFileDialog.Title">
-		<value>Çalıştırılabilir bir dosya seçin</value>
-	</data>
-	<data name="radioTrayActionMinimize.ToolTip">
-		<value>Program görev çubuğunda görünmeyecek</value>
-	</data>
-	<data name="textProxyBypassList.ToolTip">
-		<value>Atlanacak adresler listesi</value>
-	</data>
-	<data name="textProxyCredentialUser.ToolTip">
-		<value>Proxy Kullanıcı Adı. Alan/Kullanıcı Adı şeklinde belirtilebilir.</value>
-	</data>
-	<data name="textProxyPort.ToolTip">
-		<value>Proxy Portu Numarası</value>
-	</data>
-<data name="radioTrayActionClose.ToolTip">
-    <value>Application will not be visible within the taskbar</value>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnOK.Text">
+    <value>&amp;Tamam</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items1">
+  <data name="btnCancel.Text">
+    <value>&amp;Vazgeç</value>
+  </data>
+  <data name="tabGeneral.Text">
+    <value>Genel</value>
+  </data>
+  <data name="tabGeneral.ToolTipText">
+    <value>Genel uygulama ayarları</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text">
+    <value>Başlangıç</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text">
+    <value>Program başladığında kaynakları güncelle</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text">
+    <value>Uygulama Davranışı</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text">
+    <value>RSS Bandit'i varsayılan Kaynak Okuyucusu yap</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip">
+    <value>RSS Bandit'i 'feed:' Url protokolunu dinleyen uygulama olarak ayarla</value>
+  </data>
+  <data name="label12.Text">
+    <value>Eğer düğme görünmüyorsa RSS Bandit varsayılan okuyucunuz demektir. Eğer görünüyorsa düğmeye basarak RSS Bandit i varsayılan okuyucunuz yapabilirsiniz.</value>
+  </data>
+  <data name="radioTrayActionNone.Text">
+    <value>&amp;Hiçbiri</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip">
+    <value>Uygulama görev çubuğunda sürekli görünür olacak</value>
+  </data>
+  <data name="label1.Text">
+    <value>Uygulamanın ne zaman sistem bildirim alanına küçüleceğini belirleyin.</value>
+  </data>
+  <data name="radioTrayActionClose.Text">
+    <value>Uygulama &amp;kapatılınca</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text">
+    <value>&amp;Simge durumuna küçültülünce (önerilen)</value>
+  </data>
+  <data name="labelCheckForUpdates.Text">
+    <value>&amp;Yeni sürüm denetle:</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items">
+    <value>Sadece ben istediğimde</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1">
+    <value>Program her başladığında</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2">
+    <value>İki haftada bir</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3">
+    <value>Ayda bir</value>
+  </data>
+  <data name="tabNetConnection.Text">
+    <value>Ağ Bağlantısı</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Proxy Sunucusu</value>
+  </data>
+  <data name="checkNoProxy.Text">
+    <value>Proxy &amp;sunucusu kullanma</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text">
+    <value>&amp;Parola:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip">
+    <value>Proxy kimlik doğrulama parolası</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text">
+    <value>Kullanıcı &amp;Adı:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip">
+    <value>Proxy Kullanıcı Adı. 'Alan\Kullanıcı' şeklinde belirtilebilir.</value>
+  </data>
+  <data name="checkProxyAuth.Text">
+    <value>&amp;Proxy kimlik doğrulaması gerektiriyor</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text">
+    <value>Girdileri ayırmak için noktalı virgül ( ; ) kullanın.</value>
+  </data>
+  <data name="labelProxyBypassList.Text">
+    <value>Aşağıdakiler ile başlayan a&amp;dresler için proxy kullanma:</value>
+  </data>
+  
+  <data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="checkUseProxy.Text">
+    <value>Ö&amp;zel proxy sunucusu ayarları kullan</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text">
+    <value>Proxy sunucusu ayarlarını I&amp;nternet Explorer'dan al</value>
+  </data>
+  <data name="labelProxyServerSummery.Text">
+    <value>Bir proxy sunucusu, uzaktaki web sunucularından dosyaları alırken, bilgisayarınızla İnternet arasında bir aracı gibi davranır.</value>
+  </data>
+  <data name="labelProxyAddress.Text">
+    <value>A&amp;dres:</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text">
+    <value>&amp;Yerel adresler için proxy sunucusunu kullanma</value>
+  </data>
+  <data name="tabFonts.Text">
+    <value>Yazıtipleri</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text">
+    <value>Abonelikler, Haber Mesajları</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text">
+    <value>Aboneliklerin ve Mesajların durumlarını belirleyen yazı tiplerini, stilleri ve renkleri ayarlayın.</value>
+  </data>
+  <data name="btnChangeFont.Text">
+    <value>&amp;Değiştir...</value>
+  </data>
+  <data name="chkFontItalic.Text">
+    <value>&amp;Yatık</value>
+  </data>
+  <data name="chkFontBold.Text">
+    <value>&amp;Kalın</value>
+  </data>
+  <data name="btnChangeColor.Text">
+    <value>&amp;Renk...</value>
+  </data>
+  <data name="lblItemStates.Text">
+    <value>&amp;Mesaj durumları:</value>
+  </data>
+  <data name="lstItemStates.Items">
+    <value>Okunmuş (normal)</value>
+  </data>
+  <data name="lstItemStates.Items1">
+    <value>Okunmamış</value>
+  </data>
+  <data name="lstItemStates.Items2">
+    <value>Bayrak</value>
+  </data>
+  <data name="lstItemStates.Items3">
+    <value>Öneren</value>
+  </data>
+  <data name="lstItemStates.Items4">
+    <value>Hata</value>
+  </data>
+  <data name="chkFontUnderline.Text">
+    <value>&amp;Altı Çizili</value>
+  </data>
+  <data name="chkFontStrikeout.Text">
+    <value>&amp;Üstü Çizili</value>
+  </data>
+  <data name="lblFontSampleCaption.Text">
+    <value>Örnek:</value>
+  </data>
+  <data name="tabNewsItems.Text">
+    <value>Görünüm</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text">
+    <value>Genel</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>Bir kaynaktan veya kategoriden çıkışta tüm mesajları okunmuş olarak işaretle</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>Aksi belirtilmemişse, bağlantıyı okuma panosunda aç</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Mesaj Biçimlendirme</value>
+  </data>
+  <data name="comboFormatters.ToolTip">
+    <value>Biçimleyici şablonunu seçin</value>
+  </data>
+  <data name="label2.Text">
+    <value>Varsayılan biçimlemeyi kullanabilir veya aşağıdaki listeden özel bir XSLT biçimleme şablonu seçebilirsiniz.</value>
+  </data>
+  <data name="checkCustomFormatter.Text">
+    <value>Ö&amp;zel bir biçimleyici kullan</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip">
+    <value>Özel bir biçimleyici kullanmak için bu seçeneği işaretleyin</value>
+  </data>
+  <data name="labelFormatters.Text">
+    <value>Biçimleyici &amp;Şablonu:</value>
+  </data>
+  <data name="tabFeeds.Text">
+    <value>Kaynaklar</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Yorum Varsayılan Ayarları</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip">
+    <value>'CommentAPI' hakkında daha fazla bilgi...</value>
+  </data>
+  <data name="btnManageIdentities.Text">
+    <value>Kimlikler...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text">
+    <value>Yorumlar için Kullanıcı Kimliği</value>
+  </data>
+  <data name="label6.Text">
+    <value>Mesajları yanıtlarken kullanacağınız kişisel bilgileri giriniz. Bu özellik sadece CommentAPI'yı destekleyen kaynaklar için geçerlidir. Bakınız...</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text">
+    <value>Kaynaklar, Zamanlama</value>
+  </data>
+  <data name="label15.Text">
+    <value>Bundan daha eski öğeleri sil:</value>
+  </data>
+  <data name="linkLabel1.ToolTip">
+    <value>'Conditional Get' hakkında daha fazla bilgi...</value>
+  </data>
+  <data name="label5.Text">
+    <value>dakikada bir</value>
+  </data>
+  <data name="label4.Text">
+    <value>&amp;Güncelleme sıklığı:</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 gün</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 ay</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 ay</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>3 ay</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>6 ay</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>9 ay</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 yıl</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Sonsuz</value>
+  </data>
+  <data name="label3.Text">
+    <value>Abonesi olduğunuz kaynakların güncellenme aralığını belirtiniz. Yenileme oranı bu aralık içinde olan her kaynak tekrar istenecektir (Conditional Get). Bakınız...</value>
+  </data>
+  <data name="tabRemoteStorage.Text">
+    <value>Uzak Depolama</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Uzakta Kaynak Listesi Saklama</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip">
+    <value>Uzak Depolama Kullanıcı Adı. 'Alan\Kullanıcı' şeklinde belirtilebilir</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items">
+    <value>Dosya Paylaşımı</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text">
+    <value>&amp;Uzak depolama kullan</value>
+  </data>
+  <data name="label10.Text">
+    <value>Bu özellik kaynak listenizi uzakta saklamanızı sağlar, böylece listenizi birden fazla bilgisayarda kullanabilirsiniz.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text">
+    <value>Web servis adresi:</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip">
+    <value>Web servis adresi</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text">
+    <value>Parola:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip">
+    <value>Kullanıcı parolası</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text">
+    <value>Kullanıcı Adı:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip">
+    <value>Kullanıcı Adı. 'Alan\Kullanıcı' şeklinde belirtilebilir.</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text">
+    <value>Protokol:</value>
+  </data>
+  <data name="tabWebBrowser.Text">
+    <value>Web Tarayıcı</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Güvenlik, Kısıtlamalar</value>
+  </data>
+  <data name="labelCheckToAllow.Text">
+    <value>İzin vermek için işaretle:</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text">
+    <value>ActiveX Kontrolleri</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text">
+    <value>Java Applet'leri</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text">
+    <value>Arkaplan Sesleri</value>
+  </data>
+  <data name="checkBrowserVideoAllowed.Text">
+    <value>Videolar</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text">
+    <value>Resimlerin İndirilmesi</value>
+  </data>
+  <data name="label19.Text">
+    <value>Herhangi bir güvenlik ayarını değiştirdiğinizde, yeni ayarlar sadece bundan sonra yeni açılacak tarayıcı sekmelerinde hemen geçerli olur, ve ancak uygulama yeniden başlatıldıktan sonra tüm sekmelerde geçerli hale gelir! Buradaki ayarların okuma panosuna herhangi bir etkisi yoktur!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>Bağlantıya Tıklandığında ve Yeni Pencerede</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text">
+    <value>&amp;Bu programla aç:</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Varsayılan web &amp;tarayıcısı ile aç</value>
+  </data>
+  <data name="optNewWindowOnTab.Text">
+    <value>Uygulama içinde &amp;yeni bir sekmede aç (varsayılan)</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text">
+    <value>Açık tarayıcı sekmelerini tekrar kullan</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text">
+    <value>&amp;Uygulama:</value>
+  </data>
+  <data name="label16.Text">
+    <value>Bir HTML bağlantısı tıklandığında veya yeni bir pencere açıldığında bütünleşik tarayıcının nasıl davranması gerektiğini belirleyin.</value>
+  </data>
+  <data name="tabWebSearch.Text">
+    <value>Arama</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text">
+    <value>Arama Motorları</value>
+  </data>
+  <data name="btnSERemove.Text">
+    <value>Kaldır</value>
+  </data>
+  <data name="btnSERemove.ToolTip">
+    <value>Seçili arama motorunu kaldır</value>
+  </data>
+  <data name="btnSEAdd.Text">
+    <value>Ekle...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip">
+    <value>Yeni bir arama motoru ekle</value>
+  </data>
+  <data name="btnSEProperties.Text">
+    <value>Özellikler...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip">
+    <value>Arama motoru özellikler penceresini aç</value>
+  </data>
+  <data name="btnSEMoveDown.Text">
+    <value>Aşağı</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip">
+    <value>Öğeyi aşağı kaydır</value>
+  </data>
+  <data name="btnSEMoveUp.Text">
+    <value>Yukarı</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip">
+    <value>Öğeyi yukarı kaydır</value>
+  </data>
+  <data name="columnHeader1.Text">
+    <value>Arama Motoru</value>
+  </data>
+  <data name="columnHeader2.Text">
+    <value>Açıklama</value>
+  </data>
+  <data name="label17.Text">
+    <value>Araç çubuğundaki web arama düğmesine basıldığında kullanılacak arama motorlarını aşağıdaki kutuları işaretleyerek belirleyin.</value>
+  </data>
+  <data name="btnApply.Text">
+    <value>&amp;Uygula</value>
+  </data>
+  <data name="$this.Text">
+    <value>Seçenekler</value>
+  </data>
+  <data name="lstItemStates.ToolTip">
+    <value>Ayarını değiştirmek istediğiniz mesaj durumunu seçin</value>
+  </data>
+  <data name="openExeFileDialog.Title">
+    <value>Çalıştırılabilir bir dosya seçin</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip">
+    <value>Uygulama görev çubuğunda gözükmeyecek</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip">
+    <value>Proxy sunucusu kullanılması istenmeyen adreslerin listesi</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip">
+    <value>Proxy Kullanıcı Adı. 'Alan\Kullanıcı' şeklinde belirtilebilir</value>
+  </data>
+  <data name="textProxyPort.ToolTip">
+    <value>Proxy bağlantı noktası numarası</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip">
+    <value>Uygulama görev çubuğunda gözükmeyecek</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1">
     <value>FTP</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items2">
+  <data name="comboRemoteStorageProtocol.Items2">
     <value>dasBlog</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items3">
-    <value>dasBlog 1.3</value>
+  <data name="comboRemoteStorageProtocol.Items3">
+    <value>Newsgator Online</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items4">
+  <data name="comboRemoteStorageProtocol.Items4">
     <value>WebDAV</value>
   </data>
-	<data name="labelRemoteStorageProtocol.ToolTip">
-    <value>Proxy Credential Password</value>
+  <data name="labelRemoteStorageProtocol.ToolTip">
+    <value />
   </data>
-	<data name="linkCommentAPI.Text">
+  <data name="linkCommentAPI.Text">
     <value>http://wellformedweb.org/story/9</value>
   </data>
-	<data name="linkLabel1.Text">
+  <data name="linkLabel1.Text">
     <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
   </data>
-	<data name="comboRefreshRate.Items">
+  <data name="comboRefreshRate.Items">
     <value>15</value>
   </data>
-	<data name="comboRefreshRate.Items1">
+  <data name="comboRefreshRate.Items1">
     <value>30</value>
   </data>
-	<data name="comboRefreshRate.Items2">
+  <data name="comboRefreshRate.Items2">
     <value>45</value>
   </data>
-	<data name="comboRefreshRate.Items3">
+  <data name="comboRefreshRate.Items3">
     <value>60</value>
   </data>
-	<data name="comboRefreshRate.Items4">
+  <data name="comboRefreshRate.Items4">
     <value>75</value>
   </data>
-	<data name="comboRefreshRate.Items5">
+  <data name="comboRefreshRate.Items5">
     <value>90</value>
   </data>
-	<data name="comboRefreshRate.Items6">
+  <data name="comboRefreshRate.Items6">
     <value>105</value>
   </data>
-	<data name="comboRefreshRate.Items7">
+  <data name="comboRefreshRate.Items7">
     <value>120</value>
   </data>
-	<data name="comboRefreshRate.Items8">
+  <data name="comboRefreshRate.Items8">
     <value>240</value>
   </data>
-	<data name="comboRefreshRate.Items9">
+  <data name="comboRefreshRate.Items9">
     <value>480</value>
   </data>
-	<data name="comboRefreshRate.Items10">
+  <data name="comboRefreshRate.Items10">
     <value>720</value>
   </data>
-	<data name="comboRefreshRate.Items11">
+  <data name="comboRefreshRate.Items11">
     <value>1440</value>
   </data>
-	<data name="labelProxyPort.Text">
-    <value>Por&amp;t: </value>
+  <data name="labelProxyPort.Text">
+    <value>Ba&amp;ğ No: </value>
   </data>
-	<data name="textProxyAddress.ToolTip">
-    <value>The Proxy Address</value>
+  <data name="textProxyAddress.ToolTip">
+    <value>Proxy adresini girin</value>
   </data>
-	<data name="lblUsedFontNameSize.Text">
+  <data name="lblUsedFontNameSize.Text">
     <value>Tahoma, 8pt</value>
   </data>
-	<data name="lblFontSampleABC.Text">
-    <value>AaBbCcXxYyZz</value>
+  <data name="lblFontSampleABC.Text">
+    <value>AaBbĞğIıŞş</value>
   </data>
-	<data name="btnSelectExecutable.Text">
+  <data name="btnSelectExecutable.Text">
     <value>...</value>
   </data>
-	<data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
         MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
@@ -884,5 +624,109 @@
         LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
         LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
 </value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text">
+    <value>Birbiriyle ilgili mesajları gruplayarak göster</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip">
+    <value>Seçildiğinde bilinen mesajlara bağlı yeni mesajları aynı başlıkta toplar</value>
+  </data>
+  <data name="optionSectionPanel1.Text">
+    <value>Sesler</value>
+  </data>
+  <data name="checkAllowAppEventSounds.Text">
+    <value>Uyguluma seslerini etkinleştir</value>
+  </data>
+  <data name="btnConfigureAppSounds.Text">
+    <value>Ayarla...</value>
+  </data>
+  <data name="btnConfigureAppSounds.ToolTip">
+    <value>RSS Bandit Uygulama Sesleri ayarlarının yapılabilmesi için Windows Ses Denetimini açar...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkRunAtStartup.Text">
+    <value>Uygulamayı Windows'a giriş yaptıktan sonra başlat</value>
+  </data>
+  <data name="checkUseFavicons.Text">
+    <value>Abone listesinde besleme ikonları olarak faviconları kullan</value>
+  </data>
+  <data name="checkUseFavicons.ToolTip">
+    <value>Tıklandığında abone listesinde beslemelerin sembolü olarak web sitelerinin faviconu kullanılır</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkOpenTabsInBackground.Text">
+    <value>Yeni sekmeleri arka planda aç</value>
+  </data>
+  <data name="tabEnclosures.Text">
+    <value>Eklentiler/Podcast'ler</value>
+  </data>
+  <data name="sectionPanelEnclosurePodcasts.Text">
+    <value>Podcast'ler</value>
+  </data>
+  <data name="btnPodcastOptions.Text">
+    <value>Gelişmiş Seçenekler...</value>
+  </data>
+  <data name="lblSectionPanelPodcastOptions.Text">
+    <value>Podcast seçeneklerini belirlemek için aşağıdaki düğmeyi tıklayın:</value>
+  </data>
+  <data name="sectionPanelEnclosureGeneral.Text">
+    <value>Genel</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.Text">
+    <value>...</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.ToolTip">
+    <value>Dosya sisteminde klasör ara...</value>
+  </data>
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text">
+    <value>MB</value>
+  </data>
+  <data name="checkEnclosureSizeOnDiskLimited.Text">
+    <value>Kullanılabilecek maksimum disk alanı</value>
+  </data>
+  <data name="lblDownloadXAttachmentsPostfix.Text">
+    <value>Eklentiler</value>
+  </data>
+  <data name="checkOnlyDownloadLastXAttachments.Text">
+    <value>İlk kez abone olunduğunda: şu kadar indir</value>
+  </data>
+  <data name="checkDownloadCreateFolderPerFeed.Text">
+    <value>İndirilen eklentileri beslemeyle aynı ada sahip klasörlere yerleştir</value>
+  </data>
+  <data name="textEnclosureDirectory.ToolTip">
+    <value>Eklenti indirme yolu</value>
+  </data>
+  <data name="labelEnclosureDirectory.Text">
+    <value>Eklentileri şuraya indir:</value>
+  </data>
+  <data name="checkDownloadEnclosures.Text">
+    <value>Eklentileri otomatik olarak indir</value>
+  </data>
+  <data name="checkEnableEnclosureAlerts.Text">
+    <value>&amp;Yeni indirilen eklentiler olduğunda uyar</value>
+  </data>
+  <data name="lblSectionPanelEnclosureGeneral.Text">
+    <value>Eklentilerin indirildikten sonra yerleştirileceği yeri ve genel indirme ayarlarını belirleyin.</value>
+  </data>
+  <data name="lstItemStates.Items5">
+    <value>Yeni Yorumlar (Takip Edilen)</value>
+  </data>
+<data name="checkMarkItemsAsReadWhenViewed.Text">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+	<data name="label8.Text">
+    <value>news items per page</value>
+  </data>
+	<data name="numNewsItemsPerPage.ToolTip">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.Text">
+    <value>Show only </value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.ToolTip">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
   </data>
 	</root>

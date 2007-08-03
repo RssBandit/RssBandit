@@ -1,15 +1,14 @@
 #region CVS Version Header
 /*
- * $Id: ColorEx.cs,v 1.2 2004/10/12 14:15:23 t_rendelmann Exp $
+ * $Id: ColorEx.cs,v 1.3 2006/08/01 15:45:17 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/10/12 14:15:23 $
- * $Revision: 1.2 $
+ * Last modified at $Date: 2006/08/01 15:45:17 $
+ * $Revision: 1.3 $
  */
 #endregion
 
 using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace RssBandit.WinGui.Utility
 {

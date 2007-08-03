@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: INewsItem.cs,v 1.1 2005/05/08 17:03:39 t_rendelmann Exp $
+ * $Id: INewsItem.cs,v 1.3 2006/02/07 11:12:44 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:39 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2006/02/07 11:12:44 $
+ * $Revision: 1.3 $
  */
 #endregion
 
@@ -29,7 +29,7 @@ namespace NewsComponents
 		/// <summary>
 		/// The date the article or blog entry was made. 
 		/// </summary>
-		DateTime Date { get; }
+		DateTime Date { get; set; }
 
 		/// <summary>
 		/// The unique identifier.
@@ -50,7 +50,7 @@ namespace NewsComponents
 		/// Returns true, if Content contains something; else false.
 		/// </summary>
 		/// <remarks>Should be used instead of testing 
-		/// (Content != null && Content.Length > 0) and is equivalent to 
+		/// (Content != null &amp;&amp; Content.Length > 0) and is equivalent to 
 		/// .ContentType == ContentType.None
 		/// </remarks>
 		bool HasContent { get; }
@@ -85,12 +85,12 @@ namespace NewsComponents
 		/// <summary>
 		/// The title of the article or blog entry. 
 		/// </summary>
-		string Title { get; }
+		string Title { get; set; }
 
 		/// <summary>
 		/// The subject of the article or blog entry. 
 		/// </summary>
-		string Subject { get; }
+		string Subject { get; set; }
 
 		/// <summary>
 		/// Returns the amount of comments attached.

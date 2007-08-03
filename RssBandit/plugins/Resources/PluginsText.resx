@@ -48,8 +48,14 @@
 	<data name="RES_MenuWBloggarCaption">
 		<value>Blog This Using W::Bloggar...</value>
 	</data>
+	<data name="RES_MenuLiveWriterCaption">
+		<value>Blog This Using Windows Live Writer...</value>
+	</data>
 	<data name="RES_ExceptionWBloggarNotFound">
 		<value>No registry setting for w::bloggar located. Please install w::bloggar from http://www.bloggar.com to get this feature to work</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>No registry setting for Windows Live Writer located. Please install Windows Live Writer from http://ideas.live.com to get this feature to work</value>
 	</data>
 	<data name="RES_DeliciousIncompleteSubmissionTitle">
 		<value>Incomplete submission</value>
@@ -88,6 +94,12 @@
 		<value>&amp;del.icio.us API URL</value>
 	</data>
 	<data name="RES_DeliciousFormConfiguration">
-		<value>Del.icio.us Plugin Configuration</value>
+		<value>Del.icio.us Plugin Configuration...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>Send to OneNote...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>OneNote Plugin Configuration...</value>
 	</data>
 </root>

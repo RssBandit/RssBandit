@@ -1,17 +1,15 @@
 #region CVS Version Header
 /*
- * $Id: SplashScreen.cs,v 1.8 2005/03/12 11:24:23 t_rendelmann Exp $
+ * $Id: SplashScreen.cs,v 1.9 2005/11/24 16:39:34 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/12 11:24:23 $
- * $Revision: 1.8 $
+ * Last modified at $Date: 2005/11/24 16:39:34 $
+ * $Revision: 1.9 $
  */
 #endregion
 
 using System;
 using System.Drawing;
 using System.Threading;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Forms
@@ -25,9 +23,9 @@ namespace RssBandit.WinGui.Forms
 		private string versionInfo = String.Empty;
 
 		private RectangleF rectStatus, rectVersion = RectangleF.Empty; 
-		private Font statusFont = new Font("Arial", 9, FontStyle.Regular);
+		private Font statusFont = new Font("Tahoma", 8, FontStyle.Regular);
 		private System.Windows.Forms.Label labelSlogan;
-		private Font versionFont = new Font("Arial", 8, FontStyle.Bold);
+		private Font versionFont = new Font("Tahoma", 8, FontStyle.Bold);
 		
 		public string StatusInfo {
 			set {	statusInfo = value; ApplyChanges();	}
@@ -106,6 +104,7 @@ namespace RssBandit.WinGui.Forms
 			this.labelSlogan.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelSlogan.Dock")));
 			this.labelSlogan.Enabled = ((bool)(resources.GetObject("labelSlogan.Enabled")));
 			this.labelSlogan.Font = ((System.Drawing.Font)(resources.GetObject("labelSlogan.Font")));
+			this.labelSlogan.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.labelSlogan.Image = ((System.Drawing.Image)(resources.GetObject("labelSlogan.Image")));
 			this.labelSlogan.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelSlogan.ImageAlign")));
 			this.labelSlogan.ImageIndex = ((int)(resources.GetObject("labelSlogan.ImageIndex")));
@@ -134,7 +133,7 @@ namespace RssBandit.WinGui.Forms
 			this.Controls.Add(this.labelSlogan);
 			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
 			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
-			this.ForeColor = System.Drawing.Color.White;
+			this.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
@@ -146,6 +145,7 @@ namespace RssBandit.WinGui.Forms
 			this.ShowInTaskbar = false;
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
 			this.Text = resources.GetString("$this.Text");
+			this.TransparencyKey = System.Drawing.Color.Magenta;
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnFormPaint);
 			this.ResumeLayout(false);
 
@@ -167,17 +167,17 @@ namespace RssBandit.WinGui.Forms
 			f.LineAlignment = StringAlignment.Near;
 			g.DrawString(versionInfo, versionFont, new SolidBrush(this.ForeColor), rectVersion , f);
 
-			f.Alignment = StringAlignment.Center;
-			f.LineAlignment = StringAlignment.Far;
+			f.Alignment = StringAlignment.Near;
+			f.LineAlignment = StringAlignment.Near;
 			g.DrawString(statusInfo, statusFont, new SolidBrush(this.ForeColor), rectStatus , f);
 		}
 
 		private void InitDrawingRectangles() {
 			int boxWidth = this.ClientSize.Width-20;
-
-			rectVersion = new RectangleF(new Point(10, 200),
+			// 0,0 is the top left corner of the window:
+			rectVersion = new RectangleF(new Point(10, 190),
 				new Size(boxWidth, Convert.ToInt32(versionFont.Size) + 20));		// one line
-			rectStatus = new RectangleF(new Point(10, 150),
+			rectStatus = new RectangleF(new Point(10, 10),
 				new Size(boxWidth, Convert.ToInt32(statusFont.Size * 2) + 25));	// two lines
 		}
 

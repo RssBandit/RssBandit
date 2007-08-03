@@ -9,6 +9,8 @@ namespace BlogExtension.Delicious
 {
 	public class DeliciousPluginConfigurationForm : System.Windows.Forms.Form
 	{
+		public string TemplateText;
+
 		private System.Windows.Forms.Button _btOK;
 		private System.Windows.Forms.Button _btCancel;
 		private System.Windows.Forms.GroupBox groupBox1;
@@ -24,13 +26,23 @@ namespace BlogExtension.Delicious
 		public DeliciousPluginConfigurationForm(string username, string password, string apiUrl)
 		{
 			InitializeComponent();
+			InitializeComponentTranslation();
 			textUri.Text  = apiUrl; 
 			textUser.Text = username; 
 			textPwd.Text  = password; 
 		
 		}
 
-		public string TemplateText;
+		private void InitializeComponentTranslation() {
+			this._btOK.Text = Resource.Manager["RES_DeliciousFormOk"];
+			this._btCancel.Text = Resource.Manager["RES_DeliciousFormCancel"];
+			this.groupBox1.Text = Resource.Manager["RES_DeliciousFormAuthentication"];
+			this.label7.Text = Resource.Manager["RES_DeliciousFormPassword"];
+			this.label6.Text = Resource.Manager["RES_DeliciousFormUsername"];
+			this.label2.Text = Resource.Manager["RES_DeliciousFormApiUrl"];
+			this.Text = Resource.Manager["RES_DeliciousFormConfiguration"];
+		}
+		
 
 		protected override void Dispose( bool disposing )
 		{
@@ -70,8 +82,7 @@ namespace BlogExtension.Delicious
 			this._btOK.Location = new System.Drawing.Point(240, 147);
 			this._btOK.Name = "_btOK";
 			this._btOK.TabIndex = 5;
-			this._btOK.Text = Resource.Manager["RES_DeliciousFormOk"];
-			this._btOK.Click += new System.EventHandler(this._btOK_Click);
+			this._btOK.Text = "OK";
 			// 
 			// _btCancel
 			// 
@@ -80,7 +91,7 @@ namespace BlogExtension.Delicious
 			this._btCancel.Location = new System.Drawing.Point(328, 147);
 			this._btCancel.Name = "_btCancel";
 			this._btCancel.TabIndex = 4;
-			this._btCancel.Text = Resource.Manager["RES_DeliciousFormCancel"];
+			this._btCancel.Text = "Cancel";
 			// 
 			// groupBox1
 			// 
@@ -97,7 +108,7 @@ namespace BlogExtension.Delicious
 			this.groupBox1.Size = new System.Drawing.Size(410, 80);
 			this.groupBox1.TabIndex = 36;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = Resource.Manager["RES_DeliciousFormAuthentication"];
+			this.groupBox1.Text = "Authentication";
 			// 
 			// textPwd
 			// 
@@ -120,7 +131,7 @@ namespace BlogExtension.Delicious
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(95, 16);
 			this.label7.TabIndex = 35;
-			this.label7.Text = Resource.Manager["RES_DeliciousFormPassword"];
+			this.label7.Text = "&Password";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUser
@@ -142,7 +153,7 @@ namespace BlogExtension.Delicious
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(95, 16);
 			this.label6.TabIndex = 33;
-			this.label6.Text = Resource.Manager["RES_DeliciousFormUsername"];
+			this.label6.Text = "User&name";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUri
@@ -164,7 +175,7 @@ namespace BlogExtension.Delicious
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(96, 32);
 			this.label2.TabIndex = 37;
-			this.label2.Text = Resource.Manager["RES_DeliciousFormApiUrl"];
+			this.label2.Text = "&del.icio.us API URL";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// DeliciousPluginConfigurationForm
@@ -182,23 +193,13 @@ namespace BlogExtension.Delicious
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DeliciousPluginConfigurationForm";
-			this.Text = Resource.Manager["RES_DeliciousFormConfiguration"];
-			this.Closing += new System.ComponentModel.CancelEventHandler(this.PluginConfigurationForm_Closing);
+			this.Text = "Del.icio.us Plugin Configuration...";
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 		#endregion
 		
-
-		private void PluginConfigurationForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{			
-		}
-
-		private void _btOK_Click(object sender, System.EventArgs e)
-		{			
-			
-		}
 		
 	}
 }

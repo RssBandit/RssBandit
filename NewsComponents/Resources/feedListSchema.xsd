@@ -9,7 +9,7 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="title" type="xs:string" />
-							<xs:element name="link" type="xs:anyURI" />
+							<xs:element name="link" type="xs:string" />
 							<xs:element name="refresh-rate" type="xs:int" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>
@@ -46,9 +46,12 @@
 							<xs:element name="mark-items-read-on-exit" minOccurs="0" maxOccurs="1" type="xs:boolean" />
 							<xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
 							<xs:element name="news-account" type="xs:string" maxOccurs="1" minOccurs="0" />
+							<xs:element name="feed-url" type="xs:string" maxOccurs="1" minOccurs="0" />
 						</xs:sequence>
 						<xs:attribute name="alert" type="xs:boolean" use="optional" />
+						<xs:attribute name="replace-items-on-refresh" type="xs:boolean" use="optional" />
 						<xs:attribute name="category" type="xs:string" />
+						<xs:attribute name="id" type="xs:string" />
 						<xs:anyAttribute namespace="##any" processContents="lax" />
 					</xs:complexType>
 				</xs:element>
@@ -109,9 +112,14 @@
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="refresh-rate" type="xs:int" use="optional" />
+			<xs:attribute name="enclosure-cache-size-in-MB" type="xs:int" use="optional" />
+			<xs:attribute name="num-enclosures-to-download-on-new-feed" type="xs:int" use="optional" />			
 			<xs:attribute name="download-enclosures" type="xs:boolean" use="optional" />
+			<xs:attribute name="enclosure-alert" type="xs:boolean" use="optional" />			
 			<xs:attribute name="enclosure-folder" type="xs:string" use="optional" />
 			<xs:attribute name="listview-layout" type="xs:string" use="optional" />
+			<xs:attribute name="podcast-folder" type="xs:string" use="optional" />
+			<xs:attribute name="podcast-file-exts" type="xs:string" use="optional" />
 			<xs:attribute name="max-item-age" type="xs:duration" use="optional" />
 			<xs:attribute name="stylesheet" type="xs:string" use="optional" />
 			<xs:attribute name="mark-items-read-on-exit" type="xs:boolean" use="optional" />

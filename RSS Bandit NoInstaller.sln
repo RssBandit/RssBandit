@@ -1,38 +1,34 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4} = {9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsComponents", "NewsComponents\NewsComponents.csproj", "{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit.AppServices", "RssBandit.AppServices\RssBandit.AppServices.csproj", "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug.ActiveCfg = Debug|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug.Build.0 = Debug|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release.ActiveCfg = Release|.NET
-		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release.Build.0 = Release|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug.ActiveCfg = Debug|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug.Build.0 = Debug|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release.ActiveCfg = Release|.NET
-		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release.Build.0 = Release|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug.ActiveCfg = Debug|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug.Build.0 = Debug|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release.ActiveCfg = Release|.NET
-		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

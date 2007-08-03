@@ -1,0 +1,1440 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RssBandit.AppServices</name>
+    </assembly>
+    <members>
+        <member name="T:RssBandit.UIServices.AddInBase">
+            <summary>
+            PluginBase.
+            To have a chance to apply some code restrictions/security.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.AddInBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RssBandit.UIServices.AddInBase"/> class.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.AddInBase.InitializeLifetimeService">
+            <summary>
+            Obtains a lifetime service object to control the lifetime policy for this instance.
+            </summary>
+            <returns>
+            An object of type <see cref="T:System.Runtime.Remoting.Lifetime.ILease"/> used to control the
+            lifetime policy for this instance. This is the current lifetime service object for
+            this instance if one exists; otherwise, a new lifetime service object initialized to the value
+            of the <see cref="P:System.Runtime.Remoting.Lifetime.LifetimeServices.LeaseManagerPollTime" qualify="true"/> property.
+            </returns>
+            <exception cref="T:System.Security.SecurityException">The immediate caller does not have infrastructure permission. </exception>
+        </member>
+        <member name="M:RssBandit.UIServices.AddInBase.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or
+            resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.AddInBase.Dispose(System.Boolean)">
+            <summary>
+            Disposes the specified disposing.
+            </summary>
+            <param name="disposing">if set to <c>true</c> [disposing].</param>
+        </member>
+        <member name="M:RssBandit.UIServices.AddInBase.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:RssBandit.UIServices.AddInBase"/> is reclaimed by garbage collection.
+            </summary>
+            <remarks>finalizer simply calls Dispose(false)</remarks>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddInPackage">
+            <summary>
+            IAddInPackage have to be implemented by a external AddIn to 
+            be recognized as a RSS Bandit application AddIn.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.IAddInPackage.Load(System.IServiceProvider)">
+            <summary>
+            Called on loading an AddInPackage.
+            </summary>
+            <param name="serviceProvider">IServiceProvider</param>
+        </member>
+        <member name="M:RssBandit.UIServices.IAddInPackage.Unload">
+            <summary>
+            Called on unloading an AddInPackage. Use it for cleanup task(s).
+            </summary>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddInPackageConfiguration">
+            <summary>
+            Interface to be implemented by the same class that implement 
+            <see cref="T:RssBandit.UIServices.IAddInPackage">IAddInPackage</see> or at least one of
+            the classes that implement IAddInPackage in a AddIn DLL  to
+            allow users to modify the specific AddIn configuration.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.IAddInPackageConfiguration.ShowConfigurationUI(System.Windows.Forms.IWin32Window)">
+            <summary>
+            Displays the configuration UI (User interface).
+            </summary>
+            <param name="parent">The parent window.</param>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddInPackageConfiguration.HasConfigurationUI">
+            <summary>
+            Gets a value indicating whether this instance has a configuration 
+            UI (User interface).
+            </summary>
+            <value>
+            	<c>true</c> if this instance has configuration UI; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddInPackageCollection">
+            <summary>
+            A collection of IAddInPackage objects to be used and returned by 
+            the IAddInManager.
+            </summary>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddInPackageCollection.Item(System.Int32)">
+            <summary>
+            Indexer
+            </summary>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddIn">
+            <summary>
+            IAddIn represents a AddIn within the parent application.
+            </summary>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddIn.Location">
+            <summary>
+            Gets the location of the AddIn.
+            </summary>
+            <value>The location.</value>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddIn.Name">
+            <summary>
+            Gets the name of the AddIn.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddIn.AddInPackages">
+            <summary>
+            Gets the AddIn packages collection.
+            </summary>
+            <value>The add in packages.</value>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddInCollection">
+            <summary>
+            Interface for a Collection of AddIn's
+            </summary>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddInCollection.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:RssBandit.UIServices.IAddIn"/> at the specified index.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:RssBandit.UIServices.IAddInManager">
+            <summary>
+            The AddIn manager as it is used within the parent application.
+            </summary>
+        </member>
+        <member name="M:RssBandit.UIServices.IAddInManager.Load(System.String)">
+            <summary>
+            Loads the IAddIn from the specified file name.
+            </summary>
+            <param name="fileName">Name of the file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RssBandit.UIServices.IAddInManager.Unload(RssBandit.UIServices.IAddIn)">
+            <summary>
+            Unloads the specified addIn.
+            </summary>
+            <param name="addIn">The add in.</param>
+        </member>
+        <member name="P:RssBandit.UIServices.IAddInManager.AddIns">
+            <summary>
+            Gets the AddIns collection.
+            </summary>
+            <value>The add ins.</value>
+        </member>
+        <member name="T:NewsComponents.FeedChannelBase">
+            <summary>
+            Provides a base implementation of a NewsChannel.
+            Feed processor classes must inherit this class!
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsChannel.ChannelName">
+            <summary>
+            Gets a channel name. This have to be a unique one, so you may use a Url/Uri scheme.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsChannel.ChannelPriority">
+            <summary>
+            Gets the channel priority. Used/Required to determine the order of processing
+            if multiple channels are registered for one type of processing.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsChannel.ChannelProcessingType">
+            <summary>
+            Type of processing the channel is used for.
+            </summary>
+        </member>
+        <member name="M:NewsComponents.FeedChannelBase.Process(NewsComponents.IFeedDetails)">
+            <summary>
+            Base implementation does nothing then return the non-modified item.
+            </summary>
+            <param name="item">IFeedDetails</param>
+            <returns></returns>
+        </member>
+        <member name="T:NewsComponents.IChannelProcessor">
+            <summary>
+            Base interface for News Channel Processing: IChannelProcessor.
+            </summary>
+        </member>
+        <member name="M:NewsComponents.IChannelProcessor.GetChannels">
+            <summary>
+            Provides the list of available news processing channels.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NewsComponents.NewsItemChannelBase">
+            <summary>
+            Provides a base implementation of a NewsChannel.
+            NewsItem processors MUST inherit this class!
+            </summary>
+        </member>
+        <member name="M:NewsComponents.NewsItemChannelBase.Process(NewsComponents.INewsItem)">
+            <summary>
+            Base implementation does nothing then return the non-modified item.
+            </summary>
+            <param name="item">INewsItem</param>
+            <returns></returns>
+        </member>
+        <member name="T:RssBandit.AppServices.IStringCollection">
+            <summary>
+            Defines size, enumerators, and synchronization methods for strongly
+            typed collections of <see cref="T:System.String"/> elements.
+            </summary>
+            <remarks>
+            <b>IStringCollection</b> provides an <see cref="T:System.Collections.ICollection"/>
+            that is strongly typed for <see cref="T:System.String"/> elements.
+            </remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringCollection.CopyTo(System.String[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:RssBandit.AppServices.IStringCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:System.String"/> elements, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:System.String"/> elements copied from the <see cref="T:RssBandit.AppServices.IStringCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/>
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:RssBandit.AppServices.IStringCollection"/> is greater
+            than the available space from <paramref name="arrayIndex"/> to the end of the destination
+            <paramref name="array"/>.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:RssBandit.AppServices.IStringEnumerator"/> that can
+            iterate through the <see cref="T:RssBandit.AppServices.IStringCollection"/>.
+            </summary>
+            <returns>An <see cref="T:RssBandit.AppServices.IStringEnumerator"/>
+            for the entire <see cref="T:RssBandit.AppServices.IStringCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringCollection.Count">
+            <summary>
+            Gets the number of elements contained in the
+            <see cref="T:RssBandit.AppServices.IStringCollection"/>.
+            </summary>
+            <value>The number of elements contained in the
+            <see cref="T:RssBandit.AppServices.IStringCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.Count"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringCollection.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the
+            <see cref="T:RssBandit.AppServices.IStringCollection"/> is synchronized (thread-safe).
+            </summary>
+            <value><c>true</c> if access to the <see cref="T:RssBandit.AppServices.IStringCollection"/> is
+            synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.IsSynchronized"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringCollection.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access
+            to the <see cref="T:RssBandit.AppServices.IStringCollection"/>.
+            </summary>
+            <value>An object that can be used to synchronize access
+            to the <see cref="T:RssBandit.AppServices.IStringCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.SyncRoot"/> for details.</remarks>
+        </member>
+        <member name="T:RssBandit.AppServices.IStringList">
+            <summary>
+            Represents a strongly typed collection of <see cref="T:System.String"/>
+            objects that can be individually accessed by index.
+            </summary>
+            <remarks>
+            <b>IStringList</b> provides an <see cref="T:System.Collections.IList"/>
+            that is strongly typed for <see cref="T:System.String"/> elements.
+            </remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.Add(System.String)">
+            <summary>
+            Adds a <see cref="T:System.String"/> to the end
+            of the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> object
+            to be added to the end of the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            This argument can be a null reference.
+            </param>
+            <returns>The <see cref="T:RssBandit.AppServices.IStringList"/> index at which
+            the <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IStringList</b> has a fixed size.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IStringList</b> has a fixed size.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Clear"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.Contains(System.String)">
+            <summary>
+            Determines whether the <see cref="T:RssBandit.AppServices.IStringList"/>
+            contains the specified <see cref="T:System.String"/> element.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> object
+            to locate in the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            This argument can be a null reference.
+            </param>
+            <returns><c>true</c> if <paramref name="value"/> is found in the
+            <see cref="T:RssBandit.AppServices.IStringList"/>; otherwise, <c>false</c>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.IndexOf(System.String)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified
+            <see cref="T:System.String"/> in the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> object
+            to locate in the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            This argument can be a null reference.
+            </param>
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/>
+            in the <see cref="T:RssBandit.AppServices.IStringList"/>, if found; otherwise, -1.
+            </returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.Insert(System.Int32,System.String)">
+            <summary>
+            Inserts a <see cref="T:System.String"/> element into the
+            <see cref="T:RssBandit.AppServices.IStringList"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which
+            <paramref name="value"/> should be inserted.</param>
+            <param name="value">The <see cref="T:System.String"/> object
+            to insert into the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            This argument can be a null reference.
+            </param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than
+            <see cref="P:RssBandit.AppServices.IStringCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IStringList</b> has a fixed size.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.Remove(System.String)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:System.String"/>
+            from the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> object
+            to remove from the <see cref="T:RssBandit.AppServices.IStringList"/>.
+            This argument can be a null reference.
+            </param>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IStringList</b> has a fixed size.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringList.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the
+            <see cref="T:RssBandit.AppServices.IStringList"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than
+            <see cref="P:RssBandit.AppServices.IStringCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IStringList</b> has a fixed size.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.RemoveAt(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringList.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:RssBandit.AppServices.IStringList"/> has a fixed size.
+            </summary>
+            <value><c>true</c> if the <see cref="T:RssBandit.AppServices.IStringList"/> has a fixed size;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsFixedSize"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringList.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.
+            </summary>
+            <value><c>true</c> if the <see cref="T:RssBandit.AppServices.IStringList"/> is read-only;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsReadOnly"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringList.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:System.String"/> element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the
+            <see cref="T:System.String"/> element to get or set.</param>
+            <value>
+            The <see cref="T:System.String"/> element at the specified <paramref name="index"/>.
+            </value>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than
+            <see cref="P:RssBandit.AppServices.IStringCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:RssBandit.AppServices.IStringList"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="T:RssBandit.AppServices.IStringEnumerator">
+            <summary>
+            Supports type-safe iteration over a collection that
+            contains <see cref="T:System.String"/> elements.
+            </summary>
+            <remarks>
+            <b>IStringEnumerator</b> provides an <see cref="T:System.Collections.IEnumerator"/>
+            that is strongly typed for <see cref="T:System.String"/> elements.
+            </remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringEnumerator.MoveNext">
+            <summary>
+            Advances the enumerator to the next element of the collection.
+            </summary>
+            <returns><c>true</c> if the enumerator was successfully advanced to the next element;
+            <c>false</c> if the enumerator has passed the end of the collection.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.MoveNext"/> for details.</remarks>
+        </member>
+        <member name="M:RssBandit.AppServices.IStringEnumerator.Reset">
+            <summary>
+            Sets the enumerator to its initial position,
+            which is before the first element in the collection.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.Reset"/> for details.</remarks>
+        </member>
+        <member name="P:RssBandit.AppServices.IStringEnumerator.Current">
+            <summary>
+            Gets the current <see cref="T:System.String"/> element in the collection.
+            </summary>
+            <value>The current <see cref="T:System.String"/> element in the collection.</value>
+            <exception cref="T:System.InvalidOperationException"><para>The enumerator is positioned
+            before the first element of the collection or after the last element.</para>
+            <para>-or-</para>
+            <para>The collection was modified after the enumerator was created.</para></exception>
+            <remarks>Please refer to <see cref="P:System.Collections.IEnumerator.Current"/> for details, but note
+            that <b>Current</b> fails if the collection was modified since the last successful
+            call to <see cref="M:RssBandit.AppServices.IStringEnumerator.MoveNext"/> or <see cref="M:RssBandit.AppServices.IStringEnumerator.Reset"/>.</remarks>
+        </member>
+        <member name="T:RssBandit.AppServices.ReadOnlyDictionary">
+            <summary>
+            Wrapper to make a class implementing IDictonary readonly
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.IPropertyChange">
+            <summary>
+            Support property change notification
+            </summary>
+        </member>
+        <member name="E:RssBandit.AppServices.IPropertyChange.PropertyChanged">
+            <summary>
+            Gets fired on a property change
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.IInternetService">
+            <summary>
+            IInternetService.
+            </summary>
+        </member>
+        <member name="E:RssBandit.AppServices.IInternetService.InternetConnectionStateChange">
+            <summary>
+            Attach to receive InternetConnectionStateChange Events.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IInternetService.InternetAccessAllowed">
+            <summary>
+            Gets the general info (bool) if direct internet access 
+            is currently possible and allowed.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IInternetService.InternetConnectionOffline">
+            <summary>
+            Gets the general info (bool) if the application is currently 
+            running in Offline Mode.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IInternetService.InternetConnectionState">
+            <summary>
+            Gets the current INetState.
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.FeedDeletedHandler">
+            <summary>
+            Signature to receive Feed Deletion events
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.FeedDeletedEventArgs">
+            <summary>
+            Event arguments class to inform about feed deletion
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.FeedEventArgs">
+            <summary>
+            Event arguments class to inform about a feed event
+            </summary>
+        </member>
+        <member name="M:RssBandit.AppServices.FeedEventArgs.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RssBandit.AppServices.FeedEventArgs"/> class.
+            </summary>
+            <param name="feedUrl">The feed URL.</param>
+        </member>
+        <member name="M:RssBandit.AppServices.FeedEventArgs.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RssBandit.AppServices.FeedEventArgs"/> class.
+            </summary>
+            <param name="feedUrl">The feed url.</param>
+            <param name="feedTitle">The title of the feed</param>
+        </member>
+        <member name="P:RssBandit.AppServices.FeedEventArgs.FeedUrl">
+            <summary>
+            Gets the feed Url.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.FeedEventArgs.FeedTitle">
+            <summary>
+            Gets the feed caption.
+            </summary>
+        </member>
+        <member name="M:RssBandit.AppServices.FeedDeletedEventArgs.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RssBandit.AppServices.FeedDeletedEventArgs"/> class.
+            </summary>
+            <param name="feedUrl">The feed Url.</param>
+        </member>
+        <member name="M:RssBandit.AppServices.FeedDeletedEventArgs.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RssBandit.AppServices.FeedDeletedEventArgs"/> class.
+            </summary>
+            <param name="feedUrl">The feed URL.</param>
+            <param name="feedTitle">The feed title.</param>
+        </member>
+        <member name="T:RssBandit.AppServices.InternetConnectionStateChangeHandler">
+            <summary>
+            Signature to receive InternetConnectionStateChange Events.
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.InternetConnectionStateChangeEventArgs">
+            <summary>
+            Contains the current and the new state of the internet connection.
+            </summary>
+        </member>
+        <member name="M:RssBandit.AppServices.InternetConnectionStateChangeEventArgs.#ctor(RssBandit.INetState,RssBandit.INetState)">
+            <summary>Initializer.</summary>
+            <param name="currentState">INetState</param>
+            <param name="newState">INetState</param>
+        </member>
+        <member name="P:RssBandit.AppServices.InternetConnectionStateChangeEventArgs.CurrentState">
+            <summary>
+            Gets the current internet connection state (flags).
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.InternetConnectionStateChangeEventArgs.NewState">
+            <summary>
+            Gets the new internet connection state (flags).
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.ICoreApplication">
+            <summary>
+            ICoreApplication contains the core service functions 
+            of RSS Bandit.
+            </summary>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.GetNntpNewsGroups(System.String,System.Boolean)">
+            <summary>
+            Gets the groups of a defined NNTP server. This will be usually
+            retrieved from a local cache, if available.
+            </summary>
+            <param name="nntpServerName">String. Name of the NNTP Server</param>
+            <param name="forceReloadFromServer">If true, it loads the list of groups from the nntp server. If false,
+            it will get them from local cache</param>
+            <returns>list of strings: group names</returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.GetItemFormatterStylesheets">
+            <summary>
+            Gets the News Item Formatter Stylesheet list.
+            </summary>
+            <returns>list of strings.</returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.ShowOptions(RssBandit.OptionDialogSection,System.Windows.Forms.IWin32Window,System.EventHandler)">
+            <summary>
+            Display the options dialog and select the desired detail section
+            </summary>
+            <param name="selectedSection">OptionDialogSection</param>
+            <param name="optionsChangedHandler">A Change EventHandler</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.ShowUserIdentityManagementDialog(System.Windows.Forms.IWin32Window,System.EventHandler)">
+            <summary>
+            Display the User Identity Management Dialog.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="definitionChangedHandler">A Change EventHandler</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.ShowNntpServerManagementDialog(System.Windows.Forms.IWin32Window,System.EventHandler)">
+            <summary>
+            Display the NNTP Server Management Dialog.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="definitionChangedHandler">A Change EventHandler</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.ShowPodcastOptionsDialog(System.Windows.Forms.IWin32Window,System.EventHandler)">
+            <summary>
+            Shows the podcast options dialog.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="optionsChangedHandler">The options changed handler.</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.NavigateToUrl(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Navigates to an Url.
+            </summary>
+            <param name="url">Url to navigate to</param>
+            <param name="tabCaption">The suggested tab caption (maybe replaced by the url's html page title)</param>
+            <param name="forceNewTabOrWindow">Force to open a new Tab/Window</param>
+            <param name="setFocus">Force to set the focus to the new Tab/Window</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.NavigateToUrlAsUserPreferred(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Navigates to an provided Url on the user preferred Web Browser.
+            So it may be the external OS Web Browser, or the internal one.
+            </summary>
+            <param name="url">Url to navigate to</param>
+            <param name="tabCaption">The suggested tab caption (maybe replaced by the url's html page title)</param>
+            <param name="forceNewTabOrWindow">Force to open a new Browser Window (Tab)</param>
+            <param name="setFocus">Force to set the focus to the new Window (Tab)</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.NavigateToUrlInExternalBrowser(System.String)">
+            <summary>
+            Navigates to an provided Url with help of the OS system preferred Web Browser.
+            If it fails to navigate with that browser, it falls back to internal tabbed browsing.
+            </summary>
+            <param name="url">Url to navigate to</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.GetCategories">
+            <summary>
+            Gets the list of categories including the default category.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.AddCategory(System.String)">
+            <summary>
+            Use this method to add a new category.
+            </summary>
+            <param name="category"></param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.SubscribeToFeed(System.String)">
+            <summary>
+            Call to subscribe to a new feed. This will initiate to
+            display the Add Subscription Wizard with the parameters
+            pre-set you provide.
+            </summary>
+            <param name="url">New feed Url</param>
+            <returns></returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.SubscribeToFeed(System.String,System.String)">
+            <summary>
+            Call to subscribe to a new feed. This will initiate to
+            display the Add Subscription Wizard with the parameters
+            pre-set you provide.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="category">The category.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.SubscribeToFeed(System.String,System.String,System.String)">
+            <summary>
+            Call to subscribe to a new feed. This will initiate to
+            display the Add Subscription Wizard with the parameters
+            pre-set you provide.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="category">The category.</param>
+            <param name="title">The title.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.RegisterReceivingNewsChannelProcessor(NewsComponents.IChannelProcessor)">
+            <summary>
+            Register a IChannelProcessor services, that works
+            in the receiving news channel chain: the moment we requested new feeds
+            or update feeds from the original sources. 
+            </summary>
+            <param name="channelProcessor">IChannelProcessor</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.UnregisterReceivingNewsChannelProcessor(NewsComponents.IChannelProcessor)">
+            <summary>
+            Unregister a previously registered IChannelProcessor services 
+            and removes it from the receiving news channel processing chain.
+            </summary>
+            <param name="channelProcessor">IChannelProcessor</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.RegisterDisplayingNewsChannelProcessor(NewsComponents.IChannelProcessor)">
+            <summary>
+            Register a IChannelProcessor services, that works
+            in the displaying news channel chain: the moment before we render feeds
+            or newsitems in the detail display pane. 
+            </summary>
+            <param name="channelProcessor">IChannelProcessor</param>
+        </member>
+        <member name="M:RssBandit.AppServices.ICoreApplication.UnregisterDisplayingNewsChannelProcessor(NewsComponents.IChannelProcessor)">
+            <summary>
+            Unregister a previously registered IChannelProcessor services 
+            and removes it from the receiving news channel processing chain.
+            </summary>
+            <param name="channelProcessor">IChannelProcessor</param>
+        </member>
+        <member name="E:RssBandit.AppServices.ICoreApplication.PreferencesChanged">
+            <summary>
+            Raised after preferences settings was changed
+            </summary>
+        </member>
+        <member name="E:RssBandit.AppServices.ICoreApplication.FeedlistLoaded">
+            <summary>
+            Raised after the feedlist/subscriptions were loaded
+            </summary>
+        </member>
+        <member name="E:RssBandit.AppServices.ICoreApplication.FeedDeleted">
+            <summary>
+            Raised after a feed was deleted
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.CurrentGlobalRefreshRate">
+            <summary>
+            Returns the current global (specified via options)
+            Feed Refresh Rate in minutes.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.Proxy">
+            <summary>
+            Gets the current application web proxy
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.Identities">
+            <summary>
+            Gets the defined User Identities.
+            Items are objects of type IUserIdentity, 
+            keys are the correspondnig identity Name.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.NntpServerDefinitions">
+            <summary>
+            Gets the defined NNTP News Server definitions.
+            Items are objects of type INntpServerDefinition, 
+            keys are the corresponding server Name.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.WebSearchEngines">
+            <summary>
+            Gets the defined web search engines. 
+            Items are of type ISearchEngine.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.LastAutoUpdateCheck">
+            <summary>
+            Get the DateTime of the last check for updates. 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.EnclosureFolder">
+            <summary>
+            Gets the current Enclosure folder
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.PodcastFolder">
+            <summary>
+            Gets the current Podcast folder
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.PodcastFileExtensions">
+            <summary>
+            Gets a semi-colon delimited list of file extensions of enclosures that 
+            should be treated as podcasts
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.DownloadCreateFolderPerFeed">
+            <summary>
+            Gets whether enclosures should be created in a subfolder named after the feed. 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.EnableEnclosureAlerts">
+            <summary>
+            Gets whether alert Windows should be displayed for enclosures or not. 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.DownloadEnclosures">
+            <summary>
+            Gets whether enclosures should be downloaded automatically or not.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.EnclosureCacheSize">
+            <summary>
+            Indicates the maximum amount of space that enclosures and podcasts can use on disk.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.NumEnclosuresToDownloadOnNewFeed">
+            <summary>
+            Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.DefaultCategory">
+            <summary>
+            Gets the default category.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.ICoreApplication.Subscriptions">
+            <summary>
+            Gets the Subscriptions Dictionary.
+            </summary>
+        </member>
+        <member name="T:NewsComponents.IFeedDetails">
+            <summary>
+            Interface represents information about a particular feed
+            </summary>
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.Language">
+            <summary>Gets the Feed Language</summary>
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.Title">
+            <summary>Gets the Feed Title</summary>
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.Link">
+            <summary>Gets the Feed Homepage Link</summary>
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.Description">
+            <summary>Gets the Feed Description</summary>
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.OptionalElements">
+            <summary>Gets the optional elements found at Feed level</summary>	  
+        </member>
+        <member name="P:NewsComponents.IFeedDetails.Type">
+            <summary>
+            Gets the type of the FeedDetails info
+            </summary>
+        </member>
+        <member name="M:NewsComponents.INewsItem.SetContent(System.String,NewsComponents.ContentType)">
+            <summary>
+            Set new content of the article or blog entry.
+            </summary>
+            <param name="newContent">string</param>
+            <param name="contentType">ContentType</param>
+        </member>
+        <member name="M:NewsComponents.INewsItem.ToString">
+            <summary>
+            Converts the object to an XML string containing an RSS 2.0 item.  
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsComponents.INewsItem.GetHashCode">
+            <summary>
+            Get the hash code of the object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsComponents.INewsItem.Equals(System.Object)">
+            <summary>
+            Compares to see if two NewsItems are identical. Identity just checks to see if they have 
+            the same link, if both have no link then checks to see if they have the same description
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="P:NewsComponents.INewsItem.FeedLink">
+            <summary>
+            Gets the feed link (source the feed is requested from) the item belongs to.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Link">
+            <summary>
+            The link to the item.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Date">
+            <summary>
+            The date the article or blog entry was made. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Id">
+            <summary>
+            The unique identifier.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.ParentId">
+            <summary>
+            The unique identifier of the parent.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Content">
+            <summary>
+            The content of the article or blog entry. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.HasContent">
+            <summary>
+            Returns true, if Content contains something; else false.
+            </summary>
+            <remarks>Should be used instead of testing 
+            (Content != null &amp;&amp; Content.Length > 0) and is equivalent to 
+            .ContentType == ContentType.None
+            </remarks>
+        </member>
+        <member name="P:NewsComponents.INewsItem.ContentType">
+            <summary>
+            Indicates whether the description on this feed is text, HTML or XHTML. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.BeenRead">
+            <summary>
+            Indicates whether the story has been read or not. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.FeedDetails">
+            <summary>
+            Returns an object implementing the FeedDetails interface to which this item belongs
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Author">
+            <summary>
+            The author of the article or blog entry 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Title">
+            <summary>
+            The title of the article or blog entry. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.Subject">
+            <summary>
+            The subject of the article or blog entry. 
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.CommentCount">
+            <summary>
+            Returns the amount of comments attached.
+            </summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.CommentUrl">
+            <summary>the URL to post comments to</summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.CommentRssUrl">
+            <summary>the URL to get an RSS feed of comments from</summary>
+        </member>
+        <member name="P:NewsComponents.INewsItem.OptionalElements">
+            <summary>
+            Container for all the optional RSS elements for an item. Also 
+            holds information from RSS modules. The keys in the hashtable 
+            are instances of XmlQualifiedName while the values are instances 
+            of XmlNode. 
+            </summary>
+            <remarks>Setting this field may have the side effect of setting certain read-only 
+            properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
+            elements are contained in the table.</remarks>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.Name">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.DefaultIdentity">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.PreventDownloadOnRefresh">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.Server">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.AuthUser">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.AuthPassword">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.UseSecurePasswordAuthentication">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.Port">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.UseSSL">
+            <remarks>Makes the 'nntp:' a 'nntps:'</remarks>
+        </member>
+        <member name="P:NewsComponents.INntpServerDefinition.Timeout">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.Title">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.SearchLink">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.Description">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.ImageName">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.IsActive">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.ReturnRssResult">
+            <remarks/>
+        </member>
+        <member name="P:RssBandit.WebSearch.ISearchEngine.MergeRssResult">
+            <remarks/>
+        </member>
+        <member name="T:NewsComponents.IUserIdentity">
+            <summary>
+            IUserIdentity interface
+            </summary>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.Name">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.RealName">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.Organization">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.MailAddress">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.ResponseAddress">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.ReferrerUrl">
+            <remarks/>
+        </member>
+        <member name="P:NewsComponents.IUserIdentity.Signature">
+            <remarks/>
+        </member>
+        <member name="T:RssBandit.AppServices.IUserPreferences">
+            <summary>
+            User Preferences service
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UserIdentityForComments">
+            <summary>
+            Gets the user identity used to post feed comments.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.FeedRefreshOnStartup">
+            <summary>
+            Get a value that control if feeds should be refreshed from the original
+            source on startup of the application.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UseProxy">
+            <summary>
+            Gets a value to control if the application have to use a proxy to
+            request feeds.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UseIEProxySettings">
+            <summary>
+            If <see cref="P:RssBandit.AppServices.IUserPreferences.UseProxy">UseProxy</see> is set to true, this option is used
+            to force a takeover the proxy settings from and installed Internet Explorer (if true).
+            (Including automatic proxy configuration).
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BypassProxyOnLocal">
+            <summary>
+            Gets the value if the used proxy should bypass requests
+            for local (intranet) servers.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyBypassList">
+            <summary>
+            Get a list of servers/web addresses to bypass by the used proxy.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyCustomCredentials">
+            <summary>
+            Get a value indicating if the proxy have to use 
+            custom credentials (proxy needs authentication).
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyAddress">
+            <summary>
+            Get the proxy address.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyPort">
+            <summary>
+            Get the proxy port number.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyUser">
+            <summary>
+            Get the proxy custom credential user name.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ProxyPassword">
+            <summary>
+            Get the proxy custom credential user password.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NewsItemStylesheetFile">
+            <summary>
+            Get the global news item formatter stylesheet 
+            (filename exluding path name)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ReuseFirstBrowserTab">
+            <summary>
+            /Get a value to control if the first opened web browser Tab should
+            be reused or not.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.MarkItemsReadOnExit">
+            <summary>
+            Get a value to control if unread items should be marked as read
+            while leaving the feed through UI navigation (to another feed/category)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NewsItemOpenLinkInDetailWindow">
+            <summary>
+            Get a value to control if an news item without a description
+            should display the (web page) content of the link target instead (if true).
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.HideToTrayAction">
+            <summary>
+            Get the user action <see cref="T:RssBandit.HideToTray">HideToTray</see> 
+            when the application should minimize to the
+            system tray area.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.AutoUpdateFrequency">
+            <summary>
+            Get the frequency defined in <see cref="T:RssBandit.AutoUpdateMode">AutoUpdateMode</see>
+            the application should check for available updates (internet access required).
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.LastAutoUpdateCheck">
+            <summary>
+            Get the DateTime of the last check for updates. 
+            <see cref="P:RssBandit.AppServices.IUserPreferences.AutoUpdateFrequency">AutoUpdateFrequency</see>
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.MaxItemAge">
+            <summary>
+            Get the TimeSpan for the global maximum news item age.
+            We use TimeSpan.MinValue for the unlimited item age.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NormalFont">
+            <summary>
+            Normal font used to render items (listview) 
+            and feeds (treeview)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NormalFontColor">
+            <summary>
+            Normal font color used to render items (listview) 
+            and feeds (treeview)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UnreadFont">
+            <summary>
+            Font used to highlight items (listview) 
+            and feeds (treeview)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UnreadFontColor">
+            <summary>
+            Color used to highlight items (listview) 
+            and feeds (treeview)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.FlagFont">
+            <summary>
+            Font used to render flagged items (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.FlagFontColor">
+            <summary>
+            Color used to render flagged items (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RefererFont">
+            <summary>
+            Font used to render items that refer back to the users 
+            default identity (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RefererFontColor">
+            <summary>
+            Color used to render items that refer back to the users 
+            default identity (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ErrorFont">
+            <summary>
+            Font used to render items that display an error message (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ErrorFontColor">
+            <summary>
+            Color used to render items that display an error message (listview) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NewCommentsFont">
+            <summary>
+            Font used to render items that received new comments (watched) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.NewCommentsFontColor">
+            <summary>
+            Color used to render items that received new comments (watched) 
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.UseRemoteStorage">
+            <summary>
+            Sets/Get the value indicating if we have to use a remote storage
+            for sync. states.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RemoteStorageUserName">
+            <summary>
+            Sets/Get the username that may be required to access
+            the remote storage location.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RemoteStoragePassword">
+            <summary>
+            Sets/Get the password that may be required to access the remote
+            storage location.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RemoteStorageProtocol">
+            <summary>
+            Sets/Get the type of remote storage to use. <see cref="T:RssBandit.RemoteStorageProtocolType"/>
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.RemoteStorageLocation">
+            <summary>
+            Sets/Get the remote storage location. Can vary dep. on
+            the location type (ftp, share,...)
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserOnNewWindow">
+            <summary>
+            Sets/Get the behavior how to handle requests to open new
+            window(s) while browsing
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserCustomExecOnNewWindow">
+            <summary>
+            Gets/Set the executable application to start if
+            browser requires to open a new window.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserJavascriptAllowed">
+            <summary>
+            Sets/Get if Javascript should be allowed to execute
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserJavaAllowed">
+            <summary>
+            Sets/Get if Java should be allowed to execute
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserActiveXAllowed">
+            <summary>
+            Sets/Get if ActiveX controls should be allowed to execute
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserBGSoundAllowed">
+            <summary>
+            Sets/Get if background sounds are allowed to be played
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserVideoAllowed">
+            <summary>
+            Sets/Get if video can be played
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BrowserImagesAllowed">
+            <summary>
+            Sets/Get if images should be loaded
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ShowAlertWindow">
+            <summary>
+            Sets/Get the DisplayFeedAlertWindow enumeration value
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.ShowNewItemsReceivedBalloon">
+            <summary>
+            Sets/Get if the system tray balloon tip should be displayed
+            if new news items are received.
+            </summary>
+        </member>
+        <member name="P:RssBandit.AppServices.IUserPreferences.BuildRelationCosmos">
+            <summary>
+            Sets/Get if we build the relation cosmos (interlinkage of news items).
+            </summary>
+        </member>
+        <member name="F:NewsComponents.FeedType.Rss">
+            <summary>
+            RSS Feed (RSS1/2.x, Atom). Handled by RssParser
+            </summary>
+        </member>
+        <member name="F:NewsComponents.FeedType.Nntp">
+            <summary>
+            NNTP Feed. Handled by NntpHandler
+            </summary>
+        </member>
+        <member name="T:NewsComponents.ContentType">
+            <summary>
+            NewsItem description content types.
+            </summary>
+        </member>
+        <member name="F:NewsComponents.ContentType.None">
+            <summary>No content available</summary>
+        </member>
+        <member name="F:NewsComponents.ContentType.Unknown">
+            <summary>Unknown or not supported</summary>
+        </member>
+        <member name="F:NewsComponents.ContentType.Text">
+            <summary>Simple text</summary>
+        </member>
+        <member name="F:NewsComponents.ContentType.Html">
+            <summary>HTML formated text</summary>
+        </member>
+        <member name="F:NewsComponents.ContentType.Xhtml">
+            <summary>XHTML formated</summary>
+        </member>
+        <member name="T:NewsComponents.ChannelProcessingType">
+            <summary>
+            Channel Processing types
+            </summary>
+        </member>
+        <member name="F:NewsComponents.ChannelProcessingType.NewsItem">
+            <summary>
+            Process NewsItem's
+            </summary>
+        </member>
+        <member name="F:NewsComponents.ChannelProcessingType.Feed">
+            <summary>
+            Process feeds (RSS, Atom)
+            </summary>
+        </member>
+        <member name="T:NewsComponents.SortOrder">
+            <summary>
+            indicates the sort order a feed should be displayed in.
+            Used to use the same (int) values than system.Windows.Forms.SortOrder enum
+            </summary>
+        </member>
+        <member name="T:NewsComponents.LayoutType">
+            <summary>
+            Indicates whether a column layout is global, category-wide or feed specific.
+            </summary>
+        </member>
+        <member name="T:RssBandit.INetState">
+            <summary>
+            Internet connection states
+            </summary>
+        </member>
+        <member name="T:RssBandit.OptionDialogSection">
+            <summary>
+            Option Dialog detail sections
+            </summary>
+        </member>
+        <member name="T:RssBandit.HideToTray">
+            <summary>
+            What action will be taken to minimize the app to the system tray
+            </summary>
+        </member>
+        <member name="T:RssBandit.AutoUpdateMode">
+            <summary>
+            Auto-update interval settings
+            </summary>
+        </member>
+        <member name="T:RssBandit.RemoteStorageProtocolType">
+            <summary>
+            Supported remote storage locations
+            </summary>
+        </member>
+        <member name="T:RssBandit.BrowserBehaviorOnNewWindow">
+            <summary>
+            Embedded Web-Browser behavior on new window requests
+            </summary>
+        </member>
+        <member name="T:RssBandit.DisplayFeedAlertWindow">
+            <summary>
+            Options to control the display of toast notify windows
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.ICommandBarManager">
+            <summary>
+            ICommandBarManager.
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.ExecuteCommandHandler">
+            <summary>
+            Delegate used to callback to mediator
+            </summary>
+        </member>
+        <member name="T:RssBandit.AppServices.IDocumentWindowManager">
+            <summary>
+            Summary description for IWindowManager.
+            </summary>
+        </member>
+    </members>
+</doc>

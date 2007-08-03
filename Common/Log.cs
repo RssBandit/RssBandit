@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Log.cs,v 1.6 2004/08/24 19:06:33 t_rendelmann Exp $
+ * $Id: Log.cs,v 1.7 2006/11/23 15:52:10 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/08/24 19:06:33 $
- * $Revision: 1.6 $
+ * Last modified at $Date: 2006/11/23 15:52:10 $
+ * $Revision: 1.7 $
  */
 #endregion
 
@@ -12,7 +12,6 @@ using log4net;
 using log4net.Config;
 using System.IO;
 using System.Reflection;
-using System.Diagnostics;
 
 namespace RssBandit.Common.Logging {
 	
@@ -35,10 +34,10 @@ namespace RssBandit.Common.Logging {
 			
 			if( File.Exists(Log4NetConfigFile)) {
 				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-					DOMConfigurator.ConfigureAndWatch(new FileInfo(Log4NetConfigFile));
+					XmlConfigurator.ConfigureAndWatch(new FileInfo(Log4NetConfigFile));
 				}
 				else {
-					DOMConfigurator.Configure(new FileInfo(Log4NetConfigFile));
+					XmlConfigurator.Configure(new FileInfo(Log4NetConfigFile));
 				}
 			}
 			else {

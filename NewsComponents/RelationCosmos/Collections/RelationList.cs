@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationList.cs,v 1.1 2004/08/20 18:27:10 t_rendelmann Exp $
+ * $Id: RelationList.cs,v 1.3 2005/10/02 12:21:31 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/08/20 18:27:10 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2005/10/02 12:21:31 $
+ * $Revision: 1.3 $
  */
 #endregion
 
@@ -94,6 +94,10 @@ namespace NewsComponents.Collections {
 				throw new ArgumentNullException("list");
 			return new ReadOnlyRelationList(list);
 		}
+		/// <summary>
+		/// Gets a shared empty RelationList.
+		/// </summary>
+		public static RelationList Empty = new RelationList(0);
 		#endregion
 
 		#region Construction
@@ -471,8 +475,8 @@ namespace NewsComponents.Collections {
 		///		<para>-or-</para>
 		///		<para><paramref name="index"/> is equal to or greater than <see cref="RelationList.Count"/>.</para>
 		/// </exception>
-		private void ValidateIndex(int i) {
-			ValidateIndex(i, false);
+		private void ValidateIndex(int index) {
+			ValidateIndex(index, false);
 		}
 
 		/// <exception cref="ArgumentOutOfRangeException">
@@ -480,10 +484,10 @@ namespace NewsComponents.Collections {
 		///		<para>-or-</para>
 		///		<para><paramref name="index"/> is equal to or greater than <see cref="RelationList.Count"/>.</para>
 		/// </exception>
-		private void ValidateIndex(int i, bool allowEqualEnd) {
+		private void ValidateIndex(int index, bool allowEqualEnd) {
 			int max = (allowEqualEnd)?(m_count):(m_count-1);
-			if (i < 0 || i > max)
-				throw new System.ArgumentOutOfRangeException("Index was out of range.  Must be non-negative and less than the size of the collection.", (object)i, "Specified argument was out of the range of valid values.");
+			if (index < 0 || index > max)
+				throw new System.ArgumentOutOfRangeException("Index was out of range.  Must be non-negative and less than the size of the collection.", index, "Specified argument was out of the range of valid values.");
 		}
 
 		private void EnsureCapacity(int min) {
@@ -507,7 +511,7 @@ namespace NewsComponents.Collections {
 		#region Implementation (IList)
 
 		object IList.this[int i] {
-			get { return (object)this[i]; }
+			get { return this[i]; }
 			set { this[i] = (RelationBase)value; }
 		}
 
@@ -610,7 +614,7 @@ namespace NewsComponents.Collections {
 			#region Implementation (IEnumerator)
 			
 			object IEnumerator.Current {
-				get { return (object)(this.Current); }
+				get { return this.Current; }
 			}
 			
 			#endregion

@@ -1,15 +1,17 @@
 #region CVS Version Header
 /*
- * $Id: AssemblyInfo.cs,v 1.4 2005/02/04 15:57:49 t_rendelmann Exp $
+ * $Id: AssemblyInfo.cs,v 1.6 2005/09/30 21:09:31 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/02/04 15:57:49 $
- * $Revision: 1.4 $
+ * Last modified at $Date: 2005/09/30 21:09:31 $
+ * $Revision: 1.6 $
  */
 #endregion
 
+using System;
 using System.Reflection;
 using System.Resources;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 
 //
 // General Information about an assembly is controlled through the following 
@@ -24,6 +26,10 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("(C) 2003-2005 by www.rssbandit.org")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
+
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum)]
 
 // MSDN Magazine July 2002, p. 94: marks our bundled resources as
 // culture specific to save assembly resource resolve steps:

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: PriorityThread.cs,v 1.2 2005/01/15 10:46:18 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/15 10:46:18 $
- * $Revision: 1.2 $
+ * $Id: PriorityThread.cs,v 1.5 2007/01/30 23:06:16 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2007/01/30 23:06:16 $
+ * $Revision: 1.5 $
  */
 #endregion
 
@@ -15,10 +15,8 @@
 // multiple threads. Default is one thread per instance.
 
 #region Namespaces
-using System;
 using System.Threading;
 using System.Collections;
-using System.Configuration;
 using NewsComponents.Collections;
 #endregion
 
@@ -54,8 +52,8 @@ namespace NewsComponents.Threading {
 
 		#region Construction
 		/// <summary>Initialize the thread pool with one worker thread and
-		/// ThreadPriority.BelowNormal.</summary>
-		public PriorityThread():this(_defaultMaxWorkerThreads, ThreadPriority.BelowNormal) {}
+		/// ThreadPriority.Normal.</summary>
+		public PriorityThread():this(_defaultMaxWorkerThreads, ThreadPriority.Normal) {}
 		/// <summary>Initialize the thread pool.</summary>
 		/// <param name="workerThreadCount">Amount of worker threads to use</param>
 		/// <param name="priority">ThreadPriority of the worker threads</param>
@@ -175,7 +173,7 @@ namespace NewsComponents.Threading {
 					Interlocked.Increment(ref _inUseThreads);
 					callback.Callback(callback.State);
 				} 
-				catch {
+				catch (System.Exception e){ e.ToString();
 					// Ignore any errors; not our problem.
 				}
 				finally {

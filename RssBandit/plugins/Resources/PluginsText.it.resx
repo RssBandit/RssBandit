@@ -1,32 +1,31 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
 		</xsd:element>
-	</xsd:schema>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
 	<resheader name="ResMimeType">
 		<value>text/microsoft-resx</value>
 	</resheader>
@@ -40,22 +39,22 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="RES_MenuEmailThisCaption">
-		<value>Email This...</value>
+		<value>Email di questo...</value>
 	</data>
 	<data name="RES_MenuDeliciousCaption">
-		<value>Post to del.icio.us</value>
+		<value>Fai un post su del.icio.us</value>
 	</data>
 	<data name="RES_MenuWBloggarCaption">
-		<value>Blog This Using W::Bloggar...</value>
+		<value>Blogga questo usando W::Bloggar...</value>
 	</data>
 	<data name="RES_ExceptionWBloggarNotFound">
-		<value>No registry setting for w::bloggar located. Please install w::bloggar from http://www.bloggar.com to get this feature to work</value>
+		<value>Nessuna impostazione di registry trovata per w::bloggar. Installa w::bloggar da http://www.bloggar.com per far funzionare questa funzionalita'</value>
 	</data>
 	<data name="RES_DeliciousIncompleteSubmissionTitle">
-		<value>Incomplete submission</value>
+		<value>Invio incompleto</value>
 	</data>
 	<data name="RES_DeliciousIncompleteSubmissionMessage">
-		<value>One of the text fields was not filled.</value>
+		<value>Uno dei campi di testo non e' stato riempito</value>
 	</data>
 	<data name="RES_DeliciousFormTags">
 		<value>&amp;Tags</value>
@@ -76,7 +75,7 @@
 		<value>OK</value>
 	</data>
 	<data name="RES_DeliciousFormAuthentication">
-		<value>Authentication</value>
+		<value>Autenticazione</value>
 	</data>
 	<data name="RES_DeliciousFormPassword">
 		<value>&amp;Password</value>
@@ -88,6 +87,18 @@
 		<value>&amp;del.icio.us API URL</value>
 	</data>
 	<data name="RES_DeliciousFormConfiguration">
-		<value>Del.icio.us Plugin Configuration</value>
+		<value>Configurazione del plugin Del.icio.us </value>
 	</data>
-</root>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>Invia a OneNote...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>Configurazione plugin OneNote ...</value>
+	</data>
+<data name="RES_MenuLiveWriterCaption">
+		<value>Blogga utilizzando Windows Live Writer...</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>Nessuna impostazione trovata nei registry per Windows Live Writer. Installa Windows Live Writer da http://ideas.live.com per far funzionare questa funzionalita'</value>
+	</data>
+	</root>

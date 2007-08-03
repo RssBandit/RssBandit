@@ -6,7 +6,7 @@ namespace RssBandit.WinGui.Forms
 	/// <summary>
 	/// Used to delay execution of some UI tasks if the app is idle
 	/// </summary>
-	[Flags]public enum IdleTasks {
+	[Flags]internal enum IdleTasks {
 		None = 0,
 		InitOnFinishLoading = 1,
 		StartRefreshOneFeed = 2,
@@ -14,20 +14,17 @@ namespace RssBandit.WinGui.Forms
 		ShowFeedPropertiesDialog = 8,
 		NavigateToFeedRssItem = 16, 
 		AutoSubscribeFeedUrl = 32,
+		IndexAllItems= 64,
 	}
 	#endregion
 
 	/// <summary>
 	/// Manage IdleTasks.
 	/// </summary>
-	public class IdleTask
+	internal sealed class IdleTask
 	{
-		private static IdleTasks _tasks;
+		private static IdleTasks _tasks = IdleTasks.None;
 		
-		static IdleTask()	{
-			_tasks = IdleTasks.None;
-		}
-
 		public static IdleTasks Tasks { get { return _tasks; } }
 		public static void AddTask(IdleTasks task) { _tasks |= task;	}
 		public static void RemoveTask(IdleTasks task) { _tasks &= ~task;	}

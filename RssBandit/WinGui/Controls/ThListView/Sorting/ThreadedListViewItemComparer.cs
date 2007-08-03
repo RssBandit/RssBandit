@@ -1,18 +1,16 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewItemComparer.cs,v 1.2 2005/01/15 17:11:39 t_rendelmann Exp $
+ * $Id: ThreadedListViewItemComparer.cs,v 1.3 2006/03/19 19:12:20 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/15 17:11:39 $
- * $Revision: 1.2 $
+ * Last modified at $Date: 2006/03/19 19:12:20 $
+ * $Revision: 1.3 $
  */
 #endregion
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
-using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms.ThListView.Sorting
 {
@@ -77,9 +75,16 @@ namespace System.Windows.Forms.ThListView.Sorting
 
 			if(lhsText.Length == 0 || rhsText.Length == 0)
 				result = lhsText.CompareTo(rhsText);
-
-			else
-				result = OnCompare(lhsText, rhsText);
+			else {
+				// some classes may fail on compare, like DateTime
+				// so don't be the showstopper for inserts/displaying,
+				// but report the failure:
+				try {
+					result = OnCompare(lhsText, rhsText);
+				} catch (FormatException fex) {
+					System.Diagnostics.Trace.WriteLine(this.ToString() + " failed to compare: " + fex.Message);
+				}
+			}
 
 			if(!_ascending)
 				result = -result;
@@ -143,6 +148,8 @@ namespace System.Windows.Forms.ThListView.Sorting
 	/// Provides date sorting
 	/// </summary>
 	public class ThreadedListViewDateTimeItemComparer: ThreadedListViewItemComparer {
+		private static string[] formats = new string[] {"G", "g", "F", "f"};
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -156,7 +163,12 @@ namespace System.Windows.Forms.ThListView.Sorting
 		/// Date compare
 		/// </summary>
 		protected override Int32 OnCompare(String lhs, String rhs) {
-			return DateTime.Parse(lhs).CompareTo(DateTime.Parse(rhs));
+//			return DateTime.Parse(lhs).CompareTo(DateTime.Parse(rhs));
+			return 
+				DateTime.ParseExact(lhs, formats, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces)
+					.CompareTo(
+				DateTime.ParseExact(rhs, formats, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces)
+					);
 		}
 	}
 	#endregion

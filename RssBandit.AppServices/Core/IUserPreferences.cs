@@ -111,6 +111,7 @@ namespace RssBandit.AppServices
 		/// Get the DateTime of the last check for updates. 
 		/// <see cref="AutoUpdateFrequency">AutoUpdateFrequency</see>
 		/// </summary>
+		[Obsolete("Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!", true)]
 		DateTime LastAutoUpdateCheck { get; }
 
 		/// <summary>
@@ -135,13 +136,13 @@ namespace RssBandit.AppServices
 		/// Font used to highlight items (listview) 
 		/// and feeds (treeview)
 		/// </summary>
-		Font HighlightFont { get; }
+		Font UnreadFont { get; }
 			
 		/// <summary>
 		/// Color used to highlight items (listview) 
 		/// and feeds (treeview)
 		/// </summary>
-		Color HighlightFontColor { get; }
+		Color UnreadFontColor { get; }
 
 		/// <summary>
 		/// Font used to render flagged items (listview) 
@@ -175,8 +176,102 @@ namespace RssBandit.AppServices
 		/// </summary>
 		Color ErrorFontColor { get; }
 
+		/// <summary>
+		/// Font used to render items that received new comments (watched) 
+		/// </summary>
+		Font NewCommentsFont { get;	}
+		
 
-		//TODO: much more to add here (RemoteStorage, etc.)
+		/// <summary>
+		/// Color used to render items that received new comments (watched) 
+		/// </summary>
+		Color NewCommentsFontColor  { get;	}
+		
+		/// <summary>
+		/// Sets/Get the value indicating if we have to use a remote storage
+		/// for sync. states.
+		/// </summary>
+		bool UseRemoteStorage { get; }
+		
+		/// <summary>
+		/// Sets/Get the username that may be required to access
+		/// the remote storage location.
+		/// </summary>
+		string RemoteStorageUserName { get; }
 
+		/// <summary>
+		/// Sets/Get the password that may be required to access the remote
+		/// storage location.
+		/// </summary>
+		string RemoteStoragePassword { get; }
+
+		/// <summary>
+		/// Sets/Get the type of remote storage to use. <see cref="RemoteStorageProtocolType"/>
+		/// </summary>
+		RemoteStorageProtocolType RemoteStorageProtocol { get; }
+
+		/// <summary>
+		/// Sets/Get the remote storage location. Can vary dep. on
+		/// the location type (ftp, share,...)
+		/// </summary>
+		string RemoteStorageLocation { get; }
+
+		/// <summary>
+		/// Sets/Get the behavior how to handle requests to open new
+		/// window(s) while browsing
+		/// </summary>
+		BrowserBehaviorOnNewWindow BrowserOnNewWindow { get; }
+
+		/// <summary>
+		/// Gets/Set the executable application to start if
+		/// browser requires to open a new window.
+		/// </summary>
+		string BrowserCustomExecOnNewWindow  { get; }
+
+		/// <summary>
+		/// Sets/Get if Javascript should be allowed to execute
+		/// </summary>
+		bool BrowserJavascriptAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get if Java should be allowed to execute
+		/// </summary>
+		bool BrowserJavaAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get if ActiveX controls should be allowed to execute
+		/// </summary>
+		bool BrowserActiveXAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get if background sounds are allowed to be played
+		/// </summary>
+		bool BrowserBGSoundAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get if video can be played
+		/// </summary>
+		bool BrowserVideoAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get if images should be loaded
+		/// </summary>
+		bool BrowserImagesAllowed { get; }
+
+		/// <summary>
+		/// Sets/Get the DisplayFeedAlertWindow enumeration value
+		/// </summary>
+		DisplayFeedAlertWindow ShowAlertWindow { get; }
+
+		/// <summary>
+		/// Sets/Get if the system tray balloon tip should be displayed
+		/// if new news items are received.
+		/// </summary>
+		bool ShowNewItemsReceivedBalloon { get; }
+
+		/// <summary>
+		/// Sets/Get if we build the relation cosmos (interlinkage of news items).
+		/// </summary>
+		bool BuildRelationCosmos { get; }
 	}
 }

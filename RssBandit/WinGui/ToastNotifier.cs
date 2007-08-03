@@ -4,8 +4,10 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using NewsComponents;
+using NewsComponents.Net;
 using NewsComponents.Feed;
 using RssBandit.WinGui.Forms;
+using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.WinGui
 {
@@ -22,6 +24,10 @@ namespace RssBandit.WinGui
 	/// Delegate called on a Feed link click.
 	/// </summary>
 	public delegate void FeedActivateCallback(feedsFeed f);
+	/// <summary>
+	/// dDelegate called on downloaded enclosure link click
+	/// </summary>
+	public delegate void EnclosureActivateCallback(DownloadItem enclosure);
 	#endregion
 
 	/// <summary>
@@ -32,25 +38,32 @@ namespace RssBandit.WinGui
 		#region private variables
 		private const int TOASTWINDOW_HEIGHT = 145;
 		private const int TOASTWINDOW_OFFSET = 2;
+		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditApplication));
 
 		private ItemActivateCallback				_itemActivateCallback;
 		private DisplayFeedPropertiesCallback	_displayFeedPropertiesCallback;
 		private FeedActivateCallback				_feedActivateCallback;
+		private EnclosureActivateCallback         _enclosureActivateCallback;
 
-		private ArrayList	_toastWindows;
+		private int _usedToastWindowLocations;
+		private object SyncRoot = new object();
+		//private ArrayList	_toastWindows;
 		private bool			_disposing = false;
-		private int			_openWindowsCount = 0;
+		//private int			_openWindowsCount = 0;
 		#endregion
 
 		#region ctor()'s
-		public ToastNotifier():this(null, null, null) {}
+		public ToastNotifier():this(null, null, null, null) {}
 		public ToastNotifier(ItemActivateCallback onItemActivateCallback, 
 			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
-			FeedActivateCallback onFeedActivateCallback) {
-			this._toastWindows = new ArrayList(5);
+			FeedActivateCallback onFeedActivateCallback, 
+			EnclosureActivateCallback onEnclosureActivateCallback) {
+			//this._toastWindows = new ArrayList(5);
+			this._usedToastWindowLocations = 0;
 			this._itemActivateCallback = onItemActivateCallback;
 			this._displayFeedPropertiesCallback = onFeedPropertiesDialog;
 			this._feedActivateCallback = onFeedActivateCallback;
+			this._enclosureActivateCallback = onEnclosureActivateCallback;
 		}
 		#endregion
 
@@ -82,19 +95,38 @@ namespace RssBandit.WinGui
 			ArrayList myItems = new ArrayList(items);
 			myItems.Sort(NewsComponents.Utils.RssHelper.GetComparer(true,NewsComponents.Utils.NewsItemSortField.Date));
 
-			lock (_toastWindows) {
-				ToastNotify theWindow = this.GetToastWindow();
+			//lock (_toastWindows) {
+				ToastNotify theWindow = this.GetToastWindow(items[0]);
 				if (theWindow != null) {
 					try {
-						if (theWindow.ItemsToDisplay(feedName, dispItemCount, myItems)) {
-							if (!theWindow.Disposing) {
-								_openWindowsCount++;
-								theWindow.Animate();
+						if (theWindow.ItemsToDisplay(feedName, dispItemCount, myItems) &&
+							!theWindow.Disposing)
+						{
+							if (this._usedToastWindowLocations == 1)
+							{
+								// play sound only for first toast window
+								if (theWindow is NewsItemToastNotify)
+									Win32.PlaySound(Resource.ApplicationSound.NewItemsReceived);
+								else if (theWindow is EnclosureToastNotify)
+									Win32.PlaySound(Resource.ApplicationSound.NewAttachmentDownloaded);
 							}
+			
+							//_openWindowsCount++;
+							theWindow.Animate();
+							// will be auto-disposed...
+						} 
+						else 
+						{	// detach event and mark window location as free:
+							this.OnToastAnimatingDone(theWindow, EventArgs.Empty);
+							// not displayed, so dispose manually:
+							theWindow.Close();
+							theWindow.Dispose();
 						}
-					} catch {/* catch all */ }
+					} catch(Exception e) {
+						_log.Fatal("ToastNotify.Alert() caused an error", e); 
+					}
 				}
-			}
+			//}
 		}
 		
 		
@@ -102,18 +134,35 @@ namespace RssBandit.WinGui
 
 		#region private members
 		
-		private ToastNotify GetToastWindow() {
+		private ToastNotify GetToastWindow(object toastObject) {
 			
 			ToastNotify tn = null;
-			int windowIndex = 0;
+			int windowIndex = GetFreeToastWindowOffset();
+			if (windowIndex < 0)
+				return null;
+
+//			int windowIndex = 0;
+//			bool newsItemToastRequired = (toastObject is NewsItem);
 			
-			foreach(ToastNotify tnCurrent in _toastWindows) {                    
-				if (!tnCurrent.Disposing && !tnCurrent.Animating) {
-					tn = tnCurrent;
-					break;
-				}
-				windowIndex++;
-			}
+			//foreach(ToastNotify tnCurrent in _toastWindows) 
+			//{
+			//    if (!tnCurrent.Disposing && !tnCurrent.Animating) {
+			//        if(tnCurrent is NewsItemToastNotify) {
+			//            if (newsItemToastRequired) {
+			//                tn = tnCurrent;
+			//                break;
+			//            }
+			//        }
+			//        if(tnCurrent is EnclosureToastNotify) {
+			//            if (!newsItemToastRequired) {
+			//                tn = tnCurrent;
+			//                break;
+			//            }
+			//        }
+			//    } else {
+			//        windowIndex++;
+			//    }
+			//}
 
 			// because we can display stacked toaster's, we have to re-calc the new position
 			// do it every time, maybe the display resolution was changed as we run the app
@@ -124,47 +173,101 @@ namespace RssBandit.WinGui
 				tn = null;	// do not display toast flooding screen area (all open/used)
 			} else {
 				if (tn == null) {
-					ToastNotify tnNew = new ToastNotify(_itemActivateCallback, _displayFeedPropertiesCallback, _feedActivateCallback);
+					ToastNotify tnNew = null; 
+					if(toastObject is NewsItem){
+						tnNew = new NewsItemToastNotify(_itemActivateCallback, _displayFeedPropertiesCallback, _feedActivateCallback);
+					}else {
+						tnNew = new EnclosureToastNotify(_enclosureActivateCallback,  _displayFeedPropertiesCallback, _feedActivateCallback);
+					}
+					tnNew.AutoDispose = true;
+					tnNew.Tag = windowIndex;
 					tnNew.AnimatingDone += new EventHandler(this.OnToastAnimatingDone);
-					_toastWindows.Add(tnNew);
+					//_toastWindows.Add(tnNew);
 					tn = tnNew;
 				}
-				tn.StartLocation = new Point(rPrimeScreen.Width - tn.Width - TOASTWINDOW_OFFSET, newX);
+				// We use now the Genghis-build-in stacking instead.
+				// But keep the calc to prevent flooting the screen.
+				//tn.StartLocation = new Point(rPrimeScreen.Width - tn.Width - TOASTWINDOW_OFFSET, newX);
 			}
+			
 			return tn;
 		}
 
-		private void CleanupForms() {
-			lock (_toastWindows) {
-				if (_toastWindows.Count > 0) {
-					foreach(ToastNotify f in _toastWindows) {                    
-						f.Close();                                                            
-						f.Dispose();
-					}
-				}
-				_toastWindows.Clear();
-			}
-		}
+		//private void CleanupForms() {
+		//    lock (_toastWindows) {
+		//        if (_toastWindows.Count > 0) 
+		//        {
+		//            // We do now set .AutoDispose to true, so it is
+		//            // enough to purge the references:
+
+		//            //foreach(ToastNotify f in _toastWindows) {
+		//            //    if (f.InvokeRequired) {
+		//            //        f.Invoke(new MethodInvoker(f.Close));
+		//            //        f.Invoke(new MethodInvoker(f.Dispose));
+		//            //    } else {
+		//            //        f.Close();
+		//            //        f.Dispose();
+		//            //    }
+		//            //}
+		//            _toastWindows.Clear();
+		//        }
+				
+		//    }
+		//}
 
 		private void OnToastAnimatingDone(object sender, EventArgs e) {
-			if (_openWindowsCount > 0) {
-				if (--_openWindowsCount == 0 && _disposing) {
-					this.CleanupForms();
-				}
+			ToastNotify n = sender as ToastNotify;
+			// detach event:
+			if (n != null) {
+				n.AnimatingDone -= new EventHandler(this.OnToastAnimatingDone);
+				MarkToastWindowOffsetFree((int)n.Tag);
 			}
+			//if (_openWindowsCount > 0) {
+			//    if (--_openWindowsCount == 0 && _disposing) {
+			//        this.CleanupForms();
+			//    }
+			//}
 		}
 
+		/// <summary>
+		/// Gets the free toast window offset and mark it as in-use.
+		/// </summary>
+		/// <returns></returns>
+		private int GetFreeToastWindowOffset() {
+			int max = (Screen.PrimaryScreen.WorkingArea.Height - TOASTWINDOW_OFFSET) / TOASTWINDOW_HEIGHT;
+			lock (this.SyncRoot) {
+				for (int i = 0; i < max; i++)
+					if (0 == (this._usedToastWindowLocations & (1 << i))) {
+						this._usedToastWindowLocations |= (1 << i);
+						return i;
+					}
+			}
+			// nothing free:
+			return -1;
+		}
+
+		/// <summary>
+		/// Marks the toast window offset free (to be re-used by a new window).
+		/// </summary>
+		/// <param name="index">The index.</param>
+		private void MarkToastWindowOffsetFree(int index)
+		{
+			lock (this.SyncRoot)
+			{
+				this._usedToastWindowLocations &= ~(1 << index);
+			}
+		}
 		#endregion
 
 		#region IDisposable Members
 
 		public void Dispose() {
 			_disposing = true;
-			lock (_toastWindows) {
-				foreach(ToastNotify f in _toastWindows) {                    
-					f.RequestClose();
-				}
-			}
+			//lock (_toastWindows) {
+			//    foreach(ToastNotify f in _toastWindows) {                    
+			//        f.RequestClose();
+			//    }
+			//}
 		}
 
 		#endregion

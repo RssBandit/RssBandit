@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace DiffPatchResources {
 	
@@ -16,6 +15,7 @@ namespace DiffPatchResources {
 		private bool verbose = false;
 		private int nodesAppended = 0;
 		private int nodesChanged = 0;
+		private int nodesRemoved = 0;
 		private XmlDocument s = null;
 
 		public DiffPatchTaskTextResource() {
@@ -91,7 +91,9 @@ namespace DiffPatchResources {
 		int IDiffPatchTask.NodesAppended {
 			get { return this.nodesAppended; }
 		}
-
+		int IDiffPatchTask.NodesRemoved {
+			get { return this.nodesRemoved; }
+		}
 		#endregion
 
 	}
@@ -106,12 +108,14 @@ namespace DiffPatchResources {
 		private bool verbose = false;
 		private int nodesAppended = 0;
 		private int nodesChanged = 0;
+		private int nodesRemoved = 0;
 		private XmlDocument s;
 		private Hashtable controlTypes;
 
 		public DiffPatchTaskFormResource() {
 			nodesAppended = 0;
 			nodesChanged = 0;
+			nodesRemoved = 0;
 			s = null;
 		}
 
@@ -173,7 +177,9 @@ namespace DiffPatchResources {
 		int IDiffPatchTask.NodesAppended {
 			get { return this.nodesAppended; }
 		}
-
+		int IDiffPatchTask.NodesRemoved {
+			get { return this.nodesRemoved; }
+		}
 		#endregion
 
 		private bool NodeRequired(XmlNode node) {
@@ -189,8 +195,13 @@ namespace DiffPatchResources {
 
 			if (nameparts[1] == "Text")
 				return true;
-
+			
 			if (nameparts[1] == "ToolTip")
+				return true;
+
+			// secific to wizard control:
+			if (nameparts[1] == "Description" ||
+				nameparts[1].EndsWith("Text"))
 				return true;
 
 			string typeinfo = (string)this.controlTypes[nameparts[0]];

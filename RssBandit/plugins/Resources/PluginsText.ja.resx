@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
@@ -90,4 +90,16 @@
 	<data name="RES_DeliciousFormConfiguration">
 		<value>Del.icio.us プラグイン設定</value>
 	</data>
-</root>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>OneNote へ送る...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>OneNote プラグイン設定...</value>
+	</data>
+<data name="RES_MenuLiveWriterCaption">
+		<value>Blog This Using Windows Live Writer...</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>No registry setting for Windows Live Writer located. Please install Windows Live Writer from http://ideas.live.com to get this feature to work</value>
+	</data>
+	</root>

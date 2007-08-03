@@ -1,26 +1,28 @@
 #region CVS Version Header
 /*
- * $Id: AutoDiscoveredFeedsMenuHandler.cs,v 1.15 2005/05/08 17:03:07 t_rendelmann Exp $
+ * $Id: AutoDiscoveredFeedsMenuHandler.cs,v 1.34 2007/03/13 16:50:49 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:07 $
- * $Revision: 1.15 $
+ * Last modified at $Date: 2007/03/13 16:50:49 $
+ * $Revision: 1.34 $
  */
 #endregion
 
 using System;
 using System.Collections;
-using System.Drawing;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
+using Infragistics.Win;
+using Infragistics.Win.UltraWinToolbars;
 using NewsComponents.Utils;
-using TD.SandBar;
-
+using RssBandit.Common.Logging;
 using RssBandit.WinGui.Tools;
-using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 using RssBandit.WinGui.Interfaces;
+using RssBandit.WinGui.Forms;
 
 using NewsComponents.Threading;
+using Appearance=Infragistics.Win.Appearance;
 
 namespace RssBandit.WinGui
 {
@@ -28,43 +30,43 @@ namespace RssBandit.WinGui
 	/// AutoDiscoveredFeedsMenuHandler manages the menu/tool dropdown list of 
 	/// autodiscovered feeds for available HTML content.
 	/// </summary>
-	/// <remarks>Not jet finished!</remarks>
 	public class AutoDiscoveredFeedsMenuHandler
 	{
+		/// <summary>
+		/// Callback delegate used when adding an auto discovered feed to the toolbar
+		/// </summary>
+		public delegate void AddAutoDiscoveredFeedCallback(DiscoveredFeedsInfo info);
+		
 
 		#region private variables
-		private delegate void AsyncDiscoverFeedInContentCallback(string htmlContent, string pageUrl, string pageTitle);
+		//private delegate void AsyncDiscoverFeedInContentCallback(string htmlContent, string pageUrl, string pageTitle);
 		private RssBanditApplication app = null;
-		private CommandMediator mediator = null;
-		private AppToolMenuCommand itemContainer = null;
-		private AppMenuCommand clearList = null;
+		internal CommandMediator mediator = null;
+		
+		internal AppPopupMenuCommand itemDropdown = null;
+		private AppButtonToolCommand clearListButton = null;
+		private Infragistics.Win.Appearance[] discoveredAppearance;
+		
+		internal Hashtable discoveredFeeds = null;
+		internal Queue newDiscoveredFeeds = null;
+		
 		private Hashtable discoveredItems = null;
 		private Queue newItems = null;
 		private PriorityThread worker;
 		private int workerPriorityCounter = 0;
+		internal static long cmdKeyPostfix = 0;
 		#endregion
 
 		#region ctor's
 		private AutoDiscoveredFeedsMenuHandler() {
 			worker = new PriorityThread();
+			//TODO:remove
 			newItems = new Queue(1);
 			discoveredItems = new Hashtable(11);
+			//end
+			newDiscoveredFeeds = new Queue(1);
+			discoveredFeeds = new Hashtable(9);
 			mediator = new CommandMediator();
-
-			itemContainer= new AppToolMenuCommand("cmdDiscoveredFeedsDropDown", mediator, 
-				new ExecuteCommandHandler(this.OnItemContainerClick),
-				Resource.Manager["RES_MenuAutodiscoveredFeedsDropdownCaption"], 
-				Resource.Manager["RES_MenuAutodiscoveredFeedsDropdownDesc"]);
-
-			itemContainer.BeginGroup = true;
-
-			clearList = new AppMenuCommand("cmdDiscoveredFeedsListClear", mediator, 
-				new ExecuteCommandHandler(this.OnClearFeedsList), 
-				Resource.Manager["RES_MenuClearAutodiscoveredFeedsListCaption"], 
-				Resource.Manager["RES_MenuClearAutodiscoveredFeedsListDesc"]);
-
-			itemContainer.Items.AddRange(new TD.SandBar.MenuButtonItem[]{clearList});
-			itemContainer.Icon = Resource.Manager.LoadIcon("Resources.RssDiscovered0.ico", new Size(16,16));
 		}
 
 		internal AutoDiscoveredFeedsMenuHandler(RssBanditApplication app):this()
@@ -86,14 +88,44 @@ namespace RssBandit.WinGui
 		/// </summary>
 		public event DiscoveredFeedsSubscribeCallback OnDiscoveredFeedsSubscribe;
 
-		/// <summary>
-		/// Gets the AppToolMenuCommand control to be inserted into the ToolMenuItems
-		/// collection of the caller.
-		/// </summary>
-		public AppToolMenuCommand Control {
-			get { return itemContainer; }
-		}
+		internal void SetControls (AppPopupMenuCommand dropDown, AppButtonToolCommand clearList) 
+		{
+			this.itemDropdown = dropDown; 
+			this.clearListButton = clearList;
+			this.discoveredAppearance = new Appearance[4];
+			
+			// index 0 and 1: non-discovered small (0) and large (1)
+			this.discoveredAppearance[0] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[0].Image = Resource.LoadBitmap("Resources.no.feed.discovered.16.png");
+			this.discoveredAppearance[1] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[1].Image = Resource.LoadBitmap("Resources.no.feed.discovered.32.png");
+			
+			// index 2 and 3: discovered small (2) and large (3)
+			this.discoveredAppearance[2] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[2].Image = Resource.LoadBitmap("Resources.feed.discovered.16.png");
+			this.discoveredAppearance[3] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[3].Image = Resource.LoadBitmap("Resources.feed.discovered.32.png");
+			
+			// init:
+			Reset();
+			this.itemDropdown.ToolbarsManager.ToolClick -= new ToolClickEventHandler(OnToolbarsManager_ToolClick);
+			this.itemDropdown.ToolbarsManager.ToolClick += new ToolClickEventHandler(OnToolbarsManager_ToolClick);
 
+		}
+		
+		/// <summary>
+		/// Resets the control. Should get called after Toolbar.LoadFromXml(), 
+		/// because the items maintained dynamically.
+		/// </summary>
+		internal void Reset() {
+			this.itemDropdown.Tools.Clear();
+			this.itemDropdown.Tools.Add(this.clearListButton);
+			this.itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
+			// init to non-dicovered:
+			this.itemDropdown.SharedProps.AppearancesSmall.Appearance = discoveredAppearance[0];
+			this.itemDropdown.SharedProps.AppearancesLarge.Appearance = discoveredAppearance[1];
+		}
+		
 		/// <summary>
 		/// Discover feeds in the provided content.
 		/// </summary>
@@ -119,46 +151,68 @@ namespace RssBandit.WinGui
 		public void Add(DiscoveredFeedsInfo info) {
 			if (info == null)
 				return;
-
 			// detect duplicates:
-			TD.SandBar.MenuButtonItem foundItem = FindInfoMenuItem(info);
+			AppButtonToolCommand duplicateItem = FindYetDiscoveredFeedMenuItem(info);
 
-			if (foundItem != null) {	
+			if (duplicateItem != null) {	
 
 				// update title:
-				foundItem.Text = StringHelper.ShortenByEllipsis(info.Title, 40);
+				duplicateItem.SharedProps.Caption = StripAndShorten(info.Title);
 
-				lock(discoveredItems) {	// we will refresh the existing info item to the new one
-					discoveredItems.Remove(foundItem);
+				lock(discoveredFeeds) {	// we will refresh the existing info item to the new one
+					discoveredFeeds.Remove(duplicateItem);
 				}
 
 			} else {
 				// new entry:
-				foundItem = new AppMenuCommand("cmdDiscoveredFeed"+info.SiteBaseUrl, mediator, 
-					new ExecuteCommandHandler(this.OnItemClick), 
-					StringHelper.ShortenByEllipsis(info.Title, 40), (string)info.FeedLinks[0]);
-					
+				WinGuiMain guiMain = (WinGuiMain)app.MainForm; 
+
+				if(guiMain.InvokeRequired){
+					guiMain.BeginInvoke(new AddAutoDiscoveredFeedCallback(guiMain.AddAutoDiscoveredUrl), new object[]{info}); 
+				}else{
+					guiMain.AddAutoDiscoveredUrl(info); 
+				}
+
+				/* 
+				duplicateItem = new AppButtonToolCommand(String.Concat("cmdDiscoveredFeed_", ++cmdKeyPostfix), mediator, 
+					new ExecuteCommandHandler(this.OnDiscoveredItemClick), 
+					StripAndShorten(info.Title), (string)info.FeedLinks[0]);
+				if (this.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
+					this.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
+				this.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
+				duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
+				duplicateItem.SharedProps.ShowInCustomizer = false;
+				Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+			
+				lock(discoveredFeeds) {	// add a fresh version of info
+					discoveredFeeds.Add(duplicateItem, info);
+				}
+			
+				lock(newDiscoveredFeeds) {// re-order to top of list, in RefreshItemContainer()
+					newDiscoveredFeeds.Enqueue(duplicateItem);
+				}
+			
+				*/
 			}
 
-			lock(discoveredItems) {	// add a fresh version of info
-				discoveredItems.Add(foundItem, info);
-			}
-			lock(newItems) {// re-order to top of list, in RefreshItemContainer()
-				newItems.Enqueue(foundItem);
-			}
-
-			RefreshItemContainer();
+			RefreshDiscoveredItemContainer();
+			
 		}
 		#endregion
 
 		#region private methods/properties
+		
+		internal string StripAndShorten(string s) {
+			return Utilities.StripMnemonics(StringHelper.ShortenByEllipsis(s, 40));
+		}
+		
 		/// <summary>
 		/// Thread entry point
 		/// </summary>
 		/// <param name="state"></param>
 		private void ThreadRun(object state) {
 			CallbackState cbs = (CallbackState)state;
-			this.AsyncDiscoverFeedInContent(cbs.HtmlContent, cbs.PageUrl, cbs.PageTitle);
+			this.AsyncDiscoverFeedsInContent(cbs.HtmlContent, cbs.PageUrl, cbs.PageTitle);
 		}
 
 		/// <summary>
@@ -167,18 +221,18 @@ namespace RssBandit.WinGui
 		/// <param name="htmlContent"></param>
 		/// <param name="pageUrl"></param>
 		/// <param name="pageTitle"></param>
-		private void AsyncDiscoverFeedInContent(string htmlContent, string pageUrl, string pageTitle) {
+		private void AsyncDiscoverFeedsInContent(string htmlContent, string pageUrl, string pageTitle) {
 
 			if (StringHelper.EmptyOrNull( pageUrl) )
 				return;
 
 			string baseUrl = GetBaseUrlOf(pageUrl);
-			MenuButtonItem foundItem = null;
+			AppButtonToolCommand foundItem = null;
 			
-			lock(discoveredItems) {		// simple search for baseUrl, so we may prevent lookup of the content
-				foreach (MenuButtonItem item in discoveredItems.Keys) {
-					string url = ((DiscoveredFeedsInfo)discoveredItems[item]).SiteBaseUrl;
-					if (baseUrl == url) {
+			lock(discoveredFeeds) {		// simple search for baseUrl, so we may prevent lookup of the content
+				foreach (AppButtonToolCommand item in discoveredFeeds.Keys) {
+					string url = ((DiscoveredFeedsInfo)discoveredFeeds[item]).SiteBaseUrl;
+					if (0 == String.Compare(baseUrl, url, true)) {
 						foundItem = item;
 					}
 				}
@@ -186,16 +240,22 @@ namespace RssBandit.WinGui
 
 			if (foundItem != null) {	
 
-				foundItem.Text = StringHelper.ShortenByEllipsis(pageTitle, 40);
+				foundItem.SharedProps.Caption = StripAndShorten(pageTitle);
 				lock(newItems) { // enqueue for re-order to top of list
 					newItems.Enqueue(foundItem);
 				}
 
 			} else {
 
-				NewsComponents.Feed.RssLocater locator = new NewsComponents.Feed.RssLocater(Proxy);	//we did not really need the proxy. Content is allready loaded
+				NewsComponents.Feed.RssLocater locator = new NewsComponents.Feed.RssLocater(Proxy, RssBanditApplication.UserAgent);	//we did not really need the proxy. Content is allready loaded
 				ArrayList feeds = null;
 				try {
+					// You can use this to simplify debugging IEControl HTML output.
+					// That is slightly different than the HTML we would get from a direct request!
+					//					using(System.IO.StreamWriter writer = System.IO.File.CreateText(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "IEContent.htm"))) {
+					//						writer.Write(htmlContent);
+					//						writer.Flush();
+					//					}
 					feeds = locator.GetRssFeedsForUrlContent(pageUrl, htmlContent, false);	
 				} catch (Exception){
 					//catch up all, if it fails, it returns an empty list
@@ -213,10 +273,11 @@ namespace RssBandit.WinGui
 
 			}
 			
-			RefreshItemContainer();
+			RefreshDiscoveredItemContainer();
 
 		}
-
+		
+		
 		private string GetBaseUrlOf(string pageUrl) {
 			Uri uri = null;
 			try {
@@ -228,116 +289,124 @@ namespace RssBandit.WinGui
 			return leftPart.Substring(0, leftPart.LastIndexOf("/"));
 		}
 		
-		private void OnItemContainerClick(ICommand sender) {
-			itemContainer.Show();
+		
+		internal void CmdClearFeedsList(ICommand sender) {
+			this.itemDropdown.Tools.Clear();
+			this.discoveredFeeds.Clear();
+			this.itemDropdown.Tools.Add(clearListButton);
+			this.itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
+			RefreshDiscoveredItemContainer();
 		}
-
-		private void OnClearFeedsList(ICommand sender) {
-			itemContainer.Items.Clear();
-			discoveredItems.Clear();
-			itemContainer.Items.AddRange(new TD.SandBar.MenuButtonItem[]{clearList});
-			RefreshItemContainer();
-		}
-
-		private void OnItemClick(ICommand sender) {
-			TD.SandBar.MenuButtonItem foundItem = sender as TD.SandBar.MenuButtonItem;
-			DiscoveredFeedsInfo info = discoveredItems[foundItem] as DiscoveredFeedsInfo;
-			string baseUrl = info.SiteBaseUrl;
+		
+		
+		internal void OnDiscoveredItemClick(ICommand sender) {
+			AppButtonToolCommand itemClicked = sender as AppButtonToolCommand;
+			Debug.Assert(itemClicked != null);
+			DiscoveredFeedsInfo info = discoveredFeeds[itemClicked] as DiscoveredFeedsInfo;
+			Debug.Assert(info != null);
 			bool cancel = this.RaiseOnDiscoveredFeedsSubscribe(info);
 			if (! cancel) {
-				//remove entry
-				foreach (TD.SandBar.MenuButtonItem item in discoveredItems.Keys) {
-					item.BeginGroup = false;
+				
+				//remove divider
+				foreach (AppButtonToolCommand item in discoveredFeeds.Keys) {
+					if (item.InstanceProps != null)
+						item.InstanceProps.IsFirstInGroup = false;
 				}
 
-				discoveredItems.Remove(foundItem);
-				itemContainer.Items.Remove(foundItem);
-				if (itemContainer.Items.Count > 1)
-					itemContainer.Items[1].BeginGroup = true;
-				RefreshItemContainer();
-
+				//remove entry
+				discoveredFeeds.Remove(itemClicked);
+				itemDropdown.Tools.Remove(itemClicked);
+				if (itemDropdown.Tools.Count > 1)
+					itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
+				
+				RefreshDiscoveredItemContainer();
 			}
 		}
-
+		
+		
 		/// <summary>
-		/// Refresh the item container. It sync. automatically with the main UI thread,
-		/// if required.
+		/// Refresh the discovered feeds menu item container. It sync. automatically with the 
+		/// main UI thread, if required.
 		/// </summary>
-		private void RefreshItemContainer() {
+		private void RefreshDiscoveredItemContainer() {
 			
 			if (app == null || app.MainForm == null || app.MainForm.Disposing)
 				return;
 
 			if (app.MainForm.InvokeRequired) {	// snyc. wih main UI thread:
-				app.MainForm.Invoke(new MethodInvoker(this.RefreshItemContainer));
+				app.MainForm.BeginInvoke(new MethodInvoker(this.RefreshDiscoveredItemContainer));
 				return;
 			}
 
-			MenuButtonItem item = null;
-			while (newItems.Count > 0) {
-				lock(newItems) {
-					item = (MenuButtonItem)newItems.Dequeue();
+			AppButtonToolCommand item = null;
+			while (newDiscoveredFeeds.Count > 0) {
+				lock(newDiscoveredFeeds) {
+					item = (AppButtonToolCommand)newDiscoveredFeeds.Dequeue();
 				}
-				lock(itemContainer.Items) {
-					if (itemContainer.Items.Contains(item))
-						itemContainer.Items.Remove(item);
-					itemContainer.Items.Insert(1, item);
+				lock(itemDropdown.Tools) {
+					if (itemDropdown.Tools.Contains(item))
+						itemDropdown.Tools.Remove(item);
+					itemDropdown.Tools.Insert(1, item);
 				}
 
 			}
 
-			lock(itemContainer.Items) {
-				foreach (MenuButtonItem m in itemContainer.Items) {
-					m.BeginGroup = false;
+			lock(itemDropdown.Tools) {
+				foreach (AppButtonToolCommand m in itemDropdown.Tools) {
+					if (m.InstanceProps != null)
+						m.InstanceProps.IsFirstInGroup = false;
 				}
 			}
 
-			if (itemContainer.Items.Count > 1)
-				itemContainer.Items[1].BeginGroup = true;
+			lock(itemDropdown.Tools) {
+				if (itemDropdown.Tools.Count > 1)
+					itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
 
-			// refresh icon info:
-			int cnt = itemContainer.Items.Count;
-			if (cnt == 1) {
-				itemContainer.Icon = Resource.Manager.LoadIcon("Resources.RssDiscovered0.ico", new Size(16,16));
-				//itemContainer.Enabled = false;
-			} else if (cnt > 1 && cnt < 11) {
-				cnt--;
-				itemContainer.Icon = Resource.Manager.LoadIcon("Resources.RssDiscovered"+cnt.ToString()+".ico", new Size(16,16));
-				if (!itemContainer.Enabled)
-					itemContainer.Enabled = true;
-			} else if (cnt >= 11) {
-				itemContainer.Icon = Resource.Manager.LoadIcon("Resources.RssDiscoveredXX.ico", new Size(16,16));
-				if (!itemContainer.Enabled)
-					itemContainer.Enabled = true;
-			} else {
-				System.Diagnostics.Debug.Assert(cnt > 0, "invalid subitems count");
+				// refresh appearances/images:
+				int cnt = itemDropdown.Tools.Count;
+				if (cnt <= 1) {
+					itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[0];
+					itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[1];
+				} else {
+					itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[2];
+					itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[3];
+					if (!itemDropdown.Enabled)
+						itemDropdown.Enabled = true;
+				}
 			}
 		}
-
+		
+		private void OnToolbarsManager_ToolClick(object sender, ToolClickEventArgs e) {
+			this.mediator.Execute(e.Tool.Key);
+		}
+		
 		private bool RaiseOnDiscoveredFeedsSubscribe(DiscoveredFeedsInfo feedInfo) {
 			bool cancel = false;
-			if (OnDiscoveredFeedsSubscribe != null) {
+			if (OnDiscoveredFeedsSubscribe != null) try {
 				DiscoveredFeedsSubscribeCancelEventArgs ea = new DiscoveredFeedsSubscribeCancelEventArgs(feedInfo, cancel);
-				OnDiscoveredFeedsSubscribe(itemContainer, ea);
+				OnDiscoveredFeedsSubscribe(this, ea);
 				cancel = ea.Cancel;
+			} catch (Exception ex) {
+				Log.Error("OnDiscoveredFeedsSubscribe() event causes an exception", ex);
 			}
 			return cancel;
 		}
 
-		private TD.SandBar.MenuButtonItem FindInfoMenuItem(DiscoveredFeedsInfo info) {
+		
+		private AppButtonToolCommand FindYetDiscoveredFeedMenuItem(DiscoveredFeedsInfo info) {
 			if (info == null)
 				return null;
 
-			TD.SandBar.MenuButtonItem foundItem = null;
+			AppButtonToolCommand foundItem = null;
 			
 			lock(discoveredItems) {
-				foreach (TD.SandBar.MenuButtonItem item in discoveredItems.Keys) {
+				foreach (AppButtonToolCommand item in discoveredFeeds.Keys) {
 					if (null == foundItem) {
-						string url = ((DiscoveredFeedsInfo)discoveredItems[item]).SiteBaseUrl;
-						if (url == info.SiteBaseUrl) {
+						DiscoveredFeedsInfo itemInfo = (DiscoveredFeedsInfo) discoveredFeeds[item];
+						if (0 == String.Compare(itemInfo.SiteBaseUrl, info.SiteBaseUrl, true)) {
 							foundItem = item;
 						} else {
-							ArrayList knownFeeds = ((DiscoveredFeedsInfo)discoveredItems[item]).FeedLinks;
+							ArrayList knownFeeds = itemInfo.FeedLinks;
 							foreach (string feedLink in knownFeeds) {
 								if (info.FeedLinks.Contains(feedLink)) {
 									foundItem = item;
@@ -350,7 +419,7 @@ namespace RssBandit.WinGui
 			}
 			return foundItem;
 		}
-
+		
 		private ArrayList CheckAndRemoveSubscribedFeeds(ArrayList feeds, string baseUrl) {
 			ArrayList ret = new ArrayList(feeds.Count);
 			Uri baseUri = null;
@@ -369,7 +438,7 @@ namespace RssBandit.WinGui
 						uri = new Uri(url);
 					}
 					if (!this.app.FeedHandler.FeedsTable.ContainsKey(uri)) {
-						ret.Add(uri.ToString());
+						ret.Add(uri.AbsoluteUri);
 					}
 				} catch (UriFormatException) { /* ignore invalid urls */ }
 			}
@@ -450,3 +519,27 @@ namespace RssBandit.WinGui
 	}
 	#endregion
 }
+
+#region CVS Version Log
+/*
+ * $Log: AutoDiscoveredFeedsMenuHandler.cs,v $
+ * Revision 1.34  2007/03/13 16:50:49  t_rendelmann
+ * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
+ *
+ * Revision 1.33  2007/03/11 16:17:33  t_rendelmann
+ * fixed: [ 1678119 ] Bandit sends out weird User Agent string (https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1678119&group_id=96589)
+ *
+ * Revision 1.32  2007/01/30 23:06:16  carnage4life
+ * Fixed threading issue with AutoDiscovered feeds handler that caused toolbar to be replaced with red X
+ *
+ * Revision 1.31  2007/01/21 12:54:09  t_rendelmann
+ * fixed: HtmlDecoding/Mnemonics issue caused by feed titles using "&" and the like in discovered feeds dropdown and subscription wizard; as a test Url you can use e.g.  http://www.codeplex.com/entlib/Release/ProjectReleases.aspx?ReleaseId=1649
+ *
+ * Revision 1.30  2007/01/16 19:40:03  t_rendelmann
+ * fixed: race condition caused exception
+ *
+ * Revision 1.29  2006/12/19 17:00:40  t_rendelmann
+ * added: CVS log sections
+ *
+ */
+#endregion

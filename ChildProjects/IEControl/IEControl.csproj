@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{F42F07F7-7CC9-4347-BF15-092A09BA0B31}"
     >
@@ -152,7 +152,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Interop\InternetFeatureSupport.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Interop\Interop.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interop\OSHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

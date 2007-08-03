@@ -1,22 +1,20 @@
 #region CVS Version Header
 /*
- * $Id: SearchEngineProperties.cs,v 1.8 2005/03/12 19:05:44 t_rendelmann Exp $
+ * $Id: SearchEngineProperties.cs,v 1.12 2007/02/20 18:15:25 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/12 19:05:44 $
- * $Revision: 1.8 $
+ * Last modified at $Date: 2007/02/20 18:15:25 $
+ * $Revision: 1.12 $
  */
 #endregion
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 using RssBandit.WebSearch;
+using RssBandit.Resources;
 
-namespace RssBandit.Dialogs
+namespace RssBandit.WinGui.Dialogs
 {
 	/// <summary>
 	/// Summary description for SearchEngineProperties.
@@ -48,9 +46,12 @@ namespace RssBandit.Dialogs
 		/// <summary>
 		/// Initializes the dialog to display WebSearchEngine properties.
 		/// </summary>
-		/// <param name="rssFeed">SearchEngine to display</param>
-		public SearchEngineProperties(SearchEngine engine):this() {
+		/// <param name="engine">SearchEngine to display</param>
+		public SearchEngineProperties(SearchEngine engine):this() 
+		{
 		
+			this._engine = engine;	// keep ref, if it yet exists 
+	
 			if (engine != null) {
 				this.textUrl.Text = engine.SearchLink;
 				this.textCaption.Text = engine.Title;
@@ -60,7 +61,6 @@ namespace RssBandit.Dialogs
 				this.checkBoxMergeRssResultset.Checked = engine.MergeRssResult;
 			}
 		
-			this._engine = engine;	// keep ref, if it yet exists 
 		}
 
 		public SearchEngineProperties()
@@ -575,6 +575,7 @@ namespace RssBandit.Dialogs
 			this.checkBoxMergeRssResultset.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxMergeRssResultset.TextAlign")));
 			this.toolTip1.SetToolTip(this.checkBoxMergeRssResultset, resources.GetString("checkBoxMergeRssResultset.ToolTip"));
 			this.checkBoxMergeRssResultset.Visible = ((bool)(resources.GetObject("checkBoxMergeRssResultset.Visible")));
+			this.checkBoxMergeRssResultset.CheckedChanged += new System.EventHandler(this.OnMergeRssResultsetCheckedChanged);
 			this.checkBoxMergeRssResultset.Validated += new System.EventHandler(this.OnWidgetValidated);
 			// 
 			// label6
@@ -675,18 +676,19 @@ namespace RssBandit.Dialogs
 				try {
 					bitmap = new Bitmap(this.openFileDialog1.OpenFile());
 				} catch (Exception ex) {
-					MessageBox.Show(this, Resource.Manager.FormatMessage("RES_ExceptionOpenFileMessage", this.openFileDialog1.FileName, ex.Message), 
-						Resource.Manager["RES_PreferencesExceptionMessageTitle"]);
+					MessageBox.Show(this, SR.ExceptionOpenFileMessage(this.openFileDialog1.FileName, ex.Message), 
+						SR.PreferencesExceptionMessageTitle);
 					return;
 				}
 				if (bitmap != null) {
 					if (bitmap.Height != 16 && bitmap.Width != 16) {
-						MessageBox.Show(this, Resource.Manager["RES_WrongImageSizeMessage"],
-							Resource.Manager["RES_PreferencesExceptionMessageTitle"]);
+						MessageBox.Show(this, SR.WrongImageSizeMessage,
+							SR.PreferencesExceptionMessageTitle);
 						return;
 					}
 					this.pictureEngine.Image = bitmap;
 					this.textPicture.Text = this.openFileDialog1.FileName;
+					OnWidgetValidated(this, EventArgs.Empty);
 				}
 			}
 		}
@@ -698,8 +700,13 @@ namespace RssBandit.Dialogs
 
 		private void OnResultsetIsRssCheckedChanged(object sender, System.EventArgs e) {
 			this.checkBoxMergeRssResultset.Enabled = this.checkBoxResultsetIsRssFeed.Checked;
+			OnWidgetValidated(this, EventArgs.Empty);
 		}
 
+		private void OnMergeRssResultsetCheckedChanged(object sender, System.EventArgs e) {
+			OnWidgetValidated(this, EventArgs.Empty);
+		}
+		
 		private void OnWidgetValidated(object sender, System.EventArgs e) {
 			if (_engine != null) {
 				bool anyChange = (
@@ -725,16 +732,14 @@ namespace RssBandit.Dialogs
 
 				textUrl.Text = textUrl.Text.Trim();
 				if (textUrl.Text.Length == 0) {
-					//TODO: for next release - provide new error string resources
-					errorProvider1.SetError(textUrl, "Provide a search url, please" /* Resource.Manager["Invalid"] */);
+					errorProvider1.SetError(textUrl, SR.SearchEnginePropertiesSearchUrlEmpty);
 					e.Cancel = true;
 				} else {
-					Uri searchUri = null;
 					try {
-						searchUri = new Uri(this.textUrl.Text);
-						if (this.textUrl.Text.IndexOf("{0}") < 0 && this.textUrl.Text.IndexOf("{0:") < 0) {
-							//TODO: for next release - provide new error string resources
-							errorProvider1.SetError(textUrl, "Missing the '{0}' parameter specification" /* Resource.Manager["Invalid"] */);
+						if (new Uri(this.textUrl.Text) != null && 
+							this.textUrl.Text.IndexOf("{0}") < 0 && 
+							this.textUrl.Text.IndexOf("{0:") < 0) {
+							errorProvider1.SetError(textUrl, SR.SearchEnginePropertiesSearchUrlMissingParam("{0}"));
 							e.Cancel = true;
 						}
 					} catch (UriFormatException) {
@@ -744,8 +749,7 @@ namespace RssBandit.Dialogs
 			} else if(sender == textCaption) {
 				textCaption.Text = textCaption.Text.Trim();
 				if (textCaption.Text.Length == 0) {
-					//TODO: for next release - provide new error string resources
-					errorProvider1.SetError(textCaption, "Provide a search caption, please" /* Resource.Manager["Invalid"] */);
+					errorProvider1.SetError(textCaption, SR.SearchEnginePropertiesSearchCaptionEmpty);
 					e.Cancel = true;
 				}
 				

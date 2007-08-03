@@ -1,12 +1,10 @@
 using System;
 using System.IO;
+using System.Security;
 using System.Xml.XPath;
 using Syndication.Extensibility;
 using System.Windows.Forms;
 using System.Text;
-using System.Text.RegularExpressions;
-using Microsoft.Win32;
-using System.Xml.Xsl;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
@@ -27,7 +25,29 @@ namespace BlogExtension.Delicious
 			string assemblyUri = this.GetType().Assembly.CodeBase;
 			string assemblyPath = new Uri(assemblyUri).LocalPath;
 			string assemblyDir = Path.GetDirectoryName(assemblyPath);
-			configFile = Path.Combine(assemblyDir, "delicious.xml");	
+			configFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RssBandit\delicious.xml");
+			
+			// This is a one-time operation used to move the users old 
+			// delicious file to the new location.
+			try
+			{
+				if(!File.Exists(configFile) && File.Exists(Path.Combine(assemblyDir, "delicious.xml")))
+				{
+					string oldConfigPath = Path.Combine(assemblyDir, "delicious.xml");
+					File.Copy(oldConfigPath, configFile, false);
+					
+					//This might throw an exception since the user is possibly an LUA.
+					File.Delete(oldConfigPath);
+				}
+			}
+			catch(IOException)
+			{
+				//Swallow this.
+			}
+			catch(SecurityException)
+			{
+				//Swallow this.
+			}
 		
 			//set up crypto provider for encrypting password in config file
 			cryptoProvider = new TripleDESCryptoServiceProvider();
@@ -121,7 +141,7 @@ namespace BlogExtension.Delicious
 			
 				}else{
 					configInfo = new delicious(); 
-					configInfo.apiurl = "http://del.icio.us/api/posts/add"; 
+					configInfo.apiurl = "https://api.del.icio.us/v1/posts/add"; 
 				}
 			}
 		}
@@ -163,7 +183,7 @@ namespace BlogExtension.Delicious
 				else {
 					try {
 						inBytes = Encoding.Unicode.GetBytes(str);
-						ret = cryptoProvider.CreateEncryptor().TransformFinalBlock(inBytes, 0, (int) inBytes.GetLength(0));
+						ret = cryptoProvider.CreateEncryptor().TransformFinalBlock(inBytes, 0, inBytes.GetLength(0));
 					}
 					catch (Exception e) {
 						MessageBox.Show("Exception in Encrypt: "+e.ToString(), "CryptHelper");
@@ -182,7 +202,7 @@ namespace BlogExtension.Delicious
 				ret = String.Empty;
 			else {
 				try {
-					tmp = cryptoProvider.CreateDecryptor().TransformFinalBlock(bytes, 0, (int) bytes.GetLength(0));
+					tmp = cryptoProvider.CreateDecryptor().TransformFinalBlock(bytes, 0, bytes.GetLength(0));
 					ret = Encoding.Unicode.GetString(tmp);
 				}
 				catch (Exception e) {

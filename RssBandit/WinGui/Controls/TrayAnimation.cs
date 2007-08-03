@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TrayAnimation.cs,v 1.14 2005/04/06 13:07:53 t_rendelmann Exp $
+ * $Id: TrayAnimation.cs,v 1.15 2005/11/29 09:16:41 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/06 13:07:53 $
- * $Revision: 1.14 $
+ * Last modified at $Date: 2005/11/29 09:16:41 $
+ * $Revision: 1.15 $
  */
 #endregion
 
@@ -783,8 +783,10 @@ namespace RssBandit.WinGui.Controls
 		private void AnimationThreadRun(object state) {
 			_aniStepTimer.Start();
 			if (!_aniStepTimer.Enabled) _aniStepTimer.Enabled = true;
-			while  (_aniStepTimer.Enabled == true)  
+			while  (_aniStepTimer.Enabled == true) { 
 				Application.DoEvents();
+				Thread.Sleep(15);
+			}
 		}
 
 		private void AnimationElapsed(object sender, System.Timers.ElapsedEventArgs e)

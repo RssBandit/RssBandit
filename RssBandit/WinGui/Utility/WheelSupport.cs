@@ -1,7 +1,10 @@
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Infragistics.Win.UltraWinTree;
+using RssBandit.WinGui.Controls;
 
 namespace RssBandit.WinGui.Utility
 {
@@ -27,21 +30,21 @@ namespace RssBandit.WinGui.Utility
 
 		private WheelSupport()	{}
 		/// <summary>
-		/// Call it before InitComponents() within the parent form.
-		/// It listens to the HandleCreated/Destroyed events!
+		/// Add support for wheel scrolling on non-focused UI widgets 
+		/// to the form f.
 		/// </summary>
 		/// <param name="f"></param>
 		public WheelSupport(Form f) {
 			this.parent = f;
-			this.parent.HandleCreated += new EventHandler(this.OnParentHandleCreated);
-			this.parent.HandleDestroyed += new EventHandler(this.OnParentHandleDestroyed);
+			this.parent.Activated += new EventHandler(this.OnParentActivated);
+			this.parent.Deactivate += new EventHandler(this.OnParentDeactivate);
 		}
 
-		private void OnParentHandleCreated(object sender, EventArgs e) {
+		private void OnParentActivated(object sender, EventArgs e) {
 			Application.AddMessageFilter(this);
 		}
 
-		private void OnParentHandleDestroyed(object sender, EventArgs e) {
+		private void OnParentDeactivate(object sender, EventArgs e) {
 			Application.RemoveMessageFilter(this);
 		}
 
@@ -51,6 +54,10 @@ namespace RssBandit.WinGui.Utility
 			// Listen for operating system messages
 			switch (m.Msg){
 				case WM_MOUSEWHEEL:
+					
+					// don't handle all (e.g. Ctrl-MouseWheel: zoom feature in IE)
+					if (Control.ModifierKeys != Keys.None)
+						return false;
 					
 					// get position (better debug support than calling Control.MousePosition in GetTopmostChild):
 					Point screenPoint = new Point(m.LParam.ToInt32());
@@ -67,6 +74,14 @@ namespace RssBandit.WinGui.Utility
 							return ScrollHtmlControl(child as IEControl.HtmlControl, m);
 						}
 
+						if (child is UltraTree) {
+							//HACK: because of no managed support, but works...
+							UltraTree tree = child as UltraTree;
+							// get the wheel delta:
+							int delta = SignedHIWORD(m.WParam);
+							return TreeHelper.InvokeDoVerticalScroll(tree, delta);
+						}
+
 						if (m.HWnd != child.Handle) {	// no recursion, please. Redirect message...
 							PostMessage(child.Handle, WM_MOUSEWHEEL, m.WParam, m.LParam);
 							return true;
@@ -79,6 +94,12 @@ namespace RssBandit.WinGui.Utility
 			return false;
 		}
 		
+		/// <summary>
+		/// Gets the topmost child.
+		/// </summary>
+		/// <param name="ctrl">The control to start.</param>
+		/// <param name="mousePosition">The mouse position.</param>
+		/// <returns>Control</returns>
 		public Control GetTopmostChild(Control ctrl, Point mousePosition) {
 			if (this.OnGetChildControl != null) {
 				Control childControl = this.OnGetChildControl(ctrl);
@@ -129,7 +150,14 @@ namespace RssBandit.WinGui.Utility
 			return true;	
 		}
 
-		#region Win32 interop
+		#region Win32 interop/helpers
+
+		public static int SignedHIWORD(int n) {
+			return (short) ((n >> 0x10) & 0xffff);
+		}
+		public static int SignedHIWORD(IntPtr n) {
+			return SignedHIWORD((int) ((long) n));
+		}
 
 		[DllImport("user32.dll")] private static extern
 			bool PostMessage( IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam );

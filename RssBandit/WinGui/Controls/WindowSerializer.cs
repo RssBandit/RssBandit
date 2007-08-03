@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: WindowSerializer.cs,v 1.1 2005/05/10 06:07:45 t_rendelmann Exp $
+ * $Id: WindowSerializer.cs,v 1.2 2007/02/07 15:23:05 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/10 06:07:45 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2007/02/07 15:23:05 $
+ * $Revision: 1.2 $
  */
 #endregion
 
@@ -19,7 +19,7 @@ namespace RssBandit.WinGui.Controls
 {
     /// <summary>
     /// A class to automatically serialize/deserialize the state of a form.
-    /// This is a modified class from the original sources at Genghis!
+    /// This is a MODIFIED class from the original sources at Genghis!
     /// We added a small fix for multiple srceen support and some convinient
     /// public properties to control what properties of a form should get serialized.
     /// </summary>
@@ -103,7 +103,7 @@ namespace RssBandit.WinGui.Controls
                 // the designer to automatically initialize this property
                 // to the form that is being designed (ie. the form that this
                 // component is dropped into).
-                if (form == null && this.DesignMode == true) {
+                if (form == null && this.DesignMode) {
                     IDesignerHost designerHost =
                         (IDesignerHost) this.GetService(typeof(IDesignerHost));
                     if (designerHost != null) {
@@ -293,7 +293,6 @@ namespace RssBandit.WinGui.Controls
                 SaveStateEvent(this, prefWriter);
 
             prefWriter.Close();
-			prefWriter.Flush();
         }
     }
 }

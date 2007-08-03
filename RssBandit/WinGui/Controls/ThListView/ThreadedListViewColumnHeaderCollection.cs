@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewColumnHeaderCollection.cs,v 1.8 2005/03/19 21:43:15 t_rendelmann Exp $
+ * $Id: ThreadedListViewColumnHeaderCollection.cs,v 1.10 2006/11/21 06:59:16 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/19 21:43:15 $
- * $Revision: 1.8 $
+ * Last modified at $Date: 2006/11/21 06:59:16 $
+ * $Revision: 1.10 $
  */
 #endregion
 
@@ -88,7 +88,11 @@ namespace System.Windows.Forms.ThListView
 			} 
 		} 
 
+#if CLR_20
+		public new ThreadedListViewColumnHeader this[string columnID] {
+#else
 		public ThreadedListViewColumnHeader this[string columnID] { 
+#endif
 			get { 
 				if (columnID == null)
 					throw new ArgumentNullException("columnID");
@@ -154,7 +158,7 @@ namespace System.Windows.Forms.ThListView
 				return (int)base[key];
 			}
 			set {
-				base[key] = (int)value;
+				base[key] = value;
 			}
 		}
 
@@ -174,3 +178,15 @@ namespace System.Windows.Forms.ThListView
 	#endregion
 
 }
+
+#region CVS Version Log
+/*
+ * $Log: ThreadedListViewColumnHeaderCollection.cs,v $
+ * Revision 1.10  2006/11/21 06:59:16  t_rendelmann
+ * fixed: surrounded the small diffs between CLR 2.0 and CLR 1.1 with conditional compile defs.
+ *
+ * Revision 1.9  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ */
+#endregion

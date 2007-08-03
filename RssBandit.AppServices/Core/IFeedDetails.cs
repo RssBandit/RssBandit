@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IFeedDetails.cs,v 1.1 2005/05/08 17:03:39 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:39 $
- * $Revision: 1.1 $
+ * $Id: IFeedDetails.cs,v 1.2 2006/08/10 17:46:53 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/08/10 17:46:53 $
+ * $Revision: 1.2 $
  */
 #endregion
 
@@ -17,6 +17,8 @@ namespace NewsComponents
 	/// </summary>
 	public interface IFeedDetails: ICloneable{
 		
+		/// <summary>Gets the Feed Language</summary>
+		string Language{ get; } 		
 		/// <summary>Gets the Feed Title</summary>
 		string Title{ get; } 
 		/// <summary>Gets the Feed Homepage Link</summary>

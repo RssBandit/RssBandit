@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RequestState.cs,v 1.2 2005/01/28 14:09:37 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/28 14:09:37 $
- * $Revision: 1.2 $
+ * $Id: RequestState.cs,v 1.4 2006/12/19 04:39:52 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/12/19 04:39:52 $
+ * $Revision: 1.4 $
  */
 #endregion
 
@@ -22,9 +22,11 @@ namespace NewsComponents.Net
 		public event RequestStartCallback WebRequestStarted;
 		public event RequestCompleteCallback WebRequestCompleted;
 		public event RequestExceptionCallback WebRequestException;
+		public event RequestProgressCallback WebRequestProgress; 
 
-		public RequestState()
+		public RequestState(AsyncWebRequest asyncWebRequest)
 		{
+			this.myAsyncWebRequest = asyncWebRequest;
 			this.Request = null;
 			this.ResponseStream = null;
 			this.RetryCount = 0;
@@ -60,10 +62,10 @@ namespace NewsComponents.Net
 			this.OnRequestException(this.RequestUri, e);
 		}
 		public void OnRequestException(Uri requestUri, Exception e) {
-			AsyncWebRequest.FinalizeWebRequest(this);
+			myAsyncWebRequest.FinalizeWebRequest(this);
 			try {
 				if (this.WebRequestException != null) {
-					this.WebRequestException(requestUri, e);
+					this.WebRequestException(requestUri, e, this.Priority);
 				}
 			} catch { /* ignore ex. thrown in callback */ }
  		}
@@ -79,12 +81,22 @@ namespace NewsComponents.Net
 			try {
 				if (WebRequestCompleted != null) {
 					if (this.movedPermanently)
-						WebRequestCompleted(requestUri, this.ResponseStream, newUri, eTag, lastModfied, result);
+						WebRequestCompleted(requestUri, this.ResponseStream, newUri, eTag, lastModfied, result, this.Priority);
 					else
-						WebRequestCompleted(requestUri, this.ResponseStream, null, eTag, lastModfied, result);
+						WebRequestCompleted(requestUri, this.ResponseStream, null, eTag, lastModfied, result, this.Priority);
 				}
 			} catch { /* ignore ex. thrown in callback */ }
 			
+		}
+
+		public void OnRequestProgress(Uri requestUri, long bytesTransferred){
+		
+			try{
+				if(WebRequestProgress != null){
+					WebRequestProgress(requestUri, bytesTransferred); 
+				}
+
+			} catch { /* ignore ex. thrown in callback */ }
 		}
 
 		public const int MAX_RETRIES = 25;	// how often we retry, if a url was a redirect (of a redirect of a redirect...)
@@ -106,6 +118,7 @@ namespace NewsComponents.Net
 
 		public RequestParameter RequestParams = null; 
 		public WebRequest Request;
+		public AsyncWebRequest myAsyncWebRequest = null; 
 		public WebResponse Response = null;
 		public Stream ResponseStream;
 		
@@ -113,6 +126,7 @@ namespace NewsComponents.Net
 		public DateTime StartTime = DateTime.Now;
 		public int Priority = 0;
 		public Uri InitialRequestUri = null;
+		public long bytesTransferred = 0;
 		
 		#region experimental code
 		//public System.Threading.AutoResetEvent allDone;

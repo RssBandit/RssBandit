@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssLocater.cs,v 1.13 2005/04/02 20:43:54 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/02 20:43:54 $
- * $Revision: 1.13 $
+ * $Id: RssLocater.cs,v 1.22 2007/08/02 13:36:11 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2007/08/02 13:36:11 $
+ * $Revision: 1.22 $
  */
 #endregion
 
@@ -17,13 +17,28 @@ using System.Net;
 using System.Text;
 
 using NewsComponents.Net;
+using NewsComponents.Utils;
 
 namespace NewsComponents.Feed {
 
-	public enum Syndic8SearchType{
-		Url, 
-		Keyword
+	/// <summary>
+	/// Feed Location Methods
+	/// </summary>
+	public enum FeedLocationMethod{
+		/// <summary>
+		/// RSS location algorithm described by Mark Pilgrim
+		/// </summary>
+		AutoDiscoverUrl, 
+		/// <summary>
+		/// Syndic8 service request
+		/// </summary>
+		Syndic8Search,
 	}
+
+	//TODO: Rework the class to create SimpleHyperLink objects
+	// instead of the simple url strings. 
+	// This will require to extend the regex's by also matching the
+	// link text, if appropriate.
 
 	/// <summary>
 	/// This class implements the RSS location algorithm described by Mark Pilgrim at 
@@ -34,11 +49,23 @@ namespace NewsComponents.Feed {
 		// logging/tracing:
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(RssLocater));
 
+		
+		private string userAgent = NewsHandler.DefaultUserAgent;
+		
+		private ICredentials credentials = null; 
+		/// <summary>
+		/// Gets or sets the credentials.
+		/// </summary>
+		/// <value>The credentials.</value>
+		public ICredentials Credentials{
+			set{ credentials = value;}
+			get { return credentials;}		
+		}
+		
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
 		/// </summary>
 		private IWebProxy proxy = GlobalProxySelection.GetEmptyWebProxy(); 
-	  
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
 		/// </summary>
@@ -62,7 +89,7 @@ namespace NewsComponents.Feed {
 		}
 
 		/// <summary>
-		/// Detect, if the url contains the 'feed:' protocol. If so, it just remove it
+		/// Detect, if the url contains the 'feed:' uri scheme. If so, it just remove it
 		/// to prepare a valid web url.
 		/// </summary>
 		/// <param name="webUrl">Url to mangle</param>
@@ -203,20 +230,32 @@ namespace NewsComponents.Feed {
 		/// <summary>
 		/// Creates a new <see cref="RssLocater"/> instance.
 		/// </summary>
-		public RssLocater(){;} 
+		private RssLocater(){;} 
 		
 		/// <summary>
 		/// Creates a new <see cref="RssLocater"/> instance.
 		/// </summary>
 		/// <param name="p">P.</param>
-		public RssLocater(IWebProxy p){
-			this.Proxy = p; 
+		public RssLocater(IWebProxy p, string userAgent):
+			this(p, userAgent, null) {
 		}
-	  
+		
+		/// <summary>
+		/// Creates a new <see cref="RssLocater"/> instance.
+		/// </summary>
+		/// <param name="p">WebProxy.</param>
+		/// <param name="userAgent">The user agent.</param>
+		/// <param name="credentials">The credentials.</param>
+		public RssLocater(IWebProxy p, string userAgent, ICredentials credentials){
+			this.Proxy = p; 
+			if (!StringHelper.EmptyOrNull(userAgent))
+				this.userAgent = userAgent;
+			this.Credentials = credentials;
+		}
 
 		private Stream GetWebPage(string url)
 		{
-			return AsyncWebRequest.GetSyncResponseStream(url, null, NewsHandler.GlobalUserAgentString, this.Proxy);			
+			return AsyncWebRequest.GetSyncResponseStream(url, this.Credentials, this.userAgent, this.Proxy);			
 		}
 	
 		/// <summary>
@@ -231,7 +270,7 @@ namespace NewsComponents.Feed {
 		{
 			ArrayList list = null;
 		
-			if(!url.ToLower().StartsWith("http://")){
+			if(!url.ToLower().StartsWith("http")){
 				url = "http://" + url; 
 			}
 
@@ -280,26 +319,31 @@ namespace NewsComponents.Feed {
 		/// <summary>
 		/// Gets the RSS feeds for URL.
 		/// </summary>
+		/// <param name="url">URL.</param>
+		/// <param name="throwExceptions">if set to <c>true</c> [throw exceptions].</param>
+		/// <returns></returns>
 		/// <remarks>
 		/// If the URL is not available or down, returns an empty ArrayList.
 		/// </remarks>
-		/// <param name="url">URL.</param>
-		/// <returns></returns>
-		public ArrayList GetRssFeedsForUrl(string url)
+		public ArrayList GetRssFeedsForUrl(string url, bool throwExceptions)
 		{
 			ArrayList list = null;
 		
-			if(!url.ToLower().StartsWith("http://")){
+			if(!url.ToLower().StartsWith("http")){
 				url = "http://" + url; 
 			}
 
 			try
 			{
+				if (LooksLikeRssFeed(url))
+					return new ArrayList(new string[]{url});
 				list = GetRssFeedsFromXml(GetHtmlContent(url), false, url);
 			}
 			catch(WebException)
 			{
 				list = new ArrayList();
+				if (throwExceptions)
+					throw;
 			}
 
 			return list; 
@@ -441,6 +485,14 @@ namespace NewsComponents.Feed {
 		}
 
 
+//		private ICollection MakeHyperLinkArrayFrom(string[] urls) {
+//			if (urls == null || urls.Length == 0)
+//				return new SimpleHyperLink[]{};
+//			SimpleHyperLink[] a = new SimpleHyperLink[urls.Length];
+//			for (int i=0; i<urls.Length; i++)
+//				a[i] = new SimpleHyperLink(urls[i]);
+//			return a;
+//		}
 
 		private  bool OnSameServer(string url1, string url2){
 	    
@@ -460,12 +512,16 @@ namespace NewsComponents.Feed {
 			try
 			{ 
 				Uri uri = new Uri(url); 
-				return uri.ToString(); 
+				return uri.AbsoluteUri; 
 			}
 			catch(UriFormatException)
 			{
-				Uri baseUri= new Uri(baseurl);
-				return (new Uri(baseUri,url).ToString()); 
+				try{
+					Uri baseUri= new Uri(baseurl);
+					return (new Uri(baseUri,url).AbsoluteUri); 
+				}catch(UriFormatException){ /* This is a last resort so we don't bork processing chain*/
+					return "http://www.example.com";
+				}
 				/* 
 					string fullurl = String.Empty; 
 
@@ -489,7 +545,7 @@ namespace NewsComponents.Feed {
 
 			try{ 
 	  
-				reader = new XmlTextReader(url);
+				reader = new XmlTextReader(this.GetWebPage(url));
 				reader.XmlResolver = null; 
 				reader.MoveToContent();
 
@@ -522,7 +578,7 @@ namespace NewsComponents.Feed {
 		
 			HttpWebRequest request = (HttpWebRequest) WebRequest.Create("http://www.syndic8.com/xmlrpc.php");
 			request.Timeout          = 1 * 60 * 1000; //one minute timeout 
-			request.Credentials = CredentialCache.DefaultCredentials;
+			request.Credentials = CredentialCache.DefaultCredentials; //???
 			request.UserAgent = NewsHandler.GlobalUserAgentString;
 			request.Method = "POST";
 			request.ContentType = "text/xml";
@@ -580,16 +636,16 @@ namespace NewsComponents.Feed {
 
 
 
-		public  Hashtable GetFeedsFromSyndic8(string searchTerm, Syndic8SearchType searchType){
+		public  Hashtable GetFeedsFromSyndic8(string searchTerm, FeedLocationMethod locationMethod){
 
 			string rpc_method_name = null; 
 		  
-			switch(searchType){
-				case Syndic8SearchType.Url:
+			switch(locationMethod){
+				case FeedLocationMethod.AutoDiscoverUrl:
 					rpc_method_name = "syndic8.FindSites";
 					break; 
 
-				case Syndic8SearchType.Keyword:
+				case FeedLocationMethod.Syndic8Search:
 					rpc_method_name = "syndic8.FindFeeds";
 					break; 
 
@@ -647,7 +703,7 @@ namespace NewsComponents.Feed {
 
 
 		public  ArrayList GetFeedsFromSyndic8(string url){
-			Hashtable ht = this.GetFeedsFromSyndic8(url, Syndic8SearchType.Url);
+			Hashtable ht = this.GetFeedsFromSyndic8(url, FeedLocationMethod.AutoDiscoverUrl);
 			return new ArrayList(ht.Keys); 
 		}
 
@@ -662,12 +718,12 @@ namespace NewsComponents.Feed {
 	  
 		#region Regex Patterns
 		const string feedExtensionsPattern = "(xml|rdf|rss)";
-		const string hrefRegexPattern = @"(\s+href\s*=\s*(?:""(?<href>.*?)""|'(?<href>.*?)'|(?<href>[^'"">\s]+)))";
-		const string hrefRegexFeedExtensionPattern = @"(\s+href\s*=\s*(?:""(?<href>.*?\." + feedExtensionsPattern + @")""|'(?<href>.*?\." + feedExtensionsPattern + @")'|(?<href>[^'"">\s]+\." + feedExtensionsPattern + ")))";
-		const string hrefRegexFeedUrlPattern = @"(\s+href\s*=\s*(?:""(?<href>.*?" + feedExtensionsPattern + @"[^""]+)""|'(?<href>.*?" + feedExtensionsPattern + @"[^']+)'|(?<href>[^'"">\s]*" + feedExtensionsPattern + @"[^'"">\s]+)))";
-		const string hrefFeedProtocolPattern = @"(\s+href\s*=\s*(?:""feed:(//)?(?<href>.*?)""|'feed:(//)?(?<href>.*?)'|feed:(//)?(?<href>[^'"">\s]+)))";
-		const string hrefListenersPattern = @"(\s+href\s*=\s*(?:""(?<href>http://(127.0.0.1|localhost):.*?)""|'(?<href>http://(127.0.0.1|localhost):.*?)'|(?<href>http://(127.0.0.1|localhost):[^'"">\s]+)))";
-		const string attributeRegexPattern = @"(\s+(?<attName>\w+)\s*=\s*(?:""(?<attVal>.*?)""|'(?<attVal>.*?)'|(?<attVal>[^'"">\s]+))?)";
+		const string hrefRegexPattern = @"(\s+href\s*=\s*(?:""(?<href>[^""]*?)""|'(?<href>[^']*?)'|(?<href>[^'""<>\s]+)))";
+		const string hrefRegexFeedExtensionPattern = @"(\s+href\s*=\s*(?:""(?<href>[^""]*?\." + feedExtensionsPattern + @")""|'(?<href>[^']*?\." + feedExtensionsPattern + @")'|(?<href>[^'""<>\s]+\." + feedExtensionsPattern + ")))";
+		const string hrefRegexFeedUrlPattern = @"(\s+href\s*=\s*(?:""(?<href>[^""]*?" + feedExtensionsPattern + @"[^""]+)""|'(?<href>[^']*?" + feedExtensionsPattern + @"[^']+)'|(?<href>[^'""<>\s]*" + feedExtensionsPattern + @"[^'""<>\s]+)))";
+		const string hrefFeedProtocolPattern = @"(\s+href\s*=\s*(?:""feed:(//)?(?<href>[^""]*?)""|'feed:(//)?(?<href>[^']*?)'|feed:(//)?(?<href>[^'""<>\s]+)))";
+		const string hrefListenersPattern = @"(\s+href\s*=\s*(?:""(?<href>http://(127.0.0.1|localhost):[^""]*?)""|'(?<href>http://(127.0.0.1|localhost):[^']*?)'|(?<href>http://(127.0.0.1|localhost):[^'""<>\s]+)))";
+		const string attributeRegexPattern = @"(\s+(?<attName>\w+)\s*=\s*(?:""(?<attVal>[^""]*?)""|'(?<attVal>[^']*?)'|(?<attVal>[^'""<>\s]+))?)";
 		const string autoDiscoverRegexPattern = "<link(" + attributeRegexPattern + @"+|\s*)" + hrefRegexPattern + "(" + attributeRegexPattern + @"+|\s*)\s*/?>";
 		#endregion	
 	}

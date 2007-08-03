@@ -1,21 +1,21 @@
 #region CVS Version Header
 /*
- * $Id: RssSearch.cs,v 1.7 2005/05/12 14:10:47 t_rendelmann Exp $
+ * $Id: RssSearch.cs,v 1.10 2007/01/16 15:31:27 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/12 14:10:47 $
- * $Revision: 1.7 $
+ * Last modified at $Date: 2007/01/16 15:31:27 $
+ * $Revision: 1.10 $
  */
 #endregion
 
 using System;
 using System.Collections;
-using NewsComponents.Feed;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Xml.XPath; 
 using System.Xml.Serialization;
-
-using FeedInfo = NewsComponents.Feed.FeedInfo; 
+using System.Xml.XPath;
+using NewsComponents.Feed;
 using NewsComponents.Search.BooleanSearch;
+using NewsComponents.Utils;
 
 namespace NewsComponents.Search
 {
@@ -68,9 +68,13 @@ namespace NewsComponents.Search
 		/// </summary>
 		Link = 8, 
 		/// <summary>
+		/// Search within an NewsItem author
+		/// </summary>
+		Author = 16, 
+		/// <summary>
 		/// Search within all (title and content and subject and link)
 		/// </summary>
-		All = Title | Content | Subject | Link
+		All = Title | Content | Subject | Link | Author
 	}
 	
 	/// <summary>
@@ -79,8 +83,8 @@ namespace NewsComponents.Search
 	public enum StringExpressionKind {
 		/// <summary>Simple text expression</summary>
 		Text,
-		/// <summary>Works like "SQL like" expression</summary>
-		LikeExpression,
+		/// <summary>Lucene search expression</summary>
+		LuceneExpression,
 		/// <summary>Regular text expression</summary>
 		RegularExpression,
 		/// <summary>XPath expression</summary>
@@ -95,7 +99,7 @@ namespace NewsComponents.Search
 		/// <summary>Dates of NewsItem's (Time is ignored) have to be older than the specified</summary>
 		OlderThan,
 		/// <summary>Dates of NewsItem's (Time is ignored) have to be newer than the specified</summary>
-		NewerThan
+		NewerThan,
 	}
 	/// <summary>
 	/// Defines, what other properties of an NewsItem should be considered in a search
@@ -105,6 +109,15 @@ namespace NewsComponents.Search
 		Unread,
 		/// <summary>Consider flag state on NewsItem's</summary>
 		Flagged
+	}
+
+	/// <summary>
+	/// Defines how to handle the NewsItem read state
+	/// </summary>
+	public enum ItemReadState {
+		Ignore,
+		BeenRead,
+		Unread,
 	}
 
 	/// <summary>
@@ -199,7 +212,7 @@ namespace NewsComponents.Search
 		/// This is a string version of the WhatRelativeToToday property because instances of 
 		/// System.TimeSpan cannot be serialized by the XmlSerializer. 
 		/// </summary>
-		[System.Xml.Serialization.XmlElementAttribute("WhatRelativeToToday")]
+		[XmlElement("WhatRelativeToToday")]
 		public string WhatRelativeToTodayString{
 			get { 
 				return WhatRelativeToToday.ToString(); 
@@ -212,7 +225,7 @@ namespace NewsComponents.Search
 		/// <summary>
 		/// TimeSpan specifies a relative date or time to compare an NewsItem published date/time to.
 		/// </summary>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public TimeSpan WhatRelativeToToday {
 			get {
 				return whatRelativeToToday; 
@@ -225,6 +238,11 @@ namespace NewsComponents.Search
 				}
 			}
 		}
+		
+		internal int WhatAsIntDateOnly {
+			get { return whatYearOnly; }
+		}
+		
 		/// <summary>
 		/// Defines, how the comparison works
 		/// </summary>
@@ -239,7 +257,7 @@ namespace NewsComponents.Search
 			}
 			set { 
 				what = value; 
-				whatYearOnly = what.Year *10000 + what.Month * 100 + what.Day; 
+				whatYearOnly = DateTimeExt.DateAsInteger(what); 
 				if (what > DateTime.MinValue)
 					whatRelativeToToday = TimeSpan.Zero;
 			}
@@ -289,7 +307,7 @@ namespace NewsComponents.Search
 		public override bool Match(NewsItem item) { 
 			if (this.WhatRelativeToToday.CompareTo(TimeSpan.Zero) == 0) {
 				// compare dates only
-				int itemDate = item.Date.Year *10000 + item.Date.Month * 100 + item.Date.Day;
+				int itemDate = DateTimeExt.DateAsInteger(item.Date);
 				switch(this.WhatKind){	// we don't consider the date as UTC!?
 					case DateExpressionKind.Equal:
 						return itemDate == whatYearOnly;
@@ -312,6 +330,91 @@ namespace NewsComponents.Search
 				}
 			}
 		
+		}  
+		/// <summary>
+		/// [Not yet implemented]
+		/// </summary>
+		/// <param name="feed"></param>
+		/// <returns></returns>
+		public override bool Match(FeedInfo feed) { 
+					
+			return false;
+		} 
+	}
+	
+	/// <summary>
+	/// Class impl. ISearchCriteria to compare item ages (or: dates)
+	/// </summary>
+	/// <remarks>Both <c>Bottom</c> and <c>Top</c> have to be
+	/// specified!</remarks>
+	[Serializable]
+	public class SearchCriteriaDateRange: ISearchCriteria {
+		
+		/// <summary>
+		/// Defines the minimum range value: Jan., 1. 1980
+		/// </summary>
+		public static readonly DateTime MinValue = new DateTime(1980, 1, 1);
+		
+		/// <summary>
+		///  Defines the lower Date of the range.
+		/// </summary>
+		public DateTime Bottom {
+			get { 
+				return lowDate; 
+			}
+			set { 
+				lowDate = value; 
+				lowDateOnly = DateTimeExt.DateAsInteger(lowDate); 
+			}
+		}
+		
+		private int lowDateOnly;	// store the pre-calced year only integer
+		private DateTime lowDate;
+
+		/// <summary>
+		///  Defines the upper Date of the range.
+		/// </summary>
+		public DateTime Top {
+			get { 
+				return highDate; 
+			}
+			set { 
+				highDate = value; 
+				highDateOnly = DateTimeExt.DateAsInteger(highDate); 
+			}
+		}
+		
+		private int highDateOnly;	// store the pre-calced year only integer
+		private DateTime highDate;
+		
+		/// <summary>
+		/// Default initializer
+		/// </summary>
+		public SearchCriteriaDateRange() {
+			this.Bottom = DateTime.MinValue;
+			this.Top = DateTime.Now;
+		}
+		
+		/// <summary>
+		/// Overloaded initializer
+		/// </summary>
+		/// <param name="bottom"></param>
+		/// <param name="top"></param>
+		public SearchCriteriaDateRange(DateTime bottom, DateTime top):this(){		
+			this.Bottom = bottom; 
+			this.Top = top;
+		}
+		
+		
+		/// <summary>
+		/// interface impl. ISearchCriteria
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public override bool Match(NewsItem item) { 
+			// compare dates only
+			int itemDate = DateTimeExt.DateAsInteger(item.Date);
+			return itemDate > lowDateOnly && itemDate < highDateOnly;
 		}  
 		/// <summary>
 		/// [Not yet implemented]
@@ -358,7 +461,7 @@ namespace NewsComponents.Search
 		/// <summary>
 		/// Impl. BooleanSearch.IDocument to use more complicated queries
 		/// </summary>
-		public class SearchRssDocument:BooleanSearch.IDocument 
+		public class SearchRssDocument:IDocument 
 		{
 			private NewsItem item;
 			private SearchStringElement Where;
@@ -448,18 +551,24 @@ namespace NewsComponents.Search
 			switch(WhatKind){
 									
 				case StringExpressionKind.Text: 
+					#region lucene
+//					IndexSearcher searcher = new IndexSearcher(@"C:\your\index\directory");
+//					Query q = QueryParser.Parse(What, LuceneSearch.IndexDocument.ItemContent, LuceneSearch.GetAnalyzer(CultureInfo.CurrentUICulture.Name));
+//					Hits hits = searcher.Search(q);
+					#endregion
+					
 					#region BRIAN ADD
 						// http://www.devx.com/dotnet/Article/20650/0/page/3
-						BooleanSearch.QueryBuilder builder = new BooleanSearch.QueryBuilder(What);
+						QueryBuilder builder = new QueryBuilder(What);
 						if (builder.Validate())
 						{
 							// Query is valid, so build a tree
-							BooleanSearch.QueryTree tree = builder.BuildTree();
+							QueryTree tree = builder.BuildTree();
 							// Build list of resources to index
-							BooleanSearch.IDocument[] docs = new BooleanSearch.IDocument[1];
+							IDocument[] docs = new IDocument[1];
 							docs[0]= new SearchRssDocument(item,Where);
 							// Retrieve matching documents
-							BooleanSearch.IDocument[] matches = tree.GetMatches(docs);
+							IDocument[] matches = tree.GetMatches(docs);
 							return matches.Length > 0;
 						}
 						else
@@ -500,7 +609,7 @@ namespace NewsComponents.Search
 
 				case StringExpressionKind.XPathExpression:
 
-					XPathDocument doc  = new XPathDocument(new System.IO.StringReader(item.ToString(NewsItemSerializationFormat.RssItem))); 
+					XPathDocument doc  = new XPathDocument(new StringReader(item.ToString(NewsItemSerializationFormat.RssItem))); 
 					XPathNavigator nav = doc.CreateNavigator(); 
 
 					if((bool)nav.Evaluate("boolean(" + What + ")")){
@@ -508,7 +617,10 @@ namespace NewsComponents.Search
 					}else{
 						return false; 
 					}
-			
+				
+				case StringExpressionKind.LuceneExpression:
+					return true;	// strings are yet handled
+					
 				default: 
 					return false; 
 			}

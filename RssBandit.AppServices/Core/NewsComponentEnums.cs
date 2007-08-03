@@ -17,7 +17,7 @@ namespace NewsComponents
 	/// <summary>
 	/// NewsItem description content types.
 	/// </summary>
-	public enum ContentType{
+	public enum ContentType{		
 		/// <summary>No content available</summary>
 		None,
 		/// <summary>Unknown or not supported</summary>

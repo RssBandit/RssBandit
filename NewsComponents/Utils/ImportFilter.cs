@@ -1,17 +1,15 @@
 #region CVS Version Header
 /*
- * $Id: ImportFilter.cs,v 1.4 2005/01/07 00:54:20 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/01/07 00:54:20 $
- * $Revision: 1.4 $
+ * $Id: ImportFilter.cs,v 1.5 2006/10/05 08:00:13 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2006/10/05 08:00:13 $
+ * $Revision: 1.5 $
  */
 #endregion
 
 using System;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Xml.XPath;
-using System.Resources;
 using System.IO;
 
 namespace NewsComponents.Utils {
@@ -119,7 +117,7 @@ namespace NewsComponents.Utils {
 		/// </summary>
 		public ImportFeedFormat Format
 		{
-			get{return (ImportFeedFormat)this._feedFormat;}
+			get{return this._feedFormat;}
 			set{this._feedFormat = value;}
 		}
 
@@ -137,7 +135,7 @@ namespace NewsComponents.Utils {
 			if(this._feedFormat == ImportFeedFormat.Unknown)
 				this._feedFormat = this.DetectFormat();
 			
-			switch((ImportFeedFormat)this._feedFormat)
+			switch(this._feedFormat)
 			{
 				case ImportFeedFormat.OPML:
 					_formatName = FILTER_FORMAT_OPML;
@@ -205,8 +203,8 @@ namespace NewsComponents.Utils {
 			#endregion
 			
 			// Bandit Feed detection
-			if((this._feedList.DocumentElement.NamespaceURI == "http://www.25hoursaday.com/2003/RSSBandit/feeds/")
-			   || (this._feedList.DocumentElement.NamespaceURI == "http://www.25hoursaday.com/2004/RSSBandit/feeds/")){
+			if((this._feedList.DocumentElement.NamespaceURI == NamespaceCore.Feeds_v2003)
+			   || (this._feedList.DocumentElement.NamespaceURI == NamespaceCore.Feeds_vCurrent)){
 				return ImportFeedFormat.Bandit;
 			}else if(this._feedList.DocumentElement.LocalName.Equals("opml")){// OPML Detection
 				return ImportFeedFormat.OPML;
@@ -227,3 +225,12 @@ namespace NewsComponents.Utils {
 
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: ImportFilter.cs,v $
+ * Revision 1.5  2006/10/05 08:00:13  t_rendelmann
+ * refactored: use string constants for our XML namespaces
+ *
+ */
+#endregion

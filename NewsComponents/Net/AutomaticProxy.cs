@@ -1,17 +1,15 @@
 #region CVS Version Header
 /*
- * $Id: AutomaticProxy.cs,v 1.5 2005/05/10 13:37:03 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/05/10 13:37:03 $
- * $Revision: 1.5 $
+ * $Id: AutomaticProxy.cs,v 1.8 2006/11/03 14:29:55 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2006/11/03 14:29:55 $
+ * $Revision: 1.8 $
  */
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Net;
-using System.Security.Policy;
 using System.Security.Principal;
 using System.Text;
 using System.Runtime.InteropServices;
@@ -26,16 +24,10 @@ namespace NewsComponents.Net
 	{
 
 		#region private variables
-		private static string[] probeUrls = new string[]{
-			"http://www.w3c.org/",	"http://www.google.com/",
-			"http://www.heise.de/", "http://www.nyi.com/",
-			"http://www.olm.net", "http://www.microsoft.com/"
-		};
-
 		private static bool canUseWinHTTP = false;
 
 		private DateTime lastIESettingsRefresh = DateTime.MaxValue;				// no refresh
-		private TimeSpan refreshIESettingsInterval = new TimeSpan(0, 20, 0);	// 20 minutes
+		private TimeSpan refreshIESettingsInterval = new TimeSpan(0, 4, 0);	// interval: 15 minutes
 
 		private bool autodiscovery = false;
 		private Uri configScriptUri = null;
@@ -75,6 +67,15 @@ namespace NewsComponents.Net
 
 		#region IWebProxy Members
 
+		/// <summary>
+		/// Returns the URI of a proxy.
+		/// </summary>
+		/// <param name="destination">A <see cref="T:System.Uri"/> specifying the requested Internet resource.</param>
+		/// <returns>
+		/// A <see cref="T:System.Uri"/>
+		/// containing the URI of the proxy used to contact
+		/// <paramref name="destination"/>.
+		/// </returns>
 		public Uri GetProxy(Uri destination) {
 			
 			CheckAndRefreshInfos();
@@ -85,9 +86,13 @@ namespace NewsComponents.Net
 			if (false == autodiscovery && configScriptUri == null) 
 				return webProxy.GetProxy(destination);
 
-			return GetProxyForUrl(destination);
+			return GetAutoProxyForUrl(destination);
 		}
 
+		/// <summary>
+		/// The credentials to submit to the proxy server for authentication.
+		/// </summary>
+		/// <value></value>
 		public ICredentials Credentials {
 			get {
 				return webProxy.Credentials;
@@ -97,13 +102,23 @@ namespace NewsComponents.Net
 			}
 		}
 
-		 public bool IsBypassed(Uri host) {
+		/// <summary>
+		/// Indicates that the proxy should not be used for the specified host.
+		/// </summary>
+		/// <param name="host">The <see cref="T:System.Uri"/> of the host to check for proxy use.</param>
+		/// <returns>
+		/// 	<see langword="true "/>if the proxy server should not be used for <paramref name="host"/>;
+		/// otherwise, <see langword="false"/>.
+		/// </returns>
+		public bool IsBypassed(Uri host) {
 			 
 			 CheckAndRefreshInfos();
 
-			 bool bp = webProxy.IsBypassed(host);
+			 if (false == autodiscovery && configScriptUri == null) 
+				 return webProxy.IsBypassed(host);
+			 
 			 // when return true, we will not be ask for the Uri via GetProxy(destination):
-			 return bp;
+			 return false;
 		}
 
 		#endregion
@@ -173,28 +188,28 @@ namespace NewsComponents.Net
 				if (Interop.WinHttpGetIEProxyConfigForCurrentUser(ref config)){
 					
 					bool autodetect = config.fAutoDetect;
-					string scriptUrl = null, proxyUrl = null, byPass = null;
+					string scriptUrl = null;
 					
 					if (config.lpszAutoConfigUrl != IntPtr.Zero) {
 						scriptUrl = Marshal.PtrToStringUni(config.lpszAutoConfigUrl);
 						Marshal.FreeHGlobal(config.lpszAutoConfigUrl);
 					}
 					if (config.lpszProxy != IntPtr.Zero) {	// this we should already have (for debug only here)
-						proxyUrl = Marshal.PtrToStringUni(config.lpszProxy);
+						string proxyUrl = Marshal.PtrToStringUni(config.lpszProxy);
 						Marshal.FreeHGlobal(config.lpszProxy);
 					}
 					if (config.lpszProxyBypass != IntPtr.Zero) {	// this we should already have (for debug only here)
-						byPass = Marshal.PtrToStringUni(config.lpszProxyBypass);
+						string byPass = Marshal.PtrToStringUni(config.lpszProxyBypass);
 						Marshal.FreeHGlobal(config.lpszProxyBypass);
 					}
 
-					Uri scriptUri = (scriptUrl == null ? null : new Uri(scriptUrl));
-
+					Uri scriptUri = CreateProxyUri(scriptUrl);
 
 					autoProxy = new AutomaticProxy(autodetect, scriptUri, ieProxy);
 					autoProxy.lastIESettingsRefresh = DateTime.Now;
 
 				} else {
+
 					int failureCode = Marshal.GetLastWin32Error();
 					if (failureCode == Interop.ERROR_FILE_NOT_FOUND)
 						_log.Error("WinHttpGetIEProxyConfigForCurrentUser() failed: Cannot find IE settings.");
@@ -227,12 +242,16 @@ namespace NewsComponents.Net
 		private static bool CheckPlatform()
 		{
 			try{
-				return Interop.WinHttpCheckPlatform()	;
+				return Interop.WinHttpCheckPlatform();
 			} catch{
 				return false;
 			}
 		}
 
+		/// <summary>
+		/// Because we cannot "listen" to registry key changes for now,
+		/// we poll in regular intervals for IE proxy config changes.
+		/// </summary>
 		private void CheckAndRefreshInfos(){
 			
 			if (lastIESettingsRefresh != DateTime.MaxValue) {	
@@ -256,7 +275,7 @@ namespace NewsComponents.Net
 
 		}
 
-		private Uri GetProxyForUrl(Uri destination) {
+		private Uri GetAutoProxyForUrl(Uri destination) {
 			
 			StringBuilder error = new StringBuilder();	// for exception message texts
 			IntPtr hSession = IntPtr.Zero;
@@ -264,12 +283,11 @@ namespace NewsComponents.Net
 			Interop.WINHTTP_AUTOPROXY_OPTIONS autoProxyOptions = new Interop.WINHTTP_AUTOPROXY_OPTIONS();
 			Interop.WINHTTP_PROXY_INFO proxyInfo = new Interop.WINHTTP_PROXY_INFO();
 
-			int proxyInfoSize = Marshal.SizeOf(proxyInfo);
-			string proxy = null, bypass = null;
+			string proxy = null;
 			Uri toReturn = destination;
 
 			hSession = Interop.WinHttpOpen("auto proxy agent/1.0", 
-				Interop.WINHTTP_ACCESS_TYPE_NO_PROXY,
+				Interop.WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
 				Interop.WINHTTP_NO_PROXY_NAME, 
 				Interop.WINHTTP_NO_PROXY_BYPASS,
 				0);
@@ -292,7 +310,7 @@ namespace NewsComponents.Net
 				autoProxyOptions.dwFlags = Interop.WINHTTP_AUTOPROXY_CONFIG_URL;
 
 				// Set the proxy auto configuration URL.
-				autoProxyOptions.lpszAutoConfigUrl = configScriptUri.ToString();
+				autoProxyOptions.lpszAutoConfigUrl = configScriptUri.AbsoluteUri;
 			
 			} else {
 				// Use auto-detection because you do not know a PAC URL.
@@ -315,17 +333,17 @@ namespace NewsComponents.Net
 	retry_get_proxy:
 
 			// Call the WinHttpGetProxyForUrl function with our target URL.
-			if(Interop.WinHttpGetProxyForUrl( hSession, destination.ToString(), ref autoProxyOptions, ref proxyInfo)) {
+			if(Interop.WinHttpGetProxyForUrl( hSession, destination.AbsoluteUri, ref autoProxyOptions, ref proxyInfo)) {
 
 				switch (proxyInfo.dwAccessType) {
 					case Interop.WINHTTP_ACCESS_TYPE_DEFAULT_PROXY:
-						_log.Error("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_DEFAULT_PROXY");
+						_log.Info("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_DEFAULT_PROXY");
 						break;
 					case Interop.WINHTTP_ACCESS_TYPE_NO_PROXY:
-						_log.Error("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_NO_PROXY");
+						_log.Info("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_NO_PROXY");
 						break;
 					case Interop.WINHTTP_ACCESS_TYPE_NAMED_PROXY:
-						_log.Error("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_NAMED_PROXY");
+						_log.Info("Call WinHttpGetProxyForUrl() gets WINHTTP_ACCESS_TYPE_NAMED_PROXY");
 						break;
 				}
 				
@@ -336,12 +354,13 @@ namespace NewsComponents.Net
 				
 				// Clean the WINHTTP_PROXY_INFO structure.
 				if (proxyInfo.lpszProxyBypass != IntPtr.Zero) {
-					bypass = Marshal.PtrToStringUni(proxyInfo.lpszProxyBypass);
+					string bypass = Marshal.PtrToStringUni(proxyInfo.lpszProxyBypass);
 					Marshal.FreeHGlobal(proxyInfo.lpszProxyBypass);
 				}
 
 				if (proxy != null){
 					
+					// we can get more than one proxy, delimited by ";"
 					string[] proxies = proxy.Split(new char[]{';'});
 					string workingProxy = MakeHTTPUrl(proxies[0]);
 					if (proxies.Length > 1) {
@@ -1016,3 +1035,12 @@ namespace NewsComponents.Net
 		#endregion
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: AutomaticProxy.cs,v $
+ * Revision 1.8  2006/11/03 14:29:55  t_rendelmann
+ * fixed: we did not used the Uri.AbsoluteUri property (but Uri.ToString()(
+ *
+ */
+#endregion

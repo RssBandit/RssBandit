@@ -210,6 +210,10 @@
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
 		<shortcut>
+			<command>cmdWatchItemComments</command>
+			<shortcutEnumValue>None</shortcutEnumValue>
+		</shortcut>		
+		<shortcut>
 			<command>cmdFlagNewsItem</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>

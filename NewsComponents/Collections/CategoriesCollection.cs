@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CategoriesCollection.cs,v 1.3 2004/11/07 01:53:40 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2004/11/07 01:53:40 $
- * $Revision: 1.3 $
+ * $Id: CategoriesCollection.cs,v 1.6 2006/11/25 12:03:56 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2006/11/25 12:03:56 $
+ * $Revision: 1.6 $
  */
 #endregion
 
@@ -1604,6 +1604,10 @@ namespace NewsComponents.Collections {
 			if ((object) key == null)
 				throw new ArgumentNullException("key");
 
+			if(this.ContainsKey(key)){
+				return this.IndexOfKey(key); 
+			}
+
 			StringCollection ancestors = this.GetAncestors(key); 
 
 			//create rest of category hierarchy if it doesn't exist
@@ -1643,6 +1647,10 @@ namespace NewsComponents.Collections {
 		public int Add(category value) {
 			if ((object) value == null)
 				throw new ArgumentNullException("value");
+
+			if(this.ContainsKey(value.Value)){
+				return this.IndexOfKey(value.Value); 
+			}
 
 			return Add(new CategoryEntry(value.Value, value));
 		}
@@ -2482,7 +2490,7 @@ namespace NewsComponents.Collections {
 		#region GetParentCategory
 
 		private category GetParentCategory(string key){
-			int index = key.LastIndexOf("\\"); 
+			int index = key.LastIndexOf(NewsHandler.CategorySeparator); 
 			
 			if(index != -1){
 				string parentName = key.Substring(0, index);
@@ -2517,12 +2525,12 @@ namespace NewsComponents.Collections {
 
 			StringCollection list = new StringCollection();
 			string current = String.Empty; 
-			string[] s  = key.Split(new char[]{'\\'}); 
+			string[] s  = key.Split(NewsHandler.CategorySeparator.ToCharArray()); 
 
 			if(s.Length != 1){				
 			
 				for(int i = 0; i < (s.Length -1) ; i++){
-					current += (i == 0 ? s[i] : "\\" + s[i]); 
+					current += (i == 0 ? s[i] : NewsHandler.CategorySeparator + s[i]); 
 					list.Add(current); 
 				}
 

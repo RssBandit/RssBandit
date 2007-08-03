@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: PostReplyThreadHandler.cs,v 1.11 2005/05/26 18:48:09 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/05/26 18:48:09 $
- * $Revision: 1.11 $
+ * $Id: PostReplyThreadHandler.cs,v 1.12 2005/12/20 20:00:57 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2005/12/20 20:00:57 $
+ * $Revision: 1.12 $
  */
 #endregion
 
@@ -11,8 +11,6 @@ using System;
 using System.Threading;
 using System.IO;
 using System.Net;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 using Logger = RssBandit.Common.Logging;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
@@ -24,37 +22,75 @@ namespace RssBandit.WinGui {
 	/// <summary>
 	/// Summary description for PostReplyThreadHandler.
 	/// </summary>
-	public class PostReplyThreadHandler: EntertainmentThreadHandlerBase
+	internal class PostReplyThreadHandler: EntertainmentThreadHandlerBase
 	{
 		
 		private PostReplyThreadHandler() {	}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PostReplyThreadHandler"/> class.
+		/// </summary>
+		/// <param name="feedHandler">The feed handler.</param>
+		/// <param name="commentApiUri">The comment API URI.</param>
+		/// <param name="item2post">The item2post.</param>
+		/// <param name="inReply2item">The in reply2item.</param>
 		public PostReplyThreadHandler(NewsHandler feedHandler, string commentApiUri, NewsItem item2post, NewsItem inReply2item) {
 			this.feedHandler = feedHandler;
 			this.commentApiUri = commentApiUri;
 			this.item2post = item2post;
 			this.inReply2item = inReply2item;
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PostReplyThreadHandler"/> class.
+		/// </summary>
+		/// <param name="feedHandler">The feed handler.</param>
+		/// <param name="item2post">The item2post.</param>
+		/// <param name="postTarget">The post target.</param>
+		public PostReplyThreadHandler(NewsHandler feedHandler, NewsItem item2post, feedsFeed postTarget) {
+			this.feedHandler = feedHandler;
+			this.item2post = item2post;
+			this.postTarget = postTarget;
+		}
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PostReplyThreadHandler));
 		private NewsHandler feedHandler = null;
 		private string commentApiUri = null;
 		private NewsItem item2post = null, inReply2item = null;
+		private feedsFeed postTarget = null;
 
+		/// <summary>
+		/// Gets or sets the comment API URI.
+		/// </summary>
+		/// <value>The comment API URI.</value>
 		public string CommentApiUri {
 			get {	return this.commentApiUri;	}
 			set {	this.commentApiUri = value;	}
 		}
 
+		/// <summary>
+		/// Gets or sets the item to post.
+		/// </summary>
+		/// <value>The item to post.</value>
 		public NewsItem ItemToPost {
 			get {	return this.item2post;	}
 			set {	this.item2post = value;	}
 		}
 
+		/// <summary>
+		/// Gets or sets the post target.
+		/// </summary>
+		/// <value>The post target.</value>
+		public feedsFeed PostTarget {
+			get {	return this.postTarget ;	}
+			set {	this.postTarget = value;	}
+		}
+
 		protected override void Run() {
 
 			try {				
-
-				this.feedHandler.PostComment(commentApiUri, item2post, inReply2item); 
+				if (this.postTarget != null)
+					this.feedHandler.PostComment(item2post, postTarget) ;
+				else
+					this.feedHandler.PostComment(commentApiUri, item2post, inReply2item); 
 
 			} catch (ThreadAbortException) {
 				// eat up

@@ -59,62 +59,53 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>1.0.0.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="button2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>300, 230</value>
-  </data>
+  
   <data name="button2.Text">
     <value>Anuluj</value>
   </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>216, 230</value>
-  </data>
+  
   <data name="label2.Text">
     <value>&amp;Tytuł</value>
   </data>
-  <data name="comboBox2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, -30</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, -30</value>
-  </data>
+  
+  
   <data name="label5.Text">
     <value>&amp;Kategoria</value>
   </data>
@@ -166,93 +157,63 @@
   <data name="comboMaxItemAge.Items15">
     <value>Nie usuwaj</value>
   </data>
-  <data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>160, 60</value>
-  </data>
+  
   <data name="comboMaxItemAge.ToolTip">
     <value>Określ maksymalny okres przechowywania wiadomości.</value>
   </data>
-  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>380, 159</value>
-  </data>
+  
   <data name="tabItemControl.Text">
     <value>Kanały informacyjne</value>
   </data>
-  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>160, 30</value>
-  </data>
+  
   <data name="comboBox1.ToolTip">
     <value>Określ częstotliwość odświeżania zawartości kanałów</value>
   </data>
-  <data name="label15.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>10, 65</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>145, 16</value>
-  </data>
+  
+  
   <data name="label15.Text">
     <value>Usuń elementy starsze niż</value>
   </data>
   <data name="label15.ToolTip">
     <value>Wiadomości po osiągnięciu tego wieku będą automatycznie usuwane.</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>10, 35</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>145, 16</value>
-  </data>
+  
+  
   <data name="label4.Text">
     <value>Częstotliwość odświeżania</value>
   </data>
   <data name="label4.ToolTip">
     <value>Częstotliwość równa 0 (zero) oznacza, że kanał ten nie będzie odświeżany automatycznie.</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>300, 35</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>65, 16</value>
-  </data>
+  
+  
   <data name="label3.Text">
     <value>(minuty)</value>
   </data>
-  <data name="tabDisplay.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>372, 133</value>
-  </data>
+  
   <data name="tabDisplay.Text">
     <value>Kategoria</value>
   </data>
-  <data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>15, 75</value>
-  </data>
+  
   <data name="checkCustomFormatter.Text">
     <value>Korzystaj z &amp;własnego arkusza stylów</value>
   </data>
   <data name="checkCustomFormatter.ToolTip">
     <value>Włącz tą opcję aby korzystać z własnego arkusza stylów</value>
   </data>
-  <data name="labelFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>5, 100</value>
-  </data>
+  
   <data name="labelFormatters.Text">
     <value>Arkusz stylów</value>
   </data>
-  <data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>125, 95</value>
-  </data>
+  
   <data name="comboFormatters.ToolTip">
     <value>Wybierz arkusz stylów dla formatowania elementów</value>
   </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>350, 25</value>
-  </data>
+  
   <data name="label9.Text">
     <value>Określ, czy elementy będą formatowane za pomocą własnego arkusza stylów XSLT</value>
   </data>
-  <data name="checkMarkItemsReadOnExit.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>350, 20</value>
-  </data>
+  
   <data name="checkMarkItemsReadOnExit.Text">
     <value>&amp;Oznacz elementy jako przeczytane w istniejącej kategorii</value>
   </data>
@@ -291,5 +252,14 @@
   </data>
 	<data name="comboBox1.Items8">
     <value>120</value>
+  </data>
+	<data name="tabAttachments.Text">
+    <value>Podcasty\Załączniki</value>
+  </data>
+	<data name="checkDownloadEnclosures.Text">
+    <value>Automatycznie pobieraj załączniki i podcasty</value>
+  </data>
+	<data name="checkEnableEnclosureAlerts.Text">
+    <value>&amp;Pozwól na pokazywanie okien błędów dla nowo pobranych załączników i podcastów</value>
   </data>
 	</root>

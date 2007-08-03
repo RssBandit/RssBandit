@@ -15,19 +15,17 @@ namespace RssBandit.AppServices
 
 	public interface ICommandBarCollection : ICollection, IEnumerable {
 		// Methods
-		int Add(ICommandBar commandBar);
 		ICommandBar AddContextMenu(string identifier);
 		ICommandBar AddMenuBar(string identifier);
 		ICommandBar AddToolBar(string identifier);
 		void Clear();
 		bool Contains(ICommandBar commandBar);
-		int IndexOf(ICommandBar commandBar);
+		bool Contains(string identifier);
 		void Remove(ICommandBar commandBar);
-		void RemoveAt(int index);
+		void Remove(string identifier);
 
 		// Properties
 		ICommandBar this[string identifier] { get; }
-		ICommandBar this[int index] { get; }
 	}
 
 	public interface ICommandBar {
@@ -112,16 +110,13 @@ namespace RssBandit.AppServices
 
 	public interface ICommandMediator {
 		void SetEnabled(params string[] identifierArgs);
-		void Enable(params string[] identifierArgs);
-		void Disable(params string[] identifierArgs);
-		void SetVisible(params string[] identifierArgs);
-		void MakeVisible(params string[] identifierArgs);
-		void MakeInvisible(params string[] identifierArgs);
-		void SetChecked(params string[] identifierArgs);
-		void Check(params string[] identifierArgs);
-		void Uncheck(params string[] identifierArgs);
+		void SetDisabled(params string[] identifierArgs);
 		bool IsEnabled(string identifier);
+		void SetVisible(params string[] identifierArgs);
+		void SetInvisible(params string[] identifierArgs);
 		bool IsVisible(string identifier);
+		void SetChecked(params string[] identifierArgs);
+		void SetUncheck(params string[] identifierArgs);
 		bool IsChecked(string identifier);
 	}
 

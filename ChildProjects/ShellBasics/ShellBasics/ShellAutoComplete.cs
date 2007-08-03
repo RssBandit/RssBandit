@@ -171,11 +171,15 @@ namespace ShellLib
 		public void SetAutoComplete(Boolean enable) {
 			this.SetAutoComplete(enable, "");
 		}
+
+		/// <summary>
+		/// Enable/Disable auto complete.
+		/// </summary>
+		/// <param name="enable">bool</param>
+		/// <param name="quickComplete">string. Use null to disable CTRL-ENTER handling</param>
+		/// <remarks>CTRL-ENTER seems to have a bug: it also expands already expanded Urls of the form 'http://xyz.domain'</remarks>
 		public void SetAutoComplete(Boolean enable, string quickComplete)
 		{
-			if (quickComplete == null)
-				quickComplete = "";
-
 			Int32 ret;
 			IAutoComplete2 iac2 = (IAutoComplete2)GetAutoComplete();
 			

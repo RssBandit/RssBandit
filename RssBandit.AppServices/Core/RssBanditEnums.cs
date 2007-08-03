@@ -15,6 +15,24 @@ namespace RssBandit
 		Online = 8
 	}
 
+	/// <summary>
+	/// Option Dialog detail sections
+	/// </summary>
+	public enum OptionDialogSection
+	{	// Note: the order reflects directly the Tab order index within
+		// PreferencesDialog.cs!!!
+		Default = 0,
+		General = Default,
+		NewsItems = 1,
+		RemoteStorage = 2,
+		Display = 3,
+		InternetConnection = 4,
+		Fonts = 5,
+		WebBrowser = 6,
+		WebSearch = 7,
+		Attachments = 8,
+	}
+
 	#region Preferences 
 	/// <summary>
 	/// What action will be taken to minimize the app to the system tray
@@ -39,11 +57,13 @@ namespace RssBandit
 	/// Supported remote storage locations
 	/// </summary>
 	public enum RemoteStorageProtocolType:int {
+		Unknown = -1,
 		UNC = 0,
 		FTP,
 		dasBlog,	
-		dasBlog_1_3,
-		WebDAV
+		dasBlog_1_3, 
+		WebDAV,
+		NewsgatorOnline,
 	}
 
 	/// <summary>

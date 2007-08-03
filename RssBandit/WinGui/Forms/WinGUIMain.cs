@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: WinGUIMain.cs,v 1.313 2005/06/05 17:13:12 t_rendelmann Exp $
+ * $Id: WinGUIMain.cs,v 1.547 2007/07/21 12:26:55 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/05 17:13:12 $
- * $Revision: 1.313 $
+ * Last modified at $Date: 2007/07/21 12:26:55 $
+ * $Revision: 1.547 $
  */
 #endregion
 
@@ -16,18 +16,24 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Windows.Forms;
-using System.Threading;
-using System.IO;
-using System.Web;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
 using System.Security.Permissions;
 #endregion
 
 #region third party namespaces
-using TD.SandBar;	// toolbars		
+
+using Infragistics.Win;
+using Infragistics.Win.UltraWinToolbars;
+using Infragistics.Win.UltraWinTree;
+using RssBandit.WinGui.Dialogs;
+using RssBandit.WinGui.Forms.ControlHelpers;
+using RssBandit.Xml;  
 using TD.SandDock;	// docking panels, docked tabs
 using IEControl;		// external webbrowser control
 using SHDocVw;		// related interfaces
@@ -39,11 +45,12 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Collections;
 using NewsComponents.Search;
-using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
 using NewsComponents.Net;
 
+using RssBandit.AppServices;
 using RssBandit.Filter;
+using RssBandit.Resources;
 using RssBandit.WebSearch;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Forms;
@@ -54,18 +61,20 @@ using RssBandit.WinGui.Utility;
 using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Interfaces;
 using System.Windows.Forms.ThListView;
+using ExecuteCommandHandler = RssBandit.WinGui.Interfaces.ExecuteCommandHandler;
+
 #endregion
 
-//[assembly:CLSCompliant(true)]
-//TODO: add permission sets
+namespace RssBandit.WinGui.Forms 
+{
 
-namespace RssBandit.WinGui.Forms {
+	#region Enum defs.
 
 	/// <summary>
 	/// Enumeration that defines the possible embedded web browser actions
 	/// to perform from the main application.
 	/// </summary>
-	public enum BrowseAction {
+	internal enum BrowseAction {
 		NavigateCancel,
 		NavigateBack,
 		NavigateForward,
@@ -76,26 +85,25 @@ namespace RssBandit.WinGui.Forms {
 	/// Enumeration that defines the type of the known root folders
 	/// of Bandit displayed within the treeview.
 	/// </summary>
-	public enum RootFolderType {
+	internal enum RootFolderType {
 		MyFeeds,
 		SmartFolders,
 		Finder
 	}
 
 	/// <summary>
-	/// Enum defines the rss search states
+	/// Defines the subscription tree node processing states
 	/// </summary>
-	public enum RssSearchState {
-		Pending,			// no search running or canceling
-		Searching,		// search in progress
-		Canceled		// search canceled in UI but not worker
+	internal enum FeedProcessingState {
+		Normal,
+		Updating,
+		Failure,
 	}
-
 
 	/// <summary>
 	/// Used to delay execution of some UI tasks by a timer
 	/// </summary>
-	[Flags]public enum DelayedTasks {
+	[Flags]internal enum DelayedTasks {
 		None = 0,
 		NavigateToWebUrl = 1,
 		StartRefreshOneFeed = 2,
@@ -104,18 +112,29 @@ namespace RssBandit.WinGui.Forms {
 		NavigateToFeedNewsItem = 16, 
 		AutoSubscribeFeedUrl = 32,
 		ClearBrowserStatusInfo = 64,
-		RefreshTreeStatus = 128,
+		RefreshTreeUnreadStatus = 128,
 		SyncRssSearchTree = 256,
 		InitOnFinishLoading = 512,
 		SaveUIConfiguration = 1024,
 		NavigateToFeed = 2048,
+		RefreshTreeCommentStatus = 4096,
 	}
+
+	internal enum NavigationPaneView
+	{
+		Subscriptions,
+		RssSearch,
+	}
+
+	#endregion
 
 	/// <summary>
 	/// Summary description for WinGuiMain.
 	/// </summary>
 	//[CLSCompliant(true)]
-	internal class WinGuiMain : System.Windows.Forms.Form, ITabState, IMessageFilter {
+	internal class WinGuiMain : System.Windows.Forms.Form, 
+		ITabState, IMessageFilter, ICommandBarImplementationSupport	 
+	{
 
 		#region delegates and events declarations
 		/// <summary>
@@ -129,7 +148,7 @@ namespace RssBandit.WinGui.Forms {
 		/// <summary>
 		/// Delegate used for calling PopulateListView() in the correct thread.
 		/// </summary>
-		delegate void PopulateListViewDelegate(FeedTreeNodeBase associatedNode, ArrayList list, bool forceReload, bool categorizedView, FeedTreeNodeBase initialNode);
+		delegate void PopulateListViewDelegate(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode);
 		/// <summary>
 		/// Delegate used to invoke SetGuiStateFeedback() from other UI threads 
 		/// </summary>
@@ -163,7 +182,18 @@ namespace RssBandit.WinGui.Forms {
 		/// Command line param
 		/// </summary>
 		delegate void SubscribeToFeedUrlDelegate(string newFeedUrl);
+
+
+		/// <summary>
+		/// Used to queue a UI task
+		/// </summary>
+		private delegate void DelayTaskDelegate(DelayedTasks task, object data, int interval);
 		
+		/// <summary>
+		/// Enable close window, if called from another thread
+		/// </summary>
+		internal delegate void CloseMainForm(bool force);
+
 		// there is really no such thing on the native form interface :-(
 		public event EventHandler OnMinimize;
 
@@ -171,51 +201,83 @@ namespace RssBandit.WinGui.Forms {
 
 		#region private variables
 
+		private static TimeSpan SevenDays = new TimeSpan(7, 0, 0, 0); 
+
 		private const int BrowserProgressBarWidth = 120;
 		private const int MaxHeadlineWidth = 133;
+		
+		/// <summary>
+		/// To be raised by one on every Toolbars modification like new tools or menus!
+		/// </summary>
+		/// <remarks>
+		/// If you forget this, you will always get your old toolbars layout
+		/// restored from the users local machine.
+		/// </remarks>
+		private const int _currentToolbarsVersion = 4;	
 
+		/// <summary>
+		/// To be raised by one on every DockMananger docks modification like new docks!
+		/// </summary>
+		/// <remarks>
+		/// If you forget this, you will always get your old docking layout
+		/// restored from the users local machine.
+		/// </remarks>
+		private const int _currentDockingVersion = 1;	//TODO use this after switch to UltraDockManager
+		
+		/// <summary>
+		/// To be raised by one on every UltraExplorerBar docks modification like new groups!
+		/// </summary>
+		/// <remarks>
+		/// If you forget this, you will always get your old groups layout
+		/// restored from the users local machine.
+		/// </remarks>
+		private const int _currentExplorerBarVersion = 1;
+		
 		private static readonly log4net.ILog _log  = Common.Logging.Log.GetLogger(typeof(WinGuiMain));
 
-		// Regex used to workaround the tree label edit behavior.
-		// If a node has some unread items it is displayed "Node Caption (xxx)",
-		// where xxx is the unread item count.
-		// What we want: remove this part "(xxx)" before edit, but this does not
-		// work anyway. So we remove such text after editing with the following
-		// regex... :-(
-		private static Regex _labelParser = new Regex(@"(?<caption>.*)(?<unreadCounter>\s*\(\d*\)\s*$)", RegexOptions.Compiled);
-	
-//		private static string DefaultFeedFeedColumnLayout = FeedColumnLayout.SaveAsXML(new FeedColumnLayout(new string[]{"Title", "Subject", "Date"}, new int[]{ 250, 120, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalFeedLayout));
-//		private static string DefaultCategoryFeedColumnLayout = FeedColumnLayout.SaveAsXML(new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalCategoryLayout));
-//
-//		private string CurrentFeedFeedColumnLayout = DefaultFeedFeedColumnLayout;
-//		private string CurrentCategoryFeedColumnLayout = DefaultCategoryFeedColumnLayout;
+		private History _feedItemImpressionHistory;
+		private bool _navigationActionInProgress = false;
 
-		private ToastNotifier _toastNotifier ;
-		private WheelSupport _wheelSupport;
-		private UrlCompletionExtender urlExtender;
+		private bool _faviconsDownloaded = false;
+		private bool _browserTabsRestored = false; 
 
-		private FeedTreeNodeBase[] _roots = new FeedTreeNodeBase[3];		// store refs to root folders (they order within the treeview may be resorted depending on the languages)
-		private FeedTreeNodeBase _feedExceptionsNode = null;
-		private FeedTreeNodeBase _sentItemsNode = null;
-		private FeedTreeNodeBase _deletedItemsNode = null;
-		private FeedTreeNodeBase _flaggedFeedsNodeFollowUp = null;
-		private FeedTreeNodeBase _flaggedFeedsNodeRead = null;
-		private FeedTreeNodeBase _flaggedFeedsNodeReview = null;
-		private FeedTreeNodeBase _flaggedFeedsNodeForward = null;
-		private FeedTreeNodeBase _flaggedFeedsNodeReply = null;
+		private ToastNotifier toastNotifier ;
+		private WheelSupport wheelSupport;
+		internal UrlCompletionExtender urlExtender;
+		private NavigatorHeaderHelper navigatorHeaderHelper;
+		private ToolbarHelper toolbarHelper;
+		internal HistoryMenuManager historyMenuManager;
+			
+		private TreeFeedsNodeBase[] _roots = new TreeFeedsNodeBase[3];		// store refs to root folders (they order within the treeview may be resorted depending on the languages)
+		private TreeFeedsNodeBase _unreadItemsFeedsNode = null;
+		private TreeFeedsNodeBase _feedExceptionsFeedsNode = null;
+		private TreeFeedsNodeBase _sentItemsFeedsNode = null;
+		private TreeFeedsNodeBase _watchedItemsFeedsNode = null; 
+		private TreeFeedsNodeBase _deletedItemsFeedsNode = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeRoot = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeFollowUp = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeRead = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeReview = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeForward = null;
+		private TreeFeedsNodeBase _flaggedFeedsNodeReply = null;
 		private FinderNode _searchResultNode = null;
 
+		//private TreeFeedsPainter _treeFeedsPainter = null;
+		
 		//private ListViewSortHelper _lvSortHelper = null;
 		private NewsItemFilterManager _filterManager = null;
 		
-		// current rss search state
-		private RssSearchState _rssSearchState = RssSearchState.Pending;
-
-		private ArrayList addIns = null;
+		private SearchPanel searchPanel;
+		
+		private ArrayList blogExtensions = null;
 
 		// store the HashCodes of temp. NewsItems, that have bean read.
 		// Used for commentRss implementation
 		private Hashtable tempFeedItemsRead = new Hashtable();	
+
+		//Stores Image object for favicons so we can reuse the same object if used by
+		//multiple feeds. 
+		private Hashtable _favicons = new Hashtable(); 
 
 		// used to store temp. the currently yet populated feeds to speedup category population
 		private HybridDictionary feedsCurrentlyPopulated = new HybridDictionary(true);
@@ -223,10 +285,18 @@ namespace RssBandit.WinGui.Forms {
 		private K.ShortcutHandler _shortcutHandler;
 
 		private NewsItem _currentNewsItem = null;
-		private FeedTreeNodeBase _currentSelectedFeedNode = null;		// currently selected node at the treeView (could be also temp. change on Right-Click, so it is different from treeView.SelectedNode )
-		private FeedTreeNodeBase _currentDragNode = null;
-		private FeedTreeNodeBase _currentDragHighlightNode = null;
+		private TreeFeedsNodeBase _currentSelectedFeedsNode = null;		// currently selected node at the treeView (could be also temp. change on Right-Click, so it is different from treeView.SelectedNode )
+		private TreeFeedsNodeBase _currentDragFeedsNode = null;
+		private TreeFeedsNodeBase _currentDragHighlightFeedsNode = null;
+
+		//used for storing current news items to display in reading pane. We store them 
+		//in member variables for quick access as part of newspaper paging implementation.
+		private FeedInfo     _currentFeedNewsItems     = null;
+		private FeedInfoList _currentCategoryNewsItems = null; 
+		private int _currentPageNumber = 1;
+		private int _lastPageNumber = 1;
 		
+		// used to save last used window size to be restored after System Tray Mode:
 		private Rectangle _formRestoreBounds = Rectangle.Empty;
 
 		//these are here, because we only want to display the balloon popup,
@@ -235,7 +305,6 @@ namespace RssBandit.WinGui.Forms {
 		private int _beSilentOnBalloonPopupCounter = 0;	// if a user explicitly close the balloon, we are silent for the next 12 retries (we refresh all 5 minutes, so this equals at least to one hour)
 
 		private bool _forceShutdown = false;
-		private bool _initialStartupTrayVisibleOnly = false;
 		private FormWindowState initialStartupState = FormWindowState.Normal;
 
 		private int _webTabCounter = 0;
@@ -246,12 +315,11 @@ namespace RssBandit.WinGui.Forms {
 		private Point _lastMousePosition = Point.Empty; 
 
 		// GUI main components:
-		private ImageList _toolImages = null;
-		private ImageList _browserImages = null;
+		private ImageList _allToolImages = null;
 		private ImageList _treeImages = null;
 		private ImageList _listImages = null;
-		private ImageList _searchEngineImages = null;
 
+		private System.Windows.Forms.MenuItem _feedInfoContextMenu = null;
 		private System.Windows.Forms.ContextMenu _treeRootContextMenu = null;
 		private System.Windows.Forms.ContextMenu _treeCategoryContextMenu = null;
 		private System.Windows.Forms.ContextMenu _treeFeedContextMenu = null;
@@ -267,41 +335,36 @@ namespace RssBandit.WinGui.Forms {
 		// ICommand event receiver (in Screen-Coordinates).
 		private Point _contextMenuCalledAt = Point.Empty;
 
+		private AppContextMenuCommand _listContextMenuDownloadAttachment = null; 
 		private MenuItem _listContextMenuDeleteItemsSeparator = null;
-
-		private AppToolMenuCommand _searchesGoCommand = null;
+		private MenuItem _listContextMenuDownloadAttachmentsSeparator = null;
 
 		private TrayStateManager _trayManager = null;
 		private NotifyIconAnimation _trayAni = null;
-
-		private TD.SandBar.ComboBoxItem navigateComboBox = null;
-		private TD.SandBar.ComboBoxItem searchComboBox = null;
 
 		private string _tabStateUrl;
 
 		// the GUI owner and Form controller
 		private RssBanditApplication owner;
+
 		private System.Windows.Forms.Panel panelFeedDetails;
-		private System.Windows.Forms.Panel panelFeedItems;
 		private System.Windows.Forms.Panel panelWebDetail;
 		private ThreadedListView listFeedItems;
 
-		private System.Windows.Forms.ToolTip toolTip;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _Main_Toolbars_Dock_Area_Left;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _Main_Toolbars_Dock_Area_Right;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _Main_Toolbars_Dock_Area_Top;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _Main_Toolbars_Dock_Area_Bottom;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsManager ultraToolbarsManager;
+		
+		internal System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.Timer _timerResetStatus;
+		private System.Windows.Forms.Timer _startupTimer;
 		private System.Timers.Timer _timerTreeNodeExpand; 
 		private System.Timers.Timer _timerRefreshFeeds; 
+		private System.Timers.Timer _timerRefreshCommentFeeds;
 		private IEControl.HtmlControl htmlDetail;
-		private System.Windows.Forms.TreeView treeFeeds;
 		private System.Windows.Forms.StatusBar _status;
-		private TD.SandBar.SandBarManager sandBarManager;
-		private TD.SandBar.ToolBarContainer leftSandBarDock;
-		private TD.SandBar.ToolBarContainer rightSandBarDock;
-		private TD.SandBar.ToolBarContainer bottomSandBarDock;
-		private TD.SandBar.ToolBarContainer topSandBarDock;
-		private TD.SandBar.ToolBar toolBarMain;
-		private TD.SandBar.MenuBar menuBarMain;
-		private TD.SandBar.ToolBar toolBarBrowser;
-		private TD.SandBar.ToolBar toolBarWebSearch;
 		private System.Windows.Forms.StatusBarPanel statusBarBrowser;
 		private System.Windows.Forms.StatusBarPanel statusBarBrowserProgress;
 		private System.Windows.Forms.StatusBarPanel statusBarConnectionState;
@@ -309,61 +372,31 @@ namespace RssBandit.WinGui.Forms {
 		private System.Windows.Forms.ProgressBar progressBrowser;
 		private System.Windows.Forms.Panel panelRssSearch;
 		private UITaskTimer _uiTasksTimer;
-		private System.Windows.Forms.TextBox textSearchExpression;
-		private System.Windows.Forms.Button btnSearchCancel;
-		private System.Windows.Forms.TextBox textFinderCaption;
-		private System.Windows.Forms.Label labelSearchFolderNameHint;
-		private System.Windows.Forms.RadioButton radioRssSearchSimpleText;
-		private System.Windows.Forms.RadioButton radioRssSearchRegEx;
-		private System.Windows.Forms.RadioButton radioRssSearchExprXPath;
-		private System.Windows.Forms.Label labelRssSearchTypeHint;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchUnreadItems;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchInTitle;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchInDesc;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchInLink;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchInCategory;
-		private System.Windows.Forms.CheckBox checkBoxConsiderItemReadState;
-		private System.Windows.Forms.RadioButton radioRssSearchItemsOlderThan;
-		private System.Windows.Forms.ComboBox comboRssSearchItemAge;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchTimeSpan;
-		private System.Windows.Forms.RadioButton radioRssSearchItemsYoungerThan;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchByDate;
-		private System.Windows.Forms.ComboBox comboBoxRssSearchItemPostedOperator;
-		private System.Windows.Forms.DateTimePicker dateTimeRssSearchItemPost;
-		private System.Windows.Forms.CheckBox checkBoxRssSearchByDateRange;
-		private System.Windows.Forms.DateTimePicker dateTimeRssSearchPostAfter;
-		private System.Windows.Forms.DateTimePicker dateTimeRssSearchPostBefore;
-		private System.Windows.Forms.Panel panelRssSearchCommands;
-		private System.Windows.Forms.Button btnNewSearch;
-		private System.Windows.Forms.Label labelRssSearchState;
-		private System.Windows.Forms.Button btnRssSearchSave;
 		private System.Windows.Forms.HelpProvider helpProvider1;
 		private TD.SandDock.SandDockManager sandDockManager;
-		private TD.SandDock.DockContainer leftSandDock;
 		private TD.SandDock.DockContainer rightSandDock;
 		private TD.SandDock.DockContainer bottomSandDock;
 		private TD.SandDock.DockContainer topSandDock;
-		private TD.SandDock.DockControl dockSubscriptions;
-		private TD.SandDock.DockControl dockSearch;
 		private TD.SandDock.DocumentContainer _docContainer;
 		private TD.SandDock.DockControl _docFeedDetails;
 		private System.Windows.Forms.ThListView.ThreadedListViewColumnHeader colHeadline;
 		private System.Windows.Forms.ThListView.ThreadedListViewColumnHeader colDate;
 		private System.Windows.Forms.ThListView.ThreadedListViewColumnHeader colTopic;
-		private XPExplorerBar.Expando collapsiblePanelSearchNameEx;
-		private XPExplorerBar.Expando collapsiblePanelRssSearchExprKindEx;
-		private XPExplorerBar.Expando collapsiblePanelItemPropertiesEx;
-		private XPExplorerBar.Expando collapsiblePanelAdvancedOptionsEx;
-		private System.Windows.Forms.Label horizontalEdge;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private XPExplorerBar.TaskPane taskPaneSearchOptions;
-		private XPExplorerBar.Expando collapsiblePanelRssSearchScopeEx;
-		private System.Windows.Forms.TreeView treeRssSearchScope;
 		private CollapsibleSplitter detailsPaneSplitter;
-		private CollapsibleSplitter searchPaneSplitter;
+		private System.Windows.Forms.Timer _timerDispatchResultsToUI;
+		private Infragistics.Win.UltraWinTree.UltraTree treeFeeds;
+		private Infragistics.Win.UltraWinToolTip.UltraToolTipManager ultraToolTipManager;
+		private UltraTreeExtended listFeedItemsO;
+		private Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar Navigator;
+		private Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl NavigatorFeedSubscriptions;
+		private Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl NavigatorSearch;
+		private System.Windows.Forms.Panel panelFeedItems;
+		private System.Windows.Forms.Splitter splitterNavigator;
+		private System.Windows.Forms.Panel pNavigatorCollapsed;
+		private System.Windows.Forms.Panel panelClientAreaContainer;
+		private System.Windows.Forms.Panel panelFeedDetailsContainer;
+		private Infragistics.Win.Misc.UltraLabel detailHeaderCaption;
+		private VerticalHeaderLabel navigatorHiddenCaption;
 
  
 		private System.ComponentModel.IContainer components;
@@ -375,44 +408,78 @@ namespace RssBandit.WinGui.Forms {
 		public WinGuiMain(RssBanditApplication theGuiOwner, FormWindowState initialFormState) {
 			GuiOwner = theGuiOwner;
 			this.initialStartupState = initialFormState;
-			_wheelSupport = new WheelSupport(this);
-			_wheelSupport.OnGetChildControl += new RssBandit.WinGui.Utility.WheelSupport.OnGetChildControlHandler(this.OnWheelSupportGetChildControl);
 
 			urlExtender = new UrlCompletionExtender(this);
-			
+			_feedItemImpressionHistory = new History(/* TODO: get maxEntries from .config */);
+			_feedItemImpressionHistory.StateChanged += new EventHandler(OnFeedItemImpressionHistoryStateChanged);
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
 			Init();
+			ApplyComponentTranslation();
 		}
 
 		protected void Init() {
 
 			this.OnMinimize += new EventHandler(this.OnFormMinimize);
 			this.MouseDown += new MouseEventHandler(OnFormMouseDown);
-			
-			SetStyle(ControlStyles.DoubleBuffer, true);
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			this.Resize += new System.EventHandler(this.OnFormResize);
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.OnFormClosing);
+			this.Load += new System.EventHandler(this.OnLoad);
+			this.HandleCreated += new System.EventHandler(this.OnFormHandleCreated);
+			this.Move += new System.EventHandler(this.OnFormMove);
+			this.Activated += new System.EventHandler(this.OnFormActivated);
+			this.Deactivate += new System.EventHandler(this.OnFormDeactivate);
+
+			this.owner.PreferencesChanged += new EventHandler(OnPreferencesChanged);
+			this.owner.FeedDeleted += new FeedDeletedHandler(OnFeedDeleted);
+
+			this.wheelSupport = new WheelSupport(this);
+			this.wheelSupport.OnGetChildControl += new WinGui.Utility.WheelSupport.OnGetChildControlHandler(this.OnWheelSupportGetChildControl);
 
 			this.SetFontAndColor(
 				owner.Preferences.NormalFont, owner.Preferences.NormalFontColor,
-				owner.Preferences.HighlightFont, owner.Preferences.HighlightFontColor,
+				owner.Preferences.UnreadFont, owner.Preferences.UnreadFontColor,
 				owner.Preferences.FlagFont, owner.Preferences.FlagFontColor,
 				owner.Preferences.ErrorFont, owner.Preferences.ErrorFontColor,
-				owner.Preferences.RefererFont, owner.Preferences.RefererFontColor
+				owner.Preferences.RefererFont, owner.Preferences.RefererFontColor,
+				owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
 				);
 
+			InitColors();
 			InitResources();
 			InitShortcutManager();
-			InitMenuBar();
-			InitToolBars();		
+			// requires resources, shortcuts, etc.:
+			CreateIGToolbars();
+
 			InitStatusBar();
 			InitDockHosts();
 			InitDocumentManager();
 			InitContextMenus();
 			InitTrayIcon();
 			InitWidgets();
+		}
+
+		private void ApplyComponentTranslation() {
+			this.Text = RssBanditApplication.CaptionOnly;	// dynamically changed!
+			this.detailHeaderCaption.Text = SR.MainForm_DetailHeaderCaption_AtStartup; // dynamically changed!
+			this.navigatorHiddenCaption.Text = SR.MainForm_SubscriptionNavigatorCaption;
+			this.Navigator.Groups[Resource.NavigatorGroup.Subscriptions].Text = SR.MainForm_SubscriptionNavigatorCaption;
+			this.Navigator.Groups[Resource.NavigatorGroup.RssSearch].Text = SR.MainForm_SearchNavigatorCaption;
+			this._docFeedDetails.Text = SR.FeedDetailDocumentTabCaption;
+			this.statusBarBrowser.ToolTipText = SR.MainForm_StatusBarBrowser_ToolTipText;
+			this.statusBarBrowserProgress.ToolTipText = SR.MainForm_StatusBarBrowserProgress_ToolTipText;
+			this.statusBarConnectionState.ToolTipText = SR.MainForm_StatusBarConnectionState_ToolTipText;
+			this.statusBarRssParser.ToolTipText = SR.MainForm_StatusBarRssParser_ToolTipText;
+		}
+		
+		// set/reset major UI colors
+		protected void InitColors() {
+			
+			this.BackColor = FontColorHelper.UiColorScheme.FloatingControlContainerToolbar;
+			this.panelClientAreaContainer.BackColor = this.BackColor;
+			this.splitterNavigator.BackColor = this.BackColor;
 		}
 
 		protected void InitFilter() {
@@ -424,6 +491,20 @@ namespace RssBandit.WinGui.Forms {
 		#endregion
 
 		#region public properties/accessor routines
+
+		/// <summary>
+		/// Returns the current page number in the reading pane. 
+		/// </summary>
+		public int CurrentPageNumber{
+			get { return _currentPageNumber; }
+		}
+
+		/// <summary>
+		/// Returns the page number for the last page in the reading pane. 
+		/// </summary>
+		public int LastPageNumber{
+			get { return _lastPageNumber; }
+		}
 
 		/// <summary>
 		/// Gets and sets the GUI owner application
@@ -445,8 +526,8 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		public string UrlText {
 			get { 
-				if (navigateComboBox.ControlText.Trim().Length > 0) 
-					return navigateComboBox.ControlText; 
+				if (UrlComboBox.Text.Trim().Length > 0) 
+					return UrlComboBox.Text.Trim(); 
 				else
 					return _urlText; 
 			}
@@ -455,7 +536,7 @@ namespace RssBandit.WinGui.Forms {
 				if (_urlText.Equals("about:blank")) {
 					_urlText = String.Empty;
 				}
-				navigateComboBox.ControlText = _urlText; 
+				UrlComboBox.Text = _urlText; 
 			}
 		}
 		private string _urlText = String.Empty;	// don't know why navigateComboBox.ComboBox.Text returns an empty string after dragging a url to it, so we use this as a workaround
@@ -465,31 +546,24 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		public string WebSearchText {
 			get { 
-				if (searchComboBox.ComboBox.Text.Trim().Length > 0) 
-					return searchComboBox.ComboBox.Text; 
+				if (SearchComboBox.Text.Trim().Length > 0) 
+					return SearchComboBox.Text.Trim(); 
 				else
 					return _webSearchText; 
 			}
 			set { 
 				_webSearchText = (value == null ? String.Empty: value);
-				searchComboBox.ComboBox.Text = _webSearchText; 
+				SearchComboBox.Text = _webSearchText; 
 			}
 		}
 		private string _webSearchText = String.Empty;	// don't know why searchComboBox.ComboBox.Text returns an empty string after dragging a url to it, so we use this as a workaround
-
-		/// <summary>
-		/// Gets the current UI state of rss search
-		/// </summary>
-		public RssSearchState CurrentSearchState {
-			get { return _rssSearchState; }
-		}
 
 		/// <summary>
 		/// Return the TreeNode instance representing/store of 
 		/// the FeedExceptions.
 		/// </summary>
 		public ISmartFolder ExceptionNode {
-			get { return _feedExceptionsNode as ISmartFolder; }
+			get { return _feedExceptionsFeedsNode as ISmartFolder; }
 		}
 
 		/// <summary>
@@ -519,15 +593,32 @@ namespace RssBandit.WinGui.Forms {
 		/// the Sent Items.
 		/// </summary>
 		public ISmartFolder SentItemsNode {
-			get { return _sentItemsNode as ISmartFolder; }
+			get { return _sentItemsFeedsNode as ISmartFolder; }
 		}
 
+		/// <summary>
+		/// Return the TreeNode instance representing/store of 
+		/// the Watched Items.
+		/// </summary>
+		public ISmartFolder WatchedItemsNode {
+			get { return _watchedItemsFeedsNode as ISmartFolder; }
+		}
+
+		/// <summary>
+		/// Return the TreeNode instance representing/store of 
+		/// the Unread Items.
+		/// </summary>
+		/// <value>The unread items node.</value>
+		public ISmartFolder UnreadItemsNode {
+			get { return _unreadItemsFeedsNode as ISmartFolder; }
+		}
+		
 		/// <summary>
 		/// Return the TreeNode instance representing/store of 
 		/// the Deleted Items.
 		/// </summary>
 		public ISmartFolder DeletedItemsNode {
-			get { return _deletedItemsNode as ISmartFolder; }
+			get { return _deletedItemsFeedsNode as ISmartFolder; }
 		}
 
 		/// <summary>
@@ -538,46 +629,62 @@ namespace RssBandit.WinGui.Forms {
 			get { return _searchResultNode as ISmartFolder; }
 		}
 
-		public void SetFontAndColor(Font normalFont, Color normalColor, 
-			Font unreadFont, Color unreadColor, Font highlightFont, Color highlightColor,
-			Font errorFont, Color errorColor, Font refererFont, Color refererColor) {
+		public void SetFontAndColor(
+			Font normalFont, Color normalColor, 
+			Font unreadFont, Color unreadColor, 
+			Font highlightFont, Color highlightColor,
+			Font errorFont, Color errorColor, 
+			Font refererFont, Color refererColor,
+			Font newCommentsFont, Color newCommentsColor) 
+		{
 			// really do the work
 			FontColorHelper.DefaultFont = normalFont;
 			FontColorHelper.NormalStyle = normalFont.Style;		FontColorHelper.NormalColor = normalColor;
 			FontColorHelper.UnreadStyle = unreadFont.Style;		FontColorHelper.UnreadColor = unreadColor;
 			FontColorHelper.HighlightStyle = highlightFont.Style;	FontColorHelper.HighlightColor = highlightColor;
 			FontColorHelper.ReferenceStyle = refererFont.Style;	FontColorHelper.ReferenceColor = refererColor;
-			FontColorHelper.FailureStyle = errorFont.Style;			FontColorHelper.FailureColor = errorColor;
+			FontColorHelper.FailureStyle = errorFont.Style;		FontColorHelper.FailureColor = errorColor;
+			FontColorHelper.NewCommentsStyle = newCommentsFont.Style;	FontColorHelper.NewCommentsColor = newCommentsColor;
 
 			ResetTreeViewFontAndColor();
 			ResetListViewFontAndColor();
+			ResetListViewOutlookFontAndColor();
 		}
 
 		// helper
 		private void ResetTreeViewFontAndColor() {
 			try {
 				this.treeFeeds.BeginUpdate();
-				if (Utils.VisualStylesEnabled) {
+				//if (Utils.VisualStylesEnabled) {
 					this.treeFeeds.Font = FontColorHelper.NormalFont;
-					this.treeRssSearchScope.Font = FontColorHelper.NormalFont;
-				} else {
-					this.treeFeeds.Font = FontColorHelper.FontWithMaxWidth();
-					this.treeRssSearchScope.Font = FontColorHelper.FontWithMaxWidth();
+					//this.treeFeeds.Appearance.FontData.Name = FontColorHelper.NormalFont.Name;
+			//	} else {
+			//		this.treeFeeds.Font = FontColorHelper.FontWithMaxWidth();
+			//	}
+
+				// we measure for a bigger sized text, because we need a fixed global right images size
+				// for all right images to extend the clickable area
+				using (Graphics g = this.CreateGraphics()) {
+					SizeF  sz = g.MeasureString("(99999)", FontColorHelper.UnreadFont);
+					Size   gz = new Size((int)sz.Width, (int)sz.Height);
+
+					// adjust global sizes
+					if (! this.treeFeeds.RightImagesSize.Equals(gz))
+						this.treeFeeds.RightImagesSize = gz;
 				}
-				
-				this.treeFeeds.ForeColor = FontColorHelper.NormalColor;
-				this.treeRssSearchScope.ForeColor = FontColorHelper.NormalColor;
+
+				this.treeFeeds.Override.NodeAppearance.ForeColor = FontColorHelper.NormalColor;
 
 				// now iterate and update the single nodes
 				if (this.treeFeeds.Nodes.Count > 0) {
 					for (int i = 0; i < _roots.Length; i++) {
-						FeedTreeNodeBase startNode = _roots[i];
+						TreeFeedsNodeBase startNode = _roots[i];
 						if (null != startNode)
 							WalkdownThenRefreshFontColor(startNode);
 					}
 				}
 
-				PopulateTreeRssSearchScope();
+			//	PopulateTreeRssSearchScope();	causes threading issues since not on UI thread
 
 			} finally {
 				this.treeFeeds.EndUpdate();
@@ -589,21 +696,24 @@ namespace RssBandit.WinGui.Forms {
 		/// Then reset all font/colors.
 		/// </summary>
 		/// <param name="startNode">Node to start with.</param>
-		private void WalkdownThenRefreshFontColor(FeedTreeNodeBase startNode) {
+		private void WalkdownThenRefreshFontColor(TreeFeedsNodeBase startNode) {
 			if (startNode == null) return;
 
 			if (startNode.UnreadCount > 0) {
-				startNode.NodeFont = FontColorHelper.UnreadFont;
+				FontColorHelper.CopyFromFont(startNode.Override.NodeAppearance.FontData, FontColorHelper.UnreadFont);
 				startNode.ForeColor = FontColorHelper.UnreadColor;
 			} else if (startNode.HighlightCount > 0) {
-				startNode.NodeFont = FontColorHelper.HighlightFont;
+				FontColorHelper.CopyFromFont(startNode.Override.NodeAppearance.FontData, FontColorHelper.HighlightFont);
 				startNode.ForeColor = FontColorHelper.HighlightColor;
+			}else if(startNode.ItemsWithNewCommentsCount > 0){
+				FontColorHelper.CopyFromFont(startNode.Override.NodeAppearance.FontData, FontColorHelper.NewCommentsFont);
+				startNode.ForeColor = FontColorHelper.NewCommentsColor;
 			}else {
-				startNode.NodeFont = FontColorHelper.NormalFont;
+				FontColorHelper.CopyFromFont(startNode.Override.NodeAppearance.FontData, FontColorHelper.NormalFont);
 				startNode.ForeColor = FontColorHelper.NormalColor;
 			}
 			
-			for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+			for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
 				WalkdownThenRefreshFontColor(child);
 			}
 		}
@@ -623,21 +733,45 @@ namespace RssBandit.WinGui.Forms {
 			this.listFeedItems.EndUpdate();
 		}
 
+		private void ResetListViewOutlookFontAndColor()
+		{
+			this.listFeedItemsO.BeginUpdate();
 
-		public void CmdExecuteSearchEngine(ICommand sender) {
-			if (typeof(AppToolCommand).IsInstanceOfType(sender)) {
-				// the search dropdown itself
-				AppToolCommand cmd = (AppToolCommand)sender;
-				SearchEngine se = (SearchEngine)cmd.Tag;
-				this.StartSearch(se);
-			}	else if (typeof(AppToolMenuCommand).IsInstanceOfType(sender)) {	
-				// the menu displayed on chevron-menu
-				AppToolMenuCommand cmd = (AppToolMenuCommand)sender;
-				SearchEngine se = (SearchEngine)cmd.Tag;
-				this.StartSearch(se);
-			}	else if (typeof(AppMenuCommand).IsInstanceOfType(sender)) {
-				// the displayed context menu OnDropDown 
-				AppMenuCommand cmd = (AppMenuCommand)sender;
+			this.listFeedItemsO.Font = FontColorHelper.NormalFont;
+			int hh = (int)listFeedItemsO.CreateGraphics().MeasureString("W", listFeedItemsO.Font).Height;
+			int hh2 = 2 + hh + 3 + hh + 2;
+			this.listFeedItemsO.Override.ItemHeight = hh2 %2==0?hh2+1:hh2; //BUGBUG: if the height is an even number, it uses a bad rectangle
+			this.listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].LayoutInfo.PreferredCellSize = new Size(listFeedItemsO.Width,this.listFeedItemsO.Override.ItemHeight);
+			hh2 = 5 + hh;
+			UltraTreeExtended.COMMENT_HEIGHT = hh2 %2==0?hh2+1:hh2;
+			hh2 = hh + 9;
+			UltraTreeExtended.DATETIME_GROUP_HEIGHT = hh2 %2==0?hh2+1:hh2;
+
+			// now iterate and update the single items
+			//Root DateTime Nodes
+			for (int i = 0; i < this.listFeedItemsO.Nodes.Count; i++) 
+			{
+				listFeedItemsO.Nodes[i].Override.ItemHeight = UltraTreeExtended.DATETIME_GROUP_HEIGHT;
+				//NewsItem Nodes
+				for (int j = 0; j < this.listFeedItemsO.Nodes[i].Nodes.Count; j++)
+				{
+					//Already done
+					
+					//Comments
+					for (int k = 0; k < this.listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count; k++)
+					{
+						//Comments
+						listFeedItemsO.Nodes[i].Nodes[j].Nodes[k].Override.ItemHeight = UltraTreeExtended.COMMENT_HEIGHT;
+					}
+				}
+			}
+			this.listFeedItemsO.EndUpdate();
+		}
+
+		public void CmdExecuteSearchEngine(ICommand sender) 
+		{
+			if (sender is AppButtonToolCommand) {
+				AppButtonToolCommand cmd = (AppButtonToolCommand) sender;
 				SearchEngine se = (SearchEngine)cmd.Tag;
 				this.StartSearch(se);
 			}
@@ -656,8 +790,8 @@ namespace RssBandit.WinGui.Forms {
 			string phrase = WebSearchText;
 
 			if (phrase.Length > 0) {
-				if (!searchComboBox.ComboBox.Items.Contains(phrase))
-					searchComboBox.ComboBox.Items.Add(phrase);
+				if (!SearchComboBox.Items.Contains(phrase))
+					SearchComboBox.Items.Add(phrase);
 				
 				if (thisEngine != null) {
 					string s = thisEngine.SearchLink;
@@ -672,28 +806,29 @@ namespace RssBandit.WinGui.Forms {
 							owner.BackgroundDiscoverFeedsHandler.Add(new DiscoveredFeedsInfo(s, thisEngine.Title + ": '" + phrase + "'", s ));
 							this.AsyncStartRssRemoteSearch(phrase, s, thisEngine.MergeRssResult, true);
 						} else {
-							this.DetailTabNavigateToUrl(s, thisEngine.Title, owner.SearchEngineHandler.NewTabRequired);
+							this.DetailTabNavigateToUrl(s, thisEngine.Title, owner.SearchEngineHandler.NewTabRequired, true);
 						}
 					}
 				}
 				else {	// all
-					bool isFirstItem = true;
+					bool isFirstItem = true; int engineCount = 0;
 					foreach (SearchEngine engine in owner.SearchEngineHandler.Engines) {
 						if (engine.IsActive) {
+							engineCount++;
 							string s = engine.SearchLink;
 							if (s != null && s.Length > 0) {
 								try {
 									s = String.Format(new UrlFormatter(), s, phrase);
 								} catch (Exception fmtEx){
 									_log.Error("Invalid search phrase placeholder, or no placeholder '{0}'", fmtEx);
-									return;
+									continue;
 								}
 								if (engine.ReturnRssResult) {
 									owner.BackgroundDiscoverFeedsHandler.Add(new DiscoveredFeedsInfo(s, engine.Title + ": '" + phrase + "'", s ));
 									this.AsyncStartRssRemoteSearch(phrase, s, engine.MergeRssResult, isFirstItem);
 									isFirstItem = false;
 								} else {
-									this.DetailTabNavigateToUrl(s, engine.Title, true);
+									this.DetailTabNavigateToUrl(s, engine.Title, true, engineCount > 1);
 									Application.DoEvents();
 								}
 							}
@@ -725,26 +860,36 @@ namespace RssBandit.WinGui.Forms {
 		/// clicked node item or (if set to null) a context menu related to current TreeView
 		/// selection (highlighted).
 		/// </remarks>
-		public FeedTreeNodeBase CurrentSelectedNode { 
+		public TreeFeedsNodeBase CurrentSelectedFeedsNode { 
 			get { 
-				if (_currentSelectedFeedNode != null)
-					return _currentSelectedFeedNode;
+				if (_currentSelectedFeedsNode != null)
+					return _currentSelectedFeedsNode;
 				// this may also return null
-				return TreeSelectedNode; 
+				return TreeSelectedFeedsNode; 
 			}
-			set { _currentSelectedFeedNode = value; }
+			set { _currentSelectedFeedsNode = value; }
 		}
 
-		public FeedTreeNodeBase TreeSelectedNode { 
-			get { return (FeedTreeNodeBase)treeFeeds.SelectedNode; }
+		public TreeFeedsNodeBase TreeSelectedFeedsNode { 
+			get
+			{
+				if(treeFeeds.SelectedNodes.Count==0)
+					return null;
+				else
+					return (TreeFeedsNodeBase)treeFeeds.SelectedNodes[0];
+			}
 			set { 
-				listFeedItems.CheckForLayoutModifications();
-				this.treeFeeds.BeforeSelect -= new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);									
-				this.treeFeeds.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
-				treeFeeds.SelectedNode = value; 
-				this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);									
-				this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
-				listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(value);
+				if (value.Control != null) {
+					listFeedItems.CheckForLayoutModifications();
+					this.treeFeeds.BeforeSelect -= new Infragistics.Win.UltraWinTree.BeforeNodeSelectEventHandler(this.OnTreeFeedBeforeSelect);
+					this.treeFeeds.AfterSelect -= new Infragistics.Win.UltraWinTree.AfterNodeSelectEventHandler(this.OnTreeFeedAfterSelect);
+					treeFeeds.SelectedNodes.Clear(); 
+					value.Selected = true;
+					value.Control.ActiveNode = value;
+					this.treeFeeds.BeforeSelect += new Infragistics.Win.UltraWinTree.BeforeNodeSelectEventHandler(this.OnTreeFeedBeforeSelect);
+					this.treeFeeds.AfterSelect += new Infragistics.Win.UltraWinTree.AfterNodeSelectEventHandler(this.OnTreeFeedAfterSelect);
+					listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(value);
+				}
 			}
 		}
 
@@ -754,7 +899,10 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		public int NumSelectedListViewItems{
 			
-			get{ return listFeedItems.SelectedItems.Count; }
+			get
+			{
+				return listFeedItems.SelectedItems.Count;
+			}
 		}
 
 		/// <summary>
@@ -778,17 +926,80 @@ namespace RssBandit.WinGui.Forms {
 			get { 
 				if (_currentNewsItem != null)
 					return _currentNewsItem;
-				if (listFeedItems.SelectedItems.Count > 0)
+				if (listFeedItems.Visible && (listFeedItems.SelectedItems.Count > 0)){
 					return (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key; 
+				}
+				if (listFeedItemsO.Visible && (listFeedItemsO.SelectedItems.Count > 0)){
+					return (NewsItem)((ThreadedListViewItem)listFeedItemsO.SelectedItems[0]).Key; 
+				}
 				return null;
 			}
 			set { _currentNewsItem = value; }
 		}
 
+		/// <summary>
+		/// Gets the UI Result Dispatcher timer.
+		/// </summary>
+		internal System.Windows.Forms.Timer ResultDispatcher {
+			get { return _timerDispatchResultsToUI; }	
+		}
+		
+		/// <summary>
+		/// Gets a value indicating whether shutdown is in progress.
+		/// </summary>
+		/// <value><c>true</c> if [shutdown in progress]; otherwise, <c>false</c>.</value>
+		internal bool ShutdownInProgress {
+			get { return _forceShutdown; }
+		}
 		#endregion
 
 		#region private helper routines
-
+		
+		private string CurrentToolbarsVersion {
+			get { 
+				return String.Format("{0}.{1}", StateSerializationHelper.InfragisticsToolbarVersion, _currentToolbarsVersion);
+			}
+		}
+		
+#if USE_UltraDockManager
+		private string CurrentDockingVersion {
+			get { 
+				return String.Format("{0}.{1}",  StateSerializationHelper.InfragisticsDockingVersion, _currentDockingVersion);
+			}
+		}
+#endif
+		private string CurrentExplorerBarVersion {
+			get { 
+				return String.Format("{0}.{1}",  StateSerializationHelper.InfragisticsExplorerBarVersion, _currentExplorerBarVersion);			
+			}
+		}
+		
+		private ComboBox _urlComboBox = null;
+		internal ComboBox UrlComboBox {
+			get {
+				if (_urlComboBox == null) {
+					Debug.Assert(false, "UrlComboBox control not yet initialized (by ToolbarHelper)");
+				}
+				return _urlComboBox;
+			}
+			set {
+				_urlComboBox = value;
+			}
+		}
+		
+		private ComboBox _searchComboBox = null;
+		internal ComboBox SearchComboBox {
+			get {
+				if (_searchComboBox == null) {
+					Debug.Assert(false, "SearchComboBox control not yet initialized (by ToolbarHelper)");
+				}
+				return _searchComboBox;
+			}
+			set {
+				_searchComboBox = value;
+			}
+		}
+		
 		internal void SetTitleText(string newTitle) {
 			if (newTitle != null && newTitle.Trim().Length != 0)
 				this.Text = RssBanditApplication.CaptionOnly + " - " + newTitle;
@@ -796,71 +1007,151 @@ namespace RssBandit.WinGui.Forms {
 				this.Text = RssBanditApplication.CaptionOnly;
 
 			if (0 != (owner.InternetConnectionState & INetState.Offline))
-				this.Text += " " + Resource.Manager["RES_MenuAppInternetConnectionModeOffline"];
+				this.Text += " " + SR.MenuAppInternetConnectionModeOffline;
+
+		}
+
+		internal void SetDetailHeaderText(TreeFeedsNodeBase node) {
+			if (node != null && ! StringHelper.EmptyOrNull(node.Text)) {
+				if (node.UnreadCount > 0)
+					detailHeaderCaption.Text = String.Format("{0} ({1})", node.Text, node.UnreadCount);
+				else
+					detailHeaderCaption.Text = node.Text;
+				detailHeaderCaption.Appearance.Image = node.ImageResolved;
+			} else {
+				detailHeaderCaption.Text = SR.DetailHeaderCaptionWelcome;
+				detailHeaderCaption.Appearance.Image = null;
+			}
 		}
 
 		protected void AddUrlToHistory(string newUrl) {
 			if (!newUrl.Equals("about:blank")) {
-				navigateComboBox.ComboBox.Items.Remove(newUrl);
-				navigateComboBox.ComboBox.Items.Insert(0, newUrl);
+				UrlComboBox.Items.Remove(newUrl);
+				UrlComboBox.Items.Insert(0, newUrl);
 			}
 		}
 
-		internal FeedTreeNodeBase GetRoot(RootFolderType rootFolder) {
+		internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolder) {
 			if (treeFeeds.Nodes.Count > 0) {
 				return _roots[(int)rootFolder];
 			}
 			return null;
 		}
 
-		internal RootFolderType GetRoot(FeedTreeNodeBase node) {
-			if (node == null)
+		internal RootFolderType GetRoot(TreeFeedsNodeBase feedsNode) {
+			if (feedsNode == null)
 				throw new ArgumentNullException("node");
 
-			if (node.Type == FeedNodeType.Root || node.Parent == null) {
+			if (feedsNode.Type == FeedNodeType.Root || feedsNode.Parent == null) {
 				for (int i=0; i < _roots.GetLength(0); i++) {
-					if (node == _roots[i])
+					if (feedsNode == _roots[i])
 						return (RootFolderType)i;
 				}
-			} else if (node.Parent != null) {
-				return this.GetRoot(node.Parent);
+			} else if (feedsNode.Parent != null) {
+				return this.GetRoot(feedsNode.Parent);
 			}
 			return RootFolderType.MyFeeds;
 		}
 
-		protected FeedTreeNodeBase CurrentDragNode { 
-			get { return _currentDragNode;	}
-			set { _currentDragNode = value; }
+		protected TreeFeedsNodeBase CurrentDragNode { 
+			get { return _currentDragFeedsNode;	}
+			set { _currentDragFeedsNode = value; }
 		}
-		protected FeedTreeNodeBase CurrentDragHighlightNode { 
-			get { return _currentDragHighlightNode;	}
+		protected TreeFeedsNodeBase CurrentDragHighlightNode { 
+			get { return _currentDragHighlightFeedsNode;	}
 			set {
-				if (_currentDragHighlightNode != null && _currentDragHighlightNode != value) { 
+				if (_currentDragHighlightFeedsNode != null && _currentDragHighlightFeedsNode != value) { 
 					// unhighlight old one
-					_currentDragHighlightNode.BackColor = treeFeeds.BackColor;
-					_currentDragHighlightNode.ForeColor = treeFeeds.ForeColor;
+					_currentDragHighlightFeedsNode.Override.NodeAppearance.ResetBackColor();
+					_currentDragHighlightFeedsNode.Override.NodeAppearance.ResetForeColor();
 					if (_timerTreeNodeExpand.Enabled) 
 						_timerTreeNodeExpand.Stop();
 				}
-				_currentDragHighlightNode = value; 
-				if (_currentDragHighlightNode != null) {
+				_currentDragHighlightFeedsNode = value; 
+				if (_currentDragHighlightFeedsNode != null) {
 					// highlight new one
-					_currentDragHighlightNode.BackColor = System.Drawing.SystemColors.Highlight;
-					_currentDragHighlightNode.ForeColor = System.Drawing.SystemColors.HighlightText;
-					if (_currentDragHighlightNode.Nodes.Count > 0 && !_currentDragHighlightNode.IsExpanded)
+					_currentDragHighlightFeedsNode.Override.NodeAppearance.BackColor = System.Drawing.SystemColors.Highlight;
+					_currentDragHighlightFeedsNode.Override.NodeAppearance.ForeColor = System.Drawing.SystemColors.HighlightText;
+					if (_currentDragHighlightFeedsNode.Nodes.Count > 0 && !_currentDragHighlightFeedsNode.Expanded)
 						_timerTreeNodeExpand.Start();
 				}
 			}
 		}
 
 		private void SetFocus2WebBrowser(HtmlControl theBrowser) {
-			
 			if (theBrowser == null) 
 				return;
 			theBrowser.Focus();
-			
 		}
 
+		internal void SetSubscriptionNodeState(feedsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state) {
+			if (f == null || feedsNode == null) return;
+			if (RssHelper.IsNntpUrl(f.link)) {
+				SetNntpNodeState(f, feedsNode, state);
+			} else {
+				SetFeedNodeState(f, feedsNode, state);
+			}
+		}
+
+		private void SetNntpNodeState(feedsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state) {
+			if (f == null || feedsNode == null) return;
+			switch (state) {
+				case FeedProcessingState.Normal:
+					if (f.refreshrateSpecified && f.refreshrate <= 0) {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.NntpDisabled;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.NntpDisabledSelected;	
+					} else if (f.authUser != null || f.link.StartsWith(NewsComponents.News.NntpWebRequest.NntpsUriScheme)) {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.NntpSecured;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.NntpSecuredSelected;	
+					} else {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.Nntp;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.NntpSelected;	
+					}
+					break;
+				case FeedProcessingState.Failure:
+					feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.NntpFailure;
+					feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.NntpFailureSelected;	
+					break;
+				case FeedProcessingState.Updating:
+					feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.NntpUpdating;
+					feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.NntpUpdatingSelected;	
+					break;
+				default:
+					Trace.WriteLine("Unhandled/unknown FeedProcessingState: " + state.ToString());
+					break;
+			}
+		}
+
+		private void SetFeedNodeState(feedsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state) {
+			if (f == null || feedsNode == null) return;
+			switch (state) {
+				case FeedProcessingState.Normal:
+					if(!StringHelper.EmptyOrNull(f.favicon) && feedsNode.HasCustomIcon && owner.Preferences.UseFavicons){
+						feedsNode.SetIndividualImage(null); //revert to original images
+					} else if (f.refreshrateSpecified && f.refreshrate <= 0) {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.FeedDisabled;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.FeedDisabledSelected;	
+					} else if (f.authUser != null || f.link.StartsWith("https")) {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.FeedSecured;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.FeedSecuredSelected;	
+					} else {
+						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.Feed;
+						feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.FeedSelected;	
+					}
+					break;
+				case FeedProcessingState.Failure:
+					feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.FeedFailure;
+					feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.FeedFailureSelected;	
+					break;
+				case FeedProcessingState.Updating:
+					feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.FeedUpdating;
+					feedsNode.Override.SelectedNodeAppearance.Image = Resource.SubscriptionTreeImage.FeedUpdatingSelected;	
+					break;
+				default:
+					Trace.WriteLine("Unhandled/unknown FeedProcessingState: " + state.ToString());
+					break;
+			}
+		}
 		/// <summary>
 		/// Populates the list view with the items for the feed represented by 
 		/// the tree node then checks to see if any are unread. If this is the 
@@ -868,21 +1159,21 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="tn"></param>
 		/// <returns>True if an unread item exists for this feed and false otherwise</returns>
-		private  bool FindNextUnreadItem(FeedTreeNodeBase tn) {
+		private  bool FindNextUnreadItem(TreeFeedsNodeBase tn) {
 			feedsFeed f = null;
 			bool repopulated = false,isTopLevel = true;
 			ListViewItem foundLVItem = null; 
 
 			//long measure = 0;	// used only for profiling...
 
-			if (tn.Type == FeedNodeType.Feed && owner.FeedHandler.FeedsTable.ContainsKey((string)tn.Tag))
-				f = owner.FeedHandler.FeedsTable[(string)tn.Tag]; 
+			if (tn.Type == FeedNodeType.Feed)
+				f = owner.GetFeed(tn.DataKey); 
 
-			bool containsUnread = ((f != null && f.containsNewMessages) || (tn == TreeSelectedNode && tn.UnreadCount > 0));
+			bool containsUnread = ((f != null && f.containsNewMessages) || (tn == TreeSelectedFeedsNode && tn.UnreadCount > 0));
 
 			if(containsUnread) { 
 				
-				if (tn != TreeSelectedNode && f != null) {	
+				if (tn != TreeSelectedFeedsNode && f != null) {	
 					
 					containsUnread  = false;
 					ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
@@ -896,7 +1187,7 @@ namespace RssBandit.WinGui.Forms {
 					}
 
 					if (containsUnread) {
-						FeedTreeNodeBase tnSelected = TreeSelectedNode;
+						TreeFeedsNodeBase tnSelected = TreeSelectedFeedsNode;
 						if (tnSelected == null)
 							tnSelected = GetRoot(RootFolderType.MyFeeds);
 
@@ -908,12 +1199,12 @@ namespace RssBandit.WinGui.Forms {
 
 							//re-populate list view with items for feed with unread messages, if it is not
 							// the current displayed:
-//							this.treeFeeds.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
-//							this.treeFeeds.BeforeSelect -= new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);									
-							TreeSelectedNode = tn;
-							CurrentSelectedNode = null;	// reset
-//							this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);
-//							this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																
+							//							this.treeFeeds.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
+							//							this.treeFeeds.BeforeSelect -= new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);									
+							TreeSelectedFeedsNode = tn;
+							CurrentSelectedFeedsNode = null;	// reset
+							//							this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);
+							//							this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																
 							this.PopulateListView(tn, items, true); 
 							repopulated = true;
 
@@ -927,9 +1218,11 @@ namespace RssBandit.WinGui.Forms {
 						 
 			}//if(f.containsNewMessages)
 
-			for (int i = 0; i < listFeedItems.SelectedItems.Count; i++) {
+			for (int i = 0; i < listFeedItems.SelectedItems.Count; i++) 
+			{
 				ThreadedListViewItem tlvi =(ThreadedListViewItem)listFeedItems.SelectedItems[i]; 
-				if((tlvi != null) && (tlvi.IndentLevel != 0)){
+				if((tlvi != null) && (tlvi.IndentLevel != 0))
+				{
 					isTopLevel = false; 
 					break; 
 				}			
@@ -938,21 +1231,24 @@ namespace RssBandit.WinGui.Forms {
 			//select a list item that hasn't been read. As an optimization, we don't 
 			//walk the list view if we are on a top level listview item and there are no
 			//unread posts. 
-			if((!isTopLevel) || containsUnread){
-				 foundLVItem = FindUnreadListViewItem();
+			if((!isTopLevel) || containsUnread)
+			{
+				foundLVItem = FindUnreadListViewItem();
 			}
 
-			if (foundLVItem != null) {
+			if (foundLVItem != null) 
+			{
 
 				MoveFeedDetailsToFront();
-					
+				
 				listFeedItems.BeginUpdate();	
 				listFeedItems.SelectedItems.Clear(); 
 				foundLVItem.Selected = true; 
 				foundLVItem.Focused  = true;
 				htmlDetail.Activate();	// set focus to html after doc is loaded
 				this.OnFeedListItemActivate(null, EventArgs.Empty); //pass nulls because I don't use params
-				SetTitleText(tn.Key);
+				SetTitleText(tn.Text);
+				SetDetailHeaderText(tn);
 				foundLVItem.Selected = true; 
 				foundLVItem.Focused  = true; 	
 				listFeedItems.Focus(); 
@@ -960,22 +1256,19 @@ namespace RssBandit.WinGui.Forms {
 				listFeedItems.EndUpdate();		
 
 				//select new position in tree view based on feed with unread messages.
-				if (TreeSelectedNode != tn && repopulated) { 
+				if (TreeSelectedFeedsNode != tn && repopulated) 
+				{ 
 					//we unregister event here to avoid OnTreeFeedAfterSelect() being invoked
-//					this.treeFeeds.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
-//					this.treeFeeds.BeforeSelect -= new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																							
-//					treeFeeds.BeginUpdate();
-					TreeSelectedNode = tn; 
-					tn.EnsureVisible();
-					if (tn.Parent != null) tn.Parent.EnsureVisible();
-//					treeFeeds.EndUpdate();
-//					this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);
-//					this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																
-							
+					//					this.treeFeeds.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);		
+					//					this.treeFeeds.BeforeSelect -= new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																							
+					//					treeFeeds.BeginUpdate();
+					SelectNode(tn);
+					//					treeFeeds.EndUpdate();
+					//					this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);
+					//					this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);																
+						
 				}
-					
 				return true; 
-
 			}
 
 			return false; 
@@ -983,6 +1276,17 @@ namespace RssBandit.WinGui.Forms {
 
 		private ThreadedListViewItem FindUnreadListViewItem() {
 			
+			bool inComments = false; 
+
+			for (int i = 0; i < listFeedItems.SelectedItems.Count; i++) {
+				ThreadedListViewItem tlvi =(ThreadedListViewItem)listFeedItems.SelectedItems[i]; 
+				if((tlvi != null) && (tlvi.IsComment)){
+					inComments = true; 
+					break; 
+				}	
+			}
+		
+
 			if ( listFeedItems.Items.Count == 0)
 				return null;
 			
@@ -991,7 +1295,7 @@ namespace RssBandit.WinGui.Forms {
 
 			int pos = 0, incrementor = 1;
 
-			if (listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending){
+			if ((!inComments) && (listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending)){
 				pos = listFeedItems.Items.Count - 1;	// at the end
 				incrementor = -1;								// decrement
 			}
@@ -1025,21 +1329,28 @@ namespace RssBandit.WinGui.Forms {
 			return foundLVItem;
 		}
 
+		private void SelectNode(TreeFeedsNodeBase feedsNode) 
+		{
+			TreeSelectedFeedsNode = feedsNode; 
+			feedsNode.BringIntoView();
+			if (feedsNode.Parent != null) feedsNode.Parent.BringIntoView();
+		}
+
 		/// <summary>
 		/// From the startNode, this function returns the next
 		/// FeedNode with UnreadCount > 0 that is hirarchically below the startNode.
 		/// </summary>
 		/// <param name="startNode">the Node to start with</param>
 		/// <returns>FeedTreeNodeBase found or null</returns>
-		private FeedTreeNodeBase NextNearFeedNode(FeedTreeNodeBase startNode, bool ignoreStartNode) {
-			FeedTreeNodeBase found = null;
+		private TreeFeedsNodeBase NextNearFeedNode(TreeFeedsNodeBase startNode, bool ignoreStartNode) {
+			TreeFeedsNodeBase found = null;
 			
 			if (!ignoreStartNode) {
 				if (startNode.Type == FeedNodeType.Feed) return startNode;
 			}
 
 			// walk childs, go down
-			for (FeedTreeNodeBase sibling = startNode.FirstNode; sibling != null && found == null; sibling = sibling.NextNode) {
+			for (TreeFeedsNodeBase sibling = startNode.FirstNode; sibling != null && found == null; sibling = sibling.NextNode) {
 				if (sibling.Type == FeedNodeType.Feed) return sibling;
 				if (sibling.FirstNode != null)	// childs?
 					found = NextNearFeedNode(sibling.FirstNode, false);
@@ -1047,7 +1358,7 @@ namespace RssBandit.WinGui.Forms {
 			if (found != null) return found;
 
 			// walk next siblings. If they have childs, go down
-			for (FeedTreeNodeBase sibling = (ignoreStartNode ? startNode.NextNode: startNode.FirstNode); sibling != null && found == null; sibling = sibling.NextNode) {
+			for (TreeFeedsNodeBase sibling = (ignoreStartNode ? startNode.NextNode: startNode.FirstNode); sibling != null && found == null; sibling = sibling.NextNode) {
 				if (sibling.Type == FeedNodeType.Feed) return sibling;
 				if (sibling.FirstNode != null)	// childs?
 					found = NextNearFeedNode(sibling.FirstNode,false);
@@ -1063,7 +1374,7 @@ namespace RssBandit.WinGui.Forms {
 			if (startNode == null) return null;
 			
 			// no walk next parent siblings. 
-			for (FeedTreeNodeBase parentSibling = startNode.NextNode; parentSibling != null && found == null; parentSibling = parentSibling.NextNode) {
+			for (TreeFeedsNodeBase parentSibling = startNode.NextNode; parentSibling != null && found == null; parentSibling = parentSibling.NextNode) {
 				if (parentSibling.Type == FeedNodeType.Feed) return parentSibling;
 				if (parentSibling.FirstNode != null)	// childs?
 					found = NextNearFeedNode(parentSibling.FirstNode,false);
@@ -1079,11 +1390,11 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		public void MoveToNextUnreadItem() {
 						
-			FeedTreeNodeBase startNode = null, foundNode = null, rootNode = this.GetRoot(RootFolderType.MyFeeds);
+			TreeFeedsNodeBase startNode = null, foundFeedsNode = null, rootNode = this.GetRoot(RootFolderType.MyFeeds);
 			bool unreadFound = false;
 			
 			if (listFeedItems.Items.Count > 0) {
-				startNode = TreeSelectedNode;
+				startNode = TreeSelectedFeedsNode;
 				if (startNode != null && startNode.UnreadCount > 0) {
 					unreadFound = this.FindNextUnreadItem(startNode);
 					if(!unreadFound) {
@@ -1095,7 +1406,7 @@ namespace RssBandit.WinGui.Forms {
 			}
 
 			if (startNode == null)
-				startNode = CurrentSelectedNode; 
+				startNode = CurrentSelectedFeedsNode; 
 
 			if (startNode != null && !NodeIsChildOf(startNode, rootNode))
 				startNode = null;
@@ -1115,30 +1426,30 @@ namespace RssBandit.WinGui.Forms {
 
 			if (!unreadFound) {
 				// look for next near down feed node
-				foundNode = NextNearFeedNode(startNode,true); 
-				while (foundNode != null && !unreadFound) {
-					if(this.FindNextUnreadItem(foundNode)) {
+				foundFeedsNode = NextNearFeedNode(startNode,true); 
+				while (foundFeedsNode != null && !unreadFound) {
+					if(this.FindNextUnreadItem(foundFeedsNode)) {
 						unreadFound = true;
 					}					
-					foundNode = NextNearFeedNode(foundNode,true);
+					foundFeedsNode = NextNearFeedNode(foundFeedsNode,true);
 				}
 			}
 
 			if (!unreadFound && startNode != this.GetRoot(RootFolderType.MyFeeds)) {
 				// if not already applied,
 				// look for next near down feed node from top of tree
-				foundNode = NextNearFeedNode((FeedTreeNodeBase)treeFeeds.Nodes[0],true); 
-				while (foundNode != null && !unreadFound) {
-					if(this.FindNextUnreadItem(foundNode)) {
+				foundFeedsNode = NextNearFeedNode(this.GetRoot(RootFolderType.MyFeeds),true); 
+				while (foundFeedsNode != null && !unreadFound) {
+					if(this.FindNextUnreadItem(foundFeedsNode)) {
 						unreadFound = true; 
 					}					
-					foundNode = NextNearFeedNode(foundNode,true);
+					foundFeedsNode = NextNearFeedNode(foundFeedsNode,true);
 				}
 			}
 			
 			if (!unreadFound) {
 				if (owner.StateHandler.NewsHandlerState == NewsHandlerState.Idle)
-					this.SetGuiStateFeedback(Resource.Manager["RES_GUIStatusNoUnreadFeedItemsLeft"], ApplicationTrayState.NormalIdle);			
+					this.SetGuiStateFeedback(SR.GUIStatusNoUnreadFeedItemsLeft, ApplicationTrayState.NormalIdle);			
 			}
 
 		}
@@ -1171,7 +1482,7 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="updateGui">Indicates whether the UI should be altered when the download is completed 
 		/// or not. Basically if this flag is true then the list view and browser pane are updated while 
 		/// they remain unchanged if this flag is false. </param>
-		public void PopulateSmartFolder(FeedTreeNodeBase feedNode, bool updateGui) {
+		public void PopulateSmartFolder(TreeFeedsNodeBase feedNode, bool updateGui) {
 			
 			ArrayList items = null;
 			ISmartFolder isFolder = feedNode as ISmartFolder;
@@ -1181,19 +1492,19 @@ namespace RssBandit.WinGui.Forms {
 
 			items = isFolder.Items;						
 
-				//Ensure we update the UI in the correct thread. Since this method is likely 
-				//to have been called from a thread that is not the UI thread we should ensure 
-				//that calls to UI components are actually made from the UI thread or marshalled
-				//accordingly. 			
+			//Ensure we update the UI in the correct thread. Since this method is likely 
+			//to have been called from a thread that is not the UI thread we should ensure 
+			//that calls to UI components are actually made from the UI thread or marshalled
+			//accordingly. 			
 
-			 if(updateGui || TreeSelectedNode == feedNode) {
+			if(updateGui || TreeSelectedFeedsNode == feedNode) {
 
 				NewsItem itemSelected = null;
 				if (listFeedItems.SelectedItems.Count > 0) 
-					itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key as NewsItem;
-
+					itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key;
+				
 				// call them sync., because we want to re-set the previous selected item
-				if(listFeedItems.InvokeRequired == true) {
+				if(listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired) {
 					PopulateListViewDelegate populateListView  = new PopulateListViewDelegate(PopulateListView);			
 					this.Invoke(populateListView, new object[]{feedNode, items, true, false} );			
 				}
@@ -1229,20 +1540,28 @@ namespace RssBandit.WinGui.Forms {
 			//to have been called from a thread that is not the UI thread we should ensure 
 			//that calls to UI components are actually made from the UI thread or marshalled
 			//accordingly. 
-			if(updateGui || TreeSelectedNode == node) {
+			if(updateGui || TreeSelectedFeedsNode == node) {
 
 				NewsItem itemSelected = null;
 				if (listFeedItems.SelectedItems.Count > 0) 
-					itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key as NewsItem;
-
+					itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key;
+				
 				// now the FinderNode handle refresh of the read state only, so we need to initiate a new search again...:
 				node.AnyUnread = false;
 				node.Clear(); 
-				AsyncStartNewsSearch(node);	
+
+				//check if Web search or local search
+				if(!StringHelper.EmptyOrNull(node.Finder.ExternalSearchUrl)){
+					StartRssRemoteSearch(node.Finder.ExternalSearchUrl, node); 
+				}else{ 
+					AsyncStartNewsSearch(node);	
+				}
+
+
 				ArrayList items = node.Items;
 			
 				// call them sync., because we want to re-set the previous selected item
-				if(listFeedItems.InvokeRequired == true) {
+				if(listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired) {
 					
 					PopulateListViewDelegate populateListView  = new PopulateListViewDelegate(PopulateListView);			
 					this.Invoke(populateListView, new object[]{node, items, true, false} );			
@@ -1263,34 +1582,34 @@ namespace RssBandit.WinGui.Forms {
 
 		}
 
-//		private void ApplyExclusionFromTables(NewsItem item, Hashtable a1, Hashtable a2) {
-//			string foundId = FindNewsItemInTable(a1, item);
-//			if (foundId != null)
-//				a1.Remove(foundId);
-//
-//			foundId = FindNewsItemInTable(a2, item);
-//			if (foundId != null)
-//				a2.Remove(foundId);
-//		}
+		//		private void ApplyExclusionFromTables(NewsItem item, Hashtable a1, Hashtable a2) {
+		//			string foundId = FindNewsItemInTable(a1, item);
+		//			if (foundId != null)
+		//				a1.Remove(foundId);
+		//
+		//			foundId = FindNewsItemInTable(a2, item);
+		//			if (foundId != null)
+		//				a2.Remove(foundId);
+		//		}
 
-//		private string FindNewsItemInTable(Hashtable list, NewsItem item) {
-//			if (item.Id == null) return null;
-//			if (list != null && list.ContainsKey(item.Id))	
-//				return item.Id;
-//			return null;
-//		}
+		//		private string FindNewsItemInTable(Hashtable list, NewsItem item) {
+		//			if (item.Id == null) return null;
+		//			if (list != null && list.ContainsKey(item.Id))	
+		//				return item.Id;
+		//			return null;
+		//		}
 
-//		private int FindNewsItemInList(object[] list, NewsItem item) {
-//			if (item == null || item.Id == null) return -1;
-//
-//			int listLen = list.GetLength(0);
-//			for (int i = 0; i < listLen; i++) {
-//				NewsItem ri = (NewsItem)list[i];
-//				if (item.Equals(ri))
-//					return i;	// found
-//			}
-//			return -1;	// not found
-//		}
+		//		private int FindNewsItemInList(object[] list, NewsItem item) {
+		//			if (item == null || item.Id == null) return -1;
+		//
+		//			int listLen = list.GetLength(0);
+		//			for (int i = 0; i < listLen; i++) {
+		//				NewsItem ri = (NewsItem)list[i];
+		//				if (item.Equals(ri))
+		//					return i;	// found
+		//			}
+		//			return -1;	// not found
+		//		}
 
 		private ThreadedListViewItem CreateThreadedLVItem(NewsItem newsItem, bool hasChilds, int imgOffset, ColumnKeyIndexMap colIndex, bool authorInTopicColumn) {	
 
@@ -1310,10 +1629,17 @@ namespace RssBandit.WinGui.Forms {
 						}
 						break;
 					case NewsItemSortField.FeedTitle:
-						lvItems[colIndex[colKey]] = HtmlHelper.HtmlDecode(newsItem.Feed.title);
+						feedsFeed f = newsItem.Feed; 
+						//if we are in a Smart Folder then use the original title of the feed 
+						string feedUrl = this.GetOriginalFeedUrl(newsItem); 																							
+						if((feedUrl != null) && owner.FeedHandler.FeedsTable.ContainsKey(feedUrl)){ 
+							f = owner.FeedHandler.FeedsTable[feedUrl]; 
+						}
+						
+						lvItems[colIndex[colKey]] = HtmlHelper.HtmlDecode(f.title);
 						break;
 					case NewsItemSortField.Author:
-							lvItems[colIndex[colKey]] = newsItem.Author;
+						lvItems[colIndex[colKey]] = newsItem.Author;
 						break;
 					case NewsItemSortField.Date:
 						lvItems[colIndex[colKey]] = newsItem.Date.ToLocalTime().ToString();
@@ -1322,9 +1648,9 @@ namespace RssBandit.WinGui.Forms {
 						if (newsItem.CommentCount != NewsItem.NoComments)
 							lvItems[colIndex[colKey]] = newsItem.CommentCount.ToString();
 						break;
-					case NewsItemSortField.Enclosure:	//TODO: make it more efficient
-						if (null != RssHelper.GetOptionalElement(newsItem, "enclosure", String.Empty))
-							lvItems[colIndex[colKey]] = "1";	// state should be ("None", "Available", "Scheduled", "Downloaded")
+					case NewsItemSortField.Enclosure:	//TODO: use states. Now it is simply a counter
+						if (null != newsItem.Enclosures && newsItem.Enclosures.Count > 0)
+							lvItems[colIndex[colKey]] = newsItem.Enclosures.Count.ToString();	// state should be ("None", "Available", "Scheduled", "Downloaded")
 						break;
 					case NewsItemSortField.Flag:
 						if (newsItem.FlagStatus != Flagged.None)
@@ -1337,54 +1663,120 @@ namespace RssBandit.WinGui.Forms {
 			}
 
 			ThreadedListViewItem lvi = new ThreadedListViewItem(newsItem, lvItems);
-			ApplyFlagIconTo(lvi, newsItem);
-
-			if (lvi.ImageIndex < 10 && imgOffset > 0)	{ // not flagged, and not default image
-				if(!newsItem.BeenRead) 
-					imgOffset++;
-				lvi.ImageIndex = imgOffset;
-			}
+			
+			if(!newsItem.BeenRead) 
+				imgOffset++;
+			lvi.ImageIndex = imgOffset;
 
 			// apply leading fonts/colors
-			ApplyStyles(lvi, newsItem.BeenRead);
-			
+			ApplyStyles(lvi, newsItem.BeenRead, newsItem.HasNewComments);
+
 			lvi.HasChilds = hasChilds; 
+			lvi.IsComment = authorInTopicColumn; 
 
 			return lvi;
 		}
 
-		private void ApplyFlagIconTo(ListViewItem lvi, NewsItem newsItem) {
+		/// <summary>call it if items are added to the listview only!</summary>
+		/// <param name="items"></param>
+		private void ApplyNewsItemPropertyImages(ThreadedListViewItem[] items) 
+		{
+			ColumnKeyIndexMap indexMap = this.listFeedItems.Columns.GetColumnIndexMap();
 			
-			int imgOffset = 0;
-			
-			if(!newsItem.BeenRead) 
-				imgOffset++;
+			bool applyFlags = indexMap.ContainsKey(NewsItemSortField.Flag.ToString());
+			bool applyAttachments = indexMap.ContainsKey(NewsItemSortField.Enclosure.ToString());
 
-			switch (newsItem.FlagStatus) {
+			if (!applyFlags && !applyAttachments)
+				return;
+
+			foreach (ThreadedListViewItem lvi in items) {
+				NewsItem item = lvi.Key as NewsItem;
+				if (item == null) continue;
+				if (applyFlags && item.FlagStatus != Flagged.None)
+					ApplyFlagStateTo(lvi, item.FlagStatus, indexMap);
+				if (applyAttachments && item.Enclosures != null && item.Enclosures.Count > 0)
+					ApplyAttachmentImageTo(lvi, item.Enclosures.Count, indexMap);
+			}
+		}
+
+		/// <summary>call it if items are added to the listview only!</summary>
+		/// <param name="lvi"></param>
+		/// <param name="attachemtCount"></param>
+		/// <param name="indexMap"></param>
+		private void ApplyAttachmentImageTo(ThreadedListViewItem lvi, int attachemtCount, ColumnKeyIndexMap indexMap) {
+			if (lvi == null || lvi.ListView == null)
+				return;
+			
+			string key = NewsItemSortField.Enclosure.ToString();
+			if (! indexMap.ContainsKey(key) ) 
+				return;
+
+			string text = (attachemtCount > 0 ? attachemtCount.ToString() : String.Empty);
+			
+			if (indexMap[key] > 0) {
+				lvi.SubItems[indexMap[key]].Text = text;
+				if (attachemtCount > 0)
+					lvi.SetSubItemImage(indexMap[key], Resource.NewsItemRelatedImage.Attachment);
+			} else {
+				lvi.SubItems[indexMap[key]].Text = text;
+				//lvi.SetSubItemImage(indexMap[key], imgIndex);
+			}
+		}
+		/// <summary>call it if items are added to the listview only!</summary>
+		/// <param name="lvi"></param>
+		/// <param name="flagStatus"></param>
+		/// <param name="indexMap"></param>
+		private void ApplyFlagStateTo(ThreadedListViewItem lvi, Flagged flagStatus, ColumnKeyIndexMap indexMap) {
+			if (lvi == null || lvi.ListView == null)
+				return;
+
+			string key = NewsItemSortField.Flag.ToString();
+			if (! indexMap.ContainsKey(key) ) 
+				return;
+
+			int imgIndex = -1; 
+			Color bkColor = lvi.BackColor;
+			string text = flagStatus.ToString();	//TODO: localize!!!
+			switch (flagStatus) {
 				case Flagged.Complete:
-					imgOffset += 10;	// Ok marker
+					imgIndex = Resource.FlagImage.Complete;
 					break;
 				case Flagged.FollowUp:
-					imgOffset += 12;	// red flag
+					imgIndex = Resource.FlagImage.Red;
+					bkColor = Resource.ItemFlagBackground.Red;
 					break;
 				case Flagged.Forward:
-					imgOffset += 14;	// blue flag
+					imgIndex = Resource.FlagImage.Blue;
+					bkColor = Resource.ItemFlagBackground.Blue;
 					break;
 				case Flagged.Read:
-					imgOffset += 16;	// green flag
+					imgIndex = Resource.FlagImage.Green;
+					bkColor = Resource.ItemFlagBackground.Green;
 					break;
 				case Flagged.Review:
-					imgOffset += 18;	// yellow flag
+					imgIndex = Resource.FlagImage.Yellow;
+					bkColor = Resource.ItemFlagBackground.Yellow;
 					break;
 				case Flagged.Reply:
-					imgOffset += 20;	// reply marker
+					imgIndex = Resource.FlagImage.Purple;
+					bkColor = Resource.ItemFlagBackground.Purple;
 					break;
 				case Flagged.None:
-					//imgOffset is already setup
+					//imgIndex is already setup, as is bkColor
+					text = String.Empty;
 					break;
 			}
-
-			lvi.ImageIndex = imgOffset;
+					
+			if (indexMap[key] > 0) {
+				lvi.SubItems[indexMap[key]].Text = text;
+				lvi.SetSubItemImage(indexMap[key], imgIndex);
+				lvi.SubItems[indexMap[key]].BackColor = bkColor;	// no effect :-( - BUGBUG???
+			} else {
+				lvi.SubItems[indexMap[key]].Text = text;
+				//lvi.SetSubItemImage(indexMap[key], imgIndex);
+				//lvi.SubItems[indexMap[key]].BackColor = bkColor;	// no effect :-( - BUGBUG???
+			}
+			
 		}
 
 		private ThreadedListViewItem CreateThreadedLVItemInfo(string infoMessage, bool isError) {	
@@ -1393,7 +1785,7 @@ namespace RssBandit.WinGui.Forms {
 			if (isError) {
 				lvi.Font = FontColorHelper.FailureFont;
 				lvi.ForeColor = FontColorHelper.FailureColor;
-				lvi.ImageIndex = 22;
+				lvi.ImageIndex = Resource.NewsItemRelatedImage.Failure;
 			} else {
 				lvi.Font = FontColorHelper.NormalFont;
 				lvi.ForeColor = FontColorHelper.NormalColor;
@@ -1406,34 +1798,35 @@ namespace RssBandit.WinGui.Forms {
 		/// <summary>
 		/// Populates the list view with NewsItem's from the ArrayList. 
 		/// </summary>
-		/// <param name="associatedNode">The accociated tree Node</param>
+		/// <param name="associatedFeedsNode">The accociated tree Node</param>
 		/// <param name="list">A list of NewsItem objects.</param>
 		/// <param name="forceReload">Force reload of the listview</param>
-		private void PopulateListView(FeedTreeNodeBase associatedNode, ArrayList list, bool forceReload){
-			this.PopulateListView(associatedNode, list, forceReload, false, associatedNode);
+		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload){
+			this.PopulateListView(associatedFeedsNode, list, forceReload, false, associatedFeedsNode);
 		}
 		
 		/// <summary>
 		/// Populates the list view with NewsItem's from the ArrayList. 
 		/// </summary>
-		/// <param name="associatedNode">The accociated tree Node to populate</param>
+		/// <param name="associatedFeedsNode">The accociated tree Node to populate</param>
 		/// <param name="list">A list of NewsItem objects.</param>
 		/// <param name="forceReload">Force reload of the listview</param>
 		/// <param name="categorizedView">True, if the feed title should be appended to
 		/// each RSS Item title: "...rss item title... (feed title)"</param>
-		private void PopulateListView(FeedTreeNodeBase associatedNode, ArrayList list, bool forceReload, bool categorizedView, FeedTreeNodeBase initialNode) {
+		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode) {
 			
 			try {
 
 				lock(listFeedItems.Items){
 
-					if(TreeSelectedNode != initialNode){
+					if(TreeSelectedFeedsNode != initialFeedsNode){
 						return;
 					}
 
 				}
 
 				int unreadItems = 0;
+				ArrayList unread;
 
 				// detect, if we should do a smartUpdate
 						
@@ -1441,52 +1834,60 @@ namespace RssBandit.WinGui.Forms {
 
 					//since this is a multithreaded app there could have been a change since the last 
 					//time we checked this at the beginning of the method due to context switching. 
-					if(TreeSelectedNode != initialNode){	
+					if(TreeSelectedFeedsNode != initialFeedsNode){	
 						return;
 					}
 
-					if (initialNode.Type == FeedNodeType.Category) {				
-
-						if(NodeIsChildOf(associatedNode, initialNode )){
+					if (initialFeedsNode.Type == FeedNodeType.Category) {
+						if(NodeIsChildOf(associatedFeedsNode, initialFeedsNode )){
 							if (forceReload){
 								this.EmptyListView(); 
 								feedsCurrentlyPopulated.Clear();
 							}
 							
-							bool checkForDuplicates = this.feedsCurrentlyPopulated.Contains(associatedNode.Tag);
-							unreadItems = this.PopulateSmartListView(list, categorizedView, checkForDuplicates);
+							bool checkForDuplicates = this.feedsCurrentlyPopulated.Contains(associatedFeedsNode.DataKey);
+							unread = this.PopulateSmartListView(list, categorizedView, checkForDuplicates);
 							if (!checkForDuplicates)
-								feedsCurrentlyPopulated.Add(associatedNode.Tag, null);
+								feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
 
-							if (unreadItems != associatedNode.UnreadCount)
-								associatedNode.UpdateReadStatus(associatedNode, unreadItems);
+							if (unread.Count != associatedFeedsNode.UnreadCount)
+								this.UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
 
-						} else if (associatedNode == initialNode){
+						} else if (associatedFeedsNode == initialFeedsNode){
 
 							feedsCurrentlyPopulated.Clear();
 							this.PopulateFullListView( list, categorizedView);
-							if (associatedNode.Tag != null)
-								feedsCurrentlyPopulated.Add(associatedNode.Tag, null);
+							if (associatedFeedsNode.DataKey != null)
+								feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
 						}
-				
-					} else if (TreeSelectedNode == associatedNode) {
+					
+					} else if (TreeSelectedFeedsNode is UnreadItemsNode) {
+						
+						if (forceReload){
+							this.EmptyListView(); 
+						}
+							
+						this.PopulateSmartListView(list, categorizedView, true);
+							
+					} else if (TreeSelectedFeedsNode == associatedFeedsNode) {
 						if (forceReload) {
-							unreadItems = this.PopulateFullListView(list, categorizedView);
-							if (unreadItems != associatedNode.UnreadCount)
-								associatedNode.UpdateReadStatus(associatedNode, unreadItems);
+							unread = this.PopulateFullListView(list, categorizedView);
+							if (unread.Count != associatedFeedsNode.UnreadCount)
+								this.UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
 						} else {
-							unreadItems = this.PopulateSmartListView(list, categorizedView, true);
-							if (unreadItems > 0) {
+							unread = this.PopulateSmartListView(list, categorizedView, true);
+							if (unread.Count > 0) {
+								unreadItems = unread.Count;
 								if (categorizedView)	// e.g. AggregatedNodes
-									unreadItems += associatedNode.UnreadCount;
-								associatedNode.UpdateReadStatus(associatedNode, unreadItems);
+									unreadItems += associatedFeedsNode.UnreadCount;
+								this.UpdateTreeNodeUnreadStatus(associatedFeedsNode, unreadItems);
 							}
 						}
 					}
 
 				}//lock
 
-				this.SetGuiStateFeedback(Resource.Manager["RES_StatisticsItemsDisplayedMessage", this.listFeedItems.Items.Count]);
+				this.SetGuiStateFeedback(SR.StatisticsItemsDisplayedMessage(this.listFeedItems.Items.Count));
 			
 			} catch (Exception ex) {
 				_log.Error("PopulateListView() failed.", ex);
@@ -1496,17 +1897,17 @@ namespace RssBandit.WinGui.Forms {
 		/// <summary>
 		/// Can be called from another thread to populate the listview in the Gui thread.
 		/// </summary>
-		/// <param name="associatedNode"></param>
+		/// <param name="associatedFeedsNode"></param>
 		/// <param name="list"></param>
 		/// <param name="forceReload"></param>
 		/// <param name="categorizedView"></param>
-		/// <param name="initialNode"></param>
-		public void AsyncPopulateListView(FeedTreeNodeBase associatedNode, ArrayList list, bool forceReload, bool categorizedView, FeedTreeNodeBase initialNode) {
-			if (this.listFeedItems.InvokeRequired) {
+		/// <param name="initialFeedsNode"></param>
+		public void AsyncPopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode) {
+			if (this.listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired) {
 				PopulateListViewDelegate populateListView  = new PopulateListViewDelegate(PopulateListView);			
-				this.Invoke(populateListView, new object[]{associatedNode, list, forceReload, categorizedView});
+				this.BeginInvoke(populateListView, new object[]{associatedFeedsNode, list, forceReload, categorizedView});
 			} else {
-				this.PopulateListView(associatedNode, list, forceReload, categorizedView, initialNode);			
+				this.PopulateListView(associatedFeedsNode, list, forceReload, categorizedView, initialFeedsNode);			
 			}
 		}
 
@@ -1517,17 +1918,18 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="list">A list of NewsItem objects.</param>
 		/// <param name="categorizedView">True, if the feed title should be appended to
 		/// each RSS Item title: "...rss item title... (feed title)"</param>
-		/// <returns>unread items count</returns>
-		private int PopulateFullListView(ArrayList list, bool categorizedView) {
+		/// <returns>unread items</returns>
+		private ArrayList PopulateFullListView(ArrayList list, bool categorizedView) {
 
 			ThreadedListViewItem[] aNew = new ThreadedListViewItem[list.Count];
 			ThreadedListViewItem newItem = null;
 
-			int unreadCounter = 0;
+			ArrayList unread = new ArrayList(list.Count);
+			
 			ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
 			INewsItemFilter flagFilter = null;
 
-			if (CurrentSelectedNode is FlaggedItemsNode) {	
+			if (CurrentSelectedFeedsNode is FlaggedItemsNode) {	
 				// do not apply flag filter on Flagged items node(s)
 				flagFilter = _filterManager["NewsItemFlagFilter"];
 				_filterManager.Remove("NewsItemFlagFilter");
@@ -1543,12 +1945,12 @@ namespace RssBandit.WinGui.Forms {
 					NewsItem item = (NewsItem) list[i]; 
 					
 					if (!item.BeenRead)
-						unreadCounter++;
+						unread.Add(item);
 
 					bool hasRelations = false;
 					hasRelations = NewsItemHasRelations(item);	// here is the bottleneck :-(
 
-					newItem = CreateThreadedLVItem(item, hasRelations, 0, colIndex, false);
+					newItem = CreateThreadedLVItem(item, hasRelations, Resource.NewsItemImage.DefaultRead, colIndex, false);
 					_filterManager.Apply(newItem); 
 
 					aNew[i] = newItem;
@@ -1557,14 +1959,19 @@ namespace RssBandit.WinGui.Forms {
 				
 				Array.Sort(aNew, listFeedItems.SortManager.GetComparer());
 				listFeedItems.Items.AddRange(aNew); 
-				
+				ApplyNewsItemPropertyImages(aNew);
+
 				listFeedItems.EndUpdate(); 
-				return unreadCounter;
+				if(listFeedItemsO.Visible)
+				{
+					listFeedItemsO.AddRange(aNew);
+				}
+				return unread;
 
 			} catch (Exception ex) {
 
 				_log.Error("PopulateFullListView exception", ex);
-				return unreadCounter;
+				return unread;
 
 			} finally {
 				listFeedItems.EndUpdate(); 
@@ -1572,9 +1979,7 @@ namespace RssBandit.WinGui.Forms {
 				if (flagFilter != null) {	// add back
 					flagFilter = _filterManager.Add("NewsItemFlagFilter", flagFilter);
 				}
-
 			}
-			
 		}
 
 		/// <summary>
@@ -1587,19 +1992,19 @@ namespace RssBandit.WinGui.Forms {
 		/// each RSS Item title: "...rss item title... (feed title)"</param>
 		/// <param name="checkDuplicates">If true, we check if a NewsItem is allready populated.
 		/// This has a perf. impact, if true!</param>
-		/// <returns>unread items counter</returns>
-		public int PopulateSmartListView(ArrayList list, bool categorizedView, bool checkDuplicates) {
+		/// <returns>unread items</returns>
+		public ArrayList PopulateSmartListView(ArrayList list, bool categorizedView, bool checkDuplicates) 
+		{
 
 			ArrayList items = new ArrayList(listFeedItems.Items.Count);
 			ArrayList newItems = new ArrayList(list.Count);
+			ArrayList unread = new ArrayList(list.Count);
 			
 			lock(listFeedItems.Items) {
 				items.AddRange(listFeedItems.Items);
 			}
 
 			ThreadedListViewItem newItem = null;
-
-			int unreadCounter = 0;
 
 			// column index map
 			ColumnKeyIndexMap colIndexes = this.listFeedItems.Columns.GetColumnIndexMap();
@@ -1615,25 +2020,25 @@ namespace RssBandit.WinGui.Forms {
 						
 					if (checkDuplicates) {
 						//lock(listFeedItems.Items) {
-							// look, if it is already there
-							for (int j = 0; j < items.Count; j++) {
-								tlvi = (ThreadedListViewItem)items[j];
-								if (item.Equals((NewsItem)tlvi.Key) && tlvi.IndentLevel == 0) {
-									tlvi.Key = item;			// update ref
-									isDuplicate = true; 
-									break;
-								}
+						// look, if it is already there
+						for (int j = 0; j < items.Count; j++) {
+							tlvi = (ThreadedListViewItem)items[j];
+							if (item.Equals((NewsItem)tlvi.Key) && tlvi.IndentLevel == 0) {
+								tlvi.Key = item;			// update ref
+								isDuplicate = true; 
+								break;
 							}
+						}
 						//}
 					}
 
 					if (isDuplicate) { 
-						// do not create a new one, but check if it has new childs
+						// do not create a new one, but check if it has new childs 
 						if (tlvi != null && !tlvi.HasChilds && hasRelations) 
-							tlvi.HasChilds = hasRelations;
-						
+							tlvi.HasChilds = hasRelations;						    
+						    this.ApplyStyles(tlvi); //highlight item if it has new comments						
 					} else {
-						newItem = CreateThreadedLVItem(item, hasRelations, 0, colIndexes , false);
+						newItem = CreateThreadedLVItem(item, hasRelations, Resource.NewsItemImage.DefaultRead, colIndexes , false);
 
 						_filterManager.Apply(newItem); 
 						newItems.Add(newItem);
@@ -1641,9 +2046,9 @@ namespace RssBandit.WinGui.Forms {
 					}
 
 
-					if (!item.BeenRead)
-						unreadCounter++;
-
+					if (!item.BeenRead) 
+						unread.Add(item);
+					
 				}//for(int i)
 
 				if (newItems.Count > 0) {
@@ -1656,10 +2061,17 @@ namespace RssBandit.WinGui.Forms {
 							newItems.CopyTo(a);
 							listFeedItems.ListViewItemSorter = listFeedItems.SortManager.GetComparer();
 							listFeedItems.Items.AddRange(a); 
+							if(listFeedItemsO.Visible)
+								listFeedItemsO.AddRange(a);
+							ApplyNewsItemPropertyImages(a);
 							listFeedItems.ListViewItemSorter = null;
 
 							if (listFeedItems.SelectedItems.Count > 0)
+							{
 								listFeedItems.EnsureVisible(listFeedItems.SelectedItems[0].Index);
+								if(listFeedItemsO.Visible)
+									listFeedItemsO.GetFromLVI((ThreadedListViewItem) listFeedItems.SelectedItems[0]).BringIntoView();
+							}
 						}
 
 					} finally {
@@ -1671,35 +2083,35 @@ namespace RssBandit.WinGui.Forms {
 				_log.Error("PopulateSmartListView exception", ex);
 			}
 
-			return unreadCounter;
+			return unread;
 
 		}
 
+		//		private int GetInsertIndexOfItem(ThreadedListViewItem item) {
+		//			
+		//			if (this._lvSortHelper.Sorting == SortOrder.Ascending) {
+		//				for (int i = 0; i < listFeedItems.Items.Count; i++) {
+		//					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
+		//					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) >= 0)
+		//						return i;
+		//				} 
+		//
+		//				return 0;
+		//
+		//			} else {
+		//				for (int i = 0; i < listFeedItems.Items.Count; i++) {
+		//					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
+		//					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) <= 0)
+		//						return i;
+		//				}			
+		//
+		//			}
+		//			// mean: the caller should append the item
+		//			return listFeedItems.Items.Count;
+		//		}
 
-//		private int GetInsertIndexOfItem(ThreadedListViewItem item) {
-//			
-//			if (this._lvSortHelper.Sorting == SortOrder.Ascending) {
-//				for (int i = 0; i < listFeedItems.Items.Count; i++) {
-//					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
-//					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) >= 0)
-//						return i;
-//				} 
-//
-//				return 0;
-//
-//			} else {
-//				for (int i = 0; i < listFeedItems.Items.Count; i++) {
-//					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
-//					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) <= 0)
-//						return i;
-//				}			
-//
-//			}
-//			// mean: the caller should append the item
-//			return listFeedItems.Items.Count;
-//		}
-
-		private bool NewsItemHasRelations(NewsItem item) {
+		private bool NewsItemHasRelations(NewsItem item) 
+		{
 			return this.NewsItemHasRelations(item, new object[]{});
 		}
 		
@@ -1713,10 +2125,10 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		public void BeginLoadCommentFeed(NewsItem item, string ticket, IList itemKeyPath) {
-			ShowProgressHandler handler = new ShowProgressHandler(this.OnLoadCommentFeedProgress);
-			ThreadWorker.StartTask(ThreadWorker.Task.LoadCommentFeed, this, handler, owner, item, ticket, itemKeyPath);
+			owner.MakeAndQueueTask(ThreadWorker.Task.LoadCommentFeed, new ThreadWorkerProgressHandler(this.OnLoadCommentFeedProgress), 
+				item, ticket, itemKeyPath);
 		}
-		private void OnLoadCommentFeedProgress(object sender, ShowProgressArgs args) {
+		private void OnLoadCommentFeedProgress(object sender, ThreadWorkerProgressArgs args) {
 			if (args.Exception != null) {
 				// failure(s)
 				args.Cancel = true;
@@ -1725,6 +2137,10 @@ namespace RssBandit.WinGui.Forms {
 				string insertionPointTicket = (string)results[2];
 				ThreadedListViewItem[] newChildItems = new ThreadedListViewItem[]{this.CreateThreadedLVItemInfo(args.Exception.Message, true)};
 				listFeedItems.InsertItemsForPlaceHolder(insertionPointTicket, newChildItems, false);
+				if(listFeedItemsO.Visible && newChildItems.Length>0)
+				{
+					listFeedItemsO.AddRangeComments(newChildItems[0].Parent,newChildItems);
+				}
 			} else if (!args.Done) {
 				// in progress
 				// we already have a "loading ..." text listview item
@@ -1738,7 +2154,7 @@ namespace RssBandit.WinGui.Forms {
 
 				if (item.CommentCount != commentItems.Count) {
 					item.CommentCount =  commentItems.Count;
-					owner.FeedWasModified(item.Feed.link);
+					owner.FeedWasModified(item.Feed, NewsFeedProperty.FeedItemCommentCount);
 				}
 					
 				commentItems.Sort(RssHelper.GetComparer(false, NewsItemSortField.Date));
@@ -1747,7 +2163,7 @@ namespace RssBandit.WinGui.Forms {
 				ThreadedListViewItem[] newChildItems = null;
 				
 				if (commentItems.Count > 0) {
-					newChildItems = new ThreadedListViewItem[commentItems.Count];
+					ArrayList newChildItemsArray = new ArrayList(commentItems.Count);
 					
 					// column index map
 					ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
@@ -1755,18 +2171,29 @@ namespace RssBandit.WinGui.Forms {
 					for (int i=0; i < commentItems.Count; i++) {
 									
 						NewsItem o = (NewsItem)commentItems[i];
-									
+						if (itemKeyPath != null && itemKeyPath.Contains(o))			
+							continue;
+
 						bool hasRelations = this.NewsItemHasRelations(o, itemKeyPath);
 
 						o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
-						ThreadedListViewItem newListItem = this.CreateThreadedLVItem(o, hasRelations, 8, colIndex, true);
+						ThreadedListViewItem newListItem = this.CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.CommentRead, colIndex, true);
 						_filterManager.Apply(newListItem);
-						newChildItems[i] = newListItem;
+						newChildItemsArray.Add(newListItem);
 
 					}//iterator.MoveNext
+
+					if (newChildItemsArray.Count > 0) {
+						newChildItems = new ThreadedListViewItem[newChildItemsArray.Count];
+						newChildItemsArray.CopyTo(newChildItems);
+					}
 				}
 				
 				listFeedItems.InsertItemsForPlaceHolder(insertionPointTicket, newChildItems, false);
+				if(listFeedItemsO.Visible && newChildItems.Length>0)
+				{
+					listFeedItemsO.AddRangeComments(newChildItems[0].Parent,newChildItems);
+				}
 			}
 		}
 
@@ -1780,7 +2207,7 @@ namespace RssBandit.WinGui.Forms {
 			if(unreadMessages != 0) {
 				this._timerResetStatus.Stop();
 				if (handleNewReceived && unreadMessages > _lastUnreadFeedItemCountBeforeRefresh) {
-					string message = Resource.Manager.FormatMessage("RES_GUIStatusNewFeedItemsReceivedMessage", unreadFeeds, unreadMessages); 
+					string message = SR.GUIStatusNewFeedItemsReceivedMessage(unreadFeeds, unreadMessages); 
 					if (this.Visible) {
 						this.SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeeds);
 					} else {	
@@ -1788,12 +2215,13 @@ namespace RssBandit.WinGui.Forms {
 						this.SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeedsReceived);
 					}
 					if (owner.Preferences.ShowNewItemsReceivedBalloon && 
-						( !this.Visible || this.WindowState == FormWindowState.Minimized) ) {
+						( this.SystemTrayOnlyVisible || this.WindowState == FormWindowState.Minimized) ) {
 						if (_beSilentOnBalloonPopupCounter <= 0) {
-							message = Resource.Manager.FormatMessage("RES_GUIStatusNewFeedItemsReceivedMessage", 
+							message = SR.GUIStatusNewFeedItemsReceivedMessage( 
 								unreadFeeds, 
 								unreadMessages); 
-							_trayAni.ShowBalloon(NotifyIconAnimation.EBalloonIcon.Info, message, RssBanditApplication.CaptionOnly + " - New feeds arrived");
+							_trayAni.ShowBalloon(NotifyIconAnimation.EBalloonIcon.Info, message, 
+							                     RssBanditApplication.CaptionOnly + " - " + SR.GUIStatusNewFeedItemsReceived);
 						} else {
 							_beSilentOnBalloonPopupCounter--;
 						}
@@ -1808,39 +2236,236 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private int CountUnreadFeedItems(ArrayList items) {
-			int unreadMessages = 0;
+
+		/// <summary>
+		/// Updates the comment status for the specified tree node and any related search folders that may 
+		/// contain items from this node. 
+		/// </summary>
+		/// <param name="tn">The tree node whose comment status is being updated</param>
+		/// <param name="f">The feed associated with the tree node</param>
+		private void UpdateCommentStatus(TreeFeedsNodeBase tn, feedsFeed f){
 			
-			if (items == null) return unreadMessages;
-			if (items.Count == 0) return unreadMessages;
+			ArrayList itemsWithNewComments = GetFeedItemsWithNewComments(f);
+			tn.UpdateCommentStatus(tn, itemsWithNewComments.Count);					
+			owner.UpdateWatchedItems(itemsWithNewComments); 
+			WatchedItemsNode.UpdateCommentStatus();	
+		}		
+
+		/// <summary>
+		/// Updates the comment status for the specified tree node and any related search folders that may
+		/// contain items from this node.
+		/// </summary>
+		/// <param name="tn">The tree node whose comment status is being updated</param>
+		/// <param name="items">The items.</param>
+		/// <param name="commentsRead">Indicates that these are new comments or whether the comments were just read</param>
+		private void UpdateCommentStatus(TreeFeedsNodeBase tn, ArrayList items, bool commentsRead){;
+
+			int multiplier = (commentsRead ? -1 : 1); 			
+
+			if(commentsRead){
+				tn.UpdateCommentStatus(tn, items.Count * multiplier);					
+				owner.UpdateWatchedItems(items);  
+			}else{
+				ArrayList itemsWithNewComments = GetFeedItemsWithNewComments(items);				
+				tn.UpdateCommentStatus(tn, itemsWithNewComments.Count * multiplier);					
+				owner.UpdateWatchedItems(itemsWithNewComments);
+			}
+			WatchedItemsNode.UpdateCommentStatus();	
+		}
+
+		/// <summary>
+		/// Returns the number of items with new comments in a particular list of items
+		/// </summary>
+		/// <param name="items">The list of items</param>
+		/// <returns>The number of items with new comments</returns>
+		private ArrayList GetFeedItemsWithNewComments(ArrayList items) {
+			ArrayList itemsWithNewComments = new ArrayList();
+			
+			if (items == null) return itemsWithNewComments;
+			if (items.Count == 0) return itemsWithNewComments;
 
 			for (int i = 0; i < items.Count; i++) {
 				NewsItem item = (NewsItem)items[i];
-				if(!item.BeenRead) unreadMessages++; 
+				if(item.HasNewComments) itemsWithNewComments.Add(item); 
 			}
 
-			return unreadMessages;
+			return itemsWithNewComments;
 		}
 
-		private int CountUnreadFeedItems(feedsFeed f) {
-			int unreadMessages = 0;
-			
-			if (f == null) return unreadMessages;
+		/// <summary>
+		/// Remove watched items of the feed f from the watched item tree node container.
+		/// </summary>
+		/// <param name="f">The feed.</param>
+		private void WatchedItemsNodeRemoveItems(feedsFeed f) {
+			if (f == null) return;
+			WatchedItemsNodeRemoveItems(FilterWatchedFeedItems(f));
+		}
 
-			if(f.containsNewMessages) {
+		/// <summary>
+		/// Remove items from the watched item tree node container.
+		/// The NewsItems in watched list are NOT checked again if they are
+		/// watched!
+		/// </summary>
+		/// <param name="watched">The watched item list.</param>
+		private void WatchedItemsNodeRemoveItems(ArrayList watched) {
+			if (watched == null) return;
+			for (int i=0; i < watched.Count; i++)
+				WatchedItemsNode.Remove((NewsItem)watched[i]);
+			WatchedItemsNode.UpdateCommentStatus();
+		}
+
+		/// <summary>
+		/// Gets the list of watched items only from the provided feed.
+		/// </summary>
+		/// <param name="f">The feed.</param>
+		/// <returns></returns>
+		private ArrayList FilterWatchedFeedItems(feedsFeed f) {
+			ArrayList result = new ArrayList();
+			
+			if (f == null) 
+				return result;
+
+			ArrayList items = null;
+			try {
+				items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+			} catch { /* ignore cache errors here. On error, it returns always empty list */}
+				
+			return FilterWatchedFeedItems(items);							
+		}
+		
+		/// <summary>
+		/// Gets the watched items out of the provided list.
+		/// </summary>
+		/// <param name="items">The items.</param>
+		/// <returns></returns>
+		private ArrayList FilterWatchedFeedItems(ArrayList items) {
+			ArrayList result = new ArrayList();
+			
+			if (items == null|| items.Count == 0) 
+				return result;
+
+			for (int i = 0; i < items.Count; i++) {
+				NewsItem item = (NewsItem)items[i];
+				if(item.WatchComments) 
+					result.Add(item); 
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Remove unread items of the feed f from the unread item tree node container.
+		/// </summary>
+		/// <param name="feedLink">The feed link.</param>
+		private void UnreadItemsNodeRemoveItems(string feedLink) {
+			if (StringHelper.EmptyOrNull(feedLink) ||
+				! owner.FeedHandler.FeedsTable.ContainsKey(feedLink)) 
+				return;
+			ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
+			UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(items));
+		}
+		
+		/// <summary>
+		/// Remove unread items of the feed f from the unread item tree node container.
+		/// </summary>
+		/// <param name="f">The feed.</param>
+		private void UnreadItemsNodeRemoveItems(feedsFeed f) {
+			if (f == null) return;
+			UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(f));
+		}
+		
+		/// <summary>
+		/// Remove items from the unread item tree node container.
+		/// The NewsItems in unread list are NOT checked again if they are
+		/// unread!
+		/// </summary>
+		/// <param name="unread">The unread item list.</param>
+		private void UnreadItemsNodeRemoveItems(ArrayList unread) {
+			if (unread == null) return;
+			for (int i=0; i < unread.Count; i++)
+				UnreadItemsNode.Remove((NewsItem)unread[i]);
+			UnreadItemsNode.UpdateReadStatus();
+		}
+		/// <summary>
+		/// Gets the list of unread item only from the provided feed.
+		/// </summary>
+		/// <param name="f">The feed.</param>
+		/// <returns></returns>
+		private ArrayList FilterUnreadFeedItems(feedsFeed f) {
+			ArrayList result = new ArrayList();
+			
+			if (f == null) 
+				return result;
+
+			if (f.containsNewMessages) {
+				ArrayList items = null;
+				try {
+					items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+				} catch { /* ignore cache errors here. On error, it returns always empty list */}
+				
+				return FilterUnreadFeedItems(items);
+				
+			}
+			return result;
+		}
+		
+		/// <summary>
+		/// Gets the unread items out of the provided list.
+		/// </summary>
+		/// <param name="items">The items.</param>
+		/// <returns></returns>
+		private ArrayList FilterUnreadFeedItems(ArrayList items) {
+			ArrayList result = new ArrayList();
+			
+			if (items == null|| items.Count == 0) 
+				return result;
+
+			for (int i = 0; i < items.Count; i++) {
+				NewsItem item = (NewsItem)items[i];
+				if(!item.BeenRead) 
+					result.Add(item); 
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns the number of unread items in a particular feed
+		/// </summary>
+		/// <param name="f">The target feed</param>
+		/// <returns>The number of unread items</returns>
+		private int CountUnreadFeedItems(feedsFeed f) {
+			
+			if (f == null) return 0;
+			return FilterUnreadFeedItems(f).Count;
+			
+		}
+
+		/// <summary>
+		/// Returns the number of items with unread comments for this feed
+		/// </summary>
+		/// <param name="f">The target feed</param>
+		/// <returns>The number of items with unread comments </returns>
+		private ArrayList GetFeedItemsWithNewComments(feedsFeed f) {
+			ArrayList itemsWithNewComments = new ArrayList();
+			
+			if (f == null) return itemsWithNewComments;
+
+			if(f.containsNewComments) {
 				ArrayList items = null;
 				try {
 					items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 				} catch { /* ignore cache errors here. On error, it returns always zero */}
-				if (items == null) return unreadMessages;
+				if (items == null) return itemsWithNewComments;
 				
 				for (int i = 0; i < items.Count; i++) {
 					NewsItem item = (NewsItem)items[i];
-					if(!item.BeenRead) unreadMessages++; 
+					if(item.HasNewComments) itemsWithNewComments.Add(item); 
 				}
 			}
-			return unreadMessages;
+			return itemsWithNewComments;
 		}
+
 
 
 		/// <summary>
@@ -1868,36 +2493,41 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		private void CheckForAddIns() {
+			
+			this.owner.CheckAndLoadAddIns();
 			Syndication.Extensibility.IBlogExtension ibe = null;
 
 			try{
-				addIns = AppInteropServices.ServiceManager.SearchForIBlogExtensions(RssBanditApplication.GetPlugInPath());
-				if (addIns == null || addIns.Count == 0)
+				blogExtensions = AppInteropServices.ServiceManager.SearchForIBlogExtensions(RssBanditApplication.GetPlugInPath());
+				if (blogExtensions == null || blogExtensions.Count == 0)
 					return;
 			
 				// separator
 				_listContextMenu.MenuItems.Add(new MenuItem("-"));
 
-				for (int i = 0; i < addIns.Count; i++){
-					ibe = (Syndication.Extensibility.IBlogExtension)addIns[i];
+				for (int i = 0; i < blogExtensions.Count; i++){
+					ibe = (Syndication.Extensibility.IBlogExtension)blogExtensions[i];
 					AppContextMenuCommand m = new AppContextMenuCommand("cmdIBlogExt."+i.ToString(), 
 						owner.Mediator, new ExecuteCommandHandler(owner.CmdGenericListviewCommand),
-						ibe.DisplayName, "RES_MenuIBlogExtensionCommandDesc");
+						ibe.DisplayName, SR.MenuIBlogExtensionCommandDesc);
 					_listContextMenu.MenuItems.Add(m);
 					if (ibe.HasConfiguration) {
 						AppContextMenuCommand mc = new AppContextMenuCommand("cmdIBlogExtConfig."+i.ToString(), 
 							owner.Mediator, new ExecuteCommandHandler(owner.CmdGenericListviewCommandConfig),
-							ibe.DisplayName+" - "+Resource.Manager["RES_MenuConfigCommandCaption"], "RES_MenuIBlogExtensionConfigCommandDesc");
+							ibe.DisplayName+" - "+SR.MenuConfigCommandCaption, SR.MenuIBlogExtensionConfigCommandDesc);
 						_listContextMenu.MenuItems.Add(mc);
 					}
 				}
 			} catch (Exception ex) {
 				_log.Fatal("Failed to load IBlogExtension plugin: " + (ibe == null ? String.Empty: ibe.GetType().FullName), ex);
 				AppExceptions.ExceptionManager.Publish(ex);
+			}finally{
+				//unload AppDomain used to load add-ins
+				AppInteropServices.ServiceManager.UnloadLoaderAppDomain(); 
 			}
 		}
 
-		private void OnFeedTransformed(object sender, ShowProgressArgs args) {
+		private void OnFeedTransformed(object sender, ThreadWorkerProgressArgs args) {
 			if (args.Exception != null) { // failure(s)
 				args.Cancel = true;
 				RssBanditApplication.PublishException(args.Exception);
@@ -1905,226 +2535,333 @@ namespace RssBandit.WinGui.Forms {
 				// in progress
 			} else if (args.Done) {	// done
 				object[] results = (object[])args.Result;
-				TreeNode node = (TreeNode)results[0];
+				UltraTreeNode node = (UltraTreeNode)results[0];
 				string html = (string)results[1];
-				if((this.listFeedItems.SelectedItems.Count == 0) && Object.ReferenceEquals(this.treeFeeds.SelectedNode, node)){
+				if((this.listFeedItems.SelectedItems.Count == 0) && this.treeFeeds.SelectedNodes.Count>0 && Object.ReferenceEquals(this.treeFeeds.SelectedNodes[0], node)){
 					htmlDetail.Html = html;
 					htmlDetail.Navigate(null);			
 				}	
 			}
 		}
 
-		private void BeginTransformFeed(FeedInfo feed, TreeNode feedNode, string stylesheet) {	
-				
-				//TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
-				ThreadedListViewColumnHeader colHeader = this.listFeedItems.Columns[this.listFeedItems.SortManager.SortColumnIndex];
-				IComparer newsItemSorter = RssHelper.GetComparer(this.listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending, 
-					(NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key)); 				
 
-				/* perform XSLT transformation in a background thread */
-				ShowProgressHandler handler = new ShowProgressHandler(this.OnFeedTransformed);
-				//TransformedFeedsHandler handler = new TransformedFeedsHandler(this.OnFeedTransformed);
-				ThreadWorker.StartTask(ThreadWorker.Task.TransformFeed, this, handler, ThreadWorker.DuplicateTaskQueued.Abort, 
-					this.owner, feed, feedNode, stylesheet, newsItemSorter );			
+		/// <summary>
+		/// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		internal void OnEnclosureReceived(object sender, DownloadItemEventArgs e) {
+			/* display alert window on new download available */
+			if(owner.FeedHandler.FeedsTable.Contains(e.DownloadItem.OwnerFeedId)){
+				feedsFeed f = owner.FeedHandler.FeedsTable[e.DownloadItem.OwnerFeedId];
+				
+				if(owner.FeedHandler.GetEnclosureAlert(f.link)){
+					e.DownloadItem.OwnerFeed = f; 
+					ArrayList items  = new ArrayList();
+					items.Add(e.DownloadItem); 
+					this.toastNotifier.Alert(f.title, 1, items); 
+				}
+			}//if(feedHandler.FeedsTable.Contains(..))
+				
+		}
+
+
+		private void BeginTransformFeed(FeedInfo feed, UltraTreeNode feedNode, string stylesheet) {	
+							
+			/* perform XSLT transformation in a background thread */
+			owner.MakeAndQueueTask(ThreadWorker.Task.TransformFeed, new ThreadWorkerProgressHandler(this.OnFeedTransformed),
+				ThreadWorkerBase.DuplicateTaskQueued.Abort, feed, feedNode, stylesheet);
 		}
 
 		
-		private void BeginTransformFeedList(FeedInfoList feeds, TreeNode feedNode, string stylesheet) {					
-			
-			//TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
-			ThreadedListViewColumnHeader colHeader = this.listFeedItems.Columns[this.listFeedItems.SortManager.SortColumnIndex];
-			IComparer newsItemSorter = RssHelper.GetComparer(this.listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending, 
-				(NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key)); 				
-
+		private void BeginTransformFeedList(FeedInfoList feeds, UltraTreeNode feedNode, string stylesheet) {					
+						
 			/* perform XSLT transformation in a background thread */
-			ShowProgressHandler handler = new ShowProgressHandler(this.OnFeedTransformed);
-			//TransformedFeedsHandler handler = new TransformedFeedsHandler(this.OnFeedTransformed);
-			ThreadWorker.StartTask(ThreadWorker.Task.TransformCategory, this, handler, ThreadWorker.DuplicateTaskQueued.Abort, 
-				this.owner, feeds, feedNode, stylesheet, newsItemSorter );			
+			owner.MakeAndQueueTask(ThreadWorker.Task.TransformCategory, new ThreadWorkerProgressHandler(this.OnFeedTransformed),
+				ThreadWorkerBase.DuplicateTaskQueued.Abort, feeds, feedNode, stylesheet);
 		}	
 
+
 		/// <summary>
-		/// Reloads the list view if the tree node is selected and renders the newspaper view
+		/// Returns a FeedInfoList containing the news items which should be displayed on the 
+		/// specified page if in the newspaper view. 
 		/// </summary>
-		/// <param name="tn">the tree node</param>
-		internal void RefreshFeedDisplay(FeedTreeNodeBase tn) {	
-			this.RefreshFeedDisplay(tn, true); 
-		}
-		
+		/// <param name="pageNum">The page number. If the page number is outside the range 
+		/// of valid values then the first page is returned. </param>
+		/// <returns>A FeedInfoList containing all the news items that should be displayed on 
+		/// the specified page</returns>
+		private FeedInfoList GetCategoryItemsAtPage(int pageNum){
+			if(_currentCategoryNewsItems == null){
+				return null;		
+			}
 
+			int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+			int numItems     = _currentCategoryNewsItems.NewsItemCount;
+			
+			bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber); 
+
+			if(owner.Preferences.LimitNewsItemsPerPage && validPageNum){
+
+				FeedInfoList fil = new FeedInfoList(_currentCategoryNewsItems.Title);
+
+				int endindex = pageNum * itemsPerPage;
+				int startindex = endindex - itemsPerPage;
+ 				int counter = 0, actualstart = 0, actualend = 0, numLeft = itemsPerPage; 
+							
+				foreach (FeedInfo fi in _currentCategoryNewsItems){
+					if(numLeft <= 0){
+						break; 
+					}
+
+					FeedInfo ficlone = fi.Clone(false); 
+
+					if((fi.ItemsList.Count + counter) > startindex){ //is this feed on the page?
+						actualstart = startindex - counter;
+						actualend   = actualstart + numLeft;					
+
+						if(actualend > fi.ItemsList.Count){ //handle case where this feed isn't the last one on the page							
+							int numAdded = fi.ItemsList.Count - actualstart;
+							ficlone.ItemsList.AddRange(fi.ItemsList.GetRange(actualstart, numAdded));
+							numLeft -= numAdded;
+							startindex += numAdded;
+						}else{
+							ficlone.ItemsList.AddRange(fi.ItemsList.GetRange(actualstart, numLeft));
+							numLeft -= numLeft; 
+						}
+						fil.Add(ficlone);
+					}
+					counter    += fi.ItemsList.Count;
+				}//foreach
+				
+
+				return fil ;
+				
+			}else{
+				return _currentCategoryNewsItems;
+			}
+			
+		}
 
 		/// <summary>
-		/// Reloads the list view if the tree node is selected and renders the newspaper view
+		/// Returns a FeedInfo containing the news items which should be displayed on the 
+		/// specified page if in the newspaper view. 
+		/// </summary>
+		/// <param name="pageNum">The page number. If the page number is outside the range 
+		/// of valid values then the first page is returned. </param>
+		/// <returns>A FeedInfo containing all the news items that should be displayed on 
+		/// the specified page</returns>
+		private FeedInfo GetFeedItemsAtPage(int pageNum){
+			if(_currentFeedNewsItems == null){
+				return null; 
+			}
+
+			int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+			int numItems     = _currentFeedNewsItems.ItemsList.Count;
+			
+			bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber); 
+
+			if(owner.Preferences.LimitNewsItemsPerPage && validPageNum){
+
+				FeedInfo fi = (FeedInfo) _currentFeedNewsItems.Clone(false); 			
+
+				int endindex = pageNum * itemsPerPage;
+				int startindex = endindex - itemsPerPage; 				
+				
+				if(endindex > numItems){ //handle if we are on last page and numItems % itemsPerPage != 0
+					fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.GetRange(startindex, numItems - startindex));
+				}else{
+					fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.GetRange(startindex, itemsPerPage));				
+				}
+
+				return fi;
+				
+			}else{
+				return _currentFeedNewsItems;
+			}		
+		}
+
+		/// <summary>
+		/// Reloads the list view if the feed node is selected and renders the newspaper view
 		/// </summary>
 		/// <param name="tn">the tree node</param>
 		/// <param name="populateListview">indicates whether the list view should be repopulated or not</param>
-		internal void RefreshFeedDisplay(FeedTreeNodeBase tn, bool populateListview) {	
-			if (tn == null) tn = CurrentSelectedNode;
-			if (tn == null) return;
-			if(!tn.IsSelected || tn.Type != FeedNodeType.Feed) return;
+		internal void RefreshFeedDisplay(TreeFeedsNodeBase tn, bool populateListview) {	
+			if (tn == null) 
+				tn = CurrentSelectedFeedsNode;
+			if (tn == null) 
+				return;
+			if(!tn.Selected || tn.Type != FeedNodeType.Feed) 
+				return;
 
-			string feedUrl = (string)tn.Tag;
+			feedsFeed f = owner.GetFeed(tn.DataKey);
 
-			if (feedUrl != null && owner.FeedHandler.FeedsTable.Contains(feedUrl)) {
+			if (f != null) {
 
-				feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
 				owner.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOne);
 				try { 				
 					this.htmlDetail.Clear();
-					ArrayList items = owner.FeedHandler.GetItemsForFeed(feedUrl, false);
+					// Old: call may initiate a web request, if eTag/last retrived is too old:
+					//ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
+					// this will just get the items from cache:
+					ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
+					ArrayList unread = FilterUnreadFeedItems(items);
+					
 					if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow || 
-					   (DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow && f.alertEnabled)) &&
-						tn.UnreadCount < this.CountUnreadFeedItems(items)) { //test flag on feed, if toast enabled
-						_toastNotifier.Alert(tn.Text, tn.UnreadCount, items);
+						(DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow && f.alertEnabled)) &&
+						tn.UnreadCount < unread.Count) 
+					{ //test flag on feed, if toast enabled
+						toastNotifier.Alert(tn.Text, unread.Count, unread);
 					}
 					
+					if (tn.UnreadCount != unread.Count) {
+						UnreadItemsNodeRemoveItems(items);
+						UnreadItemsNode.Items.AddRange(unread);
+						UnreadItemsNode.UpdateReadStatus();
+					}
+						
 					//we don't need to populate the listview if this called from 
 					//RssBanditApplication.ApplyPreferences() since it is already populated
 					if(populateListview){
 						this.PopulateListView(tn, items, true, false, tn);					
-					}
-					IFeedDetails fi = owner.FeedHandler.GetFeedInfo(feedUrl);
+					}					
+
+					IFeedDetails fi = owner.GetFeedInfo(tn.DataKey); 
 					
 					if (fi != null){
-						UrlText = fi.Link;
+						this.FeedDetailTabState.Url = fi.Link;
 
 						//we use a clone of the FeedInfo because it isn't 
 						//necessarily true that everything in the main FeedInfo is being rendered
 						FeedInfo fi2 = (FeedInfo) fi.Clone(); 
 						fi2.ItemsList.Clear(); 
-						foreach(NewsItem i in items){
-							if(!i.BeenRead)
-								fi2.ItemsList.Add(i);
+						
+						fi2.ItemsList.AddRange(unread); 
+
+						//sort news items
+						//TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
+						ThreadedListViewColumnHeader colHeader = this.listFeedItems.Columns[this.listFeedItems.SortManager.SortColumnIndex];
+						IComparer newsItemSorter = RssHelper.GetComparer(this.listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending, 
+							(NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key)); 				
+
+						fi2.ItemsList.Sort(newsItemSorter); 
+
+						//store list of unread items then only send one page of results 
+						//to newspaper view. 						
+						_currentFeedNewsItems = fi2; 
+						_currentCategoryNewsItems = null; 
+						_currentPageNumber = _lastPageNumber = 1;						    
+						int numItems     = _currentFeedNewsItems.ItemsList.Count;
+						string stylesheet = this.owner.FeedHandler.GetStyleSheet(tn.DataKey);
+						
+						if(numItems > 0){
+							int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+							_lastPageNumber  = (numItems / itemsPerPage ) + ( numItems % itemsPerPage == 0 ? 0 : 1);
+						
+							//default stylesheet: get first page of items
+							if(StringHelper.EmptyOrNull(stylesheet)){
+								fi2 = this.GetFeedItemsAtPage(1);; 	
+							}					
 						}
 
 						//check to see if we still have focus 
-						if(tn.IsSelected){					
-							this.BeginTransformFeed(fi2, tn, this.owner.FeedHandler.GetStyleSheet((string)tn.Tag)); 
+						if(tn.Selected){					
+							this.BeginTransformFeed(fi2, tn, stylesheet); 
 						}
 					}
 
 				} catch(Exception e) {
 					this.EmptyListView(); 
-					owner.PublishXmlFeedError(e, feedUrl, true);
+					owner.PublishXmlFeedError(e, tn.DataKey, true);
 				}
 				owner.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
 			}
 		}
 
-		/* LOCKS UP UI
-		protected void RefreshCategoryDisplay(FeedTreeNodeBase tn) {	
-			if (tn == null) tn = CurrentSelectedNode;
-			if (tn == null) return;
-			if(!tn.IsSelected || tn.Type == FeedNodeType.Root || tn.Type == FeedNodeType.Feed) return;
+		
+		/// <summary>
+		///  Reloads the list view if the category node is selected and renders the newspaper view
+		/// </summary>
+		/// <param name="tn">the tree node</param>
+		private void RefreshCategoryDisplay(TreeFeedsNodeBase tn) {	
 
-			this.EmptyListView(); 
-			this.listFeedItems.Refresh();
-			MoveFeedDetailsToFront();
+			string category = tn.CategoryStoreName;
+			FeedInfoList fil2 = null, unreadItems = new FeedInfoList(category); 
 			
-			Cursor.Current = Cursors.WaitCursor;
+			PopulateListView(tn, new ArrayList(), true);
+			htmlDetail.Clear();
+			WalkdownThenRefreshFeed(tn, false, true, tn, unreadItems);
 
-			ArrayList allitems = new ArrayList(150);
+			//sort news items
+			//TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
+			ThreadedListViewColumnHeader colHeader = this.listFeedItems.Columns[this.listFeedItems.SortManager.SortColumnIndex];
+			IComparer newsItemSorter = RssHelper.GetComparer(this.listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending, 
+				(NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key)); 				
+						
+			foreach(FeedInfo f in unreadItems){
+				f.ItemsList.Sort(newsItemSorter); 
+			}
 
-			foreach (FeedTreeNodeBase tChild in tn.Nodes) {
-			
-				if (tChild.Type != FeedNodeType.Feed)
-					continue;
+			//store list of unread items then only send one page of results 
+			//to newspaper view. 						
+			_currentFeedNewsItems = null; 
+			fil2 = _currentCategoryNewsItems = unreadItems; 
+			_currentPageNumber = _lastPageNumber = 1;						    
+			int numItems     = _currentCategoryNewsItems.NewsItemCount;
+			string stylesheet = this.owner.FeedHandler.GetCategoryStyleSheet(category);
+						
+			if(numItems > 0){
+				int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+				_lastPageNumber  = (numItems / itemsPerPage ) + ( numItems % itemsPerPage == 0 ? 0 : 1);
+						
+				//default stylesheet: get first page of items
+				if(StringHelper.EmptyOrNull(stylesheet)){
+					fil2 = this.GetCategoryItemsAtPage(1); 	
+				}					
+			}
+		
+			if(tn.Selected) {	
 
-				string feedUrl = (string)tChild.Tag;
-
-				if (owner.FeedHandler.FeedsTable.Contains(feedUrl)) {
-
-					feedsFeed f = (feedsFeed)owner.FeedHandler.FeedsTable[feedUrl];
-					
-					if(f.refreshrateSpecified && (f.refreshrate == 0)){
-						continue; 		// disabled feed  
-					}
-
-					try { 				
-						ArrayList items = owner.FeedHandler.GetItemsForFeed(feedUrl, false);
-						if (f.containsNewMessages) {
-							int cnt = this.CountUnreadFeedItems(items);
-							tChild.UpdateReadStatus(tChild, cnt);
-							if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow || 
-								(DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow && f.alertEnabled))) { //test flag on feed, if toast enabled
-								_toastNotifier.Alert(tn.Text, cnt, items);
-							}
-						}
-						allitems.AddRange(items);
-					} catch(Exception e) {
-						owner.PublishXmlFeedError(e, feedUrl);
-					}
-				}
-			}//foreach
-			
-			this.PopulateListView(tn, allitems, true, true, tn);					
-			Cursor.Current = Cursors.Default;
+				FeedDetailTabState.Url = String.Empty;			
+				this.BeginTransformFeedList(fil2, tn, stylesheet); 
+			}
 
 		}
-		*/
+		
 
-		protected void DeleteCategory(FeedTreeNodeBase categoryNode) {
-			if (categoryNode == null) categoryNode = CurrentSelectedNode;
-			if (categoryNode == null) return;
-			if(categoryNode.Type != FeedNodeType.Category) return;
+		internal void DeleteCategory(TreeFeedsNodeBase categoryFeedsNode) {
+			if (categoryFeedsNode == null) categoryFeedsNode = CurrentSelectedFeedsNode;
+			if (categoryFeedsNode == null) return;
+			if(categoryFeedsNode.Type != FeedNodeType.Category) return;
 			
-			FeedTreeNodeBase cnf = null;
+			TreeFeedsNodeBase cnf = null;
 
 			// if there are feed items displayed, we may have to delete the content
 			// if rss items are of a feed with the category to delete
 			if (listFeedItems.Items.Count > 0)
-				cnf = GetTreeNodeForItem(categoryNode, (NewsItem)(listFeedItems.Items[0]).Key);
-			if (cnf != null) {
+				cnf = TreeHelper.FindNode(categoryFeedsNode, (NewsItem)(listFeedItems.Items[0]).Key);
+			if (cnf != null) 
+			{
 				this.EmptyListView();
 				this.htmlDetail.Clear();
 			}
 
-			WalkdownThenDeleteFeedsOrCategories(categoryNode);
-			categoryNode.UpdateReadStatus(categoryNode, 0);
+			if (categoryFeedsNode.Selected || 
+				TreeHelper.IsChildNode(categoryFeedsNode, this.TreeSelectedFeedsNode)) 
+			{
+				this.TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(categoryFeedsNode);
+				this.RefreshFeedDisplay(this.TreeSelectedFeedsNode, true);
+			}
 			
-			TreeSelectedNode = this.GetRoot(RootFolderType.MyFeeds); 
-
+			WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode);
+			this.UpdateTreeNodeUnreadStatus(categoryFeedsNode, 0);
+			
 			try {
-				categoryNode.Parent.Nodes.Remove(categoryNode);
+				categoryFeedsNode.Parent.Nodes.Remove(categoryFeedsNode);
 			}	finally { 
 				this.DelayTask(DelayedTasks.SyncRssSearchTree);
 			}
 
 		}
-
-		/// <summary>
-		/// Helper that builds the full path trimmed category name (without root caption)
-		/// </summary>
-		/// <param name="theNode">the FeedTreeNodeBase</param>
-		/// <returns>Category name in this form: 'Main Category\Sub Category\...\catNode Category'.</returns>
-		internal string BuildCategoryStoreName(FeedTreeNodeBase theNode) {
-			string s = theNode.FullPath.Trim();
-			string[] a = s.Split(this.treeFeeds.PathSeparator.ToCharArray());
-
-			if (theNode.Type == FeedNodeType.Feed || theNode.Type == FeedNodeType.Finder) {
-				if (a.GetLength(0) > 2)
-					return String.Join(@"\",a, 1, a.GetLength(0)-2);
-			}
-			else {
-				if (a.GetLength(0) > 1)
-					return String.Join(@"\",a, 1,a.GetLength(0)-1);
-			}
-			
-			return null;	// default category (none)
-		}
-
-	
-		/// <summary>
-		/// Helper. Work recursive on the startNode down to the leaves.
-		/// Then call AsyncGetItemsForFeed() for each of them.
-		/// </summary>
-		/// <param name="startNode">Node to start with</param>
-		/// <param name="forceRefresh">true, if refresh should be forced</param>
-		private void WalkdownThenRefreshFeed(FeedTreeNodeBase startNode, bool forceRefresh) {
-			this.WalkdownThenRefreshFeed(startNode, forceRefresh, false, this.CurrentSelectedNode, new FeedInfoList(String.Empty)); 
-		}
-		
-
 
 		/// <summary>
 		/// Helper. Work recursive on the startNode down to the leaves.
@@ -2133,27 +2870,27 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="startNode">Node to start with</param>
 		/// <param name="forceRefresh">true, if refresh should be forced</param>
 		/// <param name="categorized">indicates whether this is part of the refresh or click of a category node</param>
-		/// <param name="initialNode">This is the node where the refresh began from</param>
+		/// <param name="initialFeedsNode">This is the node where the refresh began from</param>
 		/// <param name="unreadItems">an array list to place the unread items in the category into. This is needed to render them afterwards 
 		/// in a newspaper view</param>
-		private void WalkdownThenRefreshFeed(FeedTreeNodeBase startNode, bool forceRefresh, bool categorized, FeedTreeNodeBase initialNode, FeedInfoList unreadItems) {
+		private void WalkdownThenRefreshFeed(TreeFeedsNodeBase startNode, bool forceRefresh, bool categorized, TreeFeedsNodeBase initialFeedsNode, FeedInfoList unreadItems) {
 			if (startNode == null) return;
 			
-			if (TreeSelectedNode != initialNode)
+			if (TreeSelectedFeedsNode != initialFeedsNode)
 				return;	// do not continue, if selection was changed
 
 			try {
-				for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+				for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
 
 					if (this.Disposing)
 						return;
 				
 					if (child.Type != FeedNodeType.Feed && child.FirstNode != null) {
 						//if (forceRefresh) {
-						WalkdownThenRefreshFeed(child, forceRefresh, categorized, initialNode, unreadItems);
+						WalkdownThenRefreshFeed(child, forceRefresh, categorized, initialFeedsNode, unreadItems);
 						//}
 					} else {
-						string feedUrl =(string)child.Tag;
+						string feedUrl = child.DataKey;
 					
 						if (feedUrl == null || !owner.FeedHandler.FeedsTable.Contains(feedUrl))
 							continue;
@@ -2164,24 +2901,24 @@ namespace RssBandit.WinGui.Forms {
 								this.DelayTask(DelayedTasks.StartRefreshOneFeed, feedUrl);
 							}else if(categorized){
 								ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);									
-								feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
+								feedsFeed f = owner.GetFeed(feedUrl);
 								FeedInfo fi = null;
 					
 								if (f != null){									
-									fi = (FeedInfo) owner.FeedHandler.GetFeedInfo(f.link);
+									fi = (FeedInfo) owner.GetFeedInfo(f.link);
 									
 									if (fi == null)	// with with an error, and the like: ignore
 										continue;
 									
-									fi = (FeedInfo) fi.Clone();
-									fi.ItemsList.Clear();
+									fi = fi.Clone(false);
+									//fi.ItemsList.Clear();
 								}else{
-									fi = new FeedInfo(String.Empty, new ArrayList(), String.Empty, String.Empty, String.Empty, new Hashtable()); 
+									fi = FeedInfo.Empty; 
 								}
 									
 								foreach(NewsItem i in items){
 									if(!i.BeenRead)
-									fi.ItemsList.Add(i);
+										fi.ItemsList.Add(i);
 								}
 
 								if(fi.ItemsList.Count > 0){
@@ -2190,7 +2927,7 @@ namespace RssBandit.WinGui.Forms {
 									fi = null; 
 								}
 
-								this.PopulateListView(child, items, false, true, initialNode); 
+								this.PopulateListView(child, items, false, true, initialFeedsNode); 
 								Application.DoEvents();
 							}
 						}
@@ -2215,20 +2952,23 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="startNode">Node to start with. The startNode itself is 
 		/// considered on catchup.</param>
-		private void WalkdownAndCatchupCategory(FeedTreeNodeBase startNode) {
+		private void WalkdownAndCatchupCategory(TreeFeedsNodeBase startNode) {
 			if (startNode == null) return;
 
 			if (startNode.Type == FeedNodeType.Category) {
-				for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+				for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
 					if (child.Type == FeedNodeType.Category) 
 						WalkdownAndCatchupCategory(child);
 					else {
-						owner.FeedHandler.MarkAllCachedItemsAsRead((string)child.Tag);
-						child.UpdateReadStatus(child, 0);
+						// rely on unread cached items:
+						UnreadItemsNodeRemoveItems(child.DataKey);
+						// and now mark cached items read:
+						owner.FeedHandler.MarkAllCachedItemsAsRead(child.DataKey);
+						this.UpdateTreeNodeUnreadStatus(child, 0);
 					}
 				}
 			} else {
-				owner.FeedHandler.MarkAllCachedItemsAsRead((string)startNode.Tag);
+				owner.FeedHandler.MarkAllCachedItemsAsRead(startNode.DataKey);
 			}
 		}
 
@@ -2239,21 +2979,24 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="startNode">Node to start with. The startNode itself is 
 		/// not considered on renaming.</param>
 		/// <param name="newCategory">new full category name (long name, with all the '\').</param>
-		private void WalkdownThenRenameFeedCategory(FeedTreeNodeBase startNode, string newCategory) {
+		private void WalkdownThenRenameFeedCategory(TreeFeedsNodeBase startNode, string newCategory) {
 			if (startNode == null) return;
 			feedsFeed f = null;
 
 			if (startNode.Type == FeedNodeType.Feed) {
-				f = owner.FeedHandler.FeedsTable[(string)startNode.Tag];
-				f.category  = newCategory;	// may be null: then it is the default category "[Unassigned feeds]"
-				owner.FeedlistModified = true;
+				f = owner.GetFeed(startNode.DataKey);
+				if (f != null) {
+					f.category  = newCategory;	// may be null: then it is the default category "[Unassigned feeds]"
+					owner.FeedWasModified(f, NewsFeedProperty.FeedCategory);
+					//owner.FeedlistModified = true;
+				}
 				if (newCategory != null && !owner.FeedHandler.Categories.ContainsKey(newCategory))
 					owner.FeedHandler.Categories.Add(newCategory);
 			}
 			else {	// other
-				for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+				for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
 					if (child.Type == FeedNodeType.Feed) 
-						WalkdownThenRenameFeedCategory(child, BuildCategoryStoreName(child.Parent));
+						WalkdownThenRenameFeedCategory(child, child.Parent.CategoryStoreName);
 					else
 						WalkdownThenRenameFeedCategory(child, null /* BuildCategoryStoreName(child) */ );	// catname will be recalculated on each CategoryNode
 				}
@@ -2267,71 +3010,79 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="startNode">Node to start with. The startNode itself is 
 		/// considered on delete.</param>
 		/// <param name="startNode">new full category name (long name, with all the '\').</param>
-		private void WalkdownThenDeleteFeedsOrCategories(FeedTreeNodeBase startNode) {
+		private void WalkdownThenDeleteFeedsOrCategories(TreeFeedsNodeBase startNode) {
 			if (startNode == null) return;
 
 			if (startNode.Type == FeedNodeType.Feed) {
-				if (owner.FeedHandler.FeedsTable.ContainsKey((string)startNode.Tag) ) {
-					feedsFeed f = owner.FeedHandler.FeedsTable[(string)startNode.Tag];
-					try {
-						f.Tag = null;
-						owner.FeedHandler.DeleteFeed(f.link);
-					} catch {}
-					if (owner.FeedHandler.Categories.ContainsKey(f.category) )
-						owner.FeedHandler.Categories.Remove(f.category);
+				if (owner.FeedHandler.FeedsTable.ContainsKey(startNode.DataKey) ) {
+					feedsFeed f = owner.GetFeed(startNode.DataKey);
+					if (f != null) {
+						UnreadItemsNodeRemoveItems(f);
+						f.Tag = null;	// remove tree node ref.
+						try {
+							owner.FeedHandler.DeleteFeed(f.link);
+						} catch {}
+						if (owner.FeedHandler.Categories.ContainsKey(f.category) )
+							owner.FeedHandler.Categories.Remove(f.category);
+					}
 				}
 				else {
-					string catName = BuildCategoryStoreName(startNode.Parent);
+					string catName = TreeFeedsNodeBase.BuildCategoryStoreName(startNode.Parent);
 					if (owner.FeedHandler.Categories.ContainsKey(catName) )
 						owner.FeedHandler.Categories.Remove(catName);
 				}
 
 			}
 			else {	// other
-				string catName = BuildCategoryStoreName(startNode);
+				string catName = startNode.CategoryStoreName;
 				if (owner.FeedHandler.Categories.ContainsKey(catName) )
 					owner.FeedHandler.Categories.Remove(catName);
 
-				for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+				for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
 					WalkdownThenDeleteFeedsOrCategories(child);
 				}
 			}
 		}
 
-//		bool StoreFeedColumnLayout(FeedTreeNodeBase startNode, string layout) {
-//			if (layout == null) throw new ArgumentNullException("layout");
-//			if (startNode == null) return false;
-//
-//			if (startNode.Type == FeedNodeType.Feed) {
-//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetFeedColumnLayout((string)startNode.Tag)))
-//					owner.FeedHandler.SetFeedColumnLayout((string)startNode.Tag, layout);
-//				else
-//					CurrentFeedFeedColumnLayout = layout;
-//			} else if(startNode.Type == FeedNodeType.Category) {
-//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetCategoryFeedColumnLayout((string)startNode.Tag)))
-//					owner.FeedHandler.SetCategoryFeedColumnLayout((string)startNode.Tag, layout);
-//				else
-//					CurrentCategoryFeedColumnLayout = layout;
-//			} else {
-//				CurrentSmartFolderFeedColumnLayout = layout;
-//			}
-//			
-//			return true;
-//		}
+		//		bool StoreFeedColumnLayout(FeedTreeNodeBase startNode, string layout) {
+		//			if (layout == null) throw new ArgumentNullException("layout");
+		//			if (startNode == null) return false;
+		//
+		//			if (startNode.Type == FeedNodeType.Feed) {
+		//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetFeedColumnLayout(startNode.DataKey)))
+		//					owner.FeedHandler.SetFeedColumnLayout(startNode.DataKey, layout);
+		//				else
+		//					CurrentFeedFeedColumnLayout = layout;
+		//			} else if(startNode.Type == FeedNodeType.Category) {
+		//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetCategoryFeedColumnLayout(startNode.DataKey)))
+		//					owner.FeedHandler.SetCategoryFeedColumnLayout(startNode.DataKey, layout);
+		//				else
+		//					CurrentCategoryFeedColumnLayout = layout;
+		//			} else {
+		//				CurrentSmartFolderFeedColumnLayout = layout;
+		//			}
+		//			
+		//			return true;
+		//		}
 
-		//TODO: impl.
-		FeedColumnLayout GetFeedColumnLayout(FeedTreeNodeBase startNode) {
+		
+		/// <summary>
+		/// Gets the feed column layout.
+		/// </summary>
+		/// <param name="startNode">The start node.</param>
+		/// <returns></returns>
+		FeedColumnLayout GetFeedColumnLayout(TreeFeedsNodeBase startNode) {
 			if (startNode == null) 
-				startNode = TreeSelectedNode;
+				startNode = TreeSelectedFeedsNode;
 			if (startNode == null) 
 				return listFeedItems.FeedColumnLayout;
 
 			FeedColumnLayout layout = listFeedItems.FeedColumnLayout;
 			if (startNode.Type == FeedNodeType.Feed) {
-				layout = owner.GetFeedColumnLayout((string)startNode.Tag);
+				layout = owner.GetFeedColumnLayout(startNode.DataKey);
 				if (layout == null) layout = owner.GlobalFeedColumnLayout;
 			} else if(startNode.Type == FeedNodeType.Category) {
-				layout = owner.GetCategoryColumnLayout(this.BuildCategoryStoreName(startNode));
+				layout = owner.GetCategoryColumnLayout(startNode.CategoryStoreName);
 				if (layout == null)	layout= owner.GlobalCategoryColumnLayout;
 			} else if(startNode.Type == FeedNodeType.Finder) {
 				layout= owner.GlobalSearchFolderColumnLayout;
@@ -2341,22 +3092,32 @@ namespace RssBandit.WinGui.Forms {
 			return layout;
 		}
 
-		private void SetFeedHandlerFeedColumnLayout(FeedTreeNodeBase node, FeedColumnLayout layout) {
-			if (node == null) node = CurrentSelectedNode;
-			if (node != null) {
-				if (node.Type == FeedNodeType.Feed) {
-					owner.SetFeedColumnLayout((string)node.Tag, layout);
-				} else if (node.Type == FeedNodeType.Category) {
-					owner.SetCategoryColumnLayout(this.BuildCategoryStoreName(node), layout);
-				} else if(node.Type == FeedNodeType.Finder) {
+		/// <summary>
+		/// Sets the feed handler feed column layout.
+		/// </summary>
+		/// <param name="feedsNode">The feeds node.</param>
+		/// <param name="layout">The layout.</param>
+		private void SetFeedHandlerFeedColumnLayout(TreeFeedsNodeBase feedsNode, FeedColumnLayout layout) {
+			if (feedsNode == null) feedsNode = CurrentSelectedFeedsNode;
+			if (feedsNode != null) {
+				if (feedsNode.Type == FeedNodeType.Feed) {
+					owner.SetFeedColumnLayout(feedsNode.DataKey, layout);
+				} else if (feedsNode.Type == FeedNodeType.Category) {
+					owner.SetCategoryColumnLayout(feedsNode.CategoryStoreName, layout);
+				} else if(feedsNode.Type == FeedNodeType.Finder) {
 					owner.GlobalSearchFolderColumnLayout = layout;
-				} else if(node.Type == FeedNodeType.SmartFolder) {
+				} else if(feedsNode.Type == FeedNodeType.SmartFolder) {
 					owner.GlobalSpecialFolderColumnLayout = layout;
 				}
 			}
 
 		}
 
+		/// <summary>
+		/// Sets the global feed column layout.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <param name="layout">The layout.</param>
 		private void SetGlobalFeedColumnLayout(FeedNodeType type, FeedColumnLayout layout) {
 			if (layout == null) throw new ArgumentNullException("layout");
 
@@ -2391,82 +3152,28 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		/// <summary>
-		/// A helper method that locates the tree node containing the feed 
-		/// that an NewsItem object belongs to. 
+		/// A helper method that locates the ThreadedListViewItem representing
+		/// the NewsItem object with the given ID. 
 		/// </summary>
-		/// <param name="item">The RSS item</param>
-		/// <returns>The tree node this object belongs to or null if 
+		/// <param name="id">The RSS item's ID</param>
+		/// <returns>The ThreadedListViewItem or null if 
 		/// it can't be found</returns>
-		public FeedTreeNodeBase GetTreeNodeForItem(FeedTreeNodeBase startNode, NewsItem item) {
-			return this.GetTreeNodeForItem(startNode, item.Feed);
-		}
-
-		/// <summary>
-		/// Overloaded helper method that locates the tree node containing the feed. 
-		/// </summary>
-		/// <param name="f">The FeedsFeed</param>
-		/// <returns>The tree node this object belongs to or null if 
-		/// it can't be found</returns>
-		public FeedTreeNodeBase GetTreeNodeForItem(FeedTreeNodeBase startNode, feedsFeed f) {
-			
-			FeedTreeNodeBase assocNode = f.Tag as FeedTreeNodeBase;
-			if (assocNode != null)
-				return assocNode;
-
-			return this.GetTreeNodeForItem(startNode, f.link);
-		}
-
-		/// <summary>
-		/// Overloaded helper method that locates the tree node containing the feed. 
-		/// </summary>
-		/// <param name="feedUrl">The Feed Url</param>
-		/// <returns>The tree node this object belongs to or null if 
-		/// it can't be found</returns>
-		public FeedTreeNodeBase GetTreeNodeForItem(FeedTreeNodeBase startNode, string feedUrl) {
-		
-			if (feedUrl == null || feedUrl.Trim().Length == 0)
-				return null;
-
-			FeedTreeNodeBase ownernode = null;  
-
-			if (startNode != null) {
-
-				if( feedUrl.Equals(startNode.Tag) ) {
-					return startNode;
-				}
-	
-				foreach(FeedTreeNodeBase t in startNode.Nodes) {
-					if( feedUrl.Equals(t.Tag)  && 
-						(t.Type != FeedNodeType.Root && t.Type != FeedNodeType.Category) ) {
-						ownernode = t; 
-						break; 
-					}
-					
-					if (t.Nodes.Count > 0) {
-						ownernode = GetTreeNodeForItem(t, feedUrl);
-						if (ownernode != null) 
-							break;
-					}
+		public ThreadedListViewItem GetListViewItem(string id) 
+		{
+			//TR: fix (2007/05/03) provided id can be Url Encoded:
+			string normalizedId = HtmlHelper.UrlDecode(id);
+			ThreadedListViewItem theItem = null;  
+			for (int i = 0; i < this.listFeedItems.Items.Count; i++) {
+				
+				ThreadedListViewItem currentItem = this.listFeedItems.Items[i];
+				NewsItem item = (NewsItem)currentItem.Key; 
+				
+				if(item.Id.Equals(id) || item.Id.Equals(normalizedId)){
+					theItem = currentItem; 
+					break; 
 				}
 			}
-			return ownernode; 
-		}
-
-		/// <summary>
-		/// Find a direct child node.
-		/// </summary>
-		/// <param name="n"></param>
-		/// <param name="text"></param>
-		/// <param name="nType"></param>
-		/// <returns></returns>
-		private FeedTreeNodeBase FindChild(FeedTreeNodeBase n, string text, FeedNodeType nType) {
-			if (n == null || text == null) return null;
-			text = text.Trim();
-			for (FeedTreeNodeBase t = n.FirstNode; t != null; t = t.NextNode)	{	
-				if (t.Type == nType && String.Compare(t.Key, text, false, CultureInfo.CurrentCulture) == 0)	// node names are usually english or client locale
-					return t;
-			}
-			return null;
+			return theItem; 
 		}
 
 		/// <summary>
@@ -2477,58 +3184,14 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="category">A category path, e.g. 'Category1\SubCategory1'.</param>
 		/// <returns>The leave category node.</returns>
 		/// <remarks>If one category in the path is not found, it will be created.</remarks>
-		internal FeedTreeNodeBase CreateCategoryHive(FeedTreeNodeBase startNode, string category)	{
-			return this.CreateCategoryHive(startNode, category, false);
+		internal TreeFeedsNodeBase CreateSubscriptionsCategoryHive(TreeFeedsNodeBase startNode, string category)	{
+			return TreeHelper.CreateCategoryHive(startNode, category, _treeCategoryContextMenu);
 		}
 		
-		/// <summary>
-		/// Traverse down the tree on the path defined by 'category' 
-		/// starting with 'startNode'.
-		/// </summary>
-		/// <param name="startNode">FeedTreeNodeBase to start with</param>
-		/// <param name="category">A category path, e.g. 'Category1\SubCategory1'.</param>
-		/// <param name="isFinderCategory">True, if it has to create a FinderCategoryNode, else false (creates a CategoryNode)</param>
-		/// <returns>The leave category node.</returns>
-		/// <remarks>If one category in the path is not found, it will be created.</remarks>
-		internal FeedTreeNodeBase CreateCategoryHive(FeedTreeNodeBase startNode, string category, bool isFinderCategory)	{
-
-			if (category == null || category.Length == 0 || startNode == null) return startNode;
-
-			string[] catHives = category.Split(new char[]{'\\'});
-			FeedNodeType nType = (isFinderCategory ? FeedNodeType.FinderCategory: FeedNodeType.Category);
-			FeedTreeNodeBase n = null;
-			bool wasNew = false;
-
-			foreach (string catHive in catHives){
-
-				if (!wasNew) 
-					n = FindChild(startNode, catHive, nType);
-				else
-					n = null;
-
-				if (n == null) {
-					
-					if (isFinderCategory) {
-						n = new FinderCategoryNode(catHive, 2, 3, _treeSearchFolderContextMenu);
-					} else {
-						n = new CategoryNode(catHive, 2, 3, _treeCategoryContextMenu);
-					}
-					startNode.Nodes.Add(n);
-					wasNew = true;	// shorten search
-				}
-
-				startNode = n;
-
-			}//foreach
-			
-			return startNode;
-		}
-
-
 		private void DoEditTreeNodeLabel(){
 			
-			if(CurrentSelectedNode!= null){
-				CurrentSelectedNode.BeginEdit();
+			if(CurrentSelectedFeedsNode!= null){
+				CurrentSelectedFeedsNode.BeginEdit();
 			}			
 		}
 
@@ -2556,119 +3219,195 @@ namespace RssBandit.WinGui.Forms {
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WinGuiMain));
+			Infragistics.Win.UltraWinTree.Override _override1 = new Infragistics.Win.UltraWinTree.Override();
+			Infragistics.Win.UltraWinTree.UltraTreeColumnSet ultraTreeColumnSet1 = new Infragistics.Win.UltraWinTree.UltraTreeColumnSet();
+			Infragistics.Win.UltraWinTree.UltraTreeNodeColumn ultraTreeNodeColumn1 = new Infragistics.Win.UltraWinTree.UltraTreeNodeColumn();
+			Infragistics.Win.UltraWinTree.Override _override2 = new Infragistics.Win.UltraWinTree.Override();
+			Infragistics.Win.Appearance appearance1 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
+			Infragistics.Win.Appearance appearance2 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance3 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
+			Infragistics.Win.Appearance appearance4 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance5 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance6 = new Infragistics.Win.Appearance();
+			this.NavigatorFeedSubscriptions = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
+			this.treeFeeds = new Infragistics.Win.UltraWinTree.UltraTree();
+			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);		
+			this.NavigatorSearch = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
+			this.panelRssSearch = new System.Windows.Forms.Panel();
 			this.panelFeedDetails = new System.Windows.Forms.Panel();
 			this.panelWebDetail = new System.Windows.Forms.Panel();
 			this.htmlDetail = new IEControl.HtmlControl();
-			this.detailsPaneSplitter = new CollapsibleSplitter();
+			this.detailsPaneSplitter = new WinGui.Controls.CollapsibleSplitter();
 			this.panelFeedItems = new System.Windows.Forms.Panel();
+			this.listFeedItemsO = new WinGui.Controls.UltraTreeExtended();
 			this.listFeedItems = new System.Windows.Forms.ThListView.ThreadedListView();
 			this.colHeadline = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
 			this.colDate = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
 			this.colTopic = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.comboBoxRssSearchItemPostedOperator = new System.Windows.Forms.ComboBox();
-			this.dateTimeRssSearchItemPost = new System.Windows.Forms.DateTimePicker();
-			this.dateTimeRssSearchPostAfter = new System.Windows.Forms.DateTimePicker();
-			this.dateTimeRssSearchPostBefore = new System.Windows.Forms.DateTimePicker();
-			this.treeFeeds = new System.Windows.Forms.TreeView();
-			this.panelRssSearch = new System.Windows.Forms.Panel();
-			this.taskPaneSearchOptions = new XPExplorerBar.TaskPane();
-			this.collapsiblePanelSearchNameEx = new XPExplorerBar.Expando();
-			this.btnRssSearchSave = new System.Windows.Forms.Button();
-			this.labelSearchFolderNameHint = new System.Windows.Forms.Label();
-			this.textFinderCaption = new System.Windows.Forms.TextBox();
-			this.collapsiblePanelRssSearchExprKindEx = new XPExplorerBar.Expando();
-			this.radioRssSearchSimpleText = new System.Windows.Forms.RadioButton();
-			this.labelRssSearchTypeHint = new System.Windows.Forms.Label();
-			this.radioRssSearchExprXPath = new System.Windows.Forms.RadioButton();
-			this.radioRssSearchRegEx = new System.Windows.Forms.RadioButton();
-			this.collapsiblePanelItemPropertiesEx = new XPExplorerBar.Expando();
-			this.checkBoxRssSearchInDesc = new System.Windows.Forms.CheckBox();
-			this.checkBoxRssSearchInCategory = new System.Windows.Forms.CheckBox();
-			this.checkBoxRssSearchInTitle = new System.Windows.Forms.CheckBox();
-			this.checkBoxRssSearchInLink = new System.Windows.Forms.CheckBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.collapsiblePanelAdvancedOptionsEx = new XPExplorerBar.Expando();
-			this.checkBoxConsiderItemReadState = new System.Windows.Forms.CheckBox();
-			this.checkBoxRssSearchUnreadItems = new System.Windows.Forms.CheckBox();
-			this.horizontalEdge = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.checkBoxRssSearchTimeSpan = new System.Windows.Forms.CheckBox();
-			this.radioRssSearchItemsOlderThan = new System.Windows.Forms.RadioButton();
-			this.comboRssSearchItemAge = new System.Windows.Forms.ComboBox();
-			this.radioRssSearchItemsYoungerThan = new System.Windows.Forms.RadioButton();
-			this.label3 = new System.Windows.Forms.Label();
-			this.checkBoxRssSearchByDate = new System.Windows.Forms.CheckBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.checkBoxRssSearchByDateRange = new System.Windows.Forms.CheckBox();
-			this.collapsiblePanelRssSearchScopeEx = new XPExplorerBar.Expando();
-			this.treeRssSearchScope = new System.Windows.Forms.TreeView();
-			this.searchPaneSplitter = new CollapsibleSplitter();
-			this.panelRssSearchCommands = new System.Windows.Forms.Panel();
-			this.btnNewSearch = new System.Windows.Forms.Button();
-			this.textSearchExpression = new System.Windows.Forms.TextBox();
-			this.btnSearchCancel = new System.Windows.Forms.Button();
-			this.labelRssSearchState = new System.Windows.Forms.Label();
 			this._status = new System.Windows.Forms.StatusBar();
 			this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
 			this.statusBarBrowserProgress = new System.Windows.Forms.StatusBarPanel();
 			this.statusBarConnectionState = new System.Windows.Forms.StatusBarPanel();
 			this.statusBarRssParser = new System.Windows.Forms.StatusBarPanel();
-			this.bottomSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.sandBarManager = new TD.SandBar.SandBarManager();
-			this.leftSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.rightSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.topSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.toolBarMain = new TD.SandBar.ToolBar();
-			this.menuBarMain = new TD.SandBar.MenuBar();
-			this.toolBarBrowser = new TD.SandBar.ToolBar();
-			this.toolBarWebSearch = new TD.SandBar.ToolBar();
 			this.progressBrowser = new System.Windows.Forms.ProgressBar();
-			this.leftSandDock = new TD.SandDock.DockContainer();
-			this.dockSubscriptions = new TD.SandDock.DockControl();
-			this.dockSearch = new TD.SandDock.DockControl();
-			this.sandDockManager = new TD.SandDock.SandDockManager();
 			this.rightSandDock = new TD.SandDock.DockContainer();
+			this.sandDockManager = new TD.SandDock.SandDockManager();
 			this.bottomSandDock = new TD.SandDock.DockContainer();
 			this.topSandDock = new TD.SandDock.DockContainer();
 			this._docContainer = new TD.SandDock.DocumentContainer();
 			this._docFeedDetails = new TD.SandDock.DockControl();
+			this.panelClientAreaContainer = new System.Windows.Forms.Panel();
+			this.panelFeedDetailsContainer = new System.Windows.Forms.Panel();
+			this.detailHeaderCaption = new Infragistics.Win.Misc.UltraLabel();
+			this.splitterNavigator = new System.Windows.Forms.Splitter();
+			this.Navigator = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar();
+			this.pNavigatorCollapsed = new System.Windows.Forms.Panel();
+			this.navigatorHiddenCaption = new WinGui.Controls.VerticalHeaderLabel();
+			this._startupTimer = new System.Windows.Forms.Timer(this.components);
 			this._timerTreeNodeExpand = new System.Timers.Timer();
 			this._timerRefreshFeeds = new System.Timers.Timer();
+			this._timerRefreshCommentFeeds = new System.Timers.Timer();
 			this._timerResetStatus = new System.Windows.Forms.Timer(this.components);
-			this._uiTasksTimer = new RssBandit.WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
+			this._uiTasksTimer = new WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+			this._timerDispatchResultsToUI = new System.Windows.Forms.Timer(this.components);
+			this.NavigatorFeedSubscriptions.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).BeginInit();
+			this.NavigatorSearch.SuspendLayout();
+			this.panelRssSearch.SuspendLayout();
 			this.panelFeedDetails.SuspendLayout();
 			this.panelWebDetail.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).BeginInit();
 			this.panelFeedItems.SuspendLayout();
-			this.panelRssSearch.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.taskPaneSearchOptions)).BeginInit();
-			this.taskPaneSearchOptions.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelSearchNameEx)).BeginInit();
-			this.collapsiblePanelSearchNameEx.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelRssSearchExprKindEx)).BeginInit();
-			this.collapsiblePanelRssSearchExprKindEx.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelItemPropertiesEx)).BeginInit();
-			this.collapsiblePanelItemPropertiesEx.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelAdvancedOptionsEx)).BeginInit();
-			this.collapsiblePanelAdvancedOptionsEx.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelRssSearchScopeEx)).BeginInit();
-			this.collapsiblePanelRssSearchScopeEx.SuspendLayout();
-			this.panelRssSearchCommands.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).BeginInit();
-			this.topSandBarDock.SuspendLayout();
-			this.leftSandDock.SuspendLayout();
-			this.dockSubscriptions.SuspendLayout();
-			this.dockSearch.SuspendLayout();
 			this._docContainer.SuspendLayout();
 			this._docFeedDetails.SuspendLayout();
+			this.panelClientAreaContainer.SuspendLayout();
+			this.panelFeedDetailsContainer.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Navigator)).BeginInit();
+			this.Navigator.SuspendLayout();
+			this.pNavigatorCollapsed.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._timerTreeNodeExpand)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._timerRefreshFeeds)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshCommentFeeds)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// NavigatorFeedSubscriptions
+			// 
+			this.NavigatorFeedSubscriptions.AccessibleDescription = resources.GetString("NavigatorFeedSubscriptions.AccessibleDescription");
+			this.NavigatorFeedSubscriptions.AccessibleName = resources.GetString("NavigatorFeedSubscriptions.AccessibleName");
+			this.NavigatorFeedSubscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("NavigatorFeedSubscriptions.Anchor")));
+			this.NavigatorFeedSubscriptions.AutoScroll = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.AutoScroll")));
+			this.NavigatorFeedSubscriptions.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.AutoScrollMargin")));
+			this.NavigatorFeedSubscriptions.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.AutoScrollMinSize")));
+			this.NavigatorFeedSubscriptions.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NavigatorFeedSubscriptions.BackgroundImage")));
+			this.NavigatorFeedSubscriptions.Controls.Add(this.treeFeeds);
+			this.NavigatorFeedSubscriptions.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("NavigatorFeedSubscriptions.Dock")));
+			this.NavigatorFeedSubscriptions.Enabled = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.Enabled")));
+			this.NavigatorFeedSubscriptions.Font = ((System.Drawing.Font)(resources.GetObject("NavigatorFeedSubscriptions.Font")));
+			this.helpProvider1.SetHelpKeyword(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.NavigatorFeedSubscriptions, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("NavigatorFeedSubscriptions.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.HelpString"));
+			this.NavigatorFeedSubscriptions.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("NavigatorFeedSubscriptions.ImeMode")));
+			this.NavigatorFeedSubscriptions.Location = ((System.Drawing.Point)(resources.GetObject("NavigatorFeedSubscriptions.Location")));
+			this.NavigatorFeedSubscriptions.Name = "NavigatorFeedSubscriptions";
+			this.NavigatorFeedSubscriptions.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("NavigatorFeedSubscriptions.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.NavigatorFeedSubscriptions, ((bool)(resources.GetObject("NavigatorFeedSubscriptions.ShowHelp"))));
+			this.NavigatorFeedSubscriptions.Size = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.Size")));
+			this.NavigatorFeedSubscriptions.TabIndex = ((int)(resources.GetObject("NavigatorFeedSubscriptions.TabIndex")));
+			this.NavigatorFeedSubscriptions.Text = resources.GetString("NavigatorFeedSubscriptions.Text");
+			this.toolTip.SetToolTip(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.ToolTip"));
+			this.NavigatorFeedSubscriptions.Visible = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.Visible")));
+			// 
+			// treeFeeds
+			// 
+			this.treeFeeds.AccessibleDescription = resources.GetString("treeFeeds.AccessibleDescription");
+			this.treeFeeds.AccessibleName = resources.GetString("treeFeeds.AccessibleName");
+			this.treeFeeds.AllowDrop = true;
+			this.treeFeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("treeFeeds.Anchor")));
+			this.treeFeeds.BorderStyle = Infragistics.Win.UIElementBorderStyle.None;
+			this.treeFeeds.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("treeFeeds.Dock")));
+			this.treeFeeds.Enabled = ((bool)(resources.GetObject("treeFeeds.Enabled")));
+			this.treeFeeds.Font = ((System.Drawing.Font)(resources.GetObject("treeFeeds.Font")));
+			this.helpProvider1.SetHelpKeyword(this.treeFeeds, resources.GetString("treeFeeds.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.treeFeeds, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("treeFeeds.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.treeFeeds, resources.GetString("treeFeeds.HelpString"));
+			this.treeFeeds.HideSelection = false;
+			this.treeFeeds.ImageTransparentColor = System.Drawing.Color.Transparent;
+			this.treeFeeds.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("treeFeeds.ImeMode")));
+			this.treeFeeds.Location = ((System.Drawing.Point)(resources.GetObject("treeFeeds.Location")));
+			this.treeFeeds.Name = "treeFeeds";
+			this.treeFeeds.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
+			_override1.LabelEdit = Infragistics.Win.DefaultableBoolean.True;
+			_override1.Sort = Infragistics.Win.UltraWinTree.SortType.Ascending;
+			this.treeFeeds.Override = _override1;
+			this.treeFeeds.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("treeFeeds.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.treeFeeds, ((bool)(resources.GetObject("treeFeeds.ShowHelp"))));
+			this.treeFeeds.Size = ((System.Drawing.Size)(resources.GetObject("treeFeeds.Size")));
+			this.treeFeeds.TabIndex = ((int)(resources.GetObject("treeFeeds.TabIndex")));
+			this.toolTip.SetToolTip(this.treeFeeds, resources.GetString("treeFeeds.ToolTip"));
+			this.treeFeeds.Visible = ((bool)(resources.GetObject("treeFeeds.Visible")));
+			// 
+			// NavigatorSearch
+			// 
+			this.NavigatorSearch.AccessibleDescription = resources.GetString("NavigatorSearch.AccessibleDescription");
+			this.NavigatorSearch.AccessibleName = resources.GetString("NavigatorSearch.AccessibleName");
+			this.NavigatorSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("NavigatorSearch.Anchor")));
+			this.NavigatorSearch.AutoScroll = ((bool)(resources.GetObject("NavigatorSearch.AutoScroll")));
+			this.NavigatorSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.AutoScrollMargin")));
+			this.NavigatorSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.AutoScrollMinSize")));
+			this.NavigatorSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NavigatorSearch.BackgroundImage")));
+			this.NavigatorSearch.Controls.Add(this.panelRssSearch);
+			this.NavigatorSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("NavigatorSearch.Dock")));
+			this.NavigatorSearch.Enabled = ((bool)(resources.GetObject("NavigatorSearch.Enabled")));
+			this.NavigatorSearch.Font = ((System.Drawing.Font)(resources.GetObject("NavigatorSearch.Font")));
+			this.helpProvider1.SetHelpKeyword(this.NavigatorSearch, resources.GetString("NavigatorSearch.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.NavigatorSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("NavigatorSearch.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.NavigatorSearch, resources.GetString("NavigatorSearch.HelpString"));
+			this.NavigatorSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("NavigatorSearch.ImeMode")));
+			this.NavigatorSearch.Location = ((System.Drawing.Point)(resources.GetObject("NavigatorSearch.Location")));
+			this.NavigatorSearch.Name = "NavigatorSearch";
+			this.NavigatorSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("NavigatorSearch.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.NavigatorSearch, ((bool)(resources.GetObject("NavigatorSearch.ShowHelp"))));
+			this.NavigatorSearch.Size = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.Size")));
+			this.NavigatorSearch.TabIndex = ((int)(resources.GetObject("NavigatorSearch.TabIndex")));
+			this.NavigatorSearch.Text = resources.GetString("NavigatorSearch.Text");
+			this.toolTip.SetToolTip(this.NavigatorSearch, resources.GetString("NavigatorSearch.ToolTip"));
+			this.NavigatorSearch.Visible = ((bool)(resources.GetObject("NavigatorSearch.Visible")));
+			// 
+			// panelRssSearch
+			// 
+			this.panelRssSearch.AccessibleDescription = resources.GetString("panelRssSearch.AccessibleDescription");
+			this.panelRssSearch.AccessibleName = resources.GetString("panelRssSearch.AccessibleName");
+			this.panelRssSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelRssSearch.Anchor")));
+			this.panelRssSearch.AutoScroll = ((bool)(resources.GetObject("panelRssSearch.AutoScroll")));
+			this.panelRssSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMargin")));
+			this.panelRssSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMinSize")));
+			this.panelRssSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.panelRssSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelRssSearch.BackgroundImage")));
+			this.panelRssSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelRssSearch.Dock")));
+			this.panelRssSearch.Enabled = ((bool)(resources.GetObject("panelRssSearch.Enabled")));
+			this.panelRssSearch.Font = ((System.Drawing.Font)(resources.GetObject("panelRssSearch.Font")));
+			this.helpProvider1.SetHelpKeyword(this.panelRssSearch, resources.GetString("panelRssSearch.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.panelRssSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelRssSearch.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.panelRssSearch, resources.GetString("panelRssSearch.HelpString"));
+			this.panelRssSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelRssSearch.ImeMode")));
+			this.panelRssSearch.Location = ((System.Drawing.Point)(resources.GetObject("panelRssSearch.Location")));
+			this.panelRssSearch.Name = "panelRssSearch";
+			this.panelRssSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelRssSearch.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.panelRssSearch, ((bool)(resources.GetObject("panelRssSearch.ShowHelp"))));
+			this.panelRssSearch.Size = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.Size")));
+			this.panelRssSearch.TabIndex = ((int)(resources.GetObject("panelRssSearch.TabIndex")));
+			this.panelRssSearch.Text = resources.GetString("panelRssSearch.Text");
+			this.toolTip.SetToolTip(this.panelRssSearch, resources.GetString("panelRssSearch.ToolTip"));
+			this.panelRssSearch.Visible = ((bool)(resources.GetObject("panelRssSearch.Visible")));
 			// 
 			// panelFeedDetails
 			// 
@@ -2783,7 +3522,7 @@ namespace RssBandit.WinGui.Forms {
 			this.toolTip.SetToolTip(this.detailsPaneSplitter, resources.GetString("detailsPaneSplitter.ToolTip"));
 			this.detailsPaneSplitter.UseAnimations = false;
 			this.detailsPaneSplitter.Visible = ((bool)(resources.GetObject("detailsPaneSplitter.Visible")));
-			this.detailsPaneSplitter.VisualStyle = VisualStyles.XP;
+			this.detailsPaneSplitter.VisualStyle = WinGui.Controls.VisualStyles.XP;
 			// 
 			// panelFeedItems
 			// 
@@ -2794,6 +3533,7 @@ namespace RssBandit.WinGui.Forms {
 			this.panelFeedItems.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelFeedItems.AutoScrollMargin")));
 			this.panelFeedItems.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelFeedItems.AutoScrollMinSize")));
 			this.panelFeedItems.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelFeedItems.BackgroundImage")));
+			this.panelFeedItems.Controls.Add(this.listFeedItemsO);
 			this.panelFeedItems.Controls.Add(this.listFeedItems);
 			this.panelFeedItems.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelFeedItems.Dock")));
 			this.panelFeedItems.Enabled = ((bool)(resources.GetObject("panelFeedItems.Enabled")));
@@ -2811,6 +3551,45 @@ namespace RssBandit.WinGui.Forms {
 			this.panelFeedItems.Text = resources.GetString("panelFeedItems.Text");
 			this.toolTip.SetToolTip(this.panelFeedItems, resources.GetString("panelFeedItems.ToolTip"));
 			this.panelFeedItems.Visible = ((bool)(resources.GetObject("panelFeedItems.Visible")));
+			// 
+			// listFeedItemsO
+			// 
+			this.listFeedItemsO.AccessibleDescription = resources.GetString("listFeedItemsO.AccessibleDescription");
+			this.listFeedItemsO.AccessibleName = resources.GetString("listFeedItemsO.AccessibleName");
+			this.listFeedItemsO.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("listFeedItemsO.Anchor")));
+			this.listFeedItemsO.ColumnSettings.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			this.listFeedItemsO.ColumnSettings.AutoFitColumns = Infragistics.Win.UltraWinTree.AutoFitColumns.ResizeAllColumns;
+			ultraTreeColumnSet1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			ultraTreeNodeColumn1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			ultraTreeNodeColumn1.Key = "Arranged by: Date";
+			ultraTreeColumnSet1.Columns.Add(ultraTreeNodeColumn1);
+			ultraTreeColumnSet1.Key = "csOutlook";
+			this.listFeedItemsO.ColumnSettings.ColumnSets.Add(ultraTreeColumnSet1);
+			this.listFeedItemsO.ColumnSettings.HeaderStyle = Infragistics.Win.HeaderStyle.XPThemed;
+			this.listFeedItemsO.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("listFeedItemsO.Dock")));
+			this.listFeedItemsO.Enabled = ((bool)(resources.GetObject("listFeedItemsO.Enabled")));
+			this.listFeedItemsO.Font = ((System.Drawing.Font)(resources.GetObject("listFeedItemsO.Font")));
+			this.listFeedItemsO.FullRowSelect = true;
+			this.helpProvider1.SetHelpKeyword(this.listFeedItemsO, resources.GetString("listFeedItemsO.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.listFeedItemsO, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("listFeedItemsO.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.listFeedItemsO, resources.GetString("listFeedItemsO.HelpString"));
+			this.listFeedItemsO.HideSelection = false;
+			this.listFeedItemsO.ImageTransparentColor = System.Drawing.Color.Transparent;
+			this.listFeedItemsO.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("listFeedItemsO.ImeMode")));
+			this.listFeedItemsO.IsUpdatingSelection = false;
+			this.listFeedItemsO.Location = ((System.Drawing.Point)(resources.GetObject("listFeedItemsO.Location")));
+			this.listFeedItemsO.Name = "listFeedItemsO";
+			this.listFeedItemsO.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
+			_override2.ColumnSetIndex = 0;
+			_override2.ItemHeight = 35;
+			_override2.SelectionType = Infragistics.Win.UltraWinTree.SelectType.Extended;
+			this.listFeedItemsO.Override = _override2;
+			this.listFeedItemsO.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("listFeedItemsO.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.listFeedItemsO, ((bool)(resources.GetObject("listFeedItemsO.ShowHelp"))));
+			this.listFeedItemsO.Size = ((System.Drawing.Size)(resources.GetObject("listFeedItemsO.Size")));
+			this.listFeedItemsO.TabIndex = ((int)(resources.GetObject("listFeedItemsO.TabIndex")));
+			this.toolTip.SetToolTip(this.listFeedItemsO, resources.GetString("listFeedItemsO.ToolTip"));
+			this.listFeedItemsO.Visible = ((bool)(resources.GetObject("listFeedItemsO.Visible")));
 			// 
 			// listFeedItems
 			// 
@@ -2849,6 +3628,7 @@ namespace RssBandit.WinGui.Forms {
 			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
 			this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
 			this.listFeedItems.ListLayoutModified += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutModifiedEventHandler(this.OnFeedListLayoutModified);
+			this.listFeedItems.AfterExpandThread += new System.Windows.Forms.ThListView.ThreadedListView.OnAfterExpandThreadEventHandler(this.OnFeedListAfterExpandThread);
 			this.listFeedItems.ListLayoutChanged += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutChangedEventHandler(this.OnFeedListLayoutChanged);
 			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
 			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
@@ -2877,1322 +3657,6 @@ namespace RssBandit.WinGui.Forms {
 			this.colTopic.Text = resources.GetString("colTopic.Text");
 			this.colTopic.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("colTopic.TextAlign")));
 			this.colTopic.Width = ((int)(resources.GetObject("colTopic.Width")));
-			// 
-			// comboBoxRssSearchItemPostedOperator
-			// 
-			this.comboBoxRssSearchItemPostedOperator.AccessibleDescription = resources.GetString("comboBoxRssSearchItemPostedOperator.AccessibleDescription");
-			this.comboBoxRssSearchItemPostedOperator.AccessibleName = resources.GetString("comboBoxRssSearchItemPostedOperator.AccessibleName");
-			this.comboBoxRssSearchItemPostedOperator.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Anchor")));
-			this.comboBoxRssSearchItemPostedOperator.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("comboBoxRssSearchItemPostedOperator.BackgroundImage")));
-			this.comboBoxRssSearchItemPostedOperator.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Dock")));
-			this.comboBoxRssSearchItemPostedOperator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxRssSearchItemPostedOperator.Enabled = ((bool)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Enabled")));
-			this.comboBoxRssSearchItemPostedOperator.Font = ((System.Drawing.Font)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Font")));
-			this.helpProvider1.SetHelpKeyword(this.comboBoxRssSearchItemPostedOperator, resources.GetString("comboBoxRssSearchItemPostedOperator.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.comboBoxRssSearchItemPostedOperator, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("comboBoxRssSearchItemPostedOperator.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.comboBoxRssSearchItemPostedOperator, resources.GetString("comboBoxRssSearchItemPostedOperator.HelpString"));
-			this.comboBoxRssSearchItemPostedOperator.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("comboBoxRssSearchItemPostedOperator.ImeMode")));
-			this.comboBoxRssSearchItemPostedOperator.IntegralHeight = ((bool)(resources.GetObject("comboBoxRssSearchItemPostedOperator.IntegralHeight")));
-			this.comboBoxRssSearchItemPostedOperator.ItemHeight = ((int)(resources.GetObject("comboBoxRssSearchItemPostedOperator.ItemHeight")));
-			this.comboBoxRssSearchItemPostedOperator.Items.AddRange(new object[] {
-																					 resources.GetString("comboBoxRssSearchItemPostedOperator.Items"),
-																					 resources.GetString("comboBoxRssSearchItemPostedOperator.Items1"),
-																					 resources.GetString("comboBoxRssSearchItemPostedOperator.Items2")});
-			this.comboBoxRssSearchItemPostedOperator.Location = ((System.Drawing.Point)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Location")));
-			this.comboBoxRssSearchItemPostedOperator.MaxDropDownItems = ((int)(resources.GetObject("comboBoxRssSearchItemPostedOperator.MaxDropDownItems")));
-			this.comboBoxRssSearchItemPostedOperator.MaxLength = ((int)(resources.GetObject("comboBoxRssSearchItemPostedOperator.MaxLength")));
-			this.comboBoxRssSearchItemPostedOperator.Name = "comboBoxRssSearchItemPostedOperator";
-			this.comboBoxRssSearchItemPostedOperator.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("comboBoxRssSearchItemPostedOperator.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.comboBoxRssSearchItemPostedOperator, ((bool)(resources.GetObject("comboBoxRssSearchItemPostedOperator.ShowHelp"))));
-			this.comboBoxRssSearchItemPostedOperator.Size = ((System.Drawing.Size)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Size")));
-			this.comboBoxRssSearchItemPostedOperator.TabIndex = ((int)(resources.GetObject("comboBoxRssSearchItemPostedOperator.TabIndex")));
-			this.comboBoxRssSearchItemPostedOperator.Text = resources.GetString("comboBoxRssSearchItemPostedOperator.Text");
-			this.toolTip.SetToolTip(this.comboBoxRssSearchItemPostedOperator, resources.GetString("comboBoxRssSearchItemPostedOperator.ToolTip"));
-			this.comboBoxRssSearchItemPostedOperator.Visible = ((bool)(resources.GetObject("comboBoxRssSearchItemPostedOperator.Visible")));
-			// 
-			// dateTimeRssSearchItemPost
-			// 
-			this.dateTimeRssSearchItemPost.AccessibleDescription = resources.GetString("dateTimeRssSearchItemPost.AccessibleDescription");
-			this.dateTimeRssSearchItemPost.AccessibleName = resources.GetString("dateTimeRssSearchItemPost.AccessibleName");
-			this.dateTimeRssSearchItemPost.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("dateTimeRssSearchItemPost.Anchor")));
-			this.dateTimeRssSearchItemPost.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("dateTimeRssSearchItemPost.BackgroundImage")));
-			this.dateTimeRssSearchItemPost.CalendarFont = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchItemPost.CalendarFont")));
-			this.dateTimeRssSearchItemPost.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("dateTimeRssSearchItemPost.Dock")));
-			this.dateTimeRssSearchItemPost.DropDownAlign = ((System.Windows.Forms.LeftRightAlignment)(resources.GetObject("dateTimeRssSearchItemPost.DropDownAlign")));
-			this.dateTimeRssSearchItemPost.Enabled = ((bool)(resources.GetObject("dateTimeRssSearchItemPost.Enabled")));
-			this.dateTimeRssSearchItemPost.Font = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchItemPost.Font")));
-			this.dateTimeRssSearchItemPost.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.helpProvider1.SetHelpKeyword(this.dateTimeRssSearchItemPost, resources.GetString("dateTimeRssSearchItemPost.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.dateTimeRssSearchItemPost, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("dateTimeRssSearchItemPost.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.dateTimeRssSearchItemPost, resources.GetString("dateTimeRssSearchItemPost.HelpString"));
-			this.dateTimeRssSearchItemPost.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("dateTimeRssSearchItemPost.ImeMode")));
-			this.dateTimeRssSearchItemPost.Location = ((System.Drawing.Point)(resources.GetObject("dateTimeRssSearchItemPost.Location")));
-			this.dateTimeRssSearchItemPost.MinDate = new System.DateTime(1980, 1, 1, 0, 0, 0, 0);
-			this.dateTimeRssSearchItemPost.Name = "dateTimeRssSearchItemPost";
-			this.dateTimeRssSearchItemPost.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("dateTimeRssSearchItemPost.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.dateTimeRssSearchItemPost, ((bool)(resources.GetObject("dateTimeRssSearchItemPost.ShowHelp"))));
-			this.dateTimeRssSearchItemPost.Size = ((System.Drawing.Size)(resources.GetObject("dateTimeRssSearchItemPost.Size")));
-			this.dateTimeRssSearchItemPost.TabIndex = ((int)(resources.GetObject("dateTimeRssSearchItemPost.TabIndex")));
-			this.toolTip.SetToolTip(this.dateTimeRssSearchItemPost, resources.GetString("dateTimeRssSearchItemPost.ToolTip"));
-			this.dateTimeRssSearchItemPost.Visible = ((bool)(resources.GetObject("dateTimeRssSearchItemPost.Visible")));
-			// 
-			// dateTimeRssSearchPostAfter
-			// 
-			this.dateTimeRssSearchPostAfter.AccessibleDescription = resources.GetString("dateTimeRssSearchPostAfter.AccessibleDescription");
-			this.dateTimeRssSearchPostAfter.AccessibleName = resources.GetString("dateTimeRssSearchPostAfter.AccessibleName");
-			this.dateTimeRssSearchPostAfter.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("dateTimeRssSearchPostAfter.Anchor")));
-			this.dateTimeRssSearchPostAfter.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("dateTimeRssSearchPostAfter.BackgroundImage")));
-			this.dateTimeRssSearchPostAfter.CalendarFont = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchPostAfter.CalendarFont")));
-			this.dateTimeRssSearchPostAfter.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("dateTimeRssSearchPostAfter.Dock")));
-			this.dateTimeRssSearchPostAfter.DropDownAlign = ((System.Windows.Forms.LeftRightAlignment)(resources.GetObject("dateTimeRssSearchPostAfter.DropDownAlign")));
-			this.dateTimeRssSearchPostAfter.Enabled = ((bool)(resources.GetObject("dateTimeRssSearchPostAfter.Enabled")));
-			this.dateTimeRssSearchPostAfter.Font = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchPostAfter.Font")));
-			this.dateTimeRssSearchPostAfter.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.helpProvider1.SetHelpKeyword(this.dateTimeRssSearchPostAfter, resources.GetString("dateTimeRssSearchPostAfter.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.dateTimeRssSearchPostAfter, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("dateTimeRssSearchPostAfter.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.dateTimeRssSearchPostAfter, resources.GetString("dateTimeRssSearchPostAfter.HelpString"));
-			this.dateTimeRssSearchPostAfter.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("dateTimeRssSearchPostAfter.ImeMode")));
-			this.dateTimeRssSearchPostAfter.Location = ((System.Drawing.Point)(resources.GetObject("dateTimeRssSearchPostAfter.Location")));
-			this.dateTimeRssSearchPostAfter.MinDate = new System.DateTime(1980, 1, 1, 0, 0, 0, 0);
-			this.dateTimeRssSearchPostAfter.Name = "dateTimeRssSearchPostAfter";
-			this.dateTimeRssSearchPostAfter.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("dateTimeRssSearchPostAfter.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.dateTimeRssSearchPostAfter, ((bool)(resources.GetObject("dateTimeRssSearchPostAfter.ShowHelp"))));
-			this.dateTimeRssSearchPostAfter.Size = ((System.Drawing.Size)(resources.GetObject("dateTimeRssSearchPostAfter.Size")));
-			this.dateTimeRssSearchPostAfter.TabIndex = ((int)(resources.GetObject("dateTimeRssSearchPostAfter.TabIndex")));
-			this.toolTip.SetToolTip(this.dateTimeRssSearchPostAfter, resources.GetString("dateTimeRssSearchPostAfter.ToolTip"));
-			this.dateTimeRssSearchPostAfter.Visible = ((bool)(resources.GetObject("dateTimeRssSearchPostAfter.Visible")));
-			// 
-			// dateTimeRssSearchPostBefore
-			// 
-			this.dateTimeRssSearchPostBefore.AccessibleDescription = resources.GetString("dateTimeRssSearchPostBefore.AccessibleDescription");
-			this.dateTimeRssSearchPostBefore.AccessibleName = resources.GetString("dateTimeRssSearchPostBefore.AccessibleName");
-			this.dateTimeRssSearchPostBefore.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("dateTimeRssSearchPostBefore.Anchor")));
-			this.dateTimeRssSearchPostBefore.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("dateTimeRssSearchPostBefore.BackgroundImage")));
-			this.dateTimeRssSearchPostBefore.CalendarFont = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchPostBefore.CalendarFont")));
-			this.dateTimeRssSearchPostBefore.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("dateTimeRssSearchPostBefore.Dock")));
-			this.dateTimeRssSearchPostBefore.DropDownAlign = ((System.Windows.Forms.LeftRightAlignment)(resources.GetObject("dateTimeRssSearchPostBefore.DropDownAlign")));
-			this.dateTimeRssSearchPostBefore.Enabled = ((bool)(resources.GetObject("dateTimeRssSearchPostBefore.Enabled")));
-			this.dateTimeRssSearchPostBefore.Font = ((System.Drawing.Font)(resources.GetObject("dateTimeRssSearchPostBefore.Font")));
-			this.dateTimeRssSearchPostBefore.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.helpProvider1.SetHelpKeyword(this.dateTimeRssSearchPostBefore, resources.GetString("dateTimeRssSearchPostBefore.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.dateTimeRssSearchPostBefore, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("dateTimeRssSearchPostBefore.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.dateTimeRssSearchPostBefore, resources.GetString("dateTimeRssSearchPostBefore.HelpString"));
-			this.dateTimeRssSearchPostBefore.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("dateTimeRssSearchPostBefore.ImeMode")));
-			this.dateTimeRssSearchPostBefore.Location = ((System.Drawing.Point)(resources.GetObject("dateTimeRssSearchPostBefore.Location")));
-			this.dateTimeRssSearchPostBefore.MinDate = new System.DateTime(1980, 1, 1, 0, 0, 0, 0);
-			this.dateTimeRssSearchPostBefore.Name = "dateTimeRssSearchPostBefore";
-			this.dateTimeRssSearchPostBefore.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("dateTimeRssSearchPostBefore.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.dateTimeRssSearchPostBefore, ((bool)(resources.GetObject("dateTimeRssSearchPostBefore.ShowHelp"))));
-			this.dateTimeRssSearchPostBefore.Size = ((System.Drawing.Size)(resources.GetObject("dateTimeRssSearchPostBefore.Size")));
-			this.dateTimeRssSearchPostBefore.TabIndex = ((int)(resources.GetObject("dateTimeRssSearchPostBefore.TabIndex")));
-			this.toolTip.SetToolTip(this.dateTimeRssSearchPostBefore, resources.GetString("dateTimeRssSearchPostBefore.ToolTip"));
-			this.dateTimeRssSearchPostBefore.Visible = ((bool)(resources.GetObject("dateTimeRssSearchPostBefore.Visible")));
-			// 
-			// treeFeeds
-			// 
-			this.treeFeeds.AccessibleDescription = resources.GetString("treeFeeds.AccessibleDescription");
-			this.treeFeeds.AccessibleName = resources.GetString("treeFeeds.AccessibleName");
-			this.treeFeeds.AllowDrop = true;
-			this.treeFeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("treeFeeds.Anchor")));
-			this.treeFeeds.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("treeFeeds.BackgroundImage")));
-			this.treeFeeds.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("treeFeeds.Dock")));
-			this.treeFeeds.Enabled = ((bool)(resources.GetObject("treeFeeds.Enabled")));
-			this.treeFeeds.Font = ((System.Drawing.Font)(resources.GetObject("treeFeeds.Font")));
-			this.helpProvider1.SetHelpKeyword(this.treeFeeds, resources.GetString("treeFeeds.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.treeFeeds, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("treeFeeds.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.treeFeeds, resources.GetString("treeFeeds.HelpString"));
-			this.treeFeeds.HideSelection = false;
-			this.treeFeeds.ImageIndex = ((int)(resources.GetObject("treeFeeds.ImageIndex")));
-			this.treeFeeds.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("treeFeeds.ImeMode")));
-			this.treeFeeds.Indent = ((int)(resources.GetObject("treeFeeds.Indent")));
-			this.treeFeeds.ItemHeight = ((int)(resources.GetObject("treeFeeds.ItemHeight")));
-			this.treeFeeds.LabelEdit = true;
-			this.treeFeeds.Location = ((System.Drawing.Point)(resources.GetObject("treeFeeds.Location")));
-			this.treeFeeds.Name = "treeFeeds";
-			this.treeFeeds.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("treeFeeds.RightToLeft")));
-			this.treeFeeds.SelectedImageIndex = ((int)(resources.GetObject("treeFeeds.SelectedImageIndex")));
-			this.helpProvider1.SetShowHelp(this.treeFeeds, ((bool)(resources.GetObject("treeFeeds.ShowHelp"))));
-			this.treeFeeds.Size = ((System.Drawing.Size)(resources.GetObject("treeFeeds.Size")));
-			this.treeFeeds.Sorted = true;
-			this.treeFeeds.TabIndex = ((int)(resources.GetObject("treeFeeds.TabIndex")));
-			this.treeFeeds.Text = resources.GetString("treeFeeds.Text");
-			this.toolTip.SetToolTip(this.treeFeeds, resources.GetString("treeFeeds.ToolTip"));
-			this.treeFeeds.Visible = ((bool)(resources.GetObject("treeFeeds.Visible")));
-			// 
-			// panelRssSearch
-			// 
-			this.panelRssSearch.AccessibleDescription = resources.GetString("panelRssSearch.AccessibleDescription");
-			this.panelRssSearch.AccessibleName = resources.GetString("panelRssSearch.AccessibleName");
-			this.panelRssSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelRssSearch.Anchor")));
-			this.panelRssSearch.AutoScroll = ((bool)(resources.GetObject("panelRssSearch.AutoScroll")));
-			this.panelRssSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMargin")));
-			this.panelRssSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMinSize")));
-			this.panelRssSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
-			this.panelRssSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelRssSearch.BackgroundImage")));
-			this.panelRssSearch.Controls.Add(this.taskPaneSearchOptions);
-			this.panelRssSearch.Controls.Add(this.searchPaneSplitter);
-			this.panelRssSearch.Controls.Add(this.panelRssSearchCommands);
-			this.panelRssSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelRssSearch.Dock")));
-			this.panelRssSearch.Enabled = ((bool)(resources.GetObject("panelRssSearch.Enabled")));
-			this.panelRssSearch.Font = ((System.Drawing.Font)(resources.GetObject("panelRssSearch.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelRssSearch, resources.GetString("panelRssSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelRssSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelRssSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelRssSearch, resources.GetString("panelRssSearch.HelpString"));
-			this.panelRssSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelRssSearch.ImeMode")));
-			this.panelRssSearch.Location = ((System.Drawing.Point)(resources.GetObject("panelRssSearch.Location")));
-			this.panelRssSearch.Name = "panelRssSearch";
-			this.panelRssSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelRssSearch.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.panelRssSearch, ((bool)(resources.GetObject("panelRssSearch.ShowHelp"))));
-			this.panelRssSearch.Size = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.Size")));
-			this.panelRssSearch.TabIndex = ((int)(resources.GetObject("panelRssSearch.TabIndex")));
-			this.panelRssSearch.Text = resources.GetString("panelRssSearch.Text");
-			this.toolTip.SetToolTip(this.panelRssSearch, resources.GetString("panelRssSearch.ToolTip"));
-			this.panelRssSearch.Visible = ((bool)(resources.GetObject("panelRssSearch.Visible")));
-			// 
-			// taskPaneSearchOptions
-			// 
-			this.taskPaneSearchOptions.AccessibleDescription = resources.GetString("taskPaneSearchOptions.AccessibleDescription");
-			this.taskPaneSearchOptions.AccessibleName = resources.GetString("taskPaneSearchOptions.AccessibleName");
-			this.taskPaneSearchOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("taskPaneSearchOptions.Anchor")));
-			this.taskPaneSearchOptions.AutoScroll = ((bool)(resources.GetObject("taskPaneSearchOptions.AutoScroll")));
-			this.taskPaneSearchOptions.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("taskPaneSearchOptions.AutoScrollMargin")));
-			this.taskPaneSearchOptions.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("taskPaneSearchOptions.AutoScrollMinSize")));
-			this.taskPaneSearchOptions.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("taskPaneSearchOptions.Dock")));
-			this.taskPaneSearchOptions.Enabled = ((bool)(resources.GetObject("taskPaneSearchOptions.Enabled")));
-			this.taskPaneSearchOptions.Expandos.AddRange(new XPExplorerBar.Expando[] {
-																						 this.collapsiblePanelSearchNameEx,
-																						 this.collapsiblePanelRssSearchExprKindEx,
-																						 this.collapsiblePanelItemPropertiesEx,
-																						 this.collapsiblePanelAdvancedOptionsEx,
-																						 this.collapsiblePanelRssSearchScopeEx});
-			this.taskPaneSearchOptions.Font = ((System.Drawing.Font)(resources.GetObject("taskPaneSearchOptions.Font")));
-			this.helpProvider1.SetHelpKeyword(this.taskPaneSearchOptions, resources.GetString("taskPaneSearchOptions.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.taskPaneSearchOptions, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("taskPaneSearchOptions.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.taskPaneSearchOptions, resources.GetString("taskPaneSearchOptions.HelpString"));
-			this.taskPaneSearchOptions.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("taskPaneSearchOptions.ImeMode")));
-			this.taskPaneSearchOptions.Location = ((System.Drawing.Point)(resources.GetObject("taskPaneSearchOptions.Location")));
-			this.taskPaneSearchOptions.Name = "taskPaneSearchOptions";
-			this.taskPaneSearchOptions.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("taskPaneSearchOptions.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.taskPaneSearchOptions, ((bool)(resources.GetObject("taskPaneSearchOptions.ShowHelp"))));
-			this.taskPaneSearchOptions.Size = ((System.Drawing.Size)(resources.GetObject("taskPaneSearchOptions.Size")));
-			this.taskPaneSearchOptions.TabIndex = ((int)(resources.GetObject("taskPaneSearchOptions.TabIndex")));
-			this.taskPaneSearchOptions.Text = resources.GetString("taskPaneSearchOptions.Text");
-			this.toolTip.SetToolTip(this.taskPaneSearchOptions, resources.GetString("taskPaneSearchOptions.ToolTip"));
-			this.taskPaneSearchOptions.Visible = ((bool)(resources.GetObject("taskPaneSearchOptions.Visible")));
-			// 
-			// collapsiblePanelSearchNameEx
-			// 
-			this.collapsiblePanelSearchNameEx.AccessibleDescription = resources.GetString("collapsiblePanelSearchNameEx.AccessibleDescription");
-			this.collapsiblePanelSearchNameEx.AccessibleName = resources.GetString("collapsiblePanelSearchNameEx.AccessibleName");
-			this.collapsiblePanelSearchNameEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("collapsiblePanelSearchNameEx.Anchor")));
-			this.collapsiblePanelSearchNameEx.Animate = true;
-			this.collapsiblePanelSearchNameEx.Collapsed = true;
-			this.collapsiblePanelSearchNameEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("collapsiblePanelSearchNameEx.Dock")));
-			this.collapsiblePanelSearchNameEx.Enabled = ((bool)(resources.GetObject("collapsiblePanelSearchNameEx.Enabled")));
-			this.collapsiblePanelSearchNameEx.ExpandedHeight = 170;
-			this.collapsiblePanelSearchNameEx.Font = ((System.Drawing.Font)(resources.GetObject("collapsiblePanelSearchNameEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.collapsiblePanelSearchNameEx, resources.GetString("collapsiblePanelSearchNameEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.collapsiblePanelSearchNameEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("collapsiblePanelSearchNameEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.collapsiblePanelSearchNameEx, resources.GetString("collapsiblePanelSearchNameEx.HelpString"));
-			this.collapsiblePanelSearchNameEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("collapsiblePanelSearchNameEx.ImeMode")));
-			this.collapsiblePanelSearchNameEx.Items.AddRange(new System.Windows.Forms.Control[] {
-																									this.btnRssSearchSave,
-																									this.labelSearchFolderNameHint,
-																									this.textFinderCaption});
-			this.collapsiblePanelSearchNameEx.Location = ((System.Drawing.Point)(resources.GetObject("collapsiblePanelSearchNameEx.Location")));
-			this.collapsiblePanelSearchNameEx.Name = "collapsiblePanelSearchNameEx";
-			this.collapsiblePanelSearchNameEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("collapsiblePanelSearchNameEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.collapsiblePanelSearchNameEx, ((bool)(resources.GetObject("collapsiblePanelSearchNameEx.ShowHelp"))));
-			this.collapsiblePanelSearchNameEx.Size = ((System.Drawing.Size)(resources.GetObject("collapsiblePanelSearchNameEx.Size")));
-			this.collapsiblePanelSearchNameEx.SpecialGroup = true;
-			this.collapsiblePanelSearchNameEx.TabIndex = ((int)(resources.GetObject("collapsiblePanelSearchNameEx.TabIndex")));
-			this.collapsiblePanelSearchNameEx.Text = resources.GetString("collapsiblePanelSearchNameEx.Text");
-			this.toolTip.SetToolTip(this.collapsiblePanelSearchNameEx, resources.GetString("collapsiblePanelSearchNameEx.ToolTip"));
-			this.collapsiblePanelSearchNameEx.Visible = ((bool)(resources.GetObject("collapsiblePanelSearchNameEx.Visible")));
-			// 
-			// btnRssSearchSave
-			// 
-			this.btnRssSearchSave.AccessibleDescription = resources.GetString("btnRssSearchSave.AccessibleDescription");
-			this.btnRssSearchSave.AccessibleName = resources.GetString("btnRssSearchSave.AccessibleName");
-			this.btnRssSearchSave.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("btnRssSearchSave.Anchor")));
-			this.btnRssSearchSave.BackColor = System.Drawing.SystemColors.Control;
-			this.btnRssSearchSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRssSearchSave.BackgroundImage")));
-			this.btnRssSearchSave.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("btnRssSearchSave.Dock")));
-			this.btnRssSearchSave.Enabled = ((bool)(resources.GetObject("btnRssSearchSave.Enabled")));
-			this.btnRssSearchSave.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("btnRssSearchSave.FlatStyle")));
-			this.btnRssSearchSave.Font = ((System.Drawing.Font)(resources.GetObject("btnRssSearchSave.Font")));
-			this.helpProvider1.SetHelpKeyword(this.btnRssSearchSave, resources.GetString("btnRssSearchSave.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.btnRssSearchSave, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("btnRssSearchSave.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.btnRssSearchSave, resources.GetString("btnRssSearchSave.HelpString"));
-			this.btnRssSearchSave.Image = ((System.Drawing.Image)(resources.GetObject("btnRssSearchSave.Image")));
-			this.btnRssSearchSave.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnRssSearchSave.ImageAlign")));
-			this.btnRssSearchSave.ImageIndex = ((int)(resources.GetObject("btnRssSearchSave.ImageIndex")));
-			this.btnRssSearchSave.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("btnRssSearchSave.ImeMode")));
-			this.btnRssSearchSave.Location = ((System.Drawing.Point)(resources.GetObject("btnRssSearchSave.Location")));
-			this.btnRssSearchSave.Name = "btnRssSearchSave";
-			this.btnRssSearchSave.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("btnRssSearchSave.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.btnRssSearchSave, ((bool)(resources.GetObject("btnRssSearchSave.ShowHelp"))));
-			this.btnRssSearchSave.Size = ((System.Drawing.Size)(resources.GetObject("btnRssSearchSave.Size")));
-			this.btnRssSearchSave.TabIndex = ((int)(resources.GetObject("btnRssSearchSave.TabIndex")));
-			this.btnRssSearchSave.Text = resources.GetString("btnRssSearchSave.Text");
-			this.btnRssSearchSave.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnRssSearchSave.TextAlign")));
-			this.toolTip.SetToolTip(this.btnRssSearchSave, resources.GetString("btnRssSearchSave.ToolTip"));
-			this.btnRssSearchSave.Visible = ((bool)(resources.GetObject("btnRssSearchSave.Visible")));
-			// 
-			// labelSearchFolderNameHint
-			// 
-			this.labelSearchFolderNameHint.AccessibleDescription = resources.GetString("labelSearchFolderNameHint.AccessibleDescription");
-			this.labelSearchFolderNameHint.AccessibleName = resources.GetString("labelSearchFolderNameHint.AccessibleName");
-			this.labelSearchFolderNameHint.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelSearchFolderNameHint.Anchor")));
-			this.labelSearchFolderNameHint.AutoSize = ((bool)(resources.GetObject("labelSearchFolderNameHint.AutoSize")));
-			this.labelSearchFolderNameHint.BackColor = System.Drawing.Color.Transparent;
-			this.labelSearchFolderNameHint.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelSearchFolderNameHint.Dock")));
-			this.labelSearchFolderNameHint.Enabled = ((bool)(resources.GetObject("labelSearchFolderNameHint.Enabled")));
-			this.labelSearchFolderNameHint.Font = ((System.Drawing.Font)(resources.GetObject("labelSearchFolderNameHint.Font")));
-			this.helpProvider1.SetHelpKeyword(this.labelSearchFolderNameHint, resources.GetString("labelSearchFolderNameHint.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.labelSearchFolderNameHint, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("labelSearchFolderNameHint.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.labelSearchFolderNameHint, resources.GetString("labelSearchFolderNameHint.HelpString"));
-			this.labelSearchFolderNameHint.Image = ((System.Drawing.Image)(resources.GetObject("labelSearchFolderNameHint.Image")));
-			this.labelSearchFolderNameHint.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelSearchFolderNameHint.ImageAlign")));
-			this.labelSearchFolderNameHint.ImageIndex = ((int)(resources.GetObject("labelSearchFolderNameHint.ImageIndex")));
-			this.labelSearchFolderNameHint.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelSearchFolderNameHint.ImeMode")));
-			this.labelSearchFolderNameHint.Location = ((System.Drawing.Point)(resources.GetObject("labelSearchFolderNameHint.Location")));
-			this.labelSearchFolderNameHint.Name = "labelSearchFolderNameHint";
-			this.labelSearchFolderNameHint.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelSearchFolderNameHint.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.labelSearchFolderNameHint, ((bool)(resources.GetObject("labelSearchFolderNameHint.ShowHelp"))));
-			this.labelSearchFolderNameHint.Size = ((System.Drawing.Size)(resources.GetObject("labelSearchFolderNameHint.Size")));
-			this.labelSearchFolderNameHint.TabIndex = ((int)(resources.GetObject("labelSearchFolderNameHint.TabIndex")));
-			this.labelSearchFolderNameHint.Text = resources.GetString("labelSearchFolderNameHint.Text");
-			this.labelSearchFolderNameHint.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelSearchFolderNameHint.TextAlign")));
-			this.toolTip.SetToolTip(this.labelSearchFolderNameHint, resources.GetString("labelSearchFolderNameHint.ToolTip"));
-			this.labelSearchFolderNameHint.Visible = ((bool)(resources.GetObject("labelSearchFolderNameHint.Visible")));
-			// 
-			// textFinderCaption
-			// 
-			this.textFinderCaption.AccessibleDescription = resources.GetString("textFinderCaption.AccessibleDescription");
-			this.textFinderCaption.AccessibleName = resources.GetString("textFinderCaption.AccessibleName");
-			this.textFinderCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("textFinderCaption.Anchor")));
-			this.textFinderCaption.AutoSize = ((bool)(resources.GetObject("textFinderCaption.AutoSize")));
-			this.textFinderCaption.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("textFinderCaption.BackgroundImage")));
-			this.textFinderCaption.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("textFinderCaption.Dock")));
-			this.textFinderCaption.Enabled = ((bool)(resources.GetObject("textFinderCaption.Enabled")));
-			this.textFinderCaption.Font = ((System.Drawing.Font)(resources.GetObject("textFinderCaption.Font")));
-			this.helpProvider1.SetHelpKeyword(this.textFinderCaption, resources.GetString("textFinderCaption.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.textFinderCaption, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("textFinderCaption.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.textFinderCaption, resources.GetString("textFinderCaption.HelpString"));
-			this.textFinderCaption.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("textFinderCaption.ImeMode")));
-			this.textFinderCaption.Location = ((System.Drawing.Point)(resources.GetObject("textFinderCaption.Location")));
-			this.textFinderCaption.MaxLength = ((int)(resources.GetObject("textFinderCaption.MaxLength")));
-			this.textFinderCaption.Multiline = ((bool)(resources.GetObject("textFinderCaption.Multiline")));
-			this.textFinderCaption.Name = "textFinderCaption";
-			this.textFinderCaption.PasswordChar = ((char)(resources.GetObject("textFinderCaption.PasswordChar")));
-			this.textFinderCaption.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("textFinderCaption.RightToLeft")));
-			this.textFinderCaption.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("textFinderCaption.ScrollBars")));
-			this.helpProvider1.SetShowHelp(this.textFinderCaption, ((bool)(resources.GetObject("textFinderCaption.ShowHelp"))));
-			this.textFinderCaption.Size = ((System.Drawing.Size)(resources.GetObject("textFinderCaption.Size")));
-			this.textFinderCaption.TabIndex = ((int)(resources.GetObject("textFinderCaption.TabIndex")));
-			this.textFinderCaption.Text = resources.GetString("textFinderCaption.Text");
-			this.textFinderCaption.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("textFinderCaption.TextAlign")));
-			this.toolTip.SetToolTip(this.textFinderCaption, resources.GetString("textFinderCaption.ToolTip"));
-			this.textFinderCaption.Visible = ((bool)(resources.GetObject("textFinderCaption.Visible")));
-			this.textFinderCaption.WordWrap = ((bool)(resources.GetObject("textFinderCaption.WordWrap")));
-			// 
-			// collapsiblePanelRssSearchExprKindEx
-			// 
-			this.collapsiblePanelRssSearchExprKindEx.AccessibleDescription = resources.GetString("collapsiblePanelRssSearchExprKindEx.AccessibleDescription");
-			this.collapsiblePanelRssSearchExprKindEx.AccessibleName = resources.GetString("collapsiblePanelRssSearchExprKindEx.AccessibleName");
-			this.collapsiblePanelRssSearchExprKindEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Anchor")));
-			this.collapsiblePanelRssSearchExprKindEx.Animate = true;
-			this.collapsiblePanelRssSearchExprKindEx.Collapsed = true;
-			this.collapsiblePanelRssSearchExprKindEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Dock")));
-			this.collapsiblePanelRssSearchExprKindEx.Enabled = ((bool)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Enabled")));
-			this.collapsiblePanelRssSearchExprKindEx.ExpandedHeight = 140;
-			this.collapsiblePanelRssSearchExprKindEx.Font = ((System.Drawing.Font)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.collapsiblePanelRssSearchExprKindEx, resources.GetString("collapsiblePanelRssSearchExprKindEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.collapsiblePanelRssSearchExprKindEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.collapsiblePanelRssSearchExprKindEx, resources.GetString("collapsiblePanelRssSearchExprKindEx.HelpString"));
-			this.collapsiblePanelRssSearchExprKindEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.ImeMode")));
-			this.collapsiblePanelRssSearchExprKindEx.Items.AddRange(new System.Windows.Forms.Control[] {
-																										   this.radioRssSearchSimpleText,
-																										   this.labelRssSearchTypeHint,
-																										   this.radioRssSearchExprXPath,
-																										   this.radioRssSearchRegEx});
-			this.collapsiblePanelRssSearchExprKindEx.Location = ((System.Drawing.Point)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Location")));
-			this.collapsiblePanelRssSearchExprKindEx.Name = "collapsiblePanelRssSearchExprKindEx";
-			this.collapsiblePanelRssSearchExprKindEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.collapsiblePanelRssSearchExprKindEx, ((bool)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.ShowHelp"))));
-			this.collapsiblePanelRssSearchExprKindEx.Size = ((System.Drawing.Size)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Size")));
-			this.collapsiblePanelRssSearchExprKindEx.TabIndex = ((int)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.TabIndex")));
-			this.collapsiblePanelRssSearchExprKindEx.Text = resources.GetString("collapsiblePanelRssSearchExprKindEx.Text");
-			this.toolTip.SetToolTip(this.collapsiblePanelRssSearchExprKindEx, resources.GetString("collapsiblePanelRssSearchExprKindEx.ToolTip"));
-			this.collapsiblePanelRssSearchExprKindEx.Visible = ((bool)(resources.GetObject("collapsiblePanelRssSearchExprKindEx.Visible")));
-			// 
-			// radioRssSearchSimpleText
-			// 
-			this.radioRssSearchSimpleText.AccessibleDescription = resources.GetString("radioRssSearchSimpleText.AccessibleDescription");
-			this.radioRssSearchSimpleText.AccessibleName = resources.GetString("radioRssSearchSimpleText.AccessibleName");
-			this.radioRssSearchSimpleText.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radioRssSearchSimpleText.Anchor")));
-			this.radioRssSearchSimpleText.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("radioRssSearchSimpleText.Appearance")));
-			this.radioRssSearchSimpleText.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioRssSearchSimpleText.BackgroundImage")));
-			this.radioRssSearchSimpleText.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchSimpleText.CheckAlign")));
-			this.radioRssSearchSimpleText.Checked = true;
-			this.radioRssSearchSimpleText.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radioRssSearchSimpleText.Dock")));
-			this.radioRssSearchSimpleText.Enabled = ((bool)(resources.GetObject("radioRssSearchSimpleText.Enabled")));
-			this.radioRssSearchSimpleText.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("radioRssSearchSimpleText.FlatStyle")));
-			this.radioRssSearchSimpleText.Font = ((System.Drawing.Font)(resources.GetObject("radioRssSearchSimpleText.Font")));
-			this.helpProvider1.SetHelpKeyword(this.radioRssSearchSimpleText, resources.GetString("radioRssSearchSimpleText.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.radioRssSearchSimpleText, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("radioRssSearchSimpleText.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.radioRssSearchSimpleText, resources.GetString("radioRssSearchSimpleText.HelpString"));
-			this.radioRssSearchSimpleText.Image = ((System.Drawing.Image)(resources.GetObject("radioRssSearchSimpleText.Image")));
-			this.radioRssSearchSimpleText.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchSimpleText.ImageAlign")));
-			this.radioRssSearchSimpleText.ImageIndex = ((int)(resources.GetObject("radioRssSearchSimpleText.ImageIndex")));
-			this.radioRssSearchSimpleText.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radioRssSearchSimpleText.ImeMode")));
-			this.radioRssSearchSimpleText.Location = ((System.Drawing.Point)(resources.GetObject("radioRssSearchSimpleText.Location")));
-			this.radioRssSearchSimpleText.Name = "radioRssSearchSimpleText";
-			this.radioRssSearchSimpleText.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radioRssSearchSimpleText.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.radioRssSearchSimpleText, ((bool)(resources.GetObject("radioRssSearchSimpleText.ShowHelp"))));
-			this.radioRssSearchSimpleText.Size = ((System.Drawing.Size)(resources.GetObject("radioRssSearchSimpleText.Size")));
-			this.radioRssSearchSimpleText.TabIndex = ((int)(resources.GetObject("radioRssSearchSimpleText.TabIndex")));
-			this.radioRssSearchSimpleText.TabStop = true;
-			this.radioRssSearchSimpleText.Text = resources.GetString("radioRssSearchSimpleText.Text");
-			this.radioRssSearchSimpleText.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchSimpleText.TextAlign")));
-			this.toolTip.SetToolTip(this.radioRssSearchSimpleText, resources.GetString("radioRssSearchSimpleText.ToolTip"));
-			this.radioRssSearchSimpleText.Visible = ((bool)(resources.GetObject("radioRssSearchSimpleText.Visible")));
-			// 
-			// labelRssSearchTypeHint
-			// 
-			this.labelRssSearchTypeHint.AccessibleDescription = resources.GetString("labelRssSearchTypeHint.AccessibleDescription");
-			this.labelRssSearchTypeHint.AccessibleName = resources.GetString("labelRssSearchTypeHint.AccessibleName");
-			this.labelRssSearchTypeHint.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelRssSearchTypeHint.Anchor")));
-			this.labelRssSearchTypeHint.AutoSize = ((bool)(resources.GetObject("labelRssSearchTypeHint.AutoSize")));
-			this.labelRssSearchTypeHint.BackColor = System.Drawing.Color.Transparent;
-			this.labelRssSearchTypeHint.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelRssSearchTypeHint.Dock")));
-			this.labelRssSearchTypeHint.Enabled = ((bool)(resources.GetObject("labelRssSearchTypeHint.Enabled")));
-			this.labelRssSearchTypeHint.Font = ((System.Drawing.Font)(resources.GetObject("labelRssSearchTypeHint.Font")));
-			this.helpProvider1.SetHelpKeyword(this.labelRssSearchTypeHint, resources.GetString("labelRssSearchTypeHint.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.labelRssSearchTypeHint, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("labelRssSearchTypeHint.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.labelRssSearchTypeHint, resources.GetString("labelRssSearchTypeHint.HelpString"));
-			this.labelRssSearchTypeHint.Image = ((System.Drawing.Image)(resources.GetObject("labelRssSearchTypeHint.Image")));
-			this.labelRssSearchTypeHint.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelRssSearchTypeHint.ImageAlign")));
-			this.labelRssSearchTypeHint.ImageIndex = ((int)(resources.GetObject("labelRssSearchTypeHint.ImageIndex")));
-			this.labelRssSearchTypeHint.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelRssSearchTypeHint.ImeMode")));
-			this.labelRssSearchTypeHint.Location = ((System.Drawing.Point)(resources.GetObject("labelRssSearchTypeHint.Location")));
-			this.labelRssSearchTypeHint.Name = "labelRssSearchTypeHint";
-			this.labelRssSearchTypeHint.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelRssSearchTypeHint.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.labelRssSearchTypeHint, ((bool)(resources.GetObject("labelRssSearchTypeHint.ShowHelp"))));
-			this.labelRssSearchTypeHint.Size = ((System.Drawing.Size)(resources.GetObject("labelRssSearchTypeHint.Size")));
-			this.labelRssSearchTypeHint.TabIndex = ((int)(resources.GetObject("labelRssSearchTypeHint.TabIndex")));
-			this.labelRssSearchTypeHint.Text = resources.GetString("labelRssSearchTypeHint.Text");
-			this.labelRssSearchTypeHint.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelRssSearchTypeHint.TextAlign")));
-			this.toolTip.SetToolTip(this.labelRssSearchTypeHint, resources.GetString("labelRssSearchTypeHint.ToolTip"));
-			this.labelRssSearchTypeHint.Visible = ((bool)(resources.GetObject("labelRssSearchTypeHint.Visible")));
-			// 
-			// radioRssSearchExprXPath
-			// 
-			this.radioRssSearchExprXPath.AccessibleDescription = resources.GetString("radioRssSearchExprXPath.AccessibleDescription");
-			this.radioRssSearchExprXPath.AccessibleName = resources.GetString("radioRssSearchExprXPath.AccessibleName");
-			this.radioRssSearchExprXPath.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radioRssSearchExprXPath.Anchor")));
-			this.radioRssSearchExprXPath.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("radioRssSearchExprXPath.Appearance")));
-			this.radioRssSearchExprXPath.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioRssSearchExprXPath.BackgroundImage")));
-			this.radioRssSearchExprXPath.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchExprXPath.CheckAlign")));
-			this.radioRssSearchExprXPath.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radioRssSearchExprXPath.Dock")));
-			this.radioRssSearchExprXPath.Enabled = ((bool)(resources.GetObject("radioRssSearchExprXPath.Enabled")));
-			this.radioRssSearchExprXPath.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("radioRssSearchExprXPath.FlatStyle")));
-			this.radioRssSearchExprXPath.Font = ((System.Drawing.Font)(resources.GetObject("radioRssSearchExprXPath.Font")));
-			this.helpProvider1.SetHelpKeyword(this.radioRssSearchExprXPath, resources.GetString("radioRssSearchExprXPath.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.radioRssSearchExprXPath, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("radioRssSearchExprXPath.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.radioRssSearchExprXPath, resources.GetString("radioRssSearchExprXPath.HelpString"));
-			this.radioRssSearchExprXPath.Image = ((System.Drawing.Image)(resources.GetObject("radioRssSearchExprXPath.Image")));
-			this.radioRssSearchExprXPath.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchExprXPath.ImageAlign")));
-			this.radioRssSearchExprXPath.ImageIndex = ((int)(resources.GetObject("radioRssSearchExprXPath.ImageIndex")));
-			this.radioRssSearchExprXPath.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radioRssSearchExprXPath.ImeMode")));
-			this.radioRssSearchExprXPath.Location = ((System.Drawing.Point)(resources.GetObject("radioRssSearchExprXPath.Location")));
-			this.radioRssSearchExprXPath.Name = "radioRssSearchExprXPath";
-			this.radioRssSearchExprXPath.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radioRssSearchExprXPath.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.radioRssSearchExprXPath, ((bool)(resources.GetObject("radioRssSearchExprXPath.ShowHelp"))));
-			this.radioRssSearchExprXPath.Size = ((System.Drawing.Size)(resources.GetObject("radioRssSearchExprXPath.Size")));
-			this.radioRssSearchExprXPath.TabIndex = ((int)(resources.GetObject("radioRssSearchExprXPath.TabIndex")));
-			this.radioRssSearchExprXPath.Text = resources.GetString("radioRssSearchExprXPath.Text");
-			this.radioRssSearchExprXPath.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchExprXPath.TextAlign")));
-			this.toolTip.SetToolTip(this.radioRssSearchExprXPath, resources.GetString("radioRssSearchExprXPath.ToolTip"));
-			this.radioRssSearchExprXPath.Visible = ((bool)(resources.GetObject("radioRssSearchExprXPath.Visible")));
-			// 
-			// radioRssSearchRegEx
-			// 
-			this.radioRssSearchRegEx.AccessibleDescription = resources.GetString("radioRssSearchRegEx.AccessibleDescription");
-			this.radioRssSearchRegEx.AccessibleName = resources.GetString("radioRssSearchRegEx.AccessibleName");
-			this.radioRssSearchRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radioRssSearchRegEx.Anchor")));
-			this.radioRssSearchRegEx.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("radioRssSearchRegEx.Appearance")));
-			this.radioRssSearchRegEx.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioRssSearchRegEx.BackgroundImage")));
-			this.radioRssSearchRegEx.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchRegEx.CheckAlign")));
-			this.radioRssSearchRegEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radioRssSearchRegEx.Dock")));
-			this.radioRssSearchRegEx.Enabled = ((bool)(resources.GetObject("radioRssSearchRegEx.Enabled")));
-			this.radioRssSearchRegEx.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("radioRssSearchRegEx.FlatStyle")));
-			this.radioRssSearchRegEx.Font = ((System.Drawing.Font)(resources.GetObject("radioRssSearchRegEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.radioRssSearchRegEx, resources.GetString("radioRssSearchRegEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.radioRssSearchRegEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("radioRssSearchRegEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.radioRssSearchRegEx, resources.GetString("radioRssSearchRegEx.HelpString"));
-			this.radioRssSearchRegEx.Image = ((System.Drawing.Image)(resources.GetObject("radioRssSearchRegEx.Image")));
-			this.radioRssSearchRegEx.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchRegEx.ImageAlign")));
-			this.radioRssSearchRegEx.ImageIndex = ((int)(resources.GetObject("radioRssSearchRegEx.ImageIndex")));
-			this.radioRssSearchRegEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radioRssSearchRegEx.ImeMode")));
-			this.radioRssSearchRegEx.Location = ((System.Drawing.Point)(resources.GetObject("radioRssSearchRegEx.Location")));
-			this.radioRssSearchRegEx.Name = "radioRssSearchRegEx";
-			this.radioRssSearchRegEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radioRssSearchRegEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.radioRssSearchRegEx, ((bool)(resources.GetObject("radioRssSearchRegEx.ShowHelp"))));
-			this.radioRssSearchRegEx.Size = ((System.Drawing.Size)(resources.GetObject("radioRssSearchRegEx.Size")));
-			this.radioRssSearchRegEx.TabIndex = ((int)(resources.GetObject("radioRssSearchRegEx.TabIndex")));
-			this.radioRssSearchRegEx.Text = resources.GetString("radioRssSearchRegEx.Text");
-			this.radioRssSearchRegEx.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchRegEx.TextAlign")));
-			this.toolTip.SetToolTip(this.radioRssSearchRegEx, resources.GetString("radioRssSearchRegEx.ToolTip"));
-			this.radioRssSearchRegEx.Visible = ((bool)(resources.GetObject("radioRssSearchRegEx.Visible")));
-			// 
-			// collapsiblePanelItemPropertiesEx
-			// 
-			this.collapsiblePanelItemPropertiesEx.AccessibleDescription = resources.GetString("collapsiblePanelItemPropertiesEx.AccessibleDescription");
-			this.collapsiblePanelItemPropertiesEx.AccessibleName = resources.GetString("collapsiblePanelItemPropertiesEx.AccessibleName");
-			this.collapsiblePanelItemPropertiesEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("collapsiblePanelItemPropertiesEx.Anchor")));
-			this.collapsiblePanelItemPropertiesEx.Animate = true;
-			this.collapsiblePanelItemPropertiesEx.Collapsed = true;
-			this.collapsiblePanelItemPropertiesEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("collapsiblePanelItemPropertiesEx.Dock")));
-			this.collapsiblePanelItemPropertiesEx.Enabled = ((bool)(resources.GetObject("collapsiblePanelItemPropertiesEx.Enabled")));
-			this.collapsiblePanelItemPropertiesEx.ExpandedHeight = 160;
-			this.collapsiblePanelItemPropertiesEx.Font = ((System.Drawing.Font)(resources.GetObject("collapsiblePanelItemPropertiesEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.collapsiblePanelItemPropertiesEx, resources.GetString("collapsiblePanelItemPropertiesEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.collapsiblePanelItemPropertiesEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("collapsiblePanelItemPropertiesEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.collapsiblePanelItemPropertiesEx, resources.GetString("collapsiblePanelItemPropertiesEx.HelpString"));
-			this.collapsiblePanelItemPropertiesEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("collapsiblePanelItemPropertiesEx.ImeMode")));
-			this.collapsiblePanelItemPropertiesEx.Items.AddRange(new System.Windows.Forms.Control[] {
-																										this.checkBoxRssSearchInDesc,
-																										this.checkBoxRssSearchInCategory,
-																										this.checkBoxRssSearchInTitle,
-																										this.checkBoxRssSearchInLink,
-																										this.label1});
-			this.collapsiblePanelItemPropertiesEx.Location = ((System.Drawing.Point)(resources.GetObject("collapsiblePanelItemPropertiesEx.Location")));
-			this.collapsiblePanelItemPropertiesEx.Name = "collapsiblePanelItemPropertiesEx";
-			this.collapsiblePanelItemPropertiesEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("collapsiblePanelItemPropertiesEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.collapsiblePanelItemPropertiesEx, ((bool)(resources.GetObject("collapsiblePanelItemPropertiesEx.ShowHelp"))));
-			this.collapsiblePanelItemPropertiesEx.Size = ((System.Drawing.Size)(resources.GetObject("collapsiblePanelItemPropertiesEx.Size")));
-			this.collapsiblePanelItemPropertiesEx.TabIndex = ((int)(resources.GetObject("collapsiblePanelItemPropertiesEx.TabIndex")));
-			this.collapsiblePanelItemPropertiesEx.Text = resources.GetString("collapsiblePanelItemPropertiesEx.Text");
-			this.toolTip.SetToolTip(this.collapsiblePanelItemPropertiesEx, resources.GetString("collapsiblePanelItemPropertiesEx.ToolTip"));
-			this.collapsiblePanelItemPropertiesEx.Visible = ((bool)(resources.GetObject("collapsiblePanelItemPropertiesEx.Visible")));
-			// 
-			// checkBoxRssSearchInDesc
-			// 
-			this.checkBoxRssSearchInDesc.AccessibleDescription = resources.GetString("checkBoxRssSearchInDesc.AccessibleDescription");
-			this.checkBoxRssSearchInDesc.AccessibleName = resources.GetString("checkBoxRssSearchInDesc.AccessibleName");
-			this.checkBoxRssSearchInDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchInDesc.Anchor")));
-			this.checkBoxRssSearchInDesc.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchInDesc.Appearance")));
-			this.checkBoxRssSearchInDesc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInDesc.BackgroundImage")));
-			this.checkBoxRssSearchInDesc.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInDesc.CheckAlign")));
-			this.checkBoxRssSearchInDesc.Checked = true;
-			this.checkBoxRssSearchInDesc.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxRssSearchInDesc.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchInDesc.Dock")));
-			this.checkBoxRssSearchInDesc.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchInDesc.Enabled")));
-			this.checkBoxRssSearchInDesc.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchInDesc.FlatStyle")));
-			this.checkBoxRssSearchInDesc.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchInDesc.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchInDesc, resources.GetString("checkBoxRssSearchInDesc.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchInDesc, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchInDesc.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchInDesc, resources.GetString("checkBoxRssSearchInDesc.HelpString"));
-			this.checkBoxRssSearchInDesc.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInDesc.Image")));
-			this.checkBoxRssSearchInDesc.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInDesc.ImageAlign")));
-			this.checkBoxRssSearchInDesc.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchInDesc.ImageIndex")));
-			this.checkBoxRssSearchInDesc.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchInDesc.ImeMode")));
-			this.checkBoxRssSearchInDesc.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchInDesc.Location")));
-			this.checkBoxRssSearchInDesc.Name = "checkBoxRssSearchInDesc";
-			this.checkBoxRssSearchInDesc.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchInDesc.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchInDesc, ((bool)(resources.GetObject("checkBoxRssSearchInDesc.ShowHelp"))));
-			this.checkBoxRssSearchInDesc.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchInDesc.Size")));
-			this.checkBoxRssSearchInDesc.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchInDesc.TabIndex")));
-			this.checkBoxRssSearchInDesc.Text = resources.GetString("checkBoxRssSearchInDesc.Text");
-			this.checkBoxRssSearchInDesc.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInDesc.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchInDesc, resources.GetString("checkBoxRssSearchInDesc.ToolTip"));
-			this.checkBoxRssSearchInDesc.Visible = ((bool)(resources.GetObject("checkBoxRssSearchInDesc.Visible")));
-			// 
-			// checkBoxRssSearchInCategory
-			// 
-			this.checkBoxRssSearchInCategory.AccessibleDescription = resources.GetString("checkBoxRssSearchInCategory.AccessibleDescription");
-			this.checkBoxRssSearchInCategory.AccessibleName = resources.GetString("checkBoxRssSearchInCategory.AccessibleName");
-			this.checkBoxRssSearchInCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchInCategory.Anchor")));
-			this.checkBoxRssSearchInCategory.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchInCategory.Appearance")));
-			this.checkBoxRssSearchInCategory.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInCategory.BackgroundImage")));
-			this.checkBoxRssSearchInCategory.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInCategory.CheckAlign")));
-			this.checkBoxRssSearchInCategory.Checked = true;
-			this.checkBoxRssSearchInCategory.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxRssSearchInCategory.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchInCategory.Dock")));
-			this.checkBoxRssSearchInCategory.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchInCategory.Enabled")));
-			this.checkBoxRssSearchInCategory.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchInCategory.FlatStyle")));
-			this.checkBoxRssSearchInCategory.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchInCategory.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchInCategory, resources.GetString("checkBoxRssSearchInCategory.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchInCategory, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchInCategory.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchInCategory, resources.GetString("checkBoxRssSearchInCategory.HelpString"));
-			this.checkBoxRssSearchInCategory.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInCategory.Image")));
-			this.checkBoxRssSearchInCategory.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInCategory.ImageAlign")));
-			this.checkBoxRssSearchInCategory.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchInCategory.ImageIndex")));
-			this.checkBoxRssSearchInCategory.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchInCategory.ImeMode")));
-			this.checkBoxRssSearchInCategory.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchInCategory.Location")));
-			this.checkBoxRssSearchInCategory.Name = "checkBoxRssSearchInCategory";
-			this.checkBoxRssSearchInCategory.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchInCategory.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchInCategory, ((bool)(resources.GetObject("checkBoxRssSearchInCategory.ShowHelp"))));
-			this.checkBoxRssSearchInCategory.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchInCategory.Size")));
-			this.checkBoxRssSearchInCategory.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchInCategory.TabIndex")));
-			this.checkBoxRssSearchInCategory.Text = resources.GetString("checkBoxRssSearchInCategory.Text");
-			this.checkBoxRssSearchInCategory.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInCategory.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchInCategory, resources.GetString("checkBoxRssSearchInCategory.ToolTip"));
-			this.checkBoxRssSearchInCategory.Visible = ((bool)(resources.GetObject("checkBoxRssSearchInCategory.Visible")));
-			// 
-			// checkBoxRssSearchInTitle
-			// 
-			this.checkBoxRssSearchInTitle.AccessibleDescription = resources.GetString("checkBoxRssSearchInTitle.AccessibleDescription");
-			this.checkBoxRssSearchInTitle.AccessibleName = resources.GetString("checkBoxRssSearchInTitle.AccessibleName");
-			this.checkBoxRssSearchInTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchInTitle.Anchor")));
-			this.checkBoxRssSearchInTitle.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchInTitle.Appearance")));
-			this.checkBoxRssSearchInTitle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInTitle.BackgroundImage")));
-			this.checkBoxRssSearchInTitle.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInTitle.CheckAlign")));
-			this.checkBoxRssSearchInTitle.Checked = true;
-			this.checkBoxRssSearchInTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxRssSearchInTitle.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchInTitle.Dock")));
-			this.checkBoxRssSearchInTitle.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchInTitle.Enabled")));
-			this.checkBoxRssSearchInTitle.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchInTitle.FlatStyle")));
-			this.checkBoxRssSearchInTitle.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchInTitle.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchInTitle, resources.GetString("checkBoxRssSearchInTitle.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchInTitle, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchInTitle.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchInTitle, resources.GetString("checkBoxRssSearchInTitle.HelpString"));
-			this.checkBoxRssSearchInTitle.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInTitle.Image")));
-			this.checkBoxRssSearchInTitle.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInTitle.ImageAlign")));
-			this.checkBoxRssSearchInTitle.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchInTitle.ImageIndex")));
-			this.checkBoxRssSearchInTitle.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchInTitle.ImeMode")));
-			this.checkBoxRssSearchInTitle.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchInTitle.Location")));
-			this.checkBoxRssSearchInTitle.Name = "checkBoxRssSearchInTitle";
-			this.checkBoxRssSearchInTitle.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchInTitle.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchInTitle, ((bool)(resources.GetObject("checkBoxRssSearchInTitle.ShowHelp"))));
-			this.checkBoxRssSearchInTitle.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchInTitle.Size")));
-			this.checkBoxRssSearchInTitle.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchInTitle.TabIndex")));
-			this.checkBoxRssSearchInTitle.Text = resources.GetString("checkBoxRssSearchInTitle.Text");
-			this.checkBoxRssSearchInTitle.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInTitle.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchInTitle, resources.GetString("checkBoxRssSearchInTitle.ToolTip"));
-			this.checkBoxRssSearchInTitle.Visible = ((bool)(resources.GetObject("checkBoxRssSearchInTitle.Visible")));
-			// 
-			// checkBoxRssSearchInLink
-			// 
-			this.checkBoxRssSearchInLink.AccessibleDescription = resources.GetString("checkBoxRssSearchInLink.AccessibleDescription");
-			this.checkBoxRssSearchInLink.AccessibleName = resources.GetString("checkBoxRssSearchInLink.AccessibleName");
-			this.checkBoxRssSearchInLink.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchInLink.Anchor")));
-			this.checkBoxRssSearchInLink.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchInLink.Appearance")));
-			this.checkBoxRssSearchInLink.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInLink.BackgroundImage")));
-			this.checkBoxRssSearchInLink.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInLink.CheckAlign")));
-			this.checkBoxRssSearchInLink.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchInLink.Dock")));
-			this.checkBoxRssSearchInLink.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchInLink.Enabled")));
-			this.checkBoxRssSearchInLink.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchInLink.FlatStyle")));
-			this.checkBoxRssSearchInLink.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchInLink.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchInLink, resources.GetString("checkBoxRssSearchInLink.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchInLink, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchInLink.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchInLink, resources.GetString("checkBoxRssSearchInLink.HelpString"));
-			this.checkBoxRssSearchInLink.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchInLink.Image")));
-			this.checkBoxRssSearchInLink.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInLink.ImageAlign")));
-			this.checkBoxRssSearchInLink.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchInLink.ImageIndex")));
-			this.checkBoxRssSearchInLink.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchInLink.ImeMode")));
-			this.checkBoxRssSearchInLink.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchInLink.Location")));
-			this.checkBoxRssSearchInLink.Name = "checkBoxRssSearchInLink";
-			this.checkBoxRssSearchInLink.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchInLink.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchInLink, ((bool)(resources.GetObject("checkBoxRssSearchInLink.ShowHelp"))));
-			this.checkBoxRssSearchInLink.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchInLink.Size")));
-			this.checkBoxRssSearchInLink.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchInLink.TabIndex")));
-			this.checkBoxRssSearchInLink.Text = resources.GetString("checkBoxRssSearchInLink.Text");
-			this.checkBoxRssSearchInLink.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchInLink.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchInLink, resources.GetString("checkBoxRssSearchInLink.ToolTip"));
-			this.checkBoxRssSearchInLink.Visible = ((bool)(resources.GetObject("checkBoxRssSearchInLink.Visible")));
-			// 
-			// label1
-			// 
-			this.label1.AccessibleDescription = resources.GetString("label1.AccessibleDescription");
-			this.label1.AccessibleName = resources.GetString("label1.AccessibleName");
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label1.Anchor")));
-			this.label1.AutoSize = ((bool)(resources.GetObject("label1.AutoSize")));
-			this.label1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label1.Dock")));
-			this.label1.Enabled = ((bool)(resources.GetObject("label1.Enabled")));
-			this.label1.Font = ((System.Drawing.Font)(resources.GetObject("label1.Font")));
-			this.helpProvider1.SetHelpKeyword(this.label1, resources.GetString("label1.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.label1, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("label1.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.label1, resources.GetString("label1.HelpString"));
-			this.label1.Image = ((System.Drawing.Image)(resources.GetObject("label1.Image")));
-			this.label1.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label1.ImageAlign")));
-			this.label1.ImageIndex = ((int)(resources.GetObject("label1.ImageIndex")));
-			this.label1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label1.ImeMode")));
-			this.label1.Location = ((System.Drawing.Point)(resources.GetObject("label1.Location")));
-			this.label1.Name = "label1";
-			this.label1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label1.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.label1, ((bool)(resources.GetObject("label1.ShowHelp"))));
-			this.label1.Size = ((System.Drawing.Size)(resources.GetObject("label1.Size")));
-			this.label1.TabIndex = ((int)(resources.GetObject("label1.TabIndex")));
-			this.label1.Text = resources.GetString("label1.Text");
-			this.label1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label1.TextAlign")));
-			this.toolTip.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
-			this.label1.Visible = ((bool)(resources.GetObject("label1.Visible")));
-			// 
-			// collapsiblePanelAdvancedOptionsEx
-			// 
-			this.collapsiblePanelAdvancedOptionsEx.AccessibleDescription = resources.GetString("collapsiblePanelAdvancedOptionsEx.AccessibleDescription");
-			this.collapsiblePanelAdvancedOptionsEx.AccessibleName = resources.GetString("collapsiblePanelAdvancedOptionsEx.AccessibleName");
-			this.collapsiblePanelAdvancedOptionsEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Anchor")));
-			this.collapsiblePanelAdvancedOptionsEx.Animate = true;
-			this.collapsiblePanelAdvancedOptionsEx.Collapsed = true;
-			this.collapsiblePanelAdvancedOptionsEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Dock")));
-			this.collapsiblePanelAdvancedOptionsEx.Enabled = ((bool)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Enabled")));
-			this.collapsiblePanelAdvancedOptionsEx.ExpandedHeight = 370;
-			this.collapsiblePanelAdvancedOptionsEx.Font = ((System.Drawing.Font)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.collapsiblePanelAdvancedOptionsEx, resources.GetString("collapsiblePanelAdvancedOptionsEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.collapsiblePanelAdvancedOptionsEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.collapsiblePanelAdvancedOptionsEx, resources.GetString("collapsiblePanelAdvancedOptionsEx.HelpString"));
-			this.collapsiblePanelAdvancedOptionsEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.ImeMode")));
-			this.collapsiblePanelAdvancedOptionsEx.Items.AddRange(new System.Windows.Forms.Control[] {
-																										 this.checkBoxConsiderItemReadState,
-																										 this.checkBoxRssSearchUnreadItems,
-																										 this.horizontalEdge,
-																										 this.label2,
-																										 this.checkBoxRssSearchTimeSpan,
-																										 this.radioRssSearchItemsOlderThan,
-																										 this.comboRssSearchItemAge,
-																										 this.radioRssSearchItemsYoungerThan,
-																										 this.label3,
-																										 this.checkBoxRssSearchByDate,
-																										 this.comboBoxRssSearchItemPostedOperator,
-																										 this.dateTimeRssSearchItemPost,
-																										 this.label4,
-																										 this.checkBoxRssSearchByDateRange,
-																										 this.dateTimeRssSearchPostAfter,
-																										 this.dateTimeRssSearchPostBefore});
-			this.collapsiblePanelAdvancedOptionsEx.Location = ((System.Drawing.Point)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Location")));
-			this.collapsiblePanelAdvancedOptionsEx.Name = "collapsiblePanelAdvancedOptionsEx";
-			this.collapsiblePanelAdvancedOptionsEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.collapsiblePanelAdvancedOptionsEx, ((bool)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.ShowHelp"))));
-			this.collapsiblePanelAdvancedOptionsEx.Size = ((System.Drawing.Size)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Size")));
-			this.collapsiblePanelAdvancedOptionsEx.TabIndex = ((int)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.TabIndex")));
-			this.collapsiblePanelAdvancedOptionsEx.Text = resources.GetString("collapsiblePanelAdvancedOptionsEx.Text");
-			this.toolTip.SetToolTip(this.collapsiblePanelAdvancedOptionsEx, resources.GetString("collapsiblePanelAdvancedOptionsEx.ToolTip"));
-			this.collapsiblePanelAdvancedOptionsEx.Visible = ((bool)(resources.GetObject("collapsiblePanelAdvancedOptionsEx.Visible")));
-			// 
-			// checkBoxConsiderItemReadState
-			// 
-			this.checkBoxConsiderItemReadState.AccessibleDescription = resources.GetString("checkBoxConsiderItemReadState.AccessibleDescription");
-			this.checkBoxConsiderItemReadState.AccessibleName = resources.GetString("checkBoxConsiderItemReadState.AccessibleName");
-			this.checkBoxConsiderItemReadState.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxConsiderItemReadState.Anchor")));
-			this.checkBoxConsiderItemReadState.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxConsiderItemReadState.Appearance")));
-			this.checkBoxConsiderItemReadState.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxConsiderItemReadState.BackgroundImage")));
-			this.checkBoxConsiderItemReadState.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxConsiderItemReadState.CheckAlign")));
-			this.checkBoxConsiderItemReadState.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxConsiderItemReadState.Dock")));
-			this.checkBoxConsiderItemReadState.Enabled = ((bool)(resources.GetObject("checkBoxConsiderItemReadState.Enabled")));
-			this.checkBoxConsiderItemReadState.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxConsiderItemReadState.FlatStyle")));
-			this.checkBoxConsiderItemReadState.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxConsiderItemReadState.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxConsiderItemReadState, resources.GetString("checkBoxConsiderItemReadState.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxConsiderItemReadState, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxConsiderItemReadState.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxConsiderItemReadState, resources.GetString("checkBoxConsiderItemReadState.HelpString"));
-			this.checkBoxConsiderItemReadState.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxConsiderItemReadState.Image")));
-			this.checkBoxConsiderItemReadState.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxConsiderItemReadState.ImageAlign")));
-			this.checkBoxConsiderItemReadState.ImageIndex = ((int)(resources.GetObject("checkBoxConsiderItemReadState.ImageIndex")));
-			this.checkBoxConsiderItemReadState.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxConsiderItemReadState.ImeMode")));
-			this.checkBoxConsiderItemReadState.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxConsiderItemReadState.Location")));
-			this.checkBoxConsiderItemReadState.Name = "checkBoxConsiderItemReadState";
-			this.checkBoxConsiderItemReadState.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxConsiderItemReadState.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxConsiderItemReadState, ((bool)(resources.GetObject("checkBoxConsiderItemReadState.ShowHelp"))));
-			this.checkBoxConsiderItemReadState.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxConsiderItemReadState.Size")));
-			this.checkBoxConsiderItemReadState.TabIndex = ((int)(resources.GetObject("checkBoxConsiderItemReadState.TabIndex")));
-			this.checkBoxConsiderItemReadState.Text = resources.GetString("checkBoxConsiderItemReadState.Text");
-			this.checkBoxConsiderItemReadState.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxConsiderItemReadState.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxConsiderItemReadState, resources.GetString("checkBoxConsiderItemReadState.ToolTip"));
-			this.checkBoxConsiderItemReadState.Visible = ((bool)(resources.GetObject("checkBoxConsiderItemReadState.Visible")));
-			// 
-			// checkBoxRssSearchUnreadItems
-			// 
-			this.checkBoxRssSearchUnreadItems.AccessibleDescription = resources.GetString("checkBoxRssSearchUnreadItems.AccessibleDescription");
-			this.checkBoxRssSearchUnreadItems.AccessibleName = resources.GetString("checkBoxRssSearchUnreadItems.AccessibleName");
-			this.checkBoxRssSearchUnreadItems.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchUnreadItems.Anchor")));
-			this.checkBoxRssSearchUnreadItems.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchUnreadItems.Appearance")));
-			this.checkBoxRssSearchUnreadItems.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchUnreadItems.BackgroundImage")));
-			this.checkBoxRssSearchUnreadItems.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchUnreadItems.CheckAlign")));
-			this.checkBoxRssSearchUnreadItems.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchUnreadItems.Dock")));
-			this.checkBoxRssSearchUnreadItems.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchUnreadItems.Enabled")));
-			this.checkBoxRssSearchUnreadItems.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchUnreadItems.FlatStyle")));
-			this.checkBoxRssSearchUnreadItems.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchUnreadItems.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchUnreadItems, resources.GetString("checkBoxRssSearchUnreadItems.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchUnreadItems, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchUnreadItems.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchUnreadItems, resources.GetString("checkBoxRssSearchUnreadItems.HelpString"));
-			this.checkBoxRssSearchUnreadItems.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchUnreadItems.Image")));
-			this.checkBoxRssSearchUnreadItems.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchUnreadItems.ImageAlign")));
-			this.checkBoxRssSearchUnreadItems.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchUnreadItems.ImageIndex")));
-			this.checkBoxRssSearchUnreadItems.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchUnreadItems.ImeMode")));
-			this.checkBoxRssSearchUnreadItems.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchUnreadItems.Location")));
-			this.checkBoxRssSearchUnreadItems.Name = "checkBoxRssSearchUnreadItems";
-			this.checkBoxRssSearchUnreadItems.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchUnreadItems.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchUnreadItems, ((bool)(resources.GetObject("checkBoxRssSearchUnreadItems.ShowHelp"))));
-			this.checkBoxRssSearchUnreadItems.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchUnreadItems.Size")));
-			this.checkBoxRssSearchUnreadItems.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchUnreadItems.TabIndex")));
-			this.checkBoxRssSearchUnreadItems.Text = resources.GetString("checkBoxRssSearchUnreadItems.Text");
-			this.checkBoxRssSearchUnreadItems.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchUnreadItems.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchUnreadItems, resources.GetString("checkBoxRssSearchUnreadItems.ToolTip"));
-			this.checkBoxRssSearchUnreadItems.Visible = ((bool)(resources.GetObject("checkBoxRssSearchUnreadItems.Visible")));
-			// 
-			// horizontalEdge
-			// 
-			this.horizontalEdge.AccessibleDescription = resources.GetString("horizontalEdge.AccessibleDescription");
-			this.horizontalEdge.AccessibleName = resources.GetString("horizontalEdge.AccessibleName");
-			this.horizontalEdge.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("horizontalEdge.Anchor")));
-			this.horizontalEdge.AutoSize = ((bool)(resources.GetObject("horizontalEdge.AutoSize")));
-			this.horizontalEdge.BackColor = System.Drawing.SystemColors.Control;
-			this.horizontalEdge.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.horizontalEdge.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("horizontalEdge.Dock")));
-			this.horizontalEdge.Enabled = ((bool)(resources.GetObject("horizontalEdge.Enabled")));
-			this.horizontalEdge.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.horizontalEdge.Font = ((System.Drawing.Font)(resources.GetObject("horizontalEdge.Font")));
-			this.helpProvider1.SetHelpKeyword(this.horizontalEdge, resources.GetString("horizontalEdge.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.horizontalEdge, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("horizontalEdge.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.horizontalEdge, resources.GetString("horizontalEdge.HelpString"));
-			this.horizontalEdge.Image = ((System.Drawing.Image)(resources.GetObject("horizontalEdge.Image")));
-			this.horizontalEdge.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("horizontalEdge.ImageAlign")));
-			this.horizontalEdge.ImageIndex = ((int)(resources.GetObject("horizontalEdge.ImageIndex")));
-			this.horizontalEdge.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("horizontalEdge.ImeMode")));
-			this.horizontalEdge.Location = ((System.Drawing.Point)(resources.GetObject("horizontalEdge.Location")));
-			this.horizontalEdge.Name = "horizontalEdge";
-			this.horizontalEdge.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("horizontalEdge.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.horizontalEdge, ((bool)(resources.GetObject("horizontalEdge.ShowHelp"))));
-			this.horizontalEdge.Size = ((System.Drawing.Size)(resources.GetObject("horizontalEdge.Size")));
-			this.horizontalEdge.TabIndex = ((int)(resources.GetObject("horizontalEdge.TabIndex")));
-			this.horizontalEdge.Text = resources.GetString("horizontalEdge.Text");
-			this.horizontalEdge.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("horizontalEdge.TextAlign")));
-			this.toolTip.SetToolTip(this.horizontalEdge, resources.GetString("horizontalEdge.ToolTip"));
-			this.horizontalEdge.Visible = ((bool)(resources.GetObject("horizontalEdge.Visible")));
-			// 
-			// label2
-			// 
-			this.label2.AccessibleDescription = resources.GetString("label2.AccessibleDescription");
-			this.label2.AccessibleName = resources.GetString("label2.AccessibleName");
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label2.Anchor")));
-			this.label2.AutoSize = ((bool)(resources.GetObject("label2.AutoSize")));
-			this.label2.BackColor = System.Drawing.SystemColors.Control;
-			this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label2.Dock")));
-			this.label2.Enabled = ((bool)(resources.GetObject("label2.Enabled")));
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label2.Font = ((System.Drawing.Font)(resources.GetObject("label2.Font")));
-			this.helpProvider1.SetHelpKeyword(this.label2, resources.GetString("label2.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.label2, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("label2.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.label2, resources.GetString("label2.HelpString"));
-			this.label2.Image = ((System.Drawing.Image)(resources.GetObject("label2.Image")));
-			this.label2.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label2.ImageAlign")));
-			this.label2.ImageIndex = ((int)(resources.GetObject("label2.ImageIndex")));
-			this.label2.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label2.ImeMode")));
-			this.label2.Location = ((System.Drawing.Point)(resources.GetObject("label2.Location")));
-			this.label2.Name = "label2";
-			this.label2.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label2.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.label2, ((bool)(resources.GetObject("label2.ShowHelp"))));
-			this.label2.Size = ((System.Drawing.Size)(resources.GetObject("label2.Size")));
-			this.label2.TabIndex = ((int)(resources.GetObject("label2.TabIndex")));
-			this.label2.Text = resources.GetString("label2.Text");
-			this.label2.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label2.TextAlign")));
-			this.toolTip.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
-			this.label2.Visible = ((bool)(resources.GetObject("label2.Visible")));
-			// 
-			// checkBoxRssSearchTimeSpan
-			// 
-			this.checkBoxRssSearchTimeSpan.AccessibleDescription = resources.GetString("checkBoxRssSearchTimeSpan.AccessibleDescription");
-			this.checkBoxRssSearchTimeSpan.AccessibleName = resources.GetString("checkBoxRssSearchTimeSpan.AccessibleName");
-			this.checkBoxRssSearchTimeSpan.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchTimeSpan.Anchor")));
-			this.checkBoxRssSearchTimeSpan.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchTimeSpan.Appearance")));
-			this.checkBoxRssSearchTimeSpan.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchTimeSpan.BackgroundImage")));
-			this.checkBoxRssSearchTimeSpan.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchTimeSpan.CheckAlign")));
-			this.checkBoxRssSearchTimeSpan.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchTimeSpan.Dock")));
-			this.checkBoxRssSearchTimeSpan.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchTimeSpan.Enabled")));
-			this.checkBoxRssSearchTimeSpan.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchTimeSpan.FlatStyle")));
-			this.checkBoxRssSearchTimeSpan.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchTimeSpan.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchTimeSpan, resources.GetString("checkBoxRssSearchTimeSpan.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchTimeSpan, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchTimeSpan.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchTimeSpan, resources.GetString("checkBoxRssSearchTimeSpan.HelpString"));
-			this.checkBoxRssSearchTimeSpan.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchTimeSpan.Image")));
-			this.checkBoxRssSearchTimeSpan.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchTimeSpan.ImageAlign")));
-			this.checkBoxRssSearchTimeSpan.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchTimeSpan.ImageIndex")));
-			this.checkBoxRssSearchTimeSpan.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchTimeSpan.ImeMode")));
-			this.checkBoxRssSearchTimeSpan.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchTimeSpan.Location")));
-			this.checkBoxRssSearchTimeSpan.Name = "checkBoxRssSearchTimeSpan";
-			this.checkBoxRssSearchTimeSpan.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchTimeSpan.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchTimeSpan, ((bool)(resources.GetObject("checkBoxRssSearchTimeSpan.ShowHelp"))));
-			this.checkBoxRssSearchTimeSpan.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchTimeSpan.Size")));
-			this.checkBoxRssSearchTimeSpan.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchTimeSpan.TabIndex")));
-			this.checkBoxRssSearchTimeSpan.Text = resources.GetString("checkBoxRssSearchTimeSpan.Text");
-			this.checkBoxRssSearchTimeSpan.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchTimeSpan.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchTimeSpan, resources.GetString("checkBoxRssSearchTimeSpan.ToolTip"));
-			this.checkBoxRssSearchTimeSpan.Visible = ((bool)(resources.GetObject("checkBoxRssSearchTimeSpan.Visible")));
-			// 
-			// radioRssSearchItemsOlderThan
-			// 
-			this.radioRssSearchItemsOlderThan.AccessibleDescription = resources.GetString("radioRssSearchItemsOlderThan.AccessibleDescription");
-			this.radioRssSearchItemsOlderThan.AccessibleName = resources.GetString("radioRssSearchItemsOlderThan.AccessibleName");
-			this.radioRssSearchItemsOlderThan.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radioRssSearchItemsOlderThan.Anchor")));
-			this.radioRssSearchItemsOlderThan.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("radioRssSearchItemsOlderThan.Appearance")));
-			this.radioRssSearchItemsOlderThan.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioRssSearchItemsOlderThan.BackgroundImage")));
-			this.radioRssSearchItemsOlderThan.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsOlderThan.CheckAlign")));
-			this.radioRssSearchItemsOlderThan.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radioRssSearchItemsOlderThan.Dock")));
-			this.radioRssSearchItemsOlderThan.Enabled = ((bool)(resources.GetObject("radioRssSearchItemsOlderThan.Enabled")));
-			this.radioRssSearchItemsOlderThan.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("radioRssSearchItemsOlderThan.FlatStyle")));
-			this.radioRssSearchItemsOlderThan.Font = ((System.Drawing.Font)(resources.GetObject("radioRssSearchItemsOlderThan.Font")));
-			this.helpProvider1.SetHelpKeyword(this.radioRssSearchItemsOlderThan, resources.GetString("radioRssSearchItemsOlderThan.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.radioRssSearchItemsOlderThan, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("radioRssSearchItemsOlderThan.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.radioRssSearchItemsOlderThan, resources.GetString("radioRssSearchItemsOlderThan.HelpString"));
-			this.radioRssSearchItemsOlderThan.Image = ((System.Drawing.Image)(resources.GetObject("radioRssSearchItemsOlderThan.Image")));
-			this.radioRssSearchItemsOlderThan.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsOlderThan.ImageAlign")));
-			this.radioRssSearchItemsOlderThan.ImageIndex = ((int)(resources.GetObject("radioRssSearchItemsOlderThan.ImageIndex")));
-			this.radioRssSearchItemsOlderThan.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radioRssSearchItemsOlderThan.ImeMode")));
-			this.radioRssSearchItemsOlderThan.Location = ((System.Drawing.Point)(resources.GetObject("radioRssSearchItemsOlderThan.Location")));
-			this.radioRssSearchItemsOlderThan.Name = "radioRssSearchItemsOlderThan";
-			this.radioRssSearchItemsOlderThan.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radioRssSearchItemsOlderThan.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.radioRssSearchItemsOlderThan, ((bool)(resources.GetObject("radioRssSearchItemsOlderThan.ShowHelp"))));
-			this.radioRssSearchItemsOlderThan.Size = ((System.Drawing.Size)(resources.GetObject("radioRssSearchItemsOlderThan.Size")));
-			this.radioRssSearchItemsOlderThan.TabIndex = ((int)(resources.GetObject("radioRssSearchItemsOlderThan.TabIndex")));
-			this.radioRssSearchItemsOlderThan.Text = resources.GetString("radioRssSearchItemsOlderThan.Text");
-			this.radioRssSearchItemsOlderThan.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsOlderThan.TextAlign")));
-			this.toolTip.SetToolTip(this.radioRssSearchItemsOlderThan, resources.GetString("radioRssSearchItemsOlderThan.ToolTip"));
-			this.radioRssSearchItemsOlderThan.Visible = ((bool)(resources.GetObject("radioRssSearchItemsOlderThan.Visible")));
-			// 
-			// comboRssSearchItemAge
-			// 
-			this.comboRssSearchItemAge.AccessibleDescription = resources.GetString("comboRssSearchItemAge.AccessibleDescription");
-			this.comboRssSearchItemAge.AccessibleName = resources.GetString("comboRssSearchItemAge.AccessibleName");
-			this.comboRssSearchItemAge.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("comboRssSearchItemAge.Anchor")));
-			this.comboRssSearchItemAge.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("comboRssSearchItemAge.BackgroundImage")));
-			this.comboRssSearchItemAge.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("comboRssSearchItemAge.Dock")));
-			this.comboRssSearchItemAge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboRssSearchItemAge.Enabled = ((bool)(resources.GetObject("comboRssSearchItemAge.Enabled")));
-			this.comboRssSearchItemAge.Font = ((System.Drawing.Font)(resources.GetObject("comboRssSearchItemAge.Font")));
-			this.helpProvider1.SetHelpKeyword(this.comboRssSearchItemAge, resources.GetString("comboRssSearchItemAge.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.comboRssSearchItemAge, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("comboRssSearchItemAge.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.comboRssSearchItemAge, resources.GetString("comboRssSearchItemAge.HelpString"));
-			this.comboRssSearchItemAge.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("comboRssSearchItemAge.ImeMode")));
-			this.comboRssSearchItemAge.IntegralHeight = ((bool)(resources.GetObject("comboRssSearchItemAge.IntegralHeight")));
-			this.comboRssSearchItemAge.ItemHeight = ((int)(resources.GetObject("comboRssSearchItemAge.ItemHeight")));
-			this.comboRssSearchItemAge.Items.AddRange(new object[] {
-																	   resources.GetString("comboRssSearchItemAge.Items"),
-																	   resources.GetString("comboRssSearchItemAge.Items1"),
-																	   resources.GetString("comboRssSearchItemAge.Items2"),
-																	   resources.GetString("comboRssSearchItemAge.Items3"),
-																	   resources.GetString("comboRssSearchItemAge.Items4"),
-																	   resources.GetString("comboRssSearchItemAge.Items5"),
-																	   resources.GetString("comboRssSearchItemAge.Items6"),
-																	   resources.GetString("comboRssSearchItemAge.Items7"),
-																	   resources.GetString("comboRssSearchItemAge.Items8"),
-																	   resources.GetString("comboRssSearchItemAge.Items9"),
-																	   resources.GetString("comboRssSearchItemAge.Items10"),
-																	   resources.GetString("comboRssSearchItemAge.Items11"),
-																	   resources.GetString("comboRssSearchItemAge.Items12"),
-																	   resources.GetString("comboRssSearchItemAge.Items13"),
-																	   resources.GetString("comboRssSearchItemAge.Items14"),
-																	   resources.GetString("comboRssSearchItemAge.Items15"),
-																	   resources.GetString("comboRssSearchItemAge.Items16"),
-																	   resources.GetString("comboRssSearchItemAge.Items17"),
-																	   resources.GetString("comboRssSearchItemAge.Items18"),
-																	   resources.GetString("comboRssSearchItemAge.Items19"),
-																	   resources.GetString("comboRssSearchItemAge.Items20"),
-																	   resources.GetString("comboRssSearchItemAge.Items21"),
-																	   resources.GetString("comboRssSearchItemAge.Items22"),
-																	   resources.GetString("comboRssSearchItemAge.Items23"),
-																	   resources.GetString("comboRssSearchItemAge.Items24"),
-																	   resources.GetString("comboRssSearchItemAge.Items25")});
-			this.comboRssSearchItemAge.Location = ((System.Drawing.Point)(resources.GetObject("comboRssSearchItemAge.Location")));
-			this.comboRssSearchItemAge.MaxDropDownItems = ((int)(resources.GetObject("comboRssSearchItemAge.MaxDropDownItems")));
-			this.comboRssSearchItemAge.MaxLength = ((int)(resources.GetObject("comboRssSearchItemAge.MaxLength")));
-			this.comboRssSearchItemAge.Name = "comboRssSearchItemAge";
-			this.comboRssSearchItemAge.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("comboRssSearchItemAge.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.comboRssSearchItemAge, ((bool)(resources.GetObject("comboRssSearchItemAge.ShowHelp"))));
-			this.comboRssSearchItemAge.Size = ((System.Drawing.Size)(resources.GetObject("comboRssSearchItemAge.Size")));
-			this.comboRssSearchItemAge.TabIndex = ((int)(resources.GetObject("comboRssSearchItemAge.TabIndex")));
-			this.comboRssSearchItemAge.Text = resources.GetString("comboRssSearchItemAge.Text");
-			this.toolTip.SetToolTip(this.comboRssSearchItemAge, resources.GetString("comboRssSearchItemAge.ToolTip"));
-			this.comboRssSearchItemAge.Visible = ((bool)(resources.GetObject("comboRssSearchItemAge.Visible")));
-			// 
-			// radioRssSearchItemsYoungerThan
-			// 
-			this.radioRssSearchItemsYoungerThan.AccessibleDescription = resources.GetString("radioRssSearchItemsYoungerThan.AccessibleDescription");
-			this.radioRssSearchItemsYoungerThan.AccessibleName = resources.GetString("radioRssSearchItemsYoungerThan.AccessibleName");
-			this.radioRssSearchItemsYoungerThan.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radioRssSearchItemsYoungerThan.Anchor")));
-			this.radioRssSearchItemsYoungerThan.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("radioRssSearchItemsYoungerThan.Appearance")));
-			this.radioRssSearchItemsYoungerThan.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioRssSearchItemsYoungerThan.BackgroundImage")));
-			this.radioRssSearchItemsYoungerThan.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsYoungerThan.CheckAlign")));
-			this.radioRssSearchItemsYoungerThan.Checked = true;
-			this.radioRssSearchItemsYoungerThan.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radioRssSearchItemsYoungerThan.Dock")));
-			this.radioRssSearchItemsYoungerThan.Enabled = ((bool)(resources.GetObject("radioRssSearchItemsYoungerThan.Enabled")));
-			this.radioRssSearchItemsYoungerThan.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("radioRssSearchItemsYoungerThan.FlatStyle")));
-			this.radioRssSearchItemsYoungerThan.Font = ((System.Drawing.Font)(resources.GetObject("radioRssSearchItemsYoungerThan.Font")));
-			this.helpProvider1.SetHelpKeyword(this.radioRssSearchItemsYoungerThan, resources.GetString("radioRssSearchItemsYoungerThan.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.radioRssSearchItemsYoungerThan, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("radioRssSearchItemsYoungerThan.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.radioRssSearchItemsYoungerThan, resources.GetString("radioRssSearchItemsYoungerThan.HelpString"));
-			this.radioRssSearchItemsYoungerThan.Image = ((System.Drawing.Image)(resources.GetObject("radioRssSearchItemsYoungerThan.Image")));
-			this.radioRssSearchItemsYoungerThan.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsYoungerThan.ImageAlign")));
-			this.radioRssSearchItemsYoungerThan.ImageIndex = ((int)(resources.GetObject("radioRssSearchItemsYoungerThan.ImageIndex")));
-			this.radioRssSearchItemsYoungerThan.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radioRssSearchItemsYoungerThan.ImeMode")));
-			this.radioRssSearchItemsYoungerThan.Location = ((System.Drawing.Point)(resources.GetObject("radioRssSearchItemsYoungerThan.Location")));
-			this.radioRssSearchItemsYoungerThan.Name = "radioRssSearchItemsYoungerThan";
-			this.radioRssSearchItemsYoungerThan.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radioRssSearchItemsYoungerThan.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.radioRssSearchItemsYoungerThan, ((bool)(resources.GetObject("radioRssSearchItemsYoungerThan.ShowHelp"))));
-			this.radioRssSearchItemsYoungerThan.Size = ((System.Drawing.Size)(resources.GetObject("radioRssSearchItemsYoungerThan.Size")));
-			this.radioRssSearchItemsYoungerThan.TabIndex = ((int)(resources.GetObject("radioRssSearchItemsYoungerThan.TabIndex")));
-			this.radioRssSearchItemsYoungerThan.TabStop = true;
-			this.radioRssSearchItemsYoungerThan.Text = resources.GetString("radioRssSearchItemsYoungerThan.Text");
-			this.radioRssSearchItemsYoungerThan.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radioRssSearchItemsYoungerThan.TextAlign")));
-			this.toolTip.SetToolTip(this.radioRssSearchItemsYoungerThan, resources.GetString("radioRssSearchItemsYoungerThan.ToolTip"));
-			this.radioRssSearchItemsYoungerThan.Visible = ((bool)(resources.GetObject("radioRssSearchItemsYoungerThan.Visible")));
-			// 
-			// label3
-			// 
-			this.label3.AccessibleDescription = resources.GetString("label3.AccessibleDescription");
-			this.label3.AccessibleName = resources.GetString("label3.AccessibleName");
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label3.Anchor")));
-			this.label3.AutoSize = ((bool)(resources.GetObject("label3.AutoSize")));
-			this.label3.BackColor = System.Drawing.SystemColors.Control;
-			this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label3.Dock")));
-			this.label3.Enabled = ((bool)(resources.GetObject("label3.Enabled")));
-			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label3.Font = ((System.Drawing.Font)(resources.GetObject("label3.Font")));
-			this.helpProvider1.SetHelpKeyword(this.label3, resources.GetString("label3.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.label3, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("label3.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.label3, resources.GetString("label3.HelpString"));
-			this.label3.Image = ((System.Drawing.Image)(resources.GetObject("label3.Image")));
-			this.label3.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.ImageAlign")));
-			this.label3.ImageIndex = ((int)(resources.GetObject("label3.ImageIndex")));
-			this.label3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label3.ImeMode")));
-			this.label3.Location = ((System.Drawing.Point)(resources.GetObject("label3.Location")));
-			this.label3.Name = "label3";
-			this.label3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label3.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.label3, ((bool)(resources.GetObject("label3.ShowHelp"))));
-			this.label3.Size = ((System.Drawing.Size)(resources.GetObject("label3.Size")));
-			this.label3.TabIndex = ((int)(resources.GetObject("label3.TabIndex")));
-			this.label3.Text = resources.GetString("label3.Text");
-			this.label3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.TextAlign")));
-			this.toolTip.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
-			this.label3.Visible = ((bool)(resources.GetObject("label3.Visible")));
-			// 
-			// checkBoxRssSearchByDate
-			// 
-			this.checkBoxRssSearchByDate.AccessibleDescription = resources.GetString("checkBoxRssSearchByDate.AccessibleDescription");
-			this.checkBoxRssSearchByDate.AccessibleName = resources.GetString("checkBoxRssSearchByDate.AccessibleName");
-			this.checkBoxRssSearchByDate.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchByDate.Anchor")));
-			this.checkBoxRssSearchByDate.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchByDate.Appearance")));
-			this.checkBoxRssSearchByDate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchByDate.BackgroundImage")));
-			this.checkBoxRssSearchByDate.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDate.CheckAlign")));
-			this.checkBoxRssSearchByDate.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchByDate.Dock")));
-			this.checkBoxRssSearchByDate.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchByDate.Enabled")));
-			this.checkBoxRssSearchByDate.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchByDate.FlatStyle")));
-			this.checkBoxRssSearchByDate.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchByDate.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchByDate, resources.GetString("checkBoxRssSearchByDate.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchByDate, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchByDate.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchByDate, resources.GetString("checkBoxRssSearchByDate.HelpString"));
-			this.checkBoxRssSearchByDate.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchByDate.Image")));
-			this.checkBoxRssSearchByDate.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDate.ImageAlign")));
-			this.checkBoxRssSearchByDate.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchByDate.ImageIndex")));
-			this.checkBoxRssSearchByDate.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchByDate.ImeMode")));
-			this.checkBoxRssSearchByDate.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchByDate.Location")));
-			this.checkBoxRssSearchByDate.Name = "checkBoxRssSearchByDate";
-			this.checkBoxRssSearchByDate.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchByDate.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchByDate, ((bool)(resources.GetObject("checkBoxRssSearchByDate.ShowHelp"))));
-			this.checkBoxRssSearchByDate.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchByDate.Size")));
-			this.checkBoxRssSearchByDate.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchByDate.TabIndex")));
-			this.checkBoxRssSearchByDate.Text = resources.GetString("checkBoxRssSearchByDate.Text");
-			this.checkBoxRssSearchByDate.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDate.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchByDate, resources.GetString("checkBoxRssSearchByDate.ToolTip"));
-			this.checkBoxRssSearchByDate.Visible = ((bool)(resources.GetObject("checkBoxRssSearchByDate.Visible")));
-			// 
-			// label4
-			// 
-			this.label4.AccessibleDescription = resources.GetString("label4.AccessibleDescription");
-			this.label4.AccessibleName = resources.GetString("label4.AccessibleName");
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label4.Anchor")));
-			this.label4.AutoSize = ((bool)(resources.GetObject("label4.AutoSize")));
-			this.label4.BackColor = System.Drawing.SystemColors.Control;
-			this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label4.Dock")));
-			this.label4.Enabled = ((bool)(resources.GetObject("label4.Enabled")));
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label4.Font = ((System.Drawing.Font)(resources.GetObject("label4.Font")));
-			this.helpProvider1.SetHelpKeyword(this.label4, resources.GetString("label4.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.label4, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("label4.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.label4, resources.GetString("label4.HelpString"));
-			this.label4.Image = ((System.Drawing.Image)(resources.GetObject("label4.Image")));
-			this.label4.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.ImageAlign")));
-			this.label4.ImageIndex = ((int)(resources.GetObject("label4.ImageIndex")));
-			this.label4.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label4.ImeMode")));
-			this.label4.Location = ((System.Drawing.Point)(resources.GetObject("label4.Location")));
-			this.label4.Name = "label4";
-			this.label4.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label4.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.label4, ((bool)(resources.GetObject("label4.ShowHelp"))));
-			this.label4.Size = ((System.Drawing.Size)(resources.GetObject("label4.Size")));
-			this.label4.TabIndex = ((int)(resources.GetObject("label4.TabIndex")));
-			this.label4.Text = resources.GetString("label4.Text");
-			this.label4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.TextAlign")));
-			this.toolTip.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
-			this.label4.Visible = ((bool)(resources.GetObject("label4.Visible")));
-			// 
-			// checkBoxRssSearchByDateRange
-			// 
-			this.checkBoxRssSearchByDateRange.AccessibleDescription = resources.GetString("checkBoxRssSearchByDateRange.AccessibleDescription");
-			this.checkBoxRssSearchByDateRange.AccessibleName = resources.GetString("checkBoxRssSearchByDateRange.AccessibleName");
-			this.checkBoxRssSearchByDateRange.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkBoxRssSearchByDateRange.Anchor")));
-			this.checkBoxRssSearchByDateRange.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkBoxRssSearchByDateRange.Appearance")));
-			this.checkBoxRssSearchByDateRange.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchByDateRange.BackgroundImage")));
-			this.checkBoxRssSearchByDateRange.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDateRange.CheckAlign")));
-			this.checkBoxRssSearchByDateRange.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkBoxRssSearchByDateRange.Dock")));
-			this.checkBoxRssSearchByDateRange.Enabled = ((bool)(resources.GetObject("checkBoxRssSearchByDateRange.Enabled")));
-			this.checkBoxRssSearchByDateRange.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkBoxRssSearchByDateRange.FlatStyle")));
-			this.checkBoxRssSearchByDateRange.Font = ((System.Drawing.Font)(resources.GetObject("checkBoxRssSearchByDateRange.Font")));
-			this.helpProvider1.SetHelpKeyword(this.checkBoxRssSearchByDateRange, resources.GetString("checkBoxRssSearchByDateRange.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.checkBoxRssSearchByDateRange, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("checkBoxRssSearchByDateRange.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.checkBoxRssSearchByDateRange, resources.GetString("checkBoxRssSearchByDateRange.HelpString"));
-			this.checkBoxRssSearchByDateRange.Image = ((System.Drawing.Image)(resources.GetObject("checkBoxRssSearchByDateRange.Image")));
-			this.checkBoxRssSearchByDateRange.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDateRange.ImageAlign")));
-			this.checkBoxRssSearchByDateRange.ImageIndex = ((int)(resources.GetObject("checkBoxRssSearchByDateRange.ImageIndex")));
-			this.checkBoxRssSearchByDateRange.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkBoxRssSearchByDateRange.ImeMode")));
-			this.checkBoxRssSearchByDateRange.Location = ((System.Drawing.Point)(resources.GetObject("checkBoxRssSearchByDateRange.Location")));
-			this.checkBoxRssSearchByDateRange.Name = "checkBoxRssSearchByDateRange";
-			this.checkBoxRssSearchByDateRange.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkBoxRssSearchByDateRange.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.checkBoxRssSearchByDateRange, ((bool)(resources.GetObject("checkBoxRssSearchByDateRange.ShowHelp"))));
-			this.checkBoxRssSearchByDateRange.Size = ((System.Drawing.Size)(resources.GetObject("checkBoxRssSearchByDateRange.Size")));
-			this.checkBoxRssSearchByDateRange.TabIndex = ((int)(resources.GetObject("checkBoxRssSearchByDateRange.TabIndex")));
-			this.checkBoxRssSearchByDateRange.Text = resources.GetString("checkBoxRssSearchByDateRange.Text");
-			this.checkBoxRssSearchByDateRange.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkBoxRssSearchByDateRange.TextAlign")));
-			this.toolTip.SetToolTip(this.checkBoxRssSearchByDateRange, resources.GetString("checkBoxRssSearchByDateRange.ToolTip"));
-			this.checkBoxRssSearchByDateRange.Visible = ((bool)(resources.GetObject("checkBoxRssSearchByDateRange.Visible")));
-			// 
-			// collapsiblePanelRssSearchScopeEx
-			// 
-			this.collapsiblePanelRssSearchScopeEx.AccessibleDescription = resources.GetString("collapsiblePanelRssSearchScopeEx.AccessibleDescription");
-			this.collapsiblePanelRssSearchScopeEx.AccessibleName = resources.GetString("collapsiblePanelRssSearchScopeEx.AccessibleName");
-			this.collapsiblePanelRssSearchScopeEx.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Anchor")));
-			this.collapsiblePanelRssSearchScopeEx.Animate = true;
-			this.collapsiblePanelRssSearchScopeEx.Collapsed = true;
-			this.collapsiblePanelRssSearchScopeEx.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Dock")));
-			this.collapsiblePanelRssSearchScopeEx.Enabled = ((bool)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Enabled")));
-			this.collapsiblePanelRssSearchScopeEx.ExpandedHeight = 215;
-			this.collapsiblePanelRssSearchScopeEx.Font = ((System.Drawing.Font)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Font")));
-			this.helpProvider1.SetHelpKeyword(this.collapsiblePanelRssSearchScopeEx, resources.GetString("collapsiblePanelRssSearchScopeEx.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.collapsiblePanelRssSearchScopeEx, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("collapsiblePanelRssSearchScopeEx.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.collapsiblePanelRssSearchScopeEx, resources.GetString("collapsiblePanelRssSearchScopeEx.HelpString"));
-			this.collapsiblePanelRssSearchScopeEx.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("collapsiblePanelRssSearchScopeEx.ImeMode")));
-			this.collapsiblePanelRssSearchScopeEx.Items.AddRange(new System.Windows.Forms.Control[] {
-																										this.treeRssSearchScope});
-			this.collapsiblePanelRssSearchScopeEx.Location = ((System.Drawing.Point)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Location")));
-			this.collapsiblePanelRssSearchScopeEx.Name = "collapsiblePanelRssSearchScopeEx";
-			this.collapsiblePanelRssSearchScopeEx.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("collapsiblePanelRssSearchScopeEx.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.collapsiblePanelRssSearchScopeEx, ((bool)(resources.GetObject("collapsiblePanelRssSearchScopeEx.ShowHelp"))));
-			this.collapsiblePanelRssSearchScopeEx.Size = ((System.Drawing.Size)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Size")));
-			this.collapsiblePanelRssSearchScopeEx.TabIndex = ((int)(resources.GetObject("collapsiblePanelRssSearchScopeEx.TabIndex")));
-			this.collapsiblePanelRssSearchScopeEx.Text = resources.GetString("collapsiblePanelRssSearchScopeEx.Text");
-			this.toolTip.SetToolTip(this.collapsiblePanelRssSearchScopeEx, resources.GetString("collapsiblePanelRssSearchScopeEx.ToolTip"));
-			this.collapsiblePanelRssSearchScopeEx.Visible = ((bool)(resources.GetObject("collapsiblePanelRssSearchScopeEx.Visible")));
-			// 
-			// treeRssSearchScope
-			// 
-			this.treeRssSearchScope.AccessibleDescription = resources.GetString("treeRssSearchScope.AccessibleDescription");
-			this.treeRssSearchScope.AccessibleName = resources.GetString("treeRssSearchScope.AccessibleName");
-			this.treeRssSearchScope.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("treeRssSearchScope.Anchor")));
-			this.treeRssSearchScope.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("treeRssSearchScope.BackgroundImage")));
-			this.treeRssSearchScope.CheckBoxes = true;
-			this.treeRssSearchScope.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("treeRssSearchScope.Dock")));
-			this.treeRssSearchScope.Enabled = ((bool)(resources.GetObject("treeRssSearchScope.Enabled")));
-			this.treeRssSearchScope.Font = ((System.Drawing.Font)(resources.GetObject("treeRssSearchScope.Font")));
-			this.helpProvider1.SetHelpKeyword(this.treeRssSearchScope, resources.GetString("treeRssSearchScope.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.treeRssSearchScope, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("treeRssSearchScope.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.treeRssSearchScope, resources.GetString("treeRssSearchScope.HelpString"));
-			this.treeRssSearchScope.HideSelection = false;
-			this.treeRssSearchScope.ImageIndex = ((int)(resources.GetObject("treeRssSearchScope.ImageIndex")));
-			this.treeRssSearchScope.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("treeRssSearchScope.ImeMode")));
-			this.treeRssSearchScope.Indent = ((int)(resources.GetObject("treeRssSearchScope.Indent")));
-			this.treeRssSearchScope.ItemHeight = ((int)(resources.GetObject("treeRssSearchScope.ItemHeight")));
-			this.treeRssSearchScope.Location = ((System.Drawing.Point)(resources.GetObject("treeRssSearchScope.Location")));
-			this.treeRssSearchScope.Name = "treeRssSearchScope";
-			this.treeRssSearchScope.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("treeRssSearchScope.RightToLeft")));
-			this.treeRssSearchScope.SelectedImageIndex = ((int)(resources.GetObject("treeRssSearchScope.SelectedImageIndex")));
-			this.helpProvider1.SetShowHelp(this.treeRssSearchScope, ((bool)(resources.GetObject("treeRssSearchScope.ShowHelp"))));
-			this.treeRssSearchScope.Size = ((System.Drawing.Size)(resources.GetObject("treeRssSearchScope.Size")));
-			this.treeRssSearchScope.TabIndex = ((int)(resources.GetObject("treeRssSearchScope.TabIndex")));
-			this.treeRssSearchScope.Text = resources.GetString("treeRssSearchScope.Text");
-			this.toolTip.SetToolTip(this.treeRssSearchScope, resources.GetString("treeRssSearchScope.ToolTip"));
-			this.treeRssSearchScope.Visible = ((bool)(resources.GetObject("treeRssSearchScope.Visible")));
-			this.treeRssSearchScope.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.OnRssSearchScopeTreeAfterCheck);
-			// 
-			// searchPaneSplitter
-			// 
-			this.searchPaneSplitter.AccessibleDescription = resources.GetString("searchPaneSplitter.AccessibleDescription");
-			this.searchPaneSplitter.AccessibleName = resources.GetString("searchPaneSplitter.AccessibleName");
-			this.searchPaneSplitter.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("searchPaneSplitter.Anchor")));
-			this.searchPaneSplitter.AnimationDelay = 20;
-			this.searchPaneSplitter.AnimationStep = 20;
-			this.searchPaneSplitter.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("searchPaneSplitter.BackgroundImage")));
-			this.searchPaneSplitter.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-			this.searchPaneSplitter.ControlToHide = null;
-			this.searchPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-			this.searchPaneSplitter.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("searchPaneSplitter.Dock")));
-			this.searchPaneSplitter.Enabled = ((bool)(resources.GetObject("searchPaneSplitter.Enabled")));
-			this.searchPaneSplitter.ExpandParentForm = false;
-			this.searchPaneSplitter.Font = ((System.Drawing.Font)(resources.GetObject("searchPaneSplitter.Font")));
-			this.helpProvider1.SetHelpKeyword(this.searchPaneSplitter, resources.GetString("searchPaneSplitter.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.searchPaneSplitter, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("searchPaneSplitter.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.searchPaneSplitter, resources.GetString("searchPaneSplitter.HelpString"));
-			this.searchPaneSplitter.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("searchPaneSplitter.ImeMode")));
-			this.searchPaneSplitter.Location = ((System.Drawing.Point)(resources.GetObject("searchPaneSplitter.Location")));
-			this.searchPaneSplitter.MinExtra = ((int)(resources.GetObject("searchPaneSplitter.MinExtra")));
-			this.searchPaneSplitter.MinSize = ((int)(resources.GetObject("searchPaneSplitter.MinSize")));
-			this.searchPaneSplitter.Name = "searchPaneSplitter";
-			this.searchPaneSplitter.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("searchPaneSplitter.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.searchPaneSplitter, ((bool)(resources.GetObject("searchPaneSplitter.ShowHelp"))));
-			this.searchPaneSplitter.TabIndex = ((int)(resources.GetObject("searchPaneSplitter.TabIndex")));
-			this.searchPaneSplitter.TabStop = false;
-			this.toolTip.SetToolTip(this.searchPaneSplitter, resources.GetString("searchPaneSplitter.ToolTip"));
-			this.searchPaneSplitter.UseAnimations = true;
-			this.searchPaneSplitter.Visible = ((bool)(resources.GetObject("searchPaneSplitter.Visible")));
-			this.searchPaneSplitter.VisualStyle = VisualStyles.XP;
-			// 
-			// panelRssSearchCommands
-			// 
-			this.panelRssSearchCommands.AccessibleDescription = resources.GetString("panelRssSearchCommands.AccessibleDescription");
-			this.panelRssSearchCommands.AccessibleName = resources.GetString("panelRssSearchCommands.AccessibleName");
-			this.panelRssSearchCommands.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelRssSearchCommands.Anchor")));
-			this.panelRssSearchCommands.AutoScroll = ((bool)(resources.GetObject("panelRssSearchCommands.AutoScroll")));
-			this.panelRssSearchCommands.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelRssSearchCommands.AutoScrollMargin")));
-			this.panelRssSearchCommands.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelRssSearchCommands.AutoScrollMinSize")));
-			this.panelRssSearchCommands.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelRssSearchCommands.BackgroundImage")));
-			this.panelRssSearchCommands.Controls.Add(this.btnNewSearch);
-			this.panelRssSearchCommands.Controls.Add(this.textSearchExpression);
-			this.panelRssSearchCommands.Controls.Add(this.btnSearchCancel);
-			this.panelRssSearchCommands.Controls.Add(this.labelRssSearchState);
-			this.panelRssSearchCommands.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelRssSearchCommands.Dock")));
-			this.panelRssSearchCommands.Enabled = ((bool)(resources.GetObject("panelRssSearchCommands.Enabled")));
-			this.panelRssSearchCommands.Font = ((System.Drawing.Font)(resources.GetObject("panelRssSearchCommands.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelRssSearchCommands, resources.GetString("panelRssSearchCommands.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelRssSearchCommands, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelRssSearchCommands.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelRssSearchCommands, resources.GetString("panelRssSearchCommands.HelpString"));
-			this.panelRssSearchCommands.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelRssSearchCommands.ImeMode")));
-			this.panelRssSearchCommands.Location = ((System.Drawing.Point)(resources.GetObject("panelRssSearchCommands.Location")));
-			this.panelRssSearchCommands.Name = "panelRssSearchCommands";
-			this.panelRssSearchCommands.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelRssSearchCommands.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.panelRssSearchCommands, ((bool)(resources.GetObject("panelRssSearchCommands.ShowHelp"))));
-			this.panelRssSearchCommands.Size = ((System.Drawing.Size)(resources.GetObject("panelRssSearchCommands.Size")));
-			this.panelRssSearchCommands.TabIndex = ((int)(resources.GetObject("panelRssSearchCommands.TabIndex")));
-			this.panelRssSearchCommands.Text = resources.GetString("panelRssSearchCommands.Text");
-			this.toolTip.SetToolTip(this.panelRssSearchCommands, resources.GetString("panelRssSearchCommands.ToolTip"));
-			this.panelRssSearchCommands.Visible = ((bool)(resources.GetObject("panelRssSearchCommands.Visible")));
-			// 
-			// btnNewSearch
-			// 
-			this.btnNewSearch.AccessibleDescription = resources.GetString("btnNewSearch.AccessibleDescription");
-			this.btnNewSearch.AccessibleName = resources.GetString("btnNewSearch.AccessibleName");
-			this.btnNewSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("btnNewSearch.Anchor")));
-			this.btnNewSearch.BackColor = System.Drawing.SystemColors.Control;
-			this.btnNewSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNewSearch.BackgroundImage")));
-			this.btnNewSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("btnNewSearch.Dock")));
-			this.btnNewSearch.Enabled = ((bool)(resources.GetObject("btnNewSearch.Enabled")));
-			this.btnNewSearch.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("btnNewSearch.FlatStyle")));
-			this.btnNewSearch.Font = ((System.Drawing.Font)(resources.GetObject("btnNewSearch.Font")));
-			this.helpProvider1.SetHelpKeyword(this.btnNewSearch, resources.GetString("btnNewSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.btnNewSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("btnNewSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.btnNewSearch, resources.GetString("btnNewSearch.HelpString"));
-			this.btnNewSearch.Image = ((System.Drawing.Image)(resources.GetObject("btnNewSearch.Image")));
-			this.btnNewSearch.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnNewSearch.ImageAlign")));
-			this.btnNewSearch.ImageIndex = ((int)(resources.GetObject("btnNewSearch.ImageIndex")));
-			this.btnNewSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("btnNewSearch.ImeMode")));
-			this.btnNewSearch.Location = ((System.Drawing.Point)(resources.GetObject("btnNewSearch.Location")));
-			this.btnNewSearch.Name = "btnNewSearch";
-			this.btnNewSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("btnNewSearch.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.btnNewSearch, ((bool)(resources.GetObject("btnNewSearch.ShowHelp"))));
-			this.btnNewSearch.Size = ((System.Drawing.Size)(resources.GetObject("btnNewSearch.Size")));
-			this.btnNewSearch.TabIndex = ((int)(resources.GetObject("btnNewSearch.TabIndex")));
-			this.btnNewSearch.Text = resources.GetString("btnNewSearch.Text");
-			this.btnNewSearch.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnNewSearch.TextAlign")));
-			this.toolTip.SetToolTip(this.btnNewSearch, resources.GetString("btnNewSearch.ToolTip"));
-			this.btnNewSearch.Visible = ((bool)(resources.GetObject("btnNewSearch.Visible")));
-			// 
-			// textSearchExpression
-			// 
-			this.textSearchExpression.AccessibleDescription = resources.GetString("textSearchExpression.AccessibleDescription");
-			this.textSearchExpression.AccessibleName = resources.GetString("textSearchExpression.AccessibleName");
-			this.textSearchExpression.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("textSearchExpression.Anchor")));
-			this.textSearchExpression.AutoSize = ((bool)(resources.GetObject("textSearchExpression.AutoSize")));
-			this.textSearchExpression.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("textSearchExpression.BackgroundImage")));
-			this.textSearchExpression.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("textSearchExpression.Dock")));
-			this.textSearchExpression.Enabled = ((bool)(resources.GetObject("textSearchExpression.Enabled")));
-			this.textSearchExpression.Font = ((System.Drawing.Font)(resources.GetObject("textSearchExpression.Font")));
-			this.helpProvider1.SetHelpKeyword(this.textSearchExpression, resources.GetString("textSearchExpression.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.textSearchExpression, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("textSearchExpression.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.textSearchExpression, resources.GetString("textSearchExpression.HelpString"));
-			this.textSearchExpression.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("textSearchExpression.ImeMode")));
-			this.textSearchExpression.Location = ((System.Drawing.Point)(resources.GetObject("textSearchExpression.Location")));
-			this.textSearchExpression.MaxLength = ((int)(resources.GetObject("textSearchExpression.MaxLength")));
-			this.textSearchExpression.Multiline = ((bool)(resources.GetObject("textSearchExpression.Multiline")));
-			this.textSearchExpression.Name = "textSearchExpression";
-			this.textSearchExpression.PasswordChar = ((char)(resources.GetObject("textSearchExpression.PasswordChar")));
-			this.textSearchExpression.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("textSearchExpression.RightToLeft")));
-			this.textSearchExpression.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("textSearchExpression.ScrollBars")));
-			this.helpProvider1.SetShowHelp(this.textSearchExpression, ((bool)(resources.GetObject("textSearchExpression.ShowHelp"))));
-			this.textSearchExpression.Size = ((System.Drawing.Size)(resources.GetObject("textSearchExpression.Size")));
-			this.textSearchExpression.TabIndex = ((int)(resources.GetObject("textSearchExpression.TabIndex")));
-			this.textSearchExpression.Text = resources.GetString("textSearchExpression.Text");
-			this.textSearchExpression.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("textSearchExpression.TextAlign")));
-			this.toolTip.SetToolTip(this.textSearchExpression, resources.GetString("textSearchExpression.ToolTip"));
-			this.textSearchExpression.Visible = ((bool)(resources.GetObject("textSearchExpression.Visible")));
-			this.textSearchExpression.WordWrap = ((bool)(resources.GetObject("textSearchExpression.WordWrap")));
-			// 
-			// btnSearchCancel
-			// 
-			this.btnSearchCancel.AccessibleDescription = resources.GetString("btnSearchCancel.AccessibleDescription");
-			this.btnSearchCancel.AccessibleName = resources.GetString("btnSearchCancel.AccessibleName");
-			this.btnSearchCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("btnSearchCancel.Anchor")));
-			this.btnSearchCancel.BackColor = System.Drawing.SystemColors.Control;
-			this.btnSearchCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearchCancel.BackgroundImage")));
-			this.btnSearchCancel.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("btnSearchCancel.Dock")));
-			this.btnSearchCancel.Enabled = ((bool)(resources.GetObject("btnSearchCancel.Enabled")));
-			this.btnSearchCancel.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("btnSearchCancel.FlatStyle")));
-			this.btnSearchCancel.Font = ((System.Drawing.Font)(resources.GetObject("btnSearchCancel.Font")));
-			this.helpProvider1.SetHelpKeyword(this.btnSearchCancel, resources.GetString("btnSearchCancel.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.btnSearchCancel, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("btnSearchCancel.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.btnSearchCancel, resources.GetString("btnSearchCancel.HelpString"));
-			this.btnSearchCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnSearchCancel.Image")));
-			this.btnSearchCancel.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnSearchCancel.ImageAlign")));
-			this.btnSearchCancel.ImageIndex = ((int)(resources.GetObject("btnSearchCancel.ImageIndex")));
-			this.btnSearchCancel.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("btnSearchCancel.ImeMode")));
-			this.btnSearchCancel.Location = ((System.Drawing.Point)(resources.GetObject("btnSearchCancel.Location")));
-			this.btnSearchCancel.Name = "btnSearchCancel";
-			this.btnSearchCancel.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("btnSearchCancel.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.btnSearchCancel, ((bool)(resources.GetObject("btnSearchCancel.ShowHelp"))));
-			this.btnSearchCancel.Size = ((System.Drawing.Size)(resources.GetObject("btnSearchCancel.Size")));
-			this.btnSearchCancel.TabIndex = ((int)(resources.GetObject("btnSearchCancel.TabIndex")));
-			this.btnSearchCancel.Text = resources.GetString("btnSearchCancel.Text");
-			this.btnSearchCancel.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("btnSearchCancel.TextAlign")));
-			this.toolTip.SetToolTip(this.btnSearchCancel, resources.GetString("btnSearchCancel.ToolTip"));
-			this.btnSearchCancel.Visible = ((bool)(resources.GetObject("btnSearchCancel.Visible")));
-			// 
-			// labelRssSearchState
-			// 
-			this.labelRssSearchState.AccessibleDescription = resources.GetString("labelRssSearchState.AccessibleDescription");
-			this.labelRssSearchState.AccessibleName = resources.GetString("labelRssSearchState.AccessibleName");
-			this.labelRssSearchState.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelRssSearchState.Anchor")));
-			this.labelRssSearchState.AutoSize = ((bool)(resources.GetObject("labelRssSearchState.AutoSize")));
-			this.labelRssSearchState.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelRssSearchState.Dock")));
-			this.labelRssSearchState.Enabled = ((bool)(resources.GetObject("labelRssSearchState.Enabled")));
-			this.labelRssSearchState.Font = ((System.Drawing.Font)(resources.GetObject("labelRssSearchState.Font")));
-			this.helpProvider1.SetHelpKeyword(this.labelRssSearchState, resources.GetString("labelRssSearchState.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.labelRssSearchState, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("labelRssSearchState.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.labelRssSearchState, resources.GetString("labelRssSearchState.HelpString"));
-			this.labelRssSearchState.Image = ((System.Drawing.Image)(resources.GetObject("labelRssSearchState.Image")));
-			this.labelRssSearchState.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelRssSearchState.ImageAlign")));
-			this.labelRssSearchState.ImageIndex = ((int)(resources.GetObject("labelRssSearchState.ImageIndex")));
-			this.labelRssSearchState.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelRssSearchState.ImeMode")));
-			this.labelRssSearchState.Location = ((System.Drawing.Point)(resources.GetObject("labelRssSearchState.Location")));
-			this.labelRssSearchState.Name = "labelRssSearchState";
-			this.labelRssSearchState.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelRssSearchState.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.labelRssSearchState, ((bool)(resources.GetObject("labelRssSearchState.ShowHelp"))));
-			this.labelRssSearchState.Size = ((System.Drawing.Size)(resources.GetObject("labelRssSearchState.Size")));
-			this.labelRssSearchState.TabIndex = ((int)(resources.GetObject("labelRssSearchState.TabIndex")));
-			this.labelRssSearchState.Text = resources.GetString("labelRssSearchState.Text");
-			this.labelRssSearchState.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelRssSearchState.TextAlign")));
-			this.toolTip.SetToolTip(this.labelRssSearchState, resources.GetString("labelRssSearchState.ToolTip"));
-			this.labelRssSearchState.Visible = ((bool)(resources.GetObject("labelRssSearchState.Visible")));
 			// 
 			// _status
 			// 
@@ -4260,227 +3724,6 @@ namespace RssBandit.WinGui.Forms {
 			this.statusBarRssParser.ToolTipText = resources.GetString("statusBarRssParser.ToolTipText");
 			this.statusBarRssParser.Width = ((int)(resources.GetObject("statusBarRssParser.Width")));
 			// 
-			// bottomSandBarDock
-			// 
-			this.bottomSandBarDock.AccessibleDescription = resources.GetString("bottomSandBarDock.AccessibleDescription");
-			this.bottomSandBarDock.AccessibleName = resources.GetString("bottomSandBarDock.AccessibleName");
-			this.bottomSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("bottomSandBarDock.Anchor")));
-			this.bottomSandBarDock.AutoScroll = ((bool)(resources.GetObject("bottomSandBarDock.AutoScroll")));
-			this.bottomSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.AutoScrollMargin")));
-			this.bottomSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.AutoScrollMinSize")));
-			this.bottomSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bottomSandBarDock.BackgroundImage")));
-			this.bottomSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("bottomSandBarDock.Dock")));
-			this.bottomSandBarDock.Enabled = ((bool)(resources.GetObject("bottomSandBarDock.Enabled")));
-			this.bottomSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("bottomSandBarDock.Font")));
-			this.bottomSandBarDock.Guid = new System.Guid("966bb07b-f317-4abc-aff5-d81d4d0a2c87");
-			this.helpProvider1.SetHelpKeyword(this.bottomSandBarDock, resources.GetString("bottomSandBarDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.bottomSandBarDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("bottomSandBarDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.bottomSandBarDock, resources.GetString("bottomSandBarDock.HelpString"));
-			this.bottomSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("bottomSandBarDock.ImeMode")));
-			this.bottomSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("bottomSandBarDock.Location")));
-			this.bottomSandBarDock.Manager = this.sandBarManager;
-			this.bottomSandBarDock.Name = "bottomSandBarDock";
-			this.bottomSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("bottomSandBarDock.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.bottomSandBarDock, ((bool)(resources.GetObject("bottomSandBarDock.ShowHelp"))));
-			this.bottomSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.Size")));
-			this.bottomSandBarDock.TabIndex = ((int)(resources.GetObject("bottomSandBarDock.TabIndex")));
-			this.bottomSandBarDock.Text = resources.GetString("bottomSandBarDock.Text");
-			this.toolTip.SetToolTip(this.bottomSandBarDock, resources.GetString("bottomSandBarDock.ToolTip"));
-			this.bottomSandBarDock.Visible = ((bool)(resources.GetObject("bottomSandBarDock.Visible")));
-			// 
-			// sandBarManager
-			// 
-			this.sandBarManager.OwnerForm = this;
-			// 
-			// leftSandBarDock
-			// 
-			this.leftSandBarDock.AccessibleDescription = resources.GetString("leftSandBarDock.AccessibleDescription");
-			this.leftSandBarDock.AccessibleName = resources.GetString("leftSandBarDock.AccessibleName");
-			this.leftSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("leftSandBarDock.Anchor")));
-			this.leftSandBarDock.AutoScroll = ((bool)(resources.GetObject("leftSandBarDock.AutoScroll")));
-			this.leftSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.AutoScrollMargin")));
-			this.leftSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.AutoScrollMinSize")));
-			this.leftSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftSandBarDock.BackgroundImage")));
-			this.leftSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("leftSandBarDock.Dock")));
-			this.leftSandBarDock.Enabled = ((bool)(resources.GetObject("leftSandBarDock.Enabled")));
-			this.leftSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("leftSandBarDock.Font")));
-			this.leftSandBarDock.Guid = new System.Guid("bde346df-f16a-4686-94ff-c4abad6371de");
-			this.helpProvider1.SetHelpKeyword(this.leftSandBarDock, resources.GetString("leftSandBarDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.leftSandBarDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("leftSandBarDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.leftSandBarDock, resources.GetString("leftSandBarDock.HelpString"));
-			this.leftSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("leftSandBarDock.ImeMode")));
-			this.leftSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("leftSandBarDock.Location")));
-			this.leftSandBarDock.Manager = this.sandBarManager;
-			this.leftSandBarDock.Name = "leftSandBarDock";
-			this.leftSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("leftSandBarDock.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.leftSandBarDock, ((bool)(resources.GetObject("leftSandBarDock.ShowHelp"))));
-			this.leftSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.Size")));
-			this.leftSandBarDock.TabIndex = ((int)(resources.GetObject("leftSandBarDock.TabIndex")));
-			this.leftSandBarDock.Text = resources.GetString("leftSandBarDock.Text");
-			this.toolTip.SetToolTip(this.leftSandBarDock, resources.GetString("leftSandBarDock.ToolTip"));
-			this.leftSandBarDock.Visible = ((bool)(resources.GetObject("leftSandBarDock.Visible")));
-			// 
-			// rightSandBarDock
-			// 
-			this.rightSandBarDock.AccessibleDescription = resources.GetString("rightSandBarDock.AccessibleDescription");
-			this.rightSandBarDock.AccessibleName = resources.GetString("rightSandBarDock.AccessibleName");
-			this.rightSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rightSandBarDock.Anchor")));
-			this.rightSandBarDock.AutoScroll = ((bool)(resources.GetObject("rightSandBarDock.AutoScroll")));
-			this.rightSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.AutoScrollMargin")));
-			this.rightSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.AutoScrollMinSize")));
-			this.rightSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightSandBarDock.BackgroundImage")));
-			this.rightSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rightSandBarDock.Dock")));
-			this.rightSandBarDock.Enabled = ((bool)(resources.GetObject("rightSandBarDock.Enabled")));
-			this.rightSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("rightSandBarDock.Font")));
-			this.rightSandBarDock.Guid = new System.Guid("762038c8-b9db-4370-b3a6-755942c4ff89");
-			this.helpProvider1.SetHelpKeyword(this.rightSandBarDock, resources.GetString("rightSandBarDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.rightSandBarDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("rightSandBarDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.rightSandBarDock, resources.GetString("rightSandBarDock.HelpString"));
-			this.rightSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rightSandBarDock.ImeMode")));
-			this.rightSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("rightSandBarDock.Location")));
-			this.rightSandBarDock.Manager = this.sandBarManager;
-			this.rightSandBarDock.Name = "rightSandBarDock";
-			this.rightSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rightSandBarDock.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.rightSandBarDock, ((bool)(resources.GetObject("rightSandBarDock.ShowHelp"))));
-			this.rightSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.Size")));
-			this.rightSandBarDock.TabIndex = ((int)(resources.GetObject("rightSandBarDock.TabIndex")));
-			this.rightSandBarDock.Text = resources.GetString("rightSandBarDock.Text");
-			this.toolTip.SetToolTip(this.rightSandBarDock, resources.GetString("rightSandBarDock.ToolTip"));
-			this.rightSandBarDock.Visible = ((bool)(resources.GetObject("rightSandBarDock.Visible")));
-			// 
-			// topSandBarDock
-			// 
-			this.topSandBarDock.AccessibleDescription = resources.GetString("topSandBarDock.AccessibleDescription");
-			this.topSandBarDock.AccessibleName = resources.GetString("topSandBarDock.AccessibleName");
-			this.topSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("topSandBarDock.Anchor")));
-			this.topSandBarDock.AutoScroll = ((bool)(resources.GetObject("topSandBarDock.AutoScroll")));
-			this.topSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.AutoScrollMargin")));
-			this.topSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.AutoScrollMinSize")));
-			this.topSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("topSandBarDock.BackgroundImage")));
-			this.topSandBarDock.Controls.Add(this.toolBarMain);
-			this.topSandBarDock.Controls.Add(this.menuBarMain);
-			this.topSandBarDock.Controls.Add(this.toolBarBrowser);
-			this.topSandBarDock.Controls.Add(this.toolBarWebSearch);
-			this.topSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("topSandBarDock.Dock")));
-			this.topSandBarDock.Enabled = ((bool)(resources.GetObject("topSandBarDock.Enabled")));
-			this.topSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("topSandBarDock.Font")));
-			this.topSandBarDock.Guid = new System.Guid("f7942d78-c06c-44f8-943e-b0f68611be66");
-			this.helpProvider1.SetHelpKeyword(this.topSandBarDock, resources.GetString("topSandBarDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.topSandBarDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("topSandBarDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.topSandBarDock, resources.GetString("topSandBarDock.HelpString"));
-			this.topSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("topSandBarDock.ImeMode")));
-			this.topSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("topSandBarDock.Location")));
-			this.topSandBarDock.Manager = this.sandBarManager;
-			this.topSandBarDock.Name = "topSandBarDock";
-			this.topSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("topSandBarDock.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.topSandBarDock, ((bool)(resources.GetObject("topSandBarDock.ShowHelp"))));
-			this.topSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.Size")));
-			this.topSandBarDock.TabIndex = ((int)(resources.GetObject("topSandBarDock.TabIndex")));
-			this.topSandBarDock.Text = resources.GetString("topSandBarDock.Text");
-			this.toolTip.SetToolTip(this.topSandBarDock, resources.GetString("topSandBarDock.ToolTip"));
-			this.topSandBarDock.Visible = ((bool)(resources.GetObject("topSandBarDock.Visible")));
-			// 
-			// toolBarMain
-			// 
-			this.toolBarMain.AccessibleDescription = resources.GetString("toolBarMain.AccessibleDescription");
-			this.toolBarMain.AccessibleName = resources.GetString("toolBarMain.AccessibleName");
-			this.toolBarMain.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("toolBarMain.Anchor")));
-			this.toolBarMain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolBarMain.BackgroundImage")));
-			this.toolBarMain.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("toolBarMain.Dock")));
-			this.toolBarMain.DockLine = 1;
-			this.toolBarMain.Enabled = ((bool)(resources.GetObject("toolBarMain.Enabled")));
-			this.toolBarMain.Font = ((System.Drawing.Font)(resources.GetObject("toolBarMain.Font")));
-			this.toolBarMain.Guid = new System.Guid("c95feca6-b21e-4660-ad20-8e8e5b9fe26c");
-			this.helpProvider1.SetHelpKeyword(this.toolBarMain, resources.GetString("toolBarMain.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.toolBarMain, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("toolBarMain.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.toolBarMain, resources.GetString("toolBarMain.HelpString"));
-			this.toolBarMain.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("toolBarMain.ImeMode")));
-			this.toolBarMain.Location = ((System.Drawing.Point)(resources.GetObject("toolBarMain.Location")));
-			this.toolBarMain.Name = "toolBarMain";
-			this.toolBarMain.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBarMain.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.toolBarMain, ((bool)(resources.GetObject("toolBarMain.ShowHelp"))));
-			this.toolBarMain.Size = ((System.Drawing.Size)(resources.GetObject("toolBarMain.Size")));
-			this.toolBarMain.TabIndex = ((int)(resources.GetObject("toolBarMain.TabIndex")));
-			this.toolBarMain.Text = resources.GetString("toolBarMain.Text");
-			this.toolTip.SetToolTip(this.toolBarMain, resources.GetString("toolBarMain.ToolTip"));
-			this.toolBarMain.Visible = ((bool)(resources.GetObject("toolBarMain.Visible")));
-			// 
-			// menuBarMain
-			// 
-			this.menuBarMain.AccessibleDescription = resources.GetString("menuBarMain.AccessibleDescription");
-			this.menuBarMain.AccessibleName = resources.GetString("menuBarMain.AccessibleName");
-			this.menuBarMain.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("menuBarMain.Anchor")));
-			this.menuBarMain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuBarMain.BackgroundImage")));
-			this.menuBarMain.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("menuBarMain.Dock")));
-			this.menuBarMain.Enabled = ((bool)(resources.GetObject("menuBarMain.Enabled")));
-			this.menuBarMain.Font = ((System.Drawing.Font)(resources.GetObject("menuBarMain.Font")));
-			this.menuBarMain.Guid = new System.Guid("420e8a01-f6b7-4edf-a233-f94d6966eb9e");
-			this.helpProvider1.SetHelpKeyword(this.menuBarMain, resources.GetString("menuBarMain.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.menuBarMain, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("menuBarMain.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.menuBarMain, resources.GetString("menuBarMain.HelpString"));
-			this.menuBarMain.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("menuBarMain.ImeMode")));
-			this.menuBarMain.Location = ((System.Drawing.Point)(resources.GetObject("menuBarMain.Location")));
-			this.menuBarMain.Name = "menuBarMain";
-			this.menuBarMain.OwnerForm = this;
-			this.menuBarMain.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("menuBarMain.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.menuBarMain, ((bool)(resources.GetObject("menuBarMain.ShowHelp"))));
-			this.menuBarMain.Size = ((System.Drawing.Size)(resources.GetObject("menuBarMain.Size")));
-			this.menuBarMain.TabIndex = ((int)(resources.GetObject("menuBarMain.TabIndex")));
-			this.menuBarMain.Text = resources.GetString("menuBarMain.Text");
-			this.toolTip.SetToolTip(this.menuBarMain, resources.GetString("menuBarMain.ToolTip"));
-			this.menuBarMain.Visible = ((bool)(resources.GetObject("menuBarMain.Visible")));
-			// 
-			// toolBarBrowser
-			// 
-			this.toolBarBrowser.AccessibleDescription = resources.GetString("toolBarBrowser.AccessibleDescription");
-			this.toolBarBrowser.AccessibleName = resources.GetString("toolBarBrowser.AccessibleName");
-			this.toolBarBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("toolBarBrowser.Anchor")));
-			this.toolBarBrowser.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolBarBrowser.BackgroundImage")));
-			this.toolBarBrowser.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("toolBarBrowser.Dock")));
-			this.toolBarBrowser.DockLine = 2;
-			this.toolBarBrowser.Enabled = ((bool)(resources.GetObject("toolBarBrowser.Enabled")));
-			this.toolBarBrowser.Font = ((System.Drawing.Font)(resources.GetObject("toolBarBrowser.Font")));
-			this.toolBarBrowser.Guid = new System.Guid("c632397d-48a5-4a1d-b2ad-8e6eff700483");
-			this.helpProvider1.SetHelpKeyword(this.toolBarBrowser, resources.GetString("toolBarBrowser.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.toolBarBrowser, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("toolBarBrowser.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.toolBarBrowser, resources.GetString("toolBarBrowser.HelpString"));
-			this.toolBarBrowser.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("toolBarBrowser.ImeMode")));
-			this.toolBarBrowser.Location = ((System.Drawing.Point)(resources.GetObject("toolBarBrowser.Location")));
-			this.toolBarBrowser.Name = "toolBarBrowser";
-			this.toolBarBrowser.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBarBrowser.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.toolBarBrowser, ((bool)(resources.GetObject("toolBarBrowser.ShowHelp"))));
-			this.toolBarBrowser.Size = ((System.Drawing.Size)(resources.GetObject("toolBarBrowser.Size")));
-			this.toolBarBrowser.TabIndex = ((int)(resources.GetObject("toolBarBrowser.TabIndex")));
-			this.toolBarBrowser.Text = resources.GetString("toolBarBrowser.Text");
-			this.toolTip.SetToolTip(this.toolBarBrowser, resources.GetString("toolBarBrowser.ToolTip"));
-			this.toolBarBrowser.Visible = ((bool)(resources.GetObject("toolBarBrowser.Visible")));
-			// 
-			// toolBarWebSearch
-			// 
-			this.toolBarWebSearch.AccessibleDescription = resources.GetString("toolBarWebSearch.AccessibleDescription");
-			this.toolBarWebSearch.AccessibleName = resources.GetString("toolBarWebSearch.AccessibleName");
-			this.toolBarWebSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("toolBarWebSearch.Anchor")));
-			this.toolBarWebSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolBarWebSearch.BackgroundImage")));
-			this.toolBarWebSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("toolBarWebSearch.Dock")));
-			this.toolBarWebSearch.DockLine = 2;
-			this.toolBarWebSearch.DockOffset = 1;
-			this.toolBarWebSearch.Enabled = ((bool)(resources.GetObject("toolBarWebSearch.Enabled")));
-			this.toolBarWebSearch.Font = ((System.Drawing.Font)(resources.GetObject("toolBarWebSearch.Font")));
-			this.toolBarWebSearch.Guid = new System.Guid("672d3df7-e580-492b-a4c4-216034d11636");
-			this.helpProvider1.SetHelpKeyword(this.toolBarWebSearch, resources.GetString("toolBarWebSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.toolBarWebSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("toolBarWebSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.toolBarWebSearch, resources.GetString("toolBarWebSearch.HelpString"));
-			this.toolBarWebSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("toolBarWebSearch.ImeMode")));
-			this.toolBarWebSearch.Location = ((System.Drawing.Point)(resources.GetObject("toolBarWebSearch.Location")));
-			this.toolBarWebSearch.Name = "toolBarWebSearch";
-			this.toolBarWebSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBarWebSearch.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.toolBarWebSearch, ((bool)(resources.GetObject("toolBarWebSearch.ShowHelp"))));
-			this.toolBarWebSearch.Size = ((System.Drawing.Size)(resources.GetObject("toolBarWebSearch.Size")));
-			this.toolBarWebSearch.TabIndex = ((int)(resources.GetObject("toolBarWebSearch.TabIndex")));
-			this.toolBarWebSearch.Text = resources.GetString("toolBarWebSearch.Text");
-			this.toolTip.SetToolTip(this.toolBarWebSearch, resources.GetString("toolBarWebSearch.ToolTip"));
-			this.toolBarWebSearch.Visible = ((bool)(resources.GetObject("toolBarWebSearch.Visible")));
-			// 
 			// progressBrowser
 			// 
 			this.progressBrowser.AccessibleDescription = resources.GetString("progressBrowser.AccessibleDescription");
@@ -4503,106 +3746,6 @@ namespace RssBandit.WinGui.Forms {
 			this.progressBrowser.Text = resources.GetString("progressBrowser.Text");
 			this.toolTip.SetToolTip(this.progressBrowser, resources.GetString("progressBrowser.ToolTip"));
 			this.progressBrowser.Visible = ((bool)(resources.GetObject("progressBrowser.Visible")));
-			// 
-			// leftSandDock
-			// 
-			this.leftSandDock.AccessibleDescription = resources.GetString("leftSandDock.AccessibleDescription");
-			this.leftSandDock.AccessibleName = resources.GetString("leftSandDock.AccessibleName");
-			this.leftSandDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("leftSandDock.Anchor")));
-			this.leftSandDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftSandDock.BackgroundImage")));
-			this.leftSandDock.Controls.Add(this.dockSubscriptions);
-			this.leftSandDock.Controls.Add(this.dockSearch);
-			this.leftSandDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("leftSandDock.Dock")));
-			this.leftSandDock.DockingManager = TD.SandDock.DockingManager.Whidbey;
-			this.leftSandDock.Enabled = ((bool)(resources.GetObject("leftSandDock.Enabled")));
-			this.leftSandDock.Font = ((System.Drawing.Font)(resources.GetObject("leftSandDock.Font")));
-			this.leftSandDock.Guid = new System.Guid("025dc7ba-76a8-4cea-925d-8cd8237c14a6");
-			this.helpProvider1.SetHelpKeyword(this.leftSandDock, resources.GetString("leftSandDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.leftSandDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("leftSandDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.leftSandDock, resources.GetString("leftSandDock.HelpString"));
-			this.leftSandDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("leftSandDock.ImeMode")));
-			this.leftSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
-																																											 new TD.SandDock.ControlLayoutSystem(231, 397, new TD.SandDock.DockControl[] {
-																																																															 this.dockSubscriptions,
-																																																															 this.dockSearch}, this.dockSubscriptions)});
-			this.leftSandDock.Location = ((System.Drawing.Point)(resources.GetObject("leftSandDock.Location")));
-			this.leftSandDock.Manager = this.sandDockManager;
-			this.leftSandDock.Name = "leftSandDock";
-			this.leftSandDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("leftSandDock.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.leftSandDock, ((bool)(resources.GetObject("leftSandDock.ShowHelp"))));
-			this.leftSandDock.Size = ((System.Drawing.Size)(resources.GetObject("leftSandDock.Size")));
-			this.leftSandDock.TabIndex = ((int)(resources.GetObject("leftSandDock.TabIndex")));
-			this.leftSandDock.Text = resources.GetString("leftSandDock.Text");
-			this.toolTip.SetToolTip(this.leftSandDock, resources.GetString("leftSandDock.ToolTip"));
-			this.leftSandDock.Visible = ((bool)(resources.GetObject("leftSandDock.Visible")));
-			// 
-			// dockSubscriptions
-			// 
-			this.dockSubscriptions.AccessibleDescription = resources.GetString("dockSubscriptions.AccessibleDescription");
-			this.dockSubscriptions.AccessibleName = resources.GetString("dockSubscriptions.AccessibleName");
-			this.dockSubscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("dockSubscriptions.Anchor")));
-			this.dockSubscriptions.AutoScroll = ((bool)(resources.GetObject("dockSubscriptions.AutoScroll")));
-			this.dockSubscriptions.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("dockSubscriptions.AutoScrollMargin")));
-			this.dockSubscriptions.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("dockSubscriptions.AutoScrollMinSize")));
-			this.dockSubscriptions.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("dockSubscriptions.BackgroundImage")));
-			this.dockSubscriptions.Controls.Add(this.treeFeeds);
-			this.dockSubscriptions.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("dockSubscriptions.Dock")));
-			this.dockSubscriptions.Enabled = ((bool)(resources.GetObject("dockSubscriptions.Enabled")));
-			this.dockSubscriptions.Font = ((System.Drawing.Font)(resources.GetObject("dockSubscriptions.Font")));
-			this.dockSubscriptions.Guid = new System.Guid("a50ce358-5269-488e-8b60-fd9e858345d1");
-			this.helpProvider1.SetHelpKeyword(this.dockSubscriptions, resources.GetString("dockSubscriptions.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.dockSubscriptions, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("dockSubscriptions.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.dockSubscriptions, resources.GetString("dockSubscriptions.HelpString"));
-			this.dockSubscriptions.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("dockSubscriptions.ImeMode")));
-			this.dockSubscriptions.Location = ((System.Drawing.Point)(resources.GetObject("dockSubscriptions.Location")));
-			this.dockSubscriptions.Name = "dockSubscriptions";
-			this.dockSubscriptions.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("dockSubscriptions.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.dockSubscriptions, ((bool)(resources.GetObject("dockSubscriptions.ShowHelp"))));
-			this.dockSubscriptions.Size = ((System.Drawing.Size)(resources.GetObject("dockSubscriptions.Size")));
-			this.dockSubscriptions.TabImage = ((System.Drawing.Image)(resources.GetObject("dockSubscriptions.TabImage")));
-			this.dockSubscriptions.TabIndex = ((int)(resources.GetObject("dockSubscriptions.TabIndex")));
-			this.dockSubscriptions.TabText = resources.GetString("dockSubscriptions.TabText");
-			this.dockSubscriptions.Text = resources.GetString("dockSubscriptions.Text");
-			this.toolTip.SetToolTip(this.dockSubscriptions, resources.GetString("dockSubscriptions.ToolTip"));
-			this.dockSubscriptions.ToolTipText = resources.GetString("dockSubscriptions.ToolTipText");
-			this.dockSubscriptions.Visible = ((bool)(resources.GetObject("dockSubscriptions.Visible")));
-			// 
-			// dockSearch
-			// 
-			this.dockSearch.AccessibleDescription = resources.GetString("dockSearch.AccessibleDescription");
-			this.dockSearch.AccessibleName = resources.GetString("dockSearch.AccessibleName");
-			this.dockSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("dockSearch.Anchor")));
-			this.dockSearch.AutoScroll = ((bool)(resources.GetObject("dockSearch.AutoScroll")));
-			this.dockSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("dockSearch.AutoScrollMargin")));
-			this.dockSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("dockSearch.AutoScrollMinSize")));
-			this.dockSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("dockSearch.BackgroundImage")));
-			this.dockSearch.Controls.Add(this.panelRssSearch);
-			this.dockSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("dockSearch.Dock")));
-			this.dockSearch.Enabled = ((bool)(resources.GetObject("dockSearch.Enabled")));
-			this.dockSearch.Font = ((System.Drawing.Font)(resources.GetObject("dockSearch.Font")));
-			this.dockSearch.Guid = new System.Guid("5b89c95c-7d15-4766-ba27-68b047c228ec");
-			this.helpProvider1.SetHelpKeyword(this.dockSearch, resources.GetString("dockSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.dockSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("dockSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.dockSearch, resources.GetString("dockSearch.HelpString"));
-			this.dockSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("dockSearch.ImeMode")));
-			this.dockSearch.Location = ((System.Drawing.Point)(resources.GetObject("dockSearch.Location")));
-			this.dockSearch.Name = "dockSearch";
-			this.dockSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("dockSearch.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.dockSearch, ((bool)(resources.GetObject("dockSearch.ShowHelp"))));
-			this.dockSearch.Size = ((System.Drawing.Size)(resources.GetObject("dockSearch.Size")));
-			this.dockSearch.TabImage = ((System.Drawing.Image)(resources.GetObject("dockSearch.TabImage")));
-			this.dockSearch.TabIndex = ((int)(resources.GetObject("dockSearch.TabIndex")));
-			this.dockSearch.TabText = resources.GetString("dockSearch.TabText");
-			this.dockSearch.Text = resources.GetString("dockSearch.Text");
-			this.toolTip.SetToolTip(this.dockSearch, resources.GetString("dockSearch.ToolTip"));
-			this.dockSearch.ToolTipText = resources.GetString("dockSearch.ToolTipText");
-			this.dockSearch.Visible = ((bool)(resources.GetObject("dockSearch.Visible")));
-			// 
-			// sandDockManager
-			// 
-			this.sandDockManager.DockingManager = TD.SandDock.DockingManager.Whidbey;
-			this.sandDockManager.OwnerForm = this;
-			this.sandDockManager.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
 			// 
 			// rightSandDock
 			// 
@@ -4629,6 +3772,12 @@ namespace RssBandit.WinGui.Forms {
 			this.rightSandDock.Text = resources.GetString("rightSandDock.Text");
 			this.toolTip.SetToolTip(this.rightSandDock, resources.GetString("rightSandDock.ToolTip"));
 			this.rightSandDock.Visible = ((bool)(resources.GetObject("rightSandDock.Visible")));
+			// 
+			// sandDockManager
+			// 
+			this.sandDockManager.DockingManager = TD.SandDock.DockingManager.Whidbey;
+			this.sandDockManager.OwnerForm = this;
+			this.sandDockManager.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
 			// 
 			// bottomSandDock
 			// 
@@ -4700,7 +3849,7 @@ namespace RssBandit.WinGui.Forms {
 			this.helpProvider1.SetHelpString(this._docContainer, resources.GetString("_docContainer.HelpString"));
 			this._docContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_docContainer.ImeMode")));
 			this._docContainer.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
-																																											  new TD.SandDock.DocumentLayoutSystem(435, 395, new TD.SandDock.DockControl[] {
+																																											  new TD.SandDock.DocumentLayoutSystem(392, 360, new TD.SandDock.DockControl[] {
 																																																															   this._docFeedDetails}, this._docFeedDetails)});
 			this._docContainer.Location = ((System.Drawing.Point)(resources.GetObject("_docContainer.Location")));
 			this._docContainer.Manager = null;
@@ -4745,6 +3894,251 @@ namespace RssBandit.WinGui.Forms {
 			this._docFeedDetails.ToolTipText = resources.GetString("_docFeedDetails.ToolTipText");
 			this._docFeedDetails.Visible = ((bool)(resources.GetObject("_docFeedDetails.Visible")));
 			// 
+			// panelClientAreaContainer
+			// 
+			this.panelClientAreaContainer.AccessibleDescription = resources.GetString("panelClientAreaContainer.AccessibleDescription");
+			this.panelClientAreaContainer.AccessibleName = resources.GetString("panelClientAreaContainer.AccessibleName");
+			this.panelClientAreaContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelClientAreaContainer.Anchor")));
+			this.panelClientAreaContainer.AutoScroll = ((bool)(resources.GetObject("panelClientAreaContainer.AutoScroll")));
+			this.panelClientAreaContainer.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.AutoScrollMargin")));
+			this.panelClientAreaContainer.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.AutoScrollMinSize")));
+			this.panelClientAreaContainer.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(243)), ((System.Byte)(243)), ((System.Byte)(247)));
+			this.panelClientAreaContainer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelClientAreaContainer.BackgroundImage")));
+			this.panelClientAreaContainer.Controls.Add(this.panelFeedDetailsContainer);
+			this.panelClientAreaContainer.Controls.Add(this.splitterNavigator);
+			this.panelClientAreaContainer.Controls.Add(this.Navigator);
+			this.panelClientAreaContainer.Controls.Add(this.pNavigatorCollapsed);
+			this.panelClientAreaContainer.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelClientAreaContainer.Dock")));
+			this.panelClientAreaContainer.DockPadding.All = 5;
+			this.panelClientAreaContainer.Enabled = ((bool)(resources.GetObject("panelClientAreaContainer.Enabled")));
+			this.panelClientAreaContainer.Font = ((System.Drawing.Font)(resources.GetObject("panelClientAreaContainer.Font")));
+			this.helpProvider1.SetHelpKeyword(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.panelClientAreaContainer, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelClientAreaContainer.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.HelpString"));
+			this.panelClientAreaContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelClientAreaContainer.ImeMode")));
+			this.panelClientAreaContainer.Location = ((System.Drawing.Point)(resources.GetObject("panelClientAreaContainer.Location")));
+			this.panelClientAreaContainer.Name = "panelClientAreaContainer";
+			this.panelClientAreaContainer.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelClientAreaContainer.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.panelClientAreaContainer, ((bool)(resources.GetObject("panelClientAreaContainer.ShowHelp"))));
+			this.panelClientAreaContainer.Size = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.Size")));
+			this.panelClientAreaContainer.TabIndex = ((int)(resources.GetObject("panelClientAreaContainer.TabIndex")));
+			this.panelClientAreaContainer.Text = resources.GetString("panelClientAreaContainer.Text");
+			this.toolTip.SetToolTip(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.ToolTip"));
+			this.panelClientAreaContainer.Visible = ((bool)(resources.GetObject("panelClientAreaContainer.Visible")));
+			// 
+			// panelFeedDetailsContainer
+			// 
+			this.panelFeedDetailsContainer.AccessibleDescription = resources.GetString("panelFeedDetailsContainer.AccessibleDescription");
+			this.panelFeedDetailsContainer.AccessibleName = resources.GetString("panelFeedDetailsContainer.AccessibleName");
+			this.panelFeedDetailsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelFeedDetailsContainer.Anchor")));
+			this.panelFeedDetailsContainer.AutoScroll = ((bool)(resources.GetObject("panelFeedDetailsContainer.AutoScroll")));
+			this.panelFeedDetailsContainer.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.AutoScrollMargin")));
+			this.panelFeedDetailsContainer.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.AutoScrollMinSize")));
+			this.panelFeedDetailsContainer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelFeedDetailsContainer.BackgroundImage")));
+			this.panelFeedDetailsContainer.Controls.Add(this._docContainer);
+			this.panelFeedDetailsContainer.Controls.Add(this.detailHeaderCaption);
+			this.panelFeedDetailsContainer.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelFeedDetailsContainer.Dock")));
+			this.panelFeedDetailsContainer.Enabled = ((bool)(resources.GetObject("panelFeedDetailsContainer.Enabled")));
+			this.panelFeedDetailsContainer.Font = ((System.Drawing.Font)(resources.GetObject("panelFeedDetailsContainer.Font")));
+			this.helpProvider1.SetHelpKeyword(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.panelFeedDetailsContainer, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelFeedDetailsContainer.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.HelpString"));
+			this.panelFeedDetailsContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelFeedDetailsContainer.ImeMode")));
+			this.panelFeedDetailsContainer.Location = ((System.Drawing.Point)(resources.GetObject("panelFeedDetailsContainer.Location")));
+			this.panelFeedDetailsContainer.Name = "panelFeedDetailsContainer";
+			this.panelFeedDetailsContainer.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelFeedDetailsContainer.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.panelFeedDetailsContainer, ((bool)(resources.GetObject("panelFeedDetailsContainer.ShowHelp"))));
+			this.panelFeedDetailsContainer.Size = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.Size")));
+			this.panelFeedDetailsContainer.TabIndex = ((int)(resources.GetObject("panelFeedDetailsContainer.TabIndex")));
+			this.panelFeedDetailsContainer.Text = resources.GetString("panelFeedDetailsContainer.Text");
+			this.toolTip.SetToolTip(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.ToolTip"));
+			this.panelFeedDetailsContainer.Visible = ((bool)(resources.GetObject("panelFeedDetailsContainer.Visible")));
+			// 
+			// detailHeaderCaption
+			// 
+			this.detailHeaderCaption.AccessibleDescription = resources.GetString("detailHeaderCaption.AccessibleDescription");
+			this.detailHeaderCaption.AccessibleName = resources.GetString("detailHeaderCaption.AccessibleName");
+			this.detailHeaderCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("detailHeaderCaption.Anchor")));
+			appearance1.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance1.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance1.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
+			appearance1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance1.ImageHAlign = Infragistics.Win.HAlign.Right;
+			appearance1.ImageVAlign = Infragistics.Win.VAlign.Middle;
+			appearance1.TextHAlignAsString = resources.GetString("appearance1.TextHAlignAsString");
+			appearance1.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			appearance1.TextVAlignAsString = resources.GetString("appearance1.TextVAlignAsString");
+			this.detailHeaderCaption.Appearance = appearance1;
+			this.detailHeaderCaption.AutoSize = ((bool)(resources.GetObject("detailHeaderCaption.AutoSize")));
+			this.detailHeaderCaption.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailHeaderCaption.BackgroundImage")));
+			this.detailHeaderCaption.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("detailHeaderCaption.Dock")));
+			this.detailHeaderCaption.Enabled = ((bool)(resources.GetObject("detailHeaderCaption.Enabled")));
+			this.detailHeaderCaption.Font = ((System.Drawing.Font)(resources.GetObject("detailHeaderCaption.Font")));
+			this.helpProvider1.SetHelpKeyword(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.detailHeaderCaption, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("detailHeaderCaption.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.HelpString"));
+			this.detailHeaderCaption.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("detailHeaderCaption.ImeMode")));
+			this.detailHeaderCaption.Location = ((System.Drawing.Point)(resources.GetObject("detailHeaderCaption.Location")));
+			this.detailHeaderCaption.Name = "detailHeaderCaption";
+			this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
+			this.detailHeaderCaption.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("detailHeaderCaption.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.detailHeaderCaption, ((bool)(resources.GetObject("detailHeaderCaption.ShowHelp"))));
+			this.detailHeaderCaption.Size = ((System.Drawing.Size)(resources.GetObject("detailHeaderCaption.Size")));
+			this.detailHeaderCaption.TabIndex = ((int)(resources.GetObject("detailHeaderCaption.TabIndex")));
+			this.detailHeaderCaption.Text = resources.GetString("detailHeaderCaption.Text");
+			this.toolTip.SetToolTip(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.ToolTip"));
+			this.detailHeaderCaption.Visible = ((bool)(resources.GetObject("detailHeaderCaption.Visible")));
+			this.detailHeaderCaption.WrapText = false;
+			// 
+			// splitterNavigator
+			// 
+			this.splitterNavigator.AccessibleDescription = resources.GetString("splitterNavigator.AccessibleDescription");
+			this.splitterNavigator.AccessibleName = resources.GetString("splitterNavigator.AccessibleName");
+			this.splitterNavigator.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("splitterNavigator.Anchor")));
+			this.splitterNavigator.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("splitterNavigator.BackgroundImage")));
+			this.splitterNavigator.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("splitterNavigator.Dock")));
+			this.splitterNavigator.Enabled = ((bool)(resources.GetObject("splitterNavigator.Enabled")));
+			this.splitterNavigator.Font = ((System.Drawing.Font)(resources.GetObject("splitterNavigator.Font")));
+			this.helpProvider1.SetHelpKeyword(this.splitterNavigator, resources.GetString("splitterNavigator.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.splitterNavigator, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("splitterNavigator.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.splitterNavigator, resources.GetString("splitterNavigator.HelpString"));
+			this.splitterNavigator.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("splitterNavigator.ImeMode")));
+			this.splitterNavigator.Location = ((System.Drawing.Point)(resources.GetObject("splitterNavigator.Location")));
+			this.splitterNavigator.MinExtra = ((int)(resources.GetObject("splitterNavigator.MinExtra")));
+			this.splitterNavigator.MinSize = ((int)(resources.GetObject("splitterNavigator.MinSize")));
+			this.splitterNavigator.Name = "splitterNavigator";
+			this.splitterNavigator.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("splitterNavigator.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.splitterNavigator, ((bool)(resources.GetObject("splitterNavigator.ShowHelp"))));
+			this.splitterNavigator.Size = ((System.Drawing.Size)(resources.GetObject("splitterNavigator.Size")));
+			this.splitterNavigator.TabIndex = ((int)(resources.GetObject("splitterNavigator.TabIndex")));
+			this.splitterNavigator.TabStop = false;
+			this.toolTip.SetToolTip(this.splitterNavigator, resources.GetString("splitterNavigator.ToolTip"));
+			this.splitterNavigator.Visible = ((bool)(resources.GetObject("splitterNavigator.Visible")));
+			// 
+			// Navigator
+			// 
+			this.Navigator.AccessibleDescription = resources.GetString("Navigator.AccessibleDescription");
+			this.Navigator.AccessibleName = resources.GetString("Navigator.AccessibleName");
+			this.Navigator.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("Navigator.Anchor")));
+			this.Navigator.Controls.Add(this.NavigatorFeedSubscriptions);
+			this.Navigator.Controls.Add(this.NavigatorSearch);
+			this.Navigator.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("Navigator.Dock")));
+			this.Navigator.Enabled = ((bool)(resources.GetObject("Navigator.Enabled")));
+			this.Navigator.Font = ((System.Drawing.Font)(resources.GetObject("Navigator.Font")));
+			ultraExplorerBarGroup1.Container = this.NavigatorFeedSubscriptions;
+			ultraExplorerBarGroup1.Key = "groupFeedsTree";
+			appearance2.Image = ((object)(resources.GetObject("appearance2.Image")));
+			appearance2.TextHAlignAsString = resources.GetString("appearance2.TextHAlignAsString");
+			appearance2.TextVAlignAsString = resources.GetString("appearance2.TextVAlignAsString");
+			ultraExplorerBarGroup1.Settings.AppearancesLarge.HeaderAppearance = appearance2;
+			appearance3.Image = ((object)(resources.GetObject("appearance3.Image")));
+			appearance3.TextHAlignAsString = resources.GetString("appearance3.TextHAlignAsString");
+			appearance3.TextVAlignAsString = resources.GetString("appearance3.TextVAlignAsString");
+			ultraExplorerBarGroup1.Settings.AppearancesSmall.HeaderAppearance = appearance3;
+			ultraExplorerBarGroup1.Text = resources.GetString("ultraExplorerBarGroup1.Text");
+			ultraExplorerBarGroup1.ToolTipText = resources.GetString("ultraExplorerBarGroup1.ToolTipText");
+			ultraExplorerBarGroup2.Container = this.NavigatorSearch;
+			ultraExplorerBarGroup2.Key = "groupFeedsSearch";
+			appearance4.Image = ((object)(resources.GetObject("appearance4.Image")));
+			appearance4.TextHAlignAsString = resources.GetString("appearance4.TextHAlignAsString");
+			appearance4.TextVAlignAsString = resources.GetString("appearance4.TextVAlignAsString");
+			ultraExplorerBarGroup2.Settings.AppearancesLarge.HeaderAppearance = appearance4;
+			appearance5.Image = ((object)(resources.GetObject("appearance5.Image")));
+			appearance5.TextHAlignAsString = resources.GetString("appearance5.TextHAlignAsString");
+			appearance5.TextVAlignAsString = resources.GetString("appearance5.TextVAlignAsString");
+			ultraExplorerBarGroup2.Settings.AppearancesSmall.HeaderAppearance = appearance5;
+			ultraExplorerBarGroup2.Text = resources.GetString("ultraExplorerBarGroup2.Text");
+			ultraExplorerBarGroup2.ToolTipText = resources.GetString("ultraExplorerBarGroup2.ToolTipText");
+			this.Navigator.Groups.AddRange(new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup[] {
+																												ultraExplorerBarGroup1,
+																												ultraExplorerBarGroup2});
+			this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
+			this.helpProvider1.SetHelpKeyword(this.Navigator, resources.GetString("Navigator.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.Navigator, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("Navigator.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.Navigator, resources.GetString("Navigator.HelpString"));
+			this.Navigator.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("Navigator.ImeMode")));
+			this.Navigator.Location = ((System.Drawing.Point)(resources.GetObject("Navigator.Location")));
+			this.Navigator.Name = "Navigator";
+			this.Navigator.NavigationMaxGroupHeaders = 0;
+			this.Navigator.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("Navigator.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.Navigator, ((bool)(resources.GetObject("Navigator.ShowHelp"))));
+			this.Navigator.Size = ((System.Drawing.Size)(resources.GetObject("Navigator.Size")));
+			this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
+			this.Navigator.TabIndex = ((int)(resources.GetObject("Navigator.TabIndex")));
+			this.toolTip.SetToolTip(this.Navigator, resources.GetString("Navigator.ToolTip"));
+			this.Navigator.Visible = ((bool)(resources.GetObject("Navigator.Visible")));
+			// 
+			// pNavigatorCollapsed
+			// 
+			this.pNavigatorCollapsed.AccessibleDescription = resources.GetString("pNavigatorCollapsed.AccessibleDescription");
+			this.pNavigatorCollapsed.AccessibleName = resources.GetString("pNavigatorCollapsed.AccessibleName");
+			this.pNavigatorCollapsed.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("pNavigatorCollapsed.Anchor")));
+			this.pNavigatorCollapsed.AutoScroll = ((bool)(resources.GetObject("pNavigatorCollapsed.AutoScroll")));
+			this.pNavigatorCollapsed.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.AutoScrollMargin")));
+			this.pNavigatorCollapsed.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.AutoScrollMinSize")));
+			this.pNavigatorCollapsed.BackColor = System.Drawing.Color.Transparent;
+			this.pNavigatorCollapsed.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pNavigatorCollapsed.BackgroundImage")));
+			this.pNavigatorCollapsed.Controls.Add(this.navigatorHiddenCaption);
+			this.pNavigatorCollapsed.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("pNavigatorCollapsed.Dock")));
+			this.pNavigatorCollapsed.Enabled = ((bool)(resources.GetObject("pNavigatorCollapsed.Enabled")));
+			this.pNavigatorCollapsed.Font = ((System.Drawing.Font)(resources.GetObject("pNavigatorCollapsed.Font")));
+			this.helpProvider1.SetHelpKeyword(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.pNavigatorCollapsed, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("pNavigatorCollapsed.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.HelpString"));
+			this.pNavigatorCollapsed.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("pNavigatorCollapsed.ImeMode")));
+			this.pNavigatorCollapsed.Location = ((System.Drawing.Point)(resources.GetObject("pNavigatorCollapsed.Location")));
+			this.pNavigatorCollapsed.Name = "pNavigatorCollapsed";
+			this.pNavigatorCollapsed.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("pNavigatorCollapsed.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.pNavigatorCollapsed, ((bool)(resources.GetObject("pNavigatorCollapsed.ShowHelp"))));
+			this.pNavigatorCollapsed.Size = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.Size")));
+			this.pNavigatorCollapsed.TabIndex = ((int)(resources.GetObject("pNavigatorCollapsed.TabIndex")));
+			this.pNavigatorCollapsed.Text = resources.GetString("pNavigatorCollapsed.Text");
+			this.toolTip.SetToolTip(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.ToolTip"));
+			this.pNavigatorCollapsed.Visible = ((bool)(resources.GetObject("pNavigatorCollapsed.Visible")));
+			// 
+			// navigatorHiddenCaption
+			// 
+			this.navigatorHiddenCaption.AccessibleDescription = resources.GetString("navigatorHiddenCaption.AccessibleDescription");
+			this.navigatorHiddenCaption.AccessibleName = resources.GetString("navigatorHiddenCaption.AccessibleName");
+			this.navigatorHiddenCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("navigatorHiddenCaption.Anchor")));
+			appearance6.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance6.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance6.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
+			appearance6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance6.Image = ((object)(resources.GetObject("appearance6.Image")));
+			appearance6.ImageHAlign = Infragistics.Win.HAlign.Center;
+			appearance6.ImageVAlign = Infragistics.Win.VAlign.Top;
+			appearance6.TextHAlignAsString = resources.GetString("appearance6.TextHAlignAsString");
+			appearance6.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			appearance6.TextVAlignAsString = resources.GetString("appearance6.TextVAlignAsString");
+			this.navigatorHiddenCaption.Appearance = appearance6;
+			this.navigatorHiddenCaption.AutoSize = ((bool)(resources.GetObject("navigatorHiddenCaption.AutoSize")));
+			this.navigatorHiddenCaption.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("navigatorHiddenCaption.BackgroundImage")));
+			this.navigatorHiddenCaption.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("navigatorHiddenCaption.Dock")));
+			this.navigatorHiddenCaption.Enabled = ((bool)(resources.GetObject("navigatorHiddenCaption.Enabled")));
+			this.navigatorHiddenCaption.Font = ((System.Drawing.Font)(resources.GetObject("navigatorHiddenCaption.Font")));
+			this.helpProvider1.SetHelpKeyword(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.navigatorHiddenCaption, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("navigatorHiddenCaption.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.HelpString"));
+			this.navigatorHiddenCaption.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("navigatorHiddenCaption.ImeMode")));
+			this.navigatorHiddenCaption.Location = ((System.Drawing.Point)(resources.GetObject("navigatorHiddenCaption.Location")));
+			this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
+			this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
+			this.navigatorHiddenCaption.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("navigatorHiddenCaption.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.navigatorHiddenCaption, ((bool)(resources.GetObject("navigatorHiddenCaption.ShowHelp"))));
+			this.navigatorHiddenCaption.Size = ((System.Drawing.Size)(resources.GetObject("navigatorHiddenCaption.Size")));
+			this.navigatorHiddenCaption.TabIndex = ((int)(resources.GetObject("navigatorHiddenCaption.TabIndex")));
+			this.navigatorHiddenCaption.Text = resources.GetString("navigatorHiddenCaption.Text");
+			this.toolTip.SetToolTip(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.ToolTip"));
+			this.navigatorHiddenCaption.Visible = ((bool)(resources.GetObject("navigatorHiddenCaption.Visible")));
+			this.navigatorHiddenCaption.WrapText = false;
+			// 
+			// _startupTimer
+			// 
+			this._startupTimer.Enabled = false;
+			this._startupTimer.Interval = 45000;
+			this._startupTimer.Tick += new System.EventHandler(this.OnTimerStartupTick);
+			// 
 			// _timerTreeNodeExpand
 			// 
 			this._timerTreeNodeExpand.Interval = 1000;
@@ -4757,6 +4151,12 @@ namespace RssBandit.WinGui.Forms {
 			this._timerRefreshFeeds.SynchronizingObject = this;
 			this._timerRefreshFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerFeedsRefreshElapsed);
 			// 
+			// _timerRefreshCommentFeeds
+			// 
+			this._timerRefreshCommentFeeds.Interval = 600000;
+			this._timerRefreshCommentFeeds.SynchronizingObject = this;
+			this._timerRefreshCommentFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerCommentFeedsRefreshElapsed);
+			// 
 			// _timerResetStatus
 			// 
 			this._timerResetStatus.Interval = 5000;
@@ -4765,6 +4165,10 @@ namespace RssBandit.WinGui.Forms {
 			// helpProvider1
 			// 
 			this.helpProvider1.HelpNamespace = resources.GetString("helpProvider1.HelpNamespace");
+			// 
+			// _timerDispatchResultsToUI
+			// 
+			this._timerDispatchResultsToUI.Interval = 250;
 			// 
 			// WinGuiMain
 			// 
@@ -4776,15 +4180,10 @@ namespace RssBandit.WinGui.Forms {
 			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
-			this.Controls.Add(this._docContainer);
-			this.Controls.Add(this.leftSandDock);
+			this.Controls.Add(this.panelClientAreaContainer);
 			this.Controls.Add(this.rightSandDock);
 			this.Controls.Add(this.bottomSandDock);
 			this.Controls.Add(this.topSandDock);
-			this.Controls.Add(this.leftSandBarDock);
-			this.Controls.Add(this.rightSandBarDock);
-			this.Controls.Add(this.bottomSandBarDock);
-			this.Controls.Add(this.topSandBarDock);
 			this.Controls.Add(this.progressBrowser);
 			this.Controls.Add(this._status);
 			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
@@ -4804,43 +4203,29 @@ namespace RssBandit.WinGui.Forms {
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
 			this.Text = resources.GetString("$this.Text");
 			this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
-			this.Resize += new System.EventHandler(this.OnFormResize);
-			this.Closing += new System.ComponentModel.CancelEventHandler(this.OnFormClosing);
-			this.Load += new System.EventHandler(this.OnLoad);
-			this.HandleCreated += new System.EventHandler(this.OnFormHandleCreated);
-			this.Move += new System.EventHandler(this.OnFormMove);
-			this.Activated += new System.EventHandler(this.OnFormActivated);
-			this.Deactivate += new System.EventHandler(this.OnFormDeactivate);
+			this.NavigatorFeedSubscriptions.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).EndInit();
+			this.NavigatorSearch.ResumeLayout(false);
+			this.panelRssSearch.ResumeLayout(false);
 			this.panelFeedDetails.ResumeLayout(false);
 			this.panelWebDetail.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).EndInit();
 			this.panelFeedItems.ResumeLayout(false);
-			this.panelRssSearch.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.taskPaneSearchOptions)).EndInit();
-			this.taskPaneSearchOptions.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelSearchNameEx)).EndInit();
-			this.collapsiblePanelSearchNameEx.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelRssSearchExprKindEx)).EndInit();
-			this.collapsiblePanelRssSearchExprKindEx.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelItemPropertiesEx)).EndInit();
-			this.collapsiblePanelItemPropertiesEx.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelAdvancedOptionsEx)).EndInit();
-			this.collapsiblePanelAdvancedOptionsEx.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.collapsiblePanelRssSearchScopeEx)).EndInit();
-			this.collapsiblePanelRssSearchScopeEx.ResumeLayout(false);
-			this.panelRssSearchCommands.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).EndInit();
-			this.topSandBarDock.ResumeLayout(false);
-			this.leftSandDock.ResumeLayout(false);
-			this.dockSubscriptions.ResumeLayout(false);
-			this.dockSearch.ResumeLayout(false);
 			this._docContainer.ResumeLayout(false);
 			this._docFeedDetails.ResumeLayout(false);
+			this.panelClientAreaContainer.ResumeLayout(false);
+			this.panelFeedDetailsContainer.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.Navigator)).EndInit();
+			this.Navigator.ResumeLayout(false);
+			this.pNavigatorCollapsed.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this._timerTreeNodeExpand)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._timerRefreshFeeds)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshCommentFeeds)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -4852,35 +4237,145 @@ namespace RssBandit.WinGui.Forms {
 		/// Extended Close.
 		/// </summary>
 		/// <param name="forceShutdown"></param>
-		public void Close(bool forceShutdown) {
-			this.SaveUIConfiguration(forceShutdown);
+		public void Close(bool forceShutdown) 
+		{
+			//this.SaveUIConfiguration(forceShutdown);
 			_forceShutdown = forceShutdown;
 			base.Close();
 		}
 
-		public void SaveUIConfiguration(bool forceFlush) {
-			try {
+		public void SaveUIConfiguration(bool forceFlush) 
+		{
+			try 
+			{
 				this.OnSaveConfig(owner.GuiSettings);
-				if (forceFlush) {
-					this.listFeedItems.CheckForLayoutModifications();
+				this.SaveSubscriptionTreeState();
+				this.SaveBrowserTabState();
+				this.listFeedItems.CheckForLayoutModifications();
+					
+				if (forceFlush) 
+				{
 					owner.GuiSettings.Flush();
 				}
 
-			} catch (Exception ex) {
-				RssBanditApplication.PublishException(ex);
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Save .settings.xml failed", ex);
 			}
 		}
 
-		public void InitiatePopulateTreeFeeds() {
+		internal bool LoadAndRestoreBrowserTabState() {
+
+			_browserTabsRestored = true; 
 		
-			if(owner == null) {
+			string fileName = RssBanditApplication.GetBrowserTabStateFileName();
+			try {
+				if (!File.Exists(fileName))
+					return false;
+				using (Stream stream = FileHelper.OpenForRead(fileName)) {					
+					SerializableWebTabState state = SerializableWebTabState.Load(stream);									
+
+					foreach(string url in state.Urls){
+						try{
+							this.DetailTabNavigateToUrl(url, String.Empty /* tab title */, true /* createNewTab */, false /* setFocus */); 
+						}catch(System.Windows.Forms.AxHost.InvalidActiveXStateException){
+							/* occurs if we are starting from sys tray because browser not visible */
+						}
+					}
+				}
+				return true;
+			}catch (Exception ex) {				
+				_log.Error("Load "+fileName+" failed", ex);
+				return false;
+			}
+		}
+		
+
+		internal void SaveBrowserTabState(){
+			string fileName = RssBanditApplication.GetBrowserTabStateFileName();
+			SerializableWebTabState state = new SerializableWebTabState(); 
+
+			try {
+				foreach(DockControl doc in _docContainer.Documents){
+					ITabState docState = (ITabState)doc.Tag;
+
+					if((docState != null) && docState.CanClose){
+						state.Urls.Add(docState.Url);
+					}
+				}
+
+				using (Stream stream = FileHelper.OpenForWrite(fileName)) {					
+					SerializableWebTabState.Save(stream, state); 
+				}
+
+			}catch(Exception ex) {				
+				_log.Error("Save "+fileName+" failed", ex);
+				// don't cause a load problem later on if save failed:
+				try { File.Delete(fileName); } catch (IOException) {}
+			}
+
+		}
+
+		internal void SaveSubscriptionTreeState() {
+			string fileName = RssBanditApplication.GetSubscriptionTreeStateFileName();
+			try {
+				using (Stream s = FileHelper.OpenForWrite(fileName)) {
+					UltraTreeNodeExpansionMemento.Save(s, this.treeFeeds);
+				}
+			}
+			catch (Exception ex) {
+				//TR: do not bummer user with this file errors (called on AutoSave).
+				//Just log - and try to recover (delete the bad file)
+				//RssBanditApplication.PublishException(ex);
+				_log.Error("Save "+fileName+" failed", ex);
+				// don't cause a load problem later on if save failed:
+				try { File.Delete(fileName); } catch (IOException) {}
+			}
+		}
+		
+		internal bool LoadAndRestoreSubscriptionTreeState() {
+			string fileName = RssBanditApplication.GetSubscriptionTreeStateFileName();
+			try {
+				if (!File.Exists(fileName))
+					return false;
+				using (Stream s = FileHelper.OpenForRead(fileName)) {
+					UltraTreeNodeExpansionMemento m = UltraTreeNodeExpansionMemento.Load(s);
+					m.Restore(this.treeFeeds);
+				}
+				return true;
+			}
+			catch (Exception ex) {
+				this.SetDefaultExpansionTreeNodeState();
+				//TR: inform user about file error
+				owner.MessageWarn(SR.GUILoadFileOperationExceptionMessage(fileName, ex.Message,
+					SR.GUIUserInfoAboutDefaultTreeState));
+				//And log - recover may happen on save (delete the bad file)
+				_log.Error("Load "+fileName+" failed", ex);
+				return false;
+			}
+		}
+		
+		private static bool IsTreeStateAvailable() {
+			try {
+				return File.Exists(RssBanditApplication.GetSubscriptionTreeStateFileName());
+			} catch (Exception) {
+				return false;
+			}
+		}
+		
+		public void InitiatePopulateTreeFeeds() 
+		{
+		
+			if(owner == null) 
+			{
 				//Probably should log an error here
 				this.SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
 				return; 
 			}
-			if(owner.FeedHandler.FeedsListOK == false) { 
-				this.SetGuiStateFeedback(Resource.Manager["RES_GUIStatusNoFeedlistFile"], ApplicationTrayState.NormalIdle);
+			if(owner.FeedHandler.FeedsListOK == false) 
+			{ 
+				this.SetGuiStateFeedback(SR.GUIStatusNoFeedlistFile, ApplicationTrayState.NormalIdle);
 				return; 
 			}
 
@@ -4888,197 +4383,396 @@ namespace RssBandit.WinGui.Forms {
 			//to have been called from a thread that is not the UI thread we should ensure 
 			//that calls to UI components are actually made from the UI thread or marshalled
 			//accordingly. 
-			if(this.treeFeeds.InvokeRequired == true) {
-				PopulateTreeFeedsDelegate loadTreeStatus  = new PopulateTreeFeedsDelegate(PopulateTreeFeeds);			
+			if(this.treeFeeds.InvokeRequired) 
+			{
+				PopulateTreeFeedsDelegate loadTreeStatus  = new PopulateTreeFeedsDelegate(PopulateFeedSubscriptions);			
 				this.Invoke(loadTreeStatus,new object[]{owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable, RssBanditApplication.DefaultCategory});			
 				this.Invoke(new MethodInvoker(this.PopulateTreeSpecialFeeds));			
 			}
-			else {
-				this.PopulateTreeFeeds(owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable, RssBanditApplication.DefaultCategory); 
+			else 
+			{
+				this.PopulateFeedSubscriptions(owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable, RssBanditApplication.DefaultCategory); 
 				this.PopulateTreeSpecialFeeds(); 
 			}
-		
+					
 		}
 
-		private void CheckForFlaggedNodeAndCreate(NewsItem ri) {
+		private void CheckForFlaggedNodeAndCreate(NewsItem ri) 
+		{
 
 			ISmartFolder isf = null;
-			FeedTreeNodeBase tn = null;
-			FeedTreeNodeBase root = this.GetRoot(RootFolderType.SmartFolders);
+			TreeFeedsNodeBase tn = null;
+			TreeFeedsNodeBase root = _flaggedFeedsNodeRoot; //this.GetRoot(RootFolderType.SmartFolders);
 
-			if (ri.FlagStatus == Flagged.FollowUp && _flaggedFeedsNodeFollowUp == null) {	// not yet created
-				_flaggedFeedsNodeFollowUp = new FlaggedItemsNode(Flagged.FollowUp, owner.FlaggedItemsFeed, Resource.Manager["RES_FeedNodeFlaggedForFollowUpCaption"], 12, 12, _treeLocalFeedContextMenu);
+			if (ri.FlagStatus == Flagged.FollowUp && _flaggedFeedsNodeFollowUp == null) 
+			{	// not yet created
+				_flaggedFeedsNodeFollowUp = new FlaggedItemsNode(Flagged.FollowUp, owner.FlaggedItemsFeed, 
+					SR.FeedNodeFlaggedForFollowUpCaption, 
+					Resource.SubscriptionTreeImage.RedFlag, Resource.SubscriptionTreeImage.RedFlagSelected, _treeLocalFeedContextMenu);
 				root.Nodes.Add(_flaggedFeedsNodeFollowUp);
 				isf = _flaggedFeedsNodeFollowUp as ISmartFolder;
 				tn = _flaggedFeedsNodeFollowUp;
 				if (isf != null) isf.UpdateReadStatus();
-			} else if (ri.FlagStatus == Flagged.Read && _flaggedFeedsNodeRead == null) {	// not yet created
-				_flaggedFeedsNodeRead = new FlaggedItemsNode(Flagged.Read, owner.FlaggedItemsFeed, Resource.Manager["RES_FeedNodeFlaggedForReadCaption"], 14, 14, _treeLocalFeedContextMenu);
+			} 
+			else if (ri.FlagStatus == Flagged.Read && _flaggedFeedsNodeRead == null) 
+			{	// not yet created
+				_flaggedFeedsNodeRead = new FlaggedItemsNode(Flagged.Read, owner.FlaggedItemsFeed, 
+					SR.FeedNodeFlaggedForReadCaption, 
+					Resource.SubscriptionTreeImage.GreenFlag, Resource.SubscriptionTreeImage.GreenFlagSelected, _treeLocalFeedContextMenu);
 				root.Nodes.Add(_flaggedFeedsNodeRead);
 				isf = _flaggedFeedsNodeRead as ISmartFolder;
 				tn = _flaggedFeedsNodeRead;
 				if (isf != null) isf.UpdateReadStatus();
-			} else if (ri.FlagStatus == Flagged.Review && _flaggedFeedsNodeReview == null) {	// not yet created
-				_flaggedFeedsNodeReview = new FlaggedItemsNode(Flagged.Review, owner.FlaggedItemsFeed, Resource.Manager["RES_FeedNodeFlaggedForReviewCaption"], 15, 15, _treeLocalFeedContextMenu);
+			} 
+			else if (ri.FlagStatus == Flagged.Review && _flaggedFeedsNodeReview == null) 
+			{	// not yet created
+				_flaggedFeedsNodeReview = new FlaggedItemsNode(Flagged.Review, owner.FlaggedItemsFeed, 
+					SR.FeedNodeFlaggedForReviewCaption, 
+					Resource.SubscriptionTreeImage.YellowFlag, Resource.SubscriptionTreeImage.YellowFlagSelected, _treeLocalFeedContextMenu);
 				root.Nodes.Add(_flaggedFeedsNodeReview);
 				isf = _flaggedFeedsNodeReview as ISmartFolder;
 				tn = _flaggedFeedsNodeReview;
 				if (isf != null) isf.UpdateReadStatus();
-			} else if (ri.FlagStatus == Flagged.Forward && _flaggedFeedsNodeForward == null) {	// not yet created
-				_flaggedFeedsNodeForward = new FlaggedItemsNode(Flagged.Forward, owner.FlaggedItemsFeed, Resource.Manager["RES_FeedNodeFlaggedForForwardCaption"], 13, 13, _treeLocalFeedContextMenu);
+			} 
+			else if (ri.FlagStatus == Flagged.Forward && _flaggedFeedsNodeForward == null) 
+			{	// not yet created
+				_flaggedFeedsNodeForward = new FlaggedItemsNode(Flagged.Forward, owner.FlaggedItemsFeed, 
+					SR.FeedNodeFlaggedForForwardCaption, 
+					Resource.SubscriptionTreeImage.BlueFlag, Resource.SubscriptionTreeImage.BlueFlagSelected, _treeLocalFeedContextMenu);
 				root.Nodes.Add(_flaggedFeedsNodeForward);
 				isf = _flaggedFeedsNodeForward as ISmartFolder;
 				tn = _flaggedFeedsNodeForward;
 				if (isf != null) isf.UpdateReadStatus();
-			} else if (ri.FlagStatus == Flagged.Reply && _flaggedFeedsNodeReply == null) {	// not yet created
-				_flaggedFeedsNodeReply = new FlaggedItemsNode(Flagged.Reply, owner.FlaggedItemsFeed, Resource.Manager["RES_FeedNodeFlaggedForReplyCaption"], 16, 16, _treeLocalFeedContextMenu);
+			} 
+			else if (ri.FlagStatus == Flagged.Reply && _flaggedFeedsNodeReply == null) 
+			{	// not yet created
+				_flaggedFeedsNodeReply = new FlaggedItemsNode(Flagged.Reply, owner.FlaggedItemsFeed, 
+					SR.FeedNodeFlaggedForReplyCaption, 
+					Resource.SubscriptionTreeImage.ReplyFlag, Resource.SubscriptionTreeImage.ReplyFlagSelected, _treeLocalFeedContextMenu);
 				root.Nodes.Add(_flaggedFeedsNodeReply);
 				isf = _flaggedFeedsNodeReply as ISmartFolder;
 				tn = _flaggedFeedsNodeReply;
 				if (isf != null) isf.UpdateReadStatus();
 			}
 
-			if (tn != null) {	// overall settings
-				tn.Tag = owner.FlaggedItemsFeed.link +"?id=" + ri.FlagStatus.ToString();
+			if (tn != null) 
+			{	// overall settings
+				tn.DataKey = owner.FlaggedItemsFeed.link +"?id=" + ri.FlagStatus.ToString();
 			}
-		
+			//InitFeedDetailsCaption();
 		}
 
-		public void PopulateTreeSpecialFeeds() {
+		public void PopulateTreeSpecialFeeds() 
+		{
 		
 			treeFeeds.BeginUpdate();
 
-			FeedTreeNodeBase root = this.GetRoot(RootFolderType.SmartFolders);
+			TreeFeedsNodeBase root = this.GetRoot(RootFolderType.SmartFolders);
 			root.Nodes.Clear();
 
-			_feedExceptionsNode = new ExceptionReportNode(Resource.Manager["RES_FeedNodeFeedExceptionsCaption"], 6, 6, _treeLocalFeedContextMenu);
-			_feedExceptionsNode.Tag = SpecialFeeds.ExceptionManager.GetInstance().link;
+			_feedExceptionsFeedsNode = new ExceptionReportNode(SR.FeedNodeFeedExceptionsCaption, 
+				Resource.SubscriptionTreeImage.Exceptions, Resource.SubscriptionTreeImage.ExceptionsSelected, _treeLocalFeedContextMenu);
+			_feedExceptionsFeedsNode.DataKey = SpecialFeeds.ExceptionManager.GetInstance().link;
 			this.ExceptionNode.UpdateReadStatus();
 
-			_sentItemsNode = new SentItemsNode(owner.SentItemsFeed, 8, 8, _treeLocalFeedContextMenu);
-			_sentItemsNode.Tag = owner.SentItemsFeed.link;
+			_sentItemsFeedsNode = new SentItemsNode(owner.SentItemsFeed, 
+				Resource.SubscriptionTreeImage.SentItems, Resource.SubscriptionTreeImage.SentItems, _treeLocalFeedContextMenu);
+			_sentItemsFeedsNode.DataKey = owner.SentItemsFeed.link;
 			this.SentItemsNode.UpdateReadStatus();
 
-			_deletedItemsNode = new WasteBasketNode(owner.DeletedItemsFeed, 17, 17, _treeLocalFeedContextMenu );	
-			_deletedItemsNode.Tag = owner.DeletedItemsFeed.link;
+			_watchedItemsFeedsNode = new WatchedItemsNode(owner.WatchedItemsFeed, 
+				Resource.SubscriptionTreeImage.WatchedItems, Resource.SubscriptionTreeImage.WatchedItemsSelected, _treeLocalFeedContextMenu);
+			_watchedItemsFeedsNode.DataKey = owner.WatchedItemsFeed.link;
+			this.WatchedItemsNode.UpdateReadStatus();
+			this.WatchedItemsNode.UpdateCommentStatus();
+
+			_unreadItemsFeedsNode = new UnreadItemsNode(owner.UnreadItemsFeed, 
+				Resource.SubscriptionTreeImage.WatchedItems, Resource.SubscriptionTreeImage.WatchedItemsSelected, _treeLocalFeedContextMenu);
+			_unreadItemsFeedsNode.DataKey = owner.UnreadItemsFeed.link;
+			this.UnreadItemsNode.UpdateReadStatus();
+			
+			_deletedItemsFeedsNode = new WasteBasketNode(owner.DeletedItemsFeed, 
+				Resource.SubscriptionTreeImage.WasteBasketEmpty, Resource.SubscriptionTreeImage.WasteBasketEmpty, _treeLocalFeedContextMenu );	
+			_deletedItemsFeedsNode.DataKey = owner.DeletedItemsFeed.link;
 			this.DeletedItemsNode.UpdateReadStatus();
 
-			root.Nodes.AddRange(new TreeNode[]{_feedExceptionsNode, _sentItemsNode, _deletedItemsNode});
-
+			_flaggedFeedsNodeRoot = new FlaggedItemsRootNode(SR.FeedNodeFlaggedFeedsCaption, 
+				Resource.SubscriptionTreeImage.SubscriptionsCategory, 
+				Resource.SubscriptionTreeImage.SubscriptionsCategoryExpanded, 
+				null);
+			
+			root.Nodes.AddRange(
+				new UltraTreeNode[] {
+						_unreadItemsFeedsNode,
+						_watchedItemsFeedsNode, 
+						_flaggedFeedsNodeRoot,
+						_feedExceptionsFeedsNode, 
+						_sentItemsFeedsNode, 
+						_deletedItemsFeedsNode
+					});
+			
 			// method gets called more than once, reset the nodes:
 			_flaggedFeedsNodeFollowUp = _flaggedFeedsNodeRead = null;
 			_flaggedFeedsNodeReview = _flaggedFeedsNodeForward = null;
 			_flaggedFeedsNodeReply = null;
 
-			foreach (NewsItem ri in owner.FlaggedItemsFeed.Items) {
+			foreach (NewsItem ri in owner.FlaggedItemsFeed.Items) 
+			{
 				
 				CheckForFlaggedNodeAndCreate (ri);
 				
 				if (_flaggedFeedsNodeFollowUp != null && _flaggedFeedsNodeRead != null &&
 					_flaggedFeedsNodeReview != null && _flaggedFeedsNodeForward != null && 
-					_flaggedFeedsNodeReply != null) {
+					_flaggedFeedsNodeReply != null) 
+				{
 					break;
 				}
 			}
 
-			root.Expand();
+			bool expandRoots = ! IsTreeStateAvailable();
+			root.Expanded = expandRoots;
 
 			FinderRootNode froot = (FinderRootNode)this.GetRoot(RootFolderType.Finder);
 			this.SyncFinderNodes(froot);
-			froot.ExpandAll();
-
+			if (expandRoots)
+				froot.ExpandAll();
 
 			treeFeeds.EndUpdate();
 
 		}
 
-		public void SyncFinderNodes() {
+		public void SyncFinderNodes() 
+		{
 			SyncFinderNodes((FinderRootNode)this.GetRoot(RootFolderType.Finder));
 		}
 
-		private void SyncFinderNodes(FinderRootNode finderRoot) {
+		private void SyncFinderNodes(FinderRootNode finderRoot) 
+		{
 			if (finderRoot == null)
 				return;
 			finderRoot.Nodes.Clear(); 
 			finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
 		}
 
-		public void PopulateFeedSubscriptions(CategoriesCollection categories, FeedsCollection feedsTable, string defaultCategory) {
-			this.PopulateTreeFeeds(categories, feedsTable, defaultCategory);
-		}
-		public void PopulateTreeFeeds(CategoriesCollection categories, FeedsCollection feedsTable, string defaultCategory) {
-			
+		public void PopulateFeedSubscriptions(CategoriesCollection categories, FeedsCollection feedsTable, string defaultCategory) 
+		{
 			EmptyListView();
-
-			treeFeeds.BeginUpdate();
+			TreeFeedsNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
+			try {
+				treeFeeds.BeginUpdate();
 			
-			FeedTreeNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
-			// reset nodes and unread counter
-			root.Nodes.Clear();
-			root.UpdateReadStatus(root, 0);
-
-			Hashtable categoryTable = new Hashtable(); 
-			CategoriesCollection categoryList = (CategoriesCollection)categories.Clone();
+				TreeFeedsNodeBase tn = null;
+				// reset nodes and unread counter
+				root.Nodes.Clear();
+				this.UpdateTreeNodeUnreadStatus(root, 0);
+				
+				UnreadItemsNode.Items.Clear();
+				
+				Hashtable categoryTable = new Hashtable(); 
+				CategoriesCollection categoryList = (CategoriesCollection)categories.Clone();
 			
-			foreach(feedsFeed f in feedsTable.Values) {
+				foreach(feedsFeed f in feedsTable.Values) {
 
-				if (this.Disposing)
-					return;
+					if (this.Disposing)
+						return;
 
-				FeedTreeNodeBase tn = new FeedNode(f.title, 4, 4, _treeFeedContextMenu);
-				if (f.refreshrateSpecified && f.refreshrate <= 0) {
-					tn.ImageIndex = tn.SelectedImageIndex = 5;	// disabled image
-				} else if (f.authUser != null || f.link.StartsWith("https")) {
-					tn.ImageIndex = tn.SelectedImageIndex = 9;	// image with lock 
+					if (RssHelper.IsNntpUrl(f.link)) {
+						tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Nntp, 
+							Resource.SubscriptionTreeImage.NntpSelected, 
+							_treeFeedContextMenu);
+					} 
+					else {						
+						tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed, 
+							Resource.SubscriptionTreeImage.FeedSelected, 
+							_treeFeedContextMenu, 							
+							(owner.Preferences.UseFavicons ? LoadFavicon(f.favicon): null));						
+					}
+
+					//interconnect for speed:
+					tn.DataKey = f.link;
+					f.Tag = tn;
+
+					string category = (f.category == null ? String.Empty: f.category);
+				
+					TreeFeedsNodeBase catnode;
+					if (categoryTable.ContainsKey(category))
+						catnode = (TreeFeedsNodeBase)categoryTable[category];
+					else {
+						catnode = TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
+						categoryTable.Add(category, catnode); 
+					}
+				
+					catnode.Nodes.Add(tn);
+				
+					SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
+
+					if(f.containsNewMessages) {
+						ArrayList unread = FilterUnreadFeedItems(f);
+						if (unread.Count > 0) {
+							// we build up the tree, so the call to 
+							// UpdateReadStatus(tn , 0) is not neccesary:
+							this.UpdateTreeNodeUnreadStatus(tn, unread.Count);
+							UnreadItemsNode.Items.AddRange(unread);
+							UnreadItemsNode.UpdateReadStatus();
+						}
+					}
+
+					if(f.containsNewComments){
+						this.UpdateCommentStatus(tn, f); 	
+					}
+
+					if (categoryList.ContainsKey(category))
+						categoryList.Remove(category);
 				}
-				
-				//interconnect for speed:
-				tn.Tag = f.link;
-				f.Tag = tn;
 
-				string category = (f.category == null ? String.Empty: f.category);
-				
-				FeedTreeNodeBase catnode;
-				if (categoryTable.ContainsKey(category))
-					catnode = (FeedTreeNodeBase)categoryTable[category];
-				else {
-					catnode = CreateCategoryHive(root, category);
-					categoryTable.Add(category, catnode); 
+				//add categories, we not already have
+				foreach(string category in categoryList.Keys) {
+					TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
 				}
-				
-				catnode.Nodes.Add(tn);
-
-				if(f.containsNewMessages)
-					tn.UpdateReadStatus(tn, CountUnreadFeedItems(f));
-
-				if (categoryList.ContainsKey(category))
-					categoryList.Remove(category);
+			
+			} finally {
+				treeFeeds.EndUpdate();
 			}
 
-			//add categories, we not already have
-			foreach(string category in categoryList.Keys) {
-				CreateCategoryHive(root, category);
-			}
-
-			treeFeeds.EndUpdate();
-			
 			if (this.Disposing)
 				return;
 
-			TreeSelectedNode = root; 
-			root.Expand();
+			TreeSelectedFeedsNode = root; 
+			
+			if (! IsTreeStateAvailable())
+				root.Expanded = true;
 
 			// also this one:
 			this.DelayTask(DelayedTasks.SyncRssSearchTree);
 
 			this.SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
+
+			//we'll need to fetch favicons for the newly loaded/imported feeds
+			this._faviconsDownloaded = false; 
 		}
 
-		private void PopulateTreeRssSearchScope() {
-			TreeHelper.CopyNodes(this.GetRoot(RootFolderType.MyFeeds), this.treeRssSearchScope, true);
-			if (this.treeRssSearchScope.Nodes.Count > 0) {
-				this.treeRssSearchScope.Nodes[0].Expand();
+		/// <summary>
+		/// Sets the default expansion tree node states.
+		/// Currently expand all root nodes.
+		/// </summary>
+		internal void SetDefaultExpansionTreeNodeState() {
+			foreach (TreeFeedsNodeBase node in this._roots)
+				node.Expanded = true;
+		}
+
+		/// <summary>
+		/// This opens the downloaded file in the users target application associated with that 
+		/// file type. 
+		/// </summary>
+		/// <param name="enclosure">The enclosure to launch or play</param>
+		private void PlayEnclosure(DownloadItem enclosure){
+			
+			if(enclosure == null)
+				return; 
+
+			string fileName = Path.Combine(enclosure.TargetFolder, enclosure.File.LocalName); 
+
+			if (StringHelper.EmptyOrNull(fileName))
+				return;
+			try {
+				using(System.Diagnostics.Process p = new Process()){
+					p.StartInfo.CreateNoWindow   = true; 
+					p.StartInfo.FileName         = fileName; 
+					p.Start(); 
+				}
+			} catch (Exception ex) {
+				//we don't want to show the user an error if they cancelled executing the file 
+				//after getting a security prompt. 
+				System.ComponentModel.Win32Exception ex32 = ex as System.ComponentModel.Win32Exception;
+				if((ex32 == null) || (ex32.NativeErrorCode != 1223)) { 
+					owner.MessageError(SR.ExceptionProcessStartToPlayEnclosure(fileName, ex.Message));
+					RssBanditApplication.PublishException(ex); 
+				}
 			}
+		}
+
+		/// <summary>
+		/// Loads a favicon from the cache 
+		/// </summary>
+		/// <param name="name">The name of the favicon</param>
+		/// <returns>The favicon as an image or null if there was an error loading the image</returns>
+		private Image LoadFavicon(string name){
+											
+			Image favicon = null;		
+		
+			try{//if there is a favicon, load it from disk and resize to 16x16 if necessary
+				if(!StringHelper.EmptyOrNull(name)){
+
+					if(this._favicons.ContainsKey(name)){
+						return this._favicons[name] as Image; 
+					}
+
+					string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), name);					
+					if (! File.Exists(location))
+						return null;
+					
+					if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
+					try {
+						// looks like an ICO:
+						using(MultiIcon ico = new MultiIcon(location)) {
+							Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+							//HACK: this is a workaround to the AccessViolationException caused
+							// on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+							if (smallest.Width != smallest.Height) {
+								return null;
+							}
+							//resize, but do not save:
+							favicon = ResizeFavicon(smallest.ToBitmap(), null);
+						}
+					} catch (Exception e) {
+						_log.Debug("LoadFavicon(" + name + ") failed with error:" , e);				
+						// may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
+					}
+					// fallback to init an icon from other image file formats:
+					if (favicon == null)
+						favicon = ResizeFavicon(Image.FromFile(location, true), location);
+					
+					lock(this._favicons.SyncRoot){
+						if(!this._favicons.ContainsKey(name))
+							this._favicons.Add(name, favicon); 
+					}
+				}
+			}catch(Exception e){
+				_log.Debug("LoadFavicon(" + name + ") failed with error:" , e);				
+			}				
+
+			return favicon;
+		}
+
+		/// <summary>
+		/// Resizes the image to 16x16 so it can be used as a favicon in the treeview
+		/// </summary>
+		/// <param name="toResize"></param>
+		/// <param name="location">The name of the image on the file system so it can be saved if 
+		/// if resized. </param>
+		/// <returns></returns>
+		private Image ResizeFavicon(Image toResize, string location){			
+	
+			if((toResize.Height == 16) && (toResize.Width == 16)){
+				return toResize; 
+			}else{
+				Bitmap result = new Bitmap( 16, 16, toResize.PixelFormat ); 				      
+				result.SetResolution(toResize.HorizontalResolution, toResize.VerticalResolution);
+				using( Graphics g = Graphics.FromImage(  result ) ){
+					g.DrawImage( toResize, 0, 0, 16, 16);
+				}
+				toResize.Dispose();
+				if (location != null)
+					result.Save(location); 	
+				
+				return result;				
+			}
+		}
+		
+		private void PopulateTreeRssSearchScope() 
+		{
+			if (this.searchPanel != null)
+				this.searchPanel.PopulateTreeRssSearchScope(this.GetRoot(RootFolderType.MyFeeds), this._treeImages);
 		}
 
 		/// <summary>
@@ -5088,14 +4782,15 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="url">Web-Link to navigate to</param>
 		/// <param name="tab">tabpage title name</param>
-		public void DetailTabNavigateToUrl(string url, string tab) {
-			this.DetailTabNavigateToUrl(url, tab, false);
-		}
-		public void DetailTabNavigateToUrl(string url, string tab, bool createNewTab) {
-			this.DetailTabNavigateToUrl(url, tab, createNewTab, true);
-		}
-		public void DetailTabNavigateToUrl(string url, string tab, bool createNewTab, bool setFocus) {
+		/// <param name="createNewTab">true to force creation of a new Tab</param>
+		/// <param name="setFocus">true to force brower Tab activation (move to foreground, set focus)</param>
+		public void DetailTabNavigateToUrl(string url, string tab, bool createNewTab, bool setFocus) 
+		{
 			Debug.Assert(!this.InvokeRequired, "DetailTabNavigateToUrl() from Non-UI Thread called");
+
+			if(owner.Preferences.OpenNewTabsInBackground){
+				setFocus = false; 
+			}
 			
 			if (StringHelper.EmptyOrNull(url)) 
 				return;
@@ -5108,15 +4803,20 @@ namespace RssBandit.WinGui.Forms {
 
 			HtmlControl hc = null;
 
-			DockControl currentDoc = _docContainer.ActiveDocument;
+			DockControl previousDoc, currentDoc;
+			previousDoc = currentDoc = _docContainer.ActiveDocument;
 			ITabState docState = (ITabState)currentDoc.Tag;
 			
-			if (!docState.CanClose) {	// Feed Detail doc tab
+			if (!docState.CanClose) 
+			{	// Feed Detail doc tab
 
-				if (!createNewTab && owner.Preferences.ReuseFirstBrowserTab) {
+				if (!createNewTab && owner.Preferences.ReuseFirstBrowserTab) 
+				{
 					
-					foreach (DockControl c in currentDoc.LayoutSystem.Controls) {
-						if (c != currentDoc) {
+					foreach (DockControl c in currentDoc.LayoutSystem.Controls) 
+					{
+						if (c != currentDoc) 
+						{
 							// reuse first docTab not equal to news item listview container
 							hc = (HtmlControl)c.Controls[0];
 							break;
@@ -5124,12 +4824,16 @@ namespace RssBandit.WinGui.Forms {
 					}
 				}
 			
-			} else if (!createNewTab) {	// web doc tab
+			} 
+			else if (!createNewTab) 
+			{	// web doc tab
 				// reuse same tab
 				hc = (HtmlControl)_docContainer.ActiveDocument.Controls[0];
 			} 
 
-			if (hc  == null) {	// create new doc tab with a contained web browser
+			if (hc  == null) 
+			{	// create new doc tab with a contained web browser
+				
 				hc = CreateAndInitIEControl(tab);
 				DockControl doc = new DockControl(hc, tab);
 				doc.Tag = new WebTabState(tab, url);
@@ -5137,19 +4841,30 @@ namespace RssBandit.WinGui.Forms {
 				_docContainer.AddDocument(doc);
 				if (Win32.IsOSAtLeastWindowsXP)
 					ColorEx.ColorizeOneNote(doc, ++_webTabCounter);
-				if (setFocus)
-					hc.Activate();		// focus the new web content after navigation
+				
+				//old: do NOT activate, if the focus have not to be set!
+				//hc.Activate();	// so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
+				if (setFocus) {
+					hc.Activate();	// so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
+					currentDoc = (DockControl)hc.Tag;
+				} else
+					doc.Activate();
+
+			} 
+			else 
+			{
+				currentDoc = (DockControl)hc.Tag;	
 			}
 
-			currentDoc = (DockControl)hc.Tag;
-			// move to front (check, if we really have to do do so
-			if (_docContainer.ActiveDocument != currentDoc && setFocus)
-				_docContainer.ActiveDocument = currentDoc;
+			// move to front, or keep the current			
+			currentDoc.Activate();			
+			_docContainer.ActiveDocument = (setFocus ? currentDoc : previousDoc);			
 
-			hc.Navigate(url);
+			hc.Navigate(url);  			
 		}
 
-		private HtmlControl CreateAndInitIEControl(string tabName) {
+		private HtmlControl CreateAndInitIEControl(string tabName) 
+		{
 			HtmlControl hc = new HtmlControl();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WinGuiMain));
 			
@@ -5171,12 +4886,24 @@ namespace RssBandit.WinGui.Forms {
 
 			hc.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
 			hc.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
+			
 			hc.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
+			HtmlControl.SetInternetFeatureEnabled(
+				InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, 
+				SetFeatureFlag.SET_FEATURE_ON_THREAD_INTERNET, 
+				hc.ActiveXEnabled);
+
 			hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
 			hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
 			hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
-			hc.SilentModeEnabled = !owner.Preferences.BrowserActiveXAllowed;
 
+			// see http://msdn.microsoft.com/library/default.asp?url=/workshop/browser/webbrowser/webbrowser.asp
+#if DEBUG
+			// allow IEControl reporting of javascript errors while dev.:
+			hc.SilentModeEnabled = false;
+#else
+			hc.SilentModeEnabled = true; 
+#endif
 			hc.Border3d = true;
 
 			hc.StatusTextChanged += new BrowserStatusTextChangeEventHandler(OnWebStatusTextChanged);
@@ -5193,20 +4920,41 @@ namespace RssBandit.WinGui.Forms {
 			return hc;
 		}
 
-		private bool UrlRequestHandledExternally(string url, bool forceNewTab) {
-			if (forceNewTab || BrowserBehaviorOnNewWindow.OpenNewTab == owner.Preferences.BrowserOnNewWindow)  {
+		private ITabState GetTabStateFor(HtmlControl control) 
+		{
+			if (control == null) return null;
+			DockControl doc = (DockControl)control.Tag;
+			if (doc == null) return null;
+			ITabState state = (ITabState)doc.Tag;
+			return state;
+		}
+
+		private bool UrlRequestHandledExternally(string url, bool forceNewTab) 
+		{
+			if (forceNewTab || BrowserBehaviorOnNewWindow.OpenNewTab == owner.Preferences.BrowserOnNewWindow)  
+			{
 				return false;
-			} else if (BrowserBehaviorOnNewWindow.OpenDefaultBrowser == owner.Preferences.BrowserOnNewWindow) {
-				owner.OpenUrlInExternalBrowser(url);
-			} else if (BrowserBehaviorOnNewWindow.OpenWithCustomExecutable == owner.Preferences.BrowserOnNewWindow) {
-				try {
+			} 
+			else if (BrowserBehaviorOnNewWindow.OpenDefaultBrowser == owner.Preferences.BrowserOnNewWindow) 
+			{
+				owner.NavigateToUrlInExternalBrowser(url);
+			} 
+			else if (BrowserBehaviorOnNewWindow.OpenWithCustomExecutable == owner.Preferences.BrowserOnNewWindow) 
+			{
+				try 
+				{
 					Process.Start(owner.Preferences.BrowserCustomExecOnNewWindow, url);
-				} catch (Exception  ex) {
-					if (owner.MessageQuestion("RES_ExceptionStartBrowserCustomExecMessage", owner.Preferences.BrowserCustomExecOnNewWindow, ex.Message, url) == DialogResult.Yes) {
-						this.DetailTabNavigateToUrl(url, null, true);
+				} 
+				catch (Exception  ex) 
+				{
+					if (owner.MessageQuestion(SR.ExceptionStartBrowserCustomExecMessage(owner.Preferences.BrowserCustomExecOnNewWindow, ex.Message, url)) == DialogResult.Yes) 
+					{
+						this.DetailTabNavigateToUrl(url, null, true, true);
 					} 
 				}
-			} else {
+			} 
+			else 
+			{
 				Debug.Assert(false, "Unhandled BrowserBehaviorOnNewWindow");
 			} 
 			return true;
@@ -5216,52 +4964,36 @@ namespace RssBandit.WinGui.Forms {
 		/// Used to initiate a browse action.
 		/// </summary>
 		/// <param name="action">The specific action to perform</param>
-		public void RequestBrowseAction(BrowseAction action) {
+		public void RequestBrowseAction(BrowseAction action) 
+		{
 			
-			if (_docContainer.ActiveDocument == _docFeedDetails) {
-				ListViewItem lvi = null;
-				if (listFeedItems.SelectedItems.Count > 0)
-					lvi = listFeedItems.SelectedItems[0];
-				
-				switch (action) {
+			if (_docContainer.ActiveDocument == _docFeedDetails) 
+			{
+
+				switch (action) 
+				{
 					case BrowseAction.NavigateBack:
-						if  (lvi != null) {
-							if (lvi.Index == 0)
-								lvi = null;
-							else
-								lvi = listFeedItems.Items[lvi.Index-1];
-						}
+						NavigateToHistoryEntry( _feedItemImpressionHistory.GetPrevious() );	
 						break;
 					case BrowseAction.NavigateForward:
-						if  (lvi != null) {
-							if ((lvi.Index + 1) >= listFeedItems.Items.Count)
-								lvi = null;
-							else
-								lvi = listFeedItems.Items[lvi.Index+1];
-						}
+						NavigateToHistoryEntry( _feedItemImpressionHistory.GetNext() );	
 						break;
 					case BrowseAction.DoRefresh:
-						lvi = null;
-						owner.CmdUpdateFeed(null);
+						this.OnTreeFeedAfterSelectManually(this,TreeSelectedFeedsNode);//??
 						break;
 					default:
-						lvi = null;
 						break;
 				}
+			
+			} 
+			else 
+			{ // _docContainer.ActiveDocument != _docFeedDetails
 
-				if (lvi != null) {
-					listFeedItems.SelectedItems.Clear();
-					lvi.Selected = true;
-					lvi.Focused = true;
-					listFeedItems.EnsureVisible(lvi.Index); 
-					this.OnFeedListItemActivate(null, EventArgs.Empty); //pass nulls because I don't use params
-				}
-
-			}
-			else {
 				HtmlControl wb = (HtmlControl)_docContainer.ActiveDocument.Controls[0];
-				try {
-					switch (action) {
+				try 
+				{
+					switch (action) 
+					{
 						case BrowseAction.NavigateCancel:
 							wb.Stop();
 							break;
@@ -5272,7 +5004,8 @@ namespace RssBandit.WinGui.Forms {
 							wb.GoForward();
 							break;
 						case BrowseAction.DoRefresh:
-							wb.Refresh();
+							object level = (int)2;
+							wb.Refresh2(ref level);
 							break;
 						default:
 							break;
@@ -5281,66 +5014,179 @@ namespace RssBandit.WinGui.Forms {
 				catch { /* Can't do command */ ;}
 			}
 			DeactivateWebProgressInfo();
+		
 		}
 
-		public void RefreshListviewContextMenu() {
+		/// <summary>
+		/// Renders the context menu and determines which options are enabled/visible. 
+		/// </summary>
+		public void RefreshListviewContextMenu()
+		{
 			NewsItem item = null; 
-			if (listFeedItems.SelectedItems.Count > 0)
-				item = ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key as NewsItem;
-			if (listFeedItems.SelectedItems.Count == 1 && item != null) {
-				 item = ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key as NewsItem;
-				if (item.BeenRead) {
+			IList selectedItems = this.GetSelectedLVItems();
+
+			if (selectedItems.Count > 0)
+				item = ((ThreadedListViewItem) selectedItems[0]).Key as NewsItem;
+			if ((selectedItems.Count == 1) && (item != null))
+			{				
+				RefreshListviewContextMenu(item);
+			}
+			else
+			{
+				RefreshListviewContextMenu(null);
+			}
+		}
+		
+		/// <summary>
+		/// Renders the context menu and determines which options are enabled/visible. 
+		/// </summary>
+		public void RefreshListviewContextMenu(NewsItem item) 
+		{
+			if(item!=null)
+			{
+				
+				owner.Mediator.SetVisible("+cmdWatchItemComments",  "+cmdFeedItemPostReply" );
+				owner.Mediator.SetEnabled("+cmdCopyNewsItem"); 
+			
+				if(listFeedItems.Visible){
+					owner.Mediator.SetVisible("+cmdColumnChooserMain");
+				}else{
+					owner.Mediator.SetVisible("-cmdColumnChooserMain");
+				}
+
+				if (item.BeenRead) 
+				{
 					owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread" , "-cmdMarkSelectedFeedItemsRead");
-				} else {
+				} 
+				else 
+				{
 					owner.Mediator.SetVisible("-cmdMarkSelectedFeedItemsUnread" , "+cmdMarkSelectedFeedItemsRead");
 				}
-			} else {
-				owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread" , "+cmdMarkSelectedFeedItemsRead");
+
+				this._listContextMenuDownloadAttachmentsSeparator.Visible = false; 
+				owner.Mediator.SetVisible("-cmdDownloadAttachment");
+
+				if(item.Enclosures != null && item.Enclosures.Count > 0){
+				
+					this._listContextMenuDownloadAttachmentsSeparator.Visible = true; 				
+					owner.Mediator.SetVisible("+cmdDownloadAttachment");
+					this._listContextMenuDownloadAttachment.MenuItems.Clear(); 
+
+					foreach (Enclosure enc in item.Enclosures) {
+						
+						int index = enc.Url.LastIndexOf("/"); 
+						string fileName; 
+
+						if((index != -1) && (index + 1 < enc.Url.Length)){
+							fileName = enc.Url.Substring(index + 1); 
+						}else{ 
+							fileName = enc.Url;
+						}
+
+						AppContextMenuCommand downloadFileMenuItem = new AppContextMenuCommand("cmdDownloadAttachment<" + fileName,
+							owner.Mediator, new ExecuteCommandHandler(this.CmdDownloadAttachment),
+							fileName, fileName, _shortcutHandler);
+				
+						this._listContextMenuDownloadAttachment.MenuItems.AddRange(new MenuItem[]{downloadFileMenuItem});
+					}
+				}
+
+				owner.Mediator.SetChecked("-cmdWatchItemComments");	
+
+				if( StringHelper.EmptyOrNull(item.CommentRssUrl) && (item.CommentCount == NewsItem.NoComments))
+				{
+					owner.Mediator.SetEnabled("-cmdWatchItemComments");												
+				}
+				else
+				{
+					owner.Mediator.SetEnabled("+cmdWatchItemComments");
+
+					if(item.WatchComments)
+					{
+						owner.Mediator.SetChecked("+cmdWatchItemComments");				
+
+					}
+				}
+
+			} 
+			else 
+			{				
+				this._listContextMenuDownloadAttachmentsSeparator.Visible = false; 				
+
+				owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread" , "+cmdMarkSelectedFeedItemsRead"); 
+				owner.Mediator.SetVisible("-cmdWatchItemComments", "-cmdColumnChooserMain", "-cmdFeedItemPostReply", "-cmdDownloadAttachment" );
+				owner.Mediator.SetEnabled("-cmdCopyNewsItem");				
 			}
 
-			if (this.CurrentSelectedNode is WasteBasketNode) {
-				owner.Mediator.SetVisible("+cmdRestoreSelectedNewsItems");
-			} else {
+			if (this.CurrentSelectedFeedsNode is WasteBasketNode) 
+			{
+				owner.Mediator.SetVisible("+cmdRestoreSelectedNewsItems"); 
+			} 
+			else 
+			{
 				owner.Mediator.SetVisible("-cmdRestoreSelectedNewsItems");
 			}
 			
 		}
 
-		public void RefreshTreeFeedContextMenus(FeedTreeNodeBase node) {
-			owner.Mediator.SetEnable(false, "cmdColumnChooserResetToDefault");
-			if (node.Type == FeedNodeType.Feed || node.Type ==FeedNodeType.Category) {
-				owner.Mediator.SetEnable(true, "cmdColumnChooserResetToDefault");
-				owner.Mediator.SetEnable(
+		public void RefreshTreeFeedContextMenus(TreeFeedsNodeBase feedsNode) 
+		{
+			owner.Mediator.SetEnabled(false, "cmdColumnChooserResetToDefault");
+			if (feedsNode.Type == FeedNodeType.Feed || feedsNode.Type ==FeedNodeType.Category) 
+			{
+			
+				owner.Mediator.SetEnabled(true, "cmdColumnChooserResetToDefault");
+				owner.Mediator.SetEnabled(
 					"+cmdFlagNewsItem", "+cmdNavigateToFeedHome", "+cmdNavigateToFeedCosmos",
 					"+cmdViewSourceOfFeed",	"+cmdValidateFeed");
-			} else if	(node.Type == FeedNodeType.SmartFolder) {
-				owner.Mediator.SetEnable(
+
+				if(RssHelper.IsNntpUrl(feedsNode.DataKey)){
+					_feedInfoContextMenu.Enabled = false; 
+				}else{
+					_feedInfoContextMenu.Enabled = true; 
+				}
+			} 
+			else if	(feedsNode.Type == FeedNodeType.SmartFolder) 
+			{
+				owner.Mediator.SetEnabled(
 					"-cmdFlagNewsItem", "-cmdNavigateToFeedHome",	"-cmdNavigateToFeedCosmos",
 					"-cmdViewSourceOfFeed",	"-cmdValidateFeed");
-				if ((node as FlaggedItemsNode) != null)
-					owner.Mediator.SetEnable(	"+cmdFlagNewsItem");	// allow re-flag of items
-			} else if (node.Type == FeedNodeType.Finder) {
-				owner.Mediator.SetEnable("-cmdDeleteAllFinders","+cmdDeleteFinder", "+cmdShowFinderProperties", "+cmdFlagNewsItem", "-cmdSubscribeToFinderResult");
-				FinderNode agfn = node as FinderNode;
-				if (agfn != null && agfn == _searchResultNode && agfn.Finder != null ) {
+				if ((feedsNode as FlaggedItemsNode) != null)
+					owner.Mediator.SetEnabled(	"+cmdFlagNewsItem");	// allow re-flag of items
+			} 
+			else if (feedsNode.Type == FeedNodeType.Finder) 
+			{
+				owner.Mediator.SetEnabled("-cmdDeleteAllFinders","+cmdDeleteFinder", "+cmdShowFinderProperties", "+cmdFlagNewsItem", "-cmdSubscribeToFinderResult");
+				FinderNode agfn = feedsNode as FinderNode;
+				if (agfn != null && agfn == _searchResultNode && agfn.Finder != null ) 
+				{
 					bool extResult = !StringHelper.EmptyOrNull(agfn.Finder.ExternalSearchUrl) ;
-					owner.Mediator.SetEnable(extResult, "cmdSubscribeToFinderResult");
-					owner.Mediator.SetEnable(extResult && agfn.Finder.ExternalResultMerged, "cmdShowFinderProperties");
+					owner.Mediator.SetEnabled(extResult, "cmdSubscribeToFinderResult");
+					owner.Mediator.SetEnabled(extResult && agfn.Finder.ExternalResultMerged, "cmdShowFinderProperties");
 				}
-			} else if (node.Type == FeedNodeType.FinderCategory) {
-				owner.Mediator.SetEnable("+cmdDeleteAllFinders","+cmdDeleteFinder", "-cmdShowFinderProperties");
-			} else if (node.Type == FeedNodeType.Root) {
-				if ((node as FinderRootNode) != null)
-					owner.Mediator.SetEnable("+cmdDeleteAllFinders","-cmdDeleteFinder", "-cmdShowFinderProperties");
+				if (agfn != null && agfn.Finder != null) {
+					owner.Mediator.SetChecked(!agfn.Finder.ShowFullItemContent, "cmdFinderShowFullItemText");
+				}
+			} 
+			else if (feedsNode.Type == FeedNodeType.FinderCategory) 
+			{
+				owner.Mediator.SetEnabled("+cmdDeleteAllFinders","+cmdDeleteFinder", "-cmdShowFinderProperties");
+			} 
+			else if (feedsNode.Type == FeedNodeType.Root) 
+			{
+				if ((feedsNode as FinderRootNode) != null)
+					owner.Mediator.SetEnabled("+cmdDeleteAllFinders","-cmdDeleteFinder", "-cmdShowFinderProperties");
 			}
 		}
 
-		private void MoveFeedDetailsToFront() {
+		private void MoveFeedDetailsToFront() 
+		{
 			if (_docContainer.ActiveDocument != _docFeedDetails)
 				_docContainer.ActiveDocument = _docFeedDetails;
 		}
 
-		private void RefreshDocumentState(DockControl doc) {
+		private void RefreshDocumentState(DockControl doc) 
+		{
 
 			if (doc == null)
 				return; 
@@ -5348,41 +5194,53 @@ namespace RssBandit.WinGui.Forms {
 			ITabState state = doc.Tag as ITabState;
 			if (state == null)
 				return;
-
-			if (_docContainer.ActiveDocument == doc) {
-				SetTitleText(state.Title);
-			}
 			
-			UrlText = state.Url;
-				
-			if (state.CanClose) {	// not listview/detail pane doc
+			if (state.CanClose) { 
+			 	// not listview/detail pane doc
 				doc.Text = StringHelper.ShortenByEllipsis(state.Title, 30);
 			}
 
-			owner.Mediator.SetEnable(state.CanGoBack, "cmdBrowserGoBack");
-			owner.Mediator.SetEnable(state.CanGoForward, "cmdBrowserGoForward");
-
+			if (_docContainer.ActiveDocument == doc) {
+				
+				SetTitleText(state.Title);
+				UrlText = state.Url;
+			
+				this.historyMenuManager.ReBuildBrowserGoBackHistoryCommandItems(state.GoBackHistoryItems(10));
+				this.historyMenuManager.ReBuildBrowserGoForwardHistoryCommandItems(state.GoForwardHistoryItems(10));
+			
+				owner.Mediator.SetEnabled(state.CanGoBack, "cmdBrowserGoBack");
+				owner.Mediator.SetEnabled(state.CanGoForward, "cmdBrowserGoForward");
+			}
 		}
 
-		public void SetGuiStateINetConnected(bool connected)	{
-			try {
+		public void SetGuiStateINetConnected(bool connected)	
+		{
+			try 
+			{
 				StatusBarPanel p = statusBarConnectionState; //_status.Panels[2];
-				if (connected) {
-					p.Icon = Resource.Manager.LoadIcon("Resources.Connected.ico");
-				} else {
-					p.Icon = Resource.Manager.LoadIcon("Resources.Disconnected.ico");
+				if (connected) 
+				{
+					p.Icon = Resource.LoadIcon("Resources.Connected.ico");
+				} 
+				else 
+				{
+					p.Icon = Resource.LoadIcon("Resources.Disconnected.ico");
 				}
 			}
 			catch{}
 			_status.Refresh();
 		}
 
-		public void SetGuiStateFeedback(string text)	{
-			try {
+		public void SetGuiStateFeedback(string text)	
+		{
+			try 
+			{
 				StatusBarPanel p = statusBarRssParser; //_status.Panels[3];
-				if (!p.Text.Equals(text)) {
+				if (!p.Text.Equals(text)) 
+				{
 					p.Text = p.ToolTipText = text;
-					if (text.Length == 0 && p.Icon != null) { 
+					if (text.Length == 0 && p.Icon != null) 
+					{ 
 						p.Icon = null; 
 					}
 					_status.Refresh();
@@ -5390,21 +5248,30 @@ namespace RssBandit.WinGui.Forms {
 			}
 			catch{}
 		}
-		public void SetGuiStateFeedback(string text, ApplicationTrayState state)	{
-			try {
+		public void SetGuiStateFeedback(string text, ApplicationTrayState state)	
+		{
+			try 
+			{
 				StatusBarPanel p = statusBarRssParser; //_status.Panels[3];
-				if (state == ApplicationTrayState.NormalIdle) {
+				if (state == ApplicationTrayState.NormalIdle) 
+				{
 					this._timerResetStatus.Start();
-					if (!StringHelper.EmptyOrNull(text)) {
+					if (!StringHelper.EmptyOrNull(text)) 
+					{
 						this.SetGuiStateFeedback(text);
 					}
-				} else {
+				} 
+				else 
+				{
 					this._timerResetStatus.Stop();
 					this.SetGuiStateFeedback(text);
 					_trayManager.SetState(state);
-					if (state == ApplicationTrayState.BusyRefreshFeeds) {
-						if (p.Icon == null) { p.Icon = Resource.Manager.LoadIcon("Resources.feedRefresh.ico"); _status.Refresh(); }
-					} else {
+					if (state == ApplicationTrayState.BusyRefreshFeeds) 
+					{
+						if (p.Icon == null) { p.Icon = Resource.LoadIcon("Resources.feedRefresh.ico"); _status.Refresh(); }
+					} 
+					else 
+					{
 						if (p.Icon != null) { p.Icon = null; _status.Refresh(); }
 					}
 				}
@@ -5412,10 +5279,13 @@ namespace RssBandit.WinGui.Forms {
 			catch{}
 		}
 
-		public void SetBrowserStatusBarText(string text){
-			try {
+		public void SetBrowserStatusBarText(string text)
+		{
+			try 
+			{
 				StatusBarPanel p = statusBarBrowser; //_status.Panels[0];
-				if (!p.Text.Equals(text)) {
+				if (!p.Text.Equals(text)) 
+				{
 					p.Text = text;
 					_status.Refresh();
 				}
@@ -5423,52 +5293,88 @@ namespace RssBandit.WinGui.Forms {
 			catch{}
 		}
 
-		public void SetSearchStatusText(string text){
+		public void SetSearchStatusText(string text)
+		{
 			SetGuiStateFeedback(text);
-			this.labelRssSearchState.Text = text;
 		}
 
-		public void UpdateCategory(bool forceRefresh) {
-			FeedTreeNodeBase selectedNode = CurrentSelectedNode; 
+		public void UpdateCategory(bool forceRefresh) 
+		{
+			TreeFeedsNodeBase selectedNode = CurrentSelectedFeedsNode; 
 			if (selectedNode == null) return;
 
-			owner.BeginRefreshCategoryFeeds(this.BuildCategoryStoreName(selectedNode), forceRefresh);
+			owner.BeginRefreshCategoryFeeds(selectedNode.CategoryStoreName, forceRefresh);
 		}
 
+
 		/// <summary>
-		/// Call this.UpdateAllFeeds(true)
+		/// Initiate a async. call to RssParser.RefreshFeeds(force_download)
 		/// </summary>
-		public void UpdateAllFeeds() {
-			this.UpdateAllFeeds(true); 					
+		/// <param name="force_download"></param>
+		public void UpdateAllCommentFeeds(bool force_download) {
+			if (_timerRefreshCommentFeeds.Enabled)
+				_timerRefreshCommentFeeds.Stop();
+					
+			owner.BeginRefreshCommentFeeds(force_download);
 		}
 
 		/// <summary>
 		/// Initiate a async. call to RssParser.RefreshFeeds(force_download)
 		/// </summary>
 		/// <param name="force_download"></param>
-		public void UpdateAllFeeds(bool force_download) {
+		public void UpdateAllFeeds(bool force_download) 
+		{
 			if (_timerRefreshFeeds.Enabled)
 				_timerRefreshFeeds.Stop();
-
-			FeedTreeNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
+		
+			TreeFeedsNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
 			_lastUnreadFeedItemCountBeforeRefresh = root.UnreadCount;
 			owner.BeginRefreshFeeds(force_download);
 		}
 
-		public void OnAllAsyncUpdateFeedsFinished() {
+		public void OnAllAsyncUpdateCommentFeedsFinished(){
+#if !NOAUTO_REFRESH
+			// restart the feeds auto-refresh timer:
+			if (!_timerRefreshCommentFeeds.Enabled)
+				_timerRefreshCommentFeeds.Start();
+#endif
+		}
+
+		public void OnAllAsyncUpdateFeedsFinished() 
+		{
 #if !NOAUTO_REFRESH
 			// restart the feeds auto-refresh timer:
 			if (!_timerRefreshFeeds.Enabled)
 				_timerRefreshFeeds.Start();
 #endif
+			if(!_faviconsDownloaded && owner.Preferences.UseFavicons){
+				owner.FeedHandler.RefreshFavicons(); 
+				_faviconsDownloaded = true; 
+			}
 		}
 
-		private void OnApplicationIdle(object sender, EventArgs e) {
-			if (IdleTask.IsTask(IdleTasks.InitOnFinishLoading)) {
-				Splash.Close();	
-				IdleTask.RemoveTask(IdleTasks.InitOnFinishLoading);
-				owner.BeginLoadingFeedlist();
-				owner.BeginLoadingSpecialFeeds();
+		private void OnApplicationIdle(object sender, EventArgs e) 
+		{
+//			if (IdleTask.IsTask(IdleTasks.InitOnFinishLoading)) 
+//			{
+//				
+//				IdleTask.RemoveTask(IdleTasks.InitOnFinishLoading);
+//				Splash.Close();	
+//				owner.BeginLoadingFeedlist();
+//				owner.BeginLoadingSpecialFeeds();
+//			} 
+//			else 
+			if (IdleTask.IsTask(IdleTasks.IndexAllItems)) 
+			{
+				IdleTask.RemoveTask(IdleTasks.IndexAllItems);
+				try 
+				{
+					owner.FeedHandler.SearchHandler.CheckIndex(true);
+				} 
+				catch (Exception ex) 
+				{
+					Trace.WriteLine("LuceneIndexer failed: " + ex.ToString());
+				}
 			}
 		}
 
@@ -5476,22 +5382,27 @@ namespace RssBandit.WinGui.Forms {
 		/// Extracts the category of the selected node within the feeds tree.
 		/// </summary>
 		/// <returns>Category found, or DefaultCategory</returns>
-		public string CategoryOfSelectedNode() {
-			FeedTreeNodeBase tn = CurrentSelectedNode;
+		public string CategoryOfSelectedNode() 
+		{
+			TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
 
-			if (tn != null) {
-				if (tn.Type == FeedNodeType.Feed) {
-					if (owner.FeedHandler.FeedsTable.ContainsKey((string)tn.Tag)) {
-						feedsFeed f = owner.FeedHandler.FeedsTable[(string)tn.Tag];
+			if (tn != null) 
+			{
+				if (tn.Type == FeedNodeType.Feed) 
+				{
+					feedsFeed f = owner.GetFeed(tn.DataKey);
+					if (f != null) {
 						return f.category;
 					} else {
-						return BuildCategoryStoreName(CurrentSelectedNode);
+						return tn.CategoryStoreName;
 					}
 				} 
-				else if (tn.Type == FeedNodeType.Category || tn.Type == FeedNodeType.Root) {
-					return BuildCategoryStoreName(CurrentSelectedNode);
+				else if (tn.Type == FeedNodeType.Category || tn.Type == FeedNodeType.Root) 
+				{
+					return tn.CategoryStoreName;
 				}
-				else {
+				else 
+				{
 					return RssBanditApplication.DefaultCategory;
 				}
 			}
@@ -5504,77 +5415,401 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="category">Feed Category</param>
 		/// <param name="f">Feed</param>
-		public void AddNewFeedNode(string category, feedsFeed f) {
-			FeedTreeNodeBase catnode = null; 
-			FeedTreeNodeBase tn = new FeedNode(f.title,4,4,_treeFeedContextMenu); 
+		public void AddNewFeedNode(string category, feedsFeed f) 
+		{
+			TreeFeedsNodeBase catnode = null; 
+			TreeFeedsNodeBase tn = null; 
 			
+			if (RssHelper.IsNntpUrl(f.link)) 
+			{
+				tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Nntp, 
+					Resource.SubscriptionTreeImage.NntpSelected, 
+					_treeFeedContextMenu);
+			} 
+			else 
+			{				
+				tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed, 
+					Resource.SubscriptionTreeImage.FeedSelected, 
+					_treeFeedContextMenu, 
+					(owner.Preferences.UseFavicons ? LoadFavicon(f.favicon): null) );
+			}
+
 			//interconnect for speed:
-			tn.Tag = f.link;
+			tn.DataKey = f.link;
 			f.Tag = tn;
+
+			SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
 			
 			category = (f.category == RssBanditApplication.DefaultCategory ? null : f.category); 
-			catnode = CreateCategoryHive((FeedTreeNodeBase)treeFeeds.Nodes[0], category);
+			catnode = TreeHelper.CreateCategoryHive(this.GetRoot(RootFolderType.MyFeeds), category, _treeCategoryContextMenu);
 
 			if (catnode == null)
 				catnode = this.GetRoot(RootFolderType.MyFeeds);
 			
 			catnode.Nodes.Add(tn);
-			tn.EnsureVisible();
+//			tn.Cells[0].Value = tn.Text;
+//			tn.Cells[0].Appearance.Image = tn.Override.NodeAppearance.Image;
+//			tn.Cells[0].Appearance.Cursor = CursorHand;
+			
+			if(f.containsNewMessages) {
+				ArrayList unread = FilterUnreadFeedItems(f);
+				if (unread.Count > 0) {
+					// we build up a new tree node, so the call to 
+					// UpdateReadStatus(tn , 0) is not neccesary:
+					this.UpdateTreeNodeUnreadStatus(tn, unread.Count);
+					UnreadItemsNode.Items.AddRange(unread);
+					UnreadItemsNode.UpdateReadStatus();
+				}
+			}
+			
+			if(f.containsNewComments){	
+				this.UpdateCommentStatus(tn, f);				
+			}
+
+			tn.BringIntoView();
 
 			this.DelayTask(DelayedTasks.SyncRssSearchTree);
 		}
 
-		public void InitiateRenameFeedOrCategory() {	
-			if(this.CurrentSelectedNode!= null)
+		public void InitiateRenameFeedOrCategory() 
+		{	
+			if(this.CurrentSelectedFeedsNode!= null)
 				this.DoEditTreeNodeLabel();
 		}
 
-		public bool NodeEditingActive {
-			get { return (this.TreeSelectedNode != null && this.TreeSelectedNode.IsEditing); }
+		public bool NodeEditingActive 
+		{
+			get { return (this.CurrentSelectedFeedsNode != null && this.CurrentSelectedFeedsNode.IsEditing); }
 		}
 
-		/// <summary>
-		/// called async from InitiateRenameFeedOrCategory()
-		/// </summary>
-		public void DeleteFeed() {	
-			this.DeleteFeed(CurrentSelectedNode);
-		}
-		protected void DeleteFeed(FeedTreeNodeBase tn) {
-			if (tn == null) tn = CurrentSelectedNode;
-			if (tn == null) return;
-			if(tn.Type != FeedNodeType.Feed) return;
-			tn.UpdateReadStatus(tn, 0);
+//		protected void DeleteFeed(TreeFeedsNodeBase tn) 
+//		{
+//			if (tn == null) tn = CurrentSelectedFeedsNode;
+//			if (tn == null) return;
+//			if(tn.Type != FeedNodeType.Feed) return;
+//			this.UpdateTreeNodeUnreadStatus(tn, 0);
+//			tn.UpdateCommentStatus(tn, 0);
+//
+//			if (tn.Selected) 
+//			{ // not just right-clicked elsewhere on a node:
+//				this.EmptyListView();					
+//				this.htmlDetail.Clear();
+//				//TreeSelectedNode = this.GetRoot(RootFolderType.MyFeeds);
+//			}
+//			
+//			try 
+//			{
+//				feedsFeed f = owner.GetFeed(tn.DataKey);
+//				if (f != null) {
+//					UnreadItemsNodeRemoveItems(f);
+//					WatchedItemsNodeRemoveItems(f);
+//					f.Tag = null;
+//				}
+//				if (tn.DataKey != null)
+//					owner.FeedHandler.DeleteFeed(tn.DataKey);
+//				// next line causes OnTreeBefore-/AfterSelected events:
+//				tn.Parent.Nodes.Remove(tn); 
+//				CurrentSelectedFeedsNode = null;
+//				this.DelayTask(DelayedTasks.SyncRssSearchTree);
+//			} 
+//			catch { /* ignore delete errors (may raised by FileCacheManager) */}
+//		}
 
-			if (tn.IsSelected) {
-				this.EmptyListView();					
-				this.htmlDetail.Clear();
-				TreeSelectedNode = this.GetRoot(RootFolderType.MyFeeds);
-			}
-			
-			try {
-				feedsFeed f = owner.FeedHandler.FeedsTable[(string)tn.Tag] as feedsFeed;
-				if (f != null) {	
-					f.Tag = null; 
-					owner.FeedHandler.DeleteFeedFromCommonFeedList(f, f.category); 
-				}
-				tn.Parent.Nodes.Remove(tn); 
-				owner.FeedHandler.DeleteFeed((string)tn.Tag);
-				 
-				this.DelayTask(DelayedTasks.SyncRssSearchTree);
-			} catch { /* ignore delete errors (may raised by FileCacheManager) */}
-		}
 
-
-		private bool NodeIsChildOf(TreeNode tn, TreeNode parent) {
+		private bool NodeIsChildOf(UltraTreeNode tn, UltraTreeNode parent) 
+		{
 			if (parent == null)
 				return false;
 
-			TreeNode p = tn.Parent;
-			while (p != null) {
+			UltraTreeNode p = tn.Parent;
+			while (p != null) 
+			{
 				if (p == parent) return true;
 				p = p.Parent;
 			}
 			return false;
+		}
+
+		
+		/// <summary>
+		/// Called on each finished successful favicon request.
+		/// </summary>
+		/// <param name="favicon"> The name of the favicon file</param> 
+		/// <param name="feedUrls">The list of URLs that will utilize this favicon</param>		
+		public void UpdateFavicon(string favicon, StringCollection feedUrls) 
+		{
+			Image icon = null;
+			if (!StringHelper.EmptyOrNull(favicon)) 
+			{
+				string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), favicon);
+				
+				if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
+					try {
+						// looks like an ICO:
+						using (MultiIcon ico = new MultiIcon(location)) {
+							Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+							//HACK: this is a workaround to the AccessViolationException caused
+							// on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+							if (smallest.Width == smallest.Height) //resize, but do not save:
+								icon = ResizeFavicon(smallest.ToBitmap(), null);
+						}
+					} catch (Exception e) {
+						_log.Debug("UpdateFavicon(" + location + ") failed with error:", e);
+						// may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
+					}
+				else
+					// fallback to init an icon from other image file formats:
+					try {
+						icon = ResizeFavicon(Image.FromFile(location, true), location);
+					} catch (Exception e) {
+						_log.Debug("UpdateFavicon() failed", e);
+					}
+			}
+
+			if (feedUrls != null) {
+				foreach (string feedUrl in feedUrls) {
+					TreeFeedsNodeBase tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
+					tn.SetIndividualImage(icon);
+				}
+			}
+
+			if (icon != null) {
+				lock(this._favicons.SyncRoot){
+					if(!this._favicons.ContainsKey(favicon))
+						this._favicons.Add(favicon, icon); 
+				}
+				//<favicon> entries added to subscriptions.xml
+				this.owner.SubscriptionModified(NewsFeedProperty.General);
+				//this.owner.FeedlistModified = true; 
+			}
+		}
+
+
+		/// <summary>
+		/// Converts the tree view to using favicons as feed icons where available
+		/// </summary>
+		public void ApplyFavicons(){					
+
+			try{ 
+
+				string[] keys;
+
+				// The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
+				// exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)					
+				lock (owner.FeedHandler.FeedsTable.SyncRoot) {
+					keys = new string[owner.FeedHandler.FeedsTable.Count];
+					if (owner.FeedHandler.FeedsTable.Count > 0)
+						owner.FeedHandler.FeedsTable.Keys.CopyTo(keys, 0);	
+				}
+
+				
+				//foreach(string sKey in FeedsTable.Keys){
+				//  feedsFeed current = FeedsTable[sKey];	
+
+				for(int i = 0, len = keys.Length; i < len; i++){
+
+					string feedUrl = keys[i]; 				
+					feedsFeed f    = owner.FeedHandler.FeedsTable[feedUrl]; 
+
+					if(f == null){
+						continue;
+					}
+
+					if(owner.Preferences.UseFavicons){
+					
+						if(StringHelper.EmptyOrNull(f.favicon)){ 
+							continue; 
+						}
+
+
+						string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), f.favicon);
+						Image icon      = null; 
+					
+						if(this._favicons.ContainsKey(f.favicon)){
+							icon = 	this._favicons[f.favicon] as Image;
+						}else{
+					
+							try{ 
+								icon = ResizeFavicon(Image.FromFile(location), location);
+								lock(this._favicons.SyncRoot){
+									if(!this._favicons.ContainsKey(f.favicon))
+										this._favicons.Add(f.favicon, icon); 
+								}
+							}catch(Exception e){ //we had an issue loading or resizing the icon
+								_log.Error("Error in ApplyFavicons(): {0}", e); 
+		
+							}
+						}//else
+
+						if(icon != null){ 
+							TreeFeedsNodeBase tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);				
+							if(tn != null){ 
+								tn.SetIndividualImage(icon);
+							}				
+						}
+									
+				
+					}else{ //if(owner.Preferences.UseFavicons){	
+					
+						TreeFeedsNodeBase tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);									
+									
+						if(tn != null){ 
+							this.SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);						
+						}
+					}//else
+
+				}//for(int i...)
+
+			}catch(InvalidOperationException ioe){// New feeds added to FeedsTable from another thread  
+							
+				_log.Error("ApplyFavicons - InvalidOperationException: {0}", ioe); 
+			}
+				 
+		}
+
+
+		/// <summary>
+		/// Called on each finished successful comment feed refresh.
+		/// </summary>
+		/// <param name="feedUri">The original feed Uri</param>
+		/// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
+		public void UpdateCommentFeed(Uri feedUri, Uri newFeedUri) {	
+			
+			ArrayList items = null;
+
+			string feedUrl = feedUri.AbsoluteUri;
+			feedsFeed feed = null;
+			TreeFeedsNodeBase tn = null;
+			NewsItem item = null; 
+			bool modified = false; 
+
+			if(newFeedUri != null) {
+				items = owner.CommentFeedsHandler.GetCachedItemsForFeed(newFeedUri.AbsoluteUri); 
+			}
+			else {
+				items = owner.CommentFeedsHandler.GetCachedItemsForFeed(feedUrl); 
+			}
+			
+			//get the current number of comments on the item
+			int commentCount = (items.Count == 0 ? NewsItem.NoComments : items.Count);
+
+			if (!owner.CommentFeedsHandler.FeedsTable.Contains(feedUrl) && (feedUri.IsFile || feedUri.IsUnc)) {
+				feedUrl = feedUri.LocalPath;
+			}
+
+			feed = owner.CommentFeedsHandler.FeedsTable[feedUrl] ;			
+			
+			if (feed != null && feed.Tag != null) { 				
+
+				feedsFeed itemFeed = (feedsFeed) feed.Tag; 
+				FeedInfo itemFeedInfo = owner.FeedHandler.GetFeedInfo(itemFeed.link) as FeedInfo; 				
+
+				tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), itemFeed);			 
+
+				if (tn != null && itemFeedInfo != null) {
+
+					lock(itemFeedInfo.ItemsList){
+			
+						//locate NewsItem from original feed 
+						foreach(NewsItem ni in itemFeedInfo.ItemsList){
+							if(!StringHelper.EmptyOrNull(ni.CommentRssUrl) && 
+								feedUrl.Equals(ni.CommentRssUrl)){
+								item = ni; 
+								//some comment feeds place the post as the first entry in the comments feed
+								if(items.Contains(item)){
+									commentCount--;
+								}
+								break; 
+							}
+						}//foreach
+
+
+					if(item == null){ //item has been deleted or expired from the cache
+							owner.CommentFeedsHandler.DeleteFeed(feedUrl); 						
+							owner.WatchedItemsFeed.Remove(feedUrl);
+							return; 
+						} else if(item.WatchComments){
+														
+							if(commentCount > item.CommentCount){
+								itemFeed.containsNewComments = item.HasNewComments = true; 
+								item.CommentCount = commentCount;
+								modified = true;
+							}
+
+							//fix up URL if it has moved 
+							if (newFeedUri != null && newFeedUri != feedUri) { 
+						
+								if (newFeedUri.IsFile || newFeedUri.IsUnc) 
+									feedUrl = newFeedUri.LocalPath;
+								else
+									feedUrl = newFeedUri.ToString();
+
+								item.CommentRssUrl = feedUrl; 
+								modified = true; 
+							}
+
+						}//if(item!= null && item.WatchComments)) 
+
+					}//lock(itemFeedInfo.ItemsList){
+					
+					
+				//to prevent bandwidth abuse we fetch comment feeds twice a day once 
+				//NewsItem is over a week old since they are rarely updated if ever
+					if((DateTime.Now.Subtract(item.Date) > SevenDays)){
+						feed.refreshrateSpecified = true;
+						feed.refreshrate          = 12 * 60 * 60 * 1000; //twelve hours
+					}
+
+					if(itemFeed.containsNewComments){
+
+						//update tree view
+						this.UpdateCommentStatus(tn, itemFeedInfo.ItemsList, false);							
+					
+						//update list view 
+						bool categorized = false;
+						TreeFeedsNodeBase ftnSelected = TreeSelectedFeedsNode;
+
+						if (ftnSelected.Type == FeedNodeType.Category && NodeIsChildOf(tn, ftnSelected))
+							categorized = true;
+
+						if (tn.Selected || categorized ) {
+
+							ThreadedListViewItem lvItem = this.GetListViewItem(item.Id);
+							if(lvItem != null){					
+								ApplyStyles(lvItem);
+							}
+						}//if (tn.Selected || categorized ) {
+
+					}//if(itemFeed.containsNewComments){
+					
+					/* we need to write the feed to the cache if the CommentCount or the CommentRssUrl changed 
+					 * for the NewsItem changed
+					 */					 
+					if(modified){
+						owner.FeedHandler.ApplyFeedModifications(itemFeed.link); 
+					}
+
+				}//if (tn != null && itemFeedInfo != null) {
+
+			}//if (feed != null && feed.Tag != null) {					
+		
+		}
+
+
+		/// <summary>
+		/// Called on each finished successful feed refresh.
+		/// </summary>
+		/// <param name="feedUri">The original feed Uri</param>
+		/// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
+		/// <param name="modified">Really new items received</param>
+		public void UpdateFeed(string feedUrl, Uri newFeedUri, bool modified) {	
+
+			Uri feedUri = null; 
+			try {
+				feedUri = new Uri(feedUrl); 
+			}catch(Exception){}
+
+			this.UpdateFeed(feedUri, newFeedUri, modified); 
 		}
 
 		/// <summary>
@@ -5582,107 +5817,161 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="feedUri">The original feed Uri</param>
 		/// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
-		/// <param name="items">The feed items retrieved</param>
-		public void UpdateFeed(Uri feedUri, Uri newFeedUri, ArrayList items, bool modified) {			
+		/// <param name="modified">Really new items received</param>
+		public void UpdateFeed(Uri feedUri, Uri newFeedUri, bool modified) 
+		{			
 
-			string feedUrl = feedUri.ToString();
+			if(feedUri == null)
+				return; 
+
+			ArrayList items = null;
+			ArrayList unread = null;
+			
+			string feedUrl = feedUri.AbsoluteUri;
 			feedsFeed feed = null;
-			FeedTreeNodeBase tn = null;
+			TreeFeedsNodeBase tn = null;
 
-			if (!owner.FeedHandler.FeedsTable.Contains(feedUrl) && (feedUri.IsFile || feedUri.IsUnc)) {
+			if(newFeedUri != null)
+			{
+				items = owner.FeedHandler.GetCachedItemsForFeed(newFeedUri.AbsoluteUri); 
+			}
+			else
+			{
+				items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl); 
+			}
+
+			if (!owner.FeedHandler.FeedsTable.Contains(feedUrl) && (feedUri.IsFile || feedUri.IsUnc)) 
+			{
 				feedUrl = feedUri.LocalPath;
 			}
 
-			feed = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed;
+			feed = owner.FeedHandler.FeedsTable[feedUrl];
 			
-			if (feed != null) {
-				tn = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), feed);
-			} else {
-				tn = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
+			if (feed != null) 
+			{
+				tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feed);
+			} 
+			else 
+			{
+				tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
 			}
 
-			if (tn != null) {
+			if (tn != null) 
+			{
 
-				if (newFeedUri != null && newFeedUri != feedUri) {	// changed/moved
+				if (newFeedUri != null && newFeedUri != feedUri) 
+				{	// changed/moved
 					if (newFeedUri.IsFile || newFeedUri.IsUnc) 
 						feedUrl = newFeedUri.LocalPath;
 					else
-						feedUrl = newFeedUri.ToString();
-					tn.Tag = feedUrl;	
-					feed = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed;
-					if (feed != null) feed.Tag = tn;
+						feedUrl = newFeedUri.AbsoluteUri;
+					tn.DataKey = feedUrl;	
+					feed = owner.GetFeed(feedUrl);
+					if (feed != null) 
+						feed.Tag = tn;
 				}
 
-				if (feed != null) {
-					if (feed.refreshrateSpecified && feed.refreshrate <= 0 && tn.ImageIndex != 5) {
-						tn.ImageIndex = tn.SelectedImageIndex = 5;	// disabled image
-					} else if (feed.authUser != null || feed.link.StartsWith("https") && tn.ImageIndex != 9) {
-						tn.ImageIndex = tn.SelectedImageIndex = 9;	// image with lock 
-					} else if (tn.ImageIndex != 4) {
-						tn.ImageIndex = tn.SelectedImageIndex = 4;// normal
-					}
+				if (feed != null) 
+				{
+					SetSubscriptionNodeState(feed, tn, FeedProcessingState.Normal);
 
-					if (feed.containsNewMessages)	{
+					if (feed.containsNewMessages)	
+					{
+						if (modified)
+							owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
+
 						if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow || 
 							(DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow && feed.alertEnabled)) &&
-							modified) {	// new flag on feed, states if toast is enabled (off by default)
+							modified) 
+						{	// new flag on feed, states if toast is enabled (off by default)
 							// we have to sort items first (newest on top)
 							items.Sort(RssHelper.GetComparer());
-							_toastNotifier.Alert(tn.Text, tn.UnreadCount, items);
+							toastNotifier.Alert(tn.Text, tn.UnreadCount, items);
 						}
-						tn.UpdateReadStatus(tn, CountUnreadFeedItems(items));
+						unread = FilterUnreadFeedItems(items);
+						UnreadItemsNodeRemoveItems(unread);
+						UnreadItemsNode.Items.AddRange(unread);
+						this.UpdateTreeNodeUnreadStatus(tn, unread.Count);
+						UnreadItemsNode.UpdateReadStatus();
+					}
+
+					if(feed.containsNewComments)
+					{
+						if (modified)
+							owner.FeedWasModified(feed, NewsFeedProperty.FeedItemCommentCount);
+						this.UpdateCommentStatus(tn, items, false);
 					}
 				}
 
 				bool categorized = false;
-				FeedTreeNodeBase ftnSelected = TreeSelectedNode;
+				TreeFeedsNodeBase ftnSelected = TreeSelectedFeedsNode;
 
 				if (ftnSelected.Type == FeedNodeType.Category && NodeIsChildOf(tn, ftnSelected))
 					categorized = true;
 
-				if (modified && (tn.IsSelected || categorized) ) {
+				if (ftnSelected is UnreadItemsNode && unread != null && unread.Count > 0) {
+					modified = categorized = true;
+					items = unread;
+				}
+				
+				if (modified && (tn.Selected || categorized) ) 
+				{
 
 					NewsItem itemSelected = null;
 					if (listFeedItems.SelectedItems.Count > 0) 
-						itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key as NewsItem;
+						itemSelected = (NewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key;
 
 					this.PopulateListView(tn, items, false, categorized, ftnSelected ); 
-								
-					if (itemSelected == null || (itemSelected != null && !categorized && !itemSelected.Feed.link.Equals(tn.Tag)) ) {
-						//clear browser pane 
-						CurrentSelectedFeedItem = null;
-						htmlDetail.Clear();
-						RefreshFeedDisplay(tn); 					
-					} else 
+					
+					if (itemSelected == null || (!categorized && !itemSelected.Feed.link.Equals(tn.DataKey)) )
+					{ 					
+						//clear state
+						CurrentSelectedFeedItem = null; 
+						//reload newspaper
+						this.RefreshFeedDisplay(tn, false);
+					}
+					else 
+					{
 						ReSelectListViewItem(itemSelected);
+					}
 
 				}
 				
 				// apply finder matches to refresh node unread state(s)
 				UpdateFindersReadStatus(items);
 
-			} else {
+			} 
+			else 
+			{
 				_log.Info("UpdateFeed() could not find node for '"+feedUri.ToString()+"'...");
 			}
 		}
 
-		private void UpdateFindersReadStatus(ArrayList items) {
+		private void UpdateFindersReadStatus(ArrayList items) 
+		{
 			// apply finder matches to refresh the read state only
-			if (_searchResultNode != null && !_searchResultNode.AnyUnread) {
+			if (_searchResultNode != null && !_searchResultNode.AnyUnread) 
+			{
 				SearchCriteriaCollection sc = _searchResultNode.Finder.SearchCriterias;
-				foreach (NewsItem item in items) {
-					if (!item.BeenRead && sc.Match(item)) {	// match unread only is enough here
+				foreach (NewsItem item in items) 
+				{
+					if (!item.BeenRead && sc.Match(item)) 
+					{	// match unread only is enough here
 						_searchResultNode.UpdateReadStatus(_searchResultNode, true);
 						break;
 					}
 				}//foreach
 			}
 
-			foreach (RssFinder finder in owner.FinderList) {
-				if (finder.Container != null && !finder.Container.AnyUnread) {
+			foreach (RssFinder finder in owner.FinderList) 
+			{
+				if (finder.Container != null && !finder.Container.AnyUnread) 
+				{
 					SearchCriteriaCollection sc = finder.SearchCriterias;
-					foreach (NewsItem item in items) {
-						if (!item.BeenRead && sc.Match(item)) {	// match unread only is enough here
+					foreach (NewsItem item in items) 
+					{
+						if (!item.BeenRead && sc.Match(item)) 
+						{	// match unread only is enough here
 							finder.Container.UpdateReadStatus(finder.Container, true);
 							break;
 						}
@@ -5692,84 +5981,114 @@ namespace RssBandit.WinGui.Forms {
 		
 		}
 
-		private void ResetFindersReadStatus() {
-			if (_searchResultNode != null) {
-				_searchResultNode.UpdateReadStatus(_searchResultNode, 0);
+		private void ResetFindersReadStatus() 
+		{
+			if (_searchResultNode != null) 
+			{
+				this.UpdateTreeNodeUnreadStatus(_searchResultNode, 0);
 			}
-			foreach (RssFinder finder in owner.FinderList) {
+			foreach (RssFinder finder in owner.FinderList) 
+			{
 				if (finder.Container != null)
-					finder.Container.UpdateReadStatus(finder.Container, 0);
+					this.UpdateTreeNodeUnreadStatus(finder.Container, 0);
 			}
 		}
 
-		public void NewCategory() {
-			if (CurrentSelectedNode != null && CurrentSelectedNode.AllowedChild(FeedNodeType.Category)) {
-				FeedTreeNodeBase curNode = CurrentSelectedNode;
+		public void NewCategory() 
+		{
+			if (CurrentSelectedFeedsNode != null && CurrentSelectedFeedsNode.AllowedChild(FeedNodeType.Category)) 
+			{
+				TreeFeedsNodeBase curFeedsNode = CurrentSelectedFeedsNode;
 				
 				int i = 1;
-				string s = Resource.Manager["RES_GeneralNewItemText"];
+				string s = SR.GeneralNewItemText;
 				// check for duplicate names:
-				while (FindChild(curNode, s, FeedNodeType.Category) != null) {	
-					s = Resource.Manager["RES_GeneralNewItemTextWithCounter", i++]; 
+				while (TreeHelper.FindChildNode(curFeedsNode, s, FeedNodeType.Category) != null) 
+				{	
+					s = SR.GeneralNewItemTextWithCounter(i++); 
 				}
 
-				FeedTreeNodeBase newNode = new CategoryNode(s, 2, 3, _treeCategoryContextMenu);
+				TreeFeedsNodeBase newFeedsNode = new CategoryNode(s, 
+					Resource.SubscriptionTreeImage.SubscriptionsCategory, 
+					Resource.SubscriptionTreeImage.SubscriptionsCategoryExpanded, 
+					_treeCategoryContextMenu);
 				
-				curNode.Nodes.Add(newNode);
-				newNode.EnsureVisible();
-				TreeSelectedNode = newNode;
-				s = BuildCategoryStoreName(newNode);
+				curFeedsNode.Nodes.Add(newFeedsNode);
+//				newNode.Cells[0].Appearance.Image = newNode.Override.NodeAppearance.Image;
+				newFeedsNode.BringIntoView();
+				TreeSelectedFeedsNode = newFeedsNode;
+				s = newFeedsNode.CategoryStoreName;
 
-				if(!owner.FeedHandler.Categories.ContainsKey(s)) {
+				if(!owner.FeedHandler.Categories.ContainsKey(s)) 
+				{
 					owner.FeedHandler.Categories.Add(s); 
-					owner.FeedlistModified = true;
+					this.owner.SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+					//owner.FeedlistModified = true;
 				}
 
 				if (!treeFeeds.Focused) treeFeeds.Focus();
-				newNode.BeginEdit();
+				newFeedsNode.BeginEdit();
 			
 			}
 		}
 		
-		public void DeleteCategory() {
-			this.DeleteCategory(CurrentSelectedNode);
-			owner.FeedlistModified = true;
-		}
+//		public void DeleteCategory() 
+//		{
+//			this.DeleteCategory(CurrentSelectedFeedsNode);
+//			this.owner.SubscriptionModified(NewsFeedProperty.FeedCategoryRemoved);
+//			//owner.FeedlistModified = true;
+//		}
 
+		internal void UpdateTreeNodeUnreadStatus(TreeFeedsNodeBase node, int newCount) {
+			if (node != null) {
+				node.UpdateReadStatus(node, newCount);
+				if (node.Selected) {
+					this.SetDetailHeaderText(node);
+				}
+			}
+		}
+		
 		/// <summary>
 		/// Can be called on every selected tree node.
 		/// </summary>
-		public void MarkSelectedNodeRead(FeedTreeNodeBase startNode) {
-			FeedTreeNodeBase selectedNode = startNode == null ? CurrentSelectedNode: startNode;
+		public void MarkSelectedNodeRead(TreeFeedsNodeBase startNode) 
+		{
+			TreeFeedsNodeBase selectedNode = startNode == null ? CurrentSelectedFeedsNode: startNode;
 
 			if (selectedNode == null) return;
 
 			feedsFeed f = null;
-			if (selectedNode.Type == FeedNodeType.Feed && owner.FeedHandler.FeedsTable.ContainsKey((string)selectedNode.Tag))
-				f = owner.FeedHandler.FeedsTable[(string)selectedNode.Tag];
+			if (selectedNode.Type == FeedNodeType.Feed)
+				f = owner.GetFeed(selectedNode.DataKey);
 			
-			if (f != null) {
+			if (f != null) 
+			{
+				UnreadItemsNodeRemoveItems(f);	// BEFORE they get marked read by:
 				owner.FeedHandler.MarkAllCachedItemsAsRead(f);
-				selectedNode.UpdateReadStatus(selectedNode, 0 );
+				owner.FeedWasModified(f, NewsFeedProperty.FeedItemReadState);
+				this.UpdateTreeNodeUnreadStatus(selectedNode, 0);
 			}
 			
-			bool selectedIsChild = this.NodeIsChildOf(TreeSelectedNode, selectedNode);
+			bool selectedIsChild = this.NodeIsChildOf(TreeSelectedFeedsNode, selectedNode);
 			bool isSmartOrAggregated = (selectedNode.Type == FeedNodeType.Finder ||
 				selectedNode.Type == FeedNodeType.SmartFolder);
 
 			//mark all viewed stories as read 
 			// May be we are wrong here: how about a threaded item reference
 			// with an ownerfeed, that is not a child of the current selectedNode?
-			if (listFeedItems.Items.Count > 0) {
+			if (listFeedItems.Items.Count > 0) 
+			{
 
 				listFeedItems.BeginUpdate(); 
 					
-				for (int i = 0; i < listFeedItems.Items.Count; i++) {
+				for (int i = 0; i < listFeedItems.Items.Count; i++) 
+				{
 						
 					ThreadedListViewItem lvi = listFeedItems.Items[i];
-					NewsItem NewsItem = (NewsItem)lvi.Key;
+					NewsItem newsItem = (NewsItem)lvi.Key;
 
-					if (NewsItem != null && (NewsItem.Feed == f || selectedIsChild || selectedNode == TreeSelectedNode || isSmartOrAggregated || lvi.IndentLevel > 0 || selectedNode.Type == FeedNodeType.Root)) {	
+					if (newsItem != null && (newsItem.Feed == f || selectedIsChild || selectedNode == TreeSelectedFeedsNode || isSmartOrAggregated || lvi.IndentLevel > 0 || selectedNode.Type == FeedNodeType.Root)) 
+					{	
 						// switch image back
 						if ((lvi.ImageIndex % 2) != 0) 
 							lvi.ImageIndex--;
@@ -5777,25 +6096,32 @@ namespace RssBandit.WinGui.Forms {
 						// switch font back
 						ApplyStyles(lvi, true);
 
-						if (!NewsItem.BeenRead){
+						if (!newsItem.BeenRead)
+						{
 								
-							NewsItem.BeenRead = true;
+							newsItem.BeenRead = true;
+							UnreadItemsNode.Remove(newsItem);
 
 							// now update tree state of rss items from different
 							// feeds (or also: category selected)
-							if (lvi.IndentLevel > 0 || selectedNode.Type == FeedNodeType.Finder)	{
+							if (lvi.IndentLevel > 0 || selectedNode.Type == FeedNodeType.Finder)	
+							{
 									
 								// corresponding node can be at any hierarchy level
-								selectedNode.UpdateReadStatus(GetTreeNodeForItem(GetRoot(RootFolderType.MyFeeds), NewsItem) , -1);
+								selectedNode.UpdateReadStatus(TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), newsItem) , -1);
 
-							} else if (selectedNode.Type != FeedNodeType.Feed) { 
+							} 
+							else if (selectedNode.Type != FeedNodeType.Feed) 
+							{ 
 									
 								// can only be a child node, or SmartFolder
-								if (NewsItem.Feed.containsNewMessages == true) { //if not yet handled
-									FeedTreeNodeBase itemNode = GetTreeNodeForItem(selectedNode, NewsItem);
-									if (itemNode != null) {
-										itemNode.UpdateReadStatus(itemNode , 0);
-										NewsItem.Feed.containsNewMessages = false;
+								if ( newsItem.Feed.containsNewMessages ) 
+								{ //if not yet handled
+									TreeFeedsNodeBase itemFeedsNode = TreeHelper.FindNode(selectedNode, newsItem);
+									if (itemFeedsNode != null) 
+									{
+										this.UpdateTreeNodeUnreadStatus(itemFeedsNode, 0);
+										newsItem.Feed.containsNewMessages = false;
 									}
 								}
 
@@ -5812,101 +6138,225 @@ namespace RssBandit.WinGui.Forms {
 
 			}
 
-			if (selectedNode.Type == FeedNodeType.Root) {	// all
+			if (selectedNode.Type == FeedNodeType.Root) 
+			{	// all
 				owner.FeedHandler.MarkAllCachedItemsAsRead(); 
 				this.UpdateTreeStatus(owner.FeedHandler.FeedsTable);
 				this.ResetFindersReadStatus();
+				this.UnreadItemsNode.Items.Clear();
+				this.UnreadItemsNode.UpdateReadStatus();
 				this.SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
 			} 
-			else if (selectedNode.Type == FeedNodeType.Category) { // category and childs
+			else if (selectedNode.Type == FeedNodeType.Category) 
+			{ // category and childs
 				WalkdownAndCatchupCategory(selectedNode);
 			}
-			if (isSmartOrAggregated) {
+			if (isSmartOrAggregated) 
+			{
 				ISmartFolder sfNode = startNode as ISmartFolder;
 				if (sfNode != null) sfNode.UpdateReadStatus();
 			}
-
 			
+		}
+
+
+		/// <summary>
+		/// Toggle's the flag state of the identified RSS item
+		/// </summary>
+		/// <param name="id">The ID of the RSS item</param>
+		public void ToggleItemFlagState(string id)
+		{
+		
+			ThreadedListViewItem lvItem = this.GetListViewItem(id);
+			
+			if(lvItem!= null)
+			{
+				NewsItem item = (NewsItem) lvItem.Key;
+
+				Flagged oldStatus = 	item.FlagStatus;
+
+				if(oldStatus != Flagged.None)
+				{
+					item.FlagStatus = Flagged.None; 
+				}
+				else
+				{
+					item.FlagStatus = Flagged.FollowUp; 
+				}
+
+				if(item.FlagStatus != Flagged.None)
+				{
+					lvItem.Font = FontColorHelper.MergeFontStyles(lvItem.Font, FontColorHelper.HighlightStyle);
+					lvItem.ForeColor = FontColorHelper.HighlightColor;
+				}
+				else
+				{
+					lvItem.Font = FontColorHelper.MergeFontStyles(lvItem.Font, FontColorHelper.NormalStyle); 
+					lvItem.ForeColor = FontColorHelper.NormalColor;
+				}
+
+				//ApplyFlagIconTo(lvItem, item);
+				ApplyFlagStateTo(lvItem, item.FlagStatus, this.listFeedItems.Columns.GetColumnIndexMap());
+
+				CheckForFlaggedNodeAndCreate(item);
+
+				if ((this.CurrentSelectedFeedsNode as FlaggedItemsNode) != null) 
+				{
+					owner.ReFlagNewsItem(item);
+				} 
+				else 
+				{
+					owner.FlagNewsItem(item);
+				}
+			
+				if (this.FlaggedFeedsNode(item.FlagStatus) != null) 
+				{ // ReFlag may remove also items
+					this.FlaggedFeedsNode(item.FlagStatus).UpdateReadStatus();
+				}	
+				if(listFeedItemsO.Visible)
+					listFeedItemsO.Invalidate();
+			}
+			
+		}	
+
+	
+		/// <summary>
+		/// Toggles watching a particular item or list of items for new comments by either watching the value of 
+		/// slash:comments and thr:replies or subscribing to the comments feed. 
+		/// </summary>
+		/// <param name="sender">Object that initiates the call</param>
+		public void CmdWatchItemComments(ICommand sender)
+		{							
+		  
+			IList selectedItems = this.GetSelectedLVItems(); 
+
+			for (int i=0; i < selectedItems.Count; i++) 
+			{
+				ThreadedListViewItem selectedItem = (ThreadedListViewItem)selectedItems[i];
+			
+				NewsItem item = (NewsItem) selectedItem.Key; 
+				item.WatchComments = !item.WatchComments; 				
+				owner.WatchNewsItem(item); 				
+			}
 		}
 
 		/// <summary>
 		/// Marks the selected feed items flagged. Called from the listview
 		/// context menu.
 		/// </summary>
-		public void MarkFeedItemsFlagged(Flagged flag){
+		public void MarkFeedItemsFlagged(Flagged flag)
+		{
 		
 			NewsItem item = null;
+			ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
+			IList selectedItems = this.GetSelectedLVItems();	
+			ArrayList toBeRemoved = null; 
 
-			for (int i=0; i < listFeedItems.SelectedItems.Count; i++) {
-				ThreadedListViewItem selectedItem = (ThreadedListViewItem)listFeedItems.SelectedItems[i];
+			for (int i=0; i < selectedItems.Count; i++) 
+			{
+				ThreadedListViewItem selectedItem = (ThreadedListViewItem)selectedItems[i];
 				
 				item = (NewsItem) selectedItem.Key; 
 				
 				if (item.FlagStatus == flag)
-					return;	// no change
+					continue;	// no change
 
 				item.FlagStatus = flag;
 				
-				ApplyFlagIconTo(selectedItem, item);
-
 				//font styles merged, color overrides
-				if(item.FlagStatus != Flagged.None){
+				if(item.FlagStatus != Flagged.None)
+				{
 					selectedItem.Font = FontColorHelper.MergeFontStyles(selectedItem.Font, FontColorHelper.HighlightStyle);
 					selectedItem.ForeColor = FontColorHelper.HighlightColor;
 				}
+				else
+				{
+					selectedItem.Font = FontColorHelper.MergeFontStyles(selectedItem.Font, FontColorHelper.NormalStyle);
+					selectedItem.ForeColor = FontColorHelper.NormalColor;
+				}
+
+				//ApplyFlagIconTo(selectedItem, item);
+				ApplyFlagStateTo(selectedItem, item.FlagStatus, colIndex);
 
 				CheckForFlaggedNodeAndCreate(item);
 
-				if ((this.CurrentSelectedNode as FlaggedItemsNode) != null) {
+				if ((this.CurrentSelectedFeedsNode as FlaggedItemsNode) != null) 
+				{
 					owner.ReFlagNewsItem(item);
-				} else {
+					if(item.FlagStatus == Flagged.None || item.FlagStatus == Flagged.Complete) 
+					{
+						if (toBeRemoved == null)
+							toBeRemoved = new ArrayList();
+						toBeRemoved.Add(selectedItem);
+					}
+				} 
+				else 
+				{
 					owner.FlagNewsItem(item);
 				}
 
 			}//for(i=0...
 
-			if (this.FlaggedFeedsNode(flag) != null) { // ReFlag may remove also items
+			if (toBeRemoved != null && toBeRemoved.Count > 0)
+				this.RemoveListviewItems(toBeRemoved, false, false, false);
+
+			if (this.FlaggedFeedsNode(flag) != null) 
+			{ // ReFlag may remove also items
 				this.FlaggedFeedsNode(flag).UpdateReadStatus();
 			}
 		}
 
-		
 		/// <summary>
-		/// Remove the selected feed items. 
-		/// Called from the listview context menu.
+		/// Removes the provided listview items (collection of ThreadedListViewItem objects). 
+		/// Also considers childs.
 		/// </summary>
-		public void RemoveSelectedFeedItems(){
-		
-			if (listFeedItems.SelectedItems.Count == 0)
+		/// <param name="itemsToRemove">List of items to be removed</param>
+		/// <param name="moveItemsToTrash">If true, the corresponding NewsItem(s) will be moved to the Trash SmartFolder</param>
+		/// <param name="removeFromSmartFolder">If true, the  corresponding NewsItem(s) will be also removed from any SmartFolder</param>
+		/// <param name="updateUnreadCounters">If true, the unread counter(s) will be updated</param>
+		public void RemoveListviewItems(ICollection itemsToRemove, 
+			bool moveItemsToTrash, bool removeFromSmartFolder, bool updateUnreadCounters) 
+		{
+			if (itemsToRemove == null || itemsToRemove.Count == 0)
 				return;
-
+			
+			ThreadedListViewItem[] items = new ThreadedListViewItem[itemsToRemove.Count];
+			itemsToRemove.CopyTo(items, 0);
+			
 			// where we are?
-			FeedTreeNodeBase thisNode = TreeSelectedNode;
+			TreeFeedsNodeBase thisNode = TreeSelectedFeedsNode;
 			ISmartFolder isFolder = thisNode as ISmartFolder;
 
 			int unreadItemsCount = 0;
 			int itemIndex = 0;
 			bool anyUnreadItem = false;
-			Trace.WriteLine("RemoveSelectedFeedItems() gets called: " + unreadItemsCount.ToString() );
-
-			try {
+			
+			try 
+			{
 				listFeedItems.BeginUpdate();
 
-				int delCounter = listFeedItems.SelectedItems.Count;
-				while (delCounter-- > 0) {
-					ThreadedListViewItem selectedItem = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+				int delCounter = itemsToRemove.Count;
+				while (--delCounter >= 0) 
+				{
+					ThreadedListViewItem currentItem = items[delCounter] ;
 					
-					if (selectedItem.IndentLevel > 0)
+					if (currentItem == null || currentItem.IndentLevel > 0)
 						continue;	// do not delete selected childs
 
-					if (selectedItem.HasChilds && selectedItem.Expanded) {
+					if (currentItem.HasChilds && currentItem.Expanded) 
+					{
 						// also remove the childs
-						int j = selectedItem.Index+1;
-						if (j < listFeedItems.Items.Count) {
-							lock (listFeedItems.Items){
+						int j = currentItem.Index+1;
+						if (j < listFeedItems.Items.Count) 
+						{
+							lock (listFeedItems.Items)
+							{
 								ThreadedListViewItem child = listFeedItems.Items[j];
-								while (child != null && child.IndentLevel > selectedItem.IndentLevel) {
+								while (child != null && child.IndentLevel > currentItem.IndentLevel) 
+								{
 									listFeedItems.Items.Remove(child);
+									if(listFeedItemsO.Visible)
+										listFeedItemsO.Remove(child);
 									if (j < listFeedItems.Items.Count)
 										child = listFeedItems.Items[j];
 									else
@@ -5918,86 +6368,130 @@ namespace RssBandit.WinGui.Forms {
 
 					// remember for reselection of the preceeding item.
 					// we just take that of the last iterated item:
-					itemIndex = selectedItem.Index;	
+					itemIndex = currentItem.Index;	
 				
-					NewsItem item = (NewsItem) selectedItem.Key; 
+					NewsItem item = (NewsItem) currentItem.Key; 
 
 					if (item == null)
 						continue;
 				
-					owner.DeleteNewsItem(item);
+					if (moveItemsToTrash)
+						owner.DeleteNewsItem(item);
+					
+					if (!item.BeenRead)
+						UnreadItemsNode.Remove(item);
 
-					if (thisNode.Type == FeedNodeType.Category) {
-						if (!item.BeenRead) {	// update unread counter(s)
-							anyUnreadItem = true;
-							FeedTreeNodeBase n = GetTreeNodeForItem(thisNode, item);
-							n.UpdateReadStatus(n, -1);
-						}
-					} else if (isFolder == null) {
-						isFolder = GetTreeNodeForItem(GetRoot(RootFolderType.SmartFolders), item) as ISmartFolder;
+					if(item.WatchComments)
+						WatchedItemsNode.Remove(item); 
+						
+					if(item.HasNewComments){
+						TreeFeedsNodeBase n = TreeHelper.FindNode(thisNode, item);
+						n.UpdateCommentStatus(n, -1);
 					}
 
-					if (!item.BeenRead) { 
+					if (thisNode.Type == FeedNodeType.Category) 
+					{
+						if (updateUnreadCounters && !item.BeenRead) 
+						{	// update unread counter(s)
+							anyUnreadItem = true;
+							TreeFeedsNodeBase n = TreeHelper.FindNode(thisNode, item);
+							this.UpdateTreeNodeUnreadStatus(n, -1);
+						}
+					} 
+					else if (isFolder == null) 
+					{
+						isFolder = TreeHelper.FindNode(GetRoot(RootFolderType.SmartFolders), item) as ISmartFolder;
+					}
+
+					if (updateUnreadCounters && !item.BeenRead) 
+					{ 
 						anyUnreadItem = true;
 						unreadItemsCount++;
 					}
 
-					if (isFolder != null) 
+					if (removeFromSmartFolder && isFolder != null) 
 						owner.RemoveItemFromSmartFolder(isFolder, item);
 					
-					lock (listFeedItems.Items){
-						listFeedItems.Items.Remove(selectedItem);
+					lock (listFeedItems.Items)
+					{
+						listFeedItems.Items.Remove(currentItem);
+						if(listFeedItemsO.Visible)
+							listFeedItemsO.Remove(currentItem);
 					}
 				
 				}//while
 			
-			} finally {
+			} 
+			finally 
+			{
 				listFeedItems.EndUpdate();
 			}
 
-			Trace.WriteLine("RemoveSelectedFeedItems() now may UpdateReadStatus: " + unreadItemsCount.ToString() );
-			if (unreadItemsCount > 0) {
-				thisNode.UpdateReadStatus(thisNode, -unreadItemsCount);
+			if (updateUnreadCounters && unreadItemsCount > 0) 
+			{
+				this.UpdateTreeNodeUnreadStatus(thisNode, -unreadItemsCount);
 			}
 
-			if (anyUnreadItem)
+			if (moveItemsToTrash && anyUnreadItem)
 				this.DeletedItemsNode.UpdateReadStatus();
 
 			// try to select another item:
-			if (listFeedItems.Items.Count > 0 && listFeedItems.SelectedItems.Count == 0) {
+			if (listFeedItems.Items.Count > 0 && listFeedItems.SelectedItems.Count == 0) 
+			{
 				
-			/*	itemIndex--;
+				/*	itemIndex--;
 
-				if (itemIndex < 0) {
-					itemIndex = 0;
-				} else */ if ((itemIndex != 0) && (itemIndex >= listFeedItems.Items.Count)) {
-					itemIndex = listFeedItems.Items.Count - 1;
-				}
+					if (itemIndex < 0) {
+						itemIndex = 0;
+					} else */ if ((itemIndex != 0) && (itemIndex >= listFeedItems.Items.Count)) 
+							  {
+								  itemIndex = listFeedItems.Items.Count - 1;
+							  }
 
 				listFeedItems.Items[itemIndex].Selected = true;
 				listFeedItems.Items[itemIndex].Focused = true;
 				
 				this.OnFeedListItemActivate(this, EventArgs.Empty);
 			
-			} else if (listFeedItems.SelectedItems.Count > 0) {	// still selected not deleted items:
+			} 
+			else if (listFeedItems.SelectedItems.Count > 0) 
+			{	// still selected not deleted items:
 
 				this.OnFeedListItemActivate(this, EventArgs.Empty);
 
-			} else {	// no items:
+			} 
+			else 
+			{	// no items:
 				htmlDetail.Clear();
 			}
+		}
+
+		/// <summary>
+		/// Remove the selected feed items. 
+		/// Called from the listview context menu.
+		/// </summary>
+		public void RemoveSelectedFeedItems()
+		{
+			IList selectedItems = this.GetSelectedLVItems();
+			if (selectedItems.Count == 0)
+				return;
+			
+			this.RemoveListviewItems(selectedItems, true, true, true);
+
 		}
 		
 		/// <summary>
 		/// Restore the selected feed items from the Wastebasket. 
 		/// Called from the listview context menu.
 		/// </summary>
-		public void RestoreSelectedFeedItems(){
+		public void RestoreSelectedFeedItems()
+		{
 			
-			if (listFeedItems.SelectedItems.Count == 0)
+			IList selectedItems = this.GetSelectedLVItems();
+			if (selectedItems.Count == 0)
 				return;
 
-			FeedTreeNodeBase thisNode = TreeSelectedNode;
+			TreeFeedsNodeBase thisNode = TreeSelectedFeedsNode;
 			ISmartFolder isFolder = thisNode as ISmartFolder;
 
 			if (!(isFolder is WasteBasketNode))
@@ -6006,23 +6500,31 @@ namespace RssBandit.WinGui.Forms {
 			int itemIndex = 0;
 			bool anyUnreadItem = false;
 
-			try {
+			try 
+			{
 				listFeedItems.BeginUpdate();
 
-				while (listFeedItems.SelectedItems.Count > 0) {
-					ThreadedListViewItem selectedItem = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+				while (selectedItems.Count > 0) 
+				{
+					ThreadedListViewItem selectedItem = (ThreadedListViewItem)selectedItems[0];
 					
 					if (selectedItem.IndentLevel > 0)
 						continue;	// do not delete selected childs
 
-					if (selectedItem.HasChilds && selectedItem.Expanded) {
+					if (selectedItem.HasChilds && selectedItem.Expanded) 
+					{
 						// also remove the childs
 						int j = selectedItem.Index+1;
-						if (j < listFeedItems.Items.Count) {
-							lock (listFeedItems.Items){
+						if (j < listFeedItems.Items.Count) 
+						{
+							lock (listFeedItems.Items)
+							{
 								ThreadedListViewItem child = listFeedItems.Items[j];
-								while (child != null && child.IndentLevel > selectedItem.IndentLevel) {
+								while (child != null && child.IndentLevel > selectedItem.IndentLevel) 
+								{
 									listFeedItems.Items.Remove(child);
+									if(listFeedItemsO.Visible)
+										listFeedItemsO.Remove(child);
 									if (j < listFeedItems.Items.Count)
 										child = listFeedItems.Items[j];
 									else
@@ -6038,27 +6540,39 @@ namespace RssBandit.WinGui.Forms {
 				
 					NewsItem item = (NewsItem) selectedItem.Key; 
 					
-					if (item == null)
+					if (item == null){
+						selectedItems.Remove(selectedItem); 
 						continue;
+					}
 				
-					FeedTreeNodeBase originalContainerNode = owner.RestoreNewsItem(item);
+					TreeFeedsNodeBase originalContainerNode = owner.RestoreNewsItem(item);
 
-					if (null != originalContainerNode &&  ! item.BeenRead) {
+					if (null != originalContainerNode &&  ! item.BeenRead) 
+					{
 						anyUnreadItem = true;
-						originalContainerNode.UpdateReadStatus(originalContainerNode, 1);
+						this.UpdateTreeNodeUnreadStatus(originalContainerNode, 1);
+						UnreadItemsNode.Add(item);
 					}
 
-					if (null == originalContainerNode) {	// 
+					if (null == originalContainerNode) 
+					{	// 
 						_log.Error("Item could not be restored, maybe the container feed was removed meanwhile: " + item.Title);
 					}
 
-					lock (listFeedItems.Items){
+					lock (listFeedItems.Items)
+					{
 						listFeedItems.Items.Remove(selectedItem);
+						if(listFeedItemsO.Visible)
+							listFeedItemsO.Remove(selectedItem);
+
+						selectedItems.Remove(selectedItem); 
 					}
 				
 				} //while
 			
-			} finally {
+			} 
+			finally 
+			{
 				listFeedItems.EndUpdate();
 			}
 
@@ -6066,13 +6580,17 @@ namespace RssBandit.WinGui.Forms {
 				this.DeletedItemsNode.UpdateReadStatus();
 
 			// try to select another item:
-			if (listFeedItems.Items.Count > 0) {
+			if (listFeedItems.Items.Count > 0) 
+			{
 				
 				itemIndex--;
 
-				if (itemIndex < 0) {
+				if (itemIndex < 0) 
+				{
 					itemIndex = 0;
-				} else if (itemIndex >= listFeedItems.Items.Count) {
+				} 
+				else if (itemIndex >= listFeedItems.Items.Count) 
+				{
 					itemIndex = listFeedItems.Items.Count - 1;
 				}
 
@@ -6081,61 +6599,200 @@ namespace RssBandit.WinGui.Forms {
 				
 				this.OnFeedListItemActivate(this, EventArgs.Empty);
 			
-			} else {	// no items:
+			} 
+			else 
+			{	// no items:
 				htmlDetail.Clear();
 			}
 		}
+
+		
+		/// <summary>
+		/// Helper function which gets the list of selected list view items from the 
+		/// currently visible list view. 
+		/// </summary>
+		/// <returns>The list of selected ThreadedListViewItems</returns>
+		private IList GetSelectedLVItems(){
+
+			if(listFeedItems.Visible){
+				return listFeedItems.SelectedItems; 
+			}else{
+				return listFeedItemsO.SelectedItems; 
+			}
+		
+		}
+
 
 		/// <summary>
 		/// Marks the selected listview items read. Called from the listview
 		/// context menu.
 		/// </summary>
-		public void MarkSelectedItemsLVRead() {
-			this.SetFeedItemsReadState(listFeedItems.SelectedItems, true);
+		public void MarkSelectedItemsLVRead() 
+		{		
+			this.SetFeedItemsReadState(this.GetSelectedLVItems(), true);			
 		}
 
 		/// <summary>
 		/// Marks the selected listview items unread. Called from the listview
 		/// context menu.
 		/// </summary>
-		public void MarkSelectedItemsLVUnread() {
-			this.SetFeedItemsReadState(listFeedItems.SelectedItems, false);
+		public void MarkSelectedItemsLVUnread() 
+		{
+				this.SetFeedItemsReadState(this.GetSelectedLVItems(), false);			
 		}
 		
 		/// <summary>
 		/// Marks the all listview items read. Called from the listview
 		/// context menu.
 		/// </summary>
-		public void MarkAllItemsLVRead() {
-			this.SetFeedItemsReadState(listFeedItems.Items, true);
+		public void MarkAllItemsLVRead() 
+		{		
+				this.SetFeedItemsReadState(listFeedItems.Items, true);			
 		}
 
 		/// <summary>
 		/// Marks the all listview items unread. Called from the listview
 		/// context menu.
 		/// </summary>
-		public void MarkAllItemsLVUnread() {
+		public void MarkAllItemsLVUnread() 
+		{
 			this.SetFeedItemsReadState(listFeedItems.Items, false);
 		}
 
-		private void ApplyStyles(ThreadedListViewItem item) {
-			if (item != null) {
+		private void ApplyStyles(ThreadedListViewItem item) 
+		{
+			if (item != null) 
+			{
 				NewsItem n = (NewsItem) item.Key;
 				if (n != null)
-					ApplyStyles(item, n.BeenRead);
+					ApplyStyles(item, n.BeenRead, n.HasNewComments);
 			}
 		}
 
-		private void ApplyStyles(ThreadedListViewItem item, bool beenRead) {
-			if (item != null) {
-				if (beenRead) {
+		private void ApplyStyles(ThreadedListViewItem item, bool beenRead) 
+		{
+			if (item != null) 
+			{
+				NewsItem n = (NewsItem) item.Key;
+				if (n != null)
+					ApplyStyles(item, beenRead, n.HasNewComments);
+			}			
+		}
+
+		private void ApplyStyles(ThreadedListViewItem item, bool beenRead, bool newComments) 
+		{
+			if (item != null) 
+			{				
+
+				if (beenRead) 
+				{
 					item.Font = FontColorHelper.NormalFont;
 					item.ForeColor = FontColorHelper.NormalColor;
-				} else {
+				} 
+				else 
+				{
 					item.Font = FontColorHelper.UnreadFont;
 					item.ForeColor = FontColorHelper.UnreadColor;
 				}
+
+				if(newComments)
+				{
+					item.Font = FontColorHelper.MergeFontStyles(item.Font, FontColorHelper.NewCommentsStyle); 
+					item.ForeColor = FontColorHelper.NewCommentsColor;
+				}
+				
 				_filterManager.Apply(item);
+				if(listFeedItemsO.Visible)
+					listFeedItemsO.Invalidate();
+			}
+		}
+
+		/// <summary>
+		/// Moves the newspaper view to the next or previous page. 
+		/// </summary>
+		/// <param name="pageType">Indicates whether the page is a category or feed node</param>
+		/// <param name="go2nextPage">Indicates whether we are going to the next or previous page. If true
+		/// we are going to the next page, otherwise we are going to the previous page</param>
+		public void SwitchPage(string pageType, bool go2nextPage){
+
+			TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
+			if (tn == null) 
+				return;
+			
+			if(go2nextPage){
+				this._currentPageNumber++; 
+			}else{
+				this._currentPageNumber--; 
+			}
+
+			if(pageType.Equals("feed")){				
+				FeedInfo fi = this.GetFeedItemsAtPage(this._currentPageNumber); 
+				if(fi != null){
+					this.BeginTransformFeed(fi, tn, this.owner.FeedHandler.GetStyleSheet(tn.DataKey));
+				}
+			}else{
+				//BUGBUG: How do we provide title of FeedInfoList? 
+				FeedInfoList fil = this.GetCategoryItemsAtPage(this._currentPageNumber);
+				if(fil != null){
+					this.BeginTransformFeedList(fil, tn, owner.FeedHandler.GetCategoryStyleSheet(tn.CategoryStoreName));
+				}
+			}
+		}
+
+
+
+		/// <summary>
+		/// Toggles the identified item's read/unread state. 
+		/// </summary>
+		/// <param name="id">The ID of the RSS item</param>
+		/// <param name="markRead">Indicates that the item should be marked as read NOT toggled</param>
+		public void ToggleItemReadState(string id, bool markRead) {
+			ThreadedListViewItem lvItem = this.GetListViewItem(id);
+			
+			if(lvItem!= null) {
+				bool oldReadState = ((NewsItem) lvItem.Key).BeenRead;
+				if(!markRead || (markRead != oldReadState)){
+					this.SetFeedItemsReadState(new ThreadedListViewItem[]{lvItem}, !oldReadState); 
+				}
+			}
+
+		}
+
+		/// <summary>
+		/// Toggles the identified item's read/unread state. 
+		/// </summary>
+		/// <param name="id">The ID of the RSS item</param>
+		public void ToggleItemReadState(string id)
+		{
+			this.ToggleItemReadState(id, false); 
+		}
+
+
+		/// <summary>
+		/// Toggles the identified item's watchd state. 
+		/// </summary>
+		/// <param name="id">The ID of the RSS item</param>
+		public void ToggleItemWatchState(string id) {
+			ThreadedListViewItem lvItem = this.GetListViewItem(id);
+			
+			if(lvItem!= null) {				
+				NewsItem item = (NewsItem) lvItem.Key;
+				item.WatchComments = !item.WatchComments; 			
+				owner.WatchNewsItem(item); 				
+			}
+
+		}
+
+		private class RefLookupItem 
+		{
+			public TreeFeedsNodeBase Node;
+			public feedsFeed Feed;
+			public int UnreadCount;
+			public RefLookupItem(TreeFeedsNodeBase feedsNode, feedsFeed feed, int unreadCount) 
+			{
+				this.Node = feedsNode;
+				this.Feed = feed;
+				this.UnreadCount = unreadCount;
 			}
 		}
 
@@ -6143,46 +6800,72 @@ namespace RssBandit.WinGui.Forms {
 		/// Marks the selected feed items read/unread. Called from the listview
 		/// context menu.
 		/// </summary>
-		/// <param name="beenRead"></param>
-		public void SetFeedItemsReadState(IList items, bool beenRead) {
+		/// <param name="items">The items.</param>
+		/// <param name="beenRead">if set to <c>true</c> [been read].</param>
+		public void SetFeedItemsReadState(IList items, bool beenRead) 
+		{
 
 			ArrayList modifiedItems = new ArrayList(listFeedItems.SelectedItems.Count);
 			int amount = (beenRead ? -1: 1); 
 
-			for  (int i=0; i < items.Count; i++) {
+			for  (int i=0; i < items.Count; i++){
 				
 				ThreadedListViewItem selectedItem = (ThreadedListViewItem) items[i];
 				NewsItem item = (NewsItem) selectedItem.Key; 
 				
 				ApplyStyles(selectedItem, beenRead);
 
-				if (item.BeenRead != beenRead) {
+				if (item.BeenRead != beenRead){
+
 					item.BeenRead = beenRead; 		
 					selectedItem.ImageIndex += amount;	
 					modifiedItems.Add(item);
-				}
-			}
 
-			if (modifiedItems.Count > 0) {
+					if(beenRead){
+						if(!item.Feed.storiesrecentlyviewed.Contains(item.Id)){
+							item.Feed.storiesrecentlyviewed.Add(item.Id); 
+						}
+					}else{
+						item.Feed.storiesrecentlyviewed.Remove(item.Id);
+					}
+
+					/* locate actual item if this is a search result */
+					SearchHitNewsItem sItem = item as SearchHitNewsItem; 
+					NewsItem realItem = this.owner.FeedHandler.FindNewsItem(sItem);
+					
+					if(realItem != null){
+						realItem.BeenRead = sItem.BeenRead;  						
+					}
+
+				}//if (item.BeenRead != beenRead)
+
+			}//for(int i=0; i < items.Count; i++) 
+
+			if (modifiedItems.Count > 0) 
+			{
 				
 				ArrayList deepModifiedItems = new ArrayList();
 				int unexpectedImageState = (beenRead ? 1: 0); // unread-state images always have odd index numbers, read-state are even
 
 				// if there is a self-reference thread, we also have to switch the Gui state for them back
 				// these items can also be unselected.
-				for  (int i=0; i < listFeedItems.Items.Count; i++) {
+				for  (int i=0; i < listFeedItems.Items.Count; i++) 
+				{
 
 					ThreadedListViewItem th =   listFeedItems.Items[i];
 					NewsItem selfRef = th.Key as NewsItem;
 
-					foreach (NewsItem modifiedItem in modifiedItems) {
+					foreach (NewsItem modifiedItem in modifiedItems) 
+					{
 						
-						if (modifiedItem.Equals(selfRef) && (th.ImageIndex % 2) == unexpectedImageState) {	
+						if (modifiedItem.Equals(selfRef) && (th.ImageIndex % 2) == unexpectedImageState) 
+						{	
 
 							ApplyStyles(th, beenRead);
 							th.ImageIndex += amount;	
 
-							if (selfRef.BeenRead != beenRead) {	// object ref is unequal, but other criteria match the item to be equal...
+							if (selfRef.BeenRead != beenRead) 
+							{	// object ref is unequal, but other criteria match the item to be equal...
 								selfRef.BeenRead = beenRead;	
 								deepModifiedItems.Add(selfRef);
 							}
@@ -6193,55 +6876,86 @@ namespace RssBandit.WinGui.Forms {
 
 				modifiedItems.AddRange(deepModifiedItems);
 				// we store stories-read in the feedlist, so enable save the new state 
-				owner.FeedlistModified = true;	
+				this.owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+				//owner.FeedlistModified = true;	
 				// and apply mods. to finders:
 				UpdateFindersReadStatus(modifiedItems);
-			
-			}
-
-			ISmartFolder sf = CurrentSelectedNode as ISmartFolder;
-			if (sf != null) {
-
-				sf.UpdateReadStatus();
-			
-			} else {
-
-				// now update tree state of rss items from any
-				// feed (also: category selected)
-
-				Hashtable lookup = new Hashtable(modifiedItems.Count);
-
-				foreach (NewsItem item in modifiedItems) {
 				
-					string feedurl = item.Feed.link;
-
-					if (feedurl != null)	{
-
-						FeedTreeNodeBase refNode = lookup[feedurl] as FeedTreeNodeBase;
-						if (refNode == null) {
-							// corresponding node can be at any hierarchy level, or temporary (if commentRss)
-							if (owner.FeedHandler.FeedsTable.Contains(feedurl))
-								refNode = GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), item);
-							else 
-								refNode = GetTreeNodeForItem(this.GetRoot(RootFolderType.SmartFolders), item);
-						}
-
-						if (refNode != null) {
-							if (!lookup.ContainsKey(feedurl)) {
-								lookup.Add(feedurl, refNode);		// speedup node lookup
-							}
-							refNode.UpdateReadStatus(refNode, refNode.UnreadCount + amount);
-							item.Feed.containsNewMessages = (refNode.UnreadCount > 0);
-						} else {
-							// temp. (item comments)
-							string hash = RssHelper.GetHashCode(item);
-							if (tempFeedItemsRead.ContainsKey(hash))
-								tempFeedItemsRead.Remove(hash);
-						}
-
-					} 
+				//TODO: verify correct location  of that code here:
+				if (beenRead) 
+					UnreadItemsNodeRemoveItems(modifiedItems);
+				else {
+					UnreadItemsNode.Items.AddRange(modifiedItems);
+					UnreadItemsNode.UpdateReadStatus();
 				}
 			}
+
+			ISmartFolder sf = CurrentSelectedFeedsNode as ISmartFolder;
+			if (sf != null) 
+			{
+
+				sf.UpdateReadStatus();
+
+				if (! (sf is FinderNode) && ! (sf is UnreadItemsNode))
+					return;
+			}
+
+			// now update tree state of rss items from any
+			// feed (also: category selected)
+
+			Hashtable lookup = new Hashtable(modifiedItems.Count);
+
+			foreach (NewsItem item in modifiedItems) 
+			{
+				
+				string feedurl = item.Feed.link;
+
+				if (feedurl != null)	
+				{
+
+					RefLookupItem lookupItem = lookup[feedurl] as RefLookupItem;
+					TreeFeedsNodeBase refNode = lookupItem != null ? lookupItem.Node : null;
+					if (refNode == null) 
+					{
+						// corresponding node can be at any hierarchy level, or temporary (if commentRss)
+						if (owner.FeedHandler.FeedsTable.Contains(feedurl))
+							refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), item);
+						else 
+							refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.SmartFolders), item);
+					}
+
+					if (refNode != null) 
+					{
+						if (!lookup.ContainsKey(feedurl)) 
+						{
+							lookup.Add(feedurl, new RefLookupItem(refNode, item.Feed, amount));		// speedup node lookup
+						} 
+						else 
+						{
+							lookupItem.UnreadCount += amount;
+						}
+						//refNode.UpdateReadStatus(refNode, refNode.UnreadCount + amount);
+						//item.Feed.containsNewMessages = (refNode.UnreadCount > 0);
+					} 
+					else 
+					{
+						// temp. (item comments)
+						string hash = RssHelper.GetHashCode(item);
+						if (tempFeedItemsRead.ContainsKey(hash))
+							tempFeedItemsRead.Remove(hash);
+					}
+
+				} 
+			}
+
+			foreach (RefLookupItem item in lookup.Values) 
+			{
+				this.UpdateTreeNodeUnreadStatus(item.Node, item.Node.UnreadCount + item.UnreadCount);
+				item.Feed.containsNewMessages = (item.Node.UnreadCount > 0);
+			}
+			if(listFeedItemsO.Visible)
+				listFeedItemsO.Invalidate();
+			
 		}
 
 		/// <summary>
@@ -6249,7 +6963,8 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="theNode">FeedTreeNodeBase to move.</param>
 		/// <param name="target">New Parent FeedTreeNodeBase.</param>
-		public void MoveNode(FeedTreeNodeBase theNode, FeedTreeNodeBase target) {
+		public void MoveNode(TreeFeedsNodeBase theNode, TreeFeedsNodeBase target) 
+		{
 			
 			if (theNode == null || target == null)
 				return;
@@ -6257,13 +6972,22 @@ namespace RssBandit.WinGui.Forms {
 			if(theNode == target)
 				return; 
 
-			if (theNode.Type == FeedNodeType.Feed) {
-				feedsFeed f = owner.FeedHandler.FeedsTable[(string)theNode.Tag];
-				string category = BuildCategoryStoreName(target); 
+			NewsFeedProperty changes = NewsFeedProperty.None;
+
+			if (theNode.Type == FeedNodeType.Feed) 
+			{
+				feedsFeed f = owner.GetFeed(theNode.DataKey);
+				if (f == null)
+					return;
+
+				string category = target.CategoryStoreName; 
 				f.category  = category; 
-				owner.FeedlistModified = true;
-				if (category != null && !owner.FeedHandler.Categories.ContainsKey(category))
+				changes |= NewsFeedProperty.FeedCategory;
+				//owner.FeedlistModified = true;
+				if (category != null && !owner.FeedHandler.Categories.ContainsKey(category)) {
 					owner.FeedHandler.Categories.Add(category);
+					changes |= NewsFeedProperty.FeedCategoryAdded;
+				}
 
 				treeFeeds.BeginUpdate();
 
@@ -6271,28 +6995,38 @@ namespace RssBandit.WinGui.Forms {
 					theNode.UpdateReadStatus(theNode.Parent, -theNode.UnreadCount);
 						
 				theNode.Parent.Nodes.Remove(theNode);
-				target.Nodes.Add(theNode); 
+				target.Nodes.Add(theNode);
+				theNode.Control.ActiveNode = theNode;
 
 				if (theNode.UnreadCount > 0)
 					theNode.UpdateReadStatus(theNode.Parent, theNode.UnreadCount);
 
-				theNode.EnsureVisible();
+				theNode.BringIntoView();
 				treeFeeds.EndUpdate();
 
-			} else if (theNode.Type == FeedNodeType.Category) {
+				this.owner.FeedWasModified(f, changes);
+			} 
+			else if (theNode.Type == FeedNodeType.Category) 
+			{
 
-				string targetCategory = BuildCategoryStoreName(target); 
-				string sourceCategory = BuildCategoryStoreName(theNode); 
+				string targetCategory = target.CategoryStoreName; 
+				string sourceCategory = theNode.CategoryStoreName; 
 
 				// refresh category store
-				if (sourceCategory != null && owner.FeedHandler.Categories.ContainsKey(sourceCategory))
+				if (sourceCategory != null && owner.FeedHandler.Categories.ContainsKey(sourceCategory)) {
 					owner.FeedHandler.Categories.Remove(sourceCategory);
+					changes |= NewsFeedProperty.FeedCategoryRemoved;
+				}
 				// target is the root node:
-				if (targetCategory == null && !owner.FeedHandler.Categories.ContainsKey(theNode.Key))
-					owner.FeedHandler.Categories.Add(theNode.Key);
+				if (targetCategory == null && !owner.FeedHandler.Categories.ContainsKey(theNode.Text)) {
+					owner.FeedHandler.Categories.Add(theNode.Text);
+					changes |= NewsFeedProperty.FeedCategoryAdded;
+				}
 				// target is another category node:
-				if (targetCategory != null && !owner.FeedHandler.Categories.ContainsKey(targetCategory))
+				if (targetCategory != null && !owner.FeedHandler.Categories.ContainsKey(targetCategory)) {
 					owner.FeedHandler.Categories.Add(targetCategory);
+					changes |= NewsFeedProperty.FeedCategoryAdded;
+				}
 
 				treeFeeds.BeginUpdate();
 
@@ -6305,15 +7039,18 @@ namespace RssBandit.WinGui.Forms {
 				// reset category references on feeds - after moving node to 
 				// have the correct FullPath info within this call:
 				WalkdownThenRenameFeedCategory(theNode, targetCategory);
-				owner.FeedlistModified = true;
+				owner.SubscriptionModified(changes);
+				//owner.FeedlistModified = true;
 
 				if (theNode.UnreadCount > 0)
 					theNode.UpdateReadStatus(theNode.Parent, theNode.UnreadCount);
 
-				theNode.EnsureVisible();
+				theNode.BringIntoView();
 				treeFeeds.EndUpdate();
 
-			} else {
+			} 
+			else 
+			{
 
 				Debug.Assert(false, "MoveNode(): unhandled NodeType:'"+theNode.Type.ToString());
 
@@ -6321,67 +7058,108 @@ namespace RssBandit.WinGui.Forms {
 
 		}
 
+
+		/// <summary>
+		/// Adds an autodiscovered URL to the auto discovered feeds drop down
+		/// </summary>
+		/// <param name="info"></param>
+		public void AddAutoDiscoveredUrl(DiscoveredFeedsInfo info){
+
+			AppButtonToolCommand duplicateItem = new AppButtonToolCommand(String.Concat("cmdDiscoveredFeed_", ++(AutoDiscoveredFeedsMenuHandler.cmdKeyPostfix)),
+				 owner.BackgroundDiscoverFeedsHandler.mediator,
+				 new ExecuteCommandHandler(owner.BackgroundDiscoverFeedsHandler.OnDiscoveredItemClick),
+				 owner.BackgroundDiscoverFeedsHandler.StripAndShorten(info.Title), (string)info.FeedLinks[0]);
+			
+			if (owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
+				owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
+			
+			owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
+			duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
+			duplicateItem.SharedProps.ShowInCustomizer = false;
+			
+			Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+
+			lock(owner.BackgroundDiscoverFeedsHandler.discoveredFeeds) {	// add a fresh version of info
+				owner.BackgroundDiscoverFeedsHandler.discoveredFeeds.Add(duplicateItem, info);
+			}
+			
+			lock(owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds) {// re-order to top of list, in RefreshItemContainer()
+				owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds.Enqueue(duplicateItem);
+			}
+		}
+
 		/// <summary>
 		/// Calls/Open the newFeedDialog on the GUI thread, if required.
 		/// </summary>
 		/// <param name="newFeedUrl">Feed Url to add</param>
-		public void AddFeedUrlSynchronized( string newFeedUrl) {
-			if (this.treeFeeds.InvokeRequired) {
+		public void AddFeedUrlSynchronized( string newFeedUrl) 
+		{
+			if (this.treeFeeds.InvokeRequired) 
+			{
 				SubscribeToFeedUrlDelegate helper = new SubscribeToFeedUrlDelegate(this.AddFeedUrlSynchronized);
 				this.Invoke(helper, new object[]{newFeedUrl});
-			} else {
+			} 
+			else 
+			{
 				newFeedUrl = owner.HandleUrlFeedProtocol(newFeedUrl);
 				owner.CmdNewFeed(null, newFeedUrl, null);	 
 			}
 		}
 
-		public void OnFeedUpdateStart(Uri feedUri, ref bool cancel) {
+		public void OnFeedUpdateStart(Uri feedUri, ref bool cancel) 
+		{
 			string feedUrl = null;
-			FeedTreeNodeBase node = null;
+			TreeFeedsNodeBase feedsNode = null;
 
 			if (feedUri.IsFile || feedUri.IsUnc) 
 				feedUrl = feedUri.LocalPath;
 			else
-				feedUrl = feedUri.ToString();
+				feedUrl = feedUri.AbsoluteUri;
 			
-			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed;
-			if (f != null) {
-				node = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), f);
-			} else {
-				node = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
+			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
+			if (f != null) 
+			{
+				feedsNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), f);
+			} 
+			else 
+			{
+				feedsNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
 			}
-			if (node != null)  {
-				if (node.ImageIndex != 11) {
-					node.ImageIndex = node.SelectedImageIndex = 11;
-				}
+			if (feedsNode != null)  
+			{
+				SetSubscriptionNodeState(f, feedsNode, FeedProcessingState.Updating);
 			}
 		}
 
-		public void OnFeedUpdateFinishedWithException(Uri feedUri, Exception exception) {
+		public void OnFeedUpdateFinishedWithException(string feedUrl, Exception exception) 
+		{
 			
-			string feedUrl = null;
-			FeedTreeNodeBase node = null;
+			//string feedUrl = null;
+			TreeFeedsNodeBase feedsNode = null;
 
-			if (feedUri.IsFile || feedUri.IsUnc) 
+			/* if (feedUri.IsFile || feedUri.IsUnc) 
 				feedUrl = feedUri.LocalPath;
 			else
-				feedUrl = feedUri.ToString();
+				feedUrl = feedUri.AbsoluteUri; */ 
 
-			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed;
-			if (f != null) {
-				node = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), f);
-			} else {
-				node = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
+			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl] ;
+			if (f != null) 
+			{
+				feedsNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), f);
+			} 
+			else 
+			{
+				feedsNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), feedUrl);
 			}
 
-			if (node != null) {
-				if (node.ImageIndex != 6) {
-					node.ImageIndex = node.SelectedImageIndex = 6;
-				}
+			if (feedsNode != null) 
+			{
+				SetSubscriptionNodeState(f, feedsNode, FeedProcessingState.Failure);
 			}
 		}
 
-		public void OnRequestCertificateIssue(object sender, CertificateIssueCancelEventArgs e) {
+		public void OnRequestCertificateIssue(object sender, CertificateIssueCancelEventArgs e) 
+		{
 
 			e.Cancel = true;	// by default: do not continue on certificate problems
 
@@ -6396,68 +7174,74 @@ namespace RssBandit.WinGui.Forms {
 			else
 				feedUrl = requestUri.ToString();
 
-			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed;
+			feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl] ;
 			string issueCaption = null, issueDesc = null;
 
-			if (f != null) {
-				issueCaption = Resource.Manager["RES_CertificateIssueOnFeedCaption", f.title];
-			} else {
-				issueCaption = Resource.Manager["RES_CertificateIssueOnSiteCaption", feedUrl];
+			if (f != null) 
+			{
+				issueCaption = SR.CertificateIssueOnFeedCaption(f.title);
+			} 
+			else 
+			{
+				issueCaption = SR.CertificateIssueOnSiteCaption(feedUrl);
 			}
 
-			switch (e.CertificateIssue) {
+			switch (e.CertificateIssue) 
+			{
 				case CertificateIssue.CertCN_NO_MATCH:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertCN_NO_MATCH"]; break;
+					issueDesc = SR.CertificateIssue_CertCN_NO_MATCH; break;
 				case CertificateIssue.CertEXPIRED:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertEXPIRED", e.Certificate.GetExpirationDateString()]; break;
+					issueDesc = SR.CertificateIssue_CertEXPIRED(e.Certificate.GetExpirationDateString()); break;
 				case CertificateIssue.CertREVOKED:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertREVOKED"]; break;
+					issueDesc = SR.CertificateIssue_CertREVOKED; break;
 				case CertificateIssue.CertUNTRUSTEDCA:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertUNTRUSTEDCA"]; break;
+					issueDesc = SR.CertificateIssue_CertUNTRUSTEDCA; break;
 				case CertificateIssue.CertUNTRUSTEDROOT:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertUNTRUSTEDROOT"]; break;
+					issueDesc = SR.CertificateIssue_CertUNTRUSTEDROOT; break;
 				case CertificateIssue.CertUNTRUSTEDTESTROOT:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertUNTRUSTEDTESTROOT"]; break;
+					issueDesc = SR.CertificateIssue_CertUNTRUSTEDTESTROOT; break;
 				case CertificateIssue.CertPURPOSE:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertPURPOSE"]; break;
+					issueDesc = SR.CertificateIssue_CertPURPOSE; break;
 				case CertificateIssue.CertCHAINING:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertCHAINING"]; break;
+					issueDesc = SR.CertificateIssue_CertCHAINING; break;
 				case CertificateIssue.CertCRITICAL:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertCRITICAL"]; break;
+					issueDesc = SR.CertificateIssue_CertCRITICAL; break;
 				case CertificateIssue.CertISSUERCHAINING:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertISSUERCHAINING"]; break;
+					issueDesc = SR.CertificateIssue_CertISSUERCHAINING; break;
 				case CertificateIssue.CertMALFORMED:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertMALFORMED"]; break;
+					issueDesc = SR.CertificateIssue_CertMALFORMED; break;
 				case CertificateIssue.CertPATHLENCONST:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertPATHLENCONST"]; break;
+					issueDesc = SR.CertificateIssue_CertPATHLENCONST; break;
 				case CertificateIssue.CertREVOCATION_FAILURE:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertREVOCATION_FAILURE"]; break;
+					issueDesc = SR.CertificateIssue_CertREVOCATION_FAILURE; break;
 				case CertificateIssue.CertROLE:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertROLE"]; break;
+					issueDesc = SR.CertificateIssue_CertROLE; break;
 				case CertificateIssue.CertVALIDITYPERIODNESTING:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertVALIDITYPERIODNESTING"]; break;
+					issueDesc = SR.CertificateIssue_CertVALIDITYPERIODNESTING; break;
 				case CertificateIssue.CertWRONG_USAGE:
-					issueDesc = Resource.Manager["RES_CertificateIssue.CertWRONG_USAGE"]; break;
+					issueDesc = SR.CertificateIssue_CertWRONG_USAGE; break;
 				default:
-					issueDesc = Resource.Manager["RES_CertificateIssue.Unknown", e.CertificateIssue]; break;
+					issueDesc = SR.CertificateIssue_Unknown(e.CertificateIssue.ToString()); break;
 			}
 
 			// show cert. issue dialog
-			RssBandit.WinGui.Dialogs.SecurityIssueDialog dialog = new RssBandit.WinGui.Dialogs.SecurityIssueDialog(issueCaption, issueDesc);
+			SecurityIssueDialog dialog = new SecurityIssueDialog(issueCaption, issueDesc);
 			
 			dialog.CustomCommand.Tag = e.Certificate;
 			dialog.CustomCommand.Click += new EventHandler(this.OnSecurityIssueDialogCustomCommandClick);
 			dialog.CustomCommand.Visible = true;
 
 			Win32.SetForegroundWindow(this.Handle);	// ensure, it is in front
-			if (dialog.ShowDialog(this) == DialogResult.OK) {
+			if (dialog.ShowDialog(this) == DialogResult.OK) 
+			{
 				e.Cancel = false;
 				owner.AddTrustedCertificateIssue(feedUrl, e.CertificateIssue);
 			} 
 
 		}
 
-		private void OnSecurityIssueDialogCustomCommandClick(object sender, EventArgs e) {
+		private void OnSecurityIssueDialogCustomCommandClick(object sender, EventArgs e) 
+		{
 			Button cmd = (Button)sender;
 			cmd.Enabled = false;
 
@@ -6466,28 +7250,36 @@ namespace RssBandit.WinGui.Forms {
 			System.Security.Cryptography.X509Certificates.X509Certificate cert = (System.Security.Cryptography.X509Certificates.X509Certificate)cmd.Tag;
 			string certFilename = Path.Combine(Path.GetTempPath(), cert.GetHashCode().ToString() + ".temp.cer");
 
-			try {
+			try 
+			{
 				if (File.Exists(certFilename))
 					File.Delete(certFilename);
 
-				using (Stream stream = FileHelper.OpenForWrite(certFilename)) {
+				using (Stream stream = FileHelper.OpenForWrite(certFilename)) 
+				{
 					BinaryWriter writer = new BinaryWriter(stream);
 					writer.Write(cert.GetRawCertData());
 					writer.Flush();
 					writer.Close();
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				AppExceptions.ExceptionManager.Publish(ex);
 				cmd.Enabled = false;
 				return;
 			}
 
-			try {
-				if (File.Exists(certFilename)) {
+			try 
+			{
+				if (File.Exists(certFilename)) 
+				{
 					Process p = Process.Start(certFilename);
 					p.WaitForExit();	// to enble delete the temp file
 				}
-			} finally {
+			} 
+			finally 
+			{
 				if (File.Exists(certFilename))
 					File.Delete(certFilename);
 				cmd.Enabled = true;
@@ -6500,145 +7292,201 @@ namespace RssBandit.WinGui.Forms {
 		/// Creates and loads an instance of the SettingsHandler with 
 		/// the user's keyboard shortcuts.
 		/// </summary>
-		protected void InitShortcutManager()
+		protected void InitShortcutManager() 
 		{
 			_shortcutHandler = new K.ShortcutHandler();
 			string settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
-			try
+			try 
 			{
 				_shortcutHandler.Load(settingsPath);
 			}
-			catch(K.InvalidShortcutSettingsFileException e)
+			catch(K.InvalidShortcutSettingsFileException e) 
 			{
 				_log.Warn("The user defined shortcut settings file is invalid. Using the default instead.", e);
-				using(Stream settingsStream = Resource.Manager.GetStream("Resources.ShortcutSettings.xml"))
+				using(Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml")) 
 				{
 					_shortcutHandler.Load(settingsStream);
 				}
 			}
-
-			/*
-			_shortcuts = new K.ShortcutManager();
-			string settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
-			if(File.Exists(settingsPath))
-			{
-				_shortcuts.LoadSettings(settingsPath);
-			}
-			else
-			{
-				using(Stream settingsStream = Resource.Manager.GetStream("Resources.ShortcutSettings.xml"))
-				{
-					_shortcuts.LoadSettings(settingsStream);
-				}
-			}
-			*/
 		}
 
 		#region Resource handling
 
-		protected void InitResources() {
+		protected void InitResources() 
+		{
 			// Create a strip of images by loading an embedded bitmap resource
 			// Ensure, the Point() parameter locates a magenta pixel to make it transparent!
-			_toolImages = Resource.Manager.LoadBitmapStrip("Resources.ToolImages.bmp", new Size(16,16), new Point(0,0));
-			_browserImages = Resource.Manager.LoadBitmapStrip("Resources.BrowserImages.bmp",new Size(16,16), new Point(0,0));
-			//_browserImages = Resource.Manager.LoadBitmapStrip("Resources.BrowserImages24.bmp",	new Size(24,24), new Point(0,0));
-			_treeImages = Resource.Manager.LoadBitmapStrip("Resources.TreeImages.bmp",	new Size(16,16), new Point(0,0));
-			_listImages = Resource.Manager.LoadBitmapStrip("Resources.ListImages.bmp",	new Size(16,16), new Point(0,0));
-			_searchEngineImages = new ImageList();
+			_treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.bmp",	new Size(16,16), new Point(0,0));
+			_listImages = Resource.LoadBitmapStrip("Resources.ListImages.bmp",	new Size(16,16), new Point(0,0));
+			_allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.bmp", new Size(16,16), new Point(0,0));
 		}
 		#endregion
 
 		#region Widget init routines
 		
-		private void InitWidgets() {
+		private void InitWidgets() 
+		{
 			InitFeedTreeView();
+			InitFeedDetailsCaption();
 			InitListView();
+			InitOutlookListView();
 			InitHtmlDetail();
 			InitToaster();
-			InitSearchPanel();
+			InitializeSearchPanel();
+			InitOutlookNavigator();
+			InitNavigatorHiddenCaption();
+		}
+		
+		private void InitOutlookNavigator() {
+			this.navigatorHeaderHelper = new NavigatorHeaderHelper(this.Navigator, Resource.LoadBitmap("Resources.2003Left.png"));
+			this.navigatorHeaderHelper.ImageClick += new EventHandler(OnNavigatorCollapseClick);
+			this.Navigator.GroupClick += new Infragistics.Win.UltraWinExplorerBar.GroupClickEventHandler(OnNavigatorGroupClick);
+			if (SearchIndexBehavior.NoIndexing == this.owner.FeedHandler.Configuration.SearchIndexBehavior) {
+				ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+				this.owner.Mediator.SetDisabled("cmdToggleRssSearchTabState");
+				this.Navigator.Groups[Resource.NavigatorGroup.RssSearch].Enabled = false;
+			}
 		}
 
-		private void InitSearchPanel() {
-			// init the scope resolver callback(s)
-			owner.FindersSearchRoot.SetScopeResolveCallback(
+
+		private void InitOutlookListView()
+		{	
+			listFeedItemsO.ViewStyle = ViewStyle.OutlookExpress;
+			UltraTreeNodeExtendedDateTimeComparer sc = new UltraTreeNodeExtendedDateTimeComparer();
+			listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].SortComparer = sc;
+			listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].SortType = SortType.Ascending;
+			listFeedItemsO.ColumnSettings.AllowSorting = DefaultableBoolean.True; 
+			listFeedItemsO.Override.SortComparer = sc;			
+			listFeedItemsO.DrawFilter = new ListFeedsDrawFilter();
+			listFeedItemsO.AfterSelect += new AfterNodeSelectEventHandler(OnListFeedItemsO_AfterSelect);
+			listFeedItemsO.KeyDown += new KeyEventHandler(OnListFeedItemsO_KeyDown);
+			listFeedItemsO.BeforeExpand += new BeforeNodeChangedEventHandler(listFeedItemsO_BeforeExpand);
+			listFeedItemsO.MouseDown += new MouseEventHandler(listFeedItemsO_MouseDown);
+			listFeedItemsO.AfterSortChange += new AfterSortChangeEventHandler(listFeedItemsO_AfterSortChange);
+		}
+		
+		/// <summary>
+		/// Init the colors, draw filter and bigger font of the Detail Header Caption.
+		/// </summary>
+		private void InitFeedDetailsCaption()
+		{
+			this.detailHeaderCaption.Font = new Font("Arial", 12f, FontStyle.Bold);
+			this.detailHeaderCaption.DrawFilter = new SmoothLabelDrawFilter(this.detailHeaderCaption);
+			this.detailHeaderCaption.Appearance.BackColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientLight;
+			this.detailHeaderCaption.Appearance.BackColor2 = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientDark;
+			this.detailHeaderCaption.Appearance.BackGradientStyle = GradientStyle.Vertical;
+			this.detailHeaderCaption.Appearance.ForeColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderForecolor;
+		}
+
+		/// <summary>
+		/// Init the colors, draw filter and bigger font of the Navigator Hidden Header Caption.
+		/// </summary>
+		private void InitNavigatorHiddenCaption() {
+			this.navigatorHiddenCaption.Font = new Font("Arial", 12f, FontStyle.Bold);
+			this.navigatorHiddenCaption.Appearance.BackColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientLight;
+			this.navigatorHiddenCaption.Appearance.BackColor2 = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientDark;
+			this.navigatorHiddenCaption.Appearance.BackGradientStyle = GradientStyle.Horizontal;
+			this.navigatorHiddenCaption.ForeColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderForecolor;
+			this.navigatorHiddenCaption.ImageClick += new EventHandler(OnNavigatorExpandImageClick);
+		}
+
+		/// <summary>
+		/// Initializes the search panel.
+		/// </summary>
+		private void InitializeSearchPanel() {
+			
+			this.searchPanel = new SearchPanel();
+			this.searchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.searchPanel.Location = new System.Drawing.Point(0, 0);
+			this.searchPanel.Name = "searchPanel";
+			this.searchPanel.Size = new System.Drawing.Size(237, 496);
+			this.searchPanel.TabIndex = 0;
+			this.panelRssSearch.Controls.Add(this.searchPanel);
+			
+			//this.owner.FeedHandler.NewsItemSearchResult += new NewsHandler.NewsItemSearchResultEventHandler(this.OnNewsItemSearchResult);
+			this.owner.FeedHandler.SearchFinished += new NewsHandler.SearchFinishedEventHandler(this.OnNewsItemSearchFinished);
+
+			this.searchPanel.BeforeNewsItemSearch += new NewsItemSearchCancelEventHandler(OnSearchPanelBeforeNewsItemSearch);
+			this.searchPanel.NewsItemSearch += new NewsItemSearchEventHandler(OnSearchPanelStartNewsItemSearch);
+			
+			this.owner.FindersSearchRoot.SetScopeResolveCallback(
 				new RssFinder.SearchScopeResolveCallback(this.ScopeResolve));
 
-			this.textSearchExpression.TextChanged += new System.EventHandler(this.OnRssSearchExpressionChanged);
-			this.textFinderCaption.TextChanged += new System.EventHandler(this.OnRssSearchFinderCaptionChanged);
-			this.textSearchExpression.KeyDown += new KeyEventHandler(this.OnTextSearchExpressionKeyDown);
-			this.textSearchExpression.KeyPress += new KeyPressEventHandler(this.OnAnyEnterKeyPress);
-		
-			this.panelRssSearch.Resize += new System.EventHandler(this.OnRssSearchPanelResize);
-
-			this.btnSearchCancel.Click += new EventHandler(this.OnRssSearchButtonClick);
-			this.btnSearchCancel.Enabled = false;
-			this.btnRssSearchSave.Click += new EventHandler(this.OnRssSearchButtonClick);
-			this.btnRssSearchSave.Enabled = false;
-			this.btnNewSearch.Click += new EventHandler(this.CmdNewRssSearchClick);
-			this.btnNewSearch.Enabled = false;
-			
-			this.radioRssSearchExprXPath.CheckedChanged += new System.EventHandler(this.OnRssSearchTypeCheckedChanged);
-			this.radioRssSearchRegEx.CheckedChanged += new System.EventHandler(this.OnRssSearchTypeCheckedChanged);
-			this.radioRssSearchSimpleText.CheckedChanged += new System.EventHandler(this.OnRssSearchTypeCheckedChanged);
-			
-			this.checkBoxConsiderItemReadState.CheckedChanged += new EventHandler(this.OnRssSearchConsiderItemReadStateCheckedChanged);
-			this.checkBoxRssSearchTimeSpan.CheckedChanged += new EventHandler(this.OnRssSearchConsiderItemAgeCheckedChanged);
-			this.checkBoxRssSearchByDate.CheckedChanged += new EventHandler(this.OnRssSearchConsiderItemPostDateCheckedChanged);
-			this.checkBoxRssSearchByDateRange.CheckedChanged += new EventHandler(this.OnRssSearchConsiderItemPostDateRangeCheckedChanged);
-		
-			this.comboRssSearchItemAge.SelectedIndex = 0;
-			this.comboBoxRssSearchItemPostedOperator.SelectedIndex = 0;
-
-			this.dateTimeRssSearchItemPost.Value = DateTime.Now.Subtract(new TimeSpan(1,0,0,0));
-			this.dateTimeRssSearchPostAfter.Value = DateTime.Now.Subtract(new TimeSpan(2,0,0,0));
-			this.dateTimeRssSearchPostBefore.Value = DateTime.Now.Subtract(new TimeSpan(1,0,0,0));
-			
-			this.OnRssSearchConsiderItemReadStateCheckedChanged(this, EventArgs.Empty);
-			this.OnRssSearchConsiderItemAgeCheckedChanged(this, EventArgs.Empty);
-			this.OnRssSearchConsiderItemPostDateCheckedChanged(this, EventArgs.Empty);
-			this.OnRssSearchConsiderItemPostDateRangeCheckedChanged(this, EventArgs.Empty);
-
-			// enable native info tips support:
-			Win32.ModifyWindowStyle(treeRssSearchScope.Handle, 0, Win32.TVS_INFOTIP);
-			this.treeRssSearchScope.ImageList = _treeImages;
-
-			this.collapsiblePanelSearchNameEx.Collapsed = false;
-			this.collapsiblePanelItemPropertiesEx.Collapsed = false;
-
-			this.taskPaneSearchOptions.Refresh();
 		}
-
-		private void InitToaster() {
-			_toastNotifier = new ToastNotifier(
+		
+		private void InitToaster() 
+		{
+			toastNotifier = new ToastNotifier(
 				new ItemActivateCallback(this.OnExternalActivateFeedItem), 
 				new DisplayFeedPropertiesCallback(this.OnExternalDisplayFeedProperties),
-				new FeedActivateCallback(this.OnExternalActivateFeed));
+				new FeedActivateCallback(this.OnExternalActivateFeed), 
+				new EnclosureActivateCallback(this.PlayEnclosure));
 		}
 
-		private void InitListView() {
+		private void InitListView() 
+		{
 
-			colTopic.Text = Resource.Manager["RES_ListviewColumnCaptionTopic"];
-			colHeadline.Text = Resource.Manager["RES_ListviewColumnCaptionHeadline"];
-			colDate.Text = Resource.Manager["RES_ListviewColumnCaptionDate"];
+			colTopic.Text = SR.ListviewColumnCaptionTopic;
+			colHeadline.Text = SR.ListviewColumnCaptionHeadline;
+			colDate.Text = SR.ListviewColumnCaptionDate;
 
 			listFeedItems.SmallImageList = _listImages;
+			listFeedItemsO.ImageList = _listImages;
 			owner.FeedlistLoaded += new EventHandler(this.OnOwnerFeedlistLoaded);
 			listFeedItems.ColumnClick += new ColumnClickEventHandler(OnFeedListItemsColumnClick);
+			listFeedItems.SelectedIndexChanged += new EventHandler(listFeedItems_SelectedIndexChanged);
+			
+			if (owner.Preferences.BuildRelationCosmos) 
+			{
+				listFeedItems.ShowAsThreads = true;
+			} 
+			else 
+			{
+				//listFeedItems.ShowAsThreads = false;
+				listFeedItems.ShowInGroups = false;
+				listFeedItems.AutoGroupMode = false;
+			}
 		}
 
-		private void InitHtmlDetail() {
+
+		public void ResetHtmlDetail(){
+			/* NOTE: ActiveX security band behavior isn't reset in this case because it seems Internet Feature
+			 * Settings only applies on newly created IE Controls and cannot be changed after creation */
+			ResetHtmlDetail(false); 
+		}
+
+		private void InitHtmlDetail(){
+			ResetHtmlDetail(true); 
+		}
+
+		private void ResetHtmlDetail(bool clearContent) 
+		{
+			// enable enhanced browser security available with XP SP2:
+			this.htmlDetail.EnhanceBrowserSecurityForProcess();
 			
-			this.htmlDetail.ActiveXEnabled = false;
-			this.htmlDetail.Border3d = true;
-			this.htmlDetail.FlatScrollBars = true;
-			this.htmlDetail.ImagesDownloadEnabled = true;
-			this.htmlDetail.JavaEnabled = false;
-			this.htmlDetail.ScriptEnabled = false;
-			this.htmlDetail.ScriptObject = null;
-			this.htmlDetail.ScrollBarsEnabled = true;
-			this.htmlDetail.VideoEnabled = false;
+			// configurable settings:
+			this.htmlDetail.ActiveXEnabled        = owner.Preferences.BrowserActiveXAllowed; //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ActiveXEnabled", typeof(bool), false);
+			HtmlControl.SetInternetFeatureEnabled(
+				InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, 
+				SetFeatureFlag.SET_FEATURE_ON_PROCESS, 
+				this.htmlDetail.ActiveXEnabled);
+			this.htmlDetail.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed; //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ImagesDownloadEnabled", typeof(bool), true);
+			this.htmlDetail.JavaEnabled           = owner.Preferences.BrowserJavaAllowed; //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.JavaEnabled", typeof(bool), false);
+			this.htmlDetail.VideoEnabled          = owner.Preferences.BrowserVideoAllowed; //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.VideoEnabled", typeof(bool), false);
+			this.htmlDetail.FrameDownloadEnabled  = (bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", typeof(bool), false);
+			// hardcoded settings:
+			this.htmlDetail.Border3d              = true;
+			this.htmlDetail.FlatScrollBars        = true;
+			this.htmlDetail.ScriptEnabled         = owner.Preferences.BrowserJavascriptAllowed; //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ScriptEnabled", typeof(bool), true); //maybe this should be false by default?
+			this.htmlDetail.ScriptObject          = null;	// set this later to enable inner-HTML function calls
+			this.htmlDetail.ScrollBarsEnabled     = true;
 			this.htmlDetail.AllowInPlaceNavigation = false;
-			this.htmlDetail.SilentModeEnabled = true;
+#if DEBUG
+			// allow IEControl reporting of javascript errors while dev.:
+			this.htmlDetail.SilentModeEnabled = false;
+#else
+			this.htmlDetail.SilentModeEnabled = true; 
+#endif
 
 			this.htmlDetail.Tag = this._docFeedDetails;
 
@@ -6650,319 +7498,71 @@ namespace RssBandit.WinGui.Forms {
 			this.htmlDetail.ProgressChanged += new BrowserProgressChangeEventHandler(OnWebProgressChanged);
 			
 			this.htmlDetail.TranslateAccelerator += new KeyEventHandler(OnWebTranslateAccelerator);
-			this.htmlDetail.Clear();
+			
+			if(clearContent){
+				this.htmlDetail.Clear();
+			}
 		}
 
-		private void InitFeedTreeView() {
+		private void InitFeedTreeView() 
+		{
 
 			// enable native info tips support:
-			Win32.ModifyWindowStyle(treeFeeds.Handle, 0, Win32.TVS_INFOTIP);
-			treeFeeds.ImageList = _treeImages;
+			//Win32.ModifyWindowStyle(treeFeeds.Handle, 0, Win32.TVS_INFOTIP);
+			treeFeeds.PathSeparator = NewsHandler.CategorySeparator;
+			treeFeeds.ImageList = _treeImages;						
+			treeFeeds.Nodes.Override.Sort = SortType.None;	// do not sort the root entries
+			treeFeeds.ScrollBounds = Infragistics.Win.UltraWinTree.ScrollBounds.ScrollToFill;
+			
+			//this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
+			this.treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
 
 			// create RootFolderType.MyFeeds:
-			FeedTreeNodeBase root = new RootNode(Resource.Manager["RES_FeedNodeMyFeedsCaption"],0,1, _treeRootContextMenu);
+			TreeFeedsNodeBase root = new RootNode(SR.FeedNodeMyFeedsCaption, Resource.SubscriptionTreeImage.AllSubscriptions, Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
 			treeFeeds.Nodes.Add(root);
 			root.ReadCounterZero += new EventHandler(OnTreeNodeFeedsRootReadCounterZero);
 			_roots[(int)RootFolderType.MyFeeds] = root;
 
-			// create RootFolderType.SmartFolder:
-			root = new SpecialRootNode(Resource.Manager["RES_FeedNodeSpecialFeedsCaption"],0,1, null);
-			treeFeeds.Nodes.Add(root);
-			_roots[(int)RootFolderType.SmartFolders] = root;
+			// add the root as the first history entry:
+			this.AddHistoryEntry(root, null);
 
 			// create RootFolderType.Finder:
-			root = new FinderRootNode(Resource.Manager["RES_FeedNodeFinderRootCaption"],0,1,  _treeSearchFolderRootContextMenu);
+			root = new FinderRootNode(SR.FeedNodeFinderRootCaption,Resource.SubscriptionTreeImage.AllFinderFolders, Resource.SubscriptionTreeImage.AllFinderFoldersExpanded, _treeSearchFolderRootContextMenu);
 			treeFeeds.Nodes.Add(root);
 			_roots[(int)RootFolderType.Finder] = root;
-
+			if (SearchIndexBehavior.NoIndexing == this.owner.FeedHandler.Configuration.SearchIndexBehavior)
+				root.Visible = false;
+			
+			// create RootFolderType.SmartFolder:
+			root = new SpecialRootNode(SR.FeedNodeSpecialFeedsCaption,Resource.SubscriptionTreeImage.AllSmartFolders, Resource.SubscriptionTreeImage.AllSmartFoldersExpanded, null);
+			treeFeeds.Nodes.Add(root);
+			_roots[(int)RootFolderType.SmartFolders] = root;
+			
+			this.treeFeeds.DrawFilter = new TreeFeedsDrawFilter();
+			
 			this.treeFeeds.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnTreeFeedMouseDown);
 			this.treeFeeds.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnTreeFeedMouseUp);
 			this.treeFeeds.DragOver += new System.Windows.Forms.DragEventHandler(this.OnTreeFeedDragOver);
-			this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeFeedAfterSelect);
-			this.treeFeeds.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.OnTreeFeedAfterLabelEdit);
+			this.treeFeeds.AfterSelect += new AfterNodeSelectEventHandler(this.OnTreeFeedAfterSelect);
 			this.treeFeeds.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.OnTreeFeedQueryContiueDrag);
 			this.treeFeeds.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnTreeFeedDragEnter);
 			this.treeFeeds.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnTreeFeedMouseMove);
-			this.treeFeeds.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnTreeFeedItemDrag);
-			this.treeFeeds.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeFeedBeforeSelect);			
-			this.treeFeeds.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.OnTreeFeedBeforeLabelEdit);
+			this.treeFeeds.BeforeSelect += new BeforeNodeSelectEventHandler(this.OnTreeFeedBeforeSelect);
+			this.treeFeeds.BeforeLabelEdit += new BeforeNodeChangedEventHandler(this.OnTreeFeedBeforeLabelEdit);
+			this.treeFeeds.ValidateLabelEdit += new ValidateLabelEditEventHandler(this.OnTreeFeedsValidateLabelEdit);
+			this.treeFeeds.AfterLabelEdit += new AfterNodeChangedEventHandler(this.OnTreeFeedAfterLabelEdit);
 			this.treeFeeds.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnTreeFeedDragDrop);
+			this.treeFeeds.SelectionDragStart += new EventHandler(OnTreeFeedSelectionDragStart);
 			this.treeFeeds.GiveFeedback += new System.Windows.Forms.GiveFeedbackEventHandler(this.OnTreeFeedGiveFeedback);
 			this.treeFeeds.DoubleClick += new EventHandler(this.OnTreeFeedDoubleClick);
-
 		}
 
 		#endregion
 
 		#region Menu init routines
-		private void InitMenuBar() {
-			// Init the MainMenuControl
-			menuBarMain.SuspendLayout();
-
-			menuBarMain.ImageList = _toolImages;
-
-			// Create the top level Menu
-			MenuBarItem top1 = new MenuBarItem(Resource.Manager["RES_MainMenuFileCaption"]);
-			top1.ToolTipText = Resource.Manager["RES_MainMenuFileDesc"];
-			// Create the submenus
-			CreateFileMenu(top1);
-			
-			MenuBarItem top2 = new MenuBarItem(Resource.Manager["RES_MainMenuViewCaption"]);
-			top2.ToolTipText = Resource.Manager["RES_MainMenuViewDesc"];
-			// Create the submenus
-			CreateViewMenu(top2);
-
-			MenuBarItem top3 = new MenuBarItem(Resource.Manager["RES_MainMenuToolsCaption"]);
-			top3.ToolTipText = Resource.Manager["RES_MainMenuToolsDesc"];
-			// Create the submenus
-			CreateToolsMenu(top3);
-
-			MenuBarItem top4 = new MenuBarItem(Resource.Manager["RES_MainMenuHelpCaption"]);
-			top4.ToolTipText = Resource.Manager["RES_MainMenuHelpDesc"];
-			// Create the submenus
-			CreateHelpMenu(top4);
-
-			MenuBarItem top5 = new MenuBarItem("&Gnomedex 2005");
-			top5.ToolTipText = "Special menu item for Gnomedex 2005"; 
-
-			top5.Items.AddRange(new MenuButtonItem[]{new AppMenuCommand("cmdReloadCFL", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdReloadCFL),
-				"Reload Common Feed List", "Reloads the Common Feed List", 0,  _shortcutHandler) });
-
-			menuBarMain.Items.AddRange(new MenuItemBase[]{top1,top2,top3,top4, top5});
-
-			menuBarMain.ResumeLayout(false);
-		}
-
-		protected void CreateFileMenu(MenuBarItem mc) {
-			
-			// Create menu commands
-			AppMenuCommand style5 = new AppMenuCommand("cmdNewFeed", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdNewFeed),
-				"RES_MenuNewFeedCaption", "RES_MenuNewFeedDesc", 1, _shortcutHandler);
-
-			AppMenuCommand style6 = new AppMenuCommand("cmdImportFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdImportFeeds),
-				"RES_MenuImportFeedsCaption", "RES_MenuImportFeedsDesc", _shortcutHandler);
-
-			style6.BeginGroup = true;
-
-			AppMenuCommand style7 = new AppMenuCommand("cmdExportFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdExportFeeds),
-				"RES_MenuExportFeedsCaption", "RES_MenuExportFeedsDesc", _shortcutHandler);
-
-			AppMenuCommand style9 = new AppMenuCommand("cmdCloseExit", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdExitApp),
-				"RES_MenuAppCloseExitCaption", "RES_MenuAppCloseExitDesc", _shortcutHandler);
-
-			AppMenuCommand style10 = new AppMenuCommand("cmdToggleOfflineMode", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdToggleInternetConnectionMode),
-				"RES_MenuAppInternetConnectionModeCaption", "RES_MenuAppInternetConnectionModeDesc", _shortcutHandler);
-
-			style10.BeginGroup = true;
-
-			mc.Items.AddRange(new MenuButtonItem[]{style5,style6,style7,style10,style9});
-		}
-
-		protected void CreateViewMenu(MenuBarItem mc) {
-			
-			AppMenuCommand style1 = new AppMenuCommand("cmdToggleTreeViewState", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdDockShowFeedDescriptions),
-				"RES_MenuToggleTreeViewStateCaption", "RES_MenuToggleTreeViewStateDesc", 13, _shortcutHandler);
-
-			AppMenuCommand style2 = new AppMenuCommand("cmdToggleRssSearchTabState", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdDockShowRssSearch),
-				"RES_MenuToggleRssSearchTabStateCaption", "RES_MenuToggleRssSearchTabStateDesc", 14, _shortcutHandler);
-
-			MenuButtonItem style3 = new MenuButtonItem(Resource.Manager[ "RES_MenuViewToolbarsCaption"]);
-			style3.ToolTipText = Resource.Manager["RES_MenuViewToolbarsDesc"];
-			style3.BeginGroup = true; 
-			
-			// workaround (we did not get notified if a tearable toolbar gets closed via the "X" button).
-			// So we refresh the view state (checked/unchecked) on before display the submenu
-			style3.BeforePopup += new TD.SandBar.MenuItemBase.BeforePopupEventHandler(OnMenuItemViewToolbarsBeforePopup);
-
-			// subMenus:			
-			AppMenuCommand subTbMain = new AppMenuCommand("cmdToggleMainTBViewState", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdToggleMainTBViewState),
-				"RES_MenuViewToolbarMainCaption", "RES_MenuViewToolbarMainDesc", _shortcutHandler);
-			subTbMain.Checked = true;	// default
-			AppMenuCommand subTbWeb = new AppMenuCommand("cmdToggleWebTBViewState", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdToggleWebTBViewState),
-				"RES_MenuViewToolbarWebNavigationCaption", "RES_MenuViewToolbarWebNavigationDesc", _shortcutHandler);
-			subTbWeb.Checked = true;	// default
-			AppMenuCommand subTbWebSearch = new AppMenuCommand("cmdToggleWebSearchTBViewState", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdToggleWebSearchTBViewState),
-				"RES_MenuViewToolbarWebSearchCaption", "RES_MenuViewToolbarWebSearchDesc", _shortcutHandler);
-			subTbWebSearch.Checked = true;	// default
-
-			style3.Items.AddRange(new MenuButtonItem[]{subTbMain, subTbWeb, subTbWebSearch});
-
 		
-
-			AppMenuCommand subL4 = new AppMenuCommand("cmdColumnChooserMain",
-				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuColumnChooserCaption", "RES_MenuColumnChooserDesc", _shortcutHandler);
-			//subL3.ImageList                  = _listImages;
-
-			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
-
-				AppMenuCommand subL4_subColumn = new AppMenuCommand("cmdListviewColumn." + colID,
-					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					"RES_MenuColumnChooser" + colID +"Caption", "RES_MenuColumnChooser" + colID +"Desc", _shortcutHandler);
-				
-				subL4.Items.AddRange(new MenuButtonItem[]{subL4_subColumn});
-			}
-
-			AppMenuCommand subL4_subUseCatLayout = new AppMenuCommand("cmdColumnChooserUseCategoryLayoutGlobal",
-				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseCategoryLayoutGlobal),
-				"RES_MenuColumnChooserUseCategoryLayoutGlobalCaption", "RES_MenuColumnChooserUseCategoryLayoutGlobalDesc", _shortcutHandler);
-			subL4_subUseCatLayout.BeginGroup = true;
-
-			AppMenuCommand subL4_subUseFeedLayout = new AppMenuCommand("cmdColumnChooserUseFeedLayoutGlobal",
-				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseFeedLayoutGlobal),
-				"RES_MenuColumnChooserUseFeedLayoutGlobalCaption", "RES_MenuColumnChooserUseFeedLayoutGlobalDesc", _shortcutHandler);
-
-			AppMenuCommand subL4_subResetLayout = new AppMenuCommand("cmdColumnChooserResetToDefault",
-				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserResetToDefault),
-				"RES_MenuColumnChooserResetLayoutToDefaultCaption", "RES_MenuColumnChooserResetLayoutToDefaultDesc", _shortcutHandler);
-			subL4_subResetLayout.BeginGroup = true;
-			subL4_subResetLayout.Enabled = false;		// dynamically refreshed
-
-			subL4.Items.AddRange(new MenuButtonItem[]{ subL4_subUseCatLayout, subL4_subUseFeedLayout, subL4_subResetLayout});
-
-			AppMenuCommand style4 = new AppMenuCommand("cmdFeedDetailLayoutPosition", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuFeedDetailLayoutCaption", "RES_MenuFeedDetailLayoutDesc", _shortcutHandler);
-			
-			style4.BeginGroup = true;
-
-			// subMenu:			
-			AppMenuCommand subSub1 = new AppMenuCommand("cmdFeedDetailLayoutPosTop", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosTop),
-				"RES_MenuFeedDetailLayoutTopCaption", "RES_MenuFeedDetailLayoutTopDesc",20, _shortcutHandler);
-			
-			subSub1.Checked = true;	// default
-
-			AppMenuCommand subSub2 = new AppMenuCommand("cmdFeedDetailLayoutPosLeft", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosLeft),
-				"RES_MenuFeedDetailLayoutLeftCaption", "RES_MenuFeedDetailLayoutLeftDesc",19, _shortcutHandler);
-
-			AppMenuCommand subSub3 = new AppMenuCommand("cmdFeedDetailLayoutPosRight", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosRight),
-				"RES_MenuFeedDetailLayoutRightCaption", "RES_MenuFeedDetailLayoutRightDesc", 17, _shortcutHandler);
-
-			AppMenuCommand subSub4 = new AppMenuCommand("cmdFeedDetailLayoutPosBottom", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosBottom),
-				"RES_MenuFeedDetailLayoutBottomCaption", "RES_MenuFeedDetailLayoutBottomDesc", 18, _shortcutHandler);
-
-			style4.Items.AddRange(new MenuButtonItem[]{subSub1, subSub2, subSub3, subSub4});
-			
-
-			mc.Items.AddRange(new MenuButtonItem[]{style1,style2,style3,style4,subL4});
-		}
-
-		protected void CreateToolsMenu(MenuBarItem mc) {
-			// Create tool menu commands
-
-			AppMenuCommand style1 = new AppMenuCommand("cmdRefreshFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdRefreshFeeds), 
-				"RES_MenuUpdateAllFeedsCaption", "RES_MenuUpdateAllFeedsDesc", 0, _shortcutHandler);
-			
-
-			AppMenuCommand style2 = new AppMenuCommand("cmdOpenConfigIdentitiesDialog", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdOpenConfigIdentitiesDialog),
-				"RES_MenuOpenConfigIdentitiesDialogCaption", "RES_MenuOpenConfigIdentitiesDialogDesc", _shortcutHandler);
-			
-			style2.BeginGroup = true;
-			
-			AppMenuCommand style3 = new AppMenuCommand("cmdOpenConfigNntpServerDialog", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdOpenConfigNntpServerDialog),
-				"RES_MenuOpenConfigNntpServerDialogCaption", "RES_MenuOpenConfigNntpServerDialogDesc", _shortcutHandler);
-			style3.Enabled = true;		
-
-			AppMenuCommand style4 = new AppMenuCommand("cmdAutoDiscoverFeed", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdAutoDiscoverFeed),
-				"RES_MenuAutoDiscoverFeedCaption", "RES_MenuAutoDiscoverFeedDesc",4, _shortcutHandler);
-
-			AppMenuCommand style5 = new AppMenuCommand("cmdFeedItemPostReply", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdPostReplyToItem),
-				"RES_MenuPostReplyFeedItemCaption", "RES_MenuPostReplyFeedItemDesc",5, _shortcutHandler);
-			
-			style5.Enabled = false;		// dynamically enabled on runtime if feed supports commentAPI
-			
-			AppMenuCommand style6 = new AppMenuCommand("cmdUploadFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdUploadFeeds),
-				"RES_MenuUploadFeedsCaption", "RES_MenuUploadFeedsDesc", _shortcutHandler);
-
-			AppMenuCommand style7 = new AppMenuCommand("cmdDownloadFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdDownloadFeeds),
-				"RES_MenuDownloadFeedsCaption", "RES_MenuDownloadFeedsDesc", _shortcutHandler);
-
-			AppMenuCommand style9 = new AppMenuCommand("cmdShowMainAppOptions", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowOptions),
-				"RES_MenuAppOptionsCaption", "RES_MenuAppOptionsDesc", 6, _shortcutHandler);
-
-			style9.BeginGroup = true;
-
-			mc.Items.AddRange(new MenuButtonItem[]{style1, style4, style5, style6,style7, style2, style3, style9});
-		}
-
-		protected void CreateHelpMenu(MenuBarItem mc) {
-			
-			// Create help menu commands
-			
-			AppMenuCommand styleHelpWebDoc = new AppMenuCommand("cmdHelpWebDoc", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdWebHelp),
-				"RES_MenuWebHelpCaption", "RES_MenuWebHelpDesc", _shortcutHandler); 
-
-			AppMenuCommand style0 = new AppMenuCommand("cmdWorkspaceNews", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdWorkspaceNews),
-				"RES_MenuWorkspaceNewsCaption", "RES_MenuWorkspaceNewsDesc", _shortcutHandler); 
-
-			AppMenuCommand style1 = new AppMenuCommand("cmdReportBug", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdReportAppBug),
-				"RES_MenuBugReportCaption", "RES_MenuBugReportDesc", _shortcutHandler); 
-
-
-			AppMenuCommand style2 = new AppMenuCommand("cmdAbout", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdAboutApp) , 
-				"RES_MenuAboutCaption", "RES_MenuAboutDesc", _shortcutHandler);
-
-			style2.Icon = Resource.Manager.LoadIcon("Resources.App.ico");
-			style2.BeginGroup = true;
-			
-			AppMenuCommand style3 = new AppMenuCommand("cmdCheckForUpdates", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdCheckForUpdates),
-				"RES_MenuCheckForUpdatesCaption", "RES_MenuCheckForUpdatesDesc", _shortcutHandler);
-
-			style3.BeginGroup = true;
-#if USEAUTOUPDATE
-			style3.Enabled = true;	
-#else
-			style3.Enabled = false;
-#endif
-
-			AppMenuCommand style4 = new AppMenuCommand("cmdWikiNews", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdWikiNews),
-				"RES_MenuBanditWikiCaption", "RES_MenuBanditWikiDesc", _shortcutHandler);
-			
-			style4.BeginGroup = true;
-
-			AppMenuCommand style5 = new AppMenuCommand("cmdVisitForum",
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdVisitForum),
-				"RES_MenuBanditForumCaption", "RES_MenuBanditForumDesc", _shortcutHandler);
-
-			AppMenuCommand style6 = new AppMenuCommand("cmdDonateToProject",
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdDonateToProject),
-				"RES_MenuDonateToProjectCaption", "RES_MenuDonateToProjectDesc", _shortcutHandler);
-
-
-
-			mc.Items.AddRange(new MenuButtonItem[]{styleHelpWebDoc, style4, style5, style0,style1,style3,style6,style2});
-		}
-
-		protected void InitContextMenus() {
+		protected void InitContextMenus() 
+		{
 			#region tree view context menus
 
 			#region root menu
@@ -6970,13 +7570,13 @@ namespace RssBandit.WinGui.Forms {
 			
 			AppContextMenuCommand sub1 = new AppContextMenuCommand("cmdNewFeed", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdNewFeed),
-				"RES_MenuNewFeedCaption", "RES_MenuNewFeedDesc", 1, _shortcutHandler);
+				SR.MenuNewFeedCaption2, SR.MenuNewFeedDesc, 1, _shortcutHandler);
 			
 			//sub1.ImageList  = _toolImages;
 
 			AppContextMenuCommand sub2 = new AppContextMenuCommand("cmdNewCategory", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdNewCategory),
-				"RES_MenuNewCategoryCaption", "RES_MenuNewCategoryDesc", 2, _shortcutHandler);
+				SR.MenuNewCategoryCaption, SR.MenuNewCategoryDesc, 2, _shortcutHandler);
 						
 			//sub2.ImageList  = _treeImages;
 
@@ -6984,23 +7584,23 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subR1 = new AppContextMenuCommand("cmdRefreshFeeds", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdRefreshFeeds),
-				"RES_MenuUpdateAllFeedsCaption", "RES_MenuUpdateAllFeedsDesc", 0, _shortcutHandler);
+				SR.MenuUpdateAllFeedsCaption, SR.MenuUpdateAllFeedsDesc, 0, _shortcutHandler);
 			
 			//subR1.ImageList  = _toolImages;
 
 			AppContextMenuCommand subR2 = new AppContextMenuCommand("cmdCatchUpCurrentSelectedNode", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdCatchUpCurrentSelectedNode),
-				"RES_MenuCatchUpOnAllCaption", "RES_MenuCatchUpOnAllDesc", 0, _shortcutHandler);
+				SR.MenuCatchUpOnAllCaption, SR.MenuCatchUpOnAllDesc, 0, _shortcutHandler);
 			//subR2.ImageList           = _listImages;
 
 			AppContextMenuCommand subR3 = new AppContextMenuCommand("cmdDeleteAll", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdDeleteAll),
-				"RES_MenuDeleteAllFeedsCaption", "RES_MenuDeleteAllFeedsDesc", 2, _shortcutHandler);
+				SR.MenuDeleteAllFeedsCaption, SR.MenuDeleteAllFeedsDesc, 2, _shortcutHandler);
 			//subR3.ImageList           = _toolImages;
 
 			AppContextMenuCommand subR4 = new AppContextMenuCommand("cmdShowMainAppOptions", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowOptions),
-				"RES_MenuAppOptionsCaption", "RES_MenuAppOptionsDesc", 10, _shortcutHandler);
+				SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 10, _shortcutHandler);
 
 			// append items
 			_treeRootContextMenu.MenuItems.AddRange(new MenuItem[]{sub1,sub2,sep,subR1,subR2,sep.CloneMenu(),subR3,sep.CloneMenu(),subR4});
@@ -7011,56 +7611,57 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subC1 = new AppContextMenuCommand("cmdUpdateCategory", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdUpdateCategory),
-				"RES_MenuUpdateCategoryCaption", "RES_MenuUpdateCategoryDesc", _shortcutHandler);
+				SR.MenuUpdateCategoryCaption, SR.MenuUpdateCategoryDesc, _shortcutHandler);
 
 			AppContextMenuCommand subC2 = new AppContextMenuCommand("cmdCatchUpCurrentSelectedNode", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdCatchUpCurrentSelectedNode),
-				"RES_MenuCatchUpCategoryCaption", "RES_MenuCatchUpCategoryDesc", 0, _shortcutHandler);
+				SR.MenuCatchUpCategoryCaption, SR.MenuCatchUpCategoryDesc, 0, _shortcutHandler);
 			//subC2.ImageList            = _listImages;
 
 			AppContextMenuCommand subC3  = new AppContextMenuCommand("cmdRenameCategory", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdRenameCategory),
-				"RES_MenuRenameCategoryCaption", "RES_MenuRenameCategoryDesc", _shortcutHandler);
+				SR.MenuRenameCategoryCaption, SR.MenuRenameCategoryDesc, _shortcutHandler);
 
 			AppContextMenuCommand subC4  = new AppContextMenuCommand("cmdDeleteCategory", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdDeleteCategory),
-				"RES_MenuDeleteCategoryCaption", "RES_MenuDeleteCategoryDesc", 2, _shortcutHandler);
+				SR.MenuDeleteCategoryCaption, SR.MenuDeleteCategoryDesc, 2, _shortcutHandler);
 			
 			//subC4.ImageList            = _toolImages;
 
 			AppContextMenuCommand subC5  = new AppContextMenuCommand("cmdShowCategoryProperties", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowCategoryProperties),
-				"RES_MenuShowCategoryPropertiesCaption", "RES_MenuShowCategoryPropertiesDesc", 10, _shortcutHandler);
+				SR.MenuShowCategoryPropertiesCaption, SR.MenuShowCategoryPropertiesDesc, 10, _shortcutHandler);
 
 			AppContextMenuCommand subCL_ColLayoutMain = new AppContextMenuCommand("cmdColumnChooserMain",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuColumnChooserCaption", "RES_MenuColumnChooserDesc", _shortcutHandler);
+				SR.MenuColumnChooserCaption, SR.MenuColumnChooserDesc, _shortcutHandler);
 
-			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
+			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) 
+			{
 
 				AppContextMenuCommand subCL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					"RES_MenuColumnChooser" + colID +"Caption", "RES_MenuColumnChooser" + colID +"Desc", _shortcutHandler);
+					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
 				
 				subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{subCL4_layoutSubColumn});
 			}
 
 			AppContextMenuCommand subCL_subUseCatLayout = new AppContextMenuCommand("cmdColumnChooserUseCategoryLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseCategoryLayoutGlobal),
-				"RES_MenuColumnChooserUseCategoryLayoutGlobalCaption", "RES_MenuColumnChooserUseCategoryLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseCategoryLayoutGlobalCaption, SR.MenuColumnChooserUseCategoryLayoutGlobalDesc, _shortcutHandler);
 
 			AppContextMenuCommand subCL_subUseFeedLayout = new AppContextMenuCommand("cmdColumnChooserUseFeedLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseFeedLayoutGlobal),
-				"RES_MenuColumnChooserUseFeedLayoutGlobalCaption", "RES_MenuColumnChooserUseFeedLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseFeedLayoutGlobalCaption, SR.MenuColumnChooserUseFeedLayoutGlobalDesc, _shortcutHandler);
 				
 			AppContextMenuCommand subCL_subResetLayout = new AppContextMenuCommand("cmdColumnChooserResetToDefault",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserResetToDefault),
-				"RES_MenuColumnChooserResetLayoutToDefaultCaption", "RES_MenuColumnChooserResetLayoutToDefaultDesc", _shortcutHandler);
+				SR.MenuColumnChooserResetLayoutToDefaultCaption, SR.MenuColumnChooserResetLayoutToDefaultDesc, _shortcutHandler);
 
 			subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{sep.CloneMenu(), subCL_subUseCatLayout, subCL_subUseFeedLayout,sep.CloneMenu(), subCL_subResetLayout});
 					
 			// append items. Reuse cmdNewCat/cmdNewFeed, because it's allowed on categories
-			_treeCategoryContextMenu.MenuItems.AddRange(new MenuItem[]{sub1.CloneMenu() ,sub2.CloneMenu(),sep.CloneMenu(),subC1,subC2,subC3,sep.CloneMenu(),subC4, sep.CloneMenu(), subCL_ColLayoutMain, sep.CloneMenu(), subC5});
+			_treeCategoryContextMenu.MenuItems.AddRange(new MenuItem[]{sub1.CloneMenu() ,sub2.CloneMenu(),sep.CloneMenu(),subC1,subC2,sep.CloneMenu(),subC3,sep.CloneMenu(),subC4, sep.CloneMenu(), subCL_ColLayoutMain, sep.CloneMenu(), subC5});
 			#endregion
 
 			#region feed menu
@@ -7068,101 +7669,102 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subF1  = new AppContextMenuCommand("cmdUpdateFeed", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdUpdateFeed),
-				"RES_MenuUpdateThisFeedCaption", "RES_MenuUpdateThisFeedDesc", _shortcutHandler);
+				SR.MenuUpdateThisFeedCaption, SR.MenuUpdateThisFeedDesc, _shortcutHandler);
 
 			AppContextMenuCommand subF2  = new AppContextMenuCommand("cmdCatchUpCurrentSelectedNode",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdCatchUpCurrentSelectedNode),
-				"RES_MenuCatchUpThisFeedCaption", "RES_MenuCatchUpThisFeedDesc", 0, _shortcutHandler);
+				SR.MenuCatchUpThisFeedCaption, SR.MenuCatchUpThisFeedDesc, 0, _shortcutHandler);
 			
 			//subF2.ImageList                     = _listImages;
 			AppContextMenuCommand subF3  = new AppContextMenuCommand("cmdRenameFeed",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdRenameFeed),
-				"RES_MenuRenameThisFeedCaption", "RES_MenuRenameThisFeedDesc", _shortcutHandler);
+				SR.MenuRenameThisFeedCaption, SR.MenuRenameThisFeedDesc, _shortcutHandler);
 
 			AppContextMenuCommand subF4  = new AppContextMenuCommand("cmdDeleteFeed",
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdDeleteFeed),
-				"RES_MenuDeleteThisFeedCaption", "RES_MenuDeleteThisFeedDesc", 2, _shortcutHandler);
+				owner.Mediator, new ExecuteCommandHandler(this.CmdDeleteFeed),
+				SR.MenuDeleteThisFeedCaption, SR.MenuDeleteThisFeedDesc, 2, _shortcutHandler);
 
 			//subF4.ImageList            = _toolImages;
 
 			AppContextMenuCommand subFeedCopy = new AppContextMenuCommand("cmdCopyFeed",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyFeed),
-				"RES_MenuCopyFeedCaption", "RES_MenuCopyFeedDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedCaption, SR.MenuCopyFeedDesc, 1, _shortcutHandler);
 
 			AppContextMenuCommand subFeedCopy_sub1 = new AppContextMenuCommand("cmdCopyFeedLinkToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyFeedLinkToClipboard),
-				"RES_MenuCopyFeedLinkToClipboardCaption", "RES_MenuCopyFeedLinkToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedLinkToClipboardCaption, SR.MenuCopyFeedLinkToClipboardDesc, 1, _shortcutHandler);
 
 			AppContextMenuCommand subFeedCopy_sub2 = new AppContextMenuCommand("cmdCopyFeedHomepageLinkToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyFeedHomeLinkToClipboard),
-				"RES_MenuCopyFeedHomeLinkToClipboardCaption", "RES_MenuCopyFeedHomeLinkToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedHomeLinkToClipboardCaption, SR.MenuCopyFeedHomeLinkToClipboardDesc, 1, _shortcutHandler);
 
 			AppContextMenuCommand subFeedCopy_sub3 = new AppContextMenuCommand("cmdCopyFeedHomepageTitleLinkToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyFeedHomeTitleLinkToClipboard),
-				"RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption", "RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedFeedHomeTitleLinkToClipboardCaption, SR.MenuCopyFeedFeedHomeTitleLinkToClipboardDesc, 1, _shortcutHandler);
 
 			subFeedCopy.MenuItems.AddRange(new MenuItem[] {subFeedCopy_sub1,subFeedCopy_sub2,subFeedCopy_sub3} );
 
 			
-			MenuItem subInfo = new MenuItem(Resource.Manager["RES_MenuAdvancedFeedInfoCaption"]);
+			_feedInfoContextMenu = new MenuItem(SR.MenuAdvancedFeedInfoCaption);
 
 			// the general properties item
 			AppContextMenuCommand subF6  = new AppContextMenuCommand("cmdShowFeedProperties",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowFeedProperties),
-				"RES_MenuShowFeedPropertiesCaption", "RES_MenuShowFeedPropertiesDesc", 10, _shortcutHandler);
+				SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, 10, _shortcutHandler);
 			//subF6.ImageList				     = _browserImages;
 
 			// layout menu(s):
 			AppContextMenuCommand subFL_ColLayoutMain = new AppContextMenuCommand("cmdColumnChooserMain",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuColumnChooserCaption", "RES_MenuColumnChooserDesc", _shortcutHandler);
+				SR.MenuColumnChooserCaption, SR.MenuColumnChooserDesc, _shortcutHandler);
 
-			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
+			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) 
+			{
 
 				AppContextMenuCommand subFL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					"RES_MenuColumnChooser" + colID +"Caption", "RES_MenuColumnChooser" + colID +"Desc", _shortcutHandler);
+					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
 				
 				subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{subFL4_layoutSubColumn});
 			}
 
 			AppContextMenuCommand subFL_subUseCatLayout = new AppContextMenuCommand("cmdColumnChooserUseCategoryLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseCategoryLayoutGlobal),
-				"RES_MenuColumnChooserUseCategoryLayoutGlobalCaption", "RES_MenuColumnChooserUseCategoryLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseCategoryLayoutGlobalCaption, SR.MenuColumnChooserUseCategoryLayoutGlobalDesc, _shortcutHandler);
 
 			AppContextMenuCommand subFL_subUseFeedLayout = new AppContextMenuCommand("cmdColumnChooserUseFeedLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseFeedLayoutGlobal),
-				"RES_MenuColumnChooserUseFeedLayoutGlobalCaption", "RES_MenuColumnChooserUseFeedLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseFeedLayoutGlobalCaption, SR.MenuColumnChooserUseFeedLayoutGlobalDesc, _shortcutHandler);
 				
 			AppContextMenuCommand subFL_subResetLayout = new AppContextMenuCommand("cmdColumnChooserResetToDefault",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserResetToDefault),
-				"RES_MenuColumnChooserResetLayoutToDefaultCaption", "RES_MenuColumnChooserResetLayoutToDefaultDesc", _shortcutHandler);
+				SR.MenuColumnChooserResetLayoutToDefaultCaption, SR.MenuColumnChooserResetLayoutToDefaultDesc, _shortcutHandler);
 
 			subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{sep.CloneMenu(), subFL_subUseCatLayout, subFL_subUseFeedLayout,sep.CloneMenu(), subFL_subResetLayout});
 
 			// append items. 
-			_treeFeedContextMenu.MenuItems.AddRange(new MenuItem[]{subF1,subF2,subF3,sep.CloneMenu(),subF4,sep.CloneMenu(),subFeedCopy,sep.CloneMenu(), subInfo,sep.CloneMenu(), subFL_ColLayoutMain, sep.CloneMenu(), subF6});
+			_treeFeedContextMenu.MenuItems.AddRange(new MenuItem[]{subF1,subF2,subF3,sep.CloneMenu(),subF4,sep.CloneMenu(),subFeedCopy,sep.CloneMenu(), _feedInfoContextMenu,sep.CloneMenu(), subFL_ColLayoutMain, sep.CloneMenu(), subF6});
 			#endregion
 
 			#region feed info context submenu
 			
 			AppContextMenuCommand subInfoHome = new AppContextMenuCommand("cmdNavigateToFeedHome", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdNavigateFeedHome),
-				"RES_MenuNavigateToFeedHomeCaption", "RES_MenuNavigateToFeedHomeDesc", _shortcutHandler);
+				SR.MenuNavigateToFeedHomeCaption, SR.MenuNavigateToFeedHomeDesc, _shortcutHandler);
 
 			AppContextMenuCommand subInfoCosmos = new AppContextMenuCommand("cmdNavigateToFeedCosmos", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdNavigateFeedLinkCosmos),
-				"RES_MenuShowLinkCosmosCaption", "RES_MenuShowLinkCosmosCaption");
+				SR.MenuShowLinkCosmosCaption, SR.MenuShowLinkCosmosCaption);
 
 			AppContextMenuCommand subInfoSource = new AppContextMenuCommand("cmdViewSourceOfFeed", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdViewSourceOfFeed),
-				"RES_MenuViewSourceOfFeedCaption", "RES_MenuViewSourceOfFeedDesc", _shortcutHandler);
+				SR.MenuViewSourceOfFeedCaption, SR.MenuViewSourceOfFeedDesc, _shortcutHandler);
 
 			AppContextMenuCommand subInfoValidate = new AppContextMenuCommand("cmdValidateFeed", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdValidateFeed),
-				"RES_MenuValidateFeedCaption", "RES_MenuValidateFeedDesc", _shortcutHandler);
+				SR.MenuValidateFeedCaption, SR.MenuValidateFeedDesc, _shortcutHandler);
 			
-			subInfo.MenuItems.AddRange(new MenuItem[] {subInfoHome,subInfoCosmos,subInfoSource,subInfoValidate} );
+			_feedInfoContextMenu.MenuItems.AddRange(new MenuItem[] {subInfoHome,subInfoCosmos,subInfoSource,subInfoValidate} );
 			
 			#endregion
 
@@ -7172,10 +7774,10 @@ namespace RssBandit.WinGui.Forms {
 
 			subF1  = new AppContextMenuCommand("cmdNewFinder",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNewFinder),
-				"RES_MenuNewFinderCaption", "RES_MenuNewFinderDesc", _shortcutHandler);
+				SR.MenuNewFinderCaption, SR.MenuNewFinderDesc, _shortcutHandler);
 			subF2  = new AppContextMenuCommand("cmdDeleteAllFinders",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDeleteAllFinder),
-				"RES_MenuFinderDeleteAllCaption", "RES_MenuFinderDeleteAllDesc", _shortcutHandler);
+				SR.MenuFinderDeleteAllCaption, SR.MenuFinderDeleteAllDesc, _shortcutHandler);
 			
 			_treeSearchFolderRootContextMenu.MenuItems.AddRange(new MenuItem[]{subF1, sep.CloneMenu(), subF2});			
 
@@ -7187,40 +7789,43 @@ namespace RssBandit.WinGui.Forms {
 
 			subF1  = new AppContextMenuCommand("cmdMarkFinderItemsRead",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdMarkFinderItemsRead),
-				"RES_MenuCatchUpOnAllCaption", "RES_MenuCatchUpOnAllDesc", _shortcutHandler);
+				SR.MenuCatchUpOnAllCaption, SR.MenuCatchUpOnAllDesc, _shortcutHandler);
 			subF2  = new AppContextMenuCommand("cmdRenameFinder",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdRenameFinder),
-				"RES_MenuFinderRenameCaption", "RES_MenuFinderRenameDesc", _shortcutHandler);
+				SR.MenuFinderRenameCaption, SR.MenuFinderRenameDesc, _shortcutHandler);
 			subF3  = new AppContextMenuCommand("cmdRefreshFinder",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdRefreshFinder),
-				"RES_MenuRefreshFinderCaption", "RES_MenuRefreshFinderDesc", _shortcutHandler);
+				SR.MenuRefreshFinderCaption, SR.MenuRefreshFinderDesc, _shortcutHandler);
 			subF4  = new AppContextMenuCommand("cmdDeleteFinder",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDeleteFinder),
-				"RES_MenuFinderDeleteCaption", "RES_MenuFinderDeleteDesc", _shortcutHandler);
-			subF6  = new AppContextMenuCommand("cmdShowFinderProperties",
+				SR.MenuFinderDeleteCaption, SR.MenuFinderDeleteDesc, _shortcutHandler);
+			AppContextMenuCommand subFinderShowFullText = new AppContextMenuCommand("cmdFinderShowFullItemText",
+				owner.Mediator, new ExecuteCommandHandler(this.CmdFinderToggleExcerptsFullItemText),
+				SR.MenuFinderShowExcerptsCaption, SR.MenuFinderShowExcerptsDesc, _shortcutHandler);
+			subF6 = new AppContextMenuCommand("cmdShowFinderProperties",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdShowFinderProperties),
-				"RES_MenuShowFinderPropertiesCaption", "RES_MenuShowFinderPropertiesDesc", _shortcutHandler);
+				SR.MenuShowFinderPropertiesCaption, SR.MenuShowFinderPropertiesDesc, _shortcutHandler);
 
-			_treeSearchFolderContextMenu.MenuItems.AddRange(new MenuItem[]{subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subF6});
+			_treeSearchFolderContextMenu.MenuItems.AddRange(new MenuItem[] { subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subFinderShowFullText, sep.CloneMenu(), subF6 });
 
 
 			_treeTempSearchFolderContextMenu = new ContextMenu();
 
 			subF1  = new AppContextMenuCommand("cmdMarkFinderItemsRead",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdMarkFinderItemsRead),
-				"RES_MenuCatchUpOnAllCaption", "RES_MenuCatchUpOnAllDesc", _shortcutHandler);
+				SR.MenuCatchUpOnAllCaption, SR.MenuCatchUpOnAllDesc, _shortcutHandler);
 			subF2  = new AppContextMenuCommand("cmdRefreshFinder",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdRefreshFinder),
-				"RES_MenuRefreshFinderCaption", "RES_MenuRefreshFinderDesc", _shortcutHandler);
+				SR.MenuRefreshFinderCaption, SR.MenuRefreshFinderDesc, _shortcutHandler);
 			subF3  = new AppContextMenuCommand("cmdSubscribeToFinderResult",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdSubscribeToFinderResult),
-				"RES_MenuSubscribeToFinderResultCaption", "RES_MenuSubscribeToFinderResultDesc", _shortcutHandler);
+				SR.MenuSubscribeToFinderResultCaption, SR.MenuSubscribeToFinderResultDesc, _shortcutHandler);
 			subF3.Enabled = false;	// dynamic
 			subF4  = new AppContextMenuCommand("cmdShowFinderProperties",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdShowFinderProperties),
-				"RES_MenuShowFinderPropertiesCaption", "RES_MenuShowFinderPropertiesDesc", _shortcutHandler);
+				SR.MenuShowFinderPropertiesCaption, SR.MenuShowFinderPropertiesDesc, _shortcutHandler);
 
-			_treeTempSearchFolderContextMenu.MenuItems.AddRange(new MenuItem[]{subF1, subF2, sep.CloneMenu(), subF3, sep.CloneMenu(), subF4});
+			_treeTempSearchFolderContextMenu.MenuItems.AddRange(new MenuItem[] { subF1, subF2, sep.CloneMenu(), subF3, sep.CloneMenu(), subFinderShowFullText.CloneMenu(), sep.CloneMenu(), subF4 });
 			#endregion
 
 			treeFeeds.ContextMenu = _treeRootContextMenu;	// init to root context
@@ -7231,107 +7836,128 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subL0 = new AppContextMenuCommand("cmdMarkSelectedFeedItemsRead",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdMarkFeedItemsRead),
-				"RES_MenuCatchUpSelectedNodeCaption", "RES_MenuCatchUpSelectedNodeDesc",0, _shortcutHandler);
+				SR.MenuCatchUpSelectedNodeCaption, SR.MenuCatchUpSelectedNodeDesc,0, _shortcutHandler);
 
 			AppContextMenuCommand subL1 = new AppContextMenuCommand("cmdMarkSelectedFeedItemsUnread", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdMarkFeedItemsUnread),
-				"RES_MenuMarkFeedItemsUnreadCaption", "RES_MenuMarkFeedItemsUnreadDesc", 1, _shortcutHandler);
+				SR.MenuMarkFeedItemsUnreadCaption, SR.MenuMarkFeedItemsUnreadDesc, 1, _shortcutHandler);
 			
 			//subL1.ImageList           = _listImages;
 		
 			AppContextMenuCommand subL2 = new AppContextMenuCommand("cmdFeedItemPostReply", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdPostReplyToItem),
-				"RES_MenuFeedItemPostReplyCaption", "RES_MenuFeedItemPostReplyDesc", 5, _shortcutHandler);
+				SR.MenuFeedItemPostReplyCaption, SR.MenuFeedItemPostReplyDesc, 5, _shortcutHandler);
 			//subL2.ImageList = _toolImages;
 			subL2.Enabled = false;		// dynamically enabled on runtime if feed supports commentAPI
 
 			AppContextMenuCommand subL3 = new AppContextMenuCommand("cmdFlagNewsItem",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuFlagFeedItemCaption", "RES_MenuFlagFeedItemDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemCaption, SR.MenuFlagFeedItemDesc, 1, _shortcutHandler);
 			//subL3.ImageList                  = _listImages;
 			subL3.Enabled = false;		// dynamically enabled on runtime if feed supports flag
 
 			AppContextMenuCommand subL3_sub1 = new AppContextMenuCommand("cmdFlagNewsItemForFollowUp",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemForFollowUp),
-				"RES_MenuFlagFeedItemFollowUpCaption", "RES_MenuFlagFeedItemFollowUpDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemFollowUpCaption, SR.MenuFlagFeedItemFollowUpDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub2 = new AppContextMenuCommand("cmdFlagNewsItemForReview",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemForReview),
-				"RES_MenuFlagFeedItemReviewCaption", "RES_MenuFlagFeedItemReviewDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemReviewCaption, SR.MenuFlagFeedItemReviewDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub3 = new AppContextMenuCommand("cmdFlagNewsItemForReply",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemForReply),
-				"RES_MenuFlagFeedItemReplyCaption", "RES_MenuFlagFeedItemReplyDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemReplyCaption, SR.MenuFlagFeedItemReplyDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub4 = new AppContextMenuCommand("cmdFlagNewsItemRead",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemRead),
-				"RES_MenuFlagFeedItemReadCaption", "RES_MenuFlagFeedItemReadDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemReadCaption, SR.MenuFlagFeedItemReadDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub5 = new AppContextMenuCommand("cmdFlagNewsItemForward",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemForward),
-				"RES_MenuFlagFeedItemForwardCaption", "RES_MenuFlagFeedItemForwardDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemForwardCaption, SR.MenuFlagFeedItemForwardDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub8 = new AppContextMenuCommand("cmdFlagNewsItemComplete",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemComplete),
-				"RES_MenuFlagFeedItemCompleteCaption", "RES_MenuFlagFeedItemCompleteDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemCompleteCaption, SR.MenuFlagFeedItemCompleteDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL3_sub9 = new AppContextMenuCommand("cmdFlagNewsItemNone",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFlagNewsItemNone),
-				"RES_MenuFlagFeedItemClearCaption", "RES_MenuFlagFeedItemClearDesc", 1, _shortcutHandler);
+				SR.MenuFlagFeedItemClearCaption, SR.MenuFlagFeedItemClearDesc, 1, _shortcutHandler);
 
 			subL3.MenuItems.AddRange(new MenuItem[]{subL3_sub1,subL3_sub2,subL3_sub3,subL3_sub4,subL3_sub5,sep.CloneMenu(), subL3_sub8, sep.CloneMenu(),subL3_sub9});
 
 			AppContextMenuCommand subL10 = new AppContextMenuCommand("cmdCopyNewsItem",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyNewsItem),
-				"RES_MenuCopyFeedItemCaption", "RES_MenuCopyFeedItemDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedItemCaption, SR.MenuCopyFeedItemDesc, 1, _shortcutHandler);
 
 			AppContextMenuCommand subL10_sub1 = new AppContextMenuCommand("cmdCopyNewsItemLinkToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyNewsItemLinkToClipboard),
-				"RES_MenuCopyFeedItemLinkToClipboardCaption", "RES_MenuCopyFeedItemLinkToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedItemLinkToClipboardCaption, SR.MenuCopyFeedItemLinkToClipboardDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL10_sub2 = new AppContextMenuCommand("cmdCopyNewsItemTitleLinkToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyNewsItemTitleLinkToClipboard),
-				"RES_MenuCopyFeedItemTitleLinkToClipboardCaption", "RES_MenuCopyFeedItemTitleLinkToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedItemTitleLinkToClipboardCaption, SR.MenuCopyFeedItemTitleLinkToClipboardDesc, 1, _shortcutHandler);
 			AppContextMenuCommand subL10_sub3 = new AppContextMenuCommand("cmdCopyNewsItemContentToClipboard",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdCopyNewsItemContentToClipboard),
-				"RES_MenuCopyFeedItemContentToClipboardCaption", "RES_MenuCopyFeedItemContentToClipboardDesc", 1, _shortcutHandler);
+				SR.MenuCopyFeedItemContentToClipboardCaption, SR.MenuCopyFeedItemContentToClipboardDesc, 1, _shortcutHandler);
 
 			subL10.MenuItems.AddRange(new MenuItem[]{subL10_sub1,subL10_sub2,subL10_sub3});
 			
 
 			AppContextMenuCommand subL4 = new AppContextMenuCommand("cmdColumnChooserMain",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuColumnChooserCaption", "RES_MenuColumnChooserDesc", _shortcutHandler);
+				SR.MenuColumnChooserCaption, SR.MenuColumnChooserDesc, _shortcutHandler);
 			//subL3.ImageList                  = _listImages;
 
-			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
+			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) 
+			{
 
 				AppContextMenuCommand subL4_subColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					"RES_MenuColumnChooser" + colID +"Caption", "RES_MenuColumnChooser" + colID +"Desc", _shortcutHandler);
+					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), 
+					SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
 				
 				subL4.MenuItems.AddRange(new MenuItem[]{subL4_subColumn});
 			}
 
 			AppContextMenuCommand subL4_subUseCatLayout = new AppContextMenuCommand("cmdColumnChooserUseCategoryLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseCategoryLayoutGlobal),
-				"RES_MenuColumnChooserUseCategoryLayoutGlobalCaption", "RES_MenuColumnChooserUseCategoryLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseCategoryLayoutGlobalCaption, SR.MenuColumnChooserUseCategoryLayoutGlobalDesc, _shortcutHandler);
 
 			AppContextMenuCommand subL4_subUseFeedLayout = new AppContextMenuCommand("cmdColumnChooserUseFeedLayoutGlobal",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserUseFeedLayoutGlobal),
-				"RES_MenuColumnChooserUseFeedLayoutGlobalCaption", "RES_MenuColumnChooserUseFeedLayoutGlobalDesc", _shortcutHandler);
+				SR.MenuColumnChooserUseFeedLayoutGlobalCaption, SR.MenuColumnChooserUseFeedLayoutGlobalDesc, _shortcutHandler);
 				
 			AppContextMenuCommand subL4_subResetLayout = new AppContextMenuCommand("cmdColumnChooserResetToDefault",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdColumnChooserResetToDefault),
-				"RES_MenuColumnChooserResetLayoutToDefaultCaption", "RES_MenuColumnChooserResetLayoutToDefaultDesc", _shortcutHandler);
+				SR.MenuColumnChooserResetLayoutToDefaultCaption, SR.MenuColumnChooserResetLayoutToDefaultDesc, _shortcutHandler);
 
 			subL4.MenuItems.AddRange(new MenuItem[]{sep.CloneMenu(), subL4_subUseCatLayout, subL4_subUseFeedLayout,sep.CloneMenu(), subL4_subResetLayout});
 
 			AppContextMenuCommand subL5 = new AppContextMenuCommand("cmdDeleteSelectedNewsItems", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdDeleteSelectedFeedItems),
-				"RES_MenuDeleteSelectedFeedItemsCaption", "RES_MenuDeleteSelectedFeedItemsDesc", _shortcutHandler);
+				SR.MenuDeleteSelectedFeedItemsCaption, SR.MenuDeleteSelectedFeedItemsDesc, _shortcutHandler);
 
 			AppContextMenuCommand subL6 = new AppContextMenuCommand("cmdRestoreSelectedNewsItems", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdRestoreSelectedFeedItems),
-				"RES_MenuRestoreSelectedFeedItemsCaption", "RES_MenuRestoreSelectedFeedItemsDesc", _shortcutHandler);
+				SR.MenuRestoreSelectedFeedItemsCaption, SR.MenuRestoreSelectedFeedItemsDesc, _shortcutHandler);
 			subL6.Visible = false;	// dynamic visible only in "Deleted Items" view
 
+			AppContextMenuCommand subL7 = new AppContextMenuCommand("cmdWatchItemComments", 
+				owner.Mediator, new ExecuteCommandHandler(this.CmdWatchItemComments),
+				SR.MenuFeedItemWatchCommentsCaption, SR.MenuFeedItemWatchCommentsDesc, 5, _shortcutHandler);
+			//subL2.ImageList = _toolImages;
+			subL7.Enabled = false;		// dynamically enabled on runtime if feed supports thr:replied, slash:comments or wfw:commentRss			
+			
+			AppContextMenuCommand subL8 = new AppContextMenuCommand("cmdViewOutlookReadingPane", 
+				owner.Mediator, new ExecuteCommandHandler(this.CmdViewOutlookReadingPane),
+				SR.MenuViewOutlookReadingPane, SR.MenuViewOutlookReadingPane, _shortcutHandler);
+			
+			AppContextMenuCommand subL9 = new AppContextMenuCommand("cmdDownloadAttachment",
+				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
+				SR.MenuDownloadAttachmentCaption, SR.MenuDownloadAttachmentDesc, _shortcutHandler);
+			subL9.Visible = false; // dynamic visible if the item has enclosures
+		
+			
+			_listContextMenuDownloadAttachment   = subL9; 
 			_listContextMenuDeleteItemsSeparator = sep.CloneMenu();
-			_listContextMenu.MenuItems.AddRange(new MenuItem[]{subL2, subL3, subL0, subL1, sep.CloneMenu(), subL10, _listContextMenuDeleteItemsSeparator, subL5, subL6, sep.CloneMenu(), subL4 });
+			_listContextMenuDownloadAttachmentsSeparator = sep.CloneMenu();
+			_listContextMenu.MenuItems.AddRange(new MenuItem[]{subL2, subL3, subL0, subL1, subL7, sep.CloneMenu(), subL10,_listContextMenuDownloadAttachmentsSeparator, subL9, _listContextMenuDeleteItemsSeparator, subL5, subL6, sep.CloneMenu(), subL4, subL8 });
 			listFeedItems.ContextMenu = _listContextMenu;
+			listFeedItemsO.ContextMenu = _listContextMenu;
 			#endregion
 
 			#region Local Feeds context menu
@@ -7340,7 +7966,7 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subTL1 = new AppContextMenuCommand("cmdDeleteAllNewsItems", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdDeleteAllFeedItems),
-				"RES_MenuDeleteAllFeedItemsCaption", "RES_MenuDeleteAllFeedItemsDesc", 1, _shortcutHandler);
+				SR.MenuDeleteAllFeedItemsCaption, SR.MenuDeleteAllFeedItemsDesc, 1, _shortcutHandler);
 			//subTL1.ImageList           = _listImages;
 
 			_treeLocalFeedContextMenu.MenuItems.AddRange(new MenuItem[]{subTL1});
@@ -7353,47 +7979,47 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subDT1 = new AppContextMenuCommand("cmdDocTabCloseThis", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDocTabCloseSelected),
-				"RES_MenuDocTabsCloseCurrentCaption", "RES_MenuDocTabsCloseCurrentDesc", 1, _shortcutHandler);
+				SR.MenuDocTabsCloseCurrentCaption, SR.MenuDocTabsCloseCurrentDesc, 1, _shortcutHandler);
 			//subDT1.ImageList           = _listImages;
 
 			AppContextMenuCommand subDT2 = new AppContextMenuCommand("cmdDocTabCloseAllOnStrip", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDocTabCloseAllOnStrip),
-				"RES_MenuDocTabsCloseAllOnStripCaption", "RES_MenuDocTabsCloseAllOnStripDesc", 2, _shortcutHandler);
+				SR.MenuDocTabsCloseAllOnStripCaption, SR.MenuDocTabsCloseAllOnStripDesc, 2, _shortcutHandler);
 			//subDT2.ImageList           = _listImages;
 
 			AppContextMenuCommand subDT3 = new AppContextMenuCommand("cmdDocTabCloseAll", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDocTabCloseAll),
-				"RES_MenuDocTabsCloseAllCaption", "RES_MenuDocTabsCloseAllDesc", 3, _shortcutHandler);
+				SR.MenuDocTabsCloseAllCaption, SR.MenuDocTabsCloseAllDesc, 3, _shortcutHandler);
 			//subDT3.ImageList           = _listImages;
 
 			AppContextMenuCommand subDT4 = new AppContextMenuCommand("cmdDocTabLayoutHorizontal", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdDocTabLayoutHorizontal),
-				"RES_MenuDocTabsLayoutHorizontalCaption", "RES_MenuDocTabsLayoutHorizontalDesc", _shortcutHandler);
+				SR.MenuDocTabsLayoutHorizontalCaption, SR.MenuDocTabsLayoutHorizontalDesc, _shortcutHandler);
 			subDT4.Checked = (_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal);
 
 			
 			AppContextMenuCommand subDT5 = new AppContextMenuCommand("cmdFeedDetailLayoutPosition", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuFeedDetailLayoutCaption", "RES_MenuFeedDetailLayoutDesc", _shortcutHandler);
+				SR.MenuFeedDetailLayoutCaption, SR.MenuFeedDetailLayoutDesc, _shortcutHandler);
 			
 			// subMenu:			
 			AppContextMenuCommand subSub1 = new AppContextMenuCommand("cmdFeedDetailLayoutPosTop", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosTop),
-				"RES_MenuFeedDetailLayoutTopCaption", "RES_MenuFeedDetailLayoutTopDesc", _shortcutHandler);
+				SR.MenuFeedDetailLayoutTopCaption, SR.MenuFeedDetailLayoutTopDesc, _shortcutHandler);
 			
 			subSub1.Checked = true;	// default
 
 			AppContextMenuCommand subSub2 = new AppContextMenuCommand("cmdFeedDetailLayoutPosLeft", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosLeft),
-				"RES_MenuFeedDetailLayoutLeftCaption", "RES_MenuFeedDetailLayoutLeftDesc", _shortcutHandler);
+				SR.MenuFeedDetailLayoutLeftCaption, SR.MenuFeedDetailLayoutLeftDesc, _shortcutHandler);
 
 			AppContextMenuCommand subSub3 = new AppContextMenuCommand("cmdFeedDetailLayoutPosRight", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosRight),
-				"RES_MenuFeedDetailLayoutRightCaption", "RES_MenuFeedDetailLayoutRightDesc", _shortcutHandler);
+				SR.MenuFeedDetailLayoutRightCaption, SR.MenuFeedDetailLayoutRightDesc, _shortcutHandler);
 
 			AppContextMenuCommand subSub4 = new AppContextMenuCommand("cmdFeedDetailLayoutPosBottom", 
 				owner.Mediator, new ExecuteCommandHandler(this.CmdFeedDetailLayoutPosBottom),
-				"RES_MenuFeedDetailLayoutBottomCaption", "RES_MenuFeedDetailLayoutBottomDesc", _shortcutHandler);
+				SR.MenuFeedDetailLayoutBottomCaption, SR.MenuFeedDetailLayoutBottomDesc, _shortcutHandler);
 
 			subDT5.MenuItems.AddRange(new MenuItem[]{subSub1, subSub2, subSub3, subSub4});
 			
@@ -7407,36 +8033,36 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subT1 = new AppContextMenuCommand("cmdShowGUI", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowMainGui), 
-				"RES_MenuShowMainGuiCaption", "RES_MenuShowMainGuiDesc", _shortcutHandler);
+				SR.MenuShowMainGuiCaption, SR.MenuShowMainGuiDesc, _shortcutHandler);
 			subT1.DefaultItem = true;
 
 			AppContextMenuCommand subT1_1 = new AppContextMenuCommand("cmdRefreshFeeds",
 				owner.Mediator, new ExecuteCommandHandler (owner.CmdRefreshFeeds),
-				"RES_MenuUpdateAllFeedsCaption", "RES_MenuUpdateAllFeedsDescription", _shortcutHandler);
+				SR.MenuUpdateAllFeedsCaption, SR.MenuUpdateAllFeedsDesc, _shortcutHandler);
 			AppContextMenuCommand subT2   = new AppContextMenuCommand("cmdShowMainAppOptions", 
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowOptions),
-				"RES_MenuAppOptionsCaption", "RES_MenuAppOptionsDesc", 10, _shortcutHandler);
+				SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 10, _shortcutHandler);
 			//subT2.ImageList = _browserImages;
 
 			AppContextMenuCommand subT5   = new AppContextMenuCommand("cmdShowConfiguredAlertWindows",
 				owner.Mediator, new ExecuteCommandHandler(this.CmdNop),
-				"RES_MenuShowAlertWindowsCaption", "RES_MenuShowAlertWindowsDesc", _shortcutHandler);
+				SR.MenuShowAlertWindowsCaption, SR.MenuShowAlertWindowsDesc, _shortcutHandler);
 			//subT5.Checked = owner.Preferences.ShowConfiguredAlertWindows;
 
 			#region ShowAlertWindows context submenu
 			AppContextMenuCommand subT5_1  = new AppContextMenuCommand("cmdShowAlertWindowNone",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowAlertWindowNone),
-				"RES_MenuShowNoneAlertWindowsCaption", "RES_MenuShowNoneAlertWindowsNone", _shortcutHandler);
+				SR.MenuShowNoneAlertWindowsCaption, SR.MenuShowNoneAlertWindowsDesc, _shortcutHandler);
 			subT5_1.Checked = (owner.Preferences.ShowAlertWindow == DisplayFeedAlertWindow.None);
 
 			AppContextMenuCommand subT5_2  = new AppContextMenuCommand("cmdShowAlertWindowConfiguredFeeds",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowAlertWindowConfigPerFeed),
-				"RES_MenuShowConfiguredFeedAlertWindowsCaption", "RES_MenuShowConfiguredFeedAlertWindowsDesc", _shortcutHandler);
+				SR.MenuShowConfiguredFeedAlertWindowsCaption, SR.MenuShowConfiguredFeedAlertWindowsDesc, _shortcutHandler);
 			subT5_2.Checked = (owner.Preferences.ShowAlertWindow == DisplayFeedAlertWindow.AsConfiguredPerFeed);
 
 			AppContextMenuCommand subT5_3  = new AppContextMenuCommand("cmdShowAlertWindowAll",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdShowAlertWindowAll),
-				"RES_MenuShowAllAlertWindowsCaption", "RES_MenuShowAllAlertWindowsDesc", _shortcutHandler);
+				SR.MenuShowAllAlertWindowsCaption, SR.MenuShowAllAlertWindowsDesc, _shortcutHandler);
 			subT5_3.Checked = (owner.Preferences.ShowAlertWindow == DisplayFeedAlertWindow.All);
 
 			subT5.MenuItems.AddRange(new MenuItem[]{subT5_1, subT5_2, subT5_3});
@@ -7444,12 +8070,12 @@ namespace RssBandit.WinGui.Forms {
 
 			AppContextMenuCommand subT6   = new AppContextMenuCommand("cmdShowNewItemsReceivedBalloon",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdToggleShowNewItemsReceivedBalloon),
-				"RES_MenuShowNewItemsReceivedBalloonCaption", "RES_MenuShowNewItemsReceivedBalloonDesc", _shortcutHandler);
+				SR.MenuShowNewItemsReceivedBalloonCaption, SR.MenuShowNewItemsReceivedBalloonDesc, _shortcutHandler);
 			subT6.Checked = owner.Preferences.ShowNewItemsReceivedBalloon;
 
 			AppContextMenuCommand subT10   = new AppContextMenuCommand("cmdCloseExit",
 				owner.Mediator, new ExecuteCommandHandler(owner.CmdExitApp),
-				"RES_MenuAppCloseExitCaption", "RES_MenuAppCloseExitDesc", _shortcutHandler);
+				SR.MenuAppCloseExitCaption, SR.MenuAppCloseExitDesc, _shortcutHandler);
 
 			_notifyContextMenu.MenuItems.AddRange(new MenuItem[]{subT1, subT1_1, sep.CloneMenu(),sub1.CloneMenu(),subT2,sep.CloneMenu(), subT5, subT6, sep.CloneMenu(),subT10});
 			#endregion
@@ -7458,224 +8084,109 @@ namespace RssBandit.WinGui.Forms {
 		#endregion
 
 		#region Toolbar routines
-		private void InitToolBars() {
+		
+		/// <summary>
+		/// Creates the IG toolbars dynamically.
+		/// </summary>
+		private void CreateIGToolbars() 
+		{
+			this.ultraToolbarsManager = new ToolbarHelper.RssBanditToolbarManager(this.components);
+			this.toolbarHelper = new ToolbarHelper(this.ultraToolbarsManager);
 			
-			toolBarMain.SuspendLayout();
-			toolBarBrowser.SuspendLayout();
-			toolBarWebSearch.SuspendLayout();
-
-			toolBarMain.ImageList = _toolImages;
-			toolBarBrowser.ImageList = _browserImages;
-			toolBarWebSearch.ImageList = _searchEngineImages;
-
-			/* with the new SandBar build 112, this is possible: */
-			SandBarLanguage.AddRemoveButtonsText = Resource.Manager["RES_ToolbarAddRemoveButtonsCaption"];
-			SandBarLanguage.ToolbarOptionsText = Resource.Manager["RES_ToolbarOptionsCaption"];
-			//TODO: translate all the other UI texts within SandBarLanguage...
-
-			/**/
-			CreateMainToolbar(toolBarMain);
-			CreateBrowserToolbar(toolBarBrowser);
-			CreateSearchToolbar(toolBarWebSearch);
-
-			// to get the click commands executed
-			toolBarMain.ButtonClick += new TD.SandBar.ToolBar.ButtonClickEventHandler(OnAnyToolBarButtonClick);
-			toolBarBrowser.ButtonClick += new TD.SandBar.ToolBar.ButtonClickEventHandler(OnAnyToolBarButtonClick);
-			toolBarWebSearch.ButtonClick += new TD.SandBar.ToolBar.ButtonClickEventHandler(OnAnyToolBarButtonClick);
+			this.historyMenuManager = new HistoryMenuManager();
+			this.historyMenuManager.OnNavigateBack +=new HistoryNavigationEventHandler(OnHistoryNavigateGoBackItemClick); 
+			this.historyMenuManager.OnNavigateForward +=new HistoryNavigationEventHandler(OnHistoryNavigateGoForwardItemClick); 
 			
-			toolBarMain.ResumeLayout(false);
-			toolBarBrowser.ResumeLayout(false);
-			toolBarWebSearch.ResumeLayout(false);
+			this._Main_Toolbars_Dock_Area_Left = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this._Main_Toolbars_Dock_Area_Right = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this._Main_Toolbars_Dock_Area_Top = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this._Main_Toolbars_Dock_Area_Bottom = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).BeginInit();
+			// 
+			// ultraToolbarsManager
+			// 
+			this.ultraToolbarsManager.DesignerFlags = 1;
+			this.ultraToolbarsManager.DockWithinContainer = this;
+			this.ultraToolbarsManager.ImageListSmall = this._allToolImages;
+			this.ultraToolbarsManager.ShowFullMenusDelay = 500;
+			this.ultraToolbarsManager.ShowToolTips = true;
+			this.ultraToolbarsManager.Style = Infragistics.Win.UltraWinToolbars.ToolbarStyle.Office2003;
+			// 
+			// _Main_Toolbars_Dock_Area_Left
+			// 
+			this._Main_Toolbars_Dock_Area_Left.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._Main_Toolbars_Dock_Area_Left.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(158)), ((System.Byte)(190)), ((System.Byte)(245)));
+			this._Main_Toolbars_Dock_Area_Left.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Left;
+			this._Main_Toolbars_Dock_Area_Left.ForeColor = System.Drawing.SystemColors.ControlText;
+			this._Main_Toolbars_Dock_Area_Left.Location = new System.Drawing.Point(0, 99);
+			this._Main_Toolbars_Dock_Area_Left.Name = "_Main_Toolbars_Dock_Area_Left";
+			this._Main_Toolbars_Dock_Area_Left.Size = new System.Drawing.Size(0, 212);
+			this._Main_Toolbars_Dock_Area_Left.ToolbarsManager = this.ultraToolbarsManager;
+			// 
+			// _Main_Toolbars_Dock_Area_Right
+			// 
+			this._Main_Toolbars_Dock_Area_Right.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._Main_Toolbars_Dock_Area_Right.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(158)), ((System.Byte)(190)), ((System.Byte)(245)));
+			this._Main_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
+			this._Main_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText;
+			this._Main_Toolbars_Dock_Area_Right.Location = new System.Drawing.Point(507, 99);
+			this._Main_Toolbars_Dock_Area_Right.Name = "_Main_Toolbars_Dock_Area_Right";
+			this._Main_Toolbars_Dock_Area_Right.Size = new System.Drawing.Size(0, 212);
+			this._Main_Toolbars_Dock_Area_Right.ToolbarsManager = this.ultraToolbarsManager;
+			// 
+			// _Main_Toolbars_Dock_Area_Top
+			// 
+			this._Main_Toolbars_Dock_Area_Top.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._Main_Toolbars_Dock_Area_Top.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(158)), ((System.Byte)(190)), ((System.Byte)(245)));
+			this._Main_Toolbars_Dock_Area_Top.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Top;
+			this._Main_Toolbars_Dock_Area_Top.ForeColor = System.Drawing.SystemColors.ControlText;
+			this._Main_Toolbars_Dock_Area_Top.Location = new System.Drawing.Point(0, 0);
+			this._Main_Toolbars_Dock_Area_Top.Name = "_Main_Toolbars_Dock_Area_Top";
+			this._Main_Toolbars_Dock_Area_Top.Size = new System.Drawing.Size(507, 99);
+			this._Main_Toolbars_Dock_Area_Top.ToolbarsManager = this.ultraToolbarsManager;
+			// 
+			// _Main_Toolbars_Dock_Area_Bottom
+			// 
+			this._Main_Toolbars_Dock_Area_Bottom.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._Main_Toolbars_Dock_Area_Bottom.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(158)), ((System.Byte)(190)), ((System.Byte)(245)));
+			this._Main_Toolbars_Dock_Area_Bottom.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Bottom;
+			this._Main_Toolbars_Dock_Area_Bottom.ForeColor = System.Drawing.SystemColors.ControlText;
+			this._Main_Toolbars_Dock_Area_Bottom.Location = new System.Drawing.Point(0, 311);
+			this._Main_Toolbars_Dock_Area_Bottom.Name = "_Main_Toolbars_Dock_Area_Bottom";
+			this._Main_Toolbars_Dock_Area_Bottom.Size = new System.Drawing.Size(507, 0);
+			this._Main_Toolbars_Dock_Area_Bottom.ToolbarsManager = this.ultraToolbarsManager;
+			
+			this.Controls.Add(this._Main_Toolbars_Dock_Area_Left);
+			this.Controls.Add(this._Main_Toolbars_Dock_Area_Right);
+			this.Controls.Add(this._Main_Toolbars_Dock_Area_Top);
+			this.Controls.Add(this._Main_Toolbars_Dock_Area_Bottom);
+			
+			toolbarHelper.CreateToolbars(this, owner, this._shortcutHandler);
+			((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).EndInit();
 
+			this.ultraToolbarsManager.ToolClick += new ToolClickEventHandler(this.OnAnyToolbarToolClick);
+			this.ultraToolbarsManager.BeforeToolDropdown += new BeforeToolDropdownEventHandler(this.OnToolbarBeforeToolDropdown);
+			this.owner.Mediator.BeforeCommandStateChanged += new EventHandler(OnMediatorBeforeCommandStateChanged);
+			this.owner.Mediator.AfterCommandStateChanged += new EventHandler(OnMediatorAfterCommandStateChanged);
 		}
 
-		private void ConnectToolbarStateEvents(bool attach) {
-			// for state manangement
-			if (attach) {
-				toolBarMain.VisibleChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarMain.SizeChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarMain.LocationChanged  += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.VisibleChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.SizeChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.LocationChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.VisibleChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.SizeChanged += new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.LocationChanged += new EventHandler(OnAnyToolbarStateChanged);
-			} else {
-				toolBarMain.VisibleChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarMain.SizeChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarMain.LocationChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.VisibleChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.SizeChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarBrowser.LocationChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.VisibleChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.SizeChanged -= new EventHandler(OnAnyToolbarStateChanged);
-				toolBarWebSearch.LocationChanged -= new EventHandler(OnAnyToolbarStateChanged);
-			}
-		}
-
-		private void CreateMainToolbar(TD.SandBar.ToolBar tb) {
-
-			AppToolCommand tool0 = new AppToolCommand("cmdRefreshFeeds", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdRefreshFeeds), 
-				"RES_MenuUpdateAllFeedsCaption", "RES_MenuUpdateAllFeedsDesc", 0);
-			
-			AppToolCommand tool1 = new AppToolCommand("cmdNextUnreadFeedItem", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdNextUnreadFeedItem),
-				"RES_MenuNextUnreadItemCaption", "RES_MenuNextUnreadItemDesc",3);
-
-			tool1.BeginGroup = true;
-
-			AppToolCommand tool2 = new AppToolCommand("cmdCatchUpCurrentSelectedNode", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdCatchUpCurrentSelectedNode),
-				"RES_MenuCatchUpSelectedNodeCaption", "RES_MenuCatchUpSelectedNodeDesc",7);
-
-			AppToolCommand tool3 = new AppToolCommand("cmdNewFeed", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdNewFeed),
-				"RES_MenuNewFeedCaption", "RES_MenuNewFeedDesc", 1);
-
-			tool3.BeginGroup = true;
-
-			AppToolCommand tool4 = new AppToolCommand("cmdAutoDiscoverFeed", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdAutoDiscoverFeed),
-				"RES_MenuAutoDiscoverFeedCaption", "RES_MenuAutoDiscoverFeedDesc",4);
-
-
-			AppToolCommand tool5 = new AppToolCommand("cmdFeedItemPostReply", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdPostReplyToItem),
-				"RES_MenuPostReplyFeedItemCaption", "RES_MenuPostReplyFeedItemDesc",5);
-			
-			tool5.BeginGroup = true;
-			tool5.Enabled = false;
-
-			AppToolCommand tool6 = new AppToolCommand("cmdNewRssSearch", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdNewRssSearch),
-				"RES_MenuNewRssSearchCaption", "RES_MenuNewRssSearchDesc", 15);
-
-			tool6.BeginGroup = true;
-
-			tb.Items.AddRange(new ToolbarItemBase[]{tool0,tool1,tool2,tool3,tool4,tool5,tool6, owner.BackgroundDiscoverFeedsHandler.Control});
-		}
-
-		private void CreateBrowserToolbar(TD.SandBar.ToolBar tb) {
-			
-			AppToolCommand tool0 = new AppToolCommand("cmdBrowserGoBack", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserGoBack),
-				"RES_MenuBrowserNavigateBackCaption", "RES_MenuBrowserNavigateBackDesc",17);
-			
-			//tool0.Shortcut = Keys.Alt | Keys.Left;	TODO!!!
-			tool0.Enabled = false;
-
-			AppToolCommand tool1 = new AppToolCommand("cmdBrowserGoForward", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserGoForward),
-				"RES_MenuBrowserNavigateForwardCaption", "RES_MenuBrowserNavigateForwardDesc",18);
-
-			//tool1.Shortcut = Keys.Alt | Keys.Right;	TODO !!!
-			tool1.Enabled = false;
-
-			AppToolCommand tool2 = new AppToolCommand("cmdBrowserCancelNavigation", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserCancelNavigation),
-				"RES_MenuBrowserNavigateCancelCaption", "RES_MenuBrowserNavigateCancelDesc",21);
-
-			AppToolCommand tool3 = new AppToolCommand("cmdBrowserRefresh", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserRefresh),
-				"RES_MenuBrowserRefreshCaption", "RES_MenuBrowserRefreshDesc", 22);
-			
-			//tool3.Shortcut = Keys.F5;	TODO!!!
-
-
-			navigateComboBox = new TD.SandBar.ComboBoxItem();
-			navigateComboBox.Text = Resource.Manager["RES_MenuBrowserNavigateComboBoxCaption"];
-			navigateComboBox.ToolTipText = Resource.Manager["RES_MenuBrowserNavigateComboBoxDesc"];
-			navigateComboBox.ComboBox.KeyDown += new KeyEventHandler(OnNavigateComboBoxKeyDown);
-			navigateComboBox.ComboBox.KeyPress += new KeyPressEventHandler(OnAnyEnterKeyPress);
-			navigateComboBox.ComboBox.DragOver += new DragEventHandler(OnNavigateComboBoxDragOver);
-			navigateComboBox.ComboBox.DragDrop += new DragEventHandler(OnNavigateComboBoxDragDrop);
-
-			navigateComboBox.ComboBox.AllowDrop = true;
-			navigateComboBox.MinimumControlWidth = 330;
-			navigateComboBox.Padding.Left = 1;
-			navigateComboBox.Padding.Right = 1;
-			//Size previous = navigateComboBox.ComboBox.Size;
-			//navigateComboBox.ComboBox.Size = new Size(330, previous.Height);	// set a initial size
-			//navigateComboBox.ComboBox.DropDownWidth = 450;	// dito
-			
-
-			//tb.Resize += new EventHandler(OnToolbarBrowserResize);
-			//navigateComboBox.SelectedIndexChanged += new EventHandler(NavigationSelectedIndexChanged);
-
-			urlExtender.Add(this.navigateComboBox.ComboBox);
-
-			AppToolCommand tool5 = new AppToolCommand("cmdBrowserNavigate", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserNavigate),
-				"RES_MenuBrowserDoNavigateCaption", "RES_MenuBrowserDoNavigateDesc",38);
-
-			AppToolCommand tool6 = new AppToolCommand("cmdBrowserNewTab", 
-				owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserCreateNewTab),
-				"RES_MenuBrowserNewTabCaption", "RES_MenuBrowserNewTabDesc", 0);
-
-			tool6.BeginGroup = true;
-			//tool6.Shortcut = Keys.Control | Keys.N;		TODO!!!
-			
-			AppToolCommand tool7 = new AppToolCommand("cmdBrowserNewExternalWindow", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdOpenLinkInExternalBrowser),
-				"RES_MenuBrowserNewExternalWindowCaption", "RES_MenuBrowserNewExternalWindowDesc", 39);
-
-			tb.Items.AddRange(new ToolbarItemBase[]{tool0,tool1,tool2,tool3,navigateComboBox,tool5,tool6,tool7});
-
-			tb.StretchItem = navigateComboBox;
-			//tb.Stretch = true;
-		}
-
-
-		private void CreateSearchToolbar(TD.SandBar.ToolBar tb) {
-
-			_searchEngineImages.Images.Add(_browserImages.Images[37], Color.Magenta);
-
-			searchComboBox = new TD.SandBar.ComboBoxItem();
-			searchComboBox.Text = Resource.Manager["RES_MenuDoSearchComboBoxCaption"];
-			searchComboBox.ToolTipText = Resource.Manager["RES_MenuDoSearchComboBoxDesc"];
-			searchComboBox.ComboBox.KeyDown += new KeyEventHandler(OnSearchComboBoxKeyDown);
-			searchComboBox.ComboBox.KeyPress += new KeyPressEventHandler(OnAnyEnterKeyPress);
-			searchComboBox.ComboBox.DragOver += new DragEventHandler(OnSearchComboBoxDragOver);
-			searchComboBox.ComboBox.DragDrop += new DragEventHandler(OnSearchComboBoxDragDrop);
-			searchComboBox.ComboBox.Capture = false;
-
-			searchComboBox.ComboBox.AllowDrop = true;
-			searchComboBox.MinimumControlWidth = 150;
-			Size previous = searchComboBox.ComboBox.Size;
-			searchComboBox.ComboBox.Size = new Size(150, previous.Height);	// set a initial size
-			searchComboBox.ComboBox.DropDownWidth = 350;
-
-			//tb.Resize += new EventHandler(this.OnBarResize);
-			//navigateComboBox.SelectedIndexChanged += new EventHandler(NavigationSelectedIndexChanged);
-
-			AppToolMenuCommand tool2 = new AppToolMenuCommand("cmdSearchGo", 
-				owner.Mediator, new ExecuteCommandHandler(this.CmdSearchGo),
-				"RES_MenuDoSearchWebCaption", "RES_MenuDoSearchWebDesc", 0);
-
-			_searchesGoCommand = tool2;	// need the reference later to build the search dropdown
-
-			tb.Items.AddRange(new ToolbarItemBase[]{searchComboBox,tool2});
-			tb.StretchItem = searchComboBox;
-			//tb.Stretch = true;
-		}
-
+		
 		#endregion
 
 		#region Init DocManager
-		private void InitDocumentManager() {
+		private void InitDocumentManager() 
+		{
 			
 			_docContainer.SuspendLayout();
 			
 			_docContainer.LayoutSystem.SplitMode = Orientation.Vertical;
 			
-			_docFeedDetails.Text = Resource.Manager["RES_FeedDetailDocumentTabCaption"];
 			_docFeedDetails.TabImage = _listImages.Images[0];
 			_docFeedDetails.Tag = this; // I'm the ITabState implementor
 			if (Win32.IsOSAtLeastWindowsXP)
 				ColorEx.ColorizeOneNote(_docFeedDetails, 0);
 
+			_docContainer.ActiveDocument = _docFeedDetails;
 			_docContainer.ShowControlContextMenu +=new ShowControlContextMenuEventHandler(OnDocContainerShowControlContextMenu);
 			_docContainer.MouseDown += new MouseEventHandler(OnDocContainerMouseDown);
 			_docContainer.DocumentClosing += new DocumentClosingEventHandler(OnDocContainerDocumentClosing);
@@ -7689,17 +8200,18 @@ namespace RssBandit.WinGui.Forms {
 
 		#region DockHost init routines
 
-		private void InitDockHosts() {
+		private void InitDockHosts() 
+		{
 			sandDockManager.DockingFinished += new EventHandler(OnDockManagerDockingFinished);
 			sandDockManager.DockingStarted += new EventHandler(OnDockManagerDockStarted);
-			dockSubscriptions.Closed += new EventHandler(OnDockControlSubscriptionsClosed);
 		}
 
 
 		#endregion
 
 		#region TrayIcon routines
-		private void InitTrayIcon() {
+		private void InitTrayIcon() 
+		{
 			if 	(this.components == null)
 				this.components = new System.ComponentModel.Container();
 			_trayAni = new NotifyIconAnimation(this.components);
@@ -7714,94 +8226,125 @@ namespace RssBandit.WinGui.Forms {
 		}
 		#endregion
 
-		#region Statusbar routines
+		#region Statusbar/Docking routines
 		
-		private void InitStatusBar() {
+		private void InitStatusBar() 
+		{
 			_status.PanelClick += new StatusBarPanelClickEventHandler(OnStatusPanelClick);
 			_status.LocationChanged += new EventHandler(OnStatusPanelLocationChanged);
 			statusBarBrowserProgress.Width = 0;
 			progressBrowser.Visible = false;
 		}
 
-		private void OnDockManagerDockStarted(object sender, EventArgs e) {
-			SetBrowserStatusBarText(Resource.Manager["RES_DragDockablePanelInfo"]);
+		private void OnDockManagerDockStarted(object sender, EventArgs e) 
+		{
+			SetBrowserStatusBarText(SR.DragDockablePanelInfo);
 		}
 
-		private void OnDockManagerDockingFinished(object sender, EventArgs e) {
+		private void OnDockManagerDockingFinished(object sender, EventArgs e) 
+		{
 			SetBrowserStatusBarText(String.Empty);
-		}
-
-		private void OnDockControlSubscriptionsClosed(object sender, EventArgs e) {
-			owner.Mediator.SetChecked("-cmdToggleTreeViewState");
 		}
 
 		#endregion
 
 		#region Callback and event handler routines
 
-		private void CmdNop(ICommand sender) {
+		private void CmdNop(ICommand sender) 
+		{
 			// Nop: no operation here
 		}
 
-		private void CmdOpenLinkInExternalBrowser(ICommand sender) {
-			owner.OpenUrlInExternalBrowser(UrlText);
+		internal void CmdOpenLinkInExternalBrowser(ICommand sender) 
+		{
+			owner.NavigateToUrlInExternalBrowser(UrlText);
 		}
 		
-		private void CmdToggleMainTBViewState(ICommand sender) {
-			toolBarMain.Visible = !owner.Mediator.IsCommandComponentChecked("cmdToggleMainTBViewState");
-			owner.Mediator.SetChecked(toolBarMain.IsOpen ,"cmdToggleMainTBViewState");
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarMain.Visible", toolBarMain.Visible);
-//			this.DelayTask(DelayedTasks.SaveUIConfiguration);	// save state
+		internal void CmdToggleMainTBViewState(ICommand sender) 
+		{
+			bool enable = owner.Mediator.IsChecked(sender);
+			owner.Mediator.SetChecked(enable, "cmdToggleMainTBViewState");
+			this.toolbarHelper.SetToolbarVisible(Resource.Toolbar.MainTools, enable);
 		}
-		private void CmdToggleWebTBViewState(ICommand sender) {
-			toolBarBrowser.Visible = !owner.Mediator.IsCommandComponentChecked("cmdToggleWebTBViewState");
-			owner.Mediator.SetChecked(toolBarBrowser.IsOpen ,"cmdToggleWebTBViewState");
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarBrowser.Visible", toolBarBrowser.Visible);
-//			this.DelayTask(DelayedTasks.SaveUIConfiguration);	// save state
+		internal void CmdToggleWebTBViewState(ICommand sender) 
+		{
+			bool enable = owner.Mediator.IsChecked(sender);
+			owner.Mediator.SetChecked(enable, "cmdToggleWebTBViewState");
+			this.toolbarHelper.SetToolbarVisible(Resource.Toolbar.WebTools, enable);
 		}
-		private void CmdToggleWebSearchTBViewState(ICommand sender) {
-			toolBarWebSearch.Visible = !owner.Mediator.IsCommandComponentChecked("cmdToggleWebSearchTBViewState");
-			owner.Mediator.SetChecked(toolBarWebSearch.IsOpen ,"cmdToggleWebSearchTBViewState");
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarWebSearch.Visible", toolBarWebSearch.Visible);
-//			this.DelayTask(DelayedTasks.SaveUIConfiguration);	// save state
-		}
-
-		private void OnMenuItemViewToolbarsBeforePopup(object sender, MenuPopupEventArgs e) {
-			owner.Mediator.SetChecked(toolBarMain.IsOpen ,"cmdToggleMainTBViewState");
-			owner.Mediator.SetChecked(toolBarBrowser.IsOpen ,"cmdToggleWebTBViewState");
-			owner.Mediator.SetChecked(toolBarWebSearch.IsOpen ,"cmdToggleWebSearchTBViewState");
+		internal void CmdToggleWebSearchTBViewState(ICommand sender) 
+		{
+			bool enable = owner.Mediator.IsChecked(sender);
+			owner.Mediator.SetChecked(enable, "cmdToggleWebSearchTBViewState");
+			this.toolbarHelper.SetToolbarVisible(Resource.Toolbar.SearchTools, enable);
 		}
 
-		// not needed to be handled by RssBanditApplication.
-		// Gets called, if a user want to view the feed descriptions docked panel.
-		private void CmdDockShowFeedDescriptions(ICommand sender) {
-			if (owner.Mediator.IsCommandComponentChecked("cmdToggleTreeViewState")) {
-				dockSubscriptions.Close();	// Close event not fired:
+		/// <summary>
+		/// Called before IG view menu tool dropdown.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="Infragistics.Win.UltraWinToolbars.BeforeToolDropdownEventArgs"/> instance containing the event data.</param>
+		private void OnToolbarBeforeToolDropdown(object sender, BeforeToolDropdownEventArgs e) {
+			if (e.Tool.Key == "mnuViewToolbars") {
+				owner.Mediator.SetChecked(this.toolbarHelper.IsToolbarVisible(Resource.Toolbar.MainTools),"cmdToggleMainTBViewState");
+				owner.Mediator.SetChecked(this.toolbarHelper.IsToolbarVisible(Resource.Toolbar.WebTools) ,"cmdToggleWebTBViewState");
+				owner.Mediator.SetChecked(this.toolbarHelper.IsToolbarVisible(Resource.Toolbar.SearchTools) ,"cmdToggleWebSearchTBViewState");
+			} else if (e.Tool.Key == "cmdColumnChooserMain") {
+				RefreshListviewColumnContextMenu();
+			} else if (e.Tool.Key == "cmdBrowserGoBack" || e.Tool.Key == "cmdBrowserGoForward") {
+				// we switch the dropdown chevron dynamically.
+				// as a result, we now get only the before/afterdropdown events, but
+				// not anymore the toolclick. So we simulate the toolClick it here:
+				AppPopupMenuCommand cmd = e.Tool as AppPopupMenuCommand;
+				if (cmd != null) {
+					if (cmd.Tools.Count == 0) {
+						e.Cancel = true;
+						this.OnAnyToolbarToolClick(this, new ToolClickEventArgs(e.Tool, null));
+					}
+				}
+			}
+		}
+		
+		internal void ToggleNavigationPaneView(NavigationPaneView pane) {
+			if (!Navigator.Visible)
+				OnNavigatorExpandImageClick(this, EventArgs.Empty);
+			
+			if (pane == NavigationPaneView.RssSearch) {
+				Navigator.SelectedGroup = Navigator.Groups[Resource.NavigatorGroup.RssSearch];
+				owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
 				owner.Mediator.SetChecked("-cmdToggleTreeViewState");
 			} else {
-				if (!dockSubscriptions.IsOpen)
-					dockSubscriptions.Open();
-				dockSubscriptions.Activate();
+				Navigator.SelectedGroup = Navigator.Groups[Resource.NavigatorGroup.Subscriptions];
+				owner.Mediator.SetChecked("-cmdToggleRssSearchTabState");
 				owner.Mediator.SetChecked("+cmdToggleTreeViewState");
 			}
 		}
+		
+		// not needed to be handled by RssBanditApplication.
+		// Gets called, if a user want to view the feed subscriptions docked panel.
+		internal void CmdDockShowSubscriptions(ICommand sender) 
+		{
+			ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+		}
 
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to view the feed descriptions docked panel.
-		private void CmdDockShowRssSearch(ICommand sender) {
-			if (!dockSearch.IsOpen)
-				dockSearch.Open();
-			dockSearch.Activate();
+		internal void CmdDockShowRssSearch(ICommand sender) 
+		{
+			ToggleNavigationPaneView(NavigationPaneView.RssSearch);
 		}
 
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to close the selected doc tab.
-		private void CmdDocTabCloseSelected(ICommand sender) {
+		private void CmdDocTabCloseSelected(ICommand sender) 
+		{
 			Point pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
 			ControlLayoutSystem underMouse = _docContainer.GetLayoutSystemAt(_docContainer.PointToClient(pos)) as ControlLayoutSystem;
-			if (underMouse != null) {
+			if (underMouse != null) 
+			{
 				DockControl docUnderMouse = underMouse.GetControlAt(_docContainer.PointToClient(pos));
-				if (docUnderMouse != null) {	
+				if (docUnderMouse != null) 
+				{	
 					this.RemoveDocTab(docUnderMouse);
 					return;
 				}
@@ -7812,7 +8355,8 @@ namespace RssBandit.WinGui.Forms {
 
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to close all doc tabs on the current strip.
-		private void CmdDocTabCloseAllOnStrip(ICommand sender) {
+		private void CmdDocTabCloseAllOnStrip(ICommand sender) 
+		{
 			Point pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
 			ControlLayoutSystem underMouse = _docContainer.GetLayoutSystemAt(_docContainer.PointToClient(pos)) as ControlLayoutSystem;
 			if (underMouse == null) 
@@ -7820,7 +8364,8 @@ namespace RssBandit.WinGui.Forms {
 			
 			DockControl[] docs = new DockControl[underMouse.Controls.Count];
 			underMouse.Controls.CopyTo(docs, 0);	// prevent InvalidOpException on Collections
-			foreach (DockControl doc in docs) {
+			foreach (DockControl doc in docs) 
+			{
 				ITabState state = (ITabState)doc.Tag;
 				if (state.CanClose)
 					_docContainer.RemoveDocument(doc);
@@ -7829,10 +8374,12 @@ namespace RssBandit.WinGui.Forms {
 
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to close all doc tabs on all strips.
-		private void CmdDocTabCloseAll(ICommand sender) {
+		private void CmdDocTabCloseAll(ICommand sender) 
+		{
 			DockControl[] docs = new DockControl[_docContainer.Documents.Length];
 			_docContainer.Documents.CopyTo(docs, 0);		// prevent InvalidOpException on Collections
-			foreach (DockControl doc in docs) {
+			foreach (DockControl doc in docs) 
+			{
 				ITabState state = (ITabState)doc.Tag;
 				if (state.CanClose)
 					_docContainer.RemoveDocument(doc);
@@ -7841,76 +8388,129 @@ namespace RssBandit.WinGui.Forms {
 
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to toggle the splitted doc strip layout.
-		private void CmdDocTabLayoutHorizontal(ICommand sender) {
-			if (owner.Mediator.IsCommandComponentChecked("cmdDocTabLayoutHorizontal")) {
+		private void CmdDocTabLayoutHorizontal(ICommand sender) 
+		{
+			if (owner.Mediator.IsChecked("cmdDocTabLayoutHorizontal")) 
+			{
 				_docContainer.LayoutSystem.SplitMode = Orientation.Vertical;
-			} else {
+			} 
+			else 
+			{
 				_docContainer.LayoutSystem.SplitMode = Orientation.Horizontal;
 			}
-			owner.Mediator.SetCommandComponentChecked("cmdDocTabLayoutHorizontal", (_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal));
+			owner.Mediator.SetChecked((_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal), "cmdDocTabLayoutHorizontal");
 		}
 
-
+		internal void CmdViewOutlookReadingPane(ICommand sender) 
+		{
+			if (sender != null) 
+			{
+				// check the real command (sender) for current unified state:
+				bool enable = owner.Mediator.IsChecked(sender);
+				owner.Mediator.SetChecked(enable, "cmdViewOutlookReadingPane");
+				ShowOutlookReadingPane(enable);
+			}
+		}
+		
+		private void ShowOutlookReadingPane(bool enable) {
+			if (enable) {
+				//Prepare ListView Contents
+				ThreadedListViewItem[] items = new ThreadedListViewItem[listFeedItems.Items.Count];
+				int ind = 0;
+				foreach (ThreadedListViewItem lvi in listFeedItems.Items) {
+					items[ind++] = lvi;
+				}
+				listFeedItemsO.Clear();
+				listFeedItemsO.AddRange(items);
+				//
+				listFeedItems.Visible = false;
+				listFeedItemsO.Visible = true;
+			} else {
+				listFeedItems.Visible = true;
+				listFeedItemsO.Visible = false;
+				//
+				listFeedItemsO.Clear();
+			}
+		}
+		
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to toggle the feed detail layout.
-		private void CmdFeedDetailLayoutPosTop(ICommand sender) {
+		internal void CmdFeedDetailLayoutPosTop(ICommand sender) 
+		{
 			this.SetFeedDetailLayout(DockStyle.Top);
 		}
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to toggle the feed detail layout.
-		private void CmdFeedDetailLayoutPosBottom(ICommand sender) {
+		internal void CmdFeedDetailLayoutPosBottom(ICommand sender) 
+		{
 			this.SetFeedDetailLayout(DockStyle.Bottom);
 		}
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to toggle the feed detail layout.
-		private void CmdFeedDetailLayoutPosLeft(ICommand sender) {
+		internal void CmdFeedDetailLayoutPosLeft(ICommand sender) 
+		{
 			this.SetFeedDetailLayout(DockStyle.Left);
 		}
 		// not needed to be handled by RssBanditApplication.
 		// Gets called, if a user want to toggle the feed detail layout.
-		private void CmdFeedDetailLayoutPosRight(ICommand sender) {
+		internal void CmdFeedDetailLayoutPosRight(ICommand sender) 
+		{
 			this.SetFeedDetailLayout(DockStyle.Right);
 		}
 
 		#region CmdFlag... routines
-		public void CmdFlagNewsItemForFollowUp(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemForFollowUp(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.FollowUp);
 			}
 		}
 
-		public void CmdFlagNewsItemNone(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemNone(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.None);
 			}
 		}
 
-		public void CmdFlagNewsItemComplete(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemComplete(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.Complete);
 			}
 		}
 
-		public void CmdFlagNewsItemForward(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemForward(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.Forward);
 			}
 		}
 
-		public void CmdFlagNewsItemRead(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemRead(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.Read);
 			}
 		}
 
-		public void CmdFlagNewsItemForReply(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemForReply(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.Reply);
 			}
 		}
 
-		public void CmdFlagNewsItemForReview(ICommand sender) {
-			if (this.CurrentSelectedFeedItem != null) {			
+		public void CmdFlagNewsItemForReview(ICommand sender) 
+		{
+			if (this.CurrentSelectedFeedItem != null) 
+			{			
 				this.MarkFeedItemsFlagged(Flagged.Review);
 			}
 		}
@@ -7918,129 +8518,179 @@ namespace RssBandit.WinGui.Forms {
 
 		#region CmdCopyNewsItemXXX and CmdCopyFeedXXX to Clipboard
 
-		private void CmdCopyFeed(ICommand sender) {
+		private void CmdCopyFeed(ICommand sender) 
+		{
 			// dummy, just a submenu
 			if (sender is AppContextMenuCommand)
-				CurrentSelectedNode = null;
+				CurrentSelectedFeedsNode = null;
 		}
-		private void CmdCopyFeedLinkToClipboard(ICommand sender) {
+		private void CmdCopyFeedLinkToClipboard(ICommand sender) 
+		{
 
-			FeedTreeNodeBase node = CurrentSelectedNode;
-			if (node != null && node.Type == FeedNodeType.Feed) {
+			TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
+			if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed && feedsNode.DataKey != null) 
+			{
 		
-				if (owner.FeedHandler.FeedsTable.ContainsKey((string)node.Tag))
-					Clipboard.SetDataObject((string)node.Tag);
+				if (owner.FeedHandler.FeedsTable.ContainsKey(feedsNode.DataKey))
+					Clipboard.SetDataObject(feedsNode.DataKey);
 			}
 
 			if (sender is AppContextMenuCommand)	// needed at the treeview
-				CurrentSelectedNode = null;
+				CurrentSelectedFeedsNode = null;
 		}
 		
-		private void CmdCopyFeedHomeLinkToClipboard(ICommand sender) {
+		private void CmdCopyFeedHomeLinkToClipboard(ICommand sender) 
+		{
 
-			FeedTreeNodeBase node = CurrentSelectedNode;
-			if (node != null && node.Type == FeedNodeType.Feed) {
+			TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
+			if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed) 
+			{
 
-				IFeedDetails fd = null;
+				IFeedDetails fd = owner.GetFeedInfo(feedsNode.DataKey);
 				string link = null;
 
-				if (owner.FeedHandler.FeedsTable.ContainsKey((string)node.Tag))
-					fd = owner.FeedHandler.GetFeedInfo((string)node.Tag);
-			
 				if (fd != null) {
 					link = fd.Link;
 				} else {
-					link = (string)node.Tag;
+					link = feedsNode.DataKey;
 				}	
 
-				if (!StringHelper.EmptyOrNull(link)) {
+				if (!StringHelper.EmptyOrNull(link)) 
+				{
 					Clipboard.SetDataObject(link);
 				}
 			}
 
 			if (sender is AppContextMenuCommand)	// needed at the treeview
-				CurrentSelectedNode = null;
+				CurrentSelectedFeedsNode = null;
 		}
 
-		private void CmdCopyFeedHomeTitleLinkToClipboard(ICommand sender) {
+		private void CmdCopyFeedHomeTitleLinkToClipboard(ICommand sender) 
+		{
 
-			FeedTreeNodeBase node = CurrentSelectedNode;
-			if (node != null && node.Type == FeedNodeType.Feed) {
+			TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
+			if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed) 
+			{
 
-				IFeedDetails fd = null;
+				IFeedDetails fd = owner.GetFeedInfo(feedsNode.DataKey);
 				string link = null, title = null;
 
-				if (owner.FeedHandler.FeedsTable.ContainsKey((string)node.Tag))
-					fd = owner.FeedHandler.GetFeedInfo((string)node.Tag);
-			
 				if (fd != null) {
-					link = fd.Link;				title = fd.Title; 
+					link = fd.Link;				
+					title = fd.Title; 
 				} else {
-					link = (string)node.Tag;	title = node.Text;
+					link = feedsNode.DataKey;	
+					title = feedsNode.Text;
 				}	
 
-				if (!StringHelper.EmptyOrNull(link)) {
-					Clipboard.SetDataObject(String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, node.Text));
+				if (!StringHelper.EmptyOrNull(link)) 
+				{
+					Clipboard.SetDataObject(String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, feedsNode.Text));
 				}
 			}
 			if (sender is AppContextMenuCommand)	// needed at the treeview
-				CurrentSelectedNode = null;
+				CurrentSelectedFeedsNode = null;
 		}
 
-		private void CmdCopyNewsItem(ICommand sender) {
+		private void CmdCopyNewsItem(ICommand sender) 
+		{
 			// dummy, just a submenu
 		}
-		private void CmdCopyNewsItemLinkToClipboard(ICommand sender) {
+		private void CmdCopyNewsItemLinkToClipboard(ICommand sender) 
+		{
 
 			if (this.listFeedItems.SelectedItems.Count == 0)
 				return;
 
-			NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[0]).Key;
+			StringBuilder data = new StringBuilder();
+			for (int i = 0; i < this.listFeedItems.SelectedItems.Count; i++) 
+			{
+				NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[i]).Key;
 
-			if (item != null) {
-				string link = item.Link;
-				if (!StringHelper.EmptyOrNull(link)) {
-					Clipboard.SetDataObject(link);
-				}
- 
-			}
-		}
-
-		private void CmdCopyNewsItemTitleLinkToClipboard(ICommand sender) {
-			if (this.listFeedItems.SelectedItems.Count == 0)
-				return;
-
-			NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[0]).Key;
-
-			if (item != null) {
-				string link = item.Link;
-				if (!StringHelper.EmptyOrNull(link)) {
-					string title = item.Title;
-					if (!StringHelper.EmptyOrNull(title)) {
-						Clipboard.SetDataObject(String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, item.Feed.title,item.Title));
-					} else {
-						Clipboard.SetDataObject(link);
+				if (item != null) 
+				{
+					string link = item.Link;
+					if (!StringHelper.EmptyOrNull(link)) 
+					{
+						data.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty ), link);
 					}
 				}
- 
 			}
+
+			if (data.Length > 0)
+				Clipboard.SetDataObject(data.ToString());
 		}
 
-		private void CmdCopyNewsItemContentToClipboard(ICommand sender) {
+		private void CmdCopyNewsItemTitleLinkToClipboard(ICommand sender) 
+		{
 			if (this.listFeedItems.SelectedItems.Count == 0)
 				return;
 
-			NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[0]).Key;
+			StringBuilder data = new StringBuilder();
+			for (int i = 0; i < this.listFeedItems.SelectedItems.Count; i++) 
+			{
+				NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[i]).Key;
 
-			if (item != null) {
-				string content = item.Content;
-				if (!StringHelper.EmptyOrNull(content)) {
-					Clipboard.SetDataObject(content);
-				} else {
-					this.CmdCopyNewsItemTitleLinkToClipboard(sender);
-				}
+				if (item != null) 
+				{
+					string link = item.Link;
+					if (!StringHelper.EmptyOrNull(link)) 
+					{
+						string title = item.Title;
+						if (!StringHelper.EmptyOrNull(title)) 
+						{
+							data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>", (i > 0 ? "<br />" + Environment.NewLine : String.Empty ), link, title, title);
+						} 
+						else 
+						{
+							data.AppendFormat("{0}<a href=\"{1}\">{2}</a>", (i > 0 ? "<br />" + Environment.NewLine : String.Empty ), link, link);
+						}
+					}
  
+				}
 			}
+
+			if (data.Length > 0)
+				Clipboard.SetDataObject(data.ToString());
+		}
+
+		private void CmdCopyNewsItemContentToClipboard(ICommand sender) 
+		{
+			if (this.listFeedItems.SelectedItems.Count == 0)
+				return;
+
+			StringBuilder data = new StringBuilder();
+			for (int i = 0; i < this.listFeedItems.SelectedItems.Count; i++) 
+			{
+				NewsItem item = (NewsItem)((ThreadedListViewItem)this.listFeedItems.SelectedItems[i]).Key;
+
+				if (item != null) 
+				{
+					string link = item.Link;
+					string content = item.Content;
+					if (!StringHelper.EmptyOrNull(content)) 
+					{
+						data.AppendFormat("{0}{1}", (i > 0 ? "<br />" + Environment.NewLine : String.Empty ), link);
+					} 
+					else if (!StringHelper.EmptyOrNull(link)) 
+					{
+						string title = item.Title;
+						if (!StringHelper.EmptyOrNull(title)) 
+						{
+							data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>", (i > 0 ? "<br />"+ Environment.NewLine : String.Empty ), link, item.Feed.title, title);
+						} 
+						else 
+						{
+							data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>", (i > 0 ? "<br />"+ Environment.NewLine : String.Empty ), link, item.Feed.title, link);
+						}
+					}
+ 
+				}
+			}
+
+			if (data.Length > 0)
+				Clipboard.SetDataObject(data.ToString());
+
 		}
 
 		#endregion
@@ -8052,17 +8702,22 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <remarks>Assumes that this is called when the current selected node is a search folder</remarks>
 		/// <param name="sender"></param>
-		private void CmdRefreshFinder(ICommand sender){
+		private void CmdRefreshFinder(ICommand sender)
+		{
 			EmptyListView();
 			htmlDetail.Clear();
-			FinderNode afn = TreeSelectedNode as FinderNode;
-			if(afn != null){
+			FinderNode afn = TreeSelectedFeedsNode as FinderNode;
+			if(afn != null)
+			{
 				afn.Clear(); 	
-				afn.UpdateReadStatus(afn, 0); 
-				if (afn.Finder != null && !StringHelper.EmptyOrNull(afn.Finder.ExternalSearchUrl)) {
+				this.UpdateTreeNodeUnreadStatus(afn, 0);
+				if (afn.Finder != null && !StringHelper.EmptyOrNull(afn.Finder.ExternalSearchUrl)) 
+				{
 					// does also initiates the local search if merge is true:
 					AsyncStartRssRemoteSearch(afn.Finder.ExternalSearchPhrase, afn.Finder.ExternalSearchUrl, afn.Finder.ExternalResultMerged, true);
-				} else {
+				} 
+				else 
+				{
 					AsyncStartNewsSearch(afn); 		
 				}
 			}
@@ -8073,7 +8728,8 @@ namespace RssBandit.WinGui.Forms {
 		/// Marks all the items in a search folder as read
 		/// </summary>
 		/// <param name="sender"></param>
-		private void CmdMarkFinderItemsRead(ICommand sender){		
+		private void CmdMarkFinderItemsRead(ICommand sender)
+		{		
 			this.SetFeedItemsReadState(this.listFeedItems.Items, true); 
 			this.UpdateTreeStatus(owner.FeedHandler.FeedsTable);
 		}
@@ -8082,9 +8738,10 @@ namespace RssBandit.WinGui.Forms {
 		/// Renames a search folder
 		/// </summary>
 		/// <param name="sender"></param>
-		private void CmdRenameFinder(ICommand sender){
+		private void CmdRenameFinder(ICommand sender)
+		{
 		
-			if(this.CurrentSelectedNode!= null)
+			if(this.CurrentSelectedFeedsNode!= null)
 				this.DoEditTreeNodeLabel();
 		}
 		
@@ -8092,7 +8749,8 @@ namespace RssBandit.WinGui.Forms {
 		/// Allows the user to create a new search folder
 		/// </summary>
 		/// <param name="sender"></param>
-		private void CmdNewFinder(ICommand sender) {
+		private void CmdNewFinder(ICommand sender) 
+		{
 			this.CmdNewRssSearch(sender); 
 		}
 
@@ -8100,23 +8758,40 @@ namespace RssBandit.WinGui.Forms {
 		/// Deletes a search folder
 		/// </summary>
 		/// <param name="sender"></param>
-		private void CmdDeleteFinder(ICommand sender) {
+		private void CmdDeleteFinder(ICommand sender) 
+		{
 
-			if (owner.MessageQuestion("RES_MessageBoxDeleteThisFinderQuestion") == DialogResult.Yes) {
+			if (owner.MessageQuestion(SR.MessageBoxDeleteThisFinderQuestion) == DialogResult.Yes) 
+			{
 						
 				if (this.NodeEditingActive)
 					return;
 
-				FeedTreeNodeBase node = this.CurrentSelectedNode;
-				WalkdownThenDeleteFinders(node);
-				node.UpdateReadStatus(node, 0);
+				TreeFeedsNodeBase feedsNode = this.CurrentSelectedFeedsNode;
+				WalkdownThenDeleteFinders(feedsNode);
+				this.UpdateTreeNodeUnreadStatus(feedsNode, 0);
 
-				try {
-					node.Parent.Nodes.Remove(node);
-				} catch {}
+				try 
+				{
+					feedsNode.Parent.Nodes.Remove(feedsNode);
+				} 
+				catch {}
 
 				if (sender is AppContextMenuCommand)
-					this.CurrentSelectedNode = null;
+					this.CurrentSelectedFeedsNode = null;
+			}
+		}
+		
+		private void CmdFinderToggleExcerptsFullItemText(ICommand sender) {
+			TreeFeedsNodeBase feedsNode = this.CurrentSelectedFeedsNode;
+			if (feedsNode != null && feedsNode is FinderNode) {
+				FinderNode fn = (FinderNode) feedsNode;
+				fn.Finder.ShowFullItemContent = ! fn.Finder.ShowFullItemContent;
+				fn.Clear();
+				this.UpdateTreeNodeUnreadStatus(fn, 0);
+				EmptyListView();
+				htmlDetail.Clear();
+				AsyncStartNewsSearch(fn);
 			}
 		}
 
@@ -8127,155 +8802,269 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="startNode">Node to start with. The startNode itself is 
 		/// considered on delete.</param>
 		/// <param name="startNode">new full category name (long name, with all the '\').</param>
-		private void WalkdownThenDeleteFinders(FeedTreeNodeBase startNode) {
+		private void WalkdownThenDeleteFinders(TreeFeedsNodeBase startNode) 
+		{
 			if (startNode == null) return;
 
-			if (startNode.Type == FeedNodeType.Finder) {
+			if (startNode.Type == FeedNodeType.Finder) 
+			{
 				FinderNode agn = startNode as FinderNode;
-				if (agn != null) {
+				if (agn != null) 
+				{
 					owner.FinderList.Remove(agn.Finder);
 				}
 			}
-			else {	// other
-				for (FeedTreeNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) {
+			else 
+			{	// other
+				for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode) 
+				{
 					WalkdownThenDeleteFinders(child);
 				}
 			}
 		}
 
-		private void CmdDeleteAllFinder(ICommand sender) {
+		private void CmdDeleteAllFinder(ICommand sender) 
+		{
 
-			if (owner.MessageQuestion("RES_MessageBoxDeleteAllFindersQuestion") == DialogResult.Yes) {
+			if (owner.MessageQuestion(SR.MessageBoxDeleteAllFindersQuestion) == DialogResult.Yes) 
+			{
 
 				owner.FinderList.Clear();
 				owner.SaveSearchFolders();
 
 				FinderRootNode finderRoot = this.GetRoot(RootFolderType.Finder) as FinderRootNode;
 			
-				if (finderRoot != null) {
+				if (finderRoot != null) 
+				{
 					finderRoot.Nodes.Clear();
-					finderRoot.UpdateReadStatus(finderRoot, 0);
+					this.UpdateTreeNodeUnreadStatus(finderRoot, 0);
 				}
 			}
 
 			if (sender is AppContextMenuCommand)
-				this.CurrentSelectedNode = null;
+				this.CurrentSelectedFeedsNode = null;
 		}
 
-		private void CmdShowFinderProperties(ICommand sender) {
+		private void CmdShowFinderProperties(ICommand sender) 
+		{
 			
 			this.CmdDockShowRssSearch(null);
 
-			FinderNode node = this.CurrentSelectedNode as FinderNode;
-			if (node != null) {
-				this.SearchDialogSetSearchCriterias(node); // node.Finder.SearchCriterias, node.Finder.FullPath );
+			FinderNode node = this.CurrentSelectedFeedsNode as FinderNode;
+			if (node != null) 
+			{
+				this.searchPanel.SearchDialogSetSearchCriterias(node);
 			}
 			
 			if (sender is AppContextMenuCommand)
-				this.CurrentSelectedNode = null;
+				this.CurrentSelectedFeedsNode = null;
 		}
 
-		private void CmdSubscribeToFinderResult(ICommand sender) {
-			FinderNode node = this.CurrentSelectedNode as FinderNode;
-			if (node != null && node.Finder != null) {
-				if (!StringHelper.EmptyOrNull(node.Finder.ExternalSearchUrl)) {
-					owner.CmdNewFeed(node.Key, node.Finder.ExternalSearchUrl, node.Finder.ExternalSearchPhrase);
+		private void CmdSubscribeToFinderResult(ICommand sender) 
+		{
+			FinderNode node = this.CurrentSelectedFeedsNode as FinderNode;
+			if (node != null && node.Finder != null) 
+			{
+				if (!StringHelper.EmptyOrNull(node.Finder.ExternalSearchUrl)) 
+				{
+					owner.CmdNewFeed(node.Text, node.Finder.ExternalSearchUrl, node.Finder.ExternalSearchPhrase);
 				}
 			}
 		}
 
 		#endregion
 
-
-		#region CmdListviewColumn Layout 
+		#region CmdListview: Column Layout, selection
 		
-		private void CmdColumnChooserUseFeedLayoutGlobal(ICommand sender) {
+		internal void CmdColumnChooserUseFeedLayoutGlobal(ICommand sender) 
+		{
 			SetGlobalFeedColumnLayout(FeedNodeType.Feed, listFeedItems.FeedColumnLayout);
 			listFeedItems.ApplyLayoutModifications();
 		}
-		private void CmdColumnChooserUseCategoryLayoutGlobal(ICommand sender) {
+		internal void CmdColumnChooserUseCategoryLayoutGlobal(ICommand sender) 
+		{
 			SetGlobalFeedColumnLayout(FeedNodeType.Category, listFeedItems.FeedColumnLayout);
 			listFeedItems.ApplyLayoutModifications();
 		}
 
-		private void CmdColumnChooserResetToDefault(ICommand sender) {
-			SetFeedHandlerFeedColumnLayout(CurrentSelectedNode, null);
+		internal void CmdColumnChooserResetToDefault(ICommand sender) 
+		{
+			SetFeedHandlerFeedColumnLayout(CurrentSelectedFeedsNode, null);
 			listFeedItems.ApplyLayoutModifications();	// do not save temp. changes to the node
 			ArrayList items = this.NewsItemListFrom(listFeedItems.Items);
-			listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(CurrentSelectedNode);	// also clear's the listview
+			listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(CurrentSelectedFeedsNode);	// also clear's the listview
 			this.RePopulateListviewWithContent(items);
 		}
 
-		private void CmdToggleListviewColumn(ICommand sender) {
-			if (listFeedItems.Columns.Count > 1) {	// show at least one column
+		private void CmdDownloadAttachment(ICommand sender){
+		
+			string fileName = sender.CommandID.Split(new char[]{'<'})[1];
+			NewsItem item = this.CurrentSelectedFeedItem;
+
+			try{ 
+				if(item != null){										
+					this.owner.FeedHandler.DownloadEnclosure(item, fileName); 
+				}
+			}catch(DownloaderException de){
+				MessageBox.Show(de.Message, SR.ExceptionEnclosureDownloadError, MessageBoxButtons.OK, MessageBoxIcon.Error); 
+			}
+		}
+
+		internal void CmdToggleListviewColumn(ICommand sender) 
+		{
+			if (listFeedItems.Columns.Count > 1) 
+			{	// show at least one column
 				string[] name = sender.CommandID.Split(new char[]{'.'});
 
-				if (sender.Mediator.IsCommandComponentChecked(sender.CommandID)) {
+				bool enable = owner.Mediator.IsChecked(sender);
+				owner.Mediator.SetChecked(enable, sender.CommandID);
+				
+				if (!enable) 
+				{
 					listFeedItems.Columns.Remove(name[1]);
-				} else {
+				} 
+				else 
+				{
 					this.AddListviewColumn(name[1], 120);
 					this.RePopulateListviewWithCurrentContent();
 				}
-				sender.Mediator.SetChecked(!sender.Mediator.IsCommandComponentChecked(sender.CommandID), sender.CommandID);
 			}
 		}
 
-		private void RefreshListviewColumnContextMenu() {
+		private void RefreshListviewColumnContextMenu() 
+		{
 			ColumnKeyIndexMap map = listFeedItems.Columns.GetColumnIndexMap();
 
-			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
+			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) 
+			{
 				owner.Mediator.SetChecked(map.ContainsKey(colID), "cmdListviewColumn." + colID);
 			}
 
-			bool enableIndividual = (CurrentSelectedNode != null  && (CurrentSelectedNode.Type == FeedNodeType.Feed || CurrentSelectedNode.Type == FeedNodeType.Category));
-			owner.Mediator.SetEnable(enableIndividual, "cmdColumnChooserResetToDefault");
+			bool enableIndividual = (CurrentSelectedFeedsNode != null  && (CurrentSelectedFeedsNode.Type == FeedNodeType.Feed || CurrentSelectedFeedsNode.Type == FeedNodeType.Category));
+			owner.Mediator.SetEnabled(enableIndividual, "cmdColumnChooserResetToDefault");
 		}
 
-		private void AddListviewColumn(string colID, int width) {
-			switch (colID) {
+		private void AddListviewColumn(string colID, int width) 
+		{
+			switch (colID) 
+			{
 				case "Title": 
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionHeadline"], typeof(string), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionHeadline, typeof(string), width, HorizontalAlignment.Left); break;
 				case "Subject": 
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionTopic"], typeof(string), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionTopic, typeof(string), width, HorizontalAlignment.Left); break;
 				case "Date": 
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionDate"], typeof(DateTime), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionDate, typeof(DateTime), width, HorizontalAlignment.Left); break;
 				case "FeedTitle":
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionFeedTitle"], typeof(string), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFeedTitle, typeof(string), width, HorizontalAlignment.Left); break;
 				case "Author":
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionCreator"], typeof(string), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCreator, typeof(string), width, HorizontalAlignment.Left); break;
 				case "CommentCount":
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionCommentCount"], typeof(int), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCommentCount, typeof(int), width, HorizontalAlignment.Left); break;
 				case "Enclosure":	//TODO: should have a paperclip picture, int type may change to a specific state (string)
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionEnclosure"], typeof(int), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionEnclosure, typeof(int), width, HorizontalAlignment.Left); break;
 				case "Flag":
-					listFeedItems.Columns.Add(colID, Resource.Manager["RES_ListviewColumnCaptionFlagStatus"], typeof(string), width, HorizontalAlignment.Left); break;
+					listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFlagStatus, typeof(string), width, HorizontalAlignment.Left); break;
 				default:
 					Trace.Assert(false, "AddListviewColumn::NewsItemSortField NOT handled: " + colID);
 					break;
 			}
 		}
 
-		private void ResetFeedDetailLayoutCmds() {
+		private void ResetFeedDetailLayoutCmds() 
+		{
 			owner.Mediator.SetChecked(false, "cmdFeedDetailLayoutPosTop","cmdFeedDetailLayoutPosLeft","cmdFeedDetailLayoutPosRight","cmdFeedDetailLayoutPosBottom");
+		}
+
+		private void SetFeedDetailLayout(DockStyle style) 
+		{
+			ResetFeedDetailLayoutCmds();
+			panelFeedItems.Dock = style;
+			if (style == DockStyle.Left || style == DockStyle.Right) 
+			{
+				detailsPaneSplitter.Dock = style;	// allowed styles
+				detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.VSplit;
+				panelFeedItems.Width = this.panelFeedDetails.Width / 3;
+			}
+			else if (style == DockStyle.Bottom || style == DockStyle.Top)
+			{
+				detailsPaneSplitter.Dock = style;	// allowed styles
+				detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
+				panelFeedItems.Height = this.panelFeedDetails.Height / 2;
+			} 
+			// TR - just for test with dockstyle.none:
+			//panelWebDetail.Visible = detailsPaneSplitter.Visible = (style != DockStyle.None);
+			owner.Mediator.SetChecked(true, "cmdFeedDetailLayoutPos" + detailsPaneSplitter.Dock.ToString());
+		}
+
+		/// <summary>
+		/// Select all items of the Feeds ListView.
+		/// </summary>
+		/// <param name="sender">Object that initiates the call</param>
+		public void CmdSelectAllNewsItems(ICommand sender) 
+		{
+			for (int i = 0; i < listFeedItems.Items.Count; i++) 
+			{
+				listFeedItems.Items[i].Selected = true;
+			}
+			listFeedItems.Select ();
 		}
 
 		#endregion
 
-		private void SetFeedDetailLayout(DockStyle style) {
-			ResetFeedDetailLayoutCmds();
-			panelFeedItems.Dock = style;
-			detailsPaneSplitter.Dock = style;
-			if (style == DockStyle.Left || style == DockStyle.Right) {
-				detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.VSplit;
-				panelFeedItems.Width = this.panelFeedDetails.Width / 3;
-			}else{
-				detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-				panelFeedItems.Height = this.panelFeedDetails.Height / 2;
-			}
-			owner.Mediator.SetCommandComponentChecked("cmdFeedDetailLayoutPos" + detailsPaneSplitter.Dock.ToString(), true );
+		#region CmdBrowserHistoryItem commands
+		
+		private void OnHistoryNavigateGoBackItemClick(object sender, HistoryNavigationEventArgs e) {
+			NavigateToHistoryEntry( this._feedItemImpressionHistory.GetPreviousAt(e.Index));
 		}
+		private void OnHistoryNavigateGoForwardItemClick(object sender, HistoryNavigationEventArgs e) {
+			NavigateToHistoryEntry( this._feedItemImpressionHistory.GetNextAt(e.Index));
+		}
+		
+		#endregion
 
-		private bool RemoveDocTab(DockControl doc){
+		#region CmdFeed commands
+		/// <summary>
+		/// </summary>
+		/// <param name="sender">Object that initiates the call</param>
+		public void CmdDeleteFeed(ICommand sender) 
+		{
+			
+			if (NodeEditingActive)
+				return;
+
+			// right-click selected:
+			TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
+			if (tn == null) return;
+			if(tn.Type != FeedNodeType.Feed) return;
+
+			if (DialogResult.Yes == owner.MessageQuestion(
+			                        	SR.MessageBoxDeleteThisFeedQuestion,
+			                        	String.Format(" - {0} ({1})", SR.MenuDeleteThisFeedCaption, tn.Text))) 
+			{
+				
+				// raise the OnFeedDeleted event (where we really remove the node):
+				owner.DeleteFeed(tn.DataKey);
+				
+				if (sender is AppContextMenuCommand)
+					this.CurrentSelectedFeedsNode = null;
+
+				
+				//select next node in tree view
+//				this.treeFeeds.ActiveNode.Selected = true; 
+//				this.CurrentSelectedFeedsNode = this.treeFeeds.ActiveNode as TreeFeedsNodeBase;
+//				this.RefreshFeedDisplay(this.CurrentSelectedFeedsNode, true); 				
+			}
+
+			
+		}
+		#endregion
+
+		private ITabState FeedDetailTabState {
+			get { return (ITabState)this._docFeedDetails.Tag; }
+		}
+		
+		private bool RemoveDocTab(DockControl doc)
+		{
 			if (doc == null)
 				doc = _docContainer.ActiveDocument;
 
@@ -8283,15 +9072,20 @@ namespace RssBandit.WinGui.Forms {
 				return false;
 
 			ITabState state = doc.Tag as ITabState;
-			if (state != null && state.CanClose) {
-				try {
+			if (state != null && state.CanClose) 
+			{
+				try 
+				{
 					_docContainer.RemoveDocument(doc);
 					HtmlControl browser = doc.Controls[0] as HtmlControl;
-					if (browser != null) {
+					if (browser != null) 
+					{
 						browser.Tag = null;	// remove ref to containing doc
 						browser.Dispose();
 					}
-				} catch (Exception ex) {
+				} 
+				catch (Exception ex) 
+				{
 					_log.Error("_docContainer.RemoveDocument(doc) caused exception", ex);
 				}
 				return true;
@@ -8306,76 +9100,91 @@ namespace RssBandit.WinGui.Forms {
 		/// <param name="index">Index of the command. Points directly to the
 		/// plugin within the arraylist</param>
 		/// <param name="hasConfig">true, if we have to call config dialog</param>
-		public void OnGenericListviewCommand(int index, bool hasConfig) {
-			Syndication.Extensibility.IBlogExtension ibe = (Syndication.Extensibility.IBlogExtension)addIns[index];
-			if(hasConfig) {
-				try {
+		public void OnGenericListviewCommand(int index, bool hasConfig) 
+		{
+			Syndication.Extensibility.IBlogExtension ibe = (Syndication.Extensibility.IBlogExtension)blogExtensions[index];
+			if(hasConfig) 
+			{
+				try 
+				{
 					ibe.Configure(this);
 				}
-				catch (Exception e) {
+				catch (Exception e) 
+				{
 					_log.Error("IBlogExtension configuration exception", e);
-					owner.MessageError("RES_ExceptionIBlogExtensionFunctionCall", "Configure()", e.Message);
+					owner.MessageError(SR.ExceptionIBlogExtensionFunctionCall("Configure()", e.Message));
 				}
-			} else {
+			} 
+			else 
+			{
 				//if (ibe.HasEditingGUI) //TODO...? What we have to do here...?
-				if (CurrentSelectedFeedItem != null) {
-					try {
+				if (CurrentSelectedFeedItem != null) 
+				{
+					try 
+					{
 						ibe.BlogItem(CurrentSelectedFeedItem, false);
-					} catch (Exception e) {
+					} 
+					catch (Exception e) 
+					{
 						_log.Error("IBlogExtension command exception", e);
-						owner.MessageError("RES_ExceptionIBlogExtensionFunctionCall", "BlogItem()", e.Message);
+						owner.MessageError(SR.ExceptionIBlogExtensionFunctionCall("BlogItem()", e.Message));
 					}
 				}
 			}
 		}
 
-		private void OnFormHandleCreated(object sender, EventArgs e) {
+		private void OnFormHandleCreated(object sender, EventArgs e) 
+		{
 			// if the form is started minimized (via Shortcut Properties "Run-Minimized"
 			// it seems the OnLoad event does not gets fired, so we call it here...
-			if (initialStartupState == FormWindowState.Minimized)
+			if (InitialStartupState == FormWindowState.Minimized)
 				this.OnLoad(this, new EventArgs());
 			// init idle task event handler:
 			Application.Idle += new EventHandler(this.OnApplicationIdle);
 		}
 		
-		private void OnLoad(object sender, System.EventArgs eva) {
+		private void OnLoad(object sender, System.EventArgs eva) 
+		{
 		
 			// do not display the ugly form init/resizing...
 			Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_HIDE);
 
 			_uiTasksTimer.Tick += new EventHandler(this.OnTasksTimerTick);
 
+//			InitDrawFilters();
+			
 			LoadUIConfiguration();
 			SetTitleText(String.Empty);
+			SetDetailHeaderText(null);
 
 			InitSearchEngines();
 			CheckForAddIns();
 			this.InitFilter();
 
-			this.SetGuiStateFeedback(Resource.Manager["RES_GUIStatusLoadingFeedlist"]);
+			this.SetGuiStateFeedback(SR.GUIStatusLoadingFeedlist);
 
-			IdleTask.AddTask(IdleTasks.InitOnFinishLoading);
+			//IdleTask.AddTask(IdleTasks.InitOnFinishLoading);
 			this.DelayTask(DelayedTasks.InitOnFinishLoading);
 		}
-
+		
 		/// <summary>
 		/// Provide the entry point to the delayed loading of the feed list
 		/// </summary>
 		/// <param name="theStateObject">The timer callback parameter</param>
-		private void OnFinishLoading(object theStateObject) {
+		private void OnFinishLoading(object theStateObject) 
+		{
 			
-			if (owner.CommandLineArgs.StartInTaskbarNotificationAreaOnly || _initialStartupTrayVisibleOnly) {
+			if (owner.CommandLineArgs.StartInTaskbarNotificationAreaOnly || this.SystemTrayOnlyVisible) 
+			{
 				// forced to show in Taskbar Notification Area
 				Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_HIDE);
-				owner.GuiSettings.SetProperty(Name+"/TrayOnly.Visible", true);
-			} else {
+			} 
+			else 
+			{
 				this.Activate();
 			}
 			
-			// for UI save/restore state manangement
-			this.ConnectToolbarStateEvents(true);
-
-			Splash.Status = Resource.Manager["RES_GUIStatusRefreshConnectionState"];
+			Splash.Status = SR.GUIStatusRefreshConnectionState;
 			// refresh the Offline menu entry checked state
 			owner.UpdateInternetConnectionState();
 
@@ -8383,49 +9192,48 @@ namespace RssBandit.WinGui.Forms {
 			// about a still existing Offline Mode...
 			Utils.SetIEOffline(owner.InternetConnectionOffline);
 
-#if USEAUTOUPDATE
-			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
-#endif
 
+			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
+
+			owner.CheckAndInitSoundEvents();
+			owner.BeginLoadingFeedlist();
+			owner.BeginLoadingSpecialFeeds();
+			
 			Splash.Close();
 			owner.AskAndCheckForDefaultAggregator();
 
 			//Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
 #if !NOAUTO_REFRESH
-			// start the refresh timer, if we do not have to refresh on startup:
+			// start the refresh timers
 			_timerRefreshFeeds.Start();
+			_timerRefreshCommentFeeds.Start();
 #endif
-
-			RssBanditApplication.SetWorkingSet(750000,300000);
+			RssBanditApplication.SetWorkingSet();
 		}
 
-		private void OnFormMove(object sender, EventArgs e) {
-			if (base.WindowState == FormWindowState.Normal) {
+		private void OnFormMove(object sender, EventArgs e) 
+		{
+			if (base.WindowState == FormWindowState.Normal) 
+			{
 				_formRestoreBounds.Location = base.Location;
 			}
 		}
 
-		private void OnFormResize(object sender, EventArgs e) {
-			if (base.WindowState == FormWindowState.Normal) {
+		private void OnFormResize(object sender, EventArgs e) 
+		{
+			if (base.WindowState == FormWindowState.Normal) 
+			{
 				_formRestoreBounds.Size = base.Size;
+			}
+			if (base.WindowState != FormWindowState.Minimized) 
+			{
 				// adjust the MaximumSize of the dock hosts:
-				leftSandDock.MaximumSize = rightSandDock.MaximumSize = this.ClientSize.Width - 20;
+				/*leftSandDock.MaximumSize = */rightSandDock.MaximumSize = this.ClientSize.Width - 20;
 				topSandDock.MaximumSize = bottomSandDock.MaximumSize = this.ClientSize.Height - 20;
 			}
-			if (base.WindowState != FormWindowState.Minimized) {
-				if (!menuBarMain.IsOpen || !menuBarMain.Visible) {	
-					//BUGBUG in SandBar. If exit started on Tray, they are saved not visible at all !?
-					// detach events, that may trigger a new save .settings.xml
-					this.ConnectToolbarStateEvents(false);
-					// Mod. if the renderer/layout cause a visibility change:
-					menuBarMain.Visible = toolBarBrowser.Visible = toolBarWebSearch.Visible = toolBarMain.Visible = true;
-					this.ConnectToolbarStateEvents(true);	// attach the events again back
-					this.OnAnyToolbarStateChanged(this, EventArgs.Empty);
-					//this.DelayTask(DelayedTasks.SaveUIConfiguration);	// save state
-				}
-			}
-			if (this.Visible) {
-				owner.GuiSettings.SetProperty(Name+"/TrayOnly.Visible", false);
+			if (this.Visible) 
+			{
+				this.SystemTrayOnlyVisible = false;
 			}
 		}
 
@@ -8434,10 +9242,11 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="sender">This form</param>
 		/// <param name="e">Empty. See WndProc()</param>
-		private void OnFormMinimize(object sender, System.EventArgs e) {
-			if (owner.Preferences.HideToTrayAction == HideToTray.OnMinimize) {
-				Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_HIDE);
-				owner.GuiSettings.SetProperty(Name+"/TrayOnly.Visible", true);
+		private void OnFormMinimize(object sender, System.EventArgs e) 
+		{
+			if (owner.Preferences.HideToTrayAction == HideToTray.OnMinimize) 
+			{
+				this.HideToSystemTray();
 			}
 		}
 
@@ -8448,53 +9257,90 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="m"></param>
 		/// <returns></returns>
-		public virtual bool PreFilterMessage(ref Message m) {
+		public virtual bool PreFilterMessage(ref Message m) 
+		{
 			bool processed = false;
-			const int WM_KEYDOWN = 0x100;
-			const int WM_SYSKEYDOWN = 0x104;
 		
-			try {
-				if (m.Msg == WM_KEYDOWN || m.Msg == WM_SYSKEYDOWN) {
+			try 
+			{
+				if (m.Msg == (int)Win32.Message.WM_KEYDOWN || 
+				    m.Msg == (int)Win32.Message.WM_SYSKEYDOWN) 
+				{
 					
 					Keys msgKey = ((Keys)(int)m.WParam & Keys.KeyCode);
-				
-					if (msgKey == Keys.Tab) {
-						//TODO
+#if DEBUG				
+					if (msgKey == Keys.F12) {
+						IdleTask.AddTask(IdleTasks.IndexAllItems);
+						
+						// to test tray animation:
+						//this._trayManager.SetState(ApplicationTrayState.NewUnreadFeedsReceived);
+					} 
+					else 
+#endif
+					if ((Control.ModifierKeys == Keys.Alt) && msgKey == Keys.F4)
+					{
+						if (owner.Preferences.HideToTrayAction == HideToTray.OnClose &&
+							_forceShutdown == false)
+						{
+							processed = true;
+							this.HideToSystemTray();
+						}
+					}
+					else if (msgKey == Keys.Tab) 
+					{
 
-						if (Control.ModifierKeys == 0) {	// normal Tab navigation between controls
+						if (Control.ModifierKeys == 0) 
+						{	// normal Tab navigation between controls
 												
 							Trace.WriteLine("PreFilterMessage[Tab Only], "); 
 
-							if (this.treeFeeds.Visible) {	
-								if (this.treeFeeds.Focused) {
-									if (this.listFeedItems.Visible) {
+							if (this.treeFeeds.Visible) 
+							{	
+								if (this.treeFeeds.Focused) 
+								{
+									if (this.listFeedItems.Visible) 
+									{
 										this.listFeedItems.Focus();
-										if (this.listFeedItems.Items.Count > 0 && this.listFeedItems.SelectedItems.Count == 0) {
+										if (this.listFeedItems.Items.Count > 0 && this.listFeedItems.SelectedItems.Count == 0) 
+										{
 											this.listFeedItems.Items[0].Selected = true;
 											this.listFeedItems.Items[0].Focused = true;
 											this.OnFeedListItemActivate(this, new EventArgs());
 										}
 										processed = true;
-									}	else if (this._docContainer.ActiveDocument != _docFeedDetails) {
+									}	
+									else if (this._docContainer.ActiveDocument != _docFeedDetails) 
+									{
 										// a tabbed browser should get focus
 										SetFocus2WebBrowser((HtmlControl)this._docContainer.ActiveDocument.Controls[0]); 
 										processed = true;
 									}
-								} else if (this.listFeedItems.Focused) {
+								} 
+								else if (this.listFeedItems.Focused) 
+								{
 									SetFocus2WebBrowser(this.htmlDetail);	// detail browser should get focus
 									processed = true;
-								} else {
+								} 
+								else 
+								{
 									// a IE browser focused
 									//this.treeFeeds.Focus();
 									//processed = true;
 								}
-							} else { // treefeeds.invisible:
-								if (this.listFeedItems.Visible) {
-									if (this.listFeedItems.Focused) {
+							} 
+							else 
+							{ // treefeeds.invisible:
+								if (this.listFeedItems.Visible) 
+								{
+									if (this.listFeedItems.Focused) 
+									{
 										SetFocus2WebBrowser(this.htmlDetail);	// detail browser should get focus
 										processed = true;
-									} else {
+									} 
+									else 
+									{
 										// a IE browser focused
+										Trace.WriteLine("PreFilterMessage[Tab Only] IE browser focused?" + this.htmlDetail.Focused.ToString());
 										/*
 															this.listFeedItems.Focus();
 															if (this.listFeedItems.Items.Count > 0 && this.listFeedItems.SelectedItems.Count == 0) {
@@ -8507,25 +9353,37 @@ namespace RssBandit.WinGui.Forms {
 								}
 							}// endif treefeeds.visible 
 						
-						} else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift &&
-							(Control.ModifierKeys & Keys.Control) == 0) {			// Shift-Tab only
+						} 
+						else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift &&
+							(Control.ModifierKeys & Keys.Control) == 0) 
+						{			// Shift-Tab only
 						
 							Trace.WriteLine("PreFilterMessage[Shift-Tab Only]"); 
-							if (this.treeFeeds.Visible) {
-								if (this.treeFeeds.Focused) {
-									if (this.listFeedItems.Visible) {
+							if (this.treeFeeds.Visible) 
+							{
+								if (this.treeFeeds.Focused) 
+								{
+									if (this.listFeedItems.Visible) 
+									{
 										SetFocus2WebBrowser(this.htmlDetail);	// detail browser should get focus
 										processed = true;
-									}	else if (this._docContainer.ActiveDocument != _docFeedDetails) {
+									}	
+									else if (this._docContainer.ActiveDocument != _docFeedDetails) 
+									{
 										// a tabbed browser should get focus
 										SetFocus2WebBrowser((HtmlControl)this._docContainer.ActiveDocument.Controls[0]); 
 										processed = true;
 									}
-								} else if (this.listFeedItems.Focused) {
+								} 
+								else if (this.listFeedItems.Focused) 
+								{
 									this.treeFeeds.Focus();
 									processed = true;
-								} else {
+								} 
+								else 
+								{
 									// a IE browser focused
+									Trace.WriteLine("PreFilterMessage[Shift-Tab Only] IE browser focused?" + this.htmlDetail.Focused.ToString());
 									/*
 														if (this.listFeedItems.Visible) {
 															this.listFeedItems.Focus();
@@ -8535,12 +9393,18 @@ namespace RssBandit.WinGui.Forms {
 														}
 														*/
 								}
-							} else { // treefeeds.invisible:
-								if (this.listFeedItems.Visible) {
-									if (this.listFeedItems.Focused) {
+							} 
+							else 
+							{ // treefeeds.invisible:
+								if (this.listFeedItems.Visible) 
+								{
+									if (this.listFeedItems.Focused) 
+									{
 										SetFocus2WebBrowser(this.htmlDetail);	// detail browser should get focus
 										processed = true;
-									} else {
+									} 
+									else 
+									{
 										// a IE browser focused
 										/*
 															this.listFeedItems.Focus();
@@ -8552,131 +9416,187 @@ namespace RssBandit.WinGui.Forms {
 								}
 							}		//endif treefeeds.visible
 						}
-					} else if (this.listFeedItems.Focused && _shortcutHandler.IsCommandInvoked("ExpandListViewItem", m.WParam)) {	// "+" on ListView opens the thread
-						if (this.listFeedItems.Visible && this.listFeedItems.SelectedItems.Count > 0) {
+					} 
+					else if (this.listFeedItems.Focused && _shortcutHandler.IsCommandInvoked("ExpandListViewItem", m.WParam)) 
+					{	// "+" on ListView opens the thread
+						if (this.listFeedItems.Visible && this.listFeedItems.SelectedItems.Count > 0) 
+						{
 							ThreadedListViewItem lvi = (ThreadedListViewItem)this.listFeedItems.SelectedItems[0];
-							if (lvi.HasChilds && lvi.Collapsed) {
+							if (lvi.HasChilds && lvi.Collapsed) 
+							{
 								lvi.Expanded = true;
 								processed = true;
 							}
 						}
-					} else if (this.listFeedItems.Focused && _shortcutHandler.IsCommandInvoked("CollapseListViewItem", m.WParam)) {	// "-" on ListView close the thread
-						if (this.listFeedItems.Visible && this.listFeedItems.SelectedItems.Count > 0) {
+					} 
+					else if (this.listFeedItems.Focused && _shortcutHandler.IsCommandInvoked("CollapseListViewItem", m.WParam)) 
+					{	// "-" on ListView close the thread
+						if (this.listFeedItems.Visible && this.listFeedItems.SelectedItems.Count > 0) 
+						{
 							ThreadedListViewItem lvi = (ThreadedListViewItem)this.listFeedItems.SelectedItems[0];
-							if (lvi.HasChilds && lvi.Expanded) {
+							if (lvi.HasChilds && lvi.Expanded) 
+							{
 								lvi.Collapsed = true;
 								processed = true;
 							}
 						}
-					} else if (_shortcutHandler.IsCommandInvoked("RemoveDocTab", m.WParam)) {	// Ctrl-F4: close a tab
-						if (this.RemoveDocTab(_docContainer.ActiveDocument)) {
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("RemoveDocTab", m.WParam)) 
+					{	// Ctrl-F4: close a tab
+						if (this.RemoveDocTab(_docContainer.ActiveDocument)) 
+						{
 							processed = true;
 						}
-					} else if (_shortcutHandler.IsCommandInvoked("CatchUpCurrentSelectedNode", m.WParam)) {	// Ctrl-M: Catch up feed
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("CatchUpCurrentSelectedNode", m.WParam)) 
+					{	// Ctrl-Q: Catch up feed
 						owner.CmdCatchUpCurrentSelectedNode(null);
 						processed = true;
-					} else if (_shortcutHandler.IsCommandInvoked("MarkFeedItemsUnread", m.WParam)) {	// Ctrl-U: close a tab
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("MarkFeedItemsUnread", m.WParam)) 
+					{	// Ctrl-U: close a tab
 						owner.CmdMarkFeedItemsUnread(null);
 						processed = true;
 
-					//We've hard-coded SPACE as a Move to Next Item
-					//But in that case, make sure there's not a modifier key pressed.
-					} else if ((msgKey == Keys.Space && Control.ModifierKeys == 0) || _shortcutHandler.IsCommandInvoked("MoveToNextUnread", m.WParam)) {	// Space: move to next unread
+						//We've hard-coded SPACE as a Move to Next Item
+						//But in that case, make sure there's not a modifier key pressed.
+					} 
+					else if ((msgKey == Keys.Space && Control.ModifierKeys == 0) || _shortcutHandler.IsCommandInvoked("MoveToNextUnread", m.WParam)) 
+					{	// Space: move to next unread
 
 						if (this.listFeedItems.Focused || this.treeFeeds.Focused &&
-							!(this.TreeSelectedNode != null && this.TreeSelectedNode.IsEditing)) {
+							!(this.TreeSelectedFeedsNode != null && this.TreeSelectedFeedsNode.IsEditing)) 
+						{
 					
 							this.MoveToNextUnreadItem();
 							processed = true;
 	
-						} else if (this.textSearchExpression.Focused || this.treeFeeds.Focused ||
-							this.navigateComboBox.ComboBox.Focused ||this.searchComboBox.ComboBox.Focused ||
-							this.textFinderCaption.Focused ||
-							(this.TreeSelectedNode != null && this.TreeSelectedNode.IsEditing)) {
+						} 
+						else if (this.searchPanel.ContainsFocus || this.treeFeeds.Focused ||
+							this.UrlComboBox.Focused ||this.SearchComboBox.Focused ||
+							(this.CurrentSelectedFeedsNode != null && this.CurrentSelectedFeedsNode.IsEditing)) 
+						{
 							// ignore
 						
-						} else if (_docContainer.ActiveDocument == _docFeedDetails && !this.listFeedItems.Focused) {
+						} 
+						else if (_docContainer.ActiveDocument == _docFeedDetails && !this.listFeedItems.Focused) 
+						{
 							// browser detail pane has focus
 							//Trace.WriteLine("htmlDetail.Focused:"+htmlDetail.Focused);
 							IHTMLDocument2 htdoc = htmlDetail.Document2;
-							if (htdoc != null) {
+							if (htdoc != null) 
+							{
 								IHTMLElement2 htbody = htdoc.GetBody();
-								if (htbody != null) {
+								if (htbody != null) 
+								{
 									int num1 = htbody.getScrollTop();
 									htbody.setScrollTop(num1 + 20);
 									int num2 = htbody.getScrollTop();
-									if (num1 == num2) {
+									if (num1 == num2) 
+									{
 										this.MoveToNextUnreadItem();
 										processed = true;
 									}
 								}
 							}
-						} else {
+						} 
+						else 
+						{
 							// ignore, control should handle it
 						}
-					} else if (_shortcutHandler.IsCommandInvoked("InitiateRenameFeedOrCategory", m.WParam)) {		// rename within treeview
-						if (this.treeFeeds.Focused) {
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("InitiateRenameFeedOrCategory", m.WParam)) 
+					{		// rename within treeview
+						if (this.treeFeeds.Focused) 
+						{
 							this.InitiateRenameFeedOrCategory();
 							processed = true;
 						}
-					} else if (_shortcutHandler.IsCommandInvoked("UpdateFeed", m.WParam)) {	// F5: UpdateFeed()
-						this.CurrentSelectedNode = null;
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("UpdateFeed", m.WParam)) 
+					{	// F5: UpdateFeed()
+						this.CurrentSelectedFeedsNode = null;
 						owner.CmdUpdateFeed(null);
 						processed = true;
-					} else if (_shortcutHandler.IsCommandInvoked("GiveFocusToUrlTextBox", m.WParam)) {	// Alt+F4 or F11: move focus to Url textbox
-						this.navigateComboBox.ComboBox.Focus();
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("GiveFocusToUrlTextBox", m.WParam)) 
+					{	// Alt+F4 or F11: move focus to Url textbox
+						this.UrlComboBox.Focus();
 						processed = true;
-					} else if (_shortcutHandler.IsCommandInvoked("GiveFocusToSearchTextBox", m.WParam)) {	// F12: move focus to Search textbox
-						this.searchComboBox.ComboBox.Focus();
+					} 
+					else if (_shortcutHandler.IsCommandInvoked("GiveFocusToSearchTextBox", m.WParam)) 
+					{	// F12: move focus to Search textbox
+						this.SearchComboBox.Focus();
 						processed = true;
-					} else if ((msgKey == Keys.Delete && Control.ModifierKeys == 0) || _shortcutHandler.IsCommandInvoked("DeleteItem", m.WParam)) {	// Delete a feed or category,...
+					} 
+					else if ((msgKey == Keys.Delete && Control.ModifierKeys == 0) || _shortcutHandler.IsCommandInvoked("DeleteItem", m.WParam)) 
+					{	// Delete a feed or category,...
 						// cannot be a shortcut, because then "Del" does not work when edit/rename a node caption :-(
 						// But we can add alternate shortcuts via the config file.
-						if (this.treeFeeds.Focused && this.TreeSelectedNode != null && !this.TreeSelectedNode.IsEditing) {
-							FeedTreeNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
-							FeedTreeNodeBase current = this.CurrentSelectedNode;
-							if (this.NodeIsChildOf(current, root)) {
-								if (current.Type == FeedNodeType.Category) {
+						if (this.treeFeeds.Focused && this.TreeSelectedFeedsNode != null && !this.TreeSelectedFeedsNode.IsEditing) 
+						{
+							TreeFeedsNodeBase root = this.GetRoot(RootFolderType.MyFeeds);
+							TreeFeedsNodeBase current = this.CurrentSelectedFeedsNode;
+							if (this.NodeIsChildOf(current, root)) 
+							{
+								if (current.Type == FeedNodeType.Category) 
+								{
 									owner.CmdDeleteCategory(null);
 									processed = true;
 								}
-								if (current.Type == FeedNodeType.Feed) {
-									owner.CmdDeleteFeed(null);
+								if (current.Type == FeedNodeType.Feed) 
+								{
+									this.CmdDeleteFeed(null);
 									processed = true;
 								}
 							}
 						}
 					}
-				} else if (m.Msg == (int)Win32.Message.WM_LBUTTONDBLCLK ||
+				} 
+				else if (m.Msg == (int)Win32.Message.WM_LBUTTONDBLCLK ||
 					m.Msg == (int)Win32.Message.WM_RBUTTONDBLCLK ||
 					m.Msg == (int)Win32.Message.WM_MBUTTONDBLCLK ||
 					m.Msg == (int)Win32.Message.WM_LBUTTONUP ||
 					m.Msg == (int)Win32.Message.WM_MBUTTONUP ||
 					m.Msg == (int)Win32.Message.WM_RBUTTONUP ||
 					m.Msg == (int)Win32.Message.WM_XBUTTONDBLCLK  ||
-					m.Msg == (int)Win32.Message.WM_XBUTTONUP) {
+					m.Msg == (int)Win32.Message.WM_XBUTTONUP) 
+				{
 
 					_lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
-					Control mouseControl = this._wheelSupport.GetTopmostChild(this, Control.MousePosition);
+					Control mouseControl = this.wheelSupport.GetTopmostChild(this, Control.MousePosition);
 					_webUserNavigated = ( mouseControl is HtmlControl );	// set
 					_webForceNewTab = false;
-					if (_webUserNavigated) { // CONTROL-Click opens a new Tab
+					if (_webUserNavigated) 
+					{ // CONTROL-Click opens a new Tab
 						_webForceNewTab = (Interop.GetAsyncKeyState(Interop.VK_CONTROL) < 0);
 					}
 
-				} else if (m.Msg == (int)Win32.Message.WM_MOUSEMOVE) {
+				} 
+				else if (m.Msg == (int)Win32.Message.WM_MOUSEMOVE) 
+				{
 					Point p = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 					if (Math.Abs(p.X - _lastMousePosition.X) > 5  || 
-						Math.Abs(p.Y - _lastMousePosition.Y) > 5 ) {
+						Math.Abs(p.Y - _lastMousePosition.Y) > 5 ) 
+					{
 						//Trace.WriteLine(String.Format("Reset mouse pos. Old: {0} New: {1}", _lastMousePosition, p));
 						_webForceNewTab = _webUserNavigated = false;	// reset
 						_lastMousePosition = p;
 					}
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("PreFilterMessage() failed", ex);
 			}
+
+#if TRACE_WIN_MESSAGES				
+			if (m.Msg != (int)Win32.Message.WM_TIMER &&
+				m.Msg != (int)Win32.Message.WM_MOUSEMOVE)
+				Debug.WriteLine("PreFilterMessage(" + m +") handled: "+ processed);
+#endif
+
 			return processed;
 		}
 
@@ -8685,10 +9605,14 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="m">Native window message</param>
 		[SecurityPermissionAttribute(SecurityAction.LinkDemand)]
-		protected override void WndProc(ref Message m) {
-			try {
-				if(m.Msg== (int)Win32.Message.WM_SIZE) {
-					if(((int)m.WParam)==1 /*SIZE_MINIMIZED*/ && OnMinimize!=null) {
+		protected override void WndProc(ref Message m) 
+		{
+			try 
+			{
+				if(m.Msg== (int)Win32.Message.WM_SIZE) 
+				{
+					if(((int)m.WParam)==1 /*SIZE_MINIMIZED*/ && OnMinimize!=null) 
+					{
 						OnMinimize(this,EventArgs.Empty);
 					}
 					//			} else if (m.Msg == (int)Win32.Message.WM_MOUSEMOVE) {
@@ -8696,8 +9620,10 @@ namespace RssBandit.WinGui.Forms {
 					//				if (ctrl != null && !ctrl.Focused && ctrl.CanFocus) {
 					//					ctrl.Focus();
 					//				}
-				}else if (/* m.Msg == (int)WM_CLOSE || */ m.Msg == (int)Win32.Message.WM_QUERYENDSESSION ||
-					m.Msg == (int)Win32.Message.WM_ENDSESSION){ 
+				}
+				else if (/* m.Msg == (int)WM_CLOSE || */ m.Msg == (int)Win32.Message.WM_QUERYENDSESSION ||
+					m.Msg == (int)Win32.Message.WM_ENDSESSION)
+				{ 
 				
 					// This is here to deal with dealing with system shutdown issues
 					// Read http://www.kuro5hin.org/story/2003/4/17/22853/6087#banditshutdown for details
@@ -8706,64 +9632,83 @@ namespace RssBandit.WinGui.Forms {
 					// but we already have the WndProc(), so we also handle this message here
 
 					_forceShutdown = true;	// the closing handler ask for that now
-					this.SaveUIConfiguration(true);
-					owner.SaveApplicationState();
-				} else if ( m.Msg == (int)Win32.Message.WM_CLOSE && owner.Preferences.HideToTrayAction != HideToTray.OnClose) {
+					//this.SaveUIConfiguration(true);
+					owner.SaveApplicationState(true);
+				} 
+				else if ( m.Msg == (int)Win32.Message.WM_CLOSE && owner.Preferences.HideToTrayAction != HideToTray.OnClose) 
+				{
 					_forceShutdown = true;	// the closing handler ask for that now
-					this.SaveUIConfiguration(true);
-					owner.SaveApplicationState();
+					//this.SaveUIConfiguration(true);
+					owner.SaveApplicationState(true);
 				}
 			
 				base.WndProc(ref m);
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Fatal("WndProc() failed with an exception", ex);
 			}
 		}
 
-		private void OnFormMouseDown(object sender, MouseEventArgs e) {
+		private void OnFormMouseDown(object sender, MouseEventArgs e) 
+		{
 			if (e.Button == MouseButtons.XButton1)
 				this.RequestBrowseAction(BrowseAction.NavigateBack);
 			else if (e.Button == MouseButtons.XButton2)
 				this.RequestBrowseAction(BrowseAction.NavigateForward);
 		}
 
-		private void OnFormActivated(object sender, System.EventArgs e) {
+		private void OnFormActivated(object sender, System.EventArgs e) 
+		{
 			Application.AddMessageFilter(this);
+			this.KeyPreview = true;
 		}
 
-		private void OnFormDeactivate(object sender, System.EventArgs e) {
+		private void OnFormDeactivate(object sender, System.EventArgs e) 
+		{
 			Application.RemoveMessageFilter(this);
+			this.KeyPreview = false;
 		}
 
-		private void OnDocContainerShowControlContextMenu(object sender, ShowControlContextMenuEventArgs e) {
+		private void OnDocContainerShowControlContextMenu(object sender, ShowControlContextMenuEventArgs e) 
+		{
 			_contextMenuCalledAt = Cursor.Position;
 			_docTabContextMenu.Show(_docContainer, e.Position);
 		}
 
-		private void OnDocContainerMouseDown(object sender, MouseEventArgs e) {
-			if (e.Button == MouseButtons.Right) {
-				if (_docContainer.Visible) {		// we can only displ. the context menu on a visible control:
+		private void OnDocContainerMouseDown(object sender, MouseEventArgs e) 
+		{
+			if (e.Button == MouseButtons.Right) 
+			{
+				if (_docContainer.Visible) 
+				{		// we can only displ. the context menu on a visible control:
 					_contextMenuCalledAt = Cursor.Position;
 					_docTabContextMenu.Show(_docContainer, new Point(e.X, e.Y));
 				}
-			} else if (e.Button == MouseButtons.Middle) {
+			} 
+			else if (e.Button == MouseButtons.Middle) 
+			{
 				OnDocContainerDoubleClick(sender, e);
 			}
 		}
 
-		private void OnDocContainerDocumentClosing(object sender, DocumentClosingEventArgs e) {
+		private void OnDocContainerDocumentClosing(object sender, DocumentClosingEventArgs e) 
+		{
 			this.RemoveDocTab(e.DockControl);
 		}
 		
-		private void OnDocContainerActiveDocumentChanged(object sender, ActiveDocumentEventArgs e) {
+		private void OnDocContainerActiveDocumentChanged(object sender, ActiveDocumentEventArgs e) 
+		{
 			RefreshDocumentState(e.NewActiveDocument);
 			DeactivateWebProgressInfo();
 		}
 
-		private void OnDocContainerDoubleClick(object sender, EventArgs e) {
+		private void OnDocContainerDoubleClick(object sender, EventArgs e) 
+		{
 			Point p = _docContainer.PointToClient(Control.MousePosition);
 			DocumentLayoutSystem lb = (DocumentLayoutSystem)_docContainer.GetLayoutSystemAt(p);
-			if (lb != null) {
+			if (lb != null) 
+			{
 				DockControl doc = lb.GetControlAt(p);
 				if (doc != null)
 					this.RemoveDocTab(doc);
@@ -8777,16 +9722,27 @@ namespace RssBandit.WinGui.Forms {
 		/// by the Settings class.
 		/// </summary>
 		/// <param name="writer"></param>
-		protected void OnSaveConfig(Settings writer) { 
+		protected void OnSaveConfig(Settings writer) 
+		{ 
 
-			try {
-				writer.SetProperty("version", 3);
+			try 
+			{
+				//NOTE: if we are here, consider that control state is not always
+				// correct (at least the .Visible state can be wrong in case Bandit
+				// was closed from the system tray icon - and the main form was not 
+				// displayed)
+				
+				writer.SetProperty("version", 4);
 			
 				writer.SetProperty(Name+"/Bounds", BoundsToString(_formRestoreBounds));
 				writer.SetProperty(Name+"/WindowState", (int) this.WindowState);
 
+				// splitter position Listview/Detail Pane: 
 				writer.SetProperty(Name+"/panelFeedItems.Height", panelFeedItems.Height);
 				writer.SetProperty(Name+"/panelFeedItems.Width", panelFeedItems.Width);
+
+				// splitter position Navigator/Feed Details Pane: 
+				writer.SetProperty(Name+"/Navigator.Width", Navigator.Width);
 
 				writer.SetProperty(Name+"/docManager.WindowAlignment", (int)_docContainer.LayoutSystem.SplitMode);
 
@@ -8794,17 +9750,34 @@ namespace RssBandit.WinGui.Forms {
 				writer.SetProperty(Name+"/dockManager.LayoutStyle.Office2003", (sdRenderer != null));
 
 				// workaround the issue described here: http://www.divil.co.uk/net/support/kb/article.aspx?id=14
-				using (new CultureChanger("en-US")) {
+				//using (new CultureChanger("en-US")) 
+				using (CultureChanger.InvariantCulture) //TR: SF bug 1532164
+				{
 					writer.SetProperty(Name+"/dockManager.LayoutInfo", sandDockManager.GetLayout());
-					writer.SetProperty(Name+"/sandBar.LayoutInfo", sandBarManager.GetLayout(true));
 				}
 
-				writer.SetProperty(Name+"/feedDetail.LayoutInfo.Position", (int)detailsPaneSplitter.Dock );
+				writer.SetProperty(Name+"/ToolbarsVersion", CurrentToolbarsVersion);
+				writer.SetProperty(Name+"/Toolbars", StateSerializationHelper.SaveControlStateToString(this.ultraToolbarsManager, true));
 
-				Office2003Renderer renderer = sandBarManager.Renderer as Office2003Renderer;
-				writer.SetProperty(Name+"/sandBar.LayoutStyle.Office2003", (renderer != null));
+#if USE_USE_UltraDockManager				
+				writer.SetProperty(Name+"/DockingVersion", CurrentDockingVersion);
+				writer.SetProperty(Name+"/Docks", StateSerializationHelper.SaveControlStateToString(this.ultraDockManager));
+#endif
+				writer.SetProperty(Name+"/ExplorerBarVersion", CurrentExplorerBarVersion);
+				StateSerializationHelper.SaveExplorerBar(this.Navigator, writer, Name+"/"+this.Navigator.Name);
+				writer.SetProperty(Name+"/"+this.Navigator.Name+"/Visible", 
+				    owner.Mediator.IsChecked("cmdToggleTreeViewState") ||
+					owner.Mediator.IsChecked("cmdToggleRssSearchTabState")
+				);
+
+				writer.SetProperty(Name+"/feedDetail.LayoutInfo.Position", (int)detailsPaneSplitter.Dock );
+				writer.SetProperty(Name+"/outlookView.Visible", 
+				    owner.Mediator.IsChecked("cmdViewOutlookReadingPane") 
+				);
 			
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Exception while writing config entries to .settings.xml", ex);
 			}
 		}
@@ -8814,16 +9787,27 @@ namespace RssBandit.WinGui.Forms {
 		/// docked window states, toolbar button layout etc.
 		/// </summary>
 		/// <param name="reader"></param>
-		protected void OnLoadConfig(Settings reader) {
-			try {
+		protected void OnLoadConfig(Settings reader) 
+		{
+			// do not init from stored settings on cmd line reset:
+			if (owner.CommandLineArgs.ResetUserInterface)
+				return;
+			
+			try 
+			{
+				// controls if we should load layouts from user store, or not
+				// version will/have to raise, if new toolbars/buttons are available in
+				// newer delivered version(s)
 				int version = (int)reader.GetProperty("version", 0, typeof(int));
 
 				// read BEFORE set the WindowState or Bounds (that causes events, where we reset this setting to false)
-				_initialStartupTrayVisibleOnly = reader.GetBoolean(Name+"/TrayOnly.Visible", false);
+				//_initialStartupTrayVisibleOnly = reader.GetBoolean(Name+"/TrayOnly.Visible", false);
 
 				Rectangle r = StringToBounds(reader.GetString(Name+"/Bounds", BoundsToString(this.Bounds)));
-				if (r != Rectangle.Empty) {
-					if (Screen.AllScreens.Length < 2) {	
+				if (r != Rectangle.Empty) 
+				{
+					if (Screen.AllScreens.Length < 2) 
+					{	
 						// if only one sreen, correct initial location to fit the screen
 						if (r.X < 0) r.X = 0;
 						if (r.Y < 0) r.Y = 0;
@@ -8831,130 +9815,196 @@ namespace RssBandit.WinGui.Forms {
 						if (r.Y >= Screen.PrimaryScreen.WorkingArea.Height) r.Y -= Screen.PrimaryScreen.WorkingArea.Height;
 					}
 					_formRestoreBounds = r;
-					this.Bounds = r;
+					this.SetBounds(r.X, r.Y, r.Width, r.Height, BoundsSpecified.All);
 				}
 			
 				FormWindowState windowState = (FormWindowState) reader.GetInt32(Name+"/WindowState", 
 					(int) this.WindowState);
 
-				if (initialStartupState != FormWindowState.Normal && 
-					this.WindowState != initialStartupState) {
-					this.WindowState = initialStartupState;
-				} else {
+				if (InitialStartupState != FormWindowState.Normal && 
+					this.WindowState != InitialStartupState) 
+				{
+					this.WindowState = InitialStartupState;
+				} 
+				else 
+				{
 					this.WindowState = windowState;
 				}
-
-
+				
 				DockStyle feedDetailLayout = (DockStyle)reader.GetInt32(Name+"/feedDetail.LayoutInfo.Position", (int)DockStyle.Top);
 				if (feedDetailLayout != DockStyle.Top && feedDetailLayout != DockStyle.Left && feedDetailLayout != DockStyle.Right && feedDetailLayout != DockStyle.Bottom)
 					feedDetailLayout = DockStyle.Top;
 				this.SetFeedDetailLayout(feedDetailLayout);		// load before restore panelFeedItems dimensions!
 
+				// splitter position Listview/Detail Pane: 
 				panelFeedItems.Height = reader.GetInt32(Name+"/panelFeedItems.Height", (this.panelFeedDetails.Height / 2));
 				panelFeedItems.Width = reader.GetInt32(Name+"/panelFeedItems.Width", (this.panelFeedDetails.Width / 2));
 
+				// splitter position Navigator/Feed Details Pane: 
+				Navigator.Width = reader.GetInt32(Name+"/Navigator.Width", Navigator.Width);
+
 				_docContainer.LayoutSystem.SplitMode = (Orientation)reader.GetInt32(Name+"/docManager.WindowAlignment", (int)_docContainer.LayoutSystem.SplitMode);
-				owner.Mediator.SetCommandComponentChecked("cmdDocTabLayoutHorizontal", (_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal));
+				owner.Mediator.SetChecked((_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal), "cmdDocTabLayoutHorizontal");
 
 				// fallback layouts if something really goes wrong while laading:
-				string fallbackSDM, fallbackSBM;
+				string fallbackSDM;
 
 				// workaround the issue described here: http://www.divil.co.uk/net/support/kb/article.aspx?id=14
-				using (new CultureChanger("en-US")) {
+				using (CultureChanger.InvariantCulture) { //TR: SF bug 1532164
 					
 					fallbackSDM = sandDockManager.GetLayout();	// designtime layout
-					fallbackSBM = sandBarManager.GetLayout(true);	// designtime layout
 
-					try {
+					try 
+					{
 						sandDockManager.SetLayout(reader.GetString(Name+"/dockManager.LayoutInfo", fallbackSDM));
-					} catch (Exception ex) {
+					} 
+					catch (Exception ex) 
+					{
 						_log.Error("Exception on restore sandDockManager layout", ex);
 						sandDockManager.SetLayout(fallbackSDM);
 					}
 				}
 
 				bool office2003 =	reader.GetBoolean(Name+"/dockManager.LayoutStyle.Office2003", true);
-				if (office2003) {
+				if (office2003) 
+				{
 					TD.SandDock.Rendering.Office2003Renderer sdRenderer = new TD.SandDock.Rendering.Office2003Renderer();
 					sdRenderer.ColorScheme = TD.SandDock.Rendering.Office2003Renderer.Office2003ColorScheme.Automatic;
-					if (!RssBanditApplication.AutomaticColorSchemes) {
+					if (!RssBanditApplication.AutomaticColorSchemes) 
+					{
 						sdRenderer.ColorScheme = TD.SandDock.Rendering.Office2003Renderer.Office2003ColorScheme.Standard;
 					}
 					sandDockManager.Renderer = sdRenderer;
 					_docContainer.Renderer = sdRenderer;
-				} else {
+				} 
+				else 
+				{
 					TD.SandDock.Rendering.WhidbeyRenderer sdRenderer  = new TD.SandDock.Rendering.WhidbeyRenderer();
 					sandDockManager.Renderer = sdRenderer;
 					_docContainer.Renderer = sdRenderer;
 				}
 
-				// workaround the issue described here: http://www.divil.co.uk/net/support/kb/article.aspx?id=14
-				using (new CultureChanger("en-US")) {
-					try {
-						if (version < 2) {// older version found: use historical implementation
-							sandBarManager.SetLayout(reader.GetString(Name+"/sandBar.LayoutInfo", sandBarManager.GetLayout(false)));
-						} else {	// new sandbar version is able to handle it
-							sandBarManager.SetLayout(reader.GetString(Name+"/sandBar.LayoutInfo", fallbackSBM));
-						}
-					} catch (Exception ex) {
-						_log.Error("Exception on restore sandBarManager layout", ex);
-						sandBarManager.SetLayout(fallbackSBM);
-					}
+				if (reader.GetString(Name+"/ExplorerBarVersion", "0") == CurrentExplorerBarVersion) {
+					StateSerializationHelper.LoadExplorerBar(this.Navigator, reader, Name+"/"+this.Navigator.Name);
+				}
+				
+				if (! reader.GetBoolean(Name+"/"+this.Navigator.Name+"/Visible", true)) {
+					this.OnNavigatorCollapseClick(this, EventArgs.Empty);
+				}
+				// remembering/startup with search panel is not a good app start UI state: 
+				if (this.Navigator.Visible)
+					this.ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+				
+				if (reader.GetString(Name+"/ToolbarsVersion", "0") == CurrentToolbarsVersion) {
+					// Mediator re-connects to loaded commands:
+					StateSerializationHelper.LoadControlStateFromString(
+						this.ultraToolbarsManager, reader.GetString(Name+"/Toolbars", null),
+						owner.Mediator);
+					
+					// restore container control references:
+					this.ultraToolbarsManager.Tools["cmdUrlDropdownContainer"].Control = this.UrlComboBox;
+					this.ultraToolbarsManager.Tools["cmdSearchDropdownContainer"].Control = this.SearchComboBox;
+					
+					// restore the other dynamic menu handlers:
+					this.historyMenuManager.SetControls(
+						(AppPopupMenuCommand)this.ultraToolbarsManager.Tools["cmdBrowserGoBack"],
+						(AppPopupMenuCommand)this.ultraToolbarsManager.Tools["cmdBrowserGoForward"]);
+					this.owner.BackgroundDiscoverFeedsHandler.SetControls(
+						(AppPopupMenuCommand)this.ultraToolbarsManager.Tools["cmdDiscoveredFeedsDropDown"],
+						(AppButtonToolCommand)this.ultraToolbarsManager.Tools["cmdDiscoveredFeedsListClear"]);
+					this.InitSearchEngines();
 				}
 
-				office2003 =	reader.GetBoolean(Name+"/sandBar.LayoutStyle.Office2003", true);
-				if (office2003) {
-					Office2003Renderer renderer = new Office2003Renderer();
-					//renderer.CustomColors = true;
-					renderer.ColorScheme = Office2003Renderer.Office2003ColorScheme.Automatic;
-					if (!RssBanditApplication.AutomaticColorSchemes) {
-						renderer.ColorScheme = Office2003Renderer.Office2003ColorScheme.Standard;
-					}
-					sandBarManager.Renderer = renderer;
-				} else {
-					Office2002Renderer renderer = new Office2002Renderer();
-					sandBarManager.Renderer = renderer;
+#if USE_USE_UltraDockManager				
+				if (reader.GetString(Name+"/DockingVersion", "0") == CurrentDockingVersion) {
+					StateSerializationHelper.LoadControlStateFromString(this.ultraDockManager, reader.GetString(Name+"/Docks", null));
 				}
+#endif				
+				//View Outlook View Reading Pane
+				bool outlookView = reader.GetBoolean(Name+"/outlookView.Visible", false);
+				owner.Mediator.SetChecked(outlookView, "cmdViewOutlookReadingPane");
+				ShowOutlookReadingPane(outlookView);
+				
+				// now we can change the tool states:
+				this.owner.Mediator.SetEnabled(SearchIndexBehavior.NoIndexing != this.owner.FeedHandler.Configuration.SearchIndexBehavior,
+					"cmdNewRssSearch", 
+					"cmdToggleRssSearchTabState");
+			
 
-				sandBarManager.MenuBar.Visible = true;	// always visible
-
-				// Sandbar's toolbars state are not valid in the case the form is minimized.
-				// So we restore toolbar visbility separately (if app was closed from tray icon, the serialized info visible state is wrong):
-				toolBarMain.Visible = reader.GetBoolean(Name+"/sandBar.toolBarMain.Visible", true);
-				toolBarBrowser.Visible = reader.GetBoolean(Name+"/sandBar.toolBarBrowser.Visible", true);
-				toolBarWebSearch.Visible = reader.GetBoolean(Name+"/sandBar.toolBarWebSearch.Visible", true);
-
-				owner.Mediator.SetChecked(dockSubscriptions.Visible, "cmdToggleTreeViewState");
-
-				owner.Mediator.SetChecked(toolBarMain.IsOpen, "cmdToggleMainTBViewState");
-				owner.Mediator.SetChecked(toolBarBrowser.IsOpen, "cmdToggleWebTBViewState");
-				owner.Mediator.SetChecked(toolBarWebSearch.IsOpen, "cmdToggleWebSearchTBViewState");
-
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Exception while loading .settings.xml", ex);
 			}
 		}
 
 
-		private void OnFormClosing(object sender, System.ComponentModel.CancelEventArgs e) {
+		private void OnFormClosing(object sender, System.ComponentModel.CancelEventArgs e) 
+		{
 			if (owner.Preferences.HideToTrayAction == HideToTray.OnClose &&
-				_forceShutdown == false) {
+				_forceShutdown == false) 
+			{
 				e.Cancel = true;
-				Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_HIDE);
-				owner.GuiSettings.SetProperty(Name+"/TrayOnly.Visible", true);
+				this.HideToSystemTray();
 			}
-			else {
+			else 
+			{
 				_trayAni.Visible = false;
-				this._toastNotifier.Dispose();
+				this.toastNotifier.Dispose();
 				this.SaveUIConfiguration(true);
 			}
 		}
 
-		private void LoadUIConfiguration() {
-			try {
-				this.OnLoadConfig(owner.GuiSettings);
+		private bool SystemTrayOnlyVisible {
+			get {
+				return owner.GuiSettings.GetBoolean(Name+"/TrayOnly.Visible", false);
 			}
-			catch (Exception ex) {
+			set {
+				owner.GuiSettings.SetProperty(Name+"/TrayOnly.Visible", value);
+			}
+		}
+		
+		private void HideToSystemTray() {
+			Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_HIDE);
+			if (this.WindowState != FormWindowState.Minimized)
+				this.WindowState = FormWindowState.Minimized;
+			this.SystemTrayOnlyVisible = true;
+		}
+		
+		private void RestoreFromSystemTray() {
+			this.Show();
+			Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_RESTORE);
+			Win32.SetForegroundWindow(this.Handle);
+			this.SystemTrayOnlyVisible = false;
+			
+			//if application was launced in SystemTrayOnlyVisible mode then we have to wait 
+			//until now to restore browser tab state. 
+			if(!this._browserTabsRestored){
+				this.LoadAndRestoreBrowserTabState(); 
+			}
+		}
+		
+		internal void DoShow() {
+			if (this.Visible) {
+				if (this.WindowState == FormWindowState.Minimized) {
+					Win32.ShowWindow(this.Handle, Win32.ShowWindowStyles.SW_RESTORE);
+					Win32.SetForegroundWindow(this.Handle);
+				} else {
+					this.Activate();
+				}
+			} else {
+				this.RestoreFromSystemTray();
+			}
+		}
+		
+		private void LoadUIConfiguration() 
+		{
+			try 
+			{
+				this.OnLoadConfig(owner.GuiSettings);				
+			}
+			catch (Exception ex) 
+			{
 				_log.Error("Load .settings.xml failed", ex);
 			}
 		}
@@ -8962,296 +10012,369 @@ namespace RssBandit.WinGui.Forms {
 		/// <summary>
 		/// Called to build and re-build the search engine's Gui representation(s)
 		/// </summary>
-		public void InitSearchEngines() {
+		public void InitSearchEngines() 
+		{
 			if (!owner.SearchEngineHandler.EnginesLoaded || !owner.SearchEngineHandler.EnginesOK)
 				owner.LoadSearchEngines();
-			BuildSearchDropDown();	// call it always, it also enable/disable the button
-		}
-
-		private void BuildSearchDropDown() {
-
-			if (owner.SearchEngineHandler.Engines.Count == 0) {
-				searchComboBox.Enabled = false;
-				owner.Mediator.SetEnable("-cmdSearchGo");				
-				return;
-			}
-
-			_searchesGoCommand.Items.Clear();
-
-			foreach (SearchEngine engine in owner.SearchEngineHandler.Engines) {
-
-				AppMenuCommand item = new AppMenuCommand("cmdExecuteSearchEngine"+engine.Title, 
-					owner.Mediator, new ExecuteCommandHandler(this.CmdExecuteSearchEngine), 
-					engine.Title, engine.Description);
-
-				item.Tag = engine;
-
-				if (engine.ImageName != null && engine.ImageName.Trim().Length > 0) {
-					string p = Path.Combine(RssBanditApplication.GetSearchesPath(), engine.ImageName);
-					if (File.Exists(p)) {
-						Icon ico = null;
-						Image img = null;
-						try {
-							if (Path.GetExtension(p).ToLower().EndsWith("ico")) {
-								ico = new Icon(p);
-							} else {
-								img = Image.FromFile(p);
-							}
-						}
-						catch (Exception e) {
-							_log.Error("Exception reading bitmap or Icon for searchEngine '" + engine.Title + "'.", e);
-						}
-						if (ico != null) {
-							item.Icon = ico;
-						} else if (img != null) {
-							item.ImageIndex = _searchEngineImages.Images.Add(img, Color.Magenta);
-						}
-					}
-				}
-				_searchesGoCommand.Items.AddRange(new MenuButtonItem[]{item});
-
-			}//end foreach
-
-			searchComboBox.Enabled = true;
-			owner.Mediator.SetEnable("+cmdSearchGo");
+			this.toolbarHelper.BuildSearchMenuDropdown(owner.SearchEngineHandler.Engines, 
+			    owner.Mediator, new ExecuteCommandHandler(this.CmdExecuteSearchEngine));
+			owner.Mediator.SetEnabled( owner.SearchEngineHandler.Engines.Count > 0, "cmdSearchGo");
 		}
 
 		/// <summary>
 		/// Iterates through the treeview and highlights all feed titles that 
 		/// have unread messages. 
 		/// </summary>
-		private void UpdateTreeStatus(FeedsCollection feedsTable){
+		private void UpdateTreeStatus(FeedsCollection feedsTable)
+		{
 			this.UpdateTreeStatus(feedsTable, RootFolderType.MyFeeds);
 		}
-		private void UpdateTreeStatus(FeedsCollection feedsTable, RootFolderType rootFolder) {
+		private void UpdateTreeStatus(FeedsCollection feedsTable, RootFolderType rootFolder) 
+		{
 			if (feedsTable == null) return;
 			if (feedsTable.Count == 0) return;
 
-			FeedTreeNodeBase root = this.GetRoot(rootFolder);
+			TreeFeedsNodeBase root = this.GetRoot(rootFolder);
 
 			if (root == null)	// no root nodes
 				return;
 
 			// traverse driven by feedsTable. Usually the feeds count with
 			// new messages should be smaller than the tree nodes count.
-			foreach (feedsFeed f in feedsTable.Values) {
-				FeedTreeNodeBase tn = GetTreeNodeForItem(root, f);
-				if (f.containsNewMessages) {
-					tn.UpdateReadStatus(tn, CountUnreadFeedItems(f));
-				} else {
-					tn.UpdateReadStatus(tn, 0 );
+			foreach (feedsFeed f in feedsTable.Values) 
+			{
+				TreeFeedsNodeBase tn = TreeHelper.FindNode(root, f);
+				if (f.containsNewMessages) 
+				{
+					this.UpdateTreeNodeUnreadStatus(tn, CountUnreadFeedItems(f));
+				} 
+				else 
+				{
+					this.UpdateTreeNodeUnreadStatus(tn, 0);
 				}
+				Application.DoEvents();//??
 			}
 		}
 		#endregion
 		
 		#region event handlers for widgets not implementing ICommand
-		private void OnTreeFeedMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
+		
+		private void OnTreeFeedMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
+		{
+			try 
+			{
+				UltraTree tv = (UltraTree)sender;
+				TreeFeedsNodeBase selectedNode = (TreeFeedsNodeBase)tv.GetNodeFromPoint(e.X ,e.Y );
 
-			try {
-				TreeView tv = (TreeView)sender;
-				FeedTreeNodeBase selectedNode = (FeedTreeNodeBase)tv.GetNodeAt (e.X ,e.Y ); 						
-
-				if (e.Button == MouseButtons.Right) {
+				if (e.Button == MouseButtons.Right) 
+				{
 
 					//if the right click was on a treeview node then display the 
 					//appropriate context node depending on whether it was over 
 					//a feed node, category node or the top-level node. 
-					if(selectedNode!= null) {
+					if(selectedNode!= null) 
+					{
 						selectedNode.UpdateContextMenu();
 						// refresh context menu items
 						RefreshTreeFeedContextMenus(selectedNode );
 					}
-					else {
+					else 
+					{
 						tv.ContextMenu = null; // no context menu
 					}
-					this.CurrentSelectedNode = selectedNode;
+					this.CurrentSelectedFeedsNode = selectedNode;
 				
-				} else {
+				} 
+				else 
+				{
 					// cleanup temp node ref., needed if a user dismiss the context menu
 					// without selecting an action
-					if((this.CurrentSelectedNode != null) && (selectedNode != null)){
+					if((this.CurrentSelectedFeedsNode != null) && (selectedNode != null))
+					{
 					   
 						//this handles left click of currently selected feed after selecting
 						//an item in the listview. For some reason no afterselect or beforeselect
 						//events are fired so we do the work here. 
-						if(Object.ReferenceEquals(this.CurrentSelectedNode, selectedNode)){
-							this.listFeedItems.SelectedItems.Clear();
-							MoveFeedDetailsToFront();
-							RefreshFeedDisplay(selectedNode, false);
-						}else{
-							this.CurrentSelectedNode = null;	
+						if(Object.ReferenceEquals(this.CurrentSelectedFeedsNode, selectedNode))
+						{
+							// one more test, to prevent duplicate timeconsuming population of the listview/detail pane:
+							if (selectedNode.Type == FeedNodeType.Feed) {
+								// if a feed was selected in the treeview, we display the feed homepage,
+								// not the feed url in the Url dropdown box:
+								IFeedDetails fi = owner.GetFeedInfo(selectedNode.DataKey);
+								if (fi != null && fi.Link == FeedDetailTabState.Url)
+									return;	// no user navigation happened in listview/detail pane
+							} else {	
+								// other node types does not set the FeedDetailTabState.Url
+								if (StringHelper.EmptyOrNull(FeedDetailTabState.Url))
+									return;
+							}
+							
+							OnTreeFeedAfterSelectManually(this, selectedNode);
+//							this.listFeedItems.SelectedItems.Clear();
+//							this.htmlDetail.Clear();
+//							MoveFeedDetailsToFront();
+//							this.AddHistoryEntry(selectedNode, null);
+//							RefreshFeedDisplay(selectedNode, false);
+						}
+						else
+						{
+							this.CurrentSelectedFeedsNode = null;	
 						}
 					}
 				}
 				
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Unexpected exception in OnTreeFeedMouseDown()", ex);
 			}
 		}
 
-		private void OnTreeFeedMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) {
-			try {
-				if (CurrentDragNode != null) {	// this code does not have any effect :-((
+		private void OnTreeFeedMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) 
+		{
+			try 
+			{
+				TreeFeedsNodeBase t = (TreeFeedsNodeBase)this.treeFeeds.GetNodeFromPoint(e.X, e.Y);
+				//TR: perf. impact:
+//				if (t == null) 
+//					treeFeeds.Cursor = Cursors.Default;
+//				else
+//					treeFeeds.Cursor = Cursors.Hand;
+				if (CurrentDragNode != null) 
+				{	// this code does not have any effect :-((
 					// working around the missing DragHighlight property of the treeview :-(
-					Point p  = new Point(e.X, e.Y); 			
-					FeedTreeNodeBase t = (FeedTreeNodeBase)this.treeFeeds.GetNodeAt(treeFeeds.PointToClient(p));
-				
 					if (t == null)
 						CurrentDragHighlightNode = null;
 
-					if (t != null) {
+					if (t != null) 
+					{
 						if (t.Type == FeedNodeType.Feed)
 							CurrentDragHighlightNode = t.Parent;
 						else
 							CurrentDragHighlightNode = t;
 					}
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Unexpected exception in OnTreeFeedMouseMove()", ex);
 			}
 		}
 
-		private void OnTreeFeedMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
-			try {
+		private void OnTreeFeedMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) 
+		{
+			try 
+			{
 				CurrentDragHighlightNode = CurrentDragNode = null;
 			
-				if (e.Button == MouseButtons.Left) {
+				if (e.Button == MouseButtons.Left) 
+				{
 				
-					TreeView tv = (TreeView)sender;
-					FeedTreeNodeBase selectedNode = (FeedTreeNodeBase)tv.GetNodeAt (e.X ,e.Y ); 						
+					UltraTree tv = (UltraTree)sender;
+					TreeFeedsNodeBase selectedNode = (TreeFeedsNodeBase)tv.GetNodeFromPoint(e.X ,e.Y );
 
-					if (selectedNode != null && TreeSelectedNode == selectedNode) {
-						SetTitleText(selectedNode.Key);
+					if (selectedNode != null && TreeSelectedFeedsNode == selectedNode) 
+					{
+						SetTitleText(selectedNode.Text);
+						SetDetailHeaderText(selectedNode);
 						MoveFeedDetailsToFront();
 					}
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Unexpected exception in OnTreeFeedMouseUp()", ex);
 			}
 		}
 
-		private void EmptyListView(){
+		private void EmptyListView()
+		{
 			//lock(listFeedItems){
-			if (listFeedItems.Items.Count > 0) {
+			if (listFeedItems.Items.Count > 0) 
+			{
 				listFeedItems.BeginUpdate(); 							
 				listFeedItems.ListViewItemSorter = null; 
-				listFeedItems.Items.Clear(); 
+				listFeedItems.Items.Clear(); 				
 				listFeedItems.EndUpdate();
+				
+				listFeedItemsO.Clear();
 			}
-			owner.Mediator.SetEnable("-cmdFeedItemPostReply");
+			owner.Mediator.SetEnabled("-cmdFeedItemPostReply");
 			//}
 		}
 
-		private void OnTreeFeedDoubleClick(object sender, EventArgs e) {
-			try {
-				Point point = this.treeFeeds.PointToClient(Control.MousePosition);
-				FeedTreeNodeBase node = (FeedTreeNodeBase)this.treeFeeds.GetNodeAt(point);
 
-				if (node != null) {
-					this.CurrentSelectedNode = node;
-					owner.CmdNavigateFeedHome((AppMenuCommand) null);
-					this.CurrentSelectedNode = null;
+		private void OnTreeFeedDoubleClick(object sender, EventArgs e) 
+		{
+			try 
+			{
+				Point point = this.treeFeeds.PointToClient(Control.MousePosition);
+				TreeFeedsNodeBase feedsNode = (TreeFeedsNodeBase)this.treeFeeds.GetNodeFromPoint(point);
+
+				if (feedsNode != null) 
+				{
+					this.CurrentSelectedFeedsNode = feedsNode;
+					owner.CmdNavigateFeedHome((ICommand) null);
+					this.CurrentSelectedFeedsNode = null;
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("Unexpected Error in OnTreeFeedDoubleClick()", ex);
 			}
 		}
 
 
-		private void OnTreeFeedBeforeSelect(object sender, System.Windows.Forms.TreeViewCancelEventArgs e) {
-			
-			if(Object.ReferenceEquals(this.treeFeeds.SelectedNode, e.Node)){ return; }
+		private void OnTreeFeedBeforeSelect(object sender, Infragistics.Win.UltraWinTree.BeforeSelectEventArgs e)
+		{
+			if(this.treeFeeds.SelectedNodes.Count==0 || e.NewSelections.Count==0)
+			{
+				e.Cancel = true;
+				return;
+			}
+			if(Object.ReferenceEquals(this.treeFeeds.SelectedNodes[0], e.NewSelections[0])){ return; }
 
-			if(this.TreeSelectedNode != null){
+			if(this.TreeSelectedFeedsNode != null)
+			{
 				
 				listFeedItems.CheckForLayoutModifications();
-				FeedTreeNodeBase tn = TreeSelectedNode;
+				TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
 
-				if(tn.Type == FeedNodeType.Category ){
-					string category = this.BuildCategoryStoreName(tn);
+				if(tn.Type == FeedNodeType.Category )
+				{
+					string category = tn.CategoryStoreName;
 
-					if(owner.FeedHandler.GetCategoryMarkItemsReadOnExit(category)==true){
+					if(owner.FeedHandler.GetCategoryMarkItemsReadOnExit(category) &&
+						!TreeHelper.IsChildNode(tn, (TreeFeedsNodeBase)e.NewSelections[0]))
+					{
 						this.MarkSelectedNodeRead(tn);
-						owner.FeedlistModified = true;
+						owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+						//owner.FeedlistModified = true;
 					}
 								
-				}else if (tn.Type == FeedNodeType.Feed){					
-					string feedUrl = (string)tn.Tag;
-					feedsFeed f    = owner.FeedHandler.FeedsTable[feedUrl] as feedsFeed; 
+				}
+				else if (tn.Type == FeedNodeType.Feed)
+				{					
+					string feedUrl = tn.DataKey;
+					feedsFeed f    = owner.GetFeed(feedUrl); 
 					
-					if((owner.FeedHandler.GetMarkItemsReadOnExit((string)tn.Tag)== true)
-					    && f.containsNewMessages){
+					if(f != null && feedUrl != null &&
+						true == owner.FeedHandler.GetMarkItemsReadOnExit(feedUrl) &&
+						f.containsNewMessages)
+					{
 						this.MarkSelectedNodeRead(tn);
-						owner.FeedlistModified = true;
+						owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+						//owner.FeedlistModified = true;
 						//this.UpdateTreeStatus(owner.FeedHandler.FeedsTable);					 
 					}												
 				}
 			}//if(this.TreeSelectedNode != null){		
 		}
 
-		private void OnTreeFeedAfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e) {
+		private void OnTreeFeedAfterSelect(object sender, Infragistics.Win.UltraWinTree.SelectEventArgs e)
+		{
+			if(e.NewSelections.Count==0)
+			{
+				return;
+			}
+			TreeFeedsNodeBase tn = (TreeFeedsNodeBase)e.NewSelections[0];
+			OnTreeFeedAfterSelectManually(sender, tn);
+		}
+		private void OnTreeFeedAfterSelectManually(object sender, UltraTreeNode node)
+		{
+			try
+			{			
 
-			try{			
-
-				FeedTreeNodeBase tn = (FeedTreeNodeBase)e.Node;
-				
-				if (e.Action != TreeViewAction.ByMouse) {	// mousedown handled separatly
-					tn.UpdateContextMenu();
-					this.RefreshTreeFeedContextMenus(tn);
-				}
-
-				if (tn.Type != FeedNodeType.Root) {
-					SetTitleText(tn.Key);
+				TreeFeedsNodeBase tn = (TreeFeedsNodeBase)node;
+				/*
+				 //**				
+								if (e.Action != TreeViewAction.ByMouse) {	// mousedown handled separatly
+									tn.UpdateContextMenu();
+									this.RefreshTreeFeedContextMenus(tn);
+								}
+				*/
+				if (tn.Type != FeedNodeType.Root) 
+				{
+					SetTitleText(tn.Text);
+					SetDetailHeaderText(tn);
 					MoveFeedDetailsToFront();
 				}
 			
-				if(tn.IsSelected) {
+				if(tn.Selected) 
+				{
+
+					if (tn.Type != FeedNodeType.Feed) 
+					{
+						owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
+					} 
+					else 
+					{
+						string feedUrl = tn.DataKey;
+						if (feedUrl != null && owner.FeedHandler.FeedsTable.Contains(feedUrl)) 
+						{
+							owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost") ;
+						} 
+						else 
+						{
+							owner.Mediator.SetEnabled("-cmdFeedItemNewPost");	
+						}
+					}
+
 					listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(tn);	// raise events, that build the columns
 
-					switch (tn.Type) {
+					switch (tn.Type) 
+					{
 						case FeedNodeType.Feed:	
 							MoveFeedDetailsToFront();
-							RefreshFeedDisplay(tn);
+							RefreshFeedDisplay(tn, true); // does also set the FeedDetailTabState.Url
+							AddHistoryEntry(tn,null);
 							break;
 						
 						case FeedNodeType.Category:			
-							/* if (!_initialFeedLoadingInProgress) { MAKES UI UNRESPONSIVE
-								RefreshCategoryDisplay(tn);
-							} else { */
-							string category = this.BuildCategoryStoreName(tn);
-							FeedInfoList unreadItems = new FeedInfoList(category); 
-
-							PopulateListView(tn, new ArrayList(), true);
-							htmlDetail.Clear();
-							WalkdownThenRefreshFeed(tn, false, true, tn, unreadItems);
-								
-							if((tn != null) && tn.IsSelected){	
-								this.BeginTransformFeedList(unreadItems, tn, this.owner.FeedHandler.GetCategoryStyleSheet(category)); 
-							}
-							/* } */
+							RefreshCategoryDisplay(tn); // does also set the FeedDetailTabState.Url
+							AddHistoryEntry(tn, null);								
 							break;
 					
 						case FeedNodeType.SmartFolder:
-							try { 				
+							try 
+							{ 
+								FeedDetailTabState.Url = String.Empty;
+								AddHistoryEntry(tn, null);
+
 								ISmartFolder isf = tn as ISmartFolder;
 								if (isf != null)
 									PopulateSmartFolder(tn,true);
+								
+								if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0) {
+									FeedInfoList fiList = this.CreateFeedInfoList(tn.Text, UnreadItemsNode.Items); 
+									this.BeginTransformFeedList(fiList, tn, this.owner.FeedHandler.Stylesheet);
+								}
 							}
-							catch(Exception ex) {
+							catch(Exception ex) 
+							{
 								_log.Error("Unexpected Error on PopulateSmartFolder()", ex);
-								owner.MessageError("RES_ExceptionGeneral", ex.Message);
+								owner.MessageError(SR.ExceptionGeneral(ex.Message));
 							}
 							break;
 
 						case FeedNodeType.Finder:
-							try { 				
+							try 
+							{ 	
+								FeedDetailTabState.Url = String.Empty;
+								AddHistoryEntry(tn, null);
 								PopulateFinderNode((FinderNode)tn,true);
 							}
-							catch(Exception ex) {
+							catch(Exception ex) 
+							{
 								_log.Error("Unexpected Error on PopulateAggregatedFolder()", ex);
-								owner.MessageError("RES_ExceptionGeneral", ex.Message);
+								owner.MessageError(SR.ExceptionGeneral(ex.Message));
 							}
+							break;
+						
+						case FeedNodeType.FinderCategory:
+							FeedDetailTabState.Url = String.Empty;
+							AddHistoryEntry(tn, null);
 							break;
 
 						case FeedNodeType.Root:
@@ -9259,166 +10382,274 @@ namespace RssBandit.WinGui.Forms {
 							if (this.GetRoot(RootFolderType.MyFeeds).Equals(tn)) 
 								AggregateSubFeeds(tn);	// it is slow on startup, nothing is loaded in memory...
 							*/
-							this.SetGuiStateFeedback(Resource.Manager["RES_StatisticsAllFeedsCountMessage", owner.FeedHandler.FeedsTable.Count]);
+							FeedDetailTabState.Url = String.Empty;
+							AddHistoryEntry(tn, null);
+							this.SetGuiStateFeedback(SR.StatisticsAllFeedsCountMessage(owner.FeedHandler.FeedsTable.Count));
 							break;
 
 						default:
 							break;
 					}
+				} 
+				else 
+				{
+					owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
 				}
 
-			}catch(Exception ex) {
+			}
+			catch(Exception ex) 
+			{
 				_log.Error("Unexpected Error in OnTreeFeedAfterSelect()", ex);
-				owner.MessageError("RES_ExceptionGeneral", ex.Message);
+				owner.MessageError(SR.ExceptionGeneral(ex.Message));
 			}
 
 		}
 
-		private void OnTreeFeedBeforeLabelEdit(object sender, System.Windows.Forms.NodeLabelEditEventArgs e){
-		
-			FeedTreeNodeBase editedNode = (FeedTreeNodeBase)e.Node;
+		/// <summary>
+		/// Creates the feed info list. It takes the items and groups the
+		/// unread items by feed for display.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <param name="items">The items.</param>
+		/// <returns></returns>
+		private FeedInfoList CreateFeedInfoList(string title, ArrayList items) {
+			FeedInfoList result = new FeedInfoList(title);
+			if (items == null || items.Count == 0)
+				return result;
 			
-			if (editedNode.Editable){
-				if (editedNode.UnreadCount > 0){// does not have the expected effect :-((
-					e.Node.Text = editedNode.Key;	// want's to remove the (xxx) unread item counter from the label edit text.
-				}
-			}
-			else
-				e.CancelEdit = true;
-		}
+			Hashtable fiCache = new Hashtable();
 
-
-
-		internal void RenameTreeNode(FeedTreeNodeBase tn, string newName){
-
-			tn.Key = newName; 
-			this.OnTreeFeedAfterLabelEdit(this, new NodeLabelEditEventArgs(tn, newName));
-		}
-
-		private void OnTreeFeedAfterLabelEdit(object sender, System.Windows.Forms.NodeLabelEditEventArgs e){
-		
-			FeedTreeNodeBase editedNode = (FeedTreeNodeBase)e.Node;
-
-			if (e.Label != null) {
+			for (int i=0; i< items.Count; i++) 
+			{
+				NewsItem item = items[i] as NewsItem;
+				if (item == null || item.Feed == null)
+					continue;
 				
-				if(e.Label.Trim().Length > 0) {
-
-					string newLabel = e.Label.Trim();
-					if (editedNode.UnreadCount > 0){
-						Match m = _labelParser.Match(newLabel);
-						if (m.Success) 
-							newLabel = m.Groups["caption"].Value.Trim();
-					}
-					if(editedNode.Type == FeedNodeType.Feed) { //feed node 
-
-						feedsFeed f = owner.FeedHandler.FeedsTable[(string)editedNode.Tag];
-						f.title     = newLabel; 									
-						owner.FeedlistModified = true;
-
-						e.CancelEdit = true;
-						treeFeeds.BeginUpdate(); 
-						editedNode.Key = f.title;
-						treeFeeds.EndUpdate(); 				
+				string feedUrl = item.Feed.link;
 					
-					} else if (editedNode.Type == FeedNodeType.Finder) {
+				if (feedUrl == null || !owner.FeedHandler.FeedsTable.Contains(feedUrl))
+					continue;
 
-						e.CancelEdit = true;
-						treeFeeds.BeginUpdate(); 
-						editedNode.Key = newLabel;
-						treeFeeds.EndUpdate(); 				
-
-					} else 	{ //category node 
-
-						FeedTreeNodeBase existingNode = FindChild(editedNode.Parent, newLabel, FeedNodeType.Category);
-						if(existingNode != null && existingNode != editedNode ) {
-							owner.MessageError("RES_ExceptionDuplicateCategoryName", newLabel);
-							e.CancelEdit = true;
-							return; 
+				try {
+					
+					FeedInfo fi = null;
+					if (fiCache.ContainsKey(feedUrl))
+						fi = fiCache[feedUrl] as FeedInfo;
+					else {
+						fi = (FeedInfo) owner.GetFeedInfo(feedUrl);
+						if (fi != null) {
+							fi = fi.Clone(false);
 						}
-
-						string oldFullname = BuildCategoryStoreName(editedNode);
-
-						// rename the item
-						treeFeeds.BeginUpdate();
-						editedNode.Key = newLabel;
-						treeFeeds.EndUpdate();
-						
-						if (this.GetRoot(editedNode) == RootFolderType.MyFeeds) {
-							string newFullname = BuildCategoryStoreName(editedNode);
-
-							CategoriesCollection categories = owner.FeedHandler.Categories;
-							string[] catList = new string[categories.Count];
-							categories.Keys.CopyTo(catList, 0);
-							// iterate on a copied list, so we can change the old one without
-							// side effects
-							foreach (string catKey in catList) {
-								if (catKey.StartsWith(oldFullname)) {
-									int i = categories.IndexOfKey(catKey);
-									CategoryEntry c = categories[i];
-									categories.RemoveAt(i); 
-									c.Key = catKey.Replace(oldFullname,newFullname);
-									c.Value.Value = c.Key;
-									categories.Insert(i, c);
-								}
-							}
-
-							// funny recursive part:
-							// change category in feed manager 
-							// (also updates tree node in UI)
-							WalkdownThenRenameFeedCategory(editedNode, newFullname);
-
-						} else if (this.GetRoot(editedNode) == RootFolderType.Finder) {
-							// we are done
-						}
-
-						e.CancelEdit = true;
-
+					}
+					
+					if (fi == null)	// with an error, and the like: ignore
+						continue;
+					
+					if(!item.BeenRead)
+						fi.ItemsList.Add(item);
+					
+					if (fi.ItemsList.Count > 0 && !fiCache.ContainsKey(feedUrl)) {
+						fiCache.Add(feedUrl, fi);
+						result.Add(fi);
 					}
 
+				} catch (Exception e) {
+					owner.PublishXmlFeedError(e, feedUrl, true);
 				}
-				else {
-					/* Cancel the label edit action, inform the user, and 
-						 place the node in edit mode again. */
-					e.CancelEdit = true;
-					SetGuiStateFeedback(Resource.Manager["RES_GUIStatusErrorEmptyTitleNotAllowed"]);
-					e.Node.BeginEdit();
-				}
-				
-			}//if (e.Label != null) 
-			else {
-				editedNode.Key = editedNode.Text;		// reset formattings
-				e.CancelEdit = true;
+
+			
 			}
+			
+			return result;
+		}
 		
+		internal void RenameTreeNode(TreeFeedsNodeBase tn, string newName)
+		{
+			tn.TextBeforeEditing = tn.Text;
+			tn.Text = newName; 
+			this.OnTreeFeedAfterLabelEdit(this, new NodeEventArgs(tn));
+		}
+		
+		private void OnTreeFeedBeforeLabelEdit(object sender, CancelableNodeEventArgs e){
+		
+			TreeFeedsNodeBase editedNode = (TreeFeedsNodeBase)e.TreeNode;
+			e.Cancel = !editedNode.Editable;
+			if (!e.Cancel){
+				editedNode.TextBeforeEditing = editedNode.Text; 								
+			}
+		}
+		
+		private void OnTreeFeedsValidateLabelEdit(object sender, ValidateLabelEditEventArgs e) {
+			
+			string newText = e.LabelEditText;
+			if (StringHelper.EmptyOrNull(newText)) {
+				e.StayInEditMode = true;
+				return;
+			}
+
+			TreeFeedsNodeBase editedNode = (TreeFeedsNodeBase)e.Node;
+			string newLabel = newText.Trim();
+					
+			if (editedNode.Type != FeedNodeType.Feed && 
+				editedNode.Type != FeedNodeType.Finder) {  //category node 
+
+				TreeFeedsNodeBase existingNode = TreeHelper.FindChildNode(editedNode.Parent, newLabel, FeedNodeType.Category);
+				if(existingNode != null && existingNode != editedNode ) {
+					owner.MessageError(SR.ExceptionDuplicateCategoryName(newLabel));
+					e.StayInEditMode = true;	
+					return; 
+				}
+
+			}
+				
 		}
 
-		private void OnTreeFeedItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e) {
-			// this is called sometimes after display the tree context menu, so restrict to left mouse button
-			if (e.Button == MouseButtons.Left && 
-				(((FeedTreeNodeBase)e.Item).Type == FeedNodeType.Feed || ((FeedTreeNodeBase)e.Item).Type == FeedNodeType.Category)){
+		private void OnTreeFeedAfterLabelEdit(object sender, NodeEventArgs e){
+		
+			TreeFeedsNodeBase editedNode = (TreeFeedsNodeBase)e.TreeNode;
+			string newLabel = e.TreeNode.Text.Trim();
+			string oldLabel = editedNode.TextBeforeEditing;
+			editedNode.TextBeforeEditing = null;	// reset for safety (only used in editing mode)
+			
+			//handle the case where right-click was used to rename a tree node even though another 
+			//item was currently selected. This resets the current 
+			//this.CurrentSelectedFeedsNode = this.TreeSelectedFeedsNode;
+					
+			if(editedNode.Type == FeedNodeType.Feed) { //feed node 
 
-				CurrentDragNode = (FeedTreeNodeBase)e.Item;
+				feedsFeed f = owner.GetFeed(editedNode.DataKey);
+				if (f != null) {
+					f.title     = newLabel; 
+					owner.FeedWasModified(f, NewsFeedProperty.FeedTitle);				
+					//owner.FeedlistModified = true;
+				}
+			} else if (editedNode.Type == FeedNodeType.Finder) {
+
+				// all yet done
 				
-				if (CurrentDragNode.IsExpanded)
-					CurrentDragNode.Collapse();
+			} else 	{ //category node 
+				
+				string oldFullname = oldLabel;
+				string[] catArray = TreeFeedsNodeBase.BuildCategoryStoreNameArray(editedNode);
+				if (catArray.Length > 0) {
+					// build old category store name by replace the new label returned
+					// by the oldLabel kept:
+					catArray[catArray.Length-1] = oldLabel;
+					oldFullname = String.Join(NewsHandler.CategorySeparator, catArray);
+				}
+						
+				if (this.GetRoot(editedNode) == RootFolderType.MyFeeds) {
+					string newFullname = editedNode.CategoryStoreName;
+
+					CategoriesCollection categories = owner.FeedHandler.Categories;
+					string[] catList = new string[categories.Count];
+					categories.Keys.CopyTo(catList, 0);
+					// iterate on a copied list, so we can change the old one without
+					// side effects
+					foreach (string catKey in catList) {
+						if (catKey.Equals(oldFullname) || catKey.StartsWith(oldFullname + NewsHandler.CategorySeparator)) {
+							int i = categories.IndexOfKey(catKey);
+							CategoryEntry c = categories[i];
+							categories.RemoveAt(i); 
+							c.Key = catKey.Replace(oldFullname,newFullname);
+							c.Value.Value = c.Key;
+							categories.Insert(i, c);
+						}
+					}
+
+					// funny recursive part:
+					// change category in feed manager 
+					// (also updates tree node in UI)
+					WalkdownThenRenameFeedCategory(editedNode, newFullname);
+					owner.SubscriptionModified(NewsFeedProperty.FeedCategory);
+					//owner.FeedlistModified = true;
+
+				}
+
+			}
+			
+		}
+
+		
+		private void OnTreeFeedSelectionDragStart(object sender, EventArgs e)
+		{
+			TreeFeedsNodeBase tn = this.TreeSelectedFeedsNode;
+			if (tn!=null && (tn.Type == FeedNodeType.Feed || tn.Type == FeedNodeType.Category))
+			{
+				CurrentDragNode = tn;
+				
+				if (CurrentDragNode.Expanded)
+					CurrentDragNode.Expanded = false;
 				
 				string dragObject = null;
 
-				if ((Control.ModifierKeys & Keys.Control) == Keys.Control) {
+				if ((Control.ModifierKeys & Keys.Control) == Keys.Control) 
+				{
 					IFeedDetails fd = null;
-					if (CurrentDragNode.Type == FeedNodeType.Feed && 
-						owner.FeedHandler.FeedsTable.ContainsKey((string)CurrentDragNode.Tag))
-						fd =owner.FeedHandler.GetFeedInfo((string)CurrentDragNode.Tag);
-					if (fd != null) {
+					if (CurrentDragNode.Type == FeedNodeType.Feed)
+						fd =owner.GetFeedInfo(CurrentDragNode.DataKey);
+					if (fd != null) 
+					{
 						dragObject = fd.Link;
 					}	
 				}
-				if (dragObject != null) {
+				if (dragObject != null) 
+				{
 					this.DoDragDrop(dragObject, DragDropEffects.Copy | DragDropEffects.Link);
-				} else {
-					if (CurrentDragNode.Type == FeedNodeType.Feed) {
-						dragObject = (string)CurrentDragNode.Tag;
-					} else {
+				} 
+				else 
+				{
+					if (CurrentDragNode.Type == FeedNodeType.Feed) 
+					{
+						dragObject = CurrentDragNode.DataKey;
+					} 
+					else 
+					{
+						dragObject = CurrentDragNode.Text;
+					}
+					this.DoDragDrop(dragObject, DragDropEffects.Copy | DragDropEffects.Move);
+				}
+				CurrentDragHighlightNode = CurrentDragNode = null;
+			}
+			
+		}
+		
+		private void OnTreeFeedItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e) 
+		{
+			// this is called sometimes after display the tree context menu, so restrict to left mouse button
+			if (e.Button == MouseButtons.Left && 
+				(((TreeFeedsNodeBase)e.Item).Type == FeedNodeType.Feed || ((TreeFeedsNodeBase)e.Item).Type == FeedNodeType.Category))
+			{
+
+				CurrentDragNode = (TreeFeedsNodeBase)e.Item;
+				
+				if (CurrentDragNode.Expanded)
+					CurrentDragNode.Expanded = false;
+				
+				string dragObject = null;
+
+				if ((Control.ModifierKeys & Keys.Control) == Keys.Control) 
+				{
+					IFeedDetails fd = null;
+					if (CurrentDragNode.Type == FeedNodeType.Feed)
+						fd = owner.GetFeedInfo(CurrentDragNode.DataKey);
+					if (fd != null) 
+					{
+						dragObject = fd.Link;
+					}	
+				}
+				if (dragObject != null) 
+				{
+					this.DoDragDrop(dragObject, DragDropEffects.Copy | DragDropEffects.Link);
+				} 
+				else 
+				{
+					if (CurrentDragNode.Type == FeedNodeType.Feed) 
+					{
+						dragObject = CurrentDragNode.DataKey;
+					} 
+					else 
+					{
 						dragObject = CurrentDragNode.Text;
 					}
 					this.DoDragDrop(dragObject, DragDropEffects.Copy | DragDropEffects.Move);
@@ -9428,148 +10659,174 @@ namespace RssBandit.WinGui.Forms {
 
 		}
 
-		private void OnTreeFeedDragEnter(object sender, System.Windows.Forms.DragEventArgs e)	{
+		private void OnTreeFeedDragEnter(object sender, System.Windows.Forms.DragEventArgs e)	
+		{
 
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 
-				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) {
+				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) 
+				{
 					e.Effect = DragDropEffects.Link;	// we got this on drag urls from IE !
-				} else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) 
+				{
 					e.Effect = DragDropEffects.Move;
-				} else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) 
+				{
 					e.Effect = DragDropEffects.Copy;
-				} else {
+				} 
+				else 
+				{
 					e.Effect = DragDropEffects.None;
 					CurrentDragHighlightNode = null;
 					return;
 				}
 
 				Point p  = new Point(e.X, e.Y); 			
-				FeedTreeNodeBase t = (FeedTreeNodeBase)this.treeFeeds.GetNodeAt(treeFeeds.PointToClient(p));
+				TreeFeedsNodeBase t = (TreeFeedsNodeBase)this.treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
 				
-				if (t == null){
+				if (t == null)
+				{
 					e.Effect = DragDropEffects.None;
 					CurrentDragHighlightNode = null;
 				}
-				if (t != null) {
+				if (t != null) 
+				{
 					if (t.Type == FeedNodeType.Feed)
 						CurrentDragHighlightNode = t.Parent;
 					else if (t.Type == FeedNodeType.Category || GetRoot(RootFolderType.MyFeeds).Equals(t))
 						CurrentDragHighlightNode = t;
-					else {
+					else 
+					{
 						e.Effect = DragDropEffects.None;
 						CurrentDragHighlightNode = null;
 					}
 				}
 			}
-			else {
+			else 
+			{
 				e.Effect = DragDropEffects.None;
 				CurrentDragHighlightNode = null;
 			}
 		}
 
-		private void OnTreeFeedGiveFeedback(object sender, System.Windows.Forms.GiveFeedbackEventArgs e) {
+		private void OnTreeFeedGiveFeedback(object sender, System.Windows.Forms.GiveFeedbackEventArgs e) 
+		{
 			//if we are a drag source, ...
 			_log.Debug("OnTreeFeedGiveFeedback() effect:"+e.Effect.ToString());
 		}
 
-		private void OnTreeFeedQueryContiueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e) {
+		private void OnTreeFeedQueryContiueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e) 
+		{
 			// keyboard or mouse button state changes
 			// we listen to Unpress Ctrl:
 			_log.Debug("OnTreeFeedQueryContiueDrag() action:"+e.Action.ToString()+", KeyState:"+e.KeyState.ToString());
 		}
 
-		private void OnTreeFeedDragOver(object sender, System.Windows.Forms.DragEventArgs e) {
+		private void OnTreeFeedDragOver(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 			
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 
-				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) {
+				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) 
+				{
 					e.Effect = DragDropEffects.Link;
-				} else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) 
+				{
 					e.Effect = DragDropEffects.Move;
-				} else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) 
+				{
 					e.Effect = DragDropEffects.Copy;
-				} else {
+				} 
+				else 
+				{
 					e.Effect = DragDropEffects.None;
 					CurrentDragHighlightNode = null;
 					return;
 				}
 
 				Point p  = treeFeeds.PointToClient(new Point(e.X, e.Y)); 			
-				FeedTreeNodeBase t = (FeedTreeNodeBase)this.treeFeeds.GetNodeAt(p);
+				TreeFeedsNodeBase t = (TreeFeedsNodeBase)this.treeFeeds.GetNodeFromPoint(p);
 				
-				if (t == null){
+				if (t == null)
+				{
 					e.Effect = DragDropEffects.None;
 					CurrentDragHighlightNode = null;
 				}
 
-				if (t != null) {
+				if (t != null) 
+				{
 					if (t.Type == FeedNodeType.Feed)
 						CurrentDragHighlightNode = t.Parent;
 					else if (t.Type == FeedNodeType.Category || GetRoot(RootFolderType.MyFeeds).Equals(t))
 						CurrentDragHighlightNode = t;
-					else {
+					else 
+					{
 						e.Effect = DragDropEffects.None;
 						CurrentDragHighlightNode = null;
 					}
 				}
 
-				int tcsh = this.treeFeeds.ClientSize.Height;
-				int scrollThreshold = 25;
-				if (p.Y + scrollThreshold > tcsh)
-					Win32.SendMessage(this.treeFeeds.Handle, (int)Win32.Message.WM_VSCROLL, 1, 0);
-				else if (p.Y < scrollThreshold)
-					Win32.SendMessage(this.treeFeeds.Handle, (int)Win32.Message.WM_VSCROLL, 0, 0);
+				// UltraTree can scroll automatically, if the mouse
+				// is near top/bottom, so this code is just there for
+				// reference - how to apply this to a MS Treeview:
+//				int tcsh = this.treeFeeds.ClientSize.Height;
+//				int scrollThreshold = 25;
+//				if (p.Y + scrollThreshold > tcsh)
+//					Win32.SendMessage(this.treeFeeds.Handle, (int)Win32.Message.WM_VSCROLL, 1, 0);
+//				else if (p.Y < scrollThreshold)
+//					Win32.SendMessage(this.treeFeeds.Handle, (int)Win32.Message.WM_VSCROLL, 0, 0);
 
 			}
-			else {
+			else 
+			{
 				e.Effect = DragDropEffects.None;
 				CurrentDragHighlightNode = null;
 			}
 		}
 
-		private void OnTreeFeedDragDrop(object sender, System.Windows.Forms.DragEventArgs e) {
-
+		private void OnTreeFeedDragDrop(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 			CurrentDragHighlightNode = null;
 
 			//get node where feed was dropped 
 			Point p  = new Point(e.X, e.Y); 			
-			FeedTreeNodeBase target = (FeedTreeNodeBase)this.treeFeeds.GetNodeAt(treeFeeds.PointToClient(p));
+			TreeFeedsNodeBase target = (TreeFeedsNodeBase)this.treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
 
 			//move node if dropped on a category node (or below)
-			if (target != null) {
-				FeedTreeNodeBase node2move = CurrentDragNode;
+			if (target != null) 
+			{
+				TreeFeedsNodeBase node2move = CurrentDragNode;
 
-				if (target.Type == FeedNodeType.Feed) {
+				if (target.Type == FeedNodeType.Feed) 
+				{
 					// child of a category. Take the parent as target
 					target = target.Parent;
 				}
 
 				
-				if(node2move != null ) {
+				if(node2move != null ) 
+				{
 
 					MoveNode (node2move, target);
 
-				} else {	// foreign drag/drop op
+				} 
+				else 
+				{	// foreign drag/drop op
 					
 					// Bring the main window to the front so the user can
 					// enter the dropped feed details.  Otherwise the feed
 					// details window can pop up underneath the drop source,
 					// which is confusing.
-					RssBandit.Win32.SetForegroundWindow(this.Handle);
+					Win32.SetForegroundWindow(this.Handle);
 
 					string sData = (string)e.Data.GetData(DataFormats.Text);
 					this.DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[]{target, sData});
-
-//					Uri urlUri = null;
-//					try {
-//						urlUri = new Uri(sData);
-//						string category = BuildCategoryStoreName(target); 
-//						owner.CmdNewFeed(category, sData, "[New Feed]");
-//					}
-//					catch(UriFormatException ex) {
-//						Trace.Write ("TreeView: dropped an invalid Url: " + ex.Message);
-//					}
 
 				}
 			}		
@@ -9577,156 +10834,365 @@ namespace RssBandit.WinGui.Forms {
 			CurrentDragNode = null;
 		}
 
-		private void OnTimerTreeNodeExpandElapsed(object sender, System.Timers.ElapsedEventArgs e) {
+		private void OnTimerTreeNodeExpandElapsed(object sender, System.Timers.ElapsedEventArgs e) 
+		{
 			_timerTreeNodeExpand.Stop();
-			if (CurrentDragHighlightNode != null) {
-				if (!CurrentDragHighlightNode.IsExpanded)
-					CurrentDragHighlightNode.Expand();
+			if (CurrentDragHighlightNode != null) 
+			{
+				if (!CurrentDragHighlightNode.Expanded)
+					CurrentDragHighlightNode.Expanded = true;
 			}
 		}
 
-		private void OnTimerFeedsRefreshElapsed(object sender, System.Timers.ElapsedEventArgs e) {
-			if (owner.InternetAccessAllowed) {
+		private void OnTimerFeedsRefreshElapsed(object sender, System.Timers.ElapsedEventArgs e) 
+		{
+			if (owner.InternetAccessAllowed && owner.FeedHandler.RefreshRate > 0) 
+			{
 				this.UpdateAllFeeds(false);
 			}
 		}
 
-		private void OnTimerResetStatusTick(object sender, EventArgs e) {
+		private void OnTimerCommentFeedsRefreshElapsed(object sender, System.Timers.ElapsedEventArgs e) {
+			if (owner.InternetAccessAllowed && owner.FeedHandler.RefreshRate > 0) {
+				this.UpdateAllCommentFeeds(true);
+			}
+		}
+
+		/// <summary>
+		/// Called when startup timer fires (ca. 45 secs after UI startup).
+		/// This delay is required, if Bandit gets started via Windows Auto-Start
+		/// to prevent race conditions with WLAN startup/LAN init (we require the
+		/// Internet connection to succeed)
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void OnTimerStartupTick(object sender, EventArgs e) {
+			this._startupTimer.Enabled = false;
+			// start load items and refresh from web, force if we have to refresh on startup:
+			if (owner.InternetAccessAllowed) {
+				this.UpdateAllFeeds(owner.Preferences.FeedRefreshOnStartup);
+			}
+		}
+		
+		private void OnTimerResetStatusTick(object sender, EventArgs e) 
+		{
 			this._timerResetStatus.Stop();
 			this.SetGuiStateFeedback(String.Empty);		
 			if (_trayManager.CurrentState == ApplicationTrayState.BusyRefreshFeeds || 
-				this.GetRoot(RootFolderType.MyFeeds).UnreadCount == 0) {
+				this.GetRoot(RootFolderType.MyFeeds).UnreadCount == 0) 
+			{
 				_trayManager.SetState(ApplicationTrayState.NormalIdle);
 			}
 		}
 
-		internal void OnFeedListItemActivate(object sender, System.EventArgs e) {
+		internal void OnFeedListItemActivate(object sender, System.EventArgs e)
+		{
+			if(listFeedItems.SelectedItems.Count == 0)
+				return; 
 
-			try {
-				if(listFeedItems.SelectedItems.Count == 0)
-					return; 
+			if ((Control.MouseButtons & MouseButtons.Right) == MouseButtons.Right)
+				return;
 
-				ThreadedListViewItem selectedItem = (ThreadedListViewItem) listFeedItems.SelectedItems[0]; 			
-			
+			ThreadedListViewItem selectedItem = (ThreadedListViewItem) listFeedItems.SelectedItems[0]; 			
+			OnFeedListItemActivateManually(selectedItem);
+		}
+		
+		internal void OnFeedListItemActivateManually(ThreadedListViewItem selectedItem)
+		{
+			try 
+			{
 				// get the current item/feedNode
 				NewsItem item = CurrentSelectedFeedItem  = (NewsItem) selectedItem.Key;
-				FeedTreeNodeBase tn = TreeSelectedNode;
+				TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
 				string stylesheet = null;
+
+				//load item content from disk if not in memory
+				if(item != null && !item.HasContent)
+				{
+					this.owner.FeedHandler.GetCachedContentForItem(item); 
+				}
 
 				// refresh context menu items
 				RefreshTreeFeedContextMenus( tn );
 
-				if (item != null && tn != this._sentItemsNode &&
+				if (item != null && tn != this._sentItemsFeedsNode &&
 					item.CommentStyle != SupportedCommentStyle.None && 
 					owner.InternetAccessAllowed)
-					owner.Mediator.SetEnable("+cmdFeedItemPostReply");
+					owner.Mediator.SetEnabled("+cmdFeedItemPostReply");
 				else
-					owner.Mediator.SetEnable("-cmdFeedItemPostReply");
+					owner.Mediator.SetEnabled("-cmdFeedItemPostReply");
 
 				SearchCriteriaCollection searchCriterias = null;
-				FinderNode agNode = CurrentSelectedNode as FinderNode;
+				FinderNode agNode = CurrentSelectedFeedsNode as FinderNode;
 				if (agNode != null && agNode.Finder.DoHighlight)
 					searchCriterias = agNode.Finder.SearchCriterias;
 
-				if (item == null)	{	// can happen on dummy items ("Loading..."), if the user clicks fast enough
+
+				//mark the item as read
+				bool itemJustRead = false; 
+
+				if (item != null && !item.BeenRead) 
+				{
+					itemJustRead = item.BeenRead = true;
+
+					if(item is SearchHitNewsItem){
+						SearchHitNewsItem sItem = item as SearchHitNewsItem; 
+						NewsItem realItem = this.owner.FeedHandler.FindNewsItem(sItem);
+						
+						if(realItem != null){
+							realItem.BeenRead = true;
+							item = realItem; 
+						}
+					}
+					 										
+				}
+				
+				//render 
+				if (item == null)	
+				{	// can happen on dummy items ("Loading..."), if the user clicks fast enough
+
 					htmlDetail.Clear();
-					_tabStateUrl = String.Empty;
-				} else if ((StringHelper.EmptyOrNull(item.Content) ||	item.Content.StartsWith("http")) &&
-					!StringHelper.EmptyOrNull(item.Link)) {
+					this.FeedDetailTabState.Url = String.Empty;
+					RefreshDocumentState(_docContainer.ActiveDocument);
+
+				} 
+				else if (!item.HasContent && !StringHelper.EmptyOrNull(item.Link)) 
+				{
 
 					/* if (this.UrlRequestHandledExternally(item.Link, false)) {
 						htmlDetail.Clear();
 					} else */
-					if (owner.Preferences.NewsItemOpenLinkInDetailWindow) {	
+					if (owner.Preferences.NewsItemOpenLinkInDetailWindow) 
+					{	
 						htmlDetail.Navigate(item.Link);
-					} else {	// not allowed: just display the Read On... 
+					} 
+					else 
+					{	// not allowed: just display the Read On... 
 						stylesheet = (item.Feed != null ? this.owner.FeedHandler.GetStyleSheet(item.Feed.link) : String.Empty); 					
 						htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
 						htmlDetail.Navigate(null);
 					}
 
-					_tabStateUrl = item.Link;
+					this.FeedDetailTabState.Url = item.Link;
+					if (! _navigationActionInProgress) 
+					{
+						AddHistoryEntry(tn, item);
+					} 
+					else 
+					{
+						RefreshDocumentState(_docContainer.ActiveDocument);
+					}
 
-				} else {
+				} 
+				else 
+				{
 
 					stylesheet = (item.Feed != null ? this.owner.FeedHandler.GetStyleSheet(item.Feed.link) : String.Empty); 
 					htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
 					htmlDetail.Navigate(null);
 				
-					_tabStateUrl = item.Link;
+					this.FeedDetailTabState.Url = item.Link;
+					if (! _navigationActionInProgress) 
+					{
+						AddHistoryEntry(tn, item);
+					} 
+					else 
+					{
+						RefreshDocumentState(_docContainer.ActiveDocument);
+					}
 				}
+				
+				
+				if (item != null) {
 
-				//indicate item has been read 
-				if (item != null && !item.BeenRead) {
+					//assume that clicking on the item indicates viewing new comments 
+					//when no comment feed available
+					if( item.WatchComments && StringHelper.EmptyOrNull(item.CommentRssUrl)){
+				
+						this.MarkCommentsAsViewed(tn, item); 
+						ApplyStyles(selectedItem, true); 
 
-					ApplyStyles(selectedItem, true);
-					SmartFolderNodeBase sfNode = CurrentSelectedNode as SmartFolderNodeBase;
+					}//if(item.WatchComments...)
 
-					if (selectedItem.ImageIndex > 0) selectedItem.ImageIndex--;
-					item.BeenRead = true; 			
-					bool isTopLevelItem = (selectedItem.IndentLevel == 0); 
-					int equalItemsRead = (isTopLevelItem ? 1 : 0);
-					lock(listFeedItems.Items) {
-						for (int j = 0; j < listFeedItems.Items.Count; j++) {	// if there is a self-reference thread, we also have to switch the Gui state for them
-							ThreadedListViewItem th = listFeedItems.Items[j];
-							NewsItem selfRef = th.Key as NewsItem;
-							if (item.Equals(selfRef) && (th.ImageIndex % 2) != 0) {	// unread-state images always odd index numbers
-								ApplyStyles(th, true);
-								th.ImageIndex--;
-								if (!selfRef.BeenRead) {	// object ref is unequal, but other criteria match the item to be equal...
-									selfRef.BeenRead = true;							
-								}
-								if (th.IndentLevel == 0){
-									isTopLevelItem = true; 
-									equalItemsRead++;
+					//if item was read on this click then reflect the change in the GUI 
+			
+					if(itemJustRead) {
+						ApplyStyles(selectedItem, true);
+						SmartFolderNodeBase sfNode = CurrentSelectedFeedsNode as SmartFolderNodeBase;
+
+						if (selectedItem.ImageIndex > 0) selectedItem.ImageIndex--;
+			
+						bool isTopLevelItem = (selectedItem.IndentLevel == 0); 
+						int equalItemsRead = (isTopLevelItem ? 1 : 0);
+						lock(listFeedItems.Items) {
+							for (int j = 0; j < listFeedItems.Items.Count; j++) { 
+						 	// if there is a self-reference thread, we also have to switch the Gui state for them
+								ThreadedListViewItem th = listFeedItems.Items[j];
+								NewsItem selfRef = th.Key as NewsItem;
+								if (item.Equals(selfRef) && (th.ImageIndex % 2) != 0) { 
+							 	// unread-state images always odd index numbers
+									ApplyStyles(th, true);
+									th.ImageIndex--;
+									if (!selfRef.BeenRead) { 
+								 	// object ref is unequal, but other criteria match the item to be equal...
+										selfRef.BeenRead = true;							
+									}
+									if (th.IndentLevel == 0) {
+										isTopLevelItem = true; 
+										equalItemsRead++;
+									}
 								}
 							}
 						}
-					}
 				
-					if (isTopLevelItem && tn.Type == FeedNodeType.Feed || tn.Type == FeedNodeType.SmartFolder || tn.Type == FeedNodeType.Finder) {
-						tn.UpdateReadStatus(tn , -equalItemsRead);	
-						//this.DelayTask(DelayedTasks.RefreshTreeStatus, new object[]{tn,-equalItemsRead});
-					}
-
-					FeedTreeNodeBase root = GetRoot(RootFolderType.MyFeeds);
-
-					if (item.Feed.link == (string)tn.Tag) {
-						// test for catch all on selected node
-						item.Feed.containsNewMessages = (tn.UnreadCount != 0);
-					} else {// other (categorie selected, aggregated or an threaded item from another feed)
-						
-						if (agNode != null) agNode.UpdateReadStatus();
-						if (sfNode != null) sfNode.UpdateReadStatus();
-
-						// lookup corresponding TreeNode:
-						FeedTreeNodeBase refNode = GetTreeNodeForItem(root, item.Feed);
-						if (refNode != null) {
-							//refNode.UpdateReadStatus(refNode , -1);
-							this.DelayTask(DelayedTasks.RefreshTreeStatus, new object[]{refNode, -1});
-							item.Feed.containsNewMessages = (refNode.UnreadCount != 0);
-						} else { // temp feed item, e.g. from commentRss
-							string hash = RssHelper.GetHashCode(item);
-							if (!tempFeedItemsRead.ContainsKey(hash))
-								tempFeedItemsRead.Add(hash, null /* item ???*/);
+						if (isTopLevelItem && tn.Type == FeedNodeType.Feed || tn.Type == FeedNodeType.SmartFolder || tn.Type == FeedNodeType.Finder) {
+							this.UpdateTreeNodeUnreadStatus(tn, -equalItemsRead);
+							UnreadItemsNode.MarkItemRead(item);
+							//this.DelayTask(DelayedTasks.RefreshTreeUnreadStatus, new object[]{tn,-equalItemsRead});											
 						}
-					}
 
-					owner.FeedlistModified = true;
+						TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
+
+						if (item.Feed.link == tn.DataKey) {
+							// test for catch all on selected node
+							item.Feed.containsNewMessages = (tn.UnreadCount != 0);
+						} 
+						else { 
+					 // other (categorie selected, aggregated or an threaded item from another feed)
+						
+							if (agNode != null) agNode.UpdateReadStatus();
+							if (sfNode != null) sfNode.UpdateReadStatus();
+
+							// lookup corresponding TreeNode:
+							TreeFeedsNodeBase refNode = TreeHelper.FindNode(root, item.Feed);
+							if (refNode != null) {
+								//refNode.UpdateReadStatus(refNode , -1);
+								this.DelayTask(DelayedTasks.RefreshTreeUnreadStatus, new object[]{refNode, -1});
+								item.Feed.containsNewMessages = (refNode.UnreadCount != 0);
+							} 
+							else { 
+						  // temp feed item, e.g. from commentRss
+								string hash = RssHelper.GetHashCode(item);
+								if (!tempFeedItemsRead.ContainsKey(hash))
+									tempFeedItemsRead.Add(hash, null /* item ???*/);
+							}
+						}
+
+						owner.FeedWasModified(item.Feed, NewsFeedProperty.FeedItemReadState);
+						//owner.FeedlistModified = true;
+
+					}//itemJustRead
 				}
 
-				// refresh Tab state
-				RefreshDocumentState(_docContainer.ActiveDocument);
-			
-			} catch (Exception ex) {
-				_log.Error("OnFeedListItemActivate() failed.", ex);
+			} 
+			catch (Exception ex) 
+			{
+				_log.Error("OnFeedListItemActivateManually() failed.", ex);
 			}
 		}
 
+
+		/// <summary>
+		/// Returns the URL of the original feed for this NewsItem. 
+		/// </summary>
+		/// <remarks>Assumes the NewsItem is in the flagged or watched items smart folder</remarks>
+		/// <param name="currentNewsItem"></param>
+		/// <returns>The feed URL of the source feed if  a pointer to it exists and NULL otherwise.</returns>
+		private string GetOriginalFeedUrl(NewsItem currentNewsItem){
+
+			string feedUrl = null; 
 		
-		private void OnFeedListExpandThread(object sender, ThreadEventArgs e) {
+			if(currentNewsItem.OptionalElements.ContainsKey(AdditionalFeedElements.OriginalFeedOfWatchedItem)){
+				string str = (string) currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem]; 
+
+				if (str.StartsWith("<" + AdditionalFeedElements.ElementPrefix + ":" + AdditionalFeedElements.OriginalFeedOfWatchedItem.Name) || 
+					str.StartsWith("<" + AdditionalFeedElements.OldElementPrefix + ":" + AdditionalFeedElements.OriginalFeedOfWatchedItem.Name)){
+					int startIndex = str.IndexOf(">") + 1; 
+					int endIndex   = str.LastIndexOf("<"); 
+					feedUrl = str.Substring(startIndex, endIndex - startIndex); 									
+				}
+			}					
+	
+			return feedUrl; 
+		}
+
+		/// <summary>
+		/// Marks the comments for a NewsItem as read in a given feed node and across any other feed nodes 
+		/// in which it appears. 
+		/// </summary>
+		/// <param name="tn">The feed node</param>
+		/// <param name="currentNewsItem">The item whose comments have been read</param>
+		private void MarkCommentsAsViewed(TreeFeedsNodeBase tn, NewsItem currentNewsItem){
+		
+			feedsFeed feed = currentNewsItem.Feed;
+			bool commentsJustRead = currentNewsItem.HasNewComments; 				
+			currentNewsItem.HasNewComments = false; 
 			
-			try {
+			if(commentsJustRead && (this.CurrentSelectedFeedsNode!= null)){
+
+				TreeFeedsNodeBase refNode = null;	
+
+				if (tn.Type == FeedNodeType.Feed ) {
+					this.UpdateCommentStatus(tn, new ArrayList(new NewsItem[]{currentNewsItem}), true); 										
+				}else{						
+						
+					//if we are on a category or search folder, then locate node under MyFeeds and update its comment status												
+					if(tn.Type == FeedNodeType.Category || tn.Type == FeedNodeType.Finder){ 
+
+						refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), currentNewsItem.Feed);
+						this.UpdateCommentStatus(refNode, new ArrayList(new NewsItem[]{currentNewsItem}), true); 			
+											
+						//we don't need to do this for a Category node because this should be done when we call this.UpdateCommentStatus()
+						if(tn.Type == FeedNodeType.Finder) 
+							tn.UpdateCommentStatus(tn, -1); 
+
+					}else if(tn.Type == FeedNodeType.SmartFolder){
+						//things are more complicated if we are on a smart folder such as the 'Watched Items' folder
+
+						/* first get the feed URL */ 
+						string feedUrl = this.GetOriginalFeedUrl(currentNewsItem); 											
+						
+						/* 
+						 * now, locate NewsItem in actual feed and mark comments as viewed 
+						 * then update tree node comment status. 							 
+						 */ 
+						if(feedUrl != null){
+							feed = owner.FeedHandler.FeedsTable[feedUrl]; 
+							ArrayList newsItems = owner.FeedHandler.GetCachedItemsForFeed(feedUrl); 
+
+							foreach(NewsItem ni in newsItems){
+								if(currentNewsItem.Equals(ni)){ni.HasNewComments = false; }
+							}
+
+							refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
+							this.UpdateCommentStatus(refNode, new ArrayList(new NewsItem[]{currentNewsItem}), true); 										
+						}//if(feedUrl != null) 
+					}
+
+					/* if (refNode != null) {
+								this.DelayTask(DelayedTasks.RefreshTreeCommentStatus, new object[]{refNode, new ArrayList(new NewsItem[]{currentNewsItem}), true});
+							} */ 				
+				
+
+					if(refNode == null){
+						feed.containsNewComments = (tn.ItemsWithNewCommentsCount != 0);
+					}else{
+						feed.containsNewComments = (refNode.ItemsWithNewCommentsCount != 0);
+					}
+										
+					owner.FeedWasModified(feed, NewsFeedProperty.FeedItemNewCommentsRead);								
+
+				}//if (tn.Type == FeedNodeType.Feed )
+
+			}//if(commentsJustRead && (this.CurrentSelectedFeedsNode!= null))
+
+		}
+		
+		private void OnFeedListExpandThread(object sender, ThreadEventArgs e) 
+		{
+			
+			try 
+			{
 
 				NewsItem currentNewsItem = (NewsItem)e.Item.Key;
 				IList itemKeyPath = e.Item.KeyPath;
@@ -9739,12 +11205,14 @@ namespace RssBandit.WinGui.Forms {
 				ArrayList childs = new ArrayList(outGoingItems.Count + inComingItems.Count + 1);
 				ThreadedListViewItem newListItem;
 
-				try {
+				try 
+				{
 					
-					foreach (NewsItem o in outGoingItems) {
+					foreach (NewsItem o in outGoingItems) 
+					{
 			
 						bool hasRelations = this.NewsItemHasRelations(o, itemKeyPath);						
-						newListItem = this.CreateThreadedLVItem(o, hasRelations, 2, colIndex, false);
+						newListItem = this.CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.OutgoingRead, colIndex, false);
 
 						//does it match any filter? 
 						_filterManager.Apply(newListItem);
@@ -9752,15 +11220,19 @@ namespace RssBandit.WinGui.Forms {
 						childs.Add(newListItem);
 					}
 
-				} catch (Exception e1) {
+				} 
+				catch (Exception e1) 
+				{
 					_log.Error("OnFeedListExpandThread exception (iterate outgoing)", e1);
 				}
 
-				try {
-					foreach (NewsItem o in inComingItems) {
+				try 
+				{
+					foreach (NewsItem o in inComingItems) 
+					{
 							
 						bool hasRelations = this.NewsItemHasRelations(o, itemKeyPath);						
-						newListItem = this.CreateThreadedLVItem(o, hasRelations, 4, colIndex , false);
+						newListItem = this.CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.IncomingRead, colIndex , false);
 				
 						//does it match any filter? 
 						_filterManager.Apply(newListItem);
@@ -9769,37 +11241,46 @@ namespace RssBandit.WinGui.Forms {
 
 					}//iterator.MoveNext
 				}
-				catch (Exception e2) {
+				catch (Exception e2) 
+				{
 					_log.Error("OnFeedListExpandThread exception (iterate incoming)", e2);
 				}				
 
-				if (currentNewsItem.HasExternalRelations) {
+				if (currentNewsItem.HasExternalRelations) 
+				{
 					// includes also commentRss support
 
-					if (currentNewsItem.GetExternalRelations() == RelationCosmos.EmptyRelationList ||
-						currentNewsItem.CommentCount != currentNewsItem.GetExternalRelations().Count) {
+					if (currentNewsItem.GetExternalRelations() == RelationList.Empty ||
+						currentNewsItem.CommentCount != currentNewsItem.GetExternalRelations().Count) 
+					{
 						
-						if (owner.InternetAccessAllowed) {
-							ThreadedListViewItemPlaceHolder insertionPoint = (ThreadedListViewItemPlaceHolder)this.CreateThreadedLVItemInfo(Resource.Manager["RES_GUIStatusLoadingChildItems"], false);
+						if (owner.InternetAccessAllowed) 
+						{
+							ThreadedListViewItemPlaceHolder insertionPoint = (ThreadedListViewItemPlaceHolder)this.CreateThreadedLVItemInfo(SR.GUIStatusLoadingChildItems, false);
 							childs.Add(insertionPoint);
 							this.BeginLoadCommentFeed(currentNewsItem, insertionPoint.InsertionPointTicket, itemKeyPath);
-						} else {
-							newListItem = (ThreadedListViewItemPlaceHolder)this.CreateThreadedLVItemInfo(Resource.Manager["RES_GUIStatusChildItemsNA"], false);
+						} 
+						else 
+						{
+							newListItem = this.CreateThreadedLVItemInfo(SR.GUIStatusChildItemsNA, false);
 							childs.Add(newListItem);
 						}
 
-					} else {	// just take the existing collection
+					} 
+					else 
+					{	// just take the existing collection
 
 						// they are sorted as we requested them, so we do not sort again here
 						ArrayList commentItems = new ArrayList(currentNewsItem.GetExternalRelations());
 						//commentItems.Sort(RssHelper.GetComparer(false, NewsItemSortField.Date));
 
-						foreach (NewsItem o in commentItems) {
+						foreach (NewsItem o in commentItems) 
+						{
 
 							bool hasRelations = this.NewsItemHasRelations(o, itemKeyPath);
 
 							o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
-							newListItem = this.CreateThreadedLVItem(o, hasRelations, 8, colIndex , true);
+							newListItem = this.CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.CommentRead, colIndex , true);
 							_filterManager.Apply(newListItem);
 							childs.Add(newListItem);
 
@@ -9810,22 +11291,38 @@ namespace RssBandit.WinGui.Forms {
 
 				e.ChildItems = new ThreadedListViewItem[childs.Count];
 				childs.CopyTo(e.ChildItems);
-			
-			} catch (Exception ex) {
+
+				//mark new comments as read once we've successfully loaded comments 				
+				this.MarkCommentsAsViewed(this.CurrentSelectedFeedsNode, currentNewsItem); 								
+				ApplyStyles(e.Item, currentNewsItem.BeenRead, currentNewsItem.HasNewComments); 								
+				
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnFeedListExpandThread exception", ex);
 			}
 				
 		}
-
-		private void OnFeedListLayoutChanged(object sender, ListLayoutEventArgs e) {
+		
+		private void OnFeedListAfterExpandThread(object sender, ThreadEventArgs e) 
+		{
+			// here we have the listview handle set and the listview items are member of the list.
+			// so we refresh flag icons for new listview thread childs here:
+			ApplyNewsItemPropertyImages(e.ChildItems);
+		}
+		private void OnFeedListLayoutChanged(object sender, ListLayoutEventArgs e) 
+		{
 			// build columns, etc. pp
-			if (e.Layout.Columns.Count > 0) {
+			if (e.Layout.Columns.Count > 0) 
+			{
 				this.EmptyListView();
-				lock(listFeedItems.Columns) {
+				lock(listFeedItems.Columns) 
+				{
 					listFeedItems.Columns.Clear();
 					int i = 0;
 					IList colW = e.Layout.ColumnWidths;
-					foreach (string colID in e.Layout.Columns) {
+					foreach (string colID in e.Layout.Columns) 
+					{
 						AddListviewColumn(colID, (int)colW[i++]);
 					}
 				}
@@ -9833,12 +11330,14 @@ namespace RssBandit.WinGui.Forms {
 			RefreshListviewColumnContextMenu();
 		}
 
-		private void OnFeedListLayoutModified(object sender, ListLayoutEventArgs e) {
-			if (this.TreeSelectedNode != null)
-				this.SetFeedHandlerFeedColumnLayout(TreeSelectedNode, e.Layout);
+		private void OnFeedListLayoutModified(object sender, ListLayoutEventArgs e) 
+		{
+			if (this.TreeSelectedFeedsNode != null)
+				this.SetFeedHandlerFeedColumnLayout(TreeSelectedFeedsNode, e.Layout);
 		}
 
-		private void OnFeedListItemsColumnClick(object sender, ColumnClickEventArgs e) {
+		private void OnFeedListItemsColumnClick(object sender, ColumnClickEventArgs e) 
+		{
 			
 			if (listFeedItems.Items.Count == 0)
 				return;
@@ -9846,12 +11345,12 @@ namespace RssBandit.WinGui.Forms {
 			if (listFeedItems.SelectedItems.Count > 0)
 				return;
 
-			FeedTreeNodeBase node = CurrentSelectedNode;
-			if (node == null)
+			TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
+			if (feedsNode == null)
 				return;
 
 			bool unreadOnly = true;
-			if (node.Type == FeedNodeType.Finder)
+			if (feedsNode.Type == FeedNodeType.Finder)
 				unreadOnly = false;
 
 			ArrayList items = this.NewsItemListFrom(listFeedItems.Items, unreadOnly);
@@ -9861,11 +11360,15 @@ namespace RssBandit.WinGui.Forms {
 			
 			Hashtable temp = new Hashtable();
 
-			foreach (NewsItem item in items) {
+			foreach (NewsItem item in items) 
+			{
 				FeedInfo fi = null;
-				if (temp.ContainsKey(item.Feed.link)) {
+				if (temp.ContainsKey(item.Feed.link)) 
+				{
 					fi = (FeedInfo)temp[item.Feed.link];
-				} else {
+				} 
+				else 
+				{
 					fi = (FeedInfo)item.FeedDetails.Clone();
 					fi.ItemsList.Clear();
 					temp.Add(item.Feed.link, fi);
@@ -9873,47 +11376,75 @@ namespace RssBandit.WinGui.Forms {
 				fi.ItemsList.Add(item);
 			}
 
-			string category = this.BuildCategoryStoreName(CurrentSelectedNode);
+			string category = feedsNode.CategoryStoreName;
 			FeedInfoList redispItems = new FeedInfoList(category); 
 
-			foreach (FeedInfo fi in temp.Values) {
+			foreach (FeedInfo fi in temp.Values) 
+			{
 				if (fi.ItemsList.Count > 0)
 					redispItems.Add(fi);
 			}
 			
-			this.BeginTransformFeedList(redispItems, CurrentSelectedNode, this.owner.FeedHandler.GetCategoryStyleSheet(category)); 
+			this.BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode, this.owner.FeedHandler.GetCategoryStyleSheet(category)); 
 
 		}
 
-		private void OnFeedListMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
-			try {
+		private void OnFeedListMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
+		{
+			try 
+			{
 				ListView lv = (ListView)sender;
 				ThreadedListViewItem lvi = null; 
 
-				try {
+				try 
+				{
 					lvi = (ThreadedListViewItem)lv.GetItemAt(e.X, e.Y); 
-				} catch {}
+				} 
+				catch {}
 
-				if (e.Button == MouseButtons.Right) {
-				
-					RefreshListviewContextMenu();
+				if (e.Button == MouseButtons.Right) 
+				{													
+
+					// behavior similar to Windows Explorer Listview:					
 					if (lv.Items.Count > 0) {
 					
-						if (lvi != null && !lvi.Selected) {
-							lv.SelectedItems.Clear();
+						if (lvi != null) {	
+														  							   
+							  // if(Control.ModifierKeys != Keys.Control)
+							  //    lv.SelectedItems.Clear();							   														 
+
 							lvi.Selected = true;
 							lvi.Focused = true;
-							this.OnFeedListItemActivate(sender, EventArgs.Empty);
+							RefreshListviewContextMenu();
+							this.OnFeedListItemActivateManually(lvi);
 						}
 
 					}
+					
+// TR: commented out - incorrect behavior (loosing selection, etc.)					
+//					if (lv.Items.Count > 0) 
+//					{
+//					
+//						if (lvi != null) 
+//						{
+//							lv.SelectedItems.Clear();
+//							lvi.Selected = true;
+//							lvi.Focused = true;							
+//							RefreshListviewContextMenu();
+//							this.OnFeedListItemActivate(sender, EventArgs.Empty);
+//						}
+//
+//					}
 			
-				} else {	// !MouseButtons.Right
+				} 
+				else 
+				{	// !MouseButtons.Right
 
 					if (lv.Items.Count <= 0)
 						return;
 
-					if (lvi != null && e.Clicks > 1) {	//DblClick
+					if (lvi != null && e.Clicks > 1) 
+					{	//DblClick
 
 						NewsItem item = CurrentSelectedFeedItem  = (NewsItem) lvi.Key;
 
@@ -9921,37 +11452,45 @@ namespace RssBandit.WinGui.Forms {
 						lvi.Selected = true;
 						lvi.Focused = true;
 
-						if (item != null && !StringHelper.EmptyOrNull(item.Link)) {
+						if (item != null && !StringHelper.EmptyOrNull(item.Link)) 
+						{
 							if (!this.UrlRequestHandledExternally(item.Link, false))
-								DetailTabNavigateToUrl(item.Link, null, false);
+								DetailTabNavigateToUrl(item.Link, null, false, true);
 						}
 
 					}
 				}	//! MouseButtons.Right
 			
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnFeedListMouseDown() failed", ex);
 			}
 		}
 
-		private void OnStatusPanelClick(object sender, StatusBarPanelClickEventArgs e) {
-			if (e.Clicks > 1 && e.StatusBarPanel == this.statusBarConnectionState) {
+		private void OnStatusPanelClick(object sender, StatusBarPanelClickEventArgs e) 
+		{
+			if (e.Clicks > 1 && e.StatusBarPanel == this.statusBarConnectionState) 
+			{
 				// DblClick to the connection state panel image
 				owner.UpdateInternetConnectionState(true);	// force a connection check
 			}
 		}
 
-		private void OnStatusPanelLocationChanged(object sender, EventArgs e) {
+		private void OnStatusPanelLocationChanged(object sender, EventArgs e) 
+		{
 			progressBrowser.SetBounds(_status.Width - 
 				(this.statusBarRssParser.Width + this.statusBarConnectionState.Width + BrowserProgressBarWidth +10),
 				_status.Location.Y+6, 0, 0, BoundsSpecified.Location);
 		}
 
-		private void RePopulateListviewWithCurrentContent() {
+		private void RePopulateListviewWithCurrentContent() 
+		{
 			this.RePopulateListviewWithContent(this.NewsItemListFrom(listFeedItems.Items));
 		}
 		
-		private void RePopulateListviewWithContent(ArrayList newsItemList) {
+		private void RePopulateListviewWithContent(ArrayList newsItemList) 
+		{
 			if (newsItemList == null)
 				newsItemList = new ArrayList(0);
 
@@ -9959,25 +11498,30 @@ namespace RssBandit.WinGui.Forms {
 			if (listFeedItems.SelectedItems.Count > 0)
 				lvLastSelected = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
 
-			bool categorizedView = (CurrentSelectedNode.Type == FeedNodeType.Category) || (CurrentSelectedNode.Type == FeedNodeType.Finder); 
-			PopulateListView(CurrentSelectedNode, newsItemList, true, categorizedView , CurrentSelectedNode);
+			bool categorizedView = (CurrentSelectedFeedsNode.Type == FeedNodeType.Category) || (CurrentSelectedFeedsNode.Type == FeedNodeType.Finder); 
+			PopulateListView(CurrentSelectedFeedsNode, newsItemList, true, categorizedView , CurrentSelectedFeedsNode);
 
 			// reselect the last selected
-			if (lvLastSelected != null && lvLastSelected.IndentLevel == 0) {
+			if (lvLastSelected != null && lvLastSelected.IndentLevel == 0) 
+			{
 				ReSelectListViewItem ((NewsItem)lvLastSelected.Key);
 			}
 		}
 
-		private void ReSelectListViewItem(NewsItem item) {
+		private void ReSelectListViewItem(NewsItem item) 
+		{
 			
 			if (item == null) return;
 
 			string selItemId = item.Id;
-			if (selItemId != null) {
-				for (int i = 0;  i < listFeedItems.Items.Count; i++) {
+			if (selItemId != null) 
+			{
+				for (int i = 0;  i < listFeedItems.Items.Count; i++) 
+				{
 					ThreadedListViewItem theItem = listFeedItems.Items[i];
 					string thisItemId = ((NewsItem)theItem.Key).Id;
-					if (selItemId.CompareTo(thisItemId) == 0) {
+					if (selItemId.CompareTo(thisItemId) == 0) 
+					{
 						listFeedItems.Items[i].Selected = true;
 						listFeedItems.EnsureVisible(listFeedItems.Items[i].Index);
 						break;
@@ -9986,15 +11530,19 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list) {
+		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list) 
+		{
 			return NewsItemListFrom(list, false);
 		}
 		
-		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list, bool unreadOnly) {
+		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list, bool unreadOnly) 
+		{
 			ArrayList items = new ArrayList(list.Count);
-			for (int i=0; i < list.Count; i++) {
+			for (int i=0; i < list.Count; i++) 
+			{
 				ThreadedListViewItem tlvi = list[i];
-				if (tlvi.IndentLevel == 0) {
+				if (tlvi.IndentLevel == 0) 
+				{
 					NewsItem item = (NewsItem)tlvi.Key;
 					
 					if (unreadOnly && item != null && item.BeenRead)
@@ -10007,12 +11555,15 @@ namespace RssBandit.WinGui.Forms {
 			return items;
 		}
 
-		private void OnFeedListItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e) {
+		private void OnFeedListItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e) 
+		{
 			
-			if (e.Button == MouseButtons.Left) {
+			if (e.Button == MouseButtons.Left) 
+			{
 				ThreadedListViewItem item = (ThreadedListViewItem)e.Item;
 				NewsItem r = (NewsItem)item.Key;
-				if (r.Link != null) {
+				if (r.Link != null) 
+				{
 					this.treeFeeds.AllowDrop = false;	// do not drag to tree
 					this.DoDragDrop(r.Link, DragDropEffects.All | DragDropEffects.Link);
 					this.treeFeeds.AllowDrop = true;
@@ -10027,50 +11578,73 @@ namespace RssBandit.WinGui.Forms {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void OnFeedListItemKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) {
-			try {
-				if (e.KeyCode == Keys.Down || e.KeyCode == Keys.PageDown || e.KeyCode == Keys.End) {
+		private void OnFeedListItemKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) 
+		{
+			try 
+			{
+				if (!listFeedItems.Focused)
+					return;
+				
+#if TRACE_WIN_MESSAGES				
+				Debug.WriteLine("OnFeedListItemKeyUp(" + e.KeyData +")");
+#endif
+
+				if (e.KeyCode == Keys.Down || e.KeyCode == Keys.PageDown || e.KeyCode == Keys.End) 
+				{
 					if (listFeedItems.SelectedItems.Count == 1)
 						if (listFeedItems.SelectedItems[0].Index <= listFeedItems.Items.Count)
 							this.OnFeedListItemActivate(sender, EventArgs.Empty);
 				} 
-				else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.PageUp || e.KeyCode == Keys.Home) {
+				else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.PageUp || e.KeyCode == Keys.Home) 
+				{
 					if (listFeedItems.SelectedItems.Count == 1)
 						if (listFeedItems.SelectedItems[0].Index >= 0)
 							this.OnFeedListItemActivate(sender, EventArgs.Empty);
 				} 
-				else if (e.KeyCode == Keys.A && (e.Modifiers & Keys.Control) == Keys.Control) { 
+				else if (e.KeyCode == Keys.A && (e.Modifiers & Keys.Control) == Keys.Control) 
+				{ 
 					// select all
-					if (listFeedItems.Items.Count > 0 && listFeedItems.Items.Count != listFeedItems.SelectedItems.Count) {
-						try {
+					if (listFeedItems.Items.Count > 0 && listFeedItems.Items.Count != listFeedItems.SelectedItems.Count) 
+					{
+						try 
+						{
 							listFeedItems.BeginUpdate();
-							lock(listFeedItems.Items) {
-								for (int i=0; i<listFeedItems.Items.Count;i++) {
+							lock(listFeedItems.Items) 
+							{
+								for (int i=0; i<listFeedItems.Items.Count;i++) 
+								{
 									listFeedItems.Items[i].Selected = true;
 								}
 							}
-						} finally {
+						} 
+						finally 
+						{
 							listFeedItems.EndUpdate();
 						}
 					}
 				} 
-				else if (e.KeyCode == Keys.Delete) {
+				else if (e.KeyCode == Keys.Delete) 
+				{
 					this.RemoveSelectedFeedItems();
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnFeedListItemKeyUp() failed", ex);
 			}
 		}
 
 
-		private void OnTrayIconDoubleClick(object sender, EventArgs e) {
+		private void OnTrayIconDoubleClick(object sender, EventArgs e) 
+		{
 			owner.CmdShowMainGui(null);
 			//user is interested about the message this time
 			_beSilentOnBalloonPopupCounter = 0;	// reset balloon silent counter
 		}
 
 		//called, if the user explicitly closed the balloon
-		private void OnTrayAniBalloonTimeoutClose(object sender, EventArgs e) {
+		private void OnTrayAniBalloonTimeoutClose(object sender, EventArgs e) 
+		{
 			//user isn't interested about the message this time
 			_beSilentOnBalloonPopupCounter = 12;		// 12 * 5 minutes (refresh timer) == 1 hour (minimum)
 		}
@@ -10078,73 +11652,106 @@ namespace RssBandit.WinGui.Forms {
 		
 		#region toolbar combo's events
 
-		private void OnNavigateComboBoxKeyDown(object sender, KeyEventArgs e) {
-			if (e.KeyCode == Keys.Return && Control.ModifierKeys == Keys.None) {
-				this.DetailTabNavigateToUrl(UrlText, null, e.Control);
+		internal void OnNavigateComboBoxKeyDown(object sender, KeyEventArgs e) 
+		{
+			if (e.KeyCode == Keys.Return && e.Control == false) 
+			{ // CTRL-ENTER is Url expansion
+				this.DetailTabNavigateToUrl(UrlText, null, e.Shift, false);
 			}
 		}
 
-		private void OnNavigateComboBoxDragOver(object sender, System.Windows.Forms.DragEventArgs e) {
+		internal void OnNavigateComboBoxDragOver(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 			
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 
-				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) {
+				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) 
+				{
 					e.Effect = DragDropEffects.Link;
-				} else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) 
+				{
 					e.Effect = DragDropEffects.Move;
-				} else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) 
+				{
 					e.Effect = DragDropEffects.Copy;
-				} else {
+				} 
+				else 
+				{
 					e.Effect = DragDropEffects.None;
 				}
 
 			}
-			else {
+			else 
+			{
 				e.Effect = DragDropEffects.None;
 			}
 		}
 
-		private void OnNavigateComboBoxDragDrop(object sender, System.Windows.Forms.DragEventArgs e) {
+		internal void OnNavigateComboBoxDragDrop(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 				string sData = (string)e.Data.GetData(typeof(string));
-				try {	// accept uri only
+				try 
+				{	// accept uri only
 					Uri uri = new Uri(sData);
-					this.UrlText = uri.ToString();
-				} catch { /* ignore invalid Uri's */ }
+					this.UrlText = uri.AbsoluteUri;
+				} 
+				catch 
+				{ 
+					//this.UrlText = sData;
+				}
 			}		
 		}
 
 
-		private void OnSearchComboBoxKeyDown(object sender, KeyEventArgs e) {
-			if (e.KeyCode == Keys.Return) {
+		internal void OnSearchComboBoxKeyDown(object sender, KeyEventArgs e) 
+		{
+			if (e.KeyCode == Keys.Return) 
+			{
 				e.Handled=true;
 				this.StartSearch(null);
 			}
 		}
-		private void OnSearchComboBoxDragOver(object sender, System.Windows.Forms.DragEventArgs e) {
+		internal void OnSearchComboBoxDragOver(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 			
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 
-				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) {
+				if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link) 
+				{
 					e.Effect = DragDropEffects.Link;
-				} else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) 
+				{
 					e.Effect = DragDropEffects.Move;
-				} else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) {
+				} 
+				else if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) 
+				{
 					e.Effect = DragDropEffects.Copy;
-				} else {
+				} 
+				else 
+				{
 					e.Effect = DragDropEffects.None;
 				}
 
 			}
-			else {
+			else 
+			{
 				e.Effect = DragDropEffects.None;
 			}
 		}
 
-		private void OnSearchComboBoxDragDrop(object sender, System.Windows.Forms.DragEventArgs e) {
+		internal void OnSearchComboBoxDragDrop(object sender, System.Windows.Forms.DragEventArgs e) 
+		{
 
-			if (e.Data.GetDataPresent(DataFormats.Text)) {
+			if (e.Data.GetDataPresent(DataFormats.Text)) 
+			{
 				string sData = (string)e.Data.GetData(typeof(string));
 				WebSearchText = sData;
 			}		
@@ -10154,54 +11761,70 @@ namespace RssBandit.WinGui.Forms {
 
 		#region html control events
 		
-		private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e) {
+		private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e) 
+		{
 			SetBrowserStatusBarText(e.text);
 		}
 
-		private void OnWebBeforeNavigate(object sender, BrowserBeforeNavigate2Event e) {
+		private void OnWebBeforeNavigate(object sender, BrowserBeforeNavigate2Event e) 
+		{
 			
 			bool userNavigates = _webUserNavigated;
 			bool forceNewTab = _webForceNewTab;
 
 			string url = e.url;
 
-			if (!url.ToLower().StartsWith("javascript:")) {
+			if (!url.ToLower().StartsWith("javascript:")) 
+			{
 				_webForceNewTab = _webUserNavigated = false;	// reset, but keep it for the OnWebBeforeNewWindow event
 			}
 
-			if (!url.Equals("about:blank")) {
+			if (!url.Equals("about:blank")) 
+			{
 
-				if ( owner.InterceptUrlNavigation(url) ) {
+				if ( owner.InterceptUrlNavigation(url) ) 
+				{
 					e.Cancel = true;
 					return;
 				}
 				
-				if (url.StartsWith("mailto:") || url.StartsWith("news:")) {//TODO: if nntp is impl., InterceptUrlNavigation() should handle "news:"
+				if (url.StartsWith("mailto:") || url.StartsWith("news:")) 
+				{//TODO: if nntp is impl., InterceptUrlNavigation() should handle "news:"
 					return;
 				}
 
-				bool forceSetFocus = true; // if false, Tab opens in background; but IEControl does NOT display/render!!!   !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
+				bool framesAllowed = false;
+				bool forceSetFocus = true;
 				bool tabCanClose = true;
+				// if Ctrl-Click is true, Tab opens in background:
+				if ((Control.ModifierKeys & Keys.Control) == Keys.Control) 
+					forceSetFocus = false;
 
 				HtmlControl hc = sender as HtmlControl;
-				if (hc != null) {
+				if (hc != null) 
+				{
 					DockControl dc = (DockControl)hc.Tag;
 					ITabState ts = (ITabState)dc.Tag;
 					tabCanClose = ts.CanClose;
+					framesAllowed = hc.FrameDownloadEnabled;
 				}
 				
-				if (userNavigates && this.UrlRequestHandledExternally(url, forceNewTab)) {
+				if (userNavigates && this.UrlRequestHandledExternally(url, forceNewTab)) 
+				{
 					e.Cancel = true;
 					return;
 				}
 
-				if (!tabCanClose && !userNavigates && !forceNewTab) {
-					e.Cancel =  !e.IsRootPage;		// prevent sub-sequent requests of <iframe>'s
-															// else just allow navigate in current browser
+				if (!tabCanClose && !userNavigates && !forceNewTab) 
+				{
+					if (!framesAllowed)
+						e.Cancel = !e.IsRootPage;	// prevent sub-sequent requests of <iframe>'s
+					// else just allow navigate in current browser
 					return;
 				}
 
-				if ( (!tabCanClose && userNavigates) || forceNewTab) {	
+				if ( (!tabCanClose && userNavigates) || forceNewTab) 
+				{	
 					e.Cancel = true;
 					// Delay gives time to the sender control to cancel request
 					this.DelayTask(DelayedTasks.NavigateToWebUrl, new object[]{url, null, forceNewTab, forceSetFocus});
@@ -10209,12 +11832,15 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void OnWebNavigateComplete(object sender, BrowserNavigateComplete2Event e) {
+		private void OnWebNavigateComplete(object sender, BrowserNavigateComplete2Event e) 
+		{
 			// if we cancelled subsequent requests in the WebBeforeNavigate event,
 			// we may not receive the OnWebDocumentComplete event for the master page
 			// so in general we do the same things here as in OnWebDocumentComplete()
-			try {
-				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) {
+			try 
+			{
+				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
+				{
 
 					AddUrlToHistory (e.url);
 
@@ -10223,21 +11849,26 @@ namespace RssBandit.WinGui.Forms {
 					ITabState state = (ITabState)doc.Tag;
 					state.Url = e.url;
 					RefreshDocumentState(doc);
-					// state.Title may contain the old caption here, so we do not provide the page title:
-					owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentInnerHTML, state.Url, null);
+					// we should only discover once per browse action (in OnWebDocumentComplete()):
+					//owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentOuterHTML, state.Url, null);
 					// do some more things here, because we may also not receive the events...
 					this.DelayTask(DelayedTasks.ClearBrowserStatusInfo, null, 2000);
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebNavigateComplete(): "+e.url, ex);
 			}
 		}
 
-		private void OnWebDocumentComplete(object sender, BrowserDocumentCompleteEvent e) {
+		private void OnWebDocumentComplete(object sender, BrowserDocumentCompleteEvent e) 
+		{
 			
-			try {
+			try 
+			{
 
-				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) {
+				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
+				{
 
 					AddUrlToHistory (e.url);
 
@@ -10249,50 +11880,65 @@ namespace RssBandit.WinGui.Forms {
 					owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentInnerHTML, state.Url, state.Title);
 				}
 
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebDocumentComplete(): "+e.url, ex);
 			}
 		}
 
-		private void OnWebTitleChanged(object sender, BrowserTitleChangeEvent e) {
+		private void OnWebTitleChanged(object sender, BrowserTitleChangeEvent e) 
+		{
 
-			try {
+			try 
+			{
 				HtmlControl hc = (HtmlControl)sender;
-
+				if (hc == null) return;
 				DockControl doc = (DockControl)hc.Tag;
+				if (doc == null) return;
 				ITabState state = (ITabState)doc.Tag;
+				if (state == null) return;
+
 				state.Title = e.text;
 				RefreshDocumentState(doc);
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebTitleChanged()", ex);
 			}
 
 		}
 
-		private void OnWebCommandStateChanged(object sender, BrowserCommandStateChangeEvent e) {
+		private void OnWebCommandStateChanged(object sender, BrowserCommandStateChangeEvent e) 
+		{
 
-			try {
-				HtmlControl hc = (HtmlControl)sender;
-
-				DockControl doc = (DockControl)hc.Tag;
-				ITabState state = (ITabState)doc.Tag;
+			try 
+			{
+				
+				ITabState state = GetTabStateFor(sender as HtmlControl);
+				if (state == null) return;
 
 				if (e.command == CommandStateChangeConstants.CSC_NAVIGATEBACK)
 					state.CanGoBack = e.enable;
 				else if (e.command == CommandStateChangeConstants.CSC_NAVIGATEFORWARD)
 					state.CanGoForward = e.enable;
-				else if (e.command == CommandStateChangeConstants.CSC_UPDATECOMMANDS) {
+				else if (e.command == CommandStateChangeConstants.CSC_UPDATECOMMANDS) 
+				{
 					// 
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebCommandStateChanged() ", ex);
 			}
 	
 		}
 
-		private void OnWebNewWindow(object sender, BrowserNewWindowEvent e) {
+		private void OnWebNewWindow(object sender, BrowserNewWindowEvent e) 
+		{
 
-			try {
+			try 
+			{
 				bool userNavigates = _webUserNavigated;
 				bool forceNewTab = _webForceNewTab;
 
@@ -10305,103 +11951,185 @@ namespace RssBandit.WinGui.Forms {
 
 				bool forceSetFocus =  true; // Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
 			
-				if (this.UrlRequestHandledExternally(url, forceNewTab)) {
+				if (this.UrlRequestHandledExternally(url, forceNewTab)) 
+				{
 					return;
 				}
 
-				if (userNavigates) {
+				if (userNavigates) 
+				{
 					// Delay gives time to the sender control to cancel request
 					this.DelayTask(DelayedTasks.NavigateToWebUrl, new object[]{url, null, true, forceSetFocus});
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebNewWindow(): "+e.url, ex);
 			}
 
 		}
 
-		private void OnWebQuit(object sender, EventArgs e) {
-			try {
+		private void OnWebQuit(object sender, EventArgs e) 
+		{
+			try 
+			{
 				// javscript want to close this window: so we have to close the tab
 				this.RemoveDocTab(_docContainer.ActiveDocument);
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebQuit()", ex);
 			}
 		}
 
-		private void OnWebTranslateAccelerator(object sender, KeyEventArgs e) {
-			try {
+		private void OnWebTranslateAccelerator(object sender, KeyEventArgs e) 
+		{
+			try 
+			{
+				// we use Control.ModifierKeys, because e.Shift etc. is not always set!
+				bool shift = (Control.ModifierKeys & Keys.Shift) == Keys.Shift;
+				bool ctrl = (Control.ModifierKeys & Keys.Control) == Keys.Control;
+				bool alt = (Control.ModifierKeys & Keys.Alt) == Keys.Alt;
+				bool noModifier = (!shift && !ctrl && ! alt);
+
+				bool shiftOnly = (shift && !ctrl && !alt);
+				bool ctrlOnly = (ctrl && !shift && !alt);
+				bool ctrlShift = (ctrl && shift && !alt);
 				
 				if (_shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData)) 
-				{	// capture Ctrl-N event or whichever combination is configured (new window)
+				{ 
+					// capture Ctrl-N event or whichever combination is configured (new window)
 					owner.CmdBrowserCreateNewTab(null);
 					e.Handled = true;
 				}
 				if (_shortcutHandler.IsCommandInvoked("Help", e.KeyData)) 
-				{	// capture F1 (or whichever keys are configured) event (help)
+				{ 
+					// capture F1 (or whichever keys are configured) event (help)
 					Help.ShowHelp(this, this.helpProvider1.HelpNamespace, HelpNavigator.TableOfContents);
 					e.Handled = true;
 				}
 
-				if (!e.Handled) {	// prevent double handling of shortcuts:
+				if (!e.Handled) 
+				{	// prevent double handling of shortcuts:
 					// IE will handle this codes by itself even if a user configures other shortcuts
 					// than Ctrl-N and F1.
-					e.Handled = (e.KeyCode == Keys.N && e.Control ||
-									  e.KeyCode == Keys.F1);
+					e.Handled = (e.KeyCode == Keys.N && ctrlOnly ||
+						e.KeyCode == Keys.F1);
 				}
 				
-				bool shift = (Control.ModifierKeys & Keys.Shift) == Keys.Shift;
-				if (!e.Handled) {	// prevent double handling of shortcuts:
-					if (e.KeyCode == Keys.Tab && !shift) {
-						if (this.htmlDetail.Document2 != null && null == this.htmlDetail.Document2.GetActiveElement()) {
+				if (!e.Handled) 
+				{	
+					// support: continue tab order throw the other controls than IEControl
+					if (e.KeyCode == Keys.Tab && noModifier) 
+					{
+						if (this.htmlDetail.Document2 != null && null == this.htmlDetail.Document2.GetActiveElement()) 
+						{
 							// one turn around within ALink element classes
-							if (this.treeFeeds.Visible) {
+							if (this.treeFeeds.Visible) 
+							{
 								this.treeFeeds.Focus();
 								e.Handled = true;
-							} else if (this.listFeedItems.Visible) {
+							} 
+							else if (this.listFeedItems.Visible) 
+							{
 								this.listFeedItems.Focus();
 								e.Handled = true;
 							}
 						}
-					} else if (e.KeyCode == Keys.Tab && shift) {
-						if (this.htmlDetail.Document2 != null && null == this.htmlDetail.Document2.GetActiveElement()) {
+					} 
+					else if (e.KeyCode == Keys.Tab && shiftOnly) 
+					{
+						if (this.htmlDetail.Document2 != null && null == this.htmlDetail.Document2.GetActiveElement()) 
+						{
 							// one reverse turn around within ALink element classes
-							if (this.listFeedItems.Visible) {
+							if (this.listFeedItems.Visible) 
+							{
 								this.listFeedItems.Focus();
 								e.Handled = true;
-							} else if (this.treeFeeds.Visible) {
+							} 
+							else if (this.treeFeeds.Visible) 
+							{
 								this.treeFeeds.Focus();
 								e.Handled = true;
 							}
 						}
 					}
 				}
-
-			} catch (Exception ex) {
+				
+				if (!e.Handled) {
+					// support: Ctrl-Tab/Shift-Ctrl-Tab switch Browser Tabs
+					if (e.KeyCode == Keys.Tab && ctrlOnly) 
+					{	
+						// step forward:
+						if (_docContainer.Documents.Length > 1) {
+							InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Next | Keys.Control);
+							e.Handled = true;
+						}
+					} 
+					else if (e.KeyCode == Keys.Tab && ctrlShift) 
+					{
+						// step backward:
+						if (_docContainer.Documents.Length > 1) {
+							InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Prior | Keys.Control);
+							e.Handled = true;
+						}
+					}
+				}
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebTranslateAccelerator(): "+e.KeyCode.ToString(), ex);
 			}
 		}
 
-		private void OnWebProgressChanged(object sender, BrowserProgressChangeEvent e) {
-			try {
+		private bool InvokeProcessCmdKey(DockControl c, Keys keyData) {
+			bool isSet = false;
+			if (c != null) {
+				Type cType = c.GetType();
+				try {
+					// just a dummy message:
+					Message m = Message.Create(this.Handle, (int)Win32.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero );
+					isSet = (bool) cType.InvokeMember("ProcessCmdKey", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, 
+					                                  null, c, new object[]{m, keyData});
+				} catch (Exception ex) {
+					_log.Error("InvokeProcessCmdKey() failed: " + ex.Message);
+				}
+			}
+			return isSet;
+		}
+		
+		private void OnWebProgressChanged(object sender, BrowserProgressChangeEvent e) 
+		{
+			try 
+			{
 				if (_lastBrowserThatProgressChanged == null)
 					_lastBrowserThatProgressChanged = sender;
 
-				if (sender != _lastBrowserThatProgressChanged) {
+				if (sender != _lastBrowserThatProgressChanged) 
+				{
 					DeactivateWebProgressInfo();
 					return;
 				}
 
-				if (((e.progress < 0) || (e.progressMax <= 0)) || (e.progress >= e.progressMax)) {
+				if (((e.progress < 0) || (e.progressMax <= 0)) || (e.progress >= e.progressMax)) 
+				{
 					DeactivateWebProgressInfo();
 				}
-				else {
+				else 
+				{
 					if (!this.progressBrowser.Visible) this.progressBrowser.Visible = true;
-					if (this.statusBarBrowserProgress.Width < BrowserProgressBarWidth) this.statusBarBrowserProgress.Width = BrowserProgressBarWidth;
+					if (this.statusBarBrowserProgress.Width < BrowserProgressBarWidth) 
+					{
+						this.statusBarBrowserProgress.Width = BrowserProgressBarWidth;
+						this.progressBrowser.Width = BrowserProgressBarWidth-12;
+					}
 					this.progressBrowser.Minimum = 0;
 					this.progressBrowser.Maximum = e.progressMax;
 					this.progressBrowser.Value = e.progress;
 				}
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				_log.Error("OnWebProgressChanged()", ex);
 			}
 
@@ -10409,7 +12137,8 @@ namespace RssBandit.WinGui.Forms {
 
 		private object _lastBrowserThatProgressChanged = null;
 
-		private void DeactivateWebProgressInfo() {
+		private void DeactivateWebProgressInfo() 
+		{
 			this.progressBrowser.Minimum = 0;
 			this.progressBrowser.Maximum = 128;
 			this.progressBrowser.Value = 128;
@@ -10424,287 +12153,248 @@ namespace RssBandit.WinGui.Forms {
 
 
 		#region Implementation of ITabState
-		public bool CanClose {
+		public bool CanClose 
+		{
 			get { return false; }
 			set {}
 		}
 
-		public bool CanGoBack {
-			get { 
-				return (listFeedItems.Items.Count > 0 && 
-					listFeedItems.SelectedItems.Count > 0 && 
-					listFeedItems.SelectedItems[0].Index > 0);  
+		public bool CanGoBack 
+		{
+			get 
+			{ 
+				return this._feedItemImpressionHistory.CanGetPrevious && 
+					this._feedItemImpressionHistory.Count > 1;
 			}
 			set { }
 		}
 
-		public bool CanGoForward {
-			get { 
-				return (listFeedItems.Items.Count > 0 && 
-					listFeedItems.SelectedItems.Count > 0 && 
-					listFeedItems.SelectedItems[0].Index < (listFeedItems.Items.Count - 1));  
+		public bool CanGoForward 
+		{
+			get 
+			{ 
+				return this._feedItemImpressionHistory.CanGetNext;
 			}
 			set { }
 		}
 
-		public string Title {
-			get {
-				if (CurrentSelectedNode != null)
-					return CurrentSelectedNode.Key;
+		public string Title 
+		{
+			get 
+			{
+				if (CurrentSelectedFeedsNode != null)
+					return CurrentSelectedFeedsNode.Text;
 				else
 					return String.Empty;
 			}
-			set {
+			set 
+			{
 				// nothing to implement here
 			}
 		}
 
-		public string Url {
+		public string Url 
+		{
 			get { return _tabStateUrl; }
 			set { _tabStateUrl = value;}
 		}
 
+		public ITextImageItem[] GoBackHistoryItems(int maxItems) 
+		{
+			return this._feedItemImpressionHistory.GetHeadOfPreviousEntries(maxItems);
+		}
+		
+		public  ITextImageItem[] GoForwardHistoryItems(int maxItems) 
+		{
+			return this._feedItemImpressionHistory.GetHeadOfNextEntries(maxItems);
+		}
+
 		#endregion
 
-		private void OnAnyToolBarButtonClick(object sender, ToolBarItemEventArgs e) {
-			ICommand cmd = e.Item as ICommand;
-			if (cmd != null)
-				cmd.Execute();
+		/// <summary>
+		/// Called when any IG toolbar tool click].
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="ToolClickEventArgs"/> instance containing the event data.</param>
+		private void OnAnyToolbarToolClick(object sender, ToolClickEventArgs e) {
+			// if we get a click on a state button, the new state (checked/unchecked) 
+			// is yet applied! This is THE major diff. compared to Sandbar tools!
+			owner.Mediator.Execute(e.Tool.Key);
 		}
-
-		private void OnAnyToolbarStateChanged(object sender, EventArgs e) {
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarMain.Visible", toolBarMain.Visible);
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarBrowser.Visible", toolBarBrowser.Visible);
-			owner.GuiSettings.SetProperty(Name+"/sandBar.toolBarWebSearch.Visible", toolBarWebSearch.Visible);
-			//this.DelayTask(DelayedTasks.SaveUIConfiguration);
-		}
-
+		
 		//does nothing more than supress the beep if you press enter
-		private void OnAnyEnterKeyPress(object sender, KeyPressEventArgs e) {
+		internal void OnAnyEnterKeyPress(object sender, KeyPressEventArgs e) 
+		{
 			if (e.KeyChar == '\r'  && Control.ModifierKeys == Keys.None)
 				e.Handled = true;	// supress beep
 		}
 
-		private void OnRssSearchExpressionChanged(object sender, System.EventArgs e) {
-			RefreshRssSearchButtonStates();
-		}
-
-		private void OnRssSearchFinderCaptionChanged(object sender, System.EventArgs e) {
-			RefreshRssSearchButtonStates();
-		}
-
-		private void OnRssSearchTypeCheckedChanged(object sender, System.EventArgs e) {
-			if (sender == this.radioRssSearchSimpleText) {
-				this.labelRssSearchTypeHint.Text = Resource.Manager["RES_RssSearchTypeTextHintCaption"];
-			} else if (sender == this.radioRssSearchRegEx) {
-				this.labelRssSearchTypeHint.Text = Resource.Manager["RES_RssSearchTypeRegExHintCaption"];
-			} else if (sender == this.radioRssSearchExprXPath) {
-				this.labelRssSearchTypeHint.Text = Resource.Manager["RES_RssSearchTypeXPathHintCaption"];
+		#region SearchPanel routines
+		
+		private void OnNewsItemSearchFinished(object sender, NewsHandler.SearchFinishedEventArgs e) {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new NewsHandler.SearchFinishedEventHandler(this.OnNewsItemSearchFinished), new object[]{sender, e});
+			} else {
+				this.SearchFinishedAction(e.Tag, e.MatchingFeeds, e.MatchingItems, e.MatchingFeedsCount, e.MatchingItemsCount);
 			}
 		}
-
-		private void OnRssSearchConsiderItemReadStateCheckedChanged(object sender, EventArgs e) {
-			this.checkBoxRssSearchUnreadItems.Enabled = this.checkBoxConsiderItemReadState.Checked;
-			RefreshRssSearchButtonStates();
+		
+		private void OnSearchPanelStartNewsItemSearch(object sender, NewsItemSearchEventArgs e) {
+			AsyncStartNewsSearch(e.FinderNode);
+		}
+		
+		private void AsyncStartNewsSearch(FinderNode node) {
+			StartNewsSearchDelegate start = new StartNewsSearchDelegate(this.StartNewsSearch);
+			start.BeginInvoke(node, new AsyncCallback(AsyncInvokeCleanup) , start);
 		}
 
-		private void OnRssSearchConsiderItemAgeCheckedChanged(object sender, EventArgs e) {
-			this.radioRssSearchItemsOlderThan.Enabled = 
-				this.radioRssSearchItemsYoungerThan.Enabled = 
-				this.comboRssSearchItemAge.Enabled = this.checkBoxRssSearchTimeSpan.Checked;
-			if (this.radioRssSearchItemsOlderThan.Enabled) {
-				this.checkBoxRssSearchByDate.Checked = false;
-				this.checkBoxRssSearchByDateRange.Checked = false;
-			}
-			RefreshRssSearchButtonStates();
+		private void StartNewsSearch(FinderNode node) {
+			owner.FeedHandler.SearchNewsItems(
+				node.Finder.SearchCriterias, 
+				node.Finder.SearchScope, 
+				node.Finder, 
+				CultureInfo.CurrentUICulture.Name,
+				node.Finder.ShowFullItemContent);
 		}
-		private void OnRssSearchConsiderItemPostDateCheckedChanged(object sender, EventArgs e) {
-			this.comboBoxRssSearchItemPostedOperator.Enabled =
-				this.dateTimeRssSearchItemPost.Enabled = this.checkBoxRssSearchByDate.Checked;
-			if (this.comboBoxRssSearchItemPostedOperator.Enabled) {
-				this.checkBoxRssSearchTimeSpan.Checked = false;
-				this.checkBoxRssSearchByDateRange.Checked = false;
-			}
-			RefreshRssSearchButtonStates();
-		}
-		private void OnRssSearchConsiderItemPostDateRangeCheckedChanged(object sender, EventArgs e) {
-			this.dateTimeRssSearchPostAfter.Enabled =
-				this.dateTimeRssSearchPostBefore.Enabled =  this.checkBoxRssSearchByDateRange.Checked;
-			if (this.dateTimeRssSearchPostAfter.Enabled) {
-				this.checkBoxRssSearchByDate.Checked = false;
-				this.checkBoxRssSearchTimeSpan.Checked = false;
-			}
-			RefreshRssSearchButtonStates();
-		}
+		
+		private void OnSearchPanelBeforeNewsItemSearch(object sender, NewsItemSearchCancelEventArgs e) {
+			// set status text
+			this.SetSearchStatusText(SR.RssSearchStateMessage);
 
-		private void OnRssSearchScopeTreeAfterCheck(object sender, System.Windows.Forms.TreeViewEventArgs e) {
-			if (e.Action == TreeViewAction.ByKeyboard || e.Action == TreeViewAction.ByMouse) {
-				TreeHelper.PerformOnCheckStateChanged(e.Node);
-			}
-		}
-
-		private void OnTextSearchExpressionKeyDown(object sender, KeyEventArgs e) {
-			if (e.KeyCode == Keys.Return && (this.textSearchExpression.Text.Length > 0)) {
-				this.OnRssSearchButtonClick(sender, null);
-			}
-		}
-
-		private void OnRssSearchPanelResize(object sender, EventArgs e) {
-			this.textSearchExpression.SetBounds(0,0,this.btnSearchCancel.Left - this.textSearchExpression.Left - 5 , 0, BoundsSpecified.Width);
-			this.textFinderCaption.SetBounds(0,0,this.btnRssSearchSave.Left - this.textFinderCaption.Left - 5 , 0, BoundsSpecified.Width);
-			this.btnRssSearchSave.Invalidate();	//BUGBUG: workaround for StyleXP themes, that may render (glass) button badly
-		}
-
-		private void OnRssSearchButtonClick(object sender, System.EventArgs e) {
-			
-			switch (_rssSearchState) {
-
-				case RssSearchState.Pending:
+			Exception criteriaValidationException;
+			if (!owner.FeedHandler.SearchHandler.ValidateSearchCriteria(
+				e.SearchCriteria, CultureInfo.CurrentUICulture.Name,
+				out criteriaValidationException)) {
 				
-					_rssSearchState = RssSearchState.Searching;
-					this.btnSearchCancel.Text = Resource.Manager["RES_RssSearchDialogButtonCancelCaption"];
-					
-					this.btnNewSearch.Enabled = this.btnRssSearchSave.Enabled = false;
-					this.textSearchExpression.Enabled = this.textFinderCaption.Enabled = false;
-					this.taskPaneSearchOptions.Enabled = false;
-					this.panelRssSearchCommands.SetBounds(0,0,0,80, BoundsSpecified.Height);
-					this.SetSearchStatusText(Resource.Manager["RES_RssSearchStateMessage"]);
-
-					FinderNode resultContainer = null;
-
-					string newName = textFinderCaption.Text.Trim();
-					
-					if (newName.Length > 0) {	
-						
-						FeedTreeNodeBase parent = this.GetRoot(RootFolderType.Finder);
-						
-						if (newName.IndexOf("\\")>0) {
-							string[] a = newName.Split(new char[]{'\\'});
-							parent = this.CreateCategoryHive(parent, String.Join("\\", a, 0, a.GetLength(0)-1), true);
-							newName = a[a.GetLength(0)-1].Trim();
-						}
-
-						FeedTreeNodeBase node= this.FindChild(parent, newName, FeedNodeType.Finder);
-						if (node != null) {
-							resultContainer = (FinderNode)node;
-						} else {
-							resultContainer = new FinderNode(newName, 10, 10, _treeSearchFolderContextMenu);
-							resultContainer.Tag = resultContainer.InternalFeedLink;
-							parent.Nodes.Add(resultContainer);
-						}
-
-					} else { 
-						this.AddTempResultNode();
-						resultContainer = _searchResultNode;
-					}
-
-					//Test scope:
-//					ArrayList cs = new ArrayList(1);
-//					cs.Add("Weblogs");
-//					ArrayList fs = new ArrayList(1);
-//					fs.Add("http://www.rendelmann.info/blog/GetRss.asmx");
-//					fs.Add("http://www.25hoursaday.com/webblog/GetRss.asmx"); // activate for scope tests:
-//					resultContainer.Finder = new RssFinder(resultContainer, this.SearchDialogGetSearchCriterias(),
-//						 cs, fs, new RssFinder.SearchScopeResolveCallback(this.ScopeResolve) , true);
-					
-					ArrayList catScope = null;
-					ArrayList feedScope = null;
-					
-					// if we have scope nodes, and not all selected:
-					if (this.treeRssSearchScope.Nodes.Count > 0 && !this.treeRssSearchScope.Nodes[0].Checked) {
-						ArrayList cs = new ArrayList(), fs = new ArrayList();
-						TreeHelper.GetCheckedNodes(this.treeRssSearchScope.Nodes[0], cs, fs);
-						
-						if (cs.Count > 0)	catScope = new ArrayList(cs.Count);
-						if (fs.Count > 0)	feedScope = new ArrayList(fs.Count);
-
-						foreach (TreeNode n in cs) {
-							catScope.Add(TreeHelper.BuildCategoryStoreName(n, this.treeRssSearchScope.PathSeparator.ToCharArray()));
-						}
-						foreach (TreeNode n in fs) {
-							feedScope.Add((string)n.Tag);
-						}
-					}
-					
-					if(resultContainer.Finder == null){ //new search folder
-					
-						resultContainer.Finder = new RssFinder(resultContainer, this.SearchDialogGetSearchCriterias(),
-							catScope, feedScope, new RssFinder.SearchScopeResolveCallback(this.ScopeResolve) , true);					
-					
-						// not a temp result and not yet exist:
-						if (resultContainer != _searchResultNode && !owner.FinderList.Contains(resultContainer.Finder)) {
-							owner.FinderList.Add(resultContainer.Finder);
-						}
-					
-					}else{ //existing search folder
-						resultContainer.Finder.SearchCriterias = this.SearchDialogGetSearchCriterias(); 
-						resultContainer.Finder.SetSearchScope(catScope, feedScope);
-						resultContainer.Finder.ExternalResultMerged = false;
-						resultContainer.Finder.ExternalSearchPhrase = null;
-						resultContainer.Finder.ExternalSearchUrl = null;
-
-					}
-
-					owner.SaveSearchFolders();
-					resultContainer.Clear();
-					panelRssSearch.Refresh();
-
-					EmptyListView();
-					htmlDetail.Clear();
-					TreeSelectedNode = resultContainer;
-					AsyncStartNewsSearch(resultContainer);
-					break;
-
-				case RssSearchState.Searching:
-					_rssSearchState = RssSearchState.Canceled;
-					this.SetSearchStatusText(Resource.Manager["RES_RssSearchCancelledStateMessage"]);
-					btnSearchCancel.Enabled = false;
-					break;
-
-				case RssSearchState.Canceled:
-					Debug.Assert(false);		// should not be able to press Search button while it is canceling
-					break;
+				e.Cancel = true;
+				throw criteriaValidationException;
 			}
-
-		}
-
-		private void RefreshRssSearchButtonStates() {
-			this.btnSearchCancel.Enabled = (this.textSearchExpression.Text.Length > 0);
-			if (!this.btnSearchCancel.Enabled) {
-				this.btnSearchCancel.Enabled = this.checkBoxConsiderItemReadState.Checked ||
-					this.checkBoxRssSearchTimeSpan.Checked ||
-					this.checkBoxRssSearchByDate.Checked ||
-					this.checkBoxRssSearchByDateRange.Checked;
+			
+			// return a result container:
+			FinderNode resultContainer = new FinderNode();
+			
+			string newName = e.ResultContainerName;
+			if (!StringHelper.EmptyOrNull(newName)) {	
+									
+				TreeFeedsNodeBase parent = this.GetRoot(RootFolderType.Finder);
+									
+				if (newName.IndexOf(NewsHandler.CategorySeparator)>0) {
+					string[] a = newName.Split(NewsHandler.CategorySeparator.ToCharArray());
+					parent = TreeHelper.CreateCategoryHive(parent, 
+						String.Join(NewsHandler.CategorySeparator, a, 0, a.Length - 1), 
+						_treeSearchFolderContextMenu, 
+						FeedNodeType.FinderCategory);
+			
+					newName = a[a.Length - 1].Trim();
+				}
+			
+				TreeFeedsNodeBase feedsNode = TreeHelper.FindChildNode(parent, newName, FeedNodeType.Finder);
+				if (feedsNode != null) {
+					resultContainer = (FinderNode)feedsNode;
+				} 
+				else {
+					resultContainer = new FinderNode(newName, Resource.SubscriptionTreeImage.SearchFolder, Resource.SubscriptionTreeImage.SearchFolderSelected, _treeSearchFolderContextMenu);
+					resultContainer.DataKey = resultContainer.InternalFeedLink;
+					parent.Nodes.Add(resultContainer);
+				}
+			
+			} else { 
+				this.AddTempResultNode();
+				resultContainer = _searchResultNode;
 			}
-			this.btnRssSearchSave.Enabled = (this.textFinderCaption.Text.Trim().Length > 0 && this.btnSearchCancel.Enabled);
-		}
+			
+			if(resultContainer.Finder == null) {
+				//new search folder
+					
+				resultContainer.Finder = new RssFinder(resultContainer, e.SearchCriteria,
+					e.CategoryScope, e.FeedScope, new RssFinder.SearchScopeResolveCallback(this.ScopeResolve) , true);					
+					
+				// not a temp result and not yet exist:
+				if (resultContainer != _searchResultNode && !owner.FinderList.Contains(resultContainer.Finder)) {
+					owner.FinderList.Add(resultContainer.Finder);
+				}
+					
+			}
+			else {
+				//existing search folder
+				resultContainer.Finder.SearchCriterias = e.SearchCriteria; 
+				resultContainer.Finder.SetSearchScope(e.CategoryScope, e.FeedScope);
+				resultContainer.Finder.ExternalResultMerged = false;
+				resultContainer.Finder.ExternalSearchPhrase = null;
+				resultContainer.Finder.ExternalSearchUrl = null;
 
-		private feedsFeed[] ScopeResolve (ArrayList categories, ArrayList feedUrls) {
+			}
+			
+			owner.SaveSearchFolders();
+			
+			resultContainer.Clear();
+			this.UpdateTreeNodeUnreadStatus(resultContainer, 0);
+			EmptyListView();
+			htmlDetail.Clear();
+
+			e.ResultContainer = resultContainer;
+			TreeSelectedFeedsNode = resultContainer;
+			
+		}
+		
+		internal void SearchFinishedAction(object tag, FeedInfoList matchingFeeds, ArrayList matchingItems, int rssFeedsCount, int newsItemsCount) {
+			if (newsItemsCount == 0) {
+				searchPanel.SetControlStateTo(ItemSearchState.Finished, SR.RssSearchNoResultMessage);
+			} 
+			else {
+				searchPanel.SetControlStateTo(ItemSearchState.Finished, SR.RssSearchSuccessResultMessage(newsItemsCount));
+			}
+			
+			RssFinder finder =  tag as RssFinder;
+			FinderNode tn  = (finder != null ? finder.Container : null); 			
+
+			if(tn != null) {
+				tn.AddRange(matchingItems);
+				if (tn.Selected) {
+					this.PopulateListView(tn, matchingItems , false, true, tn);
+					if (!tn.Finder.ShowFullItemContent)	// use summary stylesheet
+						this.BeginTransformFeedList(matchingFeeds, tn, NewsItemFormatter.SearchTemplateId);
+					else // use default stylesheet
+						this.BeginTransformFeedList(matchingFeeds, tn, this.owner.FeedHandler.Stylesheet); 
+				}
+			}
+		}
+	
+		private feedsFeed[] ScopeResolve (ArrayList categories, ArrayList feedUrls) 
+		{
 			if (categories == null && feedUrls == null)
 				return new feedsFeed[]{};
 
 			ArrayList result = new ArrayList();
 			
-			if (categories != null) {
-				string sep = this.treeRssSearchScope.PathSeparator;
-				foreach(feedsFeed f in owner.FeedHandler.FeedsTable.Values){
-					foreach (string category in categories) {
-						if(f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep))){
+			if (categories != null) 
+			{
+				string sep = NewsHandler.CategorySeparator;
+				foreach(feedsFeed f in owner.FeedHandler.FeedsTable.Values)
+				{
+					foreach (string category in categories) 
+					{
+						if(f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep)))
+						{
 							result.Add(f);
 						}
 					}
 				}
 			}
 
-			if (feedUrls != null) {
-				foreach (string url in feedUrls) {
-					if (url != null && owner.FeedHandler.FeedsTable.ContainsKey(url)) {
+			if (feedUrls != null) 
+			{
+				foreach (string url in feedUrls) 
+				{
+					if (url != null && owner.FeedHandler.FeedsTable.ContainsKey(url)) 
+					{
 						result.Add(owner.FeedHandler.FeedsTable[url]);
 					}
 				}
 			}
 			
-			if (result.Count > 0) {
+			if (result.Count > 0) 
+			{
 				feedsFeed[] fa = new feedsFeed[result.Count];
 				result.CopyTo(fa);
 				return fa;
@@ -10713,261 +12403,44 @@ namespace RssBandit.WinGui.Forms {
 			return new feedsFeed[]{};
 		}
 
-		private void CmdNewRssSearchClick(object sender, System.EventArgs e) {
-			this.CmdNewRssSearch(null);
-		}
 		
-		private void CmdNewRssSearch(ICommand sender) {
-			this.panelRssSearchCommands.SetBounds(0,0,0,40, BoundsSpecified.Height);
+		internal void CmdNewRssSearch(ICommand sender) 
+		{
+			this.searchPanel.ResetControlState();
+			this.PopulateTreeRssSearchScope();
 			this.SetSearchStatusText(String.Empty);
-			this.SearchCriteriaDialogReset();
 			if (sender != null)
 				this.CmdDockShowRssSearch(sender);
-			PopulateTreeRssSearchScope();
-			this.textSearchExpression.Focus();
+			this.searchPanel.SetFocus();
 		}
 
-		private SearchCriteriaCollection SearchDialogGetSearchCriterias() {
-			SearchCriteriaCollection sc = new SearchCriteriaCollection();
-
-			SearchStringElement where =SearchStringElement.Undefined;
-			if (textSearchExpression.Text.Length > 0) {
-				if (checkBoxRssSearchInTitle.Checked)			where |= SearchStringElement.Title;
-				if (checkBoxRssSearchInDesc.Checked)		where |= SearchStringElement.Content;
-				if (checkBoxRssSearchInCategory.Checked)	where |= SearchStringElement.Subject;
-				if (checkBoxRssSearchInLink.Checked)			where |= SearchStringElement.Link;
-			}
-
-			StringExpressionKind kind = StringExpressionKind.Text;
-			if (radioRssSearchSimpleText.Checked)
-				kind = StringExpressionKind.Text;
-			else if (radioRssSearchRegEx.Checked)
-				kind = StringExpressionKind.RegularExpression;
-			else if (radioRssSearchExprXPath.Checked)
-				kind = StringExpressionKind.XPathExpression;
-
-			if (where != SearchStringElement.Undefined) {
-				SearchCriteriaString scs = new SearchCriteriaString(textSearchExpression.Text, where, kind);
-				sc.Add(scs);
-			}
-
-			if (this.checkBoxConsiderItemReadState.Checked) {
-				SearchCriteriaProperty scp = new SearchCriteriaProperty();
-				scp.BeenRead = !checkBoxRssSearchUnreadItems.Checked;
-				scp.WhatKind = PropertyExpressionKind.Unread;
-				sc.Add(scp);
-			}
-
-			if (this.checkBoxRssSearchTimeSpan.Checked) {
-				SearchCriteriaAge sca = new SearchCriteriaAge();
-				if (radioRssSearchItemsOlderThan.Checked)
-					sca.WhatKind = DateExpressionKind.OlderThan;
-				else
-					sca.WhatKind = DateExpressionKind.NewerThan;
-				sca.WhatRelativeToToday = Utils.MapRssSearchItemAge(this.comboRssSearchItemAge.SelectedIndex);
-				sc.Add(sca);
-			}
-
-			if (this.checkBoxRssSearchByDate.Checked) {
-				SearchCriteriaAge sca = new SearchCriteriaAge();
-				if (comboBoxRssSearchItemPostedOperator.SelectedIndex == 0)
-					sca.WhatKind = DateExpressionKind.Equal;
-				else if (comboBoxRssSearchItemPostedOperator.SelectedIndex == 1)
-					sca.WhatKind = DateExpressionKind.OlderThan;
-				else
-					sca.WhatKind = DateExpressionKind.NewerThan;
-
-				sca.What = dateTimeRssSearchItemPost.Value;
-				sc.Add(sca);
-			}
-
-			if (this.checkBoxRssSearchByDateRange.Checked) {
-				
-				// handle case: either one date is greater than the other or equal
-				if (dateTimeRssSearchPostAfter.Value > dateTimeRssSearchPostBefore.Value) {
-					sc.Add(new SearchCriteriaAge(dateTimeRssSearchPostBefore.Value, DateExpressionKind.NewerThan));
-					sc.Add(new SearchCriteriaAge(dateTimeRssSearchPostAfter.Value, DateExpressionKind.OlderThan));
-				} else if (dateTimeRssSearchPostAfter.Value < dateTimeRssSearchPostBefore.Value) {
-					sc.Add(new SearchCriteriaAge(dateTimeRssSearchPostAfter.Value, DateExpressionKind.NewerThan));
-					sc.Add(new SearchCriteriaAge(dateTimeRssSearchPostBefore.Value, DateExpressionKind.OlderThan));
-				} else {
-					sc.Add(new SearchCriteriaAge(dateTimeRssSearchPostBefore.Value, DateExpressionKind.Equal));
-				}
-			}
-
-			return sc;
-		}
-
-		private void SearchDialogSetSearchCriterias(FinderNode node) {
-			
-			if (node == null)
-				return;
-
-			SearchCriteriaCollection criterias = node.Finder.SearchCriterias;
-			string searchName = node.Finder.FullPath;
-			
-			SearchCriteriaDialogReset();
-
-			Queue itemAgeCriterias = new Queue(2);
-
-			foreach (ISearchCriteria criteria in criterias) {
-				SearchCriteriaString str = criteria as SearchCriteriaString;
-				if (str != null) {
-					SearchStringElement where = str.Where;
-					if ((where & SearchStringElement.Title) == SearchStringElement.Title) 
-						checkBoxRssSearchInTitle.Checked = true;
-					else
-						checkBoxRssSearchInTitle.Checked = false;
-
-					if ((where & SearchStringElement.Content) == SearchStringElement.Content) 
-						checkBoxRssSearchInDesc.Checked = true;
-					else
-						checkBoxRssSearchInDesc.Checked = false;
-
-					if ((where & SearchStringElement.Subject) == SearchStringElement.Subject) 
-						checkBoxRssSearchInCategory.Checked = true;
-					else
-						checkBoxRssSearchInCategory.Checked = false;
-
-					if ((where & SearchStringElement.Link) == SearchStringElement.Link) 
-						checkBoxRssSearchInLink.Checked = true;
-					else
-						checkBoxRssSearchInLink.Checked = false;
-	
-					this.collapsiblePanelItemPropertiesEx.Collapsed = false;
-
-					if (str.WhatKind == StringExpressionKind.Text)
-						radioRssSearchSimpleText.Checked = true;
-					else if (str.WhatKind == StringExpressionKind.RegularExpression)
-						radioRssSearchRegEx.Checked = true;
-					else if (str.WhatKind == StringExpressionKind.XPathExpression)
-						radioRssSearchExprXPath.Checked = true;
-
-					if (!radioRssSearchSimpleText.Checked)
-						this.collapsiblePanelRssSearchExprKindEx.Collapsed = false;
-
-					textSearchExpression.Text = str.What;
-				}
-
-				SearchCriteriaProperty prop = criteria as SearchCriteriaProperty;
-				if (prop != null) {
-					if (prop.WhatKind == PropertyExpressionKind.Unread) {
-						if (!prop.BeenRead)
-							checkBoxRssSearchUnreadItems.Checked = true;
-						else
-							checkBoxRssSearchUnreadItems.Checked = false;
-					}
-					this.checkBoxConsiderItemReadState.Checked = true;
-					this.collapsiblePanelAdvancedOptionsEx.Collapsed =false;
-				}
-
-				SearchCriteriaAge age = criteria as SearchCriteriaAge;
-				if (age != null) {
-					if (age.WhatRelativeToToday.CompareTo(TimeSpan.Zero) != 0) {
-						// relative item age specified
-						this.checkBoxRssSearchTimeSpan.Checked = true;
-						if (age.WhatKind == DateExpressionKind.NewerThan)
-							this.radioRssSearchItemsYoungerThan.Checked = true;
-						else
-							this.radioRssSearchItemsOlderThan.Checked = true;
-						this.comboRssSearchItemAge.SelectedIndex = Utils.MapRssSearchItemAge(age.WhatRelativeToToday);
-					} else {
-						// absolute item age or range specified, queue for later handling
-						itemAgeCriterias.Enqueue(age);
-					}
-					
-					if (this.collapsiblePanelAdvancedOptionsEx.Collapsed)
-						this.collapsiblePanelAdvancedOptionsEx.Collapsed = false;
-				}
-			}
-
-			if (itemAgeCriterias.Count == 1) {			// absolute date specified
-
-				this.checkBoxRssSearchByDate.Checked = true;
-				SearchCriteriaAge ageAbs = (SearchCriteriaAge)itemAgeCriterias.Dequeue();
-				if (ageAbs.WhatKind == DateExpressionKind.Equal)
-					this.comboBoxRssSearchItemPostedOperator.SelectedIndex = 0;
-				else if (ageAbs.WhatKind == DateExpressionKind.OlderThan)
-					this.comboBoxRssSearchItemPostedOperator.SelectedIndex = 1;
-				else	// Newer
-					this.comboBoxRssSearchItemPostedOperator.SelectedIndex = 2;
-				this.dateTimeRssSearchItemPost.Value = ageAbs.What;
-
-			} else if (itemAgeCriterias.Count == 2) {	// range specified
-				this.checkBoxRssSearchByDateRange.Checked = true;
-				SearchCriteriaAge ageFrom = (SearchCriteriaAge)itemAgeCriterias.Dequeue();
-				SearchCriteriaAge ageTo = (SearchCriteriaAge)itemAgeCriterias.Dequeue();
-				this.dateTimeRssSearchPostAfter.Value = ageFrom.What;
-				this.dateTimeRssSearchPostBefore.Value = ageTo.What;
-			}
-
-			itemAgeCriterias.Clear();
-
-			if (node != _searchResultNode) {
-				textFinderCaption.Text = searchName;
-			}
-
-			if (textFinderCaption.Text.Length > 0)
-				this.collapsiblePanelSearchNameEx.Collapsed = false;
-
-			PopulateTreeRssSearchScope();	// init, all checked. Common case
-
-			if (this.treeRssSearchScope.Nodes.Count == 0 ||
-				(node.Finder.CategoryPathScope == null || node.Finder.CategoryPathScope.Count == 0) &&
-				(node.Finder.FeedUrlScope == null || node.Finder.FeedUrlScope.Count == 0))
-				return;
-
-			this.treeRssSearchScope.Nodes[0].Checked = false;	// uncheck all. 
-			TreeHelper.CheckChildNodes(this.treeRssSearchScope.Nodes[0], false);
-
-			TreeHelper.SetCheckedNodes(this.treeRssSearchScope.Nodes[0], 
-				node.Finder.CategoryPathScope, node.Finder.FeedUrlScope, 
-				this.treeRssSearchScope.PathSeparator.ToCharArray());
-
-		}
-
-		private void AddTempResultNode() {
-			if (_searchResultNode == null) {
-				_searchResultNode = new FinderNode(Resource.Manager["RES_RssSearchResultNodeCaption"], 10, 10, _treeTempSearchFolderContextMenu);
-				_searchResultNode.Tag = _searchResultNode.InternalFeedLink;
+		
+		private void AddTempResultNode() 
+		{
+			if (_searchResultNode == null) 
+			{
+				_searchResultNode = new TempFinderNode(SR.RssSearchResultNodeCaption, Resource.SubscriptionTreeImage.SearchFolder, Resource.SubscriptionTreeImage.SearchFolderSelected, _treeTempSearchFolderContextMenu);
+				_searchResultNode.DataKey = _searchResultNode.InternalFeedLink;
 				this.GetRoot(RootFolderType.SmartFolders).Nodes.Add(_searchResultNode);
 			}
 		}
 
-		private void SearchCriteriaDialogReset() {
-			//reset to default settings
-			checkBoxRssSearchInTitle.Checked = checkBoxRssSearchInDesc.Checked = checkBoxRssSearchInCategory.Checked = true;
-			checkBoxRssSearchInLink.Checked = checkBoxRssSearchUnreadItems.Checked = false;
-			radioRssSearchSimpleText.Checked = true;
-			checkBoxConsiderItemReadState.Checked = false;
-			checkBoxRssSearchByDate.Checked = false;
-			checkBoxRssSearchByDateRange.Checked = false;
-			textSearchExpression.Text = String.Empty;
-			textFinderCaption.Text = String.Empty;
-		}
-
-		private void AsyncStartNewsSearch(FinderNode node) {
-			StartNewsSearchDelegate start = new StartNewsSearchDelegate(this.StartNewsSearch);
-			start.BeginInvoke(node, new AsyncCallback(this.AsynInvokeCleanup) , start);
-		}
-
-		private void StartNewsSearch(FinderNode node) {
-			owner.FeedHandler.SearchNewsItems(node.Finder.SearchCriterias, node.Finder.SearchScope, node.Finder);
-		}
-
-		private void AsyncStartRssRemoteSearch(string searchPhrase, string searchUrl, bool mergeWithLocalResults, bool initialize) {
+		private void AsyncStartRssRemoteSearch(string searchPhrase, string searchUrl, bool mergeWithLocalResults, bool initialize) 
+		{
 			this.AddTempResultNode();
 
-			if (initialize) {
+			if (initialize) 
+			{
 				_searchResultNode.Clear();
 				EmptyListView();
 				htmlDetail.Clear();
-				TreeSelectedNode = _searchResultNode;
-				this.SetSearchStatusText(Resource.Manager["RES_RssSearchStateMessage"]);
+				TreeSelectedFeedsNode = _searchResultNode;
+				this.SetSearchStatusText(SR.RssSearchStateMessage);
 			}
 
 			SearchCriteriaCollection scc = new SearchCriteriaCollection();
-			if (mergeWithLocalResults) {	// merge with local search result
+			if (mergeWithLocalResults) 
+			{	// merge with local search result
 				scc.Add(new SearchCriteriaString(searchPhrase, SearchStringElement.All, StringExpressionKind.Text));
 			}
 			RssFinder finder = new RssFinder(_searchResultNode, scc,
@@ -10978,91 +12451,65 @@ namespace RssBandit.WinGui.Forms {
 
 			_searchResultNode.Finder = finder;
 			StartRssRemoteSearchDelegate start = new StartRssRemoteSearchDelegate(this.StartRssRemoteSearch);
-			start.BeginInvoke(searchUrl, _searchResultNode, new AsyncCallback(this.AsynInvokeCleanup) , start);
+			start.BeginInvoke(searchUrl, _searchResultNode, new AsyncCallback(AsyncInvokeCleanup) , start);
 			
-			if (mergeWithLocalResults) {	// start also the local search
+			if (mergeWithLocalResults) 
+			{	// start also the local search
 				this.AsyncStartNewsSearch(_searchResultNode);
 			}
 		}
 
-		private void StartRssRemoteSearch(string searchUrl, FinderNode resultContainer) {
-			try {
+		private void StartRssRemoteSearch(string searchUrl, FinderNode resultContainer) 
+		{
+			try 
+			{
 				owner.FeedHandler.SearchRemoteFeed(searchUrl, resultContainer.Finder);
-			} catch (Exception ex) {
+			} 
+			catch (Exception ex) 
+			{
 				this.SetSearchStatusText("Search '"+StringHelper.ShortenByEllipsis(searchUrl, 30)+"' caused a problem: " + ex.Message);
 			}
 		}
 
-		public void SearchResultAction(object tag, ArrayList matchingItems, ref bool cancel) {
-			RssFinder finder = (RssFinder)tag;
-			FinderNode agn = finder.Container;
-			
-			if (agn == null)
-				return;
-			
-			Stack toRemove = new Stack(matchingItems.Count); // to prevent a deep copy
-			
-			for (int i = 0; i < matchingItems.Count; i++) {
-				NewsItem item = (NewsItem)matchingItems[i];
-				if (agn.Contains(item)) {
-					toRemove.Push(i);
-				}else{
-					agn.Add(item);
-				}
-			}
-			while (toRemove.Count > 0) {
-				int i = (int)toRemove.Pop();
-				matchingItems.RemoveAt(i);
-			}
-
-			toRemove = null;
-
-			this.PopulateListView(agn, matchingItems , false, true, agn);
-			cancel = (this.CurrentSearchState == RssSearchState.Canceled);
-			
-			Application.DoEvents();
-		}
-
-		public void SearchFinishedAction(object tag, FeedInfoList matchingFeeds, int rssFeedsCount, int NewsItemsCount) {
-			Debug.Assert(!btnSearchCancel.InvokeRequired, "Wrong thread to update GUI");
-			_rssSearchState = RssSearchState.Pending;
-			btnSearchCancel.Text = Resource.Manager["RES_RssSearchDialogButtonSearchCaption"];
-			if (NewsItemsCount == 0) {
-				this.SetSearchStatusText(Resource.Manager["RES_RssSearchNoResultMessage"]);
-			} else {
-				this.SetSearchStatusText(Resource.Manager["RES_RssSearchSuccessResultMessage", NewsItemsCount]);
-			}
-			this.btnSearchCancel.Enabled = this.btnRssSearchSave.Enabled = true;
-			this.textSearchExpression.Enabled = this.textFinderCaption.Enabled = true;
-			this.taskPaneSearchOptions.Enabled = true;
-			this.btnNewSearch.Enabled = true;
-
-			RssFinder finder =  tag as RssFinder;
-			FinderNode tn  = (finder != null ? finder.Container : null); 			
-
-			if((tn != null) && tn.IsSelected){				
-				this.BeginTransformFeedList(matchingFeeds, tn, this.owner.FeedHandler.Stylesheet); 
-			}							
-			
-		}
-
+		#endregion
+		
 		//used to generally get the EndInvoke() called for a gracefully cleanup and exception catching
-		private void AsynInvokeCleanup(IAsyncResult ar) {
+		private static void AsyncInvokeCleanup(IAsyncResult ar) 
+		{
 			StartNewsSearchDelegate startNewsSearchDelegate = ar.AsyncState as StartNewsSearchDelegate;
-			if (startNewsSearchDelegate != null) {
-				try {
+			if (startNewsSearchDelegate != null) 
+			{
+				try 
+				{
 					startNewsSearchDelegate.EndInvoke(ar);
-				} catch (Exception ex) {
+				} 
+				catch (Exception ex) 
+				{
 					_log.Error("AsyncCall 'StartNewsSearchDelegate' caused this exception", ex);
 				}
 				return;
 			}
 
-			GetCommentNewsItemsDelegate getCommentNewsItemsDelegate = ar.AsyncState as GetCommentNewsItemsDelegate;
-			if (getCommentNewsItemsDelegate != null) {
+			StartRssRemoteSearchDelegate startRssRemoteSearchDelegate = ar.AsyncState as StartRssRemoteSearchDelegate;
+			if (startRssRemoteSearchDelegate != null) {
 				try {
+					startRssRemoteSearchDelegate.EndInvoke(ar);
+				} 
+				catch (Exception ex) {
+					_log.Error("AsyncCall 'StartRssRemoteSearchDelegate' caused this exception", ex);
+				}
+				return;
+			}
+			
+			GetCommentNewsItemsDelegate getCommentNewsItemsDelegate = ar.AsyncState as GetCommentNewsItemsDelegate;
+			if (getCommentNewsItemsDelegate != null) 
+			{
+				try 
+				{
 					getCommentNewsItemsDelegate.EndInvoke(ar);
-				} catch (Exception ex) {
+				} 
+				catch (Exception ex) 
+				{
 					_log.Error("AsyncCall 'GetCommentNewsItemsDelegate' caused this exception", ex);
 				}
 				return;
@@ -11071,85 +12518,129 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		//toastNotify callbacks
-		private void OnExternalDisplayFeedProperties(feedsFeed f) {
+		private void OnExternalDisplayFeedProperties(feedsFeed f) 
+		{
 			this.DelayTask(DelayedTasks.ShowFeedPropertiesDialog, f);
 		}
-		private void OnExternalActivateFeedItem(NewsItem item) {
+		private void OnExternalActivateFeedItem(NewsItem item) 
+		{
 			this.DelayTask(DelayedTasks.NavigateToFeedNewsItem, item);
 		}
-		private void OnExternalActivateFeed(feedsFeed f) {
+		private void OnExternalActivateFeed(feedsFeed f) 
+		{
 			this.DelayTask(DelayedTasks.NavigateToFeed, f);
 		}
 		
-		private void DisplayFeedProperties(feedsFeed f) {
-			FeedTreeNodeBase tn = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), f);
-			if (tn != null) {
-				this.CurrentSelectedNode = tn;
+		private void DisplayFeedProperties(feedsFeed f) 
+		{
+			TreeFeedsNodeBase tn = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), f);
+			if (tn != null) 
+			{
+				this.CurrentSelectedFeedsNode = tn;
 				owner.CmdShowFeedProperties(null);
-				this.CurrentSelectedNode = null;
+				this.CurrentSelectedFeedsNode = null;
 			}
 		}
 
-		private void NavigateToFeed(feedsFeed f) {
-
-			FeedTreeNodeBase tn = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), f);
+		private void NavigateToNode(TreeFeedsNodeBase feedsNode) 
+		{
+			NavigateToNode(feedsNode, null);
+		}
+		
+		private void NavigateToNode(TreeFeedsNodeBase feedsNode, NewsItem item) 
+		{
 			
-			if (tn != null) {
-				this.TreeSelectedNode = tn;
-				tn.EnsureVisible();
-				this.OnTreeFeedAfterSelect(this, new TreeViewEventArgs(tn));//??
+			// prevent adding new selected node/item to the history:
+			_navigationActionInProgress = true;
+			
+			if (feedsNode != null && feedsNode.Control != null) 
+			{
+
+				SelectNode(feedsNode);
+				// populates listview items:
+				this.OnTreeFeedAfterSelectManually(this,feedsNode);//??
 				MoveFeedDetailsToFront();
-			}
 
-			owner.CmdShowMainGui(null);
-		}
-
-		private void NavigateToFeedNewsItem(NewsItem item) {
-
-			FeedTreeNodeBase tn = this.GetTreeNodeForItem(this.GetRoot(RootFolderType.MyFeeds), item);
-			
-			if (tn != null) {
-				this.TreeSelectedNode = tn;
-				tn.EnsureVisible();
-				this.OnTreeFeedAfterSelect(this, new TreeViewEventArgs(tn));//??
-				ThreadedListViewItem foundLVItem = null;
+				if (item != null) 
+				{
 				
-				for (int i = 0; i < this.listFeedItems.Items.Count; i++) {
-					ThreadedListViewItem lvi = this.listFeedItems.Items[i];
-					NewsItem ti = (NewsItem)lvi.Key;
-					if (item.Equals(ti)) {
-						foundLVItem = lvi;
-						break;
+					ThreadedListViewItem foundLVItem = null;
+				
+					for (int i = 0; i < this.listFeedItems.Items.Count; i++) 
+					{
+						ThreadedListViewItem lvi = this.listFeedItems.Items[i];
+						NewsItem ti = (NewsItem)lvi.Key;
+						if (item.Equals(ti)) 
+						{
+							foundLVItem = lvi;
+							break;
+						}
+					}
+
+					if (foundLVItem == null && this.listFeedItems.Items.Count > 0) 
+					{
+						foundLVItem = this.listFeedItems.Items[0];
+					}
+
+					if (foundLVItem != null) 
+					{
+
+						this.listFeedItems.BeginUpdate();	
+						this.listFeedItems.SelectedItems.Clear(); 
+						foundLVItem.Selected = true; 
+						foundLVItem.Focused  = true; 										   
+						this.OnFeedListItemActivate(null, EventArgs.Empty); //pass nulls because I don't use params
+						SetTitleText(feedsNode.Text);
+						SetDetailHeaderText(feedsNode);
+						foundLVItem.Selected = true; 
+						foundLVItem.Focused  = true; 	
+						this.listFeedItems.Focus(); 
+						this.listFeedItems.EnsureVisible(foundLVItem.Index); 
+						this.listFeedItems.EndUpdate();		
+						
 					}
 				}
-
-				if (foundLVItem == null && this.listFeedItems.Items.Count > 0) {
-					foundLVItem = this.listFeedItems.Items[0];
-				}
-
-				MoveFeedDetailsToFront();
-					
-				if (foundLVItem != null) {
-
-					this.listFeedItems.BeginUpdate();	
-					this.listFeedItems.SelectedItems.Clear(); 
-					foundLVItem.Selected = true; 
-					foundLVItem.Focused  = true; 										   
-					this.OnFeedListItemActivate(null, EventArgs.Empty); //pass nulls because I don't use params
-					SetTitleText(tn.Key);
-					foundLVItem.Selected = true; 
-					foundLVItem.Focused  = true; 	
-					this.listFeedItems.Focus(); 
-					this.listFeedItems.EnsureVisible(foundLVItem.Index); 
-					this.listFeedItems.EndUpdate();		
-						
-				}
 			}
 
 			owner.CmdShowMainGui(null);
+			_navigationActionInProgress = false;
+
 		}
 
-		private void AutoSubscribeFeed(FeedTreeNodeBase parent, string feedUrl) {
+		internal void NavigateToFeed(feedsFeed f) 
+		{
+			NavigateToNode(TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), f));
+		}
+
+		private void NavigateToFeedNewsItem(NewsItem item) 
+		{
+			NavigateToNode(TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), item), item);
+		}
+
+		private void NavigateToHistoryEntry(HistoryEntry historyEntry) 
+		{
+			if (historyEntry != null) 
+			{
+				if(historyEntry.Node != null) 
+				{
+					this.NavigateToNode(historyEntry.Node, historyEntry.Item);
+				} 
+				else 
+				{
+					this.NavigateToFeedNewsItem(historyEntry.Item);
+				}
+			}
+		}
+
+		private void AddHistoryEntry(TreeFeedsNodeBase feedsNode, NewsItem item) 
+		{
+			if (feedsNode == null && item == null) return;
+			if (_navigationActionInProgress) return;	// back/forward,... pressed
+			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
+		}
+		
+		private void AutoSubscribeFeed(TreeFeedsNodeBase parent, string feedUrl) 
+		{
 
 			if (StringHelper.EmptyOrNull(feedUrl))
 				return;
@@ -11158,119 +12649,254 @@ namespace RssBandit.WinGui.Forms {
 				parent = this.GetRoot(RootFolderType.MyFeeds);
 			
 			string feedTitle = null;
-			string category = this.BuildCategoryStoreName(parent);
+			string category = parent.CategoryStoreName;
 
-			feedUrl = owner.HandleUrlFeedProtocol(feedUrl);
+			string[] urls = feedUrl.Split(Environment.NewLine.ToCharArray());
+			bool multipleSubscriptions = (urls.Length > 1);
+			
+			for (int i=0; i<urls.Length;i++) 
+			{
+				feedUrl = owner.HandleUrlFeedProtocol(urls[i]);
 
-			try { 
+				try { 
 
-				try{ 
-					Uri reqUri = new Uri(feedUrl);
-					feedTitle = reqUri.Host;
-				}catch(UriFormatException){
-					feedTitle = feedUrl;
-					if(!feedUrl.ToLower().StartsWith("http://")){
-						feedUrl = "http://" + feedUrl; 						
-					}				
-				}
+					try { 
+						Uri reqUri = new Uri(feedUrl);
+						feedTitle = reqUri.Host;
+					}
+					catch(UriFormatException) {
+						feedTitle = feedUrl;
+						if(!feedUrl.ToLower().StartsWith("http://")) {
+							feedUrl = "http://" + feedUrl; 						
+						}				
+					}
 
-				if(owner.FeedHandler.FeedsTable.Contains(feedUrl)) {
-					feedsFeed f2 = owner.FeedHandler.FeedsTable[feedUrl]; 
-					owner.MessageInfo("RES_GUIFieldLinkRedundantInfo", 
-						(f2.category == null? String.Empty : category + "\\") + f2.title, f2.link );
-					return; 
-				}
+					if(!multipleSubscriptions && owner.FeedHandler.FeedsTable.Contains(feedUrl)) {
+						feedsFeed f2 = owner.FeedHandler.FeedsTable[feedUrl]; 
+						owner.MessageInfo(SR.GUIFieldLinkRedundantInfo( 
+						                  	(f2.category == null? String.Empty : category + NewsHandler.CategorySeparator) + f2.title, f2.link));
+						return; 
+					}
 
-				if (owner.InternetAccessAllowed) {
+					if (owner.InternetAccessAllowed) {
 				
-					PrefetchFeedThreadHandler fetchHandler = new PrefetchFeedThreadHandler(feedUrl, owner.FeedHandler);
+						PrefetchFeedThreadHandler fetchHandler = new PrefetchFeedThreadHandler(feedUrl, owner.Proxy);
 
-					DialogResult result = fetchHandler.Start(this, Resource.Manager.FormatMessage("RES_GUIStatusWaitMessagePrefetchFeed", feedUrl));
+						DialogResult result = fetchHandler.Start(this, SR.GUIStatusWaitMessagePrefetchFeed(feedUrl));
 
-					if (result != DialogResult.OK)
-						return;
-
-					if (!fetchHandler.OperationSucceeds) {
-						
-						_log.Error("AutoSubscribeFeed() caused exception", fetchHandler.OperationException);
-					
-					} else {	
-					
-						if(fetchHandler.DiscoveredDetails != null) {
-
-							if (fetchHandler.DiscoveredDetails.Title != null)
-								feedTitle = HtmlHelper.HtmlDecode(fetchHandler.DiscoveredDetails.Title);
-
-							// setup the new feed magically, and add them to the parent node
-							feedsFeed f = fetchHandler.DiscoveredFeed;
-							f.link  = feedUrl; 
-							f.title = feedTitle;
-							f.refreshrate = 60; 
-							//f.storiesrecentlyviewed = new ArrayList(); 				
-							//f.deletedstories = new ArrayList(); 				
-							f.category = category;
-							if(!owner.FeedHandler.Categories.ContainsKey(f.category)) {
-								owner.FeedHandler.Categories.Add(f.category); 
-							}
-
-							f.alertEnabled = false;
-							owner.FeedHandler.FeedsTable.Add(f.link, f); 
-							owner.FeedlistModified = true;
-
-							this.AddNewFeedNode(f.category, f);
-							
-							try {
-								owner.FeedHandler.AsyncGetItemsForFeed(f.link, true, true);
-							} catch (Exception e) {
-								owner.PublishXmlFeedError(e, f.link, true);
-							}
-
+						if (result != DialogResult.OK)
 							return;
+
+						if (!fetchHandler.OperationSucceeds) {
+						
+							_log.Error("AutoSubscribeFeed() caused exception", fetchHandler.OperationException);
+					
+						} 
+						else {	
+					
+							if(fetchHandler.DiscoveredDetails != null) {
+
+								if (fetchHandler.DiscoveredDetails.Title != null)
+									feedTitle = HtmlHelper.HtmlDecode(fetchHandler.DiscoveredDetails.Title);
+
+								// setup the new feed magically, and add them to the parent node
+								feedsFeed f = fetchHandler.DiscoveredFeed;
+								f.link  = feedUrl; 
+								f.title = feedTitle;
+								f.refreshrate = 60; 
+								//f.storiesrecentlyviewed = new ArrayList(); 				
+								//f.deletedstories = new ArrayList(); 				
+								f.category = category;
+								if(!owner.FeedHandler.Categories.ContainsKey(f.category)) {
+									owner.FeedHandler.Categories.Add(f.category); 
+								}
+
+								f.alertEnabled = false;
+								owner.FeedHandler.FeedsTable.Add(f.link, f); 
+								owner.FeedWasModified(f, NewsFeedProperty.FeedAdded);
+								//owner.FeedlistModified = true;
+
+								this.AddNewFeedNode(f.category, f);
+							
+								try {
+									owner.FeedHandler.AsyncGetItemsForFeed(f.link, true, true);
+								} 
+								catch (Exception e) {
+									owner.PublishXmlFeedError(e, f.link, true);
+								}
+								
+								if (!multipleSubscriptions)
+									return;
+							}
 						}
 					}
+
+				}	
+				catch(Exception ex) {
+					_log.Error("AutoSubscribeFeed() caused exception", ex);
 				}
-
-			}	catch(Exception ex) {
-				_log.Error("AutoSubscribeFeed() caused exception", ex);
 			}
-
 			// no discovered details, or
 			// Exception caused, was yet report to user, or
 			// No Internet access allowed
-			owner.CmdNewFeed(category, feedUrl, feedTitle);
+			if (!multipleSubscriptions)
+				owner.CmdNewFeed(category, feedUrl, feedTitle);
 			
 		}
 
-		private void OnOwnerFeedlistLoaded(object sender, EventArgs e) {
+		private void OnOwnerFeedlistLoaded(object sender, EventArgs e) 
+		{
 			this.listFeedItems.FeedColumnLayout = owner.GlobalFeedColumnLayout;
+			this.LoadAndRestoreSubscriptionTreeState();
+			if(this.Visible){
+				this.LoadAndRestoreBrowserTabState();
+			}
+			this._startupTimer.Interval = 1000 * (int)RssBanditApplication.ReadAppSettingsEntry("ForcedRefreshOfFeedsAtStartupDelay.Seconds", typeof(int), 30);	// wait 30 secs
+			this._startupTimer.Enabled = true;
 		}
 
 
-		private Control OnWheelSupportGetChildControl(Control control) {
-			if (control == this._docContainer ) {
+		private Control OnWheelSupportGetChildControl(Control control) 
+		{
+			if (control == this._docContainer ) 
+			{
 				if (this._docContainer.ActiveDocument != null && this._docContainer.ActiveDocument != _docFeedDetails)
 					return this._docContainer.ActiveDocument.Controls[0];	// continue within docmananger hierarchy
 			}
 			return null;
 		}
 
+		private void OnFeedItemImpressionHistoryStateChanged(object sender, EventArgs e) 
+		{
+			this.RefreshDocumentState(_docContainer.ActiveDocument);
+		}
+
+		private void OnPreferencesChanged(object sender, EventArgs e) 
+		{
+			if (this.InvokeRequired) {
+				this.Invoke(new EventHandler(this.OnPreferencesChanged), new object[] {sender, e});
+				return;
+			}
+
+			if (listFeedItems.ShowAsThreads != owner.Preferences.BuildRelationCosmos) 
+			{
+				if (owner.Preferences.BuildRelationCosmos) 
+				{
+					listFeedItems.ShowAsThreads = true;
+				} 
+				else 
+				{
+					//listFeedItems.ShowAsThreads = false;
+					listFeedItems.ShowInGroups = false;
+					listFeedItems.AutoGroupMode = false;
+				}
+			}
+
+			this.SetFontAndColor(
+				owner.Preferences.NormalFont, owner.Preferences.NormalFontColor,
+				owner.Preferences.UnreadFont, owner.Preferences.UnreadFontColor,
+				owner.Preferences.FlagFont, owner.Preferences.FlagFontColor,
+				owner.Preferences.ErrorFont, owner.Preferences.ErrorFontColor,
+				owner.Preferences.RefererFont, owner.Preferences.RefererFontColor,
+				owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
+				);
+
+			owner.Mediator.SetEnabled(owner.Preferences.UseRemoteStorage, "cmdUploadFeeds", "cmdDownloadFeeds");
+
+			if (Visible) 
+			{	// initiate a refresh of the NewsItem detail pane
+				this.OnFeedListItemActivate(this, EventArgs.Empty);
+
+				if (this.CurrentSelectedFeedsNode != null) 
+				{
+					this.CurrentSelectedFeedsNode.Control.SelectedNodes.Clear();
+					this.CurrentSelectedFeedsNode.Selected = true;
+					this.CurrentSelectedFeedsNode.Control.ActiveNode = this.CurrentSelectedFeedsNode;
+				
+					if(this.NumSelectedListViewItems == 0)
+					{
+						//** there isn't any more the "TreeViewAction.Unknown" attribute. before: this.OnTreeFeedAfterSelectma(this, new TreeViewEventArgs(this.CurrentSelectedNode, TreeViewAction.Unknown));
+						this.OnTreeFeedAfterSelectManually(this, this.CurrentSelectedFeedsNode);
+					}
+				}
+			}
+		}
+
+		private void OnFeedDeleted(object sender, FeedDeletedEventArgs e) 
+		{
+			
+			TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
+
+			this.ExceptionNode.UpdateReadStatus();
+			this.PopulateSmartFolder((TreeFeedsNodeBase)this.ExceptionNode, false);
+			
+			if (tn == null || tn.Type != FeedNodeType.Feed || e.FeedUrl != tn.DataKey ) 
+			{
+				tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
+			}
+
+			if (tn == null || tn.Type != FeedNodeType.Feed || e.FeedUrl != tn.DataKey ) 
+			{
+				return;
+			}
+			
+			this.UpdateTreeNodeUnreadStatus(tn, 0);
+			UnreadItemsNodeRemoveItems(e.FeedUrl);
+
+			if (tn.Selected) 
+			{ // not just right-clicked elsewhere on a node:
+				this.EmptyListView();					
+				this.htmlDetail.Clear();
+				
+				this.TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(tn);
+				this.RefreshFeedDisplay(this.TreeSelectedFeedsNode, true);
+				
+//				this.treeFeeds.ActiveNode.Selected = true; 
+//				this.CurrentSelectedFeedsNode = this.treeFeeds.ActiveNode as TreeFeedsNodeBase;
+//				this.RefreshFeedDisplay(this.CurrentSelectedFeedsNode, true); 				
+			}
+			
+			try 
+			{
+				tn.DataKey = null;
+				// next line causes OnTreeBefore-/AfterSelected events:
+				tn.Parent.Nodes.Remove(tn); 
+				//CurrentSelectedFeedsNode = null;
+				this.DelayTask(DelayedTasks.SyncRssSearchTree);
+			} 
+			catch {  }
+
+		}
+
 		/// <summary>
 		/// Callback for DelayedTasks timer
 		/// </summary>
-		private void OnTasksTimerTick(object sender, EventArgs e) {
+		private void OnTasksTimerTick(object sender, EventArgs e) 
+		{
 			
-			if (_uiTasksTimer[DelayedTasks.SyncRssSearchTree]) {
+			if (_uiTasksTimer[DelayedTasks.SyncRssSearchTree]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.SyncRssSearchTree);
 				this.PopulateTreeRssSearchScope();
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.RefreshTreeStatus]) {
-				_uiTasksTimer.StopTask(DelayedTasks.RefreshTreeStatus);
-				object[] param = (object[])_uiTasksTimer.GetData(DelayedTasks.RefreshTreeStatus, true);
-				FeedTreeNodeBase tn = (FeedTreeNodeBase)param[0];
+			if (_uiTasksTimer[DelayedTasks.RefreshTreeUnreadStatus]) {
+				_uiTasksTimer.StopTask(DelayedTasks.RefreshTreeUnreadStatus);
+				object[] param = (object[])_uiTasksTimer.GetData(DelayedTasks.RefreshTreeUnreadStatus, true);
+				TreeFeedsNodeBase tn = (TreeFeedsNodeBase)param[0];
 				int counter = (int)param[1];
 				if (tn != null)
-					tn.UpdateReadStatus(tn, counter);
+					this.UpdateTreeNodeUnreadStatus(tn, counter);
+			} 
+
+			if (_uiTasksTimer[DelayedTasks.RefreshTreeCommentStatus]) {
+				_uiTasksTimer.StopTask(DelayedTasks.RefreshTreeCommentStatus);
+				object[] param = (object[])_uiTasksTimer.GetData(DelayedTasks.RefreshTreeCommentStatus, true);
+				TreeFeedsNodeBase tn = (TreeFeedsNodeBase)param[0];
+				ArrayList items = (ArrayList)param[1];
+				bool commentsRead = (bool) param[2];
+				if (tn != null)
+					this.UpdateCommentStatus(tn, items, commentsRead); 					
 			} 
 
 			if (_uiTasksTimer[DelayedTasks.NavigateToWebUrl]) {
@@ -11279,167 +12905,973 @@ namespace RssBandit.WinGui.Forms {
 				this.DetailTabNavigateToUrl((string)param[0], (string)param[1], (bool)param[2], (bool)param[3]) ;
 			} 
 			
-			if (_uiTasksTimer[DelayedTasks.StartRefreshOneFeed]) {
+			if (_uiTasksTimer[DelayedTasks.StartRefreshOneFeed]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
 				string feedUrl = (string)_uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
 				owner.FeedHandler.AsyncGetItemsForFeed(feedUrl, true, true);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.StartRefreshAllFeeds]) {
-				_uiTasksTimer.StopTask(DelayedTasks.StartRefreshAllFeeds);
-				//TODO 
+			if (_uiTasksTimer[DelayedTasks.SaveUIConfiguration]) 
+			{
+				_uiTasksTimer.StopTask(DelayedTasks.SaveUIConfiguration);
+				this.SaveUIConfiguration(true);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.ShowFeedPropertiesDialog]) {
+			if (_uiTasksTimer[DelayedTasks.ShowFeedPropertiesDialog]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.ShowFeedPropertiesDialog);
 				feedsFeed f = (feedsFeed)_uiTasksTimer.GetData(DelayedTasks.ShowFeedPropertiesDialog, true);
 				this.DisplayFeedProperties(f);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.NavigateToFeedNewsItem]) {
+			if (_uiTasksTimer[DelayedTasks.NavigateToFeedNewsItem]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.NavigateToFeedNewsItem);
 				NewsItem item = (NewsItem)_uiTasksTimer.GetData(DelayedTasks.NavigateToFeedNewsItem, true);
 				this.NavigateToFeedNewsItem(item);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.NavigateToFeed]) {
+			if (_uiTasksTimer[DelayedTasks.NavigateToFeed]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.NavigateToFeed);
 				feedsFeed f = (feedsFeed)_uiTasksTimer.GetData(DelayedTasks.NavigateToFeed, true);
 				this.NavigateToFeed(f);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.AutoSubscribeFeedUrl]) {
+			if (_uiTasksTimer[DelayedTasks.AutoSubscribeFeedUrl]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.AutoSubscribeFeedUrl);
 				object[] parameter = (object[])_uiTasksTimer.GetData(DelayedTasks.AutoSubscribeFeedUrl, true);
-				this.AutoSubscribeFeed((FeedTreeNodeBase) parameter[0], (string) parameter[1]);
+				this.AutoSubscribeFeed((TreeFeedsNodeBase) parameter[0], (string) parameter[1]);
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.ClearBrowserStatusInfo]) {
+			if (_uiTasksTimer[DelayedTasks.ClearBrowserStatusInfo]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.ClearBrowserStatusInfo);
 				this.SetBrowserStatusBarText(String.Empty);
 				this.DeactivateWebProgressInfo();
 				_uiTasksTimer.Interval = 100;		// reset interval 
 			} 
 
-			if (_uiTasksTimer[DelayedTasks.InitOnFinishLoading]) {
+			if (_uiTasksTimer[DelayedTasks.InitOnFinishLoading]) 
+			{
 				_uiTasksTimer.StopTask(DelayedTasks.InitOnFinishLoading);
 				this.OnFinishLoading(null);
 			} 
-
-			if (_uiTasksTimer[DelayedTasks.SaveUIConfiguration]) {
-				_uiTasksTimer.StopTask(DelayedTasks.SaveUIConfiguration);
-				this.SaveUIConfiguration(false);
-			} 
 			
-			if(!_uiTasksTimer.AllTaskDone){
+			if(!_uiTasksTimer.AllTaskDone)
+			{
 				if (!_uiTasksTimer.Enabled)
 					_uiTasksTimer.Start();
-			} else {
+			} 
+			else 
+			{
 				if (_uiTasksTimer.Enabled)
 					_uiTasksTimer.Stop();
 			}
 		}
 
-		private void OnTreeNodeFeedsRootReadCounterZero(object sender, EventArgs e) {
+		private void OnTreeNodeFeedsRootReadCounterZero(object sender, EventArgs e) 
+		{
 			this.ResetFindersReadStatus();
 			this.SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
 		}
 
-		public void DelayTask(DelayedTasks task) {
+		public void DelayTask(DelayedTasks task) 
+		{
 			this.DelayTask(task, null, 100);
 		}
-		public void DelayTask(DelayedTasks task, object data) {
+		public void DelayTask(DelayedTasks task, object data) 
+		{
 			this.DelayTask(task, data, 100);
 		}
-		public void DelayTask(DelayedTasks task, object data, int interval) {
-			_uiTasksTimer.SetData(task, data);
-			if (interval > 0)
-				_uiTasksTimer.Interval = interval;
-			_uiTasksTimer.StartTask(task);
+		public void DelayTask(DelayedTasks task, object data, int interval) 
+		{
+			if(this.InvokeRequired){
+				DelayTaskDelegate helper = new DelayTaskDelegate(this.DelayTask);
+				this.Invoke(helper, new object[]{task, data, interval});
+			}else{
+				_uiTasksTimer.SetData(task, data);
+				if (_uiTasksTimer.Interval != interval)
+					_uiTasksTimer.Interval = interval;
+				_uiTasksTimer.StartTask(task);
+			}
 		}
 
-		public void StopTask(DelayedTasks task) {
+		public void StopTask(DelayedTasks task) 
+		{
 			_uiTasksTimer.StopTask(task);
 		}
 
 
 		#region private helper classes
 
-		private class UITaskTimer: System.Windows.Forms.Timer {
-			
+		private class UITaskTimer: System.Windows.Forms.Timer 
+		{
+			private object SynRoot = new object();
 			private DelayedTasks tasks;
 			private Hashtable taskData = new Hashtable(7);
 
-			public UITaskTimer():base() {}
-			public UITaskTimer(IContainer component):base(component) {}
-			public bool this [DelayedTasks task] {
-				get { 
-					if ((tasks & task) == task) 
-						return true; 
-					return false;
+			public UITaskTimer():base() {
+				base.Enabled = true;
+			}
+			public UITaskTimer(IContainer component):base(component) {
+				base.Enabled = true;
+			}
+			
+			public bool this [DelayedTasks task] 
+			{
+				get 
+				{ 
+					lock(this.SynRoot) {
+						if ((tasks & task) == task) 
+							return true; 
+						return false;
+					}
 				}
-				set { 
-					if (value) 
-						tasks |= task;
-					else
-						tasks ^= task;
+				set 
+				{ 
+					lock(this.SynRoot) {
+						if (value) 
+							tasks |= task;
+						else
+							tasks ^= task;
+					}
 				}
 			}
 
-			public void StartTask(DelayedTasks task) {
-				this[task] = true;
-				if (!base.Enabled)
-					base.Start();
+			public void StartTask(DelayedTasks task) 
+			{
+				lock(this.SynRoot) {
+					this[task] = true;
+					//if (!base.Enabled)
+						base.Stop();
+						base.Start();
+				}
 			}
 
-			public void StopTask(DelayedTasks task) {
-				if (base.Enabled)
-					base.Stop();
-				this[task] = false;
+			public void StopTask(DelayedTasks task) 
+			{
+				lock(this.SynRoot) {
+					this[task] = false;
+					if (AllTaskDone && base.Enabled)
+						base.Stop();
+				}
 			}
 
-			public void ClearTasks() {
-				if (base.Enabled)
-					base.Stop();
-				tasks = DelayedTasks.None;
-				taskData.Clear();
-			}
+//			public void ClearTasks() 
+//			{
+//				if (base.Enabled)
+//					base.Stop();
+//				tasks = DelayedTasks.None;
+//				taskData.Clear();
+//			}
 
-			public bool AllTaskDone {
-				get {
+			public bool AllTaskDone 
+			{
+				get { lock(this.SynRoot) {
 					return (tasks == DelayedTasks.None);
-				}
+				} }
 			}
 
-			public DelayedTasks Tasks {
-				get {
-					return tasks;
-				}
-			}
-			public object GetData(DelayedTasks task) {
-				return this.GetData(task, false);
-			}
-			public object GetData(DelayedTasks task, bool clear) {
+//			public DelayedTasks Tasks 
+//			{
+//				get { return tasks; }
+//			}
+
+			public object GetData(DelayedTasks task, bool clear) 
+			{
 				object data = null;
-				if (taskData.ContainsKey(task)) {
-					data = taskData[task];
-					if (clear)
-						taskData.Remove(task);
+				lock(this.SynRoot) {
+					if (taskData.ContainsKey(task)) {
+						data = taskData[task];
+						if (clear)
+							taskData.Remove(task);
+					}
 				}
 				return data;
 			}
-			public void SetData(DelayedTasks task, object data) {
-				if (taskData.ContainsKey(task)) 
-					taskData.Remove(task);
-				taskData.Add(task, data);
+			public void SetData(DelayedTasks task, object data) 
+			{
+				lock(this.SynRoot) {
+					if (taskData.ContainsKey(task)) 
+						taskData.Remove(task);
+					taskData.Add(task, data);
+				}
 			}
 
 		}
 
 		#endregion
 
+		#region ICommandBarImplementationSupport
+
+		public CommandBar GetToolBarInstance(string id) 
+		{
+			throw new NotImplementedException();
+		}
+
+		public CommandBar GetMenuBarInstance(string id) 
+		{
+			throw new NotImplementedException();
+		}
+
+		public CommandBar AddToolBar(string id) 
+		{
+			throw new NotImplementedException();
+		}
+
+		public CommandBar AddMenuBar(string id) 
+		{
+			throw new NotImplementedException();
+		}
+
+		public CommandBar GetContexMenuInstance(string id) 
+		{
+			throw new NotImplementedException();
+		}
+
+		public CommandBar AddContextMenu(string id) 
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		private void OnNavigatorCollapseClick(object sender, EventArgs e) {
+			splitterNavigator.Hide();
+			Navigator.Hide();
+			pNavigatorCollapsed.Show();
+			owner.Mediator.SetChecked("-cmdToggleTreeViewState");
+			owner.Mediator.SetChecked("-cmdToggleRssSearchTabState");
+		}
+
+		private void OnNavigatorExpandImageClick(object sender, EventArgs e) {
+			Navigator.Show();
+			pNavigatorCollapsed.Hide();
+			splitterNavigator.Show();
+			OnNavigatorGroupClick(null, null);
+		}
+		
+		private void OnNavigatorGroupClick(object sender, Infragistics.Win.UltraWinExplorerBar.GroupEventArgs e) {
+			if (Navigator.Visible) { // also raised by OnNavigatorCollapseClick (via GroupHeaderClick)!
+				if (Navigator.SelectedGroup.Key == Resource.NavigatorGroup.Subscriptions) {
+					owner.Mediator.SetChecked("+cmdToggleTreeViewState");
+					owner.Mediator.SetChecked("-cmdToggleRssSearchTabState");
+				} else if (Navigator.SelectedGroup.Key == Resource.NavigatorGroup.RssSearch) {
+					owner.Mediator.SetChecked("-cmdToggleTreeViewState");
+					owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
+				}
+			}
+		}
+
+		private void OnListFeedItemsO_AfterSelect(object sender, SelectEventArgs e)
+		{
+			if(listFeedItemsO.IsUpdatingSelection)
+				return;
+			//
+			listFeedItemsO.IsUpdatingSelection = true;
+			ArrayList groupSelected = null;
+			//Select same nodes in listFeedItems ListView
+			listFeedItems.SelectedItems.Clear();
+			for(int i=0; i<listFeedItemsO.Nodes.Count;i++)
+			{
+				if(listFeedItemsO.Nodes[i].Selected)
+				{
+					if(groupSelected==null)
+						groupSelected = new ArrayList();
+					//Select all child nodes
+					for(int j=0; j<listFeedItemsO.Nodes[i].Nodes.Count;j++)
+					{
+						UltraTreeNodeExtended node = (UltraTreeNodeExtended)listFeedItemsO.Nodes[i].Nodes[j];
+						//node.NodeOwner.Selected = true;
+						if(node.NewsItem!=null && !node.NewsItem.BeenRead)
+						{
+							groupSelected.Add(node.NewsItem);
+						}
+					}
+				}
+				for(int j=0; j<listFeedItemsO.Nodes[i].Nodes.Count;j++)
+				{
+					if(listFeedItemsO.Nodes[i].Nodes[j].Selected)
+					{
+						UltraTreeNodeExtended node = (UltraTreeNodeExtended)listFeedItemsO.Nodes[i].Nodes[j];
+						if(node.NodeOwner!=null)
+							node.NodeOwner.Selected = true;
+					}
+					//Comments
+					for(int k=0; k<listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count;k++)
+					{
+						if(listFeedItemsO.Nodes[i].Nodes[j].Nodes[k].Selected)
+						{
+							UltraTreeNodeExtended node = (UltraTreeNodeExtended)listFeedItemsO.Nodes[i].Nodes[j].Nodes[k];
+							if(node.NodeOwner!=null)
+							{
+								node.NodeOwner.Selected = true;
+							}
+						}
+					}
+				}
+			}
+			//
+			listFeedItemsO.IsUpdatingSelection = false;
+			if(groupSelected==null)
+			{
+				OnFeedListItemActivate(null, EventArgs.Empty);
+			}
+			else
+			{
+				TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
+				string feedUrl = null;
+				if(tn!=null)
+				{
+					if(tn.Type == FeedNodeType.Category)
+					{
+						string category = tn.CategoryStoreName;
+						Hashtable temp = new Hashtable();
+
+						foreach (NewsItem item in groupSelected) 
+						{
+							FeedInfo fi = null;
+							if (temp.ContainsKey(item.Feed.link)) 
+							{
+								fi = (FeedInfo)temp[item.Feed.link];
+							} 
+							else 
+							{
+								fi = (FeedInfo)item.FeedDetails.Clone();
+								fi.ItemsList.Clear();
+								temp.Add(item.Feed.link, fi);
+							}
+							fi.ItemsList.Add(item);
+						}
+
+						FeedInfoList redispItems = new FeedInfoList(category); 
+
+						foreach (FeedInfo fi in temp.Values) 
+						{
+							if (fi.ItemsList.Count > 0)
+								redispItems.Add(fi);
+						}
+			
+						this.BeginTransformFeedList(redispItems, tn, this.owner.FeedHandler.GetCategoryStyleSheet(category)); 
+					}
+					else
+					{
+						feedUrl = tn.DataKey;
+						IFeedDetails fi = owner.FeedHandler.GetFeedInfo(feedUrl);
+					
+						if (fi != null)
+						{
+							FeedInfo fi2 = null;
+							fi2 = (FeedInfo) fi.Clone(); 
+							fi2.ItemsList.Clear();
+							foreach(NewsItem ni in groupSelected)
+							{
+								fi2.ItemsList.Add(ni);
+							}
+							this.BeginTransformFeed(fi2, tn, this.owner.FeedHandler.GetStyleSheet(tn.DataKey)); 
+						}
+					}
+				}
+			}
+		}
+
+		private void listFeedItems_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if(listFeedItemsO.IsUpdatingSelection)
+				return;
+			//
+			if(listFeedItemsO.Visible)
+			{
+				listFeedItemsO.IsUpdatingSelection = true;
+				//
+				listFeedItemsO.SelectedNodes.Clear();
+				for(int i=0; i<listFeedItems.Items.Count; i++)
+				{
+					if(listFeedItems.Items[i].Selected)
+					{
+						UltraTreeNodeExtended n = listFeedItemsO.GetFromLVI(listFeedItems.Items[i]);
+						if(n!=null)
+						{
+							n.Selected = true;
+						}
+					}
+				}
+				//
+				listFeedItemsO.IsUpdatingSelection = false;
+			}
+		}
+
+		private void OnListFeedItemsO_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Enter)
+			{
+				if(listFeedItemsO.SelectedNodes.Count==0)
+					return;
+			
+				UltraTreeNodeExtended n = (UltraTreeNodeExtended)listFeedItemsO.SelectedNodes[0];
+				if(n.Level==1 && n.NewsItem!=null)
+				{
+					DetailTabNavigateToUrl(n.NewsItem.Link, null, true, true);
+				}
+			}
+		}
+
+		private void listFeedItemsO_BeforeExpand(object sender, CancelableNodeEventArgs e)
+		{
+			UltraTreeNodeExtended n = (UltraTreeNodeExtended) e.TreeNode;
+			if(n.Level==1)
+			{
+				if(n.NewsItem!= null && n.NewsItem.CommentCount>0)
+				{
+					//Expand Comments Nodes
+					ThreadedListViewItem lvi = n.NodeOwner;
+					lvi.Expanded = true;
+					//
+					listFeedItemsO.AddCommentUpdating(lvi);
+					//listFeedItemsO.AddRangeComments(lvi, items);
+				}
+			}
+		}
+
+		
+
+		private void listFeedItemsO_MouseDown(object sender, MouseEventArgs e)
+		{
+			UltraTreeNodeExtended n = (UltraTreeNodeExtended)listFeedItemsO.GetNodeFromPoint(e.X, e.Y);
+			
+			if(e.Button == MouseButtons.Left) {
+
+				if(n!=null) {
+					if(!n.CollapseRectangle.IsEmpty && n.CollapseRectangle.Contains(e.X,e.Y)){
+				
+						//Click on collapse/expand icon 
+						n.Expanded = !n.Expanded; 
+					}
+					if(!n.EnclosureRectangle.IsEmpty && n.EnclosureRectangle.Contains(e.X,e.Y)) {
+						//Click on Enclosure
+					}
+					if(!n.CommentsRectangle.IsEmpty && n.CommentsRectangle.Contains(e.X,e.Y)) {
+						//Click on Comment
+						if((n.NewsItem != null) && (!StringHelper.EmptyOrNull(n.NewsItem.CommentRssUrl))){
+							n.Expanded = !n.Expanded;
+							listFeedItemsO_BeforeExpand(sender,new CancelableNodeEventArgs(n));
+						}
+					}
+					if(!n.FlagRectangle.IsEmpty && n.FlagRectangle.Contains(e.X,e.Y)) {
+						//Click on Flag
+						if(n.NewsItem!=null) {
+							ToggleItemFlagState(n.NewsItem.Id);
+						}
+					}
+			
+				}else{ /* column click */ 
+
+				
+				}
+
+				if (listFeedItemsO.ItemsCount() <= 0)
+					return;
+
+				if (n != null && e.Clicks > 1) { 
+					//DblClick
+					NewsItem item = CurrentSelectedFeedItem  = n.NewsItem;								 
+					n.Selected = true;					 					 
+
+					if (item != null && !StringHelper.EmptyOrNull(item.Link)) {
+						if (!this.UrlRequestHandledExternally(item.Link, false))
+							DetailTabNavigateToUrl(item.Link, null, false, true);
+					}
+				}
+
+			}else if(e.Button==MouseButtons.Right)
+			{
+				if(n != null){
+					n.Selected = true; 
+					listFeedItemsO.ActiveNode = n; 
+				}
+
+				RefreshListviewContextMenu();
+				if(n!=null && n.NodeOwner!=null)
+					OnFeedListItemActivateManually(n.NodeOwner);
+			}
+		}
+
+		private void listFeedItemsO_AfterSortChange(object sender, AfterSortChangeEventArgs e) {
+			UltraTreeNode n = listFeedItemsO.ActiveNode;
+			if (n == null) 
+				n = listFeedItemsO.TopNode;
+			// update the view after sort:
+			if (n != null) 
+				n.BringIntoView(true);
+		}
+
+		private void OnMediatorBeforeCommandStateChanged(object sender, EventArgs e) {
+			this.ultraToolbarsManager.EventManager.AllEventsEnabled = false;
+		}
+
+		private void OnMediatorAfterCommandStateChanged(object sender, EventArgs e) {
+			this.ultraToolbarsManager.EventManager.AllEventsEnabled = true;
+		
+		}
+
 	}// end class WinGuiMain
 
 	
 }
 
+#region CVS Version Log
+/*
+ * $Log: WinGUIMain.cs,v $
+ * Revision 1.547  2007/07/21 12:26:55  t_rendelmann
+ * added support for "portable Bandit" version
+ *
+ * Revision 1.546  2007/07/13 07:41:45  t_rendelmann
+ * async. call cleanup does not handled all cases
+ *
+ * Revision 1.545  2007/07/11 18:51:35  carnage4life
+ * Fixed issue where right-clicking on "This Feed->View Source" causes a crash if a newsgroup is selected.
+ *
+ * Revision 1.544  2007/07/11 00:46:37  carnage4life
+ * no message
+ *
+ * Revision 1.543  2007/07/07 21:54:09  carnage4life
+ * Fixed issue where empty pages displayed in newspaper view when browsing multiple feeds under a category node
+ *
+ * Revision 1.542  2007/06/22 16:46:36  t_rendelmann
+ * fixed: Feed details label caption display the wrong fore color on Vista
+ *
+ * Revision 1.541  2007/06/19 15:01:23  t_rendelmann
+ * fixed: [ 1702811 ] Cannot access .treestate.xml (now report a read error as a warning once, but log only at save time during autosave)
+ *
+ * Revision 1.540  2007/06/15 11:02:06  t_rendelmann
+ * new: enabled user failure actions within feed error reports (validate, navigate to, delete subscription)
+ *
+ * Revision 1.539  2007/06/12 19:00:47  t_rendelmann
+ * fixed: Column Click Doesn't Sort in "Show Items in Groups" (http://sourceforge.net/tracker/index.php?func=detail&aid=1662434&group_id=96589&atid=615248)
+ *
+ * Revision 1.538  2007/06/12 16:39:15  t_rendelmann
+ * now allow javascript error reporting in DEBUG builds, but not in RELEASE
+ *
+ * Revision 1.537  2007/06/09 18:32:48  carnage4life
+ * No results displayed when performing Web searches with Feedster or other search engines that return results as RSS feeds
+ *
+ * Revision 1.536  2007/06/09 01:55:48  carnage4life
+ * Fixed issue where pagination wasn't disabled for custom newspaper views.
+ *
+ * Revision 1.535  2007/06/07 19:51:22  carnage4life
+ * Added full support for pagination in newspaper views
+ *
+ * Revision 1.534  2007/06/07 02:17:11  carnage4life
+ * Fixed a minor issue with paging support for feeds in the newspaper view
+ *
+ * Revision 1.533  2007/06/07 02:04:18  carnage4life
+ * Added pages in the newspaper view when displaying unread items for a feed
+ *
+ * Revision 1.532  2007/06/03 17:03:08  carnage4life
+ * no message
+ *
+ * Revision 1.531  2007/06/01 19:39:17  carnage4life
+ * no message
+ *
+ * Revision 1.530  2007/05/20 16:07:57  t_rendelmann
+ * fixed: Items incorrectly marked as read (https://sourceforge.net/tracker/index.php?func=detail&aid=1684973&group_id=96589&atid=615248)
+ *
+ * Revision 1.529  2007/05/18 15:10:26  t_rendelmann
+ * fixed: node selection after feed/category deletion behavior. Now the new node to select after a deletion is controlled by the new method TreeHelper.GetNewNodeToActivate()
+ *
+ * Revision 1.528  2007/05/18 11:46:46  t_rendelmann
+ * fixed: no category context menus displayed after OPML import or remote sync.
+ *
+ * Revision 1.527  2007/05/12 18:15:18  carnage4life
+ * Changed a number of APIs to treat feed URLs as System.String instead of System.Uri because some feed URLs such as those containing unicode cannot be used to create instances of System.Uri
+ *
+ * Revision 1.526  2007/05/05 10:45:45  t_rendelmann
+ * fixed: lucene indexing issues caused by thread race condition
+ *
+ * Revision 1.525  2007/05/03 15:58:06  t_rendelmann
+ * fixed: toggle read state from within html detail pane (javascript initiated) not always toggle the read state within the listview and subscription tree (caused if item ID is Url-encoded)
+ *
+ * Revision 1.524  2007/03/31 13:06:46  t_rendelmann
+ * fixed: sometimes are read items displayed in the "Unread Items" folder
+ *
+ * Revision 1.523  2007/03/29 10:44:33  t_rendelmann
+ * new: detail header title now also display the unread counter of the selected node (additional to caption)
+ *
+ * Revision 1.522  2007/03/27 15:11:23  t_rendelmann
+ * fixed: javascript errors etc. reported by dialogboxes
+ *
+ * Revision 1.521  2007/03/19 10:43:04  t_rendelmann
+ * changed: better handling of favicon's (driven by extension now); we are now looking for the smallest and smoothest icon image to use (if ICO)
+ *
+ * Revision 1.520  2007/03/13 16:50:49  t_rendelmann
+ * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
+ *
+ * Revision 1.519  2007/03/05 17:45:54  t_rendelmann
+ * fixed: check for updates is always disabled
+ *
+ * Revision 1.518  2007/03/05 16:37:28  t_rendelmann
+ * fixed: check for updates is always disabled
+ *
+ * Revision 1.517  2007/03/04 16:40:46  carnage4life
+ * Fixed issue where items marked as read in a search folder not marked as read in the actual feed
+ *
+ * Revision 1.516  2007/03/04 16:37:58  t_rendelmann
+ * fixed: cannot type SPACE within search panel input boxes
+ *
+ * Revision 1.515  2007/03/03 10:37:56  t_rendelmann
+ * refreshed dutch localization; added missing resource string for "Older than" at the search panel
+ *
+ * Revision 1.514  2007/02/24 20:34:55  t_rendelmann
+ * fixed: Alt+F4 does not minimize to tray, Clicking [x] does [https://sourceforge.net/tracker/index.php?func=detail&aid=1517977&group_id=96589&atid=615248 bug 1517977]
+ *
+ * Revision 1.513  2007/02/19 14:52:08  carnage4life
+ * We no longer bubble exceptions in saving or restoring browser tab state to the user
+ *
+ * Revision 1.512  2007/02/18 18:13:28  t_rendelmann
+ * finished resources for I18N of v1.5.0.10
+ *
+ * Revision 1.511  2007/02/18 15:24:06  t_rendelmann
+ * fixed: null ref. exception on Enclosure property
+ *
+ * Revision 1.510  2007/02/17 22:43:20  carnage4life
+ * Clarified text and behavior around showing full item text in search folders
+ *
+ * Revision 1.509  2007/02/17 20:26:43  carnage4life
+ * Incomplete attempt to fix multiselect issues in Outlook 2003 listview
+ *
+ * Revision 1.508  2007/02/17 12:35:28  t_rendelmann
+ * new: "Show item full texts" is now a context menu option on search folders
+ *
+ * Revision 1.507  2007/02/15 17:34:16  t_rendelmann
+ * changed: persisted searches now use the default stylesheet to render (items with full text);
+ * fixed: search scope not considered on persisted searches
+ *
+ * Revision 1.506  2007/02/15 16:37:50  t_rendelmann
+ * changed: persisted searches now return full item texts;
+ * fixed: we do now show the error of not supported search kinds to the user;
+ *
+ * Revision 1.505  2007/02/13 21:21:48  t_rendelmann
+ * applied a HACK to prevent AccessViolationExceptions when transforming a Icon with width!=height to a bitmap (CLR 2.0)
+ *
+ * Revision 1.504  2007/02/11 17:03:12  carnage4life
+ * Made following changes to default newspaper view
+ * 1.) Alt text now shows up for action icons in newspaper view
+ * 2.) Items marked as unread by the user aren't toggled to read automatically by scrolling over them
+ * 3.) Scrolling only marks items as read instead of toggling read state
+ *
+ * Revision 1.503  2007/02/11 15:58:53  carnage4life
+ * 1.) Added proper handling for when a podcast download exceeds the size limit on the podcast folder
+ *
+ * Revision 1.502  2007/02/10 21:46:14  carnage4life
+ * Added code to increase refresh rate on comment feeds after 1 week.
+ *
+ * Revision 1.501  2007/02/10 16:17:28  t_rendelmann
+ * fixed: we started discoverering of feeds twice per web browse action
+ *
+ * Revision 1.500  2007/02/10 15:28:22  carnage4life
+ * Fixed issue where marking an item as read in a search folder doesn't mark it as read in the main feed.
+ *
+ * Revision 1.499  2007/02/10 14:54:05  carnage4life
+ * Made change so restoring browser tab state waits until the form is visible
+ *
+ * Revision 1.498  2007/02/09 16:40:30  t_rendelmann
+ * fixed: Feed Subscriptions Panel width not saved (bug 1647343)
+ *
+ * Revision 1.497  2007/02/09 14:54:22  t_rendelmann
+ * fixed: added missing configuration option for newComments font style and color;
+ * changed: some refactoring in FontColorHelper;
+ *
+ * Revision 1.496  2007/02/08 16:22:17  carnage4life
+ * Fixed regression where checked fields in local search are treated as an AND instead of an OR
+ *
+ * Revision 1.495  2007/02/07 19:50:18  carnage4life
+ * Another attempt to fix issue where NullReferenceException sometimes thrown on restoring browser tab state on startup
+ *
+ * Revision 1.494  2007/02/07 19:40:54  t_rendelmann
+ * fixed: chevron issue on browse back/forward
+ *
+ * Revision 1.493  2007/02/07 19:01:01  carnage4life
+ * Reverted previous checkin
+ *
+ * Revision 1.491  2007/02/07 15:23:05  t_rendelmann
+ * fixed: open web browser in background grab focus;
+ * fixed: System.ObjectDisposedException: Cannot access a disposed object named "ParkingWindow" in Genghis.Windows.Forms.AniForm
+ * fixed: System.InvalidOperationException: Cross-thread operation not valid: Control 'ToastNotify' accessed from a thread other than the thread it was created on in Genghis.Windows.Forms.AniForm
+ *
+ * Revision 1.490  2007/02/06 20:22:22  t_rendelmann
+ * fixed: [ 1634694 ] Feed with initial focus is always refreshed on startup (https://sourceforge.net/tracker/index.php?func=detail&aid=1634694&group_id=96589&atid=615248)
+ *
+ * Revision 1.489  2007/02/04 15:27:18  t_rendelmann
+ * prepared localization of the mainform; resources cleanup;
+ *
+ * Revision 1.488  2007/02/01 16:00:44  t_rendelmann
+ * fixed: option "Initiate download feeds at startup" was not taken over to the Options UI checkbox
+ * fixed: Deserialization issue with Preferences types of wrong AppServices assembly version
+ * fixed: OnPreferencesChanged() event was not executed at the main thread
+ * changed: prevent execptions while deserialize DownloadTask
+ *
+ * Revision 1.487  2007/01/30 23:06:16  carnage4life
+ * Fixed threading issue with AutoDiscovered feeds handler that caused toolbar to be replaced with red X
+ *
+ * Revision 1.486  2007/01/30 21:17:43  carnage4life
+ * Added support for remembering browser tab state on restart
+ *
+ * Revision 1.485  2007/01/30 14:19:13  t_rendelmann
+ * fixed: mouse wheel support for treeview re-activated;
+ * feature: drag multiple urls separated by Environment.Newline to the treeview to "batch" subscribe
+ *
+ * Revision 1.484  2007/01/28 15:45:28  carnage4life
+ * Fixed issue where Search Scope not populated on startup
+ *
+ * Revision 1.483  2007/01/23 16:31:50  t_rendelmann
+ * fixed: Upgrade IE 6 to 7: cannot use ALT-Tab to switch tabs anymore (bug https://sourceforge.net/tracker/index.php?func=detail&aid=1602232&group_id=96589&atid=615248)
+ *
+ * Revision 1.482  2007/01/23 10:17:26  t_rendelmann
+ * fixed: Restore from system tray doesn't display window (bug https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1641837&group_id=96589)
+ *
+ * Revision 1.481  2007/01/20 18:46:56  t_rendelmann
+ * fixed: dragdrop node highlight issue
+ *
+ * Revision 1.480  2007/01/20 18:11:48  carnage4life
+ * Added support for watching comments from the Newspaper view
+ *
+ * Revision 1.479  2007/01/18 18:21:31  t_rendelmann
+ * code cleanup (old search controls and code removed)
+ *
+ * Revision 1.478  2007/01/18 15:07:29  t_rendelmann
+ * finished: lucene integration (scoped searches are now working)
+ *
+ * Revision 1.477  2007/01/17 19:26:38  carnage4life
+ * Added initial support for custom newspaper view for search results
+ *
+ * Revision 1.476  2007/01/16 19:43:40  t_rendelmann
+ * cont.: now we populate the rss search tree;
+ * fixed: treeview images are now correct (not using the favicons)
+ *
+ * Revision 1.475  2007/01/14 19:30:47  t_rendelmann
+ * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
+ *
+ * Revision 1.474  2007/01/11 15:07:55  t_rendelmann
+ * IG assemblies replaced by hotfix versions; migrated last Sandbar toolbar usage to IG ultratoolbar
+ *
+ * Revision 1.473  2007/01/06 15:50:22  carnage4life
+ * Fixed some lingering bugs
+ *
+ * Revision 1.472  2006/12/26 17:18:05  carnage4life
+ * Fixed issue that hitting [space] while editing nodes moved to the next unread item
+ *
+ * Revision 1.471  2006/12/24 14:03:23  carnage4life
+ * Fixed issue where IE security band is displayed even when ActiveX is explicitly enabled by the user.
+ *
+ * Revision 1.470  2006/12/24 12:43:40  carnage4life
+ * Fixed issue where feed URLs with escape characters don't appear to be updated in feed subscriptions tree view when updating feeds.
+ *
+ * Revision 1.469  2006/12/23 21:56:25  carnage4life
+ * Fixed issue where deleting a node in the tree view didn't select the next node
+ *
+ * Revision 1.467  2006/12/22 02:48:43  carnage4life
+ * Made changes in attempt to track down the race condition that is causing UITaskTimer events not to fire
+ *
+ * Revision 1.466  2006/12/21 18:39:54  t_rendelmann
+ * fixed: HTML detail pane link click did not worked (race condition)
+ *
+ * Revision 1.465  2006/12/21 14:49:39  t_rendelmann
+ * fixed: HTML detail pane link click did not worked
+ *
+ * Revision 1.464  2006/12/19 21:01:27  carnage4life
+ * Fixed issue where right-click menu in list view reported an incorrect state
+ *
+ * Revision 1.463  2006/12/17 14:24:32  t_rendelmann
+ * added: forced refresh of feeds at startup delay is now configurable via App.config app setting (key: "ForcedRefreshOfFeedsAtStartupDelay.Seconds")
+ *
+ * Revision 1.462  2006/12/17 14:07:05  t_rendelmann
+ * added: option to control application sounds and configuration;
+ * added option to control Bandit startup as windows user logon;
+ *
+ * Revision 1.461  2006/12/16 15:52:34  t_rendelmann
+ * removed unused image strips;
+ * now calling a Windows.Forms timer to apply UI configuration save to prevent cross-thread exceptions;
+ *
+ * Revision 1.460  2006/12/16 15:09:36  t_rendelmann
+ * feature: application sound support (configurable via Windows Sounds Control Panel)
+ *
+ * Revision 1.459  2006/12/15 13:31:00  t_rendelmann
+ * reworked to make dynamic menus work after toolbar gets loaded from .settings.xml
+ *
+ * Revision 1.458  2006/12/14 20:54:02  carnage4life
+ * Fixed right-click behavior on listview to handle Control key being pressed
+ *
+ * Revision 1.457  2006/12/14 16:34:07  t_rendelmann
+ * finished: all toolbar migrations; removed Sandbar toolbars from MainUI
+ *
+ * Revision 1.456  2006/12/12 12:04:24  t_rendelmann
+ * finished: all toolbar migrations; save/restore/customization works
+ *
+ * Revision 1.455  2006/12/10 20:54:14  t_rendelmann
+ * cont.: search  toolbar migration finished - search dropdown now functional, commands dynamically build from search engines;
+ * fixed: OutOfMemoryException on loading favicons
+ *
+ * Revision 1.454  2006/12/10 14:02:11  t_rendelmann
+ * cont.: search toolbar migration started
+ *
+ * Revision 1.453  2006/12/10 12:34:10  t_rendelmann
+ * cont.: web toolbar migration finished - url dropdown now functional
+ *
+ * Revision 1.452  2006/12/10 11:54:16  t_rendelmann
+ * fixed: column layout context menu not working correctly (regression caused by toolbar migration)
+ *
+ * Revision 1.451  2006/12/08 17:00:22  t_rendelmann
+ * fixed: flag a item with no content did not show content anymore in the flagged item view (linked) (was regression because of the dynamic load of item content from cache);
+ * fixed: "View Outlook Reading Pane" was not working correctly (regression from the toolbars migration);
+ *
+ * Revision 1.450  2006/12/08 13:46:23  t_rendelmann
+ * fixed: listview right-click behavior restored (not loosing selection, etc.)
+ *
+ * Revision 1.449  2006/12/07 23:18:54  carnage4life
+ * Fixed issue where Feed Title column in Smart Folders does not show the original feed
+ *
+ * Revision 1.448  2006/12/05 14:19:50  carnage4life
+ * Fixed bug where items with new comments didn't visually change state when their comments were read
+ *
+ * Revision 1.447  2006/12/05 04:06:25  carnage4life
+ * Made changes so that when comments for an item are viewed from Watched Items folder, the actual feed is updated and vice versa
+ *
+ * Revision 1.446  2006/12/03 01:20:14  carnage4life
+ * Made changes to support Watched Items feed showing when new comments found
+ *
+ * Revision 1.445  2006/12/01 17:57:34  t_rendelmann
+ * changed; next version with the new menubar,main toolbar web tools (functionality partially) migrated to IG - still work in progress
+ *
+ * Revision 1.444  2006/11/30 17:12:54  t_rendelmann
+ * changed; next version with the new menubar,main toolbar web tools partially migrated to IG - still work in progress
+ *
+ * Revision 1.443  2006/11/28 18:08:40  t_rendelmann
+ * changed; first version with the new menubar and the main toolbar migrated to IG - still work in progress
+ *
+ * Revision 1.442  2006/11/24 12:18:45  t_rendelmann
+ * small fix: recent used category in the subscription wizard was not validated against the categories
+ *
+ * Revision 1.441  2006/11/23 17:28:12  t_rendelmann
+ * catched the InternetFeature class flaw caused by EntryPointNotFoundException
+ *
+ * Revision 1.440  2006/11/22 00:14:04  carnage4life
+ * Added support for last of Podcast options
+ *
+ * Revision 1.439  2006/11/20 22:26:23  carnage4life
+ * Added support for most of the Podcast and Attachment options except for podcast file extensions and copying podcasts to a specified folder
+ *
+ * Revision 1.438  2006/11/12 01:25:01  carnage4life
+ * 1.) Added Support for Alert windows on received podcasts.
+ * 2.) Fixed feed mixup issues
+ *
+ * Revision 1.437  2006/11/04 15:42:06  t_rendelmann
+ * changed: new folder order in "special feeds" root; new parent category "Flagged Items"
+ *
+ * Revision 1.436  2006/11/03 12:05:43  t_rendelmann
+ * fixed: OnPreferencesChanged event may get called not on the UI thread
+ *
+ * Revision 1.435  2006/10/31 13:36:40  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ * Revision 1.434  2006/10/28 23:10:01  carnage4life
+ * Added "Attachments/Podcasts" to Feed Properties and Category properties dialogs.
+ *
+ * Revision 1.433  2006/10/28 16:38:25  t_rendelmann
+ * added: new "Unread Items" folder, not anymore based on search, but populated directly with the unread items
+ *
+ * Revision 1.432  2006/10/27 01:57:54  carnage4life
+ * Added support for adding newly downloaded podcasts to playlists in Windows Media Player or iTunes
+ *
+ * Revision 1.431  2006/10/21 23:34:16  carnage4life
+ * Changes related to adding the "Download Attachment" right-click menu option in the list view
+ *
+ * Revision 1.430  2006/10/17 15:49:11  t_rendelmann
+ * removed some unnecessary casts
+ *
+ * Revision 1.429  2006/10/11 02:56:38  carnage4life
+ * 1.) Fixed issue where we assumed that thr:replies would always point to an atom feed
+ * 2.) Fixed issue where items marked as unread were showing up as read on restart
+ *
+ * Revision 1.428  2006/10/10 17:43:28  t_rendelmann
+ * feature: added a commandline option to allow users to reset the UI (don't init from .settings.xml);
+ * fixed: explorer bar state was not saved/restored, corresponding menu entries hold the wrong state on explorer group change
+ *
+ * Revision 1.427  2006/10/05 17:58:32  t_rendelmann
+ * fixed: last selected node activated on startup after restore the treestate did not populated the listview/detail pane
+ *
+ * Revision 1.426  2006/10/05 14:59:04  t_rendelmann
+ * feature: restore the subscription tree state (expansion, selection) also after remote download of the subscriptions
+ *
+ * Revision 1.425  2006/10/05 14:45:06  t_rendelmann
+ * added usage of the XmlSerializerCache to prevent the Xml Serializer leak for the new
+ * feature: persist the subscription tree state (expansion, selection)
+ *
+ * Revision 1.424  2006/10/03 07:13:13  t_rendelmann
+ * feature: now using the most of the enhanced browser security features available with Windows XP SP2
+ *
+ * Revision 1.423  2006/09/29 18:14:37  t_rendelmann
+ * a) integrated lucene index refreshs;
+ * b) now using a centralized defined category separator;
+ * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
+ * d) fixed: issue [ 1546921 ] Extra Category Folders Created
+ * e) fixed: issue [ 1550083 ] Problem when renaming categories
+ *
+ * Revision 1.422  2006/09/22 18:24:52  carnage4life
+ * Fixed double click behavior on Outlook 2003 list view
+ *
+ * Revision 1.421  2006/09/14 20:52:51  carnage4life
+ * Made change to always empty all list views when EmptyListView() is called
+ *
+ * Revision 1.420  2006/09/14 00:45:09  carnage4life
+ * Changed displayed date time to local time in outlook 2003 list view
+ *
+ * Revision 1.419  2006/09/12 10:53:45  t_rendelmann
+ * changed: MainForm.Invoke calles replaced by .BeginInvoke to avoid thread locks (places, where we expect to receive results from threads)
+ *
+ * Revision 1.418  2006/09/11 17:21:32  t_rendelmann
+ * applied the fix from Ariel Selig to get around the display issue within the outlook express listview (screen resolution: 1024x768)
+ *
+ * Revision 1.417  2006/09/07 17:05:56  carnage4life
+ * Fixed issue where new comment count wasn't getting written to the feed cache for a watched comment
+ *
+ * Revision 1.416  2006/09/07 16:47:44  carnage4life
+ * Fixed two issues
+ * 1. Added SelectedImageIndex and ImageIndex to FeedsTreeNodeBase
+ * 2. Fixed issue where watched comments always were treated as having new comments on HTTP 304
+ *
+ * Revision 1.415  2006/09/07 00:48:36  carnage4life
+ * Fixed even more bugs with comment watching and comment feeds
+ *
+ * Revision 1.414  2006/09/05 05:26:27  carnage4life
+ * Fixed a number of bugs in comment watching code for comment feeds
+ *
+ * Revision 1.413  2006/09/03 19:08:51  carnage4life
+ * Added support for favicons
+ *
+ * Revision 1.412  2006/09/01 03:23:00  carnage4life
+ * Cleaned up some of the code in DetailTabNavigateToUrl() to make it easier to understand.
+ *
+ * Revision 1.411  2006/09/01 02:01:44  carnage4life
+ * Added "Load new browser tabs in background"
+ *
+ * Revision 1.410  2006/08/31 22:33:53  carnage4life
+ * We now honor Web Browser security setting for reading pane.
+ *
+ * Revision 1.409  2006/08/18 19:10:57  t_rendelmann
+ * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ *
+ * Revision 1.408  2006/08/12 16:25:49  t_rendelmann
+ * refactored the global UI Color usage
+ *
+ * Revision 1.407  2006/08/10 17:46:53  carnage4life
+ * Added support for <language> & <dc:language>
+ *
+ * Revision 1.406  2006/08/08 14:24:45  t_rendelmann
+ * fixed: nullref. exception on "Move to next unread" (if it turns back to treeview top node)
+ * fixed: nullref. exception (assertion) on delete feeds/category node
+ * changed: refactored usage of node.Tag (object type) to use node.DataKey (string type)
+ *
+ */
+#endregion

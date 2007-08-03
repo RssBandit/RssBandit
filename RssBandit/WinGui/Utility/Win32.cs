@@ -1,20 +1,58 @@
 #region CVS Version Header
 /*
- * $Id: Win32.cs,v 1.21 2005/04/23 09:39:06 t_rendelmann Exp $
+ * $Id: Win32.cs,v 1.41 2007/07/01 17:59:54 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/23 09:39:06 $
- * $Revision: 1.21 $
+ * Last modified at $Date: 2007/07/01 17:59:54 $
+ * $Revision: 1.41 $
+ */
+#endregion
+
+#region CVS Version Log
+/*
+ * $Log: Win32.cs,v $
+ * Revision 1.41  2007/07/01 17:59:54  t_rendelmann
+ * feature: support for portable application mode (running Bandit from a stick)
+ *
+ * Revision 1.40  2007/02/24 19:42:50  t_rendelmann
+ * fixed: Application event sounds related issue [https://sourceforge.net/tracker/index.php?func=detail&aid=1667881&group_id=96589&atid=615248 bug 1667881]
+ *
+ * Revision 1.39  2007/02/24 18:06:52  t_rendelmann
+ * fixed: cross-thread-exception in ToastNotifier classes
+ *
+ * Revision 1.38  2007/02/13 16:21:24  t_rendelmann
+ * security/UAC required changes
+ *
+ * Revision 1.37  2007/01/30 21:17:43  carnage4life
+ * Added support for remembering browser tab state on restart
+ *
+ * Revision 1.36  2006/12/17 14:55:45  t_rendelmann
+ * added: consider sound configuration setting (allowed, not allowed)
+ *
+ * Revision 1.35  2006/12/16 15:09:36  t_rendelmann
+ * feature: application sound support (configurable via Windows Sounds Control Panel)
+ *
+ * Revision 1.34  2006/12/14 18:52:20  carnage4life
+ * Removed redundant 'Subscribe in defautl aggregator' option added to IE right-click menu
+ *
+ * Revision 1.33  2006/10/03 10:35:37  t_rendelmann
+ * fixed: FormatException in WriteIEExtensionScript(), if we manage the "Subscribe in RSS Bandit" IE context menu
+ *
  */
 #endregion
 
 using System;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
+using System.Security;
+using System.Security.Permissions;
 using System.Text;
-using System.Collections;
+using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
-
+using NewsComponents.Utils;
+using RssBandit.Resources;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit
@@ -22,7 +60,8 @@ namespace RssBandit
 	/// <summary>
 	/// Common used Win32 Interop decl.
 	/// </summary>
-	public sealed class Win32 {
+	[System.Security.SuppressUnmanagedCodeSecurity]
+	internal sealed class Win32 {
 
 		#region enum/consts
 		public enum ShowWindowStyles : short {
@@ -257,7 +296,7 @@ namespace RssBandit
 		#region structs/classes
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct POINT {
+		internal struct POINT {
 			public int x;
 			public int y;
 		}
@@ -266,7 +305,7 @@ namespace RssBandit
 		/// and lower-right corners of a rectangle
 		/// </summary>
 		[Serializable(), StructLayout(LayoutKind.Sequential)]
-			public struct RECT {
+		internal struct RECT {
 			/// <summary>Specifies the x-coordinate of the upper-left corner of the rectangle</summary>
 			public int left;
 			/// <summary>Specifies the y-coordinate of the upper-left corner of the rectangle</summary>
@@ -278,7 +317,7 @@ namespace RssBandit
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-			public struct API_STARTUPINFO {
+		internal struct API_STARTUPINFO {
 			public int cb;
 
 			/*
@@ -317,13 +356,13 @@ namespace RssBandit
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-			public class HDITEM {
-			public int     mask; 
+		internal class HDITEM {
+			public int     mask = 0; 
 			public int     cxy = 0; 
-			public	IntPtr pszText; 
-			public IntPtr  hbm; 
-			public int     cchTextMax; 
-			public int     fmt; 
+			public IntPtr  pszText = IntPtr.Zero; 
+			public IntPtr  hbm = IntPtr.Zero; 
+			public int     cchTextMax = 0; 
+			public int     fmt = 0; 
 			public int     lParam = 0; 
 			public int     iImage = 0;
 			public int     iOrder = 0;
@@ -334,8 +373,8 @@ namespace RssBandit
 		/// It is used with the DllGetVersion function
 		/// </summary>
 		[Serializable(), 
-			StructLayout(LayoutKind.Sequential)]
-			public struct DLLVERSIONINFO {
+		StructLayout(LayoutKind.Sequential)]
+		internal struct DLLVERSIONINFO {
 			/// <summary>
 			/// Size of the structure, in bytes. This member must be filled 
 			/// in before calling the function
@@ -366,6 +405,21 @@ namespace RssBandit
 			public int dwPlatformID;
 		}
 
+		[StructLayout(LayoutKind.Sequential)]  
+		private struct OSVERSIONINFOEX {
+			public int dwOSVersionInfoSize;  
+			public int dwMajorVersion;  
+			public int dwMinorVersion;  
+			public int dwBuildNumber;  
+			public int dwPlatformId;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)]
+			public string szCSDVersion;
+			public UInt16 wServicePackMajor;  
+			public UInt16 wServicePackMinor;  
+			public UInt16 wSuiteMask;
+			public byte wProductType;  
+			public byte wReserved;
+		}
 		#endregion
 
 		#region interop decl.
@@ -422,39 +476,267 @@ namespace RssBandit
 		[DllImport("Comctl32.dll")] 
 		public static extern int DllGetVersion(ref DLLVERSIONINFO pdvi);
 
+		[ DllImport( "kernel32", SetLastError=true )]
+		private static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi );
+
+		#endregion
+
+		#region MultiMedia
+		
+		/// <summary>
+		/// Plays a sound.
+		/// </summary>
+		/// <param name="sound">Sound to play</param>
+		/// <param name="hModule">Handle to the executable file that contains 
+		/// the resource to be loaded. This parameter must be IntPtr.Zero unless SND_RESOURCE is specified in fdwSound.</param>
+		/// <param name="fdwSound">SoundFlags.SND_* combinations</param>
+		/// <returns></returns>
+		[DllImport("Winmm.dll", CharSet=CharSet.Auto, SetLastError=true)]
+		private static extern bool PlaySound(string sound, IntPtr hModule, SoundFlags fdwSound);
+		
+		/// <summary>
+		/// PlaySound function (fdwSound parameter) flags
+		/// </summary>
+		[Flags]
+		private enum SoundFlags : uint {
+			SND_SYNC = 0x0000,            // play synchronously (default)
+			SND_ASYNC = 0x0001,        // play asynchronously
+			SND_NODEFAULT = 0x0002,        // silence (!default) if sound not found
+			SND_MEMORY = 0x0004,        // pszSound points to a memory file
+			SND_LOOP = 0x0008,            // loop the sound until next sndPlaySound
+			SND_NOSTOP = 0x0010,        // don't stop any currently playing sound
+			SND_NOWAIT = 0x00002000,        // don't wait if the driver is busy
+			SND_ALIAS = 0x00010000,        // name is a registry alias
+			SND_ALIAS_ID = 0x00110000,        // alias is a predefined id
+			SND_FILENAME = 0x00020000,        // name is file name
+			SND_RESOURCE = 0x00040004,        // name is resource name or atom
+//#if(WINVER >= 0x0400)
+			SND_PURGE =    0x0040,  // purge non-static events for task 
+			SND_APPLICATION = 0x0080,  // look for application specific association 
+//#endif
+		}
+
+		/// <summary>
+		/// Sets/Gets if application sounds are anabled.
+		/// </summary>
+		public static bool ApplicationSoundsAllowed = false;
+		
+		/// <summary>
+		/// Plays a application sound.
+		/// </summary>
+		/// <param name="applicationSound">The application sound.</param>
+		public static void PlaySound(string applicationSound) {
+			if (! ApplicationSoundsAllowed)
+				return;
+			
+			if (RssBanditApplication.PortableApplicationMode) {
+				PlaySoundFromFile(applicationSound);
+			} else {
+				PlaySoundFromRegistry(applicationSound);
+			}
+		}
+		
+		/// <summary>
+		/// Plays a application sound as configured in the registry.
+		/// </summary>
+		/// <param name="applicationSound">The application sound.</param>
+		private static void PlaySoundFromRegistry(string applicationSound) {
+			
+			try {
+				// just to ensure only the predefined sounds are played:
+				switch (applicationSound) {
+					case Resource.ApplicationSound.FeedDiscovered:
+						PlaySound(applicationSound, IntPtr.Zero, SoundFlags.SND_APPLICATION |
+							SoundFlags.SND_NOWAIT | SoundFlags.SND_NODEFAULT);
+						break;
+					case Resource.ApplicationSound.NewItemsReceived:
+						PlaySound(applicationSound, IntPtr.Zero, SoundFlags.SND_APPLICATION |
+							SoundFlags.SND_NOWAIT | SoundFlags.SND_NODEFAULT);
+						break;
+					case Resource.ApplicationSound.NewAttachmentDownloaded:
+						PlaySound(applicationSound, IntPtr.Zero, SoundFlags.SND_APPLICATION |
+							SoundFlags.SND_NOWAIT | SoundFlags.SND_NODEFAULT);
+						break;
+				}
+			} catch (Exception ex) {
+				int err = Marshal.GetLastWin32Error();
+				if (err != 0)
+					_log.Error("Error #" + err + " occured on playing sound '" + applicationSound + "'", ex);
+				else
+					_log.Error("Error playing sound '" + applicationSound + "'", ex);
+			}
+		}
+		
+		private static void PlaySoundFromFile(string applicationSound) {
+			try {
+				string soundFile = null;
+				// just to ensure only the predefined sounds are played:
+				switch (applicationSound) {
+					case Resource.ApplicationSound.FeedDiscovered:
+						soundFile = Path.Combine(Application.StartupPath, @"Media\Feed Discovered.wav");
+						break;
+					case Resource.ApplicationSound.NewItemsReceived:
+						soundFile = Path.Combine(Application.StartupPath, @"Media\New Feed Items Received.wav");
+						break;
+					case Resource.ApplicationSound.NewAttachmentDownloaded:
+						soundFile = Path.Combine(Application.StartupPath, @"Media\New Attachment Downloaded.wav");
+						break;
+				}
+				
+				if (File.Exists(soundFile)) {
+					PlaySound(soundFile, IntPtr.Zero, SoundFlags.SND_FILENAME |
+						SoundFlags.SND_NOWAIT | SoundFlags.SND_ASYNC);
+				}
+				
+			} catch (Exception ex) {
+				_log.Error("Error playing sound '" + applicationSound + "'", ex);
+			}
+		}
 		#endregion
 
 		#region Registry stuff
+
+		#region IRegistry interface
+
+		internal interface IRegistry {
+			/// <summary>
+			/// Set/Get the Port number to be used by the Single Instance Activator.
+			/// </summary>
+			int InstanceActivatorPort {get ;set ;}
+
+			/// <summary>
+			/// Set/Get the current "feed:" Url protocol handler. 
+			/// Provide the complete executable file path name.
+			/// </summary>
+			/// <exception cref="Exception">On set, if there are no rights to write the value</exception>
+			string CurrentFeedProtocolHandler {get ;set ;}
+
+			/// <summary>
+			/// Checks and init RSS bandit sounds 
+			/// (configurable via Windows Sounds Control Panel).
+			/// </summary>
+			/// <param name="appKey">The app key (file name without extension and path).
+			/// E.g. "RssBandit".</param>
+			/// <remarks>
+			/// See also: http://blogs.msdn.com/larryosterman/archive/2006/01/24/517183.aspx
+			/// </remarks>
+			void CheckAndInitSounds(string appKey);
+
+			/// <summary>
+			/// Set to true to execute Bandit if windows user login to 
+			/// the system, else false.
+			/// </summary>
+			bool RunAtStartup { get; set ;}
+		
+
+			/// <summary>
+			/// For more infos read:
+			/// http://msdn.microsoft.com/library/default.asp?url=/workshop/browser/ext/tutorials/context.asp
+			/// </summary>
+			bool IsInternetExplorerExtensionRegistered(IEMenuExtension extension) ;
+
+			/// <summary>
+			/// Registers the internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void RegisterInternetExplorerExtension(IEMenuExtension extension);
+
+			/// <summary>
+			/// Uns the register internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void UnRegisterInternetExplorerExtension(IEMenuExtension extension) ;
+			
+			Version GetInternetExplorerVersion();
+		}
+
+		#endregion
+
+		public enum IEMenuExtension {
+			DefaultFeedAggregator,
+			Bandit
+		}
+		
+		private static IRegistry registryInstance;
+		/// <summary>
+		/// Gets the registry instance.
+		/// </summary>
+		/// <value>The registry.</value>
+		public static IRegistry Registry {
+			get {
+				if (registryInstance != null)
+					return registryInstance;
+				
+				if (RssBanditApplication.PortableApplicationMode)
+					registryInstance = new PortableRegistry();
+				else
+					registryInstance = new WindowsRegistry();
+				
+				return registryInstance;
+			}
+		}
 		
 		/// <summary>
 		/// Wrap the windows registry access needed for Bandit
 		/// </summary>
-		public class Registry {
+		internal class WindowsRegistry : IRegistry
+		{
 			
 			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Registry));
 			private static string BanditSettings = @"Software\RssBandit\Settings";
+			private static string BanditKey = "RssBandit";
+
+			/// <summary>
+			/// Gets the internet explorer version.
+			/// </summary>
+			/// <returns></returns>
+			internal static Version GetInternetExplorerVersion() { 
+				RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\\Microsoft\\Internet Explorer", false);
+				string s = null;
+				if (key != null) {
+					s = key.GetValue("Version") as string;
+					key.Close();
+				}
+				if (s != null) {
+					try {
+						return new Version(s);
+					}catch (ArgumentOutOfRangeException) {
+						// A major, minor, build, or revision component is less than zero
+					} catch (ArgumentException) {
+						// version has fewer than two components or more than four components	
+					} catch (FormatException) {
+						// At least one component of version does not parse to a decimal integer.
+					}
+				}
+				// only IE >= 4 write the Version key:
+				return new Version(3, 0);
+			}
+			
+			#region IRegistry
 
 			/// <summary>
 			/// Set/Get the Port number to be used by the Single Instance Activator.
 			/// </summary>
-			public static int InstanceActivatorPort {
-				get {
+			int IRegistry.InstanceActivatorPort {
+				get { 
 					try {
-						int retval = 0;
-						RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, false);
-						string val = ((key == null) ? null : (key.GetValue("InstanceActivatorPort") as string));
-						if (val != null && val.Trim().Length > 0) {
-							try {
-								int iConfPort = Int32.Parse(val);
-								retval = iConfPort;
-							} catch {}
-						}
-						return retval;
-					} catch (Exception) {
-						return 0;
-					}
+						  int retval = 0;
+						  RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, false);
+						  string val = ((key == null) ? null : (key.GetValue("InstanceActivatorPort") as string));
+						  if (val != null && val.Trim().Length > 0) {
+							  try {
+								  int iConfPort = Int32.Parse(val);
+								  retval = iConfPort;
+							  } catch {}
+						  }
+						  if (key != null) key.Close();
+						  return retval;
+					  } catch (Exception ex) {
+						  Win32._log.Error("Cannot get InstanceActivatorPort", ex);
+						  return 0;
+					  } 
 				}
-				set {
+				set { 
 					try {
 						int newPort = value;
 						RegistryKey keySettings = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, true);
@@ -462,61 +744,242 @@ namespace RssBandit
 							keySettings = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(BanditSettings);
 						}
 						keySettings.SetValue("InstanceActivatorPort", newPort.ToString());
-					} catch (Exception) {}
+						keySettings.Close();
+					} catch (Exception ex) {
+						Win32._log.Error("Cannot set InstanceActivatorPort", ex);
+					} 
 				}
 			}
+
 			/// <summary>
 			/// Set/Get the current "feed:" Url protocol handler. 
 			/// Provide the complete executable file path name.
 			/// </summary>
 			/// <exception cref="Exception">On set, if there are no rights to write the value</exception>
-			public static string CurrentFeedProtocolHandler {
-				get {
+			string IRegistry.CurrentFeedProtocolHandler {
+				get { 
 					try {
 						//RegistryKey key = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(@"feed\shell\open\command", false);
 						RegistryKey key = ClassesRootKey().OpenSubKey(@"feed\shell\open\command", false);
 						string val = ((key == null) ? null : (key.GetValue(null) as string));
+						if (key != null) key.Close();
 						return val;
-					} catch (Exception) {
+					} catch (Exception ex) {
+						Win32._log.Error("Cannot get CurrentFeedProtocolHandler", ex);
 						return null;
-					}
+					} 
 				}
 				set {
-					string appExePath = value;
-					RegistryKey keyFeed = ClassesRootKey().OpenSubKey(@"feed", true);
-					if (keyFeed == null) {
-						keyFeed = ClassesRootKey(true).CreateSubKey(@"feed");
+					try {
+						string appExePath = value;
+						// UACManager registered action: 
+						RegistryKey keyFeed = ClassesRootKey().OpenSubKey(@"feed", true);
+						if (keyFeed == null) {
+							keyFeed = ClassesRootKey(true).CreateSubKey(@"feed");
+						}
+						keyFeed.SetValue(null, "URL:feed protocol");
+						keyFeed.SetValue("URL Protocol", "");
+						RegistryKey keyIcon = keyFeed.OpenSubKey("DefaultIcon", true);
+						if (keyIcon == null) {
+							keyIcon = keyFeed.CreateSubKey("DefaultIcon");
+						}
+						keyIcon.SetValue(null, appExePath+",0");
+						RegistryKey keyFeedSub = keyFeed.OpenSubKey(@"shell\open\command", true);
+						if (keyFeedSub == null) {
+							keyFeedSub = keyFeed.CreateSubKey(@"shell\open\command");
+						}
+						keyFeedSub.SetValue(null, String.Concat(appExePath, " ", "\"",  "%1", "\""));
+						if (keyFeed != null) keyFeed.Close();
+						if (keyIcon != null) keyIcon.Close();
+						if (keyFeedSub != null) keyFeedSub.Close();
+					} catch (SecurityException sec) {
+						Win32._log.Error("Cannot set application as CurrentFeedProtocolHandler", sec);
 					}
-					keyFeed.SetValue(null, "URL:feed protocol");
-					keyFeed.SetValue("URL Protocol", "");
-					RegistryKey keyIcon = keyFeed.OpenSubKey("DefaultIcon", true);
-					if (keyIcon == null) {
-						keyIcon = keyFeed.CreateSubKey("DefaultIcon");
-					}
-					keyIcon.SetValue(null, appExePath+",0");
-					RegistryKey keyFeedSub = keyFeed.OpenSubKey(@"shell\open\command", true);
-					if (keyFeedSub == null) {
-						keyFeedSub = keyFeed.CreateSubKey(@"shell\open\command");
-					}
-					keyFeedSub.SetValue(null, String.Concat(appExePath, " ", "\"",  "%1", "\""));
 				}
 			}
-			
-			#region Internet Explorer Menu Extension handling
 
-			public enum IEMenuExtension {
-				DefaultFeedAggregator,
-				Bandit
+			/// <summary>
+			/// Checks and init RSS bandit sounds 
+			/// (configurable via Windows Sounds Control Panel).
+			/// </summary>
+			/// <param name="appKey">The app key (file name without extension and path).
+			/// E.g. "RssBandit".</param>
+			/// <remarks>
+			/// See also: http://blogs.msdn.com/larryosterman/archive/2006/01/24/517183.aspx
+			/// </remarks>
+			void IRegistry.CheckAndInitSounds(string appKey) {
+				string rootKey = "AppEvents\\Schemes\\Apps";
+				string rootLabels = "AppEvents\\EventLabels";
+				string appName = "RSS Bandit";
+				string defaultKeyName = ".default";
+				string currentKeyName = ".current";
+			
+				RegistryKey labelRoot = null, schemeRoot = null;
+				// we use the installed OS UI Language to set our sound names:
+				
+				CultureInfo prev = RssBanditApplication.SharedUICulture;
+				RssBanditApplication.SharedUICulture = CultureInfo.InstalledUICulture;
+				
+				try {
+					// open root keys
+					schemeRoot = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(rootKey, true);
+					if (schemeRoot == null)
+						return;
+				
+					labelRoot = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(rootLabels, true);
+					if (labelRoot == null)
+						return;
+				
+					RegistryKey appSchemeRoot = null;
+					RegistryKey sndSchemeDefinition = null;
+					RegistryKey sndSchemeLabel = null;
+					RegistryKey currentKey = null, defaultKey = null;
+				
+					if (null == (appSchemeRoot = schemeRoot.OpenSubKey(appKey, true))) {
+						appSchemeRoot = schemeRoot.CreateSubKey(appKey);
+						appSchemeRoot.SetValue(null, appName);	// app name as displayed in SoundConfig Control Panel
+					}
+					
+					// new feed(s) detected sound setup:
+					string currentSndKey = Resource.ApplicationSound.FeedDiscovered;
+					if (null == (sndSchemeDefinition = appSchemeRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeDefinition = appSchemeRoot.CreateSubKey(currentSndKey);
+					}
+					if (null == (currentKey = sndSchemeDefinition.OpenSubKey(currentKeyName, true))) {
+						currentKey = sndSchemeDefinition.CreateSubKey(currentKeyName);
+						// prefer to use the IE7 sound, if installed:
+						if (File.Exists(Environment.ExpandEnvironmentVariables(@"%WinDir%\media\Windows Feed Discovered.wav"))) 
+							currentKey.SetValue(null, Environment.ExpandEnvironmentVariables(@"%WinDir%\media\Windows Feed Discovered.wav"));
+						else
+							currentKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\Feed Discovered.wav"));
+						currentKey.Close();
+					}
+					if (null == (defaultKey = sndSchemeDefinition.OpenSubKey(defaultKeyName, true))) {
+						defaultKey = sndSchemeDefinition.CreateSubKey(defaultKeyName);
+						defaultKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\Feed Discovered.wav"));
+						defaultKey.Close();
+					}
+					sndSchemeDefinition.Close();
+				
+					if (null == (sndSchemeLabel = labelRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeLabel = labelRoot.CreateSubKey(currentSndKey);
+					}
+					sndSchemeLabel.SetValue(null, SR.WindowsSoundControlPanelNewFeedDiscovered);	
+					sndSchemeLabel.Close();
+				
+					// new item(s) received sound setup:
+					currentSndKey = Resource.ApplicationSound.NewItemsReceived;
+					if (null == (sndSchemeDefinition = appSchemeRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeDefinition = appSchemeRoot.CreateSubKey(currentSndKey);
+					}
+					if (null == (currentKey = sndSchemeDefinition.OpenSubKey(currentKeyName, true))) {
+						currentKey = sndSchemeDefinition.CreateSubKey(currentKeyName);
+						currentKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\New Feed Items Received.wav"));
+						currentKey.Close();
+					}
+					if (null == (defaultKey = sndSchemeDefinition.OpenSubKey(defaultKeyName, true))) {
+						defaultKey = sndSchemeDefinition.CreateSubKey(defaultKeyName);
+						defaultKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\New Feed Items Received.wav"));
+						defaultKey.Close();
+					}
+				
+					sndSchemeDefinition.Close();
+				
+					if (null == (sndSchemeLabel = labelRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeLabel = labelRoot.CreateSubKey(currentSndKey);
+					}
+					sndSchemeLabel.SetValue(null, SR.WindowsSoundControlPanelNewItemsReceived);
+					sndSchemeLabel.Close();
+					
+					// new attachment(s) downloaded sound setup:
+					currentSndKey = Resource.ApplicationSound.NewAttachmentDownloaded;
+					if (null == (sndSchemeDefinition = appSchemeRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeDefinition = appSchemeRoot.CreateSubKey(currentSndKey);
+					}
+					if (null == (currentKey = sndSchemeDefinition.OpenSubKey(currentKeyName, true))) {
+						currentKey = sndSchemeDefinition.CreateSubKey(currentKeyName);
+						currentKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\New Attachment Downloaded.wav"));
+						currentKey.Close();
+					}
+					if (null == (defaultKey = sndSchemeDefinition.OpenSubKey(defaultKeyName, true))) {
+						defaultKey = sndSchemeDefinition.CreateSubKey(defaultKeyName);
+						defaultKey.SetValue(null, Path.Combine(Application.StartupPath, @"Media\New Attachment Downloaded.wav"));
+						defaultKey.Close();
+					}
+				
+					sndSchemeDefinition.Close();
+				
+					if (null == (sndSchemeLabel = labelRoot.OpenSubKey(currentSndKey, true))) {
+						sndSchemeLabel = labelRoot.CreateSubKey(currentSndKey);
+					}
+					sndSchemeLabel.SetValue(null, SR.WindowsSoundControlPanelNewAttachmentDownloaded);
+					sndSchemeLabel.Close();
+				
+					appSchemeRoot.Close();
+				
+				} 
+				finally {
+					RssBanditApplication.SharedUICulture = prev;
+					if (schemeRoot != null)
+						schemeRoot.Close();
+					if (labelRoot != null)
+						labelRoot.Close();
+				}
+			}
+
+			/// <summary>
+			/// Set to true to execute Bandit if windows user login to 
+			/// the system, else false.
+			/// </summary>
+			bool IRegistry.RunAtStartup {
+				get {
+					try {
+						RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+						string s = null;
+						if (key != null) {
+							s = key.GetValue(BanditKey) as string;
+							key.Close();
+						}
+						if (s != null) {
+							string location = Assembly.GetEntryAssembly().Location.ToString(CultureInfo.CurrentUICulture);
+							if (s == "\"" + location + "\" -t")
+								return true;
+						}
+					} catch (SecurityException sec) {
+						Win32._log.Error("Cannot set application to RunAtStartup", sec);
+					}
+					return false;
+				}
+				set {
+					try {
+						// UACManager registered action: 
+						RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+						string location = Assembly.GetEntryAssembly().Location.ToString(CultureInfo.CurrentUICulture);
+						if (key != null) {
+							if (value) {
+								key.SetValue(BanditKey, "\"" + location + "\" -t");
+							}
+							else {
+								string text2 = key.GetValue(BanditKey) as string;
+								if (text2 != null) {
+									key.DeleteValue(BanditKey);
+								}
+							}
+							key.Close();
+						}
+					} catch (SecurityException sec) {
+						Win32._log.Error("Cannot set application to RunAtStartup", sec);
+					}
+				}
 			}
 
 			/// <summary>
 			/// For more infos read:
 			/// http://msdn.microsoft.com/library/default.asp?url=/workshop/browser/ext/tutorials/context.asp
 			/// </summary>
-			public static bool IsInternetExplorerExtensionRegistered(IEMenuExtension extension) {
-
+			bool IRegistry.IsInternetExplorerExtensionRegistered(IEMenuExtension extension) {
 				string scriptName = GetIEExtensionScriptName(extension);
-				string keyName = FindIEExtensionKey(extension);
+				string keyName = FindIEExtensionKey(extension, scriptName);
 				
 				if (keyName != null) {
 					if (!File.Exists(Path.Combine(RssBanditApplication.GetUserPath(), scriptName))) {
@@ -532,26 +995,49 @@ namespace RssBandit
 				return (keyName != null);
 			}
 
-			public static void RegisterInternetExplorerExtension(IEMenuExtension extension) {
+			/// <summary>
+			/// Registers the internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void IRegistry.RegisterInternetExplorerExtension(IEMenuExtension extension) {
 				WriteIEExtensionScript(extension);
 				WriteIEExtensionRegistryEntry(extension);
 			}
 
-			public static void UnRegisterInternetExplorerExtension(IEMenuExtension extension) {
+			/// <summary>
+			/// Uns the register internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void IRegistry.UnRegisterInternetExplorerExtension(IEMenuExtension extension) {
 				DeleteIEExtensionRegistryEntry(extension);
 				DeleteIEExtensionScript(extension);
 			}
+			
+			/// <summary>
+			/// Gets the internet explorer version.
+			/// </summary>
+			/// <returns></returns>
+			Version IRegistry.GetInternetExplorerVersion() { 
+				return WindowsRegistry.GetInternetExplorerVersion();
+			}
+			#endregion
+
+			#region Internet Explorer Menu Extension handling
 
 			private static string FindIEExtensionKey(IEMenuExtension extension) {
-				
-				string scriptName = GetIEExtensionScriptName(extension);
+				return FindIEExtensionKey(extension, GetIEExtensionScriptName(extension));
+			}
+			
+			private static string FindIEExtensionKey(IEMenuExtension extension, string scriptName) {
+				if (scriptName == null)
+					scriptName = GetIEExtensionScriptName(extension);
 				try {
 					RegistryKey menuBase = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Internet Explorer\MenuExt", false);
 					foreach (string skey in menuBase.GetSubKeyNames()) {
 						RegistryKey subMenu = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(String.Format(@"Software\Microsoft\Internet Explorer\MenuExt\{0}", skey), false);
 						// we test for the default entry in the above Reg.Hive:
 						string defVal = ((subMenu == null) ? null : (subMenu.GetValue(null) as string));
-						if (defVal != null && defVal.EndsWith(scriptName)) {
+						if (defVal != null && defVal.EndsWith(scriptName) && File.Exists(defVal)) {
 							return skey;
 						}
 					}
@@ -569,9 +1055,9 @@ namespace RssBandit
 				string scriptName = GetIEExtensionScriptName(extension);
 				string caption = null;
 				if (extension == IEMenuExtension.DefaultFeedAggregator) {
-					caption = Resource.Manager["RES_InternetExplorerMenuExtDefaultCaption"];
+					caption = SR.InternetExplorerMenuExtDefaultCaption;
 				} else {
-					caption = Resource.Manager["RES_InternetExplorerMenuExtBanditCaption"];
+					caption = SR.InternetExplorerMenuExtBanditCaption;
 				}
 
 				try {
@@ -583,7 +1069,8 @@ namespace RssBandit
 					}
 					subMenu.SetValue(null, Path.Combine(RssBanditApplication.GetUserPath(), scriptName));
 					subMenu.SetValue("contexts", InternetExplorerExtensionsContexts);
-
+					if (menuBase != null) menuBase.Close();
+					if (subMenu != null) subMenu.Close();
 				} catch (Exception ex) {
 					_log.Error("Registry:WriteIEExtensionRegistryEntry() cause exception", ex);
 				}
@@ -597,14 +1084,17 @@ namespace RssBandit
 					
 					string scriptContent = null;
 
-					using (Stream resStream = Resource.Manager.GetStream("Resources."+scriptName)) {
+					using (Stream resStream = Resource.GetStream("Resources."+scriptName)) {
 						StreamReader reader = new StreamReader(resStream);
 						scriptContent = reader.ReadToEnd();
 					}
 					
 					if (scriptContent != null) {
 						if (extension == IEMenuExtension.Bandit) {	// set the path to the exe within script
-							scriptContent = String.Format(scriptContent, Application.ExecutablePath);
+							//TR: fixed FormatException, if we do this (scriptContent contained a ...{0}... placehoder):
+							//scriptContent = String.Format(scriptContent, Application.ExecutablePath);
+							// now using a placeholder string:
+							scriptContent = scriptContent.Replace("__COMMAND_PATH_PLACEHOLDER__", Application.ExecutablePath.Replace(@"\", @"\\"));
 						}
 
 						using (Stream outStream = NewsComponents.Utils.FileHelper.OpenForWrite(Path.Combine(RssBanditApplication.GetUserPath(), scriptName))) {
@@ -654,26 +1144,220 @@ namespace RssBandit
 
 			#endregion
 
+			#region private methods
+
 			private static RegistryKey ClassesRootKey() {
 				return ClassesRootKey(false);
 			}
 			
-			private static RegistryKey ClassesRootKey(bool writable) {
-					if (Win32.IsOSAtLeastWindows2000)
+			/// <summary>
+			/// Gets also called from the UACManager class
+			/// </summary>
+			/// <param name="writable"></param>
+			/// <returns></returns>
+			internal static RegistryKey ClassesRootKey(bool writable) {
+				if (IsOSAtLeastWindows2000)
 					return Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Classes", writable);
 				else
 					return Microsoft.Win32.Registry.ClassesRoot;
 			}
 
-			private Registry(){}
+			#endregion
+
+		}
+
+		/// <summary>
+		/// Wrap the registry access needed for a portable Bandit running from stick
+		/// </summary>
+		private class PortableRegistry : IRegistry
+		{
+			private int instanceActivatorPort = 0;
+			
+			/// <summary>
+			/// Set/Get the Port number to be used by the Single Instance Activator.
+			/// </summary>
+			/// <remarks>
+			/// We assume here, the app running from a stick have reconfigured
+			/// their data and cache path(s) to be on a folder at the stick. 
+			/// So it is enough to protect that path(s) usage to one single app. 
+			/// instance using a file containing the port number.
+			/// </remarks>
+			int IRegistry.InstanceActivatorPort {
+				get {
+					if (instanceActivatorPort != 0)
+						return instanceActivatorPort;
+					
+					string portFile = Path.Combine(RssBanditApplication.GetUserPath(), ".port");
+					int retval = 0;
+					try {
+						if (!File.Exists(portFile)) 
+							return retval;	
+						
+						using (Stream s = FileHelper.OpenForRead(portFile)) {
+							TextReader reader = new StreamReader(s);
+							string content = reader.ReadToEnd();
+							if (StringHelper.EmptyTrimOrNull(content))
+								return retval;
+							retval = Int16.Parse(content);
+						}
+						
+						instanceActivatorPort = retval;
+						return instanceActivatorPort;
+						
+					} catch (Exception ex) {
+						Win32._log.Error("Cannot get InstanceActivatorPort from .port file", ex);
+						return 0;
+					} 
+				}
+				set {
+					if (instanceActivatorPort != value) {
+						string portFilePath = RssBanditApplication.GetUserPath();
+						try {
+							if (!Directory.Exists(portFilePath))
+								Directory.CreateDirectory(portFilePath);
+					
+							using (Stream s  = FileHelper.OpenForWrite(Path.Combine(portFilePath, ".port"))) {
+								TextWriter w = new StreamWriter(s);
+								w.Write(value);
+								w.Flush();
+							}
+						
+							instanceActivatorPort = value;
+						
+						} catch (Exception ex) {
+							Win32._log.Error("Cannot set InstanceActivatorPort in .port file", ex);
+						}
+					}
+				}
+			}
+
+			/// <summary>
+			/// Set/Get the current "feed:" Url protocol handler. 
+			/// Provide the complete executable file path name.
+			/// </summary>
+			/// <exception cref="Exception">On set, if there are no rights to write the value</exception>
+			string IRegistry.CurrentFeedProtocolHandler {
+				get {
+					// we fake here:
+					return String.Concat(Application.ExecutablePath, " ", "\"",  "%1", "\"");
+				}
+				set {
+					// not applicable as a portable app.
+				}
+			}
+
+			/// <summary>
+			/// Checks and init RSS bandit sounds 
+			/// (configurable via Windows Sounds Control Panel).
+			/// </summary>
+			/// <param name="appKey">The app key (file name without extension and path).
+			/// E.g. "RssBandit".</param>
+			/// <remarks>
+			/// See also: http://blogs.msdn.com/larryosterman/archive/2006/01/24/517183.aspx
+			/// </remarks>
+			void IRegistry.CheckAndInitSounds(string appKey) {
+				// nothing to do here
+				return;
+			}
+
+			/// <summary>
+			/// Set to true to execute Bandit if windows user login to 
+			/// the system, else false.
+			/// </summary>
+			bool IRegistry.RunAtStartup {
+				get { return false; }
+				set {  }
+			}
+
+			/// <summary>
+			/// For more infos read:
+			/// http://msdn.microsoft.com/library/default.asp?url=/workshop/browser/ext/tutorials/context.asp
+			/// </summary>
+			bool IRegistry.IsInternetExplorerExtensionRegistered(IEMenuExtension extension) {
+				return true;
+			}
+
+			/// <summary>
+			/// Registers the internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void IRegistry.RegisterInternetExplorerExtension(IEMenuExtension extension) {
+				// not applicable
+				return;
+			}
+
+			/// <summary>
+			/// Uns the register internet explorer extension.
+			/// </summary>
+			/// <param name="extension">The extension.</param>
+			void IRegistry.UnRegisterInternetExplorerExtension(IEMenuExtension extension) {
+				// not applicable
+				return;
+			}
+
+			/// <summary>
+			/// Gets the internet explorer version.
+			/// </summary>
+			/// <returns></returns>
+			Version IRegistry.GetInternetExplorerVersion() {
+				return WindowsRegistry.GetInternetExplorerVersion();
+			}
 		}
 
 		#endregion
 		
 		private Win32() {}
 
+		[EnvironmentPermission(SecurityAction.Assert, Unrestricted=true)]
+		static Win32() 
+		{
+			_os = Environment.OSVersion;
+			if (_os.Platform == PlatformID.Win32Windows) {
+				Win32.IsWin9x = true;
+			} else {
+				try {
+					Win32.IsAspNetServer = Thread.GetDomain().GetData(".appDomain") != null;
+				}
+				catch { /* all */ }
+
+				Win32.IsWinNt = true;
+				
+				int spMajor, spMinor;
+				Win32.GetWindowsServicePackInfo(out spMajor, out spMinor);
+				
+				if ((_os.Version.Major == 5) && (_os.Version.Minor == 0)) {
+					Win32.IsWin2K = true;
+					Win32.IsWinHttp51 = (spMajor >= 3);
+				} else {
+					Win32.IsPostWin2K = true;
+					if ((_os.Version.Major == 5) && (_os.Version.Minor == 1)) {
+						Win32.IsWinHttp51 = (spMajor >= 1);
+					}
+					else {
+						Win32.IsWinHttp51 = true;
+						Win32.IsWin2k3 = true;
+					}
+				}
+			}
+			
+			IEVersion = Registry.GetInternetExplorerVersion();
+
+		}
+
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Win32));
 		private static int _paintFrozen = 0;
+		private static OperatingSystem _os;
+
+		// General info fields
+		internal static readonly bool IsAspNetServer;
+		internal static readonly bool IsPostWin2K;
+		internal static readonly bool IsWin2K;
+		internal static readonly bool IsWin2k3;
+		internal static readonly bool IsWin9x;
+		internal static readonly bool IsWinHttp51;
+		internal static readonly bool IsWinNt;
+		
+		internal static readonly Version IEVersion;
 
 		#region General
 
@@ -682,9 +1366,7 @@ namespace RssBandit
 		/// </summary>
 		public static bool IsOSAtLeastWindows2000 {
 			get { 
-				if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-					return false;
-				return (Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major >= 5 );
+				return (IsWinNt && _os.Version.Major >= 5 );
 			}
 		}
 
@@ -693,8 +1375,95 @@ namespace RssBandit
 		/// </summary>
 		public static bool IsOSAtLeastWindowsXP {
 			get { 
-				return (Environment.OSVersion.Platform == PlatformID.Win32NT && (Environment.OSVersion.Version.Major > 5 || (Environment.OSVersion.Version.Major == 5 && Environment.OSVersion.Version.Minor >= 1)));
+				return (IsWinNt && 
+				        (_os.Version.Major > 5 || 
+				         (_os.Version.Major == 5 && 
+				          _os.Version.Minor >= 1)));
 			}
+		}
+
+		/// <summary>
+		/// Returns true, if the OS is exact Windows XP, else false.
+		/// </summary>
+		public static bool IsOSWindowsXP {
+			get { 
+				return (IsWinNt && 
+				        (_os.Version.Major == 5 && 
+				         _os.Version.Minor == 1));
+			}
+		}
+		
+		/// <summary>
+		/// Returns true, if the OS is Windows XP SP2 and higher, else false.
+		/// </summary>
+		public static bool IsOSAtLeastWindowsXPSP2 {
+			get { 
+				if (IsOSWindowsXP) {
+					int spMajor, spMinor;
+					GetWindowsServicePackInfo(out spMajor, out spMinor);
+					return spMajor <= 2;
+				} else {
+					return IsOSAtLeastWindowsXP;
+				}
+			}
+		}
+		/// <summary>
+		/// Returns true, if the OS is exact Windows Vista, else false.
+		/// </summary>
+		public static bool IsOSWindowsVista {
+			get { 
+				return (IsWinNt && 
+				        (_os.Version.Major == 6));
+			}
+		}
+
+		/// <summary>
+		/// Returns true, if the OS is at least Windows Vista (or higher), else false.
+		/// </summary>
+		public static bool IsOSAtLeastWindowsVista {
+			get { 
+				return (IsWinNt && 
+				        (_os.Version.Major >= 6));
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether IE6 is available.
+		/// </summary>
+		/// <value><c>true</c> if IE6 is available; otherwise, <c>false</c>.</value>
+		public static bool IsIE6 {
+			get {
+				return (IEVersion.Major >= 6);
+			}
+		}
+		/// <summary>
+		/// Gets a value indicating whether IE6 SP2 is available.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if IE6 SP2 is available; otherwise, <c>false</c>.
+		/// </value>
+		public static bool IsIE6SP2 {
+			get {
+				return (IEVersion.Major > 6 || 
+				        (IEVersion.Major == 6 && IEVersion.Minor == 0 && IEVersion.Build >= 2900) ||
+				        (IEVersion.Major == 6 && IEVersion.Minor > 0 ));
+			}
+		}
+		
+		/// <summary>
+		/// Gets the windows service pack info.
+		/// </summary>
+		/// <param name="servicePackMajor">The service pack major.</param>
+		/// <param name="servicePackMinor">The service pack minor.</param>
+		public static void GetWindowsServicePackInfo(out int servicePackMajor, out int servicePackMinor) {
+			OSVERSIONINFOEX ifex = new OSVERSIONINFOEX();
+			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
+			if (!GetVersionEx(ref ifex)) {
+				int err = Marshal.GetLastWin32Error();
+				throw new Exception("Requesting Windows Service Pack Information caused an windows error (Code: " + err.ToString() +").");
+			}
+			servicePackMajor = ifex.wServicePackMajor;
+			servicePackMinor = ifex.wServicePackMinor;
 		}
 
 		/// <summary>
@@ -710,10 +1479,10 @@ namespace RssBandit
 				//System.Windows.Forms.MessageBox.Show("sti.wShowWindow is: "+sti.wShowWindow.ToString());
 
 				if (sti.wShowWindow == (short)ShowWindowStyles.SW_MINIMIZE || sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMINIMIZED ||
-					sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMINNOACTIVE || sti.wShowWindow == (short)ShowWindowStyles.SW_FORCEMINIMIZE)
+				    sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMINNOACTIVE || sti.wShowWindow == (short)ShowWindowStyles.SW_FORCEMINIMIZE)
 					return System.Windows.Forms.FormWindowState.Minimized;
 				else if (sti.wShowWindow == (short)ShowWindowStyles.SW_MAXIMIZE || sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMAXIMIZED ||
-					sti.wShowWindow == (short)ShowWindowStyles.SW_MAX)
+				         sti.wShowWindow == (short)ShowWindowStyles.SW_MAX)
 					return System.Windows.Forms.FormWindowState.Maximized;
 				
 			} catch (Exception e) {
@@ -804,7 +1573,7 @@ namespace RssBandit
 	/// <summary>
 	/// A class that wraps Windows XPs UxTheme.dll
 	/// </summary>
-	public sealed class UxTheme {
+	internal sealed class UxTheme {
 		/// <summary>
 		/// Private constructor
 		/// </summary>

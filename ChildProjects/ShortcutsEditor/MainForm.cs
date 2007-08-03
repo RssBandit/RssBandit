@@ -389,7 +389,7 @@ namespace ShortcutsEditor
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.grpSettingFile);
 			this.Name = "MainForm";
-			this.Text = "Rss Bandit Shortcuts Editor";
+			this.Text = "RSS Bandit Shortcuts Editor";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.grpSettingFile.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);

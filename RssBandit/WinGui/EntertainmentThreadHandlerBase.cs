@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: EntertainmentThreadHandlerBase.cs,v 1.1 2005/04/08 15:00:20 t_rendelmann Exp $
+ * $Id: EntertainmentThreadHandlerBase.cs,v 1.2 2005/09/03 18:19:20 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/08 15:00:20 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2005/09/03 18:19:20 $
+ * $Revision: 1.2 $
  */
 #endregion
 
@@ -22,7 +22,7 @@ namespace RssBandit.WinGui
 	{
 		protected AutoResetEvent p_workDone = new AutoResetEvent(false);
 		protected Exception p_operationException = null;
-		protected EntertainmentDialog p_waitDialog = null;
+		protected IWaitDialog p_waitDialog = null;
 		protected Thread p_operationThread = null;
 		protected TimeSpan p_operationTimeout = TimeSpan.Zero;	// no timeout
 		protected string p_operationMessage = null;
@@ -84,17 +84,16 @@ namespace RssBandit.WinGui
 			DialogResult result = DialogResult.OK;
 			p_operationThread = new Thread(new ThreadStart(this.Run));
 
-			p_waitDialog = new EntertainmentDialog(this.p_workDone, this.p_operationTimeout);
-			p_waitDialog.Message = (waitMessage != null ? waitMessage: String.Empty);
-			p_waitDialog.ControlBox = allowCancel;
-			
+			p_waitDialog = owner as IWaitDialog;
 			Form f = owner as Form;
-			if (f != null)
-				p_waitDialog.Icon = f.Icon;
-			
-			p_operationThread.Start();
 
-			result = p_waitDialog.ShowDialog(owner);
+			if (p_waitDialog == null) {
+				p_waitDialog = new EntertainmentDialog();
+			}			
+
+			p_waitDialog.Initialize(this.p_workDone, this.p_operationTimeout, f != null ? f.Icon: null);
+			p_operationThread.Start();
+			result = p_waitDialog.StartWaiting(owner, waitMessage, allowCancel);
 
 			if (result != DialogResult.OK) {	// timeout, or cancelled by user
 				p_operationThread.Abort();	// reqires the inerited classes to catch ThreadAbortException !

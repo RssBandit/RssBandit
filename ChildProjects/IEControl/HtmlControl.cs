@@ -1,12 +1,29 @@
+#region Copyright
+/*
+Copyright (c) 2004-2006 by Torsten Rendelmann
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+#endregion
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 using SHDocVw;
 
@@ -363,8 +380,8 @@ namespace IEControl
 		/// <param name="m"></param>
 		protected override void WndProc(ref Message m) {
 			if (m.Msg == Interop.WM_CLOSE) {
-				this.RaiseOnOnQuit(this, EventArgs.Empty);
-				base.WndProc (ref m);
+				if (! this.RaiseOnQuit(this, EventArgs.Empty))
+					base.WndProc (ref m);
 			} else {
 				base.WndProc (ref m);
 			}
@@ -577,6 +594,84 @@ namespace IEControl
 		}
 
 		/// <summary>
+		/// Locks down the browser security for the current process.
+		/// It uses the new features introduced by Windows XP SP2 to
+		/// enhance browser security. See also
+		/// http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
+		/// </summary>
+		public void EnhanceBrowserSecurityForProcess() {
+			SetFeatureFlag where = SetFeatureFlag.SET_FEATURE_ON_PROCESS;
+			GetFeatureFlag from = GetFeatureFlag.GET_FEATURE_FROM_PROCESS;
+			
+			// we set/enable the most enhanced security features mentioned at
+			// http://msdn.microsoft.com/workshop/security/szone/overview/sec_featurecontrols.asp
+			try {
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_OBJECT_CACHING, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_OBJECT_CACHING, where, true);
+				/*
+				 * As long we run in My Computer Zone (we just set HTML Content),
+				 * we cannot use the following feature - or a user is not able to navigate
+				 * to a trusted site!
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_ZONE_ELEVATION, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_ZONE_ELEVATION, where, true);
+				*/
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_MIME_HANDLING, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_MIME_HANDLING, where, true);
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_MIME_SNIFFING, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_MIME_SNIFFING, where, true);
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_WINDOW_RESTRICTIONS, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_WINDOW_RESTRICTIONS, where, true);
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_WEBOC_POPUPMANAGEMENT, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_WEBOC_POPUPMANAGEMENT, where, true);
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_ADDON_MANAGEMENT, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_ADDON_MANAGEMENT, where, true);
+
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_SECURITYBAND, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_SECURITYBAND, where, true);
+			
+				// next requires FEATURE_SECURITYBAND is enabled to work/notify the user:
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_RESTRICT_FILEDOWNLOAD, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_RESTRICT_FILEDOWNLOAD, where, true);
+				if (!InternetFeature.IsEnabled(InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, from))
+					InternetFeature.SetEnabled(InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, where, true);
+			} catch (EntryPointNotFoundException) {
+				System.Diagnostics.Debug.WriteLine("InternetFeature() not available");
+			} catch (COMException come){
+				System.Diagnostics.Debug.WriteLine(String.Format("InternetFeature() failed with error ({0}):{1}", come.ErrorCode, come.Message));
+			}
+		}
+		
+		/// <summary>
+		/// Determines whether the specified internet security feature is enabled.
+		/// </summary>
+		/// <param name="feature">The feature.</param>
+		/// <param name="flags">The flags.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified feature is enabled; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInternetFeatureEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
+			try {
+				return InternetFeature.IsEnabled(feature, flags);
+			} catch (EntryPointNotFoundException) {
+				System.Diagnostics.Debug.WriteLine("InternetFeature() not available");
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Sets the specified internet security feature enabled or disabled.
+		/// </summary>
+		/// <param name="feature">The feature.</param>
+		/// <param name="flags">The flags.</param>
+		/// <param name="enable">if set to <c>true</c> [enable].</param>
+		public static void SetInternetFeatureEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable) {
+			try {
+				InternetFeature.SetEnabled(feature, flags, enable);
+			} catch (EntryPointNotFoundException) {
+				System.Diagnostics.Debug.WriteLine("InternetFeature() not available");
+			}
+		}
+		/// <summary>
 		/// Enables the parent to test, if there is already a listener attached to the
 		/// BeforeNavigate event. Without that, the parent isn't able to test, because
 		/// delegates are only allowed to have += and -= operators.
@@ -703,10 +798,10 @@ namespace IEControl
 				IHTMLDocument2 document = ocx.Document as IHTMLDocument2;
 				if (document != null) {
 					//_document = document;
-					IHTMLElement body = document.GetBody();
-					if (body != null) {
+					IHTMLElement e = document.GetBody();
+					if (e != null) {
 						CheckAndActivate();
-						body.SetInnerHTML(text);
+						e.SetInnerHTML(text);
 						return;
 					}
 				}
@@ -732,6 +827,25 @@ namespace IEControl
 		}
 
 		/// <summary>
+		/// Returns the MSHTML document's outer HTML content
+		/// </summary>
+		[Browsable(false)]
+		public string DocumentOuterHTML {
+			get { 
+				string content = String.Empty;
+				if (ocx == null)
+					return content; 
+
+				IHTMLDocument3 document3 = ocx.Document as IHTMLDocument3;
+				if (document3 == null || document3.documentElement() == null)
+					return content; 
+
+				content = document3.documentElement().GetOuterHTML();
+				return content;
+			}
+		}
+
+		/// <summary>
 		/// Returns the MSHTML document's inner Text content
 		/// </summary>
 		[Browsable(false)]
@@ -746,6 +860,24 @@ namespace IEControl
 					return content; 
 
 				content = document3.documentElement().GetInnerText();
+				return content;
+			}
+		}
+		/// <summary>
+		/// Returns the MSHTML document's outer Text content
+		/// </summary>
+		[Browsable(false)]
+		public string DocumentOuterText {
+			get { 
+				string content = String.Empty;
+				if (ocx == null)
+					return content; 
+
+				IHTMLDocument3 document3 = ocx.Document as IHTMLDocument3;
+				if (document3 == null || document3.documentElement() == null)
+					return content; 
+
+				content = document3.documentElement().GetOuterText();
 				return content;
 			}
 		}
@@ -1369,7 +1501,6 @@ namespace IEControl
 			if (location == null || location.Length == 0)
 				location = "about:blank";
 
-			object url		= location;
 			object flags		= null;
 			object targetFrame	= null;
 			object postData	= null;
@@ -1531,9 +1662,9 @@ namespace IEControl
 			if (ocx != null && ocx.Document != null) {
 				IHTMLDocument2 doc = ocx.Document as IHTMLDocument2;
 				if (doc != null) {
-					IHTMLElement2 body = doc.GetBody();
-					if (body != null) {
-						body.focus();
+					IHTMLElement2 e = doc.GetBody();
+					if (e != null) {
+						e.focus();
 						return true;
 					}
 				}
@@ -1816,11 +1947,11 @@ namespace IEControl
 		#endregion
 
 		///<summary>
-		///Summary of RaiseOnOnVisible.
+		///Summary of RaiseOnVisible.
 		///</summary>
 		///<param name="sender"></param>
 		///<param name="e"></param>
-		internal void RaiseOnOnVisible(object sender, BrowserOnVisibleEvent e) {
+		internal void RaiseOnVisible(object sender, BrowserOnVisibleEvent e) {
 			if ((this.OnVisible != null)) {
 				this.OnVisible(sender, e);
 			}
@@ -1831,10 +1962,12 @@ namespace IEControl
 		///</summary>
 		///<param name="sender"></param>
 		///<param name="e"></param>
-		internal void RaiseOnOnQuit(object sender, System.EventArgs e) {
+		internal bool RaiseOnQuit(object sender, System.EventArgs e) {
 			if ((this.OnQuit != null)) {
 				this.OnQuit(sender, e);
+				return true;
 			}
+			return false;
 		}
         
 		///<summary>
@@ -2197,7 +2330,7 @@ namespace IEControl
 		///<param name="visible"></param>
 		public virtual void OnVisible(bool visible) {
 			BrowserOnVisibleEvent onvisibleEvent = new BrowserOnVisibleEvent(visible);
-			this.parent.RaiseOnOnVisible(this.parent, onvisibleEvent);
+			this.parent.RaiseOnVisible(this.parent, onvisibleEvent);
 		}
         
 		///<summary>
@@ -2205,7 +2338,8 @@ namespace IEControl
 		///</summary>
 		public virtual void OnQuit() {
 			System.EventArgs onquitEvent = new System.EventArgs();
-			this.parent.RaiseOnOnQuit(this.parent, onquitEvent);
+			if (this.parent != null)
+				this.parent.RaiseOnQuit(this.parent, onquitEvent);
 		}
         
 		///<summary>

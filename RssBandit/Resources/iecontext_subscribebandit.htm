@@ -39,14 +39,13 @@ try
 		{
 			var url = escape(parentwindow.location.href);
 			var selectedElement = doc.elementFromPoint(parentevent.clientX, parentevent.clientY );
-			var tag = selectedElement.tagName;
-			if(tag == "A" || tag == "a")
-				url = selectedElement;
-			if(tag == "IMG" || tag == "img") {
-				selectedElement = getContainingA(selectedElement);
-				url = selectedElement;
+			var tag = getContainingA(selectedElement);
+			
+			if(tag.nodeName == "A" || tag.nodeName == "a"){				
+				url = tag.href;
 			}
-			var commandtoRun = "{0}";
+			
+			var commandtoRun = "__COMMAND_PATH_PLACEHOLDER__";
 			var commandParms = "\"" + url + "\"";
 			var oShell = new ActiveXObject("Shell.Application");
 			oShell.ShellExecute(commandtoRun, commandParms, "", "open", "1");

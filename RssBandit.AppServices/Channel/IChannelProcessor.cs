@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IChannelProcessor.cs,v 1.1 2005/05/08 17:03:39 t_rendelmann Exp $
+ * $Id: IChannelProcessor.cs,v 1.2 2005/10/08 18:21:00 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:39 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2005/10/08 18:21:00 $
+ * $Revision: 1.2 $
  */
 #endregion
 
@@ -12,7 +12,7 @@ using System;
 namespace NewsComponents
 {
 	/// <summary>
-	/// Base plugin interface for News Channel Processing: IChannelProcessor.
+	/// Base interface for News Channel Processing: IChannelProcessor.
 	/// </summary>
 	public interface IChannelProcessor
 	{

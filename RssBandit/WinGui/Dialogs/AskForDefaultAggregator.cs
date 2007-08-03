@@ -1,7 +1,12 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
+#region CVS Version Header
+/*
+ * $Id: AskForDefaultAggregator.cs,v 1.3 2006/10/20 10:10:15 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2006/10/20 10:10:15 $
+ * $Revision: 1.3 $
+ */
+#endregion
+
 using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Dialogs
@@ -216,7 +221,7 @@ namespace RssBandit.WinGui.Dialogs
 
 		private void buttonYes_Click(object sender, System.EventArgs e) {
 			this.DialogResult = DialogResult.OK;
-			this.Hide();
+			this.Close();
 		}
 	}
 }

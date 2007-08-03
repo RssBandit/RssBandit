@@ -1,28 +1,26 @@
 #region CVS Version Header
 /*
- * $Id: FeedProperties.cs,v 1.14 2005/02/04 20:09:34 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/02/04 20:09:34 $
- * $Revision: 1.14 $
+ * $Id: FeedProperties.cs,v 1.20 2006/11/12 16:24:35 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/11/12 16:24:35 $
+ * $Revision: 1.20 $
  */
 #endregion
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using NewsComponents.Utils;
-using RssBandit.WinGui;
+using RssBandit.Resources;
 using RssBandit.WinGui.Utility;
+using RssBandit.WinGui.Controls;
 
 using NewsComponents.Collections;
 
 namespace RssBandit.WinGui.Forms
 {
 	/// <summary>
-	/// Summary description for FeedProperties.
+	/// Feed Properties dialog.
 	/// </summary>
 	public class FeedProperties : System.Windows.Forms.Form
 	{
@@ -55,15 +53,25 @@ namespace RssBandit.WinGui.Forms
 		private System.Windows.Forms.Label labelFormatters;
 		internal System.Windows.Forms.ComboBox comboFormatters;
 		private System.Windows.Forms.TabPage tabDisplay;
+		private System.Windows.Forms.Panel panelItemControl;
+		private System.Windows.Forms.TabPage tabAttachments;
+		internal System.Windows.Forms.CheckBox checkEnableEnclosureAlerts;
+		internal System.Windows.Forms.CheckBox checkDownloadEnclosures;
+		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.Label label11;
 		private System.ComponentModel.IContainer components;
 
 
-		public FeedProperties(string title, string link, int refreshRate, TimeSpan maxItemAge, string currentCategory, string defaultCategory, CategoriesCollection categories, string stylesheet): this(){		
+		public FeedProperties(string title, string link, int refreshRate, TimeSpan maxItemAge, string currentCategory, string defaultCategory, CategoriesCollection categories, string stylesheet): 
+			this()
+		{		
 
 			this.textBox1.Text  = title; 
 			this.textBox2.Text  = link; 
 			this.comboBox1.Text = refreshRate.ToString(); 
 			
+			tabAuthentication.Enabled = !RssHelper.IsNntpUrl(link);
+
 			//initialize category combo box			
 			foreach(string category in categories.Keys){
 				if (!StringHelper.EmptyOrNull(category))
@@ -114,9 +122,7 @@ namespace RssBandit.WinGui.Forms
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
+			this.Load += new EventHandler(this.OnFeedProperties_Load);
 		}
 
 		/// <summary>
@@ -155,10 +161,11 @@ namespace RssBandit.WinGui.Forms
 			this.comboMaxItemAge = new System.Windows.Forms.ComboBox();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabItemControl = new System.Windows.Forms.TabPage();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
-			this.label15 = new System.Windows.Forms.Label();
+			this.panelItemControl = new System.Windows.Forms.Panel();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.label15 = new System.Windows.Forms.Label();
 			this.tabAuthentication = new System.Windows.Forms.TabPage();
 			this.textPwd = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
@@ -169,13 +176,20 @@ namespace RssBandit.WinGui.Forms
 			this.checkCustomFormatter = new System.Windows.Forms.CheckBox();
 			this.labelFormatters = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
+			this.tabAttachments = new System.Windows.Forms.TabPage();
+			this.checkDownloadEnclosures = new System.Windows.Forms.CheckBox();
+			this.checkEnableEnclosureAlerts = new System.Windows.Forms.CheckBox();
+			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.label11 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.checkEnableAlerts = new System.Windows.Forms.CheckBox();
 			this.checkMarkItemsReadOnExit = new System.Windows.Forms.CheckBox();
 			this.tabControl.SuspendLayout();
 			this.tabItemControl.SuspendLayout();
+			this.panelItemControl.SuspendLayout();
 			this.tabAuthentication.SuspendLayout();
 			this.tabDisplay.SuspendLayout();
+			this.tabAttachments.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button2
@@ -429,6 +443,7 @@ namespace RssBandit.WinGui.Forms
 			this.tabControl.Controls.Add(this.tabItemControl);
 			this.tabControl.Controls.Add(this.tabAuthentication);
 			this.tabControl.Controls.Add(this.tabDisplay);
+			this.tabControl.Controls.Add(this.tabAttachments);
 			this.tabControl.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabControl.Dock")));
 			this.tabControl.Enabled = ((bool)(resources.GetObject("tabControl.Enabled")));
 			this.tabControl.Font = ((System.Drawing.Font)(resources.GetObject("tabControl.Font")));
@@ -446,6 +461,7 @@ namespace RssBandit.WinGui.Forms
 			this.tabControl.Text = resources.GetString("tabControl.Text");
 			this.toolTip1.SetToolTip(this.tabControl, resources.GetString("tabControl.ToolTip"));
 			this.tabControl.Visible = ((bool)(resources.GetObject("tabControl.Visible")));
+			this.tabControl.Resize += new System.EventHandler(this.OnTabControl_Resize);
 			// 
 			// tabItemControl
 			// 
@@ -456,11 +472,7 @@ namespace RssBandit.WinGui.Forms
 			this.tabItemControl.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("tabItemControl.AutoScrollMargin")));
 			this.tabItemControl.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("tabItemControl.AutoScrollMinSize")));
 			this.tabItemControl.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabItemControl.BackgroundImage")));
-			this.tabItemControl.Controls.Add(this.comboBox1);
-			this.tabItemControl.Controls.Add(this.label15);
-			this.tabItemControl.Controls.Add(this.comboMaxItemAge);
-			this.tabItemControl.Controls.Add(this.label4);
-			this.tabItemControl.Controls.Add(this.label3);
+			this.tabItemControl.Controls.Add(this.panelItemControl);
 			this.tabItemControl.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabItemControl.Dock")));
 			this.tabItemControl.Enabled = ((bool)(resources.GetObject("tabItemControl.Enabled")));
 			this.tabItemControl.Font = ((System.Drawing.Font)(resources.GetObject("tabItemControl.Font")));
@@ -475,6 +487,79 @@ namespace RssBandit.WinGui.Forms
 			this.toolTip1.SetToolTip(this.tabItemControl, resources.GetString("tabItemControl.ToolTip"));
 			this.tabItemControl.ToolTipText = resources.GetString("tabItemControl.ToolTipText");
 			this.tabItemControl.Visible = ((bool)(resources.GetObject("tabItemControl.Visible")));
+			// 
+			// panelItemControl
+			// 
+			this.panelItemControl.AccessibleDescription = resources.GetString("panelItemControl.AccessibleDescription");
+			this.panelItemControl.AccessibleName = resources.GetString("panelItemControl.AccessibleName");
+			this.panelItemControl.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelItemControl.Anchor")));
+			this.panelItemControl.AutoScroll = ((bool)(resources.GetObject("panelItemControl.AutoScroll")));
+			this.panelItemControl.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelItemControl.AutoScrollMargin")));
+			this.panelItemControl.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelItemControl.AutoScrollMinSize")));
+			this.panelItemControl.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelItemControl.BackgroundImage")));
+			this.panelItemControl.Controls.Add(this.label4);
+			this.panelItemControl.Controls.Add(this.label3);
+			this.panelItemControl.Controls.Add(this.comboBox1);
+			this.panelItemControl.Controls.Add(this.label15);
+			this.panelItemControl.Controls.Add(this.comboMaxItemAge);
+			this.panelItemControl.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelItemControl.Dock")));
+			this.panelItemControl.Enabled = ((bool)(resources.GetObject("panelItemControl.Enabled")));
+			this.panelItemControl.Font = ((System.Drawing.Font)(resources.GetObject("panelItemControl.Font")));
+			this.panelItemControl.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelItemControl.ImeMode")));
+			this.panelItemControl.Location = ((System.Drawing.Point)(resources.GetObject("panelItemControl.Location")));
+			this.panelItemControl.Name = "panelItemControl";
+			this.panelItemControl.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelItemControl.RightToLeft")));
+			this.panelItemControl.Size = ((System.Drawing.Size)(resources.GetObject("panelItemControl.Size")));
+			this.panelItemControl.TabIndex = ((int)(resources.GetObject("panelItemControl.TabIndex")));
+			this.panelItemControl.Text = resources.GetString("panelItemControl.Text");
+			this.toolTip1.SetToolTip(this.panelItemControl, resources.GetString("panelItemControl.ToolTip"));
+			this.panelItemControl.Visible = ((bool)(resources.GetObject("panelItemControl.Visible")));
+			// 
+			// label4
+			// 
+			this.label4.AccessibleDescription = resources.GetString("label4.AccessibleDescription");
+			this.label4.AccessibleName = resources.GetString("label4.AccessibleName");
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label4.Anchor")));
+			this.label4.AutoSize = ((bool)(resources.GetObject("label4.AutoSize")));
+			this.label4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label4.Dock")));
+			this.label4.Enabled = ((bool)(resources.GetObject("label4.Enabled")));
+			this.label4.Font = ((System.Drawing.Font)(resources.GetObject("label4.Font")));
+			this.label4.Image = ((System.Drawing.Image)(resources.GetObject("label4.Image")));
+			this.label4.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.ImageAlign")));
+			this.label4.ImageIndex = ((int)(resources.GetObject("label4.ImageIndex")));
+			this.label4.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label4.ImeMode")));
+			this.label4.Location = ((System.Drawing.Point)(resources.GetObject("label4.Location")));
+			this.label4.Name = "label4";
+			this.label4.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label4.RightToLeft")));
+			this.label4.Size = ((System.Drawing.Size)(resources.GetObject("label4.Size")));
+			this.label4.TabIndex = ((int)(resources.GetObject("label4.TabIndex")));
+			this.label4.Text = resources.GetString("label4.Text");
+			this.label4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.TextAlign")));
+			this.toolTip1.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
+			this.label4.Visible = ((bool)(resources.GetObject("label4.Visible")));
+			// 
+			// label3
+			// 
+			this.label3.AccessibleDescription = resources.GetString("label3.AccessibleDescription");
+			this.label3.AccessibleName = resources.GetString("label3.AccessibleName");
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label3.Anchor")));
+			this.label3.AutoSize = ((bool)(resources.GetObject("label3.AutoSize")));
+			this.label3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label3.Dock")));
+			this.label3.Enabled = ((bool)(resources.GetObject("label3.Enabled")));
+			this.label3.Font = ((System.Drawing.Font)(resources.GetObject("label3.Font")));
+			this.label3.Image = ((System.Drawing.Image)(resources.GetObject("label3.Image")));
+			this.label3.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.ImageAlign")));
+			this.label3.ImageIndex = ((int)(resources.GetObject("label3.ImageIndex")));
+			this.label3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label3.ImeMode")));
+			this.label3.Location = ((System.Drawing.Point)(resources.GetObject("label3.Location")));
+			this.label3.Name = "label3";
+			this.label3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label3.RightToLeft")));
+			this.label3.Size = ((System.Drawing.Size)(resources.GetObject("label3.Size")));
+			this.label3.TabIndex = ((int)(resources.GetObject("label3.TabIndex")));
+			this.label3.Text = resources.GetString("label3.Text");
+			this.label3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.TextAlign")));
+			this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
+			this.label3.Visible = ((bool)(resources.GetObject("label3.Visible")));
 			// 
 			// comboBox1
 			// 
@@ -517,7 +602,6 @@ namespace RssBandit.WinGui.Forms
 			this.label15.AutoSize = ((bool)(resources.GetObject("label15.AutoSize")));
 			this.label15.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label15.Dock")));
 			this.label15.Enabled = ((bool)(resources.GetObject("label15.Enabled")));
-			this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label15.Font = ((System.Drawing.Font)(resources.GetObject("label15.Font")));
 			this.label15.Image = ((System.Drawing.Image)(resources.GetObject("label15.Image")));
 			this.label15.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label15.ImageAlign")));
@@ -532,54 +616,6 @@ namespace RssBandit.WinGui.Forms
 			this.label15.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label15.TextAlign")));
 			this.toolTip1.SetToolTip(this.label15, resources.GetString("label15.ToolTip"));
 			this.label15.Visible = ((bool)(resources.GetObject("label15.Visible")));
-			// 
-			// label4
-			// 
-			this.label4.AccessibleDescription = resources.GetString("label4.AccessibleDescription");
-			this.label4.AccessibleName = resources.GetString("label4.AccessibleName");
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label4.Anchor")));
-			this.label4.AutoSize = ((bool)(resources.GetObject("label4.AutoSize")));
-			this.label4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label4.Dock")));
-			this.label4.Enabled = ((bool)(resources.GetObject("label4.Enabled")));
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label4.Font = ((System.Drawing.Font)(resources.GetObject("label4.Font")));
-			this.label4.Image = ((System.Drawing.Image)(resources.GetObject("label4.Image")));
-			this.label4.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.ImageAlign")));
-			this.label4.ImageIndex = ((int)(resources.GetObject("label4.ImageIndex")));
-			this.label4.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label4.ImeMode")));
-			this.label4.Location = ((System.Drawing.Point)(resources.GetObject("label4.Location")));
-			this.label4.Name = "label4";
-			this.label4.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label4.RightToLeft")));
-			this.label4.Size = ((System.Drawing.Size)(resources.GetObject("label4.Size")));
-			this.label4.TabIndex = ((int)(resources.GetObject("label4.TabIndex")));
-			this.label4.Text = resources.GetString("label4.Text");
-			this.label4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.TextAlign")));
-			this.toolTip1.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
-			this.label4.Visible = ((bool)(resources.GetObject("label4.Visible")));
-			// 
-			// label3
-			// 
-			this.label3.AccessibleDescription = resources.GetString("label3.AccessibleDescription");
-			this.label3.AccessibleName = resources.GetString("label3.AccessibleName");
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label3.Anchor")));
-			this.label3.AutoSize = ((bool)(resources.GetObject("label3.AutoSize")));
-			this.label3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label3.Dock")));
-			this.label3.Enabled = ((bool)(resources.GetObject("label3.Enabled")));
-			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label3.Font = ((System.Drawing.Font)(resources.GetObject("label3.Font")));
-			this.label3.Image = ((System.Drawing.Image)(resources.GetObject("label3.Image")));
-			this.label3.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.ImageAlign")));
-			this.label3.ImageIndex = ((int)(resources.GetObject("label3.ImageIndex")));
-			this.label3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label3.ImeMode")));
-			this.label3.Location = ((System.Drawing.Point)(resources.GetObject("label3.Location")));
-			this.label3.Name = "label3";
-			this.label3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label3.RightToLeft")));
-			this.label3.Size = ((System.Drawing.Size)(resources.GetObject("label3.Size")));
-			this.label3.TabIndex = ((int)(resources.GetObject("label3.TabIndex")));
-			this.label3.Text = resources.GetString("label3.Text");
-			this.label3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.TextAlign")));
-			this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
-			this.label3.Visible = ((bool)(resources.GetObject("label3.Visible")));
 			// 
 			// tabAuthentication
 			// 
@@ -644,7 +680,6 @@ namespace RssBandit.WinGui.Forms
 			this.label7.AutoSize = ((bool)(resources.GetObject("label7.AutoSize")));
 			this.label7.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label7.Dock")));
 			this.label7.Enabled = ((bool)(resources.GetObject("label7.Enabled")));
-			this.label7.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label7.Font = ((System.Drawing.Font)(resources.GetObject("label7.Font")));
 			this.label7.Image = ((System.Drawing.Image)(resources.GetObject("label7.Image")));
 			this.label7.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label7.ImageAlign")));
@@ -695,7 +730,6 @@ namespace RssBandit.WinGui.Forms
 			this.label6.AutoSize = ((bool)(resources.GetObject("label6.AutoSize")));
 			this.label6.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label6.Dock")));
 			this.label6.Enabled = ((bool)(resources.GetObject("label6.Enabled")));
-			this.label6.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label6.Font = ((System.Drawing.Font)(resources.GetObject("label6.Font")));
 			this.label6.Image = ((System.Drawing.Image)(resources.GetObject("label6.Image")));
 			this.label6.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label6.ImageAlign")));
@@ -799,7 +833,6 @@ namespace RssBandit.WinGui.Forms
 			this.labelFormatters.AutoSize = ((bool)(resources.GetObject("labelFormatters.AutoSize")));
 			this.labelFormatters.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelFormatters.Dock")));
 			this.labelFormatters.Enabled = ((bool)(resources.GetObject("labelFormatters.Enabled")));
-			this.labelFormatters.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.labelFormatters.Font = ((System.Drawing.Font)(resources.GetObject("labelFormatters.Font")));
 			this.labelFormatters.Image = ((System.Drawing.Image)(resources.GetObject("labelFormatters.Image")));
 			this.labelFormatters.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelFormatters.ImageAlign")));
@@ -838,6 +871,136 @@ namespace RssBandit.WinGui.Forms
 			this.label9.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label9.TextAlign")));
 			this.toolTip1.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
 			this.label9.Visible = ((bool)(resources.GetObject("label9.Visible")));
+			// 
+			// tabAttachments
+			// 
+			this.tabAttachments.AccessibleDescription = resources.GetString("tabAttachments.AccessibleDescription");
+			this.tabAttachments.AccessibleName = resources.GetString("tabAttachments.AccessibleName");
+			this.tabAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("tabAttachments.Anchor")));
+			this.tabAttachments.AutoScroll = ((bool)(resources.GetObject("tabAttachments.AutoScroll")));
+			this.tabAttachments.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("tabAttachments.AutoScrollMargin")));
+			this.tabAttachments.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("tabAttachments.AutoScrollMinSize")));
+			this.tabAttachments.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabAttachments.BackgroundImage")));
+			this.tabAttachments.Controls.Add(this.checkDownloadEnclosures);
+			this.tabAttachments.Controls.Add(this.checkEnableEnclosureAlerts);
+			this.tabAttachments.Controls.Add(this.textBox3);
+			this.tabAttachments.Controls.Add(this.label11);
+			this.tabAttachments.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabAttachments.Dock")));
+			this.tabAttachments.Enabled = ((bool)(resources.GetObject("tabAttachments.Enabled")));
+			this.tabAttachments.Font = ((System.Drawing.Font)(resources.GetObject("tabAttachments.Font")));
+			this.tabAttachments.ImageIndex = ((int)(resources.GetObject("tabAttachments.ImageIndex")));
+			this.tabAttachments.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("tabAttachments.ImeMode")));
+			this.tabAttachments.Location = ((System.Drawing.Point)(resources.GetObject("tabAttachments.Location")));
+			this.tabAttachments.Name = "tabAttachments";
+			this.tabAttachments.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("tabAttachments.RightToLeft")));
+			this.tabAttachments.Size = ((System.Drawing.Size)(resources.GetObject("tabAttachments.Size")));
+			this.tabAttachments.TabIndex = ((int)(resources.GetObject("tabAttachments.TabIndex")));
+			this.tabAttachments.Text = resources.GetString("tabAttachments.Text");
+			this.toolTip1.SetToolTip(this.tabAttachments, resources.GetString("tabAttachments.ToolTip"));
+			this.tabAttachments.ToolTipText = resources.GetString("tabAttachments.ToolTipText");
+			this.tabAttachments.Visible = ((bool)(resources.GetObject("tabAttachments.Visible")));
+			// 
+			// checkDownloadEnclosures
+			// 
+			this.checkDownloadEnclosures.AccessibleDescription = resources.GetString("checkDownloadEnclosures.AccessibleDescription");
+			this.checkDownloadEnclosures.AccessibleName = resources.GetString("checkDownloadEnclosures.AccessibleName");
+			this.checkDownloadEnclosures.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkDownloadEnclosures.Anchor")));
+			this.checkDownloadEnclosures.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkDownloadEnclosures.Appearance")));
+			this.checkDownloadEnclosures.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkDownloadEnclosures.BackgroundImage")));
+			this.checkDownloadEnclosures.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkDownloadEnclosures.CheckAlign")));
+			this.checkDownloadEnclosures.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkDownloadEnclosures.Dock")));
+			this.checkDownloadEnclosures.Enabled = ((bool)(resources.GetObject("checkDownloadEnclosures.Enabled")));
+			this.checkDownloadEnclosures.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkDownloadEnclosures.FlatStyle")));
+			this.checkDownloadEnclosures.Font = ((System.Drawing.Font)(resources.GetObject("checkDownloadEnclosures.Font")));
+			this.checkDownloadEnclosures.Image = ((System.Drawing.Image)(resources.GetObject("checkDownloadEnclosures.Image")));
+			this.checkDownloadEnclosures.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkDownloadEnclosures.ImageAlign")));
+			this.checkDownloadEnclosures.ImageIndex = ((int)(resources.GetObject("checkDownloadEnclosures.ImageIndex")));
+			this.checkDownloadEnclosures.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkDownloadEnclosures.ImeMode")));
+			this.checkDownloadEnclosures.Location = ((System.Drawing.Point)(resources.GetObject("checkDownloadEnclosures.Location")));
+			this.checkDownloadEnclosures.Name = "checkDownloadEnclosures";
+			this.checkDownloadEnclosures.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkDownloadEnclosures.RightToLeft")));
+			this.checkDownloadEnclosures.Size = ((System.Drawing.Size)(resources.GetObject("checkDownloadEnclosures.Size")));
+			this.checkDownloadEnclosures.TabIndex = ((int)(resources.GetObject("checkDownloadEnclosures.TabIndex")));
+			this.checkDownloadEnclosures.Text = resources.GetString("checkDownloadEnclosures.Text");
+			this.checkDownloadEnclosures.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkDownloadEnclosures.TextAlign")));
+			this.toolTip1.SetToolTip(this.checkDownloadEnclosures, resources.GetString("checkDownloadEnclosures.ToolTip"));
+			this.checkDownloadEnclosures.Visible = ((bool)(resources.GetObject("checkDownloadEnclosures.Visible")));
+			// 
+			// checkEnableEnclosureAlerts
+			// 
+			this.checkEnableEnclosureAlerts.AccessibleDescription = resources.GetString("checkEnableEnclosureAlerts.AccessibleDescription");
+			this.checkEnableEnclosureAlerts.AccessibleName = resources.GetString("checkEnableEnclosureAlerts.AccessibleName");
+			this.checkEnableEnclosureAlerts.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkEnableEnclosureAlerts.Anchor")));
+			this.checkEnableEnclosureAlerts.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("checkEnableEnclosureAlerts.Appearance")));
+			this.checkEnableEnclosureAlerts.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkEnableEnclosureAlerts.BackgroundImage")));
+			this.checkEnableEnclosureAlerts.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkEnableEnclosureAlerts.CheckAlign")));
+			this.checkEnableEnclosureAlerts.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkEnableEnclosureAlerts.Dock")));
+			this.checkEnableEnclosureAlerts.Enabled = ((bool)(resources.GetObject("checkEnableEnclosureAlerts.Enabled")));
+			this.checkEnableEnclosureAlerts.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("checkEnableEnclosureAlerts.FlatStyle")));
+			this.checkEnableEnclosureAlerts.Font = ((System.Drawing.Font)(resources.GetObject("checkEnableEnclosureAlerts.Font")));
+			this.checkEnableEnclosureAlerts.Image = ((System.Drawing.Image)(resources.GetObject("checkEnableEnclosureAlerts.Image")));
+			this.checkEnableEnclosureAlerts.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkEnableEnclosureAlerts.ImageAlign")));
+			this.checkEnableEnclosureAlerts.ImageIndex = ((int)(resources.GetObject("checkEnableEnclosureAlerts.ImageIndex")));
+			this.checkEnableEnclosureAlerts.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkEnableEnclosureAlerts.ImeMode")));
+			this.checkEnableEnclosureAlerts.Location = ((System.Drawing.Point)(resources.GetObject("checkEnableEnclosureAlerts.Location")));
+			this.checkEnableEnclosureAlerts.Name = "checkEnableEnclosureAlerts";
+			this.checkEnableEnclosureAlerts.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkEnableEnclosureAlerts.RightToLeft")));
+			this.checkEnableEnclosureAlerts.Size = ((System.Drawing.Size)(resources.GetObject("checkEnableEnclosureAlerts.Size")));
+			this.checkEnableEnclosureAlerts.TabIndex = ((int)(resources.GetObject("checkEnableEnclosureAlerts.TabIndex")));
+			this.checkEnableEnclosureAlerts.Text = resources.GetString("checkEnableEnclosureAlerts.Text");
+			this.checkEnableEnclosureAlerts.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("checkEnableEnclosureAlerts.TextAlign")));
+			this.toolTip1.SetToolTip(this.checkEnableEnclosureAlerts, resources.GetString("checkEnableEnclosureAlerts.ToolTip"));
+			this.checkEnableEnclosureAlerts.Visible = ((bool)(resources.GetObject("checkEnableEnclosureAlerts.Visible")));
+			// 
+			// textBox3
+			// 
+			this.textBox3.AccessibleDescription = resources.GetString("textBox3.AccessibleDescription");
+			this.textBox3.AccessibleName = resources.GetString("textBox3.AccessibleName");
+			this.textBox3.AllowDrop = true;
+			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("textBox3.Anchor")));
+			this.textBox3.AutoSize = ((bool)(resources.GetObject("textBox3.AutoSize")));
+			this.textBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("textBox3.BackgroundImage")));
+			this.textBox3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("textBox3.Dock")));
+			this.textBox3.Enabled = ((bool)(resources.GetObject("textBox3.Enabled")));
+			this.textBox3.Font = ((System.Drawing.Font)(resources.GetObject("textBox3.Font")));
+			this.textBox3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("textBox3.ImeMode")));
+			this.textBox3.Location = ((System.Drawing.Point)(resources.GetObject("textBox3.Location")));
+			this.textBox3.MaxLength = ((int)(resources.GetObject("textBox3.MaxLength")));
+			this.textBox3.Multiline = ((bool)(resources.GetObject("textBox3.Multiline")));
+			this.textBox3.Name = "textBox3";
+			this.textBox3.PasswordChar = ((char)(resources.GetObject("textBox3.PasswordChar")));
+			this.textBox3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("textBox3.RightToLeft")));
+			this.textBox3.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("textBox3.ScrollBars")));
+			this.textBox3.Size = ((System.Drawing.Size)(resources.GetObject("textBox3.Size")));
+			this.textBox3.TabIndex = ((int)(resources.GetObject("textBox3.TabIndex")));
+			this.textBox3.Text = resources.GetString("textBox3.Text");
+			this.textBox3.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("textBox3.TextAlign")));
+			this.toolTip1.SetToolTip(this.textBox3, resources.GetString("textBox3.ToolTip"));
+			this.textBox3.Visible = ((bool)(resources.GetObject("textBox3.Visible")));
+			this.textBox3.WordWrap = ((bool)(resources.GetObject("textBox3.WordWrap")));
+			// 
+			// label11
+			// 
+			this.label11.AccessibleDescription = resources.GetString("label11.AccessibleDescription");
+			this.label11.AccessibleName = resources.GetString("label11.AccessibleName");
+			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label11.Anchor")));
+			this.label11.AutoSize = ((bool)(resources.GetObject("label11.AutoSize")));
+			this.label11.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label11.Dock")));
+			this.label11.Enabled = ((bool)(resources.GetObject("label11.Enabled")));
+			this.label11.Font = ((System.Drawing.Font)(resources.GetObject("label11.Font")));
+			this.label11.Image = ((System.Drawing.Image)(resources.GetObject("label11.Image")));
+			this.label11.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label11.ImageAlign")));
+			this.label11.ImageIndex = ((int)(resources.GetObject("label11.ImageIndex")));
+			this.label11.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label11.ImeMode")));
+			this.label11.Location = ((System.Drawing.Point)(resources.GetObject("label11.Location")));
+			this.label11.Name = "label11";
+			this.label11.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label11.RightToLeft")));
+			this.label11.Size = ((System.Drawing.Size)(resources.GetObject("label11.Size")));
+			this.label11.TabIndex = ((int)(resources.GetObject("label11.TabIndex")));
+			this.label11.Text = resources.GetString("label11.Text");
+			this.label11.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label11.TextAlign")));
+			this.toolTip1.SetToolTip(this.label11, resources.GetString("label11.ToolTip"));
+			this.label11.Visible = ((bool)(resources.GetObject("label11.Visible")));
 			// 
 			// label8
 			// 
@@ -958,8 +1121,10 @@ namespace RssBandit.WinGui.Forms
 			this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
 			this.tabControl.ResumeLayout(false);
 			this.tabItemControl.ResumeLayout(false);
+			this.panelItemControl.ResumeLayout(false);
 			this.tabAuthentication.ResumeLayout(false);
 			this.tabDisplay.ResumeLayout(false);
+			this.tabAttachments.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -982,6 +1147,18 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 	
+		private void OnTabControl_Resize(object sender, EventArgs e) {
+		 	// fix the wide screen Tab Control issue by resize ourselfs the panels at the first Tab:
+			panelItemControl.SetBounds(0,0, tabControl.Width - 2*panelItemControl.Location.X, 0, BoundsSpecified.Width);
+		}
+
+		private void OnFeedProperties_Load(object sender, EventArgs e) {
+		 	// fix the wide screen Tab Control issue by resize ourselfs the panels at the first Tab:
+			OnTabControl_Resize(this, EventArgs.Empty);
+		}
+
+	
+
 
 	}
 }

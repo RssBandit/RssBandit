@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ListHelper.cs,v 1.2 2005/01/15 17:11:39 t_rendelmann Exp $
+ * $Id: ListHelper.cs,v 1.3 2005/09/30 13:12:11 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/15 17:11:39 $
- * $Revision: 1.2 $
+ * Last modified at $Date: 2005/09/30 13:12:11 $
+ * $Revision: 1.3 $
  */
 #endregion
 
@@ -36,7 +36,18 @@ namespace System.Windows.Forms.ThListView
 			return newList;
 		}
 
-		
+		public static string[] StripEmptyEntries(string[] list) {
+			ArrayList a = new ArrayList();
+			foreach(string entry in list) {
+				if (entry != null && entry.Length > 0) {
+					a.Add(entry);
+				}
+			}
+			if (a.Count > 0)
+				return (string[])a.ToArray(typeof(string));
+			return new string[]{};
+		}
+
 		private ListHelper() {}
 	}
 }

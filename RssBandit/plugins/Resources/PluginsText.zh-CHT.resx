@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
@@ -46,7 +46,7 @@
 		<value>寄到 del.icio.us</value>
 	</data>
 	<data name="RES_MenuWBloggarCaption">
-		<value>Blog This Using W::Bloggar...</value>
+		<value>用 W::Bloggar 訂閱...</value>
 	</data>
 	<data name="RES_ExceptionWBloggarNotFound">
 		<value>w::bloggar的登錄檔沒有被設置. 請從http://www.bloggar.com 來安裝w::bloggarto</value>
@@ -90,4 +90,16 @@
 	<data name="RES_DeliciousFormConfiguration">
 		<value>Del.icio.us 外掛設定</value>
 	</data>
-</root>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>送出 OneNote...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>OneNote 外掛設定...</value>
+	</data>
+<data name="RES_MenuLiveWriterCaption">
+		<value>Blog This Using Windows Live Writer...</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>No registry setting for Windows Live Writer located. Please install Windows Live Writer from http://ideas.live.com to get this feature to work</value>
+	</data>
+	</root>

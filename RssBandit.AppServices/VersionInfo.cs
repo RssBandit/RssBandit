@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: VersionInfo.cs,v 1.1 2005/05/08 17:03:39 t_rendelmann Exp $
+ * $Id: VersionInfo.cs,v 1.9 2007/06/19 15:01:22 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/08 17:03:39 $
- * $Revision: 1.1 $
+ * Last modified at $Date: 2007/06/19 15:01:22 $
+ * $Revision: 1.9 $
  */
 #endregion
 
@@ -18,13 +18,13 @@ using System.Reflection;
 //      Revision (like SP's for a build)
 //
 // Please raise Build Number on each significant (e.g. interface changes) modification !!!
-[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.5.0.10")]
 
 // This attribute attaches version information to 
 // an assembly file to allow version verification by users.
 // Please raise Build Number on each modification !!!
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.5.0.15")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.
-[assembly: AssemblyInformationalVersion("1.0.0")]
+[assembly: AssemblyInformationalVersion("1.5.15")]

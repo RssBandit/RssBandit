@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using NewsComponents.Utils;
 
 namespace NewsComponents.News {
 
@@ -137,6 +138,31 @@ namespace NewsComponents.News {
 		}
 	}
 
+	/// <summary>
+	/// NNTP specific exception class
+	/// </summary>
+	[Serializable]
+	public class NntpWebException: WebException
+	{
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NntpWebException"/> class.
+		/// </summary>
+		public NntpWebException(): base() {}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NntpWebException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
+		public NntpWebException(string message): base(message) {}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NntpWebException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
+		/// <param name="innerException">The inner exception.</param>
+		public NntpWebException(string message, Exception innerException): base(message, innerException) {}
+	}
+	
     /// <summary>
     /// A class that understands the NNTP protocol.
     /// Could be useful for creating binary news reader,
@@ -149,13 +175,19 @@ namespace NewsComponents.News {
     /// Thanks to Patrick Steel (psteele@ipdsolution.co) for publishing code in microsoft.public.dotnet.languages.csharp
     /// on 2001-09-13 19:26:12 PST for getting me started on using NNTP in C#
     /// </summary>
+    /// <remarks>
+    /// Old spec. see: http://tools.ietf.org/html/rfc977
+    /// New spec. see: http://tools.ietf.org/html/rfc3977 (replace 977)
+    /// </remarks>
     internal class NntpClient: IDisposable{
 
 		/// <summary>
 		/// Matches headers
 		/// </summary>
 		static Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
-               		
+             
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(NntpClient));
+
 		/// <summary>
 		/// Instantiates class
 		/// </summary>
@@ -215,8 +247,7 @@ namespace NewsComponents.News {
             }
         }
 
-      
-        /// <summary>
+    	/// <summary>
         ///  Disconnect and cleanup
         /// </summary>
         public void Dispose(){
@@ -288,7 +319,7 @@ namespace NewsComponents.News {
                 response = GetData(true);	
 				if(firstTimeAround){
 					if ((response.Length < 3) || response.Substring( 0, 3) != "215") {
-						throw new WebException(response);
+						throw new NntpWebException(response);
 					}
 					firstTimeAround = false; 
 				}
@@ -343,14 +374,14 @@ namespace NewsComponents.News {
 			Send("POST");
 			string response = GetData(false);
 			if (response.Substring( 0, 3) != "340") {
-				throw new WebException(response);
+				throw new NntpWebException(response);
 			}
  		
 			//send message 
 			Send(message);
 			response = GetData(false);
 			if (response.Substring( 0, 3) != "240") {
-				throw new WebException(response);
+				throw new NntpWebException(response);
 			}
 		}
 
@@ -662,8 +693,9 @@ namespace NewsComponents.News {
         private String connectResp = "";  // connect response
 
         private String CurrGroup = "";   // current selected group
-        private int GroupCount;   // number of messages in grp
-        private int firstMsg;    // 1st message in group
+        private int lastGroupMsgCount = -1;   // last number of messages in grp (prev. request)
+		private int currGroupMsgCount;   // current number of messages in grp (this request)
+		private int firstMsg;    // 1st message in group
         private int lastMsg;    // last message in group
 
         private byte[] bRecv = new byte[4096];
@@ -706,7 +738,7 @@ namespace NewsComponents.News {
 			StringWriter sw = new StringWriter(sb);
 			
 			//TODO: Decide if we propagate an exception to the user if server returns an error
-			GetData(expectLongResponse, sw);
+			bool result = GetData(expectLongResponse, sw);
 			sw.Flush();
 			sw.Close(); 
 			return sb.ToString(); 
@@ -771,7 +803,7 @@ namespace NewsComponents.News {
                 }
                 catch(Exception ex)
                 {
-                    throw new WebException(ex.Message, ex); 
+                    throw new NntpWebException(ex.Message, ex); 
                 }
             }
             while(iBytes > 0);
@@ -789,21 +821,16 @@ namespace NewsComponents.News {
             // check for errors
             if( sData.Substring(0,3) == "411")
             {
-                throw new WebException("No such group: " + GroupName);
+                throw new NntpWebException("No such group: " + GroupName);
             }
-            CurrGroup = GroupName;
-
-            // trim off result code
-            sData = sData.Substring(sData.IndexOf(" ") + 1);
-            GroupCount = Convert.ToInt32(sData.Substring(0,sData.IndexOf(" ")));
-
-            // trim off result code
-            sData = sData.Substring(sData.IndexOf(" ") + 1);
-            firstMsg = Convert.ToInt32(sData.Substring(0, sData.IndexOf(" ")));
-
-            // trim off result code
-            sData = sData.Substring(sData.IndexOf(" ") + 1);
-            lastMsg = Convert.ToInt32(sData.Substring(0, sData.IndexOf(" ")));
+            
+			string[] messageNumbers = sData.Split(' ');
+        	// index 0 is the response code
+			currGroupMsgCount = Convert.ToInt32( messageNumbers[1] );
+			firstMsg = Convert.ToInt32( messageNumbers[2] );
+			lastMsg = Convert.ToInt32( messageNumbers[3] );
+			CurrGroup = GroupName;
+            
         }		
 
 		/// <summary>
@@ -816,30 +843,28 @@ namespace NewsComponents.News {
 		/// <param name="sw">used for writing the server response</param>
 		internal void GetNntpMessages(DateTime since, int downloadCount, TextWriter sw){
 
+			IDictionary capabilities = this.GetCapabilities(null);
 			string sData; 
 			since = since.ToUniversalTime(); 
-
-			Send("NEWNEWS " + this.CurrGroup + " " + since.Year.ToString().Substring(2) 
-				+ (since.Month < 10 ? "0" + since.Month : since.Month.ToString())
-				+ (since.Day < 10 ? "0" + since.Day : since.Day.ToString())
-				+ " " 
-				+ (since.Hour < 10 ? "0" + since.Hour : since.Hour.ToString())
-				+ (since.Minute < 10 ? "0" + since.Minute : since.Minute.ToString())
-				+ (since.Second < 10 ? "0" + since.Second : since.Second.ToString())
-				+ " GMT"); 
-
+			
+			Send(String.Format("NEWNEWS {0} {1} GMT", this.CurrGroup, since.ToString("yyMMdd HHmmss")));
 			sData = GetData(true); 
 
-			// if 
-			if(sData.Length > 0 && sData[0] == '2'){
+			// capabilities are a RFC3977 feature, not widely impl. by servers
+			// borland news server returns "230 newnews disabled by admin, empty list follows \r\n.\r\n"
+			// so we fallback after checking capabilities to handle empty lists
+			// with our backup technique
+			if(sData.Length > 0 && sData[0] == '2' && sData.IndexOf("empty") == -1 &&
+			   (capabilities.Count == 0 || capabilities.Contains("NEWNEWS")))
+			{
 				
-				string sDump = String.Empty; 
+				string sDump = sData; 
 				StringCollection messageIds = new StringCollection(); 
 
-				do{ 
+				while((sData.EndsWith(".\r\n")!= true) && (sData.Length > 0)){
 					sData = GetData(true);						
 					sDump = sDump + sData;                
-				}while((sData.EndsWith(".\r\n")!= true) && (sData.Length > 0));
+				}
 
 				// split up list of message ids
 				string[] sList = Split.Split(sDump);
@@ -847,7 +872,7 @@ namespace NewsComponents.News {
 					messageIds.Add(sList[i]);
 				}
 
-				GetNntpMessages(messageIds, sw); 
+				GetNntpMessages(messageIds, downloadCount, sw); 
 
 			}else{ //the NEWNEWS method may not be supported so we use our backup technique
 				int last = this.LastMsg; //this.FirstMsg;
@@ -855,6 +880,8 @@ namespace NewsComponents.News {
 				GetNntpMessages(first, last, sw); 
 			}
 
+			//flush writer to ensure all data gets written to underlying stream
+			sw.Flush(); 
 		}
 
          /// <summary>
@@ -863,27 +890,28 @@ namespace NewsComponents.News {
          /// <param name="id">the parameter that identifies the message to retrieve</param>
          /// <param name="sw">used for writing the server response</param>
         internal void GetNntpMessage(string id,  TextWriter sw){
-                     
-			string sDump = String.Empty, sData; 	
+                   
+			try{
+				string sDump = String.Empty, sData; 	
 
-            Send("ARTICLE " + id);								
+				Send("ARTICLE " + id);								
 
-			do{ 
-				sData = GetData(true);						
-				sDump = sDump + sData;                
+				do{ 
+					sData = GetData(true);						
+					sDump = sDump + sData;                
 					
-				//article with that ID not found, shouldn't happen but sometimes does
-				if(sData.StartsWith("423") || sData.StartsWith("430")){
-					break; 
+					//article with that ID not found, shouldn't happen but sometimes does
+					if(sData.StartsWith("423") || sData.StartsWith("430")){
+						break; 
+					}
+
+				}while((sData.EndsWith(".\r\n")!= true) && (sData.Length > 0));          
+
+				//TODO: Decide whether we propagate an exception here on error             
+				if(sData.Length > 0 && sData[0] == '2'){               
+					sw.Write(sData); 
 				}
-
-			}while((sData.EndsWith(".\r\n")!= true) && (sData.Length > 0));          
-
-			//TODO: Decide whether we propagate an exception here on error             
-            if(sData.Length > 0 && sData[0] == '2'){               
-				sw.Write(sData); 
-            }
-           
+			}catch(Exception e){_log.Error("GetNntpMessage() failed", e);}
         }
 
        
@@ -892,13 +920,24 @@ namespace NewsComponents.News {
 		/// Retrieves a list of messages given their message ids. 
 		/// </summary>
 		/// <param name="oMsgs">a list of message ids</param>
+		/// <param name="downloadCount">The maximum number of messages that should be downloaded</param>
 		/// <param name="sw">the TextWriter for writing the servers response</param>
-        internal void GetNntpMessages(StringCollection oMsgs, TextWriter sw)
+        internal void GetNntpMessages(StringCollection oMsgs, int downloadCount, TextWriter sw)
         {            
-            foreach(string sId in oMsgs){
-                GetNntpMessage(sId, sw);               
-            }          
-        }
+			int downloaded = 0; 
+
+			for(int i = oMsgs.Count; i-->0;){
+             
+				string sId = oMsgs[i]; 								    
+				GetNntpMessage(sId, sw);               
+				downloaded++;    
+				
+				if(downloaded == downloadCount){
+					break;
+				}
+            }//foreach          
+        
+		}
 		
 
 		/// <summary>
@@ -912,13 +951,13 @@ namespace NewsComponents.News {
 
             for(int i = first; i <= last; i++){            
                 GetNntpMessage(i.ToString(), sw);               
-            }
-            
+            }			     
         }
 
         internal NntpMessages GetNntpMessages(int first, int last, string header)
         {
             NntpMessages oList = new NntpMessages();
+        	// http://tools.ietf.org/html/rfc2980 (XHDR extension):
             string result = SendCommand("XHDR " + header + " " + first + "-" + last, true);
            
             if(result.Length > 0 && result[0] == '2')
@@ -939,6 +978,27 @@ namespace NewsComponents.News {
             return oList;
         }
 
+		/// <summary>
+		/// Gets the capabilities of the NNTP server.
+		/// </summary>
+		/// <param name="additionalExtension">Optional: an additional extension to query for.</param>
+		/// <returns>IDictionary with Capabilities listed in http://tools.ietf.org/html/rfc3977#section-5.2</returns>
+    	internal IDictionary GetCapabilities(string additionalExtension) {
+    		HybridDictionary dict = new HybridDictionary();
+    		string cmd = "CAPABILITIES";
+    		if (!StringHelper.EmptyOrNull(additionalExtension))
+    			cmd += String.Format(" {0}", additionalExtension);
+    		
+    		string result = SendCommand(cmd, false);
+			if(result.Length > 0 && result[0] == '1') {
+				string[] lines = this.Split.Split(result);
+				for(int i = 1; i < lines.Length - 2; i++) {
+					dict.Add(lines[i], null);
+				}
+			}
+    		return dict;
+    	}
+    	
         // for the rest of the unimplemented commands...		
         internal string SendCommand(string NNTPCommand, bool expectLongResponse)
         {
@@ -952,3 +1012,15 @@ namespace NewsComponents.News {
         }
     }
 }
+
+#region CVS Version Log
+/*
+ * $Log: NntpClient.cs,v $
+ * Revision 1.15  2007/05/10 17:02:33  t_rendelmann
+ * fixed: borland NNTP server does not return posts
+ *
+ * Revision 1.14  2007/04/30 10:02:38  t_rendelmann
+ * changed: replaced Console.Write with log messaging
+ *
+ */
+#endregion

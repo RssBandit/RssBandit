@@ -1,10 +1,82 @@
 using System;
 
-using NewsComponents;
 using RssBandit;
 
 namespace RssBandit.AppServices
 {
+
+	#region Feed deletion
+
+	/// <summary>
+	/// Signature to receive Feed Deletion events
+	/// </summary>
+	public delegate void FeedDeletedHandler(object sender, FeedDeletedEventArgs e);
+	
+	/// <summary>
+	/// Event arguments class to inform about feed deletion
+	/// </summary>
+	public class FeedDeletedEventArgs: FeedEventArgs
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedDeletedEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedUrl">The feed Url.</param>
+		public FeedDeletedEventArgs(string feedUrl):
+			base(feedUrl) {
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedDeletedEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="feedTitle">The feed title.</param>
+		public FeedDeletedEventArgs(string feedUrl, string feedTitle):
+			base(feedUrl, feedTitle) {
+		}
+	}
+
+	/// <summary>
+	/// Event arguments class to inform about a feed event
+	/// </summary>
+	public class FeedEventArgs: EventArgs {
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		public FeedEventArgs(string feedUrl):
+			this(feedUrl, String.Empty) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedUrl">The feed url.</param>
+		/// <param name="feedTitle">The title of the feed</param>
+		public FeedEventArgs(string feedUrl, string feedTitle):base() {
+			this._feedUrl = feedUrl;
+			this._feedTitle = feedTitle;
+		}
+		/// <summary>
+		/// Gets the feed Url.
+		/// </summary>
+		public string FeedUrl {
+			get { return _feedUrl; }
+		}
+
+		private readonly string _feedUrl;
+
+		/// <summary>
+		/// Gets the feed caption.
+		/// </summary>
+		public string FeedTitle {
+			get { return _feedTitle; }
+		}
+		private readonly string _feedTitle;
+
+	}
+	#endregion
+
 	#region InternetConnectionState
 	/// <summary>
 	/// Signature to receive InternetConnectionStateChange Events.

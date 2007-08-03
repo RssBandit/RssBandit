@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RequestParameter.cs,v 1.2 2005/05/12 07:21:58 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/05/12 07:21:58 $
- * $Revision: 1.2 $
+ * $Id: RequestParameter.cs,v 1.5 2006/12/19 04:39:52 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2006/12/19 04:39:52 $
+ * $Revision: 1.5 $
  */
 #endregion
 
@@ -26,11 +26,15 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// Called, if the web request caused an exception, that is not yet handled by the class itself.
 	/// </summary>
-	public delegate void RequestExceptionCallback(Uri requestUri, Exception e);
+	public delegate void RequestExceptionCallback(Uri requestUri, Exception e, int priority);
 	/// <summary>
 	/// Called on every queued request, when the real fetch is finished.
 	/// </summary>
-	public delegate void RequestCompleteCallback(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified, RequestResult result);
+	public delegate void RequestCompleteCallback(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified, RequestResult result, int priority);
+	/// <summary>
+	/// Called infrequently as bytes are transferred for the file. 
+	/// </summary>
+	public delegate void RequestProgressCallback(Uri requestUri, long bytesTransferred); 
 	#endregion
 
 	/// <summary>
@@ -171,6 +175,18 @@ namespace NewsComponents.Net
 		public static RequestParameter Create(bool setCookies, RequestParameter p) {
 			return new RequestParameter(p.RequestUri, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, setCookies );
 		}
+
+		/// <summary>
+		/// Creates a new RequestParameter instance.
+		/// </summary>
+		/// <param name="address">request url</param>
+		/// <param name="credentials">The credentials.</param>
+		/// <param name="p">The RequestParameter.</param>
+		/// <returns></returns>
+		public static RequestParameter Create(string address,ICredentials credentials, RequestParameter p) {
+			return new RequestParameter(new Uri(address), p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies );
+		}
+
 		#endregion
 
 		#region request parameter properties

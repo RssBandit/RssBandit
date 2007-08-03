@@ -3,9 +3,23 @@ using System.Collections;
 using System.Net;
 using System.Runtime.InteropServices;
 using NewsComponents.Feed;
+using NewsComponents.Resources;
 
 namespace NewsComponents.Net
 {
+	/// <summary>
+	/// ResourceAuthorizationException is raised if a HTTP request results in a statuscode 401.
+	/// </summary>
+	[ComVisible(false)]
+	public class ResourceAuthorizationException: WebException {
+		/// <summary></summary>
+		public ResourceAuthorizationException():base(ComponentsText.ExceptionResourceAuthorization){	}
+		/// <summary></summary>
+		public ResourceAuthorizationException(string message):base(message){	}
+		/// <summary></summary>
+		public ResourceAuthorizationException(string message, Exception innerException):base(message, innerException){	}
+	}
+	
 	/// <summary>
 	/// ResourceGoneException is raised if a HTTP request results in a statuscode 410.
 	/// </summary>
@@ -13,7 +27,7 @@ namespace NewsComponents.Net
 	public class ResourceGoneException: WebException
 	{
 		/// <summary></summary>
-		public ResourceGoneException():base("The requested resource is not longer available (HTTP status 410)."){	}
+		public ResourceGoneException():base(ComponentsText.ExceptionResourceGone){	}
 		/// <summary></summary>
 		public ResourceGoneException(string message):base(message){	}
 		/// <summary></summary>

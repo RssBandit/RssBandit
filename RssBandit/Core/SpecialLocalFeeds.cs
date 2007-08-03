@@ -1,9 +1,31 @@
 #region CVS Version Header
 /*
- * $Id: SpecialLocalFeeds.cs,v 1.37 2005/03/08 16:56:08 t_rendelmann Exp $
+ * $Id: SpecialLocalFeeds.cs,v 1.46 2007/06/15 11:02:01 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/08 16:56:08 $
- * $Revision: 1.37 $
+ * Last modified at $Date: 2007/06/15 11:02:01 $
+ * $Revision: 1.46 $
+ */
+#endregion
+
+#region CVS Version Log
+/*
+ * $Log: SpecialLocalFeeds.cs,v $
+ * Revision 1.46  2007/06/15 11:02:01  t_rendelmann
+ * new: enabled user failure actions within feed error reports (validate, navigate to, delete subscription)
+ *
+ * Revision 1.45  2007/02/11 15:58:53  carnage4life
+ * 1.) Added proper handling for when a podcast download exceeds the size limit on the podcast folder
+ *
+ * Revision 1.44  2006/12/08 17:00:22  t_rendelmann
+ * fixed: flag a item with no content did not show content anymore in the flagged item view (linked) (was regression because of the dynamic load of item content from cache);
+ * fixed: "View Outlook Reading Pane" was not working correctly (regression from the toolbars migration);
+ *
+ * Revision 1.43  2006/11/01 16:03:53  t_rendelmann
+ * small optimizations
+ *
+ * Revision 1.42  2006/08/18 19:10:57  t_rendelmann
+ * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ *
  */
 #endregion
 
@@ -11,7 +33,6 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Collections;
-using System.Configuration;
 using System.Text;
 
 using NewsComponents;
@@ -19,7 +40,7 @@ using NewsComponents.Feed;
 using NewsComponents.Net;
 using NewsComponents.Utils;
 using RssBandit;
-
+using RssBandit.Resources;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.SpecialFeeds
@@ -32,7 +53,7 @@ namespace RssBandit.SpecialFeeds
 	/// </summary>
 	public class LocalFeedsFeed:feedsFeed {
 		
-		protected static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
+		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
 
 		protected ArrayList itemsList = new ArrayList();
 		private string filePath = null;
@@ -43,7 +64,9 @@ namespace RssBandit.SpecialFeeds
 		public LocalFeedsFeed() {
 			base.refreshrate = 0;		
 			base.refreshrateSpecified = true;
-			this.feedInfo = new FeedInfo(null, null);
+			this.feedInfo = new FeedInfo(null, null, null);
+			// required, to make items with no content work:
+			base.cacheurl = "non.cached.feed";
 		}
 			
 
@@ -71,13 +94,13 @@ namespace RssBandit.SpecialFeeds
 			filePath = feedUrl;
 			try {
 				Uri feedUri = new Uri(feedUrl);
-				base.link = feedUri.ToString();
+				base.link = feedUri.AbsoluteUri;
 			} catch {
 				base.link = feedUrl;
 			}
 			base.title = feedTitle;
 			
-			this.feedInfo = new FeedInfo(filePath, itemsList, feedTitle, base.link, feedDescription);
+			this.feedInfo = new FeedInfo(null, filePath, itemsList, feedTitle, base.link, feedDescription);
 			
 			if (loadItems)
 				LoadItems(this.GetDefaultReader());
@@ -119,10 +142,29 @@ namespace RssBandit.SpecialFeeds
 		}
 
 		public void Remove(NewsItem item) {
-			if (item != null && this.itemsList.Contains(item)) {
-				this.itemsList.Remove(item);
-				this.modified = true;
+			if (item != null)
+			{
+				int index = this.itemsList.IndexOf(item);
+				if (index >= 0)
+				{
+					this.itemsList.RemoveAt(index);
+					this.modified = true;
+				}
 			}
+		}
+
+
+		public void Remove(string commentFeedUrl){
+			if(!StringHelper.EmptyOrNull(commentFeedUrl)){
+			
+				for(int i = 0; i < this.itemsList.Count; i++){
+					NewsItem ni = itemsList[i] as NewsItem; 
+					if(ni.CommentRssUrl.Equals(commentFeedUrl)){
+						this.itemsList.RemoveAt(i); 
+						break; 
+					}
+				}
+			}				
 		}
 
 		public string Location {
@@ -228,6 +270,32 @@ namespace RssBandit.SpecialFeeds
 			}
 		}
 
+		/// <summary>
+		/// Removes the entries for the specified feed URL.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		public void RemoveFeed(string feedUrl) {
+			
+			if (StringHelper.EmptyOrNull(feedUrl) || base.itemsList.Count == 0)
+				return;
+			
+			Stack removeAtIndex = new Stack();
+			for (int i = 0; i < base.itemsList.Count; i++) {
+				NewsItem n = base.itemsList[i] as NewsItem;
+				if (n != null) {
+					XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalFeedElements.OriginalFeedOfErrorItem);
+					if (xe != null && xe.InnerText == feedUrl) {
+						removeAtIndex.Push(i);
+						break;
+					}
+					
+				}
+			}
+
+			while (removeAtIndex.Count > 0)
+				base.itemsList.RemoveAt((int)removeAtIndex.Pop());
+		}
+
 		public new ArrayList Items {
 			get { return base.itemsList; }
 		}
@@ -249,14 +317,13 @@ namespace RssBandit.SpecialFeeds
 			static InstanceHelper() {;}
 			internal static readonly ExceptionManager instance = new ExceptionManager(				
 				RssBanditApplication.GetFeedErrorFileName(), 
-				Resource.Manager["RES_FeedNodeFeedExceptionsCaption"], 
-				Resource.Manager["RES_FeedNodeFeedExceptionsDesc"]);
+				SR.FeedNodeFeedExceptionsCaption, 
+				SR.FeedNodeFeedExceptionsDesc);
 		}
 
 		public class FeedException {
 			
 			private static int idCounter = 0;
-			private static string validationUrlBase = null;			// used to provide a validate Url
 
 			private NewsItem _delegateTo = null;	// cannot inherit, so we use the old containment
 
@@ -272,12 +339,6 @@ namespace RssBandit.SpecialFeeds
 			private string _generator = String.Empty;
 			private string _fullErrorInfoFile = String.Empty;
 
-			static FeedException() {
-				// read app.config If a key was not found, take it from the resources
-				validationUrlBase = ConfigurationSettings.AppSettings["validationUrlBase"];
-				if (validationUrlBase == null || validationUrlBase.Length == 0)
-					validationUrlBase = Resource.Manager["URL_FeedValidationBase"];
-			}
 			public FeedException(ExceptionManager ownerFeed, Exception e) {
 
 				idCounter++;
@@ -319,23 +380,23 @@ namespace RssBandit.SpecialFeeds
 			}
 
 			private void InitWith(ExceptionManager ownerFeed, XmlException e) {
-				this.InitWith(ownerFeed, e, Resource.Manager["RES_XmlExceptionCategory"]);
+				this.InitWith(ownerFeed, e, SR.XmlExceptionCategory);
 			}
 
 			private void InitWith(ExceptionManager ownerFeed, System.Net.WebException e) {
-				this.InitWith(ownerFeed, e, Resource.Manager["RES_WebExceptionCategory"]);
+				this.InitWith(ownerFeed, e, SR.WebExceptionCategory);
 			}
 
 			private void InitWith(ExceptionManager ownerFeed, System.Net.ProtocolViolationException e) {
-				this.InitWith(ownerFeed, e, Resource.Manager["RES_ProtocolViolationExceptionCategory"]);
+				this.InitWith(ownerFeed, e, SR.ProtocolViolationExceptionCategory);
 			}
 
 			private void InitWith(ExceptionManager ownerFeed, Exception e) {
-				this.InitWith(ownerFeed, e, Resource.Manager["RES_ExceptionCategory"]);
+				this.InitWith(ownerFeed, e, SR.ExceptionCategory);
 			}
 
 			private void InitWith(ExceptionManager ownerFeed, Exception e, string categoryName) {
-				FeedInfo fi = new FeedInfo(String.Empty, ownerFeed.Items , ownerFeed.title, ownerFeed.link, ownerFeed.Description );
+				FeedInfo fi = new FeedInfo(null, String.Empty, ownerFeed.Items , ownerFeed.title, ownerFeed.link, ownerFeed.Description );
 				// to prevent confusing about daylight saving time and to work similar to RssComponts, that save item DateTime's
 				// as GMT, we convert DateTime to universal to be conform
 				DateTime exDT = new DateTime(DateTime.Now.Ticks).ToUniversalTime();
@@ -345,10 +406,26 @@ namespace RssBandit.SpecialFeeds
 				_delegateTo = new NewsItem(ownerFeed, this._feedTitle, link,
 					this.BuildBaseDesc(e, enableValidation), 
 					exDT, categoryName,
-					ContentType.Xhtml, new Hashtable(), link, null );
+					ContentType.Xhtml, CreateAdditionalElements(this._resourceUrl), link, null );
 
 				_delegateTo.FeedDetails = fi;
 				_delegateTo.BeenRead = false;
+			}
+
+			private Hashtable CreateAdditionalElements(string errorCausingFeedUrl) {
+				Hashtable r = new Hashtable();
+				// add a optional element to remember the original feed container (for later ref)
+				if (null != errorCausingFeedUrl) {
+					XmlElement originalFeed = RssHelper.CreateXmlElement(
+						AdditionalFeedElements.ElementPrefix, 
+						AdditionalFeedElements.OriginalFeedOfErrorItem.Name, 
+						AdditionalFeedElements.OriginalFeedOfErrorItem.Namespace, 
+						errorCausingFeedUrl); 
+					
+					r.Add(AdditionalFeedElements.OriginalFeedOfErrorItem, 
+						originalFeed.OuterXml);
+				}
+				return r;
 			}
 
 			public string ID { get {return _ID; }	}
@@ -396,22 +473,18 @@ namespace RssBandit.SpecialFeeds
 					msg = System.Web.HttpUtility.HtmlEncode(msg);
 				}
 
-				writer.WriteRaw(Resource.Manager["RES_RefreshFeedExceptionReportStringPart", this._resourceUIText, msg]);
-				if (provideXMLValidationUrl && this._resourceUrl.StartsWith("http")) {
-					writer.WriteRaw("<br />");
-					writer.WriteStartElement("a");
-					writer.WriteAttributeString("href", validationUrlBase+this._resourceUrl);
-					writer.WriteRaw(Resource.Manager["RES_RefreshFeedExceptionReportValidationPart"]);
-					writer.WriteEndElement();	// </a>
-				}
-
-				if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 ) {
+				writer.WriteStartElement("p");
+				writer.WriteRaw(SR.RefreshFeedExceptionReportStringPart(this._resourceUIText, msg));
+				writer.WriteEndElement();	// </p>
+				
+				if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 ) 
+				{
 					writer.WriteStartElement("p");
-					writer.WriteString(Resource.Manager["RES_RefreshFeedExceptionReportContactInfo"]);
+					writer.WriteString(SR.RefreshFeedExceptionReportContactInfo);
 					writer.WriteStartElement("ul");
 					if (this._publisher.Length > 0) {
 						writer.WriteStartElement("li");
-						writer.WriteString(Resource.Manager["RES_RefreshFeedExceptionReportManagingEditor"]+": ");
+						writer.WriteString(SR.RefreshFeedExceptionReportManagingEditor + ": ");
 						if (StringHelper.IsEMailAddress(this._publisher)) {
 							string mail = StringHelper.GetEMailAddress(this._publisher);
 							writer.WriteStartElement("a");
@@ -425,7 +498,7 @@ namespace RssBandit.SpecialFeeds
 					}
 					if (this._techContact.Length > 0) {
 						writer.WriteStartElement("li");
-						writer.WriteString(Resource.Manager["RES_RefreshFeedExceptionReportWebMaster"]+": ");
+						writer.WriteString(SR.RefreshFeedExceptionReportWebMaster + ": ");
 						if (StringHelper.IsEMailAddress(this._techContact)) {
 							string mail = StringHelper.GetEMailAddress(this._techContact);
 							writer.WriteStartElement("a");
@@ -439,7 +512,7 @@ namespace RssBandit.SpecialFeeds
 					}
 					if (this._publisherHomepage.Length > 0) {
 						writer.WriteStartElement("li");
-						writer.WriteString(Resource.Manager["RES_RefreshFeedExceptionReportHomePage"]+": ");
+						writer.WriteString(SR.RefreshFeedExceptionReportHomePage + ": ");
 						writer.WriteStartElement("a");
 						writer.WriteAttributeString("href", this._publisherHomepage);
 						writer.WriteString(this._publisherHomepage);
@@ -448,22 +521,59 @@ namespace RssBandit.SpecialFeeds
 					}
 					writer.WriteEndElement();	// </ul>
 					if (this._generator .Length > 0) {
-						writer.WriteString(Resource.Manager["RES_RefreshFeedExceptionGeneratorStringPart", this._generator]);
+						writer.WriteString(SR.RefreshFeedExceptionGeneratorStringPart(this._generator));
 					}
 					writer.WriteEndElement();	// </p>
+					
+				}//if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 )
+				
+				// render actions section:
+				writer.WriteStartElement("p");
+				writer.WriteString(SR.RefreshFeedExceptionUserActionIntroText);
+				// List:
+				writer.WriteStartElement("ul");
+				// Validate entry (optional):
+				if (provideXMLValidationUrl && this._resourceUrl.StartsWith("http")) {
+					writer.WriteStartElement("li");
+					writer.WriteStartElement("a");
+					writer.WriteAttributeString("href", RssBanditApplication.FeedValidationUrlBase+this._resourceUrl);
+					writer.WriteRaw(SR.RefreshFeedExceptionReportValidationPart);
+					writer.WriteEndElement();	// </a>
+					writer.WriteEndElement();	// </li>
 				}
-
+				// Show/Navigate to feed subscription:
+				writer.WriteStartElement("li");
+				writer.WriteStartElement("a");
+				// fdaction:?action=navigatetofeed&feedid=id-of-feed
+				writer.WriteAttributeString("href", String.Format("fdaction:?action=navigatetofeed&feedid={0}", HtmlHelper.UrlEncode(this._resourceUrl)));
+				writer.WriteRaw(SR.RefreshFeedExceptionUserActionNavigateToSubscription);
+				writer.WriteEndElement();	// </a>
+				writer.WriteEndElement();	// </li>
+				// Remove feed subscription:
+				writer.WriteStartElement("li");
+				writer.WriteStartElement("a");
+				// fdaction:?action=unsubscribefeed&feedid=id-of-feed
+				writer.WriteAttributeString("href", String.Format("fdaction:?action=unsubscribefeed&feedid={0}", HtmlHelper.UrlEncode(this._resourceUrl)));
+				writer.WriteRaw(SR.RefreshFeedExceptionUserActionDeleteSubscription);
+				writer.WriteEndElement();	// </a>
+				writer.WriteEndElement();	// </li>
+					
+				writer.WriteEndElement();	// </ul>
+				writer.WriteEndElement();	// </p>
+				
 				return s.ToString();
 			}
 
 
 			private string BuildBaseLink(Exception e, bool provideXMLValidationUrl) {
 				string sLink = String.Empty;
-				//TODO: may be, we can later use the e.HelpLink also...
-				// setup "Read On..." link
+				if (e.HelpLink != null) {
+					//TODO: may be, we can later use the e.HelpLink
+					// to setup "Read On..." link
+				}
 				if (this._fullErrorInfoFile.Length == 0) {
 					if (this._resourceUrl.StartsWith("http")) {
-						sLink = (provideXMLValidationUrl ? validationUrlBase : String.Empty) + this._resourceUrl;
+						sLink = (provideXMLValidationUrl ? RssBanditApplication.FeedValidationUrlBase : String.Empty) + this._resourceUrl;
 					} else {
 						sLink = this._resourceUrl;
 					}

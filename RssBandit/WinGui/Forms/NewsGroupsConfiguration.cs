@@ -1,9 +1,25 @@
 #region CVS Version Header
 /*
- * $Id: NewsGroupsConfiguration.cs,v 1.23 2005/06/05 17:13:11 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/06/05 17:13:11 $
- * $Revision: 1.23 $
+ * $Id: NewsGroupsConfiguration.cs,v 1.34 2007/05/15 21:37:04 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2007/05/15 21:37:04 $
+ * $Revision: 1.34 $
+ */
+#endregion
+
+#region CVS Version Log
+/*
+ * $Log: NewsGroupsConfiguration.cs,v $
+ * Revision 1.34  2007/05/15 21:37:04  carnage4life
+ * Fixed issue where username and password for previous newsgroup was shown when browsing from a newsgroup with auth information to one without in Server Settings
+ *
+ * Revision 1.33  2007/01/11 15:07:54  t_rendelmann
+ * IG assemblies replaced by hotfix versions; migrated last Sandbar toolbar usage to IG ultratoolbar
+ *
+ * Revision 1.32  2006/08/08 10:21:40  t_rendelmann
+ * fixed: on explorer bar active bar changes the active view was not always active/populated with the selected subitem
+ * fixed: on remove of a identity the assigned nntp server default identities are not touched (cleared, if it was the deleted identity)
+ *
  */
 #endregion
 
@@ -11,11 +27,16 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Infragistics.Win.UltraWinToolbars;
+using RssBandit.WinGui.Forms.ControlHelpers;
+using RssBandit.WinGui.Utility;
 using TD.Eyefinder;
 
 using RssBandit;
 using RssBandit.AppServices;
+using RssBandit.Resources;
 
 using NewsComponents;
 using NewsComponents.Feed;
@@ -25,7 +46,7 @@ using NewsComponents.Utils;
 
 namespace RssBandit.WinGui.Forms
 {
-	public enum NewsGroupSettingsView {
+	public enum NewsgroupSettingsView {
 		Identity,
 		NewsServerSubscriptions,
 		NewsServerGeneral,
@@ -34,31 +55,29 @@ namespace RssBandit.WinGui.Forms
 	}
 
 	/// <summary>
-	/// Summary description for SubscribeNntpGroups.
+	/// Summary description for NewsgroupsConfiguration.
 	/// </summary>
-	public class NewsGroupsConfiguration : System.Windows.Forms.Form
+	public class NewsgroupsConfiguration : System.Windows.Forms.Form
 	{
 		public event EventHandler DefinitionsModified;
 
-		private static readonly log4net.ILog _log  = Common.Logging.Log.GetLogger(typeof(NewsGroupsConfiguration));
+		private static readonly log4net.ILog _log  = Common.Logging.Log.GetLogger(typeof(NewsgroupsConfiguration));
 		private static int unnamedUserIdentityCounter = 0;
 		private static int unnamedNntpServerCounter = 0;
 
-		private string lastSelectedNntpServerDefinition = null;
-
+		private string currentNGFilter = null;
+		
+		private WheelSupport wheelSupport;
+		private ToolbarHelper toolbarHelper;
+		
 		private IdentityNewsServerManager application;
-		private NewsGroupSettingsView currentView;
+		private NewsgroupSettingsView currentView;
 		private ListDictionary userIdentities, nntpServers;	// shallow copies of the originals
 
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Splitter splitter1;
 		private TD.Eyefinder.NavigationBar navigationBar;
 		private TD.Eyefinder.NavigationPane newsServersPane;
-		private TD.SandBar.ToolBarContainer leftSandBarDock;
-		private TD.SandBar.ToolBarContainer rightSandBarDock;
-		private TD.SandBar.ToolBarContainer bottomSandBarDock;
-		private TD.SandBar.ToolBarContainer topSandBarDock;
-		private TD.SandBar.ToolBar toolBar;
 		private TD.Eyefinder.NavigationPane accountsPane;
 		private TD.Eyefinder.HeaderControl accountSettingsPane;
 		private System.Windows.Forms.Panel panelDetailsParent;
@@ -76,8 +95,7 @@ namespace RssBandit.WinGui.Forms
 		private TD.Eyefinder.HeaderControl subscriptionsViewPane;
 		private TD.Eyefinder.HeaderControl generalViewPane;
 		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.CheckBox chkConsiderServerOnRefresh;
-		private System.Windows.Forms.CheckBox chkUseSPA;
+		private System.Windows.Forms.CheckBox chkConsiderServerOnRefresh;		
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.CheckBox chkUseAuthentication;
 		private System.Windows.Forms.TextBox txtServerAuthName;
@@ -88,9 +106,6 @@ namespace RssBandit.WinGui.Forms
 		private System.Windows.Forms.Label lblCurrentTimout;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.ListView listOfGroups;
-		private TD.SandBar.SandBarManager sandBarManager;
-		private TD.SandBar.ButtonItem toolNewIndentity;
-		private TD.SandBar.ButtonItem toolNewNntpServer;
 		private System.Windows.Forms.ImageList imagesSmall;
 		private System.Windows.Forms.ImageList imagesBig;
 		private System.Windows.Forms.TextBox txtNewsServerName;
@@ -116,7 +131,6 @@ namespace RssBandit.WinGui.Forms
 		private System.Windows.Forms.Label labelMailAddress;
 		private System.Windows.Forms.Label labelFullName;
 		private System.Windows.Forms.Label labelIdentityName;
-		private TD.SandBar.ButtonItem toolDelete;
 		private System.Windows.Forms.Label labelNewsgroupsFilter;
 		private System.Windows.Forms.Label labelServerTimeoutSetting;
 		private System.Windows.Forms.Label labelHighTimeout;
@@ -127,15 +141,16 @@ namespace RssBandit.WinGui.Forms
 		private System.Windows.Forms.Label labelNewsServerName;
 		private System.Windows.Forms.Label labelDefaultEdentity;
 		private System.Windows.Forms.Label labelNewsAccount;
-		private TD.SandBar.ToolBar toolBarFilterNewsgroupList;
-		private TD.SandBar.ButtonItem cmdNGFilterAll;
-		private TD.SandBar.ButtonItem cmdNGFilterSubscribed;
-		private TD.SandBar.ButtonItem cmdNGFilterNew;
-		private TD.SandBar.LabelItem labelNGFilter;
+		private System.Windows.Forms.Timer timerFilterGroups;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsManager ultraToolbarsManager;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _NewsgroupsConfiguration_Toolbars_Dock_Area_Left;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _NewsgroupsConfiguration_Toolbars_Dock_Area_Right;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _NewsgroupsConfiguration_Toolbars_Dock_Area_Top;
+		private Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea _NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom;
 		private System.ComponentModel.IContainer components;
 
 		#region ctor's/disposing
-		public NewsGroupsConfiguration(IdentityNewsServerManager app, NewsGroupSettingsView initialSettingsDisplay)
+		public NewsgroupsConfiguration(IdentityNewsServerManager app, NewsgroupSettingsView initialSettingsDisplay)
 		{
 			if (null == app)
 				throw new ArgumentNullException("app");
@@ -149,10 +164,13 @@ namespace RssBandit.WinGui.Forms
 			//
 			InitializeComponent();
 
+			this.wheelSupport = new WheelSupport(this);
+
 			this.treeServers.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeServersAfterSelect);
 			this.listAccounts.SelectedIndexChanged += new System.EventHandler(this.OnListAccountsSelectedIndexChanged);
 
 			this.BackColor = SystemColors.Window;
+			this.splitter1.BackColor = FontColorHelper.UiColorScheme.ToolbarGradientLight;
 			this.accountSettingsPane.Location = this.subscriptionsViewPane.Location = new Point(0,0);
 			this.generalViewPane.Location = this.serverViewPane.Location = this.advancedViewPane.Location = new Point(0,0);
 			this.accountSettingsPane.Dock = this.subscriptionsViewPane.Dock = DockStyle.Fill;
@@ -201,7 +219,7 @@ namespace RssBandit.WinGui.Forms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NewsGroupsConfiguration));
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NewsgroupsConfiguration));
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.navigationBar = new TD.Eyefinder.NavigationBar();
@@ -228,20 +246,6 @@ namespace RssBandit.WinGui.Forms
 			this.txtIdentityName = new System.Windows.Forms.TextBox();
 			this.labelIdentityName = new System.Windows.Forms.Label();
 			this.splitter1 = new System.Windows.Forms.Splitter();
-			this.sandBarManager = new TD.SandBar.SandBarManager();
-			this.bottomSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.leftSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.rightSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.topSandBarDock = new TD.SandBar.ToolBarContainer();
-			this.toolBar = new TD.SandBar.ToolBar();
-			this.toolNewIndentity = new TD.SandBar.ButtonItem();
-			this.toolNewNntpServer = new TD.SandBar.ButtonItem();
-			this.toolDelete = new TD.SandBar.ButtonItem();
-			this.toolBarFilterNewsgroupList = new TD.SandBar.ToolBar();
-			this.labelNGFilter = new TD.SandBar.LabelItem();
-			this.cmdNGFilterAll = new TD.SandBar.ButtonItem();
-			this.cmdNGFilterSubscribed = new TD.SandBar.ButtonItem();
-			this.cmdNGFilterNew = new TD.SandBar.ButtonItem();
 			this.panelDetailsParent = new System.Windows.Forms.Panel();
 			this.btnApply = new System.Windows.Forms.Button();
 			this.panelDetailsTop = new System.Windows.Forms.Panel();
@@ -271,7 +275,6 @@ namespace RssBandit.WinGui.Forms
 			this.labelNewsServerAccountPwd = new System.Windows.Forms.Label();
 			this.txtServerAuthName = new System.Windows.Forms.TextBox();
 			this.chkUseAuthentication = new System.Windows.Forms.CheckBox();
-			this.chkUseSPA = new System.Windows.Forms.CheckBox();
 			this.labelNewsServerAccoutnName = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
 			this.txtNewsServerName = new System.Windows.Forms.TextBox();
@@ -284,11 +287,16 @@ namespace RssBandit.WinGui.Forms
 			this.txtNewsAccountName = new System.Windows.Forms.TextBox();
 			this.labelNewsAccount = new System.Windows.Forms.Label();
 			this.errorProvider = new System.Windows.Forms.ErrorProvider();
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this.ultraToolbarsManager = new Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(this.components);
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
+			this.timerFilterGroups = new System.Windows.Forms.Timer(this.components);
 			this.navigationBar.SuspendLayout();
 			this.newsServersPane.SuspendLayout();
 			this.accountsPane.SuspendLayout();
 			this.accountSettingsPane.SuspendLayout();
-			this.topSandBarDock.SuspendLayout();
 			this.panelDetailsParent.SuspendLayout();
 			this.panelDetailsTop.SuspendLayout();
 			this.subscriptionsViewPane.SuspendLayout();
@@ -296,6 +304,7 @@ namespace RssBandit.WinGui.Forms
 			((System.ComponentModel.ISupportInitialize)(this.trackBarServerTimeout)).BeginInit();
 			this.serverViewPane.SuspendLayout();
 			this.generalViewPane.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnCancel
@@ -374,7 +383,7 @@ namespace RssBandit.WinGui.Forms
 			this.navigationBar.Name = "navigationBar";
 			this.navigationBar.PaneFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
 			this.navigationBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("navigationBar.RightToLeft")));
-			this.navigationBar.SelectedPane = this.newsServersPane;
+			this.navigationBar.SelectedPane = this.accountsPane;
 			this.navigationBar.ShowPanes = 2;
 			this.navigationBar.Size = ((System.Drawing.Size)(resources.GetObject("navigationBar.Size")));
 			this.navigationBar.TabIndex = ((int)(resources.GetObject("navigationBar.TabIndex")));
@@ -972,7 +981,7 @@ namespace RssBandit.WinGui.Forms
 			this.splitter1.AccessibleDescription = resources.GetString("splitter1.AccessibleDescription");
 			this.splitter1.AccessibleName = resources.GetString("splitter1.AccessibleName");
 			this.splitter1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("splitter1.Anchor")));
-			this.splitter1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.splitter1.BackColor = System.Drawing.SystemColors.Control;
 			this.splitter1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("splitter1.BackgroundImage")));
 			this.splitter1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("splitter1.Dock")));
 			this.splitter1.Enabled = ((bool)(resources.GetObject("splitter1.Enabled")));
@@ -990,220 +999,6 @@ namespace RssBandit.WinGui.Forms
 			this.splitter1.TabIndex = ((int)(resources.GetObject("splitter1.TabIndex")));
 			this.splitter1.TabStop = false;
 			this.splitter1.Visible = ((bool)(resources.GetObject("splitter1.Visible")));
-			// 
-			// sandBarManager
-			// 
-			this.sandBarManager.EnableContextMenu = false;
-			this.sandBarManager.OwnerForm = this;
-			// 
-			// bottomSandBarDock
-			// 
-			this.bottomSandBarDock.AccessibleDescription = resources.GetString("bottomSandBarDock.AccessibleDescription");
-			this.bottomSandBarDock.AccessibleName = resources.GetString("bottomSandBarDock.AccessibleName");
-			this.bottomSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("bottomSandBarDock.Anchor")));
-			this.bottomSandBarDock.AutoScroll = ((bool)(resources.GetObject("bottomSandBarDock.AutoScroll")));
-			this.bottomSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.AutoScrollMargin")));
-			this.bottomSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.AutoScrollMinSize")));
-			this.bottomSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bottomSandBarDock.BackgroundImage")));
-			this.bottomSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("bottomSandBarDock.Dock")));
-			this.bottomSandBarDock.Enabled = ((bool)(resources.GetObject("bottomSandBarDock.Enabled")));
-			this.errorProvider.SetError(this.bottomSandBarDock, resources.GetString("bottomSandBarDock.Error"));
-			this.bottomSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("bottomSandBarDock.Font")));
-			this.bottomSandBarDock.Guid = new System.Guid("2a2cebe0-9e7b-4e82-8a35-526e2d64c7c4");
-			this.errorProvider.SetIconAlignment(this.bottomSandBarDock, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("bottomSandBarDock.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.bottomSandBarDock, ((int)(resources.GetObject("bottomSandBarDock.IconPadding"))));
-			this.bottomSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("bottomSandBarDock.ImeMode")));
-			this.bottomSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("bottomSandBarDock.Location")));
-			this.bottomSandBarDock.Manager = this.sandBarManager;
-			this.bottomSandBarDock.Name = "bottomSandBarDock";
-			this.bottomSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("bottomSandBarDock.RightToLeft")));
-			this.bottomSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("bottomSandBarDock.Size")));
-			this.bottomSandBarDock.TabIndex = ((int)(resources.GetObject("bottomSandBarDock.TabIndex")));
-			this.bottomSandBarDock.Text = resources.GetString("bottomSandBarDock.Text");
-			this.bottomSandBarDock.Visible = ((bool)(resources.GetObject("bottomSandBarDock.Visible")));
-			// 
-			// leftSandBarDock
-			// 
-			this.leftSandBarDock.AccessibleDescription = resources.GetString("leftSandBarDock.AccessibleDescription");
-			this.leftSandBarDock.AccessibleName = resources.GetString("leftSandBarDock.AccessibleName");
-			this.leftSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("leftSandBarDock.Anchor")));
-			this.leftSandBarDock.AutoScroll = ((bool)(resources.GetObject("leftSandBarDock.AutoScroll")));
-			this.leftSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.AutoScrollMargin")));
-			this.leftSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.AutoScrollMinSize")));
-			this.leftSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftSandBarDock.BackgroundImage")));
-			this.leftSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("leftSandBarDock.Dock")));
-			this.leftSandBarDock.Enabled = ((bool)(resources.GetObject("leftSandBarDock.Enabled")));
-			this.errorProvider.SetError(this.leftSandBarDock, resources.GetString("leftSandBarDock.Error"));
-			this.leftSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("leftSandBarDock.Font")));
-			this.leftSandBarDock.Guid = new System.Guid("56c6cc85-fde1-4ef0-8380-ecda9236bd29");
-			this.errorProvider.SetIconAlignment(this.leftSandBarDock, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("leftSandBarDock.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.leftSandBarDock, ((int)(resources.GetObject("leftSandBarDock.IconPadding"))));
-			this.leftSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("leftSandBarDock.ImeMode")));
-			this.leftSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("leftSandBarDock.Location")));
-			this.leftSandBarDock.Manager = this.sandBarManager;
-			this.leftSandBarDock.Name = "leftSandBarDock";
-			this.leftSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("leftSandBarDock.RightToLeft")));
-			this.leftSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("leftSandBarDock.Size")));
-			this.leftSandBarDock.TabIndex = ((int)(resources.GetObject("leftSandBarDock.TabIndex")));
-			this.leftSandBarDock.Text = resources.GetString("leftSandBarDock.Text");
-			this.leftSandBarDock.Visible = ((bool)(resources.GetObject("leftSandBarDock.Visible")));
-			// 
-			// rightSandBarDock
-			// 
-			this.rightSandBarDock.AccessibleDescription = resources.GetString("rightSandBarDock.AccessibleDescription");
-			this.rightSandBarDock.AccessibleName = resources.GetString("rightSandBarDock.AccessibleName");
-			this.rightSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rightSandBarDock.Anchor")));
-			this.rightSandBarDock.AutoScroll = ((bool)(resources.GetObject("rightSandBarDock.AutoScroll")));
-			this.rightSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.AutoScrollMargin")));
-			this.rightSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.AutoScrollMinSize")));
-			this.rightSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightSandBarDock.BackgroundImage")));
-			this.rightSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rightSandBarDock.Dock")));
-			this.rightSandBarDock.Enabled = ((bool)(resources.GetObject("rightSandBarDock.Enabled")));
-			this.errorProvider.SetError(this.rightSandBarDock, resources.GetString("rightSandBarDock.Error"));
-			this.rightSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("rightSandBarDock.Font")));
-			this.rightSandBarDock.Guid = new System.Guid("7efb7db1-ae60-4ea7-bfe5-f8e2224eaa0b");
-			this.errorProvider.SetIconAlignment(this.rightSandBarDock, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("rightSandBarDock.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.rightSandBarDock, ((int)(resources.GetObject("rightSandBarDock.IconPadding"))));
-			this.rightSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rightSandBarDock.ImeMode")));
-			this.rightSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("rightSandBarDock.Location")));
-			this.rightSandBarDock.Manager = this.sandBarManager;
-			this.rightSandBarDock.Name = "rightSandBarDock";
-			this.rightSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rightSandBarDock.RightToLeft")));
-			this.rightSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("rightSandBarDock.Size")));
-			this.rightSandBarDock.TabIndex = ((int)(resources.GetObject("rightSandBarDock.TabIndex")));
-			this.rightSandBarDock.Text = resources.GetString("rightSandBarDock.Text");
-			this.rightSandBarDock.Visible = ((bool)(resources.GetObject("rightSandBarDock.Visible")));
-			// 
-			// topSandBarDock
-			// 
-			this.topSandBarDock.AccessibleDescription = resources.GetString("topSandBarDock.AccessibleDescription");
-			this.topSandBarDock.AccessibleName = resources.GetString("topSandBarDock.AccessibleName");
-			this.topSandBarDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("topSandBarDock.Anchor")));
-			this.topSandBarDock.AutoScroll = ((bool)(resources.GetObject("topSandBarDock.AutoScroll")));
-			this.topSandBarDock.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.AutoScrollMargin")));
-			this.topSandBarDock.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.AutoScrollMinSize")));
-			this.topSandBarDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("topSandBarDock.BackgroundImage")));
-			this.topSandBarDock.Controls.Add(this.toolBar);
-			this.topSandBarDock.Controls.Add(this.toolBarFilterNewsgroupList);
-			this.topSandBarDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("topSandBarDock.Dock")));
-			this.topSandBarDock.Enabled = ((bool)(resources.GetObject("topSandBarDock.Enabled")));
-			this.errorProvider.SetError(this.topSandBarDock, resources.GetString("topSandBarDock.Error"));
-			this.topSandBarDock.Font = ((System.Drawing.Font)(resources.GetObject("topSandBarDock.Font")));
-			this.topSandBarDock.Guid = new System.Guid("6a4748b9-17c5-4fa2-8d07-d9fd80841d0b");
-			this.errorProvider.SetIconAlignment(this.topSandBarDock, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("topSandBarDock.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.topSandBarDock, ((int)(resources.GetObject("topSandBarDock.IconPadding"))));
-			this.topSandBarDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("topSandBarDock.ImeMode")));
-			this.topSandBarDock.Location = ((System.Drawing.Point)(resources.GetObject("topSandBarDock.Location")));
-			this.topSandBarDock.Manager = this.sandBarManager;
-			this.topSandBarDock.Name = "topSandBarDock";
-			this.topSandBarDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("topSandBarDock.RightToLeft")));
-			this.topSandBarDock.Size = ((System.Drawing.Size)(resources.GetObject("topSandBarDock.Size")));
-			this.topSandBarDock.TabIndex = ((int)(resources.GetObject("topSandBarDock.TabIndex")));
-			this.topSandBarDock.Text = resources.GetString("topSandBarDock.Text");
-			this.topSandBarDock.Visible = ((bool)(resources.GetObject("topSandBarDock.Visible")));
-			// 
-			// toolBar
-			// 
-			this.toolBar.AccessibleDescription = resources.GetString("toolBar.AccessibleDescription");
-			this.toolBar.AccessibleName = resources.GetString("toolBar.AccessibleName");
-			this.toolBar.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("toolBar.Anchor")));
-			this.toolBar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolBar.BackgroundImage")));
-			this.toolBar.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("toolBar.Dock")));
-			this.toolBar.DockLine = 1;
-			this.toolBar.Enabled = ((bool)(resources.GetObject("toolBar.Enabled")));
-			this.errorProvider.SetError(this.toolBar, resources.GetString("toolBar.Error"));
-			this.toolBar.Font = ((System.Drawing.Font)(resources.GetObject("toolBar.Font")));
-			this.toolBar.Guid = new System.Guid("c6f457fa-333c-40f8-8795-637d916e90c6");
-			this.errorProvider.SetIconAlignment(this.toolBar, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("toolBar.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.toolBar, ((int)(resources.GetObject("toolBar.IconPadding"))));
-			this.toolBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("toolBar.ImeMode")));
-			this.toolBar.Items.AddRange(new TD.SandBar.ToolbarItemBase[] {
-																			 this.toolNewIndentity,
-																			 this.toolNewNntpServer,
-																			 this.toolDelete});
-			this.toolBar.Location = ((System.Drawing.Point)(resources.GetObject("toolBar.Location")));
-			this.toolBar.Name = "toolBar";
-			this.toolBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBar.RightToLeft")));
-			this.toolBar.Size = ((System.Drawing.Size)(resources.GetObject("toolBar.Size")));
-			this.toolBar.TabIndex = ((int)(resources.GetObject("toolBar.TabIndex")));
-			this.toolBar.Text = resources.GetString("toolBar.Text");
-			this.toolBar.Visible = ((bool)(resources.GetObject("toolBar.Visible")));
-			// 
-			// toolNewIndentity
-			// 
-			this.toolNewIndentity.Image = ((System.Drawing.Image)(resources.GetObject("toolNewIndentity.Image")));
-			this.toolNewIndentity.Text = resources.GetString("toolNewIndentity.Text");
-			this.toolNewIndentity.ToolTipText = resources.GetString("toolNewIndentity.ToolTipText");
-			this.toolNewIndentity.Activate += new System.EventHandler(this.OnNewIdentityToolActivate);
-			// 
-			// toolNewNntpServer
-			// 
-			this.toolNewNntpServer.Image = ((System.Drawing.Image)(resources.GetObject("toolNewNntpServer.Image")));
-			this.toolNewNntpServer.Text = resources.GetString("toolNewNntpServer.Text");
-			this.toolNewNntpServer.ToolTipText = resources.GetString("toolNewNntpServer.ToolTipText");
-			this.toolNewNntpServer.Activate += new System.EventHandler(this.OnNewNewsServerToolActivate);
-			// 
-			// toolDelete
-			// 
-			this.toolDelete.BeginGroup = true;
-			this.toolDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolDelete.Image")));
-			this.toolDelete.Text = resources.GetString("toolDelete.Text");
-			this.toolDelete.ToolTipText = resources.GetString("toolDelete.ToolTipText");
-			this.toolDelete.Activate += new System.EventHandler(this.OnDeleteItemToolActivate);
-			// 
-			// toolBarFilterNewsgroupList
-			// 
-			this.toolBarFilterNewsgroupList.AccessibleDescription = resources.GetString("toolBarFilterNewsgroupList.AccessibleDescription");
-			this.toolBarFilterNewsgroupList.AccessibleName = resources.GetString("toolBarFilterNewsgroupList.AccessibleName");
-			this.toolBarFilterNewsgroupList.AddRemoveButtonsVisible = false;
-			this.toolBarFilterNewsgroupList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("toolBarFilterNewsgroupList.Anchor")));
-			this.toolBarFilterNewsgroupList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolBarFilterNewsgroupList.BackgroundImage")));
-			this.toolBarFilterNewsgroupList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("toolBarFilterNewsgroupList.Dock")));
-			this.toolBarFilterNewsgroupList.DockLine = 1;
-			this.toolBarFilterNewsgroupList.DockOffset = 1;
-			this.toolBarFilterNewsgroupList.DrawActionsButton = false;
-			this.toolBarFilterNewsgroupList.Enabled = ((bool)(resources.GetObject("toolBarFilterNewsgroupList.Enabled")));
-			this.errorProvider.SetError(this.toolBarFilterNewsgroupList, resources.GetString("toolBarFilterNewsgroupList.Error"));
-			this.toolBarFilterNewsgroupList.Font = ((System.Drawing.Font)(resources.GetObject("toolBarFilterNewsgroupList.Font")));
-			this.toolBarFilterNewsgroupList.Guid = new System.Guid("8cc2487a-7f18-4a42-a92b-58a014c21853");
-			this.errorProvider.SetIconAlignment(this.toolBarFilterNewsgroupList, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("toolBarFilterNewsgroupList.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.toolBarFilterNewsgroupList, ((int)(resources.GetObject("toolBarFilterNewsgroupList.IconPadding"))));
-			this.toolBarFilterNewsgroupList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("toolBarFilterNewsgroupList.ImeMode")));
-			this.toolBarFilterNewsgroupList.Items.AddRange(new TD.SandBar.ToolbarItemBase[] {
-																								this.labelNGFilter,
-																								this.cmdNGFilterAll,
-																								this.cmdNGFilterSubscribed,
-																								this.cmdNGFilterNew});
-			this.toolBarFilterNewsgroupList.Location = ((System.Drawing.Point)(resources.GetObject("toolBarFilterNewsgroupList.Location")));
-			this.toolBarFilterNewsgroupList.Name = "toolBarFilterNewsgroupList";
-			this.toolBarFilterNewsgroupList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBarFilterNewsgroupList.RightToLeft")));
-			this.toolBarFilterNewsgroupList.Size = ((System.Drawing.Size)(resources.GetObject("toolBarFilterNewsgroupList.Size")));
-			this.toolBarFilterNewsgroupList.TabIndex = ((int)(resources.GetObject("toolBarFilterNewsgroupList.TabIndex")));
-			this.toolBarFilterNewsgroupList.Text = resources.GetString("toolBarFilterNewsgroupList.Text");
-			this.toolBarFilterNewsgroupList.Visible = ((bool)(resources.GetObject("toolBarFilterNewsgroupList.Visible")));
-			// 
-			// labelNGFilter
-			// 
-			this.labelNGFilter.Text = resources.GetString("labelNGFilter.Text");
-			this.labelNGFilter.ToolTipText = resources.GetString("labelNGFilter.ToolTipText");
-			// 
-			// cmdNGFilterAll
-			// 
-			this.cmdNGFilterAll.Checked = true;
-			this.cmdNGFilterAll.Text = resources.GetString("cmdNGFilterAll.Text");
-			this.cmdNGFilterAll.ToolTipText = resources.GetString("cmdNGFilterAll.ToolTipText");
-			// 
-			// cmdNGFilterSubscribed
-			// 
-			this.cmdNGFilterSubscribed.BeginGroup = true;
-			this.cmdNGFilterSubscribed.Text = resources.GetString("cmdNGFilterSubscribed.Text");
-			this.cmdNGFilterSubscribed.ToolTipText = resources.GetString("cmdNGFilterSubscribed.ToolTipText");
-			// 
-			// cmdNGFilterNew
-			// 
-			this.cmdNGFilterNew.BeginGroup = true;
-			this.cmdNGFilterNew.Text = resources.GetString("cmdNGFilterNew.Text");
-			this.cmdNGFilterNew.ToolTipText = resources.GetString("cmdNGFilterNew.ToolTipText");
 			// 
 			// panelDetailsParent
 			// 
@@ -1348,6 +1143,7 @@ namespace RssBandit.WinGui.Forms
 			this.txtFilterBy.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("txtFilterBy.TextAlign")));
 			this.txtFilterBy.Visible = ((bool)(resources.GetObject("txtFilterBy.Visible")));
 			this.txtFilterBy.WordWrap = ((bool)(resources.GetObject("txtFilterBy.WordWrap")));
+			this.txtFilterBy.TextChanged += new System.EventHandler(this.OnFilterByTextChanged);
 			// 
 			// labelNewsgroupsFilter
 			// 
@@ -1850,7 +1646,6 @@ namespace RssBandit.WinGui.Forms
 			this.serverViewPane.Controls.Add(this.labelNewsServerAccountPwd);
 			this.serverViewPane.Controls.Add(this.txtServerAuthName);
 			this.serverViewPane.Controls.Add(this.chkUseAuthentication);
-			this.serverViewPane.Controls.Add(this.chkUseSPA);
 			this.serverViewPane.Controls.Add(this.labelNewsServerAccoutnName);
 			this.serverViewPane.Controls.Add(this.label12);
 			this.serverViewPane.Controls.Add(this.txtNewsServerName);
@@ -1987,36 +1782,6 @@ namespace RssBandit.WinGui.Forms
 			this.chkUseAuthentication.Validating += new System.ComponentModel.CancelEventHandler(this.OnWidgetValidating);
 			this.chkUseAuthentication.Validated += new System.EventHandler(this.OnWidgetValidated);
 			this.chkUseAuthentication.CheckedChanged += new System.EventHandler(this.OnUseAuthenticationCheckedChanged);
-			// 
-			// chkUseSPA
-			// 
-			this.chkUseSPA.AccessibleDescription = resources.GetString("chkUseSPA.AccessibleDescription");
-			this.chkUseSPA.AccessibleName = resources.GetString("chkUseSPA.AccessibleName");
-			this.chkUseSPA.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("chkUseSPA.Anchor")));
-			this.chkUseSPA.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("chkUseSPA.Appearance")));
-			this.chkUseSPA.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("chkUseSPA.BackgroundImage")));
-			this.chkUseSPA.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("chkUseSPA.CheckAlign")));
-			this.chkUseSPA.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("chkUseSPA.Dock")));
-			this.chkUseSPA.Enabled = ((bool)(resources.GetObject("chkUseSPA.Enabled")));
-			this.errorProvider.SetError(this.chkUseSPA, resources.GetString("chkUseSPA.Error"));
-			this.chkUseSPA.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("chkUseSPA.FlatStyle")));
-			this.chkUseSPA.Font = ((System.Drawing.Font)(resources.GetObject("chkUseSPA.Font")));
-			this.errorProvider.SetIconAlignment(this.chkUseSPA, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("chkUseSPA.IconAlignment"))));
-			this.errorProvider.SetIconPadding(this.chkUseSPA, ((int)(resources.GetObject("chkUseSPA.IconPadding"))));
-			this.chkUseSPA.Image = ((System.Drawing.Image)(resources.GetObject("chkUseSPA.Image")));
-			this.chkUseSPA.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("chkUseSPA.ImageAlign")));
-			this.chkUseSPA.ImageIndex = ((int)(resources.GetObject("chkUseSPA.ImageIndex")));
-			this.chkUseSPA.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("chkUseSPA.ImeMode")));
-			this.chkUseSPA.Location = ((System.Drawing.Point)(resources.GetObject("chkUseSPA.Location")));
-			this.chkUseSPA.Name = "chkUseSPA";
-			this.chkUseSPA.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("chkUseSPA.RightToLeft")));
-			this.chkUseSPA.Size = ((System.Drawing.Size)(resources.GetObject("chkUseSPA.Size")));
-			this.chkUseSPA.TabIndex = ((int)(resources.GetObject("chkUseSPA.TabIndex")));
-			this.chkUseSPA.Text = resources.GetString("chkUseSPA.Text");
-			this.chkUseSPA.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("chkUseSPA.TextAlign")));
-			this.chkUseSPA.Visible = ((bool)(resources.GetObject("chkUseSPA.Visible")));
-			this.chkUseSPA.Validating += new System.ComponentModel.CancelEventHandler(this.OnWidgetValidating);
-			this.chkUseSPA.Validated += new System.EventHandler(this.OnWidgetValidated);
 			// 
 			// labelNewsServerAccoutnName
 			// 
@@ -2332,7 +2097,110 @@ namespace RssBandit.WinGui.Forms
 			this.errorProvider.ContainerControl = this;
 			this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
 			// 
-			// NewsGroupsConfiguration
+			// _NewsgroupsConfiguration_Toolbars_Dock_Area_Left
+			// 
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.AccessibleDescription = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.AccessibleDescription");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.AccessibleName = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.AccessibleName");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Anchor")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.BackColor = System.Drawing.SystemColors.Window;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.BackgroundImage")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Left;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Enabled = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Enabled")));
+			this.errorProvider.SetError(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left, resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Error"));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.errorProvider.SetIconAlignment(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.IconAlignment"))));
+			this.errorProvider.SetIconPadding(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left, ((int)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.IconPadding"))));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.ImeMode")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Location = ((System.Drawing.Point)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Location")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Name = "_NewsgroupsConfiguration_Toolbars_Dock_Area_Left";
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.RightToLeft")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Size = ((System.Drawing.Size)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Size")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Text = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Text");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.ToolbarsManager = this.ultraToolbarsManager;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Visible = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Visible")));
+			// 
+			// ultraToolbarsManager
+			// 
+			this.ultraToolbarsManager.DesignerFlags = 1;
+			this.ultraToolbarsManager.DockWithinContainer = this;
+			this.ultraToolbarsManager.ShowFullMenusDelay = 500;
+			// 
+			// _NewsgroupsConfiguration_Toolbars_Dock_Area_Right
+			// 
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.AccessibleDescription = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.AccessibleDescription");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.AccessibleName = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.AccessibleName");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Anchor")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.BackColor = System.Drawing.SystemColors.Window;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.BackgroundImage")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Enabled = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Enabled")));
+			this.errorProvider.SetError(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right, resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Error"));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.errorProvider.SetIconAlignment(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.IconAlignment"))));
+			this.errorProvider.SetIconPadding(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right, ((int)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.IconPadding"))));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.ImeMode")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Location = ((System.Drawing.Point)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Location")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Name = "_NewsgroupsConfiguration_Toolbars_Dock_Area_Right";
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.RightToLeft")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Size = ((System.Drawing.Size)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Size")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Text = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Text");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.ToolbarsManager = this.ultraToolbarsManager;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Visible = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Visible")));
+			// 
+			// _NewsgroupsConfiguration_Toolbars_Dock_Area_Top
+			// 
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.AccessibleDescription = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.AccessibleDescription");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.AccessibleName = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.AccessibleName");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Anchor")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.BackColor = System.Drawing.SystemColors.Window;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.BackgroundImage")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Top;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Enabled = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Enabled")));
+			this.errorProvider.SetError(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top, resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Error"));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.errorProvider.SetIconAlignment(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.IconAlignment"))));
+			this.errorProvider.SetIconPadding(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top, ((int)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.IconPadding"))));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.ImeMode")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Location = ((System.Drawing.Point)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Location")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Name = "_NewsgroupsConfiguration_Toolbars_Dock_Area_Top";
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.RightToLeft")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Size = ((System.Drawing.Size)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Size")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Text = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Text");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.ToolbarsManager = this.ultraToolbarsManager;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Visible = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Visible")));
+			// 
+			// _NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom
+			// 
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.AccessibleDescription = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.AccessibleDescription");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.AccessibleName = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.AccessibleName");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Anchor")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.BackColor = System.Drawing.SystemColors.Window;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.BackgroundImage")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Bottom;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Enabled = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Enabled")));
+			this.errorProvider.SetError(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom, resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Error"));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.errorProvider.SetIconAlignment(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.IconAlignment"))));
+			this.errorProvider.SetIconPadding(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom, ((int)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.IconPadding"))));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.ImeMode")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Location = ((System.Drawing.Point)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Location")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Name = "_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom";
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.RightToLeft")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Size = ((System.Drawing.Size)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Size")));
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Text = resources.GetString("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Text");
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.ToolbarsManager = this.ultraToolbarsManager;
+			this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Visible = ((bool)(resources.GetObject("_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Visible")));
+			// 
+			// timerFilterGroups
+			// 
+			this.timerFilterGroups.Interval = 250;
+			this.timerFilterGroups.Tick += new System.EventHandler(this.OnFilterNewsGroupsTick);
+			// 
+			// NewsgroupsConfiguration
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
@@ -2348,10 +2216,10 @@ namespace RssBandit.WinGui.Forms
 			this.Controls.Add(this.panelDetailsParent);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.navigationBar);
-			this.Controls.Add(this.leftSandBarDock);
-			this.Controls.Add(this.rightSandBarDock);
-			this.Controls.Add(this.bottomSandBarDock);
-			this.Controls.Add(this.topSandBarDock);
+			this.Controls.Add(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Left);
+			this.Controls.Add(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Right);
+			this.Controls.Add(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Top);
+			this.Controls.Add(this._NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom);
 			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
 			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2361,7 +2229,7 @@ namespace RssBandit.WinGui.Forms
 			this.MaximumSize = ((System.Drawing.Size)(resources.GetObject("$this.MaximumSize")));
 			this.MinimizeBox = false;
 			this.MinimumSize = ((System.Drawing.Size)(resources.GetObject("$this.MinimumSize")));
-			this.Name = "NewsGroupsConfiguration";
+			this.Name = "NewsgroupsConfiguration";
 			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
@@ -2371,7 +2239,6 @@ namespace RssBandit.WinGui.Forms
 			this.newsServersPane.ResumeLayout(false);
 			this.accountsPane.ResumeLayout(false);
 			this.accountSettingsPane.ResumeLayout(false);
-			this.topSandBarDock.ResumeLayout(false);
 			this.panelDetailsParent.ResumeLayout(false);
 			this.panelDetailsTop.ResumeLayout(false);
 			this.subscriptionsViewPane.ResumeLayout(false);
@@ -2379,6 +2246,7 @@ namespace RssBandit.WinGui.Forms
 			((System.ComponentModel.ISupportInitialize)(this.trackBarServerTimeout)).EndInit();
 			this.serverViewPane.ResumeLayout(false);
 			this.generalViewPane.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -2416,7 +2284,14 @@ namespace RssBandit.WinGui.Forms
 			this.listAccounts.SelectedIndexChanged += new System.EventHandler(this.OnListAccountsSelectedIndexChanged);
 		}
 
-		private void ActivateView(NewsGroupSettingsView detail) {
+		private void InitializeToolbars() {
+			this.toolbarHelper = new ToolbarHelper(this.ultraToolbarsManager);
+			this.ultraToolbarsManager.Style = Infragistics.Win.UltraWinToolbars.ToolbarStyle.Office2003;
+			this.ultraToolbarsManager.ToolClick += new ToolClickEventHandler(this.OnToolbarToolClick);
+			this.toolbarHelper.CreateToolbars(this);
+		}
+		
+		private void ActivateView(NewsgroupSettingsView detail) {
 			try {
 				foreach (Control c in this.panelDetailsTop.Controls) {
 					if (c is HeaderControl) {
@@ -2426,36 +2301,34 @@ namespace RssBandit.WinGui.Forms
 					}
 				}
 				
-				toolBarFilterNewsgroupList.Visible = (detail == NewsGroupSettingsView.NewsServerSubscriptions);
-
 				this.navigationBar.SelectedPaneChanged -= new System.EventHandler(this.OnNavigationBarSelectedPaneChanged);
-				if (detail == NewsGroupSettingsView.Identity) {
-					this.Text = Resource.Manager["RES_ConfigIdentitiesDialogCaption"];
+				if (detail == NewsgroupSettingsView.Identity) {
+					this.Text = SR.ConfigIdentitiesDialogCaption;
 					if (navigationBar.SelectedPane != accountsPane)
 						navigationBar.SelectedPane = accountsPane;
 				} else {
-					this.Text = Resource.Manager["RES_ConfigNewsServerDialogCaption"];
+					this.Text = SR.ConfigNewsServerDialogCaption;
 					if (navigationBar.SelectedPane != newsServersPane)
 						navigationBar.SelectedPane = newsServersPane;
 				}
 				this.navigationBar.SelectedPaneChanged += new System.EventHandler(this.OnNavigationBarSelectedPaneChanged);
 
 				switch (detail) {
-					case NewsGroupSettingsView.Identity:
+					case NewsgroupSettingsView.Identity:
 						this.OnAccountSettingsPaneResize(this, EventArgs.Empty);
 						accountSettingsPane.Visible = true;
 						break;
-					case NewsGroupSettingsView.NewsServerSubscriptions:
+					case NewsgroupSettingsView.NewsServerSubscriptions:
 						this.OnSubscriptionsPaneResize(this, EventArgs.Empty);
 						subscriptionsViewPane.Visible = true;
 						break;
-					case NewsGroupSettingsView.NewsServerGeneral:
+					case NewsgroupSettingsView.NewsServerGeneral:
 						generalViewPane.Visible = true;
 						break;
-					case NewsGroupSettingsView.NewsServerSettings:
+					case NewsgroupSettingsView.NewsServerSettings:
 						serverViewPane.Visible = true;
 						break;
-					case NewsGroupSettingsView.NewsServerAdvanced:
+					case NewsgroupSettingsView.NewsServerAdvanced:
 						advancedViewPane.Visible = true;
 						break;
 				}
@@ -2487,7 +2360,7 @@ namespace RssBandit.WinGui.Forms
 				throw new ArgumentNullException("ui");
 
 			if (StringHelper.EmptyOrNull(ui.Name)) {
-				ui.Name = "New"; // Resource.Manager["RES_NewUserIdentityNameTemplate"];
+				ui.Name = "New"; // SR.NewUserIdentityNameTemplate"];
 			}
 			if (this.userIdentities.Contains(ui.Name)) {
 				do {
@@ -2497,9 +2370,14 @@ namespace RssBandit.WinGui.Forms
 			}
 			
 			this.userIdentities.Add(ui.Name, ui);
-			ListViewItem newItem = listAccounts.Items.Add(new ListViewItem(ui.Name, 0));
-			newItem.Tag = ui.Name;
-			newItem.Selected = true;	// cause event fired
+			try {
+				listAccounts.BeginUpdate();
+				ListViewItem newItem = listAccounts.Items.Add(new ListViewItem(ui.Name, 0));
+				newItem.Tag = ui.Name;
+				newItem.Selected = true;	// cause event fired
+			} finally {
+				listAccounts.EndUpdate();
+			}
 			
 		}
 		
@@ -2527,7 +2405,7 @@ namespace RssBandit.WinGui.Forms
 				throw new ArgumentNullException("sd");
 
 			if (StringHelper.EmptyOrNull(sd.Name)) {
-				sd.Name = "New"; // Resource.Manager["RES_NewNntpServerAccountNameTemplate"];
+				sd.Name = "New"; // SR.NewNntpServerAccountNameTemplate"];
 			}
 			if (this.nntpServers.Contains(sd.Name)) {
 				do {
@@ -2539,12 +2417,12 @@ namespace RssBandit.WinGui.Forms
 			this.nntpServers.Add(sd.Name, sd);
 
 			TreeNode[] childs = new TreeNode[3];
-			childs[0] = new TreeNode("General Settings", 2, 2);
-			childs[1] = new TreeNode("Server Settings", 3, 3);
-			childs[2] = new TreeNode("Advanced Settings", 4, 4);
-			childs[0].Tag = NewsGroupSettingsView.NewsServerGeneral;
-			childs[1].Tag = NewsGroupSettingsView.NewsServerSettings;
-			childs[2].Tag = NewsGroupSettingsView.NewsServerAdvanced;
+			childs[0] = new TreeNode(SR.NntpServerConfig_GeneralSettingsNodeCaption, 2, 2);
+			childs[1] = new TreeNode(SR.NntpServerConfig_ServerSettingsNodeCaption, 3, 3);
+			childs[2] = new TreeNode(SR.NntpServerConfig_AdvancedSettingsNodeCaption, 4, 4);
+			childs[0].Tag = NewsgroupSettingsView.NewsServerGeneral;
+			childs[1].Tag = NewsgroupSettingsView.NewsServerSettings;
+			childs[2].Tag = NewsgroupSettingsView.NewsServerAdvanced;
 
 			TreeNode newItem = new TreeNode(sd.Name, 1, 1, childs);
 			newItem.Tag = sd.Name;
@@ -2572,12 +2450,10 @@ namespace RssBandit.WinGui.Forms
 					txtServerAuthName.Enabled = txtServerAuthPassword.Enabled = true;
 					txtServerAuthName.Text = u;	
 					txtServerAuthPassword.Text = p;
+				}else{
+					txtServerAuthName.Text = txtServerAuthPassword.Text = String.Empty;				
 				}
-				
-				chkUseSPA.Enabled = chkUseAuthentication.Checked;
-				chkUseSPA.Checked = false;
-				if (sd.UseSecurePasswordAuthenticationSpecified)
-					chkUseSPA.Checked = sd.UseSecurePasswordAuthentication;
+								
 
 				txtServerPort.Text = String.Empty;
 				if (sd.PortSpecified)
@@ -2595,6 +2471,7 @@ namespace RssBandit.WinGui.Forms
 				}
 
 				IList groups = application.LoadNntpNewsGroups(this, sd, false);
+				listOfGroups.Tag = null;
 				this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 
 			}
@@ -2631,13 +2508,15 @@ namespace RssBandit.WinGui.Forms
 				}
 			}
 		}
-
 		private void PopulateNewsGroups(NntpServerDefinition sd, IList groups, IList currentSubscriptions) {
-			this.listOfGroups.Items.Clear();
-			this.listOfGroups.Refresh();
+			this.PopulateNewsGroups(sd, groups, currentSubscriptions, null);
+		}
+
+		private void PopulateNewsGroups(NntpServerDefinition sd, IList groups, IList currentSubscriptions, Regex filterExpression) {
+			
 			if (groups != null) {
-				ListViewItem[] lvs = new ListViewItem[groups.Count];
-				int i = 0, imageIndex = 0;
+				ArrayList alvs = new ArrayList(groups.Count);
+				int imageIndex = 0;
 				foreach (string group in groups) {
 					// String.Empty is the group description
 					//TODO: how we get this nntp group description?
@@ -2650,11 +2529,30 @@ namespace RssBandit.WinGui.Forms
 					}
 
 					//TODO: add the "Subscribed" icon, if server/group match an item in currentSubscriptions
-					lvs[i] = new ListViewItem(new string[]{group, String.Empty});
-					i++;
+					if (filterExpression == null || filterExpression.IsMatch(group)) {
+						alvs.Add(new ListViewItem(new string[]{group, String.Empty}));
+					}
 				}
-				this.listOfGroups.Items.AddRange(lvs);
+					
+				ListViewItem[] lvs = null;
+				
+				if (alvs.Count > 0) { 
+					lvs = new ListViewItem[alvs.Count];
+					alvs.CopyTo(lvs);
+				}
+					
+				lock(this.listOfGroups.Items) {
+					this.listOfGroups.Items.Clear();
+					if (lvs != null)
+						this.listOfGroups.Items.AddRange(lvs);
+				}
+
+			} else {
+				lock(this.listOfGroups.Items) {
+					this.listOfGroups.Items.Clear();
+				}
 			}
+			
 		}
 
 		private void DoSubscribe()
@@ -2680,6 +2578,31 @@ namespace RssBandit.WinGui.Forms
 			}
 
 		}
+		private void DoFilterNewsGroups(string filterText) {
+			
+			if (String.Compare(currentNGFilter, filterText, true) != 0) {
+				
+				NntpServerDefinition sd = this.GetSelectedNntpServerDefinition();
+				IList groups = null;
+				if (listOfGroups.Tag == null) {
+					if (sd != null) {
+						listOfGroups.Tag = groups = application.LoadNntpNewsGroups(this, sd, false);
+						this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
+					}
+				} else {
+					groups = (IList)listOfGroups.Tag;
+				}
+
+				if (StringHelper.EmptyTrimOrNull(filterText)) {	// reset to view all
+					this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
+				} else {	// do filter
+					Regex regFilter = new Regex(filterText.Trim(), RegexOptions.IgnoreCase);
+					this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd), regFilter);
+				}
+			}
+			
+			currentNGFilter = filterText;
+		}
 
 		#endregion
 
@@ -2687,30 +2610,38 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnNavigationBarSelectedPaneChanged(object sender, System.EventArgs e) {
 			if (this.navigationBar.SelectedPane == this.newsServersPane) {
-				this.ActivateView(NewsGroupSettingsView.NewsServerSubscriptions);
+				this.ActivateView(NewsgroupSettingsView.NewsServerSubscriptions);
+				this.OnTreeServersAfterSelect(treeServers, new TreeViewEventArgs(treeServers.SelectedNode)); 
 			} else if (this.navigationBar.SelectedPane == this.accountsPane) {
-				this.ActivateView(NewsGroupSettingsView.Identity);
+				this.ActivateView(NewsgroupSettingsView.Identity);
+				this.OnListAccountsSelectedIndexChanged(listAccounts, EventArgs.Empty);
 			}
 		}
 
 		private void OnNewIdentityToolActivate(object sender, System.EventArgs e) {
-			this.ActivateView(NewsGroupSettingsView.Identity);
+			this.ActivateView(NewsgroupSettingsView.Identity);
 			this.AddNewIdentity();
 		}
 
 		private void OnNewNewsServerToolActivate(object sender, System.EventArgs e) {
-			this.ActivateView(NewsGroupSettingsView.NewsServerGeneral);
+			this.ActivateView(NewsgroupSettingsView.NewsServerGeneral);
 			this.AddNewsServer();
 		}
 
 		private void OnDeleteItemToolActivate(object sender, System.EventArgs e) {
-			if (currentView == NewsGroupSettingsView.Identity) {
+			if (currentView == NewsgroupSettingsView.Identity) {
 				if (listAccounts.SelectedItems.Count > 0) {
 					string key = (string)listAccounts.SelectedItems[0].Tag;
 					if (key != null && this.userIdentities.Contains(key)) {
 						UserIdentity ui = (UserIdentity)this.userIdentities[key];
 						this.userIdentities.Remove(key);
+						// remove from default identities list AND assigned nntp servers:
 						this.cboDefaultIdentities.Items.Remove(ui.Name);
+						foreach (string serverKey in this.nntpServers.Keys) {
+							NntpServerDefinition sd = (NntpServerDefinition)this.nntpServers[serverKey];
+							if (sd.DefaultIdentity == ui.Name)
+								sd.DefaultIdentity = String.Empty;
+						}
 						this.listAccounts.Items.Remove(listAccounts.SelectedItems[0]);
 					}
 				}
@@ -2725,7 +2656,7 @@ namespace RssBandit.WinGui.Forms
 					string key = (string)n.Tag;
 
 					if (key != null && this.nntpServers.Contains(key)) {
-						NntpServerDefinition sd = (NntpServerDefinition)this.nntpServers[key];
+						//NntpServerDefinition sd = (NntpServerDefinition)this.nntpServers[key];
 						this.nntpServers.Remove(key);
 						this.treeServers.Nodes.Remove(n);
 					}
@@ -2761,28 +2692,25 @@ namespace RssBandit.WinGui.Forms
 			
 			if (enable) {
 				string key = null;
-				NewsGroupSettingsView what = NewsGroupSettingsView.NewsServerSubscriptions;
+				NewsgroupSettingsView what = NewsgroupSettingsView.NewsServerSubscriptions;
 				if (e.Node.Parent != null) {
-					what = (NewsGroupSettingsView)e.Node.Tag;
+					what = (NewsgroupSettingsView)e.Node.Tag;
 					key = (string)e.Node.Parent.Tag;
 				} else {
 					key = (string)e.Node.Tag;
 				}
-				if (what == NewsGroupSettingsView.NewsServerGeneral) {
-					this.ActivateView(NewsGroupSettingsView.NewsServerGeneral);
-				} else if (what == NewsGroupSettingsView.NewsServerSettings) {
-					this.ActivateView(NewsGroupSettingsView.NewsServerSettings);
-				} else if (what == NewsGroupSettingsView.NewsServerAdvanced) {
-					this.ActivateView(NewsGroupSettingsView.NewsServerAdvanced);
+				if (what == NewsgroupSettingsView.NewsServerGeneral) {
+					this.ActivateView(NewsgroupSettingsView.NewsServerGeneral);
+				} else if (what == NewsgroupSettingsView.NewsServerSettings) {
+					this.ActivateView(NewsgroupSettingsView.NewsServerSettings);
+				} else if (what == NewsgroupSettingsView.NewsServerAdvanced) {
+					this.ActivateView(NewsgroupSettingsView.NewsServerAdvanced);
 				} else {
 					// !! the node.Tag here contains the string ID of the nntp server def. !!
-					this.ActivateView(NewsGroupSettingsView.NewsServerSubscriptions);
+					this.ActivateView(NewsgroupSettingsView.NewsServerSubscriptions);
 				}
 				
-				if (lastSelectedNntpServerDefinition != key)
-					this.PopulateNntpServerDefinition(key);
-
-				lastSelectedNntpServerDefinition = key;
+				this.PopulateNntpServerDefinition(key);
 			}
 
 		}
@@ -2803,7 +2731,6 @@ namespace RssBandit.WinGui.Forms
 			txtServerPort.Text = NntpWebRequest.NntpDefaultServerPort.ToString();
 		}
 		private void OnUseAuthenticationCheckedChanged(object sender, System.EventArgs e) {
-			this.chkUseSPA.Enabled = this.chkUseAuthentication.Checked;
 			this.txtServerAuthName.Enabled = this.txtServerAuthPassword.Enabled = this.chkUseAuthentication.Checked;
 		}
 
@@ -2868,13 +2795,7 @@ namespace RssBandit.WinGui.Forms
 			if (sender == this.txtServerAuthPassword) {
 				if (selectedServer != null)
 					NewsHandler.SetNntpServerCredentials(selectedServer, this.txtServerAuthName.Text, txtServerAuthPassword.Text);
-			}
-			if (sender == this.chkUseSPA) {
-				if (selectedServer != null) {
-					selectedServer.UseSecurePasswordAuthenticationSpecified = (this.chkUseSPA.Checked);
-					selectedServer.UseSecurePasswordAuthentication = this.chkUseSPA.Checked;
-				}
-			}
+			}			
 			if (sender == this.txtServerPort) {
 				if (selectedServer != null) {
 					int port = Int32.Parse(this.txtServerPort.Text);
@@ -2959,9 +2880,10 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnFormLoad(object sender, System.EventArgs e) {
+			this.InitializeToolbars();
 			this.InitializeWidgets(application.CurrentIdentities, application.CurrentNntpServers); 
 			this.ActivateView(this.currentView);
-			if (currentView == NewsGroupSettingsView.Identity) {
+			if (currentView == NewsgroupSettingsView.Identity) {
 				if (listAccounts.SelectedItems.Count > 0)
 					this.OnListAccountsSelectedIndexChanged(listAccounts, EventArgs.Empty);
 			} else {
@@ -2980,10 +2902,11 @@ namespace RssBandit.WinGui.Forms
 
 		private void btnRefreshGroupList_Click(object sender, System.EventArgs e) {
 			try {
-				using (Genghis.Windows.Forms.CursorChanger c = new Genghis.Windows.Forms.CursorChanger(Cursors.WaitCursor)) {
+				using (new Genghis.Windows.Forms.CursorChanger(Cursors.WaitCursor)) {
 					NntpServerDefinition sd = this.GetSelectedNntpServerDefinition();
 					if (sd != null) {
 						IList groups = application.LoadNntpNewsGroups(this, sd, true);
+						listOfGroups.Tag = null;
 						this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 					}
 				}
@@ -2992,12 +2915,42 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
+		private void OnFilterByTextChanged(object sender, System.EventArgs e) {
+			this.timerFilterGroups.Enabled = true;
+		}
+
+		private void OnFilterNewsGroupsTick(object sender, System.EventArgs e) {
+			this.timerFilterGroups.Enabled = false;
+			this.DoFilterNewsGroups(txtFilterBy.Text);
+		}
+
 		private void OnListOfGroupsDoubleClick(object sender, System.EventArgs e)
 		{
 			this.DoSubscribe();
 		}
+		
+		private void OnToolbarToolClick(object sender, Infragistics.Win.UltraWinToolbars.ToolClickEventArgs e) {
+			switch (e.Tool.Key) {
+				case "toolNewIndentity":    // ButtonTool
+					OnNewIdentityToolActivate(sender, EventArgs.Empty);
+					break;
 
+				case "toolNewNntpServer":    // ButtonTool
+					OnNewNewsServerToolActivate(sender, EventArgs.Empty);
+					break;
+
+				case "toolDelete":    // ButtonTool
+					OnDeleteItemToolActivate(sender, EventArgs.Empty);
+					break;
+
+			}
+		}
+		
 		#endregion
+
+		
+
+
 
 	}
 }

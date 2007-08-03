@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: StringHelper.cs,v 1.5 2005/04/02 20:16:15 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/02 20:16:15 $
- * $Revision: 1.5 $
+ * $Id: StringHelper.cs,v 1.8 2007/05/03 15:58:06 t_rendelmann Exp $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2007/05/03 15:58:06 $
+ * $Revision: 1.8 $
  */
 #endregion
 
@@ -21,7 +21,7 @@ namespace NewsComponents.Utils
 	{
 		// 'The next line is supposed to be an RFC 2822 address compliant validation expression
 		private static Regex regexEMail = new Regex(@"(?<prefix>mailto:)?(?<address>(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$)", RegexOptions.Singleline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
-		private static Regex regexWords = new Regex(@"\w+", RegexOptions.Multiline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
+		private static Regex regexWords = new Regex(@"\S+", RegexOptions.Multiline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
 
 		/// <summary>
 		/// Helper to test strings.

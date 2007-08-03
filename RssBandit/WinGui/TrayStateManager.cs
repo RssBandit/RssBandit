@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TrayStateManager.cs,v 1.6 2004/04/20 12:01:50 t_rendelmann Exp $
+ * $Id: TrayStateManager.cs,v 1.8 2006/04/06 11:08:09 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/04/20 12:01:50 $
- * $Revision: 1.6 $
+ * Last modified at $Date: 2006/04/06 11:08:09 $
+ * $Revision: 1.8 $
  */
 #endregion
 
@@ -11,6 +11,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
+using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 
 namespace RssBandit.WinGui
@@ -49,28 +50,37 @@ namespace RssBandit.WinGui
 
 			_notifyIcon.AddState(
 				new NotifyIconState(ApplicationTrayState.NormalIdle.ToString(),
-					Resource.Manager["RES_GUIStatusIdle"], 
-					Resource.Manager.LoadIcon(String.Format("Resources.AppTray{0}.ico", postFix))
+					SR.GUIStatusIdle, 
+					Resource.LoadIcon(String.Format("Resources.AppTray{0}.ico", postFix))
 				)
 			);
 			
-			_notifyIcon.AddState(
-				new NotifyIconState(ApplicationTrayState.NewUnreadFeedsReceived.ToString(),
-					Resource.Manager["RES_GUIStatusNewFeedItemsReceived"], 
-					(il == null ? Resource.Manager.LoadBitmapStrip(String.Format("Resources.AniImages{0}.bmp", postFix), new Size(16,16),  new Point(0,0)) : il) , 3)
-			);
+			if (Win32.IsOSAtLeastWindowsXP) {
+				_notifyIcon.AddState(
+					new NotifyIconState(ApplicationTrayState.NewUnreadFeedsReceived.ToString(),
+					SR.GUIStatusNewFeedItemsReceived, 
+					(il == null ? Resource.LoadBitmapStrip(String.Format("Resources.AniImages{0}.png", postFix), new Size(16,16) /*, new Point(0,0) */) : il) , 3)
+					);
+			} else {
+				_notifyIcon.AddState(
+					new NotifyIconState(ApplicationTrayState.NewUnreadFeedsReceived.ToString(),
+					SR.GUIStatusNewFeedItemsReceived, 
+					Resource.LoadIcon(String.Format("Resources.UnreadFeedItems{0}.ico", postFix))
+					)
+				);
+			}
 			
 			_notifyIcon.AddState(
 				new NotifyIconState(ApplicationTrayState.BusyRefreshFeeds.ToString(),
-					Resource.Manager["RES_GUIStatusBusyRefresh"], 
-					Resource.Manager.LoadIcon(String.Format("Resources.AppBusy{0}.ico", postFix))
+				SR.GUIStatusBusyRefresh, 
+				Resource.LoadIcon(String.Format("Resources.AppBusy{0}.ico", postFix))
 				)
 			);
 
 			_notifyIcon.AddState(
 				new NotifyIconState(ApplicationTrayState.NewUnreadFeeds.ToString(),
-					Resource.Manager["RES_GUIStatusUnreadFeedItemsAvailable"], 
-					Resource.Manager.LoadIcon(String.Format("Resources.UnreadFeedItems{0}.ico", postFix))
+					SR.GUIStatusUnreadFeedItemsAvailable, 
+					Resource.LoadIcon(String.Format("Resources.UnreadFeedItems{0}.ico", postFix))
 				)
 			);
 

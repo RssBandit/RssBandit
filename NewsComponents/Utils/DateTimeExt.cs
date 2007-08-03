@@ -1,16 +1,18 @@
 #region CVS Version Header
 /*
- * $Id: DateTimeExt.cs,v 1.4 2005/04/10 09:31:06 t_rendelmann Exp $
+ * $Id: DateTimeExt.cs,v 1.9 2007/05/03 18:27:44 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/10 09:31:06 $
- * $Revision: 1.4 $
+ * Last modified at $Date: 2007/05/03 18:27:44 $
+ * $Revision: 1.9 $
  */
 #endregion
 
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
+using NewsComponents.Resources;
 
 namespace NewsComponents.Utils
 {
@@ -36,6 +38,9 @@ namespace NewsComponents.Utils
 		/// <param name="datetime">DateTime string</param>
 		/// <returns>DateTime instance</returns>
 		/// <exception cref="FormatException">On format errors parsing the datetime</exception>
+		/// <remarks>
+		/// See also W3C note at: http://www.w3.org/TR/NOTE-datetime
+		/// </remarks>
 		public static DateTime ToDateTime(string datetime){
 
 			//strip trailing 'Z' since we assume UTC
@@ -80,7 +85,7 @@ namespace NewsComponents.Utils
 		/// the normal DateTime.Parse() function is called.
 		/// </summary>
 		/// <param name="dateTimeString">DateTime String to parse</param>
-		/// <returns>DateTime instance</returns>
+		/// <returns>DateTime instance with date and time converted to Universal Time</returns>
 		/// <exception cref="FormatException">On format errors parsing the datetime</exception>
 		public static DateTime Parse(string dateTimeString)
 		{
@@ -110,13 +115,19 @@ namespace NewsComponents.Utils
 				}
 				catch (Exception e)
 				{
-					throw new FormatException(Resource.Manager["RES_ExceptionRFC2822ParseGroupsMessage", e.GetType().Name], e);
+					throw new FormatException(ComponentsText.ExceptionRFC2822ParseGroupsMessage(e.GetType().Name), e);
 				}
 			}
 			else
 			{
 				// fallback, if regex does not match:
-				return DateTime.Parse(dateTimeString);
+
+				//TR fix:Jan,14. 2006 - we have to return Universal Time,
+				// but DateTime.Parse(string) will use DateTimeStyles.None by default
+				// and return a DateTime in local machine time!
+				// old code was:
+				//return DateTime.Parse(dateTimeString);
+				return DateTime.Parse(dateTimeString, null, DateTimeStyles.AdjustToUniversal);
 
 			}
 			// Unreachable code:
@@ -212,11 +223,20 @@ namespace NewsComponents.Utils
 			
 			}catch(IndexOutOfRangeException){
 			  
-				throw new FormatException(Resource.Manager["RES_ExceptionRFC2822InvalidTimezoneFormatMessage", original]);
+				throw new FormatException(ComponentsText.ExceptionRFC2822InvalidTimezoneFormatMessage(original));
 			}
    
 		}
 	
+		/// <summary>
+		/// returns a date as integer in the format YYYYMMDD.
+		/// </summary>
+		/// <param name="date">The date.</param>
+		/// <returns>int</returns>
+		public static int DateAsInteger(DateTime date) {
+			return date.Year *10000 + date.Month * 100 + date.Day;
+		}
+		
 	}	// end class DateTimeExt
 
 }

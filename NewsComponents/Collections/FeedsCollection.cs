@@ -1,18 +1,31 @@
 #region CVS Version Header
 /*
- * $Id: FeedsCollection.cs,v 1.2 2004/10/30 11:38:57 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/10/30 11:38:57 $
- * $Revision: 1.2 $
+ * $Id: FeedsCollection.cs,v 1.8 2007/03/02 00:26:37 carnage4life Exp $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2007/03/02 00:26:37 $
+ * $Revision: 1.8 $
  */
 #endregion
 
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Collections {
+
+	#region EmptyArrayList
+	/// <summary>
+	/// Helper class to return a empty ArrayList instance
+	/// </summary>
+	public sealed class GetArrayList:ArrayList
+	{
+		private static ArrayList _empty = ArrayList.ReadOnly(new ArrayList(0));
+		/// <summary>
+		/// Gets the empty/readonly single ArrayList instance.
+		/// </summary>
+		public static ArrayList Empty { get { return _empty; } }	
+	}
+	#endregion
 
 	#region Interface IfeedsFeedCollection
 
@@ -1480,7 +1493,7 @@ namespace NewsComponents.Collections {
 				if (key == null)
 					throw new ArgumentNullException("key");
 				
-				string feedUrl = key.ToString();
+				string feedUrl = key.AbsoluteUri;
 				if (!ContainsKey(feedUrl) && (key.IsFile || key.IsUnc)) {
 					feedUrl = key.LocalPath;
 				}
@@ -1490,7 +1503,7 @@ namespace NewsComponents.Collections {
 				if (key == null)
 					throw new ArgumentNullException("key");
 
-				string feedUrl = key.ToString();
+				string feedUrl = key.AbsoluteUri;
 				if (!ContainsKey(feedUrl) && (key.IsFile || key.IsUnc)) {
 					feedUrl = key.LocalPath;
 				}
@@ -1643,6 +1656,13 @@ namespace NewsComponents.Collections {
 			if ((object) key == null)
 				throw new ArgumentNullException("key");
 
+			/* convert the URI to a canonicalized absolute URI */ 
+			try{
+				Uri uri = new Uri(key); 
+				key = uri.AbsoluteUri;
+				value.link = key; 
+			}catch {}
+
 			int index = BinaryKeySearch(key);
 
 			if (index >= 0)
@@ -1751,7 +1771,7 @@ namespace NewsComponents.Collections {
 		/// The comparer throws an exception.</exception>
 		/// <remarks>Please refer to <see cref="SortedList.Contains"/> for details.</remarks>
 		public virtual bool Contains(String key) {
-			return (IndexOfKey(key) >= 0);
+			return ContainsKey(key);
 		}
 		/// <summary>
 		/// Overloaded.
@@ -1803,6 +1823,16 @@ namespace NewsComponents.Collections {
 		/// <remarks>Please refer to <see cref="SortedList.ContainsKey"/> for details.</remarks>
 
 		public virtual bool ContainsKey(String key) {
+
+			if ((object) key == null)
+				throw new ArgumentNullException("key");
+
+			/* convert the URI to a canonicalized absolute URI */ 
+			try{
+				Uri uri = new Uri(key); 
+				key = uri.AbsoluteUri;				
+			}catch {}
+		
 			return (IndexOfKey(key) >= 0);
 		}
 		/// <summary>
@@ -1814,7 +1844,7 @@ namespace NewsComponents.Collections {
 			if (key == null)
 				return false;
 
-			string feedUrl = key.ToString();
+			string feedUrl = key.AbsoluteUri;
 			if (!ContainsKey(feedUrl) && (key.IsFile || key.IsUnc)) {
 				feedUrl = key.LocalPath;
 			}
@@ -2196,7 +2226,7 @@ namespace NewsComponents.Collections {
 		/// A synchronized (thread-safe) wrapper around <paramref name="dictionary"/>.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="collection"/> is a null reference.</exception>
+		/// <paramref name="dictionary"/> is a null reference.</exception>
 		/// <remarks>Please refer to <see cref="SortedList.Synchronized"/> for details.</remarks>
 
 		public static FeedsCollection Synchronized(FeedsCollection dictionary) {

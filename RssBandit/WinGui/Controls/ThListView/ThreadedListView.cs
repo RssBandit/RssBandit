@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListView.cs,v 1.19 2005/04/12 07:12:55 t_rendelmann Exp $
+ * $Id: ThreadedListView.cs,v 1.28 2007/03/13 16:50:49 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/12 07:12:55 $
- * $Revision: 1.19 $
+ * Last modified at $Date: 2007/03/13 16:50:49 $
+ * $Revision: 1.28 $
  */
 #endregion
 
@@ -14,7 +14,6 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
@@ -22,16 +21,19 @@ using System.Windows.Forms.ThListView.Sorting;
 using THLV = System.Windows.Forms.ThListView;
 
 using NewsComponents.Feed;
-using RssBandit;
-using RssBandit.Common.Logging;
+using RssBandit.Resources;
 
 namespace System.Windows.Forms.ThListView {
 	
 	/// <summary>
 	/// ThreadedListView, an extended listview control.
 	/// </summary>
+	/// <remarks>
+	/// Rework required: CLR 2.0 ListView already implement
+	/// Groups and VirtualMode (XP and 2003 only, if visual styles enabled)
+	/// </remarks>
 	public class ThreadedListView : System.Windows.Forms.ListView {
-		private static readonly log4net.ILog _log = Log.GetLogger(typeof(ThreadedListView));
+		//private static readonly log4net.ILog _log = Log.GetLogger(typeof(ThreadedListView));
 
 		private System.Windows.Forms.ImageList imageListStates;
 		
@@ -66,6 +68,8 @@ namespace System.Windows.Forms.ThListView {
  
 		public delegate void OnExpandThreadEventHandler(object sender, ThreadEventArgs e);
 		public event OnExpandThreadEventHandler ExpandThread;
+		public delegate void OnAfterExpandThreadEventHandler(object sender, ThreadEventArgs e);
+		public event OnAfterExpandThreadEventHandler AfterExpandThread;
 		public delegate void OnCollapseThreadEventHandler(object sender, ThreadEventArgs e);
 		public event OnCollapseThreadEventHandler CollapseThread;
 
@@ -104,7 +108,7 @@ namespace System.Windows.Forms.ThListView {
 		private void InitListView() {
 
 			this._headerImageListLoaded = false;
-			this._isWinXP = Win32.IsOSAtLeastWindowsXP;
+			this._isWinXP = RssBandit.Win32.IsOSAtLeastWindowsXP;
 			// our core state:
 			this.ShowAsThreads = true;
 
@@ -151,34 +155,37 @@ namespace System.Windows.Forms.ThListView {
 		}
 		#endregion
 
-		protected override void WndProc(ref Message m) {
-			bool handled = false;
-			
-			// determine if we want to process this message type
-			switch ( m.Msg ) {
-					// notify messages can come from the header and are used 
-					// for column sorting and item filtering if wanted
-				case (int)Win32.W32_WM.WM_NOTIFY:
-					break;
+		// no real implementation, so it is commented out for now.
+		// kept for ref. or future code...
 
-					// internal ListView notify messages are reflected to us via OCM
-				case (int)Win32.W32_OCM.OCM_NOTIFY:
-					//RefreshSortMarks(_sorter.SortColumnIndex, _sorter.SortOrder);
-					break;
-
-				case (int)Win32.W32_WM.WM_PAINT:
-					//TODO: next code does not work...
-//					int _autoSizeColumnIndex = 0;
-//					if (this.View == View.Details && this.Columns.Count > _autoSizeColumnIndex) {
-//						this.Columns[_autoSizeColumnIndex].Width = -2;
-//					}
-					break;
-
-			}
-
-			if (!handled)
-				base.WndProc(ref m);
-		}
+//		protected override void WndProc(ref Message m) {
+//			bool handled = false;
+//			
+//			// determine if we want to process this message type
+//			switch ( m.Msg ) {
+//					// notify messages can come from the header and are used 
+//					// for column sorting and item filtering if wanted
+//				case (int)Win32.W32_WM.WM_NOTIFY:
+//					break;
+//
+//					// internal ListView notify messages are reflected to us via OCM
+//				case (int)Win32.W32_OCM.OCM_NOTIFY:
+//					//RefreshSortMarks(_sorter.SortColumnIndex, _sorter.SortOrder);
+//					break;
+//
+//				case (int)Win32.W32_WM.WM_PAINT:
+//					//TODO: next code does not work...
+////					int _autoSizeColumnIndex = 0;
+////					if (this.View == View.Details && this.Columns.Count > _autoSizeColumnIndex) {
+////						this.Columns[_autoSizeColumnIndex].Width = -2;
+////					}
+//					break;
+//
+//			}
+//
+//			if (!handled)
+//				base.WndProc(ref m);
+//		}
 
 		private void OnListviewHandleCreated(object sender, EventArgs e) {
 			this.SetExtendedStyles();
@@ -197,7 +204,7 @@ namespace System.Windows.Forms.ThListView {
 				if (lvi.HasChilds) {
 					if (lvi.Expanded == false)
 						ExpandListViewItem(lvi, false);
-					else if (lvi.Expanded == true)
+					else if (lvi.Expanded)
 						CollapseListViewItem(lvi);
 				}
 
@@ -208,7 +215,7 @@ namespace System.Windows.Forms.ThListView {
 					if (lvi.Expanded == false) {
 						ExpandListViewItem(lvi, true);
 					}
-					else if (lvi.Expanded == true) {
+					else if (lvi.Expanded) {
 						CollapseListViewItem(lvi);
 					}
 				}
@@ -237,7 +244,11 @@ namespace System.Windows.Forms.ThListView {
 		Description("collection of available groups (manually added)"), 
 		Editor(typeof(System.ComponentModel.Design.CollectionEditor), typeof(System.Drawing.Design.UITypeEditor)), 
 		Category("Grouping")]
+#if CLR_20
+		public new ThreadedListViewGroupCollection Groups{
+#else
 		public ThreadedListViewGroupCollection Groups{
+#endif
 			get{ return _groups; }
 		}
 
@@ -338,7 +349,7 @@ namespace System.Windows.Forms.ThListView {
 				this.APIEnableGrouping(true);
 				_showInGroups = true;
 				_autoGroup = true;
-				_autoGroupCol = (ThreadedListViewColumnHeader)this.Columns[columnID];
+				_autoGroupCol = this.Columns[columnID];
 
 				this.Refresh();
 
@@ -557,7 +568,7 @@ namespace System.Windows.Forms.ThListView {
 
 			int paramItemIndex;
 			int currentIndent;
-			int selectedItemIndex = -1;
+//			int selectedItemIndex = -1;
 
 			int selIdxsCount = base.SelectedIndices.Count;
 			int[] selIdxs = new int[selIdxsCount];
@@ -575,15 +586,15 @@ namespace System.Windows.Forms.ThListView {
 				paramItemIndex = lvItem.Index;
 				currentIndent = lvItem.IndentLevel;
 				
-				if (base.SelectedItems.Count > 0 && activate)
-					selectedItemIndex = paramItemIndex;
+//				if (base.SelectedItems.Count > 0 && activate)
+//					selectedItemIndex = paramItemIndex;
 
 				newItems = RaiseExpandEvent(lvItem);
 
 				if (newItems == null) {
 					ThreadedListViewItem item = _noChildsPlaceHolder;
 					if (item == null) {
-						item = new ThreadedListViewItemPlaceHolder(Resource.Manager["RES_FeedListNoChildsMessage"]);
+						item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage);
 						item.Font = new Font(this.Font.FontFamily,this.Font.Size, FontStyle.Regular);
 					}
 					newItems = new ThreadedListViewItem[]{item};
@@ -628,8 +639,10 @@ namespace System.Windows.Forms.ThListView {
   
 				// Make the last inserted subfolder visible, then the parent folder visible,
 				// per default treeview behavior. 
-				base.EnsureVisible(paramItemIndex-1);
-				base.EnsureVisible(lvItem.Index);
+				try {
+					base.EnsureVisible(paramItemIndex-1);
+					base.EnsureVisible(lvItem.Index);
+				} catch {}
 
 				if (activate) {
 					this.SelectedItems.Clear();
@@ -640,6 +653,8 @@ namespace System.Windows.Forms.ThListView {
 //						this.Items[i].Selected = true;
 //					}
 				}
+
+				RaiseAfterExpandEvent(lvItem, newItems);
 			}
 		}
 
@@ -648,12 +663,21 @@ namespace System.Windows.Forms.ThListView {
 		/// and raise the ListLayoutModified event
 		/// </summary>
 		public void CheckForLayoutModifications() {
+
 			if (!this.Disposing && !this.IsDisposed && this._layout != null) {
+				if (this.InvokeRequired) {
+
+					this.Invoke(new System.Threading.ThreadStart(CheckForLayoutModifications));
+					return;
+				}
+
 				FeedColumnLayout current = this.FeedColumnLayoutFromCurrentSettings();
+
 				if (!this._layout.Equals(current)) {
 					this.RaiseFeedColumnLayoutModifiedEvent(current);
 				}
 			}
+
 		}
 
 		/// <summary>
@@ -715,6 +739,16 @@ namespace System.Windows.Forms.ThListView {
 				}
 			}
 			return new ThreadedListViewItem[]{};
+		}
+
+		private void RaiseAfterExpandEvent(ThreadedListViewItem parent, ThreadedListViewItem[] newItems) {
+			if (AfterExpandThread != null) {
+				ThreadEventArgs tea = new ThreadEventArgs(parent);
+				tea.ChildItems = newItems;
+				try {
+					AfterExpandThread(this, tea);
+				} catch {}
+			}
 		}
 
 		private bool RaiseBeforeCollapseEventCancel(ThreadedListViewItem tlv) {
@@ -818,7 +852,7 @@ namespace System.Windows.Forms.ThListView {
 					if (newChildItems == null || newChildItems.Length == 0) {
 						ThreadedListViewItem item = _noChildsPlaceHolder;
 						if (item == null) {
-							item = new ThreadedListViewItemPlaceHolder(Resource.Manager["RES_FeedListNoChildsMessage"]);
+							item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage);
 							item.Font = new Font(this.Font.FontFamily,this.Font.Size, FontStyle.Regular);
 						}
 						newChildItems = new ThreadedListViewItem[]{item};
@@ -1042,7 +1076,7 @@ namespace System.Windows.Forms.ThListView {
 		private void OnAfterSort(object sender, EventArgs e) {
 			if (_showInGroups) { 
 				APIEnableGrouping(true);
-				if (_autoGroup == true) { 
+				if (_autoGroup) { 
 					AutoGroupByColumn(_autoGroupCol.Index); 
 				} else { 
 					Regroup(); 
@@ -1077,3 +1111,27 @@ namespace System.Windows.Forms.ThListView {
 		}
 	}
 }
+
+#region CVS Version Log
+/*
+ * $Log: ThreadedListView.cs,v $
+ * Revision 1.28  2007/03/13 16:50:49  t_rendelmann
+ * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
+ *
+ * Revision 1.27  2006/11/21 17:25:53  carnage4life
+ * Made changes to support options for Podcasts
+ *
+ * Revision 1.26  2006/11/21 16:08:05  carnage4life
+ * Made CheckForLayoutModifications thread safe.
+ *
+ * Revision 1.25  2006/11/05 10:54:40  t_rendelmann
+ * fixed: surrounded the small diffs between CLR 2.0 and CLR 1.1 with conditional compile defs.
+ *
+ * Revision 1.24  2006/11/05 01:23:55  carnage4life
+ * Reduced time consuming locks in indexing code
+ *
+ * Revision 1.23  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ */
+#endregion

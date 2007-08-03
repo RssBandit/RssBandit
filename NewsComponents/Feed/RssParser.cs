@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssParser.cs,v 1.25 2005/06/09 14:24:17 carnage4life Exp $
+ * $Id: RssParser.cs,v 1.90 2007/08/02 01:00:06 carnage4life Exp $
  * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/06/09 14:24:17 $
- * $Revision: 1.25 $
+ * Last modified at $Date: 2007/08/02 01:00:06 $
+ * $Revision: 1.90 $
  */
 #endregion
 
@@ -15,7 +15,9 @@ using System.Net;
 using System.Text;
 
 using NewsComponents;
+using NewsComponents.Collections;
 using NewsComponents.Net;
+using NewsComponents.Resources;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed {
@@ -122,9 +124,26 @@ namespace NewsComponents.Feed {
 		private static int nt_ns_content = 38;
 		private static int nt_ns_annotate = 39;
 		private static int nt_ns_bandit_2003 = 40;
-		private static int nt_ns_slash = 41;		
+		private static int nt_ns_wfw = 41;
+		private static int nt_comment = 42;
+		private static int nt_commentRSS = 43;
+		private static int nt_commentRss = 44;
+		private static int nt_ns_slash = 45;
+		private static int nt_enclosure = 46;
+		private static int nt_updated = 47;				// new (renamed from "modified") in Atom 1.0
+		private static int nt_published = 48;			// new (renamed from "issued") in Atom 1.0
+		private static int nt_ns_fd = 49;
+		private static int nt_inreplyto = 50;
+		private static int nt_watchcomments = 51; 
+		private static int nt_language = 52;
+		private static int nt_ns_thr = 53;
+		private static int nt_hasnewcomments = 54;
+		private static int nt_ns_mediarss = 55;
+		private static int nt_ns_itunes = 56;
+		private static int nt_created = 57;
+		private static int nt_duration = 58;
 
-		private static int NT_SIZE = 1 + nt_ns_slash;	// last used + 1
+		private static int NT_SIZE = 1 + nt_duration;	// last used + 1
 
 		#endregion 
 
@@ -141,14 +160,7 @@ namespace NewsComponents.Feed {
 				return true;
 			return false;
 		}
-		
-		/// <summary>
-		/// XmlDocument object where nodes placed in NewsItem.OptionalElements come from.
-		/// </summary>
-		private static XmlDocument optionalElementsDoc    = new XmlDocument();
-
-
-		//Search	impl. 
+				
 
 		
 		/// <summary>
@@ -168,6 +180,9 @@ namespace NewsComponents.Feed {
 		}
 		#endregion
 
+/*
+ * not used?
+ * 
 		/// <summary>
 		/// Helper function breaks up a string containing quote characters into 
 		///	a series of XPath concat() calls. 
@@ -188,6 +203,7 @@ namespace NewsComponents.Feed {
 			Console.WriteLine(result);
 			return result;
 		}
+*/
 
 
 		
@@ -220,23 +236,29 @@ namespace NewsComponents.Feed {
 		public static NewsItem MakeRssItem(feedsFeed f, XmlReader reader, object[] atomized_strings, DateTime defaultItemDate){
 		
 			
-			ContentType ctype  = ContentType.Text; 
+			ContentType ctype  = ContentType.None; 
 			string description = null; 	
 			string id          = null; 
 			string parentId    = null;
+			string baseUrl     = reader.BaseURI;
 			string link        = null; 
 			string title       = null; 
 			string subject     = null; 
 			string author      = null; 
+			string commentUrl  = null; 
+			string commentRssUrl = null; 
+			Enclosure enc        = null;
+			TimeSpan encDuration = TimeSpan.MinValue; 
 			int commentCount   = NewsItem.NoComments; 
 			DateTime date      = defaultItemDate; 	
 			DateTime now       = date; 
 			Hashtable optionalElements = new Hashtable(); 
 			Flagged flagged    = Flagged.None; 
-			ArrayList subjects = new ArrayList(); 
+			bool watchComments = false, hasNewComments = false; 
+			ArrayList subjects = new ArrayList(), enclosures = null; 
 			string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 			 			
-			bool nodeRead = false; //indicates whether the last node was read using XmlDocument.ReadNode()	
+			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
 
 			while((nodeRead || reader.Read()) && reader.NodeType != XmlNodeType.EndElement){
 
@@ -254,33 +276,42 @@ namespace NewsComponents.Feed {
 				bool nodeNamespaceUriEqual2Item = reader.NamespaceURI.Equals(itemNamespaceUri);
 				bool nodeNamespaceUriEqual2DC = (namespaceuri == atomized_strings[RssParser.nt_ns_dc]);
 
+				//skip elements from the FeedDemon namespace
+				if(namespaceuri == atomized_strings[RssParser.nt_ns_fd]){
+					reader.Skip(); 
+					nodeRead = true; 
+					continue; 
+				}
 
 				if((description == null) || (localname == atomized_strings[RssParser.nt_body]) || (localname == atomized_strings[RssParser.nt_encoded]) ){ //prefer to replace rss:description/dc:description with content:encoded
 					
 					if((namespaceuri == atomized_strings[RssParser.nt_ns_xhtml])
 						&& (localname == atomized_strings[RssParser.nt_body])){
 						if(!reader.IsEmptyElement){
-							XmlElement  elem = (XmlElement) optionalElementsDoc.ReadNode(reader); 
+							baseUrl = reader.BaseURI;
+							XmlElement  elem = RssHelper.CreateXmlElement(reader); 
 							nodeRead = true; 
 							description = elem.InnerXml;
 							elem = null; 
 						}
-						ctype  = ContentType.Xhtml; 					
+						ctype  = ContentType.Xhtml; 											
 						continue; 
 					}else if((namespaceuri == atomized_strings[RssParser.nt_ns_content])
 						&& (localname == atomized_strings[RssParser.nt_encoded])){
 						
 						if(!reader.IsEmptyElement){
+							baseUrl = reader.BaseURI;
 							description = ReadElementString(reader); 
 						}
-						ctype  = ContentType.Html; 
+						ctype  = ContentType.Html; 						
 						continue; 
 					}else if((nodeNamespaceUriEqual2Item || nodeNamespaceUriEqual2DC)
 						&& (localname == atomized_strings[RssParser.nt_description])){
 						if(!reader.IsEmptyElement){
+							baseUrl = reader.BaseURI;
 							description = ReadElementString(reader); 						
 						}
-						ctype  = ContentType.Text; 
+						ctype  = ContentType.Text; 						
 						continue; 
 					} 
 				
@@ -297,7 +328,7 @@ namespace NewsComponents.Feed {
 						if((reader["isPermaLink"] == null) || 
 							(StringHelper.AreEqualCaseInsensitive(reader["isPermaLink"], "true"))) {
 							if(!reader.IsEmptyElement){
-								link = ReadElementString(reader); 
+								link = ReadElementUrl(reader); 
 							}
 						}else if(StringHelper.AreEqualCaseInsensitive(reader["isPermaLink"], "false")){															
 							if(!reader.IsEmptyElement){
@@ -309,7 +340,7 @@ namespace NewsComponents.Feed {
 					}else if(nodeNamespaceUriEqual2Item 
 						&& (localname == atomized_strings[RssParser.nt_link])){
 						if(!reader.IsEmptyElement){
-							link = ReadElementString(reader); 
+							link = ReadElementUrl(reader); 
 						}
 						continue; 
 					}
@@ -377,6 +408,116 @@ namespace NewsComponents.Feed {
 					continue;
 				}
 
+				if((localname == atomized_strings[RssParser.nt_duration])
+					&& (namespaceuri == atomized_strings[RssParser.nt_ns_itunes])){
+					if(!reader.IsEmptyElement){
+						try{
+							string durationStr = ReadElementString(reader); 
+							if(durationStr.IndexOf(":") == -1){
+								durationStr = "00:00:" + durationStr; 
+							}
+
+							encDuration = TimeSpan.Parse(durationStr);
+							if(enc != null){
+								enc.Duration = encDuration; 
+							}
+						}catch(Exception){} 
+					}
+					continue;
+				}
+
+				if((namespaceuri == atomized_strings[RssParser.nt_ns_mediarss])
+					&& (localname == atomized_strings[RssParser.nt_content])){
+				
+					try{ 
+						if(reader["duration"] != null)
+							encDuration = TimeSpan.Parse("00:00:" + reader["duration"]);
+						if(enc != null){
+							enc.Duration = encDuration; 
+						}
+					} catch{}
+
+
+					//make sure we are positioned on next element after loop executes again				
+					if(!reader.IsEmptyElement){
+						reader.Skip(); 
+						nodeRead = true; 
+					}
+					
+					continue;
+				}
+
+				if((localname == atomized_strings[RssParser.nt_watchcomments])
+					&& (namespaceuri == atomized_strings[RssParser.nt_ns_bandit_2003])){
+
+					if(!reader.IsEmptyElement && ReadElementString(reader).Equals("1")){										
+						watchComments = true; 
+					}					
+					continue;
+				}
+
+
+				if((localname == atomized_strings[RssParser.nt_hasnewcomments])
+					&& (namespaceuri == atomized_strings[RssParser.nt_ns_bandit_2003])){
+
+					if(!reader.IsEmptyElement && ReadElementString(reader).Equals("1")){										
+						hasNewComments = true; 
+					}					
+					continue;
+				}
+
+				if(nodeNamespaceUriEqual2Item 
+					&& (localname == atomized_strings[RssParser.nt_enclosure])){				
+												
+					string url = reader["url"]; 
+					string type = reader["type"]; 
+					long length  = Int64.MinValue; 
+					bool downloaded = false;
+
+					try{ 
+						if(reader["duration"]!= null)
+							encDuration = TimeSpan.Parse(reader["duration"]);
+
+						if(reader["length"] != null)
+							length = Int64.Parse(reader["length"]);
+					} catch{}
+					try { downloaded = (reader["downloaded"] == null ? false: reader["downloaded"].Equals("1")); } catch {}
+
+					enclosures = (enclosures == null ? new ArrayList(): enclosures); 						
+					enc = new Enclosure(type, length, url, String.Empty);
+					enc.Downloaded = downloaded; 
+					
+					if(encDuration != TimeSpan.MinValue){
+						enc.Duration = encDuration; 
+					}
+
+					enclosures.Add(enc); 										
+
+					//make sure we are positioned on next element after loop executes again
+					if(!reader.IsEmptyElement){
+						reader.Skip(); 
+						nodeRead = true; 
+					}
+					
+					continue;
+				}
+
+				if((localname == atomized_strings[RssParser.nt_comment])
+					&& (namespaceuri == atomized_strings[RssParser.nt_ns_wfw])){
+					if(!reader.IsEmptyElement){
+						commentUrl =  ReadElementUrl(reader); 
+					}
+					continue;
+				}
+
+				if((localname == atomized_strings[RssParser.nt_commentRss] || localname == atomized_strings[RssParser.nt_commentRSS])
+					&& (namespaceuri == atomized_strings[RssParser.nt_ns_wfw])){
+					if(!reader.IsEmptyElement){
+						commentRssUrl =  ReadElementUrl(reader); 
+					}
+					continue;
+				}
+
 				if(commentCount== NewsItem.NoComments){
 				
 					if((localname == atomized_strings[RssParser.nt_comments])
@@ -416,7 +557,7 @@ namespace NewsComponents.Feed {
 				} 
 
 				XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
-				XmlNode optionalNode   = optionalElementsDoc.ReadNode(reader); 
+				string optionalNode   = reader.ReadOuterXml(); //optionalElementsDoc.ReadNode(reader); 
 				nodeRead               = true;
 
 				/* some elements occur multiple times in feeds, only the 1st is picked */				
@@ -439,11 +580,17 @@ namespace NewsComponents.Feed {
 			/* set value of id to link if no guid in XML stream */ 
 			id = (id == null ? link : id);  
 
-			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId);									       			    
+			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl);									       			    
 			newsItem.FlagStatus = flagged;
 			newsItem.CommentCount = commentCount; 
 			newsItem.Author       = author; 
-		
+			newsItem.CommentRssUrl = commentRssUrl; 
+			newsItem.CommentUrl    = commentUrl; 
+			newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
+			newsItem.Enclosures    = (enclosures == null ? GetArrayList.Empty: enclosures); 
+			newsItem.WatchComments = watchComments; 
+			newsItem.Language      = reader.XmlLang;
+			newsItem.HasNewComments = hasNewComments;
 			return newsItem; 				
 		
 		}
@@ -464,6 +611,26 @@ namespace NewsComponents.Feed {
 			}
 			return RssParser.MakeAtomItem(f, reader, atomized_strings, DateTime.Now.ToUniversalTime());
 		}
+
+		/// <summary>
+		/// Resolves a relative URL using the Base URI of the input of XmlReader only if 
+		/// it is an XmlBaseAwareXmlValidatingReader.
+		/// </summary>
+		/// <param name="reader">The input XmlReader</param>
+		/// <param name="url">The URL to resolve</param>
+		/// <returns>The resolved URL</returns>
+		private static string ResolveRelativeUrl(XmlReader reader, string url){
+			
+			XmlBaseAwareXmlValidatingReader xmlBaseReader = reader as XmlBaseAwareXmlValidatingReader;			
+
+			try{
+				if(xmlBaseReader != null){
+					url = new Uri(xmlBaseReader.BaseURIasUri, url).AbsoluteUri; 
+				}
+			}catch(Exception){;}
+
+			return url; 
+		}
 		
 		
 		/// <summary>
@@ -478,24 +645,30 @@ namespace NewsComponents.Feed {
 		public static NewsItem MakeAtomItem(feedsFeed f, XmlReader reader, object[] atomized_strings, DateTime defaultItemDate){
 		
 			
-			ContentType ctype  = ContentType.Text; 
+			ContentType ctype  = ContentType.None; 
 			string description = null; 	
 			string author      = null; 
+			string baseUrl     = reader.BaseURI;
 			string id          = null; 
+			string parentId    = null;
 			string link        = null; 
 			string title       = null; 
 			string subject     = null; 
+			string commentUrl  = null; 
+			string commentRssUrl = null; 
+			Enclosure enc        = null;
+			TimeSpan encDuration = TimeSpan.MinValue;
 			int commentCount   = NewsItem.NoComments; 
 			DateTime date      = defaultItemDate; 	
 			DateTime now       = date; 
 			Hashtable optionalElements = new Hashtable(); 
 			Flagged flagged    = Flagged.None; 
-			ArrayList subjects = new ArrayList(); 
+			ArrayList subjects = new ArrayList(), enclosures = null; 
 			string itemNamespaceUri = reader.NamespaceURI; 
+			
 			 			
-			bool nodeRead = false; //indicates whether the last node was read using XmlDocument.ReadNode()	
-
-			try{
+			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
+			
 
 				while((nodeRead || reader.Read()) && reader.NodeType != XmlNodeType.EndElement){
 
@@ -511,8 +684,15 @@ namespace NewsComponents.Feed {
 					bool nodeNamespaceUriEqual2Item = itemNamespaceUri.Equals(reader.NamespaceURI);				
 					bool nodeNamespaceUriEqual2DC = (namespaceuri == atomized_strings[RssParser.nt_ns_dc]); 
 
+
+					//skip elements from the FeedDemon namespace
+					if(namespaceuri == atomized_strings[RssParser.nt_ns_fd]){
+					  reader.Skip(); 
+					  nodeRead = true;
+					  continue; 
+					}
 		
-					if((description == null) || (localname == atomized_strings[RssParser.nt_content])) { //prefer to replace atom:summary with atom:content
+					if((description == null) || ((localname == atomized_strings[RssParser.nt_content]) && (reader["src"] == null)) ) { //prefer to replace atom:summary with atom:content
 					
 						if(nodeNamespaceUriEqual2Item 
 							&& (localname == atomized_strings[RssParser.nt_content])){
@@ -520,7 +700,8 @@ namespace NewsComponents.Feed {
 							ctype       = GetMimeTypeOfAtomElement(reader);
 
 							if((ctype != ContentType.Unknown) && (!reader.IsEmptyElement)){						
-								description = GetContentFromAtomElement(reader, ref nodeRead); 								
+								baseUrl     = reader.BaseURI;
+								description = GetContentFromAtomElement(reader, ref nodeRead); 																 
 							}										
 							continue; 
 						}else if(nodeNamespaceUriEqual2Item 
@@ -529,7 +710,8 @@ namespace NewsComponents.Feed {
 							ctype       = GetMimeTypeOfAtomElement(reader);
 
 							if((ctype != ContentType.Unknown) && (!reader.IsEmptyElement)){						
-								description = GetContentFromAtomElement(reader, ref nodeRead); 								
+								baseUrl     = reader.BaseURI;
+								description = GetContentFromAtomElement(reader, ref nodeRead); 																
 							}										
 							continue; 
 						}
@@ -544,22 +726,91 @@ namespace NewsComponents.Feed {
 						if(nodeNamespaceUriEqual2Item 
 							&& (localname == atomized_strings[RssParser.nt_link]) && 
 							((reader["rel"] == null) || 
-							(reader["rel"].Equals("alternate")))) {
+							(reader["rel"].Equals("alternate") /* || 
+							 reader["rel"].Equals("self") */  ) )) {
 
 							if(reader["href"]!= null){
 								link = reader.GetAttribute("href"); 							
+							}
+							
+							link = ResolveRelativeUrl(reader, link); 							
+							
+							//make sure we are positioned on next element after loop executes again
+							if(!reader.IsEmptyElement){
+								reader.Skip(); 
+								nodeRead = true; 
 							}
 							continue; 
 						} 
 											
 					}
 				
+
+					if(nodeNamespaceUriEqual2Item 
+						&& ((localname == atomized_strings[RssParser.nt_link]) && 
+						reader["rel"].Equals("enclosure") )) {
+					
+						string url = ResolveRelativeUrl(reader, reader["href"]); 
+						string type = reader["type"]; 
+						long length  = Int64.MinValue; 
+
+						try { length = Int64.Parse(reader["length"]); } catch{}
+
+						if(!StringHelper.EmptyOrNull(url)){
+							enclosures = (enclosures == null ? new ArrayList(): enclosures); 												
+							enc = new Enclosure(type, length, url, String.Empty);
+
+							if(encDuration != TimeSpan.MinValue){
+								enc.Duration = encDuration; 
+							}
+
+							enclosures.Add(enc); 	
+						}
+						
+						//make sure we are positioned on next element after loop executes again
+						if(!reader.IsEmptyElement){
+							reader.Skip(); 
+							nodeRead = true; 
+						}
+					
+						continue;
+					}
+
+
+					if (nodeNamespaceUriEqual2Item 
+						&& (localname == atomized_strings[RssParser.nt_content] && 
+						reader["src"] != null)){
+					
+						string url = ResolveRelativeUrl(reader, reader["src"]); 
+						string type = reader["type"]; 
+						long length  = Int64.MinValue; 					
+
+						if(!StringHelper.EmptyOrNull(url)){
+							enclosures = (enclosures == null ? new ArrayList(): enclosures); 						
+							enclosures.Add(new Enclosure(type, length, url, String.Empty)); 										
+						}
+
+						//make sure we are positioned on next element after loop executes again
+						if(!reader.IsEmptyElement){
+							reader.Skip(); 
+							nodeRead = true; 
+						}
+					
+						continue;
+					}
+					
+				
 					if(title == null){
 				
 						if(nodeNamespaceUriEqual2Item 
 							&& (localname == atomized_strings[RssParser.nt_title])){
 							if(!reader.IsEmptyElement){
-								title = ReadElementString(reader);
+								/* title = ReadElementString(reader); */
+								ctype       = GetMimeTypeOfAtomElement(reader);
+
+								if((ctype != ContentType.Unknown)){						
+									title = GetContentFromAtomElement(reader, ref nodeRead); 								
+								}	
 							}
 							continue; 
 						}
@@ -607,6 +858,13 @@ namespace NewsComponents.Feed {
 					}
 
 
+					if((parentId == null) && (localname == atomized_strings[RssParser.nt_inreplyto])){
+
+						if(namespaceuri == atomized_strings[RssParser.nt_ns_thr]){
+							parentId = reader.GetAttribute("ref"); 
+						}
+						continue; 
+					}
 
 					if(nodeNamespaceUriEqual2DC 
 						&& (localname == atomized_strings[RssParser.nt_subject])){
@@ -614,8 +872,62 @@ namespace NewsComponents.Feed {
 							subjects.Add(ReadElementString(reader));
 						}
 						continue;
+					} else if(nodeNamespaceUriEqual2Item 
+						&& (localname == atomized_strings[RssParser.nt_category])){
+						if(reader["label"]!= null){
+							subjects.Add(reader.GetAttribute("label")); 							
+						} else
+						if(reader["term"]!= null){
+							subjects.Add(reader.GetAttribute("term")); 							
+						}
+
+						//make sure we are positioned on next element after loop executes again
+						if(!reader.IsEmptyElement){
+							reader.Skip(); 
+							nodeRead = true; 
+						}
+						continue;
 					}
-			
+		
+	
+					if((localname == atomized_strings[RssParser.nt_duration])
+						&& (namespaceuri == atomized_strings[RssParser.nt_ns_itunes])){
+						if(!reader.IsEmptyElement){
+							try{
+								string durationStr = ReadElementString(reader); 
+								if(durationStr.IndexOf(":") == -1){
+									durationStr = "00:00:" + durationStr; 
+								}
+
+								encDuration = TimeSpan.Parse(durationStr);
+								if(enc != null){
+									enc.Duration = encDuration; 
+								}
+							}catch(Exception){} 
+						}
+						continue;
+					}
+
+					if((namespaceuri == atomized_strings[RssParser.nt_ns_mediarss])
+						&& (localname == atomized_strings[RssParser.nt_content])){
+				
+						try{ 
+							if(reader["duration"] != null)
+								encDuration = TimeSpan.Parse("00:00:" + reader["duration"]);
+							if(enc != null){
+								enc.Duration = encDuration; 
+							}
+						} catch{}
+
+
+						//make sure we are positioned on next element after loop executes again				
+						if(!reader.IsEmptyElement){
+							reader.Skip(); 
+							nodeRead = true; 
+						}
+					
+						continue;
+					}
 				
 					if((namespaceuri == atomized_strings[RssParser.nt_ns_bandit_2003]) 
 						&& (localname == atomized_strings[RssParser.nt_flagstatus])){
@@ -625,9 +937,52 @@ namespace NewsComponents.Feed {
 						continue;
 					}
 
+					if((localname == atomized_strings[RssParser.nt_comment])
+						&& (namespaceuri == atomized_strings[RssParser.nt_ns_wfw])){
+						if(!reader.IsEmptyElement){
+							commentUrl =  ReadElementUrl(reader); 
+						}
+						continue;
+					}
+
+					if((localname == atomized_strings[RssParser.nt_commentRss] || localname == atomized_strings[RssParser.nt_commentRSS])
+						&& (namespaceuri == atomized_strings[RssParser.nt_ns_wfw])){
+						if(!reader.IsEmptyElement){
+							commentRssUrl = ReadElementUrl(reader); 
+						}
+						continue;
+					}
+
 					if(commentCount== NewsItem.NoComments){
-				
-						if((namespaceuri == atomized_strings[RssParser.nt_ns_slash]) 
+										
+						if(nodeNamespaceUriEqual2Item 
+							&& (localname == atomized_strings[RssParser.nt_link]) 
+							&& !StringHelper.EmptyOrNull(reader["rel"])
+							&& reader["rel"].Equals("replies")) {
+
+							try{								
+								string thrNs = (string) atomized_strings[RssParser.nt_ns_thr];
+								if (!StringHelper.EmptyOrNull(reader["count", thrNs]))
+									commentCount = Int32.Parse(reader["count", thrNs]);															
+							}catch(Exception){ /* DO NOTHING */}
+
+							if(reader["href"]!= null){
+
+								if(StringHelper.EmptyOrNull(reader["type"]) || reader["type"].Equals("application/atom+xml")){
+									commentRssUrl = ResolveRelativeUrl(reader, reader.GetAttribute("href")); 							
+								}else{
+									commentUrl =  ResolveRelativeUrl(reader, reader.GetAttribute("href"));
+								}
+							}
+
+							//make sure we are positioned on next element after loop executes again
+							if(!reader.IsEmptyElement){
+								reader.Skip(); 
+								nodeRead = true; 
+							}
+							continue; 
+							
+						}else if((namespaceuri == atomized_strings[RssParser.nt_ns_slash]) 
 							&& (localname == atomized_strings[RssParser.nt_comments])){
 							try{
 								if(!reader.IsEmptyElement){
@@ -635,20 +990,26 @@ namespace NewsComponents.Feed {
 								}							
 							}catch(Exception){ /* DO NOTHING */}
 							continue; 
-						}
+						}										
+						
 					}
 
-					if(date == now){
+
+					if((date == now)|| (localname == atomized_strings[RssParser.nt_modified] ||
+						localname == atomized_strings[RssParser.nt_updated])){ //prefer modified date to publish date
 				
 						try{ 
 							if(nodeNamespaceUriEqual2Item 
-								&& (localname == atomized_strings[RssParser.nt_modified])){
+								&& (localname == atomized_strings[RssParser.nt_modified] ||
+								localname == atomized_strings[RssParser.nt_updated])){
 								if(!reader.IsEmptyElement){
-									date = DateTimeExt.Parse(ReadElementString(reader));
+									date = DateTimeExt.ToDateTime(ReadElementString(reader));
 								}
 								continue;
 							}else if(nodeNamespaceUriEqual2Item 
-								&& (localname == atomized_strings[RssParser.nt_issued])){
+								&& (localname == atomized_strings[RssParser.nt_issued] ||
+								localname == atomized_strings[RssParser.nt_published]  ||
+								localname == atomized_strings[RssParser.nt_created])){
 								if(!reader.IsEmptyElement){
 									date = DateTimeExt.ToDateTime(ReadElementString(reader));  
 								}						
@@ -666,10 +1027,9 @@ namespace NewsComponents.Feed {
 					} 
 
 					XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
-					XmlNode optionalNode   = optionalElementsDoc.ReadNode(reader); 
+					string optionalNode   = reader.ReadOuterXml();
 					nodeRead               = true;
-
-					/* some elements occur multiple times, only the 1st is picked */				
+					
 					if(!optionalElements.Contains(qname)){
 						optionalElements.Add(qname, optionalNode); 					
 					}
@@ -688,16 +1048,20 @@ namespace NewsComponents.Feed {
 
 				/* set value of id to link if no guid in XML stream */ 
 				id = (id == null ? link : id);  
+				
 
-				NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, null);	;				
+				NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl);									       			    
 				newsItem.FlagStatus = flagged;
 				newsItem.CommentCount = commentCount; 
 				newsItem.Author       = author; 
+				newsItem.CommentRssUrl = commentRssUrl; 
+				newsItem.CommentUrl    = commentUrl; 
+				newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
+			    newsItem.Enclosures    = (enclosures == null ? GetArrayList.Empty: enclosures); 
+				newsItem.Language      = reader.XmlLang;
+		
 				return newsItem; 	
-		
-			}catch(Exception e){e.ToString();}								
-		
-			return null; 
+					
 		}
 
 
@@ -768,10 +1132,11 @@ namespace NewsComponents.Feed {
 
 			ArrayList items  = new ArrayList();
 			Hashtable optionalElements = new Hashtable();					
-			string feedLink = String.Empty, feedDescription= String.Empty, feedTitle= String.Empty, maxItemAge= String.Empty; 			  
+			string feedLink = String.Empty, feedDescription= String.Empty, feedTitle= String.Empty, maxItemAge= String.Empty, language=String.Empty; 			  
 			SyndicationFormat feedFormat = SyndicationFormat.Unknown; 
 			DateTime defaultItemDate = RelationCosmos.RelationCosmos.UnknownPointInTime;
 			DateTime channelBuildDate = DateTime.Now.ToUniversalTime();
+			bool newComments = false; 
 
 			int readItems = 0; 
 						
@@ -815,7 +1180,7 @@ namespace NewsComponents.Feed {
 					}while(localname != atomized_strings[RssParser.nt_channel]);
 
 				}else if(feedReader.NamespaceURI.Equals("http://purl.org/atom/ns#")
-					&& (localname == atomized_strings[RssParser.nt_feed])){ //Atom 0.3
+					&& (localname == atomized_strings[RssParser.nt_feed])){ //Atom  0.3
 				
 					rssNamespaceUri = feedReader.NamespaceURI; 	
 
@@ -823,15 +1188,22 @@ namespace NewsComponents.Feed {
 						feedFormat      = SyndicationFormat.Atom; 		
 						feedReader.MoveToElement(); //move back to 'feed' start element						
 					} else { 
-						throw new ApplicationException(Resource.Manager["RES_ExceptionUnsupportedAtomVersion"]);
-					}								
-	
+						throw new ApplicationException(ComponentsText.ExceptionUnsupportedAtomVersion);
+					}		
+						
+				}else if(feedReader.NamespaceURI.Equals("http://www.w3.org/2005/Atom")
+					&& (localname == atomized_strings[RssParser.nt_feed])){ //Atom 1.0
+					
+					//TODO: how about "xml:lang" attribute?
+					rssNamespaceUri = feedReader.NamespaceURI; 	
+					feedFormat      = SyndicationFormat.Atom; 		
+					
 				}else{
-					throw new ApplicationException(Resource.Manager["RES_ExceptionUnknownXmlDialect"]);
+					throw new ApplicationException(ComponentsText.ExceptionUnknownXmlDialect);
 				}
 
 			
-				ProcessFeedElements(f, feedReader, atomized_strings, rssNamespaceUri, feedFormat, ref feedLink, ref feedTitle, ref feedDescription, ref maxItemAge, ref channelBuildDate, optionalElements, items, defaultItemDate); 
+				ProcessFeedElements(f, feedReader, atomized_strings, rssNamespaceUri, feedFormat, ref feedLink, ref feedTitle, ref feedDescription, ref maxItemAge, ref channelBuildDate, optionalElements, items, defaultItemDate, ref language); 
 			
 			}finally{
 				feedReader.Close(); 	
@@ -841,33 +1213,45 @@ namespace NewsComponents.Feed {
 			atomized_strings = null; 
 
 			// CacheManager works with FeedInfo only and requires a feedLink.
-			// So we check/set it here if not found in the feed itself.
+			// So we check/set it here if not found in the feed itself or relative.
 			// It will be updated the time the feed owner provide a valid value.
-			if (StringHelper.EmptyOrNull(feedLink) && f.link.IndexOf("/") >= 0)
-				feedLink = f.link.Substring(0, f.link.LastIndexOf("/")+1);	// including the slash
+			if (StringHelper.EmptyOrNull(feedLink)) {
+				// just point to base dir of the feed itself:
+				feedLink = HtmlHelper.ConvertToAbsoluteUrlPath(f.link);
+			} else if (-1 == feedLink.IndexOf("://")) {
+				// should NOT anymore happen (we try to catch all relative urls the moment we read)
+				feedLink = HtmlHelper.ConvertToAbsoluteUrl(feedLink, f.link, false);
+			}
+// old was:			
+//			if (StringHelper.EmptyOrNull(feedLink) && f.link.IndexOf("/") >= 0)
+//				feedLink = f.link.Substring(0, f.link.LastIndexOf("/")+1);	// including the slash
 
-			FeedInfo fi = new FeedInfo(f.cacheurl, items, feedTitle, feedLink, feedDescription, optionalElements);					
-#if NIGHTCRAWLER 
-			NewsChannelServices.ProcessItem(fi);
-#endif
-			NewsHandler.RelationCosmosAddRange(items);
+			FeedInfo fi = new FeedInfo(f.id, f.cacheurl, items, feedTitle, feedLink, feedDescription, optionalElements, language);								
 
-			int iSize = 0;	   
+			//NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
+			//NewsHandler.RelationCosmosAddRange(items);
+
+			//int iSize = 0;	   
 
 			bool isNntpFeed = f.link.StartsWith("news") || f.link.StartsWith("nntp");
 
-			foreach(NewsItem ri in items){							
+			for(int i = 0, count = items.Count ; i < count ; i++){
+				NewsItem ri = (NewsItem) items[i]; 						
 				if((f.storiesrecentlyviewed!= null) && f.storiesrecentlyviewed.Contains(ri.Id)){
 					ri.BeenRead = true; 
 					readItems++;
 				}
+
+				if(ri.HasNewComments){
+					newComments = true; 
+				}
 										
-				iSize += ri.GetSize();
+				//iSize += ri.GetSize();
 			
 				ri.FeedDetails = fi; 
 				
 				if (ri.Date == defaultItemDate) { 	// update with channel build date, if not added to relationCosmos (that adjust the date)
-					ri.SetDate(channelBuildDate);
+					ri.Date = channelBuildDate;
 					channelBuildDate = channelBuildDate.AddSeconds(-1.0);	// make it a bit older then the previous
 				}
 
@@ -875,29 +1259,38 @@ namespace NewsComponents.Feed {
 					ri.CommentStyle = SupportedCommentStyle.NNTP;
 				}
 				
-#if NIGHTCRAWLER 
-				NewsChannelServices.ProcessItem(ri);
-#endif
+				if (null == NewsHandler.ReceivingNewsChannelServices.ProcessItem(ri)) {
+					// processor wants to remove the item:
+					if (ri.BeenRead) readItems--;
+					ri.FeedDetails = null;
+
+					items.RemoveAt(i); 
+					NewsHandler.RelationCosmosRemove(ri);							
+
+					i--; 
+					count--; 
+				}
 			}
 		
-			iSize += StringHelper.SizeOfStr(f.link);
-			iSize += StringHelper.SizeOfStr(f.title);
-			iSize += StringHelper.SizeOfStr(fi.Link);
-			iSize += StringHelper.SizeOfStr(fi.Title);
-			iSize += StringHelper.SizeOfStr(fi.Description);
-
-			_log.Info(iSize.ToString() + "\t byte(s) contained in feed\t" + f.link);
+//			iSize += StringHelper.SizeOfStr(f.link);
+//			iSize += StringHelper.SizeOfStr(f.title);
+//			iSize += fi.GetSize();
+//
+//			_log.Info(iSize.ToString() + "\t byte(s) contained in feed\t" + f.link);
 
 			if(!StringHelper.EmptyOrNull(maxItemAge)){
 				f.maxitemage = maxItemAge; 
 			}
 			
-			//update last retrieved date on feed only if the item was not cached.
 			if (!cachedStream) {
+				//update last retrieved date on feed only if the item was not cached.		
 				f.lastretrieved = new DateTime(DateTime.Now.Ticks);
 				f.lastretrievedSpecified = true;
+			}else{
+				//add to relationcosmos if loaded from disk
+				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
+				NewsHandler.RelationCosmosAddRange(items);
 			}
-			
 			//any new items in feed? 
 			if(readItems == items.Count){
 				f.containsNewMessages = false; 
@@ -905,10 +1298,13 @@ namespace NewsComponents.Feed {
 				f.containsNewMessages = true; 
 			}
 		
-			return fi; 
+			//any new comments in feed
+			f.containsNewComments = newComments; 
 
+			return fi; 
 		}
 
+	
 		/// <summary>
 		/// This method fills a particular NameTable with the element names from RSS and
 		/// ATOM that RSS Bandit checks for. After filling the name table it returns an 
@@ -931,16 +1327,23 @@ namespace NewsComponents.Feed {
 			atomized_names[RssParser.nt_body] = nt.Add("body"); 
 			atomized_names[RssParser.nt_category] = nt.Add("category");
 			atomized_names[RssParser.nt_channel] = nt.Add("channel");
+			atomized_names[RssParser.nt_comment] = nt.Add("comment"); 
+			atomized_names[RssParser.nt_commentRSS] = nt.Add("commentRSS");
+			atomized_names[RssParser.nt_commentRss] = nt.Add("commentRss");
 			atomized_names[RssParser.nt_comments] = nt.Add("comments"); 
 			atomized_names[RssParser.nt_content] = nt.Add("content");
+			atomized_names[RssParser.nt_created] = nt.Add("created");
 			atomized_names[RssParser.nt_creator] = nt.Add("creator");
 			atomized_names[RssParser.nt_date] = nt.Add("date"); 
 			atomized_names[RssParser.nt_description] = nt.Add("description");
+			atomized_names[RssParser.nt_duration] = nt.Add("duration");
+			atomized_names[RssParser.nt_enclosure] = nt.Add("enclosure");
 			atomized_names[RssParser.nt_encoded] = nt.Add("encoded");
 			atomized_names[RssParser.nt_entry] = nt.Add("entry");
 			atomized_names[RssParser.nt_flagstatus] = nt.Add("flag-status");
 			atomized_names[RssParser.nt_feed] = nt.Add("feed");
 			atomized_names[RssParser.nt_guid] = nt.Add("guid"); 
+			atomized_names[RssParser.nt_hasnewcomments] = nt.Add("has-new-comments"); 
 			atomized_names[RssParser.nt_href] = nt.Add("href");
 			atomized_names[RssParser.nt_id] = nt.Add("id"); 
 			atomized_names[RssParser.nt_image] = nt.Add("image");
@@ -948,6 +1351,7 @@ namespace NewsComponents.Feed {
 			atomized_names[RssParser.nt_issued] = nt.Add("issued");
 			atomized_names[RssParser.nt_item] = nt.Add("item");
 			atomized_names[RssParser.nt_items] = nt.Add("items");
+			atomized_names[RssParser.nt_language] = nt.Add("language");
 			atomized_names[RssParser.nt_lastbuilddate] = nt.Add("lastBuildDate");
 			atomized_names[RssParser.nt_link] = nt.Add("link"); 
 			atomized_names[RssParser.nt_maxitemage] = nt.Add("maxItemAge");
@@ -963,13 +1367,24 @@ namespace NewsComponents.Feed {
 			atomized_names[RssParser.nt_tagline] = nt.Add("tagline");
 			atomized_names[RssParser.nt_title] = nt.Add("title");
 			atomized_names[RssParser.nt_type] = nt.Add("type"); 
+			atomized_names[RssParser.nt_inreplyto] = nt.Add("in-reply-to"); 
+			atomized_names[RssParser.nt_watchcomments] = nt.Add("watch-comments"); 
 			atomized_names[RssParser.nt_ns_dc] = nt.Add("http://purl.org/dc/elements/1.1/");
 			atomized_names[RssParser.nt_ns_xhtml] = nt.Add("http://www.w3.org/1999/xhtml");
 			atomized_names[RssParser.nt_ns_content] = nt.Add("http://purl.org/rss/1.0/modules/content/"); 
 			atomized_names[RssParser.nt_ns_annotate] = nt.Add("http://purl.org/rss/1.0/modules/annotate/");
-			atomized_names[RssParser.nt_ns_bandit_2003] = nt.Add("http://www.25hoursaday.com/2003/RSSBandit/feeds/");
+			//TODO: check: don't we need also the v2004/vCurrent namespace in this list?
+			atomized_names[RssParser.nt_ns_bandit_2003] = nt.Add(NamespaceCore.Feeds_v2003); 
 			atomized_names[RssParser.nt_ns_slash] = nt.Add("http://purl.org/rss/1.0/modules/slash/");
-			
+			atomized_names[RssParser.nt_ns_wfw] = nt.Add("http://wellformedweb.org/CommentAPI/"); 
+			atomized_names[RssParser.nt_ns_fd] = nt.Add("http://www.bradsoft.com/feeddemon/xmlns/1.0/");
+			atomized_names[RssParser.nt_ns_thr] = nt.Add("http://purl.org/syndication/thread/1.0"); 
+			// changes required by Atom 1.0:
+			atomized_names[RssParser.nt_updated] = nt.Add("updated");
+			atomized_names[RssParser.nt_published] = nt.Add("published");
+			// podcast related 	
+			atomized_names[RssParser.nt_ns_mediarss] = nt.Add("http://search.yahoo.com/mrss/");
+			atomized_names[RssParser.nt_ns_itunes]   = nt.Add("http://www.itunes.com/dtds/podcast-1.0.dtd"); 
 			return atomized_names;
 
 		}
@@ -998,7 +1413,7 @@ namespace NewsComponents.Feed {
 			//Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)			
 			XmlTextReader r  = new XmlTextReader(feedStream); 
 			r.WhitespaceHandling = WhitespaceHandling.Significant;
-			XmlValidatingReader vr = new XmlValidatingReader(r);
+			XmlBaseAwareXmlValidatingReader vr = new XmlBaseAwareXmlValidatingReader(f.link,r);
 			vr.ValidationType = ValidationType.None;	
 			vr.XmlResolver    = new ProxyXmlUrlResolver(RssParser.GlobalProxy); 
 
@@ -1020,18 +1435,35 @@ namespace NewsComponents.Feed {
 			string type = (typeAttr == null ? "text/plain" : typeAttr.ToLower());
 			string mode = (modeAttr == null ? "xml" : modeAttr.ToLower());			
 
-			element.MoveToElement(); //move back to content element
+			if(element.NamespaceURI.Equals("http://purl.org/atom/ns#")){  				
+				
+				if((type.IndexOf("text")!= -1) || (type.IndexOf("html")!= -1)){
 
-			if((type.IndexOf("text")!= -1) || (type.IndexOf("html")!= -1)){
+					if(mode.Equals("escaped") || type.Equals("html")){ 
+						//BUG: if the element contains any child elements then the XmlReader will be in the wrong position					
+						onNextElement = false; 
+						return ReadElementString(element); 
+					}else if(mode.Equals("xml")){ 
+						onNextElement = true; 
+						return element.ReadInnerXml();
+					} 			
+				}
 
-				if(mode.Equals("xml")){ 
+			}else if(element.NamespaceURI.Equals("http://www.w3.org/2005/Atom")){													
+
+				if(type.IndexOf("xhtml")!= -1){ 
 					onNextElement = true; 
 					return element.ReadInnerXml();
-				}else if(mode.Equals("escaped")){ 
+				}else if((type.IndexOf("text")!= -1)){
+					//BUG: if the element contains any child elements then the XmlReader will be in the wrong position					
+					onNextElement = false; 
+					return ReadElementString(element).Replace("<", "&lt;").Replace(">", "&gt;"); 
+				}else if(type.IndexOf("html")!= -1){ 
 					//BUG: if the element contains any child elements then the XmlReader will be in the wrong position					
 					onNextElement = false; 
 					return ReadElementString(element); 
-				}			
+				}
+							
 			}
 			
 			//an unsupported mode or MIME type
@@ -1075,16 +1507,39 @@ namespace NewsComponents.Feed {
 		/// <param name="reader">The input XmlReader positioned within the element</param>
 		/// <returns>The string content of the element</returns>
 		private static string ReadElementString(XmlReader reader){
-			string result = reader.ReadString(); 
+			String result = reader.ReadString();
+			StringBuilder sb = null;
 			
 			while(reader.NodeType != XmlNodeType.EndElement){
-				reader.Skip(); 
-				result += reader.ReadString();
-			}
 				
-			return result; 
+				if(sb == null){
+				 sb = new StringBuilder(result); 
+				}
+				reader.Skip(); 
+				sb.Append(reader.ReadString());
+			}
+			
+#if FORCE_USE_XML_ENCODING	
+			// force the usage of the encoding provided by the XML feed,
+			// not that of the HTTP header:
+			XmlValidatingReader r = reader as XmlValidatingReader;
+			if (r != null && !Encoding.UTF8.Equals(r.Encoding)) {
+				result = Encoding.UTF8.GetString(r.Encoding.GetBytes(sb == null ? result : sb.ToString()));
+				return result;
+			}
+#endif
+			return (sb == null ? result : sb.ToString());
 		}
-	
+		
+		/// <summary>
+		/// This is a helper method to get a valid url from element content. 
+		/// </summary>
+		/// <remarks>It is assumed that the XmlReader is positioned within the element</remarks>
+		/// <param name="reader">The input XmlReader positioned within the element</param>
+		/// <returns>The url (string) content of the element</returns>
+		private static string ReadElementUrl(XmlReader reader) {		  	
+			return HtmlHelper.HtmlDecode(ReadElementString(reader)).Replace(Environment.NewLine, String.Empty).Trim();
+		}
 
 		/// <summary>
 		///  Processes the channel level elements of the feed. 
@@ -1103,10 +1558,11 @@ namespace NewsComponents.Feed {
 		/// <param name="optionalElements">Any other optional elements in the feed such as images</param>
 		/// <param name="items">Items in the feed</param>
 		/// <param name="defaultItemDate">Default DateTime for the items</param>
-		private static void ProcessFeedElements(feedsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref string maxItemAge, ref DateTime channelBuildDate, Hashtable optionalElements, ArrayList items, DateTime defaultItemDate ){	  		 
+		/// <param name="language">The language of the feed</param>
+		private static void ProcessFeedElements(feedsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref string maxItemAge, ref DateTime channelBuildDate, Hashtable optionalElements, ArrayList items, DateTime defaultItemDate, ref string language ){	  		 
 			
 			bool matched = false; //indicates whether this is a known element
-			bool nodeRead = false; //indicates whether the last node was read using XmlDocument.ReadNode()
+			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()
 
 			if((format == SyndicationFormat.Rdf) || (format == SyndicationFormat.Rss)){		  		
 
@@ -1133,7 +1589,12 @@ namespace NewsComponents.Feed {
 							matched = true; 
 						}else if(localname == atomized_strings[RssParser.nt_link]){
 							if(!reader.IsEmptyElement){
-								feedLink = ReadElementString(reader); 
+								feedLink = ResolveRelativeUrl(reader, ReadElementUrl(reader)); 
+							}
+							matched = true; 
+						}else if(localname == atomized_strings[RssParser.nt_language]){
+							if(!reader.IsEmptyElement){
+								language = ReadElementString(reader); 
 							}
 							matched = true; 
 						}else if(localname == atomized_strings[RssParser.nt_lastbuilddate]){
@@ -1149,10 +1610,10 @@ namespace NewsComponents.Feed {
 							}
 						}else if(localname == atomized_strings[RssParser.nt_items]){
 							reader.Skip(); 
-							matched = true; 
+							nodeRead = matched = true; 
 						}else if((localname == atomized_strings[RssParser.nt_image]) && format == SyndicationFormat.Rdf){
 							reader.Skip(); 
-							matched = true; 
+							nodeRead = matched = true; 
 						}else if(localname == atomized_strings[RssParser.nt_item]){
 							if(!reader.IsEmptyElement){
 								NewsItem rssItem = MakeRssItem(f,reader,  atomized_strings, defaultItemDate);
@@ -1179,7 +1640,7 @@ namespace NewsComponents.Feed {
 					if(!matched){
 
 						XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
-						XmlNode optionalNode   = optionalElementsDoc.ReadNode(reader); 
+						string optionalNode   = reader.ReadOuterXml(); 
 
 						if(!optionalElements.Contains(qname)){				
 							optionalElements.Add(qname, optionalNode); 
@@ -1201,13 +1662,13 @@ namespace NewsComponents.Feed {
 
 						if((localname == atomized_strings[RssParser.nt_image]) &&
 							reader.NamespaceURI.Equals(rssNamespaceUri) ){ //RSS 1.0 can have <image> outside <channel>
-							XmlNode optionalNode   = optionalElementsDoc.ReadNode(reader); 
-							((XmlElement)optionalNode).SetAttribute("xmlns", String.Empty); //change namespace decl to no namespace
+							XmlElement optionalNode   = RssHelper.CreateXmlElement(reader); 
+							optionalNode.SetAttribute("xmlns", String.Empty); //change namespace decl to no namespace
 							
 							XmlQualifiedName qname = new XmlQualifiedName(optionalNode.LocalName, optionalNode.NamespaceURI); 														
 
 							if(!optionalElements.Contains(qname)){				
-								optionalElements.Add(qname, optionalNode); 
+								optionalElements.Add(qname, optionalNode.OuterXml); 
 							}
 							
 							nodeRead = true; 
@@ -1256,15 +1717,22 @@ namespace NewsComponents.Feed {
 							string rel  = reader.GetAttribute("rel"); 
 							string href = reader.GetAttribute("href"); 
 
-							if(feedLink == String.Empty){
+							if(StringHelper.EmptyOrNull(feedLink)){
 								if((rel != null) && (href != null) &&  
 									rel.Equals("alternate")){
-									feedLink = href; 
+									feedLink = ResolveRelativeUrl(reader, href); 
 									matched = true; 
+
+									//make sure we are positioned on next element after loop executes again
+									if(!reader.IsEmptyElement){
+										reader.Skip(); 
+										nodeRead = true; 
+									}
 								}
-							}					
+							}//if(StringHelper.EmptyOrNull(feedLink))										
 												
-						}else if(localname == atomized_strings[RssParser.nt_modified]){
+						}else if(localname == atomized_strings[RssParser.nt_modified] ||
+							localname == atomized_strings[RssParser.nt_updated]){
 							try {
 								if(!reader.IsEmptyElement){
 									channelBuildDate = DateTimeExt.Parse(ReadElementString(reader));
@@ -1304,7 +1772,7 @@ namespace NewsComponents.Feed {
 					if(!matched){
 
 						XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
-						XmlNode optionalNode   = optionalElementsDoc.ReadNode(reader); 
+						string optionalNode   = reader.ReadOuterXml(); 
 
 						if(!optionalElements.Contains(qname)){				
 							optionalElements.Add(qname, optionalNode); 
@@ -1312,23 +1780,13 @@ namespace NewsComponents.Feed {
 
 						nodeRead = true; 
 			
-					}//if(!matched)
+					}//if(!matched)											
 
 				}//while
 				
 			}		  
 	  
-		}
-
-		
-	
-		/// <summary>
-		/// Returns the number of pending async. requests in the queue.
-		/// </summary>
-		/// <returns></returns>
-		public int AsyncRequestsPending() {
-			return AsyncWebRequest.PendingRequests;
-		}
+		}		
 
 	  
 
@@ -1339,6 +1797,7 @@ namespace NewsComponents.Feed {
 		/// <param name="url">The URL to post the comment to</param>
 		/// <param name="item2post">An RSS item that will be posted to the website</param>
 		/// <param name="inReply2item">An RSS item that is the post parent</param>
+		/// <param name="credentials">Credentials to use.</param>
 		/// <returns>The HTTP Status code returned</returns>
 		/// <exception cref="WebException">If an error occurs when the POSTing the 
 		/// comment</exception>
@@ -1384,11 +1843,87 @@ namespace NewsComponents.Feed {
 
 	}//RssParser
 
+
+	#region XmlBaseAwareXmlValidatingReader
+	/// <summary>
+	/// An XmlValidatingReader that knows how to process xml:base and always provide the correct base URI
+	/// </summary>
+	/// <remarks>Originally obtained from http://www.tkachenko.com/blog/archives/000333.html</remarks>
+	class XmlBaseAwareXmlValidatingReader: System.Xml.XmlValidatingReader{		
+
+			private XmlBaseState _state = new XmlBaseState();
+			private Stack _states = new Stack();
+    
+			  
+			public XmlBaseAwareXmlValidatingReader(string baseUri, XmlReader reader)
+				: base(reader) {
+				_state.BaseUri = new Uri(baseUri);
+			}			
+
+			public override string BaseURI {
+				get {
+					return _state.BaseUri==null ? String.Empty : _state.BaseUri.AbsoluteUri;
+				}
+			}
+
+			public Uri BaseURIasUri{
+				get {
+				return _state.BaseUri==null ? new Uri(String.Empty) : _state.BaseUri;
+				}
+			}
+
+			public override bool Read() {   
+				bool baseRead = base.Read();
+				if (baseRead) {
+					if (base.NodeType == XmlNodeType.Element &&
+						base.HasAttributes) {
+						string baseAttr = GetAttribute("xml:base");
+						if (baseAttr == null)
+							return baseRead;                
+						Uri newBaseUri = null;
+						if (_state.BaseUri == null)
+							newBaseUri = new Uri(baseAttr);        
+						else
+							newBaseUri = new Uri(_state.BaseUri, baseAttr);                        
+						
+						//Push current state and allocate new one
+						_states.Push(_state); 
+						_state = new XmlBaseState(newBaseUri, base.Depth);
+					}
+					else if (base.NodeType == XmlNodeType.EndElement) {
+						if (base.Depth == _state.Depth && _states.Count > 0) {
+							//Pop previous state
+							_state = (XmlBaseState)_states.Pop();
+						}
+					}
+				}
+				return baseRead;            
+			}     		
+		
+	}
+
+	#endregion
+
+	#region XmlBaseState 
+	/// <summary>
+	/// Helper class used by XmlBaseAwareXmlValidatingReader. 
+	/// </summary>
+	class XmlBaseState {
+		public XmlBaseState() {}
+		public XmlBaseState(Uri baseUri, int depth) {
+			this.BaseUri = baseUri;
+			this.Depth = depth;
+		}
+		public Uri BaseUri;
+		public int Depth;
+	}
+	#endregion 
+
 	#region ProxyXmlUrlResolver
 	/// <summary>
 	/// Helper class for resolving DTDs in feeds when connecting through a proxy 
 	/// </summary>
-	class ProxyXmlUrlResolver : System.Xml.XmlUrlResolver {
+	public class ProxyXmlUrlResolver : System.Xml.XmlUrlResolver {
 
 		/// <summary>
 		/// Initializes the ProxyXmlUrlResolver with the specified proxy settings.
@@ -1414,12 +1949,160 @@ namespace NewsComponents.Feed {
 		/// <returns>A stream containing the requested entity</returns>
 		public override object GetEntity(Uri absoluteUri, string role,
 			Type ofObjectToReturn) {
-			WebRequest req = WebRequest.Create(absoluteUri);
-			req.Proxy = this.proxy;
-			//TODO: how about GetResponse() errors?
-			return req.GetResponse().GetResponseStream();
+
+
+			/* check if it is a reference to the RSS 0.91 DTD */ 
+			if(absoluteUri.AbsoluteUri.ToLower().Equals("http://my.netscape.com/publish/formats/rss-0.91.dtd") || 
+				absoluteUri.AbsoluteUri.EndsWith("0.91/EN")){
+
+				return Resource.Manager.GetStream("Resources.rss-0.91.dtd"); 
+
+			}else if(absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd") || 
+				absoluteUri.AbsoluteUri.EndsWith("Strict/EN")){
+
+				return Resource.Manager.GetStream("Resources.xhtml1-strict.dtd"); 
+
+			}else if(absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") || 
+				 absoluteUri.AbsoluteUri.EndsWith("Transitional/EN")){
+
+				 return Resource.Manager.GetStream("Resources.xhtml1-transitional.dtd"); 
+
+			}else if(absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-lat1.ent") || 
+				absoluteUri.AbsoluteUri.IndexOf("Latin")== -1){
+
+				return Resource.Manager.GetStream("Resources.xhtml-lat1.ent"); 
+
+			}else if(absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-special.ent") || 
+				absoluteUri.AbsoluteUri.IndexOf("Special")== -1){
+
+				return Resource.Manager.GetStream("Resources.xhtml-special.ent"); 
+
+			}else if(absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-symbol.ent") || 
+				absoluteUri.AbsoluteUri.IndexOf("Symbol")== -1){
+
+				return Resource.Manager.GetStream("Resources.xhtml-symbol.ent"); 
+			}
+
+			/* 
+			 using(Stream xsdStream = ){
+				feedsSchema = XmlSchema.Read(xsdStream, null); 
+			}
+			*/
+			
+			try {
+				if (absoluteUri.IsFile)
+					return base.GetEntity(absoluteUri, role, ofObjectToReturn);
+				
+				WebRequest req = WebRequest.Create(absoluteUri);
+				req.Proxy = this.proxy;
+				return req.GetResponse().GetResponseStream();
+
+			}catch (WebException) {
+				// this can happen if the doctype is like this:
+				// <!DOCTYPE rss PUBLIC "-//Netscape Communications//DTD RSS 0.91//EN" "http://my.netscape.com/publish/formats/rss-0.91.dtd">
+				// Let the base Xml resolver handle it			
+
+				return base.GetEntity(absoluteUri, role, ofObjectToReturn);
+			} catch (IOException) {
+				
+				/* CLR 2.0: file does not exists */
+				if (Common.ClrVersion.Major > 1)
+					return null;
+				// older: do not return null! (or we get a NullRefException later on)
+				return base.GetEntity(absoluteUri, role, ofObjectToReturn);
+			}
+
+
 		}
 	}
 	#endregion
 
 }
+
+#region CVS Version Log
+/*
+ * $Log: RssParser.cs,v $
+ * Revision 1.90  2007/08/02 01:00:06  carnage4life
+ * Changes related to shipping ShadowCat beta 2
+ *
+ * Revision 1.89  2007/08/01 20:08:26  carnage4life
+ * Added entity include files for XHTML DTD
+ *
+ * Revision 1.88  2007/07/29 17:38:33  carnage4life
+ * Added DTDs for XHTML Strict & Transitional
+ *
+ * Revision 1.87  2007/07/08 07:14:45  carnage4life
+ * Images don't show up on certain items when clicking on feed or category view if the feed uses relative links such as http://www.tbray.org/ongoing/ongoing.atom
+ *
+ * Revision 1.86  2007/06/19 16:29:11  t_rendelmann
+ * changed: prevent NullRefException
+ *
+ * Revision 1.85  2007/03/10 15:01:21  t_rendelmann
+ * changed: use our own xslt to display XML sources in IE
+ *
+ * Revision 1.84  2007/03/10 08:15:07  t_rendelmann
+ * fixed: "object reference exception" reported as feed error (now runtime dependent, not compile time dependent)
+ *
+ * Revision 1.83  2007/03/09 17:02:33  t_rendelmann
+ * fixed: "object reference exception" reported as feed error
+ *
+ * Revision 1.82  2007/03/03 19:05:30  carnage4life
+ * Made changes to show duration for podcasts in newspaper view
+ *
+ * Revision 1.81  2007/02/18 17:39:10  t_rendelmann
+ * fixed: dtd resource reference issue
+ *
+ * Revision 1.80  2007/02/17 16:23:34  carnage4life
+ * RSS 0.91 DTDs now fetched from local machine instead of http://my.netscape.com/publish/formats/rss-0.91.dtd to cope with announcement made by Netscape that the file will stop being available on July 1, 2007.
+ *
+ * Revision 1.79  2007/02/17 14:45:52  t_rendelmann
+ * switched: Resource.Manager indexer usage to strongly typed resources (StringResourceTool)
+ *
+ * Revision 1.78  2007/02/15 20:03:50  t_rendelmann
+ * changed: now catching IOException in resolver
+ *
+ * Revision 1.77  2007/02/15 16:37:49  t_rendelmann
+ * changed: persisted searches now return full item texts;
+ * fixed: we do now show the error of not supported search kinds to the user;
+ *
+ * Revision 1.76  2006/12/19 04:39:51  carnage4life
+ * Made changes to AsyncRequest and RequestThread to become instance based instead of static
+ *
+ * Revision 1.75  2006/12/16 22:26:51  carnage4life
+ * Added CopyItemTo method that copies a NewsItem to a specific feedsFeed and does the logic to load item content from disk if needed
+ *
+ * Revision 1.74  2006/12/14 18:13:29  carnage4life
+ * Fixed issue where TypePad feeds showed raw markup instead of rendered HTML
+ *
+ * Revision 1.73  2006/12/10 20:38:04  t_rendelmann
+ * small fix to prevent NullRefExceptions (catched, but costs)
+ *
+ * Revision 1.72  2006/12/09 22:57:03  carnage4life
+ * Added support for specifying how many podcasts downloaded from new feeds
+ *
+ * Revision 1.71  2006/11/24 17:11:00  carnage4life
+ * Items with new comments not remembered on restart
+ *
+ * Revision 1.70  2006/11/17 19:48:07  carnage4life
+ * Updated Atom Threading Extensions support
+ *
+ * Revision 1.69  2006/10/27 19:18:38  t_rendelmann
+ * added: code to fix encoding issues (test) - if HTTP header encoding is wrong, but XML encoding attribute were correct (activated by a define)
+ *
+ * Revision 1.68  2006/10/21 23:34:16  carnage4life
+ * Changes related to adding the "Download Attachment" right-click menu option in the list view
+ *
+ * Revision 1.67  2006/10/19 07:59:13  t_rendelmann
+ * replaced duplicate code with the appropriate function call (ResolveRelativeUrls); catching the relative urls erlier now
+ *
+ * Revision 1.66  2006/10/18 00:19:50  carnage4life
+ * Fixed NullReferenceException in MakeAtomItem
+ *
+ * Revision 1.65  2006/10/17 11:40:08  t_rendelmann
+ * fixed: HTML entities in feed (-item) urls not decoded (https://sourceforge.net/tracker/index.php?func=detail&aid=1564959&group_id=96589&atid=615248)
+ *
+ * Revision 1.64  2006/10/15 17:22:47  t_rendelmann
+ * fixed: relative urls in feed links (feed homepage urls)
+ *
+ */
+#endregion

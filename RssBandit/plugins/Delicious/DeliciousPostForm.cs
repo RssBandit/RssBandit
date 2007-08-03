@@ -9,6 +9,8 @@ namespace BlogExtension.Delicious
 {
 	public class DeliciousPostForm : System.Windows.Forms.Form
 	{
+		public string TemplateText;
+
 		internal System.Windows.Forms.TextBox textUri;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
@@ -22,12 +24,20 @@ namespace BlogExtension.Delicious
 
 		public DeliciousPostForm(string url, string description)
 		{
-			InitializeComponent();		
+			InitializeComponent();
+			InitializeComponentTranslation();
 			textUri.Text = url; 
 			textDescription.Text = description;
 		}
 
-		public string TemplateText;
+		private void InitializeComponentTranslation() {
+			this.btnPost.Text = Resource.Manager["RES_DeliciousFormPost"];
+			this.btnCancel.Text = Resource.Manager["RES_DeliciousFormCancel"];
+			this.label2.Text = Resource.Manager["RES_DeliciousFormUrl"];
+			this.label1.Text = Resource.Manager["RES_DeliciousFormDescription"];
+			this.label3.Text = Resource.Manager["RES_DeliciousFormTags"];
+			this.Text = Resource.Manager["RES_MenuDeliciousCaption"];
+		}
 
 		protected override void Dispose( bool disposing )
 		{
@@ -65,7 +75,7 @@ namespace BlogExtension.Delicious
 			this.btnPost.Location = new System.Drawing.Point(240, 123);
 			this.btnPost.Name = "btnPost";
 			this.btnPost.TabIndex = 5;
-			this.btnPost.Text = Resource.Manager["RES_DeliciousFormPost"];
+			this.btnPost.Text = "Post";
 			this.btnPost.Click += new System.EventHandler(this._btOK_Click);
 			// 
 			// btnCancel
@@ -75,7 +85,7 @@ namespace BlogExtension.Delicious
 			this.btnCancel.Location = new System.Drawing.Point(328, 123);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.TabIndex = 4;
-			this.btnCancel.Text = Resource.Manager["RES_DeliciousFormCancel"];
+			this.btnCancel.Text = "Cancel";
 			// 
 			// textUri
 			// 
@@ -96,7 +106,7 @@ namespace BlogExtension.Delicious
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(72, 32);
 			this.label2.TabIndex = 37;
-			this.label2.Text = Resource.Manager["RES_DeliciousFormUrl"];
+			this.label2.Text = "&URL";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
@@ -118,7 +128,7 @@ namespace BlogExtension.Delicious
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(64, 32);
 			this.label1.TabIndex = 39;
-			this.label1.Text = Resource.Manager["RES_DeliciousFormDescription"];
+			this.label1.Text = "&Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
@@ -129,7 +139,7 @@ namespace BlogExtension.Delicious
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(72, 32);
 			this.label3.TabIndex = 41;
-			this.label3.Text = Resource.Manager["RES_DeliciousFormTags"];
+			this.label3.Text = "&Tags";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTags
@@ -158,7 +168,7 @@ namespace BlogExtension.Delicious
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DeliciousPostForm";
-			this.Text = Resource.Manager["RES_MenuDeliciousCaption"];
+			this.Text = "Post to del.icio.us";
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.DeliciousPostForm_Closing);
 			this.ResumeLayout(false);
 

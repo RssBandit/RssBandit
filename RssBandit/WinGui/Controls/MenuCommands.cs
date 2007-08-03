@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: MenuCommands.cs,v 1.8 2005/01/29 16:14:58 t_rendelmann Exp $
+ * $Id: MenuCommands.cs,v 1.15 2006/12/14 16:34:07 t_rendelmann Exp $
  * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/01/29 16:14:58 $
- * $Revision: 1.8 $
+ * Last modified at $Date: 2006/12/14 16:34:07 $
+ * $Revision: 1.15 $
  */
 #endregion
 
@@ -13,141 +13,136 @@ using System.Windows.Forms;
 using RssBandit.Utility.Keyboard;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
-using TD.SandBar;
 
 namespace RssBandit.WinGui.Menus {
 
 	#region AppMenuCommand class
-	/// <summary>
-	/// Colleage base Menu class, that is controlled by and talks to the mediator
-	/// </summary>
-	public class AppMenuCommand : MenuButtonItem, ICommand, ICommandComponent {
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private Container components = null;
-		protected CommandMediator _med;
-		protected event ExecuteCommandHandler OnExecute;
-		//protected object _tag;
-
-		public AppMenuCommand()	{
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
-			InitializeComponent();
-
-			//create default click handler
-			this.Activate += new EventHandler(this.ClickHandler);
-		}
-
-		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, ShortcutHandler shortcuts) : this(cmdId, mediator, executor, captionResourceId, descResourceId)	
-		{
-			SetShortcuts(cmdId, shortcuts);
-		}
-		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId): this()	{
-			string t = Resource.Manager[captionResourceId];
-			string d = Resource.Manager[descResourceId];
-
-			if (t == null) 
-				t = captionResourceId;
-			if (d == null) 
-				d =descResourceId;
-
-			base.Text = t;
-			base.ToolTipText = d;
-			
-			base.Tag = cmdId;
-			_med = mediator;
-			OnExecute += executor;
-			_med.RegisterCommand (cmdId, this);
-		}
-
-		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, int imageIndex): this(cmdId, mediator, executor ,captionResourceId, descResourceId)	{
-			base.ImageIndex = imageIndex;
-		}
-
-		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, int imageIndex, ShortcutHandler shortcuts): this(cmdId, mediator, executor ,captionResourceId, descResourceId, imageIndex)	
-		{
-			SetShortcuts(cmdId, shortcuts);
-		}
-		
-		private void SetShortcuts(string cmdId, ShortcutHandler shortcuts)
-		{
-			if(shortcuts != null)
-			{
-				this.Shortcut = shortcuts.GetShortcut(cmdId);
-			}
-		}
-//		public object Tag {
-//			get { return _tag; }
-//			set { _tag = value;}
+//	/// <summary>
+//	/// Colleage base Menu class, that is controlled by and talks to the mediator
+//	/// </summary>
+//	public class AppMenuCommand : MenuButtonItem, ICommand, ICommandComponent {
+//		/// <summary>
+//		/// Required designer variable.
+//		/// </summary>
+//		private Container components = null;
+//		protected CommandMediator med;
+//		protected event ExecuteCommandHandler OnExecute;
+//		//protected object _tag;
+//
+//		public AppMenuCommand()	{
+//			/// <summary>
+//			/// Required for Windows.Forms Class Composition Designer support
+//			/// </summary>
+//			InitializeComponent();
+//
+//			//create default click handler
+//			this.Activate += new EventHandler(this.ClickHandler);
 //		}
-
-		#region ICommandComponent implementation: abstract from the concrete Base class
-
-		public new bool Checked {
-			get { return base.Checked;  }
-			set { base.Checked = value; }
-		}
-
-		public new bool Enabled {
-			get { return base.Enabled;  }
-			set { base.Enabled = value; }
-		}
-
-		public new bool Visible {
-			get { return base.Visible;  }
-			set { base.Visible = value; }
-		}
-
-		#endregion
-
-		public void ClickHandler(object obj, EventArgs e) {
-			this.Execute();
-		}
-
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )	{
-			if( disposing )	{
-				if(components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
-
-		#region Component Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent() {
-			components = new System.ComponentModel.Container();
-		}
-		#endregion
-
-		#region Implementation of ICommand
-
-		public virtual void Execute()	{
-			if (OnExecute != null)
-				OnExecute(this);
-		}
-
-		public virtual void Initialize(){
-			// empty here
-		}
-
-		public string CommandID { get { return (string)base.Tag; } }
-
-		public CommandMediator Mediator{
-			get { return _med;  }
-			set	{ _med = value; }
-		}
-		#endregion
-
-	}
+//
+//		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, ShortcutHandler shortcuts) : 
+//			this(cmdId, mediator, executor, caption, description)	
+//		{
+//			SetShortcuts(cmdId, shortcuts);
+//		}
+//		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description): 
+//			this()	{
+//			base.Text = caption;
+//			base.ToolTipText = description;
+//			
+//			base.Tag = cmdId;
+//			med = mediator;
+//			OnExecute += executor;
+//			med.RegisterCommand (cmdId, this);
+//		}
+//
+//		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, int imageIndex): 
+//			this(cmdId, mediator, executor ,caption, description)	{
+//			base.ImageIndex = imageIndex;
+//		}
+//
+//		public AppMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, int imageIndex, ShortcutHandler shortcuts): 
+//			this(cmdId, mediator, executor ,caption, description, imageIndex)	
+//		{
+//			SetShortcuts(cmdId, shortcuts);
+//		}
+//		
+//		private void SetShortcuts(string cmdId, ShortcutHandler shortcuts)
+//		{
+//			if(shortcuts != null)
+//			{
+//				this.Shortcut = shortcuts.GetShortcut(cmdId);
+//			}
+//		}
+////		public object Tag {
+////			get { return _tag; }
+////			set { _tag = value;}
+////		}
+//
+//		#region ICommandComponent implementation: abstract from the concrete Base class
+//
+//		public new bool Checked {
+//			get { return base.Checked;  }
+//			set { base.Checked = value; }
+//		}
+//
+//		public new bool Enabled {
+//			get { return base.Enabled;  }
+//			set { base.Enabled = value; }
+//		}
+//
+//		public new bool Visible {
+//			get { return base.Visible;  }
+//			set { base.Visible = value; }
+//		}
+//
+//		#endregion
+//
+//		public void ClickHandler(object obj, EventArgs e) {
+//			this.Execute();
+//		}
+//
+//		/// <summary> 
+//		/// Clean up any resources being used.
+//		/// </summary>
+//		protected override void Dispose( bool disposing )	{
+//			if( disposing )	{
+//				if(components != null) {
+//					components.Dispose();
+//				}
+//			}
+//			base.Dispose( disposing );
+//		}
+//
+//		#region Component Designer generated code
+//		/// <summary>
+//		/// Required method for Designer support - do not modify
+//		/// the contents of this method with the code editor.
+//		/// </summary>
+//		private void InitializeComponent() {
+//			components = new System.ComponentModel.Container();
+//		}
+//		#endregion
+//
+//		#region Implementation of ICommand
+//
+//		public virtual void Execute()	{
+//			if (OnExecute != null)
+//				OnExecute(this);
+//		}
+//
+//		public virtual void Initialize(){
+//			// empty here
+//		}
+//
+//		public string CommandID { get { return (string)base.Tag; } }
+//
+//		public CommandMediator Mediator{
+//			get { return med;  }
+//			set	{ med = value; }
+//		}
+//		#endregion
+//
+//	}
 
 	#endregion
 
@@ -161,12 +156,13 @@ namespace RssBandit.WinGui.Menus {
 		/// Required designer variable.
 		/// </summary>
 		private Container components = null;
-		protected CommandMediator _med;
+		protected CommandMediator med;
 		protected event ExecuteCommandHandler OnExecute;
-		protected string _description = String.Empty;
-		protected int _imageIndex;
+		protected string description = String.Empty;
+		protected int imageIndex;
+#if !CLR_20
 		private object tag = null;
-
+#endif
 		public AppContextMenuCommand():base()	{
 			/// <summary>
 			/// Required for Windows.Forms Class Composition Designer support
@@ -178,52 +174,49 @@ namespace RssBandit.WinGui.Menus {
 			this.Click += evh;
 		}
 
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, ShortcutHandler shortcuts) : this(cmdId, mediator, executor, captionResourceId, descResourceId)
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, ShortcutHandler shortcuts) : 
+			this(cmdId, mediator, executor, caption, description)
 		{
 			SetShortcuts(cmdId, shortcuts);
 		}
 
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId): this()	{
-			string _text = Resource.Manager[captionResourceId];
-			
-			if (_text == null) 
-				_text = captionResourceId;
-			base.Text = _text;
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description): 
+			this()	{
 
-			_description = Resource.Manager[descResourceId];
-			if (_description == null) 
-				_description =descResourceId;
-			
-			Tag = cmdId;
-			_med = mediator;
-			OnExecute += executor;
-			_med.RegisterCommand (cmdId, this);
-		}
-		
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, int imageIndex, ShortcutHandler shortcuts): this(cmdId, mediator, executor, captionResourceId, descResourceId)
-		{
-			SetShortcuts(cmdId, shortcuts);
-		}
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string captionResourceId, string descResourceId, int imageIndex): this(cmdId, mediator, executor, captionResourceId, descResourceId)	{
-			_imageIndex = imageIndex;
-		}
-
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator,string caption, string desc, ShortcutHandler shortcuts):  this()	
-		{
-			SetShortcuts(cmdId, shortcuts);
-		}
-
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, string caption, string desc): this()	{
 			base.Text = caption;
-			_description = desc;
+			this.description = description;
+			
 			Tag = cmdId;
-			_med = mediator;
-			_med.RegisterCommand (cmdId, this);
+			med = mediator;
+			if (executor != null)
+				OnExecute += executor;
+			med.RegisterCommand (cmdId, this);
 		}
 		
-		public AppContextMenuCommand(string cmdId, CommandMediator mediator, string caption, string desc, int imageIndex, ShortcutHandler shortcuts) : this(cmdId, mediator, caption, desc, shortcuts)
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, int imageIndex, ShortcutHandler shortcuts): 
+			this(cmdId, mediator, executor, caption, description, imageIndex)
 		{
-			_imageIndex = imageIndex;
+			SetShortcuts(cmdId, shortcuts);
+		}
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description, int imageIndex): 
+			this(cmdId, mediator, executor, caption, description)	{
+			this.imageIndex = imageIndex;
+		}
+
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, string caption, string description, ShortcutHandler shortcuts):  
+			this(cmdId, mediator, null, caption, description)	
+		{
+			SetShortcuts(cmdId, shortcuts);
+		}
+
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, string caption, string description): 
+			this(cmdId, mediator, null, caption, description)	{
+		}
+		
+		public AppContextMenuCommand(string cmdId, CommandMediator mediator, string caption, string description, int imageIndex, ShortcutHandler shortcuts) : 
+			this(cmdId, mediator, caption, description, shortcuts)
+		{
+			this.imageIndex = imageIndex;
 		}
 
 		private void SetShortcuts(string cmdId, ShortcutHandler shortcuts)
@@ -235,10 +228,12 @@ namespace RssBandit.WinGui.Menus {
 			}
 		}
 
+#if !CLR_20
 		public object Tag {
 			get { return tag; }
 			set { tag = value; }
 		}
+#endif
 
 		#region ICommandComponent implementation: abstract from the concrete Base class
 
@@ -298,13 +293,34 @@ namespace RssBandit.WinGui.Menus {
 		public string CommandID { get { return (string)Tag; } }
 
 		public CommandMediator Mediator	{
-			get { return _med;  }
-			set	{ _med = value; }
+			get { return med;  }
+			set	{ med = value; }
 		}
 
 		#endregion
 	}
 
 	#endregion
-
+	
 }
+
+#region CVS Version Log
+/*
+ * $Log: MenuCommands.cs,v $
+ * Revision 1.15  2006/12/14 16:34:07  t_rendelmann
+ * finished: all toolbar migrations; removed Sandbar toolbars from MainUI
+ *
+ * Revision 1.14  2006/11/28 18:08:40  t_rendelmann
+ * changed; first version with the new menubar and the main toolbar migrated to IG - still work in progress
+ *
+ * Revision 1.13  2006/11/05 10:54:40  t_rendelmann
+ * fixed: surrounded the small diffs between CLR 2.0 and CLR 1.1 with conditional compile defs.
+ *
+ * Revision 1.12  2006/11/05 01:23:55  carnage4life
+ * Reduced time consuming locks in indexing code
+ *
+ * Revision 1.11  2006/10/31 13:36:35  t_rendelmann
+ * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
+ *
+ */
+#endregion
