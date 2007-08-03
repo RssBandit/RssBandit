@@ -34,13 +34,13 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;CLR_20</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
-    <NoWarn>CS0618;</NoWarn>
+    <NoWarn>0618;</NoWarn>
     <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
@@ -56,7 +56,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CLR_20</DefineConstants>
     <DocumentationFile>doc\NewsComponents.xml</DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
@@ -116,9 +116,6 @@
     </Compile>
     <Compile Include="..\Common\ProfilerHelper.cs">
       <Link>ProfilerHelper.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\CategoriesCollection.cs">
@@ -235,6 +232,7 @@
     <Compile Include="News\NntpWebResponse.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationCosmos\Collections\RelationHRefDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -269,10 +267,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Resources\ComponentsText.cs">
-      <DependentUpon>ComponentsText.strings</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComponentsText.strings</DependentUpon>
     </Compile>
     <Compile Include="Resources\Resource.cs">
       <SubType>Code</SubType>
@@ -394,85 +391,87 @@
     <Compile Include="Xml\Serialization\XmlSerializerCache.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Resources\ComponentsText.strings">
-      <Generator>StringResourceTool</Generator>
-      <LastGenOutput>ComponentsText.cs</LastGenOutput>
-    </None>
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>
     <EmbeddedResource Include="Resources\ComponentsText.bg.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.de.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.es.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.fr.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.hi.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.it.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.ja.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.nl-NL.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pl.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pt-BR.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.resx">
-      
+      <DependentUpon>ComponentsText.strings</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Resources\ComponentsText.strings">
+      <Generator>StringResourceTool</Generator>
+      <LastGenOutput>ComponentsText.cs</LastGenOutput>
+    </None>
     <EmbeddedResource Include="Resources\ComponentsText.ru.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Cyrl.resx">
-      
+    <EmbeddedResource Include="Resources\ComponentsText.sr-Cyrl-CS.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Latn.resx">
-      
+    <EmbeddedResource Include="Resources\ComponentsText.sr-Latn-CS.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.tr.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHS.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHT.resx">
-      
+      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
-    <EmbeddedResource Include="Resources\feedListSchema.xsd" />
+    <EmbeddedResource Include="Resources\feedListSchema.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\rss-0.91.dtd" />
     <EmbeddedResource Include="Resources\xhtml-lat1.ent" />
     <EmbeddedResource Include="Resources\xhtml-special.ent" />

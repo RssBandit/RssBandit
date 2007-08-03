@@ -693,7 +693,9 @@ namespace NewsComponents.News {
         private String connectResp = "";  // connect response
 
         private String CurrGroup = "";   // current selected group
+/*
         private int lastGroupMsgCount = -1;   // last number of messages in grp (prev. request)
+*/
 		private int currGroupMsgCount;   // current number of messages in grp (this request)
 		private int firstMsg;    // 1st message in group
         private int lastMsg;    // last message in group

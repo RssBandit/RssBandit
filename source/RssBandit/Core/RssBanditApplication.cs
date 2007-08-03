@@ -226,7 +226,10 @@ namespace RssBandit {
 		
 
 		#region constructors and startup
-		static RssBanditApplication() {
+		static RssBanditApplication() 
+		{
+			// according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
+			ApplyResourceNameFix();
 
 			// read app.config If a key was not found, take defaults from the embedded resources
 			validationUrlBase  = (string)ReadAppSettingsEntry("validationUrlBase", typeof(string), SR.URL_FeedValidationBase);
@@ -7634,6 +7637,55 @@ namespace RssBandit {
 		/// </summary>
 		internal ICoreApplication CoreServices {
 			get { return this; }
+		}
+
+		private static void ApplyResourceNameFix() {
+			CreateCopyCulture("en-029", "en-CB");
+			CreateCopyCulture("az-Latn-AZ", "az-AZ-Latn");
+			CreateCopyCulture("uz-Latn-UZ", "uz-UZ-Latn");
+			CreateCopyCulture("sr-Latn-CS", "sr-SP-Latn");
+			CreateCopyCulture("az-Cyrl-AZ", "az-AZ-Cyrl");
+			CreateCopyCulture("uz-Cyrl-UZ", "uz-UZ-Cyrl");
+			CreateCopyCulture("sr-Cyrl-CS", "sr-SP-Cyrl");
+			CreateCopyCulture("bs-Cyrl-BA", "bs-BA-Cyrl");
+			CreateCopyCulture("sr-Latn-BA", "sr-BA-Latn");
+			CreateCopyCulture("sr-Cyrl-BA", "sr-BA-Cyrl");
+			CreateCopyCulture("bs-Latn-BA", "bs-BA-Latn");
+			CreateCopyCulture("iu-Latn-CA", "iu-CA-Latn");
+			CreateCopyCulture("dv-MV", "div-MV");
+			// zh-Hant & zh-Hans (zh-CHS/zh-CHT) are already aliased.
+		}
+		static void CreateCopyCulture(string strRealName, string strAliasName)
+		{
+			try
+			{
+				// Create a new culture based on the old name
+				CultureAndRegionInfoBuilder carib = new CultureAndRegionInfoBuilder(
+					strAliasName, CultureAndRegionModifiers.None);
+
+				carib.LoadDataFromCultureInfo(new CultureInfo(strRealName));
+				carib.LoadDataFromRegionInfo(new RegionInfo(strRealName));
+
+				carib.Register();
+
+				// Change the existing culture's parent to the old culture
+				carib = new CultureAndRegionInfoBuilder(strRealName,
+								CultureAndRegionModifiers.Replacement);
+
+				carib.Parent = new CultureInfo(strAliasName);
+				carib.Register();
+
+				// Verify they're registered...
+				CultureInfo ci = new CultureInfo(strAliasName);
+				Trace.WriteLine(String.Format("Aliased culture {0} has parent of {1}.", ci, ci.Parent));
+				ci = new CultureInfo(strRealName);
+				Trace.WriteLine(String.Format("\"Real\" culture {0} has parent of {1}.", ci, ci.Parent));
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine("Unable to create custom culture " + strAliasName);
+				Trace.WriteLine(e);
+			}
 		}
 
 /*

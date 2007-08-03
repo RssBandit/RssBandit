@@ -10,7 +10,7 @@ namespace RssBandit.Resources
 	using System.Globalization;
 	
 	
-	class SR
+	internal class SR
 	{
 		
 		public static string AppLoadStateGuiLoading
