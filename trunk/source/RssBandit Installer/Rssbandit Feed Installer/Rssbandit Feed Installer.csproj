@@ -99,6 +99,7 @@
     </Compile>
     <EmbeddedResource Include="Installer1.resx">
       <DependentUpon>Installer1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
