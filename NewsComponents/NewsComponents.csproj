@@ -402,71 +402,71 @@
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>
     <EmbeddedResource Include="Resources\ComponentsText.bg.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.de.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.es.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.fr.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.hi.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.it.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.ja.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.nl-NL.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pl.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pt-BR.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.ru.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Cyrl.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Latn.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.tr.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHS.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHT.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+      
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />

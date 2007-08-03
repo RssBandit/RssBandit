@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE;CLR_11;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_20;</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -189,6 +189,7 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -262,48 +263,46 @@
     <None Include="templates\slashdot.fdxsl" />
     <None Include="templates\Sticky Notes.fdxsl" />
     <None Include="templates\unwise-terminal.fdxsl" />
-    <None Include="Web References\com.newsgator.services1\Folder.disco" />
-    <None Include="Web References\com.newsgator.services1\Folder.wsdl" />
-    <None Include="Web References\com.newsgator.services1\Reference.map">
+    <None Include="Web References\CLR20.com.newsgator.services1\Folder.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services1\Folder.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services1\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.newsgator.services2\Feed.disco" />
-    <None Include="Web References\com.newsgator.services2\Feed.wsdl" />
-    <None Include="Web References\com.newsgator.services2\Reference.map">
+    <None Include="Web References\CLR20.com.newsgator.services2\Feed.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services2\Feed.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services2\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.newsgator.services3\Reference.map">
+    <None Include="Web References\CLR20.com.newsgator.services3\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.newsgator.services3\Subscription.disco" />
-    <None Include="Web References\com.newsgator.services3\Subscription.wsdl" />
-    <None Include="Web References\com.newsgator.services4\PostItem.disco" />
-    <None Include="Web References\com.newsgator.services4\PostItem.wsdl" />
-    <None Include="Web References\com.newsgator.services4\Reference.map">
+    <None Include="Web References\CLR20.com.newsgator.services3\Subscription.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services3\Subscription.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services4\PostItem.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services4\PostItem.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services4\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.newsgator.services\Location.disco" />
-    <None Include="Web References\com.newsgator.services\Location.wsdl" />
-    <None Include="Web References\com.newsgator.services\Reference.map">
+    <None Include="Web References\CLR20.com.newsgator.services\Location.disco" />
+    <None Include="Web References\CLR20.com.newsgator.services\Location.wsdl" />
+    <None Include="Web References\CLR20.com.newsgator.services\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\DasBlog\ConfigEditingService.disco" />
-    <None Include="Web References\DasBlog\ConfigEditingService.wsdl" />
-    <None Include="Web References\DasBlog\Reference.map">
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.disco" />
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.wsdl" />
+    <None Include="Web References\CLR20.DasBlog\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\RssBandit.UpdateService\Reference.map">
+    <None Include="Web References\CLR20.RssBandit.UpdateService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\RssBandit.UpdateService\UpdateService.disco" />
-    <None Include="Web References\RssBandit.UpdateService\UpdateService.wsdl" />
     <None Include="WinGui\Genghis\Info.txt" />
     <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="Resources\2003Comment.png" />
@@ -346,55 +345,39 @@
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd" />
     <EmbeddedResource Include="Resources\SR.bg.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.de.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.es.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.fr.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.hi.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.it.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.ja.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.nl-NL.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.pl.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.pt-BR.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.resx">
       <DependentUpon>SR.strings</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.ru.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.sr-SP-Cyrl.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.sr-SP-Latn.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.tr.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.zh-CHS.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.zh-CHT.resx">
-      <DependentUpon>SR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\TreeImages.bmp" />
     <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
@@ -431,829 +414,554 @@
       <DependentUpon>VerticalHeaderLabel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.bg.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.de.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.es.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.fr.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.hi.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.it.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ja.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.nl-NL.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pl.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pt-BR.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ru.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-SP-Cyrl.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-SP-Latn.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.tr.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHS.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHT.resx">
-      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.bg.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.de.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.es.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.fr.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.hi.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.it.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ja.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.nl-NL.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pl.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pt-BR.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ru.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Cyrl.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-SP-Latn.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.tr.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHS.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHT.resx">
-      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.bg.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.de.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.es.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.fr.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.hi.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.it.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ja.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.nl-NL.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pl.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pt-BR.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ru.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-SP-Cyrl.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-SP-Latn.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.tr.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHS.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHT.resx">
-      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DialogBase.resx">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.bg.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.de.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.es.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.fr.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.hi.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.it.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ja.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.nl-NL.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pl.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pt-BR.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ru.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-SP-Latn.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.tr.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHS.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHT.resx">
-      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.bg.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.de.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.es.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.fr.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.hi.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.it.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ja.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.nl-NL.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pl.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pt-BR.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ru.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-SP-Latn.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.tr.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHS.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHT.resx">
-      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.bg.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.de.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.es.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.fr.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.hi.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.it.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ja.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.nl-NL.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pl.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pt-BR.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ru.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-SP-Latn.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.tr.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHS.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHT.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.bg.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.de.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.es.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.fr.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.hi.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.it.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ja.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.nl-NL.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pl.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pt-BR.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ru.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-SP-Cyrl.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-SP-Latn.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.tr.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHS.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHT.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedSourceDialog.resx">
-      <DependentUpon>FeedSourceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.bg.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.de.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.es.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.fr.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.hi.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.it.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ja.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.nl-NL.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pl.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pt-BR.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ru.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-SP-Latn.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.tr.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHS.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHT.resx">
-      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.bg.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.de.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.es.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.fr.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.hi.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.it.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ja.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.nl-NL.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pl.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pt-BR.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ru.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-SP-Latn.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.tr.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHS.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHT.resx">
-      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PodcastOptionsDialog.resx">
       <DependentUpon>PodcastOptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.bg.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.de.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.es.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.fr.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.hi.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.it.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ja.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.nl-NL.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pl.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pt-BR.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ru.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-SP-Cyrl.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-SP-Latn.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.tr.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHS.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHT.resx">
-      <DependentUpon>PostReplyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.bg.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.de.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.es.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.fr.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.hi.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.it.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ja.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.nl-NL.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pl.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pt-BR.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ru.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-SP-Latn.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.tr.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHS.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHT.resx">
-      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.bg.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.de.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.es.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.fr.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.hi.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.it.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ja.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.nl-NL.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pl.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pt-BR.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ru.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-SP-Cyrl.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-SP-Latn.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.tr.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHS.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHT.resx">
-      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.bg.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.de.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.es.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.fr.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.hi.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.it.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ja.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.nl-NL.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pl.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pt-BR.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ru.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-SP-Cyrl.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-SP-Latn.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.tr.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHS.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHT.resx">
-      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.bg.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.de.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.es.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.fr.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.hi.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.it.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ja.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.nl-NL.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pl.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pt-BR.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ru.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-SP-Cyrl.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-SP-Latn.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.tr.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHS.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHT.resx">
-      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.bg.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.de.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.es.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.fr.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.hi.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.it.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.ja.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.nl-NL.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.pl.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.pt-BR.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.ru.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-SP-Cyrl.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-SP-Latn.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.tr.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHS.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHT.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.bg.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.de.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.es.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.fr.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.hi.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.it.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.ja.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.nl-NL.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.pl.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.pt-BR.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.ru.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-SP-Cyrl.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-SP-Latn.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.tr.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHS.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHT.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\WinGUIMain.resx">
       <DependentUpon>WinGUIMain.cs</DependentUpon>
@@ -1332,43 +1040,42 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web References\com.newsgator.services1\Reference.cs">
+    <Compile Include="Web References\CLR20.com.newsgator.services1\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Web References\com.newsgator.services2\Reference.cs">
+    <Compile Include="Web References\CLR20.com.newsgator.services2\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Web References\com.newsgator.services3\Reference.cs">
+    <Compile Include="Web References\CLR20.com.newsgator.services3\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Web References\com.newsgator.services4\Reference.cs">
+    <Compile Include="Web References\CLR20.com.newsgator.services4\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Web References\com.newsgator.services\Reference.cs">
+    <Compile Include="Web References\CLR20.com.newsgator.services\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Web References\DasBlog\Reference.cs">
-      <DependentUpon>Reference.map</DependentUpon>
-      <SubType>code</SubType>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Web References\CLR20.DasBlog\Reference.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\RssBandit.UpdateService\Reference.cs">
+    <Compile Include="Web References\CLR20.RssBandit.UpdateService\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
       <SubType>code</SubType>
       <DesignTime>True</DesignTime>
@@ -1516,6 +1223,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Dialogs\FeedSourceDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Dialogs\ImportFeedsDialog.cs">
       <SubType>Form</SubType>
@@ -1632,32 +1340,50 @@
     <Content Include="RssBandit.exe.log4net.config" />
     <Content Include="RssBandit.exe.manifest" />
     <Content Include="templates\readme.htm" />
-    <WebReferenceUrl Include="http://localhost/dasBlog/ConfigEditingService.asmx">
-      <RelPath>Web References\DasBlog\</RelPath>
+    <WebReferenceUrl Include="http://www.rendelmann.info/blog/ConfigEditingService.asmx">
+      <RelPath>Web References\CLR20.DasBlog\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://www.rendelmann.info/blog/ConfigEditingService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/RssBandit.UpdateService/UpdateService.asmx">
-      <RelPath>Web References\RssBandit.UpdateService\</RelPath>
+      <RelPath>Web References\CLR20.RssBandit.UpdateService\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://localhost/RssBandit.UpdateService/UpdateService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Feed.asmx">
-      <RelPath>Web References\com.newsgator.services2\</RelPath>
+      <RelPath>Web References\CLR20.com.newsgator.services2\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Folder.asmx">
-      <RelPath>Web References\com.newsgator.services1\</RelPath>
+      <RelPath>Web References\CLR20.com.newsgator.services1\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Location.asmx">
-      <RelPath>Web References\com.newsgator.services\</RelPath>
+      <RelPath>Web References\CLR20.com.newsgator.services\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/PostItem.asmx">
-      <RelPath>Web References\com.newsgator.services4\</RelPath>
+      <RelPath>Web References\CLR20.com.newsgator.services4\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/Subscription.asmx">
-      <RelPath>Web References\com.newsgator.services3\</RelPath>
+      <RelPath>Web References\CLR20.com.newsgator.services3\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
     </WebReferenceUrl>
     <WebReferences Include="Web References\" />
