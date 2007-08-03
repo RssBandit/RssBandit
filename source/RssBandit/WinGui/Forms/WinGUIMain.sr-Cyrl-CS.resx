@@ -109,265 +109,226 @@
 </value>
   </data>
   <data name="colHeadline.Text">
-    <value>Titel</value>
+    <value>Наслов</value>
   </data>
   <data name="colDate.Text">
-    <value>Datum</value>
+    <value>Датум</value>
   </data>
   <data name="colTopic.Text">
-    <value>Kategorie</value>
+    <value>Тема</value>
   </data>
   <data name="comboBoxRssSearchItemPostedOperator.Items">
-    <value>am</value>
+    <value>у</value>
   </data>
   <data name="comboBoxRssSearchItemPostedOperator.Items1">
-    <value>vor dem</value>
+    <value>пре</value>
   </data>
   <data name="comboBoxRssSearchItemPostedOperator.Items2">
-    <value>nach dem</value>
+    <value>после</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.ToolTip">
+    <value>Изаберите операцију поређења...</value>
   </data>
   <data name="dateTimeRssSearchItemPost.ToolTip">
-    <value>Wählen Sie ein Datum, mit dem verglichen werden soll...</value>
+    <value>Изаберите датум за поређење...</value>
   </data>
   <data name="dateTimeRssSearchPostAfter.ToolTip">
-    <value>Wählen Sie ein Datum als untere Grenze</value>
+    <value>Изаберите датум после</value>
   </data>
   <data name="dateTimeRssSearchPostBefore.ToolTip">
-    <value>Wählen Sie ein Datum als obere Grenze</value>
+    <value>Изаберите датум пре</value>
+  </data>
+  <data name="taskPaneSearchOptions.Text">
+    <value>Панел опција претраге</value>
   </data>
   <data name="collapsiblePanelSearchNameEx.Text">
-    <value>Name des Suchordners</value>
+    <value>Име фолдера претраге</value>
   </data>
   <data name="btnRssSearchSave.Text">
-    <value>Speichern</value>
+    <value>Сачувај</value>
   </data>
   <data name="labelSearchFolderNameHint.Text">
-    <value>Geben Sie einen Namen für die Speicherung der Suche an. Sie können hier auch Kategorien definieren, indem Sie Begriffe durch '\' getrennt voranstellen.</value>
-  </data>
-  <data name="textFinderCaption.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>122, 21</value>
+    <value>Наведите име за дефинисану претрагу како би била истрајна. Можете наставити са именом једне или више категорија, као: 'BUZZ Речи\Атом'. Одвојите их са бекслешем.</value>
   </data>
   <data name="collapsiblePanelRssSearchExprKindEx.Text">
-    <value>Art der Suche</value>
+    <value>Тип претраге</value>
+  </data>
+  <data name="radioRssSearchSimpleText.Text">
+    <value>Текст</value>
   </data>
   <data name="labelRssSearchTypeHint.Text">
-    <value>Finde alle Einträge, die bestimmte Wörter oder Ausdrücke enthalten</value>
+    <value>Нађи све постове који садрже наведену реч или фразу</value>
   </data>
   <data name="radioRssSearchRegEx.Text">
-    <value>Regulärer Ausdruck</value>
+    <value>Регуларни изрази</value>
   </data>
   <data name="collapsiblePanelItemPropertiesEx.Text">
-    <value>Suchfelder</value>
+    <value>Претрага поља</value>
   </data>
   <data name="checkBoxRssSearchInDesc.Text">
-    <value>Beschreibung</value>
+    <value>Опис</value>
   </data>
   <data name="checkBoxRssSearchInCategory.Text">
-    <value>Kategorie</value>
+    <value>Тема</value>
   </data>
   <data name="checkBoxRssSearchInTitle.Text">
-    <value>Titel</value>
+    <value>Наслов</value>
   </data>
   <data name="checkBoxRssSearchInLink.Text">
-    <value>Link des Eintrags</value>
+    <value>Линк предмета</value>
   </data>
   <data name="label1.Text">
-    <value>Wählen Sie alle Felder, die bei der Suche berücksichtigt werden sollen</value>
+    <value>Селектујте све опције које желите у претрази за постовима</value>
   </data>
   <data name="collapsiblePanelAdvancedOptionsEx.Text">
-    <value>Erweiterte Suchfelder</value>
-  </data>
-  <data name="checkBoxConsiderItemReadState.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>105, 20</value>
+    <value>Напредна поља</value>
   </data>
   <data name="checkBoxConsiderItemReadState.Text">
-    <value>Status: Gelesen</value>
-  </data>
-  <data name="checkBoxRssSearchUnreadItems.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>24, 57</value>
+    <value>Статус читања</value>
   </data>
   <data name="checkBoxRssSearchUnreadItems.Text">
-    <value>Nicht gelesen</value>
-  </data>
-  <data name="horizontalEdge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>111, 39</value>
-  </data>
-  <data name="horizontalEdge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>92, 3</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>117, 99</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>86, 3</value>
-  </data>
-  <data name="checkBoxRssSearchTimeSpan.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>105, 20</value>
+    <value>Непрочитан пост</value>
   </data>
   <data name="checkBoxRssSearchTimeSpan.Text">
-    <value>Alter des Eintrags</value>
+    <value>Старост предмета</value>
   </data>
   <data name="radioRssSearchItemsOlderThan.Text">
-    <value>älter als</value>
+    <value>Старији од</value>
   </data>
   <data name="comboRssSearchItemAge.Items">
-    <value>1 Stunde</value>
+    <value>1 сат</value>
   </data>
   <data name="comboRssSearchItemAge.Items1">
-    <value>2 Stunden</value>
+    <value>2 сата</value>
   </data>
   <data name="comboRssSearchItemAge.Items2">
-    <value>3 Stunden</value>
+    <value>3 сата</value>
   </data>
   <data name="comboRssSearchItemAge.Items3">
-    <value>4 Stunden</value>
+    <value>4 сата</value>
   </data>
   <data name="comboRssSearchItemAge.Items4">
-    <value>5 Stunden</value>
+    <value>5 сати</value>
   </data>
   <data name="comboRssSearchItemAge.Items5">
-    <value>6 Stunden</value>
+    <value>6 сати</value>
   </data>
   <data name="comboRssSearchItemAge.Items6">
-    <value>12 Stunden</value>
+    <value>12 сати</value>
   </data>
   <data name="comboRssSearchItemAge.Items7">
-    <value>18 Stunden</value>
+    <value>18 сати</value>
   </data>
   <data name="comboRssSearchItemAge.Items8">
-    <value>1 Tag</value>
+    <value>1 дан</value>
   </data>
   <data name="comboRssSearchItemAge.Items9">
-    <value>2 Tage</value>
+    <value>2 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items10">
-    <value>3 Tage</value>
+    <value>3 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items11">
-    <value>4 Tage</value>
+    <value>4 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items12">
-    <value>5 Tage</value>
+    <value>5 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items13">
-    <value>6 Tage</value>
+    <value>6 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items14">
-    <value>7 Tage</value>
+    <value>7 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items15">
-    <value>14 Tage</value>
+    <value>14 дана</value>
   </data>
   <data name="comboRssSearchItemAge.Items16">
-    <value>21 Tage</value>
+    <value>21 дан</value>
   </data>
   <data name="comboRssSearchItemAge.Items17">
-    <value>1 Monat</value>
+    <value>1 месец</value>
   </data>
   <data name="comboRssSearchItemAge.Items18">
-    <value>2 Monate</value>
+    <value>2 месеца</value>
   </data>
   <data name="comboRssSearchItemAge.Items19">
-    <value>1 Quartal</value>
+    <value>1 квартал</value>
   </data>
   <data name="comboRssSearchItemAge.Items20">
-    <value>2 Quartale</value>
+    <value>2 квартала</value>
   </data>
   <data name="comboRssSearchItemAge.Items21">
-    <value>3 Quartale</value>
+    <value>3 квартала</value>
   </data>
   <data name="comboRssSearchItemAge.Items22">
-    <value>1 Jahr</value>
+    <value>1 година</value>
   </data>
   <data name="comboRssSearchItemAge.Items23">
-    <value>2 Jahre</value>
+    <value>2 године</value>
   </data>
   <data name="comboRssSearchItemAge.Items24">
-    <value>3 Jahre</value>
+    <value>3 године</value>
   </data>
   <data name="comboRssSearchItemAge.Items25">
-    <value>5 Jahre</value>
-  </data>
-  <data name="comboRssSearchItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>24, 159</value>
+    <value>5 година</value>
   </data>
   <data name="radioRssSearchItemsYoungerThan.Text">
-    <value>jünger als</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>123, 199</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>80, 3</value>
-  </data>
-  <data name="checkBoxRssSearchByDate.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>114, 20</value>
+    <value>Новији од</value>
   </data>
   <data name="checkBoxRssSearchByDate.Text">
-    <value>Eintrag publiziert</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>120, 291</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>83, 3</value>
-  </data>
-  <data name="checkBoxRssSearchByDateRange.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>105, 20</value>
+    <value>Постирано предмета</value>
   </data>
   <data name="checkBoxRssSearchByDateRange.Text">
-    <value>Eintrag zwischen</value>
+    <value>Постирано предмета између</value>
   </data>
   <data name="collapsiblePanelRssSearchScopeEx.Text">
-    <value>Suchbereich</value>
+    <value>Ширина претраге</value>
   </data>
   <data name="btnNewSearch.Text">
-    <value>Neue Suche</value>
-  </data>
-  <data name="textSearchExpression.ToolTip">
-    <value>Suchbegriff eingeben...</value>
+    <value>Нова претрага</value>
   </data>
   <data name="btnSearchCancel.Text">
-    <value>Suchen</value>
+    <value>Претрага</value>
   </data>
-  <data name="statusBarBrowser.ToolTipText">
-    <value>Webbrowser status...</value>
+  <data name="statusBarBrowser.Text">
+    <value>Претраживач</value>
   </data>
-  <data name="statusBarBrowserProgress.ToolTipText">
-    <value>Fortschritt beim laden einer Seite...</value>
+  <data name="toolBarMain.Text">
+    <value>Главни алати</value>
   </data>
-  <data name="statusBarConnectionState.ToolTipText">
-    <value>Netzwerk Verbindungsstatus...</value>
+  <data name="menuBarMain.Text">
+    <value>Мену бар</value>
   </data>
-  <data name="statusBarRssParser.ToolTipText">
-    <value>Feed Manager Status...</value>
+  <data name="toolBarBrowser.Text">
+    <value>Алати претраживача</value>
+  </data>
+  <data name="toolBarWebSearch.Text">
+    <value>Алати Web претраге</value>
   </data>
   <data name="dockSubscriptions.TabText">
-    <value>Feed Abonnements</value>
+    <value>Потписи извора</value>
   </data>
   <data name="dockSubscriptions.Text">
-    <value>Feed Abonnements</value>
+    <value>Потписи извора</value>
   </data>
   <data name="dockSearch.TabText">
-    <value>Suche</value>
+    <value>Претрага</value>
   </data>
   <data name="dockSearch.Text">
-    <value>Suche</value>
+    <value>Претрага</value>
   </data>
-<data name="comboBoxRssSearchItemPostedOperator.ToolTip">
-    <value>Select the comparison operation...</value>
+  <data name="_docFeedDetails.TabText">
+    <value>Детаљи извора</value>
   </data>
-	<data name="taskPaneSearchOptions.Text">
-    <value>Search Options Pane</value>
+  <data name="_docFeedDetails.Text">
+    <value>Детаљи извора</value>
   </data>
-	<data name="radioRssSearchSimpleText.Text">
-    <value>Text</value>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>NoControl</value>
   </data>
-	<data name="radioRssSearchExprXPath.Text">
+<data name="radioRssSearchExprXPath.Text">
     <value>XPath</value>
-  </data>
-	<data name="statusBarBrowser.Text">
-    <value>Browser</value>
   </data>
 	<data name="bottomSandBarDock.Text">
     <value>SandBarDock</value>
@@ -380,21 +341,6 @@
   </data>
 	<data name="topSandBarDock.Text">
     <value>SandBarDock</value>
-  </data>
-	<data name="toolBarMain.Text">
-    <value>Main Tools</value>
-  </data>
-	<data name="menuBarMain.Text">
-    <value>Menu Bar</value>
-  </data>
-	<data name="toolBarBrowser.Text">
-    <value>Browser Tools</value>
-  </data>
-	<data name="toolBarWebSearch.Text">
-    <value>Web Search Tools</value>
-  </data>
-	<data name="_docFeedDetails.Text">
-    <value>Feed Details</value>
   </data>
 	<data name="$this.Text">
     <value>RSS Bandit</value>
