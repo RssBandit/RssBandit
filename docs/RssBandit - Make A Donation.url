@@ -1,0 +1,11 @@
+[DEFAULT]
+BASEURL=http://sourceforge.net/donate/index.php?group_id=127624
+[InternetShortcut]
+URL=http://sourceforge.net/project/project_donations.php?group_id=96589
+Modified=D033F8B6F481C501EC
+IconFile=http://sourceforge.net/images/favicon.ico
+IconIndex=1
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2
