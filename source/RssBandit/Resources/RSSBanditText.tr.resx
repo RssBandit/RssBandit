@@ -1,0 +1,2316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>default stylesheet</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>used to validate a RSSfeed, default on invalid .config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>News page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki Site, default on invalid .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit User Forum, default on invalid .config</comment>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[Sınıflandırılmamış Beslemeler]</value>
+		<comment>localizable</comment>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>Güncelleme Bilgisi</value>
+		<comment>Caption of the Upgrade Info Messagebox</comment>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>{0} in yeni sürümü, yeni program özellikleri ve hata ayıklamalarını destekliyor, 
+Bu besleme listenizin dosya biçiminin değiştirilmesini öngörüyor.
+Eski sürümlerinizi çalışır halde tutmak için, Uygulama şu anki listenizden yeni bir besleme listesi yapmayı deneyecek.
+
+Eski dosya aynen kalacak.
+
+Devam etmek istiyor musunuz?</value>
+		<comment>Info text used to inform a user about a feedlist file format change.</comment>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>Geçersiz Besleme Dosyası</value>
+		<comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>Yeni besleme için belirtilen URL geçerli bir URL değil.</value>
+		<comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>Geçersiz URL</value>
+		<comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>Besleme Listesi yüklenirken beklenmeyen hata oluştu: 
+  '{0}'.
+Oluşan hatayla ilgili daha fazla bilgi için lütfen  
+  '{1}'  
+dosyasına bir göz atın.</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>Besleme Listesi dosyası yüklenirken hata oluştu</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>Besleme geçersiz. Oluşan hatayla ilgili detaylı bilgi için 
+  '{0}' 
+dosyasına göz atın.</value>
+		<comment>Validation Error message</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>Bitti</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>commentRss beslemesi isteniyor, lütfen bekleyin...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>commentRss beslemesi istenirken hata oluştu: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>Besleme listesi yüklenirken doğrulama hatası oluştu</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>Besleme Listesi yok</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>Boşta</value>
+		<comment>also displayed as a Tooltip on the tray icon</comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>Yeni besleme mesajları alındı...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} beslemede {1} yeni mesaj</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>Meşgul, yenileniyor...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>Okunmamış mesajlar var...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} besleme güncellendi.</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>Yeni Güncelleme yok</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>{0} okunmamış mesaj kaldı.</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>Okunmamış mesaj yok</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>RSS beslemesi için ne bağlantı ne de başlık boş olamaz!</value>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>Kategori için başlık boş olamaz!</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>Boş Alan saptandı</value>
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>Web Sayfası URL si belirtilmemiş</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>Anahtar Kelime belirtilmememiş</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>{0} 
+sayfası için beslemeler belirleniyor.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>{0}
+ anahtar kelimesini içeren beslemeler belirleniyor.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>{0}
+ beslemesi isteniyor.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>{0} 
+dosyası isteniyor.</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>Üzgünüm, hiç RSS beslemesi bulunamadı.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>({0}) besleme listesi yükleniyor, lütfen bekleyin...</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>Besleme Listesi yüklenmesi başarısız, hata:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>({0}) besleme listesi indiriliyor, lütfen bekleyin...</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>Besleme Listesi indirimi başarısız, hata:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>Besleme bulunamadı</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>Bu beslemeye zaten abonesiniz.
+ Kategori/İsim: {0}
+ Bağlantı: {1}.</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>Yenileniyor: {0} ...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>{0} yenilemesi başarısız  (XML hatası): {1}</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>{0} yenilenmesi başarısız (kritik hata): {1}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>{0} URL sinin istemi başarısız: {1}</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>Otomatik besleme keşfi başarısız</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>Beslemeler yenileniyor...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>Besleme Listesi Yükleniyor...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>Yükleniyor, lütfen bekleyin...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>Bağlantınız kopmuş, alt mesajlar yüklenemiyor.</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>Şu anki internet bağlantısını kontrol et...</value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>Şu anki internet bağlantı durumu</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>Yükleniyor...</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>Arama yapılandırmasını yüklerken beklenmeyen bir hata oldu: {0}.
+Lütfen, hatanın detaylarıyla ilgili '{1}' dosyasına gözatın.</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>Hata oluştu</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>Arama yapılandırması yüklenirken hata oluştu</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>Arama yapılandırma listesini yüklerken doğrulama hatası oluştu</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>Arama yapılandırmasını yüklerken doğrulama hatası oldu.
+Lütfen, hatanın detaylarıyla ilgili '{0}' dosyasına gözatın.</value>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[Yeni]</value>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[Yeni {0}]</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>Geçersiz Besleme.</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>Besleme yüklenmesi başarısız: {0}</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>İşlem iptal edildi. '{0}' beslemesi hata veriyor: {1}</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>RSS mesajı, HTML e dönüştürülemiyor.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>Xslt biçemsayfası derlenemiyor.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>Xslt biçemsayfası geçersiz.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>Seçili Xslt biçemsayfası bu hatayı bildiriyor:
+{0}
+Ayrıntılar: {1}</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>geçersiz bir karakter</value>
+		<comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>İşlem iptal edildi. Başlık boş bırakılamaz.</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>&amp;Dosya</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>RSS Bandit Dosya komutları menüsü</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>&amp;Görünüm</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>RSS Bandit görünüm komutları</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>A&amp;raçlar</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>RSS Bandit araç komutları</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>&amp;Arama</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>RSS Bandit web arama yapılandırma komutları</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>&amp;Yardım</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>RSS Bandit yardımı...</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>Sonuçlar için Yeni Sekme</value>
+		<comment>Caption within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>Web Arama sonuçları yeni sekmede gösterilir...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>Eşzamanlı aramalarda onu da içermek için bu seçeneği işaretleyin...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>&amp;Hakkında...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>Bu Uygulama hakkında bilgiler verir</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>&amp;Çevrimiçi Dökümantasyon</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>Uygulama hakkında yardım , başlarken, SSS, vb...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>&amp;Haberleri Göster (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>Bu Uygulamayla ilgili Sourceforge.net teki son haberleri okuyun</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>&amp;Hata bildir (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>bu uygulamayla ilgili bir hatayı Sourceforge.net te bildirmenizi sağlar</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>Güncellemeleri kontrol et...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>Program güncellemelerini kontrol et</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>RSS Bandit A&amp;nasayfasını ziyaret edin...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>Haber Oku, Yeni özellik tavsiye et, SSS ve daha fazlası...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>RSS Bandit &amp;Forumlarını ziyaret et...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>İlgili bir konuda tartışın...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>&amp;Besleme Abonelikleri</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>Beslemeler ağaç görünümünü gösterir...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>&amp;Ara</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>RSS Arama panosunu görünür duruma geçirir.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>&amp;Araç Çubukları</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>Çeşitli araç çubuklarının görüntülenmesini sağlar...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>Standard</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>Standart araç çubuğunu gösterir...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Web Gezintisi</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Web Gezintisi Araç çubuğunu görüntüler...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Web de Arama</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Web de Arama araç çubuğunun görüntüler...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>&amp;Beslemeleri İthal et...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>Bir besleme listesi ithal et (.xml, .ocs or .opml)</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>&amp;Beslemeleri İhrac et...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>Besleme Listesini İhrac et...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>&amp;Seçenekler...</value>
+		<comment>Caption within tools menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>Uygulama seçeneklerini gösterir...</value>
+		<comment>Description within tools menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>&amp;Çıkış</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>RSS Bandit Uygulamasını kapatır ve çıkar</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>Çe&amp;vrimdışı Çalış</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>İnternet Bağlantı Moduna Geç</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[Çevrimdışı Çalışıyor]</value>
+		<comment>Caption Postfix on the main window</comment>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>&amp;Yeni Besleme...</value>
+		<comment>Caption within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>Yeni bir beslemeye abone olur...</value>
+		<comment>Description within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>Yeni &amp;Kategori</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>Besleme gruplarına yeni bir kategori ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>RSS Bandit i Aç</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>RSS Bandit Ana Penceresini Açar...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>Besleme Alarm Pencerelerini Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>Ayarlanmış besleme alar pencerelerinin görünümünü kotrol eder...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>Besleme için ayarlandığı gibi</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>Alarm penceresini besleme için ayarlandığı gibi gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>Asla</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>Hiç Alarm Penceresi göstermezl...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>Daima</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>Alarm Pencerelerini alınan her yeni mesaj için gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>Yeni Mesaj Masaüstü Alarmını Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>Yeni alıınan mesajlar için alarm balonunu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>Bütün Beslemeleri &amp;Güncelle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>Bütün beslemeleri günceller...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>Bütün mesajları okunmuş olarak işaretle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>Bütün mesajları okunmuş olarak işaretler</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>Bütün Beslemeleri Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>Bütün Beslemeleri Siler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>Kategoriyi Güncelle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>Kategori içindeki bütün beslemeleri günceller...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>Kategorideki bütün mesajları okunmuş olarak işaretle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>Bu Kategorideki bütün beslemeleri okunmuş olarak işaretler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>Kategoriye Yeni İsim Ver</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>Bu kategoriye yeni isim verir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>Kategoriyi Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>Bu Kategoriyi ve içindekileri siler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>Properties...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>Display the Category properties dialog...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>&amp;Beslemeyi Güncelle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>Bu beslemeyi yeniler/günceller...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>Bütün mesajları okunmuş olarak işaretle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>Bütün mesajları okunmuş olarak işaretler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>Beslemeye Ye&amp;ni İsim Ver</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>Bu beslemeye yeni bir isim verir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>Beslemeyi Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>Bu Beslemeyi Siler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>Okunmuş olarak işaretle</value>
+		<comment>Caption within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>Seçili abonelik noktasındaki bütün beslemeleri okunmuş olarak işaretler...</value>
+		<comment>Description within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value></value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>Ziyaret edilen web sitelerinde keşfedilen bütün beslemeleri göster...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>Keşfedilen beslemeler listesini temizle</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>Aşağıda listelenen bütün keşfedilmiş beslemeleri temizler...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>Bütün beslemeleri silmek istediğinize emin misiniz?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>Bu kategoriyi içindeki beslemelerle birlikte silmek istediğinize emin misiniz?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>Bu besleme aboneliğini silmek istediğinize emin misiniz?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>Kaynağı Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>Bu beslemenin kaynağını gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>Doğrula</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>Bu beslemenin kaynağının geçerliliğini doğrular...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>Bu Besleme</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>Gelişmiş/Daha Fazla Besleme Bilgisi...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>Anasayfa</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>Besleme Anasayfasına git...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>Bağlantı Evreni (Link Cosmos)</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>Technorati ye gider ve beslemenin bağlantı evrenini görüntüler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>Özellikler...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>Besleme özellikleri penceresini gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>Okunmamış &amp;Olarak İşaretle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>Seçili mesajları okunmamış olarak işaretler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>&amp;Cevap Yaz...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>Bu Mesaja bir cevap yazın...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>Hiç besleme mesajı seçilmemiş</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>Yeni Arama Dizini</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>Yeni bir Arama Dizini Oluşturur...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>Arama Dizinine Yeni İsim Ver</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>Bu arama dizinine yeni bir isim verir...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>Bu arama dizinini silmek istediğinize emin misiniz?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>Seçili Arama Dizinini Sil...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>Aramayı Yenile</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>Arama Dizinindeki sonuçları yeniler...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>Hepsini Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>Seçili düğümün altındaki bütün arama dizinlerini siler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>Özellikler...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>Bul özellikleri penceresini gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>Abone Ol...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>Bulunan sonuçlara abone olmak için Yeni Besleme penceresini açar...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>Uygulama Yükleniyor...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>Ana Arayüz Yükleniyor...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>Mesajı Bayrakla İşaretle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>İzlenecek</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>İncele</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>Cevapla</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>Oku</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>İlet</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna ekler...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>Tamamlandı</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna kaldırır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>Temizle</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>Seçili mesajları İşaretlenmiş Mesajlar Kolleksiyonuna kaldırır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>RSS mesajının alanlarını Kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>Mesaj bağlantısı Panoya Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>Seçili RSS mesajının bağlantısını Panoya Kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>Mesaj Başlığını bağlantı olarak Panoya Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>Mesaj Başlığını bağlantı olarak Panoya Kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>Mesaj içeriğini Panoya</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>Seçili mesajın içeriğinini Panoya kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>Seçili beslemenin alanlarını kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>Besleme Bağlantısını Panoya Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>Besleme Bağlantısını Panoya Kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>Besleme Anasayfası bağlantı olarak Panoya Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>Besleme Anasayfası bağlantı olarak Panoya kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>Besleme Anasayfası başlığıyla bereber bağlantı olarak Panoya Kopyala</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>Besleme Anasayfası başlığıyla bereber bağlantı olarak panoya kopyalar...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>Bütün Mesajları Sil</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>Barındırılan bütün mesajları kaldırır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>Sil</value>
+		<comment>Caption within context menu, was formerly "Delete selected items"</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>Bütün Seçili mesajları siler... </value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>Eski </value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>Restores all selected items...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>Sıradaki Okunmamış Mesaj</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>Sıradaki okunmamış mesaja gider...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>&amp;Besleme Tara</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>Belirli bir web sitesinde veya konuda RSS Beslemesi tarar</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>&amp;Cevap Yaz...</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>Bu besleme mesajına bir cevap yazar...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>Arama</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>Mesajları yerel olarak arar...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>Geçmişte geri gider...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>İleri git...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>Gidilecek Web Adresi...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>Gezintiyi iptal et...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>Yeniler...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>Git</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>Belirtilen Url ye gider...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>Yeni bir Gezgin Sekmesi aç...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>Bağlantıyı varsayılan Web Gezgini ile aç...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>Web de aranacak kelimeler...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>İfadeyi web de arar...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>IBlogExtension (AddIn) komutu</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>Yapılandır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>IBlogExtension (AddIn) yapılandırması</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>Belgeyi Kapat</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>Seçili Belgeyi kapatır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>Seçili Şeritteki Bütün belgeleri Kapat</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>Seçili Şeritteki Bütün belgeleri Kapatır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>Bütün Belgeleri Kapat</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>Bütün sekmelerdeki belgeleri kapatır...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>Yatay ayırım düzeni</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>Seçiliyse, ayrılan belge sekmeleri yatay düzende olur...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>IBlogExtension (AddIn) fonksiyonu '{0}' çağrısı bir hataya sebep oldu:
+'{1}'.        
+        </value>
+		<comment>Error message text</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>Besleme Hataları</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>Abone olunan beslemelerin sebep olduğu hatalar kutusu</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>İşaretlenmiş Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>İşaretlenmiş Mesajlar Kutusu</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>İzlenecek Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>Okunacak Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>İncelenecek Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>İletilecek Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>Yanıtlanacak Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>Beslemelerim</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>Abone olunan Beslemeler kutusu</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>Özel Beslemeler</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>Özel Beslemeler kutusu</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>Arama Dizinleri</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>Kalıcı besleme aramaları kutusu</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>Gönderilen Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>Gönderilen Mesajlar kutusu (yanıtlanan)</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>Besleme Geçerlilik Sonucu</value>
+		<comment>Tab caption of the feed validation results (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>Besleme Anasayfası: {0}</value>
+		<comment>Tab caption of the feed home page (Webpage)</comment>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>Besleme Bağlantı Evreni: {0}</value>
+		<comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>Besleme Kaynağı: {0}</value>
+		<comment>Tab caption of the feed source view (Xml Webpage)</comment>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>Görev çubuğu bildiri alanına küçültülmüş olarak başlatır</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>Belirtilen beslemelere abone ol</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>Bu mesajı yazdırır</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>Uygulamayı farklı bir dilde başlat (ISO lisan kodu)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>&amp;Beslemeleri Yükle...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>Beslemeleri &amp;İndir...</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>Besleme Listesini uzak bir depoya yükler...</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>Besleme Listesini uzak bir depodan indirir.</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>Varsayılan web gezgininiz başlatılmasınıda bir sorun var:
+		
+		'{0}'.
+		
+		 '{1}' URL sini yeni bir sekmede açalım mı?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>Ayarladığınız tarayıcı '{0}'  başlatılmasında bir sorun var.:
+		
+		'{1}'.
+		
+		'{2}' URL sini yeni sekmede açalım mı?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>'{0}' dosyasını açamıyor, çünkü:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>'{0}' dosyasını kaydedemiyor, çünkü:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>OPML Dosyaları</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>XML Dosyaları</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>Bütün Dosyalar</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>Resim 16x16 piksel boyutlarında değil.</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>Tercihler Ayar istisna hatası</value>
+		<comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>Yenileme oranı bir numara değil.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>Yenileme oranı için belirtilen sayı çok yüksek.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>Geçersiz yenileme oranı.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>Lütfen, proxy adresini (IP veya Sunucu adı) verin.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>Proxy port bir numara değil.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>Proxy portu için belirtilen numara geçerli aralık olan 0 - 65535 arasında değil.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>geçersiz proxy portu.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>Lütfen, proxy Kimlik doğrulama kullanıcısını, verin.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>Lütfen, çalıştırılabilir dosya yolunu ve adını verin.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>Lütfen bir uzak depolama bölgesi verin.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>FTP Uzak bölgeleri 'ftp:' url şemasını kullanmalı.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>Lütfen, bir uzak depolama için kullanıcı adı verin.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>WebDAV dizini Url si:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>Uygulamanızın durumunu rssbandit-state.zip olarak WebDAV dizininde saklayabilirsiniz. Depolama servisi URL si bir WebDAV dizinini göstermeli, e. g. 'http://mywebdav.com/personal/' ve orada dosyaları okuyabiliyor ve yazabiliyor olmalısınız.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>Web servisi Url si:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>dasBlog (http://www.dasblog.net) kullanıcısıysanız, abone olduğunuz beslemeleri blogroll.opml olarak saklayabilirsiniz. Depolama servisi URL si http://yourblog.com/dasblog/ConfigEditingService.asmx  olmalı ve dasBlog daki Configuration Editing servisini etkin hale getirmelisiniz.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>Dizin yolu:</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>Uygulamanızın durumunu rssbandit-state.zip olarak yerel veya ağ dosya paylaşımında saklayabilirsiniz. Dizin yolunu '\\ağpaylaşımınız\beslemelistesi\' or 'H:\' gibi belirtiniz.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>FTP sunucusu/yolu:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>Uygulamanızın durumunu rssbandit-state.zip olarak bir FTP sunucusunda saklayabilirsiniz.FTP sunucusunu ve yolu  'ftp://yourserver.com:7788/feedlistfolder/' belirtiniz.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>Bu komutu kullanmadan önce Seçenekler penceresindeki Uzak Depolama ayarlarını yapmalısınız.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>Bu sizin besleme listenizi Uzak Depolama ayarlarında 
+belirttiğiniz servise yükleyecek.   
+        
+Devam edilsin mi?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>Besleme listesi başarıyla yüklendi.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>Bu Yerel besleme listenizi Uzak depolama ayarlarında 
+belirttiğiniz servisten indirilen listeyle değiştirecek
+        
+Devam edilsin mi?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>Web arama motoru ayarlarını kaydederken bir hata oluştu:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>Üzgünüm, ama bu özellik henüz kullanılabilir değil.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>Mesaj biçimlendirmesi için XSLT biçemsayfası yüklenirken beklenmeyen bir hata oluştu:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>'{0}' den Besleme Listesini alırken bir hata oluıştu:
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>Cevap gönderiliyor, Lütfen bekleyin...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>'{0}' mesajına cevap yazarken bir hata oluştu  
+ (RSS Mesaj bağlantısı/başlığı) :
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>Üzgünüm, ama bir hata oluştu:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>Üzgünüm, ama  '{0}' ismi zaten kullanımda görünüyor.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>Varsayılan okuyucu ayarlanmaya çalışırken sistem bir hata bildirdi:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>Konu Başlığı</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>Konu</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>Tarih</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>Besleme Başlığı</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>Yazar</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>Besleme Açıklaması</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>Besleme Url si</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>Site Url si</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>Yorumlar</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>İlave</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[Keşfedilen]</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>Besleme Detayları</value>
+		<comment>Document Tab Caption</comment>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>Düğme Ekle/Kaldır</value>
+		<comment>Toolbar chevron dropdown menu caption</comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>Araç Çubuğu Seçenekleri</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>Tutunmayı önlemek için CTRL ye basılı tut.</value>
+		<comment>StatusBar feedback text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>Ara</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>Belirtilen aramayı yapmak için basınız...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>İptal Et</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>Bu aramayı iptal etmek için basınız...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>Aranıyor, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>Arama İptali işlemde, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>Hiç mesaj bulunamadı.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>{0} mesaj bulundu.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>Arama Sonucu</value>
+		<comment>SearchResultNode caption</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>&amp;Okuma Panosu Pozisyonu</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>Besleme detayları düzenini Seç/Değiştir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>Okuma Panosu Altta...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>Mesaj Listesi üstte, İçerik altta...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>Okuma Panosu Sağda...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>Mesaj Listesi solda, İçerik sağda...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>Okuma Panosu Solda...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>Mesaj Listesi sağda, İçerik solda...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>Okuma Panosu Üstte...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>Mesaj Listesi altta, İçerik üstte...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>Alınan: {0} mesaj</value>
+		<comment>displayed in the Toast window(s)</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>Panoyu genişlet...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>Panoyu daralt...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>Bir kurallı ifade ile eşleşen, kelime veya ifadeyi içeren bütün mesajları bulur.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>Belirtilen kelime veya ifadeyi içeren bütün mesajları bulur.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>RSS 2.0 sunumu belirtilen XPath ile eşleşen bütün mesajları bulur.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>{0} Hakkında</value>
+		<comment>window caption. Parameter is the product name</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>'&lt;strong&gt;{0}&lt;/strong&gt;' beslemesinin yenilenmesi başarısız, hata: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>Beslemeyi &lt;strong&gt;doğrulamak&lt;/strong&gt; için buraya tıkla.</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>Besleme '{0}' tarafından oluşturuldu.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>İletişim Bilgileri:</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>Managing Editor</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Web Master</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>Besleme Anasayfası</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml İstisna Hatası</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web İstisna Hatası</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>Protokol İhlal istisna hatası</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Genel İstisna</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>Varsayılan RSS okuyucuyla abone ol</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>Rss Bandit ile Abone Ol</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>Cevap Yaz - Besleme: {0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Re: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>kullanıcı-adı: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;yok&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>Abone Olunan Beslemeler: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>Seçim {0} mesaj içeriyor</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>Belirtilen dizin mevcut değil</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>Arayüz ayarlarını kaydederken beklenmeyen bir hata oluştu (.settings.xml):
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>Bir cevap yazarken mutlaka bir isim belirtmelisiniz</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>Kısayol Ayarları Dosyası doğrulanamadı.</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>Bir hata oluştu ve kayıt dosyasına kaydedildi 
+'{0}'.
+Lütfen dosyanın içeriğini takip eden bilgiyle beraber dev.rssbandit.org geliştirme takımına 
+rapor edin:
+</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Genel Hata</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web Hatası</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml Hatası</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>Bu özelliği uygulamaya ekleyebilmek için, program aşağıdaki Windows kayıt defteri anahtarına
+Yazma Erişim Haklarına sahip olmalı: '{0}'.
+        
+To get it work, please start the application from within the Windows File Explorer
+by selecting 'Run as...' from the context menu displayed on a Right-Click to the executable.
+Then choose the local Administrator account to run the application and try again.
+
+The administrative rights are only needed to apply the requested functionality.
+It is not required to have them each time you run the application. Sorry for the
+inconvenience.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>Silinen Mesajlar</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>Silinen Mesajlar Kutusu </value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>Bütün arama dizinlerini silmek istediğinize emin misiniz?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>Bütün mesajları silmek istediğinize emin misiniz?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>Kimlikleri Yönet...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>Kimlikleri yönetebilmek için bir pencere açar...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>Habergrupları...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>NNTP sunucularını ve habergruplarını yönetmek için bir pencere açar...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>Kimlikleri Yönet</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>Haber gruplarını yönet</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>'{0}' beslemesiyle takas ettiğiniz bilgi, başka kullanıcılar tarafından görüntülenemez veya değiştirilemez. Beslemenin güvenlik sertifikasıyla ilgili bir sorun var.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>'{0}' sitesiyle takas ettiğiniz bilgi, başka kullanıcılar tarafından görüntülenemez veya değiştirilemez. Sitenin güvenlik sertifikasıyla ilgili bir sorun var.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>Güvenlik sertifikasındaki isim geçerli değil veya sitenin ismiyle eşleşmiyor.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>Yayınlanan sertifikanın {0} da süresi doluyor.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>Sertifika geçersiz kılındı.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>Sertifika güvenli olmayan bir CA (Certification Authory) 'ya sahip.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>Sertifika güvenli olmayan bir CA (Certification Authory) köküne sahip.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>Sertifika güvenli olmayan bir test CA (Certification Authory) köküne sahip.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>Sertifikanın amacı, yapılması istenen görevle eşleşmiyor.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>Sertifika zaten güvenli zincirin bir üyesi.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>Sertiika kritik bir hataya sebep oldu.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>Sertifika yayıncısı zaten güvenli zincirin bir üyesi.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>Sertifika kötü biçimlendirilmiş..</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>Sertifika bir hataya yol açtı: path length const.</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>Sertifikanın kaldırılması başarısız oldu.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>Sertifikanın rolü yanlış.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>Sertifikanın geçerlilik süresi The validity period of the certificate is nesting.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>Sertifika, yapılması istenen görev için kullanılamaz.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>Güvenlik sertifikası bilinmeyen bir genel hataya yol açtı: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>Sütün Düzeni</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>Görüntülenen sütunları ve düzenleri yönetir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>Konu Başlığını Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>Bir mesajın Konu Başlığı sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>Tarih Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>Bir mesajın tarih sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>Konuyu Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>Bir mesajın Konu sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>Yazarı Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>Bir mesajın Yazarını gösterir</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>Abonelik Başlığını Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>Bir mesajın abonelik başlığı sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>Yorum sayısını göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>Bir mesajın yorum sayac sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>İlave Durumunu Göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>Bir mesajın ilave durum sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>İşaret Bayğrağı durumunu göster</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>İşaret Bayğrağı durum sütununu gösterir...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Sayfa düzenini kategoriler için varsayılan olarak kullan</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Sayfa Düzeni ayrıca bir düzen belirtilmesine gerek kalmadan, bütün kategorilerde geçerli olacak...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Sayfa Düzenini beslemeler için varsayılan olarak kullan</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Sayfa Düzeni ayrıca bir düzen belirtilmesine gerek kalmadan, bütün beslemelerde geçerli olacak...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Düzeni varsayılana ayarla</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Sayfa Düzeni seçili abonelik noktasında kaldırılacak...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectCaption">
+		<value>Bağış...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectDesc">
+		<value>Projeyi bağışlarınızla destekleyebileceğiniz bir URL ye gider...</value>
+		<comment>Description within help menu</comment>
+	</data>
+<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Flag</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

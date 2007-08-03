@@ -1,0 +1,2373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="root" msdata:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <data name="AddInGeneralFailure">
+    <value>Algemene fout in AddIn '{1}':
+{0}</value>
+    <comment> AddIn failure message box.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AddInLoadFailure">
+    <value>Laden AddIn '{1}' mislukt:
+{0}</value>
+    <comment> AddIn failure message box	.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AddInUnloadFailure">
+    <value>Ontladen AddIn '{1}' mislukt:
+{0}</value>
+    <comment> AddIn failure message box.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AppLoadStateGuiLoading">
+    <value>Laden gebruikersinterface...</value>
+    <comment> Splash screen state message</comment>
+  </data>
+  <data name="AppLoadStateLoading">
+    <value>Laden programma...</value>
+    <comment> Splash screen state message</comment>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle">
+    <value>[Automatisch Vinden]</value>
+    <comment> default title of a autodiscovered feed, if no title could be extracted from the content</comment>
+  </data>
+  <data name="CertificateIssue_CertCHAINING">
+    <value>Dit certificaat is reeds toegevoegd aan de veilige zone.</value>
+    <comment> Certificate issue dialog detail texts</comment>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH">
+    <value>De naam van het beveiligingscertificaat is ongeldig of komt niet overeen met de websitenaam.</value>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL">
+    <value>Het certificaat veroorzaakte een fatale fout.</value>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED">
+    <value>Het uitgegeven certificaat is verlopen op {0}.</value>
+    <comment>.
+ Parameters: 0 - dateString (string) </comment>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING">
+    <value>De uitgever van het certificaat behoort reeds tot de groep van betrouwbaren.</value>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED">
+    <value>Het certificaat is corrupt.</value>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST">
+    <value>Het certificaat veroorzaakte een fout: path length const.</value>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE">
+    <value>Het certificaatdoel komt niet overeen met de bestemde taak.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE">
+    <value>Het intrekken van het certificaat is mislukt.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOKED">
+    <value>het certificaat was ingetrokken.</value>
+  </data>
+  <data name="CertificateIssue_CertROLE">
+    <value>De functie van het certificaat is incorrect.</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA">
+    <value>Het certificaat omvat een onbetrouwbaar Certification Authory (CA).</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT">
+    <value>Het certificaat omvat een onbetrouwbaar Certification Authory (CA) root.</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT">
+    <value>Het certificaat omvat een onbetrouwbaar test CA (Certification Authory) root.</value>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING">
+    <value>De validatie periode van het certificaat is onjuist.</value>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE">
+    <value>Het certificaat kan niet gebruikt worden voor de gewenste taak.</value>
+  </data>
+  <data name="CertificateIssue_Unknown">
+    <value>Het beveiligingscertificaat veroorzaakte een algemeen onbekend probleem: '{0}'.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="CertificateIssueOnFeedCaption">
+    <value>Informatie dat wordt uitgewisseld met Feed '{0}' kan niet worden bekeken of gewijzigd door anderen. Dessalniettemin is er een probleem met het Feed beveilgingscertificaat.</value>
+    <comment> Certificate issue dialog heading texts.
+ Parameters: 0 - feedTitle (string) </comment>
+  </data>
+  <data name="CertificateIssueOnSiteCaption">
+    <value>Informatie dat wordt uitgewisseld met Feed '{0}' kan niet worden bekeken of gewijzigd door anderen. Dessalniettemin is er een probleem met het beveilgingscertificaat van de website.</value>
+    <comment>.
+ Parameters: 0 - siteUrl (string) </comment>
+  </data>
+  <data name="CmdLineCultureDesc">
+    <value>Start programma in een andere taal (ISO taal code)</value>
+    <comment> Command line parameter descriptions</comment>
+  </data>
+  <data name="CmdLineHelpDesc">
+    <value>Geeft deze melding weer</value>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc">
+    <value>Start geminimaliseerd in systeemtaakbalk</value>
+  </data>
+  <data name="CmdLineSubscribeToDesc">
+    <value>Toevoegen opgegeven feed(s)</value>
+  </data>
+  <data name="CmdLineResetUIDesc">
+    <value>Reset de gebruikersinterface naar standaardwaarden</value>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption">
+    <value>Beheer identiteiten</value>
+    <comment> window caption texts</comment>
+  </data>
+  <data name="ConfigNewsServerDialogCaption">
+    <value>Beheer nieuwsservers</value>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip">
+    <value>Paneel inklappen...</value>
+    <comment> displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip">
+    <value>Paneel uitklappen...</value>
+    <comment> displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="DetailHeaderCaptionWelcome">
+    <value>Welkom!</value>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable">
+    <value>Er zijn op dit moment geen updates beschikbaar.</value>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable">
+    <value>Er is een nieuwe versie beschikbaar!
+Meer weten?
+
+Bij Nee volgt een herinnering later.</value>
+  </data>
+  <data name="DirectoryDoesNotExistMessage">
+    <value>De externe opslagmap bestaat niet</value>
+    <comment> Used in Options dialog for remote storage UNC</comment>
+  </data>
+  <data name="DragDockablePanelInfo">
+    <value>Voorkom sluiten door CTRL ingedrukt te houden.</value>
+    <comment> StatusBar feedback text</comment>
+  </data>
+  <data name="ExceptionCategory">
+    <value>Algemene Fout</value>
+    <comment> Exception topic text</comment>
+  </data>
+  <data name="ExceptionDuplicateCategoryName">
+    <value>Sorry, maar '{0}' bestaat reeds.</value>
+    <comment>.
+ Parameters: 0 - dupCategoryName (string) </comment>
+  </data>
+  <data name="ExceptionGeneral">
+    <value>Sorry, er is een fout opgetreden:
+
+{0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionGeneralCritical">
+    <value>Er is een fout opgetreden, gelogd in bestand:
+{0}.
+
+Stuur de loginhoud naar het dev.rssbandit.org ontwikkelteam
+voor analyse met de volgende informatie:
+</value>
+    <comment>.
+ Parameters: 0 - logFileName (string) </comment>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall">
+    <value>IBlogExtension (PlugIn) functie '{0}' veroorzaakte een fout:
+'{1}'.</value>
+    <comment>.
+ Parameters: 0 - functionName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionImportFeedlist">
+    <value>Fout bij importeren feedlijst van
+'{0}' opgetreden:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - importUrl (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+    <value>FTP opslag lokaties moeten worden aangeduidt met 'ftp://'.</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage">
+    <value>Controlefout opgetreden bij het laden van de zoekfunctie.
+Zie '{0}' voor meer informatie.</value>
+    <comment>.
+ Parameters: 0 - failureFileName (string) </comment>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile">
+    <value>Bestand voor snelkoppelingen heeft geen geldige XML inhoud.</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage">
+    <value>ongeldig teken </value>
+    <comment> Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect a specific error message by string matching (this one) to find the message reporting a invalid character (they include the invalid char, that breaks our rendering)"</comment>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet">
+    <value>Onverwachte fout bij laden XSLT feeditem opmaak-sjabloon:
+
+{0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage">
+    <value>Fout bij landen zoekfunctie: {0}.
+Zie bestand '{1}' voor meer details.</value>
+    <comment>.
+ Parameters: 0 - configFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet">
+    <value>XSLT opmaak-sjabloon is ongeldig.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile">
+    <value>XLST opmaak-sjabloon kan niet worden gecompileerd.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage">
+    <value>Het geselecteerde XSLT opmaak-sjabloon om items op te maken geeft een fout:
+{0}
+Detail: {1}</value>
+    <comment>.
+ Parameters: 0 - problem (string), 1 - details (string) </comment>
+  </data>
+  <data name="ExceptionNewsItemTransformation">
+    <value>Item kan niet worden opgemaakt naar HTML.</value>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed">
+    <value>Ophalen Nieuwsgroepen van '{0}' mislukt:
+{1}</value>
+    <comment>.
+ Parameters: 0 - serverName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable">
+    <value>Geef de bestandsnaam en pad van het uitvoerende bestand.</value>
+    <comment> Texts used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyAuthUser">
+    <value>Geef de loginnaam voor de proxy.</value>
+  </data>
+  <data name="ExceptionNoProxyUrl">
+    <value>Geef het proxyadres (IP adres of hostnaam).</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath">
+    <value>De gegeven download map is ongeldig.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser">
+    <value>Geef de loginnaam voor de externe opslag lokatie.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation">
+    <value>Geef een externe opslag lokatie.</value>
+  </data>
+  <data name="ExceptionOpenFileMessage">
+    <value>Kan bestand '{0}' niet openen, omdat:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionPostNewFeedItem">
+    <value>Fout bij plaatsen van reactie
+'{0}' (RSS Item link/titel):
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - item (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem">
+    <value>Fout bij reageren op item
+'{0}' (RSS item link/titel):
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - item (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionProxyConfiguration">
+    <value>Onjuiste proxyserver instelling:
+{0}.
+
+Instelling gereset naar 'gebruik geen proxyserver'.</value>
+    <comment> Failure messages on proxy config errors.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionProxyPortInvalid">
+    <value>Ongeldige proxyserver poort.</value>
+  </data>
+  <data name="ExceptionProxyPortRange">
+    <value>De gegeven proxyserver poort ligt niet tussen de geldige reeks van 0 to 65535.</value>
+  </data>
+  <data name="ExceptionReadingFeedlistFile">
+    <value>Onverwachte fout bij laden feedlijst:
+{0}.
+
+Zie bestand
+{1}
+voor meer details over deze fout.</value>
+    <comment>.
+ Parameters: 0 - error (string), 1 - errorFileName (string) </comment>
+  </data>
+  <data name="ExceptionRefreshRateInvalid">
+    <value>De opgeldige waarde voor Feed bijwerken.</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed">
+    <value>Bijwerkingen '{0}' mislukt (fatale fout):
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed">
+    <value>Bijwerken '{0}' mislukt (XML fout):
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionSaveFileMessage">
+    <value>Kan bestand 
+{0} niet opslaan, omdat:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator">
+    <value>Het systeem geeft een fout tijdens het instellen van de standaard Nieuwsaggregator:
+
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage">
+    <value>Er was een probleem bij het laden van je geselecteerde browser
+'{0}':
+
+{1}.
+
+Webadres
+'{2}'
+openen in een nieuwe Tab?</value>
+    <comment>.
+ Parameters: 0 - executableName (string), 1 - error (string), 2 - url (string) </comment>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage">
+    <value>Er was een probleem bij het starten van standaard internet browser:
+
+{0}.
+
+Webadres
+'{1}'
+openen in een nieuwe Tab?</value>
+    <comment>.
+ Parameters: 0 - error (string), 1 - url (string) </comment>
+  </data>
+  <data name="ExceptionUISettingsSave">
+    <value>Onverwachte fout bij opslaan UI instellingen (.settings.xml):
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave">
+    <value>Onverwachte fout bij opslaan zoekmachine instellingen:
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure">
+    <value>Fout opgetreden bij het sluiten:
+
+{0}
+
+Fout:{1}.</value>
+    <comment>.
+ Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture">
+    <value>Kan niet switchen naar programma setting '{0}':
+
+Error:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureDownloadError">
+    <value>Download fout</value>
+  </data>
+  <data name="FeedDefaultCategory">
+    <value>[Naamloze categorie]</value>
+    <comment> name for the default category (used in dropdown boxes)</comment>
+  </data>
+  <data name="FeedDetailDocumentTabCaption">
+    <value>Feed details</value>
+    <comment> Document Tab Caption</comment>
+  </data>
+  <data name="FeedListNoChildsMessage">
+    <value>Geen itemreacties...</value>
+    <comment> Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption">
+    <value>Verwijderde items</value>
+    <comment> SmartNode captions/descr.</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc">
+    <value>Verzameling van verwijderde feeditems</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption">
+    <value>Feed fouten</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc">
+    <value>Verzameling fouten uit de feedlijst</value>
+  </data>
+  <data name="FeedNodeFinderRootCaption">
+    <value>Zoekmappen</value>
+    <comment> Searches Root Node caption</comment>
+  </data>
+  <data name="FeedNodeFinderRootDesc">
+    <value>Verzameling bewaarde zoekresultaten</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption">
+    <value>Gemarkeede items</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc">
+    <value>Verzameling gemarkeerde items</value>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption">
+    <value>Items voor opvolgen</value>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption">
+    <value>Items voor doorsturen</value>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption">
+    <value>Items voor lezen</value>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption">
+    <value>Items voor beantwoorden</value>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption">
+    <value>Items voor review</value>
+  </data>
+  <data name="FeedNodeMyFeedsCaption">
+    <value>Mijn feeds</value>
+    <comment> Root Node caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsDesc">
+    <value>Samenvatting feedlijst</value>
+  </data>
+  <data name="FeedNodeSentItemsCaption">
+    <value>Verzonden berichten</value>
+    <comment> Special local feed for sent items</comment>
+  </data>
+  <data name="FeedNodeSentItemsDesc">
+    <value>Verzameling van verzonden berichten (antwoord op)</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption">
+    <value>Volgstand items</value>
+    <comment> Special local feed for watched items</comment>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc">
+    <value>Verzameling van te volgen items</value>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption">
+    <value>Ongelezen items</value>
+    <comment> Special local feed for unread items</comment>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc">
+    <value>Verzameling van ongelezen items</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption">
+    <value>Samenvatting</value>
+    <comment> Special local feeds root node</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc">
+    <value>Verzameling feedstatussen</value>
+  </data>
+  <data name="FileDialogFilterAllFiles">
+    <value>Alle bestanden</value>
+    <comment> Texts used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterOPMLFiles">
+    <value>OPMP-bestanden</value>
+  </data>
+  <data name="FileDialogFilterXMLFiles">
+    <value>XML-bestanden</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation">
+    <value>Selecteer of maak een map voor het opslaan van gedownloade bijlagen</value>
+    <comment> Text in the browse for folder dialog</comment>
+  </data>
+  <data name="FormatExceptionProxyPort">
+    <value>Proxyserver poort is geen nummer.</value>
+    <comment> Validation error messages (used by errorProvider)</comment>
+  </data>
+  <data name="FormatExceptionRefreshRate">
+    <value>Bijwerkinterval is geen nummer.</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty">
+    <value>Geef een webadres om te onderzoeken op</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty">
+    <value>Geef een zoekterm</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam">
+    <value>'{0}' parameter ontbreekt</value>
+    <comment>.
+ Parameters: 0 - parameter (string) </comment>
+  </data>
+  <data name="GeneralNewItemText">
+    <value>[Nieuw]</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter">
+    <value>[Nieuw {0}]</value>
+    <comment>.
+ Parameters: 0 - counter (int) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved">
+    <value>De gegevens in cache locatie
+
+{0}
+
+is een submap van de oude cache, hierdoor kan de oude map niet worden verplaatst.
+RSS Bandit zal de oude cache map blijven gebruiken...</value>
+    <comment>.
+ Parameters: 0 - folderName (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException">
+    <value>Kan oude cache folder niet verplaatsen naar nieuwe cache locatie
+
+{0}
+
+Foutmelding:
+{1}
+
+RSS Bandit zal de oude cache map blijven gebruiken...</value>
+    <comment>.
+ Parameters: 0 - folderName (string), 1 - exception (string) </comment>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption">
+    <value>Automatisch Vinden feeds mislukt</value>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption">
+    <value>Regel is leeg</value>
+  </data>
+  <data name="GUICurrentConnectionState_Info">
+    <value>Status huidige internetverbinding...</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption">
+    <value>Fout opgetreden</value>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed">
+    <value>Fout bij ophalen reacties van feed: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage">
+    <value>Downloaden feedlijst mislukt door fout:
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage">
+    <value>Uploaden feedlijst door fout:
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIFieldKeywordsInvalid">
+    <value>Geen sleutelwoord(en) opgegeven</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo">
+    <value>Deze feed is reeds aangemeld
+	Categorie/Naam: {0}
+	Link: {1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - dupLink (string) </comment>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid">
+    <value>De link en de titel voor de RSS feed mag niet leeg zijn!</value>
+  </data>
+  <data name="GUIFieldTitleInvalid">
+    <value>De categorie-titel mag niet leeg zijn!</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid">
+    <value>Geen webadres opgegeven</value>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption">
+    <value>Fout bij laden Nieuwsgroepen</value>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage">
+    <value>Geen feeditem geselecteerd.</value>
+  </data>
+  <data name="GUIStatusBusyRefresh">
+    <value>Bezig met bijwerken...</value>
+    <comment> also displayed as a tooltip</comment>
+  </data>
+  <data name="GUIStatusChildItemsNA">
+    <value>Kan geen items ophalen, de verbinding is verbroken.</value>
+  </data>
+  <data name="GUIStatusDone">
+    <value>Voltooid</value>
+    <comment> GUI status info</comment>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed">
+    <value>Geannuleerd. Titel mag niet leeg zijn.</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage">
+    <value>Geannuleerd. Feed '{0}' veroorzaakt de volgende fout:
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed">
+    <value>Ongeldige Feed.</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig">
+    <value>Fout opgetreden bij uitvoeren zoekconfiguratie</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage">
+    <value>Fout bij laden feed: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig">
+    <value>Fout bij laden zoekconfiguratie</value>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile">
+    <value>Fout bij laden feed bestand.</value>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage">
+    <value>Ontvangen: 1 bestand</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage">
+    <value>Ontvangen: {0} item(s)</value>
+    <comment>.
+ Parameters: 0 - itemCount (int) </comment>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage">
+    <value>{0} Feed(s) bijgewerkt.</value>
+    <comment>.
+ Parameters: 0 - feedCount (int) </comment>
+  </data>
+  <data name="GUIStatusIdle">
+    <value>Inactief</value>
+    <comment> also displayed as a Tooltip on the tray icon</comment>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds">
+    <value>Feed niet gevonden</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound">
+    <value>Er is geen feed gevonden.</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems">
+    <value>Laden, ogenblik geduld...</value>
+  </data>
+  <data name="GUIStatusLoadingFeed">
+    <value>Laden...</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist">
+    <value>Laden feedlijst...</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived">
+    <value>Nieuwe feeditems ontvangen...</value>
+    <comment> also displayed as a tooltip</comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage">
+    <value>{0} Feeditem(s) met {1} nieuwe reactie(s)</value>
+    <comment> also displayed as a tooltip.
+ Parameters: 0 - feedsCount (int), 1 - itemsCount (int) </comment>
+  </data>
+  <data name="GUIStatusNoFeedlistFile">
+    <value>Geen feedlijst.</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated">
+    <value>Geen feed updates.</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft">
+    <value>Er zijn geen ongelezen feed-items.</value>
+  </data>
+  <data name="GUIStatusPostNewFeedItem">
+    <value>Verzend nieuwe reactie, ogenblik geduld...</value>
+  </data>
+  <data name="GUIStatusPostReplyToItem">
+    <value>Verzend antwoord, ogenblik geduld...</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState">
+    <value>Controleer de status van je interverbinding...</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage">
+    <value>Bijwerken Feeds...</value>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage">
+    <value>Bijwerken: {0} ...</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed">
+    <value>Ophalen feed-reactie, ogenblik geduld...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable">
+    <value>Er zijn ongelezen items...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage">
+    <value>{0} ongelezen feed-items.</value>
+    <comment>.
+ Parameters: 0 - unreadItemsCount (string) </comment>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile">
+    <value>Controlefout bij laden feedlijst.</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds">
+    <value>Zoeken feeds in pagina
+{0}</value>
+    <comment>.
+ Parameters: 0 - location (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords">
+    <value>Zoeken naar feeds met zoekterm(en):
+{0}</value>
+    <comment>.
+ Parameters: 0 - keyWords (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist">
+    <value>Downloaden feedlijst ({0}), ogenblik geduld...</value>
+    <comment>.
+ Parameters: 0 - feedListName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed">
+    <value>Opvragen feed:
+{0}</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile">
+    <value>Opvragen bestand:
+{0}</value>
+    <comment>.
+ Parameters: 0 - fileName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist">
+    <value>Uploaden feedlijst ({0}), ogenblik geduld...</value>
+    <comment>.
+ Parameters: 0 - feedListName (string) </comment>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption">
+    <value>Toevoegen in RSS Bandit</value>
+    <comment> Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption">
+    <value>Toevoegen in standaard feed aggregator</value>
+    <comment> Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption">
+    <value>Ongeldig feed bestand</value>
+    <comment> Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+  </data>
+  <data name="InvalidFeedlistFileMessage">
+    <value>Het feedbestand is ongeldig. Controleer bestand bij
+'{0}'
+voor meer informatie over de fout.</value>
+    <comment>.
+ Parameters: 0 - errorFileName (string) </comment>
+  </data>
+  <data name="InvalidFeedURIBoxCaption">
+    <value>Ongeldig webadres</value>
+    <comment> Caption of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="InvalidFeedURIBoxText">
+    <value>Het webadres voor de nieuwe feed is geen geldig webadres</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog">
+    <value>Internetservice webadres:</value>
+    <comment> Dynamic label texts (Preferences, remote storage)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint">
+    <value>Feeds aangemeld bij RSS Bandit kun je opslaan als blogroll.opml indien je bent aangemeld bij dasBlog (http://www.dasblog.net). Het webadres voor deze service dient http://yourblog.com/dasblog/ConfigEditingService.asmx te zijn en in dasBlog moet de "Configuration Editing service" zijn geactiveerd.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare">
+    <value>Pad van de externe map:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint">
+    <value>Je kunt de RSS Bandit feedstatus opslaan als rssbandit-state.zip op een lokale of netwerk map. Geef de mapnaam aan als '\\jouwnetwerkhost\feedlijst\' of 'H:\'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp">
+    <value>FTP-server/pad:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint">
+    <value>Je kunt de RSS Bandit feedstatus op een FTP-server opslaan. Geef de naam van de server en het pad op als 'ftp://yourserver.com:7788/feedlijst/'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline">
+    <value>Locatie:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint">
+    <value>De RSS Bandit feedstatus kun je opslaan in Newsgator online. Om je aan te melden bij Newsgator Online surf naar http://www.newsgator.com</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV">
+    <value>WebDAV opslag webadres:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint">
+    <value>Je kunt de RSS Bandit feedstatus opslaan in een WebDAV. Het webadres moet eruitzien als 'http://mywebdav.com/personal/' en je WebDAV lees- en schijfrechten moeten zijn aangebracht.</value>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount">
+    <value>reacties</value>
+    <comment> Column captions within listview</comment>
+  </data>
+  <data name="ListviewColumnCaptionCreator">
+    <value>Auteur</value>
+  </data>
+  <data name="ListviewColumnCaptionDate">
+    <value>Datum</value>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure">
+    <value>Bijlagen</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc">
+    <value>Beschrijving</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle">
+    <value>Feed titel</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl">
+    <value>Feed webadres</value>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus">
+    <value>Gemarkeerd</value>
+  </data>
+  <data name="ListviewColumnCaptionHeadline">
+    <value>Opschrift</value>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl">
+    <value>Website adres</value>
+  </data>
+  <data name="ListviewColumnCaptionTopic">
+    <value>Onderwerp</value>
+  </data>
+  <data name="MainMenuEditCaption">
+    <value>B&amp;ewerken</value>
+    <comment> Caption/Desc. within main/context menus/toolbar buttons</comment>
+  </data>
+  <data name="MainMenuEditDesc">
+    <value>Bewerkings menu</value>
+  </data>
+  <data name="MainMenuFileCaption">
+    <value>&amp;Bestand</value>
+  </data>
+  <data name="MainMenuFileDesc">
+    <value>Bestandsbeheer</value>
+  </data>
+  <data name="MainMenuHelpCaption">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MainMenuHelpDesc">
+    <value>Help links and info...</value>
+  </data>
+  <data name="MainMenuSearchCaption">
+    <value>&amp;Zoeken</value>
+  </data>
+  <data name="MainMenuSearchDesc">
+    <value>Zoeken</value>
+  </data>
+  <data name="MainMenuToolsCaption">
+    <value>&amp;Extra</value>
+  </data>
+  <data name="MainMenuToolsDesc">
+    <value>Configuratie beheer en exta's</value>
+  </data>
+  <data name="MainMenuViewCaption">
+    <value>&amp;Beeld</value>
+  </data>
+  <data name="MainMenuViewDesc">
+    <value>Beeld en weergave</value>
+  </data>
+  <data name="MenuAboutCaption">
+    <value>&amp;Info over RSS Bandit...</value>
+  </data>
+  <data name="MenuAboutDesc">
+    <value>Informatie over RSS Bandit</value>
+  </data>
+  <data name="MenuSendLogsByMailCaption">
+    <value>Logbestanden mailen</value>
+    <comment> Improve the Bandit</comment>
+  </data>
+  <data name="MenuSendLogsByMailDesc">
+    <value>Verzende RSS Bandit logbestanden voor productverbetering</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption">
+    <value>Deze feed</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc">
+    <value>Geavanceerd/Meer informatie...</value>
+  </data>
+  <data name="MenuAppCloseExitCaption">
+    <value>Afsl&amp;uiten</value>
+  </data>
+  <data name="MenuAppCloseExitDesc">
+    <value>RSS Bandit afsluiten</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption">
+    <value>Offl&amp;ine werken</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc">
+    <value>Zonder interbinding werken</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline">
+    <value>[Offline modus]</value>
+    <comment> Caption Postfix on the main window</comment>
+  </data>
+  <data name="MenuAppOptionsCaption">
+    <value>&amp;Opties...</value>
+  </data>
+  <data name="MenuAppOptionsDesc">
+    <value>Weergeven opties</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption">
+    <value>Automatisch Vinden: gevonden feeds</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc">
+    <value>Toont de automatisch gevonden feeds van bezochte websites</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption">
+    <value>&amp;Vind feed</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc">
+    <value>Zoeken naar een feed op een website of topic</value>
+  </data>
+  <data name="MenuBanditForumCaption">
+    <value>Bezoek RSS Bandit &amp;Forums...</value>
+  </data>
+  <data name="MenuBanditForumDesc">
+    <value>Discussieren over RSS Bandit</value>
+  </data>
+  <data name="MenuBanditWikiCaption">
+    <value>Bezoek RSS Bandit &amp;website...</value>
+  </data>
+  <data name="MenuBanditWikiDesc">
+    <value>RSS Bandit nieuws, support en meer</value>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption">
+    <value>Ga naar</value>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc">
+    <value>Navigeer naar gegeven webadres</value>
+  </data>
+  <data name="MenuBrowserNavigateBackCaption">
+    <value>Terug</value>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc">
+    <value>Navigeer naar vorige pagina</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption">
+    <value>Stoppen</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc">
+    <value>Stop de surfhandeling</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption">
+    <value>Webadres</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc">
+    <value>Te surfen webadres </value>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption">
+    <value>Volgende</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc">
+    <value>Navigeer voorruit naar pagina in geschiedenis</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption">
+    <value>Pagina openen in standaard internet browser</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc">
+    <value>Op de link in de standaard web browser</value>
+  </data>
+  <data name="MenuBrowserNewTabCaption">
+    <value>Nieuwe tab</value>
+  </data>
+  <data name="MenuBrowserNewTabDesc">
+    <value>Opent een nieuwe browse tab</value>
+  </data>
+  <data name="MenuBrowserRefreshCaption">
+    <value>Vernieuwen</value>
+  </data>
+  <data name="MenuBrowserRefreshDesc">
+    <value>Vernieuwen...</value>
+  </data>
+  <data name="MenuBugReportCaption">
+    <value>&amp;Meld een fout (Sourceforge)...</value>
+  </data>
+  <data name="MenuBugReportDesc">
+    <value>Meld programmafout bij Sourceforge.net</value>
+  </data>
+  <data name="MenuCatchUpCategoryCaption">
+    <value>Markeer alle items in Categorie als Gelezen</value>
+  </data>
+  <data name="MenuCatchUpCategoryDesc">
+    <value>Markeer alle items in Categorie als Gelezen</value>
+  </data>
+  <data name="MenuCatchUpOnAllCaption">
+    <value>&amp;Markeren als gelezen</value>
+  </data>
+  <data name="MenuCatchUpOnAllDesc">
+    <value>Alle items in huidige feed markeren als gelezen</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption">
+    <value>&amp;Markeren als gelezen</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc">
+    <value>Markeer alle items uit de feed als gelezen</value>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption">
+    <value>Markeer alle items als gelezen</value>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc">
+    <value>Markeer alle items uit de feed als gelezen...</value>
+  </data>
+  <data name="MenuCheckForUpdatesCaption">
+    <value>Controleer op updates...</value>
+  </data>
+  <data name="MenuCheckForUpdatesDesc">
+    <value>Controleer op updates van het programma</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption">
+    <value>Lijst wissen</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc">
+    <value>Verwijdert de lijst met gevonden feeds</value>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption">
+    <value>Toon auteur</value>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc">
+    <value>Toon kolom 'auteur' van een feeditem</value>
+  </data>
+  <data name="MenuColumnChooserCaption">
+    <value>Kolom layout</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption">
+    <value>Toon aantal reacties</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc">
+    <value>Toont het aantal reacties op een item</value>
+  </data>
+  <data name="MenuColumnChooserDateCaption">
+    <value>Toon datum</value>
+  </data>
+  <data name="MenuColumnChooserDateDesc">
+    <value>Toon de datum kolom van een feed-item</value>
+  </data>
+  <data name="MenuColumnChooserDesc">
+    <value>Beheer getoonde kolommen en layout</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption">
+    <value>Toon bijlage</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc">
+    <value>Geeft aan of er een toevoeging beschikbaar is</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption">
+    <value>Toon feedtitel</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc">
+    <value>Toont de naam zoals ze is aangemeld in RSS Bandit</value>
+  </data>
+  <data name="MenuColumnChooserFlagCaption">
+    <value>Toon markeer status</value>
+  </data>
+  <data name="MenuColumnChooserFlagDesc">
+    <value>Toont de status voor extra aandacht</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption">
+    <value>Reset layout naar standaard</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc">
+    <value>Hersteld de layout</value>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption">
+    <value>Toon onderwerp</value>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc">
+    <value>Geeft de onderwerpkolom (categorie, topic) van een item weer...</value>
+  </data>
+  <data name="MenuColumnChooserTitleCaption">
+    <value>Toon titel</value>
+  </data>
+  <data name="MenuColumnChooserTitleDesc">
+    <value>Weergeven van de titelkolom van een item...</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption">
+    <value>Deze layout als standaard voor catergorieweergave</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
+    <value>Deze layout als standaard voor catergorieweergave</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
+    <value>Deze layout als standaard voor feedweergave</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc">
+    <value>Deze layout als standaard voor catergorieweergave</value>
+  </data>
+  <data name="MenuConfigCommandCaption">
+    <value>Instellen...</value>
+  </data>
+  <data name="MenuCopyFeedCaption">
+    <value>Kopiëren</value>
+  </data>
+  <data name="MenuCopyFeedDesc">
+    <value>Kopieer velden van de feed naar...</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+    <value>Feed Homepagina en titel als link plaatsen op klembord</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+    <value>Kopieert de homepagina en titel van de geselecteerde feed naar het klembord...</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption">
+    <value>Feed homepagina als link naar klembord</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc">
+    <value>Kopieert de homepagina van huidige feed als link naar het klembord...</value>
+  </data>
+  <data name="MenuCopyFeedItemCaption">
+    <value>Kopieer</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption">
+    <value>Item inhoud naar klembord</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc">
+    <value>Kopieer de inhoud van de huidige feed naar klembord...</value>
+  </data>
+  <data name="MenuCopyFeedItemDesc">
+    <value>Kopieer velden van feed naar...</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption">
+    <value>Item link naar klembord</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc">
+    <value>Kopieert de link van de geselecteerde feed naar het klembord...</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption">
+    <value>Itemtitel als link naar klembord</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc">
+    <value>Kopieert de titel van het geselecteerde item naar het klembord...</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption">
+    <value>Feed link naar klembord</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc">
+    <value>Kopieert de feed link van de geselecteerde feed naar het klembord...</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption">
+    <value>Verwijder alle items</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc">
+    <value>Verwijderd alle verzamelde items...</value>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption">
+    <value>Verwijder alle feeds</value>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc">
+    <value>Verwijdert alle feeds...</value>
+  </data>
+  <data name="MenuDeleteCategoryCaption">
+    <value>Verwijder categorie</value>
+  </data>
+  <data name="MenuDeleteCategoryDesc">
+    <value>Verwijdert de categorie en onderliggende feeds...</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption">
+    <value>Verwijder</value>
+    <comment> Caption within context menu, was formerly "Delete selected items"</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc">
+    <value>Verwijdert geselecteerde items...</value>
+  </data>
+  <data name="MenuDeleteThisFeedCaption">
+    <value>Verwijder feed</value>
+  </data>
+  <data name="MenuDeleteThisFeedDesc">
+    <value>Verwijdert de feed...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption">
+    <value>Alle documenten sluiten</value>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc">
+    <value>Sluit alle tabs...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption">
+    <value>Sluit documenten van zelfde bron</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc">
+    <value>Sluit de tabs van de huidige strook...</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption">
+    <value>Sluit document</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc">
+    <value>Sluit de huidige tab...</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption">
+    <value>Split layout horizonteel</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc">
+    <value>Indien gemarkeerd kunnen tabs met horizontele yaout worden weergegeven...</value>
+  </data>
+  <data name="MenuDonateToProjectCaption">
+    <value>Doneer...</value>
+  </data>
+  <data name="MenuDonateToProjectDesc">
+    <value>Surf naar de projectsupport webpagina...</value>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption">
+    <value>Zoek op web naar</value>
+  </data>
+  <data name="MenuDoSearchComboBoxDesc">
+    <value>Zoekterm(en)...</value>
+  </data>
+  <data name="MenuDoSearchWebCaption">
+    <value>Zoeken op internet</value>
+  </data>
+  <data name="MenuDoSearchWebDesc">
+    <value>Zoek naar de term(en) op het web...</value>
+  </data>
+  <data name="MenuDownloadAttachmentCaption">
+    <value>Download bijlagen</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc">
+    <value>Download de bijlagen naar de podcast map</value>
+  </data>
+  <data name="MenuDownloadFeedsCaption">
+    <value>&amp;Download feeds...	</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc">
+    <value>feeds downloaden van externe opslag.</value>
+  </data>
+  <data name="MenuExportFeedsCaption">
+    <value>&amp;Exporteer Feeds...</value>
+  </data>
+  <data name="MenuExportFeedsDesc">
+    <value>Exporteer de feedlijst...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption">
+    <value>Leesvenster boven</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc">
+    <value>Feedlijst onder, inhoud boven weergeven...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption">
+    <value>Positie &amp;leesvenster</value>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc">
+    <value>Kiezen/wijzigen layout leesvenster...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption">
+    <value>Leesvenster rechts</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc">
+    <value>Feedlijst links, inhoud rechts weergeven...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption">
+    <value>Leesvenster links</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc">
+    <value>Feedlijst rechts, inhoud links weergeven...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption">
+    <value>Leesvenster onder</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc">
+    <value>Feedlijst boven, inhoud onder weergeven...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption">
+    <value>&amp;Plaats antwoord...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc">
+    <value>Verzenden van een antwoord op feeditem...</value>
+  </data>
+  <data name="MenuFinderDeleteAllCaption">
+    <value>Alles verwijderen</value>
+  </data>
+  <data name="MenuFinderDeleteAllDesc">
+    <value>Verwijder alle zoekmappen onder de geselecteerde categorie...</value>
+  </data>
+  <data name="MenuFinderDeleteCaption">
+    <value>Verwijder</value>
+  </data>
+  <data name="MenuFinderDeleteDesc">
+    <value>Verwijder de zoekmap...</value>
+  </data>
+  <data name="MenuFinderRenameCaption">
+    <value>Hernoem zoekmap</value>
+  </data>
+  <data name="MenuFinderRenameDesc">
+    <value>Hernoem de geselecteerde zoekmap</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption">
+    <value>Toon samenvatting uit zoekresultaten</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc">
+    <value>Switchen tussen beknopte en volledige tekst</value>
+  </data>
+  <data name="MenuFlagFeedItemCaption">
+    <value>Markeer item</value>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption">
+    <value>Wis lijst</value>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc">
+    <value>Verwijder de geselecteerde items van de verzameling gemarkeerde items...</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption">
+    <value>Voltooid</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc">
+    <value>Markeer als voltooid en verwijder geselecteerde item(s) van verzameling gemarkeerd...</value>
+  </data>
+  <data name="MenuFlagFeedItemDesc">
+    <value>Voeg geselecteerd item(s) aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption">
+    <value>Opvolgen</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc">
+    <value>Voeg geselecteerde feeds aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption">
+    <value>Doorsturen</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc">
+    <value>Voeg geselecteerde feeds aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption">
+    <value>Lezen</value>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc">
+    <value>Voeg geselecteerde feeds aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption">
+    <value>Reaktie</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc">
+    <value>Voeg geselecteerde feeds aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption">
+    <value>Terugblikken</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc">
+    <value>Voeg geselecteerde feeds aan de gemarkeerde items verzameling...</value>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc">
+    <value>IBlogExtension (PlugIn) commando	</value>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc">
+    <value>IBlogExtension (PlugIn) eigenschappen</value>
+  </data>
+  <data name="MenuImportFeedsCaption">
+    <value>&amp;Importeer feeds...</value>
+  </data>
+  <data name="MenuImportFeedsDesc">
+    <value>Importeer een feedlijst (.xml, .ocs or .opml)</value>
+  </data>
+  <data name="MenuListViewSelectAllCaption">
+    <value>&amp;Alles selecteren</value>
+  </data>
+  <data name="MenuListViewSelectAllDesc">
+    <value>Selecteer alle items van het feeditems schermpanel</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption">
+    <value>Markeer als &amp;ongelezen</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc">
+    <value>Markeer de geselecteerde items als ongelezen...</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption">
+    <value>Homepagina</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc">
+    <value>Surf naar de homepagina van de feed...</value>
+  </data>
+  <data name="MenuNewCategoryCaption">
+    <value>Nieuwe &amp;Categorie</value>
+  </data>
+  <data name="MenuNewCategoryDesc">
+    <value>Voeg een nieuwe categorie aan de groeplijst toe</value>
+  </data>
+  <data name="MenuNewCmdsCaption">
+    <value>&amp;Nieuw...</value>
+    <comment> Caption for the 'new' command toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewCmdsDesc">
+    <value>Nieuwe feed toevoegen</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption">
+    <value>&amp;Toevoegen middels zoeken...</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc">
+    <value>Zoek een feed of meld een zoekresultaat feed aanfeed</value>
+  </data>
+  <data name="MenuNewFeedCaption">
+    <value>Nieuwe &amp;feed toevoegen...</value>
+  </data>
+  <data name="MenuNewFeedCaption2">
+    <value>&amp;Nieuw feed toevoegen...</value>
+  </data>
+  <data name="MenuNewFeedDesc">
+    <value>Nieuwe feed toevoegen</value>
+  </data>
+  <data name="MenuNewFinderCaption">
+    <value>Nieuwe zoekmap</value>
+  </data>
+  <data name="MenuNewFinderDesc">
+    <value>Nieuwe zoekmap aanmaken...</value>
+  </data>
+  <data name="MenuNewNntpFeedCaption">
+    <value>&amp;Newsgroup toevoegen...</value>
+  </data>
+  <data name="MenuNewNntpFeedDesc">
+    <value>Nieuwe feed toevoegen</value>
+  </data>
+  <data name="MenuNewRssSearchCaption">
+    <value>Zoeken</value>
+  </data>
+  <data name="MenuNewRssSearchDesc">
+    <value>Zoeken naar lokale items...</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption">
+    <value>&amp;Nieuw toevoegen...</value>
+    <comment> Caption within menu to call the subscription wizard</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc">
+    <value>Voeg een nieuwe feed toe met behulp van de wizard</value>
+  </data>
+  <data name="MenuNextUnreadItemCaption">
+    <value>&amp;Volgende ongelezen item</value>
+  </data>
+  <data name="MenuNextUnreadItemDesc">
+    <value>Naar volgende ongelezen item</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption">
+    <value>Beheer identiteiten...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc">
+    <value>Opent het identiteitenbeheer venster...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption">
+    <value>Nieuwsgroepen...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc">
+    <value>Opent het het NNTP servers en nieuwsgroepen scherm</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption">
+    <value>&amp;Add-Ins...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc">
+    <value>Opent het Add-In beheerscherm weergeven...</value>
+  </data>
+  <data name="MenuPostNewFeedItemCaption">
+    <value>Start nieuw onderwerp</value>
+    <comment> Toolbar button capt./descr. (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="MenuPostNewFeedItemDesc">
+    <value>Start een nieuw topic of onderwerp</value>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption">
+    <value>Plaats &amp;reactie...</value>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc">
+    <value>Plaats een nieuwe reactie op het onderwerp</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption">
+    <value>&amp;Volg commentaar</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc">
+    <value>Wordt geïnformeerd bij feed</value>
+  </data>
+  <data name="MenuRefreshFinderCaption">
+    <value>Vernieuw zoeken</value>
+  </data>
+  <data name="MenuRefreshFinderDesc">
+    <value>Vernieuwt de zoekresultaten in de zoekmap...</value>
+  </data>
+  <data name="MenuRenameCaptionDesc">
+    <value>Hernoem deze zoekmap...</value>
+  </data>
+  <data name="MenuRenameCategoryCaption">
+    <value>Hernoem categorie</value>
+  </data>
+  <data name="MenuRenameCategoryDesc">
+    <value>Hernoem deze categorie...</value>
+  </data>
+  <data name="MenuRenameThisFeedCaption">
+    <value>Her&amp;noem feed</value>
+  </data>
+  <data name="MenuRenameThisFeedDesc">
+    <value>Hernoem deze feed...</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption">
+    <value>Herstel</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc">
+    <value>Hersteld alle geselecteerde items...</value>
+  </data>
+  <data name="MenuShowAlertWindowsCaption">
+    <value>Toon kennisgevingsvensters</value>
+  </data>
+  <data name="MenuShowAlertWindowsDesc">
+    <value>Beheer het kennisgevingsvensters...</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption">
+    <value>Altijd</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc">
+    <value>Toon kennisgevingsvenster bij alle nieuw ontvangen items...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption">
+    <value>Eigenschappen...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc">
+    <value>Opent het categorie eigenschappen venster...</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption">
+    <value>Ingesteld per feed</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc">
+    <value>Toon kennisgevingsvenster zoals ingesteld per feed...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption">
+    <value>Eigenschappen...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc">
+    <value>Toon het feed eigenschappen venster...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption">
+    <value>Eigenschappen...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc">
+    <value>Toon het zoeken eigenschappen venster...</value>
+  </data>
+  <data name="MenuShowLinkCosmosCaption">
+    <value>Link Cosmos</value>
+  </data>
+  <data name="MenuShowLinkCosmosDesc">
+    <value>Surf naar Technorati en bekijk de feed's link cosmos...</value>
+  </data>
+  <data name="MenuShowMainGuiCaption">
+    <value>Open RSS Bandit</value>
+  </data>
+  <data name="MenuShowMainGuiDesc">
+    <value>Toon het RSS Bandit hoofdscherm...</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption">
+    <value>Toon nieuwe items ballon</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc">
+    <value>Activeer de kennisgevingsballen voor nieuwe ontvangen items...</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption">
+    <value>Nooit</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc">
+    <value>Nooit een kennisgevingsmelding tonen...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption">
+    <value>Toevoegen...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc">
+    <value>Toon het nieuwe feed venster om toe te voegen aan de zoekresultaten...</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption">
+    <value>&amp;Zoeken</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc">
+    <value>Switched de weergave van het zoekvenster</value>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption">
+    <value>&amp;feedlijst</value>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc">
+    <value>Switched de weergave van het feedlijst venster.</value>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption">
+    <value>&amp;Alle feeds bijwerken</value>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc">
+    <value>Start het vernieuwen van alle feeds...</value>
+  </data>
+  <data name="MenuUpdateCategoryCaption">
+    <value>Vernieuwen categorie</value>
+  </data>
+  <data name="MenuUpdateCategoryDesc">
+    <value>Vernieuwt alle feeds in deze categorie...</value>
+  </data>
+  <data name="MenuUpdateThisFeedCaption">
+    <value>&amp;Vernieuw feed</value>
+  </data>
+  <data name="MenuUpdateThisFeedDesc">
+    <value>Deze feed bijwerken...</value>
+  </data>
+  <data name="MenuUploadFeedsCaption">
+    <value>&amp;Upload Feeds...</value>
+  </data>
+  <data name="MenuUploadFeedsDesc">
+    <value>Upload feedlijst naar externe opslag.</value>
+  </data>
+  <data name="MenuValidateFeedCaption">
+    <value>Valideren</value>
+  </data>
+  <data name="MenuValidateFeedDesc">
+    <value>Valideer de herkomst van deze feed (link) ...</value>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption">
+    <value>Toon herkomst</value>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc">
+    <value>Toon de herkomst van de feed...</value>
+  </data>
+  <data name="MenuViewToolbarMainCaption">
+    <value>Standaard</value>
+  </data>
+  <data name="MenuViewToolbarMainDesc">
+    <value>Switched de weergave van de standaard werkbalk.</value>
+  </data>
+  <data name="MenuViewToolbarsCaption">
+    <value>&amp;Werkbalken</value>
+  </data>
+  <data name="MenuViewToolbarsDesc">
+    <value>Switched de weergave van verschillende werkbalken.</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption">
+    <value>Surfen op het web</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc">
+    <value>Switched de weergave van surfen.</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption">
+    <value>Zoeken op het web</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc">
+    <value>Switched de weergave van de webzoeken werkbalk.</value>
+  </data>
+  <data name="MenuWebHelpCaption">
+    <value>&amp;Online Documentatie</value>
+  </data>
+  <data name="MenuWebHelpDesc">
+    <value>Vind hulp over het programma, FAQ, enz.</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption">
+    <value>Nieuwe tab voor resultaten</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc">
+    <value>Web zoekresultaten weergeven in nieuwe tabs...</value>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc">
+    <value>Markeer deze om samen te voegen aan gelijktijdige zoekresultaten...</value>
+  </data>
+  <data name="MenuWorkspaceNewsCaption">
+    <value>&amp;Toon nieuws (Sourceforge)...</value>
+  </data>
+  <data name="MenuWorkspaceNewsDesc">
+    <value>Lees het laatste nieuws over RSS Bandit op Sourceforge.net</value>
+  </data>
+  <data name="MenuViewOutlookReadingPane">
+    <value>Toon items in groepen</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion">
+    <value>Weet je zeker dat je deze categorie en zijn inhoud wilt verwijderen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion">
+    <value>Weet je zeker dat je alle feeds wilt verwijderen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion">
+    <value>Weet je zeker dat je alle zoekmappen wilt verwijderen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion">
+    <value>Weet je zeker dat je alle items wilt verwijderen?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion">
+    <value>Weet je zeker dat je deze feed wilt verwijderen?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion">
+    <value>Weet je zeker dat je deze zoekmap wilt verwijderen?</value>
+  </data>
+  <data name="NameRequiredInPostReplyMessage">
+    <value>Het is vereist een naam op te geven bij het plaatsen van een reactie.</value>
+  </data>
+  <data name="NewPostToFeedFormCaption">
+    <value>Nieuw onderwerp in feed: {0}</value>
+    <comment> New Post to a Feed Form Caption.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage">
+    <value>Nieuwsgroepen laden. Dit kan lang duren...</value>
+    <comment> Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption">
+    <value>Geavanceerde instellingen</value>
+    <comment> NNTP Server Configuration Settings Node captions</comment>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption">
+    <value>Algemene instellingen</value>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption">
+    <value>Nieuwsserver instellingen</value>
+  </data>
+  <data name="NotYetImplementedFeature_Info">
+    <value>Helaas is deze functie nog niet beschikbaar.</value>
+  </data>
+  <data name="OverflowExceptionRefreshRate">
+    <value>De gegeven vernieuwingswaarde is te hoog.</value>
+  </data>
+  <data name="PostReplyFormCaption">
+    <value>Plaats reactie - Feed: {0}</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="PostReplySentIdentityInfoText">
+    <value>naam: {0}
+e-mail: {1}
+homepagina: {2}</value>
+    <comment> Post reply identity infos about properties we provide to the receiver.
+ Parameters: 0 - userName (string), 1 - eMail (string), 2 - referrerUrl (string) </comment>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue">
+    <value>&lt;leeg&gt;</value>
+    <comment> Post reply identity info displayed for an empty property</comment>
+  </data>
+  <data name="PostReplyTitlePrefix">
+    <value>Re: {0}</value>
+    <comment> Post reply prefix to a Feed Item Title caption.
+ Parameters: 0 - subject (string) </comment>
+  </data>
+  <data name="PreferencesExceptionMessageTitle">
+    <value>Eigenschappen instelling fout</value>
+  </data>
+  <data name="ProtocolViolationExceptionCategory">
+    <value>Protocol validatie fout</value>
+    <comment> Category name displayed for refresh feed exceptions (listview)</comment>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart">
+    <value>The feed is genereerd door '{0}'.</value>
+    <comment> Parts of the error text displayed for refresh feed exceptions.
+ Parameters: 0 - generator (string) </comment>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo">
+    <value>Contact informatie:</value>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage">
+    <value>Feed Homepagina</value>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor">
+    <value>Beheer Editor</value>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart">
+    <value>Vernieuwen feed '&lt;strong&gt;{0}&lt;/strong&gt;' mislukt vanwege fout: {1}</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart">
+    <value>Klik hier om de feed te &lt;strong&gt;valideren&lt;/strong&gt;.</value>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster">
+    <value>Webmaster</value>
+  </data>
+  <data name="RemoteStorageDownload_Question">
+    <value>Hiermee wordt je huidige feedlijst vervangen door een gedownloade lijst uit je Externe Opslag zoals die is ingesteld in het Opties menu.
+
+Wil je doorgaan?</value>
+  </data>
+  <data name="RemoteStorageFeature_Info">
+    <value>Externe Opslag moet zijn ingesteld in het menu Opties om deze optie te kunnen gebruiken.</value>
+  </data>
+  <data name="RemoteStorageUpload_Question">
+    <value>Hiermee wordt je huidige feedlijst geupload naar de lokatie die is ingesteld in Externe Opslag vanuit het Opties menu.
+
+Wil je doorgaan?</value>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info">
+    <value>Feedlijst succesvol geupload.</value>
+  </data>
+  <data name="RssSearchCancelledStateMessage">
+    <value>Bezig met annuleren van de zoekopdracht, ...</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption">
+    <value>Annuleren</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc">
+    <value>Kies om de zoekopdracht te annuleren...</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption">
+    <value>Zoeken</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc">
+    <value>Kies om zoeken te starten...</value>
+  </data>
+  <data name="RssSearchNoResultMessage">
+    <value>Geen items gevonden...</value>
+  </data>
+  <data name="RssSearchResultNodeCaption">
+    <value>Zoekresultaten.</value>
+    <comment> Search Result Node caption</comment>
+  </data>
+  <data name="RssSearchStateMessage">
+    <value>Zoekt, ...</value>
+  </data>
+  <data name="RssSearchSuccessResultMessage">
+    <value>{0} items</value>
+    <comment>.
+ Parameters: 0 - foundItemsCount (int) </comment>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption">
+    <value>Vind alle items met gegeven zoekterm(en).</value>
+  </data>
+  <data name="RssSearchTypeTextHintCaption">
+    <value>Vind alle item(s) met gegeven zoekterm.</value>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption">
+    <value>Vind alle item(s) waarvan de RSS 2.0 presentatie overeenkomt met het XPath.</value>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess">
+    <value>Om van deze functionaliteit gebruik te kunnen maken heeft het programma schrijfrechten nodig voor deze Windows register sleutel: '{0}'.
+
+Start het programma opnieuw vanuit Windows Explorer en kies d.m.v. de rechtermuistoets het contextmenu. Selecteer 'Uitvoeren als...'. 
+Gebruik een Administrator account om het programma te starten. 
+
+Deze Administrator rechten zijn enkel nodig om deze functie te bewerken, een standaard account is voldoende voor normaal gebruik. 
+Excuses voor het ongemak.</value>
+    <comment>.
+ Parameters: 0 - regKey (string) </comment>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage">
+    <value>Totaal toegevoegde feeds: {0}</value>
+    <comment> Display the overall subscribed feeds count.
+ Parameters: 0 - feedsCount (int) </comment>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage">
+    <value>Selectie heeft {0} item(s)</value>
+    <comment> Display the overall items per selection count.
+ Parameters: 0 - selectionCount (int) </comment>
+  </data>
+  <data name="Syndic8FeedSearchTitle">
+    <value>Syndic8 Service</value>
+    <comment> syndic8.com Feed search service caption</comment>
+  </data>
+  <data name="TabFeedHomeCaption">
+    <value>Feed Home: {0}</value>
+    <comment> Tab caption of the feed home page (Webpage).
+ Parameters: 0 - home (string) </comment>
+  </data>
+  <data name="TabFeedSourceCaption">
+    <value>Feed bron: {0}</value>
+    <comment> Tab caption of the feed source view (Xml Webpage).
+ Parameters: 0 - source (string) </comment>
+  </data>
+  <data name="TabLinkCosmosCaption">
+    <value>Feed Link Cosmos: {0}</value>
+    <comment> Tab caption of the feed's technorati link cosmos (Webpage).
+ Parameters: 0 - cosmos (string) </comment>
+  </data>
+  <data name="TabValidationResultCaption">
+    <value>Feed Validatie Resultaat</value>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption">
+    <value>Toevoegen/Verwijderen knoppen</value>
+    <comment> Toolbar chevron dropdown menu caption</comment>
+  </data>
+  <data name="ToolbarOptionsCaption">
+    <value>Werkbalk opties</value>
+    <comment> Toolbar chevron dropdown menu tip</comment>
+  </data>
+  <data name="UpgradeFeedlistInfoText">
+    <value>De huidige versie van {0} ondersteund nieuwe programmafuncties, waarvoor
+een feedlist bestandsformaat conversie vereist is.
+Om voorgaande versies te blijven ondersteunen, zal het programma proberen een nieuwe feedlijst bestand te genereren a.d.h. van je huidige lijst.
+
+Het oude bestand blijft bestaan.
+
+Wil je doorgaan?</value>
+    <comment> Info text used to inform a user about a feedlist file format change.
+ Parameters: 0 - appName (string) </comment>
+  </data>
+  <data name="UpgradeInfoBoxCaption">
+    <value>Upgrade Informatie</value>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion">
+    <value>Controleert op nieuwe updates...</value>
+  </data>
+  <data name="WebExceptionCategory">
+    <value>Web fout</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess">
+    <value>Aanvraag van webadres {0} mislukt:
+{1}	</value>
+    <comment>.
+ Parameters: 0 - url (string), 1 - error (string) </comment>
+  </data>
+  <data name="WindowAboutCaption">
+    <value>Over {0}</value>
+    <comment>.
+ Parameters: 0 - productName (string) </comment>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage">
+    <value>Kies terug om de zoekterm(en) te wijzigen of klik Annuleren</value>
+    <comment> Subscription wizard tasks/infos</comment>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage">
+    <value>Kies Vorige om het webadres te wijzigen of klik Annuleren</value>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage">
+    <value>Opvragen feedtitel</value>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage">
+    <value>Ongeldige feed.	</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage">
+    <value>Ophalen feed geannuleerd.</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage">
+    <value>Ophalen feed mislukt.</value>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage">
+    <value>Zoeken geannuleerd.</value>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage">
+    <value>Zoeken mislukt.</value>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage">
+    <value>Zoeken...</value>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message">
+    <value>{0} feed(s) gevonden.</value>
+    <comment>.
+ Parameters: 0 - foundFeedsCount (int) </comment>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage">
+    <value>Feed ontvangen.</value>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage">
+    <value>Controleren webadres...</value>
+  </data>
+  <data name="WrongImageSizeMessage">
+    <value>Afbeelding is niet 16x16 pixels groot.</value>
+  </data>
+  <data name="XmlExceptionCategory">
+    <value>Xml fout</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher">
+    <value>Uitgever</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks">
+    <value>Verwante links</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor">
+    <value>Auteur</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate">
+    <value>Geplaatst op</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure">
+    <value>Bijlage</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState">
+    <value>Markeer als gelezen of ongelezen</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState">
+    <value>Zet of verwijder markering</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState">
+    <value>Volg of stop volgen van commentaar</value>
+  </data>
+  <data name="URL_BugReport">
+    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+    <comment> some urls as fallback if invalid or missing in .config</comment>
+  </data>
+  <data name="URL_FeedLinkCosmosUrlBase">
+    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+  </data>
+  <data name="URL_FeedValidationBase">
+    <value>http://www.feedvalidator.org/check?url=</value>
+  </data>
+  <data name="URL_ProjectDonation">
+    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+  </data>
+  <data name="URL_ProjectDownload">
+    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+  </data>
+  <data name="URL_ProjectNews">
+    <value>http://sourceforge.net/news/?group_id=96589</value>
+  </data>
+  <data name="URL_UserForum">
+    <value>http://www.rssbandit.org/forum/</value>
+  </data>
+  <data name="URL_WebHelp">
+    <value>http://www.rssbandit.org/docs/</value>
+  </data>
+  <data name="URL_WikiWebNews">
+    <value>http://www.rssbandit.org/</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption">
+    <value>Ok</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip">
+    <value>Accepteer alle wijzigingen en sluit af</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption">
+    <value>Annuleren</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip">
+    <value>Negeer wijzigingen en sluit af</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint">
+    <value>Functie vereist meer gebruikersrechten (Administrator)...</value>
+  </data>
+  <data name="PodcastOptionDialog_Title">
+    <value>Podcast Opties</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption">
+    <value>Algemeen</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption">
+    <value>Behandel deze bestanden als podcasts - gebruik een puntkomma (';') om vermeldingen van elkaar te scheiden:</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip">
+    <value>Podcast bestandsextentie lijst gescheiden voor puntkomma</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption">
+    <value>na downloaden podcast kopiëren naar:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip">
+    <value>Doelmap voor podcasts</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip">
+    <value>Klik om de doelmap van podcasts te selecteren</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
+    <value>Windows Media Player afspeellijst</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
+    <value>iTunes afspeellijst</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
+    <value>Deze map:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption">
+    <value>Afspeellijst</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
+    <value>Naam voor afspeellijst:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
+    <value>Gebruik bronnaam van bestand</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption">
+    <value>Gebruik feednaam</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption">
+    <value>Voeg alle bestanden aan een afspeellijst met deze naam toe:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip">
+    <value>Geef de naam van de afspeellijst in</value>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption">
+    <value>Hoofdmenu balk</value>
+    <comment> Main Form control captions</comment>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption">
+    <value>Standaard programma opties</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption">
+    <value>Webbrowser opties</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption">
+    <value>Zoek opties</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu">
+    <value>Menu</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile">
+    <value>Bestand</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit">
+    <value>Bewerken</value>
+  </data>
+  <data name="MainForm_ToolCategoryView">
+    <value>Beeld</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools">
+    <value>Opties</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp">
+    <value>Help</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse">
+    <value>Bekijken</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch">
+    <value>Zoeken</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText">
+    <value>Type het webadres om naar te surfen</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption">
+    <value>Feeds</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption">
+    <value>Zoeken</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText">
+    <value>Webbrowser status...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText">
+    <value>Bezig met openen pagina...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText">
+    <value>Status van de netwerkverbinding</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText">
+    <value>Status RSS verwerker...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup">
+    <value>Welkom!</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered">
+    <value>Feed Gevonden</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived">
+    <value>Nieuw(e) item(s) ontvangen</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded">
+    <value>Nieuwe bijlage gedownload</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed">
+    <value>Fout bij weergeven Windows Control Panel voor het instellen van Geluiden en Audioapparaten:
+
+{0}
+
+Probeer deze te openen vanuit het Configuratiescherm vanuit het Windows startmenu.</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text">
+    <value>Opslaan</value>
+    <comment> SearchPanel control</comment>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text">
+    <value>Item &amp;Link</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text">
+    <value>&amp;Onderwerp</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text">
+    <value>&amp;Beschrijving</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text">
+    <value>Markeer de te doorzoeken velden</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text">
+    <value>Item ge&amp;plaatst</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text">
+    <value>Item &amp;Leeftijd</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text">
+    <value>&amp;Nieuwer dan</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text">
+    <value>Status &amp;gelezen</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text">
+    <value>&amp;Ongelezen items</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text">
+    <value>Reset</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text">
+    <value>Zoeken</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text">
+    <value>Annuleren</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text">
+    <value>&amp;Bewaar zoekopdracht</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text">
+    <value>Zoeken in</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text">
+    <value>Geavanceerde &amp;opties</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text">
+    <value>Zoekbereik</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at">
+    <value>op</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before">
+    <value>voor</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after">
+    <value>na</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between">
+    <value>tussen</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour">
+    <value>1 uur</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours">
+    <value>{0} uren</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day">
+    <value>1 dag</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days">
+    <value>{0} dagen</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month">
+    <value>1 maand</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months">
+    <value>{0} maanden</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter">
+    <value>3 maanden</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters">
+    <value>{0} kwartalen</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year">
+    <value>1 jaar</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years">
+    <value>{0} jaren</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption">
+    <value>Standaard opties</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption">
+    <value>Identiteit toevoegen </value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc">
+    <value>Creeër nieuwe identiteit...</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption">
+    <value>Nieuwsserver toevoegen</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc">
+    <value>Voeg een nieuwe NNTP nieuwsserver toe...</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption">
+    <value>Verwijderen</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc">
+    <value>Verwijdert het geselecteerde item</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+<data name="SearchPanel_optionSetItemAgeOlderThan_Text">
+    <value>&amp;Ouder dan</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionIntroText">
+    <value>What do you want to do now?</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionNavigateToSubscription">
+    <value>Navigate to the subscription...</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionDeleteSubscription">
+    <value>Remove this subscription...</value>
+  </data>
+	<data name="XsltDefaultTemplate_Previous">
+    <value>Previous</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+	<data name="XsltDefaultTemplate_Next">
+    <value>Next</value>
+  </data>
+	<data name="XsltDefaultTemplate_Displaying_page">
+    <value>Displaying page</value>
+  </data>
+	<data name="XsltDefaultTemplate_of">
+    <value>of</value>
+  </data>
+	<data name="GUILoadFileOperationExceptionMessage">
+    <value>Loading of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUISaveFileOperationExceptionMessage">
+    <value>Saving of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUIUserInfoAboutDefaultTreeState">
+    <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+	</root>

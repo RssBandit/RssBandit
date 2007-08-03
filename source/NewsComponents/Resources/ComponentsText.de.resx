@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ExceptionUnsupportedAtomVersion">
+		<value>Diese ATOM version wird derzeit nicht unterstützt</value>
+	</data>
+	<data name="ExceptionUnknownXmlDialect">
+		<value>Das XML Dokument scheint kein RSS feed zu sein</value>
+	</data>
+	<data name="ExceptionDirectoryNotExistsMessage">
+		<value>Der Ordner '{0}' existiert nicht</value>
+	</data>
+	<data name="ExceptionRFC2822ParseGroupsMessage">
+		<value>Regulärer Ausdruck für ein RFC 2822 Datum: beim Parsen der Gruppen trat folgender Fehler auf: '{0}'.</value>
+	</data>
+	<data name="ExceptionRFC2822InvalidTimezoneFormatMessage">
+		<value>Ungültiges Zeitzonenformat: {0}.</value>
+	</data>
+<data name="ExceptionNoProcessingHandlerMessage">
+		<value>Feed Url '{0}' kann nicht verarbeitet werden: kein Url Scheme Handler implementiert.</value>
+	</data>
+	<data name="ExceptionEnclosureCacheLimitReached">
+    <value>Der Versuch die Datei '{0}' ist fehlgeschlagen, weil das konfigurierte Limit für Podcasts und Anhänge von {1}MB überschritten würde. Erhöhen Sie entweder das Limit, oder geben Sie Speicherplatz auf der Festplatte frei, um den Download erfolgreich abzuschliessen.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+	<data name="ExceptionSearchNoSearchCriteria">
+    <value>Es wurden keine Suchkriterien angegeben</value>
+  </data>
+	<data name="ExceptionSearchQueryBuilder">
+    <value>Es konnte keine Abfrage mit den spezifizierten Suchkriterien gestartet werden. Bitte definieren Sie die Kriterien neu.</value>
+  </data>
+	<data name="ExceptionSearchQueryBuilderFatal">
+    <value>Es konnte keine Abfrage mit den spezifizierten Suchkriterien gestartet werden. Es trat ein Fehler auf: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+	<data name="ExceptionLuceneSearchKindNotSupported">
+    <value>Dieser Suchtyp wird nicht länger unterstützt ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+	<data name="ExceptionSearchFatal">
+    <value>Während der Suche trat ein kritischer Fehler auf</value>
+  </data>
+	<data name="ExceptionHelpFeedTitle">
+    <value>Hilfe bei Fehlern</value>
+  </data>
+	<data name="ExceptionHelpFeedItemTitle">
+    <value>Art des Fehlers: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+	<data name="ExceptionHelpFeedDesc">
+    <value>Gibt Hilfestellung bei aufgetretenen Fehlern</value>
+  </data>
+</root>

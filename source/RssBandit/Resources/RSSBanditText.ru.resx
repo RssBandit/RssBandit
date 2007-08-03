@@ -1,0 +1,2307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>CHANGED: default stylesheet</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>used to validate a RSSfeed, default on invalid .config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>News page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki Site, default on invalid .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit User Forum, default on invalid .config</comment>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[Другие ленты новостей]</value>
+		<comment>localizable</comment>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>Информация об обновлении</value>
+		<comment>Caption of the Upgrade Info Messagebox</comment>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>Текущая версия {0} поддерживает новые функции или исправления, что требует
+изменения формата вашего файла списка лент новостей.
+Для того что бы ваши прежние версии RSS Bandit продолжали работать, приложение попытается создать новый файл списка лент новостей из вашего текущего списка.
+
+Старый файл будет оставлен нетронутым.
+
+Хотите продолжать?</value>
+		<comment>Info text used to inform a user about a feedlist file format change.</comment>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>Невалидный файл ленты новостей</value>
+		<comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>Заданный URL новой ленты новостей не является валидным URL</value>
+		<comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>Невалидный URL</value>
+		<comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>Неожиданная ошибка при загрузке списка лент новостей: 
+  '{0}'.
+Детальную информацию о произошедшей ошибке смотрите в файле
+  '{1}'</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>Ошибка загрузки файла списка лент новостей.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>Файл списка лент новостей запорчен. Детальная информация о произошедшей ошибке сохранена в файле		
+  '{0}'</value>
+		<comment>Validation Error message</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>Готово</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>Запрашивается commentRss лента, пожалуйста ждите...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>Ошибка при запросе commentRss ленты: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>Ошибка валидации при чтении файла списка лент новостей.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>Отсутствует файл списка лент новостей.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>Готов</value>
+		<comment>also displayed as a Tooltip on the tray icon</comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>Получены новые сообщения ленты новостей...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{1} новых сообщений в {0} лентах</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>Обновляется...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>Есть непрочтенные сообщения...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} лент новостей обновлено.</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>Нет обновлений ленты новостей.</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>Осталось {0} непрочтенных сообщений ленты новостей.</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>Нет непрочтенных сообщений ленты новостей.</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>Ссылка и заголовок ленты новостей RSS не могут быть пустыми!</value>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>Обнаружено пустое поле</value>
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>URL web страницы не определен</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>Ключевые слова не определены</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>Поиск лент новостей на странице:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>Поиск лент новостей содержащих ключевые слова:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>Запрашивается лента новостей:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>Запрашивается файл:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>Извините, RSS ленты новостей не найдены.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>Выгружается список лент новостей ({0}), пожалуйста ждите...</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>Выгрузка списка лент новостей не удалась со следующей ошибкой:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>Загружается список лент новостей ({0}), пожалуйста ждите...</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>Загрузка списка лент новостей не удалась со следующей ошибкой:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>Лента новостей не найдена</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundant">
+		<value>Вы уже подписаны на эту ленту новостей</value>
+		<comment>Obsolete: see RES_GUIFieldLinkRedundantInfo</comment>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>You are already subscribed to this feed.
+ Category/Name: {0}
+ Link: {1}.</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>Обновляется: {0} ...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>Обновление {0} не удалось (XML ошибка): {1}</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>Обновление {0} не удалось (фатальная ошибка): {1}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>Не удалось запросить URL {0}: {1}</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>Не удалось произвести автообнаружение лент новостей</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>Обновление лент новостей...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>Загружается список лент новостей...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>Загружается, пожалуйста ждите...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>Невозможно загрузить дочерние сообщения, вы не подключены к сети.</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>Проверка текущего состояния подключения к интернету...</value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>Текущее состояние подключения к интернету...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>Загружается...</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>Неожиданная ошибка при загрузке конфигурации системы поиска: {0}.
+Смотрите детальную информацию об ошибке в файле '{1}'.</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>Произошла ошибка</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>Ошибка при загрузке конфигурации системы поиска</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>Ошибка валидации при загрузке конфигурации системы поиска</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>Ошибка валидации при загрузке конфигурации системы поиска.
+Смотрите детальную информацию об ошибке в файле '{0}'.</value>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[Новое]</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>Лента новостей невалидна.</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>Не удалось загрузить ленту новостей: {0}</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>Операция отменена. Лента новостей '{0}' приводит к ошибке: {1}</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>RSS сообщение не может быть преобразовано в HTML.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>Невозможно скомпилировать Xslt стиль.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>Xslt стиль невалиден.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>Заданный для форматирования сообщения Xslt стиль сообщает о следующей проблеме:
+{0}
+Подробности: {1}</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>a invalid character</value>
+		<comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>Операция отменена. Заголовок не может быть пустым.</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>Файл</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>Меню команд "Файл" RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>Вид</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>Меню команд "Вид" RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>Инструменты</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>Меню комманд "Инструменты" RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>Поиск</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>Команды конфигурации web поиска RSS Bandit</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>Помощь</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>Помощь по RSS Bandit...</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>Новая закладка для результатов</value>
+		<comment>Caption within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>Результаты web поиска должны отображаться на новых закладках...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>Отметьте этот пункт чтобы включить его в одновременный поиск...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>О программе...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>Предоставляет инормацию об этой программе</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>Документация online</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>Получить помощь по этой программе, как начать, FAQ, итд.</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>Показать новости (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>Прочитать последние новости об этой программе на Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>Отправить сообщение об ошибке (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>Позволяет вам отпрвить сообщение о баге в этой программе на Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>Проверить обновления...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>Проверить обновления программы</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>Посетить домашнюю страницу RSS Bandit...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>Прочитать новости, предложитьновую функцию, FAQ итд...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>Посетить форумы RSS Bandit...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>Обсудить любые связанные темы...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>Подписки на ленты новостей</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>Toggles the view state of the feedlist tree panel.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>Найти</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>Toggles the view state of the RSS Search panel.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>Панели инструментов</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>Toggles the view state of the various toolbars.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>Стандартные</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>Toggles the view state of the standard toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Web навигация</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Toggles the view state of the web navigation toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Web поиск</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Toggles the view state of the web search toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>Импортировать ленты новостей...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>Импортировать список лент новостей (.xml, .ocs или .opml)</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>Экспортировать ленты новостей...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>Экспорт списка лент новостей...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>Настройки...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>Отображает диалог настроек...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>Выход</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>Закрывает RSS Bandit</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>Работать автономно</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>Переключает режим подключения к интернету</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[Автономная работа]</value>
+		<comment>Caption Postfix on the main window</comment>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>Новая лента...</value>
+		<comment>Caption within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>Подписаться на новую ленту новостей</value>
+		<comment>Description within file/context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>Новая категория</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>Добавляет новую категорию для группирования лент новостей</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>Открывает RSS Bandit</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>Перепоказывает/открывает основное окно RSS Bandit...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>Показывать окна извещений ленты новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>Контроллирует отображение окон извещений...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>Как сконфигурировано для каждой ленты новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>Отображает окна извещений как сконфигурировано для каждой ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>Никогда</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>Не показывать окна извещения никогда...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>Всегда</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>Отображать окна извещения на все полученные сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>Отображать извещение о новых сообщениях на рабочем столе</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>Контроллирует отображение извещений о новых сообщениях на рабочем столе...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>Обновить все ленты</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>Инициирует обновление всех лент новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>Пометить все сообщения как прочтенные</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>Помечает все сообщения как прочтенные</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>Удалить все ленты новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>Удаляет все ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>Обновить категорию</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>Обновляет все ленты новостей в этой категории...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>Пометить все сообщения в категории как прочтенные</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>Помечает все сообщения в категории как прочтенные...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>Переименовать категорию</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>Переименовывает категорию...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>Удалить категорию</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>Удаляет категорию и все содержащиеся в ней ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>Обновить ленту новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>Обновляет ленту новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>Пометить все сообщения как прочтенные</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>Помечает все сообщения как прочтенные...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>Переименовать ленту новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>Переименовывает ленту новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>Удалить ленту новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>Удаляет ленту новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>Пометить как прочтенное</value>
+		<comment>Caption within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>Помечает все сообщения ленты новостей как прочтенные ...</value>
+		<comment>Description within menu/tool/context</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value></value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>Отображает все обнаруженные ленты новостей...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>Очистить список обнаруженных лент новостей</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>Очищает список обнаруженных лент новостей показанный ниже...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>Вы действительно хотите удалить Все ленты новостей?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>Вы действительно хотите удалить эту категорию и все содержащиеся в ней подкатегории и ленты новостей?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>Вы действительно хотите удалить подписку на эту ленту новостей?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>Посмотреть исходный код</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>Показывает исходный код ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>Валидировать</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>Валидирует исходный код этой ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>Лента новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>Дополнительные команды и информация...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>Домашняя страница</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>Открыть домашнюю страницу ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>Link Cosmos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>Перейти к Technorati и просмотреть ссылки на ленту новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>Свойства...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>Отображает диалог свойств ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>Пометить как непрочтенное</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>Помечает выбранные сообщения ленты новостей как непрочтенные...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>Ответить...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>Посылает ответ на это сообщение...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>Сообщения ленты новостей не выбраны.</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>Удалить</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>Удалить выбранную папку поиска...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>Удалить все</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>Удалить все папки поиска ниже выбраного узла...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>Свойства...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>Отображает диалог свойств поиска...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>Загрузка приложения...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>Загрузка основного GUI...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>Пометить сообщение...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>Добавляет выбранные сообщения в коллекцию помеченных сообщений...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>Развить тему</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>Добавляет выбранные сообщения в коллекцию сообщений помеченных для развития темы...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>Обзор</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>Добавляет выбранные сообщения в коллекцию сообщений помеченных для обзора...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>Ответить</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>Добавляет выбранные сообщения в коллекцию сообщений помеченных для ответа...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>Прочитать</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>Добавляет выбранные сообщения в коллекцию сообщений помеченных для чтения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>Переслать</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>Добавляет выбранные сообщения в коллекцию сообщений помеченных для пересылки...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>Закончить</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>Удаляет выбранные сообщения из коллекции помеченных сообщений...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>Очистить</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>Удаляет выбранные сообщения из коллекции помеченных сообщений...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>Копировать</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>Копирует RSS поля сообщения в ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>Ссылку на сообщение - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>Копирует ссылку на текущее выбранное сообщение в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>Заголовок сообщения как ссылку - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>Копирует заголовок как ссылку на текущее выбранное сообщение в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>Содержимое сообщения - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>Копирует содержимое текущего выбранного сообщения в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>Копировать</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>Копирует поля выбранной ленты новостей в ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>Ссылку на ленту новостей - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>Копирует ссылку на текущую выбранную ленту новостей в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>Ссылку на домашнюю страницу ленты новостей - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>Копирует ссылку на домашнюю страницу ленты новостей в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>Домашнюю страницу ленты новостей с заголовком как ссылку - в буффер обмена</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>Копирует домашнюю страницу текущей выбранной ленты новостей с заголовком как ссылку в буффер обмена...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>Удалить все сообщения</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>Удаляет все сообщения ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>Удалить выбранные сообщения ленты новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>Удаляет все выбранные сообщения ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>След. непрочтенное сообщение</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>Переходит к следующему непрочтенному сообщению...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>Обнаружить ленты</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>Ищет ленты новостей для сайта или темы</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>Ответить...</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>Отправляет ответ на это сообщение...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>Поиск</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>Искать локально в сообщениях...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>Назад...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>Вперед...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>Web адрес для перехода...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>Отменить переход...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>Обновить...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>Переход</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>Перейти на заданный URL...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>Cоздать новую закладку в браузере...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>Открыть ссылку в Web браузере по умолчанию...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>Слова для поиска в Web...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value></value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>Искать фразу в Web...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>Команда IBlogExtension (AddIn)</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>Конфигурация...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>Конфигурация IBlogExtension (AddIn)</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>Закрыть документ</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>Закрывает текущую выбранную закладку...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>Закрыть все документы в ряду</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>Закрывает все документы в выбранном ряду...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>Закрыть все документы</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>Закрывает все докумерты во всех рядах...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>Расположение с горизонтальным разделением</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>Если выбрано, закладки документов могут быть размещены горизонтально...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>Вызов IBlogExtension (AddIn) функции '{0}' привел к ошибке:
+'{1}'.        
+        </value>
+		<comment>Error message text</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>Ошибки лент новостей</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>Контейнер для ошибок вызванных подписанными лентами новостей</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>Помеченные сообщения</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>Контейнер для помеченных лент новостей</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>Сообщения для развития темы</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>Сообщения для чтения</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>Сообщения для обзора</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>Сообщения для пересылки</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>Сообщения для ответа</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>Мои ленты новостей</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>Контейнер для подписанных лент новостей</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>Специальные ленты новостей</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>Контейнер для специальных лент новостей</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>Папки поиска</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>Контейнер для постоянных папок поиска</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>Отправленные сообщения</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>Контейнер для отправленных сообщений</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>Результат валидации ленты новостей</value>
+		<comment>Tab caption of the feed validation results (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>Домашняя страница ленты: {0}</value>
+		<comment>Tab caption of the feed home page (Webpage)</comment>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>Feed Link Cosmos: {0}</value>
+		<comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>Исходный код ленты: {0}</value>
+		<comment>Tab caption of the feed source view (Xml Webpage)</comment>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>Минимизировать при старте</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>Подписаться на заданные ленты новостей</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>Печатает это сообщение</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>Начните применение в по-разному языке (Кодем языка ISO)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>Выгрузить ленты новостей...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>Загрузить ленты новостей...</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>Выгружает ленты новостей в удаленное хранилище.</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>Загружает ленты новостей из удаленного хранилища.</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>Сконфигурированный Web браузер по умолчанию не может быть запущен:
+		
+		'{0}'.
+		
+		Открыть URL '{1}' в новой закладке?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>Сконфигурированный исполняемый модуль '{0}' не может быть запущен:
+		
+		'{1}'.
+		
+		Открыть URL '{2}' в новой закладке?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>Не могу открыть файл '{0}':
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>Размер изображения не равен 16х16 пикселям.</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>Ошибка установки предпочтений</value>
+		<comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>Значение интервала обновления не является числом.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>Значение интервала обновления слишком велико.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>Невалидный интервал обновления.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>Задайте адрес proxy (IP или имя хоста).</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>Значение proxy порта не является числом.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>Заданное значение proxy порта не входит в разрешенный интервал от 0 до 65535.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>Невалидный proxy порт.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>Задайте имя пользователя для proxy аутентификации.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>Задайте путь и имя исполняемого файла.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>Задайте адрес удаленного хранилища.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>Адрес FTP удаленного хранилища должен использовать 'ftp:' URL схему.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>Задайте имя пользователя для аутентификации в удаленном хранилище.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>URL web сервиса:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>Вы можете хранить списки новостей на которые вы подписаны в виде файла blogroll.opml если вы используете dasBlog (http://www.dasblog.net). URL сервиса хранения в таком случае должен быть http://yourblog.com/dasblog/ConfigEditingService.asmx и вы должны разрешить Configuration Editing service в dasBlog.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>Directory path:</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>You can store your application state as rssbandit-state.zip on a local or network file share. Provide the directory path such as '\\yournetworkshare\feedlist\' or 'H:\'.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>FTP сервер/путь:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>You can store your application state as rssbandit-state.zip using an FTP server. Provide the name of the FTP server and path such as 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>Для использования этой команды вы должны сконфигурировать "Удаленное Хранилище" используя диалог "Параметры".</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>Это загрузит ваш список лент новостей в сервис
+определенный в закладке "Удаленное Хранилище" диалога "Параметры". 
+        
+Продолжать?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>Список лент новостей успешно загружен в удаленное хранилище.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>Это заменит ваш локальный список лент новостей другим, загруженным с помощью службы 
+		определенной в закладке "Удаленное Хранилище" диалога "Параметры".
+        
+Продолжать?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>Произошла неожиданная ошибка при сохранении установок системы Web поиска:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>Извините, эта функция еще не реализована.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>Произошла неожиданная ошибка при загрузке XSLT стиля для форматирования сообщения ленты новостей:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>Произошла ошибка во время импорта списка лент новостей из 
+'{0}':
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>Отправляется ответ, пожалуйста ждите...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>Произошла ошибка во время отправки ответа на сообщение  
+'{0}' (ссылка на RSS сообщение/заголовок):
+        
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>Извините, произошла ошибка:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>Извините, но имя '{0}' уже используется.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>Система вернула следующую ошибку во время установки агрегатора по умолчанию:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>Заголовок</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>Тема</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>Дата</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>Заголовок ленты новостей</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>Автор</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>Описание ленты новостей</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>URL ленты новостей</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>URL сайта</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[Обнаружен автоматически]</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>Сообщения ленты новостей</value>
+		<comment>Document Tab Caption</comment>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>Добавить или удалить кнопки</value>
+		<comment>Toolbar chevron dropdown menu caption</comment>
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>Держите нажатым CTRL чтобы избежать стыковки.</value>
+		<comment>StatusBar feedback text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>Поиск</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>Нажмите для запуска заданного поиска...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>Отмена</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>Нажмите для отмены идущего поиска...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>Идет поиск, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>Идет отмена поиска, ...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>Сообщения не найдены.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>{0} сообщений найдено.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>Результат поиска</value>
+		<comment>SearchResultNode caption</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>Позиция панели чтения</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>Выбрать/изменить расположение деталей ленты новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>Панель чтения внизу</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>Список сообщений ленты новостей наверху, содержимое под ним...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>Панель чтения справа</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>Список сообщений ленты новостей слева, содержимое справа...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>Панель чтения слева</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>Список сообщений ленты новостей справа, содержимое слева...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>Панель чтения наверху</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>Список сообщений ленты новостей внизу, содержимое наверху...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>Получено: {0} сообщений</value>
+		<comment>displayed in the Toast window(s)</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>Развернуть панель...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>Свернуть панель...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>Найти все сообщения, содержащие определенное слово или фразу.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>Найти все сообщения, которые содержат слова или фразы, соответствующие регулярному выражению.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>Найти все сообщения, чье RSS 2.0 представление соответствует заданному XPath.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>О {0}</value>
+		<comment>window caption. Parameter is the product name</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>Не удалось обновить ленту новостей '&lt;strong&gt;{0}&lt;/strong&gt;' из-за следующей ошибки: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>Щелкните здесь для &lt;strong&gt;валидации&lt;/strong&gt; ленты новостей.</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>Контактная информация:</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>Управляющий редактор</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Web мастер</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>Домашняя страница ленты новостей.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>Подписаться в агрегаторе по умолчанию.</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>Подписаться в Rss Bandit</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>Ответить - RE: {0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>Подписано лент: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>Выборка содержит {0} сообщений</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>Заголовок категории не может быть пустым!</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[Новых {0}]</value>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>Свойства...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>Отобразить диалог свойств категории...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>Новая папка поиска</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>Создать новую папку поиска...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>Переименовать папку поиска</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>Переименовать эту папку поиска...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>Вы действительно хотите удалить эту папку поиска?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>Обновить</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>Обновляет результаты поиска в папке поиска...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>Подписаться...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>Отображает диалог подписки на найденную ленту новостей...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>Восстановить</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>Восстанавливает все выбранные сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>Ошибка сохранения файла '{0}':
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>Файлы OPML</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>Файлы XML</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>Все файлы</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>Url WebDAV папки:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>Вы можете сохранить состояние приложения как rssbandit-state.zip  файл в WebDAV папке. Url сервиса хранения должен указывать на WebDAV папку, например 'http://mywebdav.com/personal/' и вы должны иметь права на чтение и запись.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>Комментарии</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>Вложение</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>Свойства тулбара</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>Генератор ленты новостей: '{0}'.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Ошибка Xml</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web ошибка</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>Нарушение протокола</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Общая ошибка</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Re: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>user-name: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;none&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>Директория не существует</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>Неожиданная ошибка при записи настроек UI (.settings.xml):
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>Вы обязаны сообщить ваше имя при ответе</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>Shortcut Settings File Could not be validated</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>Произошла ошибка и детали были записаны в файл 
+'{0}'.
+Пожалуйста сообщите его содержимое группе разработки (dev.rssbandit.org),
+вместе со следующей информацией:
+</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>To apply this functionality the application needs write access rights
+to this Windows registry key: '{0}'.
+        
+To get it work, please start the application from within the Windows File Explorer
+by selecting 'Run as...' from the context menu displayed on a Right-Click to the executable.
+Then choose the local Administrator account to run the application and try again.
+
+The administrative rights are only needed to apply the requested functionality.
+It is not required to have them each time you run the application. Sorry for the
+inconvenience.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>Удаленные сообщения</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>Контейнер удаленных сообщений</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>Вы действительно хотите удалить все папки поиска?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>Вы действительно хотите удалить все сообщения?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>Удостоверения...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>Открывает диалог управления удостоверениями...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>Группы новостей...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>Открывает диалог управления NNTP серверами и группами новостей...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>Удостоверения</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>Группы новостей</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>Информация, которой вы обмениваетесь с лентой '{0}', не может быть просмотрена или изменена другими лицами. Однако существует проблема с сертификатом ленты новостей.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>Информация, которой вы обмениваетесь с сайтом '{0}', не может быть просмотрена или изменена другими лицами. Однако существует проблема с сертификатом сайта.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>Имя сертификата неверно или не соответствует имени сайта.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>Сертификат истек {0}.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>Сертификат был отменен.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>Сертификат выдан ненадежным Certification Authory (CA).</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>The certificate has a untrusted CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>The certificate has a untrusted test CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>Назначение сертификата не отвечает выполняемой функции.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>The certificate is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>Сертификат привел к критической ошибке.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>The certificate issuer is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>Сертификат испорчен.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>The certificate caused an error: path length const.</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>The revocation of the certificate failed.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>The role of the certificate is wrong.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>The validity period of the certificate is nesting.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>Сертификат не может быть использован для данной задачи.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>сертификат привел к общей неизвестной ошибке: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>Расположение колонок</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>Управляет расположением колонок...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>Показывать заголовок </value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>Показывать колонку заголовка сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>Показывать дату</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>Показывать колонку даты сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>Показывать тему</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>Показывать колонку темы сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>показывать автора</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>Показывать колонку автора сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>Показывать заголовок подписки</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>Показывать колонку заголовка подписки...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>Плказывать число комментариев</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>Показывает колонку числа комментариев к сообщению...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>Показывать вложения</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>Показывать колонку вложений...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>Показывать флаги</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>Показывать колонку флагов сообщения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Использовать расположение категорий по умолчанию</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Расположение будет применено для всех категорий, не имеющих назначенного расположения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Использовать расположение как умолчание для лент новостей</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Расположение будет применено для всех лент, не имеющих назначенного расположения...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Вернуть расположение по-умолчанию</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Расположение будет удалено...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Флаг</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectCaption">
+  <value>Поддержать проект...</value>
+  <comment>Caption within help menu</comment>
+ </data>
+ <data name="RES_MenuDonateToProjectDesc">
+  <value>Открывает сайт где вы можете поддержать проект...</value>
+  <comment>Description within help menu</comment>
+ </data>
+<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

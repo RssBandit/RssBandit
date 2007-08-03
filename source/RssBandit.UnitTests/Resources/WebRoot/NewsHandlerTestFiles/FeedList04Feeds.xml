@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="7200000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  <feed category="Blogs">
+    <title>Torsten's .NET Blog</title>
+    <link>http://www.rendelmann.info/blog/SyndicationService.asmx/GetRss</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-06T17:43:06.0514716-07:00</last-retrieved>
+    <etag>632271898208213750</etag>
+    <cacheurl>www.rendelmann.info.80.1214057202.df05c3d0bd8748e68f121451084e3e62.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://www.rendelmann.info/blog/PermaLink.aspx?guid=65f96654-376b-49ee-ae6a-f5c995d2576c</story>
+      <story>http://www.rendelmann.info/blog/PermaLink.aspx?guid=fa0a5da5-67a2-48df-bd39-f2164f17abba</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-04T04:17:00.0000000-07:00</if-modified-since>
+  </feed>
+  <feed category="Blogs">
+    <title>you've been HAACKED</title>
+    <link>http://haacked.com/Rss.aspx</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-06T17:38:45.2371336-07:00</last-retrieved>
+    <etag>8/6/2004 12:54:58 PM</etag>
+    <cacheurl>haacked.europe.webmatrixhosting.net.80.1537125231.731428cfa3454779940150bac842e8ba.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://haacked.com/archive/2004/08/06/883.aspx</story>
+      <story>http://haacked.com/archive/2004/08/06/882.aspx</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T12:54:58.0000000-07:00</if-modified-since>
+  </feed>
+  <feed category="News Technology">
+    <title>kuro5hin.org</title>
+    <link>http://www.kuro5hin.org/backend.rdf</link>
+    <refresh-rate>7200000</refresh-rate>
+    <last-retrieved>2004-08-06T17:43:04.5827216-07:00</last-retrieved>
+    <etag>"40743-24bd-41141b83"</etag>
+    <cacheurl>www.kuro5hin.org.80.1758205014.a9da14d7e255448dada0f5f62165655a.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://www.kuro5hin.org/story/2004/8/5/151113/8977</story>
+      <story>http://www.kuro5hin.org/story/2004/8/4/22650/00005</story>
+      <story>http://www.kuro5hin.org/story/2004/8/5/23933/10480</story>
+      <story>http://www.kuro5hin.org/story/2004/8/1/195841/6875</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T17:00:03.0000000-07:00</if-modified-since>
+  </feed>
+  <feed category="Blogs Microsoft">
+    <title>Dare Obasanjo aka Carnage4Life</title>
+    <link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRss</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-06T17:38:16.5180160-07:00</last-retrieved>
+    <etag>632273923257537500</etag>
+    <cacheurl>www.25hoursaday.com.80.428482683.0ee1ea58a56f42c680af50c91649fbc8.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://www.25hoursaday.com/weblog/PermaLink.aspx?guid=76185ab0-ae34-4536-87ad-029e890415f8</story>
+      <story>http://www.25hoursaday.com/weblog/PermaLink.aspx?guid=4c44e967-18b3-436e-8df2-053fd004ac9a</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T12:32:05.0000000-07:00</if-modified-since>
+  </feed>
+  <categories>
+    <category>News Technology</category>
+    <category>Blogs</category>
+    <category>Blogs Microsoft</category>
+  </categories>
+ </feeds>

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ExceptionUnsupportedAtomVersion">
+		<value>Versione ATOM non supportata</value>
+	</data>
+	<data name="ExceptionUnknownXmlDialect">
+		<value>Il documento XML non sembra essere un feed RSS valido</value>
+	</data>
+	<data name="ExceptionDirectoryNotExistsMessage">
+		<value>Directory non esistente: {0}</value>
+	</data>
+	<data name="ExceptionRFC2822ParseGroupsMessage">
+		<value>La ricerca tramite regex RFC2822 per le date e' riuscita, ma il gruppo di parsing ha causato una eccezione  '{0}'.</value>
+	</data>
+	<data name="ExceptionRFC2822InvalidTimezoneFormatMessage">
+		<value>Il formato del Timezone e' errato: {0}.</value>
+	</data>
+	<data name="ExceptionNoProcessingHandlerMessage">
+		<value>L'url del Feed '{0}' non può essere gestito. Nessun handler implementato.</value>
+	</data>
+<data name="ExceptionEnclosureCacheLimitReached">
+    <value>Il tentativo di scaricare il file '{0}' è fallito perchè sarebbe maggiore del limite di {1}MB dedicato ai podcasts e attachments. Incrementa il limite o cancella gli attachments precedentemente scaricati.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+	<data name="ExceptionSearchNoSearchCriteria">
+    <value>Nessun criterio di ricerca specificato</value>
+  </data>
+	<data name="ExceptionSearchQueryBuilder">
+    <value>La query non puo' essere creata dai criteri di ricerca</value>
+  </data>
+	<data name="ExceptionSearchQueryBuilderFatal">
+    <value>La query non puo' essere creata dai criteri di ricerca. Si e' verificato un errore: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+	<data name="ExceptionLuceneSearchKindNotSupported">
+    <value>Questo tipo di ricerca non e' piu' supportato ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+	<data name="ExceptionSearchFatal">
+    <value>Errore critico di ricerca</value>
+  </data>
+	<data name="ExceptionHelpFeedTitle">
+    <value>Aiuto sugli errori</value>
+  </data>
+	<data name="ExceptionHelpFeedItemTitle">
+    <value>Tipo di errore: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+	<data name="ExceptionHelpFeedDesc">
+    <value>Fornisce aiuto sugli errori</value>
+  </data>
+	</root>

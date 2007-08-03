@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s1="http://services.newsgator.com/svc/Feed.asmx/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://services.newsgator.com/svc/Feed.asmx" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://services.newsgator.com/svc/Feed.asmx" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://services.newsgator.com/svc/Feed.asmx">
+      <s:element name="GetNews">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="feedId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="unreadOnly" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNewsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNewsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NGAPIToken" type="tns:NGAPIToken" />
+      <s:complexType name="NGAPIToken">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MarkRead">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="feedId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="read" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="syncToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkReadResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MarkFeedsRead">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="feedIds" type="tns:ArrayOfInt" />
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MarkFeedsReadResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFeedInfoSummaryFromXmlUrl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlurls" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFeedInfoSummaryFromXmlUrlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFeedInfoSummaryFromXmlUrlResult" type="tns:ArrayOfFeedInfoSummary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFeedInfoSummary">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FeedInfoSummary" nillable="true" type="tns:FeedInfoSummary" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FeedInfoSummary">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FeedID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="XmlUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HtmlLink" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ArrayOfFeedInfoSummary" nillable="true" type="tns:ArrayOfFeedInfoSummary" />
+    </s:schema>
+    <s:schema targetNamespace="http://services.newsgator.com/svc/Feed.asmx/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetNewsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNews" />
+  </wsdl:message>
+  <wsdl:message name="GetNewsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNewsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNewsNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="MarkReadSoapIn">
+    <wsdl:part name="parameters" element="tns:MarkRead" />
+  </wsdl:message>
+  <wsdl:message name="MarkReadSoapOut">
+    <wsdl:part name="parameters" element="tns:MarkReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="MarkReadNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="MarkFeedsReadSoapIn">
+    <wsdl:part name="parameters" element="tns:MarkFeedsRead" />
+  </wsdl:message>
+  <wsdl:message name="MarkFeedsReadSoapOut">
+    <wsdl:part name="parameters" element="tns:MarkFeedsReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="MarkFeedsReadNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedInfoSummaryFromXmlUrlSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFeedInfoSummaryFromXmlUrl" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedInfoSummaryFromXmlUrlSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFeedInfoSummaryFromXmlUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedInfoSummaryFromXmlUrlNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetNewsHttpPostIn">
+    <wsdl:part name="feedId" type="s:string" />
+    <wsdl:part name="locationName" type="s:string" />
+    <wsdl:part name="token" type="s:string" />
+    <wsdl:part name="unreadOnly" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNewsHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="MarkReadHttpPostIn">
+    <wsdl:part name="feedId" type="s:string" />
+    <wsdl:part name="locationName" type="s:string" />
+    <wsdl:part name="read" type="s:string" />
+    <wsdl:part name="syncToken" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MarkReadHttpPostOut" />
+  <wsdl:message name="MarkFeedsReadHttpPostIn">
+    <wsdl:part name="feedIds" type="s1:StringArray" />
+    <wsdl:part name="locationName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MarkFeedsReadHttpPostOut" />
+  <wsdl:message name="GetFeedInfoSummaryFromXmlUrlHttpPostIn">
+    <wsdl:part name="xmlurls" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedInfoSummaryFromXmlUrlHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfFeedInfoSummary" />
+  </wsdl:message>
+  <wsdl:portType name="FeedWebServiceSoap">
+    <wsdl:operation name="GetNews">
+      <wsdl:input message="tns:GetNewsSoapIn" />
+      <wsdl:output message="tns:GetNewsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkRead">
+      <wsdl:input message="tns:MarkReadSoapIn" />
+      <wsdl:output message="tns:MarkReadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkFeedsRead">
+      <wsdl:input message="tns:MarkFeedsReadSoapIn" />
+      <wsdl:output message="tns:MarkFeedsReadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedInfoSummaryFromXmlUrl">
+      <wsdl:input message="tns:GetFeedInfoSummaryFromXmlUrlSoapIn" />
+      <wsdl:output message="tns:GetFeedInfoSummaryFromXmlUrlSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="FeedWebServiceHttpPost">
+    <wsdl:operation name="GetNews">
+      <wsdl:input message="tns:GetNewsHttpPostIn" />
+      <wsdl:output message="tns:GetNewsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkRead">
+      <wsdl:input message="tns:MarkReadHttpPostIn" />
+      <wsdl:output message="tns:MarkReadHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkFeedsRead">
+      <wsdl:input message="tns:MarkFeedsReadHttpPostIn" />
+      <wsdl:output message="tns:MarkFeedsReadHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedInfoSummaryFromXmlUrl">
+      <wsdl:input message="tns:GetFeedInfoSummaryFromXmlUrlHttpPostIn" />
+      <wsdl:output message="tns:GetFeedInfoSummaryFromXmlUrlHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FeedWebServiceSoap" type="tns:FeedWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="GetNews">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Feed.asmx/GetNews" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetNewsNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkRead">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Feed.asmx/MarkRead" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:MarkReadNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkFeedsRead">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Feed.asmx/MarkFeedsRead" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:MarkFeedsReadNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedInfoSummaryFromXmlUrl">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Feed.asmx/GetFeedInfoSummaryFromXmlUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFeedInfoSummaryFromXmlUrlNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="FeedWebServiceHttpPost" type="tns:FeedWebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetNews">
+      <http:operation location="/GetNews" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkRead">
+      <http:operation location="/MarkRead" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="MarkFeedsRead">
+      <http:operation location="/MarkFeedsRead" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedInfoSummaryFromXmlUrl">
+      <http:operation location="/GetFeedInfoSummaryFromXmlUrl" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FeedWebService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">NewsGator Online - operations on Feed Resources</documentation>
+    <wsdl:port name="FeedWebServiceSoap" binding="tns:FeedWebServiceSoap">
+      <soap:address location="http://services.newsgator.com/ngws/svc/Feed.asmx" />
+    </wsdl:port>
+    <wsdl:port name="FeedWebServiceHttpPost" binding="tns:FeedWebServiceHttpPost">
+      <http:address location="http://services.newsgator.com/ngws/svc/Feed.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

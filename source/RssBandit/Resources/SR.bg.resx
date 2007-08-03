@@ -1,0 +1,2657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>used to validate a RSSfeed, default on invalid .config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>News page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki Site, default on invalid .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit User Forum, default on invalid .config</comment>
+	</data>
+	<data name="FeedDefaultCategory">
+		<value>[Без категория]</value>
+		<comment>localizable</comment>
+	</data>
+	<data name="UpgradeInfoBoxCaption">
+		<value>Информация за обновяване</value>
+		<comment>Caption of the Upgrade Info Messagebox</comment>
+	</data>
+	<data name="UpgradeFeedlistInfoText">
+		<value>Текущата версия на {0} подържа нови възможности.
+requires a change of your feedlist file format.
+To keep your older versions running, the application will try to create a new feedlist file from your current list.
+
+The old file will be left untouched.
+
+Do you want to continue?</value>
+		<comment>Info text used to inform a user about a feedlist file format change.</comment>
+	</data>
+	<data name="InvalidFeedFileInfoBoxCaption">
+		<value>Невалиден файл с новини.</value>
+		<comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+	</data>
+	<data name="InvalidFeedURIBoxText">
+		<value>Посоченото URL за новини не е валидно</value>
+		<comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="InvalidFeedURIBoxCaption">
+		<value>Невалидно URL</value>
+		<comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+	</data>
+	<data name="ExceptionReadingFeedlistFile">
+		<value>Неочаквана грешка при зареждане на листа с новини.
+  '{0}'.
+Моля, вижте файла 
+  '{1}' 
+относно детайли за грешката.</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="GUIStatusErrorReadingFeedlistFile">
+		<value>Неочаквана грешка при зареждане на файла с новини.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="InvalidFeedlistFileMessage">
+		<value>Файлът с новини не е валиден. Моля, вижте файла в  '{0}' 
+относно детайли за грешката.</value>
+		<comment>Validation Error message</comment>
+	</data>
+	<data name="GUIStatusDone">
+		<value>Край</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="GUIStatusRetriveCommentRssFeed">
+		<value>Запитване за канал с новини, моля изчакайте...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="GUIExceptionRetriveCommentRssFeed">
+		<value>Грешка при запитване: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="GUIStatusValidationErrorReadingFeedlistFile">
+		<value>Грешка при проверка на каналите с новини.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="GUIStatusNoFeedlistFile">
+		<value>Няма списък с новини.</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="GUIStatusIdle">
+		<value>Свободен</value>
+		<comment>also displayed as a Tooltip on the tray icon</comment>
+	</data>
+	<data name="GUIStatusNewFeedItemsReceived">
+		<value>Получени са новини...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} канала за новини с {1} нови съобщения</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="GUIStatusBusyRefresh">
+		<value>Зает съм, обновявам...</value>
+		<comment>also displayed as a tooltip </comment>
+	</data>
+	<data name="GUIStatusUnreadFeedItemsAvailable">
+		<value>Непрочетени новини...</value>
+	</data>
+	<data name="GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} канала за новини са обновени.</value>
+	</data>
+	<data name="GUIStatusNoFeedsAreUpdated">
+		<value>Няма новини.</value>
+	</data>
+	<data name="GUIStatusUnreadFeedItemsLeftMessage">
+		<value>Остават {0} непрочетени новини.</value>
+	</data>
+	<data name="GUIStatusNoUnreadFeedItemsLeft">
+		<value>Няма повече непрочетени новини.</value>
+	</data>
+	<data name="GUIFieldLinkTitleInvalid">
+		<value>Линкът или заглавието на новината не могат да бъдат празни!</value>
+	</data>
+	<data name="GUIFieldTitleInvalid">
+		<value>Заглавето на категорията не може да бъде празно!</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="GUIBlankFieldDetectedCaption">
+		<value>Открито e празно поле</value>
+	</data>
+	<data name="GUIFieldWebUrlInvalid">
+		<value>Няма зададено URL</value>
+	</data>
+	<data name="GUIFieldKeywordsInvalid">
+		<value>Няма зададени думи.</value>
+	</data>
+	<data name="GUIStatusWaitMessageDetectingFeeds">
+		<value>Позиция на новините на страницата:
+{0}</value>
+	</data>
+	<data name="GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>Намерените новини съдържат думи:
+{0}</value>
+	</data>
+	<data name="GUIStatusWaitMessagePrefetchFeed">
+		<value>Търсената новина:
+{0}</value>
+	</data>
+	<data name="GUIStatusWaitMessageRequestFile">
+		<value>Търсен файл:
+{0}</value>
+	</data>
+	<data name="GUIStatusInfoMessageNoFeedsFound">
+		<value>Съжалявам, но RSS новините не могат да бъдат намерени.</value>
+	</data>
+	<data name="GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>Изпращане ({0}) листа новини, моля изчакайте...</value>
+	</data>
+	<data name="GUIFeedlistUploadExceptionMessage">
+		<value>Изпращането се провали с грешка:
+{0}</value>
+	</data>
+	<data name="GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>Сваляне списък с ({0}) новини, моля изчакайте...</value>
+	</data>
+	<data name="GUIFeedlistDownloadExceptionMessage">
+		<value>Свалянето се провали с грешка:
+{0}</value>
+	</data>
+	<data name="GUIStatusInfoCaptionNoFeeds">
+		<value>Файлът не е намерен</value>
+	</data>
+	<data name="GUIFieldLinkRedundantInfo">
+		<value>Вече сте абонирани за този канал с новини.
+ Category/Name: {0}
+ Link: {1}.</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="GUIStatusRefreshThisFeedMessage">
+		<value>Обновени: {0} ...</value>
+	</data>
+	<data name="ExceptionRefreshThisFeedXMLFailed">
+		<value>Обновени {0} грешни (XML error): {1}</value>
+	</data>
+	<data name="ExceptionRefreshThisFeedFatalFailed">
+		<value>Обновени {0} грешни (фатална грешка): {1}</value>
+	</data>
+	<data name="WebExceptionOnUrlAccess">
+		<value>Запитването на URL {0} се провали: {1}</value>
+	</data>
+	<data name="GUIAutoDiscoverFeedFailedCaption">
+		<value>Автоматичното откриване на канали с новини се провали</value>
+	</data>
+	<data name="GUIStatusRefreshFeedsMessage">
+		<value>Обновяване на новини...</value>
+	</data>
+	<data name="GUIStatusLoadingFeedlist">
+		<value>Зареждане на лист с новини...</value>
+	</data>
+	<data name="GUIStatusLoadingChildItems">
+		<value>Зареждам, моля изчакайте ...</value>
+	</data>
+	<data name="GUIStatusChildItemsNA">
+		<value>Не може да заредят коментари. Няма връзка...</value>
+	</data>
+	<data name="GUIStatusRefreshConnectionState">
+		<value>Проверка на Интернет-свързаност в момента...</value>
+	</data>
+	<data name="GUICurrentConnectionState_Info">
+		<value>Текущо състояние на Интернет-свързаността...</value>
+	</data>
+	<data name="GUIStatusLoadingFeed">
+		<value>Зарежда...</value>
+	</data>
+	<data name="ExceptionLoadingSearchEnginesMessage">
+		<value>Неочаквана грешка при зареждане на настройките: {0}.
+Моля, вижте файла '{1}' относно детайли за грешката.</value>
+	</data>
+	<data name="GUIErrorMessageBoxCaption">
+		<value>Грешка</value>
+	</data>
+	<data name="GUIStatusErrorLoadingSearchConfig">
+		<value>Грешка при зареждане на търсеща настройка</value>
+	</data>
+	<data name="GUIStatusErrorInvalidSearchConfig">
+		<value>Потвърдена грешка докато зарежда листа с търсеща настройка</value>
+	</data>
+	<data name="ExceptionInvalidSearchEnginesMessage">
+		<value>Грешка при проверката докато се зареждат настройки за търсене.
+Моля погледни файла '{0}' относно детайли за грешката.</value>
+	</data>
+	<data name="GeneralNewItemText">
+		<value>[Нов]</value>
+	</data>
+	<data name="GeneralNewItemTextWithCounter">
+		<value>[Нов {0}]</value>
+	</data>
+	<data name="GUIStatusErrorInvalidFeed">
+		<value>Невалиден канал за новини.</value>
+	</data>
+	<data name="GUIStatusErrorLoadingFeedMessage">
+		<value>Зареждането на новините се провали: {0}</value>
+	</data>
+	<data name="GUIStatusErrorGeneralFeedMessage">
+		<value>Прекратено действие. Канал '{0}' генерира грешка: {1}</value>
+	</data>
+	<data name="ExceptionNewsItemTransformation">
+		<value>RSS-единицата не може да бъде трансформирана до HTML.</value>
+	</data>
+	<data name="ExceptionNewsItemFormatterStylesheetCompile">
+		<value>XLST стил не може да бъде завършен.</value>
+	</data>
+	<data name="ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>XLST стил е невалиден.</value>
+	</data>
+	<data name="ExceptionNewsItemFormatterStylesheetMessage">
+		<value>Избраният  XLST стил за формат, откри следният проблем:
+{0}
+Detail: {1}</value>
+	</data>
+	<data name="ExceptionInvalidXmlChracterMessage">
+		<value>Невалиден знак</value>
+		<comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+	</data>
+	<data name="GUIStatusErrorEmptyTitleNotAllowed">
+		<value>Прекратено действие. Заглавието не може да бъде празно.</value>
+	</data>
+	<data name="MainMenuFileCaption">
+		<value>&amp;Файл</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuFileDesc">
+		<value>Команди за менюто Файл </value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MainMenuViewCaption">
+		<value>&amp;Изглед</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuViewDesc">
+		<value>Команди за менюто Изглед</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MainMenuToolsCaption">
+		<value>&amp;Инструменти</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuToolsDesc">
+		<value>Команди за менюто Инструменти</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MainMenuSearchCaption">
+		<value>&amp;Търсене</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuSearchDesc">
+		<value>Команди за менюто Търсене</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MainMenuHelpCaption">
+		<value>&amp;Помощ</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuHelpDesc">
+		<value>Команди за менюто Помощ</value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MenuWebSearchRequiresNewTabCaption">
+		<value>Нова таблица за резултати</value>
+		<comment>Caption within search menu</comment>
+	</data>
+	<data name="MenuWebSearchRequiresNewTabDesc">
+		<value>Резултатите от търсенето не могат да бъдат визуализирани...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="MenuWebSearchToogleEngineDesc">
+		<value>Провери въведeното...</value>
+		<comment>Description within search menu</comment>
+	</data>
+	<data name="MenuAboutCaption">
+		<value>&amp;За програмата...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuAboutDesc">
+		<value>Информация за програмата</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuWebHelpCaption">
+		<value>&amp;Онлайн Документация</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuWebHelpDesc">
+		<value>Помощ за програмата, често задавани въпроси и други.</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuWorkspaceNewsCaption">
+		<value>&amp;Вижте новините (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuWorkspaceNewsDesc">
+		<value>Прочетете последни новини за програмата в Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuBugReportCaption">
+		<value>&amp;Докладвайте грешка/неточност (Sourceforge)...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuBugReportDesc">
+		<value>Позволява изпращането на грешка в програмата на Sourceforge.net</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuCheckForUpdatesCaption">
+		<value>Проверка за обновяване...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuCheckForUpdatesDesc">
+		<value>Проверете за нова версия на програмата</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuBanditWikiCaption">
+		<value>Посетете страницата на RSS Bandit...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuBanditWikiDesc">
+		<value>Прочетете новини и подобрения...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuBanditForumCaption">
+		<value>Посетете форума на RSS Bandit...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="MenuBanditForumDesc">
+		<value>Обсъдете подобни теми...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="MenuToggleTreeViewStateCaption">
+		<value>&amp;Абонаменти за новини</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuToggleRssSearchTabStateCaption">
+		<value>&amp;Търсене</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuToggleRssSearchTabStateDesc">
+		<value>Изпраща към прозореца за търсене.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarsCaption">
+		<value>&amp;Инструменти</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarsDesc">
+		<value>Прибавя изгледа към различни инструменти.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarMainCaption">
+		<value>Обикновен</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarMainDesc">
+		<value>Прибавя изгледа към стандартни инструменти.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarWebNavigationCaption">
+		<value>Web навигация</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarWebNavigationDesc">
+		<value>Прибавя изгледа към навигационни инструменти.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarWebSearchCaption">
+		<value>Web търсене</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuViewToolbarWebSearchDesc">
+		<value>Прибавя изгледа към търсене в мрежата инструменти.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuImportFeedsCaption">
+		<value>&amp;Внасяне на новини...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="MenuImportFeedsDesc">
+		<value>Добавяне на новини (.xml, .ocs или .opml)</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="MenuExportFeedsCaption">
+		<value>&amp;Изнасяне на новини...</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="MenuExportFeedsDesc">
+		<value>изнасяне на канали с новини...</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="MenuAppOptionsCaption">
+		<value>&amp;Настройки...</value>
+		<comment>Caption within tools menu</comment>
+	</data>
+	<data name="MenuAppOptionsDesc">
+		<value>Покажи диалог с настройки на програмата...</value>
+		<comment>Description within tools menu</comment>
+	</data>
+	<data name="MenuAppCloseExitCaption">
+		<value>И&amp;зход</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="MenuAppCloseExitDesc">
+		<value>Затвори RSS Bandit</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="MenuAppInternetConnectionModeCaption">
+		<value>Работа &amp;Offline</value>
+		<comment>Caption within file menu</comment>
+	</data>
+	<data name="MenuAppInternetConnectionModeDesc">
+		<value>Минавам в режим "свъзан с Интернет".</value>
+		<comment>Description within file menu</comment>
+	</data>
+	<data name="MenuAppInternetConnectionModeOffline">
+		<value>[Работа Offline]</value>
+		<comment>Caption Postfix on the main window</comment>
+	</data>
+	<data name="MenuViewOutlookReadingPane">
+		<value>Покажи заглавията в групи</value>
+	</data>
+	<data name="MenuNewFeedCaption">
+		<value>&amp;Абонамент за новини...</value>
+		<comment>CHANGED: Caption within tool dropdown</comment>
+	</data>
+	<data name="MenuNewFeedDesc">
+		<value>Абониране канали за новини</value>
+		<comment>Description within file/context menu</comment>
+	</data>
+	<data name="MenuNewCategoryCaption">
+		<value>Нова  &amp;Категория</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuNewCategoryDesc">
+		<value>Добави нова категория към каналите с новини.</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowMainGuiCaption">
+		<value>Отваря RSS Bandit</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowMainGuiDesc">
+		<value>Отваря RSS Bandit Главен прозорец...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowAlertWindowsCaption">
+		<value>Покажи поп-ъп прозорец при получаване на новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>Как да конфигурирам всеки канал с новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowNoneAlertWindowsCaption">
+		<value>Никога</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowAllAlertWindowsCaption">
+		<value>Винаги</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowAllAlertWindowsDesc">
+		<value>Покажи поп-ъп прозорец за всички новополучени</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowNewItemsReceivedBalloonCaption">
+		<value>Показва известие за нови публикации на работния плот</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuUpdateAllFeedsCaption">
+		<value>Обнови &amp;Всички новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuUpdateAllFeedsDesc">
+		<value>Начално обновяване на всички канали с новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuCatchUpOnAllCaption">
+		<value>Маркирай всички новини като прочетени</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCatchUpOnAllDesc">
+		<value>Маркирай всички новини като прочетени</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDeleteAllFeedsCaption">
+		<value>Изтрий всички новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDeleteAllFeedsDesc">
+		<value>Изтрий всички новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuUpdateCategoryCaption">
+		<value>Обнови категория</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuUpdateCategoryDesc">
+		<value>Обнови всички новини свързани с тази категория...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuCatchUpCategoryCaption">
+		<value>Маркирай всички новини в категорията като прочетени</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCatchUpCategoryDesc">
+		<value>Маркирай всички новини в категорията като прочетени...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuRenameCategoryCaption">
+		<value>Преименуване на категория</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuRenameCategoryDesc">
+		<value>Премиенуване на тази категория...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDeleteCategoryCaption">
+		<value>Изтрий категорията</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDeleteCategoryDesc">
+		<value>Изтрива категорията и съдържащите се новини.</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowCategoryPropertiesCaption">
+		<value>Настройки...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuShowCategoryPropertiesDesc">
+		<value>Показва диалог с настройките на категорията...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuUpdateThisFeedCaption">
+		<value>&amp;Обнови новините</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuUpdateThisFeedDesc">
+		<value>Обнови тези новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuCatchUpThisFeedCaption">
+		<value>Маркирай новината като прочетена ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCatchUpThisFeedDesc">
+		<value>Маркирай всички новини като прочетени...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuRenameThisFeedCaption">
+		<value>Преименуване на новината</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuRenameThisFeedDesc">
+		<value>Преименувай тази новина...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDeleteThisFeedCaption">
+		<value>Изтрий новината</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDeleteThisFeedDesc">
+		<value>Изтрий тази новина...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuCatchUpSelectedNodeCaption">
+		<value>Маркирай като прочетено ...</value>
+		<comment>Caption within menu/tool/context</comment>
+	</data>
+	<data name="MenuCatchUpSelectedNodeDesc">
+		<value>Маркирай всички новини от този абонамент като прочетени ...</value>
+		<comment>Description within menu/tool/context</comment>
+	</data>
+	<data name="MenuAutodiscoveredFeedsDropdownDesc">
+		<value>Покажи всички намерени канали с новини от посетени сайтове...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuClearAutodiscoveredFeedsListCaption">
+		<value>Изчисти откритите канали с новини</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="MenuClearAutodiscoveredFeedsListDesc">
+		<value>Изчисти откритите канали с новини по-долу...</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MessageBoxDeleteAllFeedsQuestion">
+		<value>Наистина ли искате да изтриете всички новини?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>Наистина ли искате да изтриете тази категория и всичките новини? categories/feeds?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="MessageBoxDeleteThisFeedQuestion">
+		<value>Изкате ли да изтриете този абонамент?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="MenuViewSourceOfFeedCaption">
+		<value>Виж източника</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuViewSourceOfFeedDesc">
+		<value>Виж източника на този новина ...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuValidateFeedCaption">
+		<value>Провери</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuValidateFeedDesc">
+		<value>Провери източника на този новина...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuAdvancedFeedInfoCaption">
+		<value>Тази новина</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuAdvancedFeedInfoDesc">
+		<value>Повече информация ...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuNavigateToFeedHomeCaption">
+		<value>Заглавна страница</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuNavigateToFeedHomeDesc">
+		<value>Иди на Заглавна страница...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowLinkCosmosCaption">
+		<value>Свържи Cosmos</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowLinkCosmosDesc">
+		<value>Собствен Technorati изглед...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowFeedPropertiesCaption">
+		<value>Настройки...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowFeedPropertiesDesc">
+		<value>Покажи диалог настройка на новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuMarkFeedItemsUnreadCaption">
+		<value>Маркирай като не &amp;прочетено</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuMarkFeedItemsUnreadDesc">
+		<value>Маркирай тази новина като не&amp;прочетена...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFeedItemPostReplyCaption">
+		<value>&amp;Отговори на съобщението...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedItemPostReplyDesc">
+		<value>Отговори на съобщението</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="GuiStateNoFeedItemSelectedMessage">
+		<value>Няма избрани новини.</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuNewFinderCaption">
+		<value>Нова папка с резултати от търсене</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuNewFinderDesc">
+		<value>Създай нова папка с резултати от търсене ...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuFinderRenameCaption">
+		<value>Преименувай папка с резултати от търсене</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuRenameCaptionDesc">
+		<value>Преименувай тази папка с резултати от търсене...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MessageBoxDeleteThisFinderQuestion">
+		<value>Наистина ли искате да изтрите тази папка с резултати?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuFinderDeleteCaption">
+		<value>Изтрий</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFinderDeleteDesc">
+		<value>Изтрий тази папка с резултати...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuRefreshFinderCaption">
+		<value>Обнови търсенето</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuRefreshFinderDesc">
+		<value>Обнови търсенето в тази папка</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuFinderDeleteAllCaption">
+		<value>Изтрий всичко</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFinderDeleteAllDesc">
+		<value>Изтрий всичко в тази папка...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowFinderPropertiesCaption">
+		<value>Настройки...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuShowFinderPropertiesDesc">
+		<value>Показва настройки търсене диалог...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuSubscribeToFinderResultCaption">
+		<value>Абонамент ...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuSubscribeToFinderResultDesc">
+		<value>Покажи новите канали за новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="AppLoadStateLoading">
+		<value>Програмата се зарежда...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="AppLoadStateGuiLoading">
+		<value>Зареждане...</value>
+		<comment>Splash screen state message</comment>
+	</data>
+	<data name="MenuFlagFeedItemCaption">
+		<value>Маркирай</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemFollowUpCaption">
+		<value>Нагоре</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemFollowUpDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReviewCaption">
+		<value>Прегледай</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReviewDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReplyCaption">
+		<value>Отговори</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReplyDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReadCaption">
+		<value>Чети</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemReadDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemForwardCaption">
+		<value>Препращане</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemForwardDesc">
+		<value>Добави избраната новина към маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemCompleteCaption">
+		<value>Готово</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemCompleteDesc">
+		<value>Изтрий избраната новина от маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemClearCaption">
+		<value>Изчисти</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFlagFeedItemClearDesc">
+		<value>Изтрий избраната новина от маркираните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemCaption">
+		<value>Копирай</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>Заглавието на новината към Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>Копирай заглавието на новината към Clipboard...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemContentToClipboardCaption">
+		<value>Копирай съдържанието в клипборда</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemContentToClipboardDesc">
+		<value>Копирай съдържанието в клипборда...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedCaption">
+		<value>Копирай</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedDesc">
+		<value>Копирай полетата от избраната новина към...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedLinkToClipboardCaption">
+		<value>Сложи линка в Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedLinkToClipboardDesc">
+		<value>Постави линка в Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>Копирай основна страница в Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>Копирай основна страница в Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDeleteAllFeedItemsCaption">
+		<value>Изтрий всички новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDeleteAllFeedItemsDesc">
+		<value>Изтрий всички съдържащи се новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDeleteSelectedFeedItemsCaption">
+		<value>Изтрий</value>
+		<comment>Caption within context menu, was formerly "Delete selected items"</comment>
+	</data>
+	<data name="MenuDeleteSelectedFeedItemsDesc">
+		<value>Изтрий всички избрани новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuRestoreSelectedFeedItemsCaption">
+		<value>Възстанови</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuRestoreSelectedFeedItemsDesc">
+		<value>Възстанови всички избрани новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuNextUnreadItemCaption">
+		<value>Следваща непрочетена новина</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="MenuNextUnreadItemDesc">
+		<value>Премести се на следваща непрочетена новина...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuAutoDiscoverFeedCaption">
+		<value>&amp;Разполагам новини</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="MenuPostReplyFeedItemCaption">
+		<value>&amp;Отговори на съобщението...</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="MenuPostReplyFeedItemDesc">
+		<value>Коментирай...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuNewRssSearchCaption">
+		<value>Търсене</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="MenuNewRssSearchDesc">
+		<value>Търси локално за новина...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateBackCaption">
+		<value>Обратно</value>
+		<comment>CHANGED Caption within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateBackDesc">
+		<value>Обратно...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateCancelDesc">
+		<value>Прекрати навигация...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserRefreshDesc">
+		<value>Обновяване...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserDoNavigateCaption">
+		<value>Старт</value>
+		<comment>Caption within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNewTabDesc">
+		<value>Нов таб...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuDoSearchComboBoxDesc">
+		<value>Думи за търсене в web...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuDoSearchWebDesc">
+		<value>Търсене на фраза в web...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuConfigCommandCaption">
+		<value>Настрой...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseCurrentCaption">
+		<value>Затвори документа</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseCurrentDesc">
+		<value>Затвори всички документи...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseAllOnStripCaption">
+		<value>Затвори всички документи</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseAllOnStripDesc">
+		<value>Затвори всички документи...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseAllCaption">
+		<value>Затвори всички документи</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDocTabsCloseAllDesc">
+		<value>Затвори всички документи...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDocTabsLayoutHorizontalCaption">
+		<value>Хоризонтално разделяне на екрана</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="FeedNodeFeedExceptionsCaption">
+		<value>Грешки в новините</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFeedExceptionsDesc">
+		<value>Място за грешки предизвикано от абонаменти</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="FeedNodeFlaggedFeedsCaption">
+		<value>Маркирани новини</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFlaggedFeedsDesc">
+		<value>Място за маркирани новини</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="FeedNodeFlaggedForFollowUpCaption">
+		<value>Новини за проследяване</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFlaggedForReadCaption">
+		<value>Новини за четене</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFlaggedForReviewCaption">
+		<value>Новини за преглед</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFlaggedForForwardCaption">
+		<value>Новини за препращане</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeFlaggedForReplyCaption">
+		<value>Новини за отговор</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeMyFeedsCaption">
+		<value>Моите канали</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="FeedNodeMyFeedsDesc">
+		<value>Място за специални новини.</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="FeedNodeSpecialFeedsCaption">
+		<value>Специални новини</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="FeedNodeSpecialFeedsDesc">
+		<value>Място за специални новини</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="FeedNodeFinderRootCaption">
+		<value>Директории за търсене</value>
+		<comment>RootNode caption</comment>
+	</data>
+	<data name="FeedNodeFinderRootDesc">
+		<value>Място за резултати от търсене на новини</value>
+		<comment>RootNode desc</comment>
+	</data>
+	<data name="FeedNodeSentItemsCaption">
+		<value>Изпратени съобщения</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeSentItemsDesc">
+		<value>Мясото за изпратени съобщения</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="TabValidationResultCaption">
+		<value>Резултати от валидиране</value>
+		<comment>Tab caption of the feed validation results (Webpage)</comment>
+	</data>
+	<data name="TabFeedHomeCaption">
+		<value>Източник на новината: {0}</value>
+		<comment>Tab caption of the feed home page (Webpage)</comment>
+	</data>
+	<data name="TabLinkCosmosCaption">
+		<value>Канали с новини към Cosmos: {0}</value>
+		<comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+	</data>
+	<data name="TabFeedSourceCaption">
+		<value>Новини източници: {0}</value>
+		<comment>Tab caption of the feed source view (Xml Webpage)</comment>
+	</data>
+	<data name="CmdLineStartInTaskbarDesc">
+		<value>Стартирай минимизиран на taskbar-а</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="CmdLineSubscribeToDesc">
+		<value>Абонамент за посочените канали с новини</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="CmdLineHelpDesc">
+		<value>Отпечатай това съобщение</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="CmdLineCultureDesc">
+		<value>Стартирай програмата на друг език (ISO language code)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="MenuUploadFeedsCaption">
+		<value>&amp;Обнови новините...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuDownloadFeedsCaption">
+		<value>&amp;Зарежда новини...</value>
+	</data>
+	<data name="MenuUploadFeedsDesc">
+		<value>Качи новини на отдалечено място.</value>
+	</data>
+	<data name="MenuDownloadFeedsDesc">
+		<value>Сваляне на новини от отдалечено съхранение.</value>
+	</data>
+	<data name="ExceptionStartDefaultBrowserMessage">
+		<value>Проблем с конфигурирането на вашия браузър:
+		
+		'{0}'.
+		
+		Да отворя ли Url-адреса: '{1}' в нов Таб?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="ExceptionStartBrowserCustomExecMessage">
+		<value>Има проблем със стартирането на настроената програма '{0}':
+		
+		'{1}'.
+		
+		Да отворя ли Url-адреса: '{2}' в нов Таб?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="ExceptionOpenFileMessage">
+		<value>Не мога да отворя файл: '{0}', защото:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="ExceptionSaveFileMessage">
+		<value>Не мога да запиша файл: '{0}', защото:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="FileDialogFilterOPMLFiles">
+		<value>OPML файлове</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="FileDialogFilterXMLFiles">
+		<value>XML файлове</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="FileDialogFilterAllFiles">
+		<value>Всички файлове</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="WrongImageSizeMessage">
+		<value>Големината на картинката не е 16x16 пиксела.</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="PreferencesExceptionMessageTitle">
+		<value>Честотата на обновяване предизвика грешка.</value>
+		<comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+	</data>
+	<data name="FormatExceptionRefreshRate">
+		<value>Честотата на обновяване не е число.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="OverflowExceptionRefreshRate">
+		<value>Посочената стойност за обновяване е твъде голяма.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionRefreshRateInvalid">
+		<value>Невалидна честота на обновяване</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionNoProxyUrl">
+		<value>Моля,попълнете адрес на прокси (IP или хост).</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="FormatExceptionProxyPort">
+		<value>Прокси порта не е число.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionProxyPortRange">
+		<value>Прокси порта може да е между 0 и 65535.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionProxyPortInvalid">
+		<value>Невалиден прокси порт.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionNoProxyAuthUser">
+		<value>Попълнете валиден потребител за проксито.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionNoOnNewWindowExecutable">
+		<value>Попълнете име на програма.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionNoRemoteStorageLocation">
+		<value>Попълнете място за отдалечено съхранение.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="ExceptionNoRemoteStorageAuthUser">
+		<value>Попълнете валиден потребител за отдалечено съхранение.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_WebDAV">
+		<value>WebDAV директория Url:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_dasBlog">
+		<value>Web service Url:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_fileShare">
+		<value>Път към директория:</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_ftp">
+		<value>FTP сървър/път:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RemoteStorageUpload_Question">
+		<value>Това ще изпрати вашите новини към услуга
+configured using the Remote Storage tab of the Options dialog. 
+        
+Proceed?</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="RemoteStorageUploadSucceeds_Info">
+		<value>Новините са успешно обновени.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RemoteStorageDownload_Question">
+		<value>Това ще замени вашите новини с новосвалените</value>
+		<comment>Messagebox question text</comment>
+	</data>
+	<data name="ExceptionWebSearchEnginesSave">
+		<value>Неочаквана грешка при записване на резултатите от търсенето:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="NotYetImplementedFeature_Info">
+		<value>Съжалявам, но това още не е довършено.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>Неочаквана грешка при  XSLT стил форматиране:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="ExceptionImportFeedlist">
+		<value>Грешка при внасянето</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="GUIStatusPostReplyToItem">
+		<value>Изпраща се отговор, моля изчакайте...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="ExceptionPostReplyToNewsItem">
+		<value>Грешка при отговор на съобщението</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="ExceptionGeneral">
+		<value>Съжалявам, но е открита грешка:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="ExceptionDuplicateCategoryName">
+		<value>Съжалявам, но '{0}' вече е заето.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="ExceptionSettingDefaultAggregator">
+		<value>Системата не може да направи програмата основен RSS четец:
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="ListviewColumnCaptionHeadline">
+		<value>Заглавие</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionTopic">
+		<value>Тема</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionDate">
+		<value>Дата</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionFeedTitle">
+		<value>Тема на новината</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionCreator">
+		<value>Автор</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionFeedDesc">
+		<value>Тема на новината</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionFeedUrl">
+		<value>Url на новината</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionSiteUrl">
+		<value>Url на сайта</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionCommentCount">
+		<value>Коментари</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="ListviewColumnCaptionEnclosure">
+		<value>Ограждане</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="AutoDiscoveredDefaultTitle">
+		<value>[Autodiscovered]</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="FeedDetailDocumentTabCaption">
+		<value>Детайли за новината</value>
+		<comment>Document Tab Caption</comment>
+	</data>
+	<data name="ToolbarAddRemoveButtonsCaption">
+		<value>Добавяне или премахване на бутони</value>
+		<comment>Toolbar chevron dropdown menu caption</comment>
+	</data>
+	<data name="ToolbarOptionsCaption">
+		<value>Настройки на инструменти</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="DragDockablePanelInfo">
+		<value>Задръжте CTRL за предотвратяване на docking.</value>
+		<comment>StatusBar feedback text</comment>
+	</data>
+	<data name="RssSearchDialogButtonSearchCaption">
+		<value>Търсене</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RssSearchDialogButtonSearchDesc">
+		<value>Натиснете за прекратяване на текущото търсене...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RssSearchDialogButtonCancelCaption">
+		<value>Отказ</value>
+		<comment>Dialog button text</comment>
+	</data>
+	<data name="RssSearchDialogButtonCancelDesc">
+		<value>Натиснете за прекратяване на текущото търсене...</value>
+		<comment>Dialog button text tooltip</comment>
+	</data>
+	<data name="RssSearchStateMessage">
+		<value>Търсене...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RssSearchCancelledStateMessage">
+		<value>Прекрати търсенето...</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RssSearchNoResultMessage">
+		<value>Няма намерени новини.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RssSearchSuccessResultMessage">
+		<value>{0} Открити новини.</value>
+		<comment>Message text</comment>
+	</data>
+	<data name="RssSearchResultNodeCaption">
+		<value>Резултати от търсенето</value>
+		<comment>SearchResultNode caption</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutCaption">
+		<value>Позиция на панела за четене</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutDesc">
+		<value>Избери или промени Select/Change the feed details layout...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutTopCaption">
+		<value>Панел за четене отдолу</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutTopDesc">
+		<value>Панел за четене отдолу...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutLeftCaption">
+		<value>Панел за четене в дясно</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutLeftDesc">
+		<value>Панел за четене в дясно...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutRightCaption">
+		<value>Панел за четене в ляво</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutRightDesc">
+		<value>Панел за четене в ляво...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutBottomCaption">
+		<value>Панел за четене отгоре</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuFeedDetailLayoutBottomDesc">
+		<value>Панел за четене отгоре...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="GUIStatusFeedJustReceivedItemsMessage">
+		<value>Получени: {0} новини</value>
+		<comment>displayed in the Toast window(s)</comment>
+	</data>
+	<data name="ControlCollapsiblePanelExpandTooltip">
+		<value>Разшири...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="ControlCollapsiblePanelCollapseTooltip">
+		<value>Сгъни...</value>
+		<comment>displayed as a tooltip on a collapsible panel button</comment>
+	</data>
+	<data name="RssSearchTypeTextHintCaption">
+		<value>Намери всички постове съдържащи дума или фраза.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="RssSearchTypeRegExHintCaption">
+		<value>Намери всички постове съдържащи дума или фраза, които съвпадат с маска.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="WindowAboutCaption">
+		<value>За {0}</value>
+		<comment>window caption. Parameter is the product name</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportStringPart">
+		<value>Refresh feed '&lt;strong&gt;{0}&lt;/strong&gt;' failed with error: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportValidationPart">
+		<value>Натисни тук за &lt;strong&gt;проверка&lt;/strong&gt; на новината /като единица/.</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionGeneratorStringPart">
+		<value>Източник на новината '{0}'.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportContactInfo">
+		<value>Инормация за контакти:</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportManagingEditor">
+		<value>Завеждащ редактор</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportWebMaster">
+		<value>Web Майстор</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RefreshFeedExceptionReportHomePage">
+		<value>Оригинална новина</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="XmlExceptionCategory">
+		<value>Xml прекъсване</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="WebExceptionCategory">
+		<value>Web прекъсване</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="ProtocolViolationExceptionCategory">
+		<value>Грешка в протокола</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="ExceptionCategory">
+		<value>Основно прекъсване</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="InternetExplorerMenuExtDefaultCaption">
+		<value>Направи RSS четец по подразбиране </value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="InternetExplorerMenuExtBanditCaption">
+		<value>Абонамент в RSS Bandit</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="PostReplyFormCaption">
+		<value>Отговор на новина: {0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
+	</data>
+	<data name="PostReplyTitlePrefix">
+		<value>Re: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="PostReplySentIdentityInfoText">
+		<value>user-name: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;none&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="StatisticsAllFeedsCountMessage">
+		<value>Абонирани канали с новини: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="StatisticsItemsDisplayedMessage">
+		<value>Избраното съдържа {0} новини</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="DirectoryDoesNotExistMessage">
+		<value>Посочената директория не съществува.</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="ExceptionUISettingsSave">
+		<value>Неочаквана грешка при записване на настройки (.settings.xml):
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="NameRequiredInPostReplyMessage">
+		<value>Трябва да попълните име при отговор на съобщение.</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="ExceptionInvalidShortcutSettingsFile">
+		<value>Настройките на бързи клавиши не могат да бъдат заредени</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="ExceptionGeneralCritical">
+		<value>Открита е грешка и е записана в лог-файла</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="ExceptionCategory">
+		<value>Основно прекъсване</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="WebExceptionCategory">
+		<value>Web прекъсване</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="XmlExceptionCategory">
+		<value>Xml прекъсване</value>
+		<comment>Exception topic text</comment>
+	</data>
+	<data name="SecurityExceptionCausedByRegistryAccess">
+		<value>За тези функции програмата трябва да има права за запис</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="FeedNodeDeletedItemsCaption">
+		<value>Изтрити новини</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="FeedNodeDeletedItemsDesc">
+		<value>Контейнер с изтрити новини</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="MessageBoxDeleteAllFindersQuestion">
+		<value>Наистина ли искате да изтриете тези новини?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="MessageBoxDeleteAllItemsQuestion">
+		<value>Наистина ли искате да изтриете всички новини?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="MenuOpenConfigIdentitiesDialogCaption">
+		<value>Настройка на самоличности...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="MenuOpenConfigIdentitiesDialogdesc">
+		<value>Отваря диалог за настройки на няколко потребителя...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="MenuOpenConfigNntpServerDialogCaption">
+		<value>Нюз-групи...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="MenuOpenConfigNntpServerDialogDesc">
+		<value>Отваря диалог за управление на нюз-групи...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="ConfigIdentitiesDialogCaption">
+		<value>Управрение на самоличности</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="ConfigNewsServerDialogCaption">
+		<value>Управление на групи с новини</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="CertificateIssue_CertCN_NO_MATCH">
+		<value>Името на сертификата не съвпада с името на сайта</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertEXPIRED">
+		<value>Този сертификат е остарял {0}.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertREVOKED">
+		<value>Сертификатът е отхвърлен.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertCRITICAL">
+		<value>Сертификатът предизвика фатална грешка.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertMALFORMED">
+		<value>Сертификатът е недовършен.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="MenuColumnChooserCaption">
+		<value>Изглед на колоните</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserDesc">
+		<value>Управление на изгледа на колоните...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserTitleCaption">
+		<value>Покажи заглавие</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserTitleDesc">
+		<value>Покажи заглавие в колоните с новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserDateCaption">
+		<value>Покажи дата</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserDateDesc">
+		<value>Покажи датата в колоните с новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserSubjectCaption">
+		<value>Покажи тема</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserSubjectDesc">
+		<value>Покажи темата в колоните с новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserAuthorCaption">
+		<value>Покажи автор</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserAuthorDesc">
+		<value>Покажи автор като колона на новините...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserFeedTitleCaption">
+		<value>Покажи име на абонамента</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserFeedTitleDesc">
+		<value>Покажи име на абонамента като колона на новините...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserCommentCountCaption">
+		<value>Покажи брояч на коментарите</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserCommentCountDesc">
+		<value>Покажи броя на коментарите като колона на новините...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserEnclosureCaption">
+		<value>Покажи ограждане</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserEnclosureDesc">
+		<value>Покажи ограждане като колона на новините...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserFlagCaption">
+		<value>Покажи флаг със състоянието</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserFlagDesc">
+		<value>Покажи флаг със състоянието като колона на новините...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Използвай изгледа по подразбиране за категориите</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Изгледа ще бъде валиден за всички новини без собствен изглед...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Използвай изгледа по подразбиране за тези новини</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Използвай изгледа по подразбиране за всички новини...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Възтанови изгледа по подразбиране</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Изгледът ще бъде изтрит от избраните абонаменти...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="ListviewColumnCaptionFlagStatus">
+		<value>Маркирай</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="MenuDonateToProjectCaption">
+		<value>Направи дарение...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="DialogQuestionNewAppVersionAvailable">
+		<value>Има нова весия на програмата достъпна за сваляне.
+Искате ли още подробности?
+
+Ако изберете НЕ, ще ви напомня по-късно.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="WaitDialogMessageCheckForNewAppVersion">
+		<value>Проверка за нови обновявания...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="DialogMessageNoNewAppVersionAvailable">
+		<value>За момента няма налични нови обновявания за сваляне.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="FeedListNoChildsMessage">
+		<value>Няма подобни новини...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_NewsgatorOnline">
+		<value>Местоположение:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint">
+		<value>Може да синхронизирате вашата програма с абонамент http://www.newsgator.com</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="NntpLoadingGroupsWaitMessage">
+		<value>Зареждане на нюз-групи. Ще отнеме малко време...</value>
+		<comment>Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
+	</data>
+	<data name="ExceptionNntpLoadingGroupsFailed">
+		<value>Зареждане на нюз-групи от'{0}' провалено: {1}</value>
+		<comment>{0} param is the news server, {1} the exception message</comment>
+	</data>
+	<data name="GUINntpLoadingGroupsFailedCaption">
+		<value>Зареждането на нюз-групи е провалено</value>
+	</data>
+	<data name="Syndic8FeedSearchTitle">
+		<value>Администрация и Сервиз</value>
+		<comment>syndic8.com Feed search service caption</comment>
+	</data>
+	<data name="MainMenuEditCaption">
+		<value>&amp;Редактиране</value>
+		<comment>Caption within main menu</comment>
+	</data>
+	<data name="MainMenuEditDesc">
+		<value>Команди за менюто Редактиране </value>
+		<comment>Description within main menu</comment>
+	</data>
+	<data name="MenuListViewSelectAllCaption">
+		<value>Избери &amp;Всички</value>
+		<comment>Caption edit view menu</comment>
+	</data>
+	<data name="MenuListViewSelectAllDesc">
+		<value>Избери всички новини</value>
+		<comment>Description within edit menu</comment>
+	</data>
+	<data name="MenuNewCmdsCaption">
+		<value>&amp;Нов...</value>
+		<comment>Caption for the 'new' command toolbar/dropdown</comment>
+	</data>
+	<data name="MenuNewCmdsDesc">
+		<value>Създаване на нов абонамент</value>
+		<comment>Caption within toolbar/dropdown</comment>
+	</data>
+	<data name="MenuNewSubscriptionByWizardCaption">
+		<value>&amp;Нов абонамент...</value>
+		<comment>Caption within menu to call the subscription wizard</comment>
+	</data>
+	<data name="MenuNewSubscriptionByWizardDesc">
+		<value>Създаване на нови абонаменти заедно с "Помощника".</value>
+		<comment>Caption within menu</comment>
+	</data>
+	<data name="MenuNewFeedCaption2">
+		<value>&amp;Нов абонамент за новини...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="MenuNewNntpFeedCaption">
+		<value>&amp;Абонамент за нюз-групи...</value>
+		<comment>Caption within tool dropdown</comment>
+	</data>
+	<data name="MenuNewNntpFeedDesc">
+		<value>Абониране за нови канали с новини</value>
+		<comment>Description within tool dropdown</comment>
+	</data>
+	<data name="MenuNewDiscoveredFeedCaption">
+		<value>&amp;Търсене резултати за абонаменти...</value>
+		<comment>Caption within tool dropdown</comment>
+	</data>
+	<data name="MenuNewDiscoveredFeedDesc">
+		<value>Намиране на канал новини или абониране за  търсене резултати за абонамент</value>
+		<comment>Description within tool dropdown</comment>
+	</data>
+	<data name="MenuOpenManageAddInsDialogCaption">
+		<value>&amp;Добавяне...</value>
+		<comment>Caption within tools menu</comment>
+	</data>
+	<data name="MenuOpenManageAddInsDialogDesc">
+		<value>Показване приложение Add-In прозорец настройки...</value>
+		<comment>Description within tools menu</comment>
+	</data>
+	<data name="ExceptionProxyConfiguration">
+		<value>Невалидна комбинация на прокси: 
+{0}.
+
+Настройките са върнати в положение "без прокси".</value>
+		<comment>Failure message on proxy config errors</comment>
+	</data>
+	<data name="MenuToggleTreeViewStateDesc">
+		<value>Запазва показването на новинарските канали</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="MenuShowAlertWindowsDesc">
+		<value>Контролира известяването за нови публикации</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>Показва известяването както е настроено за този канал</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowNoneAlertWindowsDesc">
+		<value>Без прозорци за известяване...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuShowNewItemsReceivedBalloonDesc">
+		<value>Контролира "балончето" за известяване на новите съобщения</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuAutodiscoveredFeedsDropdownCaption">
+    <value>Намерени канали</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuCopyFeedItemDesc">
+		<value>Копирай новината в...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemLinkToClipboardCaption">
+		<value>Копирай в Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedItemLinkToClipboardDesc">
+		<value>Copy the Link of the current selected RSS Item to the clipboard...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>Feed Homepage with it's title as Link to Clipboard</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>Copy Feed Homepage with it's title as Link of the current selected RSS Feed to the clipboard...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="MenuAutoDiscoverFeedDesc">
+		<value>Locate the RSS Feed for a particular website or topic</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateForwardCaption">
+    <value>Напред</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserNavigateForwardDesc">
+		<value>Една страница напред...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateComboBoxCaption">
+    <value>Url</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserNavigateComboBoxDesc">
+		<value>Web Address to navigate to...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNavigateCancelCaption">
+    <value>Стоп</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserRefreshCaption">
+    <value>Презареди</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserDoNavigateDesc">
+		<value>Navigate to specified Url...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuBrowserNewTabCaption">
+    <value>Нов таб</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserNewExternalWindowCaption">
+    <value>Отвори с браузъра, който е по подразбиране</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuBrowserNewExternalWindowDesc">
+		<value>Open the link in the default Web Browser Application...</value>
+		<comment>Description within tool menu</comment>
+	</data>
+	<data name="MenuDoSearchComboBoxCaption">
+    <value>Търси в мрежата</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuDoSearchWebCaption">
+    <value>Търси в мрежата</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="MenuIBlogExtensionCommandDesc">
+		<value>IBlogExtension (AddIn) command</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuIBlogExtensionConfigCommandDesc">
+		<value>IBlogExtension (AddIn) configuration</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="MenuDocTabsLayoutHorizontalDesc">
+		<value>If checked, splitted doc tabs can be of horizontal layout...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="ExceptionIBlogExtensionFunctionCall">
+		<value>IBlogExtension (AddIn) function '{0}' call caused an error:
+'{1}'.        
+        </value>
+		<comment>Error message text</comment>
+	</data>
+	<data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>FTP Remote locations needs to use the 'ftp:' url scheme.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_WebDAV_hint">
+		<value>You can store your application state as rssbandit-state.zip within a WebDAV folder. The storage service URL should point to a WebDAV folder, e. g. 'http://mywebdav.com/personal/' and you should be able to save and read files there.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_dasBlog_hint">
+		<value>You can store your subscribed feeds as blogroll.opml if you are a user of dasBlog (http://www.dasblog.net). The storage service URL should be http://yourblog.com/dasblog/ConfigEditingService.asmx and you should enable the Configuration Editing service in dasBlog.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_fileShare_hint">
+		<value>You can store your application state as rssbandit-state.zip on a local or network file share. Provide the directory path such as '\\yournetworkshare\feedlist\' or 'H:\'.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="LabelTextRemoteStorageLocation_ftp_hint">
+		<value>You can store your application state as rssbandit-state.zip using an FTP server. Provide the name of the FTP server and path such as 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+		<comment>Dynamic hint label text (Preferences)</comment>
+	</data>
+	<data name="RemoteStorageFeature_Info">
+		<value>You must configure Remote Storage through the Options dialog before you can use this command.</value>
+		<comment>Messagebox info text</comment>
+	</data>
+	<data name="RssSearchTypeXPathHintCaption">
+		<value>Find all posts who's RSS 2.0 representation matches the specified XPath.</value>
+		<comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+	</data>
+	<data name="CertificateIssueOnFeedCaption">
+		<value>Information you exchange with feed '{0}' cannot be viewed or changed by other users. However, there is a problem with the feed's security certificate.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="CertificateIssueOnSiteCaption">
+		<value>Information you exchange with the site '{0}' cannot be viewed or changed by other users. However, there is a problem with the site's security certificate.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="CertificateIssue_CertUNTRUSTEDCA">
+		<value>The certificate has a untrusted Certification Authory (CA).</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertUNTRUSTEDROOT">
+		<value>The certificate has a untrusted CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertUNTRUSTEDTESTROOT">
+		<value>The certificate has a untrusted test CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertPURPOSE">
+		<value>The purpose of the certificate does not match the required task.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertCHAINING">
+		<value>The certificate is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertISSUERCHAINING">
+		<value>The certificate issuer is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertPATHLENCONST">
+		<value>The certificate caused an error: path length const.</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="CertificateIssue_CertREVOCATION_FAILURE">
+		<value>The revocation of the certificate failed.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertROLE">
+		<value>The role of the certificate is wrong.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertVALIDITYPERIODNESTING">
+		<value>The validity period of the certificate is nesting.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_CertWRONG_USAGE">
+		<value>The certificate cannot be used for the required task.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="CertificateIssue_Unknown">
+		<value>The security certificate caused a general unknown problem: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="MenuDonateToProjectDesc">
+		<value>Navigates to an Url where you can support the project...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="WizardValidationTask_SuccessMessage">
+		<value>Web feed retrieved.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_Success_xFeedsFound_Message">
+		<value>{0} Web feed(s) found.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_VerifyingUrlMessage">
+		<value>Verifying URL...</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_GetWebFeedTitleMessage">
+		<value>Get the web feed title...</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_SearchingMessage">
+		<value>Търсене...</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_PrefetchCanceledMessage">
+		<value>Prefetch web feed canceled.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_PrefetchFailedMessage">
+		<value>Prefetch web feed failed.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_SearchCanceledMessage">
+		<value>Търсенето прекратено.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_SearchFailedMessage">
+		<value>Search failed.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardValidationTask_InvalidFeedMessage">
+		<value>Invalid web feed.</value>
+		<comment>Subscription wizard task info</comment>
+	</data>
+	<data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage">
+		<value>Go back to change the keyword(s) or click Cancel</value>
+		<comment>Subscription wizard info</comment>
+	</data>
+	<data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage">
+		<value>Go back to change the URL or click Cancel</value>
+		<comment>Subscription wizard info</comment>
+	</data>
+	<data name="AddInLoadFailure">
+		<value>Loading AddIn '{1}' failed:
+        
+{0}</value>
+		<comment>Subscription wizard info</comment>
+	</data>
+	<data name="NntpServerConfig_GeneralSettingsNodeCaption">
+		<value>General Settings</value>
+		<comment>NNTP Server Configuration Settings Node caption</comment>
+	</data>
+	<data name="NntpServerConfig_ServerSettingsNodeCaption">
+		<value>Server Settings</value>
+		<comment>NNTP Server Configuration Settings Node caption</comment>
+	</data>
+	<data name="NntpServerConfig_AdvancedSettingsNodeCaption">
+		<value>Advanced Settings</value>
+		<comment>NNTP Server Configuration Settings Node caption</comment>
+	</data>
+	<data name="MenuPostNewFeedItemCaption">
+		<value>Ново съобщение</value>
+		<comment>Toolbar button caption (post a new item to a NNTP group)</comment>
+	</data>
+	<data name="MenuPostNewFeedItemDesc">
+		<value>Създайте ново съобщение, за да го изпратите на избрания канал с новини</value>
+		<comment>Toolbar button descr. (post a new item to a NNTP group)</comment>
+	</data>
+	<data name="NewPostToFeedFormCaption">
+		<value>Ново съобщение към канал с новини: {0}</value>
+		<comment>New Post to a Feed Form Caption. Param {0} is the feed title.</comment>
+	</data>
+	<data name="GUIStatusPostNewFeedItem">
+		<value>Съобщението се изпраща, моля изчакайте...</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="ExceptionPostNewFeedItem">
+		<value>Грешка при изпращането
+'{0}' на съобщение с тема:
+
+'{1}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="AddInUnloadFailure">
+		<value>Unload AddIn '{1}' failed:
+        
+{0}</value>
+		<comment>AddIn failure message box</comment>
+	</data>
+	<data name="AddInGeneralFailure">
+		<value>An general failure occured in AddIn '{1}':
+        
+{0}</value>
+		<comment>AddIn failure message box</comment>
+	</data>
+<data name="XsltDefaultTemplate_ItemPublisher">
+    <value>Publisher</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+	<data name="XsltDefaultTemplate_ItemAuthor">
+    <value>Author</value>
+  </data>
+	<data name="XsltDefaultTemplate_ItemDate">
+    <value>posted at</value>
+  </data>
+	<data name="XsltDefaultTemplate_ItemEnclosure">
+    <value>Enclosure</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleReadState">
+    <value>Mark read or unread</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleFlagState">
+    <value>Set or clear flag</value>
+  </data>
+	<data name="SearchEnginePropertiesSearchUrlEmpty">
+    <value>Provide a search url, please</value>
+  </data>
+	<data name="SearchEnginePropertiesSearchCaptionEmpty">
+    <value>Provide a search caption, please</value>
+  </data>
+	<data name="SearchEnginePropertiesSearchUrlMissingParam">
+    <value>Missing the '{0}' parameter specification</value>
+    <comment>.
+ Parameters: 0 - parameter (string) </comment>
+  </data>
+	<data name="CacheFolderInvalid_CannotBeMoved">
+    <value>The data cache location
+
+{0}
+
+seems to be a child of the old cache, so old cache folder cannot be automatically moved.
+Will continue using the old cache folder...</value>
+    <comment>.
+ Parameters: 0 - folderName (string) </comment>
+  </data>
+	<data name="CacheFolderInvalid_CannotBeMovedException">
+    <value>Cannot move the old cache folder to new data cache location at
+
+{0}
+
+An error was reported:
+{1}
+
+Will continue using the old cache folder...</value>
+    <comment>.
+ Parameters: 0 - folderName (string), 1 - exception (string) </comment>
+  </data>
+	<data name="MenuFinderRenameDesc">
+    <value>Rename selected Search Folder</value>
+  </data>
+	<data name="DetailHeaderCaptionWelcome">
+    <value>Добре дошли!</value>
+  </data>
+	<data name="FeedNodeWatchedItemsCaption">
+    <value>Наблюдавани новини</value>
+  </data>
+	<data name="FeedNodeWatchedItemsDesc">
+    <value>Container of watched items</value>
+  </data>
+	<data name="MenuSendLogsByMailCaption">
+    <value>Send Log Files by mail...</value>
+    <comment> Improve the Bandit</comment>
+  </data>
+	<data name="MenuSendLogsByMailDesc">
+    <value>Will send a mail with log files for failure analyzis</value>
+  </data>
+	<data name="MenuFeedItemWatchCommentsCaption">
+    <value>&amp;Watch Comments</value>
+  </data>
+	<data name="MenuFeedItemWatchCommentsDesc">
+    <value>Be notified of new comments to this entry</value>
+  </data>
+	<data name="CmdLineResetUIDesc">
+    <value>Will reset the user interface to the default</value>
+  </data>
+	<data name="ExceptionProcessStartToPlayEnclosure">
+    <value>The system reported an error while attempting to play enclosure:
+
+{0}
+
+Error:{1}.</value>
+    <comment>.
+ Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
+  </data>
+	<data name="FeedNodeUnreadItemsCaption">
+    <value>Непрочетени новини</value>
+    <comment> Special local feed for unread items</comment>
+  </data>
+	<data name="FeedNodeUnreadItemsDesc">
+    <value>Container of unread items</value>
+  </data>
+	<data name="BrowseForFolderEnclosureDownloadLocation">
+    <value>Select or create a folder to store downloaded attachments</value>
+    <comment> Text in the browse for folder dialog</comment>
+  </data>
+	<data name="MenuDownloadAttachmentCaption">
+    <value>Download Attachment</value>
+  </data>
+	<data name="MenuDownloadAttachmentDesc">
+    <value>Download the item's enclosure files to the specified Podcasts folder</value>
+  </data>
+	<data name="DialogBase_SubmitButtonCaption">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+	<data name="DialogBase_SubmitButtonCaptionTip">
+    <value>Accept all changes and close</value>
+  </data>
+	<data name="DialogBase_CancelButtonCaption">
+    <value>Cancel</value>
+  </data>
+	<data name="DialogBase_CancelButtonCaptionTip">
+    <value>Dismiss any changes and close</value>
+  </data>
+	<data name="ExceptionInvalidEnclosurePath">
+    <value>Invalid path to download directory specified</value>
+  </data>
+	<data name="ExceptionProcessCommandlineCulture">
+    <value>Cannot switch application culture to '{0}':
+
+Error:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+	<data name="GUIStatusEnclosureJustReceivedItemsMessage">
+    <value>Received: 1 file</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+	<data name="PodcastOptionDialog_Title">
+    <value>Podcast Options</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+	<data name="PodcastOptionDialog_GeneralSectionCaption">
+    <value>Общи</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+	<data name="PodcastOptionDialog_TreatFileTypesCaption">
+    <value>Treat these file types as podcasts - use semicolons (';') to separate entries:</value>
+  </data>
+	<data name="PodcastOptionDialog_TreatFileTypesTip">
+    <value>List of podcast file extensions separated by semicolons</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption">
+    <value>After downloading copy the podcast to:</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFilesLocationTip">
+    <value>Destination folder of podcasts</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip">
+    <value>Click to select the destination folder of podcasts</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
+    <value>Windows Media Player playlist</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
+    <value>iTunes playlist</value>
+  </data>
+	<data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
+    <value>This folder:</value>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistSectionCaption">
+    <value>Playlist</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
+    <value>As playlist name:</value>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
+    <value>Use the file's source name</value>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption">
+    <value>Use the Feed name</value>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption">
+    <value>Add all files to a single playlist with this name:</value>
+  </data>
+	<data name="PodcastOptionDialog_PlaylistCustomNameTip">
+    <value>Provide the name of the playlist</value>
+  </data>
+	<data name="MainForm_MainMenuToolbarCaption">
+    <value>Main Menu Bar</value>
+    <comment> Main Form control captions</comment>
+  </data>
+	<data name="MainForm_MainAppToolbarCaption">
+    <value>Main Application Tools</value>
+  </data>
+	<data name="MainForm_MainWebToolbarCaption">
+    <value>Web Browser Tools</value>
+  </data>
+	<data name="MainForm_MainSearchToolbarCaption">
+    <value>Search Tools</value>
+  </data>
+	<data name="MainForm_ToolCategoryMenu">
+    <value>Menu</value>
+  </data>
+	<data name="MainForm_ToolCategoryFile">
+    <value>File</value>
+  </data>
+	<data name="MainForm_ToolCategoryEdit">
+    <value>Edit</value>
+  </data>
+	<data name="MainForm_ToolCategoryView">
+    <value>View</value>
+  </data>
+	<data name="MainForm_ToolCategoryTools">
+    <value>Tools</value>
+  </data>
+	<data name="MainForm_ToolCategoryHelp">
+    <value>Help</value>
+  </data>
+	<data name="MainForm_ToolCategoryBrowse">
+    <value>Browse</value>
+  </data>
+	<data name="MainForm_ToolCategorySearch">
+    <value>Search</value>
+  </data>
+	<data name="MainForm_ToolUrlDropdownCueText">
+    <value>Type a URL to browse to</value>
+  </data>
+	<data name="WindowsSoundControlPanelNewFeedDiscovered">
+    <value>Feed Discovered</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+	<data name="WindowsSoundControlPanelNewItemsReceived">
+    <value>New Item(s) Received</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+	<data name="WindowsSoundControlPanelNewAttachmentDownloaded">
+    <value>New Attachment Downloaded</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+	<data name="WindowsSoundControlPanelDisplayFailed">
+    <value>Sorry, failed to display Windows Control Panel to configure System and Application Sounds:
+
+{0}
+
+Please try to open the Panel manually using the Control Panel Start Menu.</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+	<data name="NewsGroupConfiguration_MainToolbarCaption">
+    <value>Main Tools</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+	<data name="NewsGroupConfiguration_NewIdentityToolCaption">
+    <value>Add Identity</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+	<data name="NewsGroupConfiguration_NewIdentityToolDesc">
+    <value>Create a new identity...</value>
+  </data>
+	<data name="NewsGroupConfiguration_NewNewsServerToolCaption">
+    <value>Add News Server</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+	<data name="NewsGroupConfiguration_NewNewsServerToolDesc">
+    <value>Add a new NNTP Server...</value>
+  </data>
+	<data name="NewsGroupConfiguration_DeleteToolCaption">
+    <value>Delete</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+	<data name="NewsGroupConfiguration_DeleteToolDesc">
+    <value>Removes the selected item</value>
+  </data>
+	<data name="XsltDefaultTemplate_RelatedLinks">
+    <value>Related Links</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleWatchState">
+    <value>Watch or stop watching comments</value>
+  </data>
+	<data name="MainForm_SubscriptionNavigatorCaption">
+    <value>Новинарски канали</value>
+  </data>
+	<data name="MainForm_SearchNavigatorCaption">
+    <value>Търси</value>
+  </data>
+	<data name="MainForm_StatusBarBrowser_ToolTipText">
+    <value>Web Browser status...</value>
+  </data>
+	<data name="MainForm_StatusBarBrowserProgress_ToolTipText">
+    <value>Request page progress...</value>
+  </data>
+	<data name="MainForm_StatusBarConnectionState_ToolTipText">
+    <value>Network connection state...</value>
+  </data>
+	<data name="MainForm_StatusBarRssParser_ToolTipText">
+    <value>RSS Engine state...</value>
+  </data>
+	<data name="MainForm_DetailHeaderCaption_AtStartup">
+    <value>Добре дошли!</value>
+  </data>
+	<data name="SearchPanel_btnRssSearchSave_Text">
+    <value>Запази</value>
+    <comment> SearchPanel control</comment>
+  </data>
+	<data name="SearchPanel_checkBoxRssSearchInLink_Text">
+    <value>Item &amp;Link</value>
+  </data>
+	<data name="SearchPanel_checkBoxRssSearchInCategory_Text">
+    <value>Top&amp;ic</value>
+  </data>
+	<data name="SearchPanel_checkBoxRssSearchInDesc_Text">
+    <value>&amp;Description</value>
+  </data>
+	<data name="SearchPanel_checkBoxRssSearchInTitle_Text">
+    <value>&amp;Title</value>
+  </data>
+	<data name="SearchPanel_labelSearchFieldsHint_Text">
+    <value>Check all the fields you want searched</value>
+  </data>
+	<data name="SearchPanel_advancedOptionItemPostedGroup_Text">
+    <value>Item &amp;posted</value>
+  </data>
+	<data name="SearchPanel_advancedOptionItemAgeGroup_Text">
+    <value>Item &amp;Age</value>
+  </data>
+	<data name="SearchPanel_optionSetItemAge_Text">
+    <value>&amp;Newer than</value>
+  </data>
+	<data name="SearchPanel_advancedOptionReadStatusGroup_Text">
+    <value>&amp;Read Status</value>
+  </data>
+	<data name="SearchPanel_checkBoxRssSearchUnreadItems_Text">
+    <value>&amp;Unread Posts</value>
+  </data>
+	<data name="SearchPanel_btnNewSearch_Text">
+    <value>Reset Search</value>
+  </data>
+	<data name="SearchPanel_btnSearch_Text">
+    <value>Search</value>
+  </data>
+	<data name="SearchPanel_btnSearchCancel_Text">
+    <value>Cancel</value>
+  </data>
+	<data name="SearchPanel_searchTaskPaneSaveOptions_Text">
+    <value>&amp;Save This Search As</value>
+  </data>
+	<data name="SearchPanel_searchTaskPaneFields_Text">
+    <value>Search &amp;Fields</value>
+  </data>
+	<data name="SearchPanel_searchTaskPaneAdvancedOptions_Text">
+    <value>Advanced &amp;Options</value>
+  </data>
+	<data name="SearchPanel_searchTaskPaneScope_Text">
+    <value>Search Scope</value>
+  </data>
+	<data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at">
+    <value>at</value>
+  </data>
+	<data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before">
+    <value>before</value>
+  </data>
+	<data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after">
+    <value>after</value>
+  </data>
+	<data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between">
+    <value>between</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_1_hour">
+    <value>1 hour</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_x_hours">
+    <value>{0} hours</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_1_day">
+    <value>1 day</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_x_days">
+    <value>{0} days</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_1_month">
+    <value>1 month</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_x_months">
+    <value>{0} months</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_1_quarter">
+    <value>1 quarter</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_x_quarters">
+    <value>{0} quarters</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_1_year">
+    <value>1 year</value>
+  </data>
+	<data name="SearchPanel_comboRssSearchItemAge_x_years">
+    <value>{0} years</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+	<data name="DialogBase_UACShieldedHint">
+    <value>Option requires higher user privileges (Administrator)...</value>
+  </data>
+	<data name="ExceptionEnclosureDownloadError">
+    <value>Download Failure</value>
+  </data>
+	<data name="MenuFinderShowExcerptsCaption">
+    <value>Show excerpts in search results</value>
+  </data>
+	<data name="MenuFinderShowExcerptsDesc">
+    <value>Toggles between summary and full item texts</value>
+  </data>
+	<data name="SearchPanel_optionSetItemAgeOlderThan_Text">
+    <value>&amp;Older than</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionIntroText">
+    <value>What do you want to do now?</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionNavigateToSubscription">
+    <value>Navigate to the subscription...</value>
+  </data>
+	<data name="RefreshFeedExceptionUserActionDeleteSubscription">
+    <value>Remove this subscription...</value>
+  </data>
+	<data name="XsltDefaultTemplate_Previous">
+    <value>Previous</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+	<data name="XsltDefaultTemplate_Next">
+    <value>Next</value>
+  </data>
+	<data name="XsltDefaultTemplate_Displaying_page">
+    <value>Displaying page</value>
+  </data>
+	<data name="XsltDefaultTemplate_of">
+    <value>of</value>
+  </data>
+	<data name="GUILoadFileOperationExceptionMessage">
+    <value>Loading of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUISaveFileOperationExceptionMessage">
+    <value>Saving of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+	<data name="GUIUserInfoAboutDefaultTreeState">
+    <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+	</root>

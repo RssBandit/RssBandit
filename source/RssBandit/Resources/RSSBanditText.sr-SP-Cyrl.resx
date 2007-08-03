@@ -1,0 +1,2316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>ИЗМЕЊЕНО: основни каскадни стил</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>користи се за навигацију на Bandit документе (помоћ)</comment>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+		<comment>користи се за валидацију RSS извора, основно за инвалидан .config</comment>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+		<comment>користи се за навигацију на Technorati космос линк, основно за инвалидан .config</comment>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+		<comment>Страна за извештавање багова на Sourceforge (није потребна пријава), основно за инвалидан .config</comment>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+		<comment>Страна вести на Sourceforge, основно за инвалидан .config</comment>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+		<comment>Bandit Wiki сајт, основно за инвалидан .config</comment>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+		<comment>Bandit форум корисника, основно за инвалидан .config</comment>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[Некласификовани извори]</value>
+		<comment>могуће локализовати</comment>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>Информације надоградње</value>
+		<comment>Заглавље поља поруке са информацијама за надоградњу</comment>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>Тренутна верзија {0} подржава нове могућности или исправке багова, које захтевају измене формата фајла листе извора.
+Да задржите старију верзију у функцији, апликација ће покушати да направи нову листу извора од тренутне листе.
+
+Стари фајл ће бити остављен неизмењен.
+
+Да ли желите да наставите?</value>
+		<comment>Текст информација који се користи да информише корисника о изменама формата фајла листе извора.</comment>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>Невалидан фајл извора</value>
+		<comment>Заглавље поља информација које приказује поруку грешке за невалидан фајл листе извора</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>Наведени URL за нове изворе није валидан за URL</value>
+		<comment>Текст дијалога за невалидан URI наведен приликом прављења новог извора</comment>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>Невалидан URL</value>
+		<comment>Заглавље дијалога за невалидан URI наведен приликом прављења новог извора</comment>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>Неочекивана грешка приликом учитавања листе извора: 
+  '{0}'.
+Молим вас да погледате фајл на  
+  '{1}' 
+за више детаља о грешци која се десила.</value>
+		<comment>Порука изнимке</comment>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>Грешка приликом учитавања фајла листе извора.</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>Фајл извора је невалидан. Молим вас да погледате фајл на  
+  '{0}' 
+за детаљније информације о грешци која се десила.</value>
+		<comment>Порука грешке валидације</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>Урађено</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>Потражујем коментаре Rss извора, молим вас сачекајте...</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>Грешка приликом потраживања коментара Rss извора: {0}</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>Грешка валидације приликом учитавања листе извора.</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>Нема листе извора.</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>Неактиван</value>
+		<comment>исто тако се приказује као савет у tray икони</comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>Нови предмети извора примљени...</value>
+		<comment>исто приказано као савет </comment>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} извор(а) са {1} нових порука</value>
+		<comment>исто приказано као савет </comment>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>Заузет, освежавам...</value>
+		<comment>исто приказано као савет </comment>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>Доступни непрочитани предмети извора...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} Извор(и) ажуриран(и).</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>Нема ништа за ажурирање извор(а).</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>{0} предмет(а) извор(а) непрочитано.</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>Нема више непрочитаних предмета извора.</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>Линк и наслов за RSS извор не могу бити празни!</value>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>Наслов за категорију не може бити празан!</value>
+		<comment>НОВА</comment>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>Детектовано празно поље</value>
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>Није наведен URL Web стране</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>Нису наведене кључне речи</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>Лоцирам извор за страну:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>Лоцирам извор који садржи кључну реч(и):
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>Потражујем извор:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>Потражујем фајл:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>Жао нам је али RSS не може бити лоциран.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>Додајем листу извора ({0}), молим вас сачекајте...</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>Додавање листе извора неуспешно са грешком:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>Скидам листу извора ({0}), молим вас сачекајте...</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>Преузимање листе изора неуспешно са грешком:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>Извор није пронађен</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>Већ сте потписани на овај извор.
+ Категорија/Име: {0}
+ Линк: {1}.</value>
+		<comment>НОВИ</comment>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>Освежавам: {0} ...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>Освежавање {0} неуспешно (XML грешка): {1}</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>Освежавање {0} неуспешно (фатална грешка): {1}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>Захтев URL-а {0} неуспешан: {1}</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>Аутоматско октривање извора неуспешно</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>Освежавам изворе...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>Учитавам листу извора...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>Учитавам, молим вас сачекајте...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>У немогућности да учитам децу предмете, дисконектовани сте.</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>Проверите тренутно стање интернет конекције...</value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>Тренутно стање интернет конекције...</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>Учитавам...</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>Неочекивана грешка приликом учитавања конфигурације: {0}.
+Молим вас да погледате фајл на '{1}' за детаље о грешци.</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>Десила се грешка</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>Грешка приликом учитавања конфигурације претраге</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>Грешка валидације приликом учитавања конфигурационе листе претраге</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>Грешка валидације приликом учитавања конфиуграције претраге.
+Молим вас погледајте фајл на  '{0}' за детаље о грешци.</value>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[Нови]</value>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[Нови {0}]</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>Невалидан извор.</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>Учитавање извора неуспешно: {0}</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>Акција отказана. Извор '{0}' генерише грешку: {1}</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>RSS предмет не може бити трансформисан у HTML.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>Xslt каскадни стил не може бити компајлиран.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>Xslt каскадни стил је невалидан.</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>Изабрани Xslt каскадни стил за форматирање предмета пријављује следећи проблем:
+{0}
+Детаљи: {1}</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>невалидан карактер</value>
+		<comment>Због неспецифичне Xml изнимке (нема броја грешке) морали смо детектовати
+		специфичну поруку грешке тражењем стринга (овог стринга) да нађемо поруку која пријављује
+		невалидан карактер (оне укључују невалидан карактер, који прави грешку приликом исписивања)</comment>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>Акција отказана. Наслов не може бити празан.</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>&amp;Фајл</value>
+		<comment>Заглавље унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>RSS Bandit мени фајл команди</value>
+		<comment>Опис унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>&amp;Види</value>
+		<comment>Заглавље унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>RSS Bandit команде контроле прегледа</value>
+		<comment>Опис унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>&amp;Алати</value>
+		<comment>Заглавље унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>RSS Bandit команде алата</value>
+		<comment>Опис унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>&amp;Претрага</value>
+		<comment>Заглавље унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>RSS Bandit команде конфигурације web претраге</value>
+		<comment>Опис унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>&amp;Помоћ</value>
+		<comment>Заглавље унутар главног менија</comment>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>RSS Bandit помоћ...</value>
+		<comment>Опис унутар главног менија</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>Нови одељак за резултате</value>
+		<comment>Заглавље унутар менија претраге</comment>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>Резултати Web претраге треба да се прикажу у новом одељку или одељцима...</value>
+		<comment>Опис унутар менија претраге</comment>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>Селектујте овај унос, како би га укључили у симултану претрагу...</value>
+		<comment>Опис унутар менија претраге</comment>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>&amp;О...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>Обезбеђује информације о овој апликацији</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>&amp;Online документација</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>Добијте помоћ о апликацији, како почети, FAQ, итд.</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>&amp;Покажи вести (Sourceforge)...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>Прочитајте задње вести о овој апликацији на Sourceforge.net</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>&amp;Пријавите баг (Sourceforge)...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>Омогућује вам да пријавите баг за ову апликацију на Sourceforge.net</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>Провери за надоградњу...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>Провери за надоградњу програма</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>Посети RSS Bandit &amp;страну...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>Читајте вести, сугеришите нове опције, FAQ и даље...</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>Посетите RSS Bandit &amp;форуме...</value>
+		<comment>Заглавље унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>Дискутујте о било којој повезаној теми...</value>
+		<comment>Опис унутар менија помоћи</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>&amp;Потписи извора</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>Мења стање прегледа три панела листе извора.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>&amp;Претрага</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>Мења стање прегледа RSS панела претраге.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>&amp;Бар са алаткама</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>Мења стање прегледа разних барова са алаткама.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>Стандардан</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>Мења стање прегледа стандардног бара са алаткама.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Web навигација</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Мења стање прегледа бара са алаткама web навигације.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Web претрага</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Мења стање прегледа бара са алаткама web претраге.</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>&amp;Увези изворе...</value>
+		<comment>Заглавље унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>Увози листу извора (.xml, .ocs or .opml)</value>
+		<comment>Опис унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>&amp;Извези изворе...</value>
+		<comment>Заглавље унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>Извози листу извора...</value>
+		<comment>Опис унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>&amp;Опције...</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>Покажи дијалог опција апликације...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>И&amp;злаз</value>
+		<comment>Заглавље унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>Затвори и изађи из RSS Bandit апликације</value>
+		<comment>Опис унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>Ради &amp;Offline</value>
+		<comment>Заглавље унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>Замени мод интернет конекције</value>
+		<comment>Опис унутар фајл менија</comment>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[Ради Offline]</value>
+		<comment>Заглавље постфикс на главном прозору</comment>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>&amp;Нови извор...</value>
+		<comment>Заглавље унутар фајл/контекст менија</comment>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>Потпишите се на нови извор</value>
+		<comment>Опис унутар фајл/контекст менија</comment>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>Нова &amp;категорија</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>Додај нову категорију групи извора</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>Отвори RSS Bandit</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>Поново прикажи/отвори главни прозор RSS Bandit-а...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>Покажи прозор упозорења извора</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>Контролишите приказивање конифугирсаног обавештења прозором упозорења...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>Као што је конфигурисано по извору</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>Покажи обавештење прозором упозорења као што је конфигурисано по извору...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>Никад</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>Не приказуј уопште обавештења прозором упозорења...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>Увек</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>Приказуј обавештење прозором упозорења на свим новопримљеним постовима...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>Покажи упозорење на нове предмете</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>Контролише приказивање обавештавања балон упозорењем о новопримљеним предметима...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>Ажурирај &amp;све изворе</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>Иницирај ажурирање свих извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>Маркирај све предмете као прочитане</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>Маркирај све предмете као прочитане</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>Избриши све изворе</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>Избриши све изворе...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>Ажурирај категорију</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>Освежи све изворе унутар ове категорије...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>Маркирај све предмете у категорији као прочитане</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>Маркирај све изворе унутар категорије као прочитане...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>Преименуј категорију</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>Преименуј ову категорију...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>Обриши категорију</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>Брише категорију и изворе унутар ње...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>Параметри...</value>
+		<comment>НОВА</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>Приказује дијалог параметара категорије...</value>
+		<comment>НОВА</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>&amp;Ажурирај извор</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>Освежи/Ажурирај овај извор...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>Маркирај све предмете као прочитане</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>Маркирај све изворе као прочитане...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>Преиме&amp;нуј извор</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>Преименуј овај извор...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>Обриши извор</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>Обриши овај извор...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>Маркирај као прочитано</value>
+		<comment>Заглавље унутар мени/алат/контекст</comment>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>Маркирај све изворе као прочитане на изабраном чвору потписа у прегледу стабла...</value>
+		<comment>Опис унутар мени/алат/контекст</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value></value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>Покажи све откривене изворе за посећене web-сајтове...</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>Обриши откривену листу извора</value>
+		<comment>Заглавље унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>Брише све откривене изворе приказане испод...</value>
+		<comment>Опис унутар менија прегледа</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>Да ли стварно желите да обришете све изворе?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>Да ли стварно желите да обришете ову категорију и све садржане категорије/изворе?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>Да ли стварно желите да обришете потпис на овај извор?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>Види извор</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>Види извор овог порекла...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>Уради валидацију</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>Уради валидацију порекла овог извора (линк)...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>Овај извор</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>Напредно/Више информација извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>Насловна страна</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>Иди на насловну страну извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>Космос линк</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>Иди на Technorati и види космос линк извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>Параметри...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>Покажи дијалог параметара извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>Маркирај као &amp;непрочитано</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>Маркирај изабране предмете извора као непрочитане...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>&amp;Одговори на пост...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>Одговори на пост овог предмета извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>Није селектован предмет извора.</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>Нови фолдер претраге</value>
+		<comment>НОВО</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>Направи нови фолдер претраге...</value>
+		<comment>НОВИ</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>Преименуј фолдер претраге</value>
+		<comment>НОВО</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>Преименуј овај фолдер претраге...</value>
+		<comment>НОВИ</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>Да ли стварно желите да обришете овај фолдер претраге?</value>
+		<comment>НОВИ</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>Обриши</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>Обриши изабрани фолдер претраге...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>Освежи претрагу</value>
+		<comment>НОВА</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>Освежи резултате претраге у фолдеру претраге...</value>
+		<comment>НОВИ</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>Обриши све</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>Обриши све фолдере претраге испод изабраног чвора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>Параметри...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>Покажи дијалог параметара Пронађи...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>Потпиши...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>Приказује нови дијалог извора за потписивање на пронађени резултат...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>Учитавам апликацију...</value>
+		<comment>Порука сплаш екрана</comment>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>Учитавам главни Gui...</value>
+		<comment>Порука сплаш екрана</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>Заставица предмета</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>Следи</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>Оцени</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>Одговори</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>Читај</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>Проследи</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>Додај изабране предмете извора колекцији предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>Комплетирај</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>Уклони изабране предмете извора из колекције предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>Обриши</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>Уклони изабране предмете извора из колекције предмета са заставицом...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>Копирај</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>Копирај поља RSS предмета у...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>Линк предмета у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>Копирај линк селектованог RSS предмета у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>Наслов предмета извора као линк у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>Копирај наслов селектованог наслова RSS предмета као линк у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>Садржај предмета у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>Копирај садржај селектованог RSS предмета у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>Копирај</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>Копирај поља селектованог RSS извора у...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>Линк извора у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>Копирај линк извора тренутно селектованог чвора извора у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>Насловна страна извора као линк у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>Копирај насловну страну извора као линк селектованог RSS извора у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>Насловна страна извора са својим насловом као линк у исечак меморије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>Копирај насловну страну извора са својим насловом као линк селектованог RSS извора у исечак меморије...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>Обриши све предмете</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>Уклања све садржане предмете...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>Обриши</value>
+		<comment>Заглавље унутар контекст менија, претходно је било "Обриши изабране предмете"</comment>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>Брише све изабране предмете...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>Поврати</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>Враћа све изабране предмете...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>Следећи непрочитани предмет</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>Помери се на следећи непрочитани предмет извора...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>&amp;Лоцирај извор</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>Лоцира RSS извор за одређени web-сајт или тему</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>&amp;Пошаљи одговор...</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>Шаље одговор на овај предмет извора...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>Тражи</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>Тражи локално за предмете...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>Иди назад у историји...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>Иди напред...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>Web адреса за навигацију...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>Откажи навигацију...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>Освежи...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>Иди</value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>Иди на одређени Url...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>Направи нови одељак претраживача...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>Отвори линк у основној апликацији Web претраживача...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>Реч(и) за претрагу web-а...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value></value>
+		<comment>Заглавље унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>Тражи фразу на web-у...</value>
+		<comment>Опис унутар менија алата</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>IBlogExtension (Додатак) команда</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>Конфигуриши...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>IBlogExtension (Додатак) конфигурација</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>Затвори документ</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>Затвара изабрани одељак документа...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>Затвори све документе на скидању</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>Затвара све одељке документа на изабраном скидању...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>Затвори све документе</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>Затвара све одељке документа на свим скидањима...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>Хоризонтална подела распореда</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>Ако је селектовано, подељени одељци документа могу бити хоризонталног распореда...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>IBlogExtension (Додатак) позив функције '{0}' узрокује грешку:
+'{1}'.        
+        </value>
+		<comment>Текст поруке грешке</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>Грешке извора</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>Спремник грешака извора проузрокованих потписаним извором</value>
+		<comment>Опис паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>Предмети са заставицом</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>Спремник извора са заставицом</value>
+		<comment>Опис паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>Предмети за следити</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>Предмети за читати</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>Предмети за оценити</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>Предмети за проследити</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>Предмети за одговорити</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>Моји извори</value>
+		<comment>Заглавље чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>Спремник потписаних извора</value>
+		<comment>Опис чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>Специјални извори</value>
+		<comment>Заглавље чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>Спремник специјалних извора</value>
+		<comment>Опис чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>Тражи фолдере</value>
+		<comment>Заглавље чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>Спремник истрајних извора претраге</value>
+		<comment>Опис чвора корена</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>Послати предмети</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>Спремних посланих предмета (одговор)</value>
+		<comment>Опис паметног чвора</comment>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>Резултат валидације извора</value>
+		<comment>Заглавље одељка резултата валидације извора (Web страна)</comment>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>Главна извора: {0}</value>
+		<comment>Заглавље одељка насловне стране извора (Web страна)</comment>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>Космос линка извора: {0}</value>
+		<comment>Заглавље одељка космос линка technorati извора (Web страна)</comment>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>Порекло извора: {0}</value>
+		<comment>Заглавље одељка порекла прегледа извора (Xml Web страна)</comment>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>Стартуј минимизирано у радној траци поља обавештавања</value>
+		<comment>Опис опција командне линије</comment>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>Потписи се на специфичне изворе</value>
+		<comment>Опис опција командне линије</comment>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>Штампа ову поруку</value>
+		<comment>Опис опција командне линије</comment>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>Стартуј апликацију у другом језику (ISO код језика)</value>
+		<comment>Опис опција командне линије</comment>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>&amp;Ажурирај изворе...</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>&amp;Преузми изворе...</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>Додај листу извора на удаљени спремник.</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>Преузми листу извора са удаљеног складишта.</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>Постоји проблем приликом стартовања вашег претраживача конфигурисаног као основни:
+		
+		'{0}'.
+		
+		Да ли да отворим Url '{1}' у новом одељку?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>Постоји проблем приликом стартовања вашег конфигурисаног прилагођеног извршног фајла '{0}':
+		
+		'{1}'.
+		
+		Да ли да отворим Url '{2}' у новом одељку?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>Не могу да отворим фајл '{0}', због:
+		
+		'{1}'.
+	</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>Не могу да снимим фајл '{0}', због:
+		
+		'{1}'.
+	</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>OPML фајлови</value>
+		<comment>Текст искориштен да се направе филтери фајлова Отвори/Сачувај дијалога</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>XML фајлови</value>
+		<comment>Текст искориштен да се направе филтери фајлова Отвори/Сачувај дијалога</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>Сви фајлови</value>
+		<comment>Текст искориштен да се направе филтери фајлова Отвори/Сачувај дијалога</comment>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>Слика није величине 16x16 тачака.</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>Изнимка параметара преференси</value>
+		<comment>Наслов поља поруке приказаног на изнимкама са својим параметрима</comment>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>Брзина освежавања није број.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>Наведена вредност освежавања је превисока.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>Невалидна вредност освежавања.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>Молим вас да обезбедите proxy адресу (IP или име Host).</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>Proxy порт није број.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>Наведена вредност за proxy порт није у валидном распону од 0 до 65535.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>Невалидан proxy порт.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>Молим вас да обезбедите proxy корисника аутентификације.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>Молим вас да обезбедите путању извршног фајла.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>Молим вас да обезбедите локацију удаљеног спремника.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>FTP удаљене локације треба да користи 'ftp:' url шему.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>Молим вас да обезбедите корисничко име за аутентификацију на удаљеном спремнику.</value>
+		<comment>Текст кориштен унутар провајдера грешке</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>WebDAV Url фолдера:</value>
+		<comment>Динамични текст натипса (Преференце)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>Можете сместити стање ваше апликације као rssbandit-state.zip унутар WebDAV фолдера. URL сервиса смештања треба да показује на WebDAV фолдер, нпр. 'http://mywebdav.com/personal/' и треба да будете у могућности да сачувате и читате фајлове са те локације.</value>
+		<comment>ИЗМЕЊЕНО</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>Url Web сервиса:</value>
+		<comment>Динамични текст натипса (Преференце)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>Можете сместити потписане изворе као blogroll.opml ако сте корисник dasBlog-а (http://www.dasblog.net). URL сервиса спремника треба да буде http://yourblog.com/dasblog/ConfigEditingService.asmx и требали би да омогућите Configuration Editing сервис у dasBlog-у.</value>
+		<comment>Динамички текст натписа савета (Преференце)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>Путања директорија:</value>
+		<comment>ИЗМЕЊЕНО</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>Можете сместити стање ваше апликације као rssbandit-state.zip у локалну или на мрежном месту за делење фајлова. Обезбедите путању директорија као '\\yournetworkshare\feedlist\' или 'H:\'.</value>
+		<comment>ИЗМЕЊЕНО</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>FTP сервер/путања:</value>
+		<comment>Динамични текст натипса (Преференце)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>Можете сместити стање ваше апликације као rssbandit-state.zip користећи FTP сервер. Обезбедите име FTP сервера и путању као 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+		<comment>ИЗМЕЊЕНО</comment>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>Морате конфигурисати удаљени спремник кроз дијалог опција да би могли користити ову команду.</value>
+		<comment>Инфо текст поља поруке</comment>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>Ово ће додати вашу листу извора сервису 
+конфигурисаном коришћењем одељка Удаљени спремник у дијалогу Опције. 
+        
+Наставити?</value>
+		<comment>Текст питања поља поруке</comment>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>Листа извора уиспешно додана.</value>
+		<comment>Инфо текст поља поруке</comment>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>Ово ће заменити ваше локалне изворе са листом преузетом  
+са сервиса конфигурисаног коришћењем дијалога Опције одељка Удаљени спремник.  
+        
+Наставити?</value>
+		<comment>Текст питања поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>Неочекивана грешка приликом снимања параметара Web претраживача:
+        
+'{0}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>Жао нам је али ова опција још није имплементирана.</value>
+		<comment>Инфо текст поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>Неочекивана грешка приликом учитавања XSLT каскадног стила за форматирање предмета извора:
+        
+'{0}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>Грешка приликом увожења листе извора са  
+'{0}' се појављује:
+        
+'{1}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>Шаљем порику, молим вас сачекајте...</value>
+		<comment>Информације GUI статуса</comment>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>Грешка приликом одговора на предмет  
+'{0}' (RSS предмет линк/наслов) се појављује:
+        
+'{1}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>Жалим, али десила се грешка:
+        
+'{0}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>Жалим, али име '{0}' је већ у употреби.</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>Систем је известио о грешки приликом покушаја да се подеси основни агрегатор:
+        
+'{0}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>Наслов</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>Тема</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>Датум</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>Наслов извора</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>Аутор</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>Опис извора</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>Url извора</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>Url сајта</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>Коментари</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>Омотач</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[Аутоматски откривено]</value>
+		<comment>Заглавље колоне унутар листе прегледа </comment>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>Детаљи извора</value>
+		<comment>Заглавље одељка документа</comment>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>Додај или уклони дугмад</value>
+		<comment>Заглавље бара алата падајућег менија</comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>Опције</value>
+		<comment>Савет бара алата падајућег менија</comment>
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>Држите притиснут CTRL да спречите докинг.</value>
+		<comment>Повратни текст статус бара</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>Претрага</value>
+		<comment>Текст дијалог дугмета</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>Притисните старт да почнете претрагу...</value>
+		<comment>Текст дијалог дугмета савет</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>Откажи</value>
+		<comment>Текст дијалог дугмета</comment>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>Притисните Откажи за тренутну претрагу...</value>
+		<comment>Текст дијалог дугмета савет</comment>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>Тражим, ...</value>
+		<comment>Текст поруке</comment>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>Отказивање претраге у току, ...</value>
+		<comment>Текст поруке</comment>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>Нема резултата претраге.</value>
+		<comment>Текст поруке</comment>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>Пронађено {0} предмета.</value>
+		<comment>Текст поруке</comment>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>Резултат претраге</value>
+		<comment>Заглавље чвора резултата претраге</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>&amp;Позиција панела за читање</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>Селектуј/Измени распоред детаља извора...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>Панел за читање доле</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>Листа предмета извора горе, садржај доле...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>Панел за читање десно</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>Листа предмета извора лево, садржај десно...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>Панел читања лево</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>Листа предмета извора десно, садржај лево...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>Панел читања горе</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>Листа предмета извора доле, садржај горе...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>Примљено: {0} предмет(а)</value>
+		<comment>приказано у тоаст прозорима</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>Прошири панел...</value>
+		<comment>приказано као савет на дугмадима колапсирајућих панела</comment>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>Колапсирај панел...</value>
+		<comment>приказано као савет на дугмадима колапсирајућих панела</comment>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>Нађи све постове који садрже одређену реч или фразу.</value>
+		<comment>приказано као текст натписа на колапсирајућим панелима "Тип претраге"</comment>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>Нађи све постове који садрже речи или фразе које одговарају регуларним изразима.</value>
+		<comment>приказано као текст натписа на колапсирајућим панелима "Тип претраге"</comment>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>Нађи све постове које RSS 2.0 репрезентација упарује са наведеним XPath-ом.</value>
+		<comment>приказано као текст натписа на колапсирајућим панелима "Тип претраге"</comment>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>О {0}</value>
+		<comment>заглавље прозора. Параметар је име производа</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>Освежавање извора '&lt;strong&gt;{0}&lt;/strong&gt;' неуспешно са грешком: {1}</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>Кликните овде да &lt;strong&gt;проверите&lt;/strong&gt; извор.</value>
+		<comment>Део текст грешке приказан за изнимке освежавања XML извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>Извор је генерисан од '{0}'.</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>Контакт информације:</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>Уредник</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Web Master</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>Насловна страна извора</value>
+		<comment>Део текст грешке приказан за изнимке освежавања извора</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml изнимка</value>
+		<comment>Име категорије приказано за изнимку освежавања извора (листе прегледа)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web изнимка</value>
+		<comment>Име категорије приказано за изнимку освежавања извора (листе прегледа)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>Изнимка кршења протокола</value>
+		<comment>Име категорије приказано за изнимку освежавања извора (листе прегледа)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Генерална изнимка</value>
+		<comment>Име категорије приказано за изнимку освежавања извора (листе прегледа)</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>Потпиши у основни RSS читач</value>
+		<comment>Заглавље екстензије менија Internet Explorer-а</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>Потпиши у Rss Bandit</value>
+		<comment>Заглавље екстензије менија Internet Explorer-а</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>Послан одговор - Извор: {0}</value>
+		<comment>Заглавље посланог одговора форме предмета извора. Параметар {0} је наслов предмета извора.</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Одговор: {0}</value>
+		<comment>Заглавље пефикса посланог одговора наслова предмета извора. Параметар {0} је наслов предмета.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>корисничко-име: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Информације идентитета посланог одговора о параметрима које пошаљемо примаоцу.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;ниједна&gt;</value>
+		<comment>Информације идентитета посланог одоговра приказане као празна вредност</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>Потписани извори: {0}</value>
+		<comment>Покажи укупан број потписаних извора. Параметар {0} је број потписа.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>Селекција садржи {0} предмета</value>
+		<comment>Покажи број предмета по слекцији. Параметар {0} је број предмета.</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>Наведени директориј не постоји</value>
+		<comment>Искориштено у дијалогу Опције за удаљени спремник UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>Неочекивана грешка приликом снимања UI параметара (.settings.xml):
+        
+'{0}'</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>Морате обезбедити име када шаљете одговор</value>
+		<comment>Порука кориштена у дијалогу пошаљи одговор.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>Пречица фајла параметара није могла бити потврђена</value>
+		<comment>Порука грешке ако фајл није валидан XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>Десила се грешка која је записана у фајл 
+'{0}'.
+Молим вас да пријавите садржај на dev.rssbandit.org развојни тим 
+заједно са следећим информацијама:
+</value>
+		<comment>Порука изнимке</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>Генерална грешка</value>
+		<comment>Текст теме изнимке</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web грешка</value>
+		<comment>Текст теме изнимке</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml грешка</value>
+		<comment>Текст теме изнимке</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>Да примените ову функционалност апликација мора да има права писања по 
+следећем кључу Windows регистра: '{0}'.
+        
+Да би то радило, стартујте апликацију унутар Windows File Explorer
+селектујући 'Run as...' из контекст менија приказаног на десни клик миша на извршном фајлу.
+Потом изаберите налог локалног Администратора и опет стартујте апликацију.
+
+Административна права су потребна само да би се применила тражена функционалност.
+Ова процедура није потребно приликом сваког стартовања апликације. Извињавамо се на
+неугодностима.</value>
+		<comment>Текст грешке поља поруке</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>Обрисани предмети</value>
+		<comment>Заглавље паметног чвора</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>Спремник обрисаних предмета</value>
+		<comment>Опис паметног чвора</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>Да ли стварно желите да обришете све фолдере претраге?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>Да ли стварно желите да обришете све предмете?</value>
+		<comment>Текст унутар поља поруке</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>Управљај идентитетима...</value>
+		<comment>текст заглавља менија</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>Opens a dialog to manage identities...</value>
+		<comment>савет текст заглавља менија</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>Групе вести...</value>
+		<comment>текст заглавља менија</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>Отвара дијалог за управљање NNTP серверима и групама вести...</value>
+		<comment>савет текст заглавља менија</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>Информације које размените са извором '{0}' не могу бити виђене или мењане од стране других корисника. Међутим, постоји проблем са сигурносним серификатом извора.</value>
+		<comment>Текст наслова дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>Информације које размените са сајтом '{0}' не могу бити виђене или мењане од стране других корисника. Међутим, постоји проблем са сигурносним серификатом извора.</value>
+		<comment>Текст наслова дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>Име сигурносног сертификата је неисправно или не одговара имену сајта.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>Добијени сертификат је истекао {0}.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>Сертификат је повучен.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>Сертификат има непроверен ауторитет серификације (CA).</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>Сертификат има непроверен CA (Ауторитет сертификата) корен.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>Сертификат има непроверен тест CA (Ауторитет сертификата) корен.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>Циљ сертификата не одговара траженом задатку.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>Сертификат је већ члан провереног ланца.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>Сертификат је проузроковао критичну грешку.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>Издавач сертификата је већ члан провереног ланца.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>Сертификат је лоше формиран.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>Сертификат је проузроковао грешку: path length const.</value>
+		<comment>Текст детаља дијалога потражње сертификата (жалим, не знам шта то значи...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>Повлачење сертификата неуспешно.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>Улога сертификата је погрешна.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>Валидни период сертификата је угњежђен.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>Сертификат не може бити кориштен за тражени задатак.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>Сигурносни сертификат је проузроковао непознат проблем: '{0}'.</value>
+		<comment>Текст детаља дијалога потражње сертификата</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>Распоред колоне</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>Управњај приказивањем колона и распореда...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>Покажи главни наслов</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>Покажи главни наслов (наслов) колоне предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>Покажи датум</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>Покажи колону датума за предмет вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>Покажи теме</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>Покажи субјект (категорија, тема) колону предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>Покажи аутора</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>Покажи колону аутора предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>Покажи наслов потписа</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>Покажи колону наслова потписа предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>Покажи број коментара</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>Покажи колону бројача коментара предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>Покажи стање омотача</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>Покажи колону стања омотача предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>Покажи стање заставице</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>Покажи колону стања заставице предмета вести...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Користи распоред као основни за категорије</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Распоред ће бити валидан за све чворове категорија без индивидуално додељеног распореда...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Користи распоред као основни за изворе</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Распоред ће бити валидан за све чворове извора без индивидуално додељеног распореда...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Врати распоред на основни</value>
+		<comment>Заглавље унутар контекст менија</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Распоред ће бити уклоњен из изабраног чвора потписа...</value>
+		<comment>Опис унутар контекст менија</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>Управљај идентитетима</value>
+		<comment>текст заглавња прозора</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>Управљај групама вести</value>
+		<comment>текст заглавња прозора</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Заставица</value>
+		<comment>Заглавље колоне унутар листе прегледа</comment>
+	</data>
+		<data name="RES_MenuDonateToProjectCaption">
+		<value>Donate...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectDesc">
+		<value>Navigates to an Url where you can support the project...</value>
+		<comment>Description within help menu</comment>
+	</data>
+<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

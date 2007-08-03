@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>Rss Bandit Unit Test Feed</title>
+		<link>http://127.0.0.1:8081/NewsHandlerTestFiles/</link>
+		<description>Local Test Feed</description>
+		<maxItemAge xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">10675199.02:48:05.4775807</maxItemAge>
+		<generator>Human tapping on keyboard</generator>
+		<dc:language xmlns:dc="http://purl.org/dc/elements/1.1/">en-US</dc:language>
+		<managingEditor>Haacked</managingEditor>
+		<item>
+			<title>This is a test item 1</title>
+			<link>http://127.0.0.1:8081/NewsHandlerTestFiles/LocalArchiveItem01.htm</link>
+			<pubDate>Wed, 24 Mar 2004 09:46:00 GMT</pubDate>
+			<description><![CDATA[Testing One Two Three]]></description>
+			<slash:comments xmlns:slash="http://purl.org/rss/1.0/modules/slash/">0</slash:comments>
+			<trackback:ping xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" />
+			<comments />
+			<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Haacked</dc:creator>
+		</item>
+		<item>
+			<title>This is a test item 2</title>
+			<link>http://127.0.0.1:8081/NewsHandlerTestFiles/LocalArchiveItem02.htm</link>
+			<pubDate>Wed, 24 Mar 2004 09:46:00 GMT</pubDate>
+			<description><![CDATA[This test has nothing original.]]></description>
+			<slash:comments xmlns:slash="http://purl.org/rss/1.0/modules/slash/">0</slash:comments>
+			<trackback:ping xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" />
+			<comments />
+			<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Haacked</dc:creator>
+		</item>
+	</channel>
+</rss>

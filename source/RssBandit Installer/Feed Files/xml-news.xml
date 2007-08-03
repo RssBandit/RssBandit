@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="3600000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+
+  <feed category="XML News">
+    <title>&lt;?xmlhack?&gt;</title>
+    <link>http://www.xmlhack.com/rss.php</link>
+  </feed>
+
+  <feed category="XML News">
+    <title>XML.com</title>
+    <link>http://www.xml.com/xml/news.rss</link>    
+  </feed>
+
+   <feed category="XML News">
+    <title>Eclectic: The XML-DEV Weblog</title>
+    <link>http://weblogs.userland.com/eclectic/xml/rss.xml</link>
+   </feed>
+   
+   <feed category="XML News">
+    <title>W3C News</title>
+    <link>http://www.w3.org/2000/08/w3c-synd/home.rss</link>
+   </feed>
+   
+   <feed category="XML News">
+    <title>Cafe con Leche</title>
+    <link>http://www.ibiblio.org/xml/today.rss</link>
+   </feed>
+
+   <categories>
+    <category>XML News</category>   
+   </categories>
+
+</feeds>

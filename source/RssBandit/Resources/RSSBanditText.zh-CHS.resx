@@ -1,0 +1,2060 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="RES_MenuBrowserNavigateBackCaption">
+		<value />
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeeds">
+		<value>查找第
+{0}页的新闻</value>
+	</data>
+	<data name="RES_MenuWorkspaceNewsCaption">
+		<value>显示新闻(Sourceforge)...</value>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardCaption">
+		<value>复制主页联结到剪贴板</value>
+	</data>
+	<data name="RES_ExceptionInvalidSearchEnginesMessage">
+		<value>读取搜索配置时,发生验证错误.请察看文件 '{0}' 以获得详细信息.</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutCaption">
+		<value>阅读区域位置</value>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabCaption">
+		<value>为新闻打开新的Tab页</value>
+	</data>
+	<data name="RES_GUIFeedlistDownloadExceptionMessage">
+		<value>新闻列表下在错误:
+{0}</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageLocation">
+		<value>请提供远程存储器的所在位置</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsCaption">
+		<value>删掉所有的条目</value>
+	</data>
+	<data name="RES_RssSearchTypeTextHintCaption">
+		<value>查找包含指定单词或短语的邮件.</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedsAreUpdated">
+		<value>没有新闻更新.</value>
+	</data>
+	<data name="RES_ExceptionLoadingNewsItemFormatterStylesheet">
+		<value>读取格式化新闻用的XSLT风格页时发生意外错误:
+        
+'{0}'</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp">
+		<value>FTP 服务器/路径:</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingSearchConfig">
+		<value>读取搜索配置错误.</value>
+	</data>
+	<data name="RES_ExceptionLoadingSearchEnginesMessage">
+		<value>Unexpected error loading search configuration: {0}.
+Please have a look to the file at '{1}' for details about the error.</value>
+	</data>
+	<data name="RES_InvalidFeedURIBoxCaption">
+		<value>无效网址</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardDesc">
+		<value>复制当前选中的新闻联结到剪贴板...</value>
+	</data>
+	<data name="RES_MenuBanditForumCaption">
+		<value>访问RSS Bandit论坛...</value>
+	</data>
+	<data name="RES_MenuDoSearchWebCaption">
+		<value />
+	</data>
+	<data name="RES_MenuBrowserNewTabDesc">
+		<value>创建一个新的浏览页...</value>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsCaption">
+		<value>特殊新闻</value>
+	</data>
+	<data name="RES_GUIStatusFeedJustReceivedItemsMessage">
+		<value>接收到: {0} 项</value>
+	</data>
+	<data name="RES_GUIStatusInfoCaptionNoFeeds">
+		<value>新闻没有找到</value>
+	</data>
+	<data name="RES_RssSearchSuccessResultMessage">
+		<value>发现{0}项.</value>
+	</data>
+	<data name="RES_FeedNodeFinderRootCaption">
+		<value>搜索目录</value>
+	</data>
+	<data name="RES_ExceptionReadingFeedlistFile">
+		<value>读取新闻列表的时候发生意外的错误: 
+  '{0}'.请察看文件 '{1}' 以获得详细信息.</value>
+	</data>
+	<data name="RES_ExceptionDuplicateCategoryName">
+		<value>对不起, 名称 '{0}' 已经被使用过了.</value>
+	</data>
+	<data name="RES_GUIFieldLinkRedundant">
+		<value>你已经定于了这项新闻</value>
+		<comment>Obsolete: see RES_GUIFieldLinkRedundantInfo</comment>
+	</data>
+	<data name="RES_GUIFieldLinkRedundantInfo">
+		<value>You are already subscribed to this feed.
+ Category/Name: {0}
+ Link: {1}.</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GeneralNewItemText">
+		<value>[New]</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftDesc">
+		<value>新闻列表在左侧,内容在右侧...</value>
+	</data>
+	<data name="URL_FeedLinkCosmosUrlBase">
+		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceived">
+		<value>接受的新的新闻...</value>
+	</data>
+	<data name="RES_MainMenuViewDesc">
+		<value>RSS Bandit视图控制命令</value>
+	</data>
+	<data name="RES_GUIStatusLoadingChildItems">
+		<value>启动中, 请稍侯...</value>
+	</data>
+	<data name="RES_InvalidFeedURIBoxText">
+		<value>为新新闻指定的网址无效</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemCaption">
+		<value>作标记...</value>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadCaption">
+		<value>标记未读(&amp;u)</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardDesc">
+		<value>前向访问...</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionCreator">
+		<value>创建者</value>
+	</data>
+	<data name="RES_MenuAppOptionsCaption">
+		<value>选项...</value>
+	</data>
+	<data name="RES_GUIStatusRetriveCommentRssFeed">
+		<value>请求新闻中, 请稍等...</value>
+	</data>
+	<data name="RES_GUIStatusErrorEmptyTitleNotAllowed">
+		<value>操作取消. 标题不能为空.</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDetectingFeedsWithKeywords">
+		<value>查找包含指定关键字
+{0}的新闻</value>
+	</data>
+	<data name="RES_MenuNextUnreadItemCaption">
+		<value>下一个未读的项目 </value>
+	</data>
+	<data name="RES_RssSearchStateMessage">
+		<value>搜索中, ...</value>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxDesc">
+		<value>在网页上搜索的单词...</value>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesDesc">
+		<value>显示新闻的属性对话框..</value>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsCaption">
+		<value>错误新闻</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateForwardCaption">
+		<value />
+	</data>
+	<data name="RES_DragDockablePanelInfo">
+		<value>请按住CTRL键以防止停靠.</value>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowDesc">
+		<value>在缺省浏览器中打开联结...</value>
+	</data>
+	<data name="RES_MenuAboutCaption">
+		<value>关于...</value>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedDesc">
+		<value>标记所有新闻为已读...</value>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoDesc">
+		<value>高级/更多的新闻信息...</value>
+	</data>
+	<data name="RES_MenuDeleteThisFeedDesc">
+		<value>删除这条新闻...</value>
+	</data>
+	<data name="RES_GUIStatusNoUnreadFeedItemsLeft">
+		<value>没有其他未读的新闻.</value>
+	</data>
+	<data name="RES_MenuShowLinkCosmosDesc">
+		<value>访问技术领域并察看新闻联接...</value>
+	</data>
+	<data name="RES_MenuBrowserRefreshDesc">
+		<value>刷新...</value>
+	</data>
+	<data name="RES_ControlCollapsiblePanelExpandTooltip">
+		<value>展开面板...</value>
+	</data>
+	<data name="RES_MainMenuToolsCaption">
+		<value>工具(&amp;T)</value>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedDesc">
+		<value>按照特殊的网页或者主题定位RSS新闻</value>
+	</data>
+	<data name="RES_MenuExportFeedsCaption">
+		<value>导出新闻...</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionHeadline">
+		<value>头条</value>
+	</data>
+	<data name="RES_FeedNodeFeedExceptionsDesc">
+		<value>记录订阅新闻错误的容器</value>
+	</data>
+	<data name="RES_UpgradeInfoBoxCaption">
+		<value>升级信息</value>
+	</data>
+	<data name="RES_CmdLineStartInTaskbarDesc">
+		<value>最小化到任务栏</value>
+	</data>
+	<data name="RES_MainMenuViewCaption">
+		<value>视图(&amp;V)</value>
+	</data>
+	<data name="RES_ExceptionPostReplyToNewsItem">
+		<value>在发表回复的时候发生错误  
+'{0}' (新闻项 联结/标题) 错误内容:
+        
+'{1}'</value>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateDesc">
+		<value>访问指定的网址...</value>
+	</data>
+	<data name="RES_MenuConfigCommandCaption">
+		<value>配置...</value>
+	</data>
+	<data name="RES_MenuCopyFeedCaption">
+		<value>复制</value>
+	</data>
+	<data name="RES_ExceptionOpenFileMessage">
+		<value>无法打开文件 '{0}', 原因是:
+		
+		'{1}'.
+	</value>
+	</data>
+	<data name="RES_ExceptionNoProxyAuthUser">
+		<value>请提供代理服务器验证用的用户名</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsDesc">
+		<value>记录被标记的新闻的容器</value>
+	</data>
+	<data name="RES_MenuBanditForumDesc">
+		<value>讨论所有相关的主题...</value>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelDesc">
+		<value>点击取消当前的搜索...</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare.hint">
+		<value>You can store your application state as rssbandit-state.zip on a local or network file share. Provide the directory path such as '\\yournetworkshare\feedlist\' or 'H:\'.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_AutoDiscoveredDefaultTitle">
+		<value>[Autodiscovered]</value>
+	</data>
+	<data name="RES_MenuDeleteCategoryCaption">
+		<value>删除分类</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelCaption">
+		<value />
+	</data>
+	<data name="RES_MenuShowFinderPropertiesDesc">
+		<value>显示发现属性对话框...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearCaption">
+		<value>清空</value>
+	</data>
+	<data name="RES_MenuFinderDeleteCaption">
+		<value>删除</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedDesc">
+		<value>新闻描述</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxDesc">
+		<value>要访问的网页地址...</value>
+	</data>
+	<data name="RES_MenuCatchUpCategoryCaption">
+		<value>标记所有分类新闻为已读</value>
+	</data>
+	<data name="RES_ExceptionNoProxyUrl">
+		<value>请提供代理服务器的IP地址或者主机名</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterInvalidStylesheet">
+		<value>Xslt 风格页无效</value>
+	</data>
+	<data name="RES_MenuUpdateThisFeedCaption">
+		<value>更新新闻</value>
+	</data>
+	<data name="RES_MainMenuHelpDesc">
+		<value>RSS Bandit 帮助...</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsCaption">
+		<value>下载新闻...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyCaption">
+		<value>回复</value>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllDesc">
+		<value>关闭所有的文档页...</value>
+	</data>
+	<data name="RES_GUIStatusFeedsAreUpdatedMessage">
+		<value>{0} 项新闻更新.</value>
+	</data>
+	<data name="RES_MainMenuFileDesc">
+		<value>RSS Bandit文件命令菜单</value>
+	</data>
+	<data name="RES_MenuDownloadFeedsDesc">
+		<value>从远程存储器上下载新闻列表.</value>
+	</data>
+	<data name="RES_ExceptionImportFeedlist">
+		<value>在从 
+'{0}' 导入新闻列表的时候发生一个错误:
+        
+'{1}'</value>
+	</data>
+	<data name="RES_GUIStatusRefreshConnectionState">
+		<value>检查当前的internet连接...</value>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemCaption">
+		<value>张贴回复...</value>
+	</data>
+	<data name="RES_TabValidationResultCaption">
+		<value>新闻验证结果</value>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFeedQuestion">
+		<value>你确定要删除这条新闻的订阅么?</value>
+	</data>
+	<data name="RES_RemoteStorageDownload.Question">
+		<value>本地的新闻列表将要被远程下载的列表所覆盖.  
+        继续?</value>
+	</data>
+	<data name="RES_UpgradeFeedlistInfoText">
+		<value>当前版本的{0}支持下列新的特性和bug修复
+requires a change of your feedlist file format.
+To keep your older versions running, the application will try to create a new feedlist file from your current list.
+
+The old file will be left untouched.
+
+Do you want to continue?</value>
+	</data>
+	<data name="URL_UserForum">
+		<value>http://www.rssbandit.org/forum/</value>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeDesc">
+		<value>连接网络模式</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionDate">
+		<value>日期</value>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentCaption">
+		<value>关闭文档</value>
+	</data>
+	<data name="RES_MenuCatchUpOnAllCaption">
+		<value>标记所有的新闻为已读</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageDownLoadingFeedlist">
+		<value>下载新闻列表({0}), 请等待...</value>
+	</data>
+	<data name="RES_ExceptionWebSearchEnginesSave">
+		<value>保存网页搜索引擎设置时遇到意外错误:
+        
+'{0}'</value>
+	</data>
+	<data name="RES_FormatExceptionRefreshRate">
+		<value>刷新率不是有效数字</value>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateCaption">
+		<value>查找</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutLeftCaption">
+		<value>阅读区域在右侧</value>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsQuestion">
+		<value>你确定要删除所有的新闻么?</value>
+	</data>
+	<data name="RES_FeedNodeMyFeedsCaption">
+		<value>我的新闻</value>
+	</data>
+	<data name="RES_GUIErrorMessageBoxCaption">
+		<value>错误发生</value>
+	</data>
+	<data name="RES_MenuShowLinkCosmosCaption">
+		<value>联结空间</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionTopic">
+		<value>主题</value>
+	</data>
+	<data name="RES_MenuDeleteCategoryDesc">
+		<value>删除分类和其中的新闻...</value>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownDesc">
+		<value>从访问过的网页中显示所有没有浏览过的新闻...</value>
+	</data>
+	<data name="RES_MenuUpdateThisFeedDesc">
+		<value>刷新/更新 这条新闻...</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReplyCaption">
+		<value>回复的项目</value>
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardCaption">
+		<value>新闻联结到剪贴板</value>
+	</data>
+	<data name="RES_MenuNextUnreadItemDesc">
+		<value>移动到下一个未读的新闻...</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopDesc">
+		<value>新闻列表在上部, 内容在下...</value>
+	</data>
+	<data name="RES_GUIStatusErrorLoadingFeedMessage">
+		<value>读取新闻失败: {0}</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomDesc">
+		<value>新闻列表在底部, 内容在上部...</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutDesc">
+		<value>选择/改变 新闻详细内容布局...</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidSearchConfig">
+		<value>读取搜索配置列表时发生验证错误.</value>
+	</data>
+	<data name="RES_MenuDoSearchComboBoxCaption">
+		<value />
+	</data>
+	<data name="RES_MenuBugReportCaption">
+		<value>报告程序错误 (Sourceforge)...</value>
+	</data>
+	<data name="RES_GUIStatusErrorReadingFeedlistFile">
+		<value>读取新闻列表文件错误.</value>
+	</data>
+	<data name="RES_MenuWebSearchRequiresNewTabDesc">
+		<value>网页搜索结果显示在新的Tab页上...</value>
+	</data>
+	<data name="RES_MainMenuSearchDesc">
+		<value>RSS Bandit网页搜索配置命令</value>
+	</data>
+	<data name="RES_ExceptionNewsItemTransformation">
+		<value>新闻无法解释成 HTML.</value>
+	</data>
+	<data name="RES_ExceptionProxyPortRange">
+		<value>指定的代理服务器端口不在规定的0到65535的范围内</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightDesc">
+		<value>新闻列表在右侧, 内容在左侧...</value>
+	</data>
+	<data name="RES_MenuNewRssSearchDesc">
+		<value>在本地搜索...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.ftp.hint">
+		<value>You can store your application state as rssbandit-state.zip using an FTP server. Provide the name of the FTP server and path such as 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_MenuDocTabsCloseCurrentDesc">
+		<value>关闭当前选中的文档页...</value>
+	</data>
+	<data name="RES_MenuToggleRssSearchTabStateDesc">
+		<value>固定搜索面板.</value>
+	</data>
+	<data name="RES_FeedDetailDocumentTabCaption">
+		<value>详细内容</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardDesc">
+		<value>复制当前选中的新闻联结到剪贴板...</value>
+	</data>
+	<data name="RES_MenuFinderDeleteAllDesc">
+		<value>删除所有在选中节点下的搜索文件夹...</value>
+	</data>
+	<data name="RES_ExceptionGeneral">
+		<value>对不起, 发生了一个错误:
+        
+'{0}'</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReviewCaption">
+		<value>评论</value>
+	</data>
+	<data name="RES_MenuNewFeedDesc">
+		<value>订阅一个新闻</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_MenuBanditWikiCaption">
+		<value>访问RSS Bandit主页...</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemDesc">
+		<value>复制一条新闻的剪贴板...</value>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateCaption">
+		<value>查找订阅项</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateComboBoxCaption">
+		<value />
+	</data>
+	<data name="RES_GUIFieldWebUrlInvalid">
+		<value>没有指定网页的网址</value>
+	</data>
+	<data name="RES_GUIStatusRefreshFeedsMessage">
+		<value>刷新新闻...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemFollowUpCaption">
+		<value>Follow Up</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedForFollowUpCaption">
+		<value>跟贴的项目</value>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyDesc">
+		<value>张贴这条新闻的回复...</value>
+	</data>
+	<data name="RES_MenuBrowserNewTabCaption">
+		<value />
+	</data>
+	<data name="RES_MenuFeedDetailLayoutBottomCaption">
+		<value>最上层的阅读面板</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageUpLoadingFeedlist">
+		<value>上传新闻列表 ({0}), 请等待...</value>
+	</data>
+	<data name="RES_MenuToggleTreeViewStateDesc">
+		<value>固定新闻列表面板.</value>
+	</data>
+	<data name="RES_MenuRenameCategoryDesc">
+		<value>重命名这个分类...</value>
+	</data>
+	<data name="RES_MenuShowMainGuiCaption">
+		<value>显示...</value>
+	</data>
+	<data name="RES_RssSearchNoResultMessage">
+		<value>没有找到.</value>
+	</data>
+	<data name="RES_MenuFeedItemPostReplyCaption">
+		<value>张贴回复...</value>
+	</data>
+	<data name="RES_TabFeedSourceCaption">
+		<value>新闻来源: {0}</value>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsCaption">
+		<value>更新所有的新闻</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemClearDesc">
+		<value>Remove the selected feed item(s) to the Flagged Items Collection...</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemCaption">
+		<value>复制</value>
+	</data>
+	<data name="RES_MenuValidateFeedCaption">
+		<value>校验</value>
+	</data>
+	<data name="RES_FormatExceptionProxyPort">
+		<value>端口不是有效数字.</value>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsDesc">
+		<value>删除所有选中的新闻项...</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessageRequestFile">
+		<value>请求文件:
+{0}</value>
+	</data>
+	<data name="RES_MenuValidateFeedDesc">
+		<value>对新闻源代码进行校验...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteDesc">
+		<value>Remove the selected feed item(s) to the Flagged Items Collection...</value>
+	</data>
+	<data name="RES_GUIStatusErrorGeneralFeedMessage">
+		<value>操作取消. 新闻 '{0}' 产生了一个错误: {1}</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemLinkToClipboardCaption">
+		<value>新闻联结到剪贴板</value>
+	</data>
+	<data name="RES_MenuShowFinderPropertiesCaption">
+		<value>属性...</value>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeOffline">
+		<value>[Working Offline]</value>
+	</data>
+	<data name="RES_MenuAppCloseExitDesc">
+		<value>关闭并退出RssBandit</value>
+	</data>
+	<data name="RES_MenuWebSearchToogleEngineDesc">
+		<value>Check this entry, to include it within the simultaneous search...</value>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+		<value>复制当前选中的新闻主页网址到剪贴板...</value>
+	</data>
+	<data name="RES_MenuUploadFeedsCaption">
+		<value>上传新闻...</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardCaption">
+		<value>项目的内容到剪贴板</value>
+	</data>
+	<data name="RES_MenuBrowserDoNavigateCaption">
+		<value>开始</value>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchDesc">
+		<value>点击开始搜索...</value>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedCaption">
+		<value>察看源代码</value>
+	</data>
+	<data name="RES_MenuCatchUpThisFeedCaption">
+		<value>标记所有新闻为已读</value>
+	</data>
+	<data name="RES_MainMenuToolsDesc">
+		<value>RSS Bandit 工具命令</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReadCaption">
+		<value>阅读</value>
+	</data>
+	<data name="RES_MenuRenameThisFeedDesc">
+		<value>重命名这条新闻...</value>
+	</data>
+	<data name="RES_MenuIBlogExtensionConfigCommandDesc">
+		<value>IBlogExtension (AddIn) 配置</value>
+	</data>
+	<data name="RES_MenuBrowserRefreshCaption">
+		<value />
+	</data>
+	<data name="RES_MenuCopyFeedLinkToClipboardDesc">
+		<value>复制当前选中的新闻联结到剪贴板...</value>
+	</data>
+	<data name="RES_ExceptionInvalidXmlChracterMessage">
+		<value>无效的字符</value>
+	</data>
+	<data name="RES_MenuCheckForUpdatesCaption">
+		<value>检查升级...</value>
+	</data>
+	<data name="RES_RssSearchDialogButtonSearchCaption">
+		<value>搜索</value>
+	</data>
+	<data name="XSLT_DefaultTemplate" mimetype="text/xml">
+		<value>&lt;xsl:stylesheet version='1.0' 
+xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+xmlns:xhtml='http://www.w3.org/1999/xhtml'
+xmlns:slash='http://purl.org/rss/1.0/modules/slash/' 
+xmlns:dc='http://purl.org/dc/elements/1.1/' 
+exclude-result-prefixes='content slash dc'&gt;
+
+&lt;xsl:output method='xml' indent='yes' /&gt; 
+
+
+&lt;!-- channel group newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='group']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='title'/&gt;&lt;/title&gt;
+&lt;!-- &lt;base href="{//channel/link}" /&gt; --&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table height="100%" width="100%"&gt;			  
+&lt;xsl:for-each select="//channel"&gt;
+&lt;tr&gt;
+&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+  &lt;xsl:if test="current()/image"&gt;
+&lt;div class="PostTitle" style="FLOAT: right"&gt;
+  &lt;a href="{current()/image/link}" title="{current()/image/title}"&gt;&lt;img src="{current()/image/url}"  alt="{current()/image/title}" border="0"&gt;
+  &lt;xsl:if test="current()/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="current()/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;xsl:if test="current()/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="current()/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+  &lt;/img&gt;&lt;/a&gt;
+&lt;/div&gt;
+  &lt;/xsl:if&gt;
+  &lt;div class="PostTitle"&gt;			
+&lt;a href='{current()/link}'&gt;
+  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/title'/&gt;
+&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- &lt;div class="PostInfos"&gt;
+  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+  &lt;/div&gt; --&gt;
+  &lt;div class="PostContent"&gt;
+&lt;xsl:for-each select='current()//item'&gt;
+  &lt;div class="PostInfos"&gt;	
+	&lt;a href='{current()/link}'&gt;
+	  &lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test='current()/xhtml:body'&gt;
+	  &lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:when test='current()/content:encoded'&gt;
+	  &lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  
+  &lt;div class="PostSignature"&gt;			
+	&lt;br /&gt;Published:
+	&lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+	  &lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+	  by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+	  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	  &lt;/xsl:if&gt;on
+	  &lt;xsl:value-of select='current()/pubDate'/&gt;
+	  &lt;xsl:if test='current()/enclosure'&gt;
+	&lt;br /&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+	Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+	&lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+	  &lt;/xsl:if&gt;			
+	  
+	&lt;/div&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/div&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/xsl:for-each&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- channel newspaper --&gt;
+&lt;xsl:template match="newspaper[@type='channel']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//channel/title'/&gt;&lt;/title&gt;
+&lt;base href="{//channel/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;table height="100%" width="100%"&gt;
+&lt;tr&gt;
+  &lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	&lt;xsl:if test="//channel/image"&gt;
+	  &lt;div class="PostTitle" style="FLOAT: right"&gt;
+	&lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+	&lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+	&lt;/img&gt;&lt;/a&gt;
+	  &lt;/div&gt;
+	&lt;/xsl:if&gt;
+	&lt;div class="PostTitle"&gt;			
+	  &lt;a href='{//channel/link}'&gt;
+	&lt;xsl:value-of  disable-output-escaping='yes' select='//channel/title'/&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;!-- &lt;div class="PostInfos"&gt;
+	&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/category"/&gt;&lt;/b&gt;
+	&lt;/div&gt; --&gt;
+	&lt;div class="PostContent"&gt;
+	  &lt;xsl:for-each select='//item'&gt;
+	&lt;div class="PostInfos"&gt;	
+	  &lt;a href='{current()/link}'&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="current()/title"/&gt;&lt;/b&gt;
+	  &lt;/a&gt;
+	&lt;/div&gt;
+	&lt;xsl:choose&gt;
+	  &lt;xsl:when test='current()/xhtml:body'&gt;
+		&lt;xsl:copy-of select='current()/xhtml:body'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:when test='current()/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/&gt;
+	  &lt;/xsl:when&gt;
+	  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/description'/&gt;
+	  &lt;/xsl:otherwise&gt;
+	&lt;/xsl:choose&gt;
+	
+	&lt;div class="PostSignature"&gt;			
+	  &lt;br /&gt;Published:
+	  &lt;xsl:if test="current()/dc:creator and current()/dc:creator!=''"&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='current()/dc:creator'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;&lt;xsl:if test="current()/author and current()/author!=''"&gt;
+		by  &lt;xsl:value-of disable-output-escaping='yes' select='current()/author'/&gt;
+		&lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;on
+		&lt;xsl:value-of select='current()/pubDate'/&gt;
+		&lt;xsl:if test='current()/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='current()/enclosure/@type'/&gt;, &lt;xsl:value-of select='current()/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+		
+	  &lt;/div&gt;
+	&lt;/xsl:for-each&gt;
+	  &lt;/div&gt;
+	&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+
+  &lt;!-- single news item --&gt;
+  &lt;xsl:template match="newspaper[@type='newsitem']"&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;xsl:value-of select='//item/title'/&gt;&lt;/title&gt;
+&lt;base href="{//item/link}" /&gt;
+&lt;xsl:call-template name="embedded_style" /&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+	&lt;table height="100%" width="100%"&gt;
+	  &lt;tr&gt;
+	&lt;td class="PostFrame" height="100%" width="100%" valign="top"&gt;
+	  &lt;xsl:if test="//channel/image"&gt;
+		&lt;div class="PostTitle" style="FLOAT: right"&gt;
+		  &lt;a href="{//channel/image/link}" title="{//channel/image/title}"&gt;&lt;img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0"&gt;
+		  &lt;xsl:if test="//channel/image/width!=''"&gt;&lt;xsl:attribute name="width"&gt;&lt;xsl:value-of select="//channel/image/width"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;xsl:if test="//channel/image/height!=''"&gt;&lt;xsl:attribute name="height"&gt;&lt;xsl:value-of select="//channel/image/height"/&gt;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;
+		  &lt;/img&gt;&lt;/a&gt;
+		&lt;/div&gt;
+	  &lt;/xsl:if&gt;
+	  &lt;div class="PostTitle"&gt;
+		&lt;a href='{//item/link}'&gt;
+		  &lt;xsl:value-of  disable-output-escaping='yes' select='//item/title'/&gt;
+		&lt;/a&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostInfos"&gt;
+		&lt;b&gt;&lt;xsl:value-of disable-output-escaping='yes' select="//item/category"/&gt;&lt;/b&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostContent"&gt;
+		&lt;xsl:choose&gt;
+		  &lt;xsl:when test='//item/xhtml:body'&gt;
+		&lt;xsl:copy-of select='//item/xhtml:body'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:when test='//item/content:encoded'&gt;
+		&lt;xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/&gt;
+		  &lt;/xsl:when&gt;
+		  &lt;xsl:otherwise&gt;
+		&lt;xsl:value-of disable-output-escaping='yes' select='//item/description'/&gt;
+		  &lt;/xsl:otherwise&gt;
+		&lt;/xsl:choose&gt;
+	  &lt;/div&gt;
+	  &lt;div class="PostSignature"&gt;
+		&lt;a href='{//channel/link}' title='{//channel/description}'&gt;&lt;xsl:value-of disable-output-escaping='yes'  select='//channel/title'/&gt;&lt;/a&gt;
+		&lt;br /&gt;Published:
+		&lt;xsl:if test="//item/dc:creator and //item/dc:creator!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/dc:creator'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;/xsl:if&gt;&lt;xsl:if test="//item/author and //item/author!=''"&gt;
+		  &lt;xsl:value-of disable-output-escaping='yes' select='//item/author'/&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		&lt;/xsl:if&gt;
+		&lt;xsl:value-of select='//item/pubDate'/&gt;
+		&lt;xsl:if test='//item/enclosure'&gt;
+		  &lt;br /&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;amp;nbsp;&lt;/xsl:text&gt;
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;a href='&lt;/xsl:text&gt;&lt;xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/&gt;&lt;xsl:text disable-output-escaping='yes'&gt;'&amp;gt;&lt;/xsl:text&gt;
+		  Enclosure (&lt;xsl:value-of select='//item/enclosure/@type'/&gt;, &lt;xsl:value-of select='//item/enclosure/@length'/&gt; Bytes)
+		  &lt;xsl:text disable-output-escaping='yes'&gt;&amp;lt;/a&gt;&lt;/xsl:text&gt;				
+		&lt;/xsl:if&gt;			
+	  &lt;/div&gt;
+	&lt;/td&gt;
+	  &lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/body&gt;&lt;/html&gt;
+  &lt;/xsl:template&gt;
+  
+&lt;xsl:template name="embedded_style"&gt;
+&lt;style type="text/css"&gt;
+	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
+	margin: 5px; padding 0px;}
+	
+	a, a:visited, a:active { 
+	color: #355EA0;
+	text-decoration: none;
+	border-bottom: 1px dotted #355EA0;
+	}
+	
+	a:hover { 
+	color: #FF6600;
+	text-decoration: none;
+	border-bottom: 1px dotted #FF6600;
+	}
+	
+	div {
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	}
+	
+	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
+	
+	div.PostTitle { 
+	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+	font-family: verdana, arial, sans-serif;
+	font-size: medium;
+	}
+	
+	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+	border-width: 0px;
+	color: #FF6600;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	.PostTitle a:hover {
+	border-width: 0px;
+	text-decoration: underline;
+	}
+	
+	div.PostInfos { 
+	color: #808080;
+	font-family: verdana, arial, sans-serif;	font-size: x-small;
+	font-weight: normal;
+	text-transform: none;
+	}
+	
+	div.PostContent {
+	font-size: x-small;
+	border-top: 1px dotted #CBCBCB;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
+	border-bottom: 1px dotted #CBCBCB;
+	}
+	
+	div.PostSignature { 
+	text-align: right;
+	font-family: verdana, arial, sans-serif;	
+	font-size: xx-small; 
+	font-style: italic;
+	}
+	
+	.PostSignature a { font-size: x-small; }
+&lt;/style&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</value>
+		<comment>CHANGED: default stylesheet</comment>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedXMLFailed">
+		<value>刷新 {0} 失败 (XML错误): {1}</value>
+	</data>
+	<data name="RES_MenuDoSearchWebDesc">
+		<value>在网页上搜索的短语...</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemForwardCaption">
+		<value>转发</value>
+	</data>
+	<data name="RES_GuiStateNoFeedItemSelectedMessage">
+		<value>没有选择新闻项</value>
+	</data>
+	<data name="RES_FeedNodeSentItemsDesc">
+		<value>发件箱 (回复)</value>
+	</data>
+	<data name="RES_MenuImportFeedsDesc">
+		<value>导入新闻列表 (.xml, .ocs or .opml)</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedFeedsCaption">
+		<value>标记的项</value>
+	</data>
+	<data name="RES_MenuAboutDesc">
+		<value>提供和程序相关的信息</value>
+	</data>
+	<data name="RES_GUIStatusBusyRefresh">
+		<value>繁忙,刷新...</value>
+	</data>
+	<data name="RES_GUIAutoDiscoverFeedFailedCaption">
+		<value>自动探索新闻失败</value>
+	</data>
+	<data name="RES_InvalidFeedFileInfoBoxCaption">
+		<value>无效的新闻文件</value>
+	</data>
+	<data name="RES_MenuIBlogExtensionCommandDesc">
+		<value>IBlogExtension (AddIn) 命令</value>
+	</data>
+	<data name="RES_GUIStatusWaitMessagePrefetchFeed">
+		<value>请求新闻:
+{0}</value>
+	</data>
+	<data name="RES_WebExceptionOnUrlAccess">
+		<value>请求URL {0} 失败: {1}</value>
+	</data>
+	<data name="RES_MenuAutoDiscoverFeedCaption">
+		<value>定位新闻</value>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListDesc">
+		<value>晴空所有在下面列举的发现的新闻...</value>
+	</data>
+	<data name="RES_GUIStatusChildItemsNA">
+		<value>无法读取子项, 网络中断.</value>
+	</data>
+	<data name="RES_GUIStatusPostReplyToItem">
+		<value>发布回复,请等待...</value>
+	</data>
+	<data name="RES_MenuExportFeedsDesc">
+		<value>导出新闻列表...</value>
+	</data>
+	<data name="RES_InvalidFeedlistFileMessage">
+		<value>新闻列表无效. 详细错误信息请察看文件 
+  '{0}' .</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeed">
+		<value>新闻读取中...</value>
+	</data>
+	<data name="RES_MenuFinderDeleteAllCaption">
+		<value>全部删除</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionSiteUrl">
+		<value>站点网址</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemCompleteCaption">
+		<value>完成</value>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeCaption">
+		<value>主页</value>
+	</data>
+	<data name="RES_ControlCollapsiblePanelCollapseTooltip">
+		<value>折叠面板...</value>
+	</data>
+	<data name="RES_MenuCatchUpOnAllDesc">
+		<value>标记所有的新闻为已读</value>
+	</data>
+	<data name="URL_FeedValidationBase">
+		<value>http://www.feedvalidator.org/check?url=</value>
+	</data>
+	<data name="RES_MenuFinderDeleteDesc">
+		<value>删除选中的搜索文件夹...</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateBackDesc">
+		<value>回退到访问的网址...</value>
+	</data>
+	<data name="RES_ExceptionRefreshRateInvalid">
+		<value>无效的刷新率</value>
+	</data>
+	<data name="RES_MenuNewFeedCaption">
+		<value>新的新闻...</value>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFeedsInCategoryQuestion">
+		<value>你确定要删除这个分类和其中的新闻与子分类么?</value>
+	</data>
+	<data name="RES_TabLinkCosmosCaption">
+		<value>新闻联结: {0}</value>
+	</data>
+	<data name="RES_CmdLineHelpDesc">
+		<value>打印这条信息</value>
+	</data>
+	<data name="RES_CmdLineCultureDesc">
+		<value>Start Application in a different language (ISO language code)</value>
+		<comment>CommandLine Option description</comment>
+	</data>
+	<data name="RES_GUIStatusDone">
+		<value>完成</value>
+	</data>
+	<data name="RES_MainMenuFileCaption">
+		<value>文件(&amp;F)</value>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripDesc">
+		<value>关闭选中级别上的文档页...</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetCompile">
+		<value>Xslt 风格页无法编译</value>
+	</data>
+	<data name="RES_GUIStatusNewFeedItemsReceivedMessage">
+		<value>{0} 条新闻,包含 {1} 条信息</value>
+	</data>
+	<data name="RES_GUIStatusRefreshThisFeedMessage">
+		<value>刷新: {0} ...</value>
+	</data>
+	<data name="RES_RssSearchDialogButtonCancelCaption">
+		<value>取消</value>
+	</data>
+	<data name="RES_ExceptionIBlogExtensionFunctionCall">
+		<value>IBlogExtension (AddIn) 的功能 '{0}' 调用的时引发了一个异常:
+'{1}'.        
+        </value>
+	</data>
+	<data name="RES_GUICurrentConnectionState.Info">
+		<value>当前的网络连接状态...</value>
+	</data>
+	<data name="RES_ExceptionStartDefaultBrowserMessage">
+		<value>在启动您的缺省浏览器的时候遇到了一个错误:
+		
+		'{0}'.
+		
+		我们是否应该在新的列表页上打开 '{1}'?</value>
+	</data>
+	<data name="RES_MenuAppOptionsDesc">
+		<value>显示应用程序的选项对话框...</value>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalCaption">
+		<value>水平分层</value>
+	</data>
+	<data name="RES_TabFeedHomeCaption">
+		<value>新闻主页: {0}</value>
+	</data>
+	<data name="RES_AppLoadStateLoading">
+		<value>启动程序...</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedUrl">
+		<value>新闻网址</value>
+	</data>
+	<data name="RES_RssSearchResultNodeCaption">
+		<value>搜索结果</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsAvailable">
+		<value>有未读新闻...</value>
+	</data>
+	<data name="RES_AppLoadStateGuiLoading">
+		<value>装载用户界面...</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog.hint">
+		<value>如果你是dasBlog (http://www.dasblog.net)的用户,你可以把你的新闻订阅清单存成blogroll.opml. 存储服务的网址是http://yourblog.com/dasblog/ConfigEditingService.asmx 你需要打开dasBlog的可配置编辑服务.</value>
+	</data>
+	<data name="RES_MenuDocTabsLayoutHorizontalDesc">
+		<value>如果选中, 文档可以被水平分层...</value>
+	</data>
+	<data name="RES_MenuAdvancedFeedInfoCaption">
+		<value>这条新闻</value>
+	</data>
+	<data name="RES_GUIFeedlistUploadExceptionMessage">
+		<value>新闻列表更新错误:
+{0}</value>
+	</data>
+	<data name="RES_GUIStatusValidationErrorReadingFeedlistFile">
+		<value>读取新闻列表时发生校验错误.</value>
+	</data>
+	<data name="RES_FeedDefaultCategory">
+		<value>[Unclassified Feeds]</value>
+	</data>
+	<data name="RES_GUIFieldKeywordsInvalid">
+		<value>没有指定关键字</value>
+	</data>
+	<data name="RES_MenuCopyFeedItemContentToClipboardDesc">
+		<value>复制当前选中的新闻内容到剪贴板...</value>
+	</data>
+	<data name="RES_MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+		<value>复制新闻主页的联结到剪贴板</value>
+	</data>
+	<data name="RES_MenuDeleteThisFeedCaption">
+		<value>删除新闻</value>
+	</data>
+	<data name="RES_GUIStatusErrorInvalidFeed">
+		<value>无效新闻.</value>
+	</data>
+	<data name="RES_OverflowExceptionRefreshRate">
+		<value>指定的刷新率太高了.</value>
+	</data>
+	<data name="RES_RemoteStorageFeature.Info">
+		<value>在使用本功能前,你必须先在选项设置中配置远程服务器.</value>
+	</data>
+	<data name="RES_RssSearchTypeXPathHintCaption">
+		<value>按照指定的XPath查找支持RSS2.0邮件.</value>
+	</data>
+	<data name="RES_RssSearchTypeRegExHintCaption">
+		<value>查找匹配表达式的单词或者短语.</value>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllCaption">
+		<value>关闭所有的文档</value>
+	</data>
+	<data name="RES_MenuDeleteAllFeedItemsDesc">
+		<value>删掉所有的新闻条目...</value>
+	</data>
+	<data name="RES_MenuUpdateCategoryDesc">
+		<value>更新这个分类中的所有新闻</value>
+	</data>
+	<data name="URL_WikiWebNews">
+		<value>http://www.rssbandit.org/</value>
+	</data>
+	<data name="RES_PreferencesExceptionMessageTitle">
+		<value>性能设置异常</value>
+	</data>
+	<data name="RES_ExceptionSettingDefaultAggregator">
+		<value>在设置缺省的新闻浏览器时系统报告错误:
+        
+'{0}'</value>
+	</data>
+	<data name="RES_MenuUploadFeedsDesc">
+		<value>上传新闻列表到远程服务器.</value>
+	</data>
+	<data name="RES_GUIFieldLinkTitleInvalid">
+		<value>RSS新闻的联结和标题不能为空</value>
+	</data>
+	<data name="RES_MenuNewCategoryCaption">
+		<value>新分类...</value>
+	</data>
+	<data name="RES_MenuUpdateAllFeedsDesc">
+		<value>更新所有的新闻...</value>
+	</data>
+	<data name="RES_MenuDeleteSelectedFeedItemsCaption">
+		<value>删除选中的项</value>
+	</data>
+	<data name="RES_RssSearchCancelledStateMessage">
+		<value>搜索正在取消中, ...</value>
+	</data>
+	<data name="RES_GUIStatusUnreadFeedItemsLeftMessage">
+		<value>{0} 条未读新闻.</value>
+	</data>
+	<data name="RES_MenuShowFeedPropertiesCaption">
+		<value>属性...</value>
+	</data>
+	<data name="RES_FeedNodeSpecialFeedsDesc">
+		<value>特殊新闻箱</value>
+	</data>
+	<data name="RES_MenuViewSourceOfFeedDesc">
+		<value>察看这条新闻的源代码...</value>
+	</data>
+	<data name="RES_MenuCopyFeedHomeLinkToClipboardDesc">
+		<value>复制当前当前选中的RSS新闻的主页地址到剪贴板...</value>
+	</data>
+	<data name="RES_MenuAppInternetConnectionModeCaption">
+		<value>脱机工作</value>
+	</data>
+	<data name="RES_GUIStatusIdle">
+		<value>空闲</value>
+	</data>
+	<data name="RES_FeedNodeMyFeedsDesc">
+		<value>订阅新闻的容器</value>
+	</data>
+	<data name="RES_ToolbarAddRemoveButtonsCaption">
+		<value>添加或删除按钮</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.dasBlog">
+		<value>Web 服务网址:</value>
+	</data>
+	<data name="RES_MenuMarkFeedItemsUnreadDesc">
+		<value>标记选中的新闻为未读...</value>
+	</data>
+	<data name="RES_ExceptionProxyPortInvalid">
+		<value>无效的代理服务器端口</value>
+	</data>
+	<data name="RES_MenuBrowserNewExternalWindowCaption">
+		<value />
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeCaption">
+		<value>标记已读</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedForForwardCaption">
+		<value>转发的项目</value>
+	</data>
+	<data name="RES_MainMenuSearchCaption">
+		<value>搜索(&amp;S)</value>
+	</data>
+	<data name="RES_MenuDocTabsCloseAllOnStripCaption">
+		<value>关闭所有的同级的文档页</value>
+	</data>
+	<data name="RES_MenuCatchUpCategoryDesc">
+		<value>标记在这个分类中所有的新闻为已读状态...</value>
+	</data>
+	<data name="RES_RemoteStorageUpload.Question">
+		<value>你的新闻列表将要被上传到你设定的远程服务器. 
+        
+继续?</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutRightCaption">
+		<value>阅读区域在左侧</value>
+	</data>
+	<data name="RES_MenuAppCloseExitCaption">
+		<value>退出(&amp;X)</value>
+	</data>
+	<data name="RES_ExceptionNoOnNewWindowExecutable">
+		<value>请提供可执行文件的全路径和名称</value>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsCaption">
+		<value>删掉所有的新闻</value>
+	</data>
+	<data name="RES_MenuNavigateToFeedHomeDesc">
+		<value>访问新闻主页...</value>
+	</data>
+	<data name="RES_ExceptionRefreshThisFeedFatalFailed">
+		<value>刷新 {0} 失败 (致命错误): {1}</value>
+	</data>
+	<data name="RES_MenuFeedDetailLayoutTopCaption">
+		<value>阅读区域在底部</value>
+	</data>
+	<data name="RES_MenuUpdateCategoryCaption">
+		<value>更新分类</value>
+	</data>
+	<data name="RES_FeedNodeFinderRootDesc">
+		<value>记录持续搜索的容器</value>
+	</data>
+	<data name="RES_MenuNewRssSearchCaption">
+		<value>搜索</value>
+	</data>
+	<data name="RES_MenuPostReplyFeedItemDesc">
+		<value>张贴这条新闻的回复...</value>
+	</data>
+	<data name="RES_ListviewColumnCaptionFeedTitle">
+		<value>新闻标题</value>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.fileShare">
+		<value>Directory path:</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_MenuRenameThisFeedCaption">
+		<value>重命名新闻</value>
+	</data>
+	<data name="RES_MenuBanditWikiDesc">
+		<value>阅读新闻,提新建议,问答等等...</value>
+	</data>
+	<data name="RES_MenuCopyFeedDesc">
+		<value>复制选中的新闻到o...</value>
+	</data>
+	<data name="RES_MenuBugReportDesc">
+		<value>您可以在Sourceforge.net上报告程序的错误</value>
+	</data>
+	<data name="RES_MenuBrowserNavigateCancelDesc">
+		<value>取消访问...</value>
+	</data>
+	<data name="RES_RemoteStorageUploadSucceeds.Info">
+		<value>新闻列表上传成功.</value>
+	</data>
+	<data name="RES_MenuImportFeedsCaption">
+		<value>导入新闻...</value>
+	</data>
+	<data name="RES_MenuCheckForUpdatesDesc">
+		<value>检查程序的升级版本</value>
+	</data>
+	<data name="RES_ExceptionStartBrowserCustomExecMessage">
+		<value>在启动您自定义的可执行程序 '{0}'时发生错误:
+		
+		'{1}'.
+		
+		是否需要在新的列表页上打开网址 '{2}'?</value>
+	</data>
+	<data name="RES_NotYetImplementedFeature.Info">
+		<value>抱歉,这个功能还没有实现.</value>
+	</data>
+	<data name="RES_ExceptionNoRemoteStorageAuthUser">
+		<value>请提供远程存储器验证用的用户名</value>
+	</data>
+	<data name="RES_MenuCatchUpSelectedNodeDesc">
+		<value>把所有在列表中被选择的节点中的新闻标记为已读...</value>
+	</data>
+	<data name="RES_FeedNodeSentItemsCaption">
+		<value>发件</value>
+	</data>
+	<data name="RES_MenuWorkspaceNewsDesc">
+		<value>在 Sourceforge.net 阅读最新的关于本应用程序的消息</value>
+	</data>
+	<data name="RES_MenuRenameCategoryCaption">
+		<value>重命名分类</value>
+	</data>
+	<data name="RES_GUIStatusInfoMessageNoFeedsFound">
+		<value>对不起,没有找到RSS新闻</value>
+	</data>
+	<data name="RES_MenuDeleteAllFeedsDesc">
+		<value>删掉所有的新闻...</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReadCaption">
+		<value>已阅读的项目</value>
+	</data>
+	<data name="RES_GUIStatusLoadingFeedlist">
+		<value>读取新闻列表...</value>
+	</data>
+	<data name="RES_MenuNewCategoryDesc">
+		<value>在新闻组中增加一个新分类</value>
+	</data>
+	<data name="RES_MenuAutodiscoveredFeedsDropdownCaption">
+		<value />
+	</data>
+	<data name="RES_MenuCopyFeedItemTitleLinkToClipboardCaption">
+		<value>新闻标题的联结到剪贴板</value>
+	</data>
+	<data name="RES_WindowAboutCaption">
+		<value>关于 {0}</value>
+	</data>
+	<data name="RES_MenuShowMainGuiDesc">
+		<value>重新显示/打开 RSS Bandit 主窗口...</value>
+	</data>
+	<data name="RES_GUIBlankFieldDetectedCaption">
+		<value>监测到了空白字段</value>
+	</data>
+	<data name="RES_WrongImageSizeMessage">
+		<value>图像不是16x16.</value>
+	</data>
+	<data name="RES_MenuFlagFeedItemReplyDesc">
+		<value>把选中的新闻添加到已标记的项目集合中...</value>
+	</data>
+	<data name="RES_MainMenuHelpCaption">
+		<value>帮助(&amp;H)</value>
+	</data>
+	<data name="URL_BugReport">
+		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+	</data>
+	<data name="RES_CmdLineSubscribeToDesc">
+		<value>订阅指定的新闻</value>
+	</data>
+	<data name="RES_GUIStatusNoFeedlistFile">
+		<value>没有新闻列表.</value>
+	</data>
+	<data name="RES_MenuClearAutodiscoveredFeedsListCaption">
+		<value>清空发现的新闻列表</value>
+	</data>
+	<data name="RES_FeedNodeFlaggedForReviewCaption">
+		<value>评论的项目</value>
+	</data>
+	<data name="URL_ProjectNews">
+		<value>http://sourceforge.net/news/?group_id=96589</value>
+	</data>
+	<data name="RES_MenuShowAlertWindowsCaption">
+		<value>显示提示窗口</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAlertWindowsDesc">
+		<value>控制提示窗口的提示信息</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsCaption">
+		<value>作为每条新闻的配置</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowConfiguredFeedAlertWindowsDesc">
+		<value>为每一条新闻显示提示窗口</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsCaption">
+		<value>从不</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNoneAlertWindowsDesc">
+		<value>不要显示提示窗口</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsCaption">
+		<value>总是</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowAllAlertWindowsDesc">
+		<value>当接收到新的新闻时,显示提示窗口</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonCaption">
+		<value>显示新条目的桌面提示</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuShowNewItemsReceivedBalloonDesc">
+		<value>控制提示窗口关于接收到新条目的显示</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtDefaultCaption">
+		<value>在缺省的新闻浏览器中订阅</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_InternetExplorerMenuExtBanditCaption">
+		<value>在RSS Bandit订阅</value>
+		<comment>Internet Explorer Menu Extension Caption</comment>
+	</data>
+	<data name="RES_PostReplyFormCaption">
+		<value>Post Reply - RE: {0}</value>
+		<comment>Post reply to a Feed Item Form Caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_StatisticsAllFeedsCountMessage">
+		<value>Subscribed feeds: {0}</value>
+		<comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+	</data>
+	<data name="RES_StatisticsItemsDisplayedMessage">
+		<value>Selection contains {0} items</value>
+		<comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+	</data>
+	<data name="URL_WebHelp">
+		<value>http://www.rssbandit.org/docs/</value>
+		<comment>used to navigate to Bandit docs (Help)</comment>
+	</data>
+	<data name="RES_GUIExceptionRetriveCommentRssFeed">
+		<value>Error on request commentRss feed: {0}</value>
+		<comment>GUI status info</comment>
+	</data>
+	<data name="RES_GUIFieldTitleInvalid">
+		<value>The title for the category cannot be blank!</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_GeneralNewItemTextWithCounter">
+		<value>[New {0}]</value>
+	</data>
+	<data name="RES_ExceptionNewsItemFormatterStylesheetMessage">
+		<value>The selected Xslt stylesheet to format items reports this problem:
+{0}
+Detail: {1}</value>
+	</data>
+	<data name="RES_MenuWebHelpCaption">
+		<value>&amp;Online Documentation</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuWebHelpDesc">
+		<value>Get help about the application, getting started, FAQ, etc.</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsCaption">
+		<value>&amp;Toolbars</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarsDesc">
+		<value>Toggles the view state of the various toolbars.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainCaption">
+		<value>Standard</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarMainDesc">
+		<value>Toggles the view state of the standard toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationCaption">
+		<value>Web Navigation</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebNavigationDesc">
+		<value>Toggles the view state of the web navigation toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchCaption">
+		<value>Web Search</value>
+		<comment>Caption within view menu</comment>
+	</data>
+	<data name="RES_MenuViewToolbarWebSearchDesc">
+		<value>Toggles the view state of the web search toolbar.</value>
+		<comment>Description within view menu</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesCaption">
+		<value>Properties...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuShowCategoryPropertiesDesc">
+		<value>Display the Category properties dialog...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderCaption">
+		<value>New Search Folder</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuNewFinderDesc">
+		<value>Create a new search folder...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuFinderRenameCaption">
+		<value>Rename Search Folder</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRenameCaptionDesc">
+		<value>Rename this search folder...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteThisFinderQuestion">
+		<value>Do you really want to delete this search folder?</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderCaption">
+		<value>Refresh Search</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuRefreshFinderDesc">
+		<value>Refreshes the search results in the search folder...</value>
+		<comment>NEW</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultCaption">
+		<value>Subscribe...</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuSubscribeToFinderResultDesc">
+		<value>Display the new feed dialog to subscribe to the finder result...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsCaption">
+		<value>Restore</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuRestoreSelectedFeedItemsDesc">
+		<value>Restores all selected items...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_ExceptionSaveFileMessage">
+		<value>Could not save file '{0}', because:
+		
+		'{1}'.
+	</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_FileDialogFilterOPMLFiles">
+		<value>OPML Files</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterXMLFiles">
+		<value>XML Files</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_FileDialogFilterAllFiles">
+		<value>All Files</value>
+		<comment>Text used to build Open/Save File Dialog file filters</comment>
+	</data>
+	<data name="RES_ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+		<value>FTP Remote locations needs to use the 'ftp:' url scheme.</value>
+		<comment>Text used within errorProvider</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV">
+		<value>WebDAV folder Url:</value>
+		<comment>Dynamic label text (Preferences)</comment>
+	</data>
+	<data name="RES_LabelTextRemoteStorageLocation.WebDAV.hint">
+		<value>You can store your application state as rssbandit-state.zip within a WebDAV folder. The storage service URL should point to a WebDAV folder, e. g. 'http://mywebdav.com/personal/' and you should be able to save and read files there.</value>
+		<comment>CHANGED</comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionCommentCount">
+		<value>Comments</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ListviewColumnCaptionEnclosure">
+		<value>Enclosure</value>
+		<comment>Column caption within listview </comment>
+	</data>
+	<data name="RES_ToolbarOptionsCaption">
+		<value>Toolbar Options</value>
+		<comment>Toolbar chevron dropdown menu tip</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportStringPart">
+		<value>Refresh feed '&lt;strong&gt;{0}&lt;/strong&gt;' failed with error: {1}</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportValidationPart">
+		<value>Click here to &lt;strong&gt;validate&lt;/strong&gt; the feed.</value>
+		<comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionGeneratorStringPart">
+		<value>The Feed was generated by '{0}'.</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportContactInfo">
+		<value>Contact information(s):</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportManagingEditor">
+		<value>Managing Editor</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportWebMaster">
+		<value>Web Master</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_RefreshFeedExceptionReportHomePage">
+		<value>Feed Homepage</value>
+		<comment>Part of the error text displayed for refresh feed exceptions</comment>
+	</data>
+	<data name="RES_XmlExceptionCategory">
+		<value>Xml Exception</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_WebExceptionCategory">
+		<value>Web Exception</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ProtocolViolationExceptionCategory">
+		<value>Protocol Violation Exception</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_ExceptionCategory">
+		<value>General Exception</value>
+		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
+	</data>
+	<data name="RES_PostReplyTitlePrefix">
+		<value>Re: {0}</value>
+		<comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoText">
+		<value>user-name: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+		<comment>Post reply identity infos about properties we provide to the receiver.</comment>
+	</data>
+	<data name="RES_PostReplySentIdentityInfoTextEmptyValue">
+		<value>&lt;none&gt;</value>
+		<comment>Post reply identity info displayed for an empty property</comment>
+	</data>
+	<data name="RES_DirectoryDoesNotExistMessage">
+		<value>Specified directory does not exist</value>
+		<comment>Used in Options dialog for remote storage UNC.</comment>
+	</data>
+	<data name="RES_ExceptionUISettingsSave">
+		<value>Unexpected error on saving UI settings (.settings.xml):
+        
+'{0}'</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_NameRequiredInPostReplyMessage">
+		<value>You must provide a name when posting a reply</value>
+		<comment>Message used in Post reply dialog.</comment>
+	</data>
+	<data name="RES_ExceptionInvalidShortcutSettingsFile">
+		<value>Shortcut Settings File Could not be validated</value>
+		<comment>Failure Message if the file is not valid XML.</comment>
+	</data>
+	<data name="RES_ExceptionGeneralCritical">
+		<value>An error occurred and have been logged to file 
+'{0}'.
+Please report it's content to the dev.rssbandit.org development team 
+along with the following information:
+</value>
+		<comment>Exception message</comment>
+	</data>
+	<data name="RES_SecurityExceptionCausedByRegistryAccess">
+		<value>To apply this functionality the application needs write access rights
+to this Windows registry key: '{0}'.
+        
+To get it work, please start the application from within the Windows File Explorer
+by selecting 'Run as...' from the context menu displayed on a Right-Click to the executable.
+Then choose the local Administrator account to run the application and try again.
+
+The administrative rights are only needed to apply the requested functionality.
+It is not required to have them each time you run the application. Sorry for the
+inconvenience.</value>
+		<comment>Messagebox error text</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsCaption">
+		<value>Deleted Items</value>
+		<comment>SmartNode caption</comment>
+	</data>
+	<data name="RES_FeedNodeDeletedItemsDesc">
+		<value>Container of deleted items</value>
+		<comment>SmartNode desc</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllFindersQuestion">
+		<value>Do you really want to delete all search folders?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MessageBoxDeleteAllItemsQuestion">
+		<value>Do you really want to delete all items?</value>
+		<comment>Text within a messagebox</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogCaption">
+		<value>Manage Identities...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigIdentitiesDialogdesc">
+		<value>Opens a dialog to manage identities...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogCaption">
+		<value>Newsgroups...</value>
+		<comment>menu caption text</comment>
+	</data>
+	<data name="RES_MenuOpenConfigNntpServerDialogDesc">
+		<value>Opens a dialog to manage NNTP servers and newsgroups...</value>
+		<comment>menu caption tooltip text</comment>
+	</data>
+	<data name="RES_ConfigIdentitiesDialogCaption">
+		<value>Manage Identities</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_ConfigNewsServerDialogCaption">
+		<value>Manage Newsgroups</value>
+		<comment>window caption text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnFeedCaption">
+		<value>Information you exchange with feed '{0}' cannot be viewed or changed by other users. However, there is a problem with the feed's security certificate.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssueOnSiteCaption">
+		<value>Information you exchange with the site '{0}' cannot be viewed or changed by other users. However, there is a problem with the site's security certificate.</value>
+		<comment>Certificate issue dialog heading text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCN_NO_MATCH">
+		<value>The name on the security certificate is invalid or does not match the name of the site.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertEXPIRED">
+		<value>The issued certificate expired at {0}.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOKED">
+		<value>The certificate was revoked.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDCA">
+		<value>The certificate has a untrusted Certification Authory (CA).</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDROOT">
+		<value>The certificate has a untrusted CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertUNTRUSTEDTESTROOT">
+		<value>The certificate has a untrusted test CA (Certification Authory) root.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPURPOSE">
+		<value>The purpose of the certificate does not match the required task.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCHAINING">
+		<value>The certificate is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertCRITICAL">
+		<value>The certificate caused a critical error.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertISSUERCHAINING">
+		<value>The certificate issuer is already a member of the trust chain.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertMALFORMED">
+		<value>The certificate is malformed.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertPATHLENCONST">
+		<value>The certificate caused an error: path length const.</value>
+		<comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertREVOCATION_FAILURE">
+		<value>The revocation of the certificate failed.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertROLE">
+		<value>The role of the certificate is wrong.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertVALIDITYPERIODNESTING">
+		<value>The validity period of the certificate is nesting.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.CertWRONG_USAGE">
+		<value>The certificate cannot be used for the required task.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_CertificateIssue.Unknown">
+		<value>The security certificate caused a general unknown problem: '{0}'.</value>
+		<comment>Certificate issue dialog detail text</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCaption">
+		<value>Column Layout</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDesc">
+		<value>Manage displayed columns and layout...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleCaption">
+		<value>Show Headline</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserTitleDesc">
+		<value>Display the headline (title) column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateCaption">
+		<value>Show Date</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserDateDesc">
+		<value>Display the date column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectCaption">
+		<value>Show Topic</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserSubjectDesc">
+		<value>Display the subject (category, topic) column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorCaption">
+		<value>Show Author</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserAuthorDesc">
+		<value>Display the author column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleCaption">
+		<value>Show Subscription Title</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFeedTitleDesc">
+		<value>Display the subscription title column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountCaption">
+		<value>Show Comment Count</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserCommentCountDesc">
+		<value>Display the comment counter column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureCaption">
+		<value>Show Enclosure State</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserEnclosureDesc">
+		<value>Display the enclosure state column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagCaption">
+		<value>Show Flag State</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserFlagDesc">
+		<value>Display the flag state column of a news item...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalCaption">
+		<value>Use layout as default for categories</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseCategoryLayoutGlobalDesc">
+		<value>Layout will be valid for all category nodes without an individual assigned layout...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalCaption">
+		<value>Use layout as default for feeds</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserUseFeedLayoutGlobalDesc">
+		<value>Layout will be valid for all feed nodes without an individual assigned layout...</value>
+		<comment>Description within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultCaption">
+		<value>Reset layout to default</value>
+		<comment>Caption within context menu</comment>
+	</data>
+	<data name="RES_MenuColumnChooserResetLayoutToDefaultDesc">
+		<value>Layout will be removed from the selected subscription node...</value>
+		<comment>Description within context menu</comment>
+	</data>
+<data name="RES_ListviewColumnCaptionFlagStatus">
+		<value>Flag</value>
+		<comment>Column caption within listview</comment>
+	</data>
+	<data name="URL_ProjectDonation">
+		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+		<comment>Bandit Project Donation Url, default on invalid .config</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectCaption">
+		<value>Donate...</value>
+		<comment>Caption within help menu</comment>
+	</data>
+	<data name="RES_MenuDonateToProjectDesc">
+		<value>Navigates to an Url where you can support the project...</value>
+		<comment>Description within help menu</comment>
+	</data>
+	<data name="URL_ProjectDownload">
+		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+		<comment>Download package page at Sourceforge, default on invalid .config</comment>
+	</data>
+	<data name="RES_DialogQuestionNewAppVersionAvailable">
+		<value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+		<comment>Question Dialog Text</comment>
+	</data>
+	<data name="RES_WaitDialogMessageCheckForNewAppVersion">
+		<value>Checking for new updates...</value>
+		<comment>Waiting Message Dialog Text</comment>
+	</data>
+	<data name="RES_DialogMessageNoNewAppVersionAvailable">
+		<value>There are currently no new updates available for download.</value>
+		<comment>Message Dialog Text</comment>
+	</data>
+	<data name="RES_FeedListNoChildsMessage">
+		<value>No child items...</value>
+		<comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+	</data>
+	</root>

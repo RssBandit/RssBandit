@@ -1,0 +1,465 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>NewsComponents</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NewsComponents</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug2|AnyCPU' ">
+    <OutputPath>bin\Debug2\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;CLR_20</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>0618;</NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release2|AnyCPU' ">
+    <OutputPath>bin\Release2\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;CLR_20</DefineConstants>
+    <DocumentationFile>doc\NewsComponents.xml</DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <Name>log4net</Name>
+      <HintPath>..\Common\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net">
+      <Name>Lucene.Net</Name>
+      <HintPath>bin\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\RssBandit.AppServices\RssBandit2.AppServices.csproj">
+      <Name>RssBandit2.AppServices</Name>
+      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\Log.cs">
+      <Link>Log.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Common\ProfilerHelper.cs">
+      <Link>ProfilerHelper.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\CategoriesCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\FeedColumnLayoutCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\FeedsCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstDictionaries.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstDictionaryEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstDictionaryEntryEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstDictionaryEnumerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstSynchronizedDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\Tst\TstTraverser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\BackgroundDownloadManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\INewsComponentsConfiguration.cs" />
+    <Compile Include="Core\NewsChannelServices.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\NewsHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\NewsItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Feed\FeedInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Feed\feeds.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Feed\RssLocater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Feed\RssParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\AsyncWebRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\AutomaticProxy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\BITSDownloader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\BITSInterop.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\DownloadFilesCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\DownloadItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\DownloadRegistryManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\DownloadTask.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\DownloadTaskState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\Events.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\HttpDownloader.cs" />
+    <Compile Include="Net\RequestExceptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\RequestParameter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\RequestState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\RequestThread.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="News\NntpClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="News\NntpParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="News\NntpWebRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="News\NntpWebResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelationCosmos\Collections\RelationHRefDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\Collections\RelationList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\Collections\RelationLists.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\Collections\Relations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\Collections\SortedRelations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\Collections\StringTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\IRelationCosmos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\RelationBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\RelationCosmos.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\RelationCosmos2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RelationCosmos\RelationCosmos3.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\ComponentsText.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComponentsText.strings</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\FileDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\IDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\QueryBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\QueryNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\QueryTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\BooleanSearch\XMLDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\LuceneIndexer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\LuceneIndexModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\LuceneNewsItemSearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\LuceneSearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Search\LuceneSettings.cs" />
+    <Compile Include="Search\RssSearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Storage\CacheManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Storage\FileCacheManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\BinaryHeap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\PriorityQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\PriorityThread.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\PriorityThreadPool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\Semaphore.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Common.cs" />
+    <Compile Include="Utils\CryptHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\DateTimeExt.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\FileHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\HtmlHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\ImportFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\MimeType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\NTFS.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\RssHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\SerializationInfoReader.cs" />
+    <Compile Include="Utils\SimpleHyperLink.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\StringHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\XPathNavigators.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Namespaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Serialization\CacheKeyFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Serialization\SignatureExtractor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Serialization\StringSorter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Serialization\XmlAttributeOverridesThumbprinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Serialization\XmlSerializerCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Resources\ComponentsText.bg.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.de.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.es.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.fr.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.hi.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.it.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.ja.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.nl-NL.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.pl.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.pt-BR.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.resx">
+      <DependentUpon>ComponentsText.strings</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.ru.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Cyrl.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.sr-SP-Latn.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.tr.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.zh-CHS.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.zh-CHT.resx">
+      <DependentUpon>ComponentsText.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
+    <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
+    <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
+    <EmbeddedResource Include="Resources\feedListSchema.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Resources\ComponentsText.strings">
+      <Generator>StringResourceTool</Generator>
+      <LastGenOutput>ComponentsText.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\feedListSchema.xsx">
+      <DependentUpon>feedListSchema.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Resources\rss-0.91.dtd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
