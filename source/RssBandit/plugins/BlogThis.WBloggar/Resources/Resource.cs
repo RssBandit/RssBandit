@@ -3,9 +3,8 @@ using System.Resources;
 using System.Reflection; 
 using System.IO;
 
-using System.Diagnostics;
-
-namespace BlogExtension.BlogThis.LiveWriter {
+namespace BlogExtension.BlogThis.WBloggar
+{
 	/// <summary>
 	/// Helper class used to manage assembly Resources
 	/// </summary>
