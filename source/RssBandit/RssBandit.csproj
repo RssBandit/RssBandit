@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -97,60 +98,6 @@
       <Name>IEControl</Name>
       <HintPath>bin\IEControl.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Shared.v7.1">
-      <Name>Infragistics.Shared.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Shared.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.Misc.v7.1">
-      <Name>Infragistics.Win.Misc.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.Misc.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinEditors.v7.1">
-      <Name>Infragistics.Win.UltraWinEditors.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinEditors.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinExplorerBar.v7.1">
-      <Name>Infragistics.Win.UltraWinExplorerBar.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinExplorerBar.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinStatusBar.v7.1">
-      <Name>Infragistics.Win.UltraWinStatusBar.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinStatusBar.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTabControl.v7.1">
-      <Name>Infragistics.Win.UltraWinTabControl.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinTabControl.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinToolbars.v7.1">
-      <Name>Infragistics.Win.UltraWinToolbars.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinToolbars.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTree.v7.1">
-      <Name>Infragistics.Win.UltraWinTree.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.UltraWinTree.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics.Win.v7.1">
-      <Name>Infragistics.Win.v7.1</Name>
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Volume 1 CLR 1.x\windows forms\bin\Infragistics.Win.v7.1.dll</HintPath>
-      <AssemblyFolderKey>hklm\Infragistics.WinAssemblies.20071</AssemblyFolderKey>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
       <HintPath>bin\Interop.iTunesLib.dll</HintPath>
@@ -200,7 +147,6 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Remoting">
       <Name>System.Runtime.Remoting</Name>
     </Reference>
@@ -233,6 +179,42 @@
       <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <Reference Include="Infragistics2.Shared.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Shared.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.Misc.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.Misc.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinEditors.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinExplorerBar.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinStatusBar.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTabControl.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinToolbars.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTree.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTree.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 2 CLR 2.0\windows forms\bin\Infragistics2.Win.v7.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />
