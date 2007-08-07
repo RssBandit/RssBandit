@@ -5087,7 +5087,7 @@ namespace RssBandit {
 			if (StringHelper.EmptyOrNull(name))
 				return defaultValue;
 
-			string value = ConfigurationSettings.AppSettings[name];
+			string value = ConfigurationManager.AppSettings[name];
 			if (!StringHelper.EmptyOrNull(value)) {
 				
 				if (entryType == typeof(bool)) {
