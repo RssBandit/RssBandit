@@ -96,7 +96,7 @@ namespace NewsComponents.Net
 			
 			
 			ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
-			SetAllowUnsafeHeaderParsing();					
+			// SetAllowUnsafeHeaderParsing(); now controlled by app.config 
 		
 		}
 
@@ -343,11 +343,8 @@ namespace NewsComponents.Net
 		/// they made the header parsing more standards compliant, but this
 		/// leads to various HTTP protocol violation exceptions on subscribed feeds :-(
 		/// </summary>
-		private static void SetAllowUnsafeHeaderParsing() {
-			
-			// not for v2.x and higher:
-			if (Common.ClrVersion.Major > 1)
-				return;
+        /* 
+		private static void SetAllowUnsafeHeaderParsing() {			         
 
 			// because we only need to modify statics, we just create a dummy reference to get it initialized
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost/dummyUrl");
@@ -373,7 +370,7 @@ namespace NewsComponents.Net
 					_log.Warn("SetAllowUnsafeHeaderParsing() failed", ex);
 				}
 			}
-		}
+		} */ 
 
 		/// <summary>
 		/// To be provided
