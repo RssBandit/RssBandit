@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
@@ -38,7 +39,7 @@ namespace NewsComponents.Feed {
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayItemAttribute("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
 		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "nntp-servers", IsNullable = false)]
-		public ArrayList nntpservers = new ArrayList();	
+        public List<NntpServerDefinition> nntpservers = new List<NntpServerDefinition>();	
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayItemAttribute("identity", Type = typeof(UserIdentity), IsNullable = false)]

@@ -481,7 +481,7 @@ namespace RssBandit.WinGui.Forms
 			foreach (UserIdentity ui in this.identityManager.CurrentIdentities.Values) {
 				this.cboUserIdentityForComments.Items.Add(ui.Name);
 			}
-			if (defaultIdentity != null && this.identityManager.CurrentIdentities.Contains(defaultIdentity)) {
+			if (defaultIdentity != null && this.identityManager.CurrentIdentities.ContainsKey(defaultIdentity)) {
 				this.cboUserIdentityForComments.Text = defaultIdentity;
 			} else {
 				if (this.cboUserIdentityForComments.Items.Count > 0)
@@ -527,7 +527,7 @@ namespace RssBandit.WinGui.Forms
 
 		public UserIdentity SelectedIdentity {
 			get { 
-				if (this.identityManager.CurrentIdentities.Contains(SelectedIdentityName)) {
+				if (this.identityManager.CurrentIdentities.ContainsKey(SelectedIdentityName)) {
 					return (UserIdentity)this.identityManager.CurrentIdentities[SelectedIdentityName];
 				} else {
 					return IdentityNewsServerManager.AnonymousIdentity; 

@@ -27,6 +27,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinToolbars;
@@ -2263,7 +2264,7 @@ namespace RssBandit.WinGui.Forms
 
 		#region private methods
 		
-		private void InitializeWidgets(IDictionary userIdentities, IDictionary nntpServers) {
+		private void InitializeWidgets(IDictionary<string, UserIdentity> userIdentities, IDictionary<string, NntpServerDefinition> nntpServers) {
 			this.treeServers.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeServersAfterSelect);
 			this.listAccounts.SelectedIndexChanged -= new System.EventHandler(this.OnListAccountsSelectedIndexChanged);
 
@@ -2470,7 +2471,7 @@ namespace RssBandit.WinGui.Forms
 					lblCurrentTimout.Text = sd.Timeout.ToString();
 				}
 
-				IList groups = application.LoadNntpNewsGroups(this, sd, false);
+				IList<string> groups = application.LoadNntpNewsGroups(this, sd, false);
 				listOfGroups.Tag = null;
 				this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 
@@ -2508,15 +2509,16 @@ namespace RssBandit.WinGui.Forms
 				}
 			}
 		}
-		private void PopulateNewsGroups(NntpServerDefinition sd, IList groups, IList currentSubscriptions) {
+        private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<feedsFeed> currentSubscriptions)
+        {
 			this.PopulateNewsGroups(sd, groups, currentSubscriptions, null);
 		}
 
-		private void PopulateNewsGroups(NntpServerDefinition sd, IList groups, IList currentSubscriptions, Regex filterExpression) {
+		private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<feedsFeed> currentSubscriptions, Regex filterExpression) {
 			
-			if (groups != null) {
+           if (groups != null) {
 				ArrayList alvs = new ArrayList(groups.Count);
-				int imageIndex = 0;
+				//int imageIndex = 0;
 				foreach (string group in groups) {
 					// String.Empty is the group description
 					//TODO: how we get this nntp group description?
@@ -2524,8 +2526,8 @@ namespace RssBandit.WinGui.Forms
 					//DISCUSS: how is the feedsFeed.link build up?
 					// all feedsFeed objects with f.newsaccount == sd.Name
 					foreach (feedsFeed f in currentSubscriptions) {
-						if (f.link.IndexOf(group) >= 0)
-							imageIndex = 1;	// subscribed
+						/* if (f.link.IndexOf(group) >= 0)
+							imageIndex = 1;	 subscribed */ 
 					}
 
 					//TODO: add the "Subscribed" icon, if server/group match an item in currentSubscriptions
@@ -2583,14 +2585,14 @@ namespace RssBandit.WinGui.Forms
 			if (String.Compare(currentNGFilter, filterText, true) != 0) {
 				
 				NntpServerDefinition sd = this.GetSelectedNntpServerDefinition();
-				IList groups = null;
+				IList<string> groups = null;
 				if (listOfGroups.Tag == null) {
 					if (sd != null) {
 						listOfGroups.Tag = groups = application.LoadNntpNewsGroups(this, sd, false);
 						this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 					}
 				} else {
-					groups = (IList)listOfGroups.Tag;
+					groups = (IList<string>)listOfGroups.Tag;
 				}
 
 				if (StringHelper.EmptyTrimOrNull(filterText)) {	// reset to view all
@@ -2905,7 +2907,7 @@ namespace RssBandit.WinGui.Forms
 				using (new Genghis.Windows.Forms.CursorChanger(Cursors.WaitCursor)) {
 					NntpServerDefinition sd = this.GetSelectedNntpServerDefinition();
 					if (sd != null) {
-						IList groups = application.LoadNntpNewsGroups(this, sd, true);
+						IList<string> groups = application.LoadNntpNewsGroups(this, sd, true);
 						listOfGroups.Tag = null;
 						this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 					}
