@@ -13,7 +13,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Web;
-using System.Web.Mail;
+using System.Net.Mail;
 using System.IO;
 
 using Microsoft.ApplicationBlocks.ExceptionManagement;
@@ -93,7 +93,8 @@ namespace RssBandit
 			{
 				string subject = "Exception Notification";
 				string body = strInfo.ToString();
-				SmtpMail.Send("CustomSender@mycompany.com", m_OpMail, subject, body);
+                SmtpClient mailer = new SmtpClient(); 
+                mailer.Send("CustomSender@mycompany.com", m_OpMail, subject, body);
 			}
 		}
 	}

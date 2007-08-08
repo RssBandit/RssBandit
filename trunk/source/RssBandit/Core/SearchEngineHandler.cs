@@ -126,17 +126,19 @@ namespace RssBandit.WebSearch
 		/// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
 		public void LoadEngines(string configUrl, ValidationEventHandler veh)	{
 
-			XmlDocument doc = new XmlDocument(); 
-			XmlValidatingReader vr = new XmlValidatingReader(new XmlTextReader(configUrl)); 
-			vr.Schemas.Add(searchConfigSchema); 
-			vr.ValidationType = ValidationType.Schema; 
+			XmlDocument doc = new XmlDocument();
 
-			//specify validation event handler passed by caller and the one we use 
-			//internally to track state 
-			vr.ValidationEventHandler += veh;
-			vr.ValidationEventHandler += new ValidationEventHandler(LoaderValidationCallback);
-			validationErrorOccured = false; 
-			enginesLoaded = false;
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas.Add(searchConfigSchema);
+            //specify validation event handler passed by caller and the one we use 
+            //internally to track state 
+            settings.ValidationEventHandler += veh;
+            settings.ValidationEventHandler += new ValidationEventHandler(LoaderValidationCallback);
+            validationErrorOccured = false;
+            enginesLoaded = false;
+
+            XmlReader vr = XmlReader.Create(new XmlTextReader(configUrl), settings);   
 
 			doc.Load(vr); 
 			vr.Close(); 

@@ -985,7 +985,7 @@ namespace RssBandit.WinGui.Utility {
 			string url = GetProbeUrl();	
 
 			if (proxy == null) 
-				proxy = GlobalProxySelection.GetEmptyWebProxy(); 
+				proxy = WebRequest.DefaultWebProxy; 
 							
 			try {
 				//_log.Info("FrameworkCheckConnection('"+url+"') ");

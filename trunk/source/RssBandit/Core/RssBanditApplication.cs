@@ -34,6 +34,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Diagnostics; 
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -973,7 +974,7 @@ namespace RssBandit {
 			get {
 				if (StringHelper.EmptyOrNull(appDataFolderPath)) {
 					
-					appDataFolderPath = ConfigurationSettings.AppSettings["AppDataFolder"];
+					appDataFolderPath = ConfigurationManager.AppSettings["AppDataFolder"];
 					if (!StringHelper.EmptyOrNull(appDataFolderPath)) {
 						appDataFolderPath = Environment.ExpandEnvironmentVariables(appDataFolderPath);
 					} else {
@@ -1001,7 +1002,7 @@ namespace RssBandit {
 
 		private static string ApplicationLocalDataFolderFromEnv {
 			get {
-				string s = ConfigurationSettings.AppSettings["AppCacheFolder"];
+				string s = ConfigurationManager.AppSettings["AppCacheFolder"];
 				if (!StringHelper.EmptyOrNull(s)) {
 					s = Environment.ExpandEnvironmentVariables(s);
 				} else {
@@ -2675,7 +2676,7 @@ namespace RssBandit {
 		private IWebProxy CreateProxyFrom(RssBanditPreferences p) {
 			
 			// default proxy init:
-			IWebProxy proxy = GlobalProxySelection.GetEmptyWebProxy(); 
+			IWebProxy proxy = WebRequest.DefaultWebProxy; 
 			proxy.Credentials = CredentialCache.DefaultCredentials;
 
 			if(p.UseProxy) {	// private proxy settings
@@ -2799,7 +2800,7 @@ namespace RssBandit {
 			if (!StringHelper.EmptyOrNull(this.Preferences.UserName) &&
 				StringHelper.EmptyOrNull(this.Preferences.UserIdentityForComments)) {
 				
-				if (!this.feedHandler.UserIdentity.Contains(this.Preferences.UserName)) {
+				if (!this.feedHandler.UserIdentity.ContainsKey(this.Preferences.UserName)) {
 					//create a UserIdentity from Prefs. properties
 					UserIdentity ui = new UserIdentity();
 					ui.Name = ui.RealName = this.Preferences.UserName;
@@ -7444,18 +7445,18 @@ namespace RssBandit {
 			get { return new ReadOnlyDictionary(this.feedHandler.FeedsTable);}
 		}
 		IDictionary AppServices.ICoreApplication.Identities {
-			get { return new ReadOnlyDictionary(this.IdentityManager.CurrentIdentities); }	
+            get { return new ReadOnlyDictionary((IDictionary) this.IdentityManager.CurrentIdentities); }	
 		}
 		IDictionary AppServices.ICoreApplication.NntpServerDefinitions {
-			get { return new ReadOnlyDictionary(this.NntpServerManager.CurrentNntpServers); }	
+			get { return new ReadOnlyDictionary((IDictionary)this.NntpServerManager.CurrentNntpServers); }	
 		}
 
 		IList AppServices.ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer) {
 			if (! StringHelper.EmptyOrNull(nntpServerName) &&
-				this.NntpServerManager.CurrentNntpServers.Contains(nntpServerName)) {
+				this.NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName)) {
 				NntpServerDefinition sd = (NntpServerDefinition)this.NntpServerManager.CurrentNntpServers[nntpServerName];
 				if (sd != null)
-					return this.NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
+					return (IList) this.NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
 			}
 			return new string[]{};
 		}

@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using RssBandit.AppServices;
@@ -5976,12 +5977,12 @@ namespace RssBandit.WinGui.Forms {
 			return srv;
 		}
 
-		private void PopulateComboUserIdentityForComments(IDictionary identities, string defaultIdentity) {
+		private void PopulateComboUserIdentityForComments(IDictionary<string, UserIdentity> identities, string defaultIdentity) {
 			this.cboUserIdentityForComments.Items.Clear();
 			foreach (UserIdentity ui in identities.Values) {
 				this.cboUserIdentityForComments.Items.Add(ui.Name);
 			}
-			if (defaultIdentity != null && identities.Contains(defaultIdentity)) {
+			if (defaultIdentity != null && identities.ContainsKey(defaultIdentity)) {
 				this.cboUserIdentityForComments.Text = defaultIdentity;
 			} else {
 				if (this.cboUserIdentityForComments.Items.Count > 0)

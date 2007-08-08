@@ -17,6 +17,7 @@ using System.Xml.Schema;
 using System.IO; 
 using System.Collections;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -553,7 +554,7 @@ namespace NewsComponents {
 		/// <param name="serverAccountName">account name of the server</param>
 		/// <returns>null in the case the server does not have credentials</returns>
 		public ICredentials GetNntpServerCredentials(string serverAccountName) {
-			if (serverAccountName != null && nntpServers.Contains(serverAccountName))
+			if (serverAccountName != null && nntpServers.ContainsKey(serverAccountName))
 				return GetFeedCredentials((NntpServerDefinition)nntpServers[serverAccountName]);
 			return null;
 		}
@@ -917,12 +918,12 @@ namespace NewsComponents {
 		/// Keys are the account name(s) - friendly names for the news server def.:
 		/// NntpServerDefinition.Name's
 		/// </summary>
-		private ListDictionary nntpServers = new ListDictionary();
+        private IDictionary<string, NntpServerDefinition> nntpServers = new Dictionary<string, NntpServerDefinition>();
 		/// <summary>
 		/// Collection contains UserIdentity objects.
 		/// Keys are the UserIdentity.Name's
 		/// </summary>
-		private ListDictionary identities = new ListDictionary();
+        private IDictionary<string, UserIdentity> identities = new Dictionary<string, UserIdentity>();
 
 		#region delegates/events/argument classes
 		/// <summary>
@@ -1803,13 +1804,13 @@ namespace NewsComponents {
 		/// Keys are the account name(s) - friendly names for the news server def.:
 		/// NewsServerDefinition.Name's
 		/// </summary>
-		public IDictionary NntpServers { 
+		public IDictionary<string, NntpServerDefinition> NntpServers { 
 		
 			[DebuggerStepThrough()]
 			get { 
 				
 				if(this.nntpServers== null){				
-					this.nntpServers = new ListDictionary();
+					this.nntpServers = new Dictionary<string, NntpServerDefinition>();
 				}							
 				
 				return this.nntpServers;
@@ -1821,13 +1822,13 @@ namespace NewsComponents {
 		/// Accesses the list of UserIdentity objects.
 		/// Keys are the UserIdentity.Name's
 		/// </summary>
-		public IDictionary UserIdentity { 
+		public IDictionary<string, UserIdentity> UserIdentity { 
 		
 			[DebuggerStepThrough()]
 			get { 
 				
 				if(this.identities== null){				
-					this.identities = new ListDictionary();
+					this.identities = new Dictionary<string, UserIdentity>();
 				}							
 				
 				return this.identities;
@@ -2009,7 +2010,7 @@ namespace NewsComponents {
 				//copy nntp-server defs. over if we are importing  
 				if(myFeeds.nntpservers != null){
 					foreach(NntpServerDefinition sd in myFeeds.nntpservers){						
-						if(nntpServers.Contains(sd.Name) == false){
+						if(nntpServers.ContainsKey(sd.Name) == false){
 							nntpServers.Add(sd.Name, sd); 							 
 						}						
 					}
@@ -2018,7 +2019,7 @@ namespace NewsComponents {
 				//copy user-identities over if we are importing  
 				if(myFeeds.identities != null){
 					foreach(UserIdentity ui in myFeeds.identities){						
-						if(identities.Contains(ui.Name) == false){
+						if(identities.ContainsKey(ui.Name) == false){
 							identities.Add(ui.Name, ui); 							 
 						}						
 					}
@@ -2492,7 +2493,7 @@ namespace NewsComponents {
 				}//if(feeds != null) 
 
 
-				ArrayList c =  new ArrayList(this.categories.Count); 
+                ArrayList c = new ArrayList(this.categories.Count); 
 				/* sometimes we get nulls in the arraylist, remove them */
 				for(int i=0; i < this.categories.Count; i++){
 					CategoryEntry s = this.categories[i]; 
@@ -2510,9 +2511,9 @@ namespace NewsComponents {
 				}else{
 					feedlist.categories = c; 
 				}
-				
 
-				c =  new ArrayList(this.layouts.Count); 
+
+                c = new ArrayList(this.layouts.Count); 
 				/* sometimes we get nulls in the arraylist, remove them */
 				for(int i=0; i < this.layouts.Count; i++){
 					FeedColumnLayoutEntry s = this.layouts[i]; 
@@ -2531,16 +2532,16 @@ namespace NewsComponents {
 					feedlist.listviewLayouts = c; 
 				}
 
-				c =  new ArrayList(this.nntpServers.Values); 
+                c = new ArrayList( (ICollection)this.nntpServers.Values); 
 
 				//we don't want to write out empty <nntp-servers /> into the schema. 				
 				if((c== null) || (c.Count == 0)){
 					feedlist.nntpservers = null; 
 				}else{
-					feedlist.nntpservers = c; 
+                    feedlist.nntpservers = new List<NntpServerDefinition>( (ICollection<NntpServerDefinition>)c.ToArray(typeof(NntpServerDefinition))); 
 				}
 
-				c =  new ArrayList(this.identities.Values); 
+				c =  new ArrayList((ICollection)this.identities.Values); 
 
 				//we don't want to write out empty <user-identities /> into the schema. 				
 				if((c== null) || (c.Count == 0)){
@@ -3420,7 +3421,7 @@ namespace NewsComponents {
 				try{
 					Uri feedUri = new Uri(f.link);						
 						
-					foreach(NntpServerDefinition nsd  in this.nntpServers){
+					foreach(NntpServerDefinition nsd  in this.nntpServers.Values){
 						if(nsd.Server.Equals(feedUri.Authority)){
 							c = this.GetNntpServerCredentials(nsd.Name);
 							break;
@@ -5093,15 +5094,15 @@ namespace NewsComponents {
 			}
 
 
-			ListDictionary serverList = new ListDictionary(); 
-			ListDictionary identityList = new ListDictionary(); 
+            IDictionary<string, NntpServerDefinition> serverList = new Dictionary<string, NntpServerDefinition>();
+            IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>(); 
 			
 			/* copy over user identity information */
 			foreach(UserIdentity identity in myFeeds.identities){
 
 				if(replace){
 					identityList.Add(identity.Name, identity); 
-				} else if(!this.identities.Contains(identity.Name)){								
+				} else if(!this.identities.ContainsKey(identity.Name)){								
 					this.identities.Add(identity.Name, identity); 
 				}
 			}//foreach
@@ -5111,7 +5112,7 @@ namespace NewsComponents {
 			foreach(NntpServerDefinition server in myFeeds.nntpservers){
 				if(replace){
 					serverList.Add(server.Name, server); 
-				} else if(!this.identities.Contains(server.Name)){								
+				} else if(!this.identities.ContainsKey(server.Name)){								
 					this.nntpServers.Add(server.Name, server); 
 				}
 			}
