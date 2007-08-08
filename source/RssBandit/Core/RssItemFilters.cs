@@ -159,7 +159,7 @@ namespace RssBandit.Filter
 		private void OnFeedlistLoaded(object sender, EventArgs e) {
 			RssBanditApplication app = (RssBanditApplication)sender;
 			if (app != null) {
-				if (app.FeedHandler.UserIdentity != null && app.FeedHandler.UserIdentity.Contains(app.Preferences.UserIdentityForComments))
+				if (app.FeedHandler.UserIdentity != null && app.FeedHandler.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
 					this.InitWith((UserIdentity)app.FeedHandler.UserIdentity[app.Preferences.UserIdentityForComments]);
 			}
 		}
@@ -173,7 +173,7 @@ namespace RssBandit.Filter
 		private void OnPreferencesChanged(object sender, EventArgs e) {
 			RssBanditApplication app = (RssBanditApplication)sender;
 			if (app != null) {
-				if (app.FeedHandler.UserIdentity != null && app.FeedHandler.UserIdentity.Contains(app.Preferences.UserIdentityForComments))
+				if (app.FeedHandler.UserIdentity != null && app.FeedHandler.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
 					this.InitWith((UserIdentity)app.FeedHandler.UserIdentity[app.Preferences.UserIdentityForComments]);
 			}
 		}

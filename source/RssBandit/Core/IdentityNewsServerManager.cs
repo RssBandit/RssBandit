@@ -24,7 +24,8 @@
 #endregion
 
 using System;
-using System.Collections;
+//using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -81,10 +82,10 @@ namespace RssBandit
 			}
 		}
 
-		public IDictionary CurrentIdentities {
+		public IDictionary<string, UserIdentity> CurrentIdentities {
 			get { return this.app.FeedHandler.UserIdentity; }
 		}
-		public IDictionary CurrentNntpServers {
+		public IDictionary<string, NntpServerDefinition> CurrentNntpServers {
 			get { return this.app.FeedHandler.NntpServers; }
 		}
 
@@ -93,9 +94,10 @@ namespace RssBandit
 		/// </summary>
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <returns>List of feedsFeed objects, that match</returns>
-		public IList CurrentSubscriptions(NntpServerDefinition sd) {
+        public IList<feedsFeed> CurrentSubscriptions(NntpServerDefinition sd)
+        {
 			//TODO: impl. CurrentSubscriptions()
-			return new ArrayList();
+			return new List<feedsFeed>();
 		}
 
 		/// <summary>
@@ -106,9 +108,9 @@ namespace RssBandit
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <param name="forceLoadFromServer">set to true, if a 'fresh' group list should be loaded from the server</param>
 		/// <returns>List of groups a server offer</returns>
-		public IList LoadNntpNewsGroups(IWin32Window owner, NntpServerDefinition sd, bool forceLoadFromServer) {
+		public IList<string> LoadNntpNewsGroups(IWin32Window owner, NntpServerDefinition sd, bool forceLoadFromServer) {
 			
-			IList list = null;
+			IList<string> list = null;
 			if (forceLoadFromServer) {
 				list = FetchNewsGroupsFromServer(owner, sd);
 				if (list != null && list.Count > 0)
@@ -159,7 +161,7 @@ namespace RssBandit
 				FileHelper.Delete(cachedFileName);
 		}
 
-		private void SaveNewsGroupsToCache(NntpServerDefinition sd, IList list) {
+		private void SaveNewsGroupsToCache(NntpServerDefinition sd, IList<string> list) {
 
 			string fn = BuildCacheFileName(sd);
 			RemoveCachedGroups(fn);
@@ -176,8 +178,8 @@ namespace RssBandit
 			}
 		}
 		
-		private IList LoadNewsGroupsFromCache(NntpServerDefinition sd) {
-			ArrayList result = new ArrayList();
+		private IList<string> LoadNewsGroupsFromCache(NntpServerDefinition sd) {
+            List<string> result = new List<string>();
 			string fn = BuildCacheFileName(sd);
 			
 			if (File.Exists(fn)) {
@@ -205,7 +207,7 @@ namespace RssBandit
 		/// <returns>List of groups a server offer</returns>
 		/// <exception cref="ArgumentNullException">If <see paramref="sd">param sd</see> is null</exception>
 		/// <exception cref="Exception">On any failure we get on request</exception>
-		IList FetchNewsGroupsFromServer(IWin32Window owner, NntpServerDefinition sd) {
+		IList<string> FetchNewsGroupsFromServer(IWin32Window owner, NntpServerDefinition sd) {
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
@@ -213,14 +215,14 @@ namespace RssBandit
 			DialogResult result = threadHandler.Start(owner, SR.NntpLoadingGroupsWaitMessage, true);
 
 			if (DialogResult.OK != result)
-				return new ArrayList(0);	// cancelled
+                return new List<string>(0);	// cancelled
                     
 			if (!threadHandler.OperationSucceeds) {
 				MessageBox.Show(
 					SR.ExceptionNntpLoadingGroupsFailed(sd.Server, threadHandler.OperationException.Message), 
 					SR.GUINntpLoadingGroupsFailedCaption, MessageBoxButtons.OK,MessageBoxIcon.Error);
 
-				return new ArrayList(0);	// failed
+                return new List<string>(0);	// failed
 			}
 
 			return threadHandler.Newsgroups;
@@ -272,7 +274,7 @@ namespace RssBandit
 
 			// take over the copies from local userIdentities and nntpServers 
 			// to app.FeedHandler.Identity and app.FeedHandler.NntpServers
-			lock (app.FeedHandler.UserIdentity.SyncRoot) {
+			lock (app.FeedHandler.UserIdentity) {
 				app.FeedHandler.UserIdentity.Clear();
 				if (cfg.ConfiguredIdentities != null) {
 					foreach (UserIdentity ui in cfg.ConfiguredIdentities.Values) {
@@ -281,7 +283,7 @@ namespace RssBandit
 				}
 			}
 
-			lock (app.FeedHandler.NntpServers.SyncRoot) {
+			lock (app.FeedHandler.NntpServers) {
 				app.FeedHandler.NntpServers.Clear();
 				if (cfg.ConfiguredNntpServers != null) {
 					foreach (NntpServerDefinition sd in cfg.ConfiguredNntpServers.Values) {
@@ -320,16 +322,16 @@ namespace RssBandit
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
 		private NntpServerDefinition serverDef;
-		public ArrayList Newsgroups;
+		public List<string> Newsgroups;
 
 		public FetchNewsgroupsThreadHandler(NntpServerDefinition sd) {
 			this.serverDef = sd;
-			this.Newsgroups = new ArrayList(0);
+            this.Newsgroups = new List<string>(0);
 		}
 
 		protected override void Run() {
 
-			ArrayList result = new ArrayList(500);
+            List<string> result = new List<string>(500);
 
 			try {
 				NntpWebRequest request = (NntpWebRequest) WebRequest.Create(IdentityNewsServerManager.BuildNntpRequestUri(serverDef)); 

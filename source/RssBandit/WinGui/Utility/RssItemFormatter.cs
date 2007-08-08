@@ -76,8 +76,8 @@ namespace RssBandit.WinGui.Utility
 		/// <exception cref="XmlException"></exception>
 		/// <exception cref="XsltException"></exception>
 		public void AddXslStyleSheet(string name, string stylesheet){
-			
-			XslTransform transform = new XslTransform();
+
+            XslCompiledTransform transform = new XslCompiledTransform();
 
 			try {
 					
@@ -156,12 +156,12 @@ namespace RssBandit.WinGui.Utility
 					throw new ArgumentException("transformTarget"); 
 				}
 
-				XslTransform transform = null; 
+				XslCompiledTransform transform = null; 
 				
 				if(this.stylesheetTable.Contains(stylesheet)){
-					transform = (XslTransform) this.stylesheetTable[stylesheet];
+                    transform = (XslCompiledTransform)this.stylesheetTable[stylesheet];
 				}else{
-					transform = (XslTransform) this.stylesheetTable[String.Empty];
+                    transform = (XslCompiledTransform)this.stylesheetTable[String.Empty];
 				}	
 				
 				// support simple localizations (some common predefined strings to display):

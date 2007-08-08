@@ -150,7 +150,7 @@ namespace RssBandit
 		  while (!success && maxRetry > 0) {
 			  try {
 				  // Expose remoting channel to accept arguments from other instances
-				  ChannelServices.RegisterChannel(new TcpChannel(Port));
+				  ChannelServices.RegisterChannel(new TcpChannel(Port), false);
 				  success = true;
 			  } catch (System.Net.Sockets.SocketException sx) {
 				  maxRetry--;

@@ -193,7 +193,7 @@ namespace RssBandit.WinGui{
 					
 				//convert subscriptions.xml to feedlist.xml then save to temp folder
 				using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt")) {
-					XslTransform xslt = new XslTransform();
+                    XslCompiledTransform xslt = new XslCompiledTransform();
 					xslt.Load(new XmlTextReader(xsltStream));	
 					xslt.Transform(RssBanditApplication.GetFeedListFileName(), feedlistXml);
 				}
@@ -394,7 +394,7 @@ namespace RssBandit.WinGui{
 								ftpClient.TransferType = FTPTransferType.BINARY; 
 								ftpClient.Put(tempStream, remoteFileName, false);	// try data transfer (ftp data port)
 
-							} catch (System.Net.Sockets.SocketException soex) {
+							} catch (System.Net.Sockets.SocketException) {
 								
 							/*	if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061 ){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */
 									
@@ -675,7 +675,7 @@ namespace RssBandit.WinGui{
 							ftpClient.TransferType = FTPTransferType.BINARY; 
 							ftpClient.Get(fileStream, remoteFileName);
 
-						} catch (System.Net.Sockets.SocketException soex) {
+						} catch (System.Net.Sockets.SocketException) {
 								
 							/* if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */ 
 									

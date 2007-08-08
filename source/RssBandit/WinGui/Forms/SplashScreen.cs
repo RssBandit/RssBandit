@@ -123,7 +123,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
 			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScale = false;
+			this.AutoScaleMode = AutoScaleMode.None;
 			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
 			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
 			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
@@ -205,7 +205,7 @@ namespace RssBandit.WinGui.Forms
 			MySplashThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
 			MySplashThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
 			MySplashThread.IsBackground = true;
-			MySplashThread.ApartmentState = ApartmentState.STA;
+			MySplashThread.SetApartmentState(ApartmentState.STA);
 			MySplashThread.Start();
 			while (MySplashForm == null) Thread.Sleep(new TimeSpan(100));
 		}
