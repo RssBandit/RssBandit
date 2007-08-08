@@ -77,7 +77,7 @@ namespace RssBandit.WinGui.Controls
 		public Icon   Icon        { get { return _icon; } }
 		public int    AniLoops    { get { return _aniLoops; } set { _aniLoops = value; } }
 		public Icon   IconAt(int index) { return _aniList[index]; }
-		public int    IconCount() { return _aniList.GetLength(0); }
+		public int    IconCount() { return (_aniList != null ? _aniList.GetLength(0) : 0) ; }
 	}
 
 
