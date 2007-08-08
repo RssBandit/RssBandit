@@ -123,7 +123,6 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
 			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScaleMode = AutoScaleMode.None;
 			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
 			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
 			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
@@ -190,6 +189,7 @@ namespace RssBandit.WinGui.Forms
 		//	internally used as a thread function - showing the form and
 		//	starting the messageloop for it
 		static void ShowThread() {
+            Application.EnableVisualStyles();
 			MySplashForm = new SplashScreen();
 			Application.Run(MySplashForm);
 		}
