@@ -1259,7 +1259,8 @@ namespace NewsComponents {
 			/// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
 			public SearchFinishedEventArgs (
 				object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount):
-					this(tag, matchingFeeds, new ArrayList(), matchingFeedsCount, matchingItemsCount) {
+					this(tag, matchingFeeds, new List<NewsItem>(), matchingFeedsCount, matchingItemsCount)
+			{
 
                 List<NewsItem> temp = new List<NewsItem>();
 
@@ -1288,7 +1289,9 @@ namespace NewsComponents {
 			/// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
 			/// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
 			public SearchFinishedEventArgs (
-				object tag, FeedInfoList matchingFeeds, ArrayList matchingNewsItems, int matchingFeedsCount, int matchingItemsCount):base() {
+				object tag, FeedInfoList matchingFeeds, List<NewsItem> matchingNewsItems, int matchingFeedsCount, int matchingItemsCount)
+				: base()
+			{
 				this.MatchingFeedsCount= matchingFeedsCount;
 				this.MatchingItemsCount= matchingItemsCount;
 				this.MatchingFeeds = matchingFeeds;
@@ -1304,7 +1307,7 @@ namespace NewsComponents {
 			/// <summary></summary>
 			public readonly FeedInfoList MatchingFeeds;
 			/// <summary></summary>
-			public readonly ArrayList MatchingItems;
+			public readonly List<NewsItem> MatchingItems;
 		}
 
 		#endregion
@@ -1623,7 +1626,8 @@ namespace NewsComponents {
 				Trace("SearchFinished() event code raises exception: {0}",e);
 			}
 		}
-		private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, ArrayList matchingItems, int matchingFeedsCount, int matchingItemsCount) {
+		private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, List<NewsItem> matchingItems, int matchingFeedsCount, int matchingItemsCount)
+		{
 			try {
 				if (SearchFinished != null) {
 					SearchFinished(this, new SearchFinishedEventArgs(tag, matchingFeeds, matchingItems, matchingFeedsCount, matchingItemsCount ));

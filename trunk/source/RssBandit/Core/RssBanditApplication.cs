@@ -3870,7 +3870,8 @@ namespace RssBandit {
 		/// Updates the state of the WatchedItems based on the state of the items passed in
 		/// </summary>
 		/// <param name="items"></param>
-		public void UpdateWatchedItems(ArrayList items){
+		public void UpdateWatchedItems(IList<NewsItem> items)
+		{
 
 			if((items == null) || (items.Count == 0))
 				return; 
