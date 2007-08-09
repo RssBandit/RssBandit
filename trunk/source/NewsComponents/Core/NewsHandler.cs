@@ -37,6 +37,7 @@ using NewsComponents.Search;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Storage;
 using NewsComponents.Utils;
+using RssBandit.Common.Utils;
 #endregion
 
 
@@ -5462,7 +5463,7 @@ namespace NewsComponents {
 				
 				//remove old objects from relation cosmos and add newly downloaded items to relationcosmos
 				//NewsHandler.RelationCosmosRemoveRange(removedOldItems); 
-				NewsHandler.RelationCosmosAddRange(TypeConverter.ToRelationBaseList(receivedNewItems));
+                NewsHandler.RelationCosmosAddRange(receivedNewItems.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem,RelationBase>()));
 				
 			}//lock
 

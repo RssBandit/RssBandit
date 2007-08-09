@@ -21,6 +21,7 @@ using NewsComponents.Net;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
 using NewsComponents.RelationCosmos;
+using RssBandit.Common.Utils;
 
 namespace NewsComponents.Feed {
 
@@ -1291,7 +1292,7 @@ namespace NewsComponents.Feed {
 			}else{
 				//add to relationcosmos if loaded from disk
 				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-                NewsHandler.RelationCosmosAddRange(TypeConverter.ToRelationBaseList(items));
+                NewsHandler.RelationCosmosAddRange(items.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem, RelationBase>()));
 			}
 			//any new items in feed? 
 			if(readItems == items.Count){
