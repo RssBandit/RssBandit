@@ -26,6 +26,7 @@
 #endregion
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using NewsComponents;
 using RssBandit.SpecialFeeds;
@@ -133,7 +134,8 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public virtual ArrayList Items {
+		public virtual List<NewsItem> Items
+		{
 			get {	return itemsFeed.Items;	}
 		}
 
