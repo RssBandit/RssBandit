@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
@@ -23,7 +24,7 @@ namespace NewsComponents.Feed
 	public class FeedInfo : FeedDetailsInternal, ISizeInfo
 	{						 
 
-		public static readonly FeedInfo Empty = new FeedInfo(String.Empty, String.Empty, new ArrayList(), String.Empty,String.Empty,String.Empty, new Hashtable(0), String.Empty);
+		public static readonly FeedInfo Empty = new FeedInfo(String.Empty, String.Empty, new List<NewsItem>(), String.Empty,String.Empty,String.Empty, new Dictionary<XmlQualifiedName, string>(0), String.Empty);
 
 		
 		internal string id;
@@ -40,13 +41,13 @@ namespace NewsComponents.Feed
 			set { feedLocation = value; }
 		}
 
-		internal ArrayList itemsList; 
+		internal List<NewsItem> itemsList; 
 
-		public ArrayList ItemsList {
+		public List<NewsItem> ItemsList {
 			get { return itemsList; }
 			set { itemsList = value; }
 		}
-		internal Hashtable optionalElements; 
+        internal Dictionary<XmlQualifiedName, string> optionalElements; 
 
 		/// <summary>
 		/// Overloaded. Initializer
@@ -54,7 +55,7 @@ namespace NewsComponents.Feed
 		/// <param name="id"></param>
 		/// <param name="feedLocation"></param>
 		/// <param name="itemsList"></param>
-		public FeedInfo(string id, string feedLocation, ArrayList itemsList){
+		public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList){
 			this.id = id;
 			this.feedLocation = feedLocation;  
 			this.itemsList = itemsList; 
@@ -69,8 +70,8 @@ namespace NewsComponents.Feed
 		/// <param name="title"></param>
 		/// <param name="link"></param>
 		/// <param name="description"></param>
-		public FeedInfo(string id, string feedLocation, ArrayList itemsList, string title, string link, string description)
-			:this(id, feedLocation, itemsList, title, link, description, new Hashtable(), String.Empty){			
+        public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList, string title, string link, string description)
+			:this(id, feedLocation, itemsList, title, link, description, new Dictionary<XmlQualifiedName, string>(), String.Empty){			
 		}
 
 		/// <summary>
@@ -84,7 +85,8 @@ namespace NewsComponents.Feed
 		/// <param name="description"></param>
 		/// <param name="optionalElements"></param>
 		/// <param name="language"></param>
-		public FeedInfo(string id, string feedLocation, ArrayList itemsList, string title, string link, string description, Hashtable optionalElements, string language){
+        public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList, string title, string link, string description, Dictionary<XmlQualifiedName, string> optionalElements, string language)
+        {
 			this.id = id;
 			this.feedLocation = feedLocation; 
 			this.itemsList = itemsList; 
@@ -125,10 +127,17 @@ namespace NewsComponents.Feed
 			get { return language; }
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        IDictionary IFeedDetails.OptionalElements {
+            get { return this.optionalElements; }
+        }
+
 		/// <summary>
 		/// Table of optional feed elements.
 		/// </summary>
-		public Hashtable OptionalElements{
+		Dictionary<XmlQualifiedName, string> FeedDetailsInternal.OptionalElements{
 			get{ return this.optionalElements; }
 		}
 
@@ -291,10 +300,10 @@ namespace NewsComponents.Feed
 		/// <returns>A copy of this FeedInfo</returns>
 		public FeedInfo Clone(bool includeNewsItems)
 		{
-			FeedInfo toReturn = new FeedInfo(this.id, this.feedLocation, 
-				(includeNewsItems ? (ArrayList) this.itemsList.Clone(): new ArrayList() ), 
+			FeedInfo toReturn = new FeedInfo(this.id, this.feedLocation,
+                (includeNewsItems ? new List<NewsItem>(this.itemsList) : new List<NewsItem>()), 
 				this.title, this.link, this.description, 
-				(Hashtable) this.optionalElements.Clone(), this.language); 
+				new Dictionary<XmlQualifiedName, string>(this.optionalElements), this.language); 
 
 			return toReturn; 		
 		}

@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Collections.Generic;
 using NewsComponents.Collections;
 using Tst;
 
@@ -56,7 +57,7 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-		void NewsComponents.RelationCosmos.IRelationCosmos.AddRange(IList relations) {
+		void NewsComponents.RelationCosmos.IRelationCosmos.AddRange(IList<RelationBase> relations) {
 			InternalAddRange(relations);
 		}
 
@@ -72,7 +73,7 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-		public void RemoveRange(System.Collections.IList relations) {
+        public void RemoveRange(IList<RelationBase> relations) {
 			InternalRemoveRange(relations);
 		}
 
@@ -102,7 +103,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncoming(RelationBase relation, IList excludeRelations) {
+        public RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return RelationList.Empty;
 			
 			lock (syncRoot) {
@@ -134,14 +135,14 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetOutgoing(RelationBase relation, IList excludeRelations) {
+        public RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return RelationList.Empty;
-			Hashtable excludeUrls = GetRelationUrls(excludeRelations);
+			IList<string> excludeUrls = GetRelationUrls(excludeRelations);
 			
 			lock (syncRoot) {
 				RelationList ret = new RelationList(relation.OutgoingRelations.Count);
 				foreach (string hrefOut in relation.outgoingRelationships.Keys) {
-					if (excludeUrls.ContainsKey(hrefOut))
+					if (excludeUrls.Contains(hrefOut))
 						continue;
 					
 					RelationBase r = registeredRelations[hrefOut];
@@ -159,7 +160,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncomingAndOutgoing(RelationBase relation, IList excludeRelations) {
+        public RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			// not required...?
 			return RelationList.Empty;
 		}
@@ -174,14 +175,14 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>
 		/// True, if any relation was found, else false
 		/// </returns>
-		public bool HasIncomingOrOutgoing(RelationBase relation, IList excludeRelations) {
+        public bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return false;
-			Hashtable excludeUrls = GetRelationUrls(excludeRelations);
+			IList<string> excludeUrls = GetRelationUrls(excludeRelations);
 			
 			lock (syncRoot) {
 				// check for outgoing:
 				foreach (string hrefOut in relation.outgoingRelationships.Keys) {
-					if (excludeUrls.ContainsKey(hrefOut))
+					if (excludeUrls.Contains(hrefOut))
 						continue;
 					
 					if (hrefOut != relation.HRef && registeredRelations.ContainsKey(hrefOut)) 
@@ -229,7 +230,7 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private members
-		private void InternalAddRange(IList relations) {
+		private void InternalAddRange(IList<RelationBase> relations) {
 			if (relations == null) return;
 			lock (syncRoot) {
 				for (int i=0; i< relations.Count; i++)	
@@ -273,7 +274,7 @@ namespace NewsComponents.RelationCosmos
 			}
 		}
 
-		private void InternalRemoveRange(IList relations) {
+        private void InternalRemoveRange(IList<RelationBase> relations) {
 			if (relations == null) return;
 			lock (syncRoot) {
 				for (int i=0; i< relations.Count; i++)	
@@ -314,15 +315,15 @@ namespace NewsComponents.RelationCosmos
 		}
 
 
-		private static Hashtable GetRelationUrls(IList relations) {
-			Hashtable hashtable = new Hashtable();
+        private static IList<string> GetRelationUrls(IList<RelationBase> relations) {
+            List<string> urls = new List<string>();
 			foreach (RelationBase relation in relations) {
 				string href = relation.HRef;
-				if ((href != null) && !hashtable.ContainsKey(href)) {
-					hashtable.Add(href, null);
+                if ((href != null) && !urls.Contains(href)) {
+					urls.Add(href);
 				}
 			}
-			return hashtable;
+            return urls;
 		}
 
 		#endregion

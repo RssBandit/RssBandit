@@ -10,6 +10,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 using NewsComponents.Collections;
@@ -143,13 +144,13 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relations">RelationBase[]</param>
 		public void AddRange(RelationBase[] relations)  {
-			this.AddRange((IList)relations);
+			this.AddRange((IList<RelationBase>)relations);
 		}
 		/// <summary>
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-		public void AddRange(IList relations)  {
+		public void AddRange(IList<RelationBase> relations)  {
 			RelationBase[] relationsToAdd = new RelationBase[relations.Count];
 			relations.CopyTo(relationsToAdd, 0);
 			worker.QueueUserWorkItem(new WaitCallback(this.ThreadRunAddRange), relationsToAdd, 0);
@@ -159,7 +160,7 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-		protected void InternalAddRange(IList relations)  {
+		protected void InternalAddRange(IList<RelationBase> relations)  {
 			if (relations == null) 
 				throw new ArgumentNullException("relations");
 			
@@ -382,7 +383,7 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-		public void RemoveRange(IList relations) { 
+        public void RemoveRange(IList<RelationBase> relations) { 
 			foreach (RelationBase r in relations) {
 				Remove(r);
 			}
@@ -414,7 +415,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncoming(RelationBase relation, IList excludeRelations) {
+        public RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null || relation.HRef == null)
 				return RelationList.Empty;
 
@@ -469,7 +470,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetOutgoing(RelationBase relation, IList excludeRelations) { 
+        public RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) { 
 			if (relation == null || relation.HRef == null)
 				return RelationList.Empty;
 
@@ -505,7 +506,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncomingAndOutgoing(RelationBase relation, IList excludeRelations) { 
+        public RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) { 
 			RelationList returnList = new RelationList(this.GetIncoming(relation, excludeRelations));
 			returnList.AddRange(this.GetOutgoing(relation, excludeRelations));
 			if (returnList.Count > 0) {
@@ -522,7 +523,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of strings with relation.HRef's, 
 		/// that should be excluded in that check</param>
 		/// <returns>True, if any relation was found, else false</returns>
-		public bool HasIncomingOrOutgoing(RelationBase relation, IList excludeRelations) { 
+        public bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) { 
 			
 			if (relation == null || relation.HRef == null)
 				return false;
@@ -614,7 +615,7 @@ namespace NewsComponents.RelationCosmos
 				}
 			}
 		}
-		private static bool RelationListContains(IList relationList, RelationBase relation) 
+		private static bool RelationListContains(IList<RelationBase> relationList, RelationBase relation) 
 		{
 			if (relation == null)
 				return false;
@@ -662,7 +663,7 @@ namespace NewsComponents.RelationCosmos
 		
 		#region private methods
 		private void ThreadRunAddRange(object state) {
-			IList relations = (IList)state;
+			IList<RelationBase> relations = (IList<RelationBase>)state;
 			
 			//long secs = 0;
 			//ProfilerHelper.StartMeasure(ref secs);

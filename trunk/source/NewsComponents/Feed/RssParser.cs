@@ -11,6 +11,7 @@ using System;
 using System.Xml; 
 using System.IO; 
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -19,6 +20,7 @@ using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
+using NewsComponents.RelationCosmos;
 
 namespace NewsComponents.Feed {
 
@@ -1078,12 +1080,12 @@ namespace NewsComponents.Feed {
 		/// version 0.91, 1.0 or 2.0</exception>
 		/// <exception cref="XmlException">If an error occured parsing the 
 		/// RSS feed</exception>	
-		public ArrayList GetItemsForFeed(feedsFeed f){
+		public List<NewsItem> GetItemsForFeed(feedsFeed f){
 
 			if (this.offline)
-				return new ArrayList();
+                return new List<NewsItem>();
 
-			ArrayList returnList = new ArrayList();
+            List<NewsItem> returnList = new List<NewsItem>();
 
 			using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, null, owner.UserAgent, owner.Proxy)) {
 				returnList = RssParser.GetItemsForFeed(f, mem, false).itemsList; 
@@ -1103,7 +1105,7 @@ namespace NewsComponents.Feed {
 		/// version 0.91, 1.0 or 2.0</exception>
 		/// <exception cref="XmlException">If an error occured parsing the 
 		/// RSS feed</exception>	
-		public  ArrayList GetItemsForFeed(string feedUrl){
+        public List<NewsItem> GetItemsForFeed(string feedUrl) {
 
 			feedsFeed f = new feedsFeed();
 			f.link = feedUrl;
@@ -1130,8 +1132,8 @@ namespace NewsComponents.Feed {
 		/// RSS feed</exception>	
 		public static FeedInfo GetItemsForFeed(feedsFeed f, XmlReader feedReader, bool cachedStream) {
 
-			ArrayList items  = new ArrayList();
-			Hashtable optionalElements = new Hashtable();					
+            List<NewsItem> items = new List<NewsItem>();
+            Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();					
 			string feedLink = String.Empty, feedDescription= String.Empty, feedTitle= String.Empty, maxItemAge= String.Empty, language=String.Empty; 			  
 			SyndicationFormat feedFormat = SyndicationFormat.Unknown; 
 			DateTime defaultItemDate = RelationCosmos.RelationCosmos.UnknownPointInTime;
@@ -1289,7 +1291,7 @@ namespace NewsComponents.Feed {
 			}else{
 				//add to relationcosmos if loaded from disk
 				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-				NewsHandler.RelationCosmosAddRange(items);
+                NewsHandler.RelationCosmosAddRange(TypeConverter.ToRelationBaseList(items));
 			}
 			//any new items in feed? 
 			if(readItems == items.Count){
@@ -1304,7 +1306,6 @@ namespace NewsComponents.Feed {
 			return fi; 
 		}
 
-	
 		/// <summary>
 		/// This method fills a particular NameTable with the element names from RSS and
 		/// ATOM that RSS Bandit checks for. After filling the name table it returns an 
@@ -1559,7 +1560,7 @@ namespace NewsComponents.Feed {
 		/// <param name="items">Items in the feed</param>
 		/// <param name="defaultItemDate">Default DateTime for the items</param>
 		/// <param name="language">The language of the feed</param>
-		private static void ProcessFeedElements(feedsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref string maxItemAge, ref DateTime channelBuildDate, Hashtable optionalElements, ArrayList items, DateTime defaultItemDate, ref string language ){	  		 
+        private static void ProcessFeedElements(feedsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref string maxItemAge, ref DateTime channelBuildDate, Dictionary<XmlQualifiedName, string> optionalElements, List<NewsItem> items, DateTime defaultItemDate, ref string language) {	  		 
 			
 			bool matched = false; //indicates whether this is a known element
 			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()
@@ -1642,7 +1643,7 @@ namespace NewsComponents.Feed {
 						XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
 						string optionalNode   = reader.ReadOuterXml(); 
 
-						if(!optionalElements.Contains(qname)){				
+						if(!optionalElements.ContainsKey(qname)){				
 							optionalElements.Add(qname, optionalNode); 
 						}
 
@@ -1667,7 +1668,7 @@ namespace NewsComponents.Feed {
 							
 							XmlQualifiedName qname = new XmlQualifiedName(optionalNode.LocalName, optionalNode.NamespaceURI); 														
 
-							if(!optionalElements.Contains(qname)){				
+							if(!optionalElements.ContainsKey(qname)){				
 								optionalElements.Add(qname, optionalNode.OuterXml); 
 							}
 							
@@ -1774,7 +1775,7 @@ namespace NewsComponents.Feed {
 						XmlQualifiedName qname = new XmlQualifiedName(reader.LocalName, reader.NamespaceURI); 
 						string optionalNode   = reader.ReadOuterXml(); 
 
-						if(!optionalElements.Contains(qname)){				
+						if(!optionalElements.ContainsKey(qname)){				
 							optionalElements.Add(qname, optionalNode); 
 						}
 

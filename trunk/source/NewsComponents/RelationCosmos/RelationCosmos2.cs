@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using NewsComponents.Collections;
 
@@ -54,7 +55,7 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-		void NewsComponents.RelationCosmos.IRelationCosmos.AddRange(IList relations) {
+		void NewsComponents.RelationCosmos.IRelationCosmos.AddRange(IList<RelationBase> relations) {
 			InternalAddRange(relations);
 		}
 
@@ -70,7 +71,7 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-		public void RemoveRange(System.Collections.IList relations) {
+        public void RemoveRange(IList<RelationBase> relations) {
 			InternalRemoveRange(relations);
 		}
 
@@ -100,7 +101,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncoming(RelationBase relation, IList excludeRelations) {
+        public RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return RelationList.Empty;
 			
 			lock (syncRoot) {
@@ -108,7 +109,7 @@ namespace NewsComponents.RelationCosmos
 				string hRef = relation.HRef;
 				if (hRef != null && hRef.Length > 0) {
 					//_log.Info("GetIncoming(href):" + hRef);
-					IList list = relationsLinkTo[hRef];
+					IList<RelationBase> list = relationsLinkTo[hRef];
 					if (list != null) {
 						foreach (RelationBase linkBack in list) {
 							if ( ! excludeRelations.Contains(linkBack) && ! ret.Contains(linkBack)) {
@@ -121,7 +122,7 @@ namespace NewsComponents.RelationCosmos
 				hRef = relation.Id;
 				if (hRef != null && hRef != relation.HRef) {
 					//_log.Info("GetIncoming( id ):" + hRef);
-					IList list = relationsLinkTo[hRef];
+                    IList<RelationBase> list = relationsLinkTo[hRef];
 					if (list != null) {
 						foreach (RelationBase linkBack in list) {
 							if ( ! excludeRelations.Contains(linkBack) && ! ret.Contains(linkBack)) {
@@ -144,7 +145,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetOutgoing(RelationBase relation, IList excludeRelations) {
+        public RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return RelationList.Empty;
 			Hashtable excludeUrls = GetRelationUrls(excludeRelations);
 			
@@ -169,7 +170,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		public RelationList GetIncomingAndOutgoing(RelationBase relation, IList excludeRelations) {
+        public RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			// not required...?
 			return RelationList.Empty;
 		}
@@ -184,7 +185,7 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>
 		/// True, if any relation was found, else false
 		/// </returns>
-		public bool HasIncomingOrOutgoing(RelationBase relation, IList excludeRelations) {
+        public bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
 			if (relation == null) return false;
 			Hashtable excludeUrls = GetRelationUrls(excludeRelations);
 			
@@ -201,7 +202,7 @@ namespace NewsComponents.RelationCosmos
 				// check for incoming:
 				string hRef = relation.HRef;
 				if (hRef != null && hRef.Length > 0) {
-					IList list = relationsLinkTo[hRef];
+                    IList<RelationBase> list = relationsLinkTo[hRef];
 					if (list != null) {
 						foreach (RelationBase linkBack in list) {
 							if ( ! excludeRelations.Contains(linkBack) )
@@ -213,7 +214,7 @@ namespace NewsComponents.RelationCosmos
 
 				hRef = relation.Id;
 				if (hRef != null && hRef != relation.HRef) {
-					IList list = relationsLinkTo[hRef];
+                    IList<RelationBase> list = relationsLinkTo[hRef];
 					if (list != null) {
 						foreach (RelationBase linkBack in list) {
 							if ( ! excludeRelations.Contains(linkBack) )
@@ -251,7 +252,7 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private members
-		private void InternalAddRange(IList relations) {
+		private void InternalAddRange(IList<RelationBase> relations) {
 			if (relations == null) return;
 			lock (syncRoot) {
 				for (int i=0; i< relations.Count; i++)	
@@ -299,7 +300,7 @@ namespace NewsComponents.RelationCosmos
 			}
 		}
 
-		private void InternalRemoveRange(IList relations) {
+        private void InternalRemoveRange(IList<RelationBase> relations) {
 			if (relations == null) return;
 			lock (syncRoot) {
 				for (int i=0; i< relations.Count; i++)	
@@ -351,7 +352,7 @@ namespace NewsComponents.RelationCosmos
 		}
 */
 
-		private static Hashtable GetRelationUrls(IList relations) {
+        private static Hashtable GetRelationUrls(IList<RelationBase> relations) {
 			Hashtable hashtable = new Hashtable();
 			foreach (RelationBase relation in relations) {
 				string text1 = relation.HRef;
