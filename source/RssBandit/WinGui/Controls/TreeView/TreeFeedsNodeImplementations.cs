@@ -660,14 +660,14 @@ namespace RssBandit.WinGui.Controls
 		public void Add(NewsItem item) {	
 			if (item == null) return;
 			if (!items.ContainsKey(item))
-				items.Add(item, null);
+				items.Add(item, item);
 		}
 		public void AddRange(IList newItems) {	
 			if (newItems == null) return;
 			for (int i=0; i < newItems.Count; i++) {
 				NewsItem item = newItems[i] as NewsItem;
 				if (item != null && !items.ContainsKey(item))
-					items.Add(item, null);
+					items.Add(item, item);
 			}
 		}
 		public void Remove(NewsItem item) {
