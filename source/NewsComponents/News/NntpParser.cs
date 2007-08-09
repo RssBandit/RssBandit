@@ -9,6 +9,7 @@
 
 using System; 
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
@@ -149,8 +150,8 @@ namespace NewsComponents.News{
 		/// <returns>A FeedInfo containing the NewsItem objects</returns>		
 		public static FeedInfo GetItemsForNewsGroup(feedsFeed f, Stream newsgroupListStream, bool cachedStream) {
 			
-			int readItems = 0; 
-			ArrayList items = new ArrayList(); 
+			int readItems = 0;
+            List<NewsItem> items = new List<NewsItem>(); 
 			NewsItem item; 
 			string currentLine, title, author, parentId, headerName, headerValue, id; 
 			StringBuilder content = new StringBuilder(); 
@@ -256,7 +257,7 @@ namespace NewsComponents.News{
 				}
 
 				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-				NewsHandler.RelationCosmosAddRange(items);
+				NewsHandler.RelationCosmosAddRange(TypeConverter.ToRelationBaseList(items));
  
 			}
 			catch(Exception e)

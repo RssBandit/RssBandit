@@ -32,6 +32,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
@@ -162,7 +163,7 @@ namespace NewsComponents.Search
 			}
 		}
 
-		internal int IndexNewsItems(IList newsItems) {
+		internal int IndexNewsItems(IList<NewsItem> newsItems) {
 			
 			if (newsItems != null) 
 			{

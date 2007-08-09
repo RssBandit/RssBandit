@@ -12,6 +12,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;	// for cookie management
 using System.Reflection;	// for unsafeHeaderParsingFix
@@ -64,7 +65,7 @@ namespace NewsComponents.Net
 		/// </summary>
 		/// <remarks>That content should be maintained completely from within
 		/// the OnCertificateIssue event.</remarks>
-		private static Hashtable trustedCertificateIssues = new Hashtable(5);
+        private static Dictionary<string, IList<CertificateIssue>> trustedCertificateIssues = new Dictionary<string, IList<CertificateIssue>>(5);
 
 		/// <summary>
 		/// Callback delegate used for OnAllRequestsComplete event.
@@ -121,7 +122,7 @@ namespace NewsComponents.Net
 		/// </summary>
 		/// <remarks>That content should be maintained completely from within
 		/// the OnCertificateIssue event.</remarks>
-		public static Hashtable TrustedCertificateIssues { 
+		public static Dictionary<string, IList<CertificateIssue>> TrustedCertificateIssues { 
 			set {	trustedCertificateIssues = value; }
 			get { return trustedCertificateIssues; }
 		}
@@ -1245,7 +1246,7 @@ namespace NewsComponents.Net
 			ICollection trusted = null;
 			
 			if (trustedCertificateIssues != null) {
-				lock (trustedCertificateIssues.SyncRoot) {
+				lock (trustedCertificateIssues) {
 					if (trustedCertificateIssues.ContainsKey(url)) 
 						trusted = (ICollection)trustedCertificateIssues[url];
 				}

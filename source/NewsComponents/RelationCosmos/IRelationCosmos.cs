@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NewsComponents.Collections;
 
 namespace NewsComponents.RelationCosmos
@@ -80,7 +81,7 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-		void AddRange(IList relations);
+		void AddRange(IList<RelationBase> relations);
 
 		/// <summary>
 		/// Remove a relation from the RelationCosmos.
@@ -92,7 +93,7 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-		void RemoveRange(IList relations);
+        void RemoveRange(IList<RelationBase> relations);
 
 		/// <summary>
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
@@ -113,7 +114,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		RelationList GetIncoming(RelationBase relation, IList excludeRelations);
+        RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations);
 
 		/// <summary>
 		/// Returns a list of relations, that are known in RelationCosmos and that 
@@ -123,7 +124,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		RelationList GetOutgoing(RelationBase relation, IList excludeRelations);
+        RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations);
 
 		/// <summary>
 		/// Returns a list merged of incoming and outging relations.
@@ -132,7 +133,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-		RelationList GetIncomingAndOutgoing(RelationBase relation, IList excludeRelations);
+        RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations);
 
 		/// <summary>
 		/// Return true, if the <c>relation</c> has any incoming or outgoing relations 
@@ -142,7 +143,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of strings with relation.HRef's, 
 		/// that should be excluded in that check</param>
 		/// <returns>True, if any relation was found, else false</returns>
-		bool HasIncomingOrOutgoing(RelationBase relation, IList excludeRelations);
+        bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations);
 
 		/// <summary>
 		/// Not yet fully implemented/supported!

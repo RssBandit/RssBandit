@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 using NewsComponents.RelationCosmos;
 
@@ -28,36 +29,9 @@ namespace NewsComponents.Collections {
 	///		A strongly-typed collection of <see cref="RelationBase"/> objects.
 	/// </summary>
 	[Serializable]
-	public 
-		class RelationList : ICollection, IList, IEnumerable, ICloneable {
-		#region Interfaces
-		/// <summary>
-		///		Supports type-safe iteration over a <see cref="RelationList"/>.
-		/// </summary>
-		public interface IRelationListEnumerator {
-			/// <summary>
-			///		Gets the current element in the collection.
-			/// </summary>
-			RelationBase Current {get;}
-
-			/// <summary>
-			///		Advances the enumerator to the next element in the collection.
-			/// </summary>
-			/// <exception cref="InvalidOperationException">
-			///		The collection was modified after the enumerator was created.
-			/// </exception>
-			/// <returns>
-			///		<c>true</c> if the enumerator was successfully advanced to the next element; 
-			///		<c>false</c> if the enumerator has passed the end of the collection.
-			/// </returns>
-			bool MoveNext();
-
-			/// <summary>
-			///		Sets the enumerator to its initial position, before the first element in the collection.
-			/// </summary>
-			void Reset();
-		}
-		#endregion
+	public
+        class RelationList : ICollection<RelationBase>, IList<RelationBase>, IEnumerable<RelationBase>, ICloneable {
+		
 
 		private const int DEFAULT_CAPACITY = 16;
 
@@ -135,7 +109,7 @@ namespace NewsComponents.Collections {
 		///		that contains elements copied from the specified <c>System.Collections.ICollection</c>.
 		/// </summary>
 		/// <param name="c">The <c>System.Collections.ICollection</c> whose elements are copied to the new collection.</param>
-		public RelationList(System.Collections.ICollection c) {
+		public RelationList(ICollection c){
 			m_array = new RelationBase[c.Count];
 			AddRange(c);
 		}
@@ -381,7 +355,7 @@ namespace NewsComponents.Collections {
 		///		Returns an enumerator that can iterate through the <c>RelationList</c>.
 		/// </summary>
 		/// <returns>An <see cref="Enumerator"/> for the entire <c>RelationList</c>.</returns>
-		public virtual IRelationListEnumerator GetEnumerator() {
+		public virtual IEnumerator<RelationBase> GetEnumerator() {
 			return new Enumerator(this);
 		}
 		#endregion
@@ -499,53 +473,32 @@ namespace NewsComponents.Collections {
 		}
 
 		#endregion
-		
-		#region Implementation (ICollection)
 
-		void ICollection.CopyTo(Array array, int start) {
-			Array.Copy(m_array, 0, array, start, m_count);
-		}
 
-		#endregion
+        #region Implementation (ICollection) 
 
-		#region Implementation (IList)
+        void ICollection<RelationBase>.Add(RelationBase item) {
+            this.Add(item);
+        }
 
-		object IList.this[int i] {
-			get { return this[i]; }
-			set { this[i] = (RelationBase)value; }
-		}
+        bool ICollection<RelationBase>.Remove(RelationBase item) {
+            try {
+                this.Remove(item);
+                return true;
+            } catch (IndexOutOfRangeException) {
+                return false; 
+            }
+        }
 
-		int IList.Add(object x) {
-			return this.Add((RelationBase)x);
-		}
 
-		bool IList.Contains(object x) {
-			return this.Contains((RelationBase)x);
-		}
+        #endregion
 
-		int IList.IndexOf(object x) {
-			return this.IndexOf((RelationBase)x);
-		}
 
-		void IList.Insert(int pos, object x) {
-			this.Insert(pos, (RelationBase)x);
-		}
+        #region Implementation (IEnumerable)
 
-		void IList.Remove(object x) {
-			this.Remove((RelationBase)x);
-		}
-
-		void IList.RemoveAt(int pos) {
-			this.RemoveAt(pos);
-		}
-
-		#endregion
-
-		#region Implementation (IEnumerable)
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return (IEnumerator)(this.GetEnumerator());
-		}
+        IEnumerator IEnumerable.GetEnumerator() {
+            return this.GetEnumerator(); 
+        } 
 
 		#endregion
 
@@ -553,7 +506,7 @@ namespace NewsComponents.Collections {
 		/// <summary>
 		///		Supports simple iteration over a <see cref="RelationList"/>.
 		/// </summary>
-		private class Enumerator : IEnumerator, IRelationListEnumerator {
+        private class Enumerator : IEnumerator<RelationBase> {
 			#region Implementation (data)
 			
 			private RelationList m_collection;
@@ -615,10 +568,18 @@ namespace NewsComponents.Collections {
 			
 			object IEnumerator.Current {
 				get { return this.Current; }
-			}
+			}            
 			
 			#endregion
-		}
+
+            #region (IDisposable)
+
+            void IDisposable.Dispose() {
+                return;
+            }
+
+            #endregion
+        }
 		#endregion
         
 		#region Nested Syncronized Wrapper class
@@ -718,7 +679,7 @@ namespace NewsComponents.Collections {
 			#endregion
 
 			#region Type-safe IEnumerable
-			public override IRelationListEnumerator GetEnumerator() {
+			public override IEnumerator<RelationBase> GetEnumerator() {
 				lock(m_root)
 					return m_collection.GetEnumerator();
 			}
@@ -833,7 +794,7 @@ namespace NewsComponents.Collections {
 			#endregion
 
 			#region Type-safe IEnumerable
-			public override IRelationListEnumerator GetEnumerator() {
+			public override IEnumerator<RelationBase> GetEnumerator() {
 				return m_collection.GetEnumerator();
 			}
 			#endregion
