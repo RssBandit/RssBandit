@@ -367,6 +367,7 @@
     <Compile Include="Utils\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\TypeConverter.cs" />
     <Compile Include="Utils\XPathNavigators.cs">
       <SubType>Code</SubType>
     </Compile>

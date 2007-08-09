@@ -562,12 +562,12 @@ namespace NewsComponents.Feed {
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "stories-recently-viewed", IsNullable = false)]
 		[System.Xml.Serialization.XmlArrayItemAttribute("story", Type = typeof(System.String), IsNullable = false)]
-		public ArrayList storiesrecentlyviewed = new ArrayList();
+		public List<string> storiesrecentlyviewed = new List<string>();
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "deleted-stories", IsNullable = false)]
 		[System.Xml.Serialization.XmlArrayItemAttribute("story", Type = typeof(System.String), IsNullable = false)]
-		public ArrayList deletedstories = new ArrayList();
+		public List<string> deletedstories = new List<string>();
   
     
 		/// <remarks/>

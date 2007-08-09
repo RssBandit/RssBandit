@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
@@ -533,7 +534,7 @@ namespace NewsComponents.Search
 		/// Add the list of NewsItems to the lucene search index.
 		/// </summary>
 		/// <param name="newsItems">The news items list.</param>
-		public void IndexAdd(IList newsItems) {
+		public void IndexAdd(IList<NewsItem> newsItems) {
 			if (!UseIndex || newsItems == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
