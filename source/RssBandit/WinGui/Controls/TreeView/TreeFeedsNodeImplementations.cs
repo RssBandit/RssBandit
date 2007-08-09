@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
@@ -255,7 +256,8 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override ArrayList Items {
+		public override List<NewsItem> Items
+		{
 			get {	return ExceptionManager.GetInstance().Items;	}
 		}
 
@@ -334,9 +336,10 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override ArrayList Items {
-			get {	
-				ArrayList a = new ArrayList(base.itemsFeed.Items.Count);
+		public override List<NewsItem> Items
+		{
+			get {
+				List<NewsItem> a = new List<NewsItem>(base.itemsFeed.Items.Count);
 				foreach (NewsItem ri in base.itemsFeed.Items) {
 					if (ri.FlagStatus == flagsFiltered)
 						a.Add(ri);	
@@ -537,7 +540,7 @@ namespace RssBandit.WinGui.Controls
 	public class FinderNode:TreeFeedsNodeBase, ISmartFolder {
 		private ContextMenu _popup = null;						// context menu
 		private LocalFeedsFeed itemsFeed;
-		private Hashtable items = Hashtable.Synchronized(new Hashtable(17));	// do we need the syncronized version?
+		private Dictionary<NewsItem,NewsItem> items = new Dictionary<NewsItem,NewsItem>();	// do we need the syncronized version?
 		private RssFinder finder = null;
 
 		public FinderNode():base() {}
@@ -651,9 +654,10 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public ArrayList Items {
-			get {	
-				return new ArrayList(items.Keys);	
+		public List<NewsItem> Items
+		{
+			get {
+				return new List<NewsItem>(items.Keys);	
 			}
 		}
 
@@ -662,7 +666,8 @@ namespace RssBandit.WinGui.Controls
 			if (!items.ContainsKey(item))
 				items.Add(item, item);
 		}
-		public void AddRange(IList newItems) {	
+		public void AddRange(IList<NewsItem> newItems)
+		{	
 			if (newItems == null) return;
 			for (int i=0; i < newItems.Count; i++) {
 				NewsItem item = newItems[i] as NewsItem;

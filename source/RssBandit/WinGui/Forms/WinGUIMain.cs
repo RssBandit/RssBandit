@@ -12,6 +12,7 @@
 
 #region framework namespaces
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
@@ -31,6 +32,7 @@ using System.Security.Permissions;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
+using NewsComponents.RelationCosmos;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Forms.ControlHelpers;
 using RssBandit.Xml;  
@@ -148,7 +150,7 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// Delegate used for calling PopulateListView() in the correct thread.
 		/// </summary>
-		delegate void PopulateListViewDelegate(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode);
+		delegate void PopulateListViewDelegate(TreeFeedsNodeBase associatedFeedsNode, IList<NewsItem> list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode);
 		/// <summary>
 		/// Delegate used to invoke SetGuiStateFeedback() from other UI threads 
 		/// </summary>
@@ -1176,10 +1178,10 @@ namespace RssBandit.WinGui.Forms
 				if (tn != TreeSelectedFeedsNode && f != null) {	
 					
 					containsUnread  = false;
-					ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+					IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 
 					for (int i = 0; i < items.Count; i++) {
-						NewsItem item = (NewsItem)items[i];
+						NewsItem item = items[i];
 						if (!item.BeenRead) {
 							containsUnread = true;
 							break;
@@ -1483,8 +1485,8 @@ namespace RssBandit.WinGui.Forms
 		/// or not. Basically if this flag is true then the list view and browser pane are updated while 
 		/// they remain unchanged if this flag is false. </param>
 		public void PopulateSmartFolder(TreeFeedsNodeBase feedNode, bool updateGui) {
-			
-			ArrayList items = null;
+
+			IList<NewsItem> items = null;
 			ISmartFolder isFolder = feedNode as ISmartFolder;
 			
 			if (isFolder == null)
@@ -1558,7 +1560,7 @@ namespace RssBandit.WinGui.Forms
 				}
 
 
-				ArrayList items = node.Items;
+				IList<NewsItem> items = node.Items;
 			
 				// call them sync., because we want to re-set the previous selected item
 				if(listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired) {
@@ -1801,7 +1803,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="associatedFeedsNode">The accociated tree Node</param>
 		/// <param name="list">A list of NewsItem objects.</param>
 		/// <param name="forceReload">Force reload of the listview</param>
-		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload){
+		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, IList<NewsItem> list, bool forceReload){
 			this.PopulateListView(associatedFeedsNode, list, forceReload, false, associatedFeedsNode);
 		}
 		
@@ -1813,7 +1815,8 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="forceReload">Force reload of the listview</param>
 		/// <param name="categorizedView">True, if the feed title should be appended to
 		/// each RSS Item title: "...rss item title... (feed title)"</param>
-		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode) {
+		private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, IList<NewsItem> list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode)
+		{
 			
 			try {
 
@@ -1826,7 +1829,7 @@ namespace RssBandit.WinGui.Forms
 				}
 
 				int unreadItems = 0;
-				ArrayList unread;
+				IList<NewsItem> unread;
 
 				// detect, if we should do a smartUpdate
 						
@@ -1902,7 +1905,8 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="forceReload"></param>
 		/// <param name="categorizedView"></param>
 		/// <param name="initialFeedsNode"></param>
-		public void AsyncPopulateListView(TreeFeedsNodeBase associatedFeedsNode, ArrayList list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode) {
+		public void AsyncPopulateListView(TreeFeedsNodeBase associatedFeedsNode, IList<NewsItem> list, bool forceReload, bool categorizedView, TreeFeedsNodeBase initialFeedsNode)
+		{
 			if (this.listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired) {
 				PopulateListViewDelegate populateListView  = new PopulateListViewDelegate(PopulateListView);			
 				this.BeginInvoke(populateListView, new object[]{associatedFeedsNode, list, forceReload, categorizedView});
@@ -1919,12 +1923,13 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="categorizedView">True, if the feed title should be appended to
 		/// each RSS Item title: "...rss item title... (feed title)"</param>
 		/// <returns>unread items</returns>
-		private ArrayList PopulateFullListView(ArrayList list, bool categorizedView) {
+		private IList<NewsItem> PopulateFullListView(IList<NewsItem> list, bool categorizedView)
+		{
 
 			ThreadedListViewItem[] aNew = new ThreadedListViewItem[list.Count];
 			ThreadedListViewItem newItem = null;
 
-			ArrayList unread = new ArrayList(list.Count);
+			IList<NewsItem> unread = new List<NewsItem>(list.Count);
 			
 			ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
 			INewsItemFilter flagFilter = null;
@@ -1993,12 +1998,12 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="checkDuplicates">If true, we check if a NewsItem is allready populated.
 		/// This has a perf. impact, if true!</param>
 		/// <returns>unread items</returns>
-		public ArrayList PopulateSmartListView(ArrayList list, bool categorizedView, bool checkDuplicates) 
+		public IList<NewsItem> PopulateSmartListView(IList<NewsItem> list, bool categorizedView, bool checkDuplicates) 
 		{
 
-			ArrayList items = new ArrayList(listFeedItems.Items.Count);
-			ArrayList newItems = new ArrayList(list.Count);
-			ArrayList unread = new ArrayList(list.Count);
+			List<ThreadedListViewItem> items = new List<ThreadedListViewItem>(listFeedItems.Items.Count);
+			List<ThreadedListViewItem> newItems = new List<ThreadedListViewItem>(list.Count);
+			List<NewsItem> unread = new List<NewsItem>(list.Count);
 			
 			lock(listFeedItems.Items) {
 				items.AddRange(listFeedItems.Items);
@@ -2112,10 +2117,10 @@ namespace RssBandit.WinGui.Forms
 
 		private bool NewsItemHasRelations(NewsItem item) 
 		{
-			return this.NewsItemHasRelations(item, new object[]{});
+			return this.NewsItemHasRelations(item, new List<RelationBase>());
 		}
 		
-		private bool NewsItemHasRelations(NewsItem item, IList itemKeyPath) {
+		private bool NewsItemHasRelations(NewsItem item, IList<RelationBase> itemKeyPath) {
 			bool hasRelations = false;
 			if (item.Feed != null & owner.FeedHandler.FeedsTable.ContainsKey(item.Feed.link)) {
 				hasRelations = owner.FeedHandler.HasItemAnyRelations(item, itemKeyPath);
@@ -2244,8 +2249,8 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="tn">The tree node whose comment status is being updated</param>
 		/// <param name="f">The feed associated with the tree node</param>
 		private void UpdateCommentStatus(TreeFeedsNodeBase tn, feedsFeed f){
-			
-			ArrayList itemsWithNewComments = GetFeedItemsWithNewComments(f);
+
+			IList<NewsItem> itemsWithNewComments = GetFeedItemsWithNewComments(f);
 			tn.UpdateCommentStatus(tn, itemsWithNewComments.Count);					
 			owner.UpdateWatchedItems(itemsWithNewComments); 
 			WatchedItemsNode.UpdateCommentStatus();	
@@ -2258,7 +2263,9 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="tn">The tree node whose comment status is being updated</param>
 		/// <param name="items">The items.</param>
 		/// <param name="commentsRead">Indicates that these are new comments or whether the comments were just read</param>
-		private void UpdateCommentStatus(TreeFeedsNodeBase tn, ArrayList items, bool commentsRead){;
+		private void UpdateCommentStatus(TreeFeedsNodeBase tn, IList<NewsItem> items, bool commentsRead)
+		{
+			;
 
 			int multiplier = (commentsRead ? -1 : 1); 			
 
@@ -2266,7 +2273,7 @@ namespace RssBandit.WinGui.Forms
 				tn.UpdateCommentStatus(tn, items.Count * multiplier);					
 				owner.UpdateWatchedItems(items);  
 			}else{
-				ArrayList itemsWithNewComments = GetFeedItemsWithNewComments(items);				
+				IList<NewsItem> itemsWithNewComments = GetFeedItemsWithNewComments(items);				
 				tn.UpdateCommentStatus(tn, itemsWithNewComments.Count * multiplier);					
 				owner.UpdateWatchedItems(itemsWithNewComments);
 			}
@@ -2278,8 +2285,9 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="items">The list of items</param>
 		/// <returns>The number of items with new comments</returns>
-		private ArrayList GetFeedItemsWithNewComments(ArrayList items) {
-			ArrayList itemsWithNewComments = new ArrayList();
+		private IList<NewsItem> GetFeedItemsWithNewComments(IList<NewsItem> items)
+		{
+			IList<NewsItem> itemsWithNewComments = new List<NewsItem>();
 			
 			if (items == null) return itemsWithNewComments;
 			if (items.Count == 0) return itemsWithNewComments;
@@ -2307,7 +2315,8 @@ namespace RssBandit.WinGui.Forms
 		/// watched!
 		/// </summary>
 		/// <param name="watched">The watched item list.</param>
-		private void WatchedItemsNodeRemoveItems(ArrayList watched) {
+		private void WatchedItemsNodeRemoveItems(IList<NewsItem> watched)
+		{
 			if (watched == null) return;
 			for (int i=0; i < watched.Count; i++)
 				WatchedItemsNode.Remove((NewsItem)watched[i]);
@@ -2319,13 +2328,14 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="f">The feed.</param>
 		/// <returns></returns>
-		private ArrayList FilterWatchedFeedItems(feedsFeed f) {
-			ArrayList result = new ArrayList();
+		private IList<NewsItem> FilterWatchedFeedItems(feedsFeed f)
+		{
+			IList<NewsItem> result = new List<NewsItem>();
 			
 			if (f == null) 
 				return result;
 
-			ArrayList items = null;
+			IList<NewsItem> items = null;
 			try {
 				items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 			} catch { /* ignore cache errors here. On error, it returns always empty list */}
@@ -2338,8 +2348,9 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		private ArrayList FilterWatchedFeedItems(ArrayList items) {
-			ArrayList result = new ArrayList();
+		private IList<NewsItem> FilterWatchedFeedItems(IList<NewsItem> items)
+		{
+			List<NewsItem> result = new List<NewsItem>();
 			
 			if (items == null|| items.Count == 0) 
 				return result;
@@ -2361,7 +2372,7 @@ namespace RssBandit.WinGui.Forms
 			if (StringHelper.EmptyOrNull(feedLink) ||
 				! owner.FeedHandler.FeedsTable.ContainsKey(feedLink)) 
 				return;
-			ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
+			IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
 			UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(items));
 		}
 		
@@ -2380,7 +2391,8 @@ namespace RssBandit.WinGui.Forms
 		/// unread!
 		/// </summary>
 		/// <param name="unread">The unread item list.</param>
-		private void UnreadItemsNodeRemoveItems(ArrayList unread) {
+		private void UnreadItemsNodeRemoveItems(IList<NewsItem> unread)
+		{
 			if (unread == null) return;
 			for (int i=0; i < unread.Count; i++)
 				UnreadItemsNode.Remove((NewsItem)unread[i]);
@@ -2391,14 +2403,15 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="f">The feed.</param>
 		/// <returns></returns>
-		private ArrayList FilterUnreadFeedItems(feedsFeed f) {
-			ArrayList result = new ArrayList();
+		private IList<NewsItem> FilterUnreadFeedItems(feedsFeed f)
+		{
+			IList<NewsItem> result = new List<NewsItem>();
 			
 			if (f == null) 
 				return result;
 
 			if (f.containsNewMessages) {
-				ArrayList items = null;
+				IList<NewsItem> items = null;
 				try {
 					items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 				} catch { /* ignore cache errors here. On error, it returns always empty list */}
@@ -2414,8 +2427,9 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		private ArrayList FilterUnreadFeedItems(ArrayList items) {
-			ArrayList result = new ArrayList();
+		private IList<NewsItem> FilterUnreadFeedItems(IList<NewsItem> items)
+		{
+			IList<NewsItem> result = new List<NewsItem>();
 			
 			if (items == null|| items.Count == 0) 
 				return result;
@@ -2446,13 +2460,14 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="f">The target feed</param>
 		/// <returns>The number of items with unread comments </returns>
-		private ArrayList GetFeedItemsWithNewComments(feedsFeed f) {
-			ArrayList itemsWithNewComments = new ArrayList();
+		private IList<NewsItem> GetFeedItemsWithNewComments(feedsFeed f)
+		{
+			IList<NewsItem> itemsWithNewComments = new List<NewsItem>();
 			
 			if (f == null) return itemsWithNewComments;
 
 			if(f.containsNewComments) {
-				ArrayList items = null;
+				IList<NewsItem> items = null;
 				try {
 					items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 				} catch { /* ignore cache errors here. On error, it returns always zero */}
@@ -2703,8 +2718,8 @@ namespace RssBandit.WinGui.Forms
 					// Old: call may initiate a web request, if eTag/last retrived is too old:
 					//ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
 					// this will just get the items from cache:
-					ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
-					ArrayList unread = FilterUnreadFeedItems(items);
+					IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
+					IList<NewsItem> unread = FilterUnreadFeedItems(items);
 					
 					if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow || 
 						(DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow && f.alertEnabled)) &&
@@ -2785,9 +2800,9 @@ namespace RssBandit.WinGui.Forms
 		private void RefreshCategoryDisplay(TreeFeedsNodeBase tn) {	
 
 			string category = tn.CategoryStoreName;
-			FeedInfoList fil2 = null, unreadItems = new FeedInfoList(category); 
-			
-			PopulateListView(tn, new ArrayList(), true);
+			FeedInfoList fil2 = null, unreadItems = new FeedInfoList(category);
+
+			PopulateListView(tn, new List<NewsItem>(), true);
 			htmlDetail.Clear();
 			WalkdownThenRefreshFeed(tn, false, true, tn, unreadItems);
 
@@ -2900,7 +2915,7 @@ namespace RssBandit.WinGui.Forms
 								//owner.FeedHandler.AsyncGetItemsForFeed(feedUrl, forceRefresh);
 								this.DelayTask(DelayedTasks.StartRefreshOneFeed, feedUrl);
 							}else if(categorized){
-								ArrayList items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);									
+								IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);									
 								feedsFeed f = owner.GetFeed(feedUrl);
 								FeedInfo fi = null;
 					
@@ -4607,7 +4622,7 @@ namespace RssBandit.WinGui.Forms
 					SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
 
 					if(f.containsNewMessages) {
-						ArrayList unread = FilterUnreadFeedItems(f);
+						IList<NewsItem> unread = FilterUnreadFeedItems(f);
 						if (unread.Count > 0) {
 							// we build up the tree, so the call to 
 							// UpdateReadStatus(tn , 0) is not neccesary:
@@ -5452,7 +5467,7 @@ namespace RssBandit.WinGui.Forms
 //			tn.Cells[0].Appearance.Cursor = CursorHand;
 			
 			if(f.containsNewMessages) {
-				ArrayList unread = FilterUnreadFeedItems(f);
+				IList<NewsItem> unread = FilterUnreadFeedItems(f);
 				if (unread.Count > 0) {
 					// we build up a new tree node, so the call to 
 					// UpdateReadStatus(tn , 0) is not neccesary:
@@ -5673,9 +5688,9 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="feedUri">The original feed Uri</param>
 		/// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
-		public void UpdateCommentFeed(Uri feedUri, Uri newFeedUri) {	
-			
-			ArrayList items = null;
+		public void UpdateCommentFeed(Uri feedUri, Uri newFeedUri) {
+
+			IList<NewsItem> items = null;
 
 			string feedUrl = feedUri.AbsoluteUri;
 			feedsFeed feed = null;
@@ -5824,8 +5839,8 @@ namespace RssBandit.WinGui.Forms
 			if(feedUri == null)
 				return; 
 
-			ArrayList items = null;
-			ArrayList unread = null;
+			IList<NewsItem> items = null;
+			IList<NewsItem> unread = null;
 			
 			string feedUrl = feedUri.AbsoluteUri;
 			feedsFeed feed = null;
@@ -8891,7 +8906,7 @@ namespace RssBandit.WinGui.Forms
 		{
 			SetFeedHandlerFeedColumnLayout(CurrentSelectedFeedsNode, null);
 			listFeedItems.ApplyLayoutModifications();	// do not save temp. changes to the node
-			ArrayList items = this.NewsItemListFrom(listFeedItems.Items);
+			IList<NewsItem> items = this.NewsItemListFrom(listFeedItems.Items);
 			listFeedItems.FeedColumnLayout = this.GetFeedColumnLayout(CurrentSelectedFeedsNode);	// also clear's the listview
 			this.RePopulateListviewWithContent(items);
 		}
@@ -10412,7 +10427,8 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="title">The title.</param>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		private FeedInfoList CreateFeedInfoList(string title, ArrayList items) {
+		private FeedInfoList CreateFeedInfoList(string title, IList<NewsItem> items)
+		{
 			FeedInfoList result = new FeedInfoList(title);
 			if (items == null || items.Count == 0)
 				return result;
@@ -11488,11 +11504,11 @@ namespace RssBandit.WinGui.Forms
 		{
 			this.RePopulateListviewWithContent(this.NewsItemListFrom(listFeedItems.Items));
 		}
-		
-		private void RePopulateListviewWithContent(ArrayList newsItemList) 
+
+		private void RePopulateListviewWithContent(IList<NewsItem> newsItemList) 
 		{
 			if (newsItemList == null)
-				newsItemList = new ArrayList(0);
+				newsItemList = new List<NewsItem>(0);
 
 			ThreadedListViewItem lvLastSelected = null;
 			if (listFeedItems.SelectedItems.Count > 0)
@@ -11530,14 +11546,14 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list) 
+		private IList<NewsItem> NewsItemListFrom(ThreadedListViewItemCollection list) 
 		{
 			return NewsItemListFrom(list, false);
 		}
-		
-		private ArrayList NewsItemListFrom(ThreadedListViewItemCollection list, bool unreadOnly) 
+
+		private IList<NewsItem> NewsItemListFrom(ThreadedListViewItemCollection list, bool unreadOnly) 
 		{
-			ArrayList items = new ArrayList(list.Count);
+			IList<NewsItem> items = new List<NewsItem>(list.Count);
 			for (int i=0; i < list.Count; i++) 
 			{
 				ThreadedListViewItem tlvi = list[i];
@@ -12336,8 +12352,9 @@ namespace RssBandit.WinGui.Forms
 			TreeSelectedFeedsNode = resultContainer;
 			
 		}
-		
-		internal void SearchFinishedAction(object tag, FeedInfoList matchingFeeds, ArrayList matchingItems, int rssFeedsCount, int newsItemsCount) {
+
+		internal void SearchFinishedAction(object tag, FeedInfoList matchingFeeds, IList<NewsItem> matchingItems, int rssFeedsCount, int newsItemsCount)
+		{
 			if (newsItemsCount == 0) {
 				searchPanel.SetControlStateTo(ItemSearchState.Finished, SR.RssSearchNoResultMessage);
 			} 
@@ -12893,7 +12910,7 @@ namespace RssBandit.WinGui.Forms
 				_uiTasksTimer.StopTask(DelayedTasks.RefreshTreeCommentStatus);
 				object[] param = (object[])_uiTasksTimer.GetData(DelayedTasks.RefreshTreeCommentStatus, true);
 				TreeFeedsNodeBase tn = (TreeFeedsNodeBase)param[0];
-				ArrayList items = (ArrayList)param[1];
+				IList<NewsItem> items = (IList<NewsItem>)param[1];
 				bool commentsRead = (bool) param[2];
 				if (tn != null)
 					this.UpdateCommentStatus(tn, items, commentsRead); 					

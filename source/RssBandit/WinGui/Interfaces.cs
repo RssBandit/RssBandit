@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Collections;
 using RssBandit.WinGui.Utility;
 using NewsComponents;
+using System.Collections.Generic;
 
 namespace RssBandit.WinGui.Interfaces
 {
@@ -70,8 +71,8 @@ namespace RssBandit.WinGui.Interfaces
 		int NewMessagesCount			{ get ; }
 		int NewCommentsCount            { get ; }
 		void MarkItemRead				(NewsItem item);
-		void MarkItemUnread				(NewsItem item);	
-		ArrayList Items					{ get ; }
+		void MarkItemUnread				(NewsItem item);
+		List<NewsItem> Items { get; }
 		void Add						(NewsItem item);
 		void Remove						(NewsItem item);
 		void UpdateReadStatus 			();
