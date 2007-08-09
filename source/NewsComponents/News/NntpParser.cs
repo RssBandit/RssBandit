@@ -18,6 +18,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using NewsComponents.Utils;
 using NewsComponents.Feed;
+using RssBandit.Common.Utils;
+using NewsComponents.RelationCosmos;
 
 namespace NewsComponents.News{
 
@@ -257,7 +259,7 @@ namespace NewsComponents.News{
 				}
 
 				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-				NewsHandler.RelationCosmosAddRange(TypeConverter.ToRelationBaseList(items));
+                NewsHandler.RelationCosmosAddRange(items.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem, RelationBase>()));
  
 			}
 			catch(Exception e)
