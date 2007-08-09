@@ -26,12 +26,14 @@ namespace NewsComponents
 		/// <summary>Gets the Feed Description</summary>
 		string Description{ get; }
 		/// <summary>Gets the optional elements found at Feed level</summary>	  
-		Hashtable OptionalElements { get; }
+		IDictionary OptionalElements { get; }
 		/// <summary>
 		/// Gets the type of the FeedDetails info
 		/// </summary>
 		FeedType Type { get; }
 		/// <summary>? TO DISCUSS ...</summary>	  
 		/* TimeSpan MaxItemAge { get; set; } */ 
+        
+        /* HOW COME NO ITEMS COLLECTION? */ 
 	}
 }
