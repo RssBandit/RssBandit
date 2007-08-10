@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ToolbarHelper.cs,v 1.16 2007/03/05 16:31:47 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/03/05 16:31:47 $
- * $Revision: 1.16 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

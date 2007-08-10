@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationCosmos3.cs,v 1.2 2006/07/07 09:10:41 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/07/07 09:10:41 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

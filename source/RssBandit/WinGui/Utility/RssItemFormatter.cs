@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssItemFormatter.cs,v 1.34 2007/06/07 02:04:18 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/06/07 02:04:18 $
- * $Revision: 1.34 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

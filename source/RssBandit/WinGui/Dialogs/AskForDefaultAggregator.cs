@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AskForDefaultAggregator.cs,v 1.3 2006/10/20 10:10:15 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/10/20 10:10:15 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TrayStateManager.cs,v 1.8 2006/04/06 11:08:09 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/04/06 11:08:09 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

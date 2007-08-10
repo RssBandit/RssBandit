@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: BanditApplicationException.cs,v 1.2 2004/08/04 09:35:16 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/08/04 09:35:16 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

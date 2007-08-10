@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: INewsComponentsConfiguration.cs,v 1.1 2007/07/21 12:26:21 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/21 12:26:21 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

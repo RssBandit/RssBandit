@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: MenuCommands.cs,v 1.15 2006/12/14 16:34:07 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/12/14 16:34:07 $
- * $Revision: 1.15 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: PostReplyThreadHandler.cs,v 1.12 2005/12/20 20:00:57 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/12/20 20:00:57 $
- * $Revision: 1.12 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

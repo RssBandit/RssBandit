@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewEventArgs.cs,v 1.5 2005/03/17 21:29:37 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/17 21:29:37 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

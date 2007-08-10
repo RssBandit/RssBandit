@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: SearchEngineProperties.cs,v 1.12 2007/02/20 18:15:25 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/20 18:15:25 $
- * $Revision: 1.12 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

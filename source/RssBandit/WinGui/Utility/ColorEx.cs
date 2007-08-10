@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ColorEx.cs,v 1.3 2006/08/01 15:45:17 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/08/01 15:45:17 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

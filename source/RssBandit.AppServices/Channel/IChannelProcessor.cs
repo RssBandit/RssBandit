@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IChannelProcessor.cs,v 1.2 2005/10/08 18:21:00 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/10/08 18:21:00 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NavigatorHeaderDrawFilter.cs,v 1.1 2006/08/03 19:16:48 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/08/03 19:16:48 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: PriorityThreadPool.cs,v 1.3 2005/04/02 20:01:14 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/02 20:01:14 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

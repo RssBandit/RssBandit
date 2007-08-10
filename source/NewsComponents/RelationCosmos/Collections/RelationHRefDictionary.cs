@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationHRefDictionary.cs,v 1.6 2006/07/07 08:38:22 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/07/07 08:38:22 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

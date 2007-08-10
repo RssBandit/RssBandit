@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: DownloadTask.cs,v 1.3 2007/02/01 16:00:42 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/01 16:00:42 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

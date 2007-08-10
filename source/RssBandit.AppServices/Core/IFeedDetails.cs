@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IFeedDetails.cs,v 1.2 2006/08/10 17:46:53 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/08/10 17:46:53 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CollapsiblePanelCollection.cs,v 1.1 2004/01/20 17:15:43 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/01/20 17:15:43 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

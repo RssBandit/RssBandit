@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: FeedColumnLayoutCollection.cs,v 1.3 2005/03/17 21:29:36 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/17 21:29:36 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ProfilerHelper.cs,v 1.1 2004/09/02 09:16:33 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2004/09/02 09:16:33 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

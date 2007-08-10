@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ImportFilter.cs,v 1.5 2006/10/05 08:00:13 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/10/05 08:00:13 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

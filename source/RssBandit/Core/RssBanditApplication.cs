@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssBanditApplication.cs,v 1.385 2007/07/28 20:11:50 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/28 20:11:50 $
- * $Revision: 1.385 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

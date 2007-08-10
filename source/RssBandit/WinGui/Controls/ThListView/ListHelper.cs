@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ListHelper.cs,v 1.3 2005/09/30 13:12:11 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/09/30 13:12:11 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

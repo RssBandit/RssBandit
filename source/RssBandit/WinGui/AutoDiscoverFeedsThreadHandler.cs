@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AutoDiscoverFeedsThreadHandler.cs,v 1.18 2007/08/02 13:37:40 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/08/02 13:37:40 $
- * $Revision: 1.18 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

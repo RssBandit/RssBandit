@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: FontColorHelper.cs,v 1.3 2007/02/09 14:54:23 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/09 14:54:23 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

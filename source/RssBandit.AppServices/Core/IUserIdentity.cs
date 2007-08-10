@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IUserIdentity.cs,v 1.1 2005/09/08 13:42:45 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/09/08 13:42:45 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

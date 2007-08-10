@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TreeFeedsDrawFilter.cs,v 1.4 2007/02/09 14:54:09 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/09 14:54:09 $
- * $Revision: 1.4 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

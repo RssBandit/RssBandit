@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: EntertainmentDialog.cs,v 1.8 2005/09/03 18:19:20 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/09/03 18:19:20 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

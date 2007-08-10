@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: LuceneNewsItemSearch.cs,v 1.8 2007/07/26 20:14:51 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/26 20:14:51 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

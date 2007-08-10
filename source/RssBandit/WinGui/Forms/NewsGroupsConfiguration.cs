@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NewsGroupsConfiguration.cs,v 1.34 2007/05/15 21:37:04 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/05/15 21:37:04 $
- * $Revision: 1.34 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

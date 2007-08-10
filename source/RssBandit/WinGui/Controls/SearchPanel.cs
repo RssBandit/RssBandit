@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: SearchPanel.cs,v 1.15 2007/02/27 17:12:49 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/27 17:12:49 $
- * $Revision: 1.15 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

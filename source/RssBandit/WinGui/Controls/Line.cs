@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Line.cs,v 1.1 2005/02/18 08:39:51 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/02/18 08:39:51 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
