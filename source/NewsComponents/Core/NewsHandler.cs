@@ -1259,8 +1259,7 @@ namespace NewsComponents {
 			/// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
 			public SearchFinishedEventArgs (
 				object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount):
-					this(tag, matchingFeeds, new List<NewsItem>(), matchingFeedsCount, matchingItemsCount)
-			{
+					this(tag, matchingFeeds, new List<NewsItem>(), matchingFeedsCount, matchingItemsCount) {
 
                 List<NewsItem> temp = new List<NewsItem>();
 
@@ -1289,13 +1288,11 @@ namespace NewsComponents {
 			/// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
 			/// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
 			public SearchFinishedEventArgs (
-				object tag, FeedInfoList matchingFeeds, List<NewsItem> matchingNewsItems, int matchingFeedsCount, int matchingItemsCount)
-				: base()
-			{
+				object tag, FeedInfoList matchingFeeds, IList<NewsItem> matchingNewsItems, int matchingFeedsCount, int matchingItemsCount):base() {
 				this.MatchingFeedsCount= matchingFeedsCount;
 				this.MatchingItemsCount= matchingItemsCount;
 				this.MatchingFeeds = matchingFeeds;
-				this.MatchingItems = matchingNewsItems;
+				this.MatchingItems = new List<NewsItem>(matchingNewsItems);
 				this.Tag = tag;				
 			}
 			/// <summary></summary>
@@ -1356,7 +1353,7 @@ namespace NewsComponents {
 			int feedmatches = 0;
 			int itemmatches = 0;
 
-			ArrayList unreturnedMatchItems = new ArrayList(); 
+            IList<NewsItem> unreturnedMatchItems = new List<NewsItem>(); 
 			FeedInfoList fiList = new FeedInfoList(String.Empty); 			
 		  
 			Exception ex = null;
@@ -1626,8 +1623,7 @@ namespace NewsComponents {
 				Trace("SearchFinished() event code raises exception: {0}",e);
 			}
 		}
-		private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, List<NewsItem> matchingItems, int matchingFeedsCount, int matchingItemsCount)
-		{
+		private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, IList<NewsItem> matchingItems, int matchingFeedsCount, int matchingItemsCount) {
 			try {
 				if (SearchFinished != null) {
 					SearchFinished(this, new SearchFinishedEventArgs(tag, matchingFeeds, matchingItems, matchingFeedsCount, matchingItemsCount ));
