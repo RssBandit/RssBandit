@@ -114,7 +114,7 @@
       <Link>Log.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-     <Compile Include="..\Common\TypeConverter.cs">
+    <Compile Include="..\Common\TypeConverter.cs">
       <Link>TypeConverter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
@@ -370,7 +370,7 @@
     </Compile>
     <Compile Include="Utils\StringHelper.cs">
       <SubType>Code</SubType>
-    </Compile>  
+    </Compile>
     <Compile Include="Utils\XPathNavigators.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -474,8 +474,7 @@
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
     <EmbeddedResource Include="Resources\feedListSchema.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\rss-0.91.dtd" />
     <EmbeddedResource Include="Resources\xhtml-lat1.ent" />
