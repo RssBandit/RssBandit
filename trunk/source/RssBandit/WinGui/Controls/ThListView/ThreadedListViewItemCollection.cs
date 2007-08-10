@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms; 
 
 namespace System.Windows.Forms.ThListView
@@ -16,7 +17,7 @@ namespace System.Windows.Forms.ThListView
 	/// <summary>
 	/// Summary description for ThreadedListViewItemCollection.
 	/// </summary>
-	public class ThreadedListViewItemCollection: System.Windows.Forms.ListView.ListViewItemCollection {
+	public class ThreadedListViewItemCollection: System.Windows.Forms.ListView.ListViewItemCollection, IEnumerable<ThreadedListViewItem> {
 		
 		public delegate void ItemAddedEventHandler(object sender, ListViewItemEventArgs e);
 		public delegate void ItemRemovedEventHandler(object sender, ListViewItemEventArgs e);
@@ -106,7 +107,94 @@ namespace System.Windows.Forms.ThListView
 
 		public void CopyTo(ThreadedListViewItem[] array, int index) { 
 			base.CopyTo(array, index); 
-		} 
+		}
+
+        #region Implementation (IEnumerable)
+
+        public new IEnumerator<ThreadedListViewItem> GetEnumerator() {
+            return new Enumerator(this);
+        }
+        #endregion
+
+        #region Nested enumerator class
+
+        private class Enumerator : IEnumerator<ThreadedListViewItem> {
+            #region Implementation (data)
+
+            private ThreadedListViewItemCollection m_collection;
+            private int m_index;
+            private int m_version;
+
+            #endregion
+
+            #region Construction
+
+            /// <summary>
+            ///		Initializes a new instance of the <c>Enumerator</c> class.
+            /// </summary>
+            /// <param name="tc"></param>
+            internal Enumerator(ThreadedListViewItemCollection tc) {
+                m_collection = tc;
+                m_index = -1;               
+            }
+
+            #endregion
+
+            #region Operations (type-safe IEnumerator)
+
+            /// <summary>
+            ///		Gets the current element in the collection.
+            /// </summary>
+            public ThreadedListViewItem Current {
+                get { return m_collection[m_index]; }
+            }
+
+            /// <summary>
+            ///		Advances the enumerator to the next element in the collection.
+            /// </summary>
+            /// <exception cref="InvalidOperationException">
+            ///		The collection was modified after the enumerator was created.
+            /// </exception>
+            /// <returns>
+            ///		<c>true</c> if the enumerator was successfully advanced to the next element; 
+            ///		<c>false</c> if the enumerator has passed the end of the collection.
+            /// </returns>
+            public bool MoveNext() {
+            /*     if (m_version != m_collection.m_version)
+                    throw new System.InvalidOperationException("Collection was modified; enumeration operation may not execute.");
+             */ 
+
+                ++m_index;
+                return (m_index < m_collection.Count) ? true : false;
+            }
+
+            /// <summary>
+            ///		Sets the enumerator to its initial position, before the first element in the collection.
+            /// </summary>
+            public void Reset() {
+                m_index = -1;
+            }
+            #endregion
+
+            #region Implementation (IEnumerator)
+
+            object IEnumerator.Current {
+                get { return this.Current; }
+            }
+
+            #endregion
+
+            #region (IDisposable)
+
+            void IDisposable.Dispose() {
+                return;
+            }
+
+            #endregion
+        }
+
+
+        #endregion 
 	}
 
 
@@ -123,8 +211,10 @@ namespace System.Windows.Forms.ThListView
 			} 
 			set { 
 				mItem = value; 
-			} 
-		} 
-	} 
+			}
+        }      
+    } 
+
+
 
 }

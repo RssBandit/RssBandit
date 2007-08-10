@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -69,12 +70,12 @@ namespace RssBandit.WinGui
 
 		#region public members
 		
-		/// <summary>
+        /// <summary>
 		/// Called to show the small toast alert window on new items received.
 		/// </summary>
 		/// <param name="feedName">Feedname to be displayed</param>
 		/// <param name="dispItemCount">unread items count to display</param>
-		/// <param name="items">ArrayList of the new NewsItem's received. We assume,
+		/// <param name="items">list of the newest NewsItem's received. We assume,
 		/// they are sorted with the newest items first!</param>
 		/// <remarks>
 		/// The parameter <c>dispItemCount</c> controls, if and how many item links
@@ -84,7 +85,45 @@ namespace RssBandit.WinGui
 		/// feed, and just only one new was received, that the window display only a link
 		/// to that one newest item by specify 1 (one) as the parameter.
 		/// </remarks>
-		public void  Alert(string feedName, int dispItemCount, ArrayList items)
+        public void Alert(string feedName, int dispItemCount, IList<NewsItem> items) {
+            this.Alert(feedName, dispItemCount, (IList)items); 
+        }
+
+        /// <summary>
+        /// Called to show the small toast alert window on new items received.
+        /// </summary>
+        /// <param name="feedName">Feedname to be displayed</param>
+        /// <param name="dispItemCount">unread items count to display</param>
+        /// <param name="items">list of the newest DownloadItem's received. We assume,
+        /// they are sorted with the newest items first!</param>
+        /// <remarks>
+        /// The parameter <c>dispItemCount</c> controls, if and how many item links
+        /// are displayed in the window. This means; if 0 (zero) or lower than zero, nothing
+        /// happens (no window). If one or more is specified, it displayes up to three items
+        /// in the window. This way you can control, if there was allready e.g. 3 new items on the
+        /// feed, and just only one new was received, that the window display only a link
+        /// to that one newest item by specify 1 (one) as the parameter.
+        /// </remarks>
+        public void Alert(string feedName, int dispItemCount, IList<DownloadItem> items) {
+            this.Alert(feedName, dispItemCount, (IList)items); 
+        }
+
+		/// <summary>
+		/// Called to show the small toast alert window on new items received.
+		/// </summary>
+		/// <param name="feedName">Feedname to be displayed</param>
+		/// <param name="dispItemCount">unread items count to display</param>
+        /// <param name="items">list of the newest NewsItem's received. We assume,
+        /// they are sorted with the newest items first!</param>
+		/// <remarks>
+		/// The parameter <c>dispItemCount</c> controls, if and how many item links
+		/// are displayed in the window. This means; if 0 (zero) or lower than zero, nothing
+		/// happens (no window). If one or more is specified, it displayes up to three items
+		/// in the window. This way you can control, if there was allready e.g. 3 new items on the
+		/// feed, and just only one new was received, that the window display only a link
+		/// to that one newest item by specify 1 (one) as the parameter.
+		/// </remarks>
+        private void Alert(string feedName, int dispItemCount, IList items)
 		{
 			if (dispItemCount < 0 || items == null || items.Count == 0)
 				return;
@@ -92,14 +131,12 @@ namespace RssBandit.WinGui
 			if (_disposing)
 				return;
 
-			ArrayList myItems = new ArrayList(items);
-			myItems.Sort(NewsComponents.Utils.RssHelper.GetComparer(true,NewsComponents.Utils.NewsItemSortField.Date));
-
+          
 			//lock (_toastWindows) {
 				ToastNotify theWindow = this.GetToastWindow(items[0]);
 				if (theWindow != null) {
 					try {
-						if (theWindow.ItemsToDisplay(feedName, dispItemCount, myItems) &&
+						if (theWindow.ItemsToDisplay(feedName, dispItemCount, items) &&
 							!theWindow.Disposing)
 						{
 							if (this._usedToastWindowLocations == 1)

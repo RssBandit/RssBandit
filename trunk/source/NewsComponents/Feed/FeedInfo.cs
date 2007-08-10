@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 using System.Xml;
+using NewsComponents;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed
@@ -55,10 +56,12 @@ namespace NewsComponents.Feed
 		/// <param name="id"></param>
 		/// <param name="feedLocation"></param>
 		/// <param name="itemsList"></param>
-		public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList){
+		public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList){
 			this.id = id;
 			this.feedLocation = feedLocation;  
-			this.itemsList = itemsList; 
+            if(itemsList != null){
+			    this.itemsList = new List<NewsItem>(itemsList); 
+            }
 		}
 
 		/// <summary>
@@ -70,7 +73,7 @@ namespace NewsComponents.Feed
 		/// <param name="title"></param>
 		/// <param name="link"></param>
 		/// <param name="description"></param>
-        public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList, string title, string link, string description)
+        public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList, string title, string link, string description)
 			:this(id, feedLocation, itemsList, title, link, description, new Dictionary<XmlQualifiedName, string>(), String.Empty){			
 		}
 
@@ -85,15 +88,15 @@ namespace NewsComponents.Feed
 		/// <param name="description"></param>
 		/// <param name="optionalElements"></param>
 		/// <param name="language"></param>
-        public FeedInfo(string id, string feedLocation, List<NewsItem> itemsList, string title, string link, string description, Dictionary<XmlQualifiedName, string> optionalElements, string language)
+        public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList, string title, string link, string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
         {
 			this.id = id;
 			this.feedLocation = feedLocation; 
-			this.itemsList = itemsList; 
+			this.itemsList = new List<NewsItem>(itemsList); 
 			this.title = title; 
 			this.link = link; 
 			this.description = description; 
-			this.optionalElements = optionalElements; 
+			this.optionalElements = new Dictionary<XmlQualifiedName,string>(optionalElements); 
 			this.language = language; 
 
 			if(RssHelper.IsNntpUrl(link)){
@@ -452,9 +455,9 @@ namespace NewsComponents.Feed
 		/// Returns all the NewsItems contained within this FeedInfoList in an ArrayList
 		/// </summary>
 		/// <returns>a list of all the NewsItems in this FeedInfoList</returns>
-		public ArrayList GetAllNewsItems(){
-		
-			ArrayList allItems = new ArrayList(); 
+		public IList<NewsItem> GetAllNewsItems(){
+
+            List<NewsItem> allItems = new List<NewsItem>(); 
 
 			foreach(FeedInfo fi in this.feeds){
 				allItems.InsertRange(0, fi.ItemsList); 

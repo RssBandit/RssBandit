@@ -16,6 +16,7 @@ using System.Xml.Xsl;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 #if CLR_20
@@ -891,8 +892,8 @@ namespace RssBandit.WinGui{
 
 				NgosDownloadFeedState state = stateInfo as NgosDownloadFeedState;
 
-				feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link]; 										
-				ArrayList readItems  = new ArrayList(); 
+				feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
+                List<string> readItems = new List<string>(); 
 				this.GetReadItemUrls(feedInBandit, readItems); 
 				
 				string syncUrl = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "syncXmlUrl");
@@ -946,12 +947,12 @@ namespace RssBandit.WinGui{
 		/// </summary>
 		/// <param name="f">The feed whose unread and deleted items are being fetched</param>
 		/// <param name="readItems">The collection in which to place the URLs of the read items</param>
-		public void GetReadItemUrls(feedsFeed f, ArrayList readItems){
-			ArrayList allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link); 
+		public void GetReadItemUrls(feedsFeed f, List<string> readItems){
+			IList<NewsItem> allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link); 
 
 			if((allItems!= null) && allItems.Count > 0){
 				
-				NewsItem testItem = (NewsItem) allItems[0]; 
+				NewsItem testItem =  allItems[0]; 
 			    
 				if(testItem.Id.Equals(testItem.Link)){
 					readItems.InsertRange(0, f.storiesrecentlyviewed); 										

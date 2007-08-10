@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using NewsComponents.Utils;
 using Logger = RssBandit.Common.Logging;
 using RssBandit.WinGui.Utility;
@@ -1428,7 +1429,7 @@ namespace RssBandit {
 			
 			//private static string assemblyRunning = Assembly.GetExecutingAssembly().FullName;
 			// here are the enums moved from RssBandit assembly to AppServices:
-			private static ArrayList movedTypes = new ArrayList(
+            private static List<string> movedTypes = new List<string>(
 				new string[]{"RssBandit.HideToTray", 
 								"RssBandit.AutoUpdateMode", 
 								"RssBandit.RemoteStorageProtocolType", 
