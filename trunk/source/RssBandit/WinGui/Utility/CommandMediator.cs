@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CommandMediator.cs,v 1.8 2006/12/15 13:31:01 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/12/15 13:31:01 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

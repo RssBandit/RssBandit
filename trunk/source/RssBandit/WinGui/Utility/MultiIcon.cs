@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: MultiIcon.cs,v 1.1 2007/03/19 10:43:06 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/03/19 10:43:06 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

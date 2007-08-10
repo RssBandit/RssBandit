@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ToolCommands.cs,v 1.11 2006/12/15 13:31:00 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/12/15 13:31:00 $
- * $Revision: 1.11 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

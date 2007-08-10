@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: GuiStateManager.cs,v 1.5 2005/04/14 20:49:44 haacked Exp $
- * Last modified by $Author: haacked $
- * Last modified at $Date: 2005/04/14 20:49:44 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

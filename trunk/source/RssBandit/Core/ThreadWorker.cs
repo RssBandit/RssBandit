@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadWorker.cs,v 1.26 2007/06/09 18:32:48 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/06/09 18:32:48 $
- * $Revision: 1.26 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

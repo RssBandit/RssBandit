@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: DateTimeExt.cs,v 1.9 2007/05/03 18:27:44 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/05/03 18:27:44 $
- * $Revision: 1.9 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

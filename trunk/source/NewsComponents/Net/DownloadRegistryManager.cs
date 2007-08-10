@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: DownloadRegistryManager.cs,v 1.5 2007/06/14 00:59:40 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/06/14 00:59:40 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: WinGUIWidgetHelpers.cs,v 1.91 2007/07/21 12:26:57 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/21 12:26:57 $
- * $Revision: 1.91 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

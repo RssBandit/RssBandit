@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: MimeType.cs,v 1.1 2006/10/17 16:26:29 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/10/17 16:26:29 $
- * $Revision: 1.1 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ImportFeedsDialog.cs,v 1.11 2005/12/02 14:32:00 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/12/02 14:32:00 $
- * $Revision: 1.11 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 using System;using System.Drawing;using System.Collections;using System.ComponentModel;using System.Windows.Forms;using System.Diagnostics;using System.Threading;using RssBandit.WinGui;using RssBandit.WinGui.Utility;using NewsComponents.Utils;using NewsComponents.Collections;namespace RssBandit.WinGui.Forms{	/// <summary>	/// Summary description for ImportFeedsDialog.	/// </summary>	public class ImportFeedsDialog : System.Windows.Forms.Form	{		private UrlCompletionExtender urlExtender;

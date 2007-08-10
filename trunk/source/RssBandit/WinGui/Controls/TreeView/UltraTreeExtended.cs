@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: UltraTreeExtended.cs,v 1.6 2007/02/17 20:26:43 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/02/17 20:26:43 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TrayAnimation.cs,v 1.15 2005/11/29 09:16:41 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/11/29 09:16:41 $
- * $Revision: 1.15 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AutoDiscoveredFeedsMenuHandler.cs,v 1.34 2007/03/13 16:50:49 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/03/13 16:50:49 $
- * $Revision: 1.34 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

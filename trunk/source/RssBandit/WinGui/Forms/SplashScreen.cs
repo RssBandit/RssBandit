@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: SplashScreen.cs,v 1.9 2005/11/24 16:39:34 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/11/24 16:39:34 $
- * $Revision: 1.9 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

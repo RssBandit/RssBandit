@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RelationBase.cs,v 1.6 2006/10/17 15:33:01 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/10/17 15:33:01 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

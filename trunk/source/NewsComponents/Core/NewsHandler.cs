@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NewsHandler.cs,v 1.184 2007/07/26 02:50:56 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/07/26 02:50:56 $
- * $Revision: 1.184 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

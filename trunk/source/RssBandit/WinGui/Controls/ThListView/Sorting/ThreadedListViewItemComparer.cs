@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ThreadedListViewItemComparer.cs,v 1.3 2006/03/19 19:12:20 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/03/19 19:12:20 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

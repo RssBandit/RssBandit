@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: DiscoveredFeedsDialog.cs,v 1.7 2006/04/06 11:08:10 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/04/06 11:08:10 $
- * $Revision: 1.7 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

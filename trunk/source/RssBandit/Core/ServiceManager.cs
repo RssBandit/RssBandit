@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ServiceManager.cs,v 1.10 2005/12/22 19:27:02 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/12/22 19:27:02 $
- * $Revision: 1.10 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

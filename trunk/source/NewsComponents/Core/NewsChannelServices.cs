@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NewsChannelServices.cs,v 1.5 2007/04/30 10:58:16 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/04/30 10:58:16 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

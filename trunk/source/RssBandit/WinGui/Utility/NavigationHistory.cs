@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NavigationHistory.cs,v 1.13 2007/04/03 13:32:24 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/04/03 13:32:24 $
- * $Revision: 1.13 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

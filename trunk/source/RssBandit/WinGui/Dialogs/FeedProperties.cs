@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: FeedProperties.cs,v 1.20 2006/11/12 16:24:35 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/11/12 16:24:35 $
- * $Revision: 1.20 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
