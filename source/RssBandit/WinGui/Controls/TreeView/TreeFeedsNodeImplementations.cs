@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: TreeFeedsNodeImplementations.cs,v 1.12 2007/05/18 11:46:45 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/05/18 11:46:45 $
- * $Revision: 1.12 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

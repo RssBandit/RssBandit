@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: FavIconLocator.cs,v 1.4 2005/03/05 19:52:13 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/05 19:52:13 $
- * $Revision: 1.4 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

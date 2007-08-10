@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Win32.cs,v 1.41 2007/07/01 17:59:54 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/01 17:59:54 $
- * $Revision: 1.41 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

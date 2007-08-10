@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AssemblyInfo.cs,v 1.5 2007/06/16 19:55:23 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/06/16 19:55:23 $
- * $Revision: 1.5 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

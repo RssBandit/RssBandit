@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: HtmlHelper.cs,v 1.18 2007/08/01 19:14:17 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/08/01 19:14:17 $
- * $Revision: 1.18 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

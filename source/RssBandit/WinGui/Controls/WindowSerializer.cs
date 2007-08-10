@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: WindowSerializer.cs,v 1.2 2007/02/07 15:23:05 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/07 15:23:05 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

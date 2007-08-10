@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssLocater.cs,v 1.22 2007/08/02 13:36:11 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/08/02 13:36:11 $
- * $Revision: 1.22 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

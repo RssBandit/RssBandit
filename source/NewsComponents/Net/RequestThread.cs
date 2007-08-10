@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RequestThread.cs,v 1.7 2006/12/19 04:39:52 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/12/19 04:39:52 $
- * $Revision: 1.7 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

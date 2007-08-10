@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: IListViewLayout.cs,v 1.6 2005/03/15 11:42:09 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/03/15 11:42:09 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

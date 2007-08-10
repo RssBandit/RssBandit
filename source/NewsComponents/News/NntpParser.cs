@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: NntpParser.cs,v 1.24 2006/10/19 19:49:05 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/10/19 19:49:05 $
- * $Revision: 1.24 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

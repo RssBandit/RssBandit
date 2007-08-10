@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Namespaces.cs,v 1.3 2007/01/30 21:17:43 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/01/30 21:17:43 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

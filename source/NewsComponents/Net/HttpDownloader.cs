@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: HttpDownloader.cs,v 1.3 2007/06/10 18:41:26 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/06/10 18:41:26 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

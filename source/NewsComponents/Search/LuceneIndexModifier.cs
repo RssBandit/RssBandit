@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: LuceneIndexModifier.cs,v 1.25 2007/08/02 01:00:06 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2007/08/02 01:00:06 $
- * $Revision: 1.25 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CategoriesCollection.cs,v 1.6 2006/11/25 12:03:56 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/11/25 12:03:56 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

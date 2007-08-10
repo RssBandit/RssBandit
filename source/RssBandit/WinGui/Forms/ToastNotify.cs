@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ToastNotify.cs,v 1.21 2007/07/01 17:58:11 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/01 17:58:11 $
- * $Revision: 1.21 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

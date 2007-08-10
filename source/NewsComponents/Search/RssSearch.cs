@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: RssSearch.cs,v 1.10 2007/01/16 15:31:27 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/01/16 15:31:27 $
- * $Revision: 1.10 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

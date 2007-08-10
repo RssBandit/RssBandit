@@ -9,7 +9,7 @@ copyright Netscape Communications, 1999
 Dan Libby - danda@netscape.com
 Based on RSS DTD originally created by
 Lars Marius Garshol - larsga@ifi.uio.no.
-$Id: rss-0.91.dtd,v 1.1 2007/02/17 18:24:32 carnage4life Exp $
+$Id$
 -->
 <!ELEMENT rss (channel)>
 <!ATTLIST rss

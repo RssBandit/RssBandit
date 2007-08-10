@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Interfaces.cs,v 1.28 2006/12/05 04:06:25 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/12/05 04:06:25 $
- * $Revision: 1.28 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

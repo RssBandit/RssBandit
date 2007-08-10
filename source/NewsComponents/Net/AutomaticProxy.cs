@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AutomaticProxy.cs,v 1.8 2006/11/03 14:29:55 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2006/11/03 14:29:55 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

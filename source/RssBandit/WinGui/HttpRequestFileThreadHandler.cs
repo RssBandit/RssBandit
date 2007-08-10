@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: HttpRequestFileThreadHandler.cs,v 1.7 2005/04/08 15:00:18 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2005/04/08 15:00:18 $
- * $Revision: 1.7 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

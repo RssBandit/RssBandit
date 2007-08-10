@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: CacheManager.cs,v 1.8 2006/09/03 19:08:50 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/09/03 19:08:50 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

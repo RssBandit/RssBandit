@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: Relations.cs,v 1.2 2005/01/18 17:36:43 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2005/01/18 17:36:43 $
- * $Revision: 1.2 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

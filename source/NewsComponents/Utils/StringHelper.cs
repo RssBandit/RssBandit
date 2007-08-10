@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: StringHelper.cs,v 1.8 2007/05/03 15:58:06 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/05/03 15:58:06 $
- * $Revision: 1.8 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

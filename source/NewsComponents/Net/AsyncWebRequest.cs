@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: AsyncWebRequest.cs,v 1.54 2007/08/02 13:36:11 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/08/02 13:36:11 $
- * $Revision: 1.54 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 

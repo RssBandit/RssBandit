@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ExportFeedsDialog.cs,v 1.3 2006/09/07 16:47:44 carnage4life Exp $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2006/09/07 16:47:44 $
- * $Revision: 1.3 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 using System.Drawing;using System.Collections;using System.Windows.Forms;using RssBandit.WinGui.Controls;

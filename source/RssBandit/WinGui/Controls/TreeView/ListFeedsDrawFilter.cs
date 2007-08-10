@@ -1,9 +1,9 @@
 #region CVS Version Header
 /*
- * $Id: ListFeedsDrawFilter.cs,v 1.6 2007/02/25 13:33:53 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/02/25 13:33:53 $
- * $Revision: 1.6 $
+ * $Id$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
