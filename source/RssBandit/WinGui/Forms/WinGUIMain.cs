@@ -11202,7 +11202,10 @@ namespace RssBandit.WinGui.Forms
 			{
 
 				NewsItem currentNewsItem = (NewsItem)e.Item.Key;
-				IList<RelationBase> itemKeyPath = (RelationBase[]) e.Item.KeyPath;
+                RelationBase[] ikp  = new RelationBase[e.Item.KeyPath.Length];
+                e.Item.KeyPath.CopyTo(ikp, 0);
+                IList<RelationBase> itemKeyPath = ikp;
+
 				// column index map
 				ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
 
