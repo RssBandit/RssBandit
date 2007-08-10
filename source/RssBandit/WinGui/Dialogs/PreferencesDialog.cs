@@ -40,7 +40,7 @@ namespace RssBandit.WinGui.Forms {
 
 		private IServiceProvider serviceProvider;
 		private Hashtable imageIndexMap = new Hashtable();
-		internal ArrayList searchEngines = null;
+		internal List<SearchEngine> searchEngines = null;
 		internal bool searchEnginesModified = false;
 		private IdentityNewsServerManager identityManager = null;
 		internal Font[] itemStateFonts;
@@ -383,9 +383,9 @@ namespace RssBandit.WinGui.Forms {
 			this.chkNewsItemOpenLinkInDetailWindow.Checked = prefs.NewsItemOpenLinkInDetailWindow;
 
 			if (seHandler != null && seHandler.EnginesOK) {
-				this.searchEngines = (ArrayList)seHandler.Engines.Clone();
+				this.searchEngines = new List<SearchEngine>(seHandler.Engines);
 			} else {
-				this.searchEngines = new ArrayList();
+                this.searchEngines = new List<SearchEngine>();
 			}
 
 			InitWebSearchEnginesTab();

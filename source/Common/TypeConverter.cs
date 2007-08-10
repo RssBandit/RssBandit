@@ -14,8 +14,8 @@ namespace RssBandit.Common.Utils {
         /// <typeparam name="T">The derived type</typeparam>
         /// <typeparam name="U">The base type</typeparam>
         /// <returns>Delegate that can be used to cast a subtype back to its base type. </returns>
-        public static Converter<T, U> UpCast<T, U>() where T : U {
-            return delegate(T item) { return (U)item; };
+        public static Converter<U, T> UpCast<U, T>() where U : T {
+            return delegate(U item) { return (T)item; };
         }
 
         /// <summary>

@@ -132,7 +132,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="items"></param>
 		/// <returns>true, if items found to display, else false </returns>
 		/// <exception cref="InvalidOperationException">If no new items was found</exception>
-		public abstract bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items);
+		public abstract bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, IList items);
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -689,7 +689,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="items"></param>
 		/// <returns>true, if items found to display, else false </returns>
 		/// <exception cref="InvalidOperationException">If no new items was found</exception>
-		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items) {
+		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, IList items) {
 			
 			int unreadCount = 0, currentIndex = 0, maxLabels = linkLabels.GetLength(0);
 
@@ -807,7 +807,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="items"></param>
 		/// <returns>true, if items found to display, else false </returns>
 		/// <exception cref="InvalidOperationException">If no new items was found</exception>
-		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, ArrayList items) {
+		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, IList items) {
 			
 			int unreadCount = 0, maxLabels = linkLabels.GetLength(0);
 			

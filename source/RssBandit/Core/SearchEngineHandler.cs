@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Collections;
+using System.Collections.Generic;
 using NewsComponents;
 using RssBandit.Xml;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
@@ -79,7 +80,7 @@ namespace RssBandit.WebSearch
 					_engines = new SearchEngines(); 
 
 				if(_engines.Engines== null)
-					_engines.Engines = new ArrayList();
+					_engines.Engines = new List<SearchEngine>();
 				
 				return _engines.NewTabRequired;
 			}
@@ -89,13 +90,13 @@ namespace RssBandit.WebSearch
 					_engines = new SearchEngines(); 
 
 				if(_engines.Engines== null)
-					_engines.Engines = new ArrayList();
+					_engines.Engines = new List<SearchEngine>();
 				
 				_engines.NewTabRequired = value;
 			}
 		}
 
-		public ArrayList Engines		
+		public List<SearchEngine> Engines		
 		{
 			get 
 			{ 
@@ -103,7 +104,7 @@ namespace RssBandit.WebSearch
 					_engines = new SearchEngines(); 
 
 				if(_engines.Engines== null)
-					_engines.Engines = new ArrayList();
+                    _engines.Engines = new List<SearchEngine>();
 				
 				return _engines.Engines;
 			}			
@@ -219,7 +220,7 @@ namespace RssBandit.WebSearch
 
 				if(_engines.Engines == null)
 				{
-					_engines.Engines = new ArrayList(); 
+					_engines.Engines = new List<SearchEngine>(); 
 				}
 
 			}//if(_engines != null) 
@@ -287,7 +288,7 @@ namespace RssBandit.WebSearch
 		/// </summary>
 		public void Clear() {
 			_engines = new SearchEngines();
-			_engines.Engines = new ArrayList();
+			_engines.Engines = new List<SearchEngine>();
 			_engines.NewTabRequired = true;
 			validationErrorOccured = false; 
 			enginesLoaded = true;
@@ -301,7 +302,7 @@ namespace RssBandit.WebSearch
 	{
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("engine", Type = typeof(SearchEngine), IsNullable = false)]
-		public ArrayList Engines;
+		public List<SearchEngine> Engines;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute("open-newtab", DataType="boolean")]

@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using NewsComponents.News;
@@ -318,7 +319,7 @@ namespace NewsComponents.Utils
 		/// Returns the default NewsItem comparer.
 		/// </summary>
 		/// <returns>Ascending sorting NewsItemComparer (by Date)</returns>
-		static public IComparer GetComparer() {
+        static public IComparer<NewsItem> GetComparer() {
 			return new NewsItemComparer();
 		}
 		/// <summary>
@@ -327,7 +328,7 @@ namespace NewsComponents.Utils
 		/// <param name="sortDescending">Set to False, if it should sort ascending (by date), 
 		/// else true</param>
 		/// <returns></returns>
-		static public IComparer GetComparer(bool sortDescending) {
+		static public IComparer<NewsItem> GetComparer(bool sortDescending) {
 			return new NewsItemComparer(sortDescending);
 		}
 
@@ -340,7 +341,7 @@ namespace NewsComponents.Utils
 		/// <param name="sortField">indicates which field on the NewsItem object should be used for 
 		/// sorting</param>
 		/// <returns></returns>
-		static public IComparer GetComparer(bool sortDescending, NewsItemSortField sortField) {
+		static public IComparer<NewsItem> GetComparer(bool sortDescending, NewsItemSortField sortField) {
 			return new NewsItemComparer(sortDescending, sortField);
 		}
 
@@ -369,7 +370,7 @@ namespace NewsComponents.Utils
 				return true;
 			return false;
 		}
-		internal class NewsItemComparer: IComparer {
+		internal class NewsItemComparer: IComparer, IComparer<NewsItem> {
 		
 			#region private fields
 
@@ -394,9 +395,15 @@ namespace NewsComponents.Utils
 			#endregion
 
 			#region Implementation of IComparer
-			public int Compare(object x, object y) {
+
+            public int Compare(object o1, object o2) {
+                return this.Compare(o1 as NewsItem, o2 as NewsItem); 
+            }
+
+            public int Compare(NewsItem ri1, NewsItem ri2) {
+               
 				try {
-					NewsItem ri1 = x as NewsItem, ri2 = y as NewsItem;
+					//NewsItem ri1 = x as NewsItem, ri2 = y as NewsItem;
 				
 					if (ri1 == null || ri2 == null)
 						return 0;
