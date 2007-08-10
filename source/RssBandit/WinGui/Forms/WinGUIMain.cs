@@ -18,7 +18,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -35,7 +34,6 @@ using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Forms.ControlHelpers;
-using RssBandit.Xml;  
 using TD.SandDock;	// docking panels, docked tabs
 using IEControl;		// external webbrowser control
 using SHDocVw;		// related interfaces
@@ -1067,16 +1065,16 @@ namespace RssBandit.WinGui.Forms
 					// unhighlight old one
 					_currentDragHighlightFeedsNode.Override.NodeAppearance.ResetBackColor();
 					_currentDragHighlightFeedsNode.Override.NodeAppearance.ResetForeColor();
-					if (_timerTreeNodeExpand.Enabled) 
-						_timerTreeNodeExpand.Stop();
+					//if (_timerTreeNodeExpand.Enabled) 
+					//	_timerTreeNodeExpand.Stop();
 				}
 				_currentDragHighlightFeedsNode = value; 
 				if (_currentDragHighlightFeedsNode != null) {
 					// highlight new one
 					_currentDragHighlightFeedsNode.Override.NodeAppearance.BackColor = System.Drawing.SystemColors.Highlight;
 					_currentDragHighlightFeedsNode.Override.NodeAppearance.ForeColor = System.Drawing.SystemColors.HighlightText;
-					if (_currentDragHighlightFeedsNode.Nodes.Count > 0 && !_currentDragHighlightFeedsNode.Expanded)
-						_timerTreeNodeExpand.Start();
+					//if (_currentDragHighlightFeedsNode.Nodes.Count > 0 && !_currentDragHighlightFeedsNode.Expanded)
+					//	_timerTreeNodeExpand.Start();
 				}
 			}
 		}
@@ -3224,7 +3222,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WinGuiMain));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinGuiMain));
 			Infragistics.Win.UltraWinTree.Override _override1 = new Infragistics.Win.UltraWinTree.Override();
 			Infragistics.Win.UltraWinTree.UltraTreeColumnSet ultraTreeColumnSet1 = new Infragistics.Win.UltraWinTree.UltraTreeColumnSet();
 			Infragistics.Win.UltraWinTree.UltraTreeNodeColumn ultraTreeNodeColumn1 = new Infragistics.Win.UltraWinTree.UltraTreeNodeColumn();
@@ -3239,15 +3237,15 @@ namespace RssBandit.WinGui.Forms
 			Infragistics.Win.Appearance appearance6 = new Infragistics.Win.Appearance();
 			this.NavigatorFeedSubscriptions = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
 			this.treeFeeds = new Infragistics.Win.UltraWinTree.UltraTree();
-			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);		
 			this.NavigatorSearch = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
 			this.panelRssSearch = new System.Windows.Forms.Panel();
+			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
 			this.panelFeedDetails = new System.Windows.Forms.Panel();
 			this.panelWebDetail = new System.Windows.Forms.Panel();
 			this.htmlDetail = new IEControl.HtmlControl();
-			this.detailsPaneSplitter = new WinGui.Controls.CollapsibleSplitter();
+			this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
 			this.panelFeedItems = new System.Windows.Forms.Panel();
-			this.listFeedItemsO = new WinGui.Controls.UltraTreeExtended();
+			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
 			this.listFeedItems = new System.Windows.Forms.ThListView.ThreadedListView();
 			this.colHeadline = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
 			this.colDate = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
@@ -3271,19 +3269,18 @@ namespace RssBandit.WinGui.Forms
 			this.splitterNavigator = new System.Windows.Forms.Splitter();
 			this.Navigator = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar();
 			this.pNavigatorCollapsed = new System.Windows.Forms.Panel();
-			this.navigatorHiddenCaption = new WinGui.Controls.VerticalHeaderLabel();
+			this.navigatorHiddenCaption = new RssBandit.WinGui.Controls.VerticalHeaderLabel();
 			this._startupTimer = new System.Windows.Forms.Timer(this.components);
 			this._timerTreeNodeExpand = new System.Timers.Timer();
 			this._timerRefreshFeeds = new System.Timers.Timer();
 			this._timerRefreshCommentFeeds = new System.Timers.Timer();
 			this._timerResetStatus = new System.Windows.Forms.Timer(this.components);
-			this._uiTasksTimer = new WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
+			this._uiTasksTimer = new RssBandit.WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this._timerDispatchResultsToUI = new System.Windows.Forms.Timer(this.components);
 			this.NavigatorFeedSubscriptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).BeginInit();
 			this.NavigatorSearch.SuspendLayout();
-			this.panelRssSearch.SuspendLayout();
 			this.panelFeedDetails.SuspendLayout();
 			this.panelWebDetail.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).BeginInit();
@@ -3307,262 +3304,93 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// NavigatorFeedSubscriptions
 			// 
-			this.NavigatorFeedSubscriptions.AccessibleDescription = resources.GetString("NavigatorFeedSubscriptions.AccessibleDescription");
-			this.NavigatorFeedSubscriptions.AccessibleName = resources.GetString("NavigatorFeedSubscriptions.AccessibleName");
-			this.NavigatorFeedSubscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("NavigatorFeedSubscriptions.Anchor")));
-			this.NavigatorFeedSubscriptions.AutoScroll = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.AutoScroll")));
-			this.NavigatorFeedSubscriptions.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.AutoScrollMargin")));
-			this.NavigatorFeedSubscriptions.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.AutoScrollMinSize")));
-			this.NavigatorFeedSubscriptions.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NavigatorFeedSubscriptions.BackgroundImage")));
 			this.NavigatorFeedSubscriptions.Controls.Add(this.treeFeeds);
-			this.NavigatorFeedSubscriptions.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("NavigatorFeedSubscriptions.Dock")));
-			this.NavigatorFeedSubscriptions.Enabled = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.Enabled")));
-			this.NavigatorFeedSubscriptions.Font = ((System.Drawing.Font)(resources.GetObject("NavigatorFeedSubscriptions.Font")));
-			this.helpProvider1.SetHelpKeyword(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.NavigatorFeedSubscriptions, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("NavigatorFeedSubscriptions.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.HelpString"));
-			this.NavigatorFeedSubscriptions.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("NavigatorFeedSubscriptions.ImeMode")));
-			this.NavigatorFeedSubscriptions.Location = ((System.Drawing.Point)(resources.GetObject("NavigatorFeedSubscriptions.Location")));
+			resources.ApplyResources(this.NavigatorFeedSubscriptions, "NavigatorFeedSubscriptions");
 			this.NavigatorFeedSubscriptions.Name = "NavigatorFeedSubscriptions";
-			this.NavigatorFeedSubscriptions.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("NavigatorFeedSubscriptions.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.NavigatorFeedSubscriptions, ((bool)(resources.GetObject("NavigatorFeedSubscriptions.ShowHelp"))));
-			this.NavigatorFeedSubscriptions.Size = ((System.Drawing.Size)(resources.GetObject("NavigatorFeedSubscriptions.Size")));
-			this.NavigatorFeedSubscriptions.TabIndex = ((int)(resources.GetObject("NavigatorFeedSubscriptions.TabIndex")));
-			this.NavigatorFeedSubscriptions.Text = resources.GetString("NavigatorFeedSubscriptions.Text");
-			this.toolTip.SetToolTip(this.NavigatorFeedSubscriptions, resources.GetString("NavigatorFeedSubscriptions.ToolTip"));
-			this.NavigatorFeedSubscriptions.Visible = ((bool)(resources.GetObject("NavigatorFeedSubscriptions.Visible")));
 			// 
 			// treeFeeds
 			// 
-			this.treeFeeds.AccessibleDescription = resources.GetString("treeFeeds.AccessibleDescription");
-			this.treeFeeds.AccessibleName = resources.GetString("treeFeeds.AccessibleName");
 			this.treeFeeds.AllowDrop = true;
-			this.treeFeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("treeFeeds.Anchor")));
 			this.treeFeeds.BorderStyle = Infragistics.Win.UIElementBorderStyle.None;
-			this.treeFeeds.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("treeFeeds.Dock")));
-			this.treeFeeds.Enabled = ((bool)(resources.GetObject("treeFeeds.Enabled")));
-			this.treeFeeds.Font = ((System.Drawing.Font)(resources.GetObject("treeFeeds.Font")));
-			this.helpProvider1.SetHelpKeyword(this.treeFeeds, resources.GetString("treeFeeds.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.treeFeeds, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("treeFeeds.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.treeFeeds, resources.GetString("treeFeeds.HelpString"));
+			resources.ApplyResources(this.treeFeeds, "treeFeeds");
 			this.treeFeeds.HideSelection = false;
 			this.treeFeeds.ImageTransparentColor = System.Drawing.Color.Transparent;
-			this.treeFeeds.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("treeFeeds.ImeMode")));
-			this.treeFeeds.Location = ((System.Drawing.Point)(resources.GetObject("treeFeeds.Location")));
 			this.treeFeeds.Name = "treeFeeds";
 			this.treeFeeds.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
 			_override1.LabelEdit = Infragistics.Win.DefaultableBoolean.True;
 			_override1.Sort = Infragistics.Win.UltraWinTree.SortType.Ascending;
 			this.treeFeeds.Override = _override1;
-			this.treeFeeds.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("treeFeeds.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.treeFeeds, ((bool)(resources.GetObject("treeFeeds.ShowHelp"))));
-			this.treeFeeds.Size = ((System.Drawing.Size)(resources.GetObject("treeFeeds.Size")));
-			this.treeFeeds.TabIndex = ((int)(resources.GetObject("treeFeeds.TabIndex")));
-			this.toolTip.SetToolTip(this.treeFeeds, resources.GetString("treeFeeds.ToolTip"));
-			this.treeFeeds.Visible = ((bool)(resources.GetObject("treeFeeds.Visible")));
 			// 
 			// NavigatorSearch
 			// 
-			this.NavigatorSearch.AccessibleDescription = resources.GetString("NavigatorSearch.AccessibleDescription");
-			this.NavigatorSearch.AccessibleName = resources.GetString("NavigatorSearch.AccessibleName");
-			this.NavigatorSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("NavigatorSearch.Anchor")));
-			this.NavigatorSearch.AutoScroll = ((bool)(resources.GetObject("NavigatorSearch.AutoScroll")));
-			this.NavigatorSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.AutoScrollMargin")));
-			this.NavigatorSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.AutoScrollMinSize")));
-			this.NavigatorSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NavigatorSearch.BackgroundImage")));
 			this.NavigatorSearch.Controls.Add(this.panelRssSearch);
-			this.NavigatorSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("NavigatorSearch.Dock")));
-			this.NavigatorSearch.Enabled = ((bool)(resources.GetObject("NavigatorSearch.Enabled")));
-			this.NavigatorSearch.Font = ((System.Drawing.Font)(resources.GetObject("NavigatorSearch.Font")));
-			this.helpProvider1.SetHelpKeyword(this.NavigatorSearch, resources.GetString("NavigatorSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.NavigatorSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("NavigatorSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.NavigatorSearch, resources.GetString("NavigatorSearch.HelpString"));
-			this.NavigatorSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("NavigatorSearch.ImeMode")));
-			this.NavigatorSearch.Location = ((System.Drawing.Point)(resources.GetObject("NavigatorSearch.Location")));
+			resources.ApplyResources(this.NavigatorSearch, "NavigatorSearch");
 			this.NavigatorSearch.Name = "NavigatorSearch";
-			this.NavigatorSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("NavigatorSearch.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.NavigatorSearch, ((bool)(resources.GetObject("NavigatorSearch.ShowHelp"))));
-			this.NavigatorSearch.Size = ((System.Drawing.Size)(resources.GetObject("NavigatorSearch.Size")));
-			this.NavigatorSearch.TabIndex = ((int)(resources.GetObject("NavigatorSearch.TabIndex")));
-			this.NavigatorSearch.Text = resources.GetString("NavigatorSearch.Text");
-			this.toolTip.SetToolTip(this.NavigatorSearch, resources.GetString("NavigatorSearch.ToolTip"));
-			this.NavigatorSearch.Visible = ((bool)(resources.GetObject("NavigatorSearch.Visible")));
 			// 
 			// panelRssSearch
 			// 
-			this.panelRssSearch.AccessibleDescription = resources.GetString("panelRssSearch.AccessibleDescription");
-			this.panelRssSearch.AccessibleName = resources.GetString("panelRssSearch.AccessibleName");
-			this.panelRssSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelRssSearch.Anchor")));
-			this.panelRssSearch.AutoScroll = ((bool)(resources.GetObject("panelRssSearch.AutoScroll")));
-			this.panelRssSearch.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMargin")));
-			this.panelRssSearch.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.AutoScrollMinSize")));
 			this.panelRssSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
-			this.panelRssSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelRssSearch.BackgroundImage")));
-			this.panelRssSearch.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelRssSearch.Dock")));
-			this.panelRssSearch.Enabled = ((bool)(resources.GetObject("panelRssSearch.Enabled")));
-			this.panelRssSearch.Font = ((System.Drawing.Font)(resources.GetObject("panelRssSearch.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelRssSearch, resources.GetString("panelRssSearch.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelRssSearch, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelRssSearch.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelRssSearch, resources.GetString("panelRssSearch.HelpString"));
-			this.panelRssSearch.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelRssSearch.ImeMode")));
-			this.panelRssSearch.Location = ((System.Drawing.Point)(resources.GetObject("panelRssSearch.Location")));
+			resources.ApplyResources(this.panelRssSearch, "panelRssSearch");
 			this.panelRssSearch.Name = "panelRssSearch";
-			this.panelRssSearch.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelRssSearch.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelRssSearch, ((bool)(resources.GetObject("panelRssSearch.ShowHelp"))));
-			this.panelRssSearch.Size = ((System.Drawing.Size)(resources.GetObject("panelRssSearch.Size")));
-			this.panelRssSearch.TabIndex = ((int)(resources.GetObject("panelRssSearch.TabIndex")));
-			this.panelRssSearch.Text = resources.GetString("panelRssSearch.Text");
-			this.toolTip.SetToolTip(this.panelRssSearch, resources.GetString("panelRssSearch.ToolTip"));
-			this.panelRssSearch.Visible = ((bool)(resources.GetObject("panelRssSearch.Visible")));
+			// 
+			// ultraToolTipManager
+			// 
+			this.ultraToolTipManager.ContainingControl = this;
 			// 
 			// panelFeedDetails
 			// 
-			this.panelFeedDetails.AccessibleDescription = resources.GetString("panelFeedDetails.AccessibleDescription");
-			this.panelFeedDetails.AccessibleName = resources.GetString("panelFeedDetails.AccessibleName");
-			this.panelFeedDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelFeedDetails.Anchor")));
-			this.panelFeedDetails.AutoScroll = ((bool)(resources.GetObject("panelFeedDetails.AutoScroll")));
-			this.panelFeedDetails.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelFeedDetails.AutoScrollMargin")));
-			this.panelFeedDetails.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelFeedDetails.AutoScrollMinSize")));
-			this.panelFeedDetails.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelFeedDetails.BackgroundImage")));
 			this.panelFeedDetails.Controls.Add(this.panelWebDetail);
 			this.panelFeedDetails.Controls.Add(this.detailsPaneSplitter);
 			this.panelFeedDetails.Controls.Add(this.panelFeedItems);
-			this.panelFeedDetails.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelFeedDetails.Dock")));
-			this.panelFeedDetails.Enabled = ((bool)(resources.GetObject("panelFeedDetails.Enabled")));
-			this.panelFeedDetails.Font = ((System.Drawing.Font)(resources.GetObject("panelFeedDetails.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelFeedDetails, resources.GetString("panelFeedDetails.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelFeedDetails, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelFeedDetails.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelFeedDetails, resources.GetString("panelFeedDetails.HelpString"));
-			this.panelFeedDetails.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelFeedDetails.ImeMode")));
-			this.panelFeedDetails.Location = ((System.Drawing.Point)(resources.GetObject("panelFeedDetails.Location")));
+			resources.ApplyResources(this.panelFeedDetails, "panelFeedDetails");
 			this.panelFeedDetails.Name = "panelFeedDetails";
-			this.panelFeedDetails.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelFeedDetails.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelFeedDetails, ((bool)(resources.GetObject("panelFeedDetails.ShowHelp"))));
-			this.panelFeedDetails.Size = ((System.Drawing.Size)(resources.GetObject("panelFeedDetails.Size")));
-			this.panelFeedDetails.TabIndex = ((int)(resources.GetObject("panelFeedDetails.TabIndex")));
-			this.panelFeedDetails.Text = resources.GetString("panelFeedDetails.Text");
-			this.toolTip.SetToolTip(this.panelFeedDetails, resources.GetString("panelFeedDetails.ToolTip"));
-			this.panelFeedDetails.Visible = ((bool)(resources.GetObject("panelFeedDetails.Visible")));
 			// 
 			// panelWebDetail
 			// 
-			this.panelWebDetail.AccessibleDescription = resources.GetString("panelWebDetail.AccessibleDescription");
-			this.panelWebDetail.AccessibleName = resources.GetString("panelWebDetail.AccessibleName");
-			this.panelWebDetail.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelWebDetail.Anchor")));
-			this.panelWebDetail.AutoScroll = ((bool)(resources.GetObject("panelWebDetail.AutoScroll")));
-			this.panelWebDetail.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelWebDetail.AutoScrollMargin")));
-			this.panelWebDetail.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelWebDetail.AutoScrollMinSize")));
-			this.panelWebDetail.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelWebDetail.BackgroundImage")));
 			this.panelWebDetail.Controls.Add(this.htmlDetail);
-			this.panelWebDetail.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelWebDetail.Dock")));
-			this.panelWebDetail.Enabled = ((bool)(resources.GetObject("panelWebDetail.Enabled")));
-			this.panelWebDetail.Font = ((System.Drawing.Font)(resources.GetObject("panelWebDetail.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelWebDetail, resources.GetString("panelWebDetail.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelWebDetail, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelWebDetail.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelWebDetail, resources.GetString("panelWebDetail.HelpString"));
-			this.panelWebDetail.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelWebDetail.ImeMode")));
-			this.panelWebDetail.Location = ((System.Drawing.Point)(resources.GetObject("panelWebDetail.Location")));
+			resources.ApplyResources(this.panelWebDetail, "panelWebDetail");
 			this.panelWebDetail.Name = "panelWebDetail";
-			this.panelWebDetail.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelWebDetail.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelWebDetail, ((bool)(resources.GetObject("panelWebDetail.ShowHelp"))));
-			this.panelWebDetail.Size = ((System.Drawing.Size)(resources.GetObject("panelWebDetail.Size")));
-			this.panelWebDetail.TabIndex = ((int)(resources.GetObject("panelWebDetail.TabIndex")));
-			this.panelWebDetail.Text = resources.GetString("panelWebDetail.Text");
-			this.toolTip.SetToolTip(this.panelWebDetail, resources.GetString("panelWebDetail.ToolTip"));
-			this.panelWebDetail.Visible = ((bool)(resources.GetObject("panelWebDetail.Visible")));
 			// 
 			// htmlDetail
 			// 
-			this.htmlDetail.AccessibleDescription = resources.GetString("htmlDetail.AccessibleDescription");
-			this.htmlDetail.AccessibleName = resources.GetString("htmlDetail.AccessibleName");
 			this.htmlDetail.AllowDrop = true;
-			this.htmlDetail.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("htmlDetail.Anchor")));
-			this.htmlDetail.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("htmlDetail.BackgroundImage")));
-			this.htmlDetail.ContainingControl = this;
-			this.htmlDetail.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("htmlDetail.Dock")));
-			this.htmlDetail.Enabled = ((bool)(resources.GetObject("htmlDetail.Enabled")));
-			this.htmlDetail.Font = ((System.Drawing.Font)(resources.GetObject("htmlDetail.Font")));
-			this.helpProvider1.SetHelpKeyword(this.htmlDetail, resources.GetString("htmlDetail.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.htmlDetail, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("htmlDetail.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.htmlDetail, resources.GetString("htmlDetail.HelpString"));
-			this.htmlDetail.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("htmlDetail.ImeMode")));
-			this.htmlDetail.Location = ((System.Drawing.Point)(resources.GetObject("htmlDetail.Location")));
+			resources.ApplyResources(this.htmlDetail, "htmlDetail");
 			this.htmlDetail.Name = "htmlDetail";
 			this.htmlDetail.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-			this.htmlDetail.RightToLeft = ((bool)(resources.GetObject("htmlDetail.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.htmlDetail, ((bool)(resources.GetObject("htmlDetail.ShowHelp"))));
-			this.htmlDetail.Size = ((System.Drawing.Size)(resources.GetObject("htmlDetail.Size")));
-			this.htmlDetail.TabIndex = ((int)(resources.GetObject("htmlDetail.TabIndex")));
-			this.htmlDetail.Text = resources.GetString("htmlDetail.Text");
-			this.toolTip.SetToolTip(this.htmlDetail, resources.GetString("htmlDetail.ToolTip"));
-			this.htmlDetail.Visible = ((bool)(resources.GetObject("htmlDetail.Visible")));
 			// 
 			// detailsPaneSplitter
 			// 
-			this.detailsPaneSplitter.AccessibleDescription = resources.GetString("detailsPaneSplitter.AccessibleDescription");
-			this.detailsPaneSplitter.AccessibleName = resources.GetString("detailsPaneSplitter.AccessibleName");
-			this.detailsPaneSplitter.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("detailsPaneSplitter.Anchor")));
 			this.detailsPaneSplitter.AnimationDelay = 20;
 			this.detailsPaneSplitter.AnimationStep = 20;
 			this.detailsPaneSplitter.BackColor = System.Drawing.SystemColors.Control;
-			this.detailsPaneSplitter.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailsPaneSplitter.BackgroundImage")));
 			this.detailsPaneSplitter.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
 			this.detailsPaneSplitter.ControlToHide = this.panelFeedItems;
 			this.detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-			this.detailsPaneSplitter.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("detailsPaneSplitter.Dock")));
-			this.detailsPaneSplitter.Enabled = ((bool)(resources.GetObject("detailsPaneSplitter.Enabled")));
+			resources.ApplyResources(this.detailsPaneSplitter, "detailsPaneSplitter");
 			this.detailsPaneSplitter.ExpandParentForm = false;
-			this.detailsPaneSplitter.Font = ((System.Drawing.Font)(resources.GetObject("detailsPaneSplitter.Font")));
-			this.helpProvider1.SetHelpKeyword(this.detailsPaneSplitter, resources.GetString("detailsPaneSplitter.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.detailsPaneSplitter, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("detailsPaneSplitter.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.detailsPaneSplitter, resources.GetString("detailsPaneSplitter.HelpString"));
-			this.detailsPaneSplitter.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("detailsPaneSplitter.ImeMode")));
-			this.detailsPaneSplitter.Location = ((System.Drawing.Point)(resources.GetObject("detailsPaneSplitter.Location")));
-			this.detailsPaneSplitter.MinExtra = ((int)(resources.GetObject("detailsPaneSplitter.MinExtra")));
-			this.detailsPaneSplitter.MinSize = ((int)(resources.GetObject("detailsPaneSplitter.MinSize")));
 			this.detailsPaneSplitter.Name = "detailsPaneSplitter";
-			this.detailsPaneSplitter.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("detailsPaneSplitter.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.detailsPaneSplitter, ((bool)(resources.GetObject("detailsPaneSplitter.ShowHelp"))));
-			this.detailsPaneSplitter.TabIndex = ((int)(resources.GetObject("detailsPaneSplitter.TabIndex")));
 			this.detailsPaneSplitter.TabStop = false;
-			this.toolTip.SetToolTip(this.detailsPaneSplitter, resources.GetString("detailsPaneSplitter.ToolTip"));
 			this.detailsPaneSplitter.UseAnimations = false;
-			this.detailsPaneSplitter.Visible = ((bool)(resources.GetObject("detailsPaneSplitter.Visible")));
-			this.detailsPaneSplitter.VisualStyle = WinGui.Controls.VisualStyles.XP;
+			this.detailsPaneSplitter.VisualStyle = RssBandit.WinGui.Controls.VisualStyles.XP;
 			// 
 			// panelFeedItems
 			// 
-			this.panelFeedItems.AccessibleDescription = resources.GetString("panelFeedItems.AccessibleDescription");
-			this.panelFeedItems.AccessibleName = resources.GetString("panelFeedItems.AccessibleName");
-			this.panelFeedItems.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelFeedItems.Anchor")));
-			this.panelFeedItems.AutoScroll = ((bool)(resources.GetObject("panelFeedItems.AutoScroll")));
-			this.panelFeedItems.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelFeedItems.AutoScrollMargin")));
-			this.panelFeedItems.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelFeedItems.AutoScrollMinSize")));
-			this.panelFeedItems.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelFeedItems.BackgroundImage")));
 			this.panelFeedItems.Controls.Add(this.listFeedItemsO);
 			this.panelFeedItems.Controls.Add(this.listFeedItems);
-			this.panelFeedItems.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelFeedItems.Dock")));
-			this.panelFeedItems.Enabled = ((bool)(resources.GetObject("panelFeedItems.Enabled")));
-			this.panelFeedItems.Font = ((System.Drawing.Font)(resources.GetObject("panelFeedItems.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelFeedItems, resources.GetString("panelFeedItems.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelFeedItems, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelFeedItems.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelFeedItems, resources.GetString("panelFeedItems.HelpString"));
-			this.panelFeedItems.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelFeedItems.ImeMode")));
-			this.panelFeedItems.Location = ((System.Drawing.Point)(resources.GetObject("panelFeedItems.Location")));
+			resources.ApplyResources(this.panelFeedItems, "panelFeedItems");
 			this.panelFeedItems.Name = "panelFeedItems";
-			this.panelFeedItems.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelFeedItems.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelFeedItems, ((bool)(resources.GetObject("panelFeedItems.ShowHelp"))));
-			this.panelFeedItems.Size = ((System.Drawing.Size)(resources.GetObject("panelFeedItems.Size")));
-			this.panelFeedItems.TabIndex = ((int)(resources.GetObject("panelFeedItems.TabIndex")));
-			this.panelFeedItems.Text = resources.GetString("panelFeedItems.Text");
-			this.toolTip.SetToolTip(this.panelFeedItems, resources.GetString("panelFeedItems.ToolTip"));
-			this.panelFeedItems.Visible = ((bool)(resources.GetObject("panelFeedItems.Visible")));
 			// 
 			// listFeedItemsO
 			// 
-			this.listFeedItemsO.AccessibleDescription = resources.GetString("listFeedItemsO.AccessibleDescription");
-			this.listFeedItemsO.AccessibleName = resources.GetString("listFeedItemsO.AccessibleName");
-			this.listFeedItemsO.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("listFeedItemsO.Anchor")));
 			this.listFeedItemsO.ColumnSettings.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
 			this.listFeedItemsO.ColumnSettings.AutoFitColumns = Infragistics.Win.UltraWinTree.AutoFitColumns.ResizeAllColumns;
 			ultraTreeColumnSet1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
@@ -3572,212 +3400,105 @@ namespace RssBandit.WinGui.Forms
 			ultraTreeColumnSet1.Key = "csOutlook";
 			this.listFeedItemsO.ColumnSettings.ColumnSets.Add(ultraTreeColumnSet1);
 			this.listFeedItemsO.ColumnSettings.HeaderStyle = Infragistics.Win.HeaderStyle.XPThemed;
-			this.listFeedItemsO.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("listFeedItemsO.Dock")));
-			this.listFeedItemsO.Enabled = ((bool)(resources.GetObject("listFeedItemsO.Enabled")));
-			this.listFeedItemsO.Font = ((System.Drawing.Font)(resources.GetObject("listFeedItemsO.Font")));
+			resources.ApplyResources(this.listFeedItemsO, "listFeedItemsO");
 			this.listFeedItemsO.FullRowSelect = true;
-			this.helpProvider1.SetHelpKeyword(this.listFeedItemsO, resources.GetString("listFeedItemsO.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.listFeedItemsO, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("listFeedItemsO.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.listFeedItemsO, resources.GetString("listFeedItemsO.HelpString"));
 			this.listFeedItemsO.HideSelection = false;
 			this.listFeedItemsO.ImageTransparentColor = System.Drawing.Color.Transparent;
-			this.listFeedItemsO.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("listFeedItemsO.ImeMode")));
 			this.listFeedItemsO.IsUpdatingSelection = false;
-			this.listFeedItemsO.Location = ((System.Drawing.Point)(resources.GetObject("listFeedItemsO.Location")));
 			this.listFeedItemsO.Name = "listFeedItemsO";
 			this.listFeedItemsO.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
 			_override2.ColumnSetIndex = 0;
 			_override2.ItemHeight = 35;
 			_override2.SelectionType = Infragistics.Win.UltraWinTree.SelectType.Extended;
 			this.listFeedItemsO.Override = _override2;
-			this.listFeedItemsO.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("listFeedItemsO.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.listFeedItemsO, ((bool)(resources.GetObject("listFeedItemsO.ShowHelp"))));
-			this.listFeedItemsO.Size = ((System.Drawing.Size)(resources.GetObject("listFeedItemsO.Size")));
-			this.listFeedItemsO.TabIndex = ((int)(resources.GetObject("listFeedItemsO.TabIndex")));
-			this.toolTip.SetToolTip(this.listFeedItemsO, resources.GetString("listFeedItemsO.ToolTip"));
-			this.listFeedItemsO.Visible = ((bool)(resources.GetObject("listFeedItemsO.Visible")));
 			// 
 			// listFeedItems
 			// 
-			this.listFeedItems.AccessibleDescription = resources.GetString("listFeedItems.AccessibleDescription");
-			this.listFeedItems.AccessibleName = resources.GetString("listFeedItems.AccessibleName");
 			this.listFeedItems.Activation = System.Windows.Forms.ItemActivation.OneClick;
-			this.listFeedItems.Alignment = ((System.Windows.Forms.ListViewAlignment)(resources.GetObject("listFeedItems.Alignment")));
 			this.listFeedItems.AllowColumnReorder = true;
-			this.listFeedItems.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("listFeedItems.Anchor")));
-			this.listFeedItems.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("listFeedItems.BackgroundImage")));
-			this.listFeedItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-																							this.colHeadline,
-																							this.colDate,
-																							this.colTopic});
-			this.listFeedItems.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("listFeedItems.Dock")));
-			this.listFeedItems.Enabled = ((bool)(resources.GetObject("listFeedItems.Enabled")));
-			this.listFeedItems.Font = ((System.Drawing.Font)(resources.GetObject("listFeedItems.Font")));
+			this.listFeedItems.Columns.AddRange(new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader[] {
+            this.colHeadline,
+            this.colDate,
+            this.colTopic});
+			resources.ApplyResources(this.listFeedItems, "listFeedItems");
 			this.listFeedItems.FullRowSelect = true;
-			this.helpProvider1.SetHelpKeyword(this.listFeedItems, resources.GetString("listFeedItems.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.listFeedItems, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("listFeedItems.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.listFeedItems, resources.GetString("listFeedItems.HelpString"));
 			this.listFeedItems.HideSelection = false;
-			this.listFeedItems.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("listFeedItems.ImeMode")));
-			this.listFeedItems.LabelWrap = ((bool)(resources.GetObject("listFeedItems.LabelWrap")));
-			this.listFeedItems.Location = ((System.Drawing.Point)(resources.GetObject("listFeedItems.Location")));
 			this.listFeedItems.Name = "listFeedItems";
 			this.listFeedItems.NoThreadChildsPlaceHolder = null;
-			this.listFeedItems.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("listFeedItems.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.listFeedItems, ((bool)(resources.GetObject("listFeedItems.ShowHelp"))));
-			this.listFeedItems.Size = ((System.Drawing.Size)(resources.GetObject("listFeedItems.Size")));
-			this.listFeedItems.TabIndex = ((int)(resources.GetObject("listFeedItems.TabIndex")));
-			this.listFeedItems.Text = resources.GetString("listFeedItems.Text");
-			this.toolTip.SetToolTip(this.listFeedItems, resources.GetString("listFeedItems.ToolTip"));
+			this.listFeedItems.UseCompatibleStateImageBehavior = false;
 			this.listFeedItems.View = System.Windows.Forms.View.Details;
-			this.listFeedItems.Visible = ((bool)(resources.GetObject("listFeedItems.Visible")));
-			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
-			this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
-			this.listFeedItems.ListLayoutModified += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutModifiedEventHandler(this.OnFeedListLayoutModified);
-			this.listFeedItems.AfterExpandThread += new System.Windows.Forms.ThListView.ThreadedListView.OnAfterExpandThreadEventHandler(this.OnFeedListAfterExpandThread);
-			this.listFeedItems.ListLayoutChanged += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutChangedEventHandler(this.OnFeedListLayoutChanged);
-			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
-			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
 			this.listFeedItems.ExpandThread += new System.Windows.Forms.ThListView.ThreadedListView.OnExpandThreadEventHandler(this.OnFeedListExpandThread);
+			this.listFeedItems.AfterExpandThread += new System.Windows.Forms.ThListView.ThreadedListView.OnAfterExpandThreadEventHandler(this.OnFeedListAfterExpandThread);
+			this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
+			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
+			this.listFeedItems.ListLayoutChanged += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutChangedEventHandler(this.OnFeedListLayoutChanged);
+			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
+			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
+			this.listFeedItems.ListLayoutModified += new System.Windows.Forms.ThListView.ThreadedListView.OnListLayoutModifiedEventHandler(this.OnFeedListLayoutModified);
 			// 
 			// colHeadline
 			// 
 			this.colHeadline.ColumnValueType = typeof(string);
 			this.colHeadline.Key = "Title";
-			this.colHeadline.Text = resources.GetString("colHeadline.Text");
-			this.colHeadline.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("colHeadline.TextAlign")));
-			this.colHeadline.Width = ((int)(resources.GetObject("colHeadline.Width")));
+			resources.ApplyResources(this.colHeadline, "colHeadline");
 			// 
 			// colDate
 			// 
 			this.colDate.ColumnValueType = typeof(System.DateTime);
 			this.colDate.Key = "Date";
-			this.colDate.Text = resources.GetString("colDate.Text");
-			this.colDate.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("colDate.TextAlign")));
-			this.colDate.Width = ((int)(resources.GetObject("colDate.Width")));
+			resources.ApplyResources(this.colDate, "colDate");
 			// 
 			// colTopic
 			// 
 			this.colTopic.ColumnValueType = typeof(string);
 			this.colTopic.Key = "Subject";
-			this.colTopic.Text = resources.GetString("colTopic.Text");
-			this.colTopic.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("colTopic.TextAlign")));
-			this.colTopic.Width = ((int)(resources.GetObject("colTopic.Width")));
+			resources.ApplyResources(this.colTopic, "colTopic");
 			// 
 			// _status
 			// 
-			this._status.AccessibleDescription = resources.GetString("_status.AccessibleDescription");
-			this._status.AccessibleName = resources.GetString("_status.AccessibleName");
-			this._status.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_status.Anchor")));
-			this._status.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_status.BackgroundImage")));
-			this._status.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("_status.Dock")));
-			this._status.Enabled = ((bool)(resources.GetObject("_status.Enabled")));
-			this._status.Font = ((System.Drawing.Font)(resources.GetObject("_status.Font")));
-			this.helpProvider1.SetHelpKeyword(this._status, resources.GetString("_status.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this._status, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("_status.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this._status, resources.GetString("_status.HelpString"));
-			this._status.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_status.ImeMode")));
-			this._status.Location = ((System.Drawing.Point)(resources.GetObject("_status.Location")));
+			resources.ApplyResources(this._status, "_status");
 			this._status.Name = "_status";
 			this._status.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-																					   this.statusBarBrowser,
-																					   this.statusBarBrowserProgress,
-																					   this.statusBarConnectionState,
-																					   this.statusBarRssParser});
-			this._status.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_status.RightToLeft")));
+            this.statusBarBrowser,
+            this.statusBarBrowserProgress,
+            this.statusBarConnectionState,
+            this.statusBarRssParser});
 			this.helpProvider1.SetShowHelp(this._status, ((bool)(resources.GetObject("_status.ShowHelp"))));
 			this._status.ShowPanels = true;
-			this._status.Size = ((System.Drawing.Size)(resources.GetObject("_status.Size")));
-			this._status.TabIndex = ((int)(resources.GetObject("_status.TabIndex")));
-			this._status.Text = resources.GetString("_status.Text");
-			this.toolTip.SetToolTip(this._status, resources.GetString("_status.ToolTip"));
-			this._status.Visible = ((bool)(resources.GetObject("_status.Visible")));
 			// 
 			// statusBarBrowser
 			// 
-			this.statusBarBrowser.Alignment = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("statusBarBrowser.Alignment")));
 			this.statusBarBrowser.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
-			this.statusBarBrowser.Icon = ((System.Drawing.Icon)(resources.GetObject("statusBarBrowser.Icon")));
-			this.statusBarBrowser.MinWidth = ((int)(resources.GetObject("statusBarBrowser.MinWidth")));
-			this.statusBarBrowser.Text = resources.GetString("statusBarBrowser.Text");
-			this.statusBarBrowser.ToolTipText = resources.GetString("statusBarBrowser.ToolTipText");
-			this.statusBarBrowser.Width = ((int)(resources.GetObject("statusBarBrowser.Width")));
+			resources.ApplyResources(this.statusBarBrowser, "statusBarBrowser");
 			// 
 			// statusBarBrowserProgress
 			// 
-			this.statusBarBrowserProgress.Alignment = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("statusBarBrowserProgress.Alignment")));
-			this.statusBarBrowserProgress.Icon = ((System.Drawing.Icon)(resources.GetObject("statusBarBrowserProgress.Icon")));
-			this.statusBarBrowserProgress.MinWidth = ((int)(resources.GetObject("statusBarBrowserProgress.MinWidth")));
-			this.statusBarBrowserProgress.Text = resources.GetString("statusBarBrowserProgress.Text");
-			this.statusBarBrowserProgress.ToolTipText = resources.GetString("statusBarBrowserProgress.ToolTipText");
-			this.statusBarBrowserProgress.Width = ((int)(resources.GetObject("statusBarBrowserProgress.Width")));
+			resources.ApplyResources(this.statusBarBrowserProgress, "statusBarBrowserProgress");
 			// 
 			// statusBarConnectionState
 			// 
-			this.statusBarConnectionState.Alignment = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("statusBarConnectionState.Alignment")));
-			this.statusBarConnectionState.Icon = ((System.Drawing.Icon)(resources.GetObject("statusBarConnectionState.Icon")));
-			this.statusBarConnectionState.MinWidth = ((int)(resources.GetObject("statusBarConnectionState.MinWidth")));
-			this.statusBarConnectionState.Text = resources.GetString("statusBarConnectionState.Text");
-			this.statusBarConnectionState.ToolTipText = resources.GetString("statusBarConnectionState.ToolTipText");
-			this.statusBarConnectionState.Width = ((int)(resources.GetObject("statusBarConnectionState.Width")));
+			resources.ApplyResources(this.statusBarConnectionState, "statusBarConnectionState");
 			// 
 			// statusBarRssParser
 			// 
-			this.statusBarRssParser.Alignment = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("statusBarRssParser.Alignment")));
-			this.statusBarRssParser.Icon = ((System.Drawing.Icon)(resources.GetObject("statusBarRssParser.Icon")));
-			this.statusBarRssParser.MinWidth = ((int)(resources.GetObject("statusBarRssParser.MinWidth")));
-			this.statusBarRssParser.Text = resources.GetString("statusBarRssParser.Text");
-			this.statusBarRssParser.ToolTipText = resources.GetString("statusBarRssParser.ToolTipText");
-			this.statusBarRssParser.Width = ((int)(resources.GetObject("statusBarRssParser.Width")));
+			resources.ApplyResources(this.statusBarRssParser, "statusBarRssParser");
 			// 
 			// progressBrowser
 			// 
-			this.progressBrowser.AccessibleDescription = resources.GetString("progressBrowser.AccessibleDescription");
-			this.progressBrowser.AccessibleName = resources.GetString("progressBrowser.AccessibleName");
-			this.progressBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("progressBrowser.Anchor")));
-			this.progressBrowser.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("progressBrowser.BackgroundImage")));
-			this.progressBrowser.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("progressBrowser.Dock")));
-			this.progressBrowser.Enabled = ((bool)(resources.GetObject("progressBrowser.Enabled")));
-			this.progressBrowser.Font = ((System.Drawing.Font)(resources.GetObject("progressBrowser.Font")));
-			this.helpProvider1.SetHelpKeyword(this.progressBrowser, resources.GetString("progressBrowser.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.progressBrowser, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("progressBrowser.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.progressBrowser, resources.GetString("progressBrowser.HelpString"));
-			this.progressBrowser.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("progressBrowser.ImeMode")));
-			this.progressBrowser.Location = ((System.Drawing.Point)(resources.GetObject("progressBrowser.Location")));
+			resources.ApplyResources(this.progressBrowser, "progressBrowser");
 			this.progressBrowser.Name = "progressBrowser";
-			this.progressBrowser.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("progressBrowser.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.progressBrowser, ((bool)(resources.GetObject("progressBrowser.ShowHelp"))));
-			this.progressBrowser.Size = ((System.Drawing.Size)(resources.GetObject("progressBrowser.Size")));
-			this.progressBrowser.TabIndex = ((int)(resources.GetObject("progressBrowser.TabIndex")));
-			this.progressBrowser.Text = resources.GetString("progressBrowser.Text");
-			this.toolTip.SetToolTip(this.progressBrowser, resources.GetString("progressBrowser.ToolTip"));
-			this.progressBrowser.Visible = ((bool)(resources.GetObject("progressBrowser.Visible")));
 			// 
 			// rightSandDock
 			// 
-			this.rightSandDock.AccessibleDescription = resources.GetString("rightSandDock.AccessibleDescription");
-			this.rightSandDock.AccessibleName = resources.GetString("rightSandDock.AccessibleName");
-			this.rightSandDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rightSandDock.Anchor")));
-			this.rightSandDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightSandDock.BackgroundImage")));
-			this.rightSandDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rightSandDock.Dock")));
-			this.rightSandDock.Enabled = ((bool)(resources.GetObject("rightSandDock.Enabled")));
-			this.rightSandDock.Font = ((System.Drawing.Font)(resources.GetObject("rightSandDock.Font")));
+			resources.ApplyResources(this.rightSandDock, "rightSandDock");
 			this.rightSandDock.Guid = new System.Guid("c6e4c477-596c-4e8c-9d35-840718d4c40d");
-			this.helpProvider1.SetHelpKeyword(this.rightSandDock, resources.GetString("rightSandDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.rightSandDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("rightSandDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.rightSandDock, resources.GetString("rightSandDock.HelpString"));
-			this.rightSandDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rightSandDock.ImeMode")));
 			this.rightSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-			this.rightSandDock.Location = ((System.Drawing.Point)(resources.GetObject("rightSandDock.Location")));
 			this.rightSandDock.Manager = this.sandDockManager;
 			this.rightSandDock.Name = "rightSandDock";
-			this.rightSandDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rightSandDock.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.rightSandDock, ((bool)(resources.GetObject("rightSandDock.ShowHelp"))));
-			this.rightSandDock.Size = ((System.Drawing.Size)(resources.GetObject("rightSandDock.Size")));
-			this.rightSandDock.TabIndex = ((int)(resources.GetObject("rightSandDock.TabIndex")));
-			this.rightSandDock.Text = resources.GetString("rightSandDock.Text");
-			this.toolTip.SetToolTip(this.rightSandDock, resources.GetString("rightSandDock.ToolTip"));
-			this.rightSandDock.Visible = ((bool)(resources.GetObject("rightSandDock.Visible")));
 			// 
 			// sandDockManager
 			// 
@@ -3787,326 +3508,127 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// bottomSandDock
 			// 
-			this.bottomSandDock.AccessibleDescription = resources.GetString("bottomSandDock.AccessibleDescription");
-			this.bottomSandDock.AccessibleName = resources.GetString("bottomSandDock.AccessibleName");
-			this.bottomSandDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("bottomSandDock.Anchor")));
-			this.bottomSandDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bottomSandDock.BackgroundImage")));
-			this.bottomSandDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("bottomSandDock.Dock")));
-			this.bottomSandDock.Enabled = ((bool)(resources.GetObject("bottomSandDock.Enabled")));
-			this.bottomSandDock.Font = ((System.Drawing.Font)(resources.GetObject("bottomSandDock.Font")));
+			resources.ApplyResources(this.bottomSandDock, "bottomSandDock");
 			this.bottomSandDock.Guid = new System.Guid("9ffc7b96-a550-4e79-a533-8eee52ac0da1");
-			this.helpProvider1.SetHelpKeyword(this.bottomSandDock, resources.GetString("bottomSandDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.bottomSandDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("bottomSandDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.bottomSandDock, resources.GetString("bottomSandDock.HelpString"));
-			this.bottomSandDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("bottomSandDock.ImeMode")));
 			this.bottomSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-			this.bottomSandDock.Location = ((System.Drawing.Point)(resources.GetObject("bottomSandDock.Location")));
 			this.bottomSandDock.Manager = this.sandDockManager;
 			this.bottomSandDock.Name = "bottomSandDock";
-			this.bottomSandDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("bottomSandDock.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.bottomSandDock, ((bool)(resources.GetObject("bottomSandDock.ShowHelp"))));
-			this.bottomSandDock.Size = ((System.Drawing.Size)(resources.GetObject("bottomSandDock.Size")));
-			this.bottomSandDock.TabIndex = ((int)(resources.GetObject("bottomSandDock.TabIndex")));
-			this.bottomSandDock.Text = resources.GetString("bottomSandDock.Text");
-			this.toolTip.SetToolTip(this.bottomSandDock, resources.GetString("bottomSandDock.ToolTip"));
-			this.bottomSandDock.Visible = ((bool)(resources.GetObject("bottomSandDock.Visible")));
 			// 
 			// topSandDock
 			// 
-			this.topSandDock.AccessibleDescription = resources.GetString("topSandDock.AccessibleDescription");
-			this.topSandDock.AccessibleName = resources.GetString("topSandDock.AccessibleName");
-			this.topSandDock.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("topSandDock.Anchor")));
-			this.topSandDock.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("topSandDock.BackgroundImage")));
-			this.topSandDock.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("topSandDock.Dock")));
-			this.topSandDock.Enabled = ((bool)(resources.GetObject("topSandDock.Enabled")));
-			this.topSandDock.Font = ((System.Drawing.Font)(resources.GetObject("topSandDock.Font")));
+			resources.ApplyResources(this.topSandDock, "topSandDock");
 			this.topSandDock.Guid = new System.Guid("e1c62abd-0e7a-4bb6-aded-a74f27027165");
-			this.helpProvider1.SetHelpKeyword(this.topSandDock, resources.GetString("topSandDock.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.topSandDock, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("topSandDock.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.topSandDock, resources.GetString("topSandDock.HelpString"));
-			this.topSandDock.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("topSandDock.ImeMode")));
 			this.topSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-			this.topSandDock.Location = ((System.Drawing.Point)(resources.GetObject("topSandDock.Location")));
 			this.topSandDock.Manager = this.sandDockManager;
 			this.topSandDock.Name = "topSandDock";
-			this.topSandDock.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("topSandDock.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.topSandDock, ((bool)(resources.GetObject("topSandDock.ShowHelp"))));
-			this.topSandDock.Size = ((System.Drawing.Size)(resources.GetObject("topSandDock.Size")));
-			this.topSandDock.TabIndex = ((int)(resources.GetObject("topSandDock.TabIndex")));
-			this.topSandDock.Text = resources.GetString("topSandDock.Text");
-			this.toolTip.SetToolTip(this.topSandDock, resources.GetString("topSandDock.ToolTip"));
-			this.topSandDock.Visible = ((bool)(resources.GetObject("topSandDock.Visible")));
 			// 
 			// _docContainer
 			// 
-			this._docContainer.AccessibleDescription = resources.GetString("_docContainer.AccessibleDescription");
-			this._docContainer.AccessibleName = resources.GetString("_docContainer.AccessibleName");
-			this._docContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_docContainer.Anchor")));
-			this._docContainer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_docContainer.BackgroundImage")));
 			this._docContainer.Controls.Add(this._docFeedDetails);
 			this._docContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this._docContainer.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("_docContainer.Dock")));
 			this._docContainer.DockingManager = TD.SandDock.DockingManager.Whidbey;
-			this._docContainer.Enabled = ((bool)(resources.GetObject("_docContainer.Enabled")));
-			this._docContainer.Font = ((System.Drawing.Font)(resources.GetObject("_docContainer.Font")));
 			this._docContainer.Guid = new System.Guid("f032a648-4262-4312-ab2b-abe5094272bd");
-			this.helpProvider1.SetHelpKeyword(this._docContainer, resources.GetString("_docContainer.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this._docContainer, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("_docContainer.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this._docContainer, resources.GetString("_docContainer.HelpString"));
-			this._docContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_docContainer.ImeMode")));
 			this._docContainer.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
-																																											  new TD.SandDock.DocumentLayoutSystem(392, 360, new TD.SandDock.DockControl[] {
-																																																															   this._docFeedDetails}, this._docFeedDetails)});
-			this._docContainer.Location = ((System.Drawing.Point)(resources.GetObject("_docContainer.Location")));
+            ((TD.SandDock.LayoutSystemBase)(new TD.SandDock.DocumentLayoutSystem(392, 414, new TD.SandDock.DockControl[] {
+                        this._docFeedDetails}, this._docFeedDetails)))});
+			resources.ApplyResources(this._docContainer, "_docContainer");
 			this._docContainer.Manager = null;
 			this._docContainer.Name = "_docContainer";
 			this._docContainer.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
-			this._docContainer.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_docContainer.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this._docContainer, ((bool)(resources.GetObject("_docContainer.ShowHelp"))));
-			this._docContainer.Size = ((System.Drawing.Size)(resources.GetObject("_docContainer.Size")));
-			this._docContainer.TabIndex = ((int)(resources.GetObject("_docContainer.TabIndex")));
-			this._docContainer.Text = resources.GetString("_docContainer.Text");
-			this.toolTip.SetToolTip(this._docContainer, resources.GetString("_docContainer.ToolTip"));
-			this._docContainer.Visible = ((bool)(resources.GetObject("_docContainer.Visible")));
 			// 
 			// _docFeedDetails
 			// 
-			this._docFeedDetails.AccessibleDescription = resources.GetString("_docFeedDetails.AccessibleDescription");
-			this._docFeedDetails.AccessibleName = resources.GetString("_docFeedDetails.AccessibleName");
-			this._docFeedDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("_docFeedDetails.Anchor")));
-			this._docFeedDetails.AutoScroll = ((bool)(resources.GetObject("_docFeedDetails.AutoScroll")));
-			this._docFeedDetails.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("_docFeedDetails.AutoScrollMargin")));
-			this._docFeedDetails.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("_docFeedDetails.AutoScrollMinSize")));
-			this._docFeedDetails.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("_docFeedDetails.BackgroundImage")));
 			this._docFeedDetails.Closable = false;
 			this._docFeedDetails.Controls.Add(this.panelFeedDetails);
-			this._docFeedDetails.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("_docFeedDetails.Dock")));
-			this._docFeedDetails.Enabled = ((bool)(resources.GetObject("_docFeedDetails.Enabled")));
-			this._docFeedDetails.Font = ((System.Drawing.Font)(resources.GetObject("_docFeedDetails.Font")));
 			this._docFeedDetails.Guid = new System.Guid("9c7b7643-2ed3-402c-9e86-3c958341c81f");
-			this.helpProvider1.SetHelpKeyword(this._docFeedDetails, resources.GetString("_docFeedDetails.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this._docFeedDetails, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("_docFeedDetails.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this._docFeedDetails, resources.GetString("_docFeedDetails.HelpString"));
-			this._docFeedDetails.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("_docFeedDetails.ImeMode")));
-			this._docFeedDetails.Location = ((System.Drawing.Point)(resources.GetObject("_docFeedDetails.Location")));
+			resources.ApplyResources(this._docFeedDetails, "_docFeedDetails");
 			this._docFeedDetails.Name = "_docFeedDetails";
-			this._docFeedDetails.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("_docFeedDetails.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this._docFeedDetails, ((bool)(resources.GetObject("_docFeedDetails.ShowHelp"))));
-			this._docFeedDetails.Size = ((System.Drawing.Size)(resources.GetObject("_docFeedDetails.Size")));
-			this._docFeedDetails.TabIndex = ((int)(resources.GetObject("_docFeedDetails.TabIndex")));
-			this._docFeedDetails.TabText = resources.GetString("_docFeedDetails.TabText");
-			this._docFeedDetails.Text = resources.GetString("_docFeedDetails.Text");
-			this.toolTip.SetToolTip(this._docFeedDetails, resources.GetString("_docFeedDetails.ToolTip"));
-			this._docFeedDetails.ToolTipText = resources.GetString("_docFeedDetails.ToolTipText");
-			this._docFeedDetails.Visible = ((bool)(resources.GetObject("_docFeedDetails.Visible")));
 			// 
 			// panelClientAreaContainer
 			// 
-			this.panelClientAreaContainer.AccessibleDescription = resources.GetString("panelClientAreaContainer.AccessibleDescription");
-			this.panelClientAreaContainer.AccessibleName = resources.GetString("panelClientAreaContainer.AccessibleName");
-			this.panelClientAreaContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelClientAreaContainer.Anchor")));
-			this.panelClientAreaContainer.AutoScroll = ((bool)(resources.GetObject("panelClientAreaContainer.AutoScroll")));
-			this.panelClientAreaContainer.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.AutoScrollMargin")));
-			this.panelClientAreaContainer.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.AutoScrollMinSize")));
-			this.panelClientAreaContainer.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(243)), ((System.Byte)(243)), ((System.Byte)(247)));
-			this.panelClientAreaContainer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelClientAreaContainer.BackgroundImage")));
+			this.panelClientAreaContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(247)))));
 			this.panelClientAreaContainer.Controls.Add(this.panelFeedDetailsContainer);
 			this.panelClientAreaContainer.Controls.Add(this.splitterNavigator);
 			this.panelClientAreaContainer.Controls.Add(this.Navigator);
 			this.panelClientAreaContainer.Controls.Add(this.pNavigatorCollapsed);
-			this.panelClientAreaContainer.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelClientAreaContainer.Dock")));
-			this.panelClientAreaContainer.DockPadding.All = 5;
-			this.panelClientAreaContainer.Enabled = ((bool)(resources.GetObject("panelClientAreaContainer.Enabled")));
-			this.panelClientAreaContainer.Font = ((System.Drawing.Font)(resources.GetObject("panelClientAreaContainer.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelClientAreaContainer, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelClientAreaContainer.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.HelpString"));
-			this.panelClientAreaContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelClientAreaContainer.ImeMode")));
-			this.panelClientAreaContainer.Location = ((System.Drawing.Point)(resources.GetObject("panelClientAreaContainer.Location")));
+			resources.ApplyResources(this.panelClientAreaContainer, "panelClientAreaContainer");
 			this.panelClientAreaContainer.Name = "panelClientAreaContainer";
-			this.panelClientAreaContainer.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelClientAreaContainer.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelClientAreaContainer, ((bool)(resources.GetObject("panelClientAreaContainer.ShowHelp"))));
-			this.panelClientAreaContainer.Size = ((System.Drawing.Size)(resources.GetObject("panelClientAreaContainer.Size")));
-			this.panelClientAreaContainer.TabIndex = ((int)(resources.GetObject("panelClientAreaContainer.TabIndex")));
-			this.panelClientAreaContainer.Text = resources.GetString("panelClientAreaContainer.Text");
-			this.toolTip.SetToolTip(this.panelClientAreaContainer, resources.GetString("panelClientAreaContainer.ToolTip"));
-			this.panelClientAreaContainer.Visible = ((bool)(resources.GetObject("panelClientAreaContainer.Visible")));
 			// 
 			// panelFeedDetailsContainer
 			// 
-			this.panelFeedDetailsContainer.AccessibleDescription = resources.GetString("panelFeedDetailsContainer.AccessibleDescription");
-			this.panelFeedDetailsContainer.AccessibleName = resources.GetString("panelFeedDetailsContainer.AccessibleName");
-			this.panelFeedDetailsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panelFeedDetailsContainer.Anchor")));
-			this.panelFeedDetailsContainer.AutoScroll = ((bool)(resources.GetObject("panelFeedDetailsContainer.AutoScroll")));
-			this.panelFeedDetailsContainer.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.AutoScrollMargin")));
-			this.panelFeedDetailsContainer.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.AutoScrollMinSize")));
-			this.panelFeedDetailsContainer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelFeedDetailsContainer.BackgroundImage")));
 			this.panelFeedDetailsContainer.Controls.Add(this._docContainer);
 			this.panelFeedDetailsContainer.Controls.Add(this.detailHeaderCaption);
-			this.panelFeedDetailsContainer.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panelFeedDetailsContainer.Dock")));
-			this.panelFeedDetailsContainer.Enabled = ((bool)(resources.GetObject("panelFeedDetailsContainer.Enabled")));
-			this.panelFeedDetailsContainer.Font = ((System.Drawing.Font)(resources.GetObject("panelFeedDetailsContainer.Font")));
-			this.helpProvider1.SetHelpKeyword(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.panelFeedDetailsContainer, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panelFeedDetailsContainer.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.HelpString"));
-			this.panelFeedDetailsContainer.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panelFeedDetailsContainer.ImeMode")));
-			this.panelFeedDetailsContainer.Location = ((System.Drawing.Point)(resources.GetObject("panelFeedDetailsContainer.Location")));
+			resources.ApplyResources(this.panelFeedDetailsContainer, "panelFeedDetailsContainer");
 			this.panelFeedDetailsContainer.Name = "panelFeedDetailsContainer";
-			this.panelFeedDetailsContainer.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panelFeedDetailsContainer.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.panelFeedDetailsContainer, ((bool)(resources.GetObject("panelFeedDetailsContainer.ShowHelp"))));
-			this.panelFeedDetailsContainer.Size = ((System.Drawing.Size)(resources.GetObject("panelFeedDetailsContainer.Size")));
-			this.panelFeedDetailsContainer.TabIndex = ((int)(resources.GetObject("panelFeedDetailsContainer.TabIndex")));
-			this.panelFeedDetailsContainer.Text = resources.GetString("panelFeedDetailsContainer.Text");
-			this.toolTip.SetToolTip(this.panelFeedDetailsContainer, resources.GetString("panelFeedDetailsContainer.ToolTip"));
-			this.panelFeedDetailsContainer.Visible = ((bool)(resources.GetObject("panelFeedDetailsContainer.Visible")));
 			// 
 			// detailHeaderCaption
 			// 
-			this.detailHeaderCaption.AccessibleDescription = resources.GetString("detailHeaderCaption.AccessibleDescription");
-			this.detailHeaderCaption.AccessibleName = resources.GetString("detailHeaderCaption.AccessibleName");
-			this.detailHeaderCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("detailHeaderCaption.Anchor")));
 			appearance1.BackColor = System.Drawing.Color.CornflowerBlue;
 			appearance1.BackColor2 = System.Drawing.Color.MidnightBlue;
 			appearance1.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
 			appearance1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			appearance1.ImageHAlign = Infragistics.Win.HAlign.Right;
 			appearance1.ImageVAlign = Infragistics.Win.VAlign.Middle;
-			appearance1.TextHAlignAsString = resources.GetString("appearance1.TextHAlignAsString");
+			resources.ApplyResources(appearance1, "appearance1");
 			appearance1.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-			appearance1.TextVAlignAsString = resources.GetString("appearance1.TextVAlignAsString");
 			this.detailHeaderCaption.Appearance = appearance1;
-			this.detailHeaderCaption.AutoSize = ((bool)(resources.GetObject("detailHeaderCaption.AutoSize")));
-			this.detailHeaderCaption.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailHeaderCaption.BackgroundImage")));
-			this.detailHeaderCaption.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("detailHeaderCaption.Dock")));
-			this.detailHeaderCaption.Enabled = ((bool)(resources.GetObject("detailHeaderCaption.Enabled")));
-			this.detailHeaderCaption.Font = ((System.Drawing.Font)(resources.GetObject("detailHeaderCaption.Font")));
-			this.helpProvider1.SetHelpKeyword(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.detailHeaderCaption, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("detailHeaderCaption.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.HelpString"));
-			this.detailHeaderCaption.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("detailHeaderCaption.ImeMode")));
-			this.detailHeaderCaption.Location = ((System.Drawing.Point)(resources.GetObject("detailHeaderCaption.Location")));
+			resources.ApplyResources(this.detailHeaderCaption, "detailHeaderCaption");
 			this.detailHeaderCaption.Name = "detailHeaderCaption";
 			this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
-			this.detailHeaderCaption.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("detailHeaderCaption.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.detailHeaderCaption, ((bool)(resources.GetObject("detailHeaderCaption.ShowHelp"))));
-			this.detailHeaderCaption.Size = ((System.Drawing.Size)(resources.GetObject("detailHeaderCaption.Size")));
-			this.detailHeaderCaption.TabIndex = ((int)(resources.GetObject("detailHeaderCaption.TabIndex")));
-			this.detailHeaderCaption.Text = resources.GetString("detailHeaderCaption.Text");
-			this.toolTip.SetToolTip(this.detailHeaderCaption, resources.GetString("detailHeaderCaption.ToolTip"));
-			this.detailHeaderCaption.Visible = ((bool)(resources.GetObject("detailHeaderCaption.Visible")));
 			this.detailHeaderCaption.WrapText = false;
 			// 
 			// splitterNavigator
 			// 
-			this.splitterNavigator.AccessibleDescription = resources.GetString("splitterNavigator.AccessibleDescription");
-			this.splitterNavigator.AccessibleName = resources.GetString("splitterNavigator.AccessibleName");
-			this.splitterNavigator.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("splitterNavigator.Anchor")));
-			this.splitterNavigator.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("splitterNavigator.BackgroundImage")));
-			this.splitterNavigator.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("splitterNavigator.Dock")));
-			this.splitterNavigator.Enabled = ((bool)(resources.GetObject("splitterNavigator.Enabled")));
-			this.splitterNavigator.Font = ((System.Drawing.Font)(resources.GetObject("splitterNavigator.Font")));
-			this.helpProvider1.SetHelpKeyword(this.splitterNavigator, resources.GetString("splitterNavigator.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.splitterNavigator, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("splitterNavigator.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.splitterNavigator, resources.GetString("splitterNavigator.HelpString"));
-			this.splitterNavigator.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("splitterNavigator.ImeMode")));
-			this.splitterNavigator.Location = ((System.Drawing.Point)(resources.GetObject("splitterNavigator.Location")));
-			this.splitterNavigator.MinExtra = ((int)(resources.GetObject("splitterNavigator.MinExtra")));
-			this.splitterNavigator.MinSize = ((int)(resources.GetObject("splitterNavigator.MinSize")));
+			resources.ApplyResources(this.splitterNavigator, "splitterNavigator");
 			this.splitterNavigator.Name = "splitterNavigator";
-			this.splitterNavigator.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("splitterNavigator.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.splitterNavigator, ((bool)(resources.GetObject("splitterNavigator.ShowHelp"))));
-			this.splitterNavigator.Size = ((System.Drawing.Size)(resources.GetObject("splitterNavigator.Size")));
-			this.splitterNavigator.TabIndex = ((int)(resources.GetObject("splitterNavigator.TabIndex")));
 			this.splitterNavigator.TabStop = false;
-			this.toolTip.SetToolTip(this.splitterNavigator, resources.GetString("splitterNavigator.ToolTip"));
-			this.splitterNavigator.Visible = ((bool)(resources.GetObject("splitterNavigator.Visible")));
 			// 
 			// Navigator
 			// 
-			this.Navigator.AccessibleDescription = resources.GetString("Navigator.AccessibleDescription");
-			this.Navigator.AccessibleName = resources.GetString("Navigator.AccessibleName");
-			this.Navigator.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("Navigator.Anchor")));
 			this.Navigator.Controls.Add(this.NavigatorFeedSubscriptions);
 			this.Navigator.Controls.Add(this.NavigatorSearch);
-			this.Navigator.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("Navigator.Dock")));
-			this.Navigator.Enabled = ((bool)(resources.GetObject("Navigator.Enabled")));
-			this.Navigator.Font = ((System.Drawing.Font)(resources.GetObject("Navigator.Font")));
+			resources.ApplyResources(this.Navigator, "Navigator");
 			ultraExplorerBarGroup1.Container = this.NavigatorFeedSubscriptions;
 			ultraExplorerBarGroup1.Key = "groupFeedsTree";
 			appearance2.Image = ((object)(resources.GetObject("appearance2.Image")));
-			appearance2.TextHAlignAsString = resources.GetString("appearance2.TextHAlignAsString");
-			appearance2.TextVAlignAsString = resources.GetString("appearance2.TextVAlignAsString");
 			ultraExplorerBarGroup1.Settings.AppearancesLarge.HeaderAppearance = appearance2;
 			appearance3.Image = ((object)(resources.GetObject("appearance3.Image")));
-			appearance3.TextHAlignAsString = resources.GetString("appearance3.TextHAlignAsString");
-			appearance3.TextVAlignAsString = resources.GetString("appearance3.TextVAlignAsString");
 			ultraExplorerBarGroup1.Settings.AppearancesSmall.HeaderAppearance = appearance3;
-			ultraExplorerBarGroup1.Text = resources.GetString("ultraExplorerBarGroup1.Text");
-			ultraExplorerBarGroup1.ToolTipText = resources.GetString("ultraExplorerBarGroup1.ToolTipText");
+			resources.ApplyResources(ultraExplorerBarGroup1, "ultraExplorerBarGroup1");
 			ultraExplorerBarGroup2.Container = this.NavigatorSearch;
 			ultraExplorerBarGroup2.Key = "groupFeedsSearch";
 			appearance4.Image = ((object)(resources.GetObject("appearance4.Image")));
-			appearance4.TextHAlignAsString = resources.GetString("appearance4.TextHAlignAsString");
-			appearance4.TextVAlignAsString = resources.GetString("appearance4.TextVAlignAsString");
 			ultraExplorerBarGroup2.Settings.AppearancesLarge.HeaderAppearance = appearance4;
 			appearance5.Image = ((object)(resources.GetObject("appearance5.Image")));
-			appearance5.TextHAlignAsString = resources.GetString("appearance5.TextHAlignAsString");
-			appearance5.TextVAlignAsString = resources.GetString("appearance5.TextVAlignAsString");
 			ultraExplorerBarGroup2.Settings.AppearancesSmall.HeaderAppearance = appearance5;
-			ultraExplorerBarGroup2.Text = resources.GetString("ultraExplorerBarGroup2.Text");
-			ultraExplorerBarGroup2.ToolTipText = resources.GetString("ultraExplorerBarGroup2.ToolTipText");
+			resources.ApplyResources(ultraExplorerBarGroup2, "ultraExplorerBarGroup2");
 			this.Navigator.Groups.AddRange(new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup[] {
-																												ultraExplorerBarGroup1,
-																												ultraExplorerBarGroup2});
+            ultraExplorerBarGroup1,
+            ultraExplorerBarGroup2});
 			this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
-			this.helpProvider1.SetHelpKeyword(this.Navigator, resources.GetString("Navigator.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.Navigator, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("Navigator.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.Navigator, resources.GetString("Navigator.HelpString"));
-			this.Navigator.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("Navigator.ImeMode")));
-			this.Navigator.Location = ((System.Drawing.Point)(resources.GetObject("Navigator.Location")));
 			this.Navigator.Name = "Navigator";
 			this.Navigator.NavigationMaxGroupHeaders = 0;
-			this.Navigator.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("Navigator.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.Navigator, ((bool)(resources.GetObject("Navigator.ShowHelp"))));
-			this.Navigator.Size = ((System.Drawing.Size)(resources.GetObject("Navigator.Size")));
 			this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
-			this.Navigator.TabIndex = ((int)(resources.GetObject("Navigator.TabIndex")));
-			this.toolTip.SetToolTip(this.Navigator, resources.GetString("Navigator.ToolTip"));
-			this.Navigator.Visible = ((bool)(resources.GetObject("Navigator.Visible")));
 			// 
 			// pNavigatorCollapsed
 			// 
-			this.pNavigatorCollapsed.AccessibleDescription = resources.GetString("pNavigatorCollapsed.AccessibleDescription");
-			this.pNavigatorCollapsed.AccessibleName = resources.GetString("pNavigatorCollapsed.AccessibleName");
-			this.pNavigatorCollapsed.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("pNavigatorCollapsed.Anchor")));
-			this.pNavigatorCollapsed.AutoScroll = ((bool)(resources.GetObject("pNavigatorCollapsed.AutoScroll")));
-			this.pNavigatorCollapsed.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.AutoScrollMargin")));
-			this.pNavigatorCollapsed.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.AutoScrollMinSize")));
 			this.pNavigatorCollapsed.BackColor = System.Drawing.Color.Transparent;
-			this.pNavigatorCollapsed.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pNavigatorCollapsed.BackgroundImage")));
 			this.pNavigatorCollapsed.Controls.Add(this.navigatorHiddenCaption);
-			this.pNavigatorCollapsed.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("pNavigatorCollapsed.Dock")));
-			this.pNavigatorCollapsed.Enabled = ((bool)(resources.GetObject("pNavigatorCollapsed.Enabled")));
-			this.pNavigatorCollapsed.Font = ((System.Drawing.Font)(resources.GetObject("pNavigatorCollapsed.Font")));
-			this.helpProvider1.SetHelpKeyword(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.pNavigatorCollapsed, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("pNavigatorCollapsed.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.HelpString"));
-			this.pNavigatorCollapsed.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("pNavigatorCollapsed.ImeMode")));
-			this.pNavigatorCollapsed.Location = ((System.Drawing.Point)(resources.GetObject("pNavigatorCollapsed.Location")));
+			resources.ApplyResources(this.pNavigatorCollapsed, "pNavigatorCollapsed");
 			this.pNavigatorCollapsed.Name = "pNavigatorCollapsed";
-			this.pNavigatorCollapsed.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("pNavigatorCollapsed.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.pNavigatorCollapsed, ((bool)(resources.GetObject("pNavigatorCollapsed.ShowHelp"))));
-			this.pNavigatorCollapsed.Size = ((System.Drawing.Size)(resources.GetObject("pNavigatorCollapsed.Size")));
-			this.pNavigatorCollapsed.TabIndex = ((int)(resources.GetObject("pNavigatorCollapsed.TabIndex")));
-			this.pNavigatorCollapsed.Text = resources.GetString("pNavigatorCollapsed.Text");
-			this.toolTip.SetToolTip(this.pNavigatorCollapsed, resources.GetString("pNavigatorCollapsed.ToolTip"));
-			this.pNavigatorCollapsed.Visible = ((bool)(resources.GetObject("pNavigatorCollapsed.Visible")));
 			// 
 			// navigatorHiddenCaption
 			// 
-			this.navigatorHiddenCaption.AccessibleDescription = resources.GetString("navigatorHiddenCaption.AccessibleDescription");
-			this.navigatorHiddenCaption.AccessibleName = resources.GetString("navigatorHiddenCaption.AccessibleName");
-			this.navigatorHiddenCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("navigatorHiddenCaption.Anchor")));
 			appearance6.BackColor = System.Drawing.Color.CornflowerBlue;
 			appearance6.BackColor2 = System.Drawing.Color.MidnightBlue;
 			appearance6.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
@@ -4114,34 +3636,17 @@ namespace RssBandit.WinGui.Forms
 			appearance6.Image = ((object)(resources.GetObject("appearance6.Image")));
 			appearance6.ImageHAlign = Infragistics.Win.HAlign.Center;
 			appearance6.ImageVAlign = Infragistics.Win.VAlign.Top;
-			appearance6.TextHAlignAsString = resources.GetString("appearance6.TextHAlignAsString");
+			resources.ApplyResources(appearance6, "appearance6");
 			appearance6.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-			appearance6.TextVAlignAsString = resources.GetString("appearance6.TextVAlignAsString");
 			this.navigatorHiddenCaption.Appearance = appearance6;
-			this.navigatorHiddenCaption.AutoSize = ((bool)(resources.GetObject("navigatorHiddenCaption.AutoSize")));
-			this.navigatorHiddenCaption.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("navigatorHiddenCaption.BackgroundImage")));
-			this.navigatorHiddenCaption.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("navigatorHiddenCaption.Dock")));
-			this.navigatorHiddenCaption.Enabled = ((bool)(resources.GetObject("navigatorHiddenCaption.Enabled")));
-			this.navigatorHiddenCaption.Font = ((System.Drawing.Font)(resources.GetObject("navigatorHiddenCaption.Font")));
-			this.helpProvider1.SetHelpKeyword(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.navigatorHiddenCaption, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("navigatorHiddenCaption.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.HelpString"));
-			this.navigatorHiddenCaption.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("navigatorHiddenCaption.ImeMode")));
-			this.navigatorHiddenCaption.Location = ((System.Drawing.Point)(resources.GetObject("navigatorHiddenCaption.Location")));
+			resources.ApplyResources(this.navigatorHiddenCaption, "navigatorHiddenCaption");
 			this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
 			this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
-			this.navigatorHiddenCaption.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("navigatorHiddenCaption.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this.navigatorHiddenCaption, ((bool)(resources.GetObject("navigatorHiddenCaption.ShowHelp"))));
-			this.navigatorHiddenCaption.Size = ((System.Drawing.Size)(resources.GetObject("navigatorHiddenCaption.Size")));
-			this.navigatorHiddenCaption.TabIndex = ((int)(resources.GetObject("navigatorHiddenCaption.TabIndex")));
-			this.navigatorHiddenCaption.Text = resources.GetString("navigatorHiddenCaption.Text");
-			this.toolTip.SetToolTip(this.navigatorHiddenCaption, resources.GetString("navigatorHiddenCaption.ToolTip"));
-			this.navigatorHiddenCaption.Visible = ((bool)(resources.GetObject("navigatorHiddenCaption.Visible")));
 			this.navigatorHiddenCaption.WrapText = false;
 			// 
 			// _startupTimer
 			// 
-			this._startupTimer.Enabled = false;
 			this._startupTimer.Interval = 45000;
 			this._startupTimer.Tick += new System.EventHandler(this.OnTimerStartupTick);
 			// 
@@ -4168,9 +3673,13 @@ namespace RssBandit.WinGui.Forms
 			this._timerResetStatus.Interval = 5000;
 			this._timerResetStatus.Tick += new System.EventHandler(this.OnTimerResetStatusTick);
 			// 
+			// _uiTasksTimer
+			// 
+			this._uiTasksTimer.Enabled = true;
+			// 
 			// helpProvider1
 			// 
-			this.helpProvider1.HelpNamespace = resources.GetString("helpProvider1.HelpNamespace");
+			resources.ApplyResources(this.helpProvider1, "helpProvider1");
 			// 
 			// _timerDispatchResultsToUI
 			// 
@@ -4178,41 +3687,20 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// WinGuiMain
 			// 
-			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
-			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
-			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
-			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
-			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
-			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.panelClientAreaContainer);
 			this.Controls.Add(this.rightSandDock);
 			this.Controls.Add(this.bottomSandDock);
 			this.Controls.Add(this.topSandDock);
 			this.Controls.Add(this.progressBrowser);
 			this.Controls.Add(this._status);
-			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
-			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
-			this.helpProvider1.SetHelpKeyword(this, resources.GetString("$this.HelpKeyword"));
 			this.helpProvider1.SetHelpNavigator(this, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("$this.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this, resources.GetString("$this.HelpString"));
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
 			this.KeyPreview = true;
-			this.Location = ((System.Drawing.Point)(resources.GetObject("$this.Location")));
-			this.MaximumSize = ((System.Drawing.Size)(resources.GetObject("$this.MaximumSize")));
-			this.MinimumSize = ((System.Drawing.Size)(resources.GetObject("$this.MinimumSize")));
 			this.Name = "WinGuiMain";
-			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.helpProvider1.SetShowHelp(this, ((bool)(resources.GetObject("$this.ShowHelp"))));
-			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
-			this.Text = resources.GetString("$this.Text");
-			this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
 			this.NavigatorFeedSubscriptions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).EndInit();
 			this.NavigatorSearch.ResumeLayout(false);
-			this.panelRssSearch.ResumeLayout(false);
 			this.panelFeedDetails.ResumeLayout(false);
 			this.panelWebDetail.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).EndInit();
@@ -4872,22 +4360,30 @@ namespace RssBandit.WinGui.Forms
 		private HtmlControl CreateAndInitIEControl(string tabName) 
 		{
 			HtmlControl hc = new HtmlControl();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WinGuiMain));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinGuiMain));
 			
 			hc.BeginInit();
 			// we just take over some generic resource settings from htmlDetail:
-			hc.AccessibleDescription = resources.GetString("htmlDetail.AccessibleDescription");
-			hc.AccessibleName = tabName;
 			hc.AllowDrop = true;
-			hc.ContainingControl = this;
-			this.helpProvider1.SetHelpKeyword(hc, resources.GetString("htmlDetail.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(hc, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("htmlDetail.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(hc, resources.GetString("htmlDetail.HelpString"));
-			hc.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("htmlDetail.ImeMode")));
+			resources.ApplyResources(hc, "htmlDetail");
 			hc.Name = tabName;
 			hc.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-			hc.RightToLeft = ((bool)(resources.GetObject("htmlDetail.RightToLeft")));
 			this.helpProvider1.SetShowHelp(hc, ((bool)(resources.GetObject("htmlDetail.ShowHelp"))));
+			hc.ContainingControl = this;
+
+			//hc.AccessibleDescription = resources.GetString("htmlDetail.AccessibleDescription");
+			//hc.AccessibleName = tabName;
+			//hc.AllowDrop = true;
+			//hc.ContainingControl = this;
+			//this.helpProvider1.SetHelpKeyword(hc, resources.GetString("htmlDetail.HelpKeyword"));
+			//this.helpProvider1.SetHelpNavigator(hc, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("htmlDetail.HelpNavigator"))));
+			//this.helpProvider1.SetHelpString(hc, resources.GetString("htmlDetail.HelpString"));
+			//hc.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("htmlDetail.ImeMode")));
+			//hc.Name = tabName;
+			//hc.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
+			//hc.RightToLeft = ((bool)(resources.GetObject("htmlDetail.RightToLeft")));
+			//this.helpProvider1.SetShowHelp(hc, ((bool)(resources.GetObject("htmlDetail.ShowHelp"))));
+			
 			hc.EndInit();
 
 			hc.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
@@ -4912,16 +4408,16 @@ namespace RssBandit.WinGui.Forms
 #endif
 			hc.Border3d = true;
 
-			hc.StatusTextChanged += new BrowserStatusTextChangeEventHandler(OnWebStatusTextChanged);
-			hc.BeforeNavigate += new BrowserBeforeNavigate2EventHandler(OnWebBeforeNavigate);
-			hc.NavigateComplete += new BrowserNavigateComplete2EventHandler(OnWebNavigateComplete);
-			hc.DocumentComplete += new BrowserDocumentCompleteEventHandler(OnWebDocumentComplete);
-			hc.TitleChanged += new BrowserTitleChangeEventHandler(OnWebTitleChanged);
-			hc.CommandStateChanged += new BrowserCommandStateChangeEventHandler(OnWebCommandStateChanged);
-			hc.NewWindow += new BrowserNewWindowEventHandler(OnWebNewWindow);
-			hc.ProgressChanged += new BrowserProgressChangeEventHandler(OnWebProgressChanged);
-			hc.TranslateAccelerator += new KeyEventHandler(OnWebTranslateAccelerator);
-			hc.OnQuit +=new EventHandler(OnWebQuit);
+			hc.StatusTextChanged += OnWebStatusTextChanged;
+			hc.BeforeNavigate += OnWebBeforeNavigate;
+			hc.NavigateComplete += OnWebNavigateComplete;
+			hc.DocumentComplete += OnWebDocumentComplete;
+			hc.TitleChanged += OnWebTitleChanged;
+			hc.CommandStateChanged += OnWebCommandStateChanged;
+			hc.NewWindow += OnWebNewWindow;
+			hc.ProgressChanged += OnWebProgressChanged;
+			hc.TranslateAccelerator += OnWebTranslateAccelerator;
+			hc.OnQuit +=OnWebQuit;
 
 			return hc;
 		}
@@ -10843,12 +10339,12 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnTimerTreeNodeExpandElapsed(object sender, System.Timers.ElapsedEventArgs e) 
 		{
-			_timerTreeNodeExpand.Stop();
-			if (CurrentDragHighlightNode != null) 
-			{
-				if (!CurrentDragHighlightNode.Expanded)
-					CurrentDragHighlightNode.Expanded = true;
-			}
+			//_timerTreeNodeExpand.Stop();
+			//if (CurrentDragHighlightNode != null) 
+			//{
+			//    if (!CurrentDragHighlightNode.Expanded)
+			//        CurrentDragHighlightNode.Expanded = true;
+			//}
 		}
 
 		private void OnTimerFeedsRefreshElapsed(object sender, System.Timers.ElapsedEventArgs e) 
