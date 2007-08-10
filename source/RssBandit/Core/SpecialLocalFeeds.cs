@@ -30,10 +30,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 using NewsComponents;
@@ -56,7 +56,7 @@ namespace RssBandit.SpecialFeeds
 		
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
 
-		protected List<NewsItem> itemsList = new List<NewsItem>();
+        protected List<NewsItem> itemsList = new List<NewsItem>();
 		private string filePath = null;
 		private FeedInfo feedInfo = null;
 		private string description = null;
@@ -120,10 +120,9 @@ namespace RssBandit.SpecialFeeds
 			LoadItems(reader);
 		}
 
-		public List<NewsItem> Items
-		{
+		public List<NewsItem> Items {
 			get { return itemsList;  }
-			set { itemsList = value; }
+			set { itemsList = new List<NewsItem>(value); }
 		}
 
 		public void Add(LocalFeedsFeed lff){
@@ -298,8 +297,7 @@ namespace RssBandit.SpecialFeeds
 				base.itemsList.RemoveAt((int)removeAtIndex.Pop());
 		}
 
-		public new List<NewsItem> Items
-		{
+		public new IList<NewsItem> Items {
 			get { return base.itemsList; }
 		}
 
