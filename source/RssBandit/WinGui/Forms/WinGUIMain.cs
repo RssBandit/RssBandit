@@ -1,9 +1,10 @@
-#region CVS Version Header
+#region Version Header
 /*
- * $Id: WinGUIMain.cs,v 1.547 2007/07/21 12:26:55 t_rendelmann Exp $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2007/07/21 12:26:55 $
- * $Revision: 1.547 $
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
@@ -54,7 +55,6 @@ using RssBandit.AppServices;
 using RssBandit.Filter;
 using RssBandit.Resources;
 using RssBandit.WebSearch;
-using RssBandit.Common.Utils;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Menus;
