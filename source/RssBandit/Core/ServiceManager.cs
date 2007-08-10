@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
@@ -17,6 +18,7 @@ using System.Text;
 using NewsComponents.Utils;
 using RssBandit;
 using RssBandit.UIServices;
+using Syndication.Extensibility;
 using Logger = RssBandit.Common.Logging;
 
 namespace AppInteropServices
@@ -60,12 +62,12 @@ namespace AppInteropServices
 		/// <param name="path">path to search for service assemblies</param>
 		/// <returns>ArrayList containing suitable processors found</returns>
 		/// <permission cref="ReflectionPermission">Used to find extensions</permission>
-		public static ArrayList SearchForIBlogExtensions(string path)
+		public static IList<IBlogExtension> SearchForIBlogExtensions(string path)
 		{
 			AppInteropServices.ServiceManager srvFinder = (AppInteropServices.ServiceManager)LoaderDomain.CreateInstanceAndUnwrap(Assembly.GetAssembly(typeof(AppInteropServices.ServiceManager)).FullName, "AppInteropServices.ServiceManager");
-			ArrayList extensions = srvFinder.SearchForIBlogExtensionTypes(path);
-	
-			ArrayList extensionInstances = new ArrayList();
+            IList<Type> extensions = srvFinder.SearchForIBlogExtensionTypes(path);
+
+            List<IBlogExtension> extensionInstances = new List<IBlogExtension>();
 			foreach(Type foundType in extensions)	{
 				try 
 				{
@@ -91,9 +93,9 @@ namespace AppInteropServices
 		/// <returns>ArrayList of types, that impl. the IBlogExtension interface</returns>
 		/// <remarks>If you call this method directly, all tested dll/exe are loaded into the default AppDomain!</remarks>
 		/// <permission cref="ReflectionPermission">Used to find extensions</permission>
-		public ArrayList SearchForIBlogExtensionTypes(string path) {
+        public IList<Type> SearchForIBlogExtensionTypes(string path){
 			Type blogExtensionType = typeof(Syndication.Extensibility.IBlogExtension) ;
-			ArrayList foundTypes = new ArrayList();
+            List<Type> foundTypes = new List<Type>();
 			
 			// check for permissions
 			IPermission rp = new ReflectionPermission(ReflectionPermissionFlag.MemberAccess);
