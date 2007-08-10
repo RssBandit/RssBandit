@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -340,14 +340,12 @@
     <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
     <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
     <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.bg.resx">
       <DependentUpon>SR.cs</DependentUpon>
@@ -1624,7 +1622,7 @@
       <Link>Log.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-     <Compile Include="..\Common\TypeConverter.cs">
+    <Compile Include="..\Common\TypeConverter.cs">
       <Link>TypeConverter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
