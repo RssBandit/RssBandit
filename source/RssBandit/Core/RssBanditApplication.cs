@@ -2073,20 +2073,20 @@ namespace RssBandit {
 		public class ListViewLayout: ICloneable {
 			private string _sortByColumn;
 			private NewsComponents.SortOrder _sortOrder;
-			internal ArrayList _columns;
-			internal ArrayList _columnWidths;
+			internal List<string> _columns;
+			internal List<int> _columnWidths;
 			private bool _modified;
 
 			public ListViewLayout():this(null, null, null, NewsComponents.SortOrder.None) {	}
-			public ListViewLayout(ICollection columns, ICollection columnWidths, string sortByColumn, NewsComponents.SortOrder sortOrder) {
+			public ListViewLayout(ICollection<string> columns, ICollection<int> columnWidths, string sortByColumn, NewsComponents.SortOrder sortOrder) {
 				if (columns != null)
-					_columns = new ArrayList(columns);
+					_columns = new List<string>(columns);
 				else
-					_columns = new ArrayList();
+					_columns = new List<string>();
 				if (columnWidths != null)
-					_columnWidths = new ArrayList(columnWidths);
+					_columnWidths = new List<int>(columnWidths);
 				else
-					_columnWidths = new ArrayList();
+					_columnWidths = new List<int>();
 				_sortByColumn = sortByColumn;
 				_sortOrder = sortOrder;
 			}
@@ -2127,24 +2127,24 @@ namespace RssBandit {
 			}
 
 			[XmlIgnore]
-			public IList Columns {
+			public IList<string> Columns {
 				get {	return _columns;	}
 				set { 
 					if (value != null)
-						_columns = new ArrayList(value); 
+						_columns = new List<string>(value); 
 					else
-						_columns = new ArrayList();
+						_columns = new List<string>();
 				}
 			}
 
 			[XmlIgnore]
-			public IList ColumnWidths {
+			public IList<int> ColumnWidths {
 				get {	return _columnWidths;	}
 				set { 
 					if (value != null)
-						_columnWidths = new ArrayList(value); 
+						_columnWidths = new List<int>(value); 
 					else
-						_columnWidths = new ArrayList();
+						_columnWidths = new List<int>();
 				}
 			}
 
@@ -2157,23 +2157,23 @@ namespace RssBandit {
 			#endregion
 
 			[XmlArrayItem(typeof(string))]
-			public ArrayList ColumnList {
+			public List<string> ColumnList {
 				get {	return _columns;	}
 				set { 
 					if (value != null)
 						_columns = value; 
 					else
-						_columns = new ArrayList();
+						_columns = new List<string>();
 				}
 			}
 			[XmlArrayItem(typeof(int))]
-			public ArrayList ColumnWidthList {
+			public List<int> ColumnWidthList {
 				get {	return _columnWidths;	}
 				set { 
 					if (value != null)
 						_columnWidths = value; 
 					else
-						_columnWidths = new ArrayList();
+						_columnWidths = new List<int>();
 				}
 			}
 
@@ -2932,14 +2932,14 @@ namespace RssBandit {
 
 		public void AddTrustedCertificateIssue(string site, CertificateIssue issue) {
 			
-			lock (AsyncWebRequest.TrustedCertificateIssues.SyncRoot) {
-				IList issues = null;
+			lock (AsyncWebRequest.TrustedCertificateIssues) {
+				IList<CertificateIssue> issues = null;
 				if (AsyncWebRequest.TrustedCertificateIssues.ContainsKey(site)) {
-					issues = (IList)AsyncWebRequest.TrustedCertificateIssues[site];
+					issues = AsyncWebRequest.TrustedCertificateIssues[site];
 					AsyncWebRequest.TrustedCertificateIssues.Remove(site);
 				}
 				if (issues == null)
-					issues = new ArrayList(1);
+					issues = new List<CertificateIssue>(1);
 
 				if (!issues.Contains(issue))
 					issues.Add(issue);
@@ -2954,7 +2954,7 @@ namespace RssBandit {
 			
 			if (File.Exists(RssBanditApplication.GetTrustedCertIssuesFileName())) {
 				
-				lock(AsyncWebRequest.TrustedCertificateIssues.SyncRoot) {
+				lock(AsyncWebRequest.TrustedCertificateIssues) {
 					AsyncWebRequest.TrustedCertificateIssues.Clear();
 				}
 
@@ -2971,7 +2971,7 @@ namespace RssBandit {
 							string url =  siteIssues.Current.GetAttribute("site", String.Empty);
 							if (url == null) { continue; }
 
-							ArrayList issues = new ArrayList();
+							List<CertificateIssue> issues = new List<CertificateIssue>();
 
 							System.Xml.XPath.XPathNodeIterator theIssues = siteIssues.Current.Select("issue");
 							while (theIssues.MoveNext()) {
@@ -2984,7 +2984,7 @@ namespace RssBandit {
 							}
 
 							if (issues.Count > 0) {
-								lock(AsyncWebRequest.TrustedCertificateIssues.SyncRoot) {
+								lock(AsyncWebRequest.TrustedCertificateIssues) {
 									AsyncWebRequest.TrustedCertificateIssues.Add(url, issues);
 								}
 							}
@@ -3012,7 +3012,7 @@ namespace RssBandit {
 					writer.WriteStartDocument(true);
 					writer.WriteStartElement("trustedCertificateIssues");
 
-					lock (AsyncWebRequest.TrustedCertificateIssues.SyncRoot) {
+					lock (AsyncWebRequest.TrustedCertificateIssues) {
 						foreach (string url in AsyncWebRequest.TrustedCertificateIssues.Keys) {
 							ICollection trusted = (ICollection)AsyncWebRequest.TrustedCertificateIssues[url];
 							if (trusted != null && trusted.Count > 0) {
@@ -3654,7 +3654,7 @@ namespace RssBandit {
 
 						if(this.feedHandler.FeedsTable.Contains(feedUrl)){ //check if feed exists 
 
-							ArrayList itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
+							IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
 
 							//find this item 
 							int itemIndex = itemsForFeed.IndexOf(ri); 
@@ -3662,7 +3662,7 @@ namespace RssBandit {
 
 							if(itemIndex != -1){ //check if item still exists 
 
-								NewsItem item = (NewsItem) itemsForFeed[itemIndex]; 									
+								NewsItem item = itemsForFeed[itemIndex]; 									
 								item.FlagStatus = Flagged.None; 
 								item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfFlaggedItem); 
 								break; 									
@@ -3722,14 +3722,14 @@ namespace RssBandit {
 
 			if(feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl)){ //check if feed exists 
 
-				ArrayList itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
+				IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
 
 				//find this item 
 				int itemIndex = itemsForFeed.IndexOf(theItem); 
 
 				if(itemIndex != -1){ //check if item still exists 
 
-					NewsItem item = (NewsItem) itemsForFeed[itemIndex]; 									
+					NewsItem item = itemsForFeed[itemIndex]; 									
 					item.FlagStatus = theItem.FlagStatus; 
 
 					this.FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag);
@@ -3776,14 +3776,14 @@ namespace RssBandit {
 			//find this item in main feed list and set watched state
 			if(feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl)){ //check if feed exists 
 
-				ArrayList itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
+				IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
 
 				//find this item 
 				int itemIndex = itemsForFeed.IndexOf(theItem); 
 
 				if(itemIndex != -1){ //check if item still exists 
 
-					NewsItem item = (NewsItem) itemsForFeed[itemIndex]; 									
+					NewsItem item = itemsForFeed[itemIndex]; 									
 					item.WatchComments = theItem.WatchComments; 
 
 					this.FeedWasModified(feedUrl, NewsFeedProperty.FeedItemWatchComments);
@@ -3870,8 +3870,7 @@ namespace RssBandit {
 		/// Updates the state of the WatchedItems based on the state of the items passed in
 		/// </summary>
 		/// <param name="items"></param>
-		public void UpdateWatchedItems(IList<NewsItem> items)
-		{
+        public void UpdateWatchedItems(IList<NewsItem> items) {
 
 			if((items == null) || (items.Count == 0))
 				return; 
@@ -4294,7 +4293,7 @@ namespace RssBandit {
 
 				if(feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl)){ //check if feed exists 
 
-					ArrayList itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
+					IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false); 
 
 					//find this item 
 					int itemIndex = itemsForFeed.IndexOf(ri); 
@@ -4302,7 +4301,7 @@ namespace RssBandit {
 
 					if(itemIndex != -1){ //check if item still exists 
 
-						NewsItem item = (NewsItem) itemsForFeed[itemIndex]; 									
+						NewsItem item = itemsForFeed[itemIndex]; 									
 						if (item.FlagStatus != ri.FlagStatus)	{// correction: older Bandit versions are not able to store flagStatus
 							item.FlagStatus = ri.FlagStatus;
 							this.flaggedItemsFeed.Modified = true;
@@ -4973,7 +4972,7 @@ namespace RssBandit {
 			if (toHighlight == null) {
 				return this.NewsItemFormatter.ToHtml(stylesheet, item, this.PrepareXsltArgs());
 			} else {
-				ArrayList criterias = new ArrayList();
+				List<SearchCriteriaString> criterias = new List<SearchCriteriaString>();
 				for (int i = 0; i < toHighlight.Count; i++) {
 					// only String matches are interesting for highlighting
 					SearchCriteriaString scs = toHighlight[i] as SearchCriteriaString;
@@ -4996,13 +4995,13 @@ namespace RssBandit {
 		}	
 
 
-		private string ApplyHighlightingTo(string xhtml, ArrayList searchCriteriaStrings){
+		private string ApplyHighlightingTo(string xhtml, IList<SearchCriteriaString> searchCriteriaStrings){
 		
 			for (int i = 0; i < searchCriteriaStrings.Count; i++){
 			
 					
 				// only String matches are interesting for highlighting here
-				SearchCriteriaString scs = searchCriteriaStrings[i] as SearchCriteriaString;
+				SearchCriteriaString scs = searchCriteriaStrings[i];
 					
 				if (scs != null){
 				
@@ -5347,7 +5346,7 @@ namespace RssBandit {
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		public void CmdSendLogsByMail(ICommand sender) {
-			ArrayList files = new ArrayList();
+			List<string> files = new List<string>();
 			
 			try {
 				// log files are configured in the RssBandit.exe.log4net.config
@@ -5373,7 +5372,7 @@ namespace RssBandit {
 						if (File.Exists(zipDest))
 							FileHelper.Delete(zipDest);
 
-						FileHelper.ZipFiles(files.ToArray(typeof(string)) as string[], zipDest);
+						FileHelper.ZipFiles(files.ToArray(), zipDest);
 						// open a mailto:contact@rssbandit.org mail window with
 						// hints how to attach the zip
 
@@ -6521,7 +6520,7 @@ namespace RssBandit {
 //		DateTime[] dta = RssHelper.InitialLastRetrievedSettings(1234, 30*60*1000);
 //			foreach (DateTime d in dta)
 //				Trace.WriteLine(d.ToString("u"));
-			bool running = false;
+			bool running = true;
 
 			/* fails to exec on .NET 1.0
 			if (!File.Exists(Path.Combine(Application.StartupPath, "RssBandit.exe.manifest" )) && Win32.IsOSAtLeastWindowsXP) {
@@ -6546,8 +6545,11 @@ namespace RssBandit {
 
 			RssBanditApplication appInstance = new RssBanditApplication();
 			OtherInstanceCallback callback = new OtherInstanceCallback(appInstance.OnOtherInstance);
-
-			running = InitialInstanceActivator.Activate(appInstance, callback, args);
+            try {
+                running = InitialInstanceActivator.Activate(appInstance, callback, args);
+            } catch (Exception ex) {
+                _log.Error(ex); /* other instance is probably still running */ 
+            }
 			_log.Info("Application v" + RssBanditApplication.VersionLong + " started, running instance is " + running.ToString());
 
 			if (!running) 
@@ -6763,7 +6765,7 @@ namespace RssBandit {
 				// in case the feed does not yet have downloaded items, we may get null here:
 				item2post.FeedDetails = this.feedHandler.GetFeedInfo(f.link); 
 				if (item2post.FeedDetails == null)
-					item2post.FeedDetails = new FeedInfo(f.id, f.cacheurl, new ArrayList(0), f.title, f.link, f.title);
+					item2post.FeedDetails = new FeedInfo(f.id, f.cacheurl, new List<NewsItem>(0), f.title, f.link, f.title);
 				item2post.Author = (email == null) || (email.Trim().Length == 0) ? name : email + " (" + name + ")"; 			
 				
 				/* redundancy here, because Joe Gregorio changed spec now must support both <author> and <dc:creator> */				
@@ -7471,14 +7473,14 @@ namespace RssBandit {
 			
 			if (Directory.Exists(tmplFolder)) {
 				string[] tmplFiles = Directory.GetFiles(tmplFolder, "*.fdxsl");
-				ArrayList formatters = new ArrayList(tmplFiles.GetLength(0));
+                List<string> formatters = new List<string>(tmplFiles.GetLength(0));
 				foreach (string filename in tmplFiles) {
 					formatters.Add(Path.GetFileNameWithoutExtension(filename)); 
 				}
 				return formatters;
 			
 			}else {
-				return new ArrayList(0);
+                return new List<string>(0);
 			}	
 		}
 

@@ -256,9 +256,8 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override List<NewsItem> Items
-		{
-			get {	return ExceptionManager.GetInstance().Items;	}
+		public override List<NewsItem> Items {
+			get {	return ExceptionManager.GetInstance().Items as List<NewsItem>;	}
 		}
 
 		public override void Add(NewsItem item) {	// not the preferred way to add exceptions, but impl. the interface
@@ -336,9 +335,8 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override List<NewsItem> Items
-		{
-			get {
+		public override List<NewsItem> Items {
+			get {	
 				List<NewsItem> a = new List<NewsItem>(base.itemsFeed.Items.Count);
 				foreach (NewsItem ri in base.itemsFeed.Items) {
 					if (ri.FlagStatus == flagsFiltered)
@@ -540,7 +538,8 @@ namespace RssBandit.WinGui.Controls
 	public class FinderNode:TreeFeedsNodeBase, ISmartFolder {
 		private ContextMenu _popup = null;						// context menu
 		private LocalFeedsFeed itemsFeed;
-		private Dictionary<NewsItem,NewsItem> items = new Dictionary<NewsItem,NewsItem>();	// do we need the syncronized version?
+        //use a dictionary because we want fast access to objects
+        private List<NewsItem> items = new List<NewsItem>();
 		private RssFinder finder = null;
 
 		public FinderNode():base() {}
@@ -566,7 +565,7 @@ namespace RssBandit.WinGui.Controls
 		}
 
 		public bool Contains(NewsItem item) {	
-			return items.ContainsKey(item);
+			return items.Contains(item);
 		}
 
 		public void Clear() {	
@@ -595,7 +594,7 @@ namespace RssBandit.WinGui.Controls
 
 		public bool ContainsNewMessages {
 			get {
-				foreach (NewsItem ri in items.Keys) {
+				foreach (NewsItem ri in items) {
 					if (!ri.BeenRead) return true;
 				}
 				return false;
@@ -605,7 +604,7 @@ namespace RssBandit.WinGui.Controls
 		public int NewMessagesCount {
 			get {
 				int i = 0;
-				foreach (NewsItem ri in items.Keys) {
+				foreach (NewsItem ri in items) {
 					if (!ri.BeenRead) i++;
 				}
 				return i;
@@ -614,7 +613,7 @@ namespace RssBandit.WinGui.Controls
 
 		public virtual bool HasNewComments {
 			get {
-				foreach (NewsItem ri in items.Keys) {
+				foreach (NewsItem ri in items) {
 					if (ri.HasNewComments) return true;
 				}
 				return false;
@@ -625,7 +624,7 @@ namespace RssBandit.WinGui.Controls
 		public virtual int NewCommentsCount {
 			get {
 				int count = 0;
-				foreach (NewsItem ri in items.Keys) {
+				foreach (NewsItem ri in items) {
 					if (ri.HasNewComments) count++;
 				}
 				return count;
@@ -634,8 +633,9 @@ namespace RssBandit.WinGui.Controls
 
 		public void MarkItemRead(NewsItem item) {
 			if (item == null) return;
-			if (items.ContainsKey(item)) {
-				NewsItem ri = (NewsItem)items[item];
+            int index = items.IndexOf(item);
+			if (index!= -1){
+				NewsItem ri = items[index];
 				if (!ri.BeenRead) {
 					ri.BeenRead = true;
 					base.UpdateReadStatus(this, -1);
@@ -645,8 +645,9 @@ namespace RssBandit.WinGui.Controls
 
 		public void MarkItemUnread(NewsItem item) {
 			if (item == null) return;
-			if (items.ContainsKey(item)) {
-				NewsItem ri = (NewsItem)items[item];
+            int index = items.IndexOf(item);
+			if (index!= -1){
+				NewsItem ri = items[index];
 				if (ri.BeenRead) {
 					ri.BeenRead = false;
 					base.UpdateReadStatus(this, 1);
@@ -654,30 +655,29 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public List<NewsItem> Items
-		{
-			get {
-				return new List<NewsItem>(items.Keys);	
+		public List<NewsItem> Items {
+			get {	
+				return items;	
 			}
 		}
 
 		public void Add(NewsItem item) {	
 			if (item == null) return;
-			if (!items.ContainsKey(item))
-				items.Add(item, item);
+            if (!items.Contains(item))
+				items.Add(item);
 		}
 		public void AddRange(IList<NewsItem> newItems)
 		{	
 			if (newItems == null) return;
 			for (int i=0; i < newItems.Count; i++) {
 				NewsItem item = newItems[i] as NewsItem;
-				if (item != null && !items.ContainsKey(item))
-					items.Add(item, item);
+				if (item != null && !items.Contains(item))
+					items.Add(item);
 			}
 		}
 		public void Remove(NewsItem item) {
 			if (item == null) return;
-			if (items.ContainsKey(item))
+			if (items.Contains(item))
 				items.Remove(item);
 		}
 
