@@ -134,8 +134,7 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public virtual List<NewsItem> Items
-		{
+		public virtual List<NewsItem> Items {
 			get {	return itemsFeed.Items;	}
 		}
 
