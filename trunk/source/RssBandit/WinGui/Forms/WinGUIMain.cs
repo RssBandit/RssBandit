@@ -4412,7 +4412,7 @@ namespace RssBandit.WinGui.Forms
 			hc.BeforeNavigate += OnWebBeforeNavigate;
 			hc.NavigateComplete += OnWebNavigateComplete;
 			hc.DocumentComplete += OnWebDocumentComplete;
-			hc.TitleChanged += OnWebTitleChanged;
+            hc.TitleChanged += OnWebTitleChanged;
 			hc.CommandStateChanged += OnWebCommandStateChanged;
 			hc.NewWindow += OnWebNewWindow;
 			hc.ProgressChanged += OnWebProgressChanged;
@@ -6986,7 +6986,7 @@ namespace RssBandit.WinGui.Forms
 			this.htmlDetail.AllowInPlaceNavigation = false;
 #if DEBUG
 			// allow IEControl reporting of javascript errors while dev.:
-			this.htmlDetail.SilentModeEnabled = false;
+            this.htmlDetail.SilentModeEnabled = true;
 #else
 			this.htmlDetail.SilentModeEnabled = true; 
 #endif
@@ -6997,7 +6997,7 @@ namespace RssBandit.WinGui.Forms
 			this.htmlDetail.BeforeNavigate += new BrowserBeforeNavigate2EventHandler(OnWebBeforeNavigate);
 			this.htmlDetail.NavigateComplete += new BrowserNavigateComplete2EventHandler(OnWebNavigateComplete);
 			this.htmlDetail.DocumentComplete += new BrowserDocumentCompleteEventHandler(OnWebDocumentComplete);
-			this.htmlDetail.NewWindow += new BrowserNewWindowEventHandler(OnWebNewWindow);
+          	this.htmlDetail.NewWindow += new BrowserNewWindowEventHandler(OnWebNewWindow);
 			this.htmlDetail.ProgressChanged += new BrowserProgressChangeEventHandler(OnWebProgressChanged);
 			
 			this.htmlDetail.TranslateAccelerator += new KeyEventHandler(OnWebTranslateAccelerator);
@@ -11266,7 +11266,19 @@ namespace RssBandit.WinGui.Forms
 
 		#endregion
 
-		#region html control events
+		#region html control events   
+
+        private void OnHtmlWindowError(string description, string url, int line) {
+            /* don't show script error dialog and don't disable script due to a single script error */
+            HtmlControl hc = (HtmlControl)_docContainer.ActiveDocument.Controls[0] as HtmlControl;
+
+            if (hc != null) {
+                IHTMLWindow2 window = (IHTMLWindow2)hc.Document2.GetParentWindow();
+                IHTMLEventObj eventObj = (IHTMLEventObj)window.eventobj;
+                eventObj.ReturnValue = true;
+            }
+        }
+
 		
 		private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e) 
 		{
@@ -11346,12 +11358,16 @@ namespace RssBandit.WinGui.Forms
 			// so in general we do the same things here as in OnWebDocumentComplete()
 			try 
 			{
+                HtmlControl hc = (HtmlControl)sender;
+
+                //handle script errors on page
+                HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
+                window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.OnHtmlWindowError);									
+
 				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
 				{
-
 					AddUrlToHistory (e.url);
-
-					HtmlControl hc = (HtmlControl)sender;
+					
 					DockControl doc = (DockControl)hc.Tag;
 					ITabState state = (ITabState)doc.Tag;
 					state.Url = e.url;
@@ -11366,21 +11382,26 @@ namespace RssBandit.WinGui.Forms
 			{
 				_log.Error("OnWebNavigateComplete(): "+e.url, ex);
 			}
-		}
+		}      
+       
+		
 
 		private void OnWebDocumentComplete(object sender, BrowserDocumentCompleteEvent e) 
 		{
 			
 			try 
 			{
+                HtmlControl hc = (HtmlControl)sender;
+
+                //handle script errors on page
+                HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
+                window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.OnHtmlWindowError);									
 
 				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
 				{
-
 					AddUrlToHistory (e.url);
-
-					HtmlControl hc = (HtmlControl)sender;
-					DockControl doc = (DockControl)hc.Tag;
+                    				
+					DockControl doc = (DockControl)hc.Tag; 
 					ITabState state = (ITabState)doc.Tag;
 					state.Url = e.url;
 					RefreshDocumentState(doc);

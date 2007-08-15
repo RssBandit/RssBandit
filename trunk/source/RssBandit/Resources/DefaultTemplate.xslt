@@ -411,7 +411,8 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized'>
 		</a>
 	  </div>
 	  <div class="PostInfos">
-		<b><xsl:value-of disable-output-escaping='yes' select="//item/category"/></b>
+		<b><xsl:value-of disable-output-escaping='yes' select="//item/category"/>&#32;
+  </b>
 	  </div>
 	  <div class="PostContent">
 		<xsl:choose>
@@ -805,6 +806,13 @@ function getItemDivs(){
 }
 
  
+</script>
+<script>
+window.onerror = handleError;
+
+function handleError(msg, file_loc, line_no) {
+   return true;
+}
 </script>
 </xsl:template>
 

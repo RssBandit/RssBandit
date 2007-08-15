@@ -838,7 +838,8 @@ namespace IEControl
 			this.progressMax = progressMax;
 		}
 	}
-    
+	
+
 	///<summary>
 	///Summary of BrowserStatusTextChangeEventHandler
 	///</summary>

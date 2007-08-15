@@ -62,15 +62,13 @@ namespace Test
 			htmlControl1.FlatScrollBars = true;
 			bool useX = false;
 			
-			if (useX) 
-			{
+			if (useX) {
 				HtmlControl.SetInternetFeatureEnabled(
 					InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
 					SetFeatureFlag.SET_FEATURE_ON_PROCESS, true);
 				htmlControl1.ActiveXEnabled = true;
 			}
-			else 
-			{
+			else {
 				htmlControl1.ActiveXEnabled = true;
 				HtmlControl.SetInternetFeatureEnabled(
 					InternetFeatureList.FEATURE_SECURITYBAND,
@@ -87,11 +85,11 @@ namespace Test
 			}
 			
 			htmlControl1.ImagesDownloadEnabled = true;
-			htmlControl1.SilentModeEnabled = true;
+			htmlControl1.SilentModeEnabled = false;
 			htmlControl1.Clear();
 			htmlControl1.ScriptObject = new HTMLBrowserExternalCallImplementation();
 			htmlControl1.Html = htmText;
-			
+
 		}
 
 		/// <summary>
@@ -300,6 +298,18 @@ namespace Test
 			Trace.WriteLine("buttonFavorites(): " + (title != null ? title: "null"));
 		}
 
+		private void WindowLoad(IHTMLEventObj e){
+			Trace.WriteLine("onload(): " + e.SrcElement.toString());		
+		}
+
+		private void WindowError(string description, string url, int line) {	
+			Console.WriteLine("{0} on line {1} while processing {2}", description, url, line);
+			IHTMLWindow2 window = (IHTMLWindow2) htmlControl1.Document2.GetParentWindow();			
+			IHTMLEventObj eventObj = (IHTMLEventObj)window.eventobj;
+			//eventObj.CancelBubble = true; 
+			eventObj.ReturnValue = true;
+		}
+
 		private void htmlNavigateComplete(object sender, BrowserNavigateComplete2Event e) {
 			string url = e.url;
 			Trace.WriteLine("htmlNavigateComplete(): "+ e.url);
@@ -309,6 +319,9 @@ namespace Test
 					textUrl.Text= url;
 				htmlControl1.Focus();
 			}
+
+			HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event) htmlControl1.Document2.GetParentWindow();
+			window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.WindowError);					
 		}
 
 		private void htmlDocumentComplete(object sender, BrowserDocumentCompleteEvent e) {
@@ -320,6 +333,10 @@ namespace Test
 					textUrl.Text= url;
 				htmlControl1.Focus();
 			}
+
+			HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event) htmlControl1.Document2.GetParentWindow();
+			window.onload  += new HTMLWindowEvents2_onloadEventHandler(this.WindowLoad);					
+			window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.WindowError);			
 		}
 
 		private void htmlWindowClosing(object sender, BrowserWindowClosingEvent e) {
