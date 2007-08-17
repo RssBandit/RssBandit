@@ -4398,14 +4398,7 @@ namespace RssBandit.WinGui.Forms
 			hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
 			hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
 			hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
-
-			// see http://msdn.microsoft.com/library/default.asp?url=/workshop/browser/webbrowser/webbrowser.asp
-#if DEBUG
-			// allow IEControl reporting of javascript errors while dev.:
 			hc.SilentModeEnabled = false;
-#else
-			hc.SilentModeEnabled = true; 
-#endif
 			hc.Border3d = true;
 
 			hc.StatusTextChanged += OnWebStatusTextChanged;
