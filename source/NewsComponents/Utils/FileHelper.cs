@@ -520,7 +520,7 @@ namespace NewsComponents.Utils
 
 			while ( retries > 0 ) {
 				try {
-					return MoveFileEx( existingFileName, newFileName, (int)flags );
+					return MoveFileEx( existingFileName, newFileName, flags );
 				}
 				catch (Exception) {
 					retries--;
@@ -683,8 +683,8 @@ namespace NewsComponents.Utils
 		[DllImport("KERNEL32.DLL")]
 		private static extern bool MoveFileEx( 
 			string lpExistingFileName, 
-			string lpNewFileName, 
-			long dwFlags );
+			string lpNewFileName,
+            MoveFileFlag dwFlags);
 
 
 		/// <summary>
