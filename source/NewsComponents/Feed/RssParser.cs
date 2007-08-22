@@ -1262,7 +1262,7 @@ namespace NewsComponents.Feed {
 					ri.CommentStyle = SupportedCommentStyle.NNTP;
 				}
 				
-				if (null == NewsHandler.ReceivingNewsChannelServices.ProcessItem(ri)) {
+				if ((f.deletedstories.Contains(ri.Id) || null == NewsHandler.ReceivingNewsChannelServices.ProcessItem(ri))) {
 					// processor wants to remove the item:
 					if (ri.BeenRead) readItems--;
 					ri.FeedDetails = null;
