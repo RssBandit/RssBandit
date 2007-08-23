@@ -19,8 +19,8 @@
 <meta name=filetype content=kadov>
 <meta name=filetype-version content=1>
 <meta name=page-count content=1>
-<meta name=layout-height content=338>
-<meta name=layout-width content=683>
+<meta name=layout-height content=326>
+<meta name=layout-width content=675>
 
 
 <!--(Links)=========================================================-->
@@ -53,21 +53,23 @@ body {
 
 <div placeholder
 	id=header
-	style="width: 100%; position: relative;">
+	style="float: right;">
  <p style="x-condition: MSHelp; text-align: right;"
 	align=right><img src="images\logo.gif"
 					style="border: none;
-							width: 112px;
-							height: 42px;
+							width: 110px;
+							height: 77px;
 							border-style: none;
 							border-style: none;"
-					width=112
-					height=42
+					width=110
+					height=77
 					border=0></p>
 </div>
+<div>
 <h1><!--kadov_tag{{<variable name=title
 							x-format=default
 							x-value="Bandit Topic">}}-->Bandit Topic<!--kadov_tag{{</variable>}}--></h1>
+</div>
 
 <p>[<span style="color: #c0c0c0;">This is placeholder text for the documentation 
  to be provided here. <br>
@@ -88,11 +90,11 @@ To add content to the body, replace this text. A header and/or footer is
 
 
  <p style="font-size: 8pt; color: #808080;"><symbol name=Copyright><!--begin!kadov{{-->&#169;<!--}}end!kadov--> 
- 2003-2005 <a href="http://www.rssbandit.org">www.rssbandit.org</a>. Last 
+ 2003-2007 <a href="http://www.rssbandit.org">www.rssbandit.org</a>. Last 
  update on <!--kadov_tag{{<variable name=date
-									x-value=38387.590833>}}-->February 
- 5, 2005<!--kadov_tag{{</variable>}}--> at <!--kadov_tag{{<variable name=time
-	x-value=38387.590833>}}-->2:10 PM<!--kadov_tag{{</variable>}}--></p>
+									x-value=39113.423241>}}-->February 
+ 1, 2007<!--kadov_tag{{</variable>}}--> at <!--kadov_tag{{<variable name=time
+	x-value=39113.423241>}}-->10:09 AM<!--kadov_tag{{</variable>}}--></p>
 </div>
 </body>
 

@@ -1,5 +1,9 @@
 NAME=Blog
 A frequent, chronological publication of personal thoughts and Web links
+NAME=CLR
+Common language runtime
+NAME=NNTP
+Short for Network News Transfer Protocol, the protocol used to post, distribute, and retrieve USENET messages. The official specification is RFC 977 at http://www.ietf.org/rfc/rfc977.txt.
 NAME=RSS
 Really Simple Syndication (format)
 NAME=WebDAV
