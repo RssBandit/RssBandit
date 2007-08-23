@@ -371,3 +371,9 @@ LI.kadov-CLabel {
 {
 	font: bold 11px arial;
 }
+
+.tip
+{
+	display: block;
+	font-size: 1.5em;
+}

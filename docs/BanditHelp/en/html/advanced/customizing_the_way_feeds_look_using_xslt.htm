@@ -14,21 +14,22 @@
 
 <meta name="template" content="Bandit Topic.htt">
 <meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name="topic-status" content="In Progress">
+<meta name="topic-priority" content="0">
+<meta name="topic-time-estimate" content="0">
+<meta name="topic-comment" content>
+<meta name="topic-id" content="Customizing_the_Way_Feeds_Look_using_XSLT">
 <meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
 <meta name=generator-major-version content=0.1>
 <meta name=generator-minor-version content=1>
 <meta name=filetype content=kadov>
 <meta name=filetype-version content=1>
 <meta name=page-count content=1>
-<meta name=layout-height content=2208>
-<meta name=layout-width content=683>
+<meta name=layout-height content=2370>
+<meta name=layout-width content=668>
 
 
- <meta name="topic-status" content="In Progress">
- <meta name="topic-priority" content="0">
- <meta name="topic-time-estimate" content="0">
- <meta name="topic-comment" content="">
- <meta name="topic-id" content="Customizing_the_Way_Feeds_Look_using_XSLT"><!--(Links)=========================================================-->
+<!--(Links)=========================================================-->
 
 <link rel="stylesheet" href="..\..\default.css">
 
@@ -72,7 +73,7 @@
 <p>The Topic, &quot;<a href="../getting_started/displaying_feeds.htm">Displaying 
  Feeds</a>&quot; shows how to configure RSS Bandit to use different XSLT 
  Formatters to customize the look and feel of the Reading Pane. If you 
- look in the source code of RSS Bandit, you'll find a <b>templates</b> 
+ look in the RSS Bandit installation folder, you'll find a <b>templates</b> 
  folder that contains various XSLT files.</p>
 
 <p>This folder contains the RSS Bandit Item formatting samples. If you 
@@ -144,23 +145,39 @@
 
 <p>At first you have to enable the usage of a custom formatter within the 
  options dialog: select the menu <span class=ModuleCaption>File|Options...</span> 
- and then the tab named &quot;<span class=ModuleCaption>Feed Items</span>&quot;. 
+ and then the tab named &quot;<span class=ModuleCaption>Display</span>&quot;. 
  Ensure the checkbox &quot;<span class=ModuleCaption>Use a custom formatter</span>&quot; 
  is checked. Then play with the existing formatter stylesheets.</p>
 
 <p>If you are familar with the differences, or you have your own ideas 
- born go back to the options dialog and check on the option &quot;Formatter 
- design mode&quot;. This option is valid as long the progam is running. 
- The next time you start Bandit, it is checked off again. Now you can start 
- editing the selected stylesheet with you favourite text editor. Each change 
- will be immediatly active if you select a feed's rss item to display. 
- Errors are reported by a message box and the display switches back to 
- a working internal simple formatting temporary. Next time you have corrected 
- the error, your stylesheet is used again. </p>
+ born you can copy <!--kadov_tag{{<spaces>}}-->&nbsp;<!--kadov_tag{{</spaces>}}-->the 
+ <a href="identity.fdxsl">identity.fdxsl</a> to your templates folder. 
+ After that select this one as your custom formatter and press OK. Now 
+ you will see the plain unformatted text of any news item, channel or group. 
+ If you Right-Click in the preview pane and select &quot;View Source&quot; 
+ from the context menu, you will get the full XML content displayed valid 
+ for the current selection.</p>
 
-<p>Additionally the input used by your stylesheet is saved each time you 
- select an rss item to display to your system temporary folder as a file 
- named &quot;RSSItem.xml&quot; for your reference. </p>
+<p>Your stylesheet must contain sections matching each of the following 
+ root element types:</p>
+
+<ol style="list-style: decimal;"
+	type=1>
+	
+	<li class=kadov-p
+		class=kadov-p>&lt;newspaper type=&quot;<span style="font-weight: bold;">group</span>&quot;&gt;</li>
+	
+	<li class=kadov-p
+		class=kadov-p>&lt;newspaper type=&quot;<span style="font-weight: bold;">channel</span>&quot;&gt;</li>
+	
+	<li class=kadov-p
+		class=kadov-p>&lt;newspaper type=&quot;<span style="font-weight: bold;">newsitem</span>&quot;&gt;</li>
+</ol>
+
+<p>XML for option (1) is provided if you select a folder in your subscriptions, 
+ XML for option (2) will be created on selection of a feed (any kind inclusive 
+ NNTP feeds), while option (3) is valid for the selection of a single news 
+ item.</p>
 
 <p>Your stylesheet should produce valid (X)HTML. If you want to use CSS 
  for visual effects, ensure to use it in the embedded form to keep it with 
@@ -168,9 +185,10 @@
  href=&quot;{//item/link}&quot; /&gt;</span></code></b> within the HTML 
  HEAD section to get relative links of images resolved by the browser control!</p>
 
-<p>There is support to split the css stylesheet to a separate file. If 
- your formatter stylesheet want to use that, you have to add these two 
- prameters on the root level (child of &lt;xsl:stylesheet&gt;): </p>
+<p>There is support to split the css stylesheet (or also images used) to 
+ a separate file. If your formatter stylesheet want to use that, you have 
+ to add these two prameters on the root level (child of &lt;xsl:stylesheet&gt;): 
+ </p>
 
 <p class=Note><span class=Code>&lt;xsl:param name='AppStartupPath'/&gt; 
  <!--kadov_tag{{<spaces>}}-->&nbsp;<!--kadov_tag{{</spaces>}}--><br>

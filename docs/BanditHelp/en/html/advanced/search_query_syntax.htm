@@ -1,0 +1,214 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Search Query Syntax</title>
+
+<!--(Meta)==========================================================-->
+
+<meta name=template content="Bandit Topic.htt">
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=topic-status content="In Progress">
+<meta name=topic-priority content=0>
+<meta name=topic-time-estimate content=0>
+<meta name=topic-comment content>
+<meta name=topic-id content=Search_Query_Syntax>
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=3704>
+<meta name=layout-width content=665>
+
+
+<!--(Links)=========================================================-->
+
+<link rel=StyleSheet href="..\..\default.css">
+
+
+
+<!--(Style Sheet)===================================================-->
+
+<style>
+<!--
+
+body {
+	border-bottom-style: Groove;
+	border-bottom-width: 3px;
+	border-bottom-color: #000000;
+}
+
+-->
+</style>
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<!--kadov_tag{{<placeholder id="header">}}--><h1><!--kadov_tag{{<variable 
+ name=title
+	x-format=default
+	x-value="Search Query Syntax">}}-->Search Query Syntax<!--kadov_tag{{</variable>}}--></h1>
+
+<p><em style="font-style: italic;">Related Topics:</em> </p>
+
+<ul>
+	
+	<li class=kadov-p><a href="../getting_started/search.htm"
+						title=Search>Search</a></li>
+	
+	<li class=kadov-p><a href="../advanced/creating_search_folders.htm"
+						title="Creating Search Folders">Creating Search 
+ Folders</a></li>
+	
+	<li class=kadov-p><a href="../advanced/adding_integration_with_your_favorite_search_engine.htm"
+						title="Adding integration with your favorite search engine">web 
+ search</a> </li>
+</ul>
+
+<p>RSS Bandit’s <a href="../getting_started/search.htm"
+					title=Search>local search feature</a> is powered by 
+ the <a href="http://www.dotlucene.net/"
+		tile="Home of the DotLucene search engine">DotLucene</a> search 
+ engine, a direct port of the <a href="http://lucene.apache.org/java/docs/"
+								title="Apache Lucene Engine">Apache Lucene 
+ engine</a> for Java. </p>
+
+<p>There is no need to know this fact for simple searches. Just type in 
+ a search term and go. But to realize the full power of the Lucene search 
+ engine, it helps to learn the <a href="http://www.dotlucene.net/documentation/QuerySyntax.html"
+									title="DotLucene Docs - Query Syntax">Lucene 
+ Query Syntax</a>. </p>
+
+<h2>Searchable fields</h2>
+<p>For more advanced searches you can use the following fields (mentioned in the lucene sytax docs) 
+to find terms e.g. a feed description or feed title:</p>
+<dl style="margin-left:5%">
+<dt class="label">author</dt><dd>Item Author. Not supported by all feeds.</dd>
+<dt class="label">title</dt><dd>Item Title, aka. headline. </dd>
+<dt class="label">link</dt><dd>Item permanent Link.</dd>
+<dt class="label">date</dt><dd>Date the Item was posted. The index date resolution is minute. 
+So a valid date search expression looks like this: <code>date:20061224*</code> will find all
+items posted at December, 24th 2006, and <code>date:200612241300</code> will find the item(s) 
+posted exactly at December, 24th 2006, 1:00 PM. Please note: the displayed dates in the item list and
+detail pane show the item dates transformed to your local system timezone!</dd>
+<dt class="label">topic</dt><dd>Item Topic, aka. category as provided by the feed publisher.</dd>
+<dt class="label">feedlink</dt><dd>Feed Link. The feed subscription url itself.</dd>
+<dt class="label">feedurl</dt><dd>Feed Url. This is in common the homepage of the feed publisher.</dd>
+<dt class="label">feedtitle</dt><dd>Feed title as provided by the feed publisher.</dd>
+<dt class="label">feeddescription</dt><dd>Feed description as provided by the feed publisher.</dd>
+<dt class="label">feedtype</dt><dd>Type of the feed: 'RSS' or 'NNTP'</dd>
+</dl>
+
+<h2>Samples</h2>
+<p>A few examples are provided below. </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_search_lucene-query-example-phrase.png"
+						alt="Figure 1: Searching for an exact match of a phrase."
+						style="width: 349px;
+								height: 129px;
+								border-style: none;
+								border-style: none;"
+						width=349
+						height=129
+						border=0> <br/><span class=figure>Figure 1: Searching 
+ for an exact match of a phrase.</span> </p>
+
+<p style="width: 350px;
+			margin-left: auto;
+			margin-right: auto;">This does exactly what you expect. It 
+ searches for an exact match of the phrase “Rss Bandit”</p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_search_lucene-query-example-fuzzy.png"
+						alt="Figure 2: Example of a fuzzy search."
+						style="width: 349px;
+								height: 130px;
+								border-style: none;
+								border-style: none;"
+						width=349
+						height=130
+						border=0> <br />
+<span class=figure>Figure 2: Example of a fuzzy search.</span> </p>
+
+<p style="width: 350px;
+			margin-left: auto;
+			margin-right: auto;">This one is really neat. Although I misspelled 
+ “Mississippi”, it was able to find posts with the correct spelling via 
+ the fuzzy search syntax (the tilde character ~)</p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_search_lucene-query-example-title.png"
+						alt="Figure 3: Example of a title search."
+						style="width: 349px;
+								height: 129px;
+								border-style: none;
+								border-style: none;"
+						width=349
+						height=129
+						border=0> <br />
+<span class=figure>Figure 3: Example of a title search.</span> </p>
+
+<p style="width: 350px;
+			margin-left: auto;
+			margin-right: auto;">Searches for all posts with the search 
+ phrase in the title. Note that you can accomplish the same result by setting 
+ the search fields option.</p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_search_lucene-query-example-grouping.png"
+						alt="Figure 4: Example of search grouping."
+						style="width: 349px;
+								height: 130px;
+								border-style: none;
+								border-style: none;"
+						width=349
+						height=130
+						border=0> <br />
+<span class=figure>Figure 4: Example of search grouping.</span> </p>
+
+<p style="width: 350px;
+			margin-left: auto;
+			margin-right: auto;">Searching supports boolean operators (such 
+ as <em>AND</em> and <em>OR</em>) as well as grouping via parenthesis. 
+ </p>
+
+<p style="text-align: center;"
+	align=center><img src="..\..\images\rssbandit_search_lucene-query-example-wildcard.png"
+						alt="Figure 5: Example of wildcard search."
+						style="width: 349px;
+								height: 129px;
+								border-style: none;
+								border-style: none;"
+						width=349
+						height=129
+						border=0> <br />
+<span class=figure>Figure 5: Example of wildcard search.</span> </p>
+
+<p style="width: 350px;
+			margin-left: auto;
+			margin-right: auto;">The asterisk character serves as a wildcard 
+ for multiple character. For a single character wildcard, use the question 
+ mark. This is similar to regular expression syntax. </p>
+
+<p>Again, to explore the full power of the search syntax, read the <a href="http://www.dotlucene.net/documentation/QuerySyntax.html"
+	title="DotLucene Docs - Query Syntax">DotLucene Query Syntax documentation</a>. 
+ </p>
+
+<!--kadov_tag{{<placeholder id="footer">}}-->
+</body>
+
+</html>

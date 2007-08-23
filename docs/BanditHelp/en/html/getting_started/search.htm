@@ -1,0 +1,269 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Search your feeds</title>
+
+<!--(Meta)==========================================================-->
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=template content="Bandit Topic.htt">
+<meta name=topic-status content="In Progress">
+<meta name=topic-priority content=0>
+<meta name=topic-time-estimate content=0>
+<meta name=topic-comment>
+<meta name=topic-id content=Search>
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=3704>
+<meta name=layout-width content=665>
+<!--(Links)=========================================================-->
+
+<!--(Style Sheet)===================================================-->
+<link rel=Stylesheet type="text/css" media=all href="../../default.css">
+
+</head>
+
+<!--(Body)==========================================================-->
+
+<body lang="EN-US">
+
+<!--kadov_tag{{<placeholder id="header">}}-->
+<h1><!--kadov_tag{{<variable name=title
+							x-format=default
+							x-value="Search your feeds">}}-->Search your feeds<!--kadov_tag{{</variable>}}--></h1>
+<p><em><span style='font-family:Verdana'>Related Topics:</span></em><span
+style='font-family:Verdana'> </span></p>
+
+<ul type=disc>
+ <li><a href="../advanced/search_query_syntax.htm"
+     title="Advanced Search Query Syntax">Search Query Syntax</a></li>
+ <li><a href="../advanced/creating_search_folders.htm"
+     title="Creating Search Folders">Creating Search Folders</a></li>
+ <li><a
+     href="../advanced/adding_integration_with_your_favorite_search_engine.htm"
+     title="Adding integration with your favorite search engine">web search</a>
+     </li>
+</ul>
+
+<p><span style='font-family:Verdana'>Subscribing to a lot of RSS feeds can
+start to feel like <a
+href="http://haacked.com/archive/2005/03/24/Drinking_From_An_Rss_Firehose.aspx"
+title="Drinking from an rss firehose">Drinking from</a> an <a
+href="http://www.25hoursaday.com/weblog/PermaLink.aspx?guid=14d0413e-d0dc-4382-9ee9-57e95d7b3544"
+title="Nightcrawler Thoughts: Thumbs Up, Thumbs Down and Attention.xml">RSS <span
+class=SpellE>firehose</span></a>. It doesn’t take long to build up a huge list
+of <span class=SpellE>subsribed</span> feeds. Fortunately, RSS Bandit provides
+rich searching capabilities. </span></p>
+
+<p><span style='font-family:Verdana'>RSS Bandit has two search facilities built
+in: <a href="adding_integration_with_your_favorite_search_engine.htm">web
+search</a> and local search. Local Search searches the contents of all your
+downloaded items and returns the results within a folder underneath the folder
+named <b>Search Folders</b> in the <b>Feed Subscriptions</b> tree. </span></p>
+
+<p><span style='font-family:Verdana'>Clicking on the <b>Search</b> button in
+the toolbar (see Figure 1) will bring up the search window (see Figure 2). This
+is a collapsible window so it can be collapsed within RSS Bandit to provide
+more detail display screen area. The window contains a textbox for entering the
+search phrase, a button to initiate the search, and several search options
+within collapsible panes below. </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=182 height=103 id="_x0000_i1025"
+src="../../images/rssbandit_search_searchbutton.png" style='border-bottom-style:
+none;border-left-style:none;border-right-style:none;border-top-style:none;
+height:103px;width:182px' alt="Figure 1: Search Button."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 1: Search
+Button.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=280 height=368 id="_x0000_i1026"
+src="../../images/rssbandit_search_dockedsearchwindow.png" style='border-bottom-style:
+none;border-left-style:none;border-right-style:none;border-top-style:none;
+height:368px;width:280px' alt="Figure 2: Docked Search Window."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 2: Docked
+Search Window.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p><span style='font-family:Verdana'>By default, entering text into the textbox
+and clicking <em><span style='font-family:Verdana'>Search</span></em> will
+perform a simple text search within the Description, and Title (if posts does
+not provide content) elements of every RSS Item. </span></p>
+
+<p><span style='font-family:Verdana'>However, starting with <span class=SpellE>Rss</span>
+Bandit version 1.5.*, RSS Bandit now makes use of the <a
+href="http://www.dotlucene.net/" tile="Home of the DotLucene search engine"><span
+class=SpellE>DotLucene</span></a> search engine, a direct port of the <a
+href="http://lucene.apache.org/java/docs/" title="Apache Lucene Engine">Apache <span
+class=SpellE>Lucene</span> engine</a> for Java. </span></p>
+
+<p><span style='font-family:Verdana'>This gives you a powerful syntax for
+searching. For example, the <em><span style='font-family:Verdana'>fuzzy search</span></em>
+</span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=349 height=130 id="_x0000_i1027"
+src="../../images/rssbandit_search_lucene-query-example-fuzzy.png"
+style='border-bottom-style:none;border-left-style:none;border-right-style:none;
+border-top-style:none;height:130px;width:349px'
+alt="Figure 3: Example of a fuzzy search."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 3: Example of a
+fuzzy search.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p><span style='font-family:Verdana'>Although I misspelled “<st1:State w:st="on"><st1:place
+ w:st="on">Mississippi</st1:place></st1:State>”, it was able to find posts with
+the correct spelling via the fuzzy search syntax (the tilde character ~)</span></p>
+
+<p><span style='font-family:Verdana'>To learn more about the search query
+syntax, <a href="../advanced/search_query_syntax.htm"
+title="Creating Search Folders">read the syntax docs</a>. </span></p>
+
+<p><b><span style='font-family:Verdana'>Search Fields</span></b><span
+style='font-family:Verdana'><br>
+Figure 4 shows the fields that are available for searching using checkboxes: </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=245 height=194 id="_x0000_i1028"
+src="../../images/rssbandit_search_searchfields.png" style='border-bottom-style:
+none;border-left-style:none;border-right-style:none;border-top-style:none;
+height:194px;width:245px' alt="Figure 4: Search Fields."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 4: Search
+Fields.</span></span><span style='font-family:Verdana'> </span></p>
+
+<ul type=disc>
+ <li><b><span style='font-size:
+     11.0pt;font-family:Verdana'>Title</span></b><span style='font-size:11.0pt;
+     font-family:Verdana'></span></li>
+ <li><b><span style='font-size:
+     11.0pt;font-family:Verdana'>Description</span></b><span style='font-size:
+     11.0pt;font-family:Verdana'> - Typically this is the content of the feed
+     item that you see in the aggregator's reading pane.</span></li>
+ <li><b><span style='font-size:
+     11.0pt;font-family:Verdana'>Topic</span></b><span style='font-size:11.0pt;
+     font-family:Verdana'> - aka. feed item categories</span></li>
+ <li><b><span style='font-size:
+     11.0pt;font-family:Verdana'>Item Link</span></b><span style='font-size:
+     11.0pt;font-family:Verdana'> The permanent links of items</span></li>
+</ul>
+
+<p><span style='font-family:Verdana'>There are more searchable fields
+available. Read about them in <a href="../advanced/search_query_syntax.htm"
+title="Advanced Search Query Syntax">Search Query Syntax</a> section! </span></p>
+
+<p><b><span style='font-family:Verdana'>Advanced Fields</span></b><span
+style='font-family:Verdana'><br>
+The Advanced Fields option shown in figure 5 provides several options for
+tuning search results. </span></p>
+
+<p><span style='font-family:Verdana'>To enable an advanced option, click on the
+button beside the option name and the red bar will be converted to a green
+check mark. </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=243 height=360 id="_x0000_i1029"
+src="../../images/rssbandit_search_advancedoptions.png" style='border-bottom-style:
+none;border-left-style:none;border-right-style:none;border-top-style:none;
+height:360px;width:243px' alt="Figure 5: Advanced Fields."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 5: Advanced
+Fields.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p><strong><span style='font-family:Verdana'>Read Status</span></strong><span
+style='font-family:Verdana'> - enabling this option allows you to filter posts
+by their read status. If you enable the Read Status option and check the <strong><span
+style='font-family:Verdana'>Unread Posts</span></strong> checkbox only unread
+items will be returned in the search. If
+the checkbox is unchecked then only read posts are returned. When this feature
+is disabled, both read and unread posts are returned in search results. </span></p>
+
+<p class=note style='margin-top:12.0pt;margin-right:0in;margin-bottom:12.0pt;
+margin-left:0in;background:#FFFFCC'><span style='font-family:Verdana'>You can
+not define a search with Read Status specified only for internal technical
+reasons! To get only unread items, please use the new special folder named <strong><span
+style='font-family:Verdana'>Unread Items</span></strong>.</span></p>
+
+<p><span style='font-family:Verdana'>There are three mutually exclusive ways to
+filter search results based on the date of the items. </span></p>
+
+<ul type=disc>
+ <li><strong><span
+     style='font-size:11.0pt;font-family:Verdana'>Item Age</span></strong><span
+     style='font-size:11.0pt;font-family:Verdana'> - </span><span
+     style='font-family:Verdana'>enabling </span><span style='font-size:11.0pt;
+     font-family:Verdana'>this option lets you filter search results by the age
+     of the feed item. The age is determined by the date when the item was
+     downloaded into RSS Bandit. For example, you can check <strong><span
+     style='font-family:Verdana'>Older than</span></strong> and then select <strong><span
+     style='font-family:Verdana'>2 hours</span></strong> in the dropdown to
+     limit search results to feed items that were downloaded over two hours
+     ago. Likewise, selecting <strong><span style='font-family:Verdana'>Younger
+     than</span></strong> and <strong><span style='font-family:Verdana'>1 day</span></strong>
+     will limit search results to items that are less than a day old. </span></li>
+ <li><strong><span
+     style='font-size:11.0pt;font-family:Verdana'>Item posted</span></strong><span
+     style='font-size:11.0pt;font-family:Verdana'> - </span><span
+     style='font-family:Verdana'>enabling </span><span style='font-size:11.0pt;
+     font-family:Verdana'>this option lets you filter items by the date they
+     were posted. The post date is determined by the date the item was posted
+     to the server as indicated by the RSS (or ATOM) feed. RSS indicates this
+     via the <span class=SpellE><b>pubDate</b></span> element. The dropdown
+     gives you the option to filter posts at, before, or after the date
+     selected in the <span class=SpellE>datepicker</span> control. </span></li>
+ <li><strong><span
+     style='font-size:11.0pt;font-family:Verdana'>Item posted between</span></strong><span
+     style='font-size:11.0pt;font-family:Verdana'> - </span><span
+     style='font-family:Verdana'>enabling </span><span style='font-size:11.0pt;
+     font-family:Verdana'>this option filters items based on a date range. This
+     is similar to the <strong><span style='font-family:Verdana'>Item posted</span></strong>
+     option described above. </span></li>
+</ul>
+
+<p><strong><span style='font-family:Verdana'>Search Folder Name</span></strong><span
+style='font-family:Verdana'><br>
+For more information on this <span class=GramE>option,</span> check out the
+topic <a href="../advanced/creating_search_folders.htm"
+title="Creating Search Folders">Creating Search Folders</a>. </span></p>
+
+<p><strong><span style='font-family:Verdana'>Search Scope</span></strong><span
+style='font-family:Verdana'><br>
+The scope for a search can be narrowed to a selection of categories or even
+individual feeds. Figure 8 shows the Search Scope option. It contains a tree
+view with a checkbox next to each category and feed. By selecting and
+unselecting feeds and categories, you can narrow or expand the scope of your
+search. </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=244 height=241 id="_x0000_i1030"
+src="../../images/rssbandit_search_scope.png" style='border-bottom-style:none;
+border-left-style:none;border-right-style:none;border-top-style:none;
+height:241px;width:244px' alt="Figure 6: Search Scope."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 6: Search
+Scope.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p><strong><span style='font-family:Verdana'>Search Results</span></strong><span
+style='font-family:Verdana'><br>
+<span class=GramE>Once</span> you’ve selected your results, click on <em><span
+style='font-family:Verdana'>Search</span></em> to get your results. The search
+results will be shown in the Feed Details section as well as the Reader Pane as
+in Figure 7. </span></p>
+
+<p align=center style='text-align:center'><span style='font-family:Verdana'><img
+border=0 width=754 height=665 id="_x0000_i1031"
+src="../../images/rssbandit_search_results.png" style='border-bottom-style:
+none;border-left-style:none;border-right-style:none;border-top-style:none;
+height:665px;width:754px' alt="Figure 7: Search Results."><br>
+</span><span class=figure1><span style='font-size:8.5pt'>Figure 7: Search
+Results.</span></span><span style='font-family:Verdana'> </span></p>
+
+<p><span style='font-family:Verdana'>Figure 7 shows the results of an <em><span
+style='font-family:Verdana'>ego search</span></em> using the search term <span
+class=SpellE><em><span style='font-family:Verdana'>author<span class=GramE>:Haacked</span></span></em></span>,
+which found all the posts in which the author’s name is <span class=SpellE><em><span
+style='font-family:Verdana'>Haacked</span></em></span>. </span></p>
+
+<!--kadov_tag{{<placeholder id="footer">}}-->
+</body>
+
+</html>
