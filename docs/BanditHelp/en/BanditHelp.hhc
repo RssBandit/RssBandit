@@ -48,8 +48,16 @@
         <param name="Local" value="html\getting_started\posting_comments.htm">
       </object>
       <li><object type="text/sitemap">
+        <param name="Name" value="Subscribe to Newsgroups">
+        <param name="Local" value="html\getting_started\subscribe_to_newsgroups.htm">
+      </object>
+      <li><object type="text/sitemap">
         <param name="Name" value="Newspaper Views">
         <param name="Local" value="html\getting_started\newspaper_views.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Search your feeds">
+        <param name="Local" value="html\getting_started\search.htm">
       </object>
       <li><object type="text/sitemap">
         <param name="Name" value="Deleting Feed Items">
@@ -58,6 +66,10 @@
       <li><object type="text/sitemap">
         <param name="Name" value="Column Layout">
         <param name="Local" value="html\getting_started\column_layout.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Podcast settings">
+        <param name="Local" value="html\getting_started\podcast_settings.htm">
       </object>
       <li><object type="text/sitemap">
         <param name="Name" value="Customizing Fonts">
@@ -86,6 +98,10 @@
         <param name="Local" value="html\syncronization\synchronization_using_ftp.htm">
       </object>
       <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using NewsGator Online">
+        <param name="Local" value="html\syncronization\Synchronization_using_NewsGator_Online.htm">
+      </object>
+      <li><object type="text/sitemap">
         <param name="Name" value="Synchronization using a dasBlog weblog">
         <param name="Local" value="html\syncronization\synchronization_using_dasBlog_weblog.htm">
       </object>
@@ -112,6 +128,10 @@
         <param name="Local" value="html\advanced\creating_search_folders.htm">
       </object>
       <li><object type="text/sitemap">
+        <param name="Name" value="Search Query Syntax">
+        <param name="Local" value="html\advanced\search_query_syntax.htm">
+      </object>
+      <li><object type="text/sitemap">
         <param name="Name" value="Adding Integration with your Favorite Search Engine">
         <param name="Local" value="html\advanced\adding_integration_with_your_favorite_search_engine.htm">
       </object>
@@ -127,10 +147,26 @@
         <param name="Name" value="Command Line Options">
         <param name="Local" value="html\advanced\command_line_options.htm">
       </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Advanced Configuration Options">
+        <param name="Local" value="html\advanced\advanced_configuration_options.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="How to: make RSS Bandit a portable application">
+        <param name="Local" value="html\advanced\HowTo_make_RSS_Bandit_a_portable_application.htm">
+      </object>
       </ul>
     <li><object type="text/sitemap">
       <param name="Name" value="FAQ">
       <param name="Local" value="html\faq.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Contributing to RSS Bandit">
+      <param name="Local" value="html\contributing_to_bandit.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="How to Provide Feedback">
+      <param name="Local" value="html\how_to_provide_feedback.htm">
     </object>
     </ul>
 </ul>

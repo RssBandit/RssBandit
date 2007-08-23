@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE polprojfile>
-<ppfml version="2.00" project="BanditHelp">
- <windowlist defaultwindow="BanditHelp">
-  <window name="BanditHelp" x="5%" y="5%" width="90%" height="90%" viewtype="doublepane" workspacestyle="DEFAULT" toolbar="off" locationbar="off" menu="off" resizable="yes" statusbar="off" usecurrentwindowsettings="yes" caption="Bandit Help">
+<ppfml version="2.00" project="untitled">
+ <windowlist>
+  <window name="BanditHelp" x="5%" y="5%" width="90%" height="90%" viewtype="doublepane" workspacestyle="DEFAULT" caption="Bandit Help" toolbar="off" locationbar="off" menu="off" resizable="yes" statusbar="off" usecurrentwindowsettings="yes">
    <elements><element name="BrowseSequence" Present="no" /><element name="SearchInput" Present="no" />
    </elements>
    <agents defaultagent="toc">
@@ -17,61 +17,7 @@
  </windowlist>
  <contextmap>
  </contextmap>
- <topiclist defaulttopic="html\welcome.htm">
-  <topic>html\getting_started\getting_started.htm
-  </topic>
-  <topic>html\faq.htm
-  </topic>
-  <topic>html\welcome.htm
-  </topic>
-  <topic>html\help_on_help.htm
-  </topic>
-  <topic>html\syncronization\using_bandit_from_multiple_computers.htm
-  </topic>
-  <topic>html\getting_started\subscribing_to_a_feed.htm
-  </topic>
-  <topic>html\getting_started\locating_new_feeds.htm
-  </topic>
-  <topic>html\getting_started\displaying_feeds.htm
-  </topic>
-  <topic>html\getting_started\configuring_proxy_server_settings.htm
-  </topic>
-  <topic>html\syncronization\synchronization_using_ftp.htm
-  </topic>
-  <topic>html\getting_started\what_is_an_rss_feed.htm
-  </topic>
-  <topic>html\getting_started\what_is_an_atom_feed.htm
-  </topic>
-  <topic>html\getting_started\the_rss_bandit_user_interface.htm
-  </topic>
-  <topic>html\getting_started\changing_web_browser_security_settings.htm
-  </topic>
-  <topic>html\syncronization\synchronization_using_local_or_network_file.htm
-  </topic>
-  <topic>html\advanced\advanced_topics.htm
-  </topic>
-  <topic>html\advanced\customizing_the_way_feeds_look_using_xslt.htm
-  </topic>
-  <topic>html\advanced\creating_search_folders.htm
-  </topic>
-  <topic>html\advanced\adding_integration_with_your_favorite_search_engine.htm
-  </topic>
-  <topic>html\advanced\building_and_using_bandit_plugins.htm
-  </topic>
-  <topic>html\how_to_provide_feedback.htm
-  </topic>
-  <topic>html\contributing_to_bandit.htm
-  </topic>
-  <topic>html\syncronization\synchronization_using_dasBlog_weblog.htm
-  </topic>
-  <topic>html\keyboard_shortcuts.htm
-  </topic>
-  <topic>html\getting_started\deleting_feed_items.htm
-  </topic>
-  <topic>html\syncronization\synchronization_using_webDAV.htm
-  </topic>
-  <topic>html\advanced\command_line_options.htm
-  </topic>
+ <topiclist>
  </topiclist>
  <projectincludes>
  </projectincludes>

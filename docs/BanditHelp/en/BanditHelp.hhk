@@ -179,5 +179,55 @@
     <param name="Name" value="Command Line Options">
     <param name="Local" value="html\advanced\command_line_options.htm">
   </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Advanced Configuration Options">
+    <param name="Name" value="Advanced Configuration Options">
+    <param name="Local" value="html\advanced\advanced_configuration_options.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Subscribe to Newsgroups">
+    <param name="Name" value="Subscribe to Newsgroups">
+    <param name="Local" value="html\getting_started\subscribe_to_newsgroups.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Newsgroups">
+    <param name="Name" value="Subscribe to Newsgroups">
+    <param name="Local" value="html\getting_started\subscribe_to_newsgroups.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="NNTP">
+    <param name="Name" value="Subscribe to Newsgroups">
+    <param name="Local" value="html\getting_started\subscribe_to_newsgroups.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Search">
+    <param name="Name" value="search">
+    <param name="Local" value="html\getting_started\search.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Search, your subscriptions">
+    <param name="Name" value="search">
+    <param name="Local" value="html\getting_started\search.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Search, Query Syntax">
+    <param name="Name" value="Search Query Syntax">
+    <param name="Local" value="html\advanced\search_query_syntax.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Podcast settings">
+    <param name="Name" value="Podcast settings">
+    <param name="Local" value="html\getting_started\podcast_settings.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Portable Application">
+    <param name="Name" value="How to: make RSS Bandit a portable application">
+    <param name="Local" value="html\advanced\HowTo_make_RSS_Bandit_a_portable_application.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Portable Application, manually create">
+    <param name="Name" value="How to: make RSS Bandit a portable application">
+    <param name="Local" value="html\advanced\HowTo_make_RSS_Bandit_a_portable_application.htm">
+  </object>
 </ul>
 </html>
