@@ -6624,6 +6624,7 @@ namespace RssBandit.WinGui.Forms {
 				SearchEngine engine = (SearchEngine)lv.Tag;
 				engine.IsActive = (e.NewValue == CheckState.Checked);
 				this.searchEnginesModified = true;
+				OnControlValidated(this, EventArgs.Empty);
 			}
 		}
 
