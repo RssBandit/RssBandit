@@ -687,7 +687,7 @@ Détails : {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuDeleteCategoryCaption">
-    <value>Suprimer la catégorie</value>
+    <value>Supprimer la catégorie</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuDeleteCategoryDesc">
