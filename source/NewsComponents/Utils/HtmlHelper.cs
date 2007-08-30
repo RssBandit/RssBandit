@@ -90,12 +90,15 @@ namespace NewsComponents.Utils
 				return null;
 
 			Uri baseUri = null;
-			try {
-				if (baseUrl != null && baseUrl.Length > 0)
-					baseUri = new Uri(baseUrl);
-			} catch (UriFormatException) {}
-
+			Uri.TryCreate(baseUrl, UriKind.Absolute, out baseUri);
 			return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
+			
+			//try {
+			//    if (baseUrl != null && baseUrl.Length > 0)
+			//        baseUri = new Uri(baseUrl);
+			//} catch (UriFormatException) {}
+
+			//return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
 
 		}
 
@@ -129,18 +132,21 @@ namespace NewsComponents.Utils
 			if (url == null)
 				return null;
 
-			try {
-				// we must check baseUri, because the Uri constructor
-				// will raise a NullRefEx in case it is used internally:
-				if (baseUri != null) {
-					return new Uri(baseUri,url); 
-				} else {
-					return new Uri(url); 
-				}
-			} catch (UriFormatException) {
-				if (onlyValid) return null;
-			}
-			// return original:
+			Uri result;
+			if (Uri.TryCreate(baseUri, url, out result))
+				return result;
+			//try {
+			//    // we must check baseUri, because the Uri constructor
+			//    // will raise a NullRefEx in case it is used internally:
+			//    if (baseUri != null) {
+			//        return new Uri(baseUri,url); 
+			//    } else {
+			//        return new Uri(url); 
+			//    }
+			//} catch (UriFormatException) {
+			//    if (onlyValid) return null;
+			//}
+			//// return original:
 			return null;
 		}
 		
@@ -156,15 +162,26 @@ namespace NewsComponents.Utils
 			if (url == null)
 				return null;
 
-			try {
-				Uri uri = ConvertToAbsoluteUriPath(new Uri(url)); 
+			Uri uri;
+			if (Uri.TryCreate(url, UriKind.Absolute, out uri)) {
+				uri = ConvertToAbsoluteUriPath(uri);
 				return uri.AbsoluteUri;
-			} catch (UriFormatException) {
+			} else {
 				// one very last try:
 				if (url.IndexOf("/") >= 0)
-					return url.Substring(0, url.LastIndexOf("/")+1);
+					return url.Substring(0, url.LastIndexOf("/") + 1);
 				return url;
 			}
+
+			//try {
+			//    Uri uri = ConvertToAbsoluteUriPath(new Uri(url)); 
+			//    return uri.AbsoluteUri;
+			//} catch (UriFormatException) {
+			//    // one very last try:
+			//    if (url.IndexOf("/") >= 0)
+			//        return url.Substring(0, url.LastIndexOf("/")+1);
+			//    return url;
+			//}
 			
 		}
 		
@@ -246,11 +263,13 @@ namespace NewsComponents.Utils
 
 
 		/// <summary>
-		/// Expands relative links in the HTML input. 
+		/// Expands relative links in the HTML input.
 		/// </summary>
 		/// <param name="html">String to work on</param>
-		/// <param name="baseUri">An absolute Uri to be used to fix relative links</param>
-		/// <returns>The HTML content with all relative links in anchor and img tags expanded</returns></returns>
+		/// <param name="baseUrl">The base URL.</param>
+		/// <returns>
+		/// The HTML content with all relative links in anchor and img tags expanded
+		/// </returns>
 		public static string ExpandRelativeUrls(string html, string baseUrl) {
     
 			if (html == null || html.Length == 0)
