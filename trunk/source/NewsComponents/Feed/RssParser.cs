@@ -419,8 +419,9 @@ namespace NewsComponents.Feed {
 							if(durationStr.IndexOf(":") == -1){
 								durationStr = "00:00:" + durationStr; 
 							}
-
-							encDuration = TimeSpan.Parse(durationStr);
+							TimeSpan t;
+							if (TimeSpan.TryParse(durationStr, out t))
+								encDuration = t;
 							if(enc != null){
 								enc.Duration = encDuration; 
 							}
@@ -432,9 +433,12 @@ namespace NewsComponents.Feed {
 				if((namespaceuri == atomized_strings[RssParser.nt_ns_mediarss])
 					&& (localname == atomized_strings[RssParser.nt_content])){
 				
-					try{ 
-						if(reader["duration"] != null)
-							encDuration = TimeSpan.Parse("00:00:" + reader["duration"]);
+					try{
+						if (reader["duration"] != null) {
+							TimeSpan t;
+							if (TimeSpan.TryParse("00:00:" + reader["duration"], out t))
+								encDuration = t; 
+						}
 						if(enc != null){
 							enc.Duration = encDuration; 
 						}
@@ -477,10 +481,12 @@ namespace NewsComponents.Feed {
 					long length  = Int64.MinValue; 
 					bool downloaded = false;
 
-					try{ 
-						if(reader["duration"]!= null)
-							encDuration = TimeSpan.Parse(reader["duration"]);
-
+					try{
+						if (reader["duration"] != null) {
+							TimeSpan t;
+							if (TimeSpan.TryParse(reader["duration"], out t))
+								encDuration = t; 
+						}
 						if(reader["length"] != null)
 							length = Int64.Parse(reader["length"]);
 					} catch{}
