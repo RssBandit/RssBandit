@@ -72,6 +72,10 @@ namespace RssBandit.WinGui.Utility
 
 				Width = icoFile.ReadByte();
 				Height = icoFile.ReadByte();
+				//TR 30-Aug-2007: some ico provide zero values, so we assume that are default size 16x16:
+				if (Width == 0 || Height == 0) {
+					Width = Height = 16;
+				}
 				ColorCount = icoFile.ReadByte();
 				Reserved = icoFile.ReadByte();
 				Planes = icoFile.ReadInt16();
@@ -158,7 +162,8 @@ namespace RssBandit.WinGui.Utility
 						currentBitCnt = thisIcon.BitCount;
 					} else if (thisIcon.Width == current.Width && thisIcon.Height == current.Height) {
 						if (thisIcon.BitCount < maxSupportedBitCnt) {
-							if (thisIcon.BitCount > currentBitCnt) {
+							if (thisIcon.BitCount > currentBitCnt) 
+							{//REVIEW: why "if"?
 								foundIndex = counter; 
 								currentBitCnt = thisIcon.BitCount;
 							} else {
@@ -174,7 +179,8 @@ namespace RssBandit.WinGui.Utility
 						currentBitCnt = thisIcon.BitCount;
 					} else if ( thisIcon.Width == current.Width && thisIcon.Height == current.Height ) {
 						if (thisIcon.BitCount < maxSupportedBitCnt) {
-							if (thisIcon.BitCount > currentBitCnt) {
+							if (thisIcon.BitCount > currentBitCnt)
+							{//REVIEW: why "if"?
 								foundIndex = counter; 
 								currentBitCnt = thisIcon.BitCount;
 							} else {
