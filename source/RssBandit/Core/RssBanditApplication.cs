@@ -230,7 +230,10 @@ namespace RssBandit {
 		static RssBanditApplication() 
 		{
 			// according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
-			ApplyResourceNameFix();
+			//TR 30-Aug-2007: we do not make use of that fix. We assume,
+			//the user will have installed the framework security hotfix
+			//provided via windows update!
+			//ApplyResourceNameFix();
 
 			// read app.config If a key was not found, take defaults from the embedded resources
 			validationUrlBase  = (string)ReadAppSettingsEntry("validationUrlBase", typeof(string), SR.URL_FeedValidationBase);
