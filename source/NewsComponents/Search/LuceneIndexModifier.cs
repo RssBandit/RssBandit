@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 //#define TRACE_INDEX_OPS
 
@@ -103,11 +105,11 @@ namespace NewsComponents.Search
 
 		public event FinishedIndexOperationEventHandler FinishedIndexOperation;
 
-		private LuceneSettings settings;
+		private readonly LuceneSettings settings;
 		private Lucene.Net.Store.Directory indexBaseDirectory;
 		private bool open, flushInprogress = false, threadRunning = false;
 		private Thread IndexModifyingThread;
-		private PriorityQueue pendingIndexOperations = new PriorityQueue(); 
+		private readonly PriorityQueue pendingIndexOperations = new PriorityQueue(); 
 
 		// logging/tracing:
 		private static readonly ILog _log = Log.GetLogger(typeof(LuceneIndexModifier));	
@@ -383,7 +385,7 @@ namespace NewsComponents.Search
 		#region private methods (IndexThread related)
 
 		private void CreateIndexerThread () {
-			IndexModifyingThread = new Thread(new ThreadStart(this.ThreadRun));
+			IndexModifyingThread = new Thread(this.ThreadRun);
 			IndexModifyingThread.Name = "BanditSearchIndexModifyingThread";
 			IndexModifyingThread.IsBackground = true;
 			//TR: does not really help to reduce CPU hogging if running on CLR 2.0:
@@ -556,8 +558,8 @@ namespace NewsComponents.Search
                 /* see  http://issues.apache.org/jira/browse/LUCENE-665 */ 
 					if(ioe.Message.IndexOf("segments.new") != -1){
 						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
-					}else if(ioe.Message.IndexOf("deletable.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deletable.new"), Path.Combine(this.settings.IndexPath, "deletable"), MoveFileFlag.ReplaceExisting);
+					}else if(ioe.Message.IndexOf("deleteable.new") != -1){
+						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
 					}
 				}catch(UnauthorizedAccessException uae){
 					_log.Error("Access denied error while adding document to the index", uae); 
@@ -565,8 +567,8 @@ namespace NewsComponents.Search
 					/* see  http://issues.apache.org/jira/browse/LUCENE-665 */ 
 					if(uae.Message.IndexOf("segments.new") != -1){
 						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
-					}else if(uae.Message.IndexOf("deletable.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deletable.new"), Path.Combine(this.settings.IndexPath, "deletable"), MoveFileFlag.ReplaceExisting);
+					}else if(uae.Message.IndexOf("deleteable.new") != -1){
+						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
 					}
 				}
 
@@ -758,7 +760,7 @@ namespace NewsComponents.Search
 	 */
 	internal class LuceneInfoWriter: TextWriter{
 
-		private ILog logger = null; 
+		private readonly ILog logger = null; 
 		
 		/// <summary>
 		/// We don't want a default constructor
@@ -794,89 +796,3 @@ namespace NewsComponents.Search
 		
 	}
 }
-
-
-
-#region CVS Version Log
-/*
- * $Log: LuceneIndexModifier.cs,v $
- * Revision 1.25  2007/08/02 01:00:06  carnage4life
- * Changes related to shipping ShadowCat beta 2
- *
- * Revision 1.24  2007/07/29 17:38:33  carnage4life
- * Added DTDs for XHTML Strict & Transitional
- *
- * Revision 1.23  2007/07/29 15:20:28  carnage4life
- * Removed calls to InternetGetCookie due to issue reportred at http://www.rssbandit.org/forum/topic.asp?whichpage=1&TOPIC_ID=2080&#4080
- *
- * Revision 1.22  2007/07/29 05:24:09  carnage4life
- * Fixed Lucene crashes when adding docments to the index
- *
- * Revision 1.21  2007/07/26 02:49:30  carnage4life
- * Added debug output for IndexWriter
- *
- * Revision 1.20  2007/07/21 15:49:39  carnage4life
- * Detected another kind of index corruption in Lucene
- *
- * Revision 1.19  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.18  2007/07/11 17:48:22  carnage4life
- * Fixed compile error. :(
- *
- * Revision 1.17  2007/07/11 17:36:52  carnage4life
- * Fixed random crashes due to error renaming file "deleteable.new" to "deletable" in search index folder.
- *
- * Revision 1.16  2007/05/05 10:45:43  t_rendelmann
- * fixed: lucene indexing issues caused by thread race condition
- *
- * Revision 1.15  2007/04/03 13:06:49  t_rendelmann
- * fixed the Flush() impl.
- *
- * Revision 1.14  2007/04/01 16:52:41  t_rendelmann
- * only comments added; CVS history moved to bottom of file
- *
- * Revision 1.13  2007/03/13 17:19:15  t_rendelmann
- * changed: now using a priority queue to index docs
- *
- * Revision 1.12  2007/03/04 17:33:05  carnage4life
- * 1.) Added exception handling to ignore "already closed" exception from IndexReader & IndexWriter.
- * 2.) Prevent a NullReferenceException in Flush() by always checking if IndexReader and IndexWriter are null before calling Close()
- *
- * Revision 1.11  2007/03/03 15:48:24  carnage4life
- * Fixed issue with NullReferenceException being thrown on Close()
- *
- * Revision 1.10  2007/02/17 12:34:33  t_rendelmann
- * fixed: p_parentID can also be the empty string
- *
- * Revision 1.9  2007/02/10 17:22:50  carnage4life
- * Added code to handle FileNotFoundException in LuceneIndexModifier. We now reset the index when this occurs because it indicates that the search index has been corrupted.
- *
- * Revision 1.8  2006/12/20 16:45:58  carnage4life
- * Added lock to OptimizeIndex() to ensure that index operations aren't performed while the index is being optimized
- *
- * Revision 1.7  2006/12/07 13:17:18  t_rendelmann
- * now Lucene.OptimizeIndex() calls are only at startup and triggered by index folder modification datetime
- *
- * Revision 1.6  2006/11/21 06:36:22  t_rendelmann
- * small camelCase parameter name fixes
- *
- * Revision 1.5  2006/11/10 20:33:54  carnage4life
- * Fixed issue where application exit may take too long if OptimizeIndex is in the index operation queue
- *
- * Revision 1.4  2006/11/08 16:30:00  carnage4life
- * Fixed time consuming lock when flushing index operations
- *
- * Revision 1.3  2006/11/05 01:23:55  carnage4life
- * Reduced time consuming locks in indexing code
- *
- * Revision 1.2  2006/10/03 08:27:37  t_rendelmann
- * fixed some code comments
- *
- * Revision 1.1  2006/09/29 18:11:59  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- *
- */
-#endregion
