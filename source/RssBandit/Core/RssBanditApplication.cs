@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 //#undef USEAUTOUPDATE
 #define USEAUTOUPDATE
@@ -100,12 +102,12 @@ namespace RssBandit {
 		/// </summary>
 		/// <remarks>Next Final Release: remove the temp. preferences file 
 		/// reading/writing before publishing!</remarks>
-		private static string versionPostfix =  "ShadowCat beta"; /* String.Empty; */	// e.g. 'beta 1' or '(CVS)'
+		private static readonly string versionPostfix =  "ShadowCat beta"; /* String.Empty; */	// e.g. 'beta 1' or '(CVS)'
 		
 		private static bool validationErrorOccured = false; 
-		private static RssBanditPreferences defaultPrefs = new RssBanditPreferences();
-		private static Settings guiSettings = null;
-		private static ServiceContainer Services = new ServiceContainer(/* no other parent, we are at top */);
+		private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
+		private static readonly Settings guiSettings = null;
+		private static readonly ServiceContainer Services = new ServiceContainer(/* no other parent, we are at top */);
 
 		/// <summary>
 		/// This is the default name for the playlist created by RSS Bandit in Windows Media Player
@@ -131,7 +133,7 @@ namespace RssBandit {
 		/// Manage the channel processors working on displaying items and feeds
 		/// (before we render them in the detail pane)
 		/// </summary>
-		private static NewsChannelServices displayingNewsChannel = new NewsChannelServices();
+		private static readonly NewsChannelServices displayingNewsChannel = new NewsChannelServices();
 
 		/// <summary>
 		/// used to share the current UI thread's UI culture on various threads
@@ -142,10 +144,10 @@ namespace RssBandit {
 		/// </summary>
 		private static CultureInfo sharedCulture;
 
-		private static FeedColumnLayout DefaultFeedColumnLayout = new FeedColumnLayout(new string[]{"Title", "Flag", "Enclosure", "Date", "Subject"}, new int[]{ 250, 22, 22, 100, 120}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalFeedLayout);
-		private static FeedColumnLayout DefaultCategoryColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalCategoryLayout);
-		private static FeedColumnLayout DefaultSearchFolderColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.SearchFolderLayout);
-		private static FeedColumnLayout DefaultSpecialFolderColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.SpecialFeedsLayout);
+		private static readonly FeedColumnLayout DefaultFeedColumnLayout = new FeedColumnLayout(new string[]{"Title", "Flag", "Enclosure", "Date", "Subject"}, new int[]{ 250, 22, 22, 100, 120}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalFeedLayout);
+		private static readonly FeedColumnLayout DefaultCategoryColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.GlobalCategoryLayout);
+		private static readonly FeedColumnLayout DefaultSearchFolderColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.SearchFolderLayout);
+		private static readonly FeedColumnLayout DefaultSpecialFolderColumnLayout = new FeedColumnLayout(new string[]{"Title", "Subject", "Date", "FeedTitle"}, new int[]{ 250, 120, 100, 100}, "Date", NewsComponents.SortOrder.Descending, LayoutType.SpecialFeedsLayout);
 
 		private static string defaultFeedColumnLayoutKey;
 		private static string defaultCategoryColumnLayoutKey;
@@ -160,14 +162,14 @@ namespace RssBandit {
 
 		//private INetState connectionState = INetState.Invalid;	// moved to GuiStateManager
 
-		private static int MilliSecsMultiplier = 60 * 1000;
-		private static int DefaultRefreshRate = 60 * MilliSecsMultiplier;
+		private static readonly int MilliSecsMultiplier = 60 * 1000;
+		private static readonly int DefaultRefreshRate = 60 * MilliSecsMultiplier;
 		// option stored within the feedlist.xml:
 		private int refreshRate = DefaultRefreshRate;
 
 		// other options:
 		// TODO: include it in options dialog 
-		private bool interceptUrlNavigation = true;
+		private readonly bool interceptUrlNavigation = true;
 
 		// private feeds
 		private LocalFeedsFeed watchedItemsFeed; 
@@ -191,30 +193,30 @@ namespace RssBandit {
 		private const string applicationId		= "RssBandit";
 		private const string applicationName	= "RSS Bandit";
 
-		private static string[] applicationUpdateServiceUrls = 
+		private static readonly string[] applicationUpdateServiceUrls = 
 			new string[] {"http://www.rssbandit.org/services/UpdateService.asmx"}; 
 		
 				
 
 		private static string defaultCategory;
 		
-		private static string validationUrlBase;
-		private static string linkCosmosUrlBase;
-		private static string bugReportUrl;
-		private static string workspaceNewsUrl;
-		private static string webHelpUrl;
-		private static string wikiNewsUrl;
-		private static string forumUrl;
-		private static string projectDonationUrl;
-		private static string projectDownloadUrl;
+		private static readonly string validationUrlBase;
+		private static readonly string linkCosmosUrlBase;
+		private static readonly string bugReportUrl;
+		private static readonly string workspaceNewsUrl;
+		private static readonly string webHelpUrl;
+		private static readonly string wikiNewsUrl;
+		private static readonly string forumUrl;
+		private static readonly string projectDonationUrl;
+		private static readonly string projectDownloadUrl;
 
 		// advanced .config options:
-		private static bool unconditionalCommentRss;
-		private static bool automaticColorSchemes;
+		private static readonly bool unconditionalCommentRss;
+		private static readonly bool automaticColorSchemes;
 		/// <summary>
 		/// make Bandit running from a stick
 		/// </summary>
-		private static bool portableApplicationMode;
+		private static readonly bool portableApplicationMode;
 
 		private static Version appVersion;	
 		private static string appDataFolderPath;	
@@ -264,7 +266,7 @@ namespace RssBandit {
 		public void Init() {
 
 			this.LoadTrustedCertificateIssues();
-			AsyncWebRequest.OnCertificateIssue += new CertificateIssueHandler(this.OnRequestCertificateIssue);
+			AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
 			
 //			this.feedHandler = new NewsHandler(applicationId, 
 //				new FileCacheManager(RssBanditApplication.GetFeedFileCachePath() ),
@@ -276,16 +278,16 @@ namespace RssBandit {
 			this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
 			//this.feedHandler.PodcastFolder = this.feedHandler.EnclosureFolder = RssBanditApplication.GetEnclosuresPath();
 			
-			this.feedHandler.BeforeDownloadFeedStarted += new NewsHandler.DownloadFeedStartedCallback(this.BeforeDownloadFeedStarted);
-			this.feedHandler.UpdateFeedsStarted += new NewsHandler.UpdateFeedsStartedHandler(this.OnUpdateFeedsStarted);
-			this.feedHandler.OnUpdatedFavicon  += new NewsHandler.UpdatedFaviconCallback(this.OnUpdatedFavicon);
-			this.feedHandler.OnDownloadedEnclosure += new NewsHandler.DownloadedEnclosureCallback(this.OnDownloadedEnclosure); 								
+			this.feedHandler.BeforeDownloadFeedStarted += this.BeforeDownloadFeedStarted;
+			this.feedHandler.UpdateFeedsStarted += this.OnUpdateFeedsStarted;
+			this.feedHandler.OnUpdatedFavicon  += this.OnUpdatedFavicon;
+			this.feedHandler.OnDownloadedEnclosure += this.OnDownloadedEnclosure; 								
 
 			// now handled by the ThreadResultManager:
 //          this.feedHandler.UpdateFeedStarted += new NewsHandler.UpdateFeedStartedHandler(this.OnUpdateFeedStarted);
 //			this.feedHandler.OnUpdatedFeed += new NewsHandler.UpdatedFeedCallback(this.OnUpdatedFeed);
 //			this.feedHandler.OnUpdateFeedException += new NewsHandler.UpdateFeedExceptionCallback(this.OnUpdateFeedException);
-			this.feedHandler.OnAllAsyncRequestsCompleted += new EventHandler(this.OnAllRequestsCompleted);
+			this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
 
 
 			/* NewsHandler for comment feeds for watched comments */ 
@@ -297,8 +299,8 @@ namespace RssBandit {
 			this.commentFeedsHandler.UserAgent = RssBanditApplication.UserAgent; 
 			// not really needed here, but init:
 			this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
-			this.commentFeedsHandler.OnAllAsyncRequestsCompleted += new EventHandler(this.OnAllCommentFeedRequestsCompleted);			
-			this.commentFeedsHandler.OnUpdatedFeed += new NewsHandler.UpdatedFeedCallback(this.OnUpdatedCommentFeed);
+			this.commentFeedsHandler.OnAllAsyncRequestsCompleted += this.OnAllCommentFeedRequestsCompleted;			
+			this.commentFeedsHandler.OnUpdatedFeed += this.OnUpdatedCommentFeed;
 						
 			NewsHandler.UnconditionalCommentRss = UnconditionalCommentRss;
 #if DEBUG
@@ -358,17 +360,17 @@ namespace RssBandit {
 			defaultCategory = SR.FeedDefaultCategory;
 			
 			backgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
-			backgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += new AutoDiscoveredFeedsMenuHandler.DiscoveredFeedsSubscribeCallback(this.OnBackgroundDiscoveredFeedsSubscribe);
+			backgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += this.OnBackgroundDiscoveredFeedsSubscribe;
 
 			this.modifiedFeeds = new Queue(this.feedHandler.FeedsTable.Count + 11);
 
 			// Create a timer that waits three minutes , then invokes every five minutes.
-			autoSaveTimer = new System.Threading.Timer(new TimerCallback(this.OnAutoSave), this, 3 * MilliSecsMultiplier, 5 * MilliSecsMultiplier);
+			autoSaveTimer = new System.Threading.Timer(this.OnAutoSave, this, 3 * MilliSecsMultiplier, 5 * MilliSecsMultiplier);
 			// handle/listen to power save modes
-			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(this.OnPowerModeChanged);
+			SystemEvents.PowerModeChanged += this.OnPowerModeChanged;
 
 			// App Update Management
-			RssBanditUpdateManager.OnUpdateAvailable += new RssBanditUpdateManager.UpdateAvailableEventHandler(this.OnApplicationUpdateAvailable);
+			RssBanditUpdateManager.OnUpdateAvailable += this.OnApplicationUpdateAvailable;
 
 			//specify 'nntp' and 'news' URI handler
 			NewsComponents.News.NntpWebRequest creator = new NewsComponents.News.NntpWebRequest(new Uri("http://www.example.com"));
@@ -637,7 +639,7 @@ namespace RssBandit {
 			get {	
 				StringBuilder sb = new StringBuilder();
 				sb.AppendFormat("{0};UI:{1};", Name, Thread.CurrentThread.CurrentUICulture.Name);
-				try {		sb.AppendFormat("OS:{0},",Environment.OSVersion.ToString());} 
+				try {		sb.AppendFormat("OS:{0},",Environment.OSVersion);} 
 				catch {	sb.Append("OS:n/a,");	}
 				sb.AppendFormat("{0};",System.Globalization.CultureInfo.InstalledUICulture.Name);
 				try {		sb.AppendFormat(".NET CLR:{0};",System.Runtime.InteropServices.RuntimeEnvironment.GetSystemVersion());	} 
@@ -702,7 +704,7 @@ namespace RssBandit {
 
 		
 		public static string GetEnclosuresPath(){
-			string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal).ToString();
+			string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			string s = Path.Combine(mydocs, "RSS Bandit\\My Downloaded Files");			
 			return s;
 		}
@@ -1533,14 +1535,14 @@ namespace RssBandit {
 			//if (this.InternetAccessAllowed) {
 				// handled via NewsHander.Offline flag
 				this.StateHandler.MoveNewsHandlerStateTo(forceDownload ? NewsHandlerState.RefreshAllForced: NewsHandlerState.RefreshAllAuto);
-				MakeAndQueueTask(ThreadWorker.Task.RefreshFeeds, new ThreadWorkerProgressHandler(this.OnRefreshFeedsProgress), forceDownload);
+				MakeAndQueueTask(ThreadWorker.Task.RefreshFeeds, this.OnRefreshFeedsProgress, forceDownload);
 			//}
 		}
 
 		public void BeginRefreshCommentFeeds(bool forceDownload) {
 			//if (this.InternetAccessAllowed) {
 			// handled via NewsHander.Offline flag
-			MakeAndQueueTask(ThreadWorker.Task.RefreshCommentFeeds, new ThreadWorkerProgressHandler(this.OnRefreshFeedsProgress), forceDownload);
+			MakeAndQueueTask(ThreadWorker.Task.RefreshCommentFeeds, this.OnRefreshFeedsProgress, forceDownload);
 			//}
 		}
 
@@ -1548,7 +1550,7 @@ namespace RssBandit {
 			//if (this.InternetAccessAllowed) {
 				// handled via NewsHander.Offline flag
 				this.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshCategory);
-				MakeAndQueueTask(ThreadWorker.Task.RefreshCategoryFeeds, new ThreadWorkerProgressHandler(this.OnRefreshFeedsProgress), category, forceDownload);
+				MakeAndQueueTask(ThreadWorker.Task.RefreshCategoryFeeds, this.OnRefreshFeedsProgress, category, forceDownload);
 			//}
 		}
 
@@ -2197,8 +2199,8 @@ namespace RssBandit {
 				if (this._columns.Count != o._columns.Count)
 					return false;
 				for (int i = 0; i < this._columns.Count; i++) {
-					if (String.Compare((string)this._columns[i], (string)o._columns[i]) != 0 || 
-						(int)this._columnWidths[i] != (int)o._columnWidths[i])
+					if (String.Compare(this._columns[i], o._columns[i]) != 0 || 
+						this._columnWidths[i] != o._columnWidths[i])
 						return false;
 				}
 				return true;
@@ -3424,7 +3426,7 @@ namespace RssBandit {
 			if(File.Exists(p)) {
 				
 				try {
-					feedHandler.LoadFeedlist(p, new System.Xml.Schema.ValidationEventHandler(FeedListValidationCallback));
+					feedHandler.LoadFeedlist(p, FeedListValidationCallback);
 				}
 				catch (Exception e) {
 					if (!validationErrorOccured) {	// set by validation callback handler
@@ -3455,7 +3457,7 @@ namespace RssBandit {
 
 			if(File.Exists(p)) {				
 				try {
-					commentFeedsHandler.LoadFeedlist(p, new System.Xml.Schema.ValidationEventHandler(CommentFeedListValidationCallback));
+					commentFeedsHandler.LoadFeedlist(p, CommentFeedListValidationCallback);
 					
 					foreach(feedsFeed f in commentFeedsHandler.FeedsTable.Values){
 						if((f.Any!= null) && (f.Any.Length > 0)){
@@ -3771,7 +3773,7 @@ namespace RssBandit {
 
 			if(index != -1){ //check if item exists 
 
-				NewsItem item = (NewsItem)this.watchedItemsFeed.Items[index];
+				NewsItem item = this.watchedItemsFeed.Items[index];
 				item.WatchComments = theItem.WatchComments; 
 			}
 			
@@ -3841,7 +3843,7 @@ namespace RssBandit {
 					//find this item 
 					int itemIndex = this.flaggedItemsFeed.Items.IndexOf(theItem); 
 					if(itemIndex != -1){ //check if item still exists 
-						NewsItem flagItem = (NewsItem)this.flaggedItemsFeed.Items[itemIndex];
+						NewsItem flagItem = this.flaggedItemsFeed.Items[itemIndex];
 						flagItem.FlagStatus = theItem.FlagStatus;
 					}
 				}
@@ -4591,7 +4593,7 @@ namespace RssBandit {
 					if (isFolder is FlaggedItemsNode || isFolder is WatchedItemsNode) {
 						// we need to unflag the items within each subscribed feed:
 						for (int i = 0, j = isFolder.Items.Count; i < j; i++) {
-							NewsItem item = (NewsItem)isFolder.Items[0];
+							NewsItem item = isFolder.Items[0];
 							this.RemoveItemFromSmartFolder(isFolder, item);
 						}
 					} else {	// simply clr all
@@ -4911,12 +4913,13 @@ namespace RssBandit {
 			
 			return xslArgs; 
 		}
-			
+
 
 
 		/// <summary>
 		/// Uses the current defined XSLT template to format the feeds to HTML.
 		/// </summary>
+		/// <param name="stylesheet">The stylesheet.</param>
 		/// <param name="feeds">The list of feeds to transform</param>
 		/// <returns>The feeds formatted as a HTML string</returns>
 		public string FormatFeeds(string stylesheet, FeedInfoList feeds) {
@@ -4934,12 +4937,13 @@ namespace RssBandit {
 
 			return this.NewsItemFormatter.ToHtml(stylesheet, feeds, this.PrepareXsltArgs());			
 		}
-	
+
 
 		/// <summary>
 		/// Uses the current defined XSLT template to
 		/// format the feed  to HTML.
 		/// </summary>
+		/// <param name="stylesheet">The stylesheet.</param>
 		/// <param name="feed">The feed to transform</param>
 		/// <returns>The feed formatted as a HTML string</returns>
 		public string FormatFeed(string stylesheet, FeedInfo feed) {
@@ -4961,7 +4965,9 @@ namespace RssBandit {
 		/// Uses the current defined XSLT template to
 		/// format the item to HTML.
 		/// </summary>
+		/// <param name="stylesheet">The stylesheet.</param>
 		/// <param name="item">The NewsItem</param>
+		/// <param name="toHighlight">To highlight.</param>
 		/// <returns>The NewsItem formatted as a HTML string</returns>
 		public string FormatNewsItem(string stylesheet, NewsItem item, SearchCriteriaCollection toHighlight) {
 
@@ -4984,7 +4990,7 @@ namespace RssBandit {
 					}
 				}
 				if (criterias.Count > 0) {		
-					SearchHitNewsItem shitem = item as SearchHitNewsItem; 
+					//SearchHitNewsItem shitem = item as SearchHitNewsItem; 
 					NewsItem clone = new NewsItem(item.Feed, item.Title, item.Link, 
 						this.ApplyHighlightingTo(item.Content, criterias),item.Date, item.Subject,
 						item.ContentType, item.OptionalElements, item.Id, item.ParentId); 	
@@ -6426,7 +6432,7 @@ namespace RssBandit {
 
 			if ((postReplyForm == null) || (postReplyForm.IsDisposed)){
 				postReplyForm = new PostReplyForm(Preferences.UserIdentityForComments, this.IdentityManager); 
-				postReplyForm.PostReply += new PostReplyEventHandler(OnPostReplyFormPostReply);
+				postReplyForm.PostReply += OnPostReplyFormPostReply;
 			}
 			
 			postReplyForm.ReplyToItem = item2reply;
@@ -6460,7 +6466,7 @@ namespace RssBandit {
 
 			if ((postReplyForm == null) || (postReplyForm.IsDisposed)){
 				postReplyForm = new PostReplyForm(Preferences.UserIdentityForComments, this.IdentityManager); 
-				postReplyForm.PostReply += new PostReplyEventHandler(OnPostReplyFormPostReply);
+				postReplyForm.PostReply += OnPostReplyFormPostReply;
 			}
 
 			postReplyForm.PostToFeed = this.FeedHandler.FeedsTable[feedUrl];
@@ -6517,24 +6523,17 @@ namespace RssBandit {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static int Main(string[] args) {
-			// test only some code...
-//			string s = HtmlHelper.HtmlDecode("Does it work now&#133; ?");	// Should result in "Does it work now... ?"
-//		DateTime[] dta = RssHelper.InitialLastRetrievedSettings(1234, 30*60*1000);
-//			foreach (DateTime d in dta)
-//				Trace.WriteLine(d.ToString("u"));
+		static int Main(string[] args) 
+		{
+		
 			bool running = true;
 
-			/* fails to exec on .NET 1.0
-			if (!File.Exists(Path.Combine(Application.StartupPath, "RssBandit.exe.manifest" )) && Win32.IsOSAtLeastWindowsXP) {
-				Application.EnableVisualStyles();
-				Application.DoEvents();
-			}
-			*/
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 
 			/* setup handler for unhandled exceptions */ 
 			ApplicationExceptionHandler eh = new ApplicationExceptionHandler();
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(eh.OnAppDomainException);			
+			AppDomain.CurrentDomain.UnhandledException += eh.OnAppDomainException;			
 			
 #if DEBUG && TEST_I18N_THISCULTURE			
 			Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(new I18NTestCulture().Culture);
@@ -6547,7 +6546,7 @@ namespace RssBandit {
 			//FormWindowState initialStartupState =  FormWindowState.Minimized;
 
 			RssBanditApplication appInstance = new RssBanditApplication();
-			OtherInstanceCallback callback = new OtherInstanceCallback(appInstance.OnOtherInstance);
+			OtherInstanceCallback callback = appInstance.OnOtherInstance;
             try {
                 running = InitialInstanceActivator.Activate(appInstance, callback, args);
             } catch (Exception ex) {
@@ -6698,7 +6697,6 @@ namespace RssBandit {
 			
 			bool success = false;
 
-			string parentID = null;
 			string title = replyEventArgs.Title;
 			string name  = replyEventArgs.FromName; 
 			string url   = replyEventArgs.FromUrl; 
@@ -6711,7 +6709,7 @@ namespace RssBandit {
 			if(replyEventArgs.ReplyToItem != null) {
 
 				item2reply = replyEventArgs.ReplyToItem;
-				parentID = item2reply.Id;
+				string parentID = item2reply.Id;
 
 				XmlDocument tempDoc = new XmlDocument(); 							
 
@@ -6925,7 +6923,7 @@ namespace RssBandit {
 			/// <returns>The found window handle, else IntPtr.Zero</returns>
 			private static IntPtr FindProcessWindow(int processId) {
 				//Declare a callback delegate for EnumWindows() API call
-				Win32.EnumWindowsProc ewp = new Win32.EnumWindowsProc(EvalWindow);
+				Win32.EnumWindowsProc ewp = EvalWindow;
 				// reset var modified by EnumWindows
 				_foundWnd = IntPtr.Zero;
 				//Enumerate all Windows
@@ -7018,16 +7016,14 @@ namespace RssBandit {
 				}
 
 				DialogResult result = DialogResult.Cancel;
-				Exception        ex = null;
 
 				// The log is an extra backup in case the stack trace doesn't
 				// get fully included in the exception.
 				//string logName = RssBanditApplication.GetLogFileName();
 				try {
-					ex = (Exception)e.ExceptionObject;
+					Exception        ex = (Exception)e.ExceptionObject;
 					result = ShowExceptionDialog(ex);
-				}
-				catch (Exception fatal){
+				} catch (Exception fatal){
 					try {
 						Logger.Log.Fatal("Exception on publish AppDomainException.", fatal);
 						MessageBox.Show("Fatal Error: "+fatal.Message, "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -7077,7 +7073,7 @@ namespace RssBandit {
 		{
 			using(PodcastOptionsDialog optionDialog = new PodcastOptionsDialog(Preferences, this)) 
 			{
-				optionDialog.ShowDialog(owner == null ? guiMain: owner);
+				optionDialog.ShowDialog(owner ?? guiMain);
 				if(optionDialog.DialogResult == DialogResult.OK) 
 				{
 					
@@ -7127,7 +7123,7 @@ namespace RssBandit {
 				this.LoadSearchEngines();
 
 			PreferencesDialog propertiesDialog = new PreferencesDialog(this, refreshRate/60000, Preferences, this.searchEngines, this.IdentityManager); 
-			propertiesDialog.OnApplyPreferences += new EventHandler(this.OnApplyPreferences);
+			propertiesDialog.OnApplyPreferences += this.OnApplyPreferences;
 			if (optionsChangedHandler != null)
 				propertiesDialog.OnApplyPreferences += optionsChangedHandler;
 
@@ -7135,7 +7131,7 @@ namespace RssBandit {
 			//propertiesDialog.Disposed += new EventHandler(OnDialogDisposed);
 
 			propertiesDialog.SelectedSection = selectedSection;
-			propertiesDialog.ShowDialog(owner == null ? guiMain: owner);
+			propertiesDialog.ShowDialog(owner ?? guiMain);
 
 			if(propertiesDialog.DialogResult == DialogResult.OK) {
 				this.OnApplyPreferences(propertiesDialog, new EventArgs());
@@ -7144,7 +7140,7 @@ namespace RssBandit {
 			}
 
 			// detach event(s) to get the dialog garbage collected:
-			propertiesDialog.OnApplyPreferences -= new EventHandler(this.OnApplyPreferences);
+			propertiesDialog.OnApplyPreferences -= this.OnApplyPreferences;
 			if (optionsChangedHandler != null)
 				propertiesDialog.OnApplyPreferences -= optionsChangedHandler;
 
@@ -7160,7 +7156,7 @@ namespace RssBandit {
 		public void ShowNntpServerManagementDialog(IWin32Window owner, EventHandler definitionChangeEventHandler) {
 			if (definitionChangeEventHandler != null)
 				this.NntpServerManager.NewsServerDefinitionsModified += definitionChangeEventHandler;
-			this.NntpServerManager.ShowNewsServerSubscriptionsDialog(owner == null ? guiMain: owner);
+			this.NntpServerManager.ShowNewsServerSubscriptionsDialog(owner ?? guiMain);
 			if (definitionChangeEventHandler != null)
 				this.NntpServerManager.NewsServerDefinitionsModified -= definitionChangeEventHandler;
 		}
@@ -7173,7 +7169,7 @@ namespace RssBandit {
 		public void ShowUserIdentityManagementDialog(IWin32Window owner, EventHandler definitionChangeEventHandler) {
 			if (definitionChangeEventHandler != null)
 				this.IdentityManager.IdentityDefinitionsModified += definitionChangeEventHandler;
-			this.IdentityManager.ShowIdentityDialog(owner == null ? guiMain: owner);
+			this.IdentityManager.ShowIdentityDialog(owner ?? guiMain);
 			if (definitionChangeEventHandler != null)
 				this.IdentityManager.IdentityDefinitionsModified -= definitionChangeEventHandler;
 		}
@@ -7231,11 +7227,11 @@ namespace RssBandit {
 		public bool SubscribeToFeed(string url, string category, string title, string searchTerms, WizardMode mode) {
 			
 			AddSubscriptionWizard wiz = new AddSubscriptionWizard(this, mode);
-			wiz.FeedUrl = (url == null ? String.Empty: url);
+			wiz.FeedUrl = (url ?? String.Empty);
 			if (category != null)	// does remember the last category:
 				wiz.FeedCategory = category;
-			wiz.FeedTitle = (title == null ? String.Empty: title);
-			wiz.SearchTerms = (searchTerms == null ? String.Empty: searchTerms);
+			wiz.FeedTitle = (title ?? String.Empty);
+			wiz.SearchTerms = (searchTerms ?? String.Empty);
 			
 			try {
 				if (MainForm.IsHandleCreated)
@@ -7460,7 +7456,7 @@ namespace RssBandit {
 		IList AppServices.ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer) {
 			if (! StringHelper.EmptyOrNull(nntpServerName) &&
 				this.NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName)) {
-				NntpServerDefinition sd = (NntpServerDefinition)this.NntpServerManager.CurrentNntpServers[nntpServerName];
+				NntpServerDefinition sd = this.NntpServerManager.CurrentNntpServers[nntpServerName];
 				if (sd != null)
 					return (IList) this.NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
 			}
@@ -7512,7 +7508,7 @@ namespace RssBandit {
 		/// <param name="setFocus">Force to set the focus to the new Tab/Window</param>
 		public void NavigateToUrl(string url, string tabCaption, bool forceNewTabOrWindow, bool setFocus) {
 			if (guiMain.InvokeRequired) {
-				WinGuiMain.NavigateToURLDelegate d = new WinGuiMain.NavigateToURLDelegate(guiMain.DetailTabNavigateToUrl);
+				WinGuiMain.NavigateToURLDelegate d = guiMain.DetailTabNavigateToUrl;
 				guiMain.Invoke(d, new object[]{url, tabCaption, forceNewTabOrWindow, setFocus});
 			} else {
 				guiMain.DetailTabNavigateToUrl(url, tabCaption, forceNewTabOrWindow, setFocus);
@@ -7743,7 +7739,7 @@ namespace RssBandit.Exceptions {
 		/// <summary>
 		/// We define also the delegate here.
 		/// </summary>
-		public new delegate void EventHandler(object sender, FeedExceptionEventArgs e);
+		public delegate void EventHandler(object sender, FeedExceptionEventArgs e);
 
 		public FeedExceptionEventArgs() {;}
 		public FeedExceptionEventArgs(Exception exception, string link, string theErrorMessage):base(exception, theErrorMessage) {
@@ -7759,326 +7755,3 @@ namespace RssBandit.Exceptions {
 	#endregion
 
 }
-
-#region CVS Version Log
-/*
- * $Log: RssBanditApplication.cs,v $
- * Revision 1.385  2007/07/28 20:11:50  t_rendelmann
- * small fix to make AppDataFolder and LocalDataFolder work with rooted paths NOT containing the drive letter
- *
- * Revision 1.384  2007/07/27 19:08:09  carnage4life
- * Moved unhandled exception handler
- *
- * Revision 1.383  2007/07/26 02:50:56  carnage4life
- * Fixed issue where global refresh rate is not applied to newly subscribed feeds
- *
- * Revision 1.382  2007/07/21 12:26:55  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.381  2007/07/01 17:59:54  t_rendelmann
- * feature: support for portable application mode (running Bandit from a stick)
- *
- * Revision 1.380  2007/06/19 17:51:53  t_rendelmann
- * fixed: [ 1736842 ] Crash when clicking on enclosure link in toast window
- *
- * Revision 1.379  2007/06/19 15:01:22  t_rendelmann
- * fixed: [ 1702811 ] Cannot access .treestate.xml (now report a read error as a warning once, but log only at save time during autosave)
- *
- * Revision 1.378  2007/06/15 11:02:00  t_rendelmann
- * new: enabled user failure actions within feed error reports (validate, navigate to, delete subscription)
- *
- * Revision 1.377  2007/06/14 01:02:27  carnage4life
- * Fixed issue where Changes to feed-specific enclosure/attachment download settings are not remembered
- *
- * Revision 1.376  2007/06/13 22:53:17  carnage4life
- * Fixed one place where malformed searchfolders.xml could cause application crash
- *
- * Revision 1.375  2007/06/12 18:55:56  t_rendelmann
- * changed: added the xslt param "LimitNewsItemsPerPage" to conditionally page items
- *
- * Revision 1.374  2007/06/12 17:34:22  t_rendelmann
- * fixed: Cache location error (http://sourceforge.net/tracker/index.php?func=detail&aid=1667884&group_id=96589&atid=615248)
- *
- * Revision 1.373  2007/06/09 16:06:02  carnage4life
- * Raised version number to 1.5.0.14
- *
- * Revision 1.372  2007/06/07 02:04:17  carnage4life
- * Added pages in the newspaper view when displaying unread items for a feed
- *
- * Revision 1.371  2007/06/03 17:03:08  carnage4life
- * no message
- *
- * Revision 1.370  2007/05/29 13:20:40  carnage4life
- * no message
- *
- * Revision 1.369  2007/05/20 00:54:42  carnage4life
- * Added option to disable automatically marking posts as read when viewed in the default stylsheet
- *
- * Revision 1.368  2007/05/18 22:18:00  carnage4life
- * Added UI option for disabling automatically marking items as read on default newspaper stylesheet
- *
- * Revision 1.367  2007/05/18 15:10:26  t_rendelmann
- * fixed: node selection after feed/category deletion behavior. Now the new node to select after a deletion is controlled by the new method TreeHelper.GetNewNodeToActivate()
- *
- * Revision 1.366  2007/05/18 11:46:45  t_rendelmann
- * fixed: no category context menus displayed after OPML import or remote sync.
- *
- * Revision 1.365  2007/05/15 23:38:47  carnage4life
- * Added UI options for limiting number of news items displayed per page in the newspaper view
- *
- * Revision 1.364  2007/05/12 18:15:18  carnage4life
- * Changed a number of APIs to treat feed URLs as System.String instead of System.Uri because some feed URLs such as those containing unicode cannot be used to create instances of System.Uri
- *
- * Revision 1.363  2007/05/05 10:45:43  t_rendelmann
- * fixed: lucene indexing issues caused by thread race condition
- *
- * Revision 1.362  2007/05/03 15:58:06  t_rendelmann
- * fixed: toggle read state from within html detail pane (javascript initiated) not always toggle the read state within the listview and subscription tree (caused if item ID is Url-encoded)
- *
- * Revision 1.361  2007/04/30 10:02:08  t_rendelmann
- * fixed: null-ref-exception in user notification messageboxes if no UI was yet active
- *
- * Revision 1.360  2007/03/29 10:44:33  t_rendelmann
- * new: detail header title now also display the unread counter of the selected node (additional to caption)
- *
- * Revision 1.359  2007/03/19 12:02:37  t_rendelmann
- * changed: better error reporting on AddIn's
- *
- * Revision 1.358  2007/03/19 10:43:03  t_rendelmann
- * changed: better handling of favicon's (driven by extension now); we are now looking for the smallest and smoothest icon image to use (if ICO)
- *
- * Revision 1.357  2007/03/13 16:50:49  t_rendelmann
- * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
- *
- * Revision 1.356  2007/03/10 18:26:12  t_rendelmann
- * feature: separate dialog to view feed sources
- *
- * Revision 1.355  2007/03/10 15:01:21  t_rendelmann
- * changed: use our own xslt to display XML sources in IE
- *
- * Revision 1.354  2007/03/05 16:37:28  t_rendelmann
- * fixed: check for updates is always disabled
- *
- * Revision 1.353  2007/03/04 20:53:19  carnage4life
- * Changes related to shipping the v1.5.0.10 release
- *
- * Revision 1.352  2007/02/18 14:43:17  t_rendelmann
- * some cleanup in the code installing the default feedlist
- *
- * Revision 1.351  2007/02/17 22:43:20  carnage4life
- * Clarified text and behavior around showing full item text in search folders
- *
- * Revision 1.350  2007/02/13 21:29:00  t_rendelmann
- * fixed: Ask for default aggregator should not be displayed in case of a UAC violation
- *
- * Revision 1.349  2007/02/11 17:03:12  carnage4life
- * Made following changes to default newspaper view
- * 1.) Alt text now shows up for action icons in newspaper view
- * 2.) Items marked as unread by the user aren't toggled to read automatically by scrolling over them
- * 3.) Scrolling only marks items as read instead of toggling read state
- *
- * Revision 1.348  2007/02/09 15:44:19  t_rendelmann
- * changed: refactored LastAutoUpdateCheck property (moved from Preferences to GuiSettings storage)
- *
- * Revision 1.347  2007/02/09 14:54:08  t_rendelmann
- * fixed: added missing configuration option for newComments font style and color;
- * changed: some refactoring in FontColorHelper;
- *
- * Revision 1.346  2007/02/01 16:00:42  t_rendelmann
- * fixed: option "Initiate download feeds at startup" was not taken over to the Options UI checkbox
- * fixed: Deserialization issue with Preferences types of wrong AppServices assembly version
- * fixed: OnPreferencesChanged() event was not executed at the main thread
- * changed: prevent execptions while deserialize DownloadTask
- *
- * Revision 1.345  2007/01/30 21:17:43  carnage4life
- * Added support for remembering browser tab state on restart
- *
- * Revision 1.344  2007/01/22 16:42:10  carnage4life
- * Changes to fix issues before shipping Jubilee release candidate
- *
- * Revision 1.343  2007/01/20 18:11:47  carnage4life
- * Added support for watching comments from the Newspaper view
- *
- * Revision 1.342  2007/01/18 18:21:31  t_rendelmann
- * code cleanup (old search controls and code removed)
- *
- * Revision 1.341  2007/01/18 04:03:08  carnage4life
- * Completed support for custom newspaper view for search results
- *
- * Revision 1.340  2007/01/14 19:30:47  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.339  2006/12/26 17:18:04  carnage4life
- * Fixed issue that hitting [space] while editing nodes moved to the next unread item
- *
- * Revision 1.338  2006/12/24 14:03:23  carnage4life
- * Fixed issue where IE security band is displayed even when ActiveX is explicitly enabled by the user.
- *
- * Revision 1.337  2006/12/17 14:55:44  t_rendelmann
- * added: consider sound configuration setting (allowed, not allowed)
- *
- * Revision 1.336  2006/12/17 14:07:00  t_rendelmann
- * added: option to control application sounds and configuration;
- * added option to control Bandit startup as windows user logon;
- *
- * Revision 1.335  2006/12/16 23:15:51  carnage4life
- * Fixed issue where comment feeds get confused when a comment is deleted from the feed,
- *
- * Revision 1.334  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific feedsFeed and does the logic to load item content from disk if needed
- *
- * Revision 1.333  2006/12/16 15:52:34  t_rendelmann
- * removed unused image strips;
- * now calling a Windows.Forms timer to apply UI configuration save to prevent cross-thread exceptions;
- *
- * Revision 1.332  2006/12/16 15:09:36  t_rendelmann
- * feature: application sound support (configurable via Windows Sounds Control Panel)
- *
- * Revision 1.331  2006/12/14 18:52:20  carnage4life
- * Removed redundant 'Subscribe in defautl aggregator' option added to IE right-click menu
- *
- * Revision 1.330  2006/12/14 16:34:06  t_rendelmann
- * finished: all toolbar migrations; removed Sandbar toolbars from MainUI
- *
- * Revision 1.329  2006/12/12 16:20:56  carnage4life
- * Fixed issue where Attachments/Podcasts option "Enable alert window for new downl. attachments" did not get persisted
- *
- * Revision 1.328  2006/12/09 22:57:03  carnage4life
- * Added support for specifying how many podcasts downloaded from new feeds
- *
- * Revision 1.327  2006/12/08 17:00:22  t_rendelmann
- * fixed: flag a item with no content did not show content anymore in the flagged item view (linked) (was regression because of the dynamic load of item content from cache);
- * fixed: "View Outlook Reading Pane" was not working correctly (regression from the toolbars migration);
- *
- * Revision 1.326  2006/12/05 04:06:25  carnage4life
- * Made changes so that when comments for an item are viewed from Watched Items folder, the actual feed is updated and vice versa
- *
- * Revision 1.325  2006/12/03 01:20:13  carnage4life
- * Made changes to support Watched Items feed showing when new comments found
- *
- * Revision 1.324  2006/11/28 18:08:40  t_rendelmann
- * changed; first version with the new menubar and the main toolbar migrated to IG - still work in progress
- *
- * Revision 1.323  2006/11/27 19:11:49  carnage4life
- * Made changes to get around issues with installer for Jubilee beta 1
- *
- * Revision 1.322  2006/11/25 18:38:16  carnage4life
- * Changes for JUBILEE beta 1 release
- *
- * Revision 1.321  2006/11/22 00:14:03  carnage4life
- * Added support for last of Podcast options
- *
- * Revision 1.320  2006/11/21 17:25:53  carnage4life
- * Made changes to support options for Podcasts
- *
- * Revision 1.319  2006/11/20 22:26:20  carnage4life
- * Added support for most of the Podcast and Attachment options except for podcast file extensions and copying podcasts to a specified folder
- *
- * Revision 1.318  2006/11/19 03:11:10  carnage4life
- * Added support for persisting podcast settings when changed in the Preferences dialog
- *
- * Revision 1.317  2006/11/14 17:30:49  t_rendelmann
- * fixed: SharedUICulture not always initialized and cause an exception later on using SR.strings generated class
- *
- * Revision 1.316  2006/11/12 16:24:35  carnage4life
- * 1.) Removed ability to override enclosure folder per feed or category
- * 2.) Moved code to resume pending enclosure downloads until after feedlist is loaded to avoid race condition
- *
- * Revision 1.315  2006/11/12 01:25:01  carnage4life
- * 1.) Added Support for Alert windows on received podcasts.
- * 2.) Fixed feed mixup issues
- *
- * Revision 1.314  2006/11/11 14:42:41  t_rendelmann
- * added: DialogBase base Form to be able to inherit simple OK/Cancel dialogs;
- * added new PodcastOptionsDialog (inherits DialogBase)
- *
- * Revision 1.313  2006/11/05 15:33:07  t_rendelmann
- * added: Attachments/Podcasts tab to options dialog; some dialog widget names changed
- *
- * Revision 1.312  2006/11/05 01:23:55  carnage4life
- * Reduced time consuming locks in indexing code
- *
- * Revision 1.311  2006/10/31 13:36:35  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- * Revision 1.310  2006/10/28 23:10:00  carnage4life
- * Added "Attachments/Podcasts" to Feed Properties and Category properties dialogs.
- *
- * Revision 1.309  2006/10/28 16:38:25  t_rendelmann
- * added: new "Unread Items" folder, not anymore based on search, but populated directly with the unread items
- *
- * Revision 1.308  2006/10/27 01:57:54  carnage4life
- * Added support for adding newly downloaded podcasts to playlists in Windows Media Player or iTunes
- *
- * Revision 1.307  2006/10/24 15:15:13  carnage4life
- * Changed the default folders for podcasts
- *
- * Revision 1.306  2006/10/21 23:34:16  carnage4life
- * Changes related to adding the "Download Attachment" right-click menu option in the list view
- *
- * Revision 1.305  2006/10/17 15:23:26  carnage4life
- * Integrated BITS code for downloading enclosures
- *
- * Revision 1.304  2006/10/10 17:43:28  t_rendelmann
- * feature: added a commandline option to allow users to reset the UI (don't init from .settings.xml);
- * fixed: explorer bar state was not saved/restored, corresponding menu entries hold the wrong state on explorer group change
- *
- * Revision 1.303  2006/10/05 17:58:31  t_rendelmann
- * fixed: last selected node activated on startup after restore the treestate did not populated the listview/detail pane
- *
- * Revision 1.302  2006/10/05 15:46:29  t_rendelmann
- * rework: now using XmlSerializerCache everywhere to get the XmlSerializer instance
- *
- * Revision 1.301  2006/10/05 14:59:03  t_rendelmann
- * feature: restore the subscription tree state (expansion, selection) also after remote download of the subscriptions
- *
- * Revision 1.300  2006/10/05 14:45:04  t_rendelmann
- * added usage of the XmlSerializerCache to prevent the Xml Serializer leak for the new
- * feature: persist the subscription tree state (expansion, selection)
- *
- * Revision 1.299  2006/09/29 18:14:36  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.298  2006/09/15 19:03:33  t_rendelmann
- * added version info to log on application startup
- *
- * Revision 1.297  2006/09/12 10:53:45  t_rendelmann
- * changed: MainForm.Invoke calles replaced by .BeginInvoke to avoid thread locks (places, where we expect to receive results from threads)
- *
- * Revision 1.296  2006/09/07 16:47:44  carnage4life
- * Fixed two issues
- * 1. Added SelectedImageIndex and ImageIndex to FeedsTreeNodeBase
- * 2. Fixed issue where watched comments always were treated as having new comments on HTTP 304
- *
- * Revision 1.295  2006/09/07 00:48:36  carnage4life
- * Fixed even more bugs with comment watching and comment feeds
- *
- * Revision 1.294  2006/09/05 05:26:27  carnage4life
- * Fixed a number of bugs in comment watching code for comment feeds
- *
- * Revision 1.293  2006/09/03 19:08:50  carnage4life
- * Added support for favicons
- *
- * Revision 1.292  2006/09/01 02:01:41  carnage4life
- * Added "Load new browser tabs in background"
- *
- * Revision 1.291  2006/08/31 21:52:31  carnage4life
- * Fixed issue with subscribing to watched comment feeds
- *
- * Revision 1.290  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- * Revision 1.289  2006/08/13 17:01:18  t_rendelmann
- * further progress on lucene search (not yet finished)
- *
- * Revision 1.288  2006/08/08 14:24:45  t_rendelmann
- * fixed: nullref. exception on "Move to next unread" (if it turns back to treeview top node)
- * fixed: nullref. exception (assertion) on delete feeds/category node
- * changed: refactored usage of node.Tag (object type) to use node.DataKey (string type)
- *
- */
-#endregion
