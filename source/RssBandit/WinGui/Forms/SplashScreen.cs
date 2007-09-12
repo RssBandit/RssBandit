@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 using System;
 using System.Drawing;
@@ -23,9 +25,9 @@ namespace RssBandit.WinGui.Forms
 		private string versionInfo = String.Empty;
 
 		private RectangleF rectStatus, rectVersion = RectangleF.Empty; 
-		private Font statusFont = new Font("Tahoma", 8, FontStyle.Regular);
+		private readonly Font statusFont = new Font("Tahoma", 8, FontStyle.Regular);
 		private System.Windows.Forms.Label labelSlogan;
-		private Font versionFont = new Font("Tahoma", 8, FontStyle.Bold);
+		private readonly Font versionFont = new Font("Tahoma", 8, FontStyle.Bold);
 		
 		public string StatusInfo {
 			set {	statusInfo = value; ApplyChanges();	}
@@ -189,8 +191,7 @@ namespace RssBandit.WinGui.Forms
 		//	internally used as a thread function - showing the form and
 		//	starting the messageloop for it
 		static void ShowThread() {
-            Application.EnableVisualStyles();
-			MySplashForm = new SplashScreen();
+            MySplashForm = new SplashScreen();
 			Application.Run(MySplashForm);
 		}
 
@@ -199,7 +200,7 @@ namespace RssBandit.WinGui.Forms
 			if (MySplashThread != null)
 				return;
 
-			MySplashThread = new Thread(new ThreadStart(Splash.ShowThread));
+			MySplashThread = new Thread(Splash.ShowThread);
 			// take over the culture settings from main/default thread 
 			// (if not, Splash will not care about a change of the culture in the main thread)
 			MySplashThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
