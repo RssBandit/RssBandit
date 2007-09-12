@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -209,16 +210,11 @@ namespace RssBandit.WinGui.Controls
 			// Attempt to read state from preferences.
             Preferences prefReader = Preferences.GetUserNode(GetType());
             prefReader = prefReader.GetSubnode(FormName);
-            dimensions.X = prefReader.GetInt32("Left", form.Left);
-            dimensions.Y = prefReader.GetInt32("Top", form.Top);
-			
-			if (Screen.AllScreens.Length < 2) {	
-				// if only one sreen, correct initial location to fit the screen
-				if (dimensions.X < 0) dimensions.X = 0;
-				if (dimensions.Y < 0) dimensions.Y = 0;
-				if (dimensions.X >= Screen.PrimaryScreen.WorkingArea.Width) dimensions.X -= Screen.PrimaryScreen.WorkingArea.Width;
-				if (dimensions.Y >= Screen.PrimaryScreen.WorkingArea.Height) dimensions.Y -= Screen.PrimaryScreen.WorkingArea.Height;
-			}
+            Point location = new Point(
+				prefReader.GetInt32("Left", form.Left),
+				prefReader.GetInt32("Top", form.Top));
+
+			dimensions.Location = AdjustLocationToAvailableScreens(location);
 
 			if (!this.saveOnlyLocation) {
 				dimensions.Width = prefReader.GetInt32("Width", form.Width);
@@ -240,7 +236,16 @@ namespace RssBandit.WinGui.Controls
             form.WindowState = windowState;
         }
 
-
+		private static Point AdjustLocationToAvailableScreens(Point location) {
+			foreach (Screen s in Screen.AllScreens) {
+				if (s.WorkingArea.Contains(location)) {
+					return location;
+				}
+			}
+			// not found, return default at primary screen:
+			return Screen.PrimaryScreen.WorkingArea.Location;
+		}
+		
         /// <summary>
         /// Handle Move event.  Records form position.
         /// </summary>
