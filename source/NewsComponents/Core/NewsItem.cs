@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 using System;
 using System.Collections;
@@ -216,7 +218,7 @@ namespace NewsComponents
 		/// Gets the Feed Link (Source Url)
 		/// </summary>
 		public string FeedLink { 
-			[System.Diagnostics.DebuggerStepThrough()]
+			[System.Diagnostics.DebuggerStepThrough]
 			get {
 				if (p_feed != null)
 					return p_feed.link;
@@ -227,7 +229,7 @@ namespace NewsComponents
 		/// The link to the item.
 		/// </summary>
 		public string Link {
-			[System.Diagnostics.DebuggerStepThrough()]
+			[System.Diagnostics.DebuggerStepThrough]
 			get { return base.hReference; } 
 		}
 
@@ -488,7 +490,9 @@ namespace NewsComponents
 			p_feed  = feed; 
 			p_title = title; 
 			base.hReference = ( link != null ? link.Trim() : null) ;
-			
+			// fix relative item link url:
+			base.hReference = HtmlHelper.ConvertToAbsoluteUrl(base.hReference, baseUrl);
+
 			//escape commonly occuring entities and remove CDATA sections					      
 			if(content != null){
 	
@@ -1185,7 +1189,7 @@ namespace NewsComponents
 		/// <returns>An XPathNavigator</returns>
 		public XPathNavigator CreateNavigator(bool standalone, bool useGMTDate){
 		
-			NewsItemSerializationFormat format = (standalone == true ? NewsItemSerializationFormat.RssItem : NewsItemSerializationFormat.RssFeed); 
+			NewsItemSerializationFormat format = (standalone ? NewsItemSerializationFormat.RssItem : NewsItemSerializationFormat.RssFeed); 
 			XPathDocument doc = new XPathDocument(new XmlTextReader(new StringReader(this.ToString(format, useGMTDate))), XmlSpace.Preserve); 
 			return doc.CreateNavigator(); 
 		}
@@ -1396,59 +1400,3 @@ namespace NewsComponents
 		}
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: NewsItem.cs,v $
- * Revision 1.64  2007/07/08 07:14:45  carnage4life
- * Images don't show up on certain items when clicking on feed or category view if the feed uses relative links such as http://www.tbray.org/ongoing/ongoing.atom
- *
- * Revision 1.63  2007/06/09 18:32:48  carnage4life
- * No results displayed when performing Web searches with Feedster or other search engines that return results as RSS feeds
- *
- * Revision 1.62  2007/03/03 19:05:30  carnage4life
- * Made changes to show duration for podcasts in newspaper view
- *
- * Revision 1.61  2007/02/18 15:24:06  t_rendelmann
- * fixed: null ref. exception on Enclosure property
- *
- * Revision 1.60  2007/02/17 14:45:52  t_rendelmann
- * switched: Resource.Manager indexer usage to strongly typed resources (StringResourceTool)
- *
- * Revision 1.59  2007/02/17 12:34:33  t_rendelmann
- * fixed: p_parentID can also be the empty string
- *
- * Revision 1.58  2007/02/15 16:37:49  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.57  2007/01/17 19:26:38  carnage4life
- * Added initial support for custom newspaper view for search results
- *
- * Revision 1.56  2006/12/19 04:39:51  carnage4life
- * Made changes to AsyncRequest and RequestThread to become instance based instead of static
- *
- * Revision 1.55  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific feedsFeed and does the logic to load item content from disk if needed
- *
- * Revision 1.54  2006/12/09 22:57:03  carnage4life
- * Added support for specifying how many podcasts downloaded from new feeds
- *
- * Revision 1.53  2006/12/03 01:20:13  carnage4life
- * Made changes to support Watched Items feed showing when new comments found
- *
- * Revision 1.52  2006/11/24 17:11:00  carnage4life
- * Items with new comments not remembered on restart
- *
- * Revision 1.51  2006/10/17 10:42:56  t_rendelmann
- * fixed: not all HTML entity encoding handled (like that of SGML without the trailing ";")
- * fixed: now trim the NewsItem.Title to get rid of tabs and spaces
- *
- * Revision 1.50  2006/10/10 12:42:04  carnage4life
- * Fixed some minor issues
- *
- * Revision 1.49  2006/10/05 08:00:13  t_rendelmann
- * refactored: use string constants for our XML namespaces
- *
- */
-#endregion
