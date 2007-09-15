@@ -118,7 +118,21 @@ namespace NewsComponents.Search
 		protected internal IndexWriter indexWriter = null;
 		protected internal IndexReader indexReader = null;
 
-		private const int TimeToDelayBeforeRetry = 50; 
+		private const int TimeToDelayBeforeRetry = 50;
+
+        /// <summary>
+        /// This is the maximum number of segments that can exist at any time. 
+        /// </summary>
+        /// <remarks>This corresponds to the MergeFactor of the index. </remarks>
+        private const int MaxSegments = 20;
+
+        /// <summary>
+        /// Number of documents that are buffered in memory before they are written to disk
+        /// to create a single segment. 
+        /// </summary>
+        /// <remarks>Assumption is that RSS feeds with 50 items are around 100K so this should 
+        /// be the average size of a segment. </remarks>
+        private const int DocsPerSegment = 50; 
 
 		#endregion
 
@@ -405,10 +419,10 @@ namespace NewsComponents.Search
 				if (false == this.flushInprogress && 
 					this.pendingIndexOperations.Count > 0)
 				{
-					// do not calc percentage on a few items:
-					FlushPendingOperations(Math.Max(100, this.pendingIndexOperations.Count / 10));
-					if (threadRunning)
-						Thread.Sleep(1000 * 10); //sleep  10 secs
+                    // do not calc percentage on a few items:
+                    FlushPendingOperations(Math.Max(200, this.pendingIndexOperations.Count / 10));
+                    if (threadRunning)
+                        Thread.Sleep(1000 * 5); //sleep  5 secs
 				}else{
 			        Thread.Sleep(1000*30); //sleep  30 secs
 			    }
@@ -721,7 +735,9 @@ namespace NewsComponents.Search
 #endif
 				this.indexWriter = new IndexWriter(this.BaseDirectory, 
 					LuceneSearch.GetAnalyzer(LuceneSearch.DefaultLanguage), false);
-				this.indexWriter.SetInfoStream( _logHelper); 
+				this.indexWriter.SetInfoStream( _logHelper);
+                this.indexWriter.SetMergeFactor(MaxSegments);
+                this.indexWriter.SetMaxBufferedDocs(DocsPerSegment); 
 			}
 		}
 		
