@@ -1054,7 +1054,8 @@ namespace RssBandit {
 					OptionalFlags.NewsItemOpenLinkInDetailWindow |
 					OptionalFlags.ReUseFirstBrowserTab |
 					OptionalFlags.AllowAppEventSounds  | 
-					OptionalFlags.AllowJavascriptInBrowser;
+					OptionalFlags.AllowJavascriptInBrowser |
+                    OptionalFlags.AllowActiveXInBrowser;
 				return f;
 			}
 		}

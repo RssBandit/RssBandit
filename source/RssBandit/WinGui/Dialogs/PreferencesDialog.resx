@@ -7267,7 +7267,7 @@
     <value>3</value>
   </data>
   <data name="checkBrowserActiveXAllowed.Text">
-    <value>ActiveX controls</value>
+    <value>ActiveX (e.g. Embedded Videos)</value>
   </data>
   <data name="checkBrowserActiveXAllowed.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>MiddleLeft</value>
