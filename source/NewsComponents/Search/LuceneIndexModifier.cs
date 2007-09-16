@@ -103,6 +103,11 @@ namespace NewsComponents.Search
 		/// </summary>
 		public object SyncRoot = new Object();
 
+        /// <summary>
+        /// Used to synchronize access to the 'open' boolean flag. 
+        /// </summary>
+        public object OpenLock = new Object();
+
 		public event FinishedIndexOperationEventHandler FinishedIndexOperation;
 
 		private readonly LuceneSettings settings;
@@ -118,7 +123,7 @@ namespace NewsComponents.Search
 		protected internal IndexWriter indexWriter = null;
 		protected internal IndexReader indexReader = null;
 
-		private const int TimeToDelayBeforeRetry = 50;
+		private const int TimeToDelayBeforeRetry = 1000; /* 1 second */ 
 
         /// <summary>
         /// This is the maximum number of segments that can exist at any time. 
@@ -354,22 +359,21 @@ namespace NewsComponents.Search
 		/// </summary>
 		public virtual void ResetIndex()
 		{
-			this.Close();
-			if (this.BaseDirectory is RAMDirectory) {
-				// nothing to do...?
-			}
-			else if (this.BaseDirectory is FSDirectory &&
-				settings.IndexPath != null)
-			{
-				Directory.Delete(settings.IndexPath, true);
-				Directory.CreateDirectory(settings.IndexPath);
-			} 
-			else {
-				Debug.Assert(false, "Unhandled BaseDirectory type: " + this.BaseDirectory.GetType().FullName);
-			}
+            lock (OpenLock) {
+                this.Close();
+                if (this.BaseDirectory is RAMDirectory) {
+                    // nothing to do...?
+                } else if (this.BaseDirectory is FSDirectory &&
+                    settings.IndexPath != null) {
+                    Directory.Delete(settings.IndexPath, true);
+                    Directory.CreateDirectory(settings.IndexPath);
+                } else {
+                    Debug.Assert(false, "Unhandled BaseDirectory type: " + this.BaseDirectory.GetType().FullName);
+                }
 
-			this.BaseDirectory = settings.GetIndexDirectory();
-			this.Init();
+                this.BaseDirectory = settings.GetIndexDirectory(true);
+                this.Init();
+            }
 		}
 
 		/// <summary> 
@@ -382,12 +386,12 @@ namespace NewsComponents.Search
 				if (!open) return;
 				if (indexWriter != null)
 				{
-					try { indexWriter.Close(); } catch (IOException) { ;}
+					try { indexWriter.Close(); } catch (Exception) { ;}
 					indexWriter = null;
 				}
 				else if (indexReader != null)
 				{
-					try { indexReader.Close(); } catch (IOException) { ;}
+					try { indexReader.Close(); } catch (Exception) { ;}
 					indexReader = null;
 				}
 				open = false;
@@ -492,8 +496,12 @@ namespace NewsComponents.Search
 			}catch(IndexOutOfRangeException ioore){
 				/* index has gotten corrupted, */ 
 				this.ResetIndex(); 
-				_log.Error("Index is corrupted, recreating index:", ioore);	
-			}
+				_log.Error("Index is corrupted, recreating index:", ioore);
+            } catch (UnauthorizedAccessException uae) {
+                /* another process may be accessing index files */
+                _log.Error("Index files may be in use, sleeping:", uae);
+                Thread.Sleep(TimeToDelayBeforeRetry);
+            }
 			
 			RaiseFinishedIndexOperationEvent(current);
 		}
@@ -704,9 +712,11 @@ namespace NewsComponents.Search
 		/// <summary> Throw an IllegalStateException if the index is closed.</summary>
 		/// <exception cref="InvalidOperationException"> If index is closed</exception>
 		protected internal virtual void AssureOpen() {
-			if (!open) {
-				throw new InvalidOperationException("Index is closed");
-			}
+            lock (OpenLock) { //we might be reseting the index
+                if (!open) {
+                    throw new InvalidOperationException("Index is closed");
+                }
+            }
 		}
 
 		/// <summary> Close the IndexReader and open an IndexWriter.</summary>
@@ -749,9 +759,14 @@ namespace NewsComponents.Search
 #if TRACE_INDEX_OPS
 					_log.Info("Closing IndexWriter...");
 #endif
-					try { this.indexWriter.Close(); } catch(IOException ioe){_log.Debug("Error closing index writer:", ioe);}
-					this.indexWriter = null;
-				}
+                    try {
+                        this.indexWriter.Close();
+                    } catch (Exception e) { /* "docs out of order" throws System.Exception */
+                        _log.Error("Error closing index writer:", e);
+                    }
+
+                    this.indexWriter = null; 
+                }
 #if TRACE_INDEX_OPS
 				_log.Info("Creating IndexReader...");
 #endif
