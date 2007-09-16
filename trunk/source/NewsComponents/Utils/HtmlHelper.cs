@@ -31,15 +31,19 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="m"></param>
 		/// <returns>The matched string with the contained uRL replaced with its absolute URL</returns>
-		internal string ConvertToAbsoluteUrl(Match m){
+        internal string ConvertToAbsoluteUrl(Match m) {
 
-			string href = m.Groups[1].ToString();	// filter non-real relation urls:
-			if (href.StartsWith("mailto:") || href.StartsWith("javascript:")){
-				return m.Groups[0].ToString();
-			}      
-    
-			return m.Groups[0].ToString().Replace(href, HtmlHelper.ConvertToAbsoluteUrl(href, baseUrl, true));
-		}
+            /* skip non-HTTP URLs and URLs that are already absolute */
+            string href = m.Groups[1].ToString();
+            //handle case where regex starts from quote character
+            string test = (href.StartsWith("\"") || href.StartsWith("'") ? href.Substring(1) : href);
+            if (test.StartsWith("http") || test.StartsWith("mailto:") || test.StartsWith("javascript:")) {
+                return m.Groups[0].ToString();
+            }
+
+            return m.Groups[0].ToString().Replace(href, HtmlHelper.ConvertToAbsoluteUrl(href, baseUrl, true));
+        }
+
 
 	}
 
