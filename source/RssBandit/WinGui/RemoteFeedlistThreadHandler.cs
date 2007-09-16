@@ -903,24 +903,27 @@ namespace RssBandit.WinGui{
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable()); 				
 				nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions"); 
 
-				foreach(XmlNode item in feed2Sync.SelectNodes("//item")){
-					
-					XmlNode link = item.SelectSingleNode("./link"); 
-					XmlNode read = item.SelectSingleNode("./ng:read", nsMgr);
-					bool itemRead    = false; 
+				foreach(XmlNode item in feed2Sync.SelectNodes("//item")){										
 
-					if(read != null && read.InnerText.ToLower().Equals("true")){
-						itemRead = true; 
-					}
+                    XmlNode link = item.SelectSingleNode("./link");
+                    XmlNode guid = item.SelectSingleNode("./guid");
+                    XmlNode read = item.SelectSingleNode("./ng:read", nsMgr);
+                    bool itemRead = false;
 
-					string ngosId =  item.SelectSingleNode("./ng:postId", nsMgr).InnerText; 
-					string id = null; 
+                    if (read != null && read.InnerText.ToLower().Equals("true")) {
+                        itemRead = true;
+                    }
 
-					if(link != null){
-						id = link.InnerText;
-					}else{
-						continue; 
-					}
+                    string ngosId = item.SelectSingleNode("./ng:postId", nsMgr).InnerText;
+                    string id = null;
+
+                    if (guid != null) {
+                        id = guid.InnerText;
+                    } else if (link != null) {
+                        id = link.InnerText;
+                    } else {
+                        continue;
+                    }
 								
 					//see if we've read the item in RSS Bandit 
 					if(!itemRead && readItems.Contains(id)){						
