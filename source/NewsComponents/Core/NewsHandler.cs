@@ -634,7 +634,21 @@ namespace NewsComponents {
 			get{ return this.maxitemage;}  
 			
 			[MethodImpl(MethodImplOptions.Synchronized)]
-			set{ this.maxitemage = value; } 
+            set {
+                this.maxitemage = value;
+
+                string[] keys;
+
+                lock (FeedsTable.SyncRoot) {
+                    keys = new string[FeedsTable.Count];
+                    if (FeedsTable.Count > 0)
+                        FeedsTable.Keys.CopyTo(keys, 0);
+                }
+
+                for (int i = 0, len = keys.Length; i < len; i++) {
+                    FeedsTable[keys[i]].maxitemage = value;
+                }
+            } 
 		}
 
 		/// <summary>
