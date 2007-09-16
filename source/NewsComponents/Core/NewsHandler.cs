@@ -646,7 +646,7 @@ namespace NewsComponents {
                 }
 
                 for (int i = 0, len = keys.Length; i < len; i++) {
-                    FeedsTable[keys[i]].maxitemage = value;
+                    FeedsTable[keys[i]].maxitemage = XmlConvert.ToString((TimeSpan)value); 
                 }
             } 
 		}
