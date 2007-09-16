@@ -79,19 +79,27 @@ namespace NewsComponents.Search
 			get { return this.indexPath; }
 		}
 
-		/// <summary>
-		/// Gets the index directory (returns a new object instance).
-		/// </summary>
-		/// <value>The index directory.</value>
-		internal Directory GetIndexDirectory() {
-			
-			if (IsRAMBasedSearch) {
-				return new RAMDirectory();
-			} else {
-				return FSDirectory.GetDirectory(this.indexPath, false);
-			}
-		
-		}
+        /// <summary>
+        /// Gets the index directory (returns a new object instance).
+        /// </summary>
+        /// <value>The index directory.</value>
+        internal Directory GetIndexDirectory() {
+            return this.GetIndexDirectory(false);
+        }
+
+        /// <summary>
+        /// Gets the index directory (returns a new object instance).
+        /// </summary>
+        /// <value>The index directory.</value>
+        internal Directory GetIndexDirectory(bool create) {
+
+            if (IsRAMBasedSearch) {
+                return new RAMDirectory();
+            } else {
+                return FSDirectory.GetDirectory(this.indexPath, create);
+            }
+
+        }
 
 		/// <summary>
 		/// Gets the search index behavior.
