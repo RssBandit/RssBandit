@@ -704,6 +704,27 @@ namespace NewsComponents.Feed {
 			}			
 			return null; 
 		}
+
+        /// <summary>
+        /// Tests to see if two feedsFeed objects represent the same feed. 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj){
+
+            if (Object.ReferenceEquals(this, obj)) { return true; }
+
+            feedsFeed feed = obj as feedsFeed;
+
+            if (feed == null) { return false; }
+
+            if (this.link.Equals(feed.link))
+            {
+                return true;
+            }
+
+            return false;
+        }
 	}
 
 	#region UserIdentity
