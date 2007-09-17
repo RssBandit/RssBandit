@@ -77,8 +77,7 @@ namespace RssBandit.WinGui{
 	/// <summary>
 	/// Summary description for RemoteFeedlistThreadHandler.
 	/// </summary>
-	internal class RemoteFeedlistThreadHandler: EntertainmentThreadHandlerBase
-	{
+	internal class RemoteFeedlistThreadHandler: EntertainmentThreadHandlerBase {
 
 		public enum 
 			Operation {
@@ -101,7 +100,7 @@ namespace RssBandit.WinGui{
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RemoteFeedlistThreadHandler));
 		private static readonly string NgosProductKey = "7AF62582A5334A9CADF967818E734558"; 
-		private static readonly string NgosLocationName = "RSS Bandit"; //"NewsGator Web Edition"; 
+		private static readonly string NgosLocationName = "RssBandit-" + Environment.MachineName; //"NewsGator Web Edition"; 
 		private static readonly string InvalidFeedUrl = "http://www.example.com/no-url-for-rss-feed-provided-in-imported-opml"; 
 		private Operation operationToRun = Operation.None;
 		private RssBanditApplication rssBanditApp = null;
@@ -194,7 +193,7 @@ namespace RssBandit.WinGui{
 					
 				//convert subscriptions.xml to feedlist.xml then save to temp folder
 				using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt")) {
-                    XslCompiledTransform xslt = new XslCompiledTransform();
+					XslTransform xslt = new XslTransform();
 					xslt.Load(new XmlTextReader(xsltStream));	
 					xslt.Transform(RssBanditApplication.GetFeedListFileName(), feedlistXml);
 				}
@@ -237,7 +236,7 @@ namespace RssBandit.WinGui{
 							//create a location for RSS Bandit if it doesn't exist. If it already does, then this operation is redundant which is fine
 							try{
 								lws.CreateLocation(RemoteFeedlistThreadHandler.NgosLocationName, true); 
-							}catch(Exception){;}
+							}catch(Exception e){_log.Error(e);}
 				
 							//since we aren't actually syncing our read state with that of Newsgator Online, we don't send a sync token
 							XmlElement opmlFeedList = sws.GetSubscriptionList(RemoteFeedlistThreadHandler.NgosLocationName, null ); 
@@ -251,13 +250,15 @@ namespace RssBandit.WinGui{
 							feeds myFeeds = (feeds)serializer.Deserialize(reader); 
 							reader.Close();
 
+							ArrayList deletedFeeds = new ArrayList();
+
 							//foreach(feedsFeed feed in myFeeds.feed){
 							for(int i = myFeeds.feed.Count; i-->0; Interlocked.Increment(ref ngosFeedsToDownload)){
 
 								feedsFeed feed = myFeeds.feed[i] as feedsFeed; 
 
 								if(!feed.link.Equals(RemoteFeedlistThreadHandler.InvalidFeedUrl) && 
-									 rssBanditApp.FeedHandler.FeedsTable.ContainsKey(feed.link)){
+									rssBanditApp.FeedHandler.FeedsTable.ContainsKey(feed.link)){
 
 									NgosDownloadFeedState state = new NgosDownloadFeedState();
 									state.feed = feed; 
@@ -267,10 +268,16 @@ namespace RssBandit.WinGui{
 
 									PriorityThreadPool.QueueUserWorkItem(new WaitCallback(this.NgosDownloadFeedToSetReadItems), state, (int) ThreadPriority.Normal);																										
 								}else{ 
-								 //feed deleted locally but still in Newsgator Online
-								 feedListChanged = true; 	
-								 //we don't need to download this feed from Newsgator Online
-								 Interlocked.Decrement(ref ngosFeedsToDownload);
+									//feed deleted locally but still in Newsgator Online
+									feedListChanged = true; 	
+									try{
+										deletedFeeds.Add(Int32.Parse(feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id")));	
+									}catch(Exception e){ 
+										_log.Error("Error while trying to parse Newsgator feed ID for" + feed.link, e);
+									}
+									//we don't need to download this feed from Newsgator Online
+									Interlocked.Decrement(ref ngosFeedsToDownload);									
+
 								}
 
 							}//foreach(feedsFeed feed...)												
@@ -287,24 +294,45 @@ namespace RssBandit.WinGui{
 							string[] deletedItems = new string[deletedItems2Sync.Count];							
 							deletedItems2Sync.CopyTo(deletedItems, 0); 
 							NgosPostItem.PostState[] ps = pws.SetState( RemoteFeedlistThreadHandler.NgosLocationName, null , readItems, null /* unread posts */); 
+
+							StringCollection addedFeeds = new StringCollection(); 
 													
-						  //check if a feed added locally that isn't in Newsgator Online
-					      if(!feedListChanged){
-								if(myFeeds.feed.Count != rssBanditApp.FeedHandler.FeedsTable.Count){
-									feedListChanged = true; 
-								}
-							}
+							//check if a feed added locally that isn't in Newsgator Online
+							if((myFeeds.feed.Count != rssBanditApp.FeedHandler.FeedsTable.Count) || feedListChanged){								
+								feedListChanged = true; 
+								    
+								feedsFeed[] currentFeeds = new feedsFeed[rssBanditApp.FeedHandler.FeedsTable.Values.Count]; 
+								rssBanditApp.FeedHandler.FeedsTable.Values.CopyTo(currentFeeds, 0); 
+
+								foreach(feedsFeed f in currentFeeds){
+									if(!myFeeds.feed.Contains(f)){
+										addedFeeds.Add(f.link); 
+									}
+								}//foreach
+
+							} //if(myFeeds.feed.Count != ...)							
 
 							//update feed list in Newsgator if it differs from local one							
 							if(feedListChanged){
-								using(MemoryStream ms = new MemoryStream()){ 
-									rssBanditApp.FeedHandler.SaveFeedList(ms, FeedListFormat.OPML); 
-									ms.Seek(0, SeekOrigin.Begin); 
-									opmlDoc = new XmlDocument(); 
-									opmlDoc.Load(ms); 
-									sws.ReplaceSubscriptions(RemoteFeedlistThreadHandler.NgosLocationName, opmlDoc.DocumentElement ); 
+									
+								if(deletedFeeds.Count > 0){
+									int[] deleted = new int[deletedFeeds.Count]; 
+									deletedFeeds.CopyTo(deleted, 0); 
+									sws.DeleteSubscriptions(deleted); 
 								}
-							}
+
+								if(addedFeeds.Count > 0){
+									
+									foreach(string feedUrl in addedFeeds){
+										//we should do something better with folders
+										try{
+											sws.AddSubscription(feedUrl, 0, null); 
+										}catch(Exception e){ //intranet or local file system URLs
+											_log.Error("Error adding subscription " + feedUrl + " to NewsGator Online", e); 
+										}
+									}
+								}
+							}//if(feedListChanged)
 
 							//reset counters
 							ngosDownloadedFeeds = ngosFeedsToDownload = 0;
@@ -335,21 +363,21 @@ namespace RssBandit.WinGui{
 							doc = null;
 							break;
 
-						/* case RemoteStorageProtocolType.dasBlog_1_3:
-							//save feed list
-							this.rssBanditApp.FeedHandler.SaveFeedList(tempStream, FeedListFormat.OPML); 
-							tempStream.Position = 0; 
+							/* case RemoteStorageProtocolType.dasBlog_1_3:
+								//save feed list
+								this.rssBanditApp.FeedHandler.SaveFeedList(tempStream, FeedListFormat.OPML); 
+								tempStream.Position = 0; 
 					
 
-							// Get the bytes into a byte array for sending
-							byte[] feedBytes2 = new byte[tempStream.Length];
-							tempStream.Read(feedBytes2, 0, (int)tempStream.Length);					
+								// Get the bytes into a byte array for sending
+								byte[] feedBytes2 = new byte[tempStream.Length];
+								tempStream.Read(feedBytes2, 0, (int)tempStream.Length);					
 
-							// Send it to the web service
-							DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
-							remoteStore2.Url = remoteLocation;
-							remoteStore2.UpdateFile("blogroll.opml", feedBytes2, credentialUser, credentialPassword);
-							break; */
+								// Send it to the web service
+								DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
+								remoteStore2.Url = remoteLocation;
+								remoteStore2.UpdateFile("blogroll.opml", feedBytes2, credentialUser, credentialPassword);
+								break; */
 
 
 						case RemoteStorageProtocolType.FTP:			// Send to FTP server
@@ -395,31 +423,31 @@ namespace RssBandit.WinGui{
 								ftpClient.TransferType = FTPTransferType.BINARY; 
 								ftpClient.Put(tempStream, remoteFileName, false);	// try data transfer (ftp data port)
 
-							} catch (System.Net.Sockets.SocketException) {
+							} catch (System.Net.Sockets.SocketException soex) {
 								
-							/*	if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061 ){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */
+								/*	if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061 ){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */
 									
-									// try again, with Mode switched:
-									// see also: http://slacksite.com/other/ftp.html
-									if (connectionMode_Passive) {
-										ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-									} else {
-										ftpClient.ConnectMode = FTPConnectMode.PASV;
-									}
-									connectionMode_Passive = !connectionMode_Passive;
+								// try again, with Mode switched:
+								// see also: http://slacksite.com/other/ftp.html
+								if (connectionMode_Passive) {
+									ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
+								} else {
+									ftpClient.ConnectMode = FTPConnectMode.PASV;
+								}
+								connectionMode_Passive = !connectionMode_Passive;
 
-									// try again:
-									// since the ftp component closes the stream when it gets an exception
-									// we have to re-create the stream before trying again
-									using (MemoryStream tempStream2 = new MemoryStream()) {
-										zos = new ZipOutputStream(tempStream2);
-										ZipFiles(files, zos); 
-										tempStream2.Position = 0;
-										ftpClient.Put(tempStream2, remoteFileName, false);
-									}
+								// try again:
+								// since the ftp component closes the stream when it gets an exception
+								// we have to re-create the stream before trying again
+								using (MemoryStream tempStream2 = new MemoryStream()) {
+									zos = new ZipOutputStream(tempStream2);
+									ZipFiles(files, zos); 
+									tempStream2.Position = 0;
+									ftpClient.Put(tempStream2, remoteFileName, false);
+								}
 
-									// old impl.
-									//ftpClient.Put(tempStream, remoteFileName, false);
+								// old impl.
+								//ftpClient.Put(tempStream, remoteFileName, false);
 
 								/* } else {
 									throw;
@@ -494,7 +522,7 @@ namespace RssBandit.WinGui{
 				// eat up
 			} catch (Exception ex) {
 				p_operationException = ex;
-				_log.Debug("RunUpload("+syncFormat.ToString()+") Exception", ex);
+				_log.Error("RunUpload("+syncFormat.ToString()+") Exception", ex);
 			}
 
 			finally {
@@ -626,14 +654,14 @@ namespace RssBandit.WinGui{
 						ngosDownloadedFeeds = ngosFeedsToDownload = 0;
 						break;
 
-				/*	case RemoteStorageProtocolType.dasBlog_1_3:
-						// Connect to the web service and request an update
-						DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
-						remoteStore2.Url = remoteLocation;
-						byte[] feedList = remoteStore2.ReadFile("blogroll.opml", credentialUser, credentialPassword);
+						/*	case RemoteStorageProtocolType.dasBlog_1_3:
+								// Connect to the web service and request an update
+								DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
+								remoteStore2.Url = remoteLocation;
+								byte[] feedList = remoteStore2.ReadFile("blogroll.opml", credentialUser, credentialPassword);
 
-						importStream = new MemoryStream(feedList);
-						break; */
+								importStream = new MemoryStream(feedList);
+								break; */
 
 					case RemoteStorageProtocolType.FTP:
 						// Fetch from FTP
@@ -676,21 +704,21 @@ namespace RssBandit.WinGui{
 							ftpClient.TransferType = FTPTransferType.BINARY; 
 							ftpClient.Get(fileStream, remoteFileName);
 
-						} catch (System.Net.Sockets.SocketException) {
+						} catch (System.Net.Sockets.SocketException soex) {
 								
 							/* if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */ 
 									
-								// try again, with Mode switched:
-								// see also: http://slacksite.com/other/ftp.html
-								if (connectionMode_Passive) {
-									ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-								} else {
-									ftpClient.ConnectMode = FTPConnectMode.PASV;
-								}
-								connectionMode_Passive = !connectionMode_Passive;
+							// try again, with Mode switched:
+							// see also: http://slacksite.com/other/ftp.html
+							if (connectionMode_Passive) {
+								ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
+							} else {
+								ftpClient.ConnectMode = FTPConnectMode.PASV;
+							}
+							connectionMode_Passive = !connectionMode_Passive;
 
-								// try again:
-								ftpClient.Get(fileStream, remoteFileName);
+							// try again:
+							ftpClient.Get(fileStream, remoteFileName);
 
 							/* } else {
 								throw;
@@ -769,7 +797,7 @@ namespace RssBandit.WinGui{
 				// eat up
 			} catch (Exception ex) {
 				p_operationException = ex;
-				_log.Debug("RunDownload("+syncFormat.ToString()+") Exception", ex);
+				_log.Error("RunDownload("+syncFormat.ToString()+") Exception", ex);
 			}
 
 			finally {
@@ -858,19 +886,23 @@ namespace RssBandit.WinGui{
 
 				string syncUrl = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "syncXmlUrl");
 				string feedId  = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id");							
-				XmlElement feed2Sync = state.fws.GetNews(Int32.Parse(feedId), RemoteFeedlistThreadHandler.NgosLocationName, this.rssBanditApp.Preferences.NgosSyncToken /* syncToken */ , false); 								
+				XmlElement feed2Sync = state.fws.GetNews(Int32.Parse(feedId), RemoteFeedlistThreadHandler.NgosLocationName, null /* this.rssBanditApp.Preferences.NgosSyncToken */ , false); 								
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable()); 
 
 				nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions"); 
 
-				foreach(XmlNode item in feed2Sync.SelectNodes("//item[ng:read='true']", nsMgr)){
+				foreach(XmlNode item in feed2Sync.SelectNodes("//item[ng:read='True']", nsMgr)){
 					
 					// TODO: Fix this to work for feeds with guids since NewsGator doesn't provide them in the feed
 					XmlNode link = item.SelectSingleNode("./link"); 
-					if(link != null){
-						state.feed.storiesrecentlyviewed.Add(link.InnerText);
-						continue; 
+					XmlNode guid = item.SelectSingleNode("./guid"); 
+					
+					if(guid != null){
+						state.feed.storiesrecentlyviewed.Add(guid.InnerText);
+					}else if(link != null){
+						state.feed.storiesrecentlyviewed.Add(link.InnerText);					
 					}
+
 				}//foreach(XmlNode item...)	
 		
 			}finally{
@@ -892,11 +924,10 @@ namespace RssBandit.WinGui{
 
 				NgosDownloadFeedState state = stateInfo as NgosDownloadFeedState;
 
-				feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
-                List<string> readItems = new List<string>(); 
-				
-                // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
- 				readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed); 
+				feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link]; 										
+				ArrayList readItems  = new ArrayList(); 
+				// this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
+				readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed); 
 				
 				string syncUrl = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "syncXmlUrl");
 				string feedId  = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id");							
@@ -905,27 +936,27 @@ namespace RssBandit.WinGui{
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable()); 				
 				nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions"); 
 
-				foreach(XmlNode item in feed2Sync.SelectNodes("//item")){										
+				foreach(XmlNode item in feed2Sync.SelectNodes("//item")){
+					
+					XmlNode link = item.SelectSingleNode("./link"); 
+					XmlNode guid = item.SelectSingleNode("./guid"); 
+					XmlNode read = item.SelectSingleNode("./ng:read", nsMgr);
+					bool itemRead    = false; 
 
-                    XmlNode link = item.SelectSingleNode("./link");
-                    XmlNode guid = item.SelectSingleNode("./guid");
-                    XmlNode read = item.SelectSingleNode("./ng:read", nsMgr);
-                    bool itemRead = false;
+					if(read != null && read.InnerText.ToLower().Equals("true")){
+						itemRead = true; 
+					}
 
-                    if (read != null && read.InnerText.ToLower().Equals("true")) {
-                        itemRead = true;
-                    }
+					string ngosId =  item.SelectSingleNode("./ng:postId", nsMgr).InnerText; 
+					string id = null; 
 
-                    string ngosId = item.SelectSingleNode("./ng:postId", nsMgr).InnerText;
-                    string id = null;
-
-                    if (guid != null) {
-                        id = guid.InnerText;
-                    } else if (link != null) {
-                        id = link.InnerText;
-                    } else {
-                        continue;
-                    }
+					if(guid != null){
+						id = guid.InnerText;
+					}else if(link != null){
+						id = link.InnerText;	 
+					}else{
+						continue;
+					}
 								
 					//see if we've read the item in RSS Bandit 
 					if(!itemRead && readItems.Contains(id)){						
@@ -952,12 +983,12 @@ namespace RssBandit.WinGui{
 		/// </summary>
 		/// <param name="f">The feed whose unread and deleted items are being fetched</param>
 		/// <param name="readItems">The collection in which to place the URLs of the read items</param>
-		public void GetReadItemUrls(feedsFeed f, List<string> readItems){
-			IList<NewsItem> allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link); 
+		public void GetReadItemUrls(feedsFeed f, ArrayList readItems){
+			ArrayList allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link); 
 
 			if((allItems!= null) && allItems.Count > 0){
 				
-				NewsItem testItem =  allItems[0]; 
+				NewsItem testItem = (NewsItem) allItems[0]; 
 			    
 				if(testItem.Id.Equals(testItem.Link)){
 					readItems.InsertRange(0, f.storiesrecentlyviewed); 										
