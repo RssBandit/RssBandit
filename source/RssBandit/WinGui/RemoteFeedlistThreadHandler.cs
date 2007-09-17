@@ -894,12 +894,14 @@ namespace RssBandit.WinGui{
 
 				feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
                 List<string> readItems = new List<string>(); 
-				this.GetReadItemUrls(feedInBandit, readItems); 
+				
+                // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
+ 				readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed); 
 				
 				string syncUrl = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "syncXmlUrl");
 				string feedId  = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id");							
 				
-				XmlElement feed2Sync = state.fws.GetNews(Int32.Parse(feedId), RemoteFeedlistThreadHandler.NgosLocationName, this.rssBanditApp.Preferences.NgosSyncToken /* syncToken */ , false); 								
+				XmlElement feed2Sync = state.fws.GetNews(Int32.Parse(feedId), RemoteFeedlistThreadHandler.NgosLocationName, null /* this.rssBanditApp.Preferences.NgosSyncToken */ , false); 								
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable()); 				
 				nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions"); 
 
