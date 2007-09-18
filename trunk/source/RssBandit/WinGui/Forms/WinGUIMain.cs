@@ -2927,6 +2927,13 @@ namespace RssBandit.WinGui.Forms
 
 								if(fi.ItemsList.Count > 0){
 									unreadItems.Add(fi);
+									if (fi.ItemsList.Count != child.UnreadCount)
+									{
+										this.UpdateTreeNodeUnreadStatus(child, fi.ItemsList.Count);
+										UnreadItemsNodeRemoveItems(items);
+										UnreadItemsNode.Items.AddRange(fi.ItemsList);
+										UnreadItemsNode.UpdateReadStatus();
+									}
 								}else{
 									fi = null; 
 								}
@@ -3227,14 +3234,14 @@ namespace RssBandit.WinGui.Forms
 			Infragistics.Win.UltraWinTree.UltraTreeColumnSet ultraTreeColumnSet1 = new Infragistics.Win.UltraWinTree.UltraTreeColumnSet();
 			Infragistics.Win.UltraWinTree.UltraTreeNodeColumn ultraTreeNodeColumn1 = new Infragistics.Win.UltraWinTree.UltraTreeNodeColumn();
 			Infragistics.Win.UltraWinTree.Override _override2 = new Infragistics.Win.UltraWinTree.Override();
-			Infragistics.Win.Appearance appearance1 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance7 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
 			Infragistics.Win.Appearance appearance2 = new Infragistics.Win.Appearance();
 			Infragistics.Win.Appearance appearance3 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
 			Infragistics.Win.Appearance appearance4 = new Infragistics.Win.Appearance();
 			Infragistics.Win.Appearance appearance5 = new Infragistics.Win.Appearance();
-			Infragistics.Win.Appearance appearance6 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance8 = new Infragistics.Win.Appearance();
 			this.NavigatorFeedSubscriptions = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
 			this.treeFeeds = new Infragistics.Win.UltraWinTree.UltraTree();
 			this.NavigatorSearch = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
@@ -3340,6 +3347,7 @@ namespace RssBandit.WinGui.Forms
 			// ultraToolTipManager
 			// 
 			this.ultraToolTipManager.ContainingControl = this;
+			this.ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
 			// 
 			// panelFeedDetails
 			// 
@@ -3569,15 +3577,15 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// detailHeaderCaption
 			// 
-			appearance1.BackColor = System.Drawing.Color.CornflowerBlue;
-			appearance1.BackColor2 = System.Drawing.Color.MidnightBlue;
-			appearance1.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
-			appearance1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			appearance1.ImageHAlign = Infragistics.Win.HAlign.Right;
-			appearance1.ImageVAlign = Infragistics.Win.VAlign.Middle;
-			resources.ApplyResources(appearance1, "appearance1");
-			appearance1.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-			this.detailHeaderCaption.Appearance = appearance1;
+			appearance7.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance7.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance7.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
+			appearance7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance7.ImageHAlign = Infragistics.Win.HAlign.Right;
+			appearance7.ImageVAlign = Infragistics.Win.VAlign.Middle;
+			resources.ApplyResources(appearance7, "appearance7");
+			appearance7.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			this.detailHeaderCaption.Appearance = appearance7;
 			resources.ApplyResources(this.detailHeaderCaption, "detailHeaderCaption");
 			this.detailHeaderCaption.Name = "detailHeaderCaption";
 			this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
@@ -3629,16 +3637,16 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// navigatorHiddenCaption
 			// 
-			appearance6.BackColor = System.Drawing.Color.CornflowerBlue;
-			appearance6.BackColor2 = System.Drawing.Color.MidnightBlue;
-			appearance6.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
-			appearance6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			appearance6.Image = ((object)(resources.GetObject("appearance6.Image")));
-			appearance6.ImageHAlign = Infragistics.Win.HAlign.Center;
-			appearance6.ImageVAlign = Infragistics.Win.VAlign.Top;
-			resources.ApplyResources(appearance6, "appearance6");
-			appearance6.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-			this.navigatorHiddenCaption.Appearance = appearance6;
+			appearance8.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance8.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance8.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
+			appearance8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance8.Image = ((object)(resources.GetObject("appearance8.Image")));
+			appearance8.ImageHAlign = Infragistics.Win.HAlign.Center;
+			appearance8.ImageVAlign = Infragistics.Win.VAlign.Top;
+			resources.ApplyResources(appearance8, "appearance8");
+			appearance8.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			this.navigatorHiddenCaption.Appearance = appearance8;
 			resources.ApplyResources(this.navigatorHiddenCaption, "navigatorHiddenCaption");
 			this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
 			this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
@@ -10558,7 +10566,9 @@ namespace RssBandit.WinGui.Forms
 						
 							if (agNode != null) agNode.UpdateReadStatus();
 							if (sfNode != null) sfNode.UpdateReadStatus();
-
+							if (isTopLevelItem && tn.Type == FeedNodeType.Category)
+								UnreadItemsNode.MarkItemRead(item);
+							
 							// lookup corresponding TreeNode:
 							TreeFeedsNodeBase refNode = TreeHelper.FindNode(root, item.Feed);
 							if (refNode != null) {
@@ -12941,458 +12951,3 @@ namespace RssBandit.WinGui.Forms
 
 	
 }
-
-#region CVS Version Log
-/*
- * $Log: WinGUIMain.cs,v $
- * Revision 1.547  2007/07/21 12:26:55  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.546  2007/07/13 07:41:45  t_rendelmann
- * async. call cleanup does not handled all cases
- *
- * Revision 1.545  2007/07/11 18:51:35  carnage4life
- * Fixed issue where right-clicking on "This Feed->View Source" causes a crash if a newsgroup is selected.
- *
- * Revision 1.544  2007/07/11 00:46:37  carnage4life
- * no message
- *
- * Revision 1.543  2007/07/07 21:54:09  carnage4life
- * Fixed issue where empty pages displayed in newspaper view when browsing multiple feeds under a category node
- *
- * Revision 1.542  2007/06/22 16:46:36  t_rendelmann
- * fixed: Feed details label caption display the wrong fore color on Vista
- *
- * Revision 1.541  2007/06/19 15:01:23  t_rendelmann
- * fixed: [ 1702811 ] Cannot access .treestate.xml (now report a read error as a warning once, but log only at save time during autosave)
- *
- * Revision 1.540  2007/06/15 11:02:06  t_rendelmann
- * new: enabled user failure actions within feed error reports (validate, navigate to, delete subscription)
- *
- * Revision 1.539  2007/06/12 19:00:47  t_rendelmann
- * fixed: Column Click Doesn't Sort in "Show Items in Groups" (http://sourceforge.net/tracker/index.php?func=detail&aid=1662434&group_id=96589&atid=615248)
- *
- * Revision 1.538  2007/06/12 16:39:15  t_rendelmann
- * now allow javascript error reporting in DEBUG builds, but not in RELEASE
- *
- * Revision 1.537  2007/06/09 18:32:48  carnage4life
- * No results displayed when performing Web searches with Feedster or other search engines that return results as RSS feeds
- *
- * Revision 1.536  2007/06/09 01:55:48  carnage4life
- * Fixed issue where pagination wasn't disabled for custom newspaper views.
- *
- * Revision 1.535  2007/06/07 19:51:22  carnage4life
- * Added full support for pagination in newspaper views
- *
- * Revision 1.534  2007/06/07 02:17:11  carnage4life
- * Fixed a minor issue with paging support for feeds in the newspaper view
- *
- * Revision 1.533  2007/06/07 02:04:18  carnage4life
- * Added pages in the newspaper view when displaying unread items for a feed
- *
- * Revision 1.532  2007/06/03 17:03:08  carnage4life
- * no message
- *
- * Revision 1.531  2007/06/01 19:39:17  carnage4life
- * no message
- *
- * Revision 1.530  2007/05/20 16:07:57  t_rendelmann
- * fixed: Items incorrectly marked as read (https://sourceforge.net/tracker/index.php?func=detail&aid=1684973&group_id=96589&atid=615248)
- *
- * Revision 1.529  2007/05/18 15:10:26  t_rendelmann
- * fixed: node selection after feed/category deletion behavior. Now the new node to select after a deletion is controlled by the new method TreeHelper.GetNewNodeToActivate()
- *
- * Revision 1.528  2007/05/18 11:46:46  t_rendelmann
- * fixed: no category context menus displayed after OPML import or remote sync.
- *
- * Revision 1.527  2007/05/12 18:15:18  carnage4life
- * Changed a number of APIs to treat feed URLs as System.String instead of System.Uri because some feed URLs such as those containing unicode cannot be used to create instances of System.Uri
- *
- * Revision 1.526  2007/05/05 10:45:45  t_rendelmann
- * fixed: lucene indexing issues caused by thread race condition
- *
- * Revision 1.525  2007/05/03 15:58:06  t_rendelmann
- * fixed: toggle read state from within html detail pane (javascript initiated) not always toggle the read state within the listview and subscription tree (caused if item ID is Url-encoded)
- *
- * Revision 1.524  2007/03/31 13:06:46  t_rendelmann
- * fixed: sometimes are read items displayed in the "Unread Items" folder
- *
- * Revision 1.523  2007/03/29 10:44:33  t_rendelmann
- * new: detail header title now also display the unread counter of the selected node (additional to caption)
- *
- * Revision 1.522  2007/03/27 15:11:23  t_rendelmann
- * fixed: javascript errors etc. reported by dialogboxes
- *
- * Revision 1.521  2007/03/19 10:43:04  t_rendelmann
- * changed: better handling of favicon's (driven by extension now); we are now looking for the smallest and smoothest icon image to use (if ICO)
- *
- * Revision 1.520  2007/03/13 16:50:49  t_rendelmann
- * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
- *
- * Revision 1.519  2007/03/05 17:45:54  t_rendelmann
- * fixed: check for updates is always disabled
- *
- * Revision 1.518  2007/03/05 16:37:28  t_rendelmann
- * fixed: check for updates is always disabled
- *
- * Revision 1.517  2007/03/04 16:40:46  carnage4life
- * Fixed issue where items marked as read in a search folder not marked as read in the actual feed
- *
- * Revision 1.516  2007/03/04 16:37:58  t_rendelmann
- * fixed: cannot type SPACE within search panel input boxes
- *
- * Revision 1.515  2007/03/03 10:37:56  t_rendelmann
- * refreshed dutch localization; added missing resource string for "Older than" at the search panel
- *
- * Revision 1.514  2007/02/24 20:34:55  t_rendelmann
- * fixed: Alt+F4 does not minimize to tray, Clicking [x] does [https://sourceforge.net/tracker/index.php?func=detail&aid=1517977&group_id=96589&atid=615248 bug 1517977]
- *
- * Revision 1.513  2007/02/19 14:52:08  carnage4life
- * We no longer bubble exceptions in saving or restoring browser tab state to the user
- *
- * Revision 1.512  2007/02/18 18:13:28  t_rendelmann
- * finished resources for I18N of v1.5.0.10
- *
- * Revision 1.511  2007/02/18 15:24:06  t_rendelmann
- * fixed: null ref. exception on Enclosure property
- *
- * Revision 1.510  2007/02/17 22:43:20  carnage4life
- * Clarified text and behavior around showing full item text in search folders
- *
- * Revision 1.509  2007/02/17 20:26:43  carnage4life
- * Incomplete attempt to fix multiselect issues in Outlook 2003 listview
- *
- * Revision 1.508  2007/02/17 12:35:28  t_rendelmann
- * new: "Show item full texts" is now a context menu option on search folders
- *
- * Revision 1.507  2007/02/15 17:34:16  t_rendelmann
- * changed: persisted searches now use the default stylesheet to render (items with full text);
- * fixed: search scope not considered on persisted searches
- *
- * Revision 1.506  2007/02/15 16:37:50  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.505  2007/02/13 21:21:48  t_rendelmann
- * applied a HACK to prevent AccessViolationExceptions when transforming a Icon with width!=height to a bitmap (CLR 2.0)
- *
- * Revision 1.504  2007/02/11 17:03:12  carnage4life
- * Made following changes to default newspaper view
- * 1.) Alt text now shows up for action icons in newspaper view
- * 2.) Items marked as unread by the user aren't toggled to read automatically by scrolling over them
- * 3.) Scrolling only marks items as read instead of toggling read state
- *
- * Revision 1.503  2007/02/11 15:58:53  carnage4life
- * 1.) Added proper handling for when a podcast download exceeds the size limit on the podcast folder
- *
- * Revision 1.502  2007/02/10 21:46:14  carnage4life
- * Added code to increase refresh rate on comment feeds after 1 week.
- *
- * Revision 1.501  2007/02/10 16:17:28  t_rendelmann
- * fixed: we started discoverering of feeds twice per web browse action
- *
- * Revision 1.500  2007/02/10 15:28:22  carnage4life
- * Fixed issue where marking an item as read in a search folder doesn't mark it as read in the main feed.
- *
- * Revision 1.499  2007/02/10 14:54:05  carnage4life
- * Made change so restoring browser tab state waits until the form is visible
- *
- * Revision 1.498  2007/02/09 16:40:30  t_rendelmann
- * fixed: Feed Subscriptions Panel width not saved (bug 1647343)
- *
- * Revision 1.497  2007/02/09 14:54:22  t_rendelmann
- * fixed: added missing configuration option for newComments font style and color;
- * changed: some refactoring in FontColorHelper;
- *
- * Revision 1.496  2007/02/08 16:22:17  carnage4life
- * Fixed regression where checked fields in local search are treated as an AND instead of an OR
- *
- * Revision 1.495  2007/02/07 19:50:18  carnage4life
- * Another attempt to fix issue where NullReferenceException sometimes thrown on restoring browser tab state on startup
- *
- * Revision 1.494  2007/02/07 19:40:54  t_rendelmann
- * fixed: chevron issue on browse back/forward
- *
- * Revision 1.493  2007/02/07 19:01:01  carnage4life
- * Reverted previous checkin
- *
- * Revision 1.491  2007/02/07 15:23:05  t_rendelmann
- * fixed: open web browser in background grab focus;
- * fixed: System.ObjectDisposedException: Cannot access a disposed object named "ParkingWindow" in Genghis.Windows.Forms.AniForm
- * fixed: System.InvalidOperationException: Cross-thread operation not valid: Control 'ToastNotify' accessed from a thread other than the thread it was created on in Genghis.Windows.Forms.AniForm
- *
- * Revision 1.490  2007/02/06 20:22:22  t_rendelmann
- * fixed: [ 1634694 ] Feed with initial focus is always refreshed on startup (https://sourceforge.net/tracker/index.php?func=detail&aid=1634694&group_id=96589&atid=615248)
- *
- * Revision 1.489  2007/02/04 15:27:18  t_rendelmann
- * prepared localization of the mainform; resources cleanup;
- *
- * Revision 1.488  2007/02/01 16:00:44  t_rendelmann
- * fixed: option "Initiate download feeds at startup" was not taken over to the Options UI checkbox
- * fixed: Deserialization issue with Preferences types of wrong AppServices assembly version
- * fixed: OnPreferencesChanged() event was not executed at the main thread
- * changed: prevent execptions while deserialize DownloadTask
- *
- * Revision 1.487  2007/01/30 23:06:16  carnage4life
- * Fixed threading issue with AutoDiscovered feeds handler that caused toolbar to be replaced with red X
- *
- * Revision 1.486  2007/01/30 21:17:43  carnage4life
- * Added support for remembering browser tab state on restart
- *
- * Revision 1.485  2007/01/30 14:19:13  t_rendelmann
- * fixed: mouse wheel support for treeview re-activated;
- * feature: drag multiple urls separated by Environment.Newline to the treeview to "batch" subscribe
- *
- * Revision 1.484  2007/01/28 15:45:28  carnage4life
- * Fixed issue where Search Scope not populated on startup
- *
- * Revision 1.483  2007/01/23 16:31:50  t_rendelmann
- * fixed: Upgrade IE 6 to 7: cannot use ALT-Tab to switch tabs anymore (bug https://sourceforge.net/tracker/index.php?func=detail&aid=1602232&group_id=96589&atid=615248)
- *
- * Revision 1.482  2007/01/23 10:17:26  t_rendelmann
- * fixed: Restore from system tray doesn't display window (bug https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1641837&group_id=96589)
- *
- * Revision 1.481  2007/01/20 18:46:56  t_rendelmann
- * fixed: dragdrop node highlight issue
- *
- * Revision 1.480  2007/01/20 18:11:48  carnage4life
- * Added support for watching comments from the Newspaper view
- *
- * Revision 1.479  2007/01/18 18:21:31  t_rendelmann
- * code cleanup (old search controls and code removed)
- *
- * Revision 1.478  2007/01/18 15:07:29  t_rendelmann
- * finished: lucene integration (scoped searches are now working)
- *
- * Revision 1.477  2007/01/17 19:26:38  carnage4life
- * Added initial support for custom newspaper view for search results
- *
- * Revision 1.476  2007/01/16 19:43:40  t_rendelmann
- * cont.: now we populate the rss search tree;
- * fixed: treeview images are now correct (not using the favicons)
- *
- * Revision 1.475  2007/01/14 19:30:47  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.474  2007/01/11 15:07:55  t_rendelmann
- * IG assemblies replaced by hotfix versions; migrated last Sandbar toolbar usage to IG ultratoolbar
- *
- * Revision 1.473  2007/01/06 15:50:22  carnage4life
- * Fixed some lingering bugs
- *
- * Revision 1.472  2006/12/26 17:18:05  carnage4life
- * Fixed issue that hitting [space] while editing nodes moved to the next unread item
- *
- * Revision 1.471  2006/12/24 14:03:23  carnage4life
- * Fixed issue where IE security band is displayed even when ActiveX is explicitly enabled by the user.
- *
- * Revision 1.470  2006/12/24 12:43:40  carnage4life
- * Fixed issue where feed URLs with escape characters don't appear to be updated in feed subscriptions tree view when updating feeds.
- *
- * Revision 1.469  2006/12/23 21:56:25  carnage4life
- * Fixed issue where deleting a node in the tree view didn't select the next node
- *
- * Revision 1.467  2006/12/22 02:48:43  carnage4life
- * Made changes in attempt to track down the race condition that is causing UITaskTimer events not to fire
- *
- * Revision 1.466  2006/12/21 18:39:54  t_rendelmann
- * fixed: HTML detail pane link click did not worked (race condition)
- *
- * Revision 1.465  2006/12/21 14:49:39  t_rendelmann
- * fixed: HTML detail pane link click did not worked
- *
- * Revision 1.464  2006/12/19 21:01:27  carnage4life
- * Fixed issue where right-click menu in list view reported an incorrect state
- *
- * Revision 1.463  2006/12/17 14:24:32  t_rendelmann
- * added: forced refresh of feeds at startup delay is now configurable via App.config app setting (key: "ForcedRefreshOfFeedsAtStartupDelay.Seconds")
- *
- * Revision 1.462  2006/12/17 14:07:05  t_rendelmann
- * added: option to control application sounds and configuration;
- * added option to control Bandit startup as windows user logon;
- *
- * Revision 1.461  2006/12/16 15:52:34  t_rendelmann
- * removed unused image strips;
- * now calling a Windows.Forms timer to apply UI configuration save to prevent cross-thread exceptions;
- *
- * Revision 1.460  2006/12/16 15:09:36  t_rendelmann
- * feature: application sound support (configurable via Windows Sounds Control Panel)
- *
- * Revision 1.459  2006/12/15 13:31:00  t_rendelmann
- * reworked to make dynamic menus work after toolbar gets loaded from .settings.xml
- *
- * Revision 1.458  2006/12/14 20:54:02  carnage4life
- * Fixed right-click behavior on listview to handle Control key being pressed
- *
- * Revision 1.457  2006/12/14 16:34:07  t_rendelmann
- * finished: all toolbar migrations; removed Sandbar toolbars from MainUI
- *
- * Revision 1.456  2006/12/12 12:04:24  t_rendelmann
- * finished: all toolbar migrations; save/restore/customization works
- *
- * Revision 1.455  2006/12/10 20:54:14  t_rendelmann
- * cont.: search  toolbar migration finished - search dropdown now functional, commands dynamically build from search engines;
- * fixed: OutOfMemoryException on loading favicons
- *
- * Revision 1.454  2006/12/10 14:02:11  t_rendelmann
- * cont.: search toolbar migration started
- *
- * Revision 1.453  2006/12/10 12:34:10  t_rendelmann
- * cont.: web toolbar migration finished - url dropdown now functional
- *
- * Revision 1.452  2006/12/10 11:54:16  t_rendelmann
- * fixed: column layout context menu not working correctly (regression caused by toolbar migration)
- *
- * Revision 1.451  2006/12/08 17:00:22  t_rendelmann
- * fixed: flag a item with no content did not show content anymore in the flagged item view (linked) (was regression because of the dynamic load of item content from cache);
- * fixed: "View Outlook Reading Pane" was not working correctly (regression from the toolbars migration);
- *
- * Revision 1.450  2006/12/08 13:46:23  t_rendelmann
- * fixed: listview right-click behavior restored (not loosing selection, etc.)
- *
- * Revision 1.449  2006/12/07 23:18:54  carnage4life
- * Fixed issue where Feed Title column in Smart Folders does not show the original feed
- *
- * Revision 1.448  2006/12/05 14:19:50  carnage4life
- * Fixed bug where items with new comments didn't visually change state when their comments were read
- *
- * Revision 1.447  2006/12/05 04:06:25  carnage4life
- * Made changes so that when comments for an item are viewed from Watched Items folder, the actual feed is updated and vice versa
- *
- * Revision 1.446  2006/12/03 01:20:14  carnage4life
- * Made changes to support Watched Items feed showing when new comments found
- *
- * Revision 1.445  2006/12/01 17:57:34  t_rendelmann
- * changed; next version with the new menubar,main toolbar web tools (functionality partially) migrated to IG - still work in progress
- *
- * Revision 1.444  2006/11/30 17:12:54  t_rendelmann
- * changed; next version with the new menubar,main toolbar web tools partially migrated to IG - still work in progress
- *
- * Revision 1.443  2006/11/28 18:08:40  t_rendelmann
- * changed; first version with the new menubar and the main toolbar migrated to IG - still work in progress
- *
- * Revision 1.442  2006/11/24 12:18:45  t_rendelmann
- * small fix: recent used category in the subscription wizard was not validated against the categories
- *
- * Revision 1.441  2006/11/23 17:28:12  t_rendelmann
- * catched the InternetFeature class flaw caused by EntryPointNotFoundException
- *
- * Revision 1.440  2006/11/22 00:14:04  carnage4life
- * Added support for last of Podcast options
- *
- * Revision 1.439  2006/11/20 22:26:23  carnage4life
- * Added support for most of the Podcast and Attachment options except for podcast file extensions and copying podcasts to a specified folder
- *
- * Revision 1.438  2006/11/12 01:25:01  carnage4life
- * 1.) Added Support for Alert windows on received podcasts.
- * 2.) Fixed feed mixup issues
- *
- * Revision 1.437  2006/11/04 15:42:06  t_rendelmann
- * changed: new folder order in "special feeds" root; new parent category "Flagged Items"
- *
- * Revision 1.436  2006/11/03 12:05:43  t_rendelmann
- * fixed: OnPreferencesChanged event may get called not on the UI thread
- *
- * Revision 1.435  2006/10/31 13:36:40  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- * Revision 1.434  2006/10/28 23:10:01  carnage4life
- * Added "Attachments/Podcasts" to Feed Properties and Category properties dialogs.
- *
- * Revision 1.433  2006/10/28 16:38:25  t_rendelmann
- * added: new "Unread Items" folder, not anymore based on search, but populated directly with the unread items
- *
- * Revision 1.432  2006/10/27 01:57:54  carnage4life
- * Added support for adding newly downloaded podcasts to playlists in Windows Media Player or iTunes
- *
- * Revision 1.431  2006/10/21 23:34:16  carnage4life
- * Changes related to adding the "Download Attachment" right-click menu option in the list view
- *
- * Revision 1.430  2006/10/17 15:49:11  t_rendelmann
- * removed some unnecessary casts
- *
- * Revision 1.429  2006/10/11 02:56:38  carnage4life
- * 1.) Fixed issue where we assumed that thr:replies would always point to an atom feed
- * 2.) Fixed issue where items marked as unread were showing up as read on restart
- *
- * Revision 1.428  2006/10/10 17:43:28  t_rendelmann
- * feature: added a commandline option to allow users to reset the UI (don't init from .settings.xml);
- * fixed: explorer bar state was not saved/restored, corresponding menu entries hold the wrong state on explorer group change
- *
- * Revision 1.427  2006/10/05 17:58:32  t_rendelmann
- * fixed: last selected node activated on startup after restore the treestate did not populated the listview/detail pane
- *
- * Revision 1.426  2006/10/05 14:59:04  t_rendelmann
- * feature: restore the subscription tree state (expansion, selection) also after remote download of the subscriptions
- *
- * Revision 1.425  2006/10/05 14:45:06  t_rendelmann
- * added usage of the XmlSerializerCache to prevent the Xml Serializer leak for the new
- * feature: persist the subscription tree state (expansion, selection)
- *
- * Revision 1.424  2006/10/03 07:13:13  t_rendelmann
- * feature: now using the most of the enhanced browser security features available with Windows XP SP2
- *
- * Revision 1.423  2006/09/29 18:14:37  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.422  2006/09/22 18:24:52  carnage4life
- * Fixed double click behavior on Outlook 2003 list view
- *
- * Revision 1.421  2006/09/14 20:52:51  carnage4life
- * Made change to always empty all list views when EmptyListView() is called
- *
- * Revision 1.420  2006/09/14 00:45:09  carnage4life
- * Changed displayed date time to local time in outlook 2003 list view
- *
- * Revision 1.419  2006/09/12 10:53:45  t_rendelmann
- * changed: MainForm.Invoke calles replaced by .BeginInvoke to avoid thread locks (places, where we expect to receive results from threads)
- *
- * Revision 1.418  2006/09/11 17:21:32  t_rendelmann
- * applied the fix from Ariel Selig to get around the display issue within the outlook express listview (screen resolution: 1024x768)
- *
- * Revision 1.417  2006/09/07 17:05:56  carnage4life
- * Fixed issue where new comment count wasn't getting written to the feed cache for a watched comment
- *
- * Revision 1.416  2006/09/07 16:47:44  carnage4life
- * Fixed two issues
- * 1. Added SelectedImageIndex and ImageIndex to FeedsTreeNodeBase
- * 2. Fixed issue where watched comments always were treated as having new comments on HTTP 304
- *
- * Revision 1.415  2006/09/07 00:48:36  carnage4life
- * Fixed even more bugs with comment watching and comment feeds
- *
- * Revision 1.414  2006/09/05 05:26:27  carnage4life
- * Fixed a number of bugs in comment watching code for comment feeds
- *
- * Revision 1.413  2006/09/03 19:08:51  carnage4life
- * Added support for favicons
- *
- * Revision 1.412  2006/09/01 03:23:00  carnage4life
- * Cleaned up some of the code in DetailTabNavigateToUrl() to make it easier to understand.
- *
- * Revision 1.411  2006/09/01 02:01:44  carnage4life
- * Added "Load new browser tabs in background"
- *
- * Revision 1.410  2006/08/31 22:33:53  carnage4life
- * We now honor Web Browser security setting for reading pane.
- *
- * Revision 1.409  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- * Revision 1.408  2006/08/12 16:25:49  t_rendelmann
- * refactored the global UI Color usage
- *
- * Revision 1.407  2006/08/10 17:46:53  carnage4life
- * Added support for <language> & <dc:language>
- *
- * Revision 1.406  2006/08/08 14:24:45  t_rendelmann
- * fixed: nullref. exception on "Move to next unread" (if it turns back to treeview top node)
- * fixed: nullref. exception (assertion) on delete feeds/category node
- * changed: refactored usage of node.Tag (object type) to use node.DataKey (string type)
- *
- */
-#endregion

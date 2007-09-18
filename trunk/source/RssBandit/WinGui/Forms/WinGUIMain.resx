@@ -117,30 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="treeFeeds.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="treeFeeds.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 91</value>
-  </metadata>
-  <data name="helpProvider1.HelpNamespace" xml:space="preserve">
-    <value>BanditHelp.chm</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="treeFeeds.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="treeFeeds.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 376</value>
-  </data>
-  <data name="treeFeeds.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;treeFeeds.Name" xml:space="preserve">
     <value>treeFeeds</value>
   </data>
@@ -153,9 +129,11 @@
   <data name="&gt;&gt;treeFeeds.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="NavigatorFeedSubscriptions.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 26</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="NavigatorFeedSubscriptions.ShowHelp" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -177,19 +155,38 @@
   <data name="&gt;&gt;NavigatorFeedSubscriptions.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="panelRssSearch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="treeFeeds.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="panelRssSearch.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="treeFeeds.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="panelRssSearch.ShowHelp" type="System.Boolean, mscorlib">
+  <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 91</value>
+  </metadata>
+  <data name="helpProvider1.HelpNamespace" xml:space="preserve">
+    <value>BanditHelp.chm</value>
+  </data>
+  <data name="treeFeeds.ShowHelp" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="panelRssSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 322</value>
+  <data name="treeFeeds.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 376</value>
   </data>
-  <data name="panelRssSearch.TabIndex" type="System.Int32, mscorlib">
+  <data name="treeFeeds.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;treeFeeds.Name" xml:space="preserve">
+    <value>treeFeeds</value>
+  </data>
+  <data name="&gt;&gt;treeFeeds.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;treeFeeds.Parent" xml:space="preserve">
+    <value>NavigatorFeedSubscriptions</value>
+  </data>
+  <data name="&gt;&gt;treeFeeds.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;panelRssSearch.Name" xml:space="preserve">
@@ -231,6 +228,33 @@
   <data name="&gt;&gt;NavigatorSearch.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="panelRssSearch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelRssSearch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelRssSearch.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelRssSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 322</value>
+  </data>
+  <data name="panelRssSearch.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelRssSearch.Name" xml:space="preserve">
+    <value>panelRssSearch</value>
+  </data>
+  <data name="&gt;&gt;panelRssSearch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelRssSearch.Parent" xml:space="preserve">
+    <value>NavigatorSearch</value>
+  </data>
+  <data name="&gt;&gt;panelRssSearch.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="ultraToolTipManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>138, 17</value>
   </metadata>
@@ -246,624 +270,6 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>671, 476</value>
   </data>
-  <data name="htmlDetail.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="htmlDetail.Enabled" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="htmlDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6wAAAAIB
-        AAAAAQAAAAAAAAAAAAAAANYAAABMAAAAqh0AAOQFAAABAAAAAQIAAAAAAAAAAAAAAAAAAAAAAABMAAAA
-        AAAAAAAAAAABAAAA4NBXAHM1zxGuaQgAKy4SYggAAAAAAAAATAAAAAEUAgAAAAAAwAAAAAAAAEaBAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAADgAFAAfAIBT
-        HIegQmkQouoIACswMJ0iAGGAAAAAAGEAYgBvAHUAdAA6AGIAbABhAG4AawAAAAAAAAAAAAAACw==
-</value>
-  </data>
-  <data name="htmlDetail.RightToLeft" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="htmlDetail.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="htmlDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 162</value>
-  </data>
-  <data name="htmlDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>170</value>
-  </data>
-  <data name="&gt;&gt;htmlDetail.Name" xml:space="preserve">
-    <value>htmlDetail</value>
-  </data>
-  <data name="&gt;&gt;htmlDetail.Type" xml:space="preserve">
-    <value>IEControl.HtmlControl, IEControl, Version=1.1.113.6327, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;htmlDetail.Parent" xml:space="preserve">
-    <value>panelWebDetail</value>
-  </data>
-  <data name="&gt;&gt;htmlDetail.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelWebDetail.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelWebDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 108</value>
-  </data>
-  <data name="panelWebDetail.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelWebDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 162</value>
-  </data>
-  <data name="panelWebDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>997</value>
-  </data>
-  <data name="&gt;&gt;panelWebDetail.Name" xml:space="preserve">
-    <value>panelWebDetail</value>
-  </data>
-  <data name="&gt;&gt;panelWebDetail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelWebDetail.Parent" xml:space="preserve">
-    <value>panelFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;panelWebDetail.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="listFeedItemsO.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="listFeedItemsO.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="listFeedItemsO.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="listFeedItemsO.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 100</value>
-  </data>
-  <data name="listFeedItemsO.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="listFeedItemsO.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;listFeedItemsO.Name" xml:space="preserve">
-    <value>listFeedItemsO</value>
-  </data>
-  <data name="&gt;&gt;listFeedItemsO.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.UltraTreeExtended, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;listFeedItemsO.Parent" xml:space="preserve">
-    <value>panelFeedItems</value>
-  </data>
-  <data name="&gt;&gt;listFeedItemsO.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="colHeadline.Text" xml:space="preserve">
-    <value>Headline</value>
-  </data>
-  <data name="colHeadline.Width" type="System.Int32, mscorlib">
-    <value>150</value>
-  </data>
-  <data name="colDate.Text" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="colDate.Width" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="colTopic.Text" xml:space="preserve">
-    <value>Topic</value>
-  </data>
-  <data name="colTopic.Width" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="listFeedItems.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="listFeedItems.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="listFeedItems.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="listFeedItems.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 100</value>
-  </data>
-  <data name="listFeedItems.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;listFeedItems.Name" xml:space="preserve">
-    <value>listFeedItems</value>
-  </data>
-  <data name="&gt;&gt;listFeedItems.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ThListView.ThreadedListView, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;listFeedItems.Parent" xml:space="preserve">
-    <value>panelFeedItems</value>
-  </data>
-  <data name="&gt;&gt;listFeedItems.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelFeedItems.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelFeedItems.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelFeedItems.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelFeedItems.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 100</value>
-  </data>
-  <data name="panelFeedItems.TabIndex" type="System.Int32, mscorlib">
-    <value>1000</value>
-  </data>
-  <data name="&gt;&gt;panelFeedItems.Name" xml:space="preserve">
-    <value>panelFeedItems</value>
-  </data>
-  <data name="&gt;&gt;panelFeedItems.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelFeedItems.Parent" xml:space="preserve">
-    <value>panelFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;panelFeedItems.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="detailsPaneSplitter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="detailsPaneSplitter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="detailsPaneSplitter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 100</value>
-  </data>
-  <data name="detailsPaneSplitter.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="detailsPaneSplitter.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;detailsPaneSplitter.Name" xml:space="preserve">
-    <value>detailsPaneSplitter</value>
-  </data>
-  <data name="&gt;&gt;detailsPaneSplitter.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.CollapsibleSplitter, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;detailsPaneSplitter.Parent" xml:space="preserve">
-    <value>panelFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;detailsPaneSplitter.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelFeedDetails.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 20</value>
-  </data>
-  <data name="panelFeedDetails.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelFeedDetails.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 270</value>
-  </data>
-  <data name="panelFeedDetails.TabIndex" type="System.Int32, mscorlib">
-    <value>998</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetails.Name" xml:space="preserve">
-    <value>panelFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetails.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetails.Parent" xml:space="preserve">
-    <value>_docFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetails.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="_docFeedDetails.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 33</value>
-  </data>
-  <data name="_docFeedDetails.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="_docFeedDetails.Size" type="System.Drawing.Size, System.Drawing">
-    <value>384, 378</value>
-  </data>
-  <data name="_docFeedDetails.TabIndex" type="System.Int32, mscorlib">
-    <value>150</value>
-  </data>
-  <data name="_docFeedDetails.Text" xml:space="preserve">
-    <value>Feed Details</value>
-  </data>
-  <data name="&gt;&gt;_docFeedDetails.Name" xml:space="preserve">
-    <value>_docFeedDetails</value>
-  </data>
-  <data name="&gt;&gt;_docFeedDetails.Type" xml:space="preserve">
-    <value>TD.SandDock.DockControl, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
-  </data>
-  <data name="&gt;&gt;_docFeedDetails.Parent" xml:space="preserve">
-    <value>_docContainer</value>
-  </data>
-  <data name="&gt;&gt;_docFeedDetails.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="_docContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="_docContainer.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="_docContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>394, 416</value>
-  </data>
-  <data name="_docContainer.TabIndex" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;_docContainer.Name" xml:space="preserve">
-    <value>_docContainer</value>
-  </data>
-  <data name="&gt;&gt;_docContainer.Type" xml:space="preserve">
-    <value>TD.SandDock.DocumentContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
-  </data>
-  <data name="&gt;&gt;_docContainer.Parent" xml:space="preserve">
-    <value>panelFeedDetailsContainer</value>
-  </data>
-  <data name="&gt;&gt;_docContainer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="appearance1.TextHAlignAsString" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="appearance1.TextVAlignAsString" xml:space="preserve">
-    <value>Middle</value>
-  </data>
-  <data name="detailHeaderCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="detailHeaderCaption.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 12pt, style=Bold</value>
-  </data>
-  <data name="detailHeaderCaption.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="detailHeaderCaption.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="detailHeaderCaption.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="detailHeaderCaption.Size" type="System.Drawing.Size, System.Drawing">
-    <value>394, 25</value>
-  </data>
-  <data name="detailHeaderCaption.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="detailHeaderCaption.Text" xml:space="preserve">
-    <value>Welcome!</value>
-  </data>
-  <data name="&gt;&gt;detailHeaderCaption.Name" xml:space="preserve">
-    <value>detailHeaderCaption</value>
-  </data>
-  <data name="&gt;&gt;detailHeaderCaption.Type" xml:space="preserve">
-    <value>Infragistics.Win.Misc.UltraLabel, Infragistics2.Win.Misc.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
-  <data name="&gt;&gt;detailHeaderCaption.Parent" xml:space="preserve">
-    <value>panelFeedDetailsContainer</value>
-  </data>
-  <data name="&gt;&gt;detailHeaderCaption.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelFeedDetailsContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelFeedDetailsContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 5</value>
-  </data>
-  <data name="panelFeedDetailsContainer.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelFeedDetailsContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>394, 441</value>
-  </data>
-  <data name="panelFeedDetailsContainer.TabIndex" type="System.Int32, mscorlib">
-    <value>106</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetailsContainer.Name" xml:space="preserve">
-    <value>panelFeedDetailsContainer</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetailsContainer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetailsContainer.Parent" xml:space="preserve">
-    <value>panelClientAreaContainer</value>
-  </data>
-  <data name="&gt;&gt;panelFeedDetailsContainer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="splitterNavigator.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="splitterNavigator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 5</value>
-  </data>
-  <data name="splitterNavigator.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="splitterNavigator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>5, 441</value>
-  </data>
-  <data name="splitterNavigator.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;splitterNavigator.Name" xml:space="preserve">
-    <value>splitterNavigator</value>
-  </data>
-  <data name="&gt;&gt;splitterNavigator.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitterNavigator.Parent" xml:space="preserve">
-    <value>panelClientAreaContainer</value>
-  </data>
-  <data name="&gt;&gt;splitterNavigator.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Navigator.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="appearance2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        SUVORK5CYII=
-</value>
-  </data>
-  <data name="appearance3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
-        Cu8BfXaKSAAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
-        YYiSiSLiGVETiSyhgimoGV1AKvRPZOBluh0RJx7ayo2mU3s673uaF5CD1AsP5xzO8zzv+z7fOToAwn8V
-        GezE3CW9abo4wTt5Uf996oJOni4S5DmLIPuvGWR/qSEolRnmfSUJprhmSzwu5mKs6xymSo34duMY5Pe9
-        CH8Zxs/XHQiKl7HSmIm1zlysKzypwiDvMiBxvLxXkjFjP4tAXz3koTZEZj9hYzWC9UkPYo8LsOE+D6k8
-        iejcXNgWi8qzCF9FCmbtJ7D80olgfwMCrXlYenoTsWgYmzODiLVnQSpL3DagsRFtAyIPGL5yI6Ta0wiN
-        PcdaeBm/VwIIdVuw4DJhM/oDv1yF8BVT878TfO7MAWQnsOjAaPupPfGuJQsjTccx6ExHf30aPI4jDF7h
-        Y8cZwH+PhfsqpRFVj92oGrBwogpqFmoOWlgdvc7v3XcSYbPZHMKH1mxgvJKPkIWUhwZCI1eZ98iqh9Vq
-        dQi0HxmoKygGlIcGFj0W5j28fUA1eNOcyQZv759UDZQ8tOB9Vsg81y2dajDcmMEGlDAbKHlo4as7n3li
-        paBmQEkONBzlY3lVdxgvag+h724qemsO4kl1MqdNgdHONDZ1JrHZbKbjEHb9SDTSfrH1IcVv/vX6B3pT
-        t992kTbWAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="ultraExplorerBarGroup1.Text" xml:space="preserve">
-    <value>Feed Subscriptions</value>
-  </data>
-  <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
-        CxABrSO9dQAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
-        hMDJbw0EEWWYAeXTQRAEZQQFRkCGAQYRkGH4noEB5FNARFFEVMzf3ndKyvxgT3V255z/ee9773vu/3ef
-        +zz3nfcewOb/+pMA7qba6Ta/tUy3KaieZtModLpmmk27uG8X/T9Uh+iTVCz0+GDz3hi/q7n0kGReZ/8M
-        5YtH0Lp3PafCnWnZNoMW99F0rHuBbo8X6dk2jkvy8VxWvCT0BySInw1ArLi72u5Zqtb/Xcx586+3NInu
-        4Pe5tHMi/aGv0r/7dfpDJkgA0oODLs66/YM9KCJwod7hOeo2v0dLlBut0e60J/tywaQboLliiOBKuDBX
-        TaI/7LWfF6Bm9n00OI+i1mUMzfKPRPgnc8r7FZq3TaRN7crltioryNXyWAHwFldDfiJAhfpVjJFPYox9
-        CWOKLZWzHqLBZRSWLe8NrLivNocLCcs5rfwTjUF/o6+1zDp2Oewt+nyf+/ERkMy7W6TQNgoZoXUjptm/
-        olX2PE2+UziTGcC5orjvQPQ+tHs9TXPYzG8A8kPp8Rj5EwASp4hpLggdh+tBXG/ZSN7n76BRylBt38BO
-        77UEb15BtKcdlfoELl26xPnIWZzc+DRdugArxNn1z1gB7nS2/DDnBpKwNFaUU3umGG8XCuZynwptaiRK
-        hT+R6lj2a4+yX5eJKikFpWo3HhvXEhe7j4bcWCxrnuKUeo0VoEs+7ccBFIXez9f9Uvnm0CfMDx6IIFZz
-        mBKTAYPZSF61hZSqRuIKy4nQ5bDriB5f/0AU/nJyXF+idvcKK8DpgIVWgNrkeQQueYJz+UvQJ3wxEJE7
-        RsCgeowrPYfgWgypKeHEpGmoOdeMpa6K6voqihtb0def4mDpSfZmaAlM0SHXluEjV7DDbgp5vp/SZfiE
-        zhMzaNZNoj5lHIUBNuQof0FRyFAq4ydgTn6f2sxFVqAbIANbULTnKXpPx9Jcvx//kCCKOhqp7Wyi63Qb
-        HR1N5JnNZFtaUBeWsiddy86UDBRH8pCLSHzhMIedshEUxU2iIftftJd6caY6nAvNafRfahX5dFUqVKE+
-        OiqDiPcdeyuAIXos3Q2hZKZFEn4klYKGOipPnaSppYHG1noyCnLQ5GWzP0vkQaqIQKYen6QMlLkNePsF
-        ss3HA0tNGdeuXZTqQegKV3vqhXmvaHdL2WGVIeoZXJa+eyuAMW4iZ0wi4ULl7CssQmuqJL++hqzKUo7k
-        ZpOYreWAgIgQ113p6cg1GfgcLSMkvwW//SmsX/s5ev0BURlmMXmDVV3mrQNt631tENGbfs2yZctuBShR
-        T6Gt2IMghQ97842oDQaSDPloio+RkK8j9lgOe3KPE64vIfhYFfJsM1u11YQXNqNIzOLLVZ9x+JCS7nNS
-        CZdb1VnuNtCW7otjnucL+z8PmEt58F0ZHvqAlvzVhAduJTjjmDArIFynY2+Bib0naogoNKHKryE4r5qA
-        bBO+mRXIs0wEHj+J/74kVrkvRh3vSdcZjTDNtarDsHigfb45mESvh7G3t789QIVmASd1ThyK3oFfjBqF
-        Vi/2uZCQvBqhSmFcyq6cUmFagq+2lM1pJUQV1PKV1oKv7zZcXWaTkryJ8+fi4WsBIdSWP2OgbTwwgXXL
-        xt1kflMEqjIcqEn/N2Z9KN5bvmJrmp4dYpX+YpX+WcX46YrFqo14HzWySWNkZ65Y/TGL2BIzKz77J64r
-        p1GQ58nli3uhXxzXQq25k63X3g4FJ4LvwXbB/DsDVGevwqT5hN7qGFRbF7J9VwheunphWM6WowY80wxs
-        SjWIdglh0jYIc5/sOtxWOmFvZ4vfdgcSEzw4266kvzdMFMFumrPEfotrWeKrbHYYjUwmuzOAFI4KkQf9
-        dbEUhY1lk2whO4LC8DpaimdGFT66SpQ5ZuQ51axPNxOaa2aVqxMR4ljOydFzRJuFcuUisg7Y09nsLapP
-        SZN2Ale7fCgMGoLt/DnW0/COJ6E0UBr/V67V78MY9gjFubuRb/dgrZsj24NC8D+YSkCyjkB1MsoAf5bb
-        zcLu07loNBou9vVzIFLBSfcXabQdwYlDdvS0edKQPp6qI1PwcX4WNze3wQGMcW/QW6GgLOpx+s5XUFMS
-        QnTwPDzXzeRLl5m4OX2Au9NUZM7v4rL8Dbw2zCI+4TBx0SG0pX4MR+eB35ucXTwSo3oRFeoXyNt1H4vm
-        zxj8XSBFwBA9nlOZC2jSiYn6TFxtXEtHmSslGUtJiZpHpOJDVH4ziAuajS5+IUn7VuIhc6VixfOQJgDK
-        HSBDJJr/W5y1fZKE1cPZ4vgUrq6u/yVA1GhMsaPoaVKL01ScZo0yrjfIuFLrRnfFSjqKnWg3ONJp/Jye
-        Khdr37GoOZjm/h48J34DUSYgdAtA+Q5tc4djP/VtyfwRoXsGzYEi1ROURDwqEsgkju0UqHO/Sddr3ZEk
-        9XcXzMFyeALZux4jxv1eLDMegE1/BM3cbyCybEExidKFE9oXLV2uEOa/Ebr3rklYFPogjZliFaeTwCxe
-        md/TWf1MLAnjKNkzHEPovRwPHEKyz8MoZaNxsJvOwtkfUTB1JGx4RUDMEdthT7fWkeT0bJycnPKF+QdC
-        w+4KcEK8t89mToUKVzp1/8ASP1ZEZBgG0Z+3cyiJ3o+gWDUGxyWzcHR0ZMOGDTf2VgrvL8ffb/Oa5fUH
-        8lk7jq79H9PZfZHDScm8/PLLMWJ8mdAtX0w31WVR7CSMqkeF4RByA4Sh16P4rxqL49I50ioG+4iUIB4Y
-        e7/NRMObw45HRe/j0OFktmzxuj5q1CiVGJsv9NhdIyANalTzWO3+Gc7OzoMZ3u5/pxXi3ekfLpGtXtMw
-        ZsyYPSNGjAgXfd5Ck4UeGhTgZ/hSliCkrH9baLnQJ0J/+TYJh/4vAKQ1DPkW4ndS2IUeFBp6uzL8D4Fx
-        NTvPU7TPAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="appearance5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
-        Cu8BfXaKSAAAAvdJREFUOE+lk2tI01EYhycpmR8KgggqqEjoS1EUVBBBEPVBMaPCLhJhlJkzuhFaFqk5
-        L2kzN8vU5WYWqyyxplZqUIEmuZqalk5LTbNiF29z0+l8+u+/tMunoBd+HDi873N+5z3v8QIk/xVuwO/6
-        tN0nwBjs3d6yzcfSutXLZNwsMX0Kkpg6d/maOnf7Wrv2+H7u2OEdMFkzVazPWU3d9VW07vajOWwRphd3
-        GGqoYKAyC2vOTgaT/Rm9tpoxIa8r1Nc0BXDbf5O3lgaDAc3tW2QXaslUZKJNP0unLgPbx1rGR2yMtehw
-        qjcwrllP194ZQr3HuUSfu4aqykrKDe9pF3Ze2+GhwFc1WZDL02hN38g37QGcjiFcbU9wKpbStWf6L0CF
-        6gAP9c0MCltuNQ6NUfrZTn6rA+U7O7fy8+grCKInNwCXox977iY6gt2H/3SgupZEnQN6nS6+jrqotoxQ
-        0mkjr6mfrGYnMnUxj1OXU5W6hCeyhZTGz0cXN0+UeAWl5iZPBcs15hGemxw86h6m0DhIlsGKst7G5XID
-        H943u5M90RsnLoXH/TwARVYaBR0T3BaKtG2DqD8MkF3fR1KtmeuNdpLvvqCn+7KQmyNqpHq/uGqOTicq
-        KipOkncxBHmdGUXDEIq3VuR6C4mvzCTXWMhodCFXpjBhvwKOTFF9VSEiIF/qg1QqjZNUpK1AfiWVxDqb
-        oGFktQPI3w6TXj+OLL+Y2OgTlJSpGf+SACYZvbogEaA6Ms0DeHbJH/PzCOTxR4jX6EgtayDx3ktS0hKI
-        ORlBv9DgZ0opE2eWQXs07Xc3iYDcw14/HSQvBn242OGe7gxeFx2iSReOsz6Kx0UpPMo8Du/C4N5WOLeS
-        JtU6EZATLvH0wB1lCQvEZyk5P5fi2DkUxczmzulZFJyajXGHN6i3gPEY3N9Gd+hMbhyUEBgY6H6OP/+h
-        +05/62hkZLxxl/8bhAHCGMnwg32cS79qnhqkf/nKwjleBM/ItiuEKfxu5UJCknYS8ANqO42nas66rwAA
-        AABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="ultraExplorerBarGroup2.Text" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Navigator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 5</value>
-  </data>
-  <data name="Navigator.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Navigator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 441</value>
-  </data>
-  <data name="Navigator.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Navigator.Name" xml:space="preserve">
-    <value>Navigator</value>
-  </data>
-  <data name="&gt;&gt;Navigator.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
-  <data name="&gt;&gt;Navigator.Parent" xml:space="preserve">
-    <value>panelClientAreaContainer</value>
-  </data>
-  <data name="&gt;&gt;Navigator.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="appearance6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
-        Cu8BfXaKSAAAAKZJREFUOE9j/P//PwNFAGQAJZgizWDXU2I7hgFXn/3/f+MlUBjqrbtv/v+HYVwWobjg
-        2vP//91KV8A1gTQj87EZgmLAZaALXEqW/3crWwk3BJ2PbgiKAece//9/8ck/kgzBCMQzj/7/P/8E6BKg
-        V5Cdj8xHdgWGASBXuAI1gzAsANH5OA0AaSBFM0Y0ggwAORU5+pD5BGMBPd5JTgfkpErqJmVyXAAA65vn
-        r2vuj6QAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="appearance6.TextHAlignAsString" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="appearance6.TextVAlignAsString" xml:space="preserve">
-    <value>Top</value>
-  </data>
-  <data name="navigatorHiddenCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="navigatorHiddenCaption.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 12pt, style=Bold</value>
-  </data>
-  <data name="navigatorHiddenCaption.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="navigatorHiddenCaption.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="navigatorHiddenCaption.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="navigatorHiddenCaption.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 441</value>
-  </data>
-  <data name="navigatorHiddenCaption.TabIndex" type="System.Int32, mscorlib">
-    <value>105</value>
-  </data>
-  <data name="navigatorHiddenCaption.Text" xml:space="preserve">
-    <value>Feed Subscriptions</value>
-  </data>
-  <data name="&gt;&gt;navigatorHiddenCaption.Name" xml:space="preserve">
-    <value>navigatorHiddenCaption</value>
-  </data>
-  <data name="&gt;&gt;navigatorHiddenCaption.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.VerticalHeaderLabel, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;navigatorHiddenCaption.Parent" xml:space="preserve">
-    <value>pNavigatorCollapsed</value>
-  </data>
-  <data name="&gt;&gt;navigatorHiddenCaption.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pNavigatorCollapsed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="pNavigatorCollapsed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
-  </data>
-  <data name="pNavigatorCollapsed.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="pNavigatorCollapsed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 441</value>
-  </data>
-  <data name="pNavigatorCollapsed.TabIndex" type="System.Int32, mscorlib">
-    <value>104</value>
-  </data>
-  <data name="pNavigatorCollapsed.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pNavigatorCollapsed.Name" xml:space="preserve">
-    <value>pNavigatorCollapsed</value>
-  </data>
-  <data name="&gt;&gt;pNavigatorCollapsed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pNavigatorCollapsed.Parent" xml:space="preserve">
-    <value>panelClientAreaContainer</value>
-  </data>
-  <data name="&gt;&gt;pNavigatorCollapsed.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="panelClientAreaContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelClientAreaContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelClientAreaContainer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 5, 5</value>
-  </data>
-  <data name="panelClientAreaContainer.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelClientAreaContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>671, 451</value>
-  </data>
-  <data name="panelClientAreaContainer.TabIndex" type="System.Int32, mscorlib">
-    <value>1015</value>
-  </data>
   <data name="&gt;&gt;panelClientAreaContainer.Name" xml:space="preserve">
     <value>panelClientAreaContainer</value>
   </data>
@@ -875,24 +281,6 @@
   </data>
   <data name="&gt;&gt;panelClientAreaContainer.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="rightSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="rightSandDock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>671, 0</value>
-  </data>
-  <metadata name="sandDockManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>377, 17</value>
-  </metadata>
-  <data name="rightSandDock.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="rightSandDock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 451</value>
-  </data>
-  <data name="rightSandDock.TabIndex" type="System.Int32, mscorlib">
-    <value>1012</value>
   </data>
   <data name="&gt;&gt;rightSandDock.Name" xml:space="preserve">
     <value>rightSandDock</value>
@@ -906,21 +294,6 @@
   <data name="&gt;&gt;rightSandDock.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="bottomSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="bottomSandDock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 451</value>
-  </data>
-  <data name="bottomSandDock.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="bottomSandDock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>671, 0</value>
-  </data>
-  <data name="bottomSandDock.TabIndex" type="System.Int32, mscorlib">
-    <value>1013</value>
-  </data>
   <data name="&gt;&gt;bottomSandDock.Name" xml:space="preserve">
     <value>bottomSandDock</value>
   </data>
@@ -932,21 +305,6 @@
   </data>
   <data name="&gt;&gt;bottomSandDock.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="topSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="topSandDock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="topSandDock.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="topSandDock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>671, 0</value>
-  </data>
-  <data name="topSandDock.TabIndex" type="System.Int32, mscorlib">
-    <value>1014</value>
   </data>
   <data name="&gt;&gt;topSandDock.Name" xml:space="preserve">
     <value>topSandDock</value>
@@ -960,27 +318,6 @@
   <data name="&gt;&gt;topSandDock.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="progressBrowser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="progressBrowser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="progressBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>270, 457</value>
-  </data>
-  <data name="progressBrowser.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="progressBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 15</value>
-  </data>
-  <data name="progressBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>1010</value>
-  </data>
-  <data name="progressBrowser.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;progressBrowser.Name" xml:space="preserve">
     <value>progressBrowser</value>
   </data>
@@ -992,72 +329,6 @@
   </data>
   <data name="&gt;&gt;progressBrowser.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="_status.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 451</value>
-  </data>
-  <data name="statusBarBrowser.MinWidth" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="statusBarBrowser.Name" xml:space="preserve">
-    <value>statusBarBrowser</value>
-  </data>
-  <data name="statusBarBrowser.Text" xml:space="preserve">
-    <value>Browser</value>
-  </data>
-  <data name="statusBarBrowser.ToolTipText" xml:space="preserve">
-    <value>Web Browser status...</value>
-  </data>
-  <data name="statusBarBrowser.Width" type="System.Int32, mscorlib">
-    <value>260</value>
-  </data>
-  <data name="statusBarBrowserProgress.MinWidth" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="statusBarBrowserProgress.Name" xml:space="preserve">
-    <value>statusBarBrowserProgress</value>
-  </data>
-  <data name="statusBarBrowserProgress.ToolTipText" xml:space="preserve">
-    <value>Request page progress...</value>
-  </data>
-  <data name="statusBarBrowserProgress.Width" type="System.Int32, mscorlib">
-    <value>120</value>
-  </data>
-  <data name="statusBarConnectionState.MinWidth" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="statusBarConnectionState.Name" xml:space="preserve">
-    <value>statusBarConnectionState</value>
-  </data>
-  <data name="statusBarConnectionState.ToolTipText" xml:space="preserve">
-    <value>Network connection state...</value>
-  </data>
-  <data name="statusBarConnectionState.Width" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="statusBarRssParser.MinWidth" type="System.Int32, mscorlib">
-    <value>250</value>
-  </data>
-  <data name="statusBarRssParser.Name" xml:space="preserve">
-    <value>statusBarRssParser</value>
-  </data>
-  <data name="statusBarRssParser.ToolTipText" xml:space="preserve">
-    <value>RSS Engine state...</value>
-  </data>
-  <data name="statusBarRssParser.Width" type="System.Int32, mscorlib">
-    <value>250</value>
-  </data>
-  <data name="_status.ShowHelp" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="_status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>671, 25</value>
-  </data>
-  <data name="_status.TabIndex" type="System.Int32, mscorlib">
-    <value>1003</value>
   </data>
   <data name="&gt;&gt;_status.Name" xml:space="preserve">
     <value>_status</value>
@@ -2777,9 +2048,990 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;panelWebDetail.Name" xml:space="preserve">
+    <value>panelWebDetail</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.Parent" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Name" xml:space="preserve">
+    <value>detailsPaneSplitter</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.CollapsibleSplitter, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Parent" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelFeedDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="panelFeedDetails.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelFeedDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 270</value>
+  </data>
+  <data name="panelFeedDetails.TabIndex" type="System.Int32, mscorlib">
+    <value>998</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Name" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Parent" xml:space="preserve">
+    <value>_docFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Name" xml:space="preserve">
+    <value>htmlDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Type" xml:space="preserve">
+    <value>IEControl.HtmlControl, IEControl, Version=1.1.113.6327, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Parent" xml:space="preserve">
+    <value>panelWebDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelWebDetail.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelWebDetail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 108</value>
+  </data>
+  <data name="panelWebDetail.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelWebDetail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 162</value>
+  </data>
+  <data name="panelWebDetail.TabIndex" type="System.Int32, mscorlib">
+    <value>997</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.Name" xml:space="preserve">
+    <value>panelWebDetail</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.Parent" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelWebDetail.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="htmlDetail.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="htmlDetail.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="htmlDetail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6wAAAAIB
+        AAAAAQAAAAAAAAAAAAAAANYAAABMAAAAqh0AAOQFAAABAAAAAQIAAAAAAAAAAAAAAAAAAAAAAABMAAAA
+        AAAAAAAAAAABAAAA4NBXAHM1zxGuaQgAKy4SYggAAAAAAAAATAAAAAEUAgAAAAAAwAAAAAAAAEaBAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAADgAFAAfAIBT
+        HIegQmkQouoIACswMJ0iAGGAAAAAAGEAYgBvAHUAdAA6AGIAbABhAG4AawAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="htmlDetail.RightToLeft" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="htmlDetail.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="htmlDetail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 162</value>
+  </data>
+  <data name="htmlDetail.TabIndex" type="System.Int32, mscorlib">
+    <value>170</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Name" xml:space="preserve">
+    <value>htmlDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Type" xml:space="preserve">
+    <value>IEControl.HtmlControl, IEControl, Version=1.1.113.6327, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Parent" xml:space="preserve">
+    <value>panelWebDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Name" xml:space="preserve">
+    <value>listFeedItemsO</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.UltraTreeExtended, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Parent" xml:space="preserve">
+    <value>panelFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Name" xml:space="preserve">
+    <value>listFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ThListView.ThreadedListView, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Parent" xml:space="preserve">
+    <value>panelFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelFeedItems.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelFeedItems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelFeedItems.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelFeedItems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 100</value>
+  </data>
+  <data name="panelFeedItems.TabIndex" type="System.Int32, mscorlib">
+    <value>1000</value>
+  </data>
+  <data name="&gt;&gt;panelFeedItems.Name" xml:space="preserve">
+    <value>panelFeedItems</value>
+  </data>
+  <data name="&gt;&gt;panelFeedItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelFeedItems.Parent" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelFeedItems.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="detailsPaneSplitter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="detailsPaneSplitter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="detailsPaneSplitter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 100</value>
+  </data>
+  <data name="detailsPaneSplitter.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="detailsPaneSplitter.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Name" xml:space="preserve">
+    <value>detailsPaneSplitter</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.CollapsibleSplitter, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.Parent" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;detailsPaneSplitter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="listFeedItemsO.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="listFeedItemsO.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="listFeedItemsO.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="listFeedItemsO.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 100</value>
+  </data>
+  <data name="listFeedItemsO.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="listFeedItemsO.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Name" xml:space="preserve">
+    <value>listFeedItemsO</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.UltraTreeExtended, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.Parent" xml:space="preserve">
+    <value>panelFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItemsO.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="colHeadline.Text" xml:space="preserve">
+    <value>Headline</value>
+  </data>
+  <data name="colHeadline.Width" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="colDate.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="colDate.Width" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="colTopic.Text" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="colTopic.Width" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="listFeedItems.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="listFeedItems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="listFeedItems.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="listFeedItems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 100</value>
+  </data>
+  <data name="listFeedItems.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Name" xml:space="preserve">
+    <value>listFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ThListView.ThreadedListView, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.Parent" xml:space="preserve">
+    <value>panelFeedItems</value>
+  </data>
+  <data name="&gt;&gt;listFeedItems.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>292, 17</value>
   </metadata>
+  <data name="_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="_status.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 451</value>
+  </data>
+  <data name="_status.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="_status.Size" type="System.Drawing.Size, System.Drawing">
+    <value>671, 25</value>
+  </data>
+  <data name="_status.TabIndex" type="System.Int32, mscorlib">
+    <value>1003</value>
+  </data>
+  <data name="&gt;&gt;_status.Name" xml:space="preserve">
+    <value>_status</value>
+  </data>
+  <data name="&gt;&gt;_status.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_status.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_status.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="statusBarBrowser.MinWidth" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="statusBarBrowser.Name" xml:space="preserve">
+    <value>statusBarBrowser</value>
+  </data>
+  <data name="statusBarBrowser.Text" xml:space="preserve">
+    <value>Browser</value>
+  </data>
+  <data name="statusBarBrowser.ToolTipText" xml:space="preserve">
+    <value>Web Browser status...</value>
+  </data>
+  <data name="statusBarBrowser.Width" type="System.Int32, mscorlib">
+    <value>260</value>
+  </data>
+  <data name="statusBarBrowserProgress.MinWidth" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="statusBarBrowserProgress.Name" xml:space="preserve">
+    <value>statusBarBrowserProgress</value>
+  </data>
+  <data name="statusBarBrowserProgress.ToolTipText" xml:space="preserve">
+    <value>Request page progress...</value>
+  </data>
+  <data name="statusBarBrowserProgress.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="statusBarConnectionState.MinWidth" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="statusBarConnectionState.Name" xml:space="preserve">
+    <value>statusBarConnectionState</value>
+  </data>
+  <data name="statusBarConnectionState.ToolTipText" xml:space="preserve">
+    <value>Network connection state...</value>
+  </data>
+  <data name="statusBarConnectionState.Width" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="statusBarRssParser.MinWidth" type="System.Int32, mscorlib">
+    <value>250</value>
+  </data>
+  <data name="statusBarRssParser.Name" xml:space="preserve">
+    <value>statusBarRssParser</value>
+  </data>
+  <data name="statusBarRssParser.ToolTipText" xml:space="preserve">
+    <value>RSS Engine state...</value>
+  </data>
+  <data name="statusBarRssParser.Width" type="System.Int32, mscorlib">
+    <value>250</value>
+  </data>
+  <data name="progressBrowser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="progressBrowser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="progressBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>270, 457</value>
+  </data>
+  <data name="progressBrowser.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="progressBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 15</value>
+  </data>
+  <data name="progressBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>1010</value>
+  </data>
+  <data name="progressBrowser.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;progressBrowser.Name" xml:space="preserve">
+    <value>progressBrowser</value>
+  </data>
+  <data name="&gt;&gt;progressBrowser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;progressBrowser.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;progressBrowser.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="rightSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="rightSandDock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>671, 0</value>
+  </data>
+  <metadata name="sandDockManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>377, 17</value>
+  </metadata>
+  <data name="rightSandDock.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="rightSandDock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 451</value>
+  </data>
+  <data name="rightSandDock.TabIndex" type="System.Int32, mscorlib">
+    <value>1012</value>
+  </data>
+  <data name="&gt;&gt;rightSandDock.Name" xml:space="preserve">
+    <value>rightSandDock</value>
+  </data>
+  <data name="&gt;&gt;rightSandDock.Type" xml:space="preserve">
+    <value>TD.SandDock.DockContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;rightSandDock.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rightSandDock.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="bottomSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="bottomSandDock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 451</value>
+  </data>
+  <data name="bottomSandDock.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="bottomSandDock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>671, 0</value>
+  </data>
+  <data name="bottomSandDock.TabIndex" type="System.Int32, mscorlib">
+    <value>1013</value>
+  </data>
+  <data name="&gt;&gt;bottomSandDock.Name" xml:space="preserve">
+    <value>bottomSandDock</value>
+  </data>
+  <data name="&gt;&gt;bottomSandDock.Type" xml:space="preserve">
+    <value>TD.SandDock.DockContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;bottomSandDock.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;bottomSandDock.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="topSandDock.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="topSandDock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="topSandDock.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="topSandDock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>671, 0</value>
+  </data>
+  <data name="topSandDock.TabIndex" type="System.Int32, mscorlib">
+    <value>1014</value>
+  </data>
+  <data name="&gt;&gt;topSandDock.Name" xml:space="preserve">
+    <value>topSandDock</value>
+  </data>
+  <data name="&gt;&gt;topSandDock.Type" xml:space="preserve">
+    <value>TD.SandDock.DockContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;topSandDock.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;topSandDock.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Name" xml:space="preserve">
+    <value>panelFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.Parent" xml:space="preserve">
+    <value>_docFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetails.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_docFeedDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 33</value>
+  </data>
+  <data name="_docFeedDetails.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="_docFeedDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>384, 378</value>
+  </data>
+  <data name="_docFeedDetails.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="_docFeedDetails.Text" xml:space="preserve">
+    <value>Feed Details</value>
+  </data>
+  <data name="&gt;&gt;_docFeedDetails.Name" xml:space="preserve">
+    <value>_docFeedDetails</value>
+  </data>
+  <data name="&gt;&gt;_docFeedDetails.Type" xml:space="preserve">
+    <value>TD.SandDock.DockControl, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;_docFeedDetails.Parent" xml:space="preserve">
+    <value>_docContainer</value>
+  </data>
+  <data name="&gt;&gt;_docFeedDetails.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_docContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="_docContainer.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="_docContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 416</value>
+  </data>
+  <data name="_docContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Name" xml:space="preserve">
+    <value>_docContainer</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Type" xml:space="preserve">
+    <value>TD.SandDock.DocumentContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Parent" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Name" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Name" xml:space="preserve">
+    <value>splitterNavigator</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Name" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;Navigator.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Name" xml:space="preserve">
+    <value>pNavigatorCollapsed</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="panelClientAreaContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelClientAreaContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelClientAreaContainer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="panelClientAreaContainer.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelClientAreaContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>671, 451</value>
+  </data>
+  <data name="panelClientAreaContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>1015</value>
+  </data>
+  <data name="&gt;&gt;panelClientAreaContainer.Name" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;panelClientAreaContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelClientAreaContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelClientAreaContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Name" xml:space="preserve">
+    <value>_docContainer</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Type" xml:space="preserve">
+    <value>TD.SandDock.DocumentContainer, SandDock, Version=1.0.6.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.Parent" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;_docContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Name" xml:space="preserve">
+    <value>detailHeaderCaption</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Type" xml:space="preserve">
+    <value>Infragistics.Win.Misc.UltraLabel, Infragistics2.Win.Misc.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Parent" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelFeedDetailsContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelFeedDetailsContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 5</value>
+  </data>
+  <data name="panelFeedDetailsContainer.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelFeedDetailsContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 441</value>
+  </data>
+  <data name="panelFeedDetailsContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Name" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;panelFeedDetailsContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="appearance7.TextHAlignAsString" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="appearance7.TextVAlignAsString" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="detailHeaderCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="detailHeaderCaption.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 12pt, style=Bold</value>
+  </data>
+  <data name="detailHeaderCaption.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="detailHeaderCaption.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="detailHeaderCaption.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="detailHeaderCaption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 25</value>
+  </data>
+  <data name="detailHeaderCaption.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="detailHeaderCaption.Text" xml:space="preserve">
+    <value>Welcome!</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Name" xml:space="preserve">
+    <value>detailHeaderCaption</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Type" xml:space="preserve">
+    <value>Infragistics.Win.Misc.UltraLabel, Infragistics2.Win.Misc.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.Parent" xml:space="preserve">
+    <value>panelFeedDetailsContainer</value>
+  </data>
+  <data name="&gt;&gt;detailHeaderCaption.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitterNavigator.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="splitterNavigator.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 5</value>
+  </data>
+  <data name="splitterNavigator.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="splitterNavigator.Size" type="System.Drawing.Size, System.Drawing">
+    <value>5, 441</value>
+  </data>
+  <data name="splitterNavigator.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Name" xml:space="preserve">
+    <value>splitterNavigator</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;splitterNavigator.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Navigator.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="appearance2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        SUVORK5CYII=
+</value>
+  </data>
+  <data name="appearance3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
+        YYiSiSLiGVETiSyhgimoGV1AKvRPZOBluh0RJx7ayo2mU3s673uaF5CD1AsP5xzO8zzv+z7fOToAwn8V
+        GezE3CW9abo4wTt5Uf996oJOni4S5DmLIPuvGWR/qSEolRnmfSUJprhmSzwu5mKs6xymSo34duMY5Pe9
+        CH8Zxs/XHQiKl7HSmIm1zlysKzypwiDvMiBxvLxXkjFjP4tAXz3koTZEZj9hYzWC9UkPYo8LsOE+D6k8
+        iejcXNgWi8qzCF9FCmbtJ7D80olgfwMCrXlYenoTsWgYmzODiLVnQSpL3DagsRFtAyIPGL5yI6Ta0wiN
+        PcdaeBm/VwIIdVuw4DJhM/oDv1yF8BVT878TfO7MAWQnsOjAaPupPfGuJQsjTccx6ExHf30aPI4jDF7h
+        Y8cZwH+PhfsqpRFVj92oGrBwogpqFmoOWlgdvc7v3XcSYbPZHMKH1mxgvJKPkIWUhwZCI1eZ98iqh9Vq
+        dQi0HxmoKygGlIcGFj0W5j28fUA1eNOcyQZv759UDZQ8tOB9Vsg81y2dajDcmMEGlDAbKHlo4as7n3li
+        paBmQEkONBzlY3lVdxgvag+h724qemsO4kl1MqdNgdHONDZ1JrHZbKbjEHb9SDTSfrH1IcVv/vX6B3pT
+        t992kTbWAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="ultraExplorerBarGroup1.Text" xml:space="preserve">
+    <value>Feed Subscriptions</value>
+  </data>
+  <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        NTvPU7TPAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="appearance5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAvdJREFUOE+lk2tI01EYhycpmR8KgggqqEjoS1EUVBBBEPVBMaPCLhJhlJkzuhFaFqk5
+        L2kzN8vU5WYWqyyxplZqUIEmuZqalk5LTbNiF29z0+l8+u+/tMunoBd+HDi873N+5z3v8QIk/xVuwO/6
+        tN0nwBjs3d6yzcfSutXLZNwsMX0Kkpg6d/maOnf7Wrv2+H7u2OEdMFkzVazPWU3d9VW07vajOWwRphd3
+        GGqoYKAyC2vOTgaT/Rm9tpoxIa8r1Nc0BXDbf5O3lgaDAc3tW2QXaslUZKJNP0unLgPbx1rGR2yMtehw
+        qjcwrllP194ZQr3HuUSfu4aqykrKDe9pF3Ze2+GhwFc1WZDL02hN38g37QGcjiFcbU9wKpbStWf6L0CF
+        6gAP9c0MCltuNQ6NUfrZTn6rA+U7O7fy8+grCKInNwCXox977iY6gt2H/3SgupZEnQN6nS6+jrqotoxQ
+        0mkjr6mfrGYnMnUxj1OXU5W6hCeyhZTGz0cXN0+UeAWl5iZPBcs15hGemxw86h6m0DhIlsGKst7G5XID
+        H943u5M90RsnLoXH/TwARVYaBR0T3BaKtG2DqD8MkF3fR1KtmeuNdpLvvqCn+7KQmyNqpHq/uGqOTicq
+        KipOkncxBHmdGUXDEIq3VuR6C4mvzCTXWMhodCFXpjBhvwKOTFF9VSEiIF/qg1QqjZNUpK1AfiWVxDqb
+        oGFktQPI3w6TXj+OLL+Y2OgTlJSpGf+SACYZvbogEaA6Ms0DeHbJH/PzCOTxR4jX6EgtayDx3ktS0hKI
+        ORlBv9DgZ0opE2eWQXs07Xc3iYDcw14/HSQvBn242OGe7gxeFx2iSReOsz6Kx0UpPMo8Du/C4N5WOLeS
+        JtU6EZATLvH0wB1lCQvEZyk5P5fi2DkUxczmzulZFJyajXGHN6i3gPEY3N9Gd+hMbhyUEBgY6H6OP/+h
+        +05/62hkZLxxl/8bhAHCGMnwg32cS79qnhqkf/nKwjleBM/ItiuEKfxu5UJCknYS8ANqO42nas66rwAA
+        AABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="ultraExplorerBarGroup2.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Navigator.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 5</value>
+  </data>
+  <data name="Navigator.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Navigator.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 441</value>
+  </data>
+  <data name="Navigator.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Name" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v7.2, Version=7.2.20072.61, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;Navigator.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;Navigator.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Name" xml:space="preserve">
+    <value>navigatorHiddenCaption</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.VerticalHeaderLabel, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Parent" xml:space="preserve">
+    <value>pNavigatorCollapsed</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pNavigatorCollapsed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="pNavigatorCollapsed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="pNavigatorCollapsed.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="pNavigatorCollapsed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 441</value>
+  </data>
+  <data name="pNavigatorCollapsed.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="pNavigatorCollapsed.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Name" xml:space="preserve">
+    <value>pNavigatorCollapsed</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.Parent" xml:space="preserve">
+    <value>panelClientAreaContainer</value>
+  </data>
+  <data name="&gt;&gt;pNavigatorCollapsed.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="appearance8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAKZJREFUOE9j/P//PwNFAGQAJZgizWDXU2I7hgFXn/3/f+MlUBjqrbtv/v+HYVwWobjg
+        2vP//91KV8A1gTQj87EZgmLAZaALXEqW/3crWwk3BJ2PbgiKAece//9/8ck/kgzBCMQzj/7/P/8E6BKg
+        V5Cdj8xHdgWGASBXuAI1gzAsANH5OA0AaSBFM0Y0ggwAORU5+pD5BGMBPd5JTgfkpErqJmVyXAAA65vn
+        r2vuj6QAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="appearance8.TextHAlignAsString" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="appearance8.TextVAlignAsString" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="navigatorHiddenCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="navigatorHiddenCaption.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 12pt, style=Bold</value>
+  </data>
+  <data name="navigatorHiddenCaption.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="navigatorHiddenCaption.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="navigatorHiddenCaption.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="navigatorHiddenCaption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 441</value>
+  </data>
+  <data name="navigatorHiddenCaption.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="navigatorHiddenCaption.Text" xml:space="preserve">
+    <value>Feed Subscriptions</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Name" xml:space="preserve">
+    <value>navigatorHiddenCaption</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Type" xml:space="preserve">
+    <value>RssBandit.WinGui.Controls.VerticalHeaderLabel, RSSBandit, Version=1.5.0.16, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.Parent" xml:space="preserve">
+    <value>pNavigatorCollapsed</value>
+  </data>
+  <data name="&gt;&gt;navigatorHiddenCaption.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="_startupTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
