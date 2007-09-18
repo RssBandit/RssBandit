@@ -1912,6 +1912,9 @@
     <Compile Include="WinGui\Dialogs\PreferencesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinGui\Dialogs\PreferencesDialog.Designer.cs">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\SearchEngineProperties.cs">
       <SubType>Form</SubType>
     </Compile>
