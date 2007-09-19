@@ -985,52 +985,12 @@ namespace RssBandit.WinGui {
         /// <param name="newsgatorOpml">The NewsGator OPML file</param>
         /// <returns>The NewsGator folder ID of the item</returns>
         private int GetFolderId(NgosFolder.FolderWebService fows, feedsFeed feed, XmlElement newsgatorOpml) {
-            string folderIdStr = feed.GetWildCardAttributeValue("http://newsgator.com/schema/opml", "folderId");
             int folderId = 0;
 
-            if (folderIdStr == null) {
-                // 1. Check if folderId is in OPML 
-                XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable());
-                nsMgr.AddNamespace("ng", NgosOpmlNamespace);
-
-                //BUGBUG: There might be an issue here depending on how URL is escaped in the OPML file
-                string xpath = "//@ng:folderId[parent::*/outline/@xmlUrl=" + NewsHandler.buildXPathString(feed.link) + "]";
-
-                XmlNode folderIdNode = newsgatorOpml.SelectSingleNode(xpath, nsMgr);
-
-                if (folderIdNode != null) {
-                    try {
-                        folderIdStr = folderIdNode.Value;
-                        folderId = Convert.ToInt32(folderIdStr);
-                        XmlAttribute attr = RssHelper.CreateXmlAttribute("ng", "folderId", NgosOpmlNamespace, folderIdStr);
-                        feed.AddWildCardAttribute(attr);
-                    } catch (FormatException fe) {
-                        _log.Error(feed.link + " has an invalid Newsgator folder ID", fe);
-                    } catch (OverflowException oe) {
-                        _log.Error(feed.link + " has an invalid Newsgator folder ID", oe);
-                    } catch (Exception e) {
-                        _log.Error("Error occured while attempting to obtain folder ID for " + feed.link, e);
-                    }
-                }
-
-                //2. It doesn't exist in OPML so we should, create a category hive in NewsGator 
-                folderId = this.CreateNewsgatorCategoryHive(fows, feed, newsgatorOpml);
-
-                /* add folderId to RSS Bandit feed list */
-                folderIdNode = RssHelper.CreateXmlAttribute("ng", "folderId", NgosOpmlNamespace, folderId.ToString());
-                feed.AddWildCardAttribute(folderIdNode as XmlAttribute);
-
-            } else { //folderId was already set on feedsFeed
-                try {
-                    folderId = Convert.ToInt32(folderId);
-                } catch (Exception e) {
-                    _log.Error(feed.link + " has an invalid Newsgator folder ID", e);
-                }
-            }
-
+            //create a category hive in NewsGator 
+            folderId = this.CreateNewsgatorCategoryHive(fows, feed, newsgatorOpml);
             return folderId;
         }
-
 
         /// <summary>
         /// Helper method used for constructing folders in NewsGator Online.
@@ -1097,12 +1057,12 @@ namespace RssBandit.WinGui {
         /// </summary>
         /// <param name="f">The feed whose unread and deleted items are being fetched</param>
         /// <param name="readItems">The collection in which to place the URLs of the read items</param>
-        private void GetReadItemUrls(feedsFeed f, ArrayList readItems) {
-            ArrayList allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link);
+        private void GetReadItemUrls(feedsFeed f, List<string> readItems) {
+            IList<NewsItem> allItems = this.rssBanditApp.FeedHandler.GetCachedItemsForFeed(f.link);
 
             if ((allItems != null) && allItems.Count > 0) {
 
-                NewsItem testItem = (NewsItem)allItems[0];
+                NewsItem testItem = allItems[0];
 
                 if (testItem.Id.Equals(testItem.Link)) {
                     readItems.InsertRange(0, f.storiesrecentlyviewed);
