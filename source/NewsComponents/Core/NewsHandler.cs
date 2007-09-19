@@ -2358,7 +2358,7 @@ namespace NewsComponents {
 		/// </summary>
 		/// <param name="input">input string</param>
 		/// <returns>broken up string</returns>
-		private static string buildXPathString (string input) {
+		public static string buildXPathString (string input) {
 			string[] components = input.Split(new char[] { '\''});
 			string result = "";
 			result += "concat(''";

@@ -63,7 +63,7 @@ namespace RssBandit.CLR20.com.newsgator.services4 {
         
         /// <remarks/>
         public PostItem() {
-            this.Url = global::RssBandit.Properties.Settings.Default.RSSBandit_CLR20_com_newsgator_services4_PostItem;
+            this.Url = "http://services.newsgator.com/ngws/svc/PostItem.asmx";
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
