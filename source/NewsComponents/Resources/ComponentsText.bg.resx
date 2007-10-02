@@ -58,7 +58,7 @@
 		<value>Указаният Url '{0}' не може да бъде достигнат.</value>
 	</data>
 <data name="ExceptionEnclosureCacheLimitReached">
-    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.Опитът за  сваляне на файл '{0}' пропадна, защото е достигнат определеният лимит от {1}MB за звукови канали. За да направите място, увеличете лимита за такива файлове или пък изтрийте някои от вече свалените звукови добавки.</value>
+    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
   </data>
@@ -91,5 +91,16 @@
   </data>
 	<data name="ExceptionHelpFeedDesc">
     <value>Осигурява помощ за грешките</value>
+  </data>
+	<data name="ExceptionNntpServerAuthenticationFailed">
+    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <comment>.
+ Parameters: 0 - nntpServer (string) </comment>
+  </data>
+	<data name="ExceptionResourceAuthorization">
+    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+  </data>
+	<data name="ExceptionResourceGone">
+    <value>The requested resource is not longer available (HTTP status 410)</value>
   </data>
 	</root>
