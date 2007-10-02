@@ -92,4 +92,15 @@
 	<data name="ExceptionHelpFeedDesc">
     <value>Gibt Hilfestellung bei aufgetretenen Fehlern</value>
   </data>
-</root>
+<data name="ExceptionNntpServerAuthenticationFailed">
+    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <comment>.
+ Parameters: 0 - nntpServer (string) </comment>
+  </data>
+	<data name="ExceptionResourceAuthorization">
+    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+  </data>
+	<data name="ExceptionResourceGone">
+    <value>The requested resource is not longer available (HTTP status 410)</value>
+  </data>
+	</root>
