@@ -2675,7 +2675,7 @@ namespace NewsComponents {
 		/// <param name="feed">The RSS feed</param>
 		public void MarkAllCachedItemsAsRead(feedsFeed feed){
 		
-			if (feed != null && !StringHelper.EmptyOrNull( feed.link )) {
+			if (feed != null && !StringHelper.EmptyOrNull( feed.link ) && itemsTable.ContainsKey(feed.link)) {
 			  
 				FeedInfo fi = itemsTable[feed.link] as FeedInfo; 
 
