@@ -240,7 +240,7 @@
 		<value>minutes</value>
 	</data>
 	<data name="pageValidateUrl.Text">
-		<value>Patienter svp...</value>
+		<value>Patientez svp...</value>
 	</data>
 	<data name="cboUpdateFrequency.Items8">
 		<value>120</value>
@@ -288,10 +288,10 @@
 		<value>4 jours</value>
 	</data>
 	<data name="pageFoundMultipleFeeds.Text">
-		<value>Plusieurs flux ont été découvert</value>
+		<value>Plusieurs flux ont été découverts</value>
 	</data>
 	<data name="lblNewByNNTPGroupIntro.Text">
-		<value>Pour être capable de s'inscrire à un groupe NNTP, vous devez avoir définit au moin un serveur NNTP. Vous pouvez cliquer sur "Gèrer..." pour en créer un nouveau ou changer les paramètres.</value>
+		<value>Pour être capable de s'inscrire à un groupe NNTP, vous devez avoir défini au moins un serveur NNTP. Vous pouvez cliquer sur "Gérer..." pour en créer un nouveau ou changer les paramètres.</value>
 	</data>
 	<data name="lblFeedCategory.Text">
 		<value>Catégorie:</value>
@@ -306,10 +306,10 @@
 		<value>Toujours afficher la page de bienvenue de cet assistant</value>
 	</data>
 	<data name="lblWaitStepIntro.Text">
-		<value>Cette étape accompli les tâche(s) suivante(s):</value>
+		<value>Cette étape accomplie les tâche(s) suivante(s):</value>
 	</data>
 	<data name="lblCompletionMessage.Text">
-		<value>L'inscription est prète à être ajoutée à la liste de vos inscriptions.</value>
+		<value>L'inscription est prête à être ajoutée à la liste de vos inscriptions.</value>
 	</data>
 	<data name="btnManageSearchEngines.Text">
 		<value>Gèrer...</value>
@@ -318,16 +318,16 @@
 		<value>1 jour</value>
 	</data>
 	<data name="lblWelcomeInfoBox.Text">
-		<value>L'assistant requiert à certaine étape que vous soyez connecté à l'Internet. Si vous ne l'êtes pas, assurez vous de connecter votre ordinateur maintenant.</value>
+		<value>L'assistant requiert à certaines étapes que vous soyez connecté à l'Internet. Si vous ne l'êtes pas, connectez votre ordinateur maintenant.</value>
 	</data>
 	<data name="pageFeedItemDisplay.Text">
 		<value>Affichage des flux/entrées</value>
 	</data>
 	<data name="lblFeedItemDisplayIntro.Text">
-		<value>Utiliser le formateur des flux/entrées par défaut ou sélectionnez un formateur XSLT personnalisé.</value>
+		<value>Utilisez le formateur des flux/entrées par défaut ou sélectionnez un formateur XSLT personnalisé.</value>
 	</data>
 	<data name="lblMultipleFeedsFoundHint2.Text">
-		<value>Si le flux requit ne peut être trouvé dans la liste, cliquez sur le bouton "Précédent" pour initier une nouvelle recherche.</value>
+		<value>Si le flux requis ne peut être trouvé dans la liste, cliquez sur le bouton "Précédent" pour initier une nouvelle recherche.</value>
 	</data>
 	<data name="lblUsername.Text">
 		<value>&amp;Nom d'utilisateur:</value>
@@ -336,13 +336,13 @@
 		<value>Ici vous pouvez spécifier le titre de l'inscription et l'ajouter à une catégorie existante ou à une nouvelle</value>
 	</data>
 	<data name="lblNewBySearchWords.Text">
-		<value>Mot(s) clef(s) ou thême:</value>
+		<value>Mot(s) clef(s) ou thème:</value>
 	</data>
 	<data name="pageNewBySearchTopic.Text">
 		<value>Nouvelle inscription par recherche</value>
 	</data>
 	<data name="pageFeedItemControl.Text">
-		<value>Controles des flux/entrées</value>
+		<value>Contrôles des flux/entrées</value>
 	</data>
 	<data name="checkUseCustomFormatter.Text">
 		<value>Utiliser un formateur &amp;personalisé</value>
@@ -357,10 +357,10 @@
 		<value>Nouvelle inscription</value>
 	</data>
 	<data name="btnManageNNTPServer.Text">
-		<value>Gèrer...</value>
+		<value>Gérer...</value>
 	</data>
 	<data name="lblFeedCredentialsIntro.Text">
-		<value>Ici vous pouvez spécifier le nom d'utilisateur et le mot de passe nécessaire à l'accès à l'inscription (Si nécessaire)</value>
+		<value>Ici vous pouvez spécifier le nom d'utilisateur et le mot de passe nécessaires à l'accès à l'inscription (Si nécessaire)</value>
 	</data>
 	<data name="lblHowToSubscribeIntro.Text">
 		<value>Sélectionnez une des options ci-dessous que vous souhaitez ajouter à la nouvelle inscription:</value>
@@ -396,13 +396,13 @@
 		<value>&amp;Activer la fenêtre d'alerte lors de la réception de nouvelles entrées</value>
 	</data>
 	<data name="lblFeedItemControlIntro.Text">
-		<value>Ici vous pouvez changer le comportement de l'application pour les "Nouvelles entrées reçue", l'age maximum des entrées à controler afin de les purger automatiquement, et la fréquence de mise à jour.</value>
+		<value>Ici vous pouvez changer le comportement de l'application pour les "Nouvelles entrées reçue", l'âge maximum des entrées à contrôler afin de les purger automatiquement, et la fréquence de mise à jour.</value>
 	</data>
 	<data name="lblNNTPGroups.Text">
 		<value>Groupes:</value>
 	</data>
 	<data name="lblNewByURLIntro.Text">
-		<value>Si vous n'êtes pas certain de l'adresse du flux, entrer l'adresse du site web ou de la page et RSS Bandit essayera de découvrir automatiquement le flux.</value>
+		<value>Si vous n'êtes pas certain de l'adresse du flux, entrez l'adresse du site web ou de la page et RSS Bandit essayera de découvrir automatiquement le flux.</value>
 	</data>
 	<data name="cboUpdateFrequency.Items1">
 		<value>15</value>
@@ -417,7 +417,7 @@
 		<value>105</value>
 	</data>
 	<data name="lblWelcomeHelpMessage2.Text">
-		<value>• Valider la source d'inscription et gèrer les paramètres supplémentaire pouvant être nécessaire pour un accès réussit (ex: identifiants).</value>
+		<value>• Valider la source d'inscription et gérer les paramètres supplémentaire pouvant être nécessaire pour un accès réussi (ex: identifiants).</value>
 	</data>
 	<data name="radioNewByURL.Text">
 		<value>Je vais entrer l'adresse du flux web ou de la page</value>
@@ -432,13 +432,13 @@
 		<value>Terminer</value>
 	</data>
 	<data name="lblMultipleFeedsFoundHint1.Text">
-		<value>Sélectionnez un flux dans la liste ci-dessous, puis cliquez ensuite sur "Suivant" afin de spécifier les détails concernant le nouvelle inscriptio.</value>
+		<value>Sélectionnez un flux dans la liste ci-dessous, puis cliquez ensuite sur "Suivant" afin de spécifier les détails concernant la nouvelle inscription.</value>
 	</data>
 	<data name="lblValidationTask2.Text">
 		<value>En attente</value>
 	</data>
 	<data name="lblNewBySearchIntro.Text">
-		<value>Les résultats dépendent du moteur de recherche utilisé. Certain d'entre eux sont des services de recherche de flux en ligne qui sont capable de trouver les flux similaires auquel vous pouvez directement vous abonner (Syndic8). D'autre retourne simplement le résultat de la recherche comme un flux web.</value>
+		<value>Les résultats dépendent du moteur de recherche utilisé. Certain d'entre eux sont des services de recherche de flux en ligne qui sont capables de trouver les flux similaires auxquels vous pouvez directement vous abonner (Syndic8). D'autres retournent simplement le résultat de la recherche comme un flux web.</value>
 	</data>
 	<data name="lblFormatterStylesheet.Text">
 		<value>Feuille de &amp;style du formateur:</value>
@@ -456,19 +456,19 @@
 		<value>Titre et catégorie</value>
 	</data>
 	<data name="lblWelcomeHelpMessage1.Text">
-		<value>• Examiner une page HTML pour trouver les flux disponible, ou trouver des flux en fonction de mots clefs spécifique</value>
+		<value>• Examiner une page HTML pour trouver les flux disponibles, ou trouver des flux en fonction de mots clefs spécifiques</value>
 	</data>
 	<data name="lblFeedTitle.Text">
 		<value>&amp;Titre:</value>
 	</data>
 	<data name="lblRemoveItemsOlderThan.Text">
-		<value>Supprimer les entrées plus vielle que:</value>
+		<value>Supprimer les entrées plus vieilles que:</value>
 	</data>
 	<data name="radioNewByTopicSearch.Text">
-		<value>Je veux rechercher des inscriptions par mot clef(s)</value>
+		<value>Je veux rechercher des inscriptions par mot(s) clef(s)</value>
 	</data>
 	<data name="checkMarkItemsReadOnExiting.Text">
-		<value>&amp;Marquer les entrées comme lu sur les flux existant</value>
+		<value>&amp;Marquer les entrées comme lues sur les flux existants</value>
 	</data>
 	<data name="comboMaxItemAge.Items5">
 		<value>6 jours</value>
@@ -507,7 +507,7 @@
 		<value>Cliquez sur "Suivant" pour continuer à l'étape suivante ou cliquez sur "Terminer" pour ajouter la nouvelle inscription</value>
 	</data>
 	<data name="pageFeedCredentials.ProceedText">
-		<value>Cliquez sur "Suivant" pour entrer ou changer les paramètres de controles d'un flux/élément</value>
+		<value>Cliquez sur "Suivant" pour entrer ou changer les paramètres de contrôles d'un flux/élément</value>
 	</data>
 	<data name="pageFeedItemControl.ProceedText">
 		<value>Cliquez sur "Suivant" pour continuer à l'étape suivante ou cliquez sur "Terminer" pour ajouter votre nouvelle inscription</value>
@@ -522,7 +522,7 @@
 		<value>Pour fermer cet assistant, cliquez sur "Terminer"</value>
 	</data>
 	<data name="pageHowToSelection.Description">
-		<value>Une inscription stocke les nouvelles entrées d'une sources spécifique. Comment souhaitez vous une nouvelle inscription ?</value>
+		<value>Une inscription stocke les nouvelles entrées d'une source spécifique. Comment souhaitez vous une nouvelle inscription ?</value>
 	</data>
 	<data name="pageNewByURL.Description">
 		<value>Ajouter une inscription au flux web qui a pu être trouvé à l'emplacement spécifié.</value>
@@ -540,10 +540,10 @@
 		<value>Propriétés optionnelles d'inscription au flux et à ses éléments</value>
 	</data>
 	<data name="pageFeedItemDisplay.Description">
-		<value>Propriétés optionnelles pour controler l'affichage du flux et de ses éléments</value>
+		<value>Propriétés optionnelles pour contrôler l'affichage du flux et de ses éléments</value>
 	</data>
 	<data name="pageNewBySearchTopic.Description">
-		<value>Spécifiez le(s) mot(s) clef(s) ou le thême afin de trouver des flux correspondant ou des résultats à la recherche.</value>
+		<value>Spécifiez le(s) mot(s) clef(s) ou le thême afin de trouver des flux correspondants ou des résultats à la recherche.</value>
 	</data>
 	<data name="pageNewByNNTPGroup.Description">
 		<value>Choissisez un serveur NNTP et un des groupes auquel vous voullez vous inscrire.</value>
@@ -558,6 +558,6 @@
 		<value>Syndic8</value>
 	</data>
 	<data name="linkLabelCanonicalUrl.ToolTip">
-		<value>The canonicalized URL we will use</value>
+		<value>L'URL cannonique sera utilisée</value>
 	</data>
 </root>
