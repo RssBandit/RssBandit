@@ -243,13 +243,13 @@
     <value>Affichage</value>
   </data>
   <data name="tabAttachments.Text">
-    <value>Attachements/Podcasts</value>
+    <value>Fichiers liés/Podcasts</value>
   </data>
   <data name="checkDownloadEnclosures.Text">
-    <value>Télécharger automatiquement les attachements et podcasts</value>
+    <value>Télécharger automatiquement les fichiers liés et les podcasts</value>
     <comment>Automatically download attachments and podcasts</comment>
   </data>
   <data name="checkEnableEnclosureAlerts.Text">
-    <value>Activ&amp;er les Notifications pour les nouveaux attachements et podcasts</value>
+    <value>Activ&amp;er les Notifications pour les nouveaux fichiers liés et les podcasts</value>
   </data>
 </root>

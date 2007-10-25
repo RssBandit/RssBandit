@@ -102,7 +102,7 @@
     <value>NoControl</value>
   </data>
   <data name="$this.Text">
-    <value>Gèrer les compléments</value>
+    <value>Gérer les compléments</value>
   </data>
   <data name="lblAddInListCaption.Text">
     <value>Compléments chargés:</value>

@@ -243,7 +243,7 @@
     <value>Description</value>
   </data>
   <data name="toolBarFilterNewsgroupList.Text">
-    <value>Newsgroup List Filter</value>
+    <value>Filtre de liste des Newsgroup</value>
   </data>
   <data name="labelNGFilter.Text">
     <value>Afficher les Newsgroups:</value>
@@ -258,7 +258,7 @@
     <value>Nouveau</value>
   </data>
   <data name="toolNewIndentity.ToolTipText">
-    <value>Create a new identity...</value>
+    <value>Créer une nouvelle identité...</value>
   </data>
   <data name="toolNewNntpServer.ToolTipText">
     <value>Ajouter un Serveur de News NNTP</value>

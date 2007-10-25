@@ -228,12 +228,12 @@
     <value>Feuille de &amp;Style:</value>
   </data>
   <data name="tabAttachments.Text">
-    <value>Podcasts\Attachements</value>
+    <value>Podcasts\Fichiers liés</value>
   </data>
   <data name="checkDownloadEnclosures.Text">
-    <value>Télécharger automatiquement les attachements et les podcasts</value>
+    <value>Télécharger automatiquement les fichiers liés et les podcasts</value>
   </data>
   <data name="checkEnableEnclosureAlerts.Text">
-    <value>&amp;Activer la fenêtre d'alerte pour les nouveaux attachements et podcasts</value>
+    <value>&amp;Activer la fenêtre d'alerte pour les nouveaux fichiers liés et podcasts</value>
   </data>
 </root>

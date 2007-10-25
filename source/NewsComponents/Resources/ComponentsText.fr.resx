@@ -116,7 +116,7 @@
     <value>L'url du flux '{0}' ne peut être traitée. Aucun handler implémenté pour ce flux.</value>
   </data>
   <data name="ExceptionEnclosureCacheLimitReached">
-    <value>La tentative de téléchargement du fichier '{0}' a échouée car il semble dépasser la taille limite de {1}Mo dédiée au podcasts et attachements. Augmentez la limite de taille ou supprimez les attachement téléchargé précédament afin de faire de la place pour ce téléchargement.</value>
+    <value>La tentative de téléchargement du fichier '{0}' a échouée car il semble dépasser la taille limite de {1}Mo dédiée au podcasts et fichiers liés. Augmentez la limite de taille ou supprimez les fichiers liés téléchargés précédemment afin de faire de la place pour ce téléchargement.</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
   </data>
@@ -134,7 +134,7 @@
  Parameters: 0 - error (string) </comment>
   </data>
   <data name="ExceptionLuceneSearchKindNotSupported">
-    <value>Ce type de recherche c'est plus supporté ('{0}').</value>
+    <value>Ce type de recherche n'est plus supporté ('{0}').</value>
     <comment>.
  Parameters: 0 - typeOfSearch (string) </comment>
   </data>
@@ -154,17 +154,17 @@
     <comment>Provides help on errors</comment>
   </data>
   <data name="String">
-    <value>Ce type de recherche c'est plus supporté ('{0}').</value>
+    <value>Ce type de recherche n'est plus supporté ('{0}').</value>
   </data>
 <data name="ExceptionNntpServerAuthenticationFailed">
-    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <value>La connexion authentifiée au serveur NNTP '{0}' a échouée: mauvais utilisateur/mot de passe</value>
     <comment>.
  Parameters: 0 - nntpServer (string) </comment>
   </data>
 	<data name="ExceptionResourceAuthorization">
-    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+    <value>Accès refusé, authentification demandée ou authentification invalide (erreur HTTP 401)</value>
   </data>
 	<data name="ExceptionResourceGone">
-    <value>The requested resource is not longer available (HTTP status 410)</value>
+    <value>La ressource demandée n'est plus disponible (erreur HTTP 410)</value>
   </data>
 	</root>

@@ -112,7 +112,7 @@
 		<value>&amp;Ok</value>
 	</data>
 	<data name="btnOk.ToolTip">
-		<value>Fini. Import en cours...</value>
+		<value>Terminé. Import en cours...</value>
 	</data>
 	<data name="btnCancel.Text">
 		<value>Annuler</value>
