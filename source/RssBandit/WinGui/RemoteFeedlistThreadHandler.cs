@@ -645,6 +645,9 @@ namespace RssBandit.WinGui {
                             }
                         }//foreach
 
+                        //make sure we do not overwrite feeds not supported by NewsGator
+                        syncedFeeds.feed.AddRange(rssBanditApp.FeedHandler.GetNonInternetFeeds());
+
                         // Wait until all feed information has been obtained from Newsgator Online
                         // meaning eventX.Set() was called:
                         if (ngosFeedsToDownload != 0) {
@@ -656,14 +659,6 @@ namespace RssBandit.WinGui {
                         ngosDownloadedFeeds = ngosFeedsToDownload = 0;
                         break;
 
-                    /*	case RemoteStorageProtocolType.dasBlog_1_3:
-                            // Connect to the web service and request an update
-                            DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
-                            remoteStore2.Url = remoteLocation;
-                            byte[] feedList = remoteStore2.ReadFile("blogroll.opml", credentialUser, credentialPassword);
-
-                            importStream = new MemoryStream(feedList);
-                            break; */
 
                     case RemoteStorageProtocolType.FTP:
                         // Fetch from FTP

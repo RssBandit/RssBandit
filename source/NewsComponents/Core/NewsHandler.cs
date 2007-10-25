@@ -1907,6 +1907,29 @@ namespace NewsComponents {
 		public bool FeedsListOK{		
 			get { return !validationErrorOccured; }
 		}
+
+
+        /// <summary>
+        /// Retrieves all non-internet feed URLs (e.g. intranet and local feeds)
+        /// </summary>
+        /// <returns>A feeds table with the non-internet feeds</returns>
+        public ICollection GetNonInternetFeeds() {
+            List<feedsFeed> toReturn = new List<feedsFeed>(); 
+            string[] keys = new string[this.FeedsTable.Keys.Count];
+            this.FeedsTable.Keys.CopyTo(keys, 0);
+
+            foreach (string url in keys) {
+                try {
+                    Uri uri = new Uri(url);
+                    if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains(".")) {
+                        toReturn.Add(FeedsTable[url]);
+                    } 
+                } catch (Exception e) { _log.Error("Exception in GetNonInternetFeeds()", e);} 
+                
+            }
+
+            return toReturn; 
+        }
 		
 		///<summary>Loads the schema for a feedlist into an XmlSchema object. 
 		///<seealso cref="feedsSchema"/></summary>		
