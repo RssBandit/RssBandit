@@ -149,7 +149,7 @@
     <value />
   </data>
   <data name="checkBoxMergeRssResultset.ToolTip">
-    <value>Cochez cette option si le moteur de recherche spécifié par l'Url ci-dessus doit renvoyer les résultats en tant que flux RSS et que vous souhaitez melanger ce résultats avec les messages renvoyés par une recherche locale</value>
+    <value>Cochez cette option si le moteur de recherche spécifié par l'URL ci-dessus doit renvoyer les résultats en tant que flux RSS et que vous souhaitez mélanger ce résultat avec les messages renvoyés par une recherche locale</value>
   </data>
   <data name="label2.Text">
     <value>&amp;Description</value>
@@ -164,7 +164,7 @@
     <value>...</value>
   </data>
   <data name="label5.ToolTip">
-    <value>Url complète, comprenant les paramètres du moteur de recherche</value>
+    <value>URL complète, comprenant les paramètres du moteur de recherche</value>
   </data>
   <data name="textCaption.ToolTip">
     <value>Titre du moteur de recherche tel qu'il apparaîtra dans le(s) menu(s)</value>
@@ -185,10 +185,10 @@
     <value>&amp;Ok</value>
   </data>
   <data name="textUrl.ToolTip">
-    <value>Url complète, comprenant les paramètres du moteur de recherche</value>
+    <value>URL complète, comprenant les paramètres du moteur de recherche</value>
   </data>
   <data name="label5.Text">
-    <value>&amp;Url</value>
+    <value>&amp;URL</value>
   </data>
   <data name="btnCancel.ToolTip">
     <value />
@@ -206,7 +206,7 @@
     <value>Titre du moteur de recherche tel qu'il apparaîtra dans le(s) menu(s)</value>
   </data>
   <data name="checkBoxResultsetIsRssFeed.ToolTip">
-    <value>Cochez cette option si le moteur de recherche spécifié par l'Url ci-dessus doit retourner les résultats en tant que flux RSS</value>
+    <value>Cochez cette option si le moteur de recherche spécifié par l'URL ci-dessus doit retourner les résultats en tant que flux RSS</value>
   </data>
   <data name="pictureEngine.ToolTip">
     <value>Image du moteur de recherche. Sa taille doit être de 16x16 px</value>

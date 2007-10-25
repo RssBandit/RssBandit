@@ -122,7 +122,7 @@
     <value>Agrégateur par défaut</value>
   </data>
   <data name="btnMakeDefaultAggregator.ToolTip">
-    <value>Utilise RSS Bandit comme l'agrégateur par défaut écoutant le protocole 'feed:'...</value>
+    <value>Utiliser RSS Bandit comme l'agrégateur par défaut écoutant le protocole 'feed:'...</value>
   </data>
   <data name="label12.Text">
     <value>Si ce bouton est désactivé, RSS Bandit est votre agrégateur par défaut. S'il est actif, vous pouvez faire de RssBandit votre agrégateur par défaut en pressant ce bouton.</value>
@@ -134,13 +134,13 @@
     <value>L'application sera toujours visible dans la barre des tâches</value>
   </data>
   <data name="label1.Text">
-    <value>Choisissez lors de quelle action l'application doit se 'Réduire dans la zone de notification'.</value>
+    <value>Choisissez comment l'application doit se réduire dans la zone de notification.</value>
   </data>
   <data name="radioTrayActionClose.Text">
     <value>&amp;Fermeture de l'application</value>
   </data>
   <data name="radioTrayActionClose.ToolTip">
-    <value>L'application ne sera pas visible dans la barre des tâches</value>
+    <value>L'application sera fermée</value>
   </data>
   <data name="radioTrayActionMinimize.Text">
     <value>&amp;Réduction de l'application (recommandé)</value>
@@ -267,7 +267,7 @@
     <value>Identité utilisateur pour les commentaires</value>
   </data>
   <data name="label6.Text">
-    <value>Spécifier vos paramètres personnels par défaut pour répondre aux messages. Cette fonctionnalité est uniquement  disponible pour les flux compatibles avec CommentAPI.</value>
+    <value>Spécifier vos paramètres personnels par défaut pour répondre aux messages. Cette fonctionnalité est uniquement disponible pour les flux compatibles avec CommentAPI.</value>
   </data>
   <data name="sectionPanelFeedsTimings.Text">
     <value>Flux, Périodicité</value>
@@ -403,7 +403,7 @@
     <value>Abonnements, éléments de nouvelle</value>
   </data>
   <data name="labelFontsSubscriptionsSummery.Text">
-    <value>Configure la police, les styles et les couleurs utilisées pour mettre en valeur ou indiquer l'état des abonnements et des éléments de nouvelle.</value>
+    <value>Configure la police, les styles et les couleurs utilisés pour mettre en valeur ou indiquer l'état des abonnements et des éléments de nouvelle.</value>
   </data>
   <data name="btnChangeFont.Text">
     <value>&amp;Modifier...</value>
@@ -610,7 +610,7 @@
     <value>Tahoma, 8pt</value>
   </data>
   <data name="lstItemStates.Items2">
-    <value>Flag</value>
+    <value>Etiquette</value>
   </data>
   <data name="lblFontSampleABC.Text">
     <value>AaBbCcXxYyZz</value>
@@ -625,10 +625,10 @@
     <value>Options</value>
   </data>
   <data name="checkBuildRelationCosmos.Text">
-    <value>Affiché les éléments similaires comme des fils de discussions</value>
+    <value>Afficher les éléments similaires comme des fils de discussions</value>
   </data>
   <data name="checkBuildRelationCosmos.ToolTip">
-    <value>Si coché, les éléments contenant des liens vers d'autres éléments inconnu seront affiché comme des fils de discussions</value>
+    <value>Si coché, les éléments contenant des liens vers d'autres éléments inconnus seront affichés comme des fils de discussions</value>
   </data>
   <data name="optionSectionPanel1.Text">
     <value>Sons</value>
@@ -649,11 +649,11 @@
     <comment>Start application after logon to Windows</comment>
   </data>
   <data name="checkUseFavicons.Text">
-    <value>Utiliser la favicons comme icone de flux dans l'arbre des souscriptions</value>
+    <value>Utiliser la "favicons" comme icone de flux dans l'arbre des souscriptions</value>
     <comment>Use favicons as feed icons in Feed Subscriptions tree</comment>
   </data>
   <data name="checkUseFavicons.ToolTip">
-    <value>Si coché, les flux souscrits afficherons leurs favicons comme un symbole de flux</value>
+    <value>Si coché, les flux souscrits afficheront leurs favicons comme un symbole de flux</value>
     <comment>If checked, subscribed feeds will display favicons as feed symbols</comment>
   </data>
   <data name="checkOpenTabsInBackground.Text">
@@ -661,7 +661,7 @@
     <comment>Load new tabs in the background</comment>
   </data>
   <data name="tabEnclosures.Text">
-    <value>Attachements/Podcasts</value>
+    <value>Fichiers liés/Podcasts</value>
   </data>
   <data name="sectionPanelEnclosurePodcasts.Text">
     <value>Podcasts</value>
@@ -673,7 +673,7 @@
     <value>Cliquez sur le bouton ci-dessous pour configurer les options des Pobcasts</value>
   </data>
   <data name="sectionPanelEnclosureGeneral.Text">
-    <value>General</value>
+    <value>Général</value>
   </data>
   <data name="btnSelectEnclosureFolder2.Text">
     <value>...</value>
@@ -686,28 +686,28 @@
     <value>Mo</value>
   </data>
   <data name="checkEnclosureSizeOnDiskLimited.Text">
-    <value>L'espace disque total maximum</value>
+    <value>Espace disque total maximum</value>
     <comment>Total disk space used must not exceed</comment>
   </data>
   <data name="lblDownloadXAttachmentsPostfix.Text">
-    <value>Attachements</value>
+    <value>Fichiers liés</value>
   </data>
   <data name="checkOnlyDownloadLastXAttachments.Text">
     <value>Pour une nouvelle inscription: télécharger les derniers</value>
     <comment>On initial subscription: only download last</comment>
   </data>
   <data name="checkDownloadCreateFolderPerFeed.Text">
-    <value>Organiser en sous-dossiers nommé d'après le flux</value>
+    <value>Organiser en sous-dossiers nommés d'après le flux</value>
     <comment>Place downloads in subfolders named after the feed</comment>
   </data>
   <data name="textEnclosureDirectory.ToolTip">
-    <value>Chemin de téléchargement des attachements</value>
+    <value>Chemin de téléchargement des fichiers liés</value>
   </data>
   <data name="labelEnclosureDirectory.Text">
-    <value>Télécharger les attachements dans:</value>
+    <value>Télécharger les fichiers liés dans:</value>
   </data>
   <data name="checkDownloadEnclosures.Text">
-    <value>Télécharger automatiquement les attachements</value>
+    <value>Télécharger automatiquement les fichiers liés</value>
     <comment>Automatically download attachments</comment>
   </data>
   <data name="checkEnableEnclosureAlerts.Text">
@@ -715,28 +715,34 @@
     <comment>&amp;Enable alert windows for newly downloaded attachments</comment>
   </data>
   <data name="lblSectionPanelEnclosureGeneral.Text">
-    <value>Configurer la manière de téléchargement ainsi que le dossier de téléchargement pour les attachements.</value>
+    <value>Configurer la méthode de téléchargement ainsi que le dossier de téléchargement pour les fichiers liés.</value>
     <comment>Configure the download behavior and download location of attachments in general.</comment>
   </data>
   <data name="lstItemStates.Items5">
-    <value>Nouveaux commentaires (lut)</value>
+    <value>Nouveaux commentaires (lus)</value>
   </data>
 <data name="checkMarkItemsAsReadWhenViewed.Text">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>Marque les nouveaux articles comme lus si vus</value>
   </data>
 	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>Si coché, les nouveaux articles sont automatiquement marqués comme lus au fur et à mesure que vous vous déplacez dans le volet de lecture</value>
   </data>
 	<data name="label8.Text">
-    <value>news items per page</value>
+    <value>nouvelles par page</value>
   </data>
 	<data name="numNewsItemsPerPage.ToolTip">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>Les nombre de de nouvelles qui seront affichés, par page, dans le volet de lecture</value>
   </data>
 	<data name="checkLimitNewsItemsPerPage.Text">
-    <value>Show only </value>
+    <value>Montrer seulement </value>
   </data>
 	<data name="checkLimitNewsItemsPerPage.ToolTip">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>Si coché, le panneau de lecture sera divisé en pages qui contiendront chacune le nombre spécifié de nouvelles</value>
+  </data>
+	<data name="comboRefreshRate.ToolTip">
+    <value>Changer la vitesse de rafraichissement de chaque flux</value>
+  </data>
+	<data name="comboMaxItemAge.ToolTip">
+    <value>Changer l'âge par défaut de chaque flux</value>
   </data>
 	</root>

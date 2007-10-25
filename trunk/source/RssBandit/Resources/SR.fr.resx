@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -175,7 +175,7 @@ pour de plus amples détails sur cette erreur.</value>
     <comment>Validation Error message</comment>
   </data>
   <data name="GUIStatusDone">
-    <value>Fini</value>
+    <value>Terminé</value>
     <comment>GUI status info</comment>
   </data>
   <data name="GUIStatusRetriveCommentRssFeed">
@@ -352,13 +352,13 @@ Merci de consulter le fichier '{1}' pour de plus amples détails sur cette erreu
     <value>Impossible de transformer le message RSS en HTML.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetCompile">
-    <value>Impossible de compiler la feuille de style Xslt.</value>
+    <value>Impossible de compiler la feuille de style XSLT.</value>
   </data>
   <data name="ExceptionNewsItemFormatterInvalidStylesheet">
     <value>La feuille de style Xslt est invalide.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetMessage">
-    <value>La feuille de style Xslt sélectionnée pour traiter les messages signale le problème suivant :
+    <value>La feuille de style XSLT sélectionnée pour traiter les messages signale le problème suivant :
 {0}
 Détails : {1}</value>
   </data>
@@ -751,11 +751,11 @@ Détails : {1}</value>
     <comment>Description within view menu</comment>
   </data>
   <data name="MessageBoxDeleteAllFeedsQuestion">
-    <value>Etes-vous réellement sûr de vouloir supprimer tous les flux ?</value>
+    <value>Etes-vous réellement certain de vouloir supprimer tous les flux ?</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="MessageBoxDeleteAllFeedsInCategoryQuestion">
-    <value>Etes-vous réellement sûr de vouloir supprimer cette catégorie et tous les sous-catégories et flux associés ?</value>
+    <value>Etes-vous réellement certain de vouloir supprimer cette catégorie, toutes les sous-catégories et tous flux associés ?</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="MessageBoxDeleteThisFeedQuestion">
@@ -915,7 +915,7 @@ Détails : {1}</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuFlagFeedItemCompleteDesc">
-    <value>Enlever le(s) message(s) sélectionné(s) de la liste des messages marqués...</value>
+    <value>Enlever les messages sélectionnés de la liste des messages marqués...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuFlagFeedItemClearCaption">
@@ -971,7 +971,7 @@ Détails : {1}</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuCopyFeedLinkToClipboardDesc">
-    <value>Copier le lien du noeud selectionner vers le presse-papier...</value>
+    <value>Copier le lien du noeud sélectionné vers le presse-papier...</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuCopyFeedHomeLinkToClipboardCaption">
@@ -1155,7 +1155,7 @@ Détails : {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuDocTabsLayoutHorizontalCaption">
-    <value>Arrangement avec un splitter horizontal</value>
+    <value>Arrangement avec une séparation horizontale</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuDocTabsLayoutHorizontalDesc">
@@ -1173,7 +1173,7 @@ Détails : {1}</value>
     <comment>SmartNode caption</comment>
   </data>
   <data name="FeedNodeFeedExceptionsDesc">
-    <value>Conteneur des flux en erreur, causées par les flux auxquels vous êtes abonné</value>
+    <value>Conteneur des flux en erreur, causés par les flux auxquels vous êtes abonné</value>
     <comment>SmartNode desc</comment>
   </data>
   <data name="FeedNodeFlaggedFeedsCaption">
@@ -1313,15 +1313,15 @@ Détails : {1}</value>
     <comment>Title of the messagebox displayed on exceptions with it's settings</comment>
   </data>
   <data name="FormatExceptionRefreshRate">
-    <value>Le taux de rafraichissement n'est pas un nombre.</value>
+    <value>Le taux de rafraîchissement saisi n'est pas un nombre.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="OverflowExceptionRefreshRate">
-    <value>La valeur spécifiée pour le taux de rafraichissement est trop élevée.</value>
+    <value>La valeur spécifiée pour le taux de rafraîchissement est trop élevée.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="ExceptionRefreshRateInvalid">
-    <value>Taux de rafraichissement invalide.</value>
+    <value>Taux de rafraîchissement invalide.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="ExceptionNoProxyUrl">
@@ -1425,7 +1425,7 @@ D'accord ?</value>
     <comment>Messagebox info text</comment>
   </data>
   <data name="ExceptionLoadingNewsItemFormatterStylesheet">
-    <value>Erreur inattendue lors du chargement de la feuille de style XSLT pour le formattage du message :
+    <value>Erreur inattendue lors du chargement de la feuille de style XSLT pour le formatage du message :
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
@@ -1605,11 +1605,11 @@ D'accord ?</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
   <data name="RssSearchTypeRegExHintCaption">
-    <value>Rechercher tous les messages contenant le mot ou la phrase spécifié qui satisfassent à une expression régulière.</value>
+    <value>Rechercher tous les messages contenant le mot ou la phrase spécifié qui répondent à une expression régulière.</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
   <data name="RssSearchTypeXPathHintCaption">
-    <value>Rechercher tous les messages dont la représentation RSS 2.0 satisfait l'expression XPath spécifiée.</value>
+    <value>Rechercher tous les messages dont la représentation RSS 2.0 répond à l'expression XPath spécifiée.</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
   <data name="WindowAboutCaption">
@@ -1617,7 +1617,7 @@ D'accord ?</value>
     <comment>window caption. Parameter is the product name</comment>
   </data>
   <data name="RefreshFeedExceptionReportStringPart">
-    <value>La réactualisation de '&lt;strong&gt;{0}&lt;/strong&gt;' a échouée avec l'erreur : {1}</value>
+    <value>La réactualisation de '&lt;strong&gt;{0}&lt;/strong&gt;' a échoué avec l'erreur : {1}</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
   <data name="RefreshFeedExceptionReportValidationPart">
@@ -1672,7 +1672,7 @@ D'accord ?</value>
     <comment>NEW</comment>
   </data>
   <data name="MenuShowCategoryPropertiesDesc">
-    <value>Affiche la boîte de dialogue de propriétés de la Catégorie...</value>
+    <value>Affiche la boîte de dialogue de propriétés de la catégorie...</value>
     <comment>NEW</comment>
   </data>
   <data name="MenuNewFinderCaption">
@@ -1999,11 +1999,11 @@ Ces droits administrateur ne sont nécessaires que pour activer la fonctionnalit
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuColumnChooserFlagCaption">
-    <value>Montrer l'état du flag</value>
+    <value>Montrer l'étiquette</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuColumnChooserFlagDesc">
-    <value>Affiche la colonne Etat de flag d'un élément....</value>
+    <value>Affiche la colonne Etiquette d'un élément....</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption">
@@ -2011,7 +2011,7 @@ Ces droits administrateur ne sont nécessaires que pour activer la fonctionnalit
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
-    <value>La disposition sera appliquée à tous les noeuds de catégorie sans disposition explicite...</value>
+    <value>La disposition sera appliquée à tous les noeuds des catégories sans disposition explicite...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
@@ -2031,7 +2031,7 @@ Ces droits administrateur ne sont nécessaires que pour activer la fonctionnalit
     <comment>Description within context menu</comment>
   </data>
   <data name="ListviewColumnCaptionFlagStatus">
-    <value>Drapeau</value>
+    <value>Etiquette</value>
     <comment>Column caption within listview</comment>
   </data>
   <data name="MenuDonateToProjectDesc">
@@ -2062,7 +2062,7 @@ Si vous choissisez NON, une notification reviendra plus tard.</value>
     <comment>Waiting Message Dialog Text</comment>
   </data>
   <data name="DialogMessageNoNewAppVersionAvailable">
-    <value>Il n'y a actuellement aucune mise à jours disponible.</value>
+    <value>Il n'y a actuellement aucune mise à jour disponible.</value>
     <comment>Message Dialog Text</comment>
   </data>
   <data name="FeedListNoChildsMessage">
@@ -2082,7 +2082,7 @@ Si vous choissisez NON, une notification reviendra plus tard.</value>
     <comment>Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
   </data>
   <data name="ExceptionNntpLoadingGroupsFailed">
-    <value>Chargement des Newsgroups depuis '{0}' ratté: {1}</value>
+    <value>Le chargement des Newsgroups depuis '{0}' a échoué: {1}</value>
     <comment>{0} param is the news server, {1} the exception message</comment>
   </data>
   <data name="GUINntpLoadingGroupsFailedCaption">
@@ -2105,7 +2105,7 @@ Si vous choissisez NON, une notification reviendra plus tard.</value>
     <comment>Caption edit view menu</comment>
   </data>
   <data name="MenuListViewSelectAllDesc">
-    <value>Select all items of the news item list panel.</value>
+    <value>Sélectionner tous les articles de la liste des nouvelles.</value>
     <comment>Description within edit menu</comment>
   </data>
   <data name="MenuNewCmdsCaption">
@@ -2129,7 +2129,7 @@ Si vous choissisez NON, une notification reviendra plus tard.</value>
     <comment>NEW</comment>
   </data>
   <data name="MenuNewNntpFeedCaption">
-    <value>&amp;Newsgroup Subscription...</value>
+    <value>Inscription à un &amp;Newsgroup...</value>
     <comment>Caption within tool dropdown</comment>
   </data>
   <data name="MenuNewNntpFeedDesc">
@@ -2156,7 +2156,7 @@ Si vous choissisez NON, une notification reviendra plus tard.</value>
     <value>La configuration du proxy a échoué:
 {0}.
 
-Les paramètres on été reconfiguré sans utilisation de proxy.</value>
+Les paramètres on été reconfigurés sans utilisation de proxy.</value>
     <comment>Failure message on proxy config errors</comment>
   </data>
   <data name="WizardValidationTask_SuccessMessage">
@@ -2164,7 +2164,7 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
     <comment>Subscription wizard task info</comment>
   </data>
   <data name="WizardValidationTask_Success_xFeedsFound_Message">
-    <value>{0} flux(s) trouvé.</value>
+    <value>{0} flux(s) trouvé(s).</value>
     <comment>Subscription wizard task info</comment>
   </data>
   <data name="WizardValidationTask_VerifyingUrlMessage">
@@ -2192,7 +2192,7 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
     <comment>Subscription wizard task info</comment>
   </data>
   <data name="WizardValidationTask_SearchFailedMessage">
-    <value>Recherche rattée.</value>
+    <value>La recherche a échoué.</value>
     <comment>Subscription wizard task info</comment>
   </data>
   <data name="WizardValidationTask_InvalidFeedMessage">
@@ -2208,7 +2208,7 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
     <comment>Subscription wizard info</comment>
   </data>
   <data name="AddInLoadFailure">
-    <value>Chargement du complément '{1}' ratté:
+    <value>Le chargement du complément '{1}' a échoué:
         
 {0}</value>
     <comment>Subscription wizard info</comment>
@@ -2230,7 +2230,7 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
     <comment>Toolbar button caption (post a new item to a NNTP group)</comment>
   </data>
   <data name="MenuPostNewFeedItemDesc">
-    <value>Créer une nouvelle publication a envoyer au flux sélectionné.</value>
+    <value>Créer une nouvelle publication à envoyer au flux sélectionné.</value>
     <comment>Toolbar button descr. (post a new item to a NNTP group)</comment>
   </data>
   <data name="NewPostToFeedFormCaption">
@@ -2242,19 +2242,19 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
     <comment>GUI status info</comment>
   </data>
   <data name="ExceptionPostNewFeedItem">
-    <value>Une erreur lors de la publication d'une nouvelle entrée '{0}' (Entrée RSS lien/titre) est apparue:
+    <value>Une erreur lors de la publication d'une nouvelle entrée '{0}' (Entrée RSS lien/titre) est survenue:
 
 '{1}'</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="AddInUnloadFailure">
-    <value>Déchargement du complément '{1}' ratté:
+    <value>Le déchargement du complément '{1}' a échoué:
         
 {0}</value>
     <comment>AddIn failure message box</comment>
   </data>
   <data name="AddInGeneralFailure">
-    <value>Une erreur général est apparue dans le complément '{1}':
+    <value>Une erreur générale est survenue dans le complément '{1}':
         
 {0}</value>
     <comment>AddIn failure message box</comment>
@@ -2294,19 +2294,19 @@ Les paramètres on été reconfiguré sans utilisation de proxy.</value>
 
 {0}
 
-semble être un enfant du précédent dossier de cache données. Dès lors, l'ancien dossier ne pourra par être automatiquement déplacé. Le programme  va continuer d'utiliser l'ancien dossier de cache données.</value>
+semble être un enfant du précédent dossier de cache de données. Dès lors, l'ancien dossier ne pourra par être automatiquement déplacé. Le programme  va continuer d'utiliser l'ancien dossier de cache de données.</value>
     <comment>.
  Parameters: 0 - folderName (string) </comment>
   </data>
   <data name="CacheFolderInvalid_CannotBeMovedException">
-    <value>Impossible de déplacer l'ancien dossier de cache données vers le nouvel emplacement à
+    <value>Impossible de déplacer l'ancien dossier de cache de données vers le nouvel emplacement à
 
 {0}
 
 Une erreur a été reportée:
 {1}
 
-Le programme  va continuer d'utiliser l'ancien dossier de cache données...</value>
+Le programme  va continuer d'utiliser l'ancien dossier de cache de données...</value>
     <comment>.
  Parameters: 0 - folderName (string), 1 - exception (string) </comment>
   </data>
@@ -2317,7 +2317,7 @@ Le programme  va continuer d'utiliser l'ancien dossier de cache données...</val
     <value>Bienvenue!</value>
   </data>
   <data name="FeedNodeWatchedItemsCaption">
-    <value>Articles lu</value>
+    <value>Articles lus</value>
   </data>
   <data name="FeedNodeWatchedItemsDesc">
     <value>Conteneur des articles lu</value>
@@ -2327,20 +2327,20 @@ Le programme  va continuer d'utiliser l'ancien dossier de cache données...</val
     <comment> Improve the Bandit</comment>
   </data>
   <data name="MenuSendLogsByMailDesc">
-    <value>Envois un mail avec les fichiers logs pour les analyses ratées.</value>
+    <value>Expédie un mail avec les fichiers logs pour les analyses qui ont échoué.</value>
   </data>
   <data name="MenuFeedItemWatchCommentsCaption">
     <value>&amp;Lire les commentaires</value>
   </data>
   <data name="MenuFeedItemWatchCommentsDesc">
-    <value>Signaler lors de nouveau commentaire sur cet entrée</value>
+    <value>Signaler lors de nouveau commentaire sur cette entrée</value>
   </data>
   <data name="CmdLineResetUIDesc">
     <value>Va remettre à zero l'interface utilisateur</value>
     <comment>Will reset the user interface to the default</comment>
   </data>
   <data name="ExceptionProcessStartToPlayEnclosure">
-    <value>Le système a reporté une erreur lors de la tentative de lecture de l'attachement:
+    <value>Le système a signalé une erreur lors de la tentative de lecture du fichier lié:
 
 {0}
 
@@ -2349,21 +2349,21 @@ Erreur:{1}.</value>
  Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
   </data>
   <data name="FeedNodeUnreadItemsCaption">
-    <value>Articles non lu</value>
+    <value>Articles non lus</value>
     <comment> Special local feed for unread items</comment>
   </data>
   <data name="FeedNodeUnreadItemsDesc">
-    <value>Liste des articles non lu</value>
+    <value>Liste des articles non lus</value>
   </data>
   <data name="BrowseForFolderEnclosureDownloadLocation">
-    <value>Séléctionnez ou créez un dossier pour stocker les attachements téléchargés</value>
+    <value>Séléctionnez ou créez un dossier pour stocker les fichiers liés téléchargés</value>
     <comment> Text in the browse for folder dialog</comment>
   </data>
   <data name="MenuDownloadAttachmentCaption">
-    <value>Télécharger les attachements</value>
+    <value>Télécharger les fichiers liés</value>
   </data>
   <data name="MenuDownloadAttachmentDesc">
-    <value>Télécharger les attachements dans le dossier spécifié pour les Podcasts</value>
+    <value>Télécharger les fichiers liés dans le dossier spécifié pour les Podcasts</value>
   </data>
   <data name="DialogBase_SubmitButtonCaption">
     <value>OK</value>
@@ -2422,20 +2422,20 @@ Error:{1}.</value>
     <comment>Click to select the destination folder of podcasts</comment>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
-    <value>Windows Media Player playlist</value>
+    <value>Liste Windows Media Player</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
-    <value>iTunes playlist</value>
+    <value>Liste iTunes</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
     <value>Ce dossier:</value>
   </data>
   <data name="PodcastOptionDialog_PlaylistSectionCaption">
-    <value>Playlist</value>
+    <value>Liste</value>
     <comment> Podcast option dialog playlist section</comment>
   </data>
   <data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
-    <value>Comme nom de playlist:</value>
+    <value>Comme nom de liste:</value>
     <comment>As playlist name:</comment>
   </data>
   <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
@@ -2492,22 +2492,22 @@ Error:{1}.</value>
     <value>Rechercher</value>
   </data>
   <data name="MainForm_ToolUrlDropdownCueText">
-    <value>Entrez une url à naviger</value>
+    <value>Entrez une URL à naviguer</value>
   </data>
   <data name="WindowsSoundControlPanelNewFeedDiscovered">
     <value>Flux découvert</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
   <data name="WindowsSoundControlPanelNewItemsReceived">
-    <value>Nouveaux élément(s) reçu</value>
+    <value>Nouveaux éléments reçus</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
   <data name="WindowsSoundControlPanelNewAttachmentDownloaded">
-    <value>Nouvel attachement téléchargé</value>
+    <value>Nouveau fichier lié téléchargé</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
   <data name="WindowsSoundControlPanelDisplayFailed">
-    <value>Désolé, une erreur s'est produite lors de l'affihage du panneau de configuration Windows de configuration des sons Système et de l'application:
+    <value>Désolé, une erreur s'est produite lors de l'affichage du panneau de configuration Windows de configuration des sons Système et de l'application:
 
 {0}
 
@@ -2516,7 +2516,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
  Parameters: 0 - failure (string) </comment>
   </data>
   <data name="NewsGroupConfiguration_MainToolbarCaption">
-    <value>Outils généreaux</value>
+    <value>Outils généraux</value>
     <comment> NewsGroupConfiguration dialog toolbar caption</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolCaption">
@@ -2524,7 +2524,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolDesc">
-    <value>Créer une nouvelle identitié...</value>
+    <value>Créer une nouvelle identité...</value>
   </data>
   <data name="NewsGroupConfiguration_NewNewsServerToolCaption">
     <value>Ajouter un serveur de News</value>
@@ -2585,7 +2585,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
     <value>&amp;Titre</value>
   </data>
   <data name="SearchPanel_labelSearchFieldsHint_Text">
-    <value>Coché tout les champs dans lesquels vous souhaitez rechercher</value>
+    <value>Cochez les champs dans lesquels vous souhaitez rechercher</value>
     <comment>Check all the fields you want searched</comment>
   </data>
   <data name="SearchPanel_advancedOptionItemPostedGroup_Text">
@@ -2607,7 +2607,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
     <value>Acticle non l&amp;u</value>
   </data>
   <data name="SearchPanel_btnNewSearch_Text">
-    <value>Remettre à zero la recherche</value>
+    <value>Remettre à zéro la recherche</value>
     <comment>Reset Search</comment>
   </data>
   <data name="SearchPanel_btnSearch_Text">
@@ -2621,7 +2621,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
     <comment>&amp;Save This Search As</comment>
   </data>
   <data name="SearchPanel_searchTaskPaneFields_Text">
-    <value>Champs recherché</value>
+    <value>Champs recherchés</value>
     <comment>Search &amp;Fields</comment>
   </data>
   <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text">
@@ -2683,7 +2683,7 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
  Parameters: 0 - years (int) </comment>
   </data>
   <data name="DialogBase_UACShieldedHint">
-    <value>Cet option requiert des privilèges utilisateur plus élevé (Administrateur)...</value>
+    <value>Cet option requiert des privilèges utilisateur plus élevés (Administrateur)...</value>
     <comment>Option requires higher user privileges (Administrator)...</comment>
   </data>
   <data name="ExceptionEnclosureDownloadError">
@@ -2697,34 +2697,34 @@ Svp, essayez d'ouvrir le panneau de configuration manuellement en utilisant le m
     <comment>Toggles between summary and full item texts</comment>
   </data>
 <data name="SearchPanel_optionSetItemAgeOlderThan_Text">
-    <value>&amp;Older than</value>
+    <value>&amp;Plus de </value>
   </data>
 	<data name="RefreshFeedExceptionUserActionIntroText">
-    <value>What do you want to do now?</value>
+    <value>Que voulez-vous faire maintenant ?</value>
   </data>
 	<data name="RefreshFeedExceptionUserActionNavigateToSubscription">
-    <value>Navigate to the subscription...</value>
+    <value>Aller à l'abonnement...</value>
   </data>
 	<data name="RefreshFeedExceptionUserActionDeleteSubscription">
-    <value>Remove this subscription...</value>
+    <value>Supprimer cet abonnement...</value>
   </data>
 	<data name="XsltDefaultTemplate_Previous">
-    <value>Previous</value>
+    <value>Précédent</value>
     <comment> Xslt default template language resources</comment>
   </data>
 	<data name="XsltDefaultTemplate_Next">
-    <value>Next</value>
+    <value>Suivant</value>
   </data>
 	<data name="XsltDefaultTemplate_Displaying_page">
-    <value>Displaying page</value>
+    <value>Page N°</value>
   </data>
 	<data name="XsltDefaultTemplate_of">
-    <value>of</value>
+    <value>sur</value>
   </data>
 	<data name="GUILoadFileOperationExceptionMessage">
-    <value>Loading of file
+    <value>Le téléchargement du fichier
 {0}
-failed with error:
+a échoué avec l'erreur:
 {1}
 
 {2}</value>
@@ -2732,9 +2732,9 @@ failed with error:
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
 	<data name="GUISaveFileOperationExceptionMessage">
-    <value>Saving of file
+    <value>L'enregistrement du fichier
 {0}
-failed with error:
+a échoué avec l'erreur:
 {1}
 
 {2}</value>
@@ -2742,6 +2742,6 @@ failed with error:
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
 	<data name="GUIUserInfoAboutDefaultTreeState">
-    <value>Using defaults for the subscription tree folder states.</value>
+    <value>Utilisez configuration par défaut pour l'arbre de souscription.</value>
   </data>
 	</root>
