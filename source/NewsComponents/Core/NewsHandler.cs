@@ -2294,7 +2294,8 @@ namespace NewsComponents {
 			}
 
 			this.SearchHandler.IndexRemove(f.id);
-			this.enclosureDownloader.CancelPendingDownloads(feedUrl); 
+			if (this.enclosureDownloader != null)
+				this.enclosureDownloader.CancelPendingDownloads(feedUrl); 
 
 			try{ 
 				this.CacheHandler.RemoveFeed(f); 
