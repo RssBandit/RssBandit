@@ -50,7 +50,7 @@ namespace NewsComponents.Net
 		/// in local Time, so we don't use DateTime.MinValue! It goes out
 		/// of range if converted to universal time (e.g. if we have GMT +xy)
 		/// </summary>
-		private static DateTime MinValue = new DateTime(1901, 1, 1); 
+		private static DateTime MinValue = new DateTime(1981, 1, 1); 
 
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(AsyncWebRequest));
 
