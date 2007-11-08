@@ -725,6 +725,14 @@ namespace NewsComponents.Feed {
 
             return false;
         }
+
+        /// <summary>
+        /// Returns a hashcode for a feedsFeed object. 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode() {
+            return link.GetHashCode(); 
+        } 
 	}
 
 	#region UserIdentity
