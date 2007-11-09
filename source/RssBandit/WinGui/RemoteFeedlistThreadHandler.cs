@@ -35,7 +35,6 @@ using NgosSubscription = RssBandit.com.newsgator.services3;
 using NgosPostItem = RssBandit.com.newsgator.services4;
 #endif
 
-using EnterpriseDT.Net.Ftp;
 using ICSharpCode.SharpZipLib.Zip;
 
 using Logger = RssBandit.Common.Logging;
@@ -367,22 +366,6 @@ namespace RssBandit.WinGui {
                             doc = null;
                             break;
 
-                        /* case RemoteStorageProtocolType.dasBlog_1_3:
-                            //save feed list
-                            this.rssBanditApp.FeedHandler.SaveFeedList(tempStream, FeedListFormat.OPML); 
-                            tempStream.Position = 0; 
-					
-
-                            // Get the bytes into a byte array for sending
-                            byte[] feedBytes2 = new byte[tempStream.Length];
-                            tempStream.Read(feedBytes2, 0, (int)tempStream.Length);					
-
-                            // Send it to the web service
-                            DasBlog_1_3.ConfigEditingService remoteStore2 = new DasBlog_1_3.ConfigEditingService();
-                            remoteStore2.Url = remoteLocation;
-                            remoteStore2.UpdateFile("blogroll.opml", feedBytes2, credentialUser, credentialPassword);
-                            break; */
-
 
                         case RemoteStorageProtocolType.FTP:			// Send to FTP server
                             //save feed list 
@@ -403,64 +386,47 @@ namespace RssBandit.WinGui {
                                 remotePort = remoteUri.Port;
                             }
 
-                            // look here for documentation: http://www.enterprisedt.com/downloads/csftp/doc/com.enterprisedt.net.ftp.html
-                            FTPClient ftpClient = new FTPClient(serverName, remotePort);
-                            bool connectionMode_Passive = settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
-                            if (connectionMode_Passive) {
-                                ftpClient.ConnectMode = FTPConnectMode.PASV;
-                            } else {
-                                ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-                            }
+                            UriBuilder builder = new UriBuilder(remoteUri);
+                            builder.Path = remoteFileName;
 
-
-                            ftpClient.Login(credentialUser, credentialPassword);
-
-                            if (remotePath.Length > 1 && remotePath.StartsWith("/")) {
-                                remotePath = remotePath.Substring(1);	// ChDir fails, if it starts with a "/"
-                            }
-
-                            if (remotePath.Length > 1) {	// if not at ftp root:
-                                ftpClient.ChDir(remotePath);	// this is a simple command, no data...
-                            }
-
+                             
+                            /* set up the FTP connection */ 
+                            FtpWebRequest ftpRequest = WebRequest.Create(builder.Uri) as FtpWebRequest;
+                            ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+                            ftpRequest.KeepAlive = false;
+                            ftpRequest.UseBinary = true;
+                            ftpRequest.UsePassive = settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
+                            ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
+                            ftpRequest.ContentLength = tempStream.Length; 
+                            
+                            /* perform upload */
                             try {
-                                ftpClient.TransferType = FTPTransferType.BINARY;
-                                ftpClient.Put(tempStream, remoteFileName, false);	// try data transfer (ftp data port)
 
-                            } catch (System.Net.Sockets.SocketException soex) {
+                                // The buffer size is set to 2kb
+                                int buffLength = 2048;
+                                byte[] buff = new byte[buffLength];
+                                int contentLen;
 
-                                /*	if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061 ){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */
+                                // Stream to which the file to be upload is written
+                                Stream strm = ftpRequest.GetRequestStream();
 
-                                // try again, with Mode switched:
-                                // see also: http://slacksite.com/other/ftp.html
-                                if (connectionMode_Passive) {
-                                    ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-                                } else {
-                                    ftpClient.ConnectMode = FTPConnectMode.PASV;
-                                }
-                                connectionMode_Passive = !connectionMode_Passive;
+                                // Read from the file stream 2kb at a time
+                                contentLen = tempStream.Read(buff, 0, buffLength);
 
-                                // try again:
-                                // since the ftp component closes the stream when it gets an exception
-                                // we have to re-create the stream before trying again
-                                using (MemoryStream tempStream2 = new MemoryStream()) {
-                                    zos = new ZipOutputStream(tempStream2);
-                                    ZipFiles(files, zos);
-                                    tempStream2.Position = 0;
-                                    ftpClient.Put(tempStream2, remoteFileName, false);
+                                // Till Stream content ends
+                                while (contentLen != 0) {
+                                    // Write Content from the file stream to the 
+                                    // FTP Upload Stream
+                                    strm.Write(buff, 0, contentLen);
+                                    contentLen = tempStream.Read(buff, 0, buffLength);
                                 }
 
-                                // old impl.
-                                //ftpClient.Put(tempStream, remoteFileName, false);
-
-                                /* } else {
-                                    throw;
-                                } */
-                            }
-
-                            // save working setting:
-                            settings.SetProperty("RemoteFeedlist/Ftp.ConnectionMode.Passive", connectionMode_Passive);
-                            ftpClient.Quit();
+                                // Close the Request Stream
+                                strm.Close();
+                            } catch (Exception ex) {
+                                //ToDO: Add support for switching between active and passive mode
+                                _log.Error("FTP Upload Error", ex); 
+                            }                                                                                   
 
                             //close zip stream 
                             zos.Close();
@@ -662,6 +628,8 @@ namespace RssBandit.WinGui {
 
                     case RemoteStorageProtocolType.FTP:
                         // Fetch from FTP
+
+                        /* old code 
                         Uri remoteUri = null;
                         string serverName = remoteLocation;
                         string remotePath = "/";
@@ -703,7 +671,7 @@ namespace RssBandit.WinGui {
 
                         } catch (System.Net.Sockets.SocketException soex) {
 
-                            /* if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true */
+                            // if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true 
 
                             // try again, with Mode switched:
                             // see also: http://slacksite.com/other/ftp.html
@@ -717,16 +685,75 @@ namespace RssBandit.WinGui {
                             // try again:
                             ftpClient.Get(fileStream, remoteFileName);
 
-                            /* } else {
-                                throw;
-                            } */
+                            // } else {
+                              //  throw;
+                           // } 
+                        } */
+
+                        Uri remoteUri = null;
+                        string serverName = remoteLocation;
+                        string remotePath = "/";
+                        int remotePort = 21;	// default for ftp url scheme
+
+                        remoteUri = new Uri(remoteLocation);
+                        serverName = remoteUri.Host;
+                        remotePath = remoteUri.AbsolutePath;
+                        if (!remoteUri.IsDefaultPort) {
+                            remotePort = remoteUri.Port;
                         }
 
-                        // save new setting:
-                        settings.SetProperty("RemoteFeedlist/Ftp.ConnectionMode.Passive", connectionMode_Passive);
+                        UriBuilder builder = new UriBuilder(remoteUri);
+                        builder.Path = remoteFileName;
 
-                        fileStream.Close();
-                        ftpClient.Quit();
+
+                        /* set up the FTP connection */
+                        FtpWebRequest ftpRequest = WebRequest.Create(builder.Uri) as FtpWebRequest;
+                        ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                        ftpRequest.KeepAlive = false;
+                        ftpRequest.UseBinary = true;
+                        ftpRequest.UsePassive = settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
+                        ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
+
+
+                        // Create a file stream and get the file into that
+                        tempFileName = Path.GetTempFileName();
+                        Stream fileStream = File.Create(tempFileName);   
+
+                        /* perform download */
+                        try {
+
+                            // The buffer size is set to 2kb
+                            int buffLength = 2048;
+                            byte[] buff = new byte[buffLength];
+                            int contentLen;
+                        
+
+                            // Stream to which the file to be upload is written
+                            Stream strm = ftpRequest.GetResponse().GetResponseStream();
+
+                            // Read from the FTP stream 2kb at a time
+                            contentLen = strm.Read(buff, 0, buffLength);
+
+                            // Till Stream content ends
+                            while (contentLen != 0) {
+                                // Write Content from the file stream to the 
+                                // FTP Upload Stream
+                                fileStream.Write(buff, 0, contentLen);
+                                contentLen = strm.Read(buff, 0, buffLength);
+                            }
+
+                            // Close the Response Stream
+                            strm.Close();
+                        } catch (Exception ex) {
+                            //ToDO: Add support for switching between active and passive mode
+                            _log.Error("FTP Upload Error", ex);
+                        }
+
+                        fileStream.Close();   
+                            
+                        // save new setting:
+                        //settings.SetProperty("RemoteFeedlist/Ftp.ConnectionMode.Passive", connectionMode_Passive);
+                     
 
                         // Open the temporary file so we can import it
                         importStream = File.OpenRead(tempFileName);

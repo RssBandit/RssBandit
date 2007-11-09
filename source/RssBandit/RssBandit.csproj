@@ -99,10 +99,6 @@
       <Name>blogExtension</Name>
       <HintPath>bin\blogExtension.dll</HintPath>
     </Reference>
-    <Reference Include="edtftpnet-1.1.3">
-      <Name>edtftpnet-1.1.3</Name>
-      <HintPath>bin\edtftpnet-1.1.3.dll</HintPath>
-    </Reference>
     <Reference Include="Eyefinder">
       <Name>Eyefinder</Name>
       <HintPath>bin\Eyefinder.dll</HintPath>
@@ -2003,7 +1999,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Content Include="Resources\BanditHelp.chm" />
-    <Content Include="RssBandit.exe.log4net.config" />
+    <Content Include="RssBandit.exe.log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="RssBandit.exe.manifest" />
     <Content Include="templates\readme.htm" />
     <None Include="Web References\CLR20.com.newsgator.services4\PostItem.disco" />
