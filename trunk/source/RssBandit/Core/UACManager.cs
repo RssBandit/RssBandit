@@ -7,9 +7,11 @@
  */
 #endregion
 
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Security;
+using System.Security.AccessControl;
 using Microsoft.Win32;
 using Logger = RssBandit.Common.Logging;
 
@@ -30,7 +32,7 @@ namespace RssBandit
 	{
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(UACManager));
 
-		static Hashtable _actions = new Hashtable(5);
+		static readonly Dictionary<ElevationRequiredAction, string> _actions = new Dictionary<ElevationRequiredAction, string>(3);
 		
 		
 		/// <summary>
@@ -64,7 +66,9 @@ namespace RssBandit
 				switch (action) {
 					case ElevationRequiredAction.RunBanditAsWindowsUserLogon:
 						try {
-							rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+							// this test will succeed on Vista, because of the silent redirect of write requests
+							// to hives we can write. But it should work on older OS versions with defined restrictions.
+							rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Run", RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.CreateSubKey);
 							rk.Close();
 							_actions.Add(action, null);
 						
@@ -77,7 +81,9 @@ namespace RssBandit
 				
 					case ElevationRequiredAction.MakeDefaultAggregator:
 						try {
-							rk = Win32.WindowsRegistry.ClassesRootKey(false).OpenSubKey(@"feed", true);
+							// this test will succeed on Vista, because of the silent redirect of write requests
+							// to hives we can write. But it should work on older OS versions with defined restrictions.
+							rk = Win32.WindowsRegistry.ClassesRootKey(false).OpenSubKey(@"feed", RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.CreateSubKey);
 							rk.Close();
 							_actions.Add(action, null);
 						
@@ -97,19 +103,14 @@ namespace RssBandit
 			return false;
 		}
 
-		
+		/// <summary>
+		/// Gets the shield icon.
+		/// </summary>
+		/// <value>The shield icon.</value>
+		public static Icon ShieldIcon {
+			get { return SystemIcons.Shield;  }
+		}
+
 		private UACManager(){}
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: UACManager.cs,v $
- * Revision 1.2  2007/07/01 17:59:54  t_rendelmann
- * feature: support for portable application mode (running Bandit from a stick)
- *
- * Revision 1.1  2007/02/13 16:21:23  t_rendelmann
- * security/UAC required changes
- *
- */
-#endregion
