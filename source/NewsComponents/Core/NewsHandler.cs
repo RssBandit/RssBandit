@@ -4635,8 +4635,15 @@ namespace NewsComponents {
 					if(!websites.Contains(webSiteUrl.Authority)){
 						UriBuilder reqUri = new UriBuilder("http", webSiteUrl.Authority);
 						reqUri.Path       = "favicon.ico";
-							
-						RequestParameter reqParam = RequestParameter.Create(reqUri.Uri, this.UserAgent, this.Proxy, 
+
+                        try {
+                            webSiteUrl = reqUri.Uri;
+                        } catch (UriFormatException){ /* probably a local machine feed */
+                            _log.ErrorFormat("Error creating URL '{0}/{1}' in RefreshFavicons", webSiteUrl, "favicon.ico");   
+                            continue; 
+                        }
+
+						RequestParameter reqParam = RequestParameter.Create(webSiteUrl, this.UserAgent, this.Proxy, 
 																	/* ICredentials */ null, 
 																	/* lastModified */ DateTime.MinValue, 
 																	/* etag */ null);
