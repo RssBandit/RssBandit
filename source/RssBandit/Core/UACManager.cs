@@ -104,13 +104,14 @@ namespace RssBandit
 			return false;
 		}
 
+        /* Requires .NET 2.0 SP1 
 		/// <summary>
 		/// Gets the shield icon.
 		/// </summary>
 		/// <value>The shield icon.</value>
 		public static Icon ShieldIcon {
 			get { return SystemIcons.Shield;  }
-		}
+		} */ 
 
 		private UACManager(){}
 	}
