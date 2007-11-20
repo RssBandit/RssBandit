@@ -4851,8 +4851,11 @@ namespace RssBandit.WinGui.Forms
 				_timerRefreshFeeds.Start();
 #endif
 			if(!_faviconsDownloaded && owner.Preferences.UseFavicons){
-				owner.FeedHandler.RefreshFavicons(); 
-				_faviconsDownloaded = true; 
+                try {
+                    owner.FeedHandler.RefreshFavicons();
+                } finally {
+                    _faviconsDownloaded = true;
+                }
 			}
 		}
 
