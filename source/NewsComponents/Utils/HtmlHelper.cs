@@ -55,8 +55,9 @@ namespace NewsComponents.Utils
 		
 
 		private static Regex RegExFindHrefOrSrc = new Regex(@"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		//private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex RegExBadTags = new Regex(@"<(?:script|object|meta|embed|frameset|i?frame|link)[\s>]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static Regex RegExFindHref = new Regex(@"<a[\s]+[^>]*?href[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled); 
 		// according to http://www.w3.org/TR/REC-html40/charset.html#entities
 		// Note: In SGML, it is possible to eliminate the final ";" after a character reference in some cases 
