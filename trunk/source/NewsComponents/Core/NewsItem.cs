@@ -1134,7 +1134,7 @@ namespace NewsComponents
 		/// the outgoing links property. 
 		/// </summary>
 		private void ProcessOutGoingLinks(string content, string baseUrl){
-
+           
 			if (NewsHandler.BuildRelationCosmos) {
 				base.outgoingRelationships = HtmlHelper.RetrieveLinks(content, baseUrl);
 			} else {
