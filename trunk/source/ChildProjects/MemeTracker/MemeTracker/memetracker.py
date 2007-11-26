@@ -6,10 +6,17 @@ import clr
 clr.AddReference("System.Xml")
 from System.Xml import *
 
+#################################################################
+#
+# USAGE: ipy memetracker.py <directory-of-rss-feeds> <mode> 
+# mode = 0 show most popular links in unread items
+# mode = 1 show most popular links from items from the past week
+#################################################################
 
+all_links = {}
 one_week =  TimeSpan(7,0,0,0)
 
-cache_location = r"C:\Documents and Settings\dareo\Application Data\RssBandit\Cache.Old"
+cache_location = r"C:\Documents and Settings\dareo\Local Settings\Application Data\RssBandit\Cache"
 href_regex     = r"<a[\s]+[^>]*?href[\s]?=[\s\"\']+(.*?)[\"\']+.*?>([^<]+|.*?)?<\/a>"
 regex          = re.compile(href_regex)
 
@@ -36,9 +43,14 @@ def MakeRssItem(itemnode):
     read_node  = itemnode.SelectSingleNode("//@*[local-name() = 'read']")
     read       = read_node and int(read_node.Value) or 0
     desc_node  = itemnode.SelectSingleNode("description")
-    outgoing_links = desc_node and regex.findall(desc_node.InnerText) or []    
-    return RssItem(permalink, title, date, read, outgoing_links)
-    pass 
+    # obtain href value and link text pairs
+    outgoing   = desc_node and regex.findall(desc_node.InnerText) or []
+    outgoing_links = {}
+    #ensure we only collect unique href values from entry by replacing list returned by regex with dictionary
+    if len(outgoing) > 0:
+        for url, linktext in outgoing:
+            outgoing_links[url] = linktext
+    return RssItem(permalink, title, date, read, outgoing_links)    
     
 
 if __name__ == "__main__":
@@ -51,19 +63,50 @@ if __name__ == "__main__":
                                                                   mode and "popular in items from the past week"
                                                                   or "popular in unread items" )
     #decide what filter function to use depending on mode
-    filterFunc = mode and (lambda x : x.read == 0) or (lambda x : (DateTime.Now - x.date) < one_week)
+    filterFunc = mode and (lambda x : (DateTime.Now - x.date) < one_week) or (lambda x : x.read == 0)
+    #in mode = 0 each entry linking to an item counts as a vote, in mode = 1 value of vote depends on item age
+    voteFunc   = mode and (lambda x: 1.0 - (DateTime.Now.Ticks - x.date.Ticks) * 1.0 / one_week.Ticks) or (lambda x: 1.0)
 
     di = DirectoryInfo(cache_location)
     for fi in di.GetFiles("*.xml"):      
         doc = XmlDocument()
         doc.Load(Path.Combine(cache_location, fi.Name))
-        # for each item in feed
-        #  1. Get permalink & title
-        #  2. Get outgoing links & link titles
-        #  3. Get read status and date
-        #  4. Get feed name
+        # for each item in feed        
+        #  1. Get permalink, title, read status and date
+        #  2. Get list of outgoing links + link title pairs
+        #  3. Convert above to RssItem object
         items = [ MakeRssItem(node) for node in doc.SelectNodes("//item")]
-        for i in items:
-            print "%s has the following outgoing links: %s" % (i.permalink, i.outgoing_links)
-#        print "%s has %s <item> nodes" % (fi.Name, doc.SelectNodes("//item").Count)
+        feedTitle = doc.SelectSingleNode("/rss/channel/title").InnerText
+        
+        # apply filter to pick candidate items, then calculate vote for each outgoing url
+        for item in filter(filterFunc, items):
+            vote = [voteFunc(item), item, feedTitle]
+            #add a vote for each of the URLs
+            for url in item.outgoing_links.Keys:
+                if all_links.get(url) == None:
+                    all_links[url] = []
+                all_links.get(url).append(vote)
+
+       # tally the votes, only 1 vote counts per feed
+    weighted_links = []
+    for link, votes in all_links.items():
+        site = {}
+        for weight, item, feedTitle in votes:                
+            site[feedTitle] = min(site.get(feedTitle,1), weight) 
+        weighted_links.append((sum(site.values()), link))
+    weighted_links.sort()
+    weighted_links.reverse()
+
+    # output the results, choose link text from first item we saw story linked from
+    print "<ol>"    
     
+    for weight, link in weighted_links[:10]:
+        link_text = (all_links.get(link)[0])[1].outgoing_links.get(link)
+        print "<li><a href='%s'>%s</a> (%s)" % (link, link_text, weight)
+        print "<p>Seen on:"
+        print "<ul>"
+        for weight, item, feedTitle in all_links.get(link):
+            print "<li>%s: <a href='%s'>%s</a></li>" % (feedTitle, item.permalink, item.title)
+        print "</ul></p></li>"  
+    print "</ol>"
+                
