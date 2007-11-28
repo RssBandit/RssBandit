@@ -1119,8 +1119,8 @@ namespace RssBandit.Utility {
 		public string Description {
 			get { 
 				if (_descriptionIsResourceId) {
-					
-					string s = SR.Keys.GetString(_description);
+
+                    string s = SR.Keys_SR.GetString(_description);
 					if (s == null || s.Length == 0)
 						return _description;
 					else

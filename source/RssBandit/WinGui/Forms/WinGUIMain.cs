@@ -7148,7 +7148,7 @@ namespace RssBandit.WinGui.Forms
 
 				AppContextMenuCommand subCL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Caption"), SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Desc"), _shortcutHandler);
 				
 				subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{subCL4_layoutSubColumn});
 			}
@@ -7230,7 +7230,7 @@ namespace RssBandit.WinGui.Forms
 
 				AppContextMenuCommand subFL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Caption"), SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Desc"), _shortcutHandler);
 				
 				subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[]{subFL4_layoutSubColumn});
 			}
@@ -7414,8 +7414,8 @@ namespace RssBandit.WinGui.Forms
 
 				AppContextMenuCommand subL4_subColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
 					owner.Mediator, new ExecuteCommandHandler(this.CmdToggleListviewColumn),
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), 
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), _shortcutHandler);
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Caption"),
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Desc"), _shortcutHandler);
 				
 				subL4.MenuItems.AddRange(new MenuItem[]{subL4_subColumn});
 			}

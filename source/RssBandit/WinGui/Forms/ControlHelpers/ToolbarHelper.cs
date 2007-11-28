@@ -304,8 +304,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 
 				AppStateButtonToolCommand subL4_subColumn = new AppStateButtonToolCommand(
 					"cmdListviewColumn." + colID, owner.Mediator, new ExecuteCommandHandler(main.CmdToggleListviewColumn),
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Caption"), 
-					SR.Keys.GetString("MenuColumnChooser" + colID +"Desc"), shortcutHandler);
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Caption"),
+                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
 				
 				subL4_subColumn.SharedProps.Category = SR.MainForm_ToolCategoryView;
 				// must be added to the toolbar first:
@@ -551,9 +551,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdAutoDiscoverFeed", owner.Mediator, new ExecuteCommandHandler(owner.CmdAutoDiscoverFeed), 
 				SR.MenuNewDiscoveredFeedCaption, SR.MenuNewDiscoveredFeedDesc,
 				Resource.ToolItemImage.NewDiscoveredSubscription);
+
+            AppButtonToolCommand tool7 = new AppButtonToolCommand(
+            "cmdTopStories", owner.Mediator, new ExecuteCommandHandler(owner.CmdTopStories),
+            SR.MenuTopStoriesCaption, SR.MenuTopStoriesDesc,
+            Resource.ToolItemImage.RefreshAll);
+            tool7.Enabled = true;
+            tool7.SharedProps.DisplayStyle = ToolDisplayStyle.TextOnlyAlways;
+
 			
-			this.manager.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered});
-			toolNew.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered});
+			this.manager.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered, tool7});
+            toolNew.Tools.AddRange(new ToolBase[] { subNewFeed, subNewNntp, subNewDiscovered, tool7 });
 			foreach (ToolBase tool in toolNew.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
@@ -584,11 +592,13 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			AppButtonToolCommand tool5 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemPostReply"];
 			tool5.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			tool5.Enabled = false;
-
+          
 			AppButtonToolCommand tool6 = new AppButtonToolCommand(
 				"cmdNewRssSearch", owner.Mediator, new ExecuteCommandHandler(main.CmdNewRssSearch),
 				SR.MenuNewRssSearchCaption, SR.MenuNewRssSearchDesc, 
 				Resource.ToolItemImage.Search);
+
+            
 
 			AppPopupMenuCommand discoveredDropDown = new AppPopupMenuCommand(
 				"cmdDiscoveredFeedsDropDown", owner.Mediator, null,
@@ -611,12 +621,12 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			clearDiscoveredList.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {toolNew,tool1,tool2,tool6, discoveredDropDown, clearDiscoveredList});
+            this.manager.Tools.AddRange(new ToolBase[] { toolNew, tool1, tool2, tool6, discoveredDropDown, clearDiscoveredList });
 
 			// set UI controls for discovered feeds handler:
 			owner.BackgroundDiscoverFeedsHandler.SetControls(discoveredDropDown, clearDiscoveredList);
-			
-			tb.Tools.AddRange(new ToolBase[]{toolNew,tool0,tool1,tool2,tool4,tool5,tool6, discoveredDropDown});
+
+            tb.Tools.AddRange(new ToolBase[] { toolNew, tool0, tool1, tool2, tool4, tool5, tool7, tool6, discoveredDropDown });
 			foreach (ToolBase tool in tb.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
@@ -628,8 +638,10 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			t.InstanceProps.IsFirstInGroup = true;
 			t = tb.Tools["cmdFeedItemNewPost"];
 			t.InstanceProps.IsFirstInGroup = true;
-			t = tb.Tools["cmdNewRssSearch"];
-			t.InstanceProps.IsFirstInGroup = true;
+			/* t = tb.Tools["cmdNewRssSearch"];
+			t.InstanceProps.IsFirstInGroup = true; */
+            t = tb.Tools["cmdTopStories"];
+            t.InstanceProps.IsFirstInGroup = true;
 		}
 		#endregion
 		

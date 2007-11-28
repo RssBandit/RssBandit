@@ -9,12 +9,30 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NewsComponents.Feed;
+
 
 namespace NewsComponents.Collections {
 
-	#region EmptyArrayList
-	/// <summary>
+
+    #region EmptyList<T>
+    /// <summary>
+    /// Generic class to return an empty List instance
+    /// </summary>
+    public sealed class GetList<T> : List<T> {
+        private static List<T> _empty = new List<T>(0);
+        /// <summary>
+        /// Gets the empty/readonly single List instance.
+        /// </summary>
+        public static List<T> Empty { get { return _empty; } }
+    }
+
+
+    #endregion
+
+    #region EmptyArrayList
+    /// <summary>
 	/// Helper class to return a empty ArrayList instance
 	/// </summary>
 	public sealed class GetArrayList:ArrayList

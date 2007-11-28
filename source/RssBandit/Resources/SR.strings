@@ -479,6 +479,8 @@ MenuNewCmdsCaption = &New...
 MenuNewCmdsDesc = Create new subscriptions
 MenuNewDiscoveredFeedCaption = &Search Results Subscription...
 MenuNewDiscoveredFeedDesc = Find a feed or subscribe to a search result feed
+MenuTopStoriesCaption = "Top Stories"
+MenuTopStoriesDesc = "View the most recently popular links in your subscriptions"		
 MenuNewFeedCaption = &Feed Subscription...
 MenuNewFeedCaption2 = &New Feed Subscription...	
 MenuNewFeedDesc = Subscribe to a new feed	
@@ -635,7 +637,7 @@ Syndic8FeedSearchTitle = Syndic8 Service
 ; Tab caption of the feed home page (Webpage)
 TabFeedHomeCaption(string home) = Feed Home: {0}
 ; Tab caption of the feed source view (Xml Webpage)
-TabFeedSourceCaption (string source) = Feed Source: {0}
+TabFeedSourceCaption(string source) = Feed Source: {0}
 ; Tab caption of the feed's technorati link cosmos (Webpage)
 TabLinkCosmosCaption(string cosmos) = Feed Link Cosmos: {0}
 TabValidationResultCaption = Feed Validation Result

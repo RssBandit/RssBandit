@@ -18,19 +18,50 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace NewsComponents.Collections {
 
 	[Serializable]
-	public struct RelationHRefEntry {
-		public RelationHRefEntry(string link, string text, int index) {
-			HRef = (link == null ? String.Empty : link);
-			Text = (text == null ? String.Empty : text);
-			Index = index;
+	public class RelationHRefEntry {
+		public RelationHRefEntry(string link, string text, float score) {
+			HRef  = (link == null ? String.Empty : link);
+			Text  = (text == null ? String.Empty : text);
+			Score = score;
 		}
-		public int Index;
+		public float Score;
 		public string Text;
 		public string HRef;
+        public IList<NewsItem> References = GetList<NewsItem>.Empty; 
+
+
+        /// <summary>
+        /// Determine if this object is equal to another
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj) {
+
+            if (Object.ReferenceEquals(this, obj)) { return true; }
+
+            RelationHRefEntry item = obj as RelationHRefEntry;
+
+            if (item == null) { return false; }
+
+            if (this.HRef.Equals(item.HRef)) {
+                return true;
+            }
+
+            return false; 	
+        }
+
+        /// <summary>
+        /// Returns a hash code for this object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode() {
+            return this.HRef.GetHashCode();
+        }
 	}
 }
 
@@ -1942,7 +1973,7 @@ namespace NewsComponents.Collections {
 		public RelationHRefEntry this[String key] {
 			get {
 				object obj = this._innerHash[key];
-				if (obj == null) return new RelationHRefEntry();
+				//if (obj == null) return new RelationHRefEntry();
 				return (RelationHRefEntry) obj;
 			}
 			set { this._innerHash[key] = value; }
