@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -52,7 +53,8 @@ namespace NewsComponents.Utils
 	/// Helper class to work on HTML content.
 	/// </summary>
 	public sealed class HtmlHelper {
-		
+
+        private static List<string> EmptyList = new List<string>(0);
 
 		private static Regex RegExFindHrefOrSrc = new Regex(@"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		//private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -205,38 +207,20 @@ namespace NewsComponents.Utils
 			b.Query = null;
 			b.Fragment = null;
 			return b.Uri;
-		}
-		
-		/// <summary>
-		/// Returns a RelationHRefDictionary with links found in HTML &lt;a href=""> attributes.
-		/// </summary>
-		/// <param name="html">String to work on</param>
-		/// <param name="baseUrl">An absolute Url to be used to fix relative links</param>
-		/// <returns>RelationHRefDictionary with string Urls as key(s), and link text as items</returns>
-		public static RelationHRefDictionary RetrieveLinks(string html, string baseUrl) {
-			if (html == null || html.Length == 0)
-				return RelationHRefDictionary.Empty;
-			Uri baseUri = null;
-			try { 
-				if(baseUrl != null){
-					baseUri = new Uri(baseUrl);
-				}
-			} catch (UriFormatException) {}
-			return RetrieveLinks(html, baseUri);
-		}
+		}			
 
 		/// <summary>
 		/// Returns a RelationHRefDictionary with links found in HTML &lt;a href=""> attributes.
 		/// </summary>
 		/// <param name="html">String to work on</param>
 		/// <param name="baseUri">An absolute Uri to be used to fix relative links</param>
-		/// <returns>RelationHRefDictionary with string Urls as key(s), and link text as items</returns>
-		public static RelationHRefDictionary RetrieveLinks(string html, Uri baseUri) {
+		/// <returns>List of URLs</returns>
+        public static List<string> RetrieveLinks(string html) {
 
 			if (html == null || html.Length == 0)
-				return RelationHRefDictionary.Empty;
+				return HtmlHelper.EmptyList;
 
-			RelationHRefDictionary tbl = new RelationHRefDictionary();
+			List<string> list = new List<string>();
 
 			for (Match m = RegExFindHref.Match(html); m.Success; m = m.NextMatch()) {
 				
@@ -253,17 +237,14 @@ namespace NewsComponents.Utils
 				
 				href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
 
-				string linkText = m.Groups[2].ToString();	
-				
-				if (!tbl.ContainsKey(href))
-					//tbl.Add(href, linkText);
-					tbl.Add(href, new RelationHRefEntry(href, linkText, m.Index));
+				if (!list.Contains(href))
+                    list.Add(href);                					
 			}
 
-			if (tbl.Count == 0)
-				tbl = RelationHRefDictionary.Empty;
+			if (list.Count == 0)
+				list = EmptyList;
 
-			return tbl; 
+			return list; 
 		}
 
 

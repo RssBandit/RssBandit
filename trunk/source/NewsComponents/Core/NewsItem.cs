@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -532,7 +533,7 @@ namespace NewsComponents
 
 			if(NewsHandler.buildRelationCosmos){
 
-				this.ProcessOutGoingLinks(content, baseUrl); 
+				this.ProcessOutGoingLinks(content); 
 
 				bool idEqHref = Object.ReferenceEquals(base.hReference, p_id);
 			
@@ -549,12 +550,11 @@ namespace NewsComponents
 					string p_parentIdUrl = RC.RelationCosmos.UrlTable.Add(
 						NntpParser.CreateGoogleUrlFromID(p_parentId));
 
-					if (outgoingRelationships.IsReadOnly)
-						outgoingRelationships = new RelationHRefDictionary(1);
+					/* if (outgoingRelationships.IsReadOnly)
+						outgoingRelationships = new RelationHRefDictionary(1);*/
 
-					outgoingRelationships.Add(p_parentIdUrl, 
-						new RelationHRefEntry(p_parentIdUrl, String.Empty, outgoingRelationships.Count));
-				}
+                    outgoingRelationships.Add(p_parentIdUrl);
+                }
 				
 			}
 
@@ -735,9 +735,9 @@ namespace NewsComponents
 		/// <summary>
 		/// Returns a collection of strings representing URIs to outgoing links in a feed. 
 		/// </summary>
-		public IStringCollection OutGoingLinks{
+		public IList<string> OutGoingLinks{
 		
-			get { return base.outgoingRelationships.Keys; }
+			get { return base.outgoingRelationships; }
 		}
 
 		/// <summary>
@@ -801,7 +801,8 @@ namespace NewsComponents
 		/// <param name="noDescriptions">Indicates whether the contents of RSS items should 
 		/// be written out or not.</param>						
 		private void WriteItem(XmlWriter writer, bool useGMTDate, NewsItemSerializationFormat format, bool noDescriptions){
-		
+            noDescriptions = false; 
+
 			//<item>
 			writer.WriteStartElement("item"); 
 
@@ -934,6 +935,15 @@ namespace NewsComponents
 					writer.WriteEndElement(); 
 				}
 			}
+
+            //<rssbandit:outgoing-links />
+            if (this.OutGoingLinks.Count > 0) {
+                writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
+                foreach (string outgoingLink in this.OutGoingLinks) {
+                    writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink); 
+                }
+                writer.WriteEndElement();
+            }
 
 			/* everything else */ 
 			foreach(string s in this.OptionalElements.Values){
@@ -1114,31 +1124,18 @@ namespace NewsComponents
 			// content produced on non-windows machines have these individually.
 			p_title = p_title.Replace(Environment.NewLine, " ").Replace("\r", " ").Replace("\n", " "); 
 		}
-		
-		/// <summary>
-		/// Initiate to process the out going links from the 
-		/// own content property field and refresh the RelationCosmos
-		/// (outgoing/incoming link infos).
-		/// Call to this function is required on dynamical late load of
-		/// the item content.
-		/// </summary>
-		internal void RefreshRelationCosmos(){
-			if (NewsHandler.BuildRelationCosmos) {
-				ProcessOutGoingLinks(this.Content, this.Link);
-				NewsHandler.RelationCosmosAdd(this);
-			}
-		}
+			
 		
 		/// <summary>
 		/// Processes the <paramref name="content"/> for outgoing links and populate 
 		/// the outgoing links property. 
 		/// </summary>
-		private void ProcessOutGoingLinks(string content, string baseUrl){
+		private void ProcessOutGoingLinks(string content){
            
 			if (NewsHandler.BuildRelationCosmos) {
-				base.outgoingRelationships = HtmlHelper.RetrieveLinks(content, baseUrl);
+				base.outgoingRelationships = HtmlHelper.RetrieveLinks(content);
 			} else {
-				base.outgoingRelationships = RelationHRefDictionary.Empty;
+                base.outgoingRelationships = RelationBase.EmptyList;
 			}
 		}
 
