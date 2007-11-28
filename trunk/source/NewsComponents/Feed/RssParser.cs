@@ -258,7 +258,8 @@ namespace NewsComponents.Feed {
 			Hashtable optionalElements = new Hashtable(); 
 			Flagged flagged    = Flagged.None; 
 			bool watchComments = false, hasNewComments = false; 
-			ArrayList subjects = new ArrayList(), enclosures = null; 
+			ArrayList subjects = new ArrayList();
+            List<Enclosure> enclosures = null; 
 			string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 			 			
 			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
@@ -492,7 +493,7 @@ namespace NewsComponents.Feed {
 					} catch{}
 					try { downloaded = (reader["downloaded"] == null ? false: reader["downloaded"].Equals("1")); } catch {}
 
-					enclosures = (enclosures == null ? new ArrayList(): enclosures); 						
+					enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 						
 					enc = new Enclosure(type, length, url, String.Empty);
 					enc.Downloaded = downloaded; 
 					
@@ -596,7 +597,7 @@ namespace NewsComponents.Feed {
 			newsItem.CommentRssUrl = commentRssUrl; 
 			newsItem.CommentUrl    = commentUrl; 
 			newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
-			newsItem.Enclosures    = (enclosures == null ? GetArrayList.Empty: enclosures); 
+			newsItem.Enclosures    = (enclosures == null ? GetList<Enclosure>.Empty: enclosures); 
 			newsItem.WatchComments = watchComments; 
 			newsItem.Language      = reader.XmlLang;
 			newsItem.HasNewComments = hasNewComments;
@@ -671,8 +672,9 @@ namespace NewsComponents.Feed {
 			DateTime date      = defaultItemDate; 	
 			DateTime now       = date; 
 			Hashtable optionalElements = new Hashtable(); 
-			Flagged flagged    = Flagged.None; 
-			ArrayList subjects = new ArrayList(), enclosures = null; 
+			Flagged flagged    = Flagged.None;
+            ArrayList subjects = new ArrayList(); 
+            List<Enclosure> enclosures = null; 
 			string itemNamespaceUri = reader.NamespaceURI; 
 			
 			 			
@@ -766,7 +768,7 @@ namespace NewsComponents.Feed {
 						try { length = Int64.Parse(reader["length"]); } catch{}
 
 						if(!StringHelper.EmptyOrNull(url)){
-							enclosures = (enclosures == null ? new ArrayList(): enclosures); 												
+							enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 												
 							enc = new Enclosure(type, length, url, String.Empty);
 
 							if(encDuration != TimeSpan.MinValue){
@@ -795,7 +797,7 @@ namespace NewsComponents.Feed {
 						long length  = Int64.MinValue; 					
 
 						if(!StringHelper.EmptyOrNull(url)){
-							enclosures = (enclosures == null ? new ArrayList(): enclosures); 						
+							enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 						
 							enclosures.Add(new Enclosure(type, length, url, String.Empty)); 										
 						}
 
@@ -1065,8 +1067,8 @@ namespace NewsComponents.Feed {
 				newsItem.Author       = author; 
 				newsItem.CommentRssUrl = commentRssUrl; 
 				newsItem.CommentUrl    = commentUrl; 
-				newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
-			    newsItem.Enclosures    = (enclosures == null ? GetArrayList.Empty: enclosures); 
+				newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI );
+                newsItem.Enclosures = (enclosures == null ? GetList<Enclosure>.Empty : enclosures); 
 				newsItem.Language      = reader.XmlLang;
 		
 				return newsItem; 	

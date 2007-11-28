@@ -5598,7 +5598,20 @@ namespace RssBandit {
 			dialog.ShowDialog(MainForm);
 			dialog.Dispose();
 		}
-		
+
+
+        /// <summary>
+        /// Display the most popular recently linked stories in the 
+        /// Web browser pane. 
+        /// </summary>
+        /// <param name="sender"></param>
+        public void CmdTopStories(ICommand sender) {
+
+            List<RelationHRefEntry> topStories = this.feedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10);
+            int x = topStories.Count; 
+        
+        }
+
 		/// <summary>
 		/// Display the wizard dialog to autodiscover feeds.
 		/// </summary>
@@ -5779,6 +5792,9 @@ namespace RssBandit {
 		/// </summary>
 		/// <param name="sender">Object that initiates the call</param>
 		public void CmdViewSourceOfFeed(ICommand sender) {
+
+            this.CmdTopStories(sender); 
+
 			if(guiMain.CurrentSelectedFeedsNode!= null && guiMain.CurrentSelectedFeedsNode.DataKey != null) {
 				string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
 				string title = SR.TabFeedSourceCaption(guiMain.CurrentSelectedFeedsNode.Text);
@@ -5791,6 +5807,7 @@ namespace RssBandit {
 
 			if (sender is AppContextMenuCommand)
 				guiMain.CurrentSelectedFeedsNode = null;
+
 		}
 
 		/// <summary>
@@ -5977,7 +5994,7 @@ namespace RssBandit {
 		/// <param name="sender">Object that initiates the call</param>
 		public void CmdDownloadFeeds(ICommand sender) {
 			if (!Preferences.UseRemoteStorage) {
-				this.MessageInfo(SR.Keys.RemoteStorageFeature_Info);
+                this.MessageInfo(SR.Keys_SR.RemoteStorageFeature_Info);
 				return;
 			}
 
@@ -6824,28 +6841,28 @@ namespace RssBandit {
 			/// Have a look to http://blogs.gotdotnet.com/raymondc/permalink.aspx/5a811e6f-cd12-48de-8994-23409290faea,
 			/// that is why we does not name it "StartInSystemTray" or such.
 			/// </summary>
-			[CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "taskbar", ShortName="t", Description = SR.Keys.CmdLineStartInTaskbarDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "taskbar", ShortName = "t", Description = SR.Keys_SR.CmdLineStartInTaskbarDesc, DescriptionIsResourceId = true)]
 			public bool StartInTaskbarNotificationAreaOnly {
 				get { return startInTaskbarNotificationAreaOnly; }
 				set { startInTaskbarNotificationAreaOnly = value; }
 			}
 
 			private StringCollection subscribeTo = new StringCollection();
-			[DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name="feedUrl", Description = SR.Keys.CmdLineSubscribeToDesc, DescriptionIsResourceId = true)]
+            [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl", Description = SR.Keys_SR.CmdLineSubscribeToDesc, DescriptionIsResourceId = true)]
 			public StringCollection SubscribeTo {
 				get { return subscribeTo; }
 				set { subscribeTo = value; }
 			}
 
 			private bool showHelp;
-			[CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h", Description = SR.Keys.CmdLineHelpDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h", Description = SR.Keys_SR.CmdLineHelpDesc, DescriptionIsResourceId = true)]
 			public bool ShowHelp {
 				get { return showHelp; }
 				set { showHelp = value; }
 			}
 
 			private string localCulture = String.Empty;
-			[CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "culture", ShortName = "c", Description = SR.Keys.CmdLineCultureDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "culture", ShortName = "c", Description = SR.Keys_SR.CmdLineCultureDesc, DescriptionIsResourceId = true)]
 			public string LocalCulture {
 				get { return localCulture; }
 				set {
@@ -6857,7 +6874,7 @@ namespace RssBandit {
 			}
 			
 			private bool resetUi;
-			[CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name= "resetUI", ShortName="r", Description = SR.Keys.CmdLineResetUIDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "resetUI", ShortName = "r", Description = SR.Keys_SR.CmdLineResetUIDesc, DescriptionIsResourceId = true)]
 			public bool ResetUserInterface {
 				get { return resetUi; }
 				set { resetUi = value; }

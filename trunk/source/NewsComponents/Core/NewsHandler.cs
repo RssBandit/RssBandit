@@ -1459,8 +1459,8 @@ namespace NewsComponents {
 				e.Message, e.Source, DateTime.Now.ToUniversalTime(), Guid.NewGuid().ToString());
 
 			newsItem.Subject       = e.GetType().Name; 
-			newsItem.CommentStyle  = SupportedCommentStyle.None; 
-			newsItem.Enclosures    = GetArrayList.Empty; 
+			newsItem.CommentStyle  = SupportedCommentStyle.None;
+            newsItem.Enclosures = GetList<Enclosure>.Empty; 
 			newsItem.WatchComments = false; 
 			newsItem.Language      = CultureInfo.CurrentUICulture.Name;
 			newsItem.HasNewComments = false;
@@ -1907,6 +1907,104 @@ namespace NewsComponents {
 		public bool FeedsListOK{		
 			get { return !validationErrorOccured; }
 		}
+       
+         /// <summary>
+        /// Helper method which retrieves the list of Keys in the FeedsTable object using the CopyTo method. 
+        /// </summary>
+        /// <returns>An array containing the "keys" of the FeedsTable</returns>
+        private string[] GetFeedsTableKeys() {
+            string[] keys;
+
+            lock (FeedsTable.SyncRoot) {
+                keys = new string[FeedsTable.Count];
+                if (FeedsTable.Count > 0)
+                    FeedsTable.Keys.CopyTo(keys, 0);
+            }
+
+            return keys; 
+        }
+
+
+        /// <summary>
+        /// Retrieves the stories with the most weighted links for a givern date range. 
+        /// </summary>
+        /// <param name="since">The start of the date range </param>
+        /// <param name="numStories">The number of stories to return</param>
+        /// <remarks>The score of the story is adjusted in a weighted manner so that 
+        /// more recent posts are weighted higher than older posts. So a newly popular 
+        /// item with 3 or 4 links posted yesterday ends up ranking higher than an 
+        /// item with 6 to 10 posts about it from five days ago.
+        /// </remarks>
+        /// <returns>A sorted list (descending order) of RelationHrefEntry objects that 
+        /// correspond to the most popular item from the date range starting with the 
+        /// since parameter and ending with today.</returns>
+        public List<RelationHRefEntry>GetTopStories(TimeSpan since, int numStories) { 
+        
+            string[] keys = GetFeedsTableKeys();
+            Dictionary<RelationHRefEntry, List<RankedNewsItem>> allLinks = new Dictionary<RelationHRefEntry, List<RankedNewsItem>>(); 
+
+            for(int i=0; i < keys.Length; i++){                
+        
+                if(!itemsTable.ContainsKey(keys[i])) { continue; }
+
+				FeedInfo fi =  (FeedInfo) itemsTable[keys[i]];            
+
+                //get all news items that fall within the date range
+                List<NewsItem> items =
+                    fi.ItemsList.FindAll(delegate(NewsItem item) { return (DateTime.Now - item.Date) < since; });
+
+                foreach(NewsItem item in items){
+                    //create score and ranked news item that represents a weighted link to a URL
+                    float score = 1.0f - (DateTime.Now.Ticks - item.Date.Ticks) * 1.0f / since.Ticks;
+                    RankedNewsItem rni = new RankedNewsItem(item, score);
+                    
+                    RelationHRefEntry href = new RelationHRefEntry(item.Link, null, 0.0f);
+                    //add a score for the permalink for the item
+                    if (!allLinks.ContainsKey(href)) {
+                        allLinks[href] = new List<RankedNewsItem>(); 
+                    }
+                    allLinks[href].Add(rni);
+
+                    //add vote to each URL linked from the item
+                    foreach (string url in item.OutGoingLinks) {
+                        href = new RelationHRefEntry(url, null, 0.0f);
+                        if (!allLinks.ContainsKey(href)) {
+                            allLinks[href] = new List<RankedNewsItem>();
+                        }
+                        allLinks[href].Add(rni);
+                    }
+                }//foreach(NewsItem item in items){
+            }//for(int i; i < keys.Length; i++){
+
+            //tally the votes, only 1 vote counts per feed
+            List<RelationHRefEntry> weightedLinks = new List<RelationHRefEntry>();
+
+            foreach (KeyValuePair<RelationHRefEntry, List<RankedNewsItem>> linkNvotes in allLinks) {
+                Dictionary<string, float> votesPerFeed = new Dictionary<string, float>();
+                
+                //pick the lower vote if multiple links from a particular feed
+                foreach (RankedNewsItem voteItem in linkNvotes.Value) { 
+                    string feedLink = voteItem.Item.FeedLink;
+
+                    if(votesPerFeed.ContainsKey(feedLink)){
+                        votesPerFeed[feedLink] = Math.Min(votesPerFeed[feedLink], voteItem.Score);
+                    }else{
+                        votesPerFeed.Add(feedLink, voteItem.Score); 
+                    }
+                }
+                float totalScore = 0.0f;
+
+                foreach (float value in votesPerFeed.Values) {
+                    totalScore += value;
+                }
+                linkNvotes.Key.Score = totalScore;
+                weightedLinks.Add(linkNvotes.Key); 
+            }
+
+            weightedLinks.Sort(delegate(RelationHRefEntry x, RelationHRefEntry y) { return y.Score.CompareTo(x.Score);} );
+
+            return weightedLinks.GetRange(0, numStories);              
+        }
 
 
         /// <summary>
@@ -4605,21 +4703,14 @@ namespace NewsComponents {
 			System.Collections.Specialized.StringCollection websites = new System.Collections.Specialized.StringCollection();
 
 			try{ 
-
-				// The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
-				// exceptions and keep the loop alive if itemsTable gets modified from other thread(s)
-				string[] keys;
-			
-				lock (itemsTable) {
-					keys = new string[itemsTable.Count];
-					if (itemsTable.Count > 0)
-						itemsTable.Keys.CopyTo(keys, 0);	
-				}
-
+				string[] keys = GetFeedsTableKeys();
+							
 				//foreach(string sKey in FeedsTable.Keys){
 				//  feedsFeed current = FeedsTable[sKey];	
 
 				for(int i = 0, len = keys.Length; i < len; i++){
+
+                    if (!itemsTable.ContainsKey(keys[i])) { continue; }
 
 				FeedInfo fi =  (FeedInfo) itemsTable[keys[i]]; 
 					
@@ -4689,25 +4780,17 @@ namespace NewsComponents {
 			
 				RaiseOnUpdateFeedsStarted(force_download);
 
-				// The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
-				// exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
-				string[] keys;
-			
-				lock (FeedsTable.SyncRoot) {
-					keys = new string[FeedsTable.Count];
-					if (FeedsTable.Count > 0)
-						FeedsTable.Keys.CopyTo(keys, 0);	
-				}
+                string[] keys = GetFeedsTableKeys();
 
-				//foreach(string sKey in FeedsTable.Keys){
-				//  feedsFeed current = FeedsTable[sKey];	
+                //foreach(string sKey in FeedsTable.Keys){
+                //  feedsFeed current = FeedsTable[sKey];	
 
 				for(int i = 0, len = keys.Length; i < len; i++){
 
-					feedsFeed current = FeedsTable[keys[i]];	
-				
-					if (current == null)	// may have been redirected/removed meanwhile
-						continue;
+                    if (!FeedsTable.ContainsKey(keys[i]))	// may have been redirected/removed meanwhile
+                        continue;
+
+					feedsFeed current = FeedsTable[keys[i]];									
 
 					try{ 
 
@@ -4803,26 +4886,18 @@ namespace NewsComponents {
 			
 				RaiseOnUpdateFeedsStarted(force_download);
 
-				// The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
-				// exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
-				string[] keys;
-			
-				lock (FeedsTable.SyncRoot) {
-					keys = new string[FeedsTable.Count];
-					if (FeedsTable.Count > 0)
-						FeedsTable.Keys.CopyTo(keys, 0);	
-				}
+                string[] keys = GetFeedsTableKeys();
 
-				//foreach(string sKey in FeedsTable.Keys){
-				//  feedsFeed current = FeedsTable[sKey];	
+                //foreach(string sKey in FeedsTable.Keys){
+                //  feedsFeed current = FeedsTable[sKey];	
 
-				for(int i = 0, len = keys.Length; i < len; i++){
+                for (int i = 0, len = keys.Length; i < len; i++) {
+
+                    if (!FeedsTable.ContainsKey(keys[i]))	// may have been redirected/removed meanwhile
+                        continue;
 
 					feedsFeed current = FeedsTable[keys[i]];	
 				
-					if (current == null)	// may have been redirected/removed meanwhile
-						continue;
-
 					try{ 
 
 						// new: giving up after three unsuccessfull requests

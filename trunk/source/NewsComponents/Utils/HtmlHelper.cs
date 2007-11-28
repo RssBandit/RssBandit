@@ -10,10 +10,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 using NewsComponents.Collections;
+using NewsComponents.Net;
 
 namespace NewsComponents.Utils
 {
@@ -53,8 +56,6 @@ namespace NewsComponents.Utils
 	/// Helper class to work on HTML content.
 	/// </summary>
 	public sealed class HtmlHelper {
-
-        private static List<string> EmptyList = new List<string>(0);
 
 		private static Regex RegExFindHrefOrSrc = new Regex(@"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		//private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -218,7 +219,7 @@ namespace NewsComponents.Utils
         public static List<string> RetrieveLinks(string html) {
 
 			if (html == null || html.Length == 0)
-				return HtmlHelper.EmptyList;
+                return GetList<string>.Empty;
 
 			List<string> list = new List<string>();
 
@@ -242,7 +243,7 @@ namespace NewsComponents.Utils
 			}
 
 			if (list.Count == 0)
-				list = EmptyList;
+                list = GetList<string>.Empty; 
 
 			return list; 
 		}
@@ -370,6 +371,34 @@ namespace NewsComponents.Utils
 			}
 
 			return defaultIfNoMatch;
+		}
+
+        /// <summary>
+        /// Gets the title out of the HTML head section.
+        /// </summary>
+        /// <param name="url">The URL of the page</param>
+        /// <param name="defaultIfNoMatch">string to return, if no match was found</param>
+        /// <param name="credentials">Credentials for authenticating the request</param>
+        /// <param name="proxy">Proxy server to direct the request through</param>
+        /// <returns></returns>
+        public static string FindTitle(string url, string defaultIfNoMatch, IWebProxy proxy, ICredentials credentials){
+
+            System.IO.Stream stream = AsyncWebRequest.GetSyncResponseStream(url, credentials, proxy, 20 * 1000 /* 20 second timeout */);
+            XmlReader reader = XmlReader.Create(stream);
+            string title = defaultIfNoMatch;
+
+            try {
+                while (reader.Read()) {
+                    if ((reader.NodeType == XmlNodeType.Element) && (reader.Name.ToLower().Equals("title"))) {
+                        title = reader.ReadElementContentAsString();
+                        reader.Close();
+                        stream.Close();
+                        break;
+                    }
+                }//while
+            } catch (Exception e) { _log.Debug("Error retrieving title from HTML page at " + url, e); } 
+            
+            return title;
 		}
 
 		/// <summary>

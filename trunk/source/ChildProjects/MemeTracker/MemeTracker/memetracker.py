@@ -17,6 +17,7 @@ all_links = {}
 one_week =  TimeSpan(7,0,0,0)
 
 cache_location = r"C:\Documents and Settings\dareo\Local Settings\Application Data\RssBandit\Cache"
+#cache_location = r"C:\My Download Files\RssBandit"
 href_regex     = r"<a[\s]+[^>]*?href[\s]?=[\s\"\']+(.*?)[\"\']+.*?>([^<]+|.*?)?<\/a>"
 regex          = re.compile(href_regex)
 
@@ -52,6 +53,21 @@ def MakeRssItem(itemnode):
             outgoing_links[url] = linktext
     return RssItem(permalink, title, date, read, outgoing_links)    
     
+def GetTitle(url):
+    r = XmlTextReader(url)
+    title = None
+    print "Fetching title for %s" % (url)
+
+    try: 
+        while r.Read():
+            if r.NodeType == XmlNodeType.Element and r.Name.ToLower() == "title":
+                title = r.ReadElementContentAsString()
+                r.Close()
+                break
+    except SystemError, e:
+        print e
+            
+    return title
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #get directory of RSS feeds
@@ -76,7 +92,7 @@ if __name__ == "__main__":
         #  2. Get list of outgoing links + link title pairs
         #  3. Convert above to RssItem object
         items = [ MakeRssItem(node) for node in doc.SelectNodes("//item")]
-        # print "Processing %d items from %s" % (len(items), fi.Name)
+        print "Processing %d items from %s" % (len(items), fi.Name)
         feedTitle = doc.SelectSingleNode("/rss/channel/title").InnerText
 
         #BUGBUG: We should canonicalize URLs
@@ -108,7 +124,10 @@ if __name__ == "__main__":
     #BUGBUG: We should use <title> from the HTML page
     for weight, link in weighted_links[:10]:
         link_text = (all_links.get(link)[0])[1].outgoing_links.get(link)
-        print "<li><a href='%s'>%s</a> (%s)" % (link, link_text, weight)
+        title = GetTitle(link)
+        if title == None:
+            title = link_text
+        print "<li><a href='%s'>%s</a> (%s)" % (link, title, weight)
         print "<p>Seen on:"
         print "<ul>"
         for weight, item, feedTitle in all_links.get(link):

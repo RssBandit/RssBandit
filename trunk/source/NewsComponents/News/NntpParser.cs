@@ -231,7 +231,7 @@ namespace NewsComponents.News{
 						item = new NewsItem(f, title, CreateGoogleUrlFromID(id), content.ToString(), author, pubDate, id,  parentId); 					
 						item.FeedDetails = fi;
 						item.CommentStyle = SupportedCommentStyle.NNTP;
-						item.Enclosures   = NewsComponents.Collections.GetArrayList.Empty; 
+                        item.Enclosures = NewsComponents.Collections.GetList<Enclosure>.Empty; 
 						items.Add(item); 
 						NewsHandler.ReceivingNewsChannelServices.ProcessItem(item);
 					} else {

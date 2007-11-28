@@ -410,6 +410,10 @@
       <DependentUpon>SR.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.srt.resx">
+      <DependentUpon>SR.strings</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.tr.resx">
       <DependentUpon>SR.cs</DependentUpon>
       <SubType>Designer</SubType>
