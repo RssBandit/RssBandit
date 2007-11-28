@@ -141,7 +141,7 @@ namespace NewsComponents.RelationCosmos
 			
 			lock (syncRoot) {
 				RelationList ret = new RelationList(relation.OutgoingRelations.Count);
-				foreach (string hrefOut in relation.outgoingRelationships.Keys) {
+				foreach (string hrefOut in relation.outgoingRelationships) {
 					if (excludeUrls.Contains(hrefOut))
 						continue;
 					
@@ -181,7 +181,7 @@ namespace NewsComponents.RelationCosmos
 			
 			lock (syncRoot) {
 				// check for outgoing:
-				foreach (string hrefOut in relation.outgoingRelationships.Keys) {
+				foreach (string hrefOut in relation.outgoingRelationships) {
 					if (excludeUrls.Contains(hrefOut))
 						continue;
 					
@@ -252,7 +252,7 @@ namespace NewsComponents.RelationCosmos
 
 					}
 
-					foreach (string hrefOut in relation.outgoingRelationships.Keys) {
+					foreach (string hrefOut in relation.outgoingRelationships) {
 						AddToRelationList(hrefOut, relation, relationsLinkTo);
 						//_log.Info("Add(hOut):" + hrefOut);
 					}
@@ -267,7 +267,7 @@ namespace NewsComponents.RelationCosmos
 		private void InternalRemove(RelationBase relation) {
 			if (relation == null) return;
 			lock (syncRoot) {
-				foreach (string hrefOut in relation.outgoingRelationships.Keys) {
+				foreach (string hrefOut in relation.outgoingRelationships) {
 					RemoveFromRelationList(hrefOut, relation, relationsLinkTo);
 				}
 				if (relation.HRef != null) registeredRelations.Remove(relation.HRef);	

@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 
 using NewsComponents.Collections;
 
@@ -17,13 +18,15 @@ namespace NewsComponents.RelationCosmos
 	/// Abstract base class used by RelationCosmos to work with relational items. 
 	/// </summary>
 	public abstract class RelationBase: IComparable {
+
+        protected static List<string> EmptyList = new List<string>(0);
 		
 		/// <summary>
 		/// Internal initializer.
 		/// </summary>
 		protected RelationBase() {
 			hReference = String.Empty;
-			outgoingRelationships = RelationHRefDictionary.Empty;	
+            outgoingRelationships = RelationBase.EmptyList;	
 			aPointInTime = RelationCosmos.UnknownPointInTime;
 			pointInTimeIsAdjustable = true;
 			externalRelations = null;
@@ -63,11 +66,11 @@ namespace NewsComponents.RelationCosmos
 		/// Return a list of outgoing Relation objects, e.g. 
 		/// links the current relation resource points to.
 		/// </summary>
-		public RelationHRefDictionary OutgoingRelations { get { return outgoingRelationships;} }
+        public IList<string> OutgoingRelations { get { return outgoingRelationships; } }
 		/// <summary>
 		/// Stores the outgoing relation(s).
 		/// </summary>
-		protected internal RelationHRefDictionary outgoingRelationships;
+		protected internal List<string> outgoingRelationships;
 
 		/// <summary>
 		/// The DateTime the item was published/updated. It should be specified as UTC.
