@@ -316,15 +316,16 @@ namespace RssBandit {
 			
 			// Gui State handling (switch buttons, icons, etc.)
 			this.stateManager = new GuiStateManager();
-			this.stateManager.InternetConnectionStateMoved += new GuiStateManager.InternetConnectionStateMovedHandler(this.OnInternetConnectionStateChanged);
-			this.stateManager.NewsHandlerBeforeStateMove += new GuiStateManager.NewsHandlerBeforeStateMoveHandler(this.OnRssParserBeforeStateChange);
-			this.stateManager.NewsHandlerStateMoved += new GuiStateManager.NewsHandlerStateMovedHandler(this.OnNewsHandlerStateChanged);
+
+			this.stateManager.InternetConnectionStateMoved += this.OnInternetConnectionStateChanged;
+			this.stateManager.NewsHandlerBeforeStateMove += this.OnRssParserBeforeStateChange;
+			this.stateManager.NewsHandlerStateMoved += this.OnNewsHandlerStateChanged;
 
 			this.Preferences = DefaultPreferences;
 			this.NewsItemFormatter = new NewsItemFormatter();
-			this.NewsItemFormatter.TransformError += new FeedExceptionEventArgs.EventHandler(this.OnNewsItemTransformationError);
-			this.NewsItemFormatter.StylesheetError += new ExceptionEventArgs.EventHandler(this.OnNewsItemFormatterStylesheetError);
-			this.NewsItemFormatter.StylesheetValidationError += new ExceptionEventArgs.EventHandler(this.OnNewsItemFormatterStylesheetValidationError);
+			this.NewsItemFormatter.TransformError += this.OnNewsItemTransformationError;
+			this.NewsItemFormatter.StylesheetError += this.OnNewsItemFormatterStylesheetError;
+			this.NewsItemFormatter.StylesheetValidationError += this.OnNewsItemFormatterStylesheetValidationError;
 			
 			this.LoadPreferences();
 			this.ApplyPreferences();
@@ -5994,7 +5995,7 @@ namespace RssBandit {
 		/// <param name="sender">Object that initiates the call</param>
 		public void CmdDownloadFeeds(ICommand sender) {
 			if (!Preferences.UseRemoteStorage) {
-                this.MessageInfo(SR.Keys_SR.RemoteStorageFeature_Info);
+                this.MessageInfo(SR.Keys.RemoteStorageFeature_Info);
 				return;
 			}
 
@@ -6841,28 +6842,28 @@ namespace RssBandit {
 			/// Have a look to http://blogs.gotdotnet.com/raymondc/permalink.aspx/5a811e6f-cd12-48de-8994-23409290faea,
 			/// that is why we does not name it "StartInSystemTray" or such.
 			/// </summary>
-            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "taskbar", ShortName = "t", Description = SR.Keys_SR.CmdLineStartInTaskbarDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "taskbar", ShortName = "t", Description = SR.Keys.CmdLineStartInTaskbarDesc, DescriptionIsResourceId = true)]
 			public bool StartInTaskbarNotificationAreaOnly {
 				get { return startInTaskbarNotificationAreaOnly; }
 				set { startInTaskbarNotificationAreaOnly = value; }
 			}
 
 			private StringCollection subscribeTo = new StringCollection();
-            [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl", Description = SR.Keys_SR.CmdLineSubscribeToDesc, DescriptionIsResourceId = true)]
+            [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl", Description = SR.Keys.CmdLineSubscribeToDesc, DescriptionIsResourceId = true)]
 			public StringCollection SubscribeTo {
 				get { return subscribeTo; }
 				set { subscribeTo = value; }
 			}
 
 			private bool showHelp;
-            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h", Description = SR.Keys_SR.CmdLineHelpDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h", Description = SR.Keys.CmdLineHelpDesc, DescriptionIsResourceId = true)]
 			public bool ShowHelp {
 				get { return showHelp; }
 				set { showHelp = value; }
 			}
 
 			private string localCulture = String.Empty;
-            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "culture", ShortName = "c", Description = SR.Keys_SR.CmdLineCultureDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "culture", ShortName = "c", Description = SR.Keys.CmdLineCultureDesc, DescriptionIsResourceId = true)]
 			public string LocalCulture {
 				get { return localCulture; }
 				set {
@@ -6874,7 +6875,7 @@ namespace RssBandit {
 			}
 			
 			private bool resetUi;
-            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "resetUI", ShortName = "r", Description = SR.Keys_SR.CmdLineResetUIDesc, DescriptionIsResourceId = true)]
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "resetUI", ShortName = "r", Description = SR.Keys.CmdLineResetUIDesc, DescriptionIsResourceId = true)]
 			public bool ResetUserInterface {
 				get { return resetUi; }
 				set { resetUi = value; }
@@ -7726,10 +7727,10 @@ namespace RssBandit.Exceptions {
 	/// </summary>
 	public class ExceptionEventArgs: EventArgs {
 
-		/// <summary>
-		/// We define also the delegate here.
-		/// </summary>
-		public delegate void EventHandler(object sender, ExceptionEventArgs e);
+		///// <summary>
+		///// We define also the delegate here.
+		///// </summary>
+		//public delegate void EventHandler(object sender, ExceptionEventArgs e);
 
 		public ExceptionEventArgs() {;}
 		public ExceptionEventArgs(Exception exception, string theErrorMessage) {
@@ -7753,10 +7754,10 @@ namespace RssBandit.Exceptions {
 	/// </summary>
 	public class FeedExceptionEventArgs: ExceptionEventArgs {
 
-		/// <summary>
-		/// We define also the delegate here.
-		/// </summary>
-		public delegate void EventHandler(object sender, FeedExceptionEventArgs e);
+		///// <summary>
+		///// We define also the delegate here.
+		///// </summary>
+		//public delegate void EventHandler(object sender, FeedExceptionEventArgs e);
 
 		public FeedExceptionEventArgs() {;}
 		public FeedExceptionEventArgs(Exception exception, string link, string theErrorMessage):base(exception, theErrorMessage) {

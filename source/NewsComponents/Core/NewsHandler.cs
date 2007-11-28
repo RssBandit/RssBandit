@@ -1702,9 +1702,11 @@ namespace NewsComponents {
             Dictionary<string, List<NewsItem>> itemlists = new Dictionary<string, List<NewsItem>>();
 			
 			foreach(SearchHitNewsItem nid in nids){
-			
-				FeedInfo fi= null, originalfi   = this.itemsTable[nid.FeedLink] as FeedInfo; 
+				FeedDetailsInternal fdi;
+				FeedInfo fi = null, originalfi = null; // this.itemsTable[nid.FeedLink] as FeedInfo; 
 				List<NewsItem> items = null; 
+				if (this.itemsTable.TryGetValue(nid.FeedLink, out fdi))
+					originalfi = fdi as FeedInfo;
 
 				if(originalfi != null){
 
