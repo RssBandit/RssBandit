@@ -76,11 +76,17 @@ if __name__ == "__main__":
         #  2. Get list of outgoing links + link title pairs
         #  3. Convert above to RssItem object
         items = [ MakeRssItem(node) for node in doc.SelectNodes("//item")]
+        # print "Processing %d items from %s" % (len(items), fi.Name)
         feedTitle = doc.SelectSingleNode("/rss/channel/title").InnerText
-        
+
+        #BUGBUG: We should canonicalize URLs
         # apply filter to pick candidate items, then calculate vote for each outgoing url
         for item in filter(filterFunc, items):
             vote = [voteFunc(item), item, feedTitle]
+            #add a vote for the permalink by the author
+            if all_links.get(item.permalink) == None:
+                 all_links[item.permalink] = []
+            all_links.get(item.permalink).append(vote)
             #add a vote for each of the URLs
             for url in item.outgoing_links.Keys:
                 if all_links.get(url) == None:
@@ -99,7 +105,7 @@ if __name__ == "__main__":
 
     # output the results, choose link text from first item we saw story linked from
     print "<ol>"    
-    
+    #BUGBUG: We should use <title> from the HTML page
     for weight, link in weighted_links[:10]:
         link_text = (all_links.get(link)[0])[1].outgoing_links.get(link)
         print "<li><a href='%s'>%s</a> (%s)" % (link, link_text, weight)
