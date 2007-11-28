@@ -28,9 +28,9 @@ namespace RssBandit.WinGui.Utility
 	/// </summary>
 	public class NewsItemFormatter {
 
-		public event FeedExceptionEventArgs.EventHandler TransformError;
-		public event ExceptionEventArgs.EventHandler StylesheetError;
-		public event ExceptionEventArgs.EventHandler StylesheetValidationError;
+		public event EventHandler<FeedExceptionEventArgs> TransformError;
+		public event EventHandler<ExceptionEventArgs> StylesheetError;
+		public event EventHandler<ExceptionEventArgs> StylesheetValidationError;
 
 		static private string _defaultTmpl = null;
 
@@ -218,19 +218,19 @@ namespace RssBandit.WinGui.Utility
 
 		protected void OnTransformationError(object sender, FeedExceptionEventArgs e) {
 			if (TransformError != null)
-				foreach (FeedExceptionEventArgs.EventHandler eh in TransformError.GetInvocationList())
+				foreach (EventHandler<FeedExceptionEventArgs> eh in TransformError.GetInvocationList())
 					eh.BeginInvoke(sender, e, null, null);
 		}
 
 		protected void OnStylesheetError(object sender, ExceptionEventArgs e) {
 			if (StylesheetError != null)
-				foreach (ExceptionEventArgs.EventHandler eh in StylesheetError.GetInvocationList())
+				foreach (EventHandler<ExceptionEventArgs> eh in StylesheetError.GetInvocationList())
 					eh.BeginInvoke(this, e, null, null);
 		}
 
 		protected void OnStylesheetValidationError(object sender, ExceptionEventArgs e) {
 			if (StylesheetValidationError != null)
-				foreach (ExceptionEventArgs.EventHandler eh in StylesheetValidationError.GetInvocationList())
+				foreach (EventHandler<ExceptionEventArgs> eh in StylesheetValidationError.GetInvocationList())
 					eh.BeginInvoke(this, e, null, null);
 		}
 

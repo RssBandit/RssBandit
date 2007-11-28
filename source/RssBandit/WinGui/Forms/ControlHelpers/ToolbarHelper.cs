@@ -304,8 +304,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 
 				AppStateButtonToolCommand subL4_subColumn = new AppStateButtonToolCommand(
 					"cmdListviewColumn." + colID, owner.Mediator, new ExecuteCommandHandler(main.CmdToggleListviewColumn),
-                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Caption"),
-                    SR.Keys_SR.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
+                    SR.Keys.GetString("MenuColumnChooser" + colID + "Caption"),
+                    SR.Keys.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
 				
 				subL4_subColumn.SharedProps.Category = SR.MainForm_ToolCategoryView;
 				// must be added to the toolbar first:

@@ -10,7 +10,7 @@
 # Comments are lines starting with ";" or "#"
 # To define the SR class public instead of internal (default):
 ##! accessor_class_accessibility = public
-##! culture_info = My.SharedUICulture
+##! culture_info = My.SharedUICulture 
 [strings]
 ExceptionUnsupportedAtomVersion = Unsupported ATOM version
 ExceptionUnknownXmlDialect = This XML document does not look like an RSS feed
