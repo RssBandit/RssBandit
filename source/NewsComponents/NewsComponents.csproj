@@ -261,12 +261,6 @@
     <Compile Include="RelationCosmos\RelationBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RelationCosmos\RelationCosmos.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RelationCosmos\RelationCosmos2.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="RelationCosmos\RelationCosmos3.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -259,8 +259,7 @@ namespace NewsComponents.Storage {
 						byte[] content = reader.ReadBytes(count);
 				
 						if(item.Id.Equals(id)){							
-							item.SetContent(content, ContentType.Html); 
-							item.RefreshRelationCosmos();
+							item.SetContent(content, ContentType.Html); 							
 							break; 
 						}
 						id = reader.ReadString(); 
@@ -322,7 +321,6 @@ namespace NewsComponents.Storage {
 						if(unreadItems.Contains(id)){
 							NewsItem ni = (NewsItem) unreadItems[id];  
 							ni.SetContent(content, ContentType.Html); 
-							ni.RefreshRelationCosmos();
 						}
 						id = reader.ReadString(); 
 					}//while(!id.Equals(...))
