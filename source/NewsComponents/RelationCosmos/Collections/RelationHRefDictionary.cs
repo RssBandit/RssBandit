@@ -28,11 +28,12 @@ namespace NewsComponents.Collections {
 			HRef  = (link == null ? String.Empty : link);
 			Text  = (text == null ? String.Empty : text);
 			Score = score;
+            References = new List<NewsItem>(); 
 		}
 		public float Score;
 		public string Text;
 		public string HRef;
-        public IList<NewsItem> References = GetList<NewsItem>.Empty; 
+        public IList<NewsItem> References; 
 
 
         /// <summary>

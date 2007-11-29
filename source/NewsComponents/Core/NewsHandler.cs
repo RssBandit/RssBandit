@@ -36,6 +36,7 @@ using NewsComponents.Resources;
 using NewsComponents.Search;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Storage;
+using NewsComponents.Threading;
 using NewsComponents.Utils;
 using RssBandit.Common.Utils;
 #endregion
@@ -906,6 +907,16 @@ namespace NewsComponents {
 		}
 		
 		#endregion
+
+        /// <summary>
+        /// The number of HTML titles left to download by the GetTopStories() method
+        /// </summary>
+        private int numTitlesToDownload = 0; 
+
+        /// <summary>
+        /// Used for background tasks by GetTopStories() method. 
+        /// </summary>
+        private ManualResetEvent eventX;
 
 		/// <summary>
 		/// FeedsCollection representing subscribed feeds list
@@ -1940,7 +1951,7 @@ namespace NewsComponents {
         /// <returns>A sorted list (descending order) of RelationHrefEntry objects that 
         /// correspond to the most popular item from the date range starting with the 
         /// since parameter and ending with today.</returns>
-        public List<RelationHRefEntry>GetTopStories(TimeSpan since, int numStories) { 
+        public List<RelationHRefEntry> GetTopStories(TimeSpan since, int numStories) { 
         
             string[] keys = GetFeedsTableKeys();
             Dictionary<RelationHRefEntry, List<RankedNewsItem>> allLinks = new Dictionary<RelationHRefEntry, List<RankedNewsItem>>(); 
@@ -1991,7 +2002,8 @@ namespace NewsComponents {
                     if(votesPerFeed.ContainsKey(feedLink)){
                         votesPerFeed[feedLink] = Math.Min(votesPerFeed[feedLink], voteItem.Score);
                     }else{
-                        votesPerFeed.Add(feedLink, voteItem.Score); 
+                        votesPerFeed.Add(feedLink, voteItem.Score);
+                        linkNvotes.Key.References.Add(voteItem.Item);
                     }
                 }
                 float totalScore = 0.0f;
@@ -2004,10 +2016,41 @@ namespace NewsComponents {
             }
 
             weightedLinks.Sort(delegate(RelationHRefEntry x, RelationHRefEntry y) { return y.Score.CompareTo(x.Score);} );
+            weightedLinks = weightedLinks.GetRange(0, numStories);
 
-            return weightedLinks.GetRange(0, numStories);              
+            //fetch titles from HTML page
+            numTitlesToDownload = numStories;           
+            this.eventX = new ManualResetEvent(false);
+
+            foreach (RelationHRefEntry weightedLink in weightedLinks) {
+                PriorityThreadPool.QueueUserWorkItem(new WaitCallback(this.GetHtmlTitleHelper), weightedLink, (int)ThreadPriority.Normal);
+            }
+
+            if (numTitlesToDownload > 0) {
+                eventX.WaitOne(System.Threading.Timeout.Infinite, true);
+            }
+
+            return weightedLinks;              
         }
 
+        /// <summary>
+        /// Helper method that retrieves the value of the title element of an HTML page 
+        /// </summary>
+        /// <param name="weightedLink"></param>
+        private void GetHtmlTitleHelper(object obj) {
+
+            try {
+                RelationHRefEntry weightedLink = obj as RelationHRefEntry;
+                /* NOTE: Default link text is URL */
+                string title = HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, this.proxy, CredentialCache.DefaultCredentials);
+                weightedLink.Text = title;
+            } finally {
+                Interlocked.Decrement(ref numTitlesToDownload);
+                if (numTitlesToDownload <= 0) {
+                    eventX.Set();
+                }
+            }
+        }
 
         /// <summary>
         /// Retrieves all non-internet feed URLs (e.g. intranet and local feeds)
