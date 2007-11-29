@@ -5609,8 +5609,46 @@ namespace RssBandit {
         public void CmdTopStories(ICommand sender) {
 
             List<RelationHRefEntry> topStories = this.feedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10);
-            int x = topStories.Count; 
-        
+            
+            /* TEMPORARY CODE */ 
+            string memeFile = Path.ChangeExtension(Path.GetTempFileName(), "html");            
+            XmlWriter writer = XmlWriter.Create(memeFile );
+
+            writer.WriteStartElement("html"); 
+            writer.WriteStartElement("head");
+            writer.WriteElementString("title", "RSS Bandit Top Stories: Most Linked Recent Stories"); 
+            writer.WriteEndElement(); 
+            writer.WriteStartElement("body");  
+            writer.WriteStartElement("ol"); 
+
+            foreach (RelationHRefEntry topStory in topStories){
+             writer.WriteStartElement("li");
+             writer.WriteStartElement("p");
+             writer.WriteStartElement("a"); 
+             writer.WriteAttributeString("href", topStory.HRef); 
+             writer.WriteString(topStory.Text); 
+             writer.WriteEndElement(); //a 
+             writer.WriteString(" (" + topStory.Score + ")"); 
+             writer.WriteElementString("p", "Discussion:"); 
+             writer.WriteStartElement("ul");
+             foreach (NewsItem item in topStory.References) {
+                 writer.WriteStartElement("li");
+                 writer.WriteString(item.FeedDetails.Title + ": ");
+                 writer.WriteStartElement("a");
+                 writer.WriteAttributeString("href", item.Link);
+                 writer.WriteString(item.Title);
+                 writer.WriteEndElement(); //a 
+                 writer.WriteEndElement(); //li
+             }
+             writer.WriteEndElement(); //ul
+             writer.WriteEndElement(); //p//
+             writer.WriteEndElement(); //li
+            }//foreach
+
+            writer.WriteEndDocument(); 
+            writer.Close(); 
+
+            this.NavigateToUrl(memeFile, null, true, true);                      
         }
 
 		/// <summary>

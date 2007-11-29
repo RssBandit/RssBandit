@@ -472,6 +472,25 @@ namespace NewsComponents {
 
         }
 
+             /// <summary>
+        /// Initializes an object representation of an RSS item. 
+        /// </summary>
+        /// <param name="feed">The RSS feed object this item belongs to.</param>
+        /// <param name="title">The title of the article or blog entry.</param>
+        /// <param name="link">A link to the article or blog entry.</param>
+        /// <param name="content">The content of the blog entry</param>
+        /// <param name="date">The date the article or blog entry was written or when it was fetched.</param>
+        /// <param name="subject">The topic of the article or blog entry.</param>
+        /// <param name="ctype">Indicates whether the description parameter contains Text, encoded HTML or XHTML </param>
+        /// <param name="otherElements">Hashtable containing  QName/XmlNode pairs that represent RSS elements that 
+        /// don't map to properties on this class.</param>
+        /// <param name="id">The unique identifier for the item</param>
+        /// <param name="parentId">The unique identifier of the parent of this item</param>		
+        /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) :
+            this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null){
+        }
+
         /// <summary>
         /// Initializes an object representation of an RSS item. 
         /// </summary>
@@ -487,7 +506,8 @@ namespace NewsComponents {
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
-        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) {
+        /// <param name="outgoingLinks">Outgoing hyperlinks from the HTML content of this item</param>
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl, List<string> outgoingLinks) {
 
             this.OptionalElements = otherElements;
 
@@ -534,9 +554,13 @@ namespace NewsComponents {
             base.PointInTime = date;
             this.subject = subject;
 
+            this.OutGoingLinks = outgoingLinks; 
+
             if (NewsHandler.buildRelationCosmos) {
 
-                this.ProcessOutGoingLinks(content);
+                if (outgoingLinks == null) {
+                    this.ProcessOutGoingLinks(content);
+                }
 
                 bool idEqHref = Object.ReferenceEquals(base.hReference, p_id);
 
@@ -738,9 +762,10 @@ namespace NewsComponents {
         /// <summary>
         /// Returns a collection of strings representing URIs to outgoing links in a feed. 
         /// </summary>
-        public IList<string> OutGoingLinks {
+        public List<string> OutGoingLinks {
 
             get { return base.outgoingRelationships; }
+            internal set { base.outgoingRelationships = value; }
         }
 
         /// <summary>
@@ -804,7 +829,6 @@ namespace NewsComponents {
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>						
         private void WriteItem(XmlWriter writer, bool useGMTDate, NewsItemSerializationFormat format, bool noDescriptions) {
-            noDescriptions = false;
 
             //<item>
             writer.WriteStartElement("item");
@@ -939,14 +963,12 @@ namespace NewsComponents {
                 }
             }
 
-            //<rssbandit:outgoing-links />
-            if (this.OutGoingLinks.Count > 0) {
-                writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
-                foreach (string outgoingLink in this.OutGoingLinks) {
-                    writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
-                }
-                writer.WriteEndElement();
+            //<rssbandit:outgoing-links />            
+            writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
+            foreach (string outgoingLink in this.OutGoingLinks) {
+                writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
             }
+            writer.WriteEndElement();            
 
             /* everything else */
             foreach (string s in this.OptionalElements.Values) {
