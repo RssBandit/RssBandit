@@ -15,6 +15,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
+using Sgml;
+
 using NewsComponents.Collections;
 using NewsComponents.Net;
 
@@ -383,11 +385,21 @@ namespace NewsComponents.Utils
         /// <returns></returns>
         public static string FindTitle(string url, string defaultIfNoMatch, IWebProxy proxy, ICredentials credentials){
 
-            System.IO.Stream stream = AsyncWebRequest.GetSyncResponseStream(url, credentials, proxy, 20 * 1000 /* 20 second timeout */);
-            XmlReader reader = XmlReader.Create(stream);
+            HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
+            request.AllowAutoRedirect = true;
+            request.Proxy = proxy;
+            request.Credentials = credentials; 
+            request.Timeout     = 8 * 1000 /* 8 second timeout */;
+           
             string title = defaultIfNoMatch;
+            System.IO.Stream stream = null; 
 
             try {
+                stream = request.GetResponse().GetResponseStream();
+
+                SgmlReader reader = new SgmlReader();
+                reader.InputStream = new System.IO.StreamReader(stream);
+
                 while (reader.Read()) {
                     if ((reader.NodeType == XmlNodeType.Element) && (reader.Name.ToLower().Equals("title"))) {
                         title = reader.ReadElementContentAsString();
@@ -396,7 +408,11 @@ namespace NewsComponents.Utils
                         break;
                     }
                 }//while
-            } catch (Exception e) { _log.Debug("Error retrieving title from HTML page at " + url, e); } 
+            } catch (Exception e) {
+                _log.Debug("Error retrieving title from HTML page at " + url, e);
+            } finally {
+                if (stream != null) {stream.Close(); }
+            }
             
             return title;
 		}

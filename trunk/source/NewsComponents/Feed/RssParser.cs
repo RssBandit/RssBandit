@@ -144,7 +144,8 @@ namespace NewsComponents.Feed {
 		private static int nt_ns_mediarss = 55;
 		private static int nt_ns_itunes = 56;
 		private static int nt_created = 57;
-		private static int nt_duration = 58;
+        private static int nt_outgoinglinks = 58;
+		private static int nt_duration = 59;
 
 		private static int NT_SIZE = 1 + nt_duration;	// last used + 1
 
@@ -260,6 +261,7 @@ namespace NewsComponents.Feed {
 			bool watchComments = false, hasNewComments = false; 
 			ArrayList subjects = new ArrayList();
             List<Enclosure> enclosures = null; 
+            List<string> outgoingLinks = null; 
 			string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 			 			
 			bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
@@ -474,6 +476,21 @@ namespace NewsComponents.Feed {
 					continue;
 				}
 
+                if ((localname == atomized_strings[RssParser.nt_outgoinglinks])
+                    && (namespaceuri == atomized_strings[RssParser.nt_ns_bandit_2003])) {
+
+                    outgoingLinks = (outgoingLinks ?? new List<string>());
+
+                    if (!reader.IsEmptyElement) {
+                         reader.Read(); //move to first link
+                         do {
+                             outgoingLinks.Add(reader.ReadElementContentAsString());
+                         } while (reader.NodeType != XmlNodeType.EndElement);                                                
+                    }//if
+                    continue; 
+                }
+
+
 				if(nodeNamespaceUriEqual2Item 
 					&& (localname == atomized_strings[RssParser.nt_enclosure])){				
 												
@@ -493,7 +510,7 @@ namespace NewsComponents.Feed {
 					} catch{}
 					try { downloaded = (reader["downloaded"] == null ? false: reader["downloaded"].Equals("1")); } catch {}
 
-					enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 						
+					enclosures = (enclosures ?? new List<Enclosure>()); 						
 					enc = new Enclosure(type, length, url, String.Empty);
 					enc.Downloaded = downloaded; 
 					
@@ -590,15 +607,15 @@ namespace NewsComponents.Feed {
 			/* set value of id to link if no guid in XML stream */ 
 			id = (id == null ? link : id);  
 
-			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl);									       			    
+			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl, outgoingLinks);									       			    
 			newsItem.FlagStatus = flagged;
 			newsItem.CommentCount = commentCount; 
 			newsItem.Author       = author; 
 			newsItem.CommentRssUrl = commentRssUrl; 
 			newsItem.CommentUrl    = commentUrl; 
 			newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
-			newsItem.Enclosures    = (enclosures == null ? GetList<Enclosure>.Empty: enclosures); 
-			newsItem.WatchComments = watchComments; 
+			newsItem.Enclosures    = (enclosures ?? GetList<Enclosure>.Empty ); 
+         	newsItem.WatchComments = watchComments; 
 			newsItem.Language      = reader.XmlLang;
 			newsItem.HasNewComments = hasNewComments;
 			return newsItem; 				
@@ -1367,6 +1384,7 @@ namespace NewsComponents.Feed {
 			atomized_names[RssParser.nt_maxitemage] = nt.Add("maxItemAge");
 			atomized_names[RssParser.nt_modified] = nt.Add("modified");
 			atomized_names[RssParser.nt_name] = nt.Add("name");
+            atomized_names[RssParser.nt_outgoinglinks] = nt.Add("outgoing-links");
 			atomized_names[RssParser.nt_pubdate] = nt.Add("pubDate"); 
 			atomized_names[RssParser.nt_rdf] = nt.Add("RDF");
 			atomized_names[RssParser.nt_reference] = nt.Add("reference");
