@@ -86,7 +86,7 @@
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\My Download Files\sgmlreader\SgmlReader\SgmlReaderDll\bin\release\SgmlReaderDll.dll</HintPath>
+      <HintPath>bin\SgmlReaderDll.dll</HintPath>
     </Reference>
     <Reference Include="Snowball.Net">
       <Name>Snowball.Net</Name>
