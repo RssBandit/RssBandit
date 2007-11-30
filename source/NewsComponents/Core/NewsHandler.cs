@@ -122,11 +122,11 @@ namespace NewsComponents {
 			
 			if (this.EnclosureFolder != null) {
 				this.enclosureDownloader = new BackgroundDownloadManager(this.configuration, this); 
-				this.enclosureDownloader.DownloadCompleted +=  new DownloadCompletedEventHandler(this.OnEnclosureDownloadComplete);
+				this.enclosureDownloader.DownloadCompleted +=  this.OnEnclosureDownloadComplete;
 			}
 
 			this.AsyncWebRequest = new AsyncWebRequest();
-			this.AsyncWebRequest.OnAllRequestsComplete += new AsyncWebRequest.RequestAllCompleteCallback(this.OnAllRequestsComplete);
+			this.AsyncWebRequest.OnAllRequestsComplete += this.OnAllRequestsComplete;
 
 		}
 		
@@ -192,7 +192,7 @@ namespace NewsComponents {
 		/// <summary>
 		/// Configuration provider
 		/// </summary>
-		private INewsComponentsConfiguration configuration = null;
+		private readonly INewsComponentsConfiguration configuration = null;
 		/// <summary>
 		/// Gets the NewsComponents configuration.
 		/// </summary>
@@ -231,12 +231,12 @@ namespace NewsComponents {
 		/// <summary>
 		/// Used for making asynchronous Web requests
 		/// </summary>
-		private AsyncWebRequest AsyncWebRequest = null; 
+		private readonly AsyncWebRequest AsyncWebRequest = null; 
 
 		/// <summary>
 		/// Downloads enclosures/podcasts in the background using BITS. 
 		/// </summary>
-		private BackgroundDownloadManager enclosureDownloader; 
+		private readonly BackgroundDownloadManager enclosureDownloader; 
 
 //		/// <summary>
 //		/// Manages the cache. 
@@ -256,7 +256,7 @@ namespace NewsComponents {
 		/// <summary>
 		/// Manages the FeedType.Rss 
 		/// </summary>
-		private RssParser rssParser;
+		private readonly RssParser rssParser;
 
 		/// <summary>
 		/// Provide access to the RssParser for Rss specific tasks
@@ -290,17 +290,17 @@ namespace NewsComponents {
 		/// <summary>
 		/// Manage the NewsItem relations
 		/// </summary>
-		private static RelationCosmos.IRelationCosmos relationCosmos = RelationCosmosFactory.Create();
+		private static readonly RelationCosmos.IRelationCosmos relationCosmos = RelationCosmosFactory.Create();
 
 		/// <summary>
 		/// Manage the channel processors working on received items and feeds
 		/// </summary>
-		private static NewsChannelServices receivingNewsChannel = new NewsChannelServices();
+		private static readonly NewsChannelServices receivingNewsChannel = new NewsChannelServices();
 
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
 		/// </summary>
-		private IWebProxy proxy = GlobalProxySelection.GetEmptyWebProxy(); 
+		private IWebProxy proxy = WebRequest.DefaultWebProxy; 
 
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
@@ -557,7 +557,7 @@ namespace NewsComponents {
 		/// <returns>null in the case the server does not have credentials</returns>
 		public ICredentials GetNntpServerCredentials(string serverAccountName) {
 			if (serverAccountName != null && nntpServers.ContainsKey(serverAccountName))
-				return GetFeedCredentials((NntpServerDefinition)nntpServers[serverAccountName]);
+				return GetFeedCredentials(nntpServers[serverAccountName]);
 			return null;
 		}
 
@@ -647,7 +647,7 @@ namespace NewsComponents {
                 }
 
                 for (int i = 0, len = keys.Length; i < len; i++) {
-                    FeedsTable[keys[i]].maxitemage = XmlConvert.ToString((TimeSpan)value); 
+                    FeedsTable[keys[i]].maxitemage = XmlConvert.ToString(value); 
                 }
             } 
 		}
@@ -686,7 +686,7 @@ namespace NewsComponents {
 		/// <summary>
 		/// The file extensions of enclosures that should be treated as podcasts. 
 		/// </summary>
-		private ArrayList podcastfileextensions = new ArrayList();
+		private readonly ArrayList podcastfileextensions = new ArrayList();
 
 		/// <summary>
 		/// Gets the list of file extensions of enclosures that should be treated as podcasts
@@ -850,7 +850,7 @@ namespace NewsComponents {
 		/// <summary>
 		/// A template string to assamble a unified user agent string.
 		/// </summary>
-		private static string userAgentTemplate;
+		private static readonly string userAgentTemplate;
 
 		/// <summary>
 		/// global long HTTP user agent string
@@ -937,7 +937,7 @@ namespace NewsComponents {
 		/// <summary>
 		/// Hashtable representing downloaded feed items
 		/// </summary>
-        private Dictionary<string, FeedDetailsInternal> itemsTable = new Dictionary<string, FeedDetailsInternal>();  
+        private readonly Dictionary<string, FeedDetailsInternal> itemsTable = new Dictionary<string, FeedDetailsInternal>();  
 
 		/// <summary>
 		/// Collection contains NntpServerDefinition objects.
@@ -975,7 +975,7 @@ namespace NewsComponents {
 			public DownloadFeedCancelEventArgs(Uri feed, bool cancel):base(cancel) {
 				this.feedUri = feed;
 			}
-			private Uri feedUri;
+			private readonly Uri feedUri;
 			/// <summary>
 			/// The related feed Uri.
 			/// </summary>
@@ -1027,13 +1027,13 @@ namespace NewsComponents {
 				this.feedUrls = feedUrls;			
 			}
 
-			private string favicon;
+			private readonly string favicon;
 			/// <summary>
 			/// The name of the favicon file. 
 			/// </summary>
 			public string Favicon { get{ return this.favicon;} }
 
-			private StringCollection feedUrls; 
+			private readonly StringCollection feedUrls; 
 			/// <summary>
 			/// The URLs of the feeds that will utilize this favicon. 
 			/// </summary>
@@ -1061,7 +1061,9 @@ namespace NewsComponents {
 				this.priority = priority;
 				this.firstSuccessfulDownload = firstSuccessfulDownload; 
 			}
-			private Uri requestUri, newUri;
+			private readonly Uri requestUri;
+			private readonly Uri newUri;
+
 			/// <summary>
 			/// Uri of the feed, that was updated
 			/// </summary>
@@ -1071,18 +1073,18 @@ namespace NewsComponents {
 			/// </summary>
 			public Uri NewFeedUri { get { return newUri; } }				// should return Clone() ?
 			
-			private RequestResult result;
+			private readonly RequestResult result;
 			/// <summary>
 			/// RequestResult: OK or NotModified
 			/// </summary>
 			public RequestResult UpdateState { get { return result; } }
-			private int priority;
+			private readonly int priority;
 			/// <summary>
 			/// Gets the queued priority
 			/// </summary>
 			public int Priority { get { return priority; } }
 
-			private bool firstSuccessfulDownload; 
+			private readonly bool firstSuccessfulDownload; 
 
 			/// <summary>
 			/// Indicates whether this is the first time the feed has been downloaded to 
@@ -1116,18 +1118,18 @@ namespace NewsComponents {
 				this.exception = e;
 				this.priority = priority;
 			}
-			private string requestUri;
+			private readonly string requestUri;
 			/// <summary>
 			/// feed Uri.
 			/// </summary>
 			public string FeedUri { get { return requestUri; } 	}	
 
-			private Exception exception;
+			private readonly Exception exception;
 			/// <summary>
 			/// caused exception
 			/// </summary>
 			public Exception ExceptionThrown { get { return exception; } }
-			private int priority;
+			private readonly int priority;
 			/// <summary>
 			/// Gets the queued priority
 			/// </summary>
@@ -1145,7 +1147,7 @@ namespace NewsComponents {
 			public UpdateFeedsEventArgs(bool forced) {
 				this.forced = forced;
 			}
-			private bool forced;
+			private readonly bool forced;
 			/// <summary>
 			/// True, if it was a manually forced request
 			/// </summary>
@@ -1166,13 +1168,13 @@ namespace NewsComponents {
 				this.feedUri = feed;
 				this.priority = priority;
 			}
-			private Uri feedUri;
+			private readonly Uri feedUri;
 			/// <summary>
 			/// Feed Uri.
 			/// </summary>
 			public Uri FeedUri { get { return feedUri; } }
 
-			private int priority;
+			private readonly int priority;
 			/// <summary>
 			/// Gets the queued priority
 			/// </summary>
@@ -1313,7 +1315,7 @@ namespace NewsComponents {
 			/// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
 			/// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
 			public SearchFinishedEventArgs (
-				object tag, FeedInfoList matchingFeeds, IList<NewsItem> matchingNewsItems, int matchingFeedsCount, int matchingItemsCount):base() {
+				object tag, FeedInfoList matchingFeeds, IEnumerable<NewsItem> matchingNewsItems, int matchingFeedsCount, int matchingItemsCount) {
 				this.MatchingFeedsCount= matchingFeedsCount;
 				this.MatchingItemsCount= matchingItemsCount;
 				this.MatchingFeeds = matchingFeeds;
@@ -1337,7 +1339,7 @@ namespace NewsComponents {
 		private const int maxItemsPerSearchResult = 10;
 
 
-        private List<NewsItem> SearchNewsItemsHelper(List<NewsItem> prevMatchItems, SearchCriteriaCollection criteria, FeedDetailsInternal fi, FeedInfo fiMatchedItems, ref int itemmatches, ref int feedmatches, object tag) {
+        private List<NewsItem> SearchNewsItemsHelper(IEnumerable<NewsItem> prevMatchItems, SearchCriteriaCollection criteria, FeedDetailsInternal fi, FeedDetailsInternal fiMatchedItems, ref int itemmatches, ref int feedmatches, object tag) {
 
             List<NewsItem> matchItems = new List<NewsItem>(maxItemsPerSearchResult);
 			matchItems.AddRange(prevMatchItems); 
@@ -1456,7 +1458,7 @@ namespace NewsComponents {
 		/// <param name="e">Exception</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">If e is null</exception>
-		private ExceptionalNewsItem CreateHelpNewsItemFromException(Exception e)
+		private static ExceptionalNewsItem CreateHelpNewsItemFromException(Exception e)
 		{
 			if (e == null)
 				throw new ArgumentNullException("e");
@@ -1466,7 +1468,7 @@ namespace NewsComponents {
 			f.title = ComponentsText.ExceptionHelpFeedTitle;
 
 			ExceptionalNewsItem newsItem = new ExceptionalNewsItem(f, ComponentsText.ExceptionHelpFeedItemTitle(e.GetType().Name), 
-				(e.HelpLink != null ? e.HelpLink : "http://www.rssbandit.org/docs/"), 
+				(e.HelpLink ?? "http://www.rssbandit.org/docs/"), 
 				e.Message, e.Source, DateTime.Now.ToUniversalTime(), Guid.NewGuid().ToString());
 
 			newsItem.Subject       = e.GetType().Name; 
@@ -1494,12 +1496,11 @@ namespace NewsComponents {
 			int itemmatches = 0;
 			int feedcounter = 0;
 
-            List<NewsItem> unreturnedMatchItems = new List<NewsItem>(); 
-			FeedInfo[] feedInfos;
+            List<NewsItem> unreturnedMatchItems = new List<NewsItem>();
 			FeedInfoList fiList = new FeedInfoList(String.Empty); 			
 		  
 			try{
-
+				FeedInfo[] feedInfos;
 				if(scope.Length == 0){
 					// we search a copy of the current content to prevent the lock(itemsTable)
 					// while we do the more time consuming search ops. New received items are
@@ -1618,7 +1619,7 @@ namespace NewsComponents {
 			throw new NotSupportedException(); 
 		}
 	  
-		private bool RaiseNewsItemSearchResultEvent(List<NewsItem> matchItems, object tag) {
+		private bool RaiseNewsItemSearchResultEvent(IEnumerable<NewsItem> matchItems, object tag) {
 			try {
 				if (NewsItemSearchResult != null) {
 					NewsItemSearchResultEventArgs ea = new NewsItemSearchResultEventArgs(new List<NewsItem>(matchItems), tag, false);
@@ -1715,12 +1716,11 @@ namespace NewsComponents {
 			foreach(SearchHitNewsItem nid in nids){
 				FeedDetailsInternal fdi;
 				FeedInfo fi = null, originalfi = null; // this.itemsTable[nid.FeedLink] as FeedInfo; 
-				List<NewsItem> items = null; 
 				if (this.itemsTable.TryGetValue(nid.FeedLink, out fdi))
 					originalfi = fdi as FeedInfo;
 
 				if(originalfi != null){
-
+					List<NewsItem> items = null;
 					if(matchedFeeds.ContainsKey(nid.FeedLink)){
 						fi = matchedFeeds[nid.FeedLink]; 
 						items = itemlists[nid.FeedLink]; 
@@ -1834,7 +1834,7 @@ namespace NewsComponents {
 		/// </summary>
 		public IDictionary<string, NntpServerDefinition> NntpServers { 
 		
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { 
 				
 				if(this.nntpServers== null){				
@@ -1852,7 +1852,7 @@ namespace NewsComponents {
 		/// </summary>
 		public IDictionary<string, UserIdentity> UserIdentity { 
 		
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { 
 				
 				if(this.identities== null){				
@@ -2467,7 +2467,7 @@ namespace NewsComponents {
 		/// <param name="category">A category path, e.g. 'Category1\SubCategory1'.</param>
 		/// <returns>The leaf category node.</returns>
 		/// <remarks>If one category in the path is not found, it will be created.</remarks>
-		private XmlElement CreateCategoryHive(XmlElement startNode, string category)	{
+		private static XmlElement CreateCategoryHive(XmlElement startNode, string category)	{
 
 			
 
@@ -2590,7 +2590,7 @@ namespace NewsComponents {
 					}
 
 
-					string category = (f.category == null ? String.Empty: f.category);
+					string category = (f.category ?? String.Empty);
 				
 					XmlElement catnode;
 					if (categoryTable.ContainsKey(category))
@@ -4361,7 +4361,7 @@ namespace NewsComponents {
 					theFeed.lastretrievedSpecified = true; 
 					theFeed.causedException = false;
 
-					FeedDetailsInternal feedInfo = (FeedDetailsInternal)itemsTable[feedUrl];
+					FeedDetailsInternal feedInfo = itemsTable[feedUrl];
 					if (feedInfo != null)
 						itemsForFeed = feedInfo.ItemsList;
 					else 
@@ -4789,7 +4789,7 @@ namespace NewsComponents {
 						AsyncWebRequest.QueueRequest(reqParam, 
 							null /* new RequestQueuedCallback(this.OnRequestQueued) */, 
 							null /* new RequestStartCallback(this.OnRequestStart) */, 
-							new RequestCompleteCallback(this.OnFaviconRequestComplete), 
+							this.OnFaviconRequestComplete, 
 							null /* new RequestExceptionCallback(this.OnRequestException) */, 
 							100  /* priority*/ );
 						
@@ -5166,7 +5166,7 @@ namespace NewsComponents {
 							else
 								f1.listviewlayout = null; 
 						}
-						f2.listviewlayout = (f1.listviewlayout != null ? f1.listviewlayout: f2.listviewlayout);
+						f2.listviewlayout = (f1.listviewlayout ?? f2.listviewlayout);
 
 
 						//copy title information over 
@@ -5179,8 +5179,8 @@ namespace NewsComponents {
 							f2.markitemsreadonexit = f1.markitemsreadonexit;
 						}
 
-						f2.stylesheet = (f1.stylesheet != null ? f1.stylesheet: f2.stylesheet);
-						f2.maxitemage = (f1.maxitemage != null ? f1.maxitemage: f2.maxitemage);
+						f2.stylesheet = (f1.stylesheet ?? f2.stylesheet);
+						f2.maxitemage = (f1.maxitemage ?? f2.maxitemage);
 						f2.alertEnabledSpecified = f1.alertEnabledSpecified;
 						f2.alertEnabled = (f1.alertEnabledSpecified ? f1.alertEnabled : f2.alertEnabled);
 						f2.refreshrateSpecified = f1.refreshrateSpecified;
@@ -5520,7 +5520,7 @@ namespace NewsComponents {
 					maxItemAge = (maxItemAge == TimeSpan.MinValue ? TimeSpan.MaxValue: maxItemAge);
 
 					for(int i = 0, count = items.Count ; i < count ; i++){
-						NewsItem item = (NewsItem) items[i]; 
+						NewsItem item = items[i]; 
 			      
 						if((!keepAll) && ((DateTime.Now - item.Date) >= maxItemAge) || feed.deletedstories.Contains(item.Id)){
 				
@@ -5575,7 +5575,7 @@ namespace NewsComponents {
 						}
 
 					}else{
-						NewsItem olditem   = (NewsItem) oldItems[index];										    
+						NewsItem olditem   = oldItems[index];										    
 						newitem.BeenRead   = olditem.BeenRead;
 						/*
 						COMMENTED OUT BECAUSE WE WON'T SAVE NEWLY DOWNLOADED TEXT IF THE 
@@ -5612,7 +5612,7 @@ namespace NewsComponents {
 								int j = newitem.Enclosures.IndexOf(enc);
 								
 								if(j != -1){
-									Enclosure oldEnc = (Enclosure) newitem.Enclosures[j];
+									Enclosure oldEnc = newitem.Enclosures[j];
 									enc.Downloaded   = oldEnc.Downloaded;
 								}else{
 									newitem.Enclosures.Add(enc);
@@ -5622,13 +5622,14 @@ namespace NewsComponents {
 
 						oldItems.RemoveAt(index);
 						oldItems.Add(newitem);
+						NewsHandler.RelationCosmosRemove(olditem);
 						//	removedOldItems.Add(olditem); 
 					}
 				}//foreach
 				
 				//remove old objects from relation cosmos and add newly downloaded items to relationcosmos
 				//NewsHandler.RelationCosmosRemoveRange(removedOldItems); 
-                NewsHandler.RelationCosmosAddRange(receivedNewItems.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem,RelationBase>()));
+                NewsHandler.RelationCosmosAddRange(receivedNewItems.ConvertAll(TypeConverter.UpCast<NewsItem,RelationBase>()));
 				
 			}//lock
 
