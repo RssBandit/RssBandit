@@ -605,17 +605,17 @@ namespace NewsComponents.Feed {
 			}
 
 			/* set value of id to link if no guid in XML stream */ 
-			id = (id == null ? link : id);  
+			id = (id ?? link);  
 
-			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl, outgoingLinks);									       			    
+			NewsItem newsItem = new NewsItem(f, title, link, description, date, subject, ctype, optionalElements, id, parentId, baseUrl, outgoingLinks);
 			newsItem.FlagStatus = flagged;
 			newsItem.CommentCount = commentCount; 
 			newsItem.Author       = author; 
 			newsItem.CommentRssUrl = commentRssUrl; 
 			newsItem.CommentUrl    = commentUrl; 
 			newsItem.CommentStyle  = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI ); 
-			newsItem.Enclosures    = (enclosures ?? GetList<Enclosure>.Empty ); 
-         	newsItem.WatchComments = watchComments; 
+			newsItem.Enclosures    = (enclosures ?? GetList<Enclosure>.Empty );
+			newsItem.WatchComments = watchComments; 
 			newsItem.Language      = reader.XmlLang;
 			newsItem.HasNewComments = hasNewComments;
 			return newsItem; 				
