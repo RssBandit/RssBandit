@@ -554,7 +554,8 @@ namespace NewsComponents {
             base.PointInTime = date;
             this.subject = subject;
 
-            this.OutGoingLinks = outgoingLinks; 
+			if (outgoingLinks != null)
+				this.OutGoingLinks = outgoingLinks; 
 
             if (NewsHandler.buildRelationCosmos) {
 
