@@ -234,7 +234,7 @@ namespace NewsComponents.RelationCosmos
 			if (relations == null) return;
 			lock (syncRoot) {
 				for (int i=0; i< relations.Count; i++)	
-					InternalAdd((RelationBase)relations[i]);
+					InternalAdd(relations[i]);
 			}
 		}
 
@@ -243,7 +243,10 @@ namespace NewsComponents.RelationCosmos
 
 			try {
 				lock (syncRoot) {
-					InternalRemove(relation);
+					//TR: causes collection modified exception if called from InternalAddRange:
+					// NewsHandler.MergeAndPurgeItems() was the entry point; I added a single 
+					// RelationCosmosRemove() instead there directly.
+					//InternalRemove(relation);
 				
 					string href = relation.HRef;
 					if (href != null && href.Length > 0 && ! registeredRelations.ContainsKey(href)) {
