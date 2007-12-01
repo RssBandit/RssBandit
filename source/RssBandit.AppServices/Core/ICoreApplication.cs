@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Windows.Forms;
-using NewsComponents;
+using NewsComponents; 
 
 namespace RssBandit.AppServices
 {
@@ -61,7 +61,7 @@ namespace RssBandit.AppServices
 		/// Items are objects of type INntpServerDefinition, 
 		/// keys are the corresponding server Name.
 		/// </summary>
-		IDictionary NntpServerDefinitions { get; }
+        IDictionary<string, INntpServerDefinition> NntpServerDefinitions { get; }
 		/// <summary>
 		/// Gets the groups of a defined NNTP server. This will be usually
 		/// retrieved from a local cache, if available.

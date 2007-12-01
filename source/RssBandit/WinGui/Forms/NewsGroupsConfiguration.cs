@@ -2264,7 +2264,7 @@ namespace RssBandit.WinGui.Forms
 
 		#region private methods
 		
-		private void InitializeWidgets(IDictionary<string, UserIdentity> userIdentities, IDictionary<string, NntpServerDefinition> nntpServers) {
+		private void InitializeWidgets(IDictionary<string, UserIdentity> userIdentities, IDictionary<string, INntpServerDefinition> nntpServers) {
 			this.treeServers.AfterSelect -= new System.Windows.Forms.TreeViewEventHandler(this.OnTreeServersAfterSelect);
 			this.listAccounts.SelectedIndexChanged -= new System.EventHandler(this.OnListAccountsSelectedIndexChanged);
 

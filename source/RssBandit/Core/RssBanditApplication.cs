@@ -7505,14 +7505,14 @@ namespace RssBandit {
 		IDictionary AppServices.ICoreApplication.Identities {
             get { return new ReadOnlyDictionary((IDictionary) this.IdentityManager.CurrentIdentities); }	
 		}
-		IDictionary AppServices.ICoreApplication.NntpServerDefinitions {
-			get { return new ReadOnlyDictionary((IDictionary)this.NntpServerManager.CurrentNntpServers); }	
+		IDictionary<string, INntpServerDefinition> AppServices.ICoreApplication.NntpServerDefinitions {
+            get { return this.NntpServerManager.CurrentNntpServers; }	
 		}
 
 		IList AppServices.ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer) {
 			if (! StringHelper.EmptyOrNull(nntpServerName) &&
 				this.NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName)) {
-				NntpServerDefinition sd = this.NntpServerManager.CurrentNntpServers[nntpServerName];
+				INntpServerDefinition sd = this.NntpServerManager.CurrentNntpServers[nntpServerName];
 				if (sd != null)
 					return (IList) this.NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
 			}

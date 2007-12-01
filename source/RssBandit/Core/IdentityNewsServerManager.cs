@@ -85,7 +85,7 @@ namespace RssBandit
 		public IDictionary<string, UserIdentity> CurrentIdentities {
 			get { return this.app.FeedHandler.UserIdentity; }
 		}
-		public IDictionary<string, NntpServerDefinition> CurrentNntpServers {
+		public IDictionary<string, INntpServerDefinition> CurrentNntpServers {
 			get { return this.app.FeedHandler.NntpServers; }
 		}
 
@@ -94,7 +94,7 @@ namespace RssBandit
 		/// </summary>
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <returns>List of feedsFeed objects, that match</returns>
-        public IList<feedsFeed> CurrentSubscriptions(NntpServerDefinition sd)
+        public IList<feedsFeed> CurrentSubscriptions(INntpServerDefinition sd)
         {
 			//TODO: impl. CurrentSubscriptions()
 			return new List<feedsFeed>();
@@ -108,7 +108,7 @@ namespace RssBandit
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <param name="forceLoadFromServer">set to true, if a 'fresh' group list should be loaded from the server</param>
 		/// <returns>List of groups a server offer</returns>
-		public IList<string> LoadNntpNewsGroups(IWin32Window owner, NntpServerDefinition sd, bool forceLoadFromServer) {
+		public IList<string> LoadNntpNewsGroups(IWin32Window owner, INntpServerDefinition sd, bool forceLoadFromServer) {
 			
 			IList<string> list = null;
 			if (forceLoadFromServer) {
@@ -124,19 +124,19 @@ namespace RssBandit
 			return list;
 		}
 
-		public static Uri BuildNntpRequestUri(NntpServerDefinition sd) {
+		public static Uri BuildNntpRequestUri(INntpServerDefinition sd) {
 			return BuildNntpRequestUri(sd, null);
 		}
-		public static Uri BuildNntpRequestUri(NntpServerDefinition sd, string nntpGroup) {
+		public static Uri BuildNntpRequestUri(INntpServerDefinition sd, string nntpGroup) {
 			
 			// We do not use NntpWebRequest.NewsUriScheme here ("news"),
 			// because the UriBuilder build the Uri without slashes...
 			string schema = NntpWebRequest.NntpUriScheme;	
-			if (sd.UseSSLSpecified && sd.UseSSL)
+			if (sd.UseSSL)
 				schema = NntpWebRequest.NntpsUriScheme;
 				
 			int port = NntpWebRequest.NntpDefaultServerPort;
-			if (sd.PortSpecified && sd.Port > 0 && sd.Port != NntpWebRequest.NntpDefaultServerPort)
+			if (sd.Port > 0 && sd.Port != NntpWebRequest.NntpDefaultServerPort)
 				port = sd.Port;				
 				
 			UriBuilder uriBuilder = null;
@@ -149,11 +149,11 @@ namespace RssBandit
 		#endregion
 
 		#region private methods
-		private string BuildCacheFileName(NntpServerDefinition sd) {
-			return Path.Combine(cachePath, String.Format("{0}_{1}.xml", sd.Server , sd.PortSpecified ? sd.Port : NntpWebRequest.NntpDefaultServerPort) );
+		private string BuildCacheFileName(INntpServerDefinition sd) {
+			return Path.Combine(cachePath, String.Format("{0}_{1}.xml", sd.Server , sd.Port != 0 ? sd.Port : NntpWebRequest.NntpDefaultServerPort) );
 		}
 
-		private void RemoveCachedGroups(NntpServerDefinition sd) {
+		private void RemoveCachedGroups(INntpServerDefinition sd) {
 			RemoveCachedGroups(BuildCacheFileName(sd));
 		}
 		private void RemoveCachedGroups(string cachedFileName) {
@@ -161,7 +161,7 @@ namespace RssBandit
 				FileHelper.Delete(cachedFileName);
 		}
 
-		private void SaveNewsGroupsToCache(NntpServerDefinition sd, IList<string> list) {
+		private void SaveNewsGroupsToCache(INntpServerDefinition sd, IList<string> list) {
 
 			string fn = BuildCacheFileName(sd);
 			RemoveCachedGroups(fn);
@@ -178,7 +178,7 @@ namespace RssBandit
 			}
 		}
 		
-		private IList<string> LoadNewsGroupsFromCache(NntpServerDefinition sd) {
+		private IList<string> LoadNewsGroupsFromCache(INntpServerDefinition sd) {
             List<string> result = new List<string>();
 			string fn = BuildCacheFileName(sd);
 			
@@ -207,7 +207,7 @@ namespace RssBandit
 		/// <returns>List of groups a server offer</returns>
 		/// <exception cref="ArgumentNullException">If <see paramref="sd">param sd</see> is null</exception>
 		/// <exception cref="Exception">On any failure we get on request</exception>
-		IList<string> FetchNewsGroupsFromServer(IWin32Window owner, NntpServerDefinition sd) {
+		IList<string> FetchNewsGroupsFromServer(IWin32Window owner, INntpServerDefinition sd) {
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
@@ -321,10 +321,10 @@ namespace RssBandit
 	#region FetchNewsgroupsThreadHandler
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
-		private NntpServerDefinition serverDef;
+		private INntpServerDefinition serverDef;
 		public List<string> Newsgroups;
 
-		public FetchNewsgroupsThreadHandler(NntpServerDefinition sd) {
+		public FetchNewsgroupsThreadHandler(INntpServerDefinition sd) {
 			this.serverDef = sd;
             this.Newsgroups = new List<string>(0);
 		}
@@ -347,8 +347,9 @@ namespace RssBandit
 				//request.Proxy = app.Proxy;
 
 				request.Timeout = 1000 * 60;	// default timeout: 1 minute
-				if (serverDef.TimeoutSpecified)
-					request.Timeout = serverDef.Timeout * 1000 * 60;	// sd.Timeout specified in minutes, but we need msecs
+                if (serverDef.Timeout > 0) {
+                    request.Timeout = serverDef.Timeout * 1000 * 60;	// sd.Timeout specified in minutes, but we need msecs
+                }
 
 				WebResponse response = request.GetResponse();
 
