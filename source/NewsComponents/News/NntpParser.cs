@@ -259,7 +259,8 @@ namespace NewsComponents.News{
 				}
 
 				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-                NewsHandler.RelationCosmosAddRange(items.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem, RelationBase>()));
+                NewsHandler.RelationCosmosAddRange(items.ConvertAll<RelationBase>(TypeConverter.UpCast<NewsItem, RelationBase>())); 
+                fi.itemsList.AddRange(items); 
  
 			}
 			catch(Exception e)

@@ -578,8 +578,9 @@ namespace NewsComponents {
                     string p_parentIdUrl = RC.RelationCosmos.UrlTable.Add(
                         NntpParser.CreateGoogleUrlFromID(p_parentId));
 
-                    /* if (outgoingRelationships.IsReadOnly)
-                        outgoingRelationships = new RelationHRefDictionary(1);*/
+                    if(Object.ReferenceEquals(this.outgoingRelationships, GetList<string>.Empty)){
+                        outgoingRelationships = new List<string>(1); 
+                    }
 
                     outgoingRelationships.Add(p_parentIdUrl);
                 }
