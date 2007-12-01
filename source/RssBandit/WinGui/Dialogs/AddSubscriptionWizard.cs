@@ -3046,7 +3046,7 @@ namespace RssBandit.WinGui.Forms
 					if(sd != null){
 						newsServer = sd.Server; 						
 					}	
-					return "news://" + newsServer + "/" + this.lstNNTPGroups.SelectedItems[index].ToString(); 
+					return "nntp://" + newsServer + "/" + this.lstNNTPGroups.SelectedItems[index].ToString(); 
 				
 				} else {
 					return this.FeedUrl;
