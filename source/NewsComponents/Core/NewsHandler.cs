@@ -531,10 +531,11 @@ namespace NewsComponents {
 		/// <param name="sd">NntpServerDefinition to be modified</param>
 		/// <param name="user">username, identifier</param>
 		/// <param name="pwd">password</param>
-		public static void SetNntpServerCredentials(NntpServerDefinition sd, string user, string pwd) {
-			if (sd == null) return;
-			sd.AuthPassword = CryptHelper.EncryptB(pwd);
-			sd.AuthUser = user;
+		public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd) {
+            NntpServerDefinition server = (NntpServerDefinition)sd;
+			if (server == null) return;            
+			server.AuthPassword = CryptHelper.EncryptB(pwd);
+			server.AuthUser = user;
 		}
 
 		/// <summary>
@@ -543,10 +544,11 @@ namespace NewsComponents {
 		/// <param name="sd">NntpServerDefinition, where the credentials are taken from</param>
 		/// <param name="user">String return parameter containing the username</param>
 		/// <param name="pwd">String return parameter, containing the password</param>
-		public static void GetNntpServerCredentials(NntpServerDefinition sd, ref string user, ref string pwd) {
-			if (sd == null) return;
-			pwd = (sd.AuthPassword != null ? CryptHelper.Decrypt(sd.AuthPassword): null);
-			user = sd.AuthUser;
+		public static void GetNntpServerCredentials(INntpServerDefinition sd, ref string user, ref string pwd) {
+            NntpServerDefinition server = (NntpServerDefinition)sd;
+			if (server == null) return;
+			pwd = (server.AuthPassword != null ? CryptHelper.Decrypt(server.AuthPassword): null);
+			user = server.AuthUser;
 		}
 
 
@@ -591,7 +593,7 @@ namespace NewsComponents {
 		/// </summary>
 		/// <param name="sd">NntpServerDefinition</param>
 		/// <returns>null in the case the nntp server does not have credentials</returns>
-		public static ICredentials GetFeedCredentials(NntpServerDefinition sd) {
+		public static ICredentials GetFeedCredentials(INntpServerDefinition sd) {
 			ICredentials c = null;
 			if (sd.AuthUser != null) {
 				string u = null, p = null;
@@ -944,7 +946,7 @@ namespace NewsComponents {
 		/// Keys are the account name(s) - friendly names for the news server def.:
 		/// NntpServerDefinition.Name's
 		/// </summary>
-        private IDictionary<string, NntpServerDefinition> nntpServers = new Dictionary<string, NntpServerDefinition>();
+        private IDictionary<string, INntpServerDefinition> nntpServers = new Dictionary<string, INntpServerDefinition>();
 		/// <summary>
 		/// Collection contains UserIdentity objects.
 		/// Keys are the UserIdentity.Name's
@@ -1832,13 +1834,13 @@ namespace NewsComponents {
 		/// Keys are the account name(s) - friendly names for the news server def.:
 		/// NewsServerDefinition.Name's
 		/// </summary>
-		public IDictionary<string, NntpServerDefinition> NntpServers { 
+		public IDictionary<string, INntpServerDefinition> NntpServers { 
 		
 			[DebuggerStepThrough]
 			get { 
 				
 				if(this.nntpServers== null){				
-					this.nntpServers = new Dictionary<string, NntpServerDefinition>();
+					this.nntpServers = new Dictionary<string, INntpServerDefinition>();
 				}							
 				
 				return this.nntpServers;
@@ -2105,20 +2107,13 @@ namespace NewsComponents {
 		public void LoadFeedlist(Stream xmlStream, ValidationEventHandler veh){
 			
 			XmlParserContext context = new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
-			XmlValidatingReader vr = new RssBanditXmlValidatingReader(xmlStream, XmlNodeType.Document, context);
-			vr.Schemas.Add(feedsSchema); 
-			vr.ValidationType = ValidationType.Schema;	  
-
-			//specify validation event handler passed by caller and the one we use 
-			//internally to track state 
-			vr.ValidationEventHandler += veh;
-			vr.ValidationEventHandler += new ValidationEventHandler(ValidationCallbackOne);
+			XmlReader reader = new RssBanditXmlReader(xmlStream, XmlNodeType.Document, context);
 			validationErrorOccured = false; 
 
 			//convert XML to objects
 			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(NewsComponents.Feed.feeds));
-			feeds myFeeds = (NewsComponents.Feed.feeds)serializer.Deserialize(vr); 
-			vr.Close(); 				
+            feeds myFeeds = (NewsComponents.Feed.feeds)serializer.Deserialize(reader);
+            reader.Close(); 				
 				
 
 			if(!validationErrorOccured){
@@ -5042,10 +5037,7 @@ namespace NewsComponents {
 					// load and validate the Bandit feed file
 					//validate document 
 					XmlParserContext context = new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
-					XmlValidatingReader vr = new RssBanditXmlValidatingReader(doc.OuterXml, XmlNodeType.Document, context);
-					vr.Schemas.Add(feedsSchema); 
-					vr.ValidationType = ValidationType.Schema; 	
-					vr.ValidationEventHandler += new ValidationEventHandler(ValidationCallbackOne);		
+					XmlReader vr = new RssBanditXmlReader(doc.OuterXml, XmlNodeType.Document, context);
 					doc.Load(vr); 
 					vr.Close();
 				}
@@ -5260,7 +5252,7 @@ namespace NewsComponents {
 			}
 
 
-            IDictionary<string, NntpServerDefinition> serverList = new Dictionary<string, NntpServerDefinition>();
+            IDictionary<string, INntpServerDefinition> serverList = new Dictionary<string, INntpServerDefinition>();
             IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>(); 
 			
 			/* copy over user identity information */
@@ -5899,10 +5891,10 @@ namespace NewsComponents {
 	/// Helper class used for treating v1.2.* RSS Bandit feedlist.xml files as RSS Bandit v1.3.* 
 	/// subscriptions.xml files
 	/// </summary>
-	internal class RssBanditXmlValidatingReader: XmlValidatingReader{	
+	internal class RssBanditXmlReader: XmlTextReader{	
 
-		public RssBanditXmlValidatingReader(Stream s, XmlNodeType nodeType, XmlParserContext context): base(s, nodeType, context){}
-		public RssBanditXmlValidatingReader(string s, XmlNodeType nodeType, XmlParserContext context): base(s, nodeType, context){}
+		public RssBanditXmlReader(Stream s, XmlNodeType nodeType, XmlParserContext context): base(s, nodeType, context){}
+		public RssBanditXmlReader(string s, XmlNodeType nodeType, XmlParserContext context): base(s, nodeType, context){}
 
 		public override string Value{
 			get {

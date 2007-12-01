@@ -2899,7 +2899,7 @@ namespace RssBandit.WinGui.Forms
 				comboFormatters.SelectedIndex = 0;
 		}
 		
-		private void PopulateNntpServerDefinitions(IDictionary<string, NntpServerDefinition> definitions, string selectedServer) {
+		private void PopulateNntpServerDefinitions(IDictionary<string, INntpServerDefinition> definitions, string selectedServer) {
 			cboNNTPServer.Items.Clear();
 			int selIndex = -1;
 			foreach (INntpServerDefinition sd in definitions.Values) {
@@ -3485,7 +3485,7 @@ namespace RssBandit.WinGui.Forms
 		private void OnPageNewNNTPGroupAfterDisplay(object sender, System.EventArgs e) {
 			this.feedInfo = null;
 			pageNewByNNTPGroup.AllowMoveNext = false;
-			PopulateNntpServerDefinitions((IDictionary<string, NntpServerDefinition>) coreApplication.NntpServerDefinitions, null);
+			PopulateNntpServerDefinitions((IDictionary<string, INntpServerDefinition>) coreApplication.NntpServerDefinitions, null);
 		}
 
 		private void OnPageNewURLAfterDisplay(object sender, System.EventArgs e) {
@@ -3504,7 +3504,7 @@ namespace RssBandit.WinGui.Forms
 		}
 		
 		private void OnManagedNNTPServersChange(object sender, System.EventArgs e) {
-			this.PopulateNntpServerDefinitions((IDictionary<string, NntpServerDefinition>)coreApplication.NntpServerDefinitions, cboNNTPServer.Text);
+			this.PopulateNntpServerDefinitions(coreApplication.NntpServerDefinitions, cboNNTPServer.Text);
 		}
 
 		private void OnNNTPServerSelectedValueChanged(object sender, System.EventArgs e) {
