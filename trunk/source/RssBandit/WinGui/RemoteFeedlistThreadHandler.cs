@@ -113,8 +113,7 @@ namespace RssBandit.WinGui {
         private int ngosFeedsToDownload = 0;
         private int ngosDownloadedFeeds = 0;
         private static string NgosOpmlNamespace = "http://newsgator.com/schema/opml";
-        private static string NgosRssNamespace = "http://newsgator.com/schema/extensions";
-
+    
         protected override void Run() {
             if (this.operationToRun == Operation.Download)
                 this.RunDownload();
@@ -194,7 +193,7 @@ namespace RssBandit.WinGui {
 
                 //convert subscriptions.xml to feedlist.xml then save to temp folder
                 using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt")) {
-                    XslTransform xslt = new XslTransform();
+                    XslCompiledTransform xslt = new XslCompiledTransform();
                     xslt.Load(new XmlTextReader(xsltStream));
                     xslt.Transform(RssBanditApplication.GetFeedListFileName(), feedlistXml);
                 }
