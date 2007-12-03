@@ -5607,6 +5607,9 @@ namespace NewsComponents {
 									Enclosure oldEnc = newitem.Enclosures[j];
 									enc.Downloaded   = oldEnc.Downloaded;
 								}else{
+                                    if(Object.ReferenceEquals(newitem.Enclosures, GetList<Enclosure>.Empty)){
+                                        newitem.Enclosures = new List<Enclosure>();
+                                    }
 									newitem.Enclosures.Add(enc);
 								}
 							}
