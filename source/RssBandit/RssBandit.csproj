@@ -311,12 +311,17 @@
     </None>
     <None Include="WinGui\Genghis\Info.txt" />
     <EmbeddedResource Include="licenses.licx" />
-    <EmbeddedResource Include="Resources\2003Comment.png" />
-    <EmbeddedResource Include="Resources\2003Left.png" />
-    <EmbeddedResource Include="Resources\2003Minus.gif" />
-    <EmbeddedResource Include="Resources\2003Plus.gif" />
-    <EmbeddedResource Include="Resources\add.newsserver.16.png" />
-    <EmbeddedResource Include="Resources\add.user.16.png" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\2003Comment.png" />
+    <None Include="Resources\2003Left.png" />
+    <None Include="Resources\2003Minus.gif" />
+    <None Include="Resources\2003Plus.gif" />
+    <None Include="Resources\add.newsserver.16.png" />
+    <None Include="Resources\add.user.16.png" />
     <EmbeddedResource Include="Resources\AllToolImages.bmp" />
     <EmbeddedResource Include="Resources\AniImagesXP.png" />
     <EmbeddedResource Include="Resources\App.ico" />
@@ -327,10 +332,10 @@
     <EmbeddedResource Include="Resources\Connected.ico" />
     <EmbeddedResource Include="Resources\default-feedlist.xml" />
     <EmbeddedResource Include="Resources\DefaultTemplate.xslt" />
-    <EmbeddedResource Include="Resources\delete.16.png" />
+    <None Include="Resources\delete.16.png" />
     <EmbeddedResource Include="Resources\Disconnected.ico" />
-    <EmbeddedResource Include="Resources\feed.discovered.16.png" />
-    <EmbeddedResource Include="Resources\feed.discovered.32.png" />
+    <None Include="Resources\feed.discovered.16.png" />
+    <None Include="Resources\feed.discovered.32.png" />
     <EmbeddedResource Include="Resources\feedlist2subscriptions.xslt" />
     <EmbeddedResource Include="Resources\feedRefresh.ico" />
     <EmbeddedResource Include="Resources\Html.16.png" />
@@ -339,11 +344,11 @@
     <EmbeddedResource Include="Resources\iecontext_subscribefeed.htm" />
     <EmbeddedResource Include="Resources\ListImages.bmp" />
     <EmbeddedResource Include="Resources\ListStateImages.bmp" />
-    <EmbeddedResource Include="Resources\nntp.doc.png" />
-    <EmbeddedResource Include="Resources\no.feed.discovered.16.png" />
-    <EmbeddedResource Include="Resources\no.feed.discovered.32.png" />
-    <EmbeddedResource Include="Resources\rssbandit.16.png" />
-    <EmbeddedResource Include="Resources\rssbandit.32.png" />
+    <None Include="Resources\nntp.doc.png" />
+    <None Include="Resources\no.feed.discovered.16.png" />
+    <None Include="Resources\no.feed.discovered.32.png" />
+    <None Include="Resources\rssbandit.16.png" />
+    <None Include="Resources\rssbandit.32.png" />
     <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
     <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
     <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
@@ -1692,6 +1697,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\SR.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1999,6 +2009,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Content Include="Resources\BanditHelp.chm" />
+    <None Include="Resources\hotnews.16.png" />
     <Content Include="RssBandit.exe.log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

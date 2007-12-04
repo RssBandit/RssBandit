@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -10,7 +11,6 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
@@ -96,20 +96,20 @@ namespace RssBandit.WinGui
 			
 			// index 0 and 1: non-discovered small (0) and large (1)
 			this.discoveredAppearance[0] = new Infragistics.Win.Appearance();
-			this.discoveredAppearance[0].Image = Resource.LoadBitmap("Resources.no.feed.discovered.16.png");
+			this.discoveredAppearance[0].Image = Properties.Resources.no_feed_discovered_16;
 			this.discoveredAppearance[1] = new Infragistics.Win.Appearance();
-			this.discoveredAppearance[1].Image = Resource.LoadBitmap("Resources.no.feed.discovered.32.png");
+			this.discoveredAppearance[1].Image = Properties.Resources.no_feed_discovered_32;
 			
 			// index 2 and 3: discovered small (2) and large (3)
 			this.discoveredAppearance[2] = new Infragistics.Win.Appearance();
-			this.discoveredAppearance[2].Image = Resource.LoadBitmap("Resources.feed.discovered.16.png");
+			this.discoveredAppearance[2].Image = Properties.Resources.feed_discovered_16;
 			this.discoveredAppearance[3] = new Infragistics.Win.Appearance();
-			this.discoveredAppearance[3].Image = Resource.LoadBitmap("Resources.feed.discovered.32.png");
+			this.discoveredAppearance[3].Image = Properties.Resources.feed_discovered_32;
 			
 			// init:
 			Reset();
-			this.itemDropdown.ToolbarsManager.ToolClick -= new ToolClickEventHandler(OnToolbarsManager_ToolClick);
-			this.itemDropdown.ToolbarsManager.ToolClick += new ToolClickEventHandler(OnToolbarsManager_ToolClick);
+			this.itemDropdown.ToolbarsManager.ToolClick -= OnToolbarsManager_ToolClick;
+			this.itemDropdown.ToolbarsManager.ToolClick += OnToolbarsManager_ToolClick;
 
 		}
 		
@@ -141,7 +141,7 @@ namespace RssBandit.WinGui
 				pageTitle = HtmlHelper.FindTitle(htmlContent, def);
 			}
 			CallbackState state = new CallbackState(htmlContent, pageUrl, pageTitle);
-			worker.QueueUserWorkItem(new WaitCallback(this.ThreadRun), state, ++workerPriorityCounter);
+			worker.QueueUserWorkItem(this.ThreadRun, state, ++workerPriorityCounter);
 		}
 
 		/// <summary>
@@ -519,27 +519,3 @@ namespace RssBandit.WinGui
 	}
 	#endregion
 }
-
-#region CVS Version Log
-/*
- * $Log: AutoDiscoveredFeedsMenuHandler.cs,v $
- * Revision 1.34  2007/03/13 16:50:49  t_rendelmann
- * fixed: new feed source dialog is now modal (key events are badly processed by parent window)
- *
- * Revision 1.33  2007/03/11 16:17:33  t_rendelmann
- * fixed: [ 1678119 ] Bandit sends out weird User Agent string (https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1678119&group_id=96589)
- *
- * Revision 1.32  2007/01/30 23:06:16  carnage4life
- * Fixed threading issue with AutoDiscovered feeds handler that caused toolbar to be replaced with red X
- *
- * Revision 1.31  2007/01/21 12:54:09  t_rendelmann
- * fixed: HtmlDecoding/Mnemonics issue caused by feed titles using "&" and the like in discovered feeds dropdown and subscription wizard; as a test Url you can use e.g.  http://www.codeplex.com/entlib/Release/ProjectReleases.aspx?ReleaseId=1649
- *
- * Revision 1.30  2007/01/16 19:40:03  t_rendelmann
- * fixed: race condition caused exception
- *
- * Revision 1.29  2006/12/19 17:00:40  t_rendelmann
- * added: CVS log sections
- *
- */
-#endregion
