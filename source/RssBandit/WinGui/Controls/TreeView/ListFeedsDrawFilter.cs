@@ -1,24 +1,10 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
- */
-#endregion
-
-#region CVS Version Log
-/*
- * $Log: ListFeedsDrawFilter.cs,v $
- * Revision 1.6  2007/02/25 13:33:53  t_rendelmann
- * changed: applied italian localization
- *
- * Revision 1.5  2007/02/24 18:13:30  carnage4life
- * Now visually show selected node in "Show Items in Groups" mode
- *
- * Revision 1.4  2006/09/22 15:35:44  t_rendelmann
- * added CVS header and change history
- *
  */
 #endregion
 
@@ -88,9 +74,9 @@ namespace RssBandit.WinGui
 				{
 					Image img = null;
 					if(treeNode.Expanded)
-						img = Resource.LoadBitmap("Resources.2003Minus.gif");
+						img = Properties.Resources.Minus_16;
 					else 
-						img = Resource.LoadBitmap("Resources.2003Plus.gif");
+						img = Properties.Resources.Plus_16;
 					
 					if(!treeNode.Selected) {
 						drawParams.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220,224,227)),r);
@@ -189,7 +175,7 @@ namespace RssBandit.WinGui
 						rC.Width = 16;
 						posAddons += 16;
 						rC.Height -= 2;
-						Bitmap bmp = Resource.LoadBitmap("Resources.2003Comment.png");
+						Bitmap bmp = Properties.Resources.Comment_16;
 						drawParams.Graphics.DrawImage(bmp,rC.Left+2,rC.Top+1,
 						                              bmp.Width,bmp.Height);
 						treeNode.CommentsRectangle = rC;

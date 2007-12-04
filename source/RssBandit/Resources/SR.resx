@@ -1471,7 +1471,7 @@ for detailed information about the error occured.</value>
     <value>Find a feed or subscribe to a search result feed</value>
   </data>
   <data name="MenuTopStoriesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>"Top Stories"</value>
+    <value>Top Stories</value>
   </data>
   <data name="MenuTopStoriesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>"View the most recently popular links in your subscriptions"		</value>
