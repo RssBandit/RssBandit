@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -30,7 +31,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 	/// </summary>
 	internal class ToolbarHelper
 	{
-		private UltraToolbarsManager manager;
+		private readonly UltraToolbarsManager manager;
 		private WinGuiMain main;
 		private RssBanditApplication owner;
 		private ShortcutHandler shortcutHandler;
@@ -100,7 +101,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			newIdentity.SharedProps.Caption = SR.NewsGroupConfiguration_NewIdentityToolCaption;
 			newIdentity.SharedProps.StatusText = newIdentity.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewIdentityToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Resource.LoadBitmap("Resources.add.user.16.png");
+			a.Image = Properties.Resources.add_user_16;
 			newIdentity.SharedProps.AppearancesSmall.Appearance = a;
 			newIdentity.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -108,7 +109,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			newServer.SharedProps.Caption = SR.NewsGroupConfiguration_NewNewsServerToolCaption;
 			newServer.SharedProps.StatusText = newServer.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewNewsServerToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Resource.LoadBitmap("Resources.add.newsserver.16.png");
+			a.Image = Properties.Resources.add_newsserver_16;
 			newServer.SharedProps.AppearancesSmall.Appearance = a;
 			newServer.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -116,7 +117,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			deleteItem.SharedProps.Caption = SR.NewsGroupConfiguration_DeleteToolCaption;
 			deleteItem.SharedProps.StatusText = deleteItem.SharedProps.ToolTipText = SR.NewsGroupConfiguration_DeleteToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Resource.LoadBitmap("Resources.delete.16.png");
+			a.Image = Properties.Resources.delete_16;
 			deleteItem.SharedProps.AppearancesSmall.Appearance = a;
 			deleteItem.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -200,24 +201,24 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private void CreateFileMenu(AppPopupMenuCommand mc) {
 			// Create menu commands
 			AppButtonToolCommand newSubscription = new AppButtonToolCommand(
-				"cmdNewSubscription", owner.Mediator, new ExecuteCommandHandler(owner.CmdNewSubscription),
+				"cmdNewSubscription", owner.Mediator, owner.CmdNewSubscription,
 				SR.MenuNewSubscriptionByWizardCaption, SR.MenuNewSubscriptionByWizardDesc, 
 				Resource.ToolItemImage.NewSubscription, shortcutHandler);
 
 			AppButtonToolCommand importFeeds = new AppButtonToolCommand(
-				"cmdImportFeeds", owner.Mediator, new ExecuteCommandHandler(owner.CmdImportFeeds),
+				"cmdImportFeeds", owner.Mediator, owner.CmdImportFeeds,
 				SR.MenuImportFeedsCaption, SR.MenuImportFeedsDesc, shortcutHandler);
 
 			AppButtonToolCommand exportFeeds = new AppButtonToolCommand(
-				"cmdExportFeeds", owner.Mediator, new ExecuteCommandHandler(owner.CmdExportFeeds),
+				"cmdExportFeeds", owner.Mediator, owner.CmdExportFeeds,
 				SR.MenuExportFeedsCaption, SR.MenuExportFeedsDesc, shortcutHandler);
 
 			AppButtonToolCommand appExit = new AppButtonToolCommand(
-				"cmdCloseExit", owner.Mediator, new ExecuteCommandHandler(owner.CmdExitApp),
+				"cmdCloseExit", owner.Mediator, owner.CmdExitApp,
 				SR.MenuAppCloseExitCaption, SR.MenuAppCloseExitDesc, shortcutHandler);
 
 			AppStateButtonToolCommand toggleOffline = new AppStateButtonToolCommand(
-				"cmdToggleOfflineMode", owner.Mediator, new ExecuteCommandHandler(owner.CmdToggleInternetConnectionMode),
+				"cmdToggleOfflineMode", owner.Mediator, owner.CmdToggleInternetConnectionMode,
 				SR.MenuAppInternetConnectionModeCaption, SR.MenuAppInternetConnectionModeDesc, shortcutHandler);
 
 			// must be added to the toolbar first:
@@ -241,7 +242,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private void CreateEditMenu(AppPopupMenuCommand mc) {
 			            
 			AppButtonToolCommand selectAll = new AppButtonToolCommand(
-				"cmdSelectAllFeedItems", owner.Mediator, new ExecuteCommandHandler(main.CmdSelectAllNewsItems), 
+				"cmdSelectAllFeedItems", owner.Mediator, main.CmdSelectAllNewsItems, 
 				SR.MenuListViewSelectAllCaption, SR.MenuListViewSelectAllDesc, shortcutHandler);
 			
 			// must be added to the toolbar first:
@@ -256,12 +257,12 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private void CreateViewMenu(AppPopupMenuCommand mc) {
 			
 			AppStateButtonToolCommand toogleTreeViewState = new AppStateButtonToolCommand(
-				"cmdToggleTreeViewState", owner.Mediator, new ExecuteCommandHandler(main.CmdDockShowSubscriptions),
+				"cmdToggleTreeViewState", owner.Mediator, main.CmdDockShowSubscriptions,
 				SR.MenuToggleTreeViewStateCaption, SR.MenuToggleTreeViewStateDesc, 
 				Resource.ToolItemImage.ToggleSubscriptions, shortcutHandler);
 
 			AppStateButtonToolCommand toggleRssSearchViewState = new AppStateButtonToolCommand(
-				"cmdToggleRssSearchTabState", owner.Mediator, new ExecuteCommandHandler(main.CmdDockShowRssSearch),
+				"cmdToggleRssSearchTabState", owner.Mediator, main.CmdDockShowRssSearch,
 				SR.MenuToggleRssSearchTabStateCaption, SR.MenuToggleRssSearchTabStateDesc, 
 				Resource.ToolItemImage.ToggleRssSearch, shortcutHandler);
 
@@ -271,19 +272,19 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			
 			// subMenus:			
 			AppStateButtonToolCommand subTbMain = new AppStateButtonToolCommand(
-				"cmdToggleMainTBViewState", owner.Mediator, new ExecuteCommandHandler(main.CmdToggleMainTBViewState),
+				"cmdToggleMainTBViewState", owner.Mediator, main.CmdToggleMainTBViewState,
 				SR.MenuViewToolbarMainCaption, SR.MenuViewToolbarMainDesc, shortcutHandler);
 			subTbMain.Checked = true;	// default
 			subTbMain.SharedProps.ShowInCustomizer = false;
 
 			AppStateButtonToolCommand subTbWeb = new AppStateButtonToolCommand(
-				"cmdToggleWebTBViewState", owner.Mediator, new ExecuteCommandHandler(main.CmdToggleWebTBViewState),
+				"cmdToggleWebTBViewState", owner.Mediator, main.CmdToggleWebTBViewState,
 				SR.MenuViewToolbarWebNavigationCaption, SR.MenuViewToolbarWebNavigationDesc, shortcutHandler);
 			subTbWeb.Checked = true;	// default
 			subTbWeb.SharedProps.ShowInCustomizer = false;
 
 			AppStateButtonToolCommand subTbWebSearch = new AppStateButtonToolCommand(
-				"cmdToggleWebSearchTBViewState", owner.Mediator, new ExecuteCommandHandler(main.CmdToggleWebSearchTBViewState),
+				"cmdToggleWebSearchTBViewState", owner.Mediator, main.CmdToggleWebSearchTBViewState,
 				SR.MenuViewToolbarWebSearchCaption, SR.MenuViewToolbarWebSearchDesc, shortcutHandler);
 			subTbWebSearch.Checked = true;	// default
 			subTbWebSearch.SharedProps.ShowInCustomizer = false;
@@ -303,7 +304,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			foreach (string colID in Enum.GetNames(typeof(NewsItemSortField))) {
 
 				AppStateButtonToolCommand subL4_subColumn = new AppStateButtonToolCommand(
-					"cmdListviewColumn." + colID, owner.Mediator, new ExecuteCommandHandler(main.CmdToggleListviewColumn),
+					"cmdListviewColumn." + colID, owner.Mediator, main.CmdToggleListviewColumn,
                     SR.Keys.GetString("MenuColumnChooser" + colID + "Caption"),
                     SR.Keys.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
 				
@@ -314,15 +315,15 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			}
 
 			AppButtonToolCommand subL4_subUseCatLayout = new AppButtonToolCommand(
-				"cmdColumnChooserUseCategoryLayoutGlobal", owner.Mediator, new ExecuteCommandHandler(main.CmdColumnChooserUseCategoryLayoutGlobal),
+				"cmdColumnChooserUseCategoryLayoutGlobal", owner.Mediator, main.CmdColumnChooserUseCategoryLayoutGlobal,
 				SR.MenuColumnChooserUseCategoryLayoutGlobalCaption, SR.MenuColumnChooserUseCategoryLayoutGlobalDesc, shortcutHandler);
 			
 			AppButtonToolCommand subL4_subUseFeedLayout = new AppButtonToolCommand(
-				"cmdColumnChooserUseFeedLayoutGlobal", owner.Mediator, new ExecuteCommandHandler(main.CmdColumnChooserUseFeedLayoutGlobal),
+				"cmdColumnChooserUseFeedLayoutGlobal", owner.Mediator, main.CmdColumnChooserUseFeedLayoutGlobal,
 				SR.MenuColumnChooserUseFeedLayoutGlobalCaption, SR.MenuColumnChooserUseFeedLayoutGlobalDesc, shortcutHandler);
 
 			AppButtonToolCommand subL4_subResetLayout = new AppButtonToolCommand(
-				"cmdColumnChooserResetToDefault", owner.Mediator, new ExecuteCommandHandler(main.CmdColumnChooserResetToDefault),
+				"cmdColumnChooserResetToDefault", owner.Mediator, main.CmdColumnChooserResetToDefault,
 				SR.MenuColumnChooserResetLayoutToDefaultCaption, SR.MenuColumnChooserResetLayoutToDefaultDesc, shortcutHandler);
 			subL4_subResetLayout.Enabled = false;		// dynamically refreshed
 
@@ -334,7 +335,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			}
 			
 			AppStateButtonToolCommand outlookReadingViewState = new AppStateButtonToolCommand(
-				"cmdViewOutlookReadingPane", owner.Mediator, new ExecuteCommandHandler(main.CmdViewOutlookReadingPane),
+				"cmdViewOutlookReadingPane", owner.Mediator, main.CmdViewOutlookReadingPane,
 				SR.MenuViewOutlookReadingPane, SR.MenuViewOutlookReadingPane, shortcutHandler);
 
 			AppPopupMenuCommand layoutPositionDropDownMenu = new AppPopupMenuCommand(
@@ -343,24 +344,24 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			
 			// subMenu:			
 			AppStateButtonToolCommand subSub1 = new AppStateButtonToolCommand(
-				"cmdFeedDetailLayoutPosTop", owner.Mediator, new ExecuteCommandHandler(main.CmdFeedDetailLayoutPosTop),
+				"cmdFeedDetailLayoutPosTop", owner.Mediator, main.CmdFeedDetailLayoutPosTop,
 				SR.MenuFeedDetailLayoutTopCaption, SR.MenuFeedDetailLayoutTopDesc,
 				Resource.ToolItemImage.ItemDetailViewAtTop, shortcutHandler);
 			
 			subSub1.Checked = true;	// default
 
 			AppStateButtonToolCommand subSub2 = new AppStateButtonToolCommand(
-				"cmdFeedDetailLayoutPosLeft", owner.Mediator, new ExecuteCommandHandler(main.CmdFeedDetailLayoutPosLeft),
+				"cmdFeedDetailLayoutPosLeft", owner.Mediator, main.CmdFeedDetailLayoutPosLeft,
 				SR.MenuFeedDetailLayoutLeftCaption, SR.MenuFeedDetailLayoutLeftDesc,
 				Resource.ToolItemImage.ItemDetailViewAtLeft, shortcutHandler);
 
 			AppStateButtonToolCommand subSub3 = new AppStateButtonToolCommand(
-				"cmdFeedDetailLayoutPosRight", owner.Mediator, new ExecuteCommandHandler(main.CmdFeedDetailLayoutPosRight),
+				"cmdFeedDetailLayoutPosRight", owner.Mediator, main.CmdFeedDetailLayoutPosRight,
 				SR.MenuFeedDetailLayoutRightCaption, SR.MenuFeedDetailLayoutRightDesc, 
 				Resource.ToolItemImage.ItemDetailViewAtRight, shortcutHandler);
 
 			AppStateButtonToolCommand subSub4 = new AppStateButtonToolCommand(
-				"cmdFeedDetailLayoutPosBottom", owner.Mediator, new ExecuteCommandHandler(main.CmdFeedDetailLayoutPosBottom),
+				"cmdFeedDetailLayoutPosBottom", owner.Mediator, main.CmdFeedDetailLayoutPosBottom,
 				SR.MenuFeedDetailLayoutBottomCaption, SR.MenuFeedDetailLayoutBottomDesc, 
 				Resource.ToolItemImage.ItemDetailViewAtBottom, shortcutHandler);
 
@@ -393,112 +394,122 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private void CreateToolsMenu(AppPopupMenuCommand mc) {
 			       
 			AppButtonToolCommand style1 = new AppButtonToolCommand(
-				"cmdRefreshFeeds", owner.Mediator, new ExecuteCommandHandler(owner.CmdRefreshFeeds), 
+				"cmdRefreshFeeds", owner.Mediator, owner.CmdRefreshFeeds, 
 				SR.MenuUpdateAllFeedsCaption, SR.MenuUpdateAllFeedsDesc, 
 				Resource.ToolItemImage.RefreshAll, shortcutHandler);
 
 			AppButtonToolCommand style2 = new AppButtonToolCommand(
-				"cmdOpenConfigIdentitiesDialog", owner.Mediator, new ExecuteCommandHandler(main.CmdOpenConfigIdentitiesDialog),
+				"cmdOpenConfigIdentitiesDialog", owner.Mediator, main.CmdOpenConfigIdentitiesDialog,
 				SR.MenuOpenConfigIdentitiesDialogCaption, SR.MenuOpenConfigIdentitiesDialogdesc, shortcutHandler);
 			
 			AppButtonToolCommand style3 = new AppButtonToolCommand(
-				"cmdOpenConfigNntpServerDialog", owner.Mediator, new ExecuteCommandHandler(main.CmdOpenConfigNntpServerDialog),
+				"cmdOpenConfigNntpServerDialog", owner.Mediator, main.CmdOpenConfigNntpServerDialog,
 				SR.MenuOpenConfigNntpServerDialogCaption, SR.MenuOpenConfigNntpServerDialogDesc, 
 				shortcutHandler);
-			style3.Enabled = true;		
+			style3.Enabled = true;
+
+			AppButtonToolCommand toolTopStories = new AppButtonToolCommand(
+				"cmdTopStories", owner.Mediator, owner.CmdTopStories,
+				SR.MenuTopStoriesCaption, SR.MenuTopStoriesDesc);
+			toolTopStories.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.hotnews_16;
+			toolTopStories.SharedProps.DisplayStyle = ToolDisplayStyle.Default;
 
 			AppButtonToolCommand style51 = new AppButtonToolCommand(
-				"cmdFeedItemNewPost", owner.Mediator, new ExecuteCommandHandler(owner.CmdPostNewItem),
+				"cmdFeedItemNewPost", owner.Mediator, owner.CmdPostNewItem,
 				SR.MenuPostNewFeedItemCaption, SR.MenuPostNewFeedItemDesc, 
 				Resource.ToolItemImage.NewPost,shortcutHandler);
 			style51.Enabled = false;		// dynamically enabled on runtime if feed is NNTP
 
 			AppButtonToolCommand style52 = new AppButtonToolCommand(
-				"cmdFeedItemPostReply", owner.Mediator, new ExecuteCommandHandler(owner.CmdPostReplyToItem),
+				"cmdFeedItemPostReply", owner.Mediator, owner.CmdPostReplyToItem,
 				SR.MenuPostReplyFeedItemCaption, SR.MenuPostReplyFeedItemDesc,
 				Resource.ToolItemImage.PostReply, shortcutHandler);
 			style52.Enabled = false;		// dynamically enabled on runtime if feed supports commentAPI
 			
 			AppButtonToolCommand style6 = new AppButtonToolCommand(
-				"cmdUploadFeeds", owner.Mediator, new ExecuteCommandHandler(owner.CmdUploadFeeds),
+				"cmdUploadFeeds", owner.Mediator, owner.CmdUploadFeeds,
 				SR.MenuUploadFeedsCaption, SR.MenuUploadFeedsDesc, shortcutHandler);
 
 			AppButtonToolCommand style7 = new AppButtonToolCommand(
-				"cmdDownloadFeeds", owner.Mediator, new ExecuteCommandHandler(owner.CmdDownloadFeeds),
+				"cmdDownloadFeeds", owner.Mediator, owner.CmdDownloadFeeds,
 				SR.MenuDownloadFeedsCaption, SR.MenuDownloadFeedsDesc, shortcutHandler);
 
 			AppButtonToolCommand style8 = new AppButtonToolCommand(
-				"cmdOpenManageAddInsDialog", owner.Mediator, new ExecuteCommandHandler(owner.CmdOpenManageAddInsDialog),
+				"cmdOpenManageAddInsDialog", owner.Mediator, owner.CmdOpenManageAddInsDialog,
 				SR.MenuOpenManageAddInsDialogCaption, SR.MenuOpenManageAddInsDialogDesc,
 				shortcutHandler);
 
 			AppButtonToolCommand style9 = new AppButtonToolCommand(
-				"cmdShowMainAppOptions", owner.Mediator, new ExecuteCommandHandler(owner.CmdShowOptions),
+				"cmdShowMainAppOptions", owner.Mediator, owner.CmdShowOptions,
 				SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 
 				Resource.ToolItemImage.OptionsDialog, shortcutHandler);
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {style1, style51, style52, style6,style7, style2, style3, style8, style9});
-			
-			mc.Tools.AddRange(new ToolBase[]{style1, style51, style52, style6,style7, style2, style3, style8, style9});
+			this.manager.Tools.AddRange(new ToolBase[] { style1, toolTopStories, style51, style52, style6, style7, style2, style3, style8, style9 });
+
+			mc.Tools.AddRange(new ToolBase[] { style1, toolTopStories, style51, style52, style6, style7, style2, style3, style8, style9 });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
+			
 			// now we can set instance properties:
-			ToolBase t = mc.Tools["cmdOpenConfigIdentitiesDialog"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = mc.Tools["cmdFeedItemNewPost"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = mc.Tools["cmdUploadFeeds"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = mc.Tools["cmdOpenManageAddInsDialog"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = mc.Tools["cmdShowMainAppOptions"];
-			t.InstanceProps.IsFirstInGroup = true;
+			foreach (string toolKey in new string[] {
+				"cmdOpenConfigIdentitiesDialog", 
+				"cmdTopStories",
+				"cmdFeedItemNewPost",
+				"cmdUploadFeeds", 
+				"cmdOpenManageAddInsDialog",
+				"cmdShowMainAppOptions"
+			}) 
+			{
+				ToolBase t = mc.Tools[toolKey];
+				t.InstanceProps.IsFirstInGroup = true;
+			}
+			
 		}
 
 		
 		private void CreateHelpMenu(AppPopupMenuCommand mc) {
 			            
 			AppButtonToolCommand styleHelpWebDoc = new AppButtonToolCommand(
-				"cmdHelpWebDoc", owner.Mediator, new ExecuteCommandHandler(owner.CmdWebHelp),
+				"cmdHelpWebDoc", owner.Mediator, owner.CmdWebHelp,
 				SR.MenuWebHelpCaption, SR.MenuWebHelpDesc, shortcutHandler); 
 
 			AppButtonToolCommand style0 = new AppButtonToolCommand(
-				"cmdWorkspaceNews", owner.Mediator, new ExecuteCommandHandler(owner.CmdWorkspaceNews),
+				"cmdWorkspaceNews", owner.Mediator, owner.CmdWorkspaceNews,
 				SR.MenuWorkspaceNewsCaption, SR.MenuWorkspaceNewsDesc, shortcutHandler); 
 
 			AppButtonToolCommand style1 = new AppButtonToolCommand(
-				"cmdReportBug", owner.Mediator, new ExecuteCommandHandler(owner.CmdReportAppBug),
+				"cmdReportBug", owner.Mediator, owner.CmdReportAppBug,
 				SR.MenuBugReportCaption, SR.MenuBugReportDesc, shortcutHandler); 
 
 
 			AppButtonToolCommand style2 = new AppButtonToolCommand(
-				"cmdAbout", owner.Mediator, new ExecuteCommandHandler(owner.CmdAboutApp) , 
+				"cmdAbout", owner.Mediator, owner.CmdAboutApp , 
 				SR.MenuAboutCaption, SR.MenuAboutDesc, shortcutHandler);
 
-			style2.SharedProps.AppearancesSmall.Appearance.Image = Resource.LoadBitmap("Resources.rssbandit.16.png");
-			style2.SharedProps.AppearancesLarge.Appearance.Image = Resource.LoadBitmap("Resources.rssbandit.32.png");
+			style2.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.rssbandit_16;
+			style2.SharedProps.AppearancesLarge.Appearance.Image = Properties.Resources.rssbandit_32;
 			
 			AppButtonToolCommand style3 = new AppButtonToolCommand(
-				"cmdCheckForUpdates", owner.Mediator, new ExecuteCommandHandler(owner.CmdCheckForUpdates),
+				"cmdCheckForUpdates", owner.Mediator, owner.CmdCheckForUpdates,
 				SR.MenuCheckForUpdatesCaption, SR.MenuCheckForUpdatesDesc, shortcutHandler);
 
 			AppButtonToolCommand style4 = new AppButtonToolCommand(
-				"cmdWikiNews", owner.Mediator, new ExecuteCommandHandler(owner.CmdWikiNews),
+				"cmdWikiNews", owner.Mediator, owner.CmdWikiNews,
 				SR.MenuBanditWikiCaption, SR.MenuBanditWikiDesc, shortcutHandler);
 			
 			AppButtonToolCommand style5 = new AppButtonToolCommand(
-				"cmdVisitForum",owner.Mediator, new ExecuteCommandHandler(owner.CmdVisitForum),
+				"cmdVisitForum",owner.Mediator, owner.CmdVisitForum,
 				SR.MenuBanditForumCaption, SR.MenuBanditForumDesc, shortcutHandler);
 
 			AppButtonToolCommand style6 = new AppButtonToolCommand(
-				"cmdDonateToProject",owner.Mediator, new ExecuteCommandHandler(owner.CmdDonateToProject),
+				"cmdDonateToProject",owner.Mediator, owner.CmdDonateToProject,
 				SR.MenuDonateToProjectCaption, SR.MenuDonateToProjectDesc, shortcutHandler);
 
 			
 			AppButtonToolCommand sendLogs = new AppButtonToolCommand(
-				"cmdSendLogsByMail", owner.Mediator, new ExecuteCommandHandler(owner.CmdSendLogsByMail),
+				"cmdSendLogsByMail", owner.Mediator, owner.CmdSendLogsByMail,
 				SR.MenuSendLogsByMailCaption, SR.MenuSendLogsByMailDesc, shortcutHandler);
 
 			sendLogs.Enabled = false;
@@ -529,39 +540,32 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		#endregion
 
 		#region Main Tools
-		private void CreateMainToolbar(UltraToolbar tb) {
+		private void CreateMainToolbar(UltraToolbarBase tb) {
 			// the "New..." dropdown tool:
 			AppPopupMenuCommand toolNew = new AppPopupMenuCommand(
-				"mnuNewFeed", owner.Mediator, new ExecuteCommandHandler(owner.CmdNewFeed),
+				"mnuNewFeed", owner.Mediator, owner.CmdNewFeed,
 				SR.MenuNewCmdsCaption, SR.MenuNewCmdsDesc, Resource.ToolItemImage.NewSubscription);
 			toolNew.DropDownArrowStyle = DropDownArrowStyle.Segmented;
 			toolNew.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
 			// ... and it's items:
 			AppButtonToolCommand subNewFeed = new AppButtonToolCommand(
-				"cmdNewFeed", owner.Mediator, new ExecuteCommandHandler(owner.CmdNewFeed), 
+				"cmdNewFeed", owner.Mediator, owner.CmdNewFeed, 
 				SR.MenuNewFeedCaption, SR.MenuNewFeedDesc, Resource.ToolItemImage.NewSubscription);
 
 			AppButtonToolCommand subNewNntp = new AppButtonToolCommand(
-				"cmdNewNntpFeed", owner.Mediator, new ExecuteCommandHandler(owner.CmdNewNntpFeed), 
+				"cmdNewNntpFeed", owner.Mediator, owner.CmdNewNntpFeed, 
 				SR.MenuNewNntpFeedCaption, SR.MenuNewNntpFeedDesc,
 				Resource.ToolItemImage.NewNntpSubscription);
 
 			AppButtonToolCommand subNewDiscovered = new AppButtonToolCommand(
-				"cmdAutoDiscoverFeed", owner.Mediator, new ExecuteCommandHandler(owner.CmdAutoDiscoverFeed), 
+				"cmdAutoDiscoverFeed", owner.Mediator, owner.CmdAutoDiscoverFeed, 
 				SR.MenuNewDiscoveredFeedCaption, SR.MenuNewDiscoveredFeedDesc,
 				Resource.ToolItemImage.NewDiscoveredSubscription);
 
-            AppButtonToolCommand tool7 = new AppButtonToolCommand(
-            "cmdTopStories", owner.Mediator, new ExecuteCommandHandler(owner.CmdTopStories),
-            SR.MenuTopStoriesCaption, SR.MenuTopStoriesDesc,
-            Resource.ToolItemImage.RefreshAll);
-            tool7.Enabled = true;
-            tool7.SharedProps.DisplayStyle = ToolDisplayStyle.TextOnlyAlways;
-
 			
-			this.manager.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered, tool7});
-            toolNew.Tools.AddRange(new ToolBase[] { subNewFeed, subNewNntp, subNewDiscovered, tool7 });
+			this.manager.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered});
+            toolNew.Tools.AddRange(new ToolBase[] { subNewFeed, subNewNntp, subNewDiscovered});
 			foreach (ToolBase tool in toolNew.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
@@ -573,17 +577,20 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			tool0.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
 			AppButtonToolCommand tool1 = new AppButtonToolCommand(
-				"cmdNextUnreadFeedItem", owner.Mediator, new ExecuteCommandHandler(owner.CmdNextUnreadFeedItem),
+				"cmdNextUnreadFeedItem", owner.Mediator, owner.CmdNextUnreadFeedItem,
 				SR.MenuNextUnreadItemCaption, SR.MenuNextUnreadItemDesc,
 				Resource.ToolItemImage.NextUnreadItem);
 			tool1.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
 			AppButtonToolCommand tool2 = new AppButtonToolCommand(
-				"cmdCatchUpCurrentSelectedNode", owner.Mediator, new ExecuteCommandHandler(owner.CmdCatchUpCurrentSelectedNode),
+				"cmdCatchUpCurrentSelectedNode", owner.Mediator, owner.CmdCatchUpCurrentSelectedNode,
 				SR.MenuCatchUpSelectedNodeCaption, SR.MenuCatchUpSelectedNodeDesc,
 				Resource.ToolItemImage.MarkAsRead);
 			tool2.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
+			// re-use tool from menu:
+			AppButtonToolCommand topStories = (AppButtonToolCommand)this.manager.Tools["cmdTopStories"];
+			
 			// re-use tool from menu:
 			AppButtonToolCommand tool4 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemNewPost"];
 			tool4.Enabled = false;
@@ -594,7 +601,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			tool5.Enabled = false;
           
 			AppButtonToolCommand tool6 = new AppButtonToolCommand(
-				"cmdNewRssSearch", owner.Mediator, new ExecuteCommandHandler(main.CmdNewRssSearch),
+				"cmdNewRssSearch", owner.Mediator, main.CmdNewRssSearch,
 				SR.MenuNewRssSearchCaption, SR.MenuNewRssSearchDesc, 
 				Resource.ToolItemImage.Search);
 
@@ -605,17 +612,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuAutodiscoveredFeedsDropdownCaption, SR.MenuAutodiscoveredFeedsDropdownDesc);
 			
 			Infragistics.Win.Appearance a = new Infragistics.Win.Appearance();
-			a.Image = Resource.LoadBitmap("Resources.no.feed.discovered.16.png");
+			a.Image = Properties.Resources.no_feed_discovered_16;
 			discoveredDropDown.SharedProps.AppearancesSmall.Appearance = a;
 			
 			a = new Infragistics.Win.Appearance();
-			a.Image = Resource.LoadBitmap("Resources.no.feed.discovered.32.png");
+			a.Image = Properties.Resources.no_feed_discovered_32;
 			discoveredDropDown.SharedProps.AppearancesLarge.Appearance = a;
 			
 			discoveredDropDown.SharedProps.DisplayStyle = ToolDisplayStyle.ImageOnlyOnToolbars;
 
 			AppButtonToolCommand clearDiscoveredList = new AppButtonToolCommand(
-				"cmdDiscoveredFeedsListClear", owner.Mediator, new ExecuteCommandHandler(owner.BackgroundDiscoverFeedsHandler.CmdClearFeedsList), 
+				"cmdDiscoveredFeedsListClear", owner.Mediator, owner.BackgroundDiscoverFeedsHandler.CmdClearFeedsList, 
 				SR.MenuClearAutodiscoveredFeedsListCaption, SR.MenuClearAutodiscoveredFeedsListDesc);
 
 			clearDiscoveredList.SharedProps.Category = SR.MainForm_ToolCategoryTools;
@@ -626,29 +633,30 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			// set UI controls for discovered feeds handler:
 			owner.BackgroundDiscoverFeedsHandler.SetControls(discoveredDropDown, clearDiscoveredList);
 
-            tb.Tools.AddRange(new ToolBase[] { toolNew, tool0, tool1, tool2, tool4, tool5, tool7, tool6, discoveredDropDown });
+            tb.Tools.AddRange(new ToolBase[] { toolNew, tool0, tool1, tool2,topStories, tool4, tool5, tool6, discoveredDropDown });
 			foreach (ToolBase tool in tb.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
-			
+
 			// now we can set instance properties:
-			ToolBase t = tb.Tools["cmdRefreshFeeds"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = tb.Tools["cmdNextUnreadFeedItem"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = tb.Tools["cmdFeedItemNewPost"];
-			t.InstanceProps.IsFirstInGroup = true;
-			/* t = tb.Tools["cmdNewRssSearch"];
-			t.InstanceProps.IsFirstInGroup = true; */
-            t = tb.Tools["cmdTopStories"];
-            t.InstanceProps.IsFirstInGroup = true;
+			foreach (string toolKey in new string[] {
+				"cmdRefreshFeeds", 
+				"cmdTopStories",
+				"cmdNextUnreadFeedItem",
+				"cmdFeedItemNewPost"
+			})
+			{
+				ToolBase t = tb.Tools[toolKey];
+				t.InstanceProps.IsFirstInGroup = true;
+			}
+            
 		}
 		#endregion
 		
-		private void CreateBrowserToolbar(UltraToolbar tb) 
+		private void CreateBrowserToolbar(UltraToolbarBase tb) 
 		{
 			AppPopupMenuCommand tool0 = new AppPopupMenuCommand(
-				"cmdBrowserGoBack", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserGoBack),
+				"cmdBrowserGoBack", owner.Mediator, owner.CmdBrowserGoBack,
 				SR.MenuBrowserNavigateBackCaption, SR.MenuBrowserNavigateBackDesc,
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoBack);
 			
@@ -657,7 +665,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			tool0.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
 			AppPopupMenuCommand tool1 = new AppPopupMenuCommand(
-				"cmdBrowserGoForward", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserGoForward),
+				"cmdBrowserGoForward", owner.Mediator, owner.CmdBrowserGoForward,
 				SR.MenuBrowserNavigateForwardCaption, SR.MenuBrowserNavigateForwardDesc,
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoForward);
 
@@ -666,12 +674,12 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			tool1.SharedProps.DisplayStyle = ToolDisplayStyle.ImageOnlyOnToolbars;
 
 			AppButtonToolCommand tool2 = new AppButtonToolCommand(
-				"cmdBrowserCancelNavigation", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserCancelNavigation),
+				"cmdBrowserCancelNavigation", owner.Mediator, owner.CmdBrowserCancelNavigation,
 				SR.MenuBrowserNavigateCancelCaption, SR.MenuBrowserNavigateCancelDesc,
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.CancelNavigation);
 
 			AppButtonToolCommand tool3 = new AppButtonToolCommand(
-				"cmdBrowserRefresh", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserRefresh),
+				"cmdBrowserRefresh", owner.Mediator, owner.CmdBrowserRefresh,
 				SR.MenuBrowserRefreshCaption, SR.MenuBrowserRefreshDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.Refresh);
 			
@@ -712,10 +720,10 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			ComboBox navigateComboBox = new ComboBox();
 			navigateComboBox.Name = "tbUrlComboBox";
 			main.toolTip.SetToolTip(navigateComboBox, SR.MenuBrowserNavigateComboBoxDesc);
-			navigateComboBox.KeyDown += new KeyEventHandler(main.OnNavigateComboBoxKeyDown);
-			navigateComboBox.KeyPress += new KeyPressEventHandler(main.OnAnyEnterKeyPress);
-			navigateComboBox.DragOver += new DragEventHandler(main.OnNavigateComboBoxDragOver);
-			navigateComboBox.DragDrop += new DragEventHandler(main.OnNavigateComboBoxDragDrop);
+			navigateComboBox.KeyDown += main.OnNavigateComboBoxKeyDown;
+			navigateComboBox.KeyPress += main.OnAnyEnterKeyPress;
+			navigateComboBox.DragOver += main.OnNavigateComboBoxDragOver;
+			navigateComboBox.DragDrop += main.OnNavigateComboBoxDragDrop;
 
 			navigateComboBox.AllowDrop = true;
 			navigateComboBox.Width = 330;
@@ -727,19 +735,19 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 #endif
 
 			AppButtonToolCommand tool5 = new AppButtonToolCommand(
-				"cmdBrowserNavigate", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserNavigate),
+				"cmdBrowserNavigate", owner.Mediator, owner.CmdBrowserNavigate,
 				SR.MenuBrowserDoNavigateCaption, SR.MenuBrowserDoNavigateDesc,
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.DoNavigate);
 
 			tool5.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
 			AppButtonToolCommand tool6 = new AppButtonToolCommand(
-				"cmdBrowserNewTab", owner.Mediator, new ExecuteCommandHandler(owner.CmdBrowserCreateNewTab),
+				"cmdBrowserNewTab", owner.Mediator, owner.CmdBrowserCreateNewTab,
 				SR.MenuBrowserNewTabCaption, SR.MenuBrowserNewTabDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.OpenNewTab);
 
 			AppButtonToolCommand tool7 = new AppButtonToolCommand(
-				"cmdBrowserNewExternalWindow", owner.Mediator, new ExecuteCommandHandler(main.CmdOpenLinkInExternalBrowser),
+				"cmdBrowserNewExternalWindow", owner.Mediator, main.CmdOpenLinkInExternalBrowser,
 				SR.MenuBrowserNewExternalWindowCaption, SR.MenuBrowserNewExternalWindowDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.OpenInExternalBrowser);
 
@@ -759,17 +767,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			t.InstanceProps.IsFirstInGroup = true;
 		}
 		
-		private void CreateSearchToolbar(UltraToolbar tb) {
+		private void CreateSearchToolbar(UltraToolbarBase tb) {
 
 			//_searchEngineImages.Images.Add(_browserImages.Images[Resource.BrowserItemImage.SearchWeb], Color.Magenta);
 
 			ComboBox searchComboBox = new ComboBox();
 			searchComboBox.Name = "tbSearchComboBox";
 			main.toolTip.SetToolTip(searchComboBox, SR.MenuDoSearchComboBoxDesc);
-			searchComboBox.KeyDown += new KeyEventHandler(main.OnSearchComboBoxKeyDown);
-			searchComboBox.KeyPress += new KeyPressEventHandler(main.OnAnyEnterKeyPress);
-			searchComboBox.DragOver += new DragEventHandler(main.OnSearchComboBoxDragOver);
-			searchComboBox.DragDrop += new DragEventHandler(main.OnSearchComboBoxDragDrop);
+			searchComboBox.KeyDown += main.OnSearchComboBoxKeyDown;
+			searchComboBox.KeyPress += main.OnAnyEnterKeyPress;
+			searchComboBox.DragOver += main.OnSearchComboBoxDragOver;
+			searchComboBox.DragDrop += main.OnSearchComboBoxDragDrop;
 			
 			searchComboBox.AllowDrop = true;
 			searchComboBox.Width = 150;
@@ -789,7 +797,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			main.Controls.Add(searchComboBox);
 			
 			AppPopupMenuCommand tool2 = new AppPopupMenuCommand(
-				"cmdSearchGo", owner.Mediator, new ExecuteCommandHandler(main.CmdSearchGo),
+				"cmdSearchGo", owner.Mediator, main.CmdSearchGo,
 				SR.MenuDoSearchWebCaption, SR.MenuDoSearchWebDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.SearchWeb);
 			
@@ -896,7 +904,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
  
 			// A static reference to our private tool provider class.  An instance of this class is 
 			// created in our static constructor. 
-			private static RssBanditToolbarManager.ToolFactory toolFactory = null; 
+			private static readonly RssBanditToolbarManager.ToolFactory toolFactory = null; 
 			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditToolbarManager));
 			private bool isRegistered = false;
 			#endregion Member Variables 
@@ -913,7 +921,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			/// <summary> 
 			/// Standard constructor. 
 			/// </summary> 
-			public RssBanditToolbarManager():base() { 
+			public RssBanditToolbarManager() { 
 				RssBanditToolbarManager.toolFactory.Register();
 				this.isRegistered = true;
 			} 
@@ -1030,12 +1038,10 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				
 				#region RegisterTools
 				private void RegisterTools() {
-					bool result; 
- 
 					// Register some custom tool types with UltraToolbarsManager. 
 					try { 
 						// AppPopupMenuCommand class. 
-						result = UltraToolbarsManager.RegisterCustomToolType(this, RssBanditToolbarManager.AppPopupMenuCommand_TOOLID, "Application Popup Menu", "AppPopupMenuTool"); 
+						bool result = UltraToolbarsManager.RegisterCustomToolType(this, RssBanditToolbarManager.AppPopupMenuCommand_TOOLID, "Application Popup Menu", "AppPopupMenuTool"); 
 						if (result == false) 
 							_log.Error("Error registering AppPopupMenuCommand class!"); 
  
@@ -1074,55 +1080,3 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 	}
 
 }
-
-#region CVS Version Log
-/*
- * $Log: ToolbarHelper.cs,v $
- * Revision 1.16  2007/03/05 16:31:47  t_rendelmann
- * fixed: check for updates is always disabled
- *
- * Revision 1.15  2007/02/07 16:42:11  t_rendelmann
- * changed: started localization (de); removed unused assembly references
- *
- * Revision 1.14  2007/01/11 15:07:54  t_rendelmann
- * IG assemblies replaced by hotfix versions; migrated last Sandbar toolbar usage to IG ultratoolbar
- *
- * Revision 1.13  2006/12/16 20:30:37  t_rendelmann
- * fixed: too many items in toolbar customier (dynamic menu entries)
- *
- * Revision 1.12  2006/12/15 13:31:00  t_rendelmann
- * reworked to make dynamic menus work after toolbar gets loaded from .settings.xml
- *
- * Revision 1.10  2006/12/12 12:04:24  t_rendelmann
- * finished: all toolbar migrations; save/restore/customization works
- *
- * Revision 1.9  2006/12/10 20:54:14  t_rendelmann
- * cont.: search  toolbar migration finished - search dropdown now functional, commands dynamically build from search engines;
- * fixed: OutOfMemoryException on loading favicons
- *
- * Revision 1.8  2006/12/10 14:02:11  t_rendelmann
- * cont.: search toolbar migration started
- *
- * Revision 1.7  2006/12/10 12:34:09  t_rendelmann
- * cont.: web toolbar migration finished - url dropdown now functional
- *
- * Revision 1.6  2006/12/01 17:57:34  t_rendelmann
- * changed; next version with the new menubar,main toolbar web tools (functionality partially) migrated to IG - still work in progress
- *
- * Revision 1.5  2006/11/30 20:00:56  t_rendelmann
- * added new options to attachments tab
- *
- * Revision 1.4  2006/11/30 17:35:08  t_rendelmann
- * changed; next version with the new menubar,main toolbar web tools partially migrated to IG - still work in progress
- *
- * Revision 1.3  2006/11/30 17:12:54  t_rendelmann
- * changed; next version with the new menubar,main toolbar web tools partially migrated to IG - still work in progress
- *
- * Revision 1.2  2006/11/30 12:05:29  t_rendelmann
- * changed; next version with the new menubar and the main toolbar migrated to IG - still work in progress
- *
- * Revision 1.1  2006/11/28 18:08:41  t_rendelmann
- * changed; first version with the new menubar and the main toolbar migrated to IG - still work in progress
- *
- */
-#endregion

@@ -214,7 +214,7 @@ namespace RssBandit.WinGui.Forms
 		/// If you forget this, you will always get your old toolbars layout
 		/// restored from the users local machine.
 		/// </remarks>
-		private const int _currentToolbarsVersion = 5;	
+		private const int _currentToolbarsVersion = 6;	
 
 		/// <summary>
 		/// To be raised by one on every DockMananger docks modification like new docks!
@@ -6845,7 +6845,7 @@ namespace RssBandit.WinGui.Forms
 		}
 		
 		private void InitOutlookNavigator() {
-			this.navigatorHeaderHelper = new NavigatorHeaderHelper(this.Navigator, Resource.LoadBitmap("Resources.2003Left.png"));
+			this.navigatorHeaderHelper = new NavigatorHeaderHelper(this.Navigator, Properties.Resources.Arrows_Left_16);
 			this.navigatorHeaderHelper.ImageClick += new EventHandler(OnNavigatorCollapseClick);
 			this.Navigator.GroupClick += new Infragistics.Win.UltraWinExplorerBar.GroupClickEventHandler(OnNavigatorGroupClick);
 			if (SearchIndexBehavior.NoIndexing == this.owner.FeedHandler.Configuration.SearchIndexBehavior) {
