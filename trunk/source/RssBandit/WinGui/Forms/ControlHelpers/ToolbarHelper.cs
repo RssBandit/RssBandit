@@ -412,7 +412,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdTopStories", owner.Mediator, owner.CmdTopStories,
 				SR.MenuTopStoriesCaption, SR.MenuTopStoriesDesc);
 			toolTopStories.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.hotnews_16;
-			toolTopStories.SharedProps.DisplayStyle = ToolDisplayStyle.Default;
+			toolTopStories.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
 			AppButtonToolCommand style51 = new AppButtonToolCommand(
 				"cmdFeedItemNewPost", owner.Mediator, owner.CmdPostNewItem,
