@@ -214,7 +214,7 @@ namespace RssBandit.WinGui.Forms
 		/// If you forget this, you will always get your old toolbars layout
 		/// restored from the users local machine.
 		/// </remarks>
-		private const int _currentToolbarsVersion = 6;	
+		private const int _currentToolbarsVersion = 7;	
 
 		/// <summary>
 		/// To be raised by one on every DockMananger docks modification like new docks!
