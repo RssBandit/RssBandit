@@ -29,7 +29,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized'>
 -->
 <xsl:param name="MarkItemsAsReadWhenViewed" />
 
-<xsl:output method='xml' indent='yes' /> 
+<xsl:output method='html' indent='yes' /> 
 
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- match channel group newspaper -->
