@@ -107,11 +107,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
-      <Name>RssBandit.AppServices</Name>
-      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\Log.cs">
@@ -480,6 +475,12 @@
     <EmbeddedResource Include="Resources\xhtml-symbol.ent" />
     <EmbeddedResource Include="Resources\xhtml1-strict.dtd" />
     <EmbeddedResource Include="Resources\xhtml1-transitional.dtd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
+      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
+      <Name>RssBandit.AppServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
