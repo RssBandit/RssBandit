@@ -5611,45 +5611,18 @@ namespace RssBandit {
         /// <param name="sender"></param>
         public void CmdTopStories(ICommand sender) {
 
-            List<RelationHRefEntry> topStories = this.feedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10);
-            
-            /* TEMPORARY CODE */ 
             string memeFile = Path.ChangeExtension(Path.GetTempFileName(), "html");            
-            XmlWriter writer = XmlWriter.Create(memeFile );
+            TopStoriesThreadHandler th = new TopStoriesThreadHandler(this, memeFile); 
+              
+            DialogResult result = th.Start(guiMain, "Determining Top Stories...", false);
 
-            writer.WriteStartElement("html"); 
-            writer.WriteStartElement("head");
-			writer.WriteElementString("title", SR.TopStoriesHtmlPageTitle(applicationName)); 
-            writer.WriteEndElement(); 
-            writer.WriteStartElement("body");  
-            writer.WriteStartElement("ol"); 
+            if (result != DialogResult.OK)
+                return;
 
-            foreach (RelationHRefEntry topStory in topStories){
-             writer.WriteStartElement("li");
-             writer.WriteStartElement("p");
-             writer.WriteStartElement("a"); 
-             writer.WriteAttributeString("href", topStory.HRef); 
-             writer.WriteString(topStory.Text); 
-             writer.WriteEndElement(); //a 
-             writer.WriteString(" (" + topStory.Score + ")");
-			 writer.WriteElementString("p", SR.TopStoriesHtmlDiscussionSectionTitle); 
-             writer.WriteStartElement("ul");
-             foreach (NewsItem item in topStory.References) {
-                 writer.WriteStartElement("li");
-                 writer.WriteString(item.FeedDetails.Title + ": ");
-                 writer.WriteStartElement("a");
-                 writer.WriteAttributeString("href", item.Link);
-                 writer.WriteString(item.Title);
-                 writer.WriteEndElement(); //a 
-                 writer.WriteEndElement(); //li
-             }
-             writer.WriteEndElement(); //ul
-             writer.WriteEndElement(); //p//
-             writer.WriteEndElement(); //li
-            }//foreach
-
-            writer.WriteEndDocument(); 
-            writer.Close(); 
+            if (!th.OperationSucceeds) {
+                this.MessageError("The following error occured while determining Top Stories" + th.OperationException.Message);
+                return;
+            }            
 
             this.NavigateToUrl(memeFile, null, true, true);                      
         }
