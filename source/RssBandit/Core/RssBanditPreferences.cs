@@ -1004,11 +1004,9 @@ namespace RssBandit {
 		/// </summary>
 		public bool BuildRelationCosmos { 
 			[DebuggerStepThrough()]
-			get { return GetOption(OptionalFlags.BuildRelationCosmos); }
+			get { return true; /* we always want to do this given performance and usability improvements */ }
 			set {
-				SetOption(OptionalFlags.BuildRelationCosmos, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BuildRelationCosmos"));
+				/* do nothing */ 
 			}
 		}
 		#endregion
@@ -1055,7 +1053,8 @@ namespace RssBandit {
 					OptionalFlags.ReUseFirstBrowserTab |
 					OptionalFlags.AllowAppEventSounds  | 
 					OptionalFlags.AllowJavascriptInBrowser |
-                    OptionalFlags.AllowActiveXInBrowser;
+                    OptionalFlags.AllowActiveXInBrowser | 
+                    OptionalFlags.BuildRelationCosmos;
 				return f;
 			}
 		}
