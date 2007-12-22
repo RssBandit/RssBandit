@@ -1,32 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xs:element name="root" msdata:IsDataSet="true">
-      <xs:complexType>
-        <xs:choice maxOccurs="unbounded">
-          <xs:element name="data">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
-                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:string" />
-              <xs:attribute name="type" type="xs:string" />
-              <xs:attribute name="mimetype" type="xs:string" />
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="resheader">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:string" use="required" />
-            </xs:complexType>
-          </xs:element>
-        </xs:choice>
-      </xs:complexType>
-    </xs:element>
-  </xs:schema>
+  <xsd:schema id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+		<xsd:element name="root" msdata:IsDataSet="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="metadata">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="mimetype" type="xsd:string" />
+		<xsd:attribute ref="xml:space" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="assembly">
+				 <xsd:complexType>
+		<xsd:attribute name="alias" type="xsd:string" />
+		<xsd:attribute name="name" type="xsd:string" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="data">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		<xsd:attribute ref="xml:space" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
   <data name="AddInGeneralFailure">
     <value>Algemene fout in AddIn '{1}':
 {0}</value>
@@ -2314,7 +2332,7 @@ Probeer deze te openen vanuit het Configuratiescherm vanuit het Windows startmen
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="Version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="Reader">
     <value>System.Resources.ResXResourceReader</value>
@@ -2369,5 +2387,24 @@ failed with error:
   </data>
 	<data name="GUIUserInfoAboutDefaultTreeState">
     <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+	<data name="MenuTopStoriesCaption">
+    <value>Top Stories</value>
+  </data>
+	<data name="MenuTopStoriesDesc">
+    <value>View the most recently popular links in your subscriptions</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="ProcessTopStoriesEntertainmentWaitMessage">
+    <value>Determining Top Stories, please wait...</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="TopStoriesHtmlPageTitle">
+    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+	<data name="TopStoriesHtmlDiscussionSectionTitle">
+    <value>Discussion:</value>
   </data>
 	</root>

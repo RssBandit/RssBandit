@@ -479,8 +479,15 @@ MenuNewCmdsCaption = &New...
 MenuNewCmdsDesc = Create new subscriptions
 MenuNewDiscoveredFeedCaption = &Search Results Subscription...
 MenuNewDiscoveredFeedDesc = Find a feed or subscribe to a search result feed
+; Top Stories related
 MenuTopStoriesCaption = Top Stories
-MenuTopStoriesDesc = "View the most recently popular links in your subscriptions"		
+;CHANGED
+MenuTopStoriesDesc = View the most recently popular links in your subscriptions
+;CHANGED
+ProcessTopStoriesEntertainmentWaitMessage = Determining Top Stories, please wait...
+;CHANGED
+TopStoriesHtmlPageTitle(string appTitle) = {0} Top Stories: Most Linked Recent Stories
+TopStoriesHtmlDiscussionSectionTitle = Discussion:
 MenuNewFeedCaption = &Feed Subscription...
 MenuNewFeedCaption2 = &New Feed Subscription...	
 MenuNewFeedDesc = Subscribe to a new feed	
