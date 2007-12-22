@@ -312,7 +312,7 @@ namespace DiffPatchResources
 					sn.InnerXml = res_schema_1_x;
 					changes++;
 				} else if (version == CompatibleCLRVersion.Version_2_0) {
-					XmlNode newNode = doc.CreateElement("xsd:schema", "http://www.w3.org/2001/XMLSchema");
+					XmlNode newNode = doc.CreateElement("xsd", "schema", "http://www.w3.org/2001/XMLSchema");
 					XmlAttribute a = doc.CreateAttribute("id", null);
 					a.Value = "root";
 					newNode.Attributes.Append(a);
