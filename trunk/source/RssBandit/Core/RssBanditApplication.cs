@@ -5619,7 +5619,7 @@ namespace RssBandit {
 
             writer.WriteStartElement("html"); 
             writer.WriteStartElement("head");
-            writer.WriteElementString("title", "RSS Bandit Top Stories: Most Linked Recent Stories"); 
+			writer.WriteElementString("title", SR.TopStoriesHtmlPageTitle(applicationName)); 
             writer.WriteEndElement(); 
             writer.WriteStartElement("body");  
             writer.WriteStartElement("ol"); 
@@ -5631,8 +5631,8 @@ namespace RssBandit {
              writer.WriteAttributeString("href", topStory.HRef); 
              writer.WriteString(topStory.Text); 
              writer.WriteEndElement(); //a 
-             writer.WriteString(" (" + topStory.Score + ")"); 
-             writer.WriteElementString("p", "Discussion:"); 
+             writer.WriteString(" (" + topStory.Score + ")");
+			 writer.WriteElementString("p", SR.TopStoriesHtmlDiscussionSectionTitle); 
              writer.WriteStartElement("ul");
              foreach (NewsItem item in topStory.References) {
                  writer.WriteStartElement("li");

@@ -1,18 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
+	<xsd:schema id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+		<xsd:element name="root" msdata:IsDataSet="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:complexType>
 		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
+				 <xsd:element name="metadata">
 						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="mimetype" type="xsd:string" />
+		<xsd:attribute ref="xml:space" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="assembly">
+				 <xsd:complexType>
+		<xsd:attribute name="alias" type="xsd:string" />
+		<xsd:attribute name="name" type="xsd:string" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="data">
+				 <xsd:complexType>
 		<xsd:sequence>
 		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
 		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
 		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
 		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
 		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		<xsd:attribute ref="xml:space" />
 		</xsd:complexType>
 		</xsd:element>
 		<xsd:element name="resheader">
@@ -30,13 +49,13 @@
 		<value>text/microsoft-resx</value>
 	</resheader>
 	<resheader name="Version">
-		<value>1.0.0.0</value>
+		<value>2.0</value>
 	</resheader>
 	<resheader name="Reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<resheader name="Writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="URL_WebHelp">
 		<value>http://www.rssbandit.org/docs/</value>
@@ -2653,5 +2672,24 @@ failed with error:
   </data>
 	<data name="GUIUserInfoAboutDefaultTreeState">
     <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+	<data name="MenuTopStoriesCaption">
+    <value>Top Stories</value>
+  </data>
+	<data name="MenuTopStoriesDesc">
+    <value>View the most recently popular links in your subscriptions</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="ProcessTopStoriesEntertainmentWaitMessage">
+    <value>Determining Top Stories, please wait...</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="TopStoriesHtmlPageTitle">
+    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+	<data name="TopStoriesHtmlDiscussionSectionTitle">
+    <value>Discussion:</value>
   </data>
 	</root>
