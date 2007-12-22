@@ -155,7 +155,6 @@ namespace RssBandit.WinGui.Forms {
 			this.checkReuseFirstBrowserTab.Checked = prefs.ReuseFirstBrowserTab;
 			this.checkOpenTabsInBackground.Checked = prefs.OpenNewTabsInBackground;
 			this.checkMarkItemsReadOnExit.Checked = prefs.MarkItemsReadOnExit; 
-			this.checkBuildRelationCosmos.Checked = prefs.BuildRelationCosmos;
 			this.checkUseFavicons.Checked         = prefs.UseFavicons; 
 
 			this.MaxItemAge = prefs.MaxItemAge;
