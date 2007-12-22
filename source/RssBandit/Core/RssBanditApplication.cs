@@ -4550,6 +4550,9 @@ namespace RssBandit {
 				//save search folders
 				this.SaveSearchFolders();
 
+                if (NewsHandler.TopStoriesModified)
+                    NewsHandler.SaveCachedTopStoryTitles();
+
 				// Last operation: write all changes to the search index to disk
 				if (appIsClosing)
 					this.FeedHandler.SearchHandler.StopIndexer();
