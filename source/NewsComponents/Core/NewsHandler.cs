@@ -2096,7 +2096,11 @@ namespace NewsComponents {
         /// </summary>
         /// <returns>A feeds table with the non-internet feeds</returns>
         public ICollection GetNonInternetFeeds() {
-            List<feedsFeed> toReturn = new List<feedsFeed>(); 
+            List<feedsFeed> toReturn = new List<feedsFeed>();
+
+            if (this.FeedsTable.Count == 0)
+                return toReturn;
+
             string[] keys = new string[this.FeedsTable.Keys.Count];
             this.FeedsTable.Keys.CopyTo(keys, 0);
 
