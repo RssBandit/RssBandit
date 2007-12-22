@@ -484,7 +484,8 @@ namespace NewsComponents.Feed {
                     if (!reader.IsEmptyElement) {
                          reader.Read(); //move to first link
                          do {
-                             outgoingLinks.Add(reader.ReadElementContentAsString());
+                             string hrefOut = RelationCosmos.RelationCosmos.UrlTable.Add(reader.ReadElementContentAsString());
+                             outgoingLinks.Add(hrefOut);
                          } while (reader.NodeType != XmlNodeType.EndElement);                                                
                     }//if
                     continue; 
