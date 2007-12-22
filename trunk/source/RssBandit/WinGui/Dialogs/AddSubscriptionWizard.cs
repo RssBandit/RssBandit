@@ -2958,7 +2958,7 @@ namespace RssBandit.WinGui.Forms
 			
 			//some weird URLs have newlines. 
 			// We remove them before create the Uri, so we do not fail on THAT error there	
-			newUrl = newUrl.Replace(Environment.NewLine, String.Empty).Replace(@"\n", String.Empty); 
+			newUrl = newUrl.Replace(Environment.NewLine, String.Empty); 
 			
 			//handle the common case of feed URI not beginning with HTTP 
 			try{ 
