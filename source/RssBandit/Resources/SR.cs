@@ -2693,6 +2693,22 @@ namespace RssBandit.Resources
 			}
 		}
 		
+		public static string ProcessTopStoriesEntertainmentWaitMessage
+		{
+			get
+			{
+				return Keys.GetString(Keys.ProcessTopStoriesEntertainmentWaitMessage);
+			}
+		}
+		
+		public static string TopStoriesHtmlDiscussionSectionTitle
+		{
+			get
+			{
+				return Keys.GetString(Keys.TopStoriesHtmlDiscussionSectionTitle);
+			}
+		}
+		
 		public static string MenuNewFeedCaption
 		{
 			get
@@ -4949,6 +4965,11 @@ namespace RssBandit.Resources
 			return Keys.GetString(Keys.InvalidFeedlistFileMessage, errorFileName);
 		}
 		
+		public static string TopStoriesHtmlPageTitle(string appTitle)
+		{
+			return Keys.GetString(Keys.TopStoriesHtmlPageTitle, appTitle);
+		}
+		
 		public static string NewPostToFeedFormCaption(string feedName)
 		{
 			return Keys.GetString(Keys.NewPostToFeedFormCaption, feedName);
@@ -5850,6 +5871,12 @@ namespace RssBandit.Resources
 			public const string MenuTopStoriesCaption = "MenuTopStoriesCaption";
 			
 			public const string MenuTopStoriesDesc = "MenuTopStoriesDesc";
+			
+			public const string ProcessTopStoriesEntertainmentWaitMessage = "ProcessTopStoriesEntertainmentWaitMessage";
+			
+			public const string TopStoriesHtmlPageTitle = "TopStoriesHtmlPageTitle";
+			
+			public const string TopStoriesHtmlDiscussionSectionTitle = "TopStoriesHtmlDiscussionSectionTitle";
 			
 			public const string MenuNewFeedCaption = "MenuNewFeedCaption";
 			
