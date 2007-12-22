@@ -212,7 +212,11 @@ namespace NewsComponents.Storage {
 					string [] fileEntries = Directory.GetFiles(cacheDirectory);
 				
 					foreach(string fileName in fileEntries){
-						FileHelper.Delete(fileName); 
+                        try {
+                            FileHelper.Delete(fileName);
+                        } catch (IOException ioe) {
+                            _log.Debug("Error deleting " + fileName + " while clearing cache: ", ioe);
+                        } 
 					}
 				}
 			}catch(IOException ioe){
