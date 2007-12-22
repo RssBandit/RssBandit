@@ -370,10 +370,12 @@ namespace NewsComponents.Search
                 } else {
                     Debug.Assert(false, "Unhandled BaseDirectory type: " + this.BaseDirectory.GetType().FullName);
                 }
+            }//lock
 
+            //this is outside the lock() to avoid deadlock
                 this.BaseDirectory = settings.GetIndexDirectory(true);
                 this.Init();
-            }
+            
 		}
 
 		/// <summary> 
