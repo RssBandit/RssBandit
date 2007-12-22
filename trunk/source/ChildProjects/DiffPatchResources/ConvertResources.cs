@@ -105,7 +105,7 @@ namespace DiffPatchResources
 				string idName = name.InnerText;
 				XmlNode srcValue = sn.SelectSingleNode("value");
 				
-				if (idName == "version"){
+				if (0 == String.Compare(idName, "version", StringComparison.InvariantCultureIgnoreCase)){
 					if (version == CompatibleCLRVersion.Version_1_0) {
 						if ("1.0.0.0" != srcValue.InnerText) {
 							srcValue.InnerText = "1.0.0.0";
@@ -126,7 +126,8 @@ namespace DiffPatchResources
 					}
 				}
 
-				if (idName == "reader"){
+				if (0 == String.Compare(idName,"reader", StringComparison.InvariantCultureIgnoreCase))
+				{
 					string v = GetVersion(srcValue.InnerText);
 					if (version == CompatibleCLRVersion.Version_1_0) {
 						if (v != null && v != "1.0.3102.0") {
@@ -148,7 +149,7 @@ namespace DiffPatchResources
 					}
 				}
 
-				if (idName == "writer"){
+				if (0 == String.Compare(idName,"writer", StringComparison.InvariantCultureIgnoreCase)){
 					string v = GetVersion(srcValue.InnerText);
 					if (version == CompatibleCLRVersion.Version_1_0) {
 						if (v != null && v != "1.0.3102.0") {
@@ -318,8 +319,7 @@ namespace DiffPatchResources
 					newNode.Attributes.Append(a);
 					sn.ParentNode.InsertBefore(newNode, sn);
 					newNode.InnerXml = res_schema_2_0;	// fails with unknown namespace?
-					doc.RemoveChild(sn);
-					//sn.InnerXml = res_schema_2_0;
+					sn.ParentNode.RemoveChild(sn);
 					changes++;
 				}
 			}
@@ -362,8 +362,8 @@ namespace DiffPatchResources
 
 		// <xsd:schema id='root' xmlns='' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:msdata='urn:schemas-microsoft-com:xml-msdata'>
 		private const string res_schema_2_0 = @"
-		<xsd:import namespace='http://www.w3.org/XML/1998/namespace' />
-		<xsd:element name='root' msdata:IsDataSet='true'>
+		<xsd:import namespace='http://www.w3.org/XML/1998/namespace' xmlns:xsd='http://www.w3.org/2001/XMLSchema' />
+		<xsd:element name='root' msdata:IsDataSet='true' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:msdata='urn:schemas-microsoft-com:xml-msdata'>
 		<xsd:complexType>
 		<xsd:choice maxOccurs='unbounded'>
 				 <xsd:element name='metadata'>
