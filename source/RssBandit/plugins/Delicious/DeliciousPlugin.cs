@@ -8,7 +8,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
-using System.Net; 
+using System.Net;
+using System.Web;
 
 namespace BlogExtension.Delicious 
 {
@@ -102,7 +103,7 @@ namespace BlogExtension.Delicious
 						url = postForm.textUri.Text;
 						description = postForm.textDescription.Text;
 					
-						Uri postUrl = new Uri(configInfo.apiurl + "?url=" + url + "&tags=" + tags + "&description=" + description); 
+						Uri postUrl = new Uri(configInfo.apiurl + "?url=" + url + "&tags=" + HttpUtility.UrlEncode(tags) + "&description=" + description); 
 						request = (HttpWebRequest) WebRequest.Create(postUrl);
 						request.UserAgent			= "del.icio.usIBlogExtensionPlugin/1.0"; 
 						
