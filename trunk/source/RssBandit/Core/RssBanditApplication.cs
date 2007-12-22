@@ -877,6 +877,14 @@ namespace RssBandit {
 			return Path.Combine(GetUserPath(), "subscriptions.xml");
 		}
 
+        /// <summary>
+        /// Gets the name of the generated Top Stories page
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTopStoriesFileName() {
+            return Path.Combine(GetUserPath(), "top-stories.html");
+        }
+
 		/// <summary>
 		/// Gets the name of the comments feed list file.
 		/// </summary>
@@ -2495,7 +2503,6 @@ namespace RssBandit {
 
 			Preferences.MarkItemsAsReadWhenViewed = propertiesDialog.checkMarkItemsAsReadWhenViewed.Checked;
 			Preferences.LimitNewsItemsPerPage = propertiesDialog.checkLimitNewsItemsPerPage.Checked;
-			Preferences.BuildRelationCosmos = propertiesDialog.checkBuildRelationCosmos.Checked;
 			Preferences.ReuseFirstBrowserTab = propertiesDialog.checkReuseFirstBrowserTab.Checked;
 			Preferences.OpenNewTabsInBackground = propertiesDialog.checkOpenTabsInBackground.Checked;
 			Preferences.FeedRefreshOnStartup = propertiesDialog.checkRefreshFeedsOnStartup.Checked;
@@ -5611,10 +5618,10 @@ namespace RssBandit {
         /// <param name="sender"></param>
         public void CmdTopStories(ICommand sender) {
 
-            string memeFile = Path.ChangeExtension(Path.GetTempFileName(), "html");            
-            TopStoriesThreadHandler th = new TopStoriesThreadHandler(this, memeFile); 
-              
-            DialogResult result = th.Start(guiMain, "Determining Top Stories...", false);
+            string memeFile = RssBanditApplication.GetTopStoriesFileName();            
+            TopStoriesThreadHandler th = new TopStoriesThreadHandler(this, memeFile);
+
+            DialogResult result = th.Start(guiMain, SR.ProcessTopStoriesEntertainmentWaitMessage, false);
 
             if (result != DialogResult.OK)
                 return;

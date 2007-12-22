@@ -1998,11 +1998,15 @@ namespace NewsComponents {
                     RankedNewsItem rni = new RankedNewsItem(item, score);
                     
                     RelationHRefEntry href = new RelationHRefEntry(item.Link, null, 0.0f);
-                    //add a score for the permalink for the item
+
+                    /* 
+                    //add a score for the permalink for the item 
+                    //DON'T DO THIS BECAUSE WE HAVE TO THEN FILTER OUT ITEMS THAT ONLY HAVE THEMSELVES AS VOTES
                     if (!allLinks.ContainsKey(href)) {
                         allLinks[href] = new List<RankedNewsItem>(); 
                     }
                     allLinks[href].Add(rni);
+                     */
 
                     //add vote to each URL linked from the item
                     foreach (string url in item.OutGoingLinks) {
