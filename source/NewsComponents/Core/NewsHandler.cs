@@ -88,6 +88,7 @@ namespace NewsComponents {
 			sb.Append(")");
 
 			userAgentTemplate = sb.ToString();
+            LoadCachedTopStoryTitles(); 
 		}
 
 		/// <summary>
@@ -401,11 +402,34 @@ namespace NewsComponents {
 		public static bool UnconditionalCommentRss{
 			set {unconditionalCommentRss = value; }
 			get {return unconditionalCommentRss; }
-		}
+        }
 
-		#region Feed Credentials handling
+        #region Top Stories related
 
-		/// <summary>
+        private static bool topStoriesModified = false;
+        public static bool TopStoriesModified {
+            get { return topStoriesModified; }
+        }
+
+
+        private class storyNdate {
+            public storyNdate(string title, DateTime date) { storyTitle = title; firstSeen = date; }
+            public string storyTitle;
+            public DateTime firstSeen;
+        }
+
+        /// <summary>
+        /// This is a table of mappings of URLs to story titles for the top stories that have been returned by 
+        /// GetTopStories()
+        /// </summary>
+        /// <seealso cref="GetTopStories"/>
+        private static Dictionary<string, storyNdate> TopStoryTitles = new Dictionary<string, storyNdate>();
+
+        #endregion 
+
+        #region Feed Credentials handling
+
+        /// <summary>
 		/// Creates the credentials from a feed.
 		/// </summary>
 		/// <param name="f">The feed</param>
@@ -2025,7 +2049,12 @@ namespace NewsComponents {
             this.eventX = new ManualResetEvent(false);
 
             foreach (RelationHRefEntry weightedLink in weightedLinks) {
-                PriorityThreadPool.QueueUserWorkItem(new WaitCallback(this.GetHtmlTitleHelper), weightedLink, (int)ThreadPriority.Normal);
+                if (TopStoryTitles.ContainsKey(weightedLink.HRef)) {
+                    weightedLink.Text = TopStoryTitles[weightedLink.HRef].storyTitle;
+                    Interlocked.Decrement(ref numTitlesToDownload);               
+                } else {
+                    PriorityThreadPool.QueueUserWorkItem(new WaitCallback(this.GetHtmlTitleHelper), weightedLink, (int)ThreadPriority.Normal);
+                }
             }
 
             if (numTitlesToDownload > 0) {
@@ -2046,6 +2075,10 @@ namespace NewsComponents {
                 /* NOTE: Default link text is URL */
                 string title = HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, this.proxy, CredentialCache.DefaultCredentials);
                 weightedLink.Text = title;
+                if (!title.Equals(weightedLink.HRef)) { 
+                    TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
+                    NewsHandler.topStoriesModified = true; 
+                }
             } finally {
                 Interlocked.Decrement(ref numTitlesToDownload);
                 if (numTitlesToDownload <= 0) {
@@ -2086,6 +2119,56 @@ namespace NewsComponents {
 			
 		}
 
+        /// <summary>
+        /// Loads the cache of {url:page_title} pairs so we don't have to go to the Web if we've previously 
+        /// determined the title of a top story. 
+        /// </summary>
+        /// <seealso cref="TopStoryTitles"/>
+        private static void LoadCachedTopStoryTitles() {
+
+            try {
+                string topStories = Path.Combine(GetUserPath("RssBandit"), "top-stories.xml");
+                XmlDocument doc = new XmlDocument();
+                doc.Load(topStories);
+
+                foreach (XmlElement story in doc.SelectNodes("//story")) {
+                    TopStoryTitles.Add(story.Attributes["url"].Value, 
+                                        new storyNdate(story.Attributes["title"].Value, XmlConvert.ToDateTime(story.Attributes["firstSeen"].Value))
+                                        );
+                }
+            } catch(Exception e) { 
+                _log.Error("Error in LoadCachedTopStoryTitles()", e);
+            }
+        }
+
+        /// <summary>
+        /// Saves the cached list of titles for top stories. 
+        /// </summary>
+        /// <seealso cref="TopStoryTitles"/>
+        public static void SaveCachedTopStoryTitles() { 
+             DateTime TwoWeeksAgo =  DateTime.Now.Subtract(new TimeSpan(14,0,0,0));
+             NewsHandler.topStoriesModified = false; 
+
+            try {
+                XmlWriter writer = XmlWriter.Create(Path.Combine(GetUserPath("RssBandit"), "top-stories.xml"));
+                writer.WriteStartDocument();
+                writer.WriteStartElement("stories");
+                foreach (KeyValuePair<string, storyNdate> story in TopStoryTitles) {
+                    if (story.Value.firstSeen > TwoWeeksAgo) { //filter out top stories older than two weeks
+                        writer.WriteStartElement("story");
+                        writer.WriteAttributeString("url", story.Key);
+                        writer.WriteAttributeString("title", story.Value.storyTitle);
+                        writer.WriteAttributeString("firstSeen", XmlConvert.ToString(story.Value.firstSeen));
+                        writer.WriteEndElement();
+                    }
+                }
+                writer.WriteEndDocument();
+                writer.Flush();
+                writer.Close();
+            } catch (Exception e) {
+                _log.Error("Error in SaveCachedTopStoryTitles()", e);
+            }
+        }
 
 		/// <summary>
 		/// Loads the RSS feedlist from the given URL and validates it against the schema. 
