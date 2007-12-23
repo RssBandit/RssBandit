@@ -8,7 +8,7 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RssBandit Installer", "RssBandit Installer\RssBandit Installer.vdproj", "{A72B454A-C305-45E3-BC4C-6A490705D384}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0FE0B444-A9FD-4077-9E35-8E76B420A37C} = {0FE0B444-A9FD-4077-9E35-8E76B420A37C}
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B} = {7ADBA6AC-5A31-42C4-BADC-477DADDA624B}
+		{027DC860-D691-40F3-946F-5976525E1F59} = {027DC860-D691-40F3-946F-5976525E1F59}
 		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4} = {9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}
 		{48E8CBD5-9F06-4540-9E5B-20D3CDFD8551} = {48E8CBD5-9F06-4540-9E5B-20D3CDFD8551}
 	EndProjectSection
@@ -23,7 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delicious", "RssBandit\plug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit.AppServices", "RssBandit.AppServices\RssBandit.AppServices.csproj", "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogThis.LiveWriter", "RssBandit\plugins\BlogThis.LiveWriter\BlogThis.LiveWriter.csproj", "{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogThis.LiveWriter", "RssBandit\plugins\BlogThis.LiveWriter\BlogThis.LiveWriter.csproj", "{027DC860-D691-40F3-946F-5976525E1F59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitter", "RssBandit\plugins\Twitter\Twitter.csproj", "{E401C224-26A9-47E1-9CBE-804D8FB3ABE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +59,14 @@ Global
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{027DC860-D691-40F3-946F-5976525E1F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{027DC860-D691-40F3-946F-5976525E1F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{027DC860-D691-40F3-946F-5976525E1F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{027DC860-D691-40F3-946F-5976525E1F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E401C224-26A9-47E1-9CBE-804D8FB3ABE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E401C224-26A9-47E1-9CBE-804D8FB3ABE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E401C224-26A9-47E1-9CBE-804D8FB3ABE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E401C224-26A9-47E1-9CBE-804D8FB3ABE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
