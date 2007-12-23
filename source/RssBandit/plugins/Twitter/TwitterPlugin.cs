@@ -111,7 +111,7 @@ namespace BlogExtension.Twitter
 					if (postForm.ShowDialog() == DialogResult.OK) {					
 						message = postForm.textPost.Text;
 					
-						Uri postUrl = new Uri(configInfo.apiurl + "?source=RSS%20Bandit&status=" + message); 
+						Uri postUrl = new Uri(configInfo.apiurl + "?source=RssBandit&status=" + message); 
 						request = (HttpWebRequest) WebRequest.Create(postUrl);
 						request.UserAgent			= "twitterIBlogExtensionPlugin/1.0";
                         request.Method = "POST";
