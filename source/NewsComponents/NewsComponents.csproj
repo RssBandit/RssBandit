@@ -236,6 +236,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelationCosmos\RelationCosmos3.cs" />
+    <Compile Include="RelationCosmos\RelationCosmos4.cs" />
     <Compile Include="RelationCosmos\Collections\RelationHRefDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -258,9 +260,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RelationCosmos\RelationBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RelationCosmos\RelationCosmos3.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Resources\ComponentsText.cs">
