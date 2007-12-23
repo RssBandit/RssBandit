@@ -17,7 +17,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <returns>IRelationCosmos</returns>
 		public static IRelationCosmos Create() {
-			return new RelationCosmos3();
+			return new RelationCosmos4();
 		}
 
 		private RelationCosmosFactory() {}
