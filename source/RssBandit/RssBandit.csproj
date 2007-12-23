@@ -243,21 +243,51 @@
       <Generator>StringResourceTool</Generator>
       <LastGenOutput>SR.cs</LastGenOutput>
     </None>
-    <None Include="templates\aura-8.fdxsl" />
-    <None Include="templates\C64.fdxsl" />
-    <None Include="templates\DOS.fdxsl" />
-    <None Include="templates\Film.fdxsl" />
-    <None Include="templates\formal-red.fdxsl" />
-    <None Include="templates\Headlines.fdxsl" />
-    <None Include="templates\holiday-halloween.fdxsl" />
-    <None Include="templates\kuro5hin.fdxsl" />
-    <None Include="templates\neo-blue.fdxsl" />
-    <None Include="templates\outlook-express.fdxsl" />
-    <None Include="templates\outlook2003-orange.fdxsl" />
-    <None Include="templates\Polaroid.fdxsl" />
-    <None Include="templates\slashdot.fdxsl" />
-    <None Include="templates\Sticky Notes.fdxsl" />
-    <None Include="templates\unwise-terminal.fdxsl" />
+    <Content Include="templates\aura-8.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\C64.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\DOS.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Film.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\formal-red.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Headlines.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\holiday-halloween.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\kuro5hin.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\neo-blue.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\outlook-express.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\outlook2003-orange.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Polaroid.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\slashdot.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Sticky Notes.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\unwise-terminal.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Web References\CLR20.com.newsgator.services1\Folder.disco" />
     <None Include="Web References\CLR20.com.newsgator.services1\Folder.wsdl" />
     <None Include="Web References\CLR20.com.newsgator.services1\Reference.map">
@@ -2080,7 +2110,9 @@
     <Content Include="templates\images\unread.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="templates\readme.htm" />
+    <Content Include="templates\readme.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Web References\CLR20.com.newsgator.services4\PostItem.disco" />
     <WebReferenceUrl Include="http://services.newsgator.com/ngws/svc/PostItem.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
