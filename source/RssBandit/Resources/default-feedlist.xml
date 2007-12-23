@@ -40,21 +40,29 @@
 	<stylesheet>slashdot</stylesheet>
    </feed>
    <feed category='News\Technology'>
-	<title>Wired News</title>
-	<link>http://www.wired.com/news_drop/netcenter/netcenter.rdf</link>
+	<title>TechCrunch</title>
+	<link>http://feeds.feedburner.com/Techcrunch</link>
    </feed>
-   <feed category='Comics'>
-     <title>XKCD</title>
-     <link>http://xkcd.com/rss.xml</link>
-   </feed>
+  <feed category='News\Technology'>
+    <title>Engadget</title>
+    <title>http://www.engadget.com/rss.xml</title>
+  </feed>
     <feed category='Blogs'>
      <title>Robert Scoble</title>
      <link>http://scobleizer.wordpress.com/feed/</link>
-   </feed> 
+   </feed>
+  <feed category='Blogs'>
+    <title>Dave Winer</title>
+    <link>http://www.scripting.com/rss.xml</link>
+  </feed>
     <feed category='Blogs'>
      <title>Jason Kottke</title>
      <link>http://www.kottke.org/index.xml</link>
    </feed>
+  <feed category='Comics'>
+    <title>XKCD</title>
+    <link>http://xkcd.com/rss.xml</link>
+  </feed>
    <feed category='Comics'>
      <title>Dilbert</title>
      <link>http://dwlt.net/tapestry/dilbert.rdf</link>
