@@ -107,7 +107,12 @@ namespace RssBandit
 	  }
 
 	  public static string GetChannelName(string userApp) {
-		  return userApp.ToLower().Replace(@"\", "_");
+
+          string suffix = string.Empty;
+#if DEBUG
+          suffix = "_debug";
+#endif
+		  return userApp.ToLower().Replace(@"\", "_") + suffix;
 	  }
 
 	  public static string ChannelName {
