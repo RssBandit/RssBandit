@@ -194,39 +194,39 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <Reference Include="Infragistics2.Shared.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Shared.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Shared.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.Misc.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.Misc.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinEditors.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinEditors.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinEditors.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinExplorerBar.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinExplorerBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinStatusBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinStatusBar.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinStatusBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTabControl.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTabControl.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinTabControl.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinToolbars.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinToolbars.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinToolbars.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTree.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinTree.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2007 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
