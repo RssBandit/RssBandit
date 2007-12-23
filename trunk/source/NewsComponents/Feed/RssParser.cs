@@ -1206,7 +1206,8 @@ namespace NewsComponents.Feed {
 						feedReader.Read(); //go to end of 'rss' start tag
 						feedReader.MoveToContent(); //go to the next element		
 						localname = feedReader.LocalName;
-					}while(localname != atomized_strings[RssParser.nt_channel]);
+                    } while (localname != atomized_strings[RssParser.nt_channel] 
+                             && localname != atomized_strings[RssParser.nt_rss]);
 
 				}else if(feedReader.NamespaceURI.Equals("http://purl.org/atom/ns#")
 					&& (localname == atomized_strings[RssParser.nt_feed])){ //Atom  0.3
