@@ -299,8 +299,9 @@ namespace NewsComponents.Collections {
 		/// </exception>
 		public virtual void Remove(RelationBase item) {		   
 			int i = IndexOf(item);
-			if (i < 0)
-				throw new System.ArgumentException("Cannot remove the specified item because it was not found in the specified Collection.");
+            if (i < 0)
+                return; 
+				/* throw new System.ArgumentException("Cannot remove the specified item because it was not found in the specified Collection."); */
 			
 			++m_version;
 			RemoveAt(i);
