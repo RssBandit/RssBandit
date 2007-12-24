@@ -6216,6 +6216,31 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
+
+        /// <summary>
+        /// Marks the all feed items related to a particular URL as read. 
+        /// </summary>
+        /// <param name="storyId">The URL of the story</param>
+        public void MarkDiscussionAsRead(string storyId) { 
+        
+            //BUGBUG: make this the same as the value used by top stories; 
+            DateTime since = DateTime.Now - new TimeSpan(7, 0, 0, 0, 0);
+
+            IList<NewsItem> affectedItems = owner.FeedHandler.GetItemsWithIncomingLinks(storyId, since);
+            List<ThreadedListViewItem> affectedItemsInListView = new List<ThreadedListViewItem>();
+
+            for (int i = 0; i < affectedItems.Count; i++) {
+                ThreadedListViewItem lvItem = this.GetListViewItem(affectedItems[i].Id);
+                if (lvItem != null) {
+                    affectedItemsInListView.Add(lvItem);
+                    affectedItems.RemoveAt(i);
+                }
+            }
+
+            this.SetFeedItemsReadState(affectedItemsInListView, true);
+            this.SetNewsItemsReadState(affectedItems, true); 
+        }
+
 		/// <summary>
 		/// Moves the newspaper view to the next or previous page. 
 		/// </summary>
@@ -6317,155 +6342,163 @@ namespace RssBandit.WinGui.Forms
             List<NewsItem> modifiedItems = new List<NewsItem>(listFeedItems.SelectedItems.Count);
 			int amount = (beenRead ? -1: 1); 
 
-			for  (int i=0; i < items.Count; i++){
-				
-				ThreadedListViewItem selectedItem = (ThreadedListViewItem) items[i];
-				NewsItem item = (NewsItem) selectedItem.Key; 
-				
+			for  (int i=0; i < items.Count; i++){				
+				ThreadedListViewItem selectedItem =  (ThreadedListViewItem) items[i];
+                NewsItem item = (NewsItem)selectedItem.Key;		
 				ApplyStyles(selectedItem, beenRead);
 
-				if (item.BeenRead != beenRead){
-
-					item.BeenRead = beenRead; 		
+				if (item.BeenRead != beenRead){		
 					selectedItem.ImageIndex += amount;	
 					modifiedItems.Add(item);
+                }
 
-					if(beenRead){
-						if(!item.Feed.storiesrecentlyviewed.Contains(item.Id)){
-							item.Feed.storiesrecentlyviewed.Add(item.Id); 
-						}
-					}else{
-						item.Feed.storiesrecentlyviewed.Remove(item.Id);
-					}
+			}//for(int i=0; i < items.Count; i++)
 
-					/* locate actual item if this is a search result */
-					SearchHitNewsItem sItem = item as SearchHitNewsItem; 
-					NewsItem realItem = this.owner.FeedHandler.FindNewsItem(sItem);
-					
-					if(realItem != null){
-						realItem.BeenRead = sItem.BeenRead;  						
-					}
-
-				}//if (item.BeenRead != beenRead)
-
-			}//for(int i=0; i < items.Count; i++) 
-
-			if (modifiedItems.Count > 0) 
-			{
-
-                List<NewsItem> deepModifiedItems = new List<NewsItem>();
-				int unexpectedImageState = (beenRead ? 1: 0); // unread-state images always have odd index numbers, read-state are even
-
-				// if there is a self-reference thread, we also have to switch the Gui state for them back
-				// these items can also be unselected.
-				for  (int i=0; i < listFeedItems.Items.Count; i++) 
-				{
-
-					ThreadedListViewItem th =   listFeedItems.Items[i];
-					NewsItem selfRef = th.Key as NewsItem;
-
-					foreach (NewsItem modifiedItem in modifiedItems) 
-					{
-						
-						if (modifiedItem.Equals(selfRef) && (th.ImageIndex % 2) == unexpectedImageState) 
-						{	
-
-							ApplyStyles(th, beenRead);
-							th.ImageIndex += amount;	
-
-							if (selfRef.BeenRead != beenRead) 
-							{	// object ref is unequal, but other criteria match the item to be equal...
-								selfRef.BeenRead = beenRead;	
-								deepModifiedItems.Add(selfRef);
-							}
-
-						}
-					}
-				}
-
-				modifiedItems.AddRange(deepModifiedItems);
-				// we store stories-read in the feedlist, so enable save the new state 
-				this.owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
-				//owner.FeedlistModified = true;	
-				// and apply mods. to finders:
-				UpdateFindersReadStatus(modifiedItems);
-				
-				//TODO: verify correct location  of that code here:
-				if (beenRead) 
-					UnreadItemsNodeRemoveItems(modifiedItems);
-				else {
-					UnreadItemsNode.Items.AddRange(modifiedItems);
-					UnreadItemsNode.UpdateReadStatus();
-				}
-			}
-
-			ISmartFolder sf = CurrentSelectedFeedsNode as ISmartFolder;
-			if (sf != null) 
-			{
-
-				sf.UpdateReadStatus();
-
-				if (! (sf is FinderNode) && ! (sf is UnreadItemsNode))
-					return;
-			}
-
-			// now update tree state of rss items from any
-			// feed (also: category selected)
-
-			Hashtable lookup = new Hashtable(modifiedItems.Count);
-
-			foreach (NewsItem item in modifiedItems) 
-			{
-				
-				string feedurl = item.Feed.link;
-
-				if (feedurl != null)	
-				{
-
-					RefLookupItem lookupItem = lookup[feedurl] as RefLookupItem;
-					TreeFeedsNodeBase refNode = lookupItem != null ? lookupItem.Node : null;
-					if (refNode == null) 
-					{
-						// corresponding node can be at any hierarchy level, or temporary (if commentRss)
-						if (owner.FeedHandler.FeedsTable.Contains(feedurl))
-							refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), item);
-						else 
-							refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.SmartFolders), item);
-					}
-
-					if (refNode != null) 
-					{
-						if (!lookup.ContainsKey(feedurl)) 
-						{
-							lookup.Add(feedurl, new RefLookupItem(refNode, item.Feed, amount));		// speedup node lookup
-						} 
-						else 
-						{
-							lookupItem.UnreadCount += amount;
-						}
-						//refNode.UpdateReadStatus(refNode, refNode.UnreadCount + amount);
-						//item.Feed.containsNewMessages = (refNode.UnreadCount > 0);
-					} 
-					else 
-					{
-						// temp. (item comments)
-						string hash = RssHelper.GetHashCode(item);
-						if (tempFeedItemsRead.ContainsKey(hash))
-							tempFeedItemsRead.Remove(hash);
-					}
-
-				} 
-			}
-
-			foreach (RefLookupItem item in lookup.Values) 
-			{
-				this.UpdateTreeNodeUnreadStatus(item.Node, item.Node.UnreadCount + item.UnreadCount);
-				item.Feed.containsNewMessages = (item.Node.UnreadCount > 0);
-			}
-			if(listFeedItemsO.Visible)
-				listFeedItemsO.Invalidate();
+            this.SetNewsItemsReadState(modifiedItems, beenRead); 
 			
 		}
+
+
+        /// <summary>
+        /// Marks the specified feed items read/unread. 
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <param name="beenRead">if set to <c>true</c> [been read].</param>
+        public void SetNewsItemsReadState(IList<NewsItem> items, bool beenRead) {
+
+            List<NewsItem> modifiedItems = new List<NewsItem>(listFeedItems.SelectedItems.Count);
+            int amount = (beenRead ? -1 : 1); 
+
+            for (int i = 0; i < items.Count; i++) {
+
+                NewsItem item = items[i];
+
+                if (item.BeenRead != beenRead) {
+
+                    item.BeenRead = beenRead;                 
+                    modifiedItems.Add(item);
+
+                    if (beenRead) {
+                        if (!item.Feed.storiesrecentlyviewed.Contains(item.Id)) {
+                            item.Feed.storiesrecentlyviewed.Add(item.Id);
+                        }
+                    } else {
+                        item.Feed.storiesrecentlyviewed.Remove(item.Id);
+                    }
+
+                    /* locate actual item if this is a search result */
+                    SearchHitNewsItem sItem = item as SearchHitNewsItem;
+                    NewsItem realItem = this.owner.FeedHandler.FindNewsItem(sItem);
+
+                    if (realItem != null) {
+                        realItem.BeenRead = sItem.BeenRead;
+                    }
+
+                }//if (item.BeenRead != beenRead)
+
+            }//for(int i=0; i < items.Count; i++) 
+
+            if (modifiedItems.Count > 0) {
+
+                List<NewsItem> deepModifiedItems = new List<NewsItem>();
+                int unexpectedImageState = (beenRead ? 1 : 0); // unread-state images always have odd index numbers, read-state are even
+
+                // if there is a self-reference thread, we also have to switch the Gui state for them back
+                // these items can also be unselected.
+                for (int i = 0; i < listFeedItems.Items.Count; i++) {
+
+                    ThreadedListViewItem th = listFeedItems.Items[i];
+                    NewsItem selfRef = th.Key as NewsItem;
+
+                    foreach (NewsItem modifiedItem in modifiedItems) {
+
+                        if (modifiedItem.Equals(selfRef) && (th.ImageIndex % 2) == unexpectedImageState) {
+
+                            ApplyStyles(th, beenRead);
+                            th.ImageIndex += amount;
+
+                            if (selfRef.BeenRead != beenRead) {	// object ref is unequal, but other criteria match the item to be equal...
+                                selfRef.BeenRead = beenRead;
+                                deepModifiedItems.Add(selfRef);
+                            }
+
+                        }
+                    }
+                }
+
+                modifiedItems.AddRange(deepModifiedItems);
+                // we store stories-read in the feedlist, so enable save the new state 
+                this.owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+                //owner.FeedlistModified = true;	
+                // and apply mods. to finders:
+                UpdateFindersReadStatus(modifiedItems);
+
+                //TODO: verify correct location  of that code here:
+                if (beenRead)
+                    UnreadItemsNodeRemoveItems(modifiedItems);
+                else {
+                    UnreadItemsNode.Items.AddRange(modifiedItems);
+                    UnreadItemsNode.UpdateReadStatus();
+                }
+            }
+
+            ISmartFolder sf = CurrentSelectedFeedsNode as ISmartFolder;
+            if (sf != null) {
+
+                sf.UpdateReadStatus();
+
+                if (!(sf is FinderNode) && !(sf is UnreadItemsNode))
+                    return;
+            }
+
+            // now update tree state of rss items from any
+            // feed (also: category selected)
+
+            Hashtable lookup = new Hashtable(modifiedItems.Count);
+
+            foreach (NewsItem item in modifiedItems) {
+
+                string feedurl = item.Feed.link;
+
+                if (feedurl != null) {
+
+                    RefLookupItem lookupItem = lookup[feedurl] as RefLookupItem;
+                    TreeFeedsNodeBase refNode = lookupItem != null ? lookupItem.Node : null;
+                    if (refNode == null) {
+                        // corresponding node can be at any hierarchy level, or temporary (if commentRss)
+                        if (owner.FeedHandler.FeedsTable.Contains(feedurl))
+                            refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.MyFeeds), item);
+                        else
+                            refNode = TreeHelper.FindNode(this.GetRoot(RootFolderType.SmartFolders), item);
+                    }
+
+                    if (refNode != null) {
+                        if (!lookup.ContainsKey(feedurl)) {
+                            lookup.Add(feedurl, new RefLookupItem(refNode, item.Feed, amount));		// speedup node lookup
+                        } else {
+                            lookupItem.UnreadCount += amount;
+                        }
+                        //refNode.UpdateReadStatus(refNode, refNode.UnreadCount + amount);
+                        //item.Feed.containsNewMessages = (refNode.UnreadCount > 0);
+                    } else {
+                        // temp. (item comments)
+                        string hash = RssHelper.GetHashCode(item);
+                        if (tempFeedItemsRead.ContainsKey(hash))
+                            tempFeedItemsRead.Remove(hash);
+                    }
+
+                }
+            }
+
+            foreach (RefLookupItem item in lookup.Values) {
+                this.UpdateTreeNodeUnreadStatus(item.Node, item.Node.UnreadCount + item.UnreadCount);
+                item.Feed.containsNewMessages = (item.Node.UnreadCount > 0);
+            }
+            if (listFeedItemsO.Visible)
+                listFeedItemsO.Invalidate();
+
+        }
+
 
 		/// <summary>
 		/// Moves a node to a new parent. 
