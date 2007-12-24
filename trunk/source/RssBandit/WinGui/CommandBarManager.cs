@@ -57,8 +57,7 @@ namespace RssBandit.WinGui
 
 	internal class CommandBarCollection: ICommandBarCollection {
 
-		private ListDictionary collection;
-		private CommandBarManager owner;
+		private readonly CommandBarManager owner;
 			
 		public CommandBarCollection(CommandBarManager owner) {
 			this.owner = owner;
