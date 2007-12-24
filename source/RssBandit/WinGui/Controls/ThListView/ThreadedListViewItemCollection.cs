@@ -24,7 +24,7 @@ namespace System.Windows.Forms.ThListView
 		public event ItemAddedEventHandler ItemAdded; 
 		public event ItemRemovedEventHandler ItemRemoved; 
 
-		private ThreadedListView owner;
+		private readonly ThreadedListView owner;
 		public ThreadedListViewItemCollection(ThreadedListView owner) : base(((ListView)owner)) { 
 			this.owner = owner;
 		} 
@@ -121,9 +121,8 @@ namespace System.Windows.Forms.ThListView
         private class Enumerator : IEnumerator<ThreadedListViewItem> {
             #region Implementation (data)
 
-            private ThreadedListViewItemCollection m_collection;
+            private readonly ThreadedListViewItemCollection m_collection;
             private int m_index;
-            private int m_version;
 
             #endregion
 
