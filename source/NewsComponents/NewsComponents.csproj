@@ -263,6 +263,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelationCosmos\DummyCosmos.cs" />
     <Compile Include="RelationCosmos\RelationCosmos3.cs" />
     <Compile Include="RelationCosmos\RelationCosmos4.cs" />
     <Compile Include="RelationCosmos\Collections\RelationHRefDictionary.cs">
