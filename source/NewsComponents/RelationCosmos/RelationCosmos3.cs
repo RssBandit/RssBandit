@@ -256,7 +256,7 @@ namespace NewsComponents.RelationCosmos
 				
 					string href = relation.HRef;
 					if (href != null && href.Length > 0 && ! registeredRelations.ContainsKey(href)) {
-						registeredRelations.Add(href, relation);
+						registeredRelations[href] = relation;
 						//_log.Info("Add(href):" + href);
 
 					}

@@ -283,7 +283,7 @@ namespace NewsComponents.RelationCosmos
 				
 					string href = relation.HRef;
 					if (href != null && href.Length > 0 && ! registeredRelations.ContainsKey(href)) {
-						registeredRelations.Add(href, relation);
+						registeredRelations[href] = relation;
 					}
 
 					foreach (string hrefOut in relation.outgoingRelationships) {
@@ -355,7 +355,7 @@ namespace NewsComponents.RelationCosmos
                     }
 
                 } else {
-                    toRelations.Add(href, relation);
+                    toRelations.Add(key, relation);
                 }
             }//if(href != null)
 
