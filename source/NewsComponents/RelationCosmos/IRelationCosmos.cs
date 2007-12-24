@@ -17,7 +17,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <returns>IRelationCosmos</returns>
 		public static IRelationCosmos Create() {
-			return new RelationCosmos4();
+            return new RelationCosmos4();
 		}
 
 		private RelationCosmosFactory() {}
@@ -25,8 +25,9 @@ namespace NewsComponents.RelationCosmos
 
 	#endregion
 
-	#region RelationCosmos
-	/// <summary>
+
+    #region RelationCosmos
+    /// <summary>
 	/// Container for defaults, and the global string (url) table
 	/// </summary>
 	internal sealed class RelationCosmos
