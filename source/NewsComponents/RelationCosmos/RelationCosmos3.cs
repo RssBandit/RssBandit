@@ -49,7 +49,8 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">RelationBase[]</param>
-        public void AddRange(IEnumerable<RelationBase> relations)
+        public void AddRange<T>(IEnumerable<T> relations)
+            where T : RelationBase
         {
 			InternalAddRange(relations);
 		}
@@ -66,7 +67,9 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-        public void RemoveRange(IEnumerable<RelationBase> relations) {
+        public void RemoveRange<T>(IEnumerable<T> relations) 
+            where T : RelationBase
+        {
 			InternalRemoveRange(relations);
 		}
 
@@ -88,7 +91,9 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        public RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations) {
+        public RelationList GetIncoming<T>(RelationBase relation, IList<T> excludeRelations) 
+            where T : RelationBase
+        {
 			if (relation == null) return RelationList.Empty;
 			
 			lock (syncRoot) {
@@ -98,7 +103,7 @@ namespace NewsComponents.RelationCosmos
 					//_log.Info("GetIncoming(href):" + hRef);
 					TstDictionary list = relationsLinkTo[hRef];
 					if (list != null) {
-						foreach (RelationBase linkBack in list.Values) {
+						foreach (T linkBack in list.Values) {
 							if ( ! excludeRelations.Contains(linkBack) && ! ret.Contains(linkBack)) {
 								ret.Add(linkBack);
 								//_log.Info(" ^--:" + linkBack.HRef);
@@ -120,7 +125,9 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        public RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
+        public RelationList GetOutgoing<T>(RelationBase relation, IList<T> excludeRelations) 
+            where T : RelationBase
+        {
 			if (relation == null) return RelationList.Empty;
 			IList<string> excludeUrls = GetRelationUrls(excludeRelations);
 			
@@ -145,7 +152,9 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations,
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        public RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
+        public RelationList GetIncomingAndOutgoing<T>(RelationBase relation, IList<T> excludeRelations) 
+            where T : RelationBase
+        {
 			// not required...?
 			return RelationList.Empty;
 		}
@@ -160,7 +169,9 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>
 		/// True, if any relation was found, else false
 		/// </returns>
-        public bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations) {
+        public bool HasIncomingOrOutgoing<T>(RelationBase relation, IList<T> excludeRelations) 
+            where T : RelationBase
+        {
 			if (relation == null) return false;
 			IList<string> excludeUrls = GetRelationUrls(excludeRelations);
 			
@@ -179,7 +190,7 @@ namespace NewsComponents.RelationCosmos
 				if (hRef != null && hRef.Length > 0) {
 					TstDictionary list = relationsLinkTo[hRef];
 					if (list != null) {
-						foreach (RelationBase linkBack in list.Values) {
+						foreach (T linkBack in list.Values) {
 							if (hRef != linkBack.HRef && ! excludeRelations.Contains(linkBack) )
 								return true;
 					
@@ -215,10 +226,12 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private members
-		private void InternalAddRange(IEnumerable<RelationBase> relations) {
+		private void InternalAddRange<T>(IEnumerable<T> relations) 
+            where T : RelationBase
+        {
 			if (relations == null) return;
 			lock (syncRoot) {
-                foreach (RelationBase relation in relations)
+                foreach (T relation in relations)
 					InternalAdd(relation);
 			}
 		}
@@ -262,11 +275,12 @@ namespace NewsComponents.RelationCosmos
 			}
 		}
 
-        private void InternalRemoveRange(IEnumerable<RelationBase> relations)
+        private void InternalRemoveRange<T>(IEnumerable<T> relations)
+            where T : RelationBase
         {
 			if (relations == null) return;
 			lock (syncRoot) {
-				foreach(RelationBase relation in relations)
+				foreach(T relation in relations)
 					InternalRemove(relation);
 			}
 		}
@@ -304,9 +318,11 @@ namespace NewsComponents.RelationCosmos
 		}
 
 
-        private static IList<string> GetRelationUrls(IList<RelationBase> relations) {
+        private static IList<string> GetRelationUrls<T>(IList<T> relations) 
+            where T : RelationBase
+        {
             List<string> urls = new List<string>();
-			foreach (RelationBase relation in relations) {
+			foreach (T relation in relations) {
 				string href = relation.HRef;
                 if ((href != null) && !urls.Contains(href)) {
 					urls.Add(href);

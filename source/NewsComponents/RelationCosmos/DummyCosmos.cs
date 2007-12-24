@@ -14,7 +14,8 @@ namespace NewsComponents.RelationCosmos
         {
         }
 
-        public void AddRange(IEnumerable<RelationBase> relations)
+        public void AddRange<T>(IEnumerable<T> relations)
+            where T : RelationBase
         {
         }
 
@@ -22,7 +23,8 @@ namespace NewsComponents.RelationCosmos
         {
         }
 
-        public void RemoveRange(IEnumerable<RelationBase> relations)
+        public void RemoveRange<T>(IEnumerable<T> relations)
+            where T : RelationBase
         {
         }
 
@@ -30,25 +32,7 @@ namespace NewsComponents.RelationCosmos
         {
         }
 
-        public RelationList GetIncoming(RelationBase relation, IList<RelationBase> excludeRelations)
-        {
-            return new RelationList();
-        }
-
-        public RelationList GetOutgoing(RelationBase relation, IList<RelationBase> excludeRelations)
-        {
-            return new RelationList();
-        }
-
-        public RelationList GetIncomingAndOutgoing(RelationBase relation, IList<RelationBase> excludeRelations)
-        {
-            return new RelationList();
-        }
-
-        public bool HasIncomingOrOutgoing(RelationBase relation, IList<RelationBase> excludeRelations)
-        {
-            return false;
-        }
+    
 
         private bool _deepCosmos;
         public bool DeepCosmos
@@ -74,6 +58,26 @@ namespace NewsComponents.RelationCosmos
             {
                 _adjustTime = value;
             }
+        }
+
+        public RelationList GetIncoming<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        {
+            return new RelationList();
+        }
+
+        public RelationList GetOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        {
+            return new RelationList();
+        }
+
+        public RelationList GetIncomingAndOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        {
+            return new RelationList();
+        }
+
+        public bool HasIncomingOrOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        {
+            return false;
         }
     }
 }

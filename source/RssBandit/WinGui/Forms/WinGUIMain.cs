@@ -10783,11 +10783,13 @@ namespace RssBandit.WinGui.Forms
 					{	// just take the existing collection
 
 						// they are sorted as we requested them, so we do not sort again here
-						List<NewsItem> commentItems 
-                            = new List<RelationBase>(currentNewsItem.GetExternalRelations()).ConvertAll<NewsItem>(RssBandit.Common.Utils.TypeConverter.DownCast<RelationBase, NewsItem>());
+                        //currentNewsItem.GetExternalRelations();
+
+						//List<NewsItem> commentItems 
+                          //  = new List<RelationBase>(currentNewsItem.GetExternalRelations()).ConvertAll<NewsItem>(RssBandit.Common.Utils.TypeConverter.DownCast<RelationBase, NewsItem>());
 						//commentItems.Sort(RssHelper.GetComparer(false, NewsItemSortField.Date));
 
-						foreach (NewsItem o in commentItems) 
+                        foreach (NewsItem o in currentNewsItem.GetExternalRelations()) 
 						{
 
 							bool hasRelations = this.NewsItemHasRelations(o, itemKeyPath);
