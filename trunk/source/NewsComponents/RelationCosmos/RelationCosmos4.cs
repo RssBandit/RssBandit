@@ -14,6 +14,24 @@ using Tst;
 
 namespace NewsComponents.RelationCosmos
 {
+
+    /// <summary>
+    /// Since all URLs are interned in StringTable we can use object equality to speed up lookups. 
+    /// </summary>
+    internal class StringComparer : IEqualityComparer<string> {
+
+        public static StringComparer Comparer = new StringComparer();
+
+        public bool Equals(string s1, string s2) {
+            return Object.ReferenceEquals(s1, s2);              
+        }
+
+        public int GetHashCode(string s) {
+            return s.GetHashCode();
+        }
+
+
+    }
 	/// <summary>
 	/// RelationCosmos provide a way to look up incoming and outgoing links to 
     /// RelationBase instances in a fast and efficient manner. 
@@ -25,13 +43,13 @@ namespace NewsComponents.RelationCosmos
         /// <summary>
         /// List of all IRelation instances we know about. 
         /// </summary>
-        private readonly Dictionary<string, IRelation> registeredRelations = new Dictionary<string, IRelation>();
+        private readonly Dictionary<string, IRelation> registeredRelations = new Dictionary<string, IRelation>(StringComparer.Comparer);
 
         /// <summary>
         /// Table of all outgoing links and the RelationBase instance(s) that link to them. We use Object becase the 
         /// value may be instance of RelationBase or RelationList. 
         /// </summary>
-        private readonly Dictionary<string, Object> relationsLinkTo = new Dictionary<string, Object>(50000);
+        private readonly Dictionary<string, Object> relationsLinkTo = new Dictionary<string, Object>(50000,StringComparer.Comparer);
 
 		private readonly object syncRoot = new Object();
 
@@ -93,6 +111,45 @@ namespace NewsComponents.RelationCosmos
 				registeredRelations.Clear();
 			}
 		}
+
+
+        /// <summary>
+        /// Returns a list of relations, that are known in RelationCosmos and pointing to
+        /// the URL provided.
+        /// </summary>
+        /// <param name="hRef">The URL</param>
+        /// <param name="since">The date used to filter the returned relations. Only items that have been published since 
+        /// that date are return</param>
+        /// <returns>RelationList</returns>
+        public IList<T> GetIncoming<T>(string hRef, DateTime since)
+            where T : RelationBase<T> 
+        {
+            IList<T> ret = new List<T>();
+            if (String.IsNullOrEmpty(hRef)) return ret;
+
+            lock (syncRoot) {
+                Object value;
+                bool inDictionary = relationsLinkTo.TryGetValue(hRef, out value);
+                if (inDictionary) {
+                    IList<T> list = value as IList<T>;
+                    T item = value as T;
+
+                    if (list != null) {
+                        foreach (T linkBack in list) {
+                            if (linkBack.PointInTime > since) {
+                                ret.Add(linkBack);
+                            }
+                        }
+                    } else if (item != null) {
+                        if (item.PointInTime > since) {
+                            ret.Add(item);
+                        }
+                    }
+                }//if(inDictionary)
+            }
+
+            return ret;         
+        }
 
 		/// <summary>
 		/// Returns a list of relations, that are known in RelationCosmos and pointing to
@@ -341,6 +398,11 @@ namespace NewsComponents.RelationCosmos
             //To reduce creating unnecessary objects we add first RelationBase that links to a URL directly
             //into table. Only on subsequent links to a URL do we creat a RelationList. 
             if(href != null){
+
+                if (href.Equals(key)) { //item shouldn't link to itself
+                    return;
+                }
+
                 if (inDictionary) {
                     IList<T> list = value as IList<T>;
                     T item = value as T; 
@@ -350,7 +412,7 @@ namespace NewsComponents.RelationCosmos
                     } else if (item != null) {
                         list = new List<T>();
                         list.Add(item);
-                        list.Add(relation);
+                        list.Add(relation); 
                         toRelations[key] = list; 
                     }
 

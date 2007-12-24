@@ -40,6 +40,7 @@ using NewsComponents.Threading;
 using NewsComponents.Utils;
 #endregion
 
+using RC = NewsComponents.RelationCosmos;
 
 namespace NewsComponents {
 
@@ -4374,9 +4375,10 @@ namespace NewsComponents {
 							}
 
 							itemsTable.Remove(feedUrl); 
-						}else{ //if(itemsTable.ContainsKey(feedUrl)){
+						}else{ //if(itemsTable.ContainsKey(feedUrl)){ means this is a newly downloaded feed
 							firstSuccessfulDownload = true;
 							newReceivedItems = fi.ItemsList;
+                            NewsHandler.RelationCosmosAddRange(newReceivedItems);
 						}
 
 						itemsTable.Add(feedUrl, fi); 
@@ -5772,7 +5774,22 @@ namespace NewsComponents {
             else
                 return new List<NewsItem>();
 		}
-		
+
+        /// <summary>
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="since"></param>
+        /// <returns></returns>
+        public IList<NewsItem> GetItemsWithIncomingLinks(string url, DateTime since) {
+            //make sure we are using the interned string for lookup
+            url = RC.RelationCosmos.UrlTable.Add(url);
+
+            if (NewsHandler.buildRelationCosmos)
+                return relationCosmos.GetIncoming<NewsItem>(url, since);
+            else
+                return new List<NewsItem>();
+        }
+
 		/// <summary>
 		/// </summary>
 		/// <param name="item"></param>

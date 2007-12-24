@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.IO;
 using System.Xml;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -79,15 +80,36 @@ namespace RssBandit.WinGui{
             writer.WriteStartElement("body");
             writer.WriteStartElement("ol");
 
-            foreach (RelationHRefEntry topStory in TopStories) {
+            for(int i = 0; i < TopStories.Count; i++) {
+                RelationHRefEntry topStory = TopStories[i];
                 writer.WriteStartElement("li");
                 writer.WriteStartElement("p");
                 writer.WriteStartElement("a");
                 writer.WriteAttributeString("href", topStory.HRef);
                 writer.WriteString(topStory.Text);
                 writer.WriteEndElement(); //a 
-                // writer.WriteString(" (" + topStory.Score + ")"); 
-                writer.WriteElementString("p", SR.TopStoriesHtmlDiscussionSectionTitle);
+                //writer.WriteString(" (" + topStory.Score + ")"); 
+
+                writer.WriteStartElement("map");
+                writer.WriteAttributeString("name", "discussion" + i);                
+                writer.WriteStartElement("area");
+                writer.WriteAttributeString("shape", "rect");
+                writer.WriteAttributeString("coords", "0,0,16,16");
+                writer.WriteAttributeString("alt", SR.MenuCatchUpOnAllCaption);
+                writer.WriteAttributeString("href", "fdaction:?action=markdiscussionread&storyid=" + topStory.HRef);
+                writer.WriteEndElement(); //area                
+                writer.WriteEndElement(); //map
+                
+                writer.WriteStartElement("p");
+                writer.WriteString(SR.TopStoriesHtmlDiscussionSectionTitle);
+                writer.WriteStartElement("img");
+                writer.WriteAttributeString("border", "0"); 
+                writer.WriteAttributeString("usemap", "#discussion" + i);
+                writer.WriteAttributeString("src", Path.Combine(Application.StartupPath,@"templates\images\read.gif"));
+                writer.WriteEndElement(); //img
+                writer.WriteEndElement(); //p
+               
+                
                 writer.WriteStartElement("ul");
                 foreach (NewsItem item in topStory.References) {
                     writer.WriteStartElement("li");

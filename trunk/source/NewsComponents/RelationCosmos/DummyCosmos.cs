@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NewsComponents.RelationCosmos
 {
@@ -62,6 +63,11 @@ namespace NewsComponents.RelationCosmos
         {
             return new List<T>();
         }
+
+        public IList<T> GetIncoming<T>(string hRef, DateTime since) where T : RelationBase<T> {
+            return new List<T>();
+        }
+
 
         public IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
         {
