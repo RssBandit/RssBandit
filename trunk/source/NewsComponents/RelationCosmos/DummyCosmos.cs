@@ -10,21 +10,21 @@ namespace NewsComponents.RelationCosmos
     internal class DummyCosmos : IRelationCosmos
     {
         
-        public void Add(RelationBase relation)
+        public void Add<T>(T relation) where T : RelationBase<T>
         {
         }
 
         public void AddRange<T>(IEnumerable<T> relations)
-            where T : RelationBase
+            where T : RelationBase<T>
         {
         }
 
-        public void Remove(RelationBase relation)
+        public void Remove<T>(T relation) where T : RelationBase<T>
         {
         }
 
         public void RemoveRange<T>(IEnumerable<T> relations)
-            where T : RelationBase
+            where T : RelationBase<T>
         {
         }
 
@@ -60,22 +60,22 @@ namespace NewsComponents.RelationCosmos
             }
         }
 
-        public RelationList GetIncoming<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        public IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
         {
-            return new RelationList();
+            return new List<T>();
         }
 
-        public RelationList GetOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        public IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
         {
-            return new RelationList();
+            return new List<T>();
         }
 
-        public RelationList GetIncomingAndOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        public IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
         {
-            return new RelationList();
+            return new List<T>();
         }
 
-        public bool HasIncomingOrOutgoing<T>(RelationBase relation, IList<T> excludeRelations) where T : RelationBase
+        public bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
         {
             return false;
         }

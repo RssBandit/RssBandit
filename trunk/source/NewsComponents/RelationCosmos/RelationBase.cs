@@ -17,8 +17,10 @@ namespace NewsComponents.RelationCosmos
 	/// <summary>
 	/// Abstract base class used by RelationCosmos to work with relational items. 
 	/// </summary>
-	public abstract class RelationBase: IComparable {
-
+	public abstract class RelationBase <T>: IRelation, IComparable
+        where T : RelationBase<T>
+    {
+        
         protected static List<string> EmptyList = new List<string>(0);
 		
 		/// <summary>
@@ -26,7 +28,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		protected RelationBase() {
 			hReference = String.Empty;
-            outgoingRelationships = RelationBase.EmptyList;	
+            outgoingRelationships = EmptyList;	
 			aPointInTime = RelationCosmos.UnknownPointInTime;
 			pointInTimeIsAdjustable = true;
 			externalRelations = null;
@@ -110,22 +112,22 @@ namespace NewsComponents.RelationCosmos
 		/// returns true to retrive the external Relation resource(s).
 		/// Default return is the RelationCosmos.EmptyRelationList.
 		/// </summary>
-		public virtual RelationList GetExternalRelations() { 
-			if (externalRelations == null)
-				return RelationList.Empty; 
+		public virtual IList<T> GetExternalRelations() {
+            if (externalRelations == null)
+                return new List<T>();
 			return externalRelations;
 		}
 		/// <summary>
 		/// Should be overridden. Stores a collection of external Relations related
 		/// to this RelationBase.
 		/// </summary>
-		public virtual void SetExternalRelations(RelationList relations) { 
+		public virtual void SetExternalRelations(IList<T> relations) { 
 			externalRelations = relations; 
 		}
 		/// <summary>
 		/// Internal accessor.
 		/// </summary>
-		protected RelationList externalRelations = null;
+		protected IList<T> externalRelations = null;
 
 		#region IComparable Members
 
@@ -134,15 +136,26 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public int CompareTo(object obj) {
-			if (Object.ReferenceEquals(this, obj))
-				return 0;
-			RelationBase r = obj as RelationBase;
-			if (r == null)
-				return 1;
-			
-			return this.aPointInTime.CompareTo(r.aPointInTime);
+		public int CompareTo(object obj) 
+        {
+            return CompareTo(obj as RelationBase<T>);
 		}
+
+        public int CompareTo(RelationBase<T> other)
+        {
+            if (ReferenceEquals(this, other))
+                return 0;
+            
+            if (ReferenceEquals(other, null))
+                return 1;
+
+            return this.aPointInTime.CompareTo(other.aPointInTime);
+        }
+
+        public int CompareTo(IRelation other)
+        {
+            return CompareTo(other as RelationBase<T>);
+        }
 
 		#endregion
 	}
@@ -150,7 +163,9 @@ namespace NewsComponents.RelationCosmos
 	/// <summary>
 	/// A base impl. of RelationBase.
 	/// </summary>
-	public class RelationProxy: RelationBase {
+	public class RelationProxy<T> : RelationBase<T>
+        where T : RelationBase<T>
+    {
 		
 		#region ctor(s)
 		/// <summary>

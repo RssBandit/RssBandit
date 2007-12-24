@@ -1976,7 +1976,7 @@ namespace NewsComponents {
         /// <returns>A sorted list (descending order) of RelationHrefEntry objects that 
         /// correspond to the most popular item from the date range starting with the 
         /// since parameter and ending with today.</returns>
-        public List<RelationHRefEntry> GetTopStories(TimeSpan since, int numStories) { 
+        public IList<RelationHRefEntry> GetTopStories(TimeSpan since, int numStories) { 
         
             string[] keys = GetFeedsTableKeys();
             Dictionary<RelationHRefEntry, List<RankedNewsItem>> allLinks = new Dictionary<RelationHRefEntry, List<RankedNewsItem>>(); 
@@ -5765,13 +5765,12 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public ICollection<RelationBase> GetItemsWithIncomingLinks<T>(NewsItem item, IList<T> excludeItemsList)
-            where T : RelationBase
+        public ICollection<NewsItem> GetItemsWithIncomingLinks(NewsItem item, IList<NewsItem> excludeItemsList)
         {
-			if(NewsHandler.buildRelationCosmos)
-				return relationCosmos.GetIncoming(item, excludeItemsList);
-			else 
-				return new RelationList(); 
+            if (NewsHandler.buildRelationCosmos)
+                return relationCosmos.GetIncoming(item, excludeItemsList);
+            else
+                return new List<NewsItem>();
 		}
 		
 		/// <summary>
@@ -5779,13 +5778,12 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public ICollection<RelationBase> GetItemsFromOutGoingLinks<T>(NewsItem item, IList<T> excludeItemsList)
-            where T : RelationBase
+        public ICollection<NewsItem> GetItemsFromOutGoingLinks(NewsItem item, IList<NewsItem> excludeItemsList)
         {
-			if(NewsHandler.buildRelationCosmos)
-				return relationCosmos.GetOutgoing(item, excludeItemsList);
-			else 
-				return new RelationList(); 			
+            if (NewsHandler.buildRelationCosmos)
+                return relationCosmos.GetOutgoing(item, excludeItemsList);
+            else
+                return new List<NewsItem>();	
 		}
 	 
 		/// <summary>
@@ -5793,8 +5791,7 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public bool HasItemAnyRelations<T>(NewsItem item, IList<T> excludeItemsList) 
-            where T : RelationBase
+        public bool HasItemAnyRelations(NewsItem item, IList<NewsItem> excludeItemsList) 
         {
 			if(NewsHandler.buildRelationCosmos)
 				return relationCosmos.HasIncomingOrOutgoing(item, excludeItemsList);
@@ -5806,28 +5803,32 @@ namespace NewsComponents {
 		/// Internal used accessor
 		/// </summary>
 		/// <param name="relation"></param>
-		internal static void RelationCosmosAdd (RelationBase relation) {			
+		internal static void RelationCosmosAdd<T>(T relation)
+            where T : RelationBase<T>
+        {			
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.Add(relation);
 			else 
 				return;
 		}
         internal static void RelationCosmosAddRange<T>(IEnumerable<T> relations) 
-            where T : RelationBase
+            where T : RelationBase<T>
         {
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.AddRange(relations);
 			else 
 				return;
 		}
-		internal static void RelationCosmosRemove (RelationBase relation) {
+		internal static void RelationCosmosRemove<T>(T relation) 
+            where T : RelationBase<T>
+        {
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.Remove(relation);
 			else 
 				return;
 		}
 		internal static void RelationCosmosRemoveRange<T>(IList<T> relations) 
-            where T : RelationBase
+            where T : RelationBase<T>
         {
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.RemoveRange(relations);

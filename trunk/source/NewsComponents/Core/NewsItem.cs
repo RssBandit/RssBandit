@@ -211,7 +211,8 @@ namespace NewsComponents {
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
-    public class NewsItem : RelationBase, INewsItem, ISizeInfo {
+    public class NewsItem : RelationBase<NewsItem>, INewsItem, ISizeInfo
+    {
 
 
         /// <summary>
@@ -626,11 +627,14 @@ namespace NewsComponents {
         /// of a NewsItem.
         /// </summary>
         /// <param name="relations"></param>
-        public override void SetExternalRelations(RelationList relations) {
-            if (base.GetExternalRelations() != RelationList.Empty) {
+        public override void SetExternalRelations(IList<NewsItem> relations)
+        {
+            if (base.GetExternalRelations().Count > 0)
+            {
                 NewsHandler.RelationCosmosRemoveRange(relations);
             }
             NewsHandler.RelationCosmosAddRange(relations);
+            
             base.SetExternalRelations(relations);
         }
 
@@ -1162,7 +1166,7 @@ namespace NewsComponents {
             if (NewsHandler.BuildRelationCosmos) {
                 base.outgoingRelationships = HtmlHelper.RetrieveLinks(content);
             } else {
-                base.outgoingRelationships = RelationBase.EmptyList;
+                base.outgoingRelationships = new List<string>();
             }
         }
 

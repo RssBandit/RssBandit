@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using NewsComponents.Feed;
+using System.Collections.Generic;
 
 namespace NewsComponents.Collections {
 	#region Interface IcategoryCollection
@@ -557,7 +558,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="IStringcategoryDictionary"/>.</value>
 		/// <remarks>Please refer to <see cref="IDictionary.Keys"/> for details.</remarks>
 
-		IStringCollection Keys { get; }
+		ICollection<string> Keys { get; }
 
 		#endregion
 		#region Values
@@ -1463,7 +1464,7 @@ namespace NewsComponents.Collections {
 		/// the keys in the <see cref="CategoriesCollection"/>.</value>
 		/// <remarks>Please refer to <see cref="SortedList.Keys"/> for details.</remarks>
 
-		public virtual IStringCollection Keys {
+		public virtual ICollection<string> Keys {
 			get { return GetKeyList(); }
 		}
 
@@ -2076,7 +2077,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="CategoriesCollection"/>.</returns>
 		/// <remarks>Please refer to <see cref="SortedList.GetKeyList"/> for details.</remarks>
 
-		public virtual IStringList GetKeyList() {
+		public virtual ICollection<string> GetKeyList() {
 			if (this._keyList == null)
 				this._keyList = new KeyList(this);
 			return this._keyList;
@@ -2697,7 +2698,7 @@ namespace NewsComponents.Collections {
 		#region Class KeyList
 
 		[Serializable]
-			private sealed class KeyList: IStringList, IList {
+			private sealed class KeyList: IList<string> {
 			#region Private Fields
 
 			private CategoriesCollection _collection;
@@ -2734,11 +2735,7 @@ namespace NewsComponents.Collections {
 						  "Read-only collections cannot be modified."); }
 			}
 
-			object IList.this[int index] {
-				get { return this[index]; }
-				set { throw new NotSupportedException(
-						  "Read-only collections cannot be modified."); }
-			}
+	
 
 			public object SyncRoot {
 				get { return this._collection.SyncRoot; }
@@ -2747,15 +2744,11 @@ namespace NewsComponents.Collections {
 			#endregion
 			#region Public Methods
 
-			public int Add(String key) {
+			public void Add(String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
 
-			int IList.Add(object key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
 
 			public void Clear() {
 				throw new NotSupportedException(
@@ -2766,23 +2759,15 @@ namespace NewsComponents.Collections {
 				return this._collection.ContainsKey(key);
 			}
 
-			bool IList.Contains(object key) {
-				return Contains((String) key);
-			}
-
 			public void CopyTo(String[] array, int arrayIndex) {
 				this._collection.CheckTargetArray(array, arrayIndex);
 				Array.Copy(this._collection._keys, 0,
 					array, arrayIndex, this._collection.Count);
 			}
 
-			void ICollection.CopyTo(Array array, int arrayIndex) {
-				this._collection.CheckTargetArray(array, arrayIndex);
-				CopyTo((String[]) array, arrayIndex);
-			}
-
-			public IStringEnumerator GetEnumerator() {
-				return new KeyEnumerator(this._collection);
+            
+			public IEnumerator<string> GetEnumerator() {
+                return new List<string>(this._collection._keys).GetEnumerator();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator() {
@@ -2793,29 +2778,17 @@ namespace NewsComponents.Collections {
 				return this._collection.IndexOfKey(key);
 			}
 
-			int IList.IndexOf(object key) {
-				return IndexOf((String) key);
-			}
-
 			public void Insert(int index, String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
 
-			void IList.Insert(int index, object key) {
+
+			public bool Remove(String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
 
-			public void Remove(String key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
-
-			void IList.Remove(object key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
 
 			public void RemoveAt(int index) {
 				throw new NotSupportedException(
@@ -2826,58 +2799,7 @@ namespace NewsComponents.Collections {
 		}
 
 		#endregion
-		#region Class KeyEnumerator
-
-		[Serializable]
-			private sealed class KeyEnumerator:
-			IStringEnumerator, IEnumerator {
-			#region Private Fields
-
-			private readonly CategoriesCollection _collection;
-			private readonly int _version;
-			private int _index;
-
-			#endregion
-			#region Internal Constructors
-
-			internal KeyEnumerator(CategoriesCollection collection) {
-				this._collection = collection;
-				this._version = collection._version;
-				this._index = -1;
-			}
-
-			#endregion
-			#region Public Properties
-
-			public String Current {
-				get {
-					this._collection.CheckEnumIndex(this._index);
-					this._collection.CheckEnumVersion(this._version);
-					return this._collection._keys[this._index];
-				}
-			}
-
-			object IEnumerator.Current {
-				get { return Current; }
-			}
-
-			#endregion
-			#region Public Methods
-
-			public bool MoveNext() {
-				this._collection.CheckEnumVersion(this._version);
-				return (++this._index < this._collection.Count);
-			}
-
-			public void Reset() {
-				this._collection.CheckEnumVersion(this._version);
-				this._index = -1;
-			}
-
-			#endregion
-		}
-
-		#endregion
+		
 		#region Class ValueList
 
 		[Serializable]
@@ -3120,7 +3042,7 @@ namespace NewsComponents.Collections {
 				set { lock (this._root) this._collection[index] = value; }
 			}
 
-			public override IStringCollection Keys {
+			public override ICollection<string> Keys {
 				get { lock (this._root) return this._collection.Keys; }
 			}
 
@@ -3191,7 +3113,7 @@ namespace NewsComponents.Collections {
 				lock (this._root) return this._collection.GetKey(index);
 			}
 
-			public override IStringList GetKeyList() {
+			public override ICollection<string> GetKeyList() {
 				lock (this._root) return this._collection.GetKeyList();
 			}
 
