@@ -57,68 +57,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_09EA3009FD7D4654B67CC56274067C19"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0A593762A0D842F69CCA5D78C0341429"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_9C45E764C758DBF477D05247EA3CF4F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_61F3B27483BB0692CA0D8AC1ACF8FC66"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_2BB1DF4162CFC05517E18C872E219A19"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_21A3AB02334CC21F9602E9E023E6E296"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
-        "OwnerKey" = "8:_B9B2B7ED82C36A84870E91644F8779D6"
+        "MsmKey" = "8:_0C713042D3684CE797D4695B1859F8E2"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -153,7 +99,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1C2B76B43DC44D4DB21C8D1222B2A79C"
+        "MsmKey" = "8:_1992CD8CFDDB43D4BE8F63B7388AF78C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -165,31 +111,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1F37BFA4F398478B820308CCE7FDF391"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1F3C1879101B4C348EBF2688998E3B9B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_21A3AB02334CC21F9602E9E023E6E296"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_21A3AB02334CC21F9602E9E023E6E296"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
+        "MsmKey" = "8:_241096F1882C433995D37A16FD7D8576"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_246EB20EC7074D6C94C65F5BF125F7ED"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_24CB669987B447BA8900ABD004012FFA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -219,12 +159,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2BB1DF4162CFC05517E18C872E219A19"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2C3A77779B38447BAD0C27CF10DBD45E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -250,6 +184,12 @@
         "Entry"
         {
         "MsmKey" = "8:_310A766C6BEF4FD7A36E0F211C5A5E66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_33FA2ED69E22472A9216BC4D235A190C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -285,7 +225,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3DB8E3266C224318BA8F12ED396EA051"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_411651FF315A4F46A0150B73BAE7E6F1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -315,13 +267,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_46CD6652E93F4EEBA35E51F9FF62F9F3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_48461E7FADCB49C2857C7E16985053DC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_487CD55AC2504E709BEF778D69AE64F5"
+        "MsmKey" = "8:_4AAAED22C40B40368697247D8071C509"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -345,8 +303,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
+        "MsmKey" = "8:_4FCDB0647400EA4A59E9114F87E4CD96"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4FCDB0647400EA4A59E9114F87E4CD96"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -369,7 +333,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5570D3ED66784006A88D010A557E799A"
+        "MsmKey" = "8:_56CC181E398B486690B638912E82E1B1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -381,25 +345,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_61678945471F48F896C8D5FC04743AC4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_61B4A5F936CC4415AA6FCDE0BC78D6B8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_61F3B27483BB0692CA0D8AC1ACF8FC66"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_61F3B27483BB0692CA0D8AC1ACF8FC66"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_63FB06391CA4406BB9AA9FC77C60756E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_655AA3EE068647968A7F7E40D6F34322"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -418,7 +382,7 @@
         "Entry"
         {
         "MsmKey" = "8:_67350B90764C79733CBFBB76DDC6A35C"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -436,6 +400,12 @@
         "Entry"
         {
         "MsmKey" = "8:_699074FC507D46A484382B21668F68BD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70085DE4B9814B7CB2A9A9358D16BE80"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -508,6 +478,12 @@
         "Entry"
         {
         "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "OwnerKey" = "8:_24CB669987B447BA8900ABD004012FFA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
         "OwnerKey" = "8:_C054BF9A415843E787D6CE8D014C8D4B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -531,12 +507,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_85C61E502DFF4B7BA7079C3AF24E485B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_86AAD0ACCBF64D57AA1B332F9E020A90"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -544,7 +514,7 @@
         "Entry"
         {
         "MsmKey" = "8:_872A8FEEA9D5D45564745E9A758B50DB"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -561,8 +531,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8C103B9FA32240D5A04AD9F392F8D0AB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8C759C10101D4B0F9D069D289897438D"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D7DD1D770FB815232EDF2A8C676A9DC"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D7DD1D770FB815232EDF2A8C676A9DC"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -597,13 +591,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_943788168E384B34B93E90C7046C74F8"
+        "MsmKey" = "8:_92902ED009D04B5693C96E7290DC1CB1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_96F0042AA7F94A55ABCFA50234868166"
+        "MsmKey" = "8:_943788168E384B34B93E90C7046C74F8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -616,12 +610,6 @@
         "Entry"
         {
         "MsmKey" = "8:_9A3006A0ADC89871B8C00ED84CE4D2F8"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9C45E764C758DBF477D05247EA3CF4F1"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -651,6 +639,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A2E24D721B4453D365EA1273B044BF0C"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A49BB9E00C16446681EA40DAF91F3556"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -675,50 +675,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_B9B2B7ED82C36A84870E91644F8779D6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
+        "MsmKey" = "8:_A9D50634B959020A1C4667079B922209"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_9C45E764C758DBF477D05247EA3CF4F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_61F3B27483BB0692CA0D8AC1ACF8FC66"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_2BB1DF4162CFC05517E18C872E219A19"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "OwnerKey" = "8:_21A3AB02334CC21F9602E9E023E6E296"
+        "MsmKey" = "8:_A9D50634B959020A1C4667079B922209"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -747,18 +711,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AEAF254EC6F64D5AA0B3A33BDD1591F7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AFF7FDD59962438FABBFA405CDBF30C9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -783,32 +735,50 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B5ED34051FB2BD4734126D74CBAACA43"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_EE405ABA952AB78C7C2262C176BB25CD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B5ED34051FB2BD4734126D74CBAACA43"
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B8EC305476E2408A9CFAD07B95755C28"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_C808812E1C5BDC95C14A5BA364C6401B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B9B2B7ED82C36A84870E91644F8779D6"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B9B2B7ED82C36A84870E91644F8779D6"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_4FCDB0647400EA4A59E9114F87E4CD96"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_A2E24D721B4453D365EA1273B044BF0C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "OwnerKey" = "8:_A9D50634B959020A1C4667079B922209"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -831,12 +801,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BE7AE9D7ADAA4E14BBE70765243BFEE3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C054BF9A415843E787D6CE8D014C8D4B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -849,32 +813,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C1BB413273EF4B9887F36BB8CDFB62BC"
+        "MsmKey" = "8:_C7033CA730DE4C99A0D1E6A50C48786D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C64267F8FFEA402E8B495508FE6CD3BB"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C808812E1C5BDC95C14A5BA364C6401B"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C8A4E5CF78E745ECAB83D45AB51E9E4C"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -887,18 +839,6 @@
         {
         "MsmKey" = "8:_CC213FFB546B40D3A4F5F97E50E35A5B"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CF442141FD8015A541DA1FCFADB6B7B6"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CF442141FD8015A541DA1FCFADB6B7B6"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -927,6 +867,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D959F6667D304F56A56532EF09ADEF8E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -940,6 +886,12 @@
         "Entry"
         {
         "MsmKey" = "8:_D9B057EF9EFD4281AA96C44B52625384"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -999,8 +951,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E710B7A7760D4BF4A9D57EE204B2BDF6"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
+        "OwnerKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1023,14 +999,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EA830BDFAF25495788F40113FEA936E3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EBC149534090BF103EC747F0BC8CBE6A"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_EBC149534090BF103EC747F0BC8CBE6A"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE405ABA952AB78C7C2262C176BB25CD"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE405ABA952AB78C7C2262C176BB25CD"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1077,25 +1071,79 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FAF7BA4476D38BA032A8BF0633B39819"
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FAF7BA4476D38BA032A8BF0633B39819"
-        "OwnerKey" = "8:_CF442141FD8015A541DA1FCFADB6B7B6"
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_C808812E1C5BDC95C14A5BA364C6401B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FAF7BA4476D38BA032A8BF0633B39819"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_4FCDB0647400EA4A59E9114F87E4CD96"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_A2E24D721B4453D365EA1273B044BF0C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_A9D50634B959020A1C4667079B922209"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "OwnerKey" = "8:_EE405ABA952AB78C7C2262C176BB25CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FD80BFBB893F421F91703D7B237B3C2E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE59AA19396747929FB12527B547C421"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1107,6 +1155,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FFA9DA831F23419F98B27037E9711E61"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
@@ -1114,7 +1168,157 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C054BF9A415843E787D6CE8D014C8D4B"
+        "OwnerKey" = "8:_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_655AA3EE068647968A7F7E40D6F34322"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_92902ED009D04B5693C96E7290DC1CB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_70085DE4B9814B7CB2A9A9358D16BE80"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3DB8E3266C224318BA8F12ED396EA051"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1992CD8CFDDB43D4BE8F63B7388AF78C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_46CD6652E93F4EEBA35E51F9FF62F9F3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_241096F1882C433995D37A16FD7D8576"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_33FA2ED69E22472A9216BC4D235A190C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0C713042D3684CE797D4695B1859F8E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_411651FF315A4F46A0150B73BAE7E6F1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FFA9DA831F23419F98B27037E9711E61"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8C103B9FA32240D5A04AD9F392F8D0AB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C7033CA730DE4C99A0D1E6A50C48786D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4AAAED22C40B40368697247D8071C509"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_56CC181E398B486690B638912E82E1B1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EA830BDFAF25495788F40113FEA936E3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FE59AA19396747929FB12527B547C421"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_24CB669987B447BA8900ABD004012FFA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8D7DD1D770FB815232EDF2A8C676A9DC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FD80BFBB893F421F91703D7B237B3C2E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F4BBD79CF6B744D9BC27CDAFCC1932B5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1150,6 +1354,18 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E0F157F7767D42809691FC569AD67502"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E092BAA9A48846C6A7C38320418A87D3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D959F6667D304F56A56532EF09ADEF8E"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1174,7 +1390,61 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CC213FFB546B40D3A4F5F97E50E35A5B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_CA74F14DDEF64C62869630CDB68ABD27"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C8A4E5CF78E745ECAB83D45AB51E9E4C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C0B39D56DA4C487582D3CD9D62094EBB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BDCEB25FD8EF4879A4A45C4CF9836D5F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B3EDD8EFBF12447FA9EBE52D882211BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B38A29EF6BF5455B8E9D90D027554127"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_ABE331F2C2AF4F81B6CAAC35E68DED4E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AB36BC9B62FA4205B9C04AD762F9309D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A95F3C117D1049F69BD1B3F92AEBDFA9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1186,7 +1456,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A49BB9E00C16446681EA40DAF91F3556"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A073398FEC9247168F1C3B5ADBE0A561"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9F076A7370E84081A7DF4A059EE0DEBE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_97EF747A6C784F4EAD063146F6A81249"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8C759C10101D4B0F9D069D289897438D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1216,6 +1510,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_70D191DDF4C74C81B02DC5689F6802F3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_699074FC507D46A484382B21668F68BD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1234,7 +1534,55 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_54CE9AD8C0034537BC6F57644DE29FBC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_54204F8B78264B589B3907FE40470443"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4E3A6EFA8C694C3B9C0AFD9A3CE53B7B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4CB04215B1244CF584BF166E07C4542C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_48461E7FADCB49C2857C7E16985053DC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_440CFD99ED5D437090C46F2751012562"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_439B7664336C4ECE814ACBBDFE98A565"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_41EE5DD214704765A3148BF78F1FEF97"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_36D504DC08DB422691C2A18CABC94F17"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1246,7 +1594,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2A2957953C2A4554A9E27E71FB110390"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_26F0D47293F3400BA4C11044A2EC9B0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_246EB20EC7074D6C94C65F5BF125F7ED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_18C14984BDFA4F49AEC08F09DF3B48F9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_14174C53DB384B99B65EF079D2E46777"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1258,7 +1630,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_05CBBCFA4F7044BAA70CD0791D53B0FF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_05B5BE7A5D0E42CF9A2EA8266DD6FB61"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_03ADE38F5B11402881027EB21CF7896D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_02ED2F46B0374847A3CAD7073A4C8FB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C054BF9A415843E787D6CE8D014C8D4B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1318,6 +1714,60 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C808812E1C5BDC95C14A5BA364C6401B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A3F78C84310F81358DDDB7A642FC952F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4FCDB0647400EA4A59E9114F87E4CD96"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A2E24D721B4453D365EA1273B044BF0C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A9D50634B959020A1C4667079B922209"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EE405ABA952AB78C7C2262C176BB25CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B64E46B5B2435CDF5F5FCC83498249C8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F63A119493AC4B14B2B2BD315B04B885"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_DF96B5A29BB9D997E4CE7FD5BF4CFBDC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1342,12 +1792,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AF1067A3AE9F4B412EA59212FD801DC2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_EBC149534090BF103EC747F0BC8CBE6A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1360,79 +1804,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CF442141FD8015A541DA1FCFADB6B7B6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B5ED34051FB2BD4734126D74CBAACA43"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FAF7BA4476D38BA032A8BF0633B39819"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_67350B90764C79733CBFBB76DDC6A35C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9C45E764C758DBF477D05247EA3CF4F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5137FCF76BBBC144D843D685B5ADFEEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_61F3B27483BB0692CA0D8AC1ACF8FC66"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2BB1DF4162CFC05517E18C872E219A19"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_21A3AB02334CC21F9602E9E023E6E296"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B9B2B7ED82C36A84870E91644F8779D6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AA1C6F68B725913CA50F35E593AD0A47"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0D8B291174BC828A94C3A47728419ACD"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1525,9 +1897,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=tr"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_02ED2F46B0374847A3CAD7073A4C8FB4"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\tr\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -1582,9 +1959,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=nl-NL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_05B5BE7A5D0E42CF9A2EA8266DD6FB61"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\nl-NL\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -1608,9 +1990,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_05CBBCFA4F7044BAA70CD0791D53B0FF"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\fr\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -1712,32 +2099,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_09EA3009FD7D4654B67CC56274067C19"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2620.19485, Culture=sr-SP-Cyrl"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\sr-SP-Cyrl\\BlogExtension.BlogThis.LiveWriter.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_593FA16E51204001920CA90E43C3E5C0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0A593762A0D842F69CCA5D78C0341429"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\images\\flag.purple.gif"
@@ -1758,23 +2119,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0D8B291174BC828A94C3A47728419ACD"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C713042D3684CE797D4695B1859F8E2"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Shared.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0D8B291174BC828A94C3A47728419ACD"
+                    "_0C713042D3684CE797D4695B1859F8E2"
                     {
-                    "Name" = "8:Infragistics2.Shared.v7.3.dll"
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Infragistics2.Shared.v7.3.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\sr-Latn-CS\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1786,7 +2147,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_11417D835AE54810B9BA1DF9B8EA5B4E"
@@ -1833,9 +2194,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=it"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_14174C53DB384B99B65EF079D2E46777"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\it\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -1879,9 +2245,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=ru"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_18C14984BDFA4F49AEC08F09DF3B48F9"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\ru\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -1901,18 +2272,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1C2B76B43DC44D4DB21C8D1222B2A79C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1992CD8CFDDB43D4BE8F63B7388AF78C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2620.19485, Culture=sr-SP-Latn"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_1992CD8CFDDB43D4BE8F63B7388AF78C"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\sr-SP-Latn\\BlogExtension.BlogThis.LiveWriter.resources.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\nl-NL\\BlogExtension.Twitter.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
+            "Folder" = "8:_22A4B79E4A3749708C1CBDA8BA3D15E0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1947,26 +2323,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1F37BFA4F398478B820308CCE7FDF391"
-            {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\DeliciousPlugin.cs"
-            "TargetName" = "8:DeliciousPlugin.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1F3C1879101B4C348EBF2688998E3B9B"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\images\\flag.orange.gif"
@@ -1987,23 +2343,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_21A3AB02334CC21F9602E9E023E6E296"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_241096F1882C433995D37A16FD7D8576"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinEditors.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_21A3AB02334CC21F9602E9E023E6E296"
+                    "_241096F1882C433995D37A16FD7D8576"
                     {
-                    "Name" = "8:Infragistics2.Win.UltraWinEditors.v7.3.dll"
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinEditors.v7.3.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\pt-BR\\BlogExtension.Twitter.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Folder" = "8:_20901B2B84C14C389E755BBA35F69567"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2015,7 +2371,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_246EB20EC7074D6C94C65F5BF125F7ED"
@@ -2093,9 +2449,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=pl"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_26F0D47293F3400BA4C11044A2EC9B0B"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\pl\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -2119,9 +2480,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2620.19485, Culture=es"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2A2957953C2A4554A9E27E71FB110390"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\es\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -2139,37 +2505,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2BB1DF4162CFC05517E18C872E219A19"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2BB1DF4162CFC05517E18C872E219A19"
-                    {
-                    "Name" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C3A77779B38447BAD0C27CF10DBD45E"
@@ -2294,6 +2629,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_33FA2ED69E22472A9216BC4D235A190C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=ru, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_33FA2ED69E22472A9216BC4D235A190C"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\ru\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B231B4F75DF34BAEB9E4802554F5BD39"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_36535787994748F58949BABFE9EA9CB8"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\holiday-halloween.fdxsl"
@@ -2349,9 +2715,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=de"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_36D504DC08DB422691C2A18CABC94F17"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\de\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -2411,13 +2782,80 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3DB8E3266C224318BA8F12ED396EA051"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=it, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_3DB8E3266C224318BA8F12ED396EA051"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\it\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_275AF812EEA8480C814390890F005E6B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_411651FF315A4F46A0150B73BAE7E6F1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_411651FF315A4F46A0150B73BAE7E6F1"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\MailThis\\obj\\Release\\sr-Latn-CS\\BlogExtension.MailThis.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_41EE5DD214704765A3148BF78F1FEF97"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_41EE5DD214704765A3148BF78F1FEF97"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\it\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -2441,9 +2879,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=it"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_439B7664336C4ECE814ACBBDFE98A565"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\it\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -2467,9 +2910,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=fr"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_440CFD99ED5D437090C46F2751012562"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\fr\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -2489,13 +2937,49 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_46CD6652E93F4EEBA35E51F9FF62F9F3"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=pl, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_46CD6652E93F4EEBA35E51F9FF62F9F3"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\pl\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7462974C16D749FC956B040C8132B659"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_48461E7FADCB49C2857C7E16985053DC"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=es"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_48461E7FADCB49C2857C7E16985053DC"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\es\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -2515,18 +2999,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_487CD55AC2504E709BEF778D69AE64F5"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4AAAED22C40B40368697247D8071C509"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=sr-SP-Latn"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_4AAAED22C40B40368697247D8071C509"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\sr-SP-Latn\\BlogExtension.Delicious.resources.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\MailThis\\obj\\Release\\sr-Cyrl-CS\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
+            "Folder" = "8:_480EA59B302F4A3F88907FCBAF91B3D9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2565,9 +3054,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=ru"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_4CB04215B1244CF584BF166E07C4542C"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\ru\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -2591,9 +3085,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=tr"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_4E3A6EFA8C694C3B9C0AFD9A3CE53B7B"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\tr\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -2613,20 +3112,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5137FCF76BBBC144D843D685B5ADFEEB"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4FCDB0647400EA4A59E9114F87E4CD96"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinToolbars.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5137FCF76BBBC144D843D685B5ADFEEB"
+                    "_4FCDB0647400EA4A59E9114F87E4CD96"
                     {
-                    "Name" = "8:Infragistics2.Win.UltraWinToolbars.v7.3.dll"
+                    "Name" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinToolbars.v7.3.dll"
+            "SourcePath" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -2699,9 +3198,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=zh-CHS"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_54CE9AD8C0034537BC6F57644DE29FBC"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\zh-CHS\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -2721,12 +3225,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5570D3ED66784006A88D010A557E799A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_56CC181E398B486690B638912E82E1B1"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\DeliciousPostForm.resx"
-            "TargetName" = "8:DeliciousPostForm.resx"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_56CC181E398B486690B638912E82E1B1"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\sr-Cyrl-CS\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
+            "Folder" = "8:_480EA59B302F4A3F88907FCBAF91B3D9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2772,6 +3287,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61678945471F48F896C8D5FC04743AC4"
+            {
+            "SourcePath" = "8:..\\RssBandit\\Resources\\ShortcutSettings.xml"
+            "TargetName" = "8:ShortcutSettings.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_AA1852E047E94D15A21B592B8ECAF99A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61B4A5F936CC4415AA6FCDE0BC78D6B8"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\images\\leftarrow.GIF"
@@ -2792,23 +3327,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_61F3B27483BB0692CA0D8AC1ACF8FC66"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_63FB06391CA4406BB9AA9FC77C60756E"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_61F3B27483BB0692CA0D8AC1ACF8FC66"
-                    {
-                    "Name" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinStatusBar.v7.3.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\RssBandit\\Media\\New Feed Items Received.wav"
+            "TargetName" = "8:New Feed Items Received.wav"
             "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Folder" = "8:_47C3CFE3F2344FBA81FBFEB128C15152"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2820,15 +3344,26 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_63FB06391CA4406BB9AA9FC77C60756E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_655AA3EE068647968A7F7E40D6F34322"
             {
-            "SourcePath" = "8:..\\RssBandit\\Media\\New Feed Items Received.wav"
-            "TargetName" = "8:New Feed Items Received.wav"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=de, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_655AA3EE068647968A7F7E40D6F34322"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\de\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_47C3CFE3F2344FBA81FBFEB128C15152"
+            "Folder" = "8:_EB2846F6CAB44EC98283ED4054546F6B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2976,13 +3511,49 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_70085DE4B9814B7CB2A9A9358D16BE80"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=fr, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_70085DE4B9814B7CB2A9A9358D16BE80"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\fr\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F00EB09C40BF42DAA47ED7995BF86F4C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_70D191DDF4C74C81B02DC5689F6802F3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_70D191DDF4C74C81B02DC5689F6802F3"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\de\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -3257,32 +3828,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_85C61E502DFF4B7BA7079C3AF24E485B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=sr-SP-Latn"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\sr-SP-Latn\\BlogExtension.MailThis.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_86AAD0ACCBF64D57AA1B332F9E020A90"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\neo-blue.fdxsl"
@@ -3365,13 +3910,49 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8C103B9FA32240D5A04AD9F392F8D0AB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=tr, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8C103B9FA32240D5A04AD9F392F8D0AB"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\tr\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9F058F51DD2D4903988B0D8AEE999C09"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8C759C10101D4B0F9D069D289897438D"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2620.19485, Culture=zh-CHS"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8C759C10101D4B0F9D069D289897438D"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\zh-CHS\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -3389,6 +3970,68 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\obj\\Release\\sr-Latn-CS\\BlogExtension.Delicious.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D7DD1D770FB815232EDF2A8C676A9DC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8D7DD1D770FB815232EDF2A8C676A9DC"
+                    {
+                    "Name" = "8:SgmlReaderDll.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SgmlReaderDll.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8DA89589171E4E42A0B97F1053D41089"
@@ -3491,6 +4134,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_92902ED009D04B5693C96E7290DC1CB1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=es, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_92902ED009D04B5693C96E7290DC1CB1"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\es\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_71BECFB8D64B4755BB93972ACAD0BE6A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_943788168E384B34B93E90C7046C74F8"
             {
             "SourcePath" = "8:..\\RssBandit\\templates\\outlook2003-orange.fdxsl"
@@ -3511,33 +4185,18 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_96F0042AA7F94A55ABCFA50234868166"
-            {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\DeliciousPluginConfigurationForm.cs"
-            "TargetName" = "8:DeliciousPluginConfigurationForm.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_97EF747A6C784F4EAD063146F6A81249"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=de"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_97EF747A6C784F4EAD063146F6A81249"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\de\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -3571,37 +4230,6 @@
                     }
                 }
             "SourcePath" = "8:Microsoft.ApplicationBlocks.ExceptionManagement.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9C45E764C758DBF477D05247EA3CF4F1"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_9C45E764C758DBF477D05247EA3CF4F1"
-                    {
-                    "Name" = "8:Infragistics2.Win.UltraWinTree.v7.3.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinTree.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -3674,9 +4302,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=pl"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A073398FEC9247168F1C3B5ADBE0A561"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\pl\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -3716,13 +4349,80 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A2E24D721B4453D365EA1273B044BF0C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_A2E24D721B4453D365EA1273B044BF0C"
+                    {
+                    "Name" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Infragistics2.Win.UltraWinExplorerBar.v7.3.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A3F78C84310F81358DDDB7A642FC952F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinToolbars.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_A3F78C84310F81358DDDB7A642FC952F"
+                    {
+                    "Name" = "8:Infragistics2.Win.UltraWinToolbars.v7.3.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Infragistics2.Win.UltraWinToolbars.v7.3.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A49BB9E00C16446681EA40DAF91F3556"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=bg"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A49BB9E00C16446681EA40DAF91F3556"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\bg\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -3777,9 +4477,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=es"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A95F3C117D1049F69BD1B3F92AEBDFA9"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\es\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -3819,20 +4524,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AA1C6F68B725913CA50F35E593AD0A47"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A9D50634B959020A1C4667079B922209"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinEditors.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_AA1C6F68B725913CA50F35E593AD0A47"
+                    "_A9D50634B959020A1C4667079B922209"
                     {
-                    "Name" = "8:Infragistics2.Win.v7.3.dll"
+                    "Name" = "8:Infragistics2.Win.UltraWinEditors.v7.3.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Infragistics2.Win.v7.3.dll"
+            "SourcePath" = "8:Infragistics2.Win.UltraWinEditors.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -3854,9 +4559,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_AB36BC9B62FA4205B9C04AD762F9309D"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\ru\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -3900,9 +4610,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_ABE331F2C2AF4F81B6CAAC35E68DED4E"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\pl\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -3940,57 +4655,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AEAF254EC6F64D5AA0B3A33BDD1591F7"
-            {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\MailThis\\EmailThisPlugin.cs"
-            "TargetName" = "8:EmailThisPlugin.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AF1067A3AE9F4B412EA59212FD801DC2"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.5.0.18, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AF1067A3AE9F4B412EA59212FD801DC2"
-                    {
-                    "Name" = "8:NewsComponents.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:NewsComponents.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AFF7FDD59962438FABBFA405CDBF30C9"
@@ -4037,9 +4701,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2620.19485, Culture=nl-NL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_B38A29EF6BF5455B8E9D90D027554127"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\nl-NL\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -4063,9 +4732,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_B3EDD8EFBF12447FA9EBE52D882211BC"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\tr\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -4085,77 +4759,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B5ED34051FB2BD4734126D74CBAACA43"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B64E46B5B2435CDF5F5FCC83498249C8"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B5ED34051FB2BD4734126D74CBAACA43"
+                    "_B64E46B5B2435CDF5F5FCC83498249C8"
                     {
-                    "Name" = "8:SgmlReaderDll.dll"
+                    "Name" = "8:Infragistics2.Win.v7.3.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:SgmlReaderDll.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B8EC305476E2408A9CFAD07B95755C28"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=sr-SP-Cyrl"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\sr-SP-Cyrl\\BlogExtension.MailThis.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_593FA16E51204001920CA90E43C3E5C0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B9B2B7ED82C36A84870E91644F8779D6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_B9B2B7ED82C36A84870E91644F8779D6"
-                    {
-                    "Name" = "8:Infragistics2.Win.Misc.v7.3.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Infragistics2.Win.Misc.v7.3.dll"
+            "SourcePath" = "8:Infragistics2.Win.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -4217,9 +4834,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=fr"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_BDCEB25FD8EF4879A4A45C4CF9836D5F"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\fr\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -4239,33 +4861,18 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BE7AE9D7ADAA4E14BBE70765243BFEE3"
-            {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\DeliciousPluginConfigurationForm.resx"
-            "TargetName" = "8:DeliciousPluginConfigurationForm.resx"
-            "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C0B39D56DA4C487582D3CD9D62094EBB"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_C0B39D56DA4C487582D3CD9D62094EBB"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\bg\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
@@ -4285,12 +4892,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C1BB413273EF4B9887F36BB8CDFB62BC"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C7033CA730DE4C99A0D1E6A50C48786D"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\BlogThisUsingLiveWriterPlugin.cs"
-            "TargetName" = "8:BlogThisUsingLiveWriterPlugin.cs"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=zh-CHS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C7033CA730DE4C99A0D1E6A50C48786D"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\zh-CHS\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
+            "Folder" = "8:_4DD4D8D727514BF581CB5B839044A8CE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4305,12 +4923,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C64267F8FFEA402E8B495508FE6CD3BB"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C808812E1C5BDC95C14A5BA364C6401B"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\DeliciousPostForm.cs"
-            "TargetName" = "8:DeliciousPostForm.cs"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C808812E1C5BDC95C14A5BA364C6401B"
+                    {
+                    "Name" = "8:Infragistics2.Win.UltraWinTree.v7.3.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Infragistics2.Win.UltraWinTree.v7.3.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4322,16 +4951,21 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C8A4E5CF78E745ECAB83D45AB51E9E4C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=bg"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_C8A4E5CF78E745ECAB83D45AB51E9E4C"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\bg\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -4349,37 +4983,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinTabControl.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_C9DBCBDF8EF7D5F82F84BB87CFABD5CC"
-                    {
-                    "Name" = "8:Infragistics2.Win.UltraWinTabControl.v7.3.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Infragistics2.Win.UltraWinTabControl.v7.3.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CA74F14DDEF64C62869630CDB68ABD27"
@@ -4417,9 +5020,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=pt-BR"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CC213FFB546B40D3A4F5F97E50E35A5B"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\pt-BR\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -4437,37 +5045,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CF442141FD8015A541DA1FCFADB6B7B6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Snowball.Net, Version=2.0.0.1, Culture=neutral"
-                "ScatterAssemblies"
-                {
-                    "_CF442141FD8015A541DA1FCFADB6B7B6"
-                    {
-                    "Name" = "8:Snowball.Net.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Snowball.Net.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D098384853C14CF294F4BF61174B182B"
@@ -4583,6 +5160,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=bg, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\bg\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D6746854A34A4F59B44A052E4AF64400"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D959F6667D304F56A56532EF09ADEF8E"
             {
             "AssemblyRegister" = "3:1"
@@ -4645,6 +5253,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DCA159F64453D9E16EFE8B702133ED72"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.5.0.18, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DCA159F64453D9E16EFE8B702133ED72"
+                    {
+                    "Name" = "8:NewsComponents.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:NewsComponents.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DF96B5A29BB9D997E4CE7FD5BF4CFBDC"
             {
             "AssemblyRegister" = "3:1"
@@ -4680,9 +5319,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=pt-BR"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_E092BAA9A48846C6A7C38320418A87D3"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\pt-BR\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -4706,9 +5350,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2620.19483, Culture=zh-CHS"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_E0F157F7767D42809691FC569AD67502"
+                    {
+                    "Name" = "8:BlogExtension.MailThis.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\zh-CHS\\BlogExtension.MailThis.resources.dll"
             "TargetName" = "8:"
@@ -4881,18 +5530,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E710B7A7760D4BF4A9D57EE204B2BDF6"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=sr-SP-Cyrl"
+            "AssemblyAsmDisplayName" = "8:Lucene.Net, Version=2.0.0.4, Culture=neutral"
                 "ScatterAssemblies"
                 {
+                    "_E6B9C6582E0F80BE1EE8B17D68BBBA73"
+                    {
+                    "Name" = "8:Lucene.Net.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
-            "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\sr-SP-Cyrl\\BlogExtension.Delicious.resources.dll"
+            "SourcePath" = "8:Lucene.Net.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_593FA16E51204001920CA90E43C3E5C0"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4904,7 +5558,38 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Snowball.Net, Version=2.0.0.1, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+                    {
+                    "Name" = "8:Snowball.Net.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Snowball.Net.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E9F854AF18E34FD0BC11E5336149238B"
@@ -4989,6 +5674,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EA830BDFAF25495788F40113FEA936E3"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_EA830BDFAF25495788F40113FEA936E3"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\obj\\Release\\sr-Cyrl-CS\\BlogExtension.Delicious.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_480EA59B302F4A3F88907FCBAF91B3D9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EBC149534090BF103EC747F0BC8CBE6A"
             {
             "AssemblyRegister" = "3:1"
@@ -5003,6 +5719,37 @@
                     }
                 }
             "SourcePath" = "8:ICSharpCode.SharpZipLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE405ABA952AB78C7C2262C176BB25CD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_EE405ABA952AB78C7C2262C176BB25CD"
+                    {
+                    "Name" = "8:Infragistics2.Win.Misc.v7.3.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Infragistics2.Win.Misc.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -5157,9 +5904,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2620.19480, Culture=nl-NL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F4BBD79CF6B744D9BC27CDAFCC1932B5"
+                    {
+                    "Name" = "8:BlogExtension.Delicious.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\bin\\Release\\nl-NL\\BlogExtension.Delicious.resources.dll"
             "TargetName" = "8:"
@@ -5179,20 +5931,51 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FAF7BA4476D38BA032A8BF0633B39819"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F63A119493AC4B14B2B2BD315B04B885"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Lucene.Net, Version=2.0.0.4, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Shared.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_FAF7BA4476D38BA032A8BF0633B39819"
+                    "_F63A119493AC4B14B2B2BD315B04B885"
                     {
-                    "Name" = "8:Lucene.Net.dll"
+                    "Name" = "8:Infragistics2.Shared.v7.3.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Lucene.Net.dll"
+            "SourcePath" = "8:Infragistics2.Shared.v7.3.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F72A7840AFE3F64EC2456B7B91CD0CEC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Infragistics2.Win.UltraWinTabControl.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F72A7840AFE3F64EC2456B7B91CD0CEC"
+                    {
+                    "Name" = "8:Infragistics2.Win.UltraWinTabControl.v7.3.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Infragistics2.Win.UltraWinTabControl.v7.3.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -5214,14 +5997,50 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2771.29661, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_FD80BFBB893F421F91703D7B237B3C2E"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\pt-BR\\BlogExtension.BlogThis.LiveWriter.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_20901B2B84C14C389E755BBA35F69567"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FE59AA19396747929FB12527B547C421"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FE59AA19396747929FB12527B547C421"
+                    {
+                    "Name" = "8:BlogExtension.BlogThis.LiveWriter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\sr-Cyrl-CS\\BlogExtension.BlogThis.LiveWriter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_480EA59B302F4A3F88907FCBAF91B3D9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5242,6 +6061,37 @@
             "TargetName" = "8:DOS.fdxsl"
             "Tag" = "8:"
             "Folder" = "8:_F17BD58C3A93482BAC529A9F0BFF7FFF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FFA9DA831F23419F98B27037E9711E61"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FFA9DA831F23419F98B27037E9711E61"
+                    {
+                    "Name" = "8:BlogExtension.Twitter.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\sr-Latn-CS\\BlogExtension.Twitter.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55352E97321643BFA17CD4C56AF3A83F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5446,6 +6296,17 @@
                                 {
                                 }
                             }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_480EA59B302F4A3F88907FCBAF91B3D9"
+                            {
+                            "Name" = "8:sr-Cyrl-CS"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_D556B28DFDD249A5975D25D7837D23A1"
+                                "Folders"
+                                {
+                                }
+                            }
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_4DD4D8D727514BF581CB5B839044A8CE"
                             {
                             "Name" = "8:zh-CHS"
@@ -5459,22 +6320,11 @@
                             }
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_55352E97321643BFA17CD4C56AF3A83F"
                             {
-                            "Name" = "8:sr-SP-Latn"
+                            "Name" = "8:sr-Latn-CS"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
                             "Property" = "8:_1A26D9A0B27043EEA8A42E64EB03CD6B"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_593FA16E51204001920CA90E43C3E5C0"
-                            {
-                            "Name" = "8:sr-SP-Cyrl"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_83F032DFBE86431EA5AEE853EB1809F2"
                                 "Folders"
                                 {
                                 }
@@ -5686,14 +6536,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RssBandit"
-        "ProductCode" = "8:{3CEE92A6-6CFC-4C17-BE88-DF10308F1650}"
-        "PackageCode" = "8:{DAA003E0-4125-4036-9D7C-FB250C2B3A8E}"
+        "ProductCode" = "8:{C52002C2-4261-4574-9502-93F986F8E5DA}"
+        "PackageCode" = "8:{0E32E9CC-E5B2-4B06-8603-E1A223029544}"
         "UpgradeCode" = "8:{108879A4-BD9B-414D-9C91-852BA402EF72}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.5.15"
+        "ProductVersion" = "8:1.6.0"
         "Manufacturer" = "8:rssbandit.org"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.rssbandit.org/forum/"
@@ -6274,9 +7124,37 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_24CB669987B447BA8900ABD004012FFA"
+            {
+            "SourcePath" = "8:..\\RssBandit\\plugins\\BlogThis.LiveWriter\\obj\\Release\\BlogExtension.BlogThis.LiveWriter.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{7ADBA6AC-5A31-42C4-BADC-477DADDA624B}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3DC73B03AA8640FBB69E982940423A2D"
             {
-            "SourcePath" = "8:..\\RssBandit\\obj\\Debug\\RSSBandit.exe"
+            "SourcePath" = "8:..\\RssBandit\\obj\\Release\\RSSBandit.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
@@ -6304,7 +7182,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4202C6018FC246769990BAECC42C71CB"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\obj\\Debug\\BlogExtension.Delicious.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Delicious\\obj\\Release\\BlogExtension.Delicious.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
@@ -6332,7 +7210,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_77924B31ADA84D66A8D18920D4CEA35B"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\MailThis\\obj\\Debug\\BlogExtension.MailThis.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\MailThis\\obj\\Release\\BlogExtension.MailThis.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
@@ -6360,7 +7238,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C054BF9A415843E787D6CE8D014C8D4B"
             {
-            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Debug\\BlogExtension.Twitter.dll"
+            "SourcePath" = "8:..\\RssBandit\\plugins\\Twitter\\obj\\Release\\BlogExtension.Twitter.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4541AC301944D4DB11C3F9520015939"
