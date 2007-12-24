@@ -45,7 +45,7 @@
    </feed>
   <feed category='News\Technology'>
     <title>Engadget</title>
-    <title>http://www.engadget.com/rss.xml</title>
+    <link>http://www.engadget.com/rss.xml</link>
   </feed>
     <feed category='Blogs'>
      <title>Robert Scoble</title>
