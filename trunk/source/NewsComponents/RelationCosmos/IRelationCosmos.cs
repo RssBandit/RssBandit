@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using NewsComponents.Collections;
 
@@ -52,8 +51,8 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private members
-		private static TimeSpan defaultRelationTimeCorrection = new TimeSpan(100);	// 100 nanosecs == 1 sec
-		private static StringTable urlTable = new StringTable(); 
+		private readonly static TimeSpan defaultRelationTimeCorrection = new TimeSpan(100);	// 100 nanosecs == 1 sec
+		private readonly static StringTable urlTable = new StringTable(); 
 		#endregion
 
 		private RelationCosmos(){}
@@ -75,14 +74,8 @@ namespace NewsComponents.RelationCosmos
 		/// <summary>
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
-		/// <param name="relations">RelationBase[]</param>
-		void AddRange(RelationBase[] relations);
-
-		/// <summary>
-		/// Add a range of <c>RelationBase</c> objects
-		/// </summary>
 		/// <param name="relations">IList</param>
-		void AddRange(IList<RelationBase> relations);
+		void AddRange(IEnumerable<RelationBase> relations);
 
 		/// <summary>
 		/// Remove a relation from the RelationCosmos.
@@ -94,13 +87,8 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-        void RemoveRange(IList<RelationBase> relations);
+        void RemoveRange(IEnumerable<RelationBase> relations);
 
-		/// <summary>
-		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
-		/// </summary>
-		/// <param name="relations">To be removed RelationBase object's</param>
-		void RemoveRange(RelationBase[] relations);
 
 		/// <summary>
 		/// Clear all internal collections.

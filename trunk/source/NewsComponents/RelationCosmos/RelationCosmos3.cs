@@ -49,15 +49,8 @@ namespace NewsComponents.RelationCosmos
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">RelationBase[]</param>
-		public void AddRange(RelationBase[] relations) {
-			InternalAddRange(relations);
-		}
-
-		/// <summary>
-		/// Add a range of <c>RelationBase</c> objects
-		/// </summary>
-		/// <param name="relations">IList</param>
-		void NewsComponents.RelationCosmos.IRelationCosmos.AddRange(IList<RelationBase> relations) {
+        public void AddRange(IEnumerable<RelationBase> relations)
+        {
 			InternalAddRange(relations);
 		}
 
@@ -73,15 +66,7 @@ namespace NewsComponents.RelationCosmos
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-        public void RemoveRange(IList<RelationBase> relations) {
-			InternalRemoveRange(relations);
-		}
-
-		/// <summary>
-		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
-		/// </summary>
-		/// <param name="relations">To be removed RelationBase object's</param>
-		void NewsComponents.RelationCosmos.IRelationCosmos.RemoveRange(RelationBase[] relations) {
+        public void RemoveRange(IEnumerable<RelationBase> relations) {
 			InternalRemoveRange(relations);
 		}
 
@@ -230,11 +215,11 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private members
-		private void InternalAddRange(IList<RelationBase> relations) {
+		private void InternalAddRange(IEnumerable<RelationBase> relations) {
 			if (relations == null) return;
 			lock (syncRoot) {
-				for (int i=0; i< relations.Count; i++)	
-					InternalAdd(relations[i]);
+                foreach (RelationBase relation in relations)
+					InternalAdd(relation);
 			}
 		}
 
@@ -277,11 +262,12 @@ namespace NewsComponents.RelationCosmos
 			}
 		}
 
-        private void InternalRemoveRange(IList<RelationBase> relations) {
+        private void InternalRemoveRange(IEnumerable<RelationBase> relations)
+        {
 			if (relations == null) return;
 			lock (syncRoot) {
-				for (int i=0; i< relations.Count; i++)	
-					InternalRemove((RelationBase)relations[i]);
+				foreach(RelationBase relation in relations)
+					InternalRemove(relation);
 			}
 		}
 
