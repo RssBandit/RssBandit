@@ -38,7 +38,6 @@ using NewsComponents.RelationCosmos;
 using NewsComponents.Storage;
 using NewsComponents.Threading;
 using NewsComponents.Utils;
-using RssBandit.Common.Utils;
 #endregion
 
 
@@ -5715,7 +5714,7 @@ namespace NewsComponents {
 				
 				//remove old objects from relation cosmos and add newly downloaded items to relationcosmos
 				//NewsHandler.RelationCosmosRemoveRange(removedOldItems); 
-                NewsHandler.RelationCosmosAddRange(receivedNewItems.ConvertAll(TypeConverter.UpCast<NewsItem,RelationBase>()));
+                NewsHandler.RelationCosmosAddRange(receivedNewItems);
 				
 			}//lock
 
@@ -5766,7 +5765,9 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public ICollection<RelationBase> GetItemsWithIncomingLinks(NewsItem item, IList<RelationBase> excludeItemsList){
+		public ICollection<RelationBase> GetItemsWithIncomingLinks<T>(NewsItem item, IList<T> excludeItemsList)
+            where T : RelationBase
+        {
 			if(NewsHandler.buildRelationCosmos)
 				return relationCosmos.GetIncoming(item, excludeItemsList);
 			else 
@@ -5778,7 +5779,9 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public ICollection<RelationBase> GetItemsFromOutGoingLinks(NewsItem item, IList<RelationBase> excludeItemsList){
+		public ICollection<RelationBase> GetItemsFromOutGoingLinks<T>(NewsItem item, IList<T> excludeItemsList)
+            where T : RelationBase
+        {
 			if(NewsHandler.buildRelationCosmos)
 				return relationCosmos.GetOutgoing(item, excludeItemsList);
 			else 
@@ -5790,7 +5793,9 @@ namespace NewsComponents {
 		/// <param name="item"></param>
 		/// <param name="excludeItemsList"></param>
 		/// <returns></returns>
-		public bool HasItemAnyRelations(NewsItem item, IList<RelationBase> excludeItemsList) {
+		public bool HasItemAnyRelations<T>(NewsItem item, IList<T> excludeItemsList) 
+            where T : RelationBase
+        {
 			if(NewsHandler.buildRelationCosmos)
 				return relationCosmos.HasIncomingOrOutgoing(item, excludeItemsList);
 			else
@@ -5807,7 +5812,9 @@ namespace NewsComponents {
 			else 
 				return;
 		}
-        internal static void RelationCosmosAddRange(IList<RelationBase> relations) {
+        internal static void RelationCosmosAddRange<T>(IEnumerable<T> relations) 
+            where T : RelationBase
+        {
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.AddRange(relations);
 			else 
@@ -5819,7 +5826,9 @@ namespace NewsComponents {
 			else 
 				return;
 		}
-		internal static void RelationCosmosRemoveRange (IList<RelationBase> relations) {
+		internal static void RelationCosmosRemoveRange<T>(IList<T> relations) 
+            where T : RelationBase
+        {
 			if(NewsHandler.buildRelationCosmos)
 				relationCosmos.RemoveRange(relations);
 			else 
