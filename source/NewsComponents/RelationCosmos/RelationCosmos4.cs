@@ -350,8 +350,8 @@ namespace NewsComponents.RelationCosmos
                     } else if (item != null) {
                         list = new List<T>();
                         list.Add(item);
-                        list.Add(relation); 
-                        toRelations[href] = list; 
+                        list.Add(relation);
+                        toRelations[key] = list; 
                     }
 
                 } else {
