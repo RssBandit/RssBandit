@@ -52,7 +52,7 @@ namespace RssBandit.WinGui{
         protected override void Run() {
 
             try {
-                TopStories = rssBanditApp.FeedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10);
+                TopStories = new  List<RelationHRefEntry>(rssBanditApp.FeedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10));
                 this.GenerateTopStoriesPage();
             } catch (ThreadAbortException) {
                 // eat up

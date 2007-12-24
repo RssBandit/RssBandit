@@ -593,7 +593,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="IStringfeedsFeedDictionary"/>.</value>
 		/// <remarks>Please refer to <see cref="IDictionary.Keys"/> for details.</remarks>
 
-		IStringCollection Keys { get; }
+		ICollection<string> Keys { get; }
 
 		#endregion
 		#region Values
@@ -1574,7 +1574,7 @@ namespace NewsComponents.Collections {
 		/// the keys in the <see cref="FeedsCollection"/>.</value>
 		/// <remarks>Please refer to <see cref="SortedList.Keys"/> for details.</remarks>
 
-		public virtual IStringCollection Keys {
+		public virtual ICollection<string> Keys {
 			get { return GetKeyList(); }
 		}
 
@@ -2058,7 +2058,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="FeedsCollection"/>.</returns>
 		/// <remarks>Please refer to <see cref="SortedList.GetKeyList"/> for details.</remarks>
 
-		public virtual IStringList GetKeyList() {
+		public virtual IList<string> GetKeyList() {
 			if (this._keyList == null)
 				this._keyList = new KeyList(this);
 			return this._keyList;
@@ -2459,7 +2459,7 @@ namespace NewsComponents.Collections {
 		#region Class KeyList
 
 		[Serializable]
-			private sealed class KeyList: IStringList, IList {
+			private sealed class KeyList: IList<string> {
 			#region Private Fields
 
 			private FeedsCollection _dictionary;
@@ -2496,12 +2496,6 @@ namespace NewsComponents.Collections {
 						  "Read-only collections cannot be modified."); }
 			}
 
-			object IList.this[int index] {
-				get { return this[index]; }
-				set { throw new NotSupportedException(
-						  "Read-only collections cannot be modified."); }
-			}
-
 			public object SyncRoot {
 				get { return this._dictionary.SyncRoot; }
 			}
@@ -2509,15 +2503,11 @@ namespace NewsComponents.Collections {
 			#endregion
 			#region Public Methods
 
-			public int Add(String key) {
+			public void Add(String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
 
-			int IList.Add(object key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
 
 			public void Clear() {
 				throw new NotSupportedException(
@@ -2528,22 +2518,14 @@ namespace NewsComponents.Collections {
 				return this._dictionary.Contains(key);
 			}
 
-			bool IList.Contains(object key) {
-				return Contains((String) key);
-			}
-
 			public void CopyTo(String[] array, int arrayIndex) {
 				this._dictionary.CheckTargetArray(array, arrayIndex);
 				Array.Copy(this._dictionary._keys, 0,
 					array, arrayIndex, this._dictionary.Count);
 			}
 
-			void ICollection.CopyTo(Array array, int arrayIndex) {
-				this._dictionary.CheckTargetArray(array, arrayIndex);
-				CopyTo((String[]) array, arrayIndex);
-			}
 
-			public IStringEnumerator GetEnumerator() {
+			public IEnumerator<string> GetEnumerator() {
 				return new KeyEnumerator(this._dictionary);
 			}
 
@@ -2555,26 +2537,15 @@ namespace NewsComponents.Collections {
 				return this._dictionary.IndexOfKey(key);
 			}
 
-			int IList.IndexOf(object key) {
-				return IndexOf((String) key);
-			}
+	
 
 			public void Insert(int index, String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
 
-			void IList.Insert(int index, object key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
 
-			public void Remove(String key) {
-				throw new NotSupportedException(
-					"Read-only collections cannot be modified.");
-			}
-
-			void IList.Remove(object key) {
+			public bool Remove(String key) {
 				throw new NotSupportedException(
 					"Read-only collections cannot be modified.");
 			}
@@ -2590,54 +2561,66 @@ namespace NewsComponents.Collections {
 		#endregion
 		#region Class KeyEnumerator
 
-		[Serializable]
-			private sealed class KeyEnumerator:
-			IStringEnumerator, IEnumerator {
-			#region Private Fields
+        [Serializable]
+        private sealed class KeyEnumerator :
+        IEnumerator<string>
+        {
+            #region Private Fields
 
-			private readonly FeedsCollection _dictionary;
-			private readonly int _version;
-			private int _index;
+            private readonly FeedsCollection _dictionary;
+            private readonly int _version;
+            private int _index;
 
-			#endregion
-			#region Internal Constructors
+            #endregion
+            #region Internal Constructors
 
-			internal KeyEnumerator(FeedsCollection dictionary) {
-				this._dictionary = dictionary;
-				this._version = dictionary._version;
-				this._index = -1;
-			}
+            internal KeyEnumerator(FeedsCollection dictionary)
+            {
+                this._dictionary = dictionary;
+                this._version = dictionary._version;
+                this._index = -1;
+            }
 
-			#endregion
-			#region Public Properties
+            #endregion
+            #region Public Properties
 
-			public String Current {
-				get {
-					this._dictionary.CheckEnumIndex(this._index);
-					this._dictionary.CheckEnumVersion(this._version);
-					return this._dictionary._keys[this._index];
-				}
-			}
+            public String Current
+            {
+                get
+                {
+                    this._dictionary.CheckEnumIndex(this._index);
+                    this._dictionary.CheckEnumVersion(this._version);
+                    return this._dictionary._keys[this._index];
+                }
+            }
 
-			object IEnumerator.Current {
-				get { return Current; }
-			}
+            object IEnumerator.Current
+            {
+                get { return Current; }
+            }
 
-			#endregion
-			#region Public Methods
+            #endregion
+            #region Public Methods
 
-			public bool MoveNext() {
-				this._dictionary.CheckEnumVersion(this._version);
-				return (++this._index < this._dictionary.Count);
-			}
+            public bool MoveNext()
+            {
+                this._dictionary.CheckEnumVersion(this._version);
+                return (++this._index < this._dictionary.Count);
+            }
 
-			public void Reset() {
-				this._dictionary.CheckEnumVersion(this._version);
-				this._index = -1;
-			}
+            public void Reset()
+            {
+                this._dictionary.CheckEnumVersion(this._version);
+                this._index = -1;
+            }
 
-			#endregion
-		}
+            #endregion
+
+            public void Dispose()
+            {
+
+            }
+        }
 
 		#endregion
 		#region Class ValueList
@@ -2871,7 +2854,7 @@ namespace NewsComponents.Collections {
 				set { lock (this._root) this._dictionary[key] = value; }
 			}
 
-			public override IStringCollection Keys {
+			public override ICollection<string> Keys {
 				get { lock (this._root) return this._dictionary.Keys; }
 			}
 
@@ -2926,7 +2909,7 @@ namespace NewsComponents.Collections {
 				lock (this._root) return this._dictionary.GetKey(index);
 			}
 
-			public override IStringList GetKeyList() {
+			public override IList<string> GetKeyList() {
 				lock (this._root) return this._dictionary.GetKeyList();
 			}
 

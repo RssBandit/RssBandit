@@ -2113,10 +2113,11 @@ namespace RssBandit.WinGui.Forms
 
 		private bool NewsItemHasRelations(NewsItem item) 
 		{
-            return this.NewsItemHasRelations(item, new RelationBase[] { });
+            return this.NewsItemHasRelations(item, new NewsItem[] { });
 		}
-		
-		private bool NewsItemHasRelations(NewsItem item, IList<RelationBase> itemKeyPath) {
+
+        private bool NewsItemHasRelations(NewsItem item, IList<NewsItem> itemKeyPath)
+        {
 			bool hasRelations = false;
 			if (item.Feed != null & owner.FeedHandler.FeedsTable.ContainsKey(item.Feed.link)) {
 				hasRelations = owner.FeedHandler.HasItemAnyRelations(item, itemKeyPath);
@@ -2125,7 +2126,8 @@ namespace RssBandit.WinGui.Forms
 			return hasRelations;		
 		}
 
-		public void BeginLoadCommentFeed(NewsItem item, string ticket, IList<RelationBase> itemKeyPath) {
+        public void BeginLoadCommentFeed(NewsItem item, string ticket, IList<NewsItem> itemKeyPath)
+        {
 			owner.MakeAndQueueTask(ThreadWorker.Task.LoadCommentFeed, new ThreadWorkerProgressHandler(this.OnLoadCommentFeedProgress), 
 				item, ticket, itemKeyPath);
 		}
@@ -2151,7 +2153,7 @@ namespace RssBandit.WinGui.Forms
 				List<NewsItem> commentItems = (List<NewsItem>)results[0];
 				NewsItem item = (NewsItem)results[1];
 				string insertionPointTicket = (string)results[2];
-                IList<RelationBase> itemKeyPath = (RelationBase[])results[3];
+                IList<NewsItem> itemKeyPath = (IList<NewsItem>)results[3];
 				
 
 				if (item.CommentCount != commentItems.Count) {
@@ -2160,7 +2162,7 @@ namespace RssBandit.WinGui.Forms
 				}
 					
 				commentItems.Sort(RssHelper.GetComparer(false, NewsItemSortField.Date));
-				item.SetExternalRelations(new NewsComponents.Collections.RelationList(commentItems));
+				item.SetExternalRelations(commentItems);
 
 				ThreadedListViewItem[] newChildItems = null;
 				
@@ -10704,15 +10706,15 @@ namespace RssBandit.WinGui.Forms
 			{
 
 				NewsItem currentNewsItem = (NewsItem)e.Item.Key;
-                RelationBase[] ikp  = new RelationBase[e.Item.KeyPath.Length];
+                NewsItem[] ikp = new NewsItem[e.Item.KeyPath.Length];
                 e.Item.KeyPath.CopyTo(ikp, 0);
-                IList<RelationBase> itemKeyPath = ikp;
+                IList<NewsItem> itemKeyPath = ikp;
 
 				// column index map
 				ColumnKeyIndexMap colIndex = this.listFeedItems.Columns.GetColumnIndexMap();
 
-				ICollection<RelationBase> outGoingItems = owner.FeedHandler.GetItemsFromOutGoingLinks(currentNewsItem, itemKeyPath);
-				ICollection<RelationBase> inComingItems = owner.FeedHandler.GetItemsWithIncomingLinks(currentNewsItem, itemKeyPath);
+				ICollection<NewsItem> outGoingItems = owner.FeedHandler.GetItemsFromOutGoingLinks(currentNewsItem, itemKeyPath);
+                ICollection<NewsItem> inComingItems = owner.FeedHandler.GetItemsWithIncomingLinks(currentNewsItem, itemKeyPath);
 
 				ArrayList childs = new ArrayList(outGoingItems.Count + inComingItems.Count + 1);
 				ThreadedListViewItem newListItem;
@@ -10762,7 +10764,7 @@ namespace RssBandit.WinGui.Forms
 				{
 					// includes also commentRss support
 
-					if (currentNewsItem.GetExternalRelations() == RelationList.Empty ||
+					if (currentNewsItem.GetExternalRelations().Count == 0 ||
 						currentNewsItem.CommentCount != currentNewsItem.GetExternalRelations().Count) 
 					{
 						
