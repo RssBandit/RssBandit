@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using NewsComponents.Collections;
+﻿using System.Collections.Generic;
 
 namespace NewsComponents.RelationCosmos
 {
