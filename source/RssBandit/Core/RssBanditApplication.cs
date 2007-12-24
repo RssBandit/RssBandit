@@ -4788,6 +4788,8 @@ namespace RssBandit {
 		/// From within error detail reports:
 		/// fdaction:?action=navigatetofeed&feedid=id-of-feed
 		/// fdaction:?action=unsubscribefeed&feedid=id-of-feed
+        /// From within top story page:
+        /// fdaction?action=markdiscussionread&storyid=id-of-story
 		/// </code>
 		/// </remarks>
 		public bool InterceptUrlNavigation(string webUrl) {
@@ -4833,6 +4835,7 @@ namespace RssBandit {
 				int idIndex = webUrl.IndexOf("postid=") + 7; 
 				int feedIdIndex = webUrl.IndexOf("feedid=") + 7; 
 				int typeIndex = webUrl.IndexOf("pagetype=") + 9;
+                int storyIdIndex = webUrl.IndexOf("storyid=") + 8;
 				 
 				if(webUrl.IndexOf("toggleread")!= -1){
 					guiMain.ToggleItemReadState(webUrl.Substring(idIndex)); 
@@ -4846,6 +4849,8 @@ namespace RssBandit {
 					guiMain.SwitchPage(webUrl.Substring(typeIndex), false);										
 				}else if(webUrl.IndexOf("nextpage")!= -1){
 					guiMain.SwitchPage(webUrl.Substring(typeIndex), true);										
+				}else if(webUrl.IndexOf("markdiscussionread")!= -1){
+                    guiMain.MarkDiscussionAsRead(webUrl.Substring(storyIdIndex));										
 				}else if(webUrl.IndexOf("navigatetofeed")!= -1) {
 					string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
 					feedsFeed f = GetFeed(normalizedUrl);

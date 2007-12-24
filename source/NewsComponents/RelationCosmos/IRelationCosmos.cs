@@ -105,6 +105,16 @@ namespace NewsComponents.RelationCosmos
 		/// <returns>RelationList</returns>
         IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>;
 
+        /// <summary>
+        /// Returns a list of relations, that are known in RelationCosmos and pointing to
+        /// the URL provided.
+        /// </summary>
+        /// <param name="hRef">The URL</param>
+        /// <param name="since">The date used to filter the returned relations. Only items that have been published since 
+        /// that date are return</param>
+        /// <returns>RelationList</returns>
+        IList<T> GetIncoming<T>(string hRef, DateTime since) where T : RelationBase<T>;
+
 		/// <summary>
 		/// Returns a list of relations, that are known in RelationCosmos and that 
 		/// the relation provided points to.
