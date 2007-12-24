@@ -14,11 +14,7 @@ namespace NewsComponents.RelationCosmos
         {
         }
 
-        public void AddRange(RelationBase[] relations)
-        {
-        }
-
-        public void AddRange(IList<RelationBase> relations)
+        public void AddRange(IEnumerable<RelationBase> relations)
         {
         }
 
@@ -26,11 +22,7 @@ namespace NewsComponents.RelationCosmos
         {
         }
 
-        public void RemoveRange(IList<RelationBase> relations)
-        {
-        }
-
-        public void RemoveRange(RelationBase[] relations)
+        public void RemoveRange(IEnumerable<RelationBase> relations)
         {
         }
 
