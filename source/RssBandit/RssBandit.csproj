@@ -1692,10 +1692,6 @@
       <Link>Log.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\Common\TypeConverter.cs">
-      <Link>TypeConverter.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\Common\ProfilerHelper.cs">
       <Link>ProfilerHelper.cs</Link>
       <SubType>Code</SubType>
