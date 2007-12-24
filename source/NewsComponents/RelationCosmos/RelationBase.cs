@@ -10,8 +10,6 @@
 using System;
 using System.Collections.Generic;
 
-using NewsComponents.Collections;
-
 namespace NewsComponents.RelationCosmos
 {
 	/// <summary>
@@ -171,7 +169,7 @@ namespace NewsComponents.RelationCosmos
 		/// <summary>
 		/// Internal initializer
 		/// </summary>
-		protected RelationProxy():base() {
+		protected RelationProxy() {
 			realObject = null;
 		}
 		/// <summary>
@@ -190,7 +188,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="pointInTime"></param>
 		public RelationProxy(string href, object realObject, DateTime pointInTime):this() {
 			this.realObject = realObject;
-			base.hReference = href;
+			hReference = href;
 			base.PointInTime = pointInTime;
 		}
 		
@@ -212,9 +210,9 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="adjustablePointInTime"></param>
 		public RelationProxy(string href, object realObject, DateTime pointInTime, bool adjustablePointInTime):this() {
 			this.realObject = realObject;
-			base.hReference = href;
-			base.SetInternalPointInTime(pointInTime);
-			base.pointInTimeIsAdjustable = adjustablePointInTime;
+			hReference = href;
+			SetInternalPointInTime(pointInTime);
+			pointInTimeIsAdjustable = adjustablePointInTime;
 		}
 		#endregion
 
