@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace NewsComponents.Collections
@@ -11,8 +10,8 @@ namespace NewsComponents.Collections
     {
         public RelationHRefEntry(string link, string text, float score)
         {
-            HRef = (link == null ? String.Empty : link);
-            Text = (text == null ? String.Empty : text);
+            HRef = (link ?? String.Empty);
+            Text = (text ?? String.Empty);
             Score = score;
             References = new List<NewsItem>();
         }
