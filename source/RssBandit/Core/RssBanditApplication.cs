@@ -1008,7 +1008,7 @@ namespace RssBandit {
 					if (-1 == Path.GetPathRoot(appDataFolderPath).IndexOf(":"))	// we have to cut the leading slash off (Path.Combine don't like it):
 						appDataFolderPath = Path.Combine(Path.GetPathRoot(Application.ExecutablePath), appDataFolderPath.Substring(1));
 					
-#if DEBUG
+#if ALT_CONFIG_PATH
                     // Keep debug path separate
                     appDataFolderPath = Path.Combine(appDataFolderPath, "Debug");
 #endif
@@ -1043,11 +1043,11 @@ namespace RssBandit {
 				if (-1 == Path.GetPathRoot(s).IndexOf(":"))
 					appDataFolderPath = Path.Combine(Path.GetPathRoot(Application.ExecutablePath), s.Substring(1));
 
-#if DEBUG
+#if ALT_CONFIG_PATH
                 // Keep debug path separate
                 s = Path.Combine(s, "Debug");
 #endif
-                if(!Directory.Exists(s)) 
+                if (!Directory.Exists(s)) 
 					Directory.CreateDirectory(s);
 				
 				return s;

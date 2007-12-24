@@ -8717,7 +8717,7 @@ namespace RssBandit.WinGui.Forms
 			_timerRefreshFeeds.Start();
 			_timerRefreshCommentFeeds.Start();
 #endif
-			RssBanditApplication.SetWorkingSet();
+			//RssBanditApplication.SetWorkingSet();
 		}
 
 		private void OnFormMove(object sender, EventArgs e) 
