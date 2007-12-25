@@ -765,6 +765,7 @@ namespace System.Windows.Forms.ThListView
                 int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, IntPtr lParam);
 			[DllImport("user32.dll")] public static extern
                 int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref IntPtr lParam);
+            // Int[] is okay as the lparam here since pointers are marshalled platform specific sizes anyway
 			[DllImport("user32.dll")] public static extern
                 int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam);
 			[DllImport("user32.dll")] public static extern 
