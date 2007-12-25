@@ -634,21 +634,23 @@ namespace System.Windows.Forms.ThListView
 		public const int LVBKIF_FLAG_TILEOFFSET = 0x00000100 ;
 		#endregion
 
-		[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack = 1)]
+		[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
 		public struct LVITEM {
 			public	ListViewItemFlags mask;
 			public	int iItem;
 			public	int iSubItem;
 			public	uint state;
 			public	uint stateMask;
-			public	IntPtr pszText;
+
+           // [MarshalAs(UnmanagedType.LPTStr)]
+            public 	IntPtr  pszText;
 			public	int cchTextMax;
 			public	int iImage;
-			public	int lParam;
+			public	IntPtr lParam;
 			public	int iIndent;
 			public int iGroupId; 
 			public int cColumns; 
-			public int puColumns; 
+			public IntPtr puColumns; 
 		}
 
 		[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
@@ -658,13 +660,13 @@ namespace System.Windows.Forms.ThListView
 			public	IntPtr pszText; 
 			public IntPtr hbm; 
 			public int     cchTextMax; 
-			public int     fmt; 
-			public int     lParam; 
+			public int     fmt;
+            public IntPtr  lParam; 
 			public int     iImage;
 			public int     iOrder;
 			public HDITEM() {
-				mask = cxy = cchTextMax = fmt = lParam= iImage = iOrder = 0;
-				pszText = hbm = IntPtr.Zero;
+				mask = cxy = cchTextMax = fmt = iImage = iOrder = 0;
+				pszText = hbm = lParam = IntPtr.Zero;
 			}
 		};
 
@@ -736,8 +738,8 @@ namespace System.Windows.Forms.ThListView
 		public struct LVTILEINFO {
 			public int cbSize; 
 			public int iItem; 
-			public int cColumns; 
-			public int puColumns;
+			public int cColumns;
+            public IntPtr puColumns;
 		}
 		[StructLayout(LayoutKind.Sequential)]
 			public struct LVBKIMAGE{
@@ -758,13 +760,13 @@ namespace System.Windows.Forms.ThListView
 			
 			#region Post/SendMessage overloads
 			[DllImport("user32.dll")] public static extern int 
-				PostMessage( IntPtr hWnd, int wMsg, int wParam, int lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, int lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, ref int lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam );
+				PostMessage( IntPtr hWnd, int wMsg, int wParam, IntPtr lParam );
+			[DllImport("user32.dll")] public static extern
+                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, IntPtr lParam);
+			[DllImport("user32.dll")] public static extern
+                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref IntPtr lParam);
+			[DllImport("user32.dll")] public static extern
+                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam);
 			[DllImport("user32.dll")] public static extern 
 				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVITEM lParam );
 			[DllImport("user32.dll")] public static extern 
@@ -844,7 +846,7 @@ namespace System.Windows.Forms.ThListView
 				try {
 					if(listHandle == IntPtr.Zero){ return -1; }
 
-					int param = 0;
+					IntPtr param = IntPtr.Zero;
 					int ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
 
 					return ptrRetVal;
@@ -860,7 +862,7 @@ namespace System.Windows.Forms.ThListView
 				try{
 					if(listHandle == IntPtr.Zero){ return; }
 
-					int param = 0;
+					IntPtr param = IntPtr.Zero;
 					SendMessage(listHandle, W32_LVM.LVM_REMOVEALLGROUPS, 0, ref param);
 				}catch(Exception ex) {
 					throw new System.Exception("An exception in API.ClearListViewGroup occured: " + ex.Message);
@@ -873,7 +875,7 @@ namespace System.Windows.Forms.ThListView
 				try{
 					if(lst != null){ return; }
 
-					int param = lst.Items.Count - 1;
+					IntPtr param = new IntPtr(lst.Items.Count - 1);
 					SendMessage(lst.Handle, W32_LVM.LVM_REDRAWITEMS, 0, ref param);
 
 					if (update) { UpdateItems(lst); }
@@ -892,7 +894,7 @@ namespace System.Windows.Forms.ThListView
 					if( lst != null){ return; }
 
 					for(int i = 0; i < lst.Items.Count - 1; i++){
-						int param = 0;
+						IntPtr param = IntPtr.Zero;
 						SendMessage(lst.Handle, W32_LVM.LVM_UPDATE, i, ref param);
 					}
 				}
@@ -918,7 +920,7 @@ namespace System.Windows.Forms.ThListView
 					apiItem.yOffsetPercent = y;
 			
 					// Set the background color of the ListView to 0XFFFFFFFF (-1) so it will be transparent
-					int clear = -1;
+					IntPtr clear = new IntPtr(-1);
 					SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, 0, ref clear);
 
 					SendMessage(listHandle, W32_LVM.LVM_SETBKIMAGEW, 0, ref apiItem);
@@ -941,7 +943,7 @@ namespace System.Windows.Forms.ThListView
 					apiItem.yOffsetPercent = yTileOffsetPercent;
 			
 					// Set the background color of the ListView to 0XFFFFFFFF (-1) so it will be transparent
-					int clear = -1;
+					IntPtr clear = new IntPtr(-1);
 					SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, 0, ref clear);
 
 					SendMessage(listHandle, W32_LVM.LVM_SETBKIMAGEW, 0, ref apiItem);
@@ -992,7 +994,8 @@ namespace System.Windows.Forms.ThListView
 				}
 			}
 
-			public static int[] GetColumnOrderArray(IntPtr listHandle, int columnCount) {
+            public static int[] GetColumnOrderArray(IntPtr listHandle, int columnCount)
+            {
 				int[] lParam	= new int[columnCount];
 				int result = SendMessage(listHandle, W32_LVM.LVM_GETCOLUMNORDERARRAY, columnCount, lParam);
 				if (result == 0) {
