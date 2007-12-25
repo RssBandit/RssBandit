@@ -935,8 +935,8 @@ namespace System.Windows.Forms.ThListView {
 							item.cchTextMax = 255;
 							item.mask = (int)(Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT | Win32.HeaderItemMask.HDI_BITMAP);
 
-							int result = Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_GETITEM, new IntPtr(i), item);
-							if (result > 0 && item != null) {
+                            IntPtr result = Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_GETITEM, new IntPtr(i), item);
+							if (result.ToInt32() > 0 && item != null) {
 								
 								ColumnHeader colHdr = this.Columns[i];
 								HorizontalAlignment align = colHdr.TextAlign;

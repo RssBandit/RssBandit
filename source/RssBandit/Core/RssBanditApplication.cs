@@ -6982,7 +6982,7 @@ namespace RssBandit {
 				// reset var modified by EnumWindows
 				_foundWnd = IntPtr.Zero;
 				//Enumerate all Windows
-				Win32.EnumWindows(ewp, processId);
+				Win32.EnumWindows(ewp, new IntPtr(processId));
 				return _foundWnd;
 			}
 
@@ -6992,13 +6992,13 @@ namespace RssBandit {
 			/// <param name="hWnd">Window handles</param>
 			/// <param name="lParam">Here: used to contain the process Id</param>
 			/// <returns></returns>
-			private static bool EvalWindow(IntPtr hWnd, int lParam) {
+			private static bool EvalWindow(IntPtr hWnd, IntPtr lParam) {
 
 				StringBuilder title = new StringBuilder(256);
 
 				IntPtr pId = IntPtr.Zero;
 				Win32.GetWindowThreadProcessId(hWnd, ref pId);
-				if (pId.ToInt32() == lParam) {
+				if (pId == lParam) {
 					Win32.GetWindowText(hWnd, title, 255);
 					if (RssBanditApplication.CaptionOnly.CompareTo(title.ToString()) <= 0) {
 						_foundWnd = hWnd;
