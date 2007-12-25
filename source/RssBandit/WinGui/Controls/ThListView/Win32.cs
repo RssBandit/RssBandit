@@ -759,43 +759,43 @@ namespace System.Windows.Forms.ThListView
 		internal sealed class API {
 			
 			#region Post/SendMessage overloads
-			[DllImport("user32.dll")] public static extern int 
+			[DllImport("user32.dll")] public static extern bool 
 				PostMessage( IntPtr hWnd, int wMsg, int wParam, IntPtr lParam );
 			[DllImport("user32.dll")] public static extern
-                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, IntPtr lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, IntPtr lParam);
 			[DllImport("user32.dll")] public static extern
-                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref IntPtr lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref IntPtr lParam);
             // Int[] is okay as the lparam here since pointers are marshalled platform specific sizes anyway
 			[DllImport("user32.dll")] public static extern
-                int SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam);
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVITEM lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVHITTESTINFO lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage( IntPtr hWnd, W32_LVM wMsg, int wParam, LVSETINFOTIP lParam );
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage(IntPtr hWnd, HeaderControlMessages wMsg, IntPtr wParam, IntPtr lParam);
-			[DllImport("user32.dll")] public static extern 
-				int SendMessage(IntPtr hWnd, HeaderControlMessages wMsg, IntPtr wParam, HDITEM lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam);
+			[DllImport("user32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVITEM lParam);
+			[DllImport("user32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVHITTESTINFO lParam);
+			[DllImport("user32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, LVSETINFOTIP lParam);
+			[DllImport("user32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, HeaderControlMessages wMsg, IntPtr wParam, IntPtr lParam);
+			[DllImport("user32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, HeaderControlMessages wMsg, IntPtr wParam, HDITEM lParam);
 			[DllImport("user32.dll")] public static extern 
 				IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, IntPtr lParam);
-			[DllImport("User32.dll")] public static extern 
-				int SendMessage(IntPtr hWnd, int msg, int wParam, LVCOLUMN lParam );
-			[DllImport("User32.dll")]	public static extern 
-				int SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEINFO lParam);
-			[DllImport("User32.dll")] public static extern 
-				int SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEVIEWINFO lParam);
-			[DllImport("User32.dll")] public static extern 
-				int SendMessage(IntPtr hWnd, W32_LVM msg, int wParam, ref LVGROUP lParam);
-			[DllImport("User32.dll")]	public static extern 
-				int SendMessage(IntPtr hWnd, W32_LVM msg, int wParam, ref LVBKIMAGE lParam);
+			[DllImport("User32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, LVCOLUMN lParam);
+			[DllImport("User32.dll")]	public static extern
+                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEINFO lParam);
+			[DllImport("User32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEVIEWINFO lParam);
+			[DllImport("User32.dll")] public static extern
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM msg, int wParam, ref LVGROUP lParam);
+			[DllImport("User32.dll")]	public static extern
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM msg, int wParam, ref LVBKIMAGE lParam);
 			#endregion
 
 			#region ListView helper methods
 			public static int AddItemToGroup(IntPtr listHandle, int index, int groupID ){ 
 				LVITEM apiItem;
-				int ptrRetVal;
+                IntPtr ptrRetVal;
 
 				try{
 					if( listHandle == IntPtr.Zero){ return 0; }
@@ -807,7 +807,7 @@ namespace System.Windows.Forms.ThListView
 
 					ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_SETITEMA, 0, ref apiItem);
 
-					return ptrRetVal;
+					return ptrRetVal.ToInt32();
 				}
 				catch(Exception ex) {
 					throw new System.Exception("An exception in API.AddItemToGroup occured: " + ex.Message);
@@ -817,7 +817,7 @@ namespace System.Windows.Forms.ThListView
 
 			public static int AddListViewGroup(IntPtr listHandle, string text, int index){ 
 				LVGROUP apiGroup;
-				int ptrRetVal;
+                IntPtr ptrRetVal;
 
 				try{
 					if(listHandle == IntPtr.Zero){ return -1; }
@@ -833,7 +833,7 @@ namespace System.Windows.Forms.ThListView
 					apiGroup.cbSize = Marshal.SizeOf(typeof(LVGROUP));
 
 					ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_INSERTGROUP, -1, ref apiGroup);
-					return ptrRetVal;
+					return ptrRetVal.ToInt32();
 				}
 				catch(Exception ex){
 					throw new System.Exception("An exception in API.AddListViewGroup occured: " + ex.Message);
@@ -848,9 +848,9 @@ namespace System.Windows.Forms.ThListView
 					if(listHandle == IntPtr.Zero){ return -1; }
 
 					IntPtr param = IntPtr.Zero;
-					int ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
+                    IntPtr ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
 
-					return ptrRetVal;
+					return ptrRetVal.ToInt32();
 				}
 				catch(Exception ex) {
 					throw new System.Exception("An exception in API.RemoveListViewGroup occured: " + ex.Message);
@@ -998,8 +998,8 @@ namespace System.Windows.Forms.ThListView
             public static int[] GetColumnOrderArray(IntPtr listHandle, int columnCount)
             {
 				int[] lParam	= new int[columnCount];
-				int result = SendMessage(listHandle, W32_LVM.LVM_GETCOLUMNORDERARRAY, columnCount, lParam);
-				if (result == 0) {
+                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_GETCOLUMNORDERARRAY, columnCount, lParam);
+				if (result == IntPtr.Zero) {
 					// something wrong
 				}
 				return lParam;
@@ -1007,8 +1007,8 @@ namespace System.Windows.Forms.ThListView
 
 			public static void SetColumnOrderArray(IntPtr listHandle, int[] columnArray) {
 				int columnCount	= columnArray.GetLength(0);
-				int result = SendMessage(listHandle, W32_LVM.LVM_SETCOLUMNORDERARRAY, columnCount, columnArray);
-				if (result == 0) {
+                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_SETCOLUMNORDERARRAY, columnCount, columnArray);
+				if (result == IntPtr.Zero) {
 					// something wrong
 				}
 			}

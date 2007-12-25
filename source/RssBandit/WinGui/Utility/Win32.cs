@@ -362,8 +362,8 @@ namespace RssBandit
 			public IntPtr  pszText = IntPtr.Zero; 
 			public IntPtr  hbm = IntPtr.Zero; 
 			public int     cchTextMax = 0; 
-			public int     fmt = 0; 
-			public int     lParam = 0; 
+			public int     fmt = 0;
+            public IntPtr lParam = IntPtr.Zero; 
 			public int     iImage = 0;
 			public int     iOrder = 0;
 		};
@@ -423,8 +423,8 @@ namespace RssBandit
 		#endregion
 
 		#region interop decl.
-		[DllImport("User32.dll")] public static extern 
-			bool SendMessage(IntPtr hWnd, int msg, int wParam, int lParam); 
+		[DllImport("User32.dll")] public static extern
+            IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam); 
 		[DllImport("user32", EntryPoint="SendMessage")] public static extern 
 			IntPtr SendMessage2(IntPtr Handle, int msg, IntPtr wParam, HDITEM lParam);
 		[DllImport("user32", EntryPoint="SendMessage")] public static extern 
@@ -446,7 +446,7 @@ namespace RssBandit
 		[DllImport("user32.dll", SetLastError=true)] public static extern 
 			int GetWindowText(IntPtr hWnd, System.Text.StringBuilder title, int size);
 		[DllImport("user32.dll")] public static extern 
-			int EnumWindows(EnumWindowsProc ewp, int lParam); 
+			int EnumWindows(EnumWindowsProc ewp, IntPtr lParam); 
 		[DllImport("User32", CharSet=CharSet.Auto)] public static extern
 			int GetWindowLong(IntPtr hWnd, int Index);
 		[DllImport("User32", CharSet=CharSet.Auto)] public static extern
@@ -460,7 +460,7 @@ namespace RssBandit
 			bool PostMessage(HandleRef hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		//delegate used for EnumWindows() callback function
-		public delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
+		public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 		
 		[DllImport("Kernel32.dll", CharSet=CharSet.Auto)] public static extern 
 			void GetStartupInfo(ref API_STARTUPINFO info);
@@ -476,7 +476,7 @@ namespace RssBandit
 		[DllImport("Comctl32.dll")] 
 		public static extern int DllGetVersion(ref DLLVERSIONINFO pdvi);
 
-		[ DllImport( "kernel32", SetLastError=true )]
+		[ DllImport( "kernel32.dll", SetLastError=true )]
 		private static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi );
 
 		#endregion
@@ -683,8 +683,17 @@ namespace RssBandit
 		{
 			
 			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Registry));
-			private static string BanditSettings = @"Software\RssBandit\Settings";
-			private static string BanditKey = "RssBandit";
+            private readonly static string BanditSettings;
+			private readonly static string BanditKey = "RssBandit";
+
+            static WindowsRegistry()
+            {
+                BanditSettings = @"Software\RssBandit\Settings";
+
+#if ALT_CONFIG_PATH
+                BanditSettings = @"Software\RssBandit\Settings\Debug";
+#endif
+            }
 
 			/// <summary>
 			/// Gets the internet explorer version.
@@ -1515,7 +1524,7 @@ namespace RssBandit
 		
 			if (freeze && ctrl != null && ctrl.IsHandleCreated && ctrl.Visible) { 
 				if (0 == _paintFrozen++) { 
-					SendMessage(ctrl.Handle, (int) Message.WM_SETREDRAW, 0, 0); 
+					SendMessage(ctrl.Handle, (int) Message.WM_SETREDRAW, 0, IntPtr.Zero); 
 				} 
 			} 
 			if (!freeze) { 
@@ -1524,7 +1533,7 @@ namespace RssBandit
 				} 
   
 				if (0 == --_paintFrozen && ctrl != null) { 
-					SendMessage(ctrl.Handle, (int)Message.WM_SETREDRAW, 1, 0); 
+					SendMessage(ctrl.Handle, (int)Message.WM_SETREDRAW, 1, IntPtr.Zero); 
 					ctrl.Invalidate(true); 
 				} 
 			} 
