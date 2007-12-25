@@ -271,7 +271,7 @@ namespace System.Windows.Forms.ThListView
 		public bool StateImageHitTest(Point p)
 		{
 			Win32.LVHITTESTINFO htInfo;
-			int ret;
+            IntPtr ret;
 
 			htInfo.pt.x = p.X;
 			htInfo.pt.y = p.Y;
