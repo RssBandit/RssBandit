@@ -5637,7 +5637,7 @@ namespace RssBandit {
             string memeFile = RssBanditApplication.GetTopStoriesFileName();            
             TopStoriesThreadHandler th = new TopStoriesThreadHandler(this, memeFile);
 
-            DialogResult result = th.Start(guiMain, SR.ProcessTopStoriesEntertainmentWaitMessage, false);
+            DialogResult result = th.Start(guiMain, SR.ProcessTopStoriesEntertainmentWaitMessage, true);
 
             if (result != DialogResult.OK)
                 return;
