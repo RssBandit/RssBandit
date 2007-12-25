@@ -802,9 +802,9 @@ namespace System.Windows.Forms.ThListView {
 		}
 
 		private void SetExtendedStyles() {
-			Win32.LVS_EX ex_styles = (Win32.LVS_EX)Win32.API.SendMessage(this.Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
+			Win32.LVS_EX ex_styles = (Win32.LVS_EX)Win32.API.SendMessage(this.Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, IntPtr.Zero);
 			ex_styles |= Win32.LVS_EX.LVS_EX_DOUBLEBUFFER | Win32.LVS_EX.LVS_EX_INFOTIP | Win32.LVS_EX.LVS_EX_SUBITEMIMAGES;
-			Win32.API.SendMessage(this.Handle, Win32.W32_LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (int) ex_styles);
+			Win32.API.SendMessage(this.Handle, Win32.W32_LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, new IntPtr((int) ex_styles));
 		}
 		
 		/// <summary>
@@ -897,7 +897,8 @@ namespace System.Windows.Forms.ThListView {
 		}
 
 		private void APIEnableGrouping(bool value) {
-			int param = 0, onOff = (value ? 1 : 0);
+            IntPtr param = IntPtr.Zero;
+            int onOff = (value ? 1 : 0);
 			Win32.API.SendMessage(this.Handle, Win32.W32_LVM.LVM_ENABLEGROUPVIEW, onOff, ref param); 
 		}
 
