@@ -471,32 +471,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "MsmKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
         "OwnerKey" = "8:_24CB669987B447BA8900ABD004012FFA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "MsmKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
         "OwnerKey" = "8:_C054BF9A415843E787D6CE8D014C8D4B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "MsmKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
         "OwnerKey" = "8:_77924B31ADA84D66A8D18920D4CEA35B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "MsmKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
         "OwnerKey" = "8:_4202C6018FC246769990BAECC42C71CB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -509,18 +509,6 @@
         {
         "MsmKey" = "8:_86AAD0ACCBF64D57AA1B332F9E020A90"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_872A8FEEA9D5D45564745E9A758B50DB"
-        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_872A8FEEA9D5D45564745E9A758B50DB"
-        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1137,6 +1125,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FA2FF864C5EF0ACE28D2CC3CF887C974"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FA2FF864C5EF0ACE28D2CC3CF887C974"
+        "OwnerKey" = "8:_3DC73B03AA8640FBB69E982940423A2D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FD80BFBB893F421F91703D7B237B3C2E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1168,145 +1168,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_655AA3EE068647968A7F7E40D6F34322"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_92902ED009D04B5693C96E7290DC1CB1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_70085DE4B9814B7CB2A9A9358D16BE80"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3DB8E3266C224318BA8F12ED396EA051"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1992CD8CFDDB43D4BE8F63B7388AF78C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_46CD6652E93F4EEBA35E51F9FF62F9F3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_241096F1882C433995D37A16FD7D8576"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_33FA2ED69E22472A9216BC4D235A190C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0C713042D3684CE797D4695B1859F8E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_411651FF315A4F46A0150B73BAE7E6F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FFA9DA831F23419F98B27037E9711E61"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8C103B9FA32240D5A04AD9F392F8D0AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C7033CA730DE4C99A0D1E6A50C48786D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4AAAED22C40B40368697247D8071C509"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_56CC181E398B486690B638912E82E1B1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EA830BDFAF25495788F40113FEA936E3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FE59AA19396747929FB12527B547C421"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_24CB669987B447BA8900ABD004012FFA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8D7DD1D770FB815232EDF2A8C676A9DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1325,6 +1193,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F2FB68340451450B8B7FE969DA3BE0E5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EA830BDFAF25495788F40113FEA936E3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1372,6 +1246,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D7486236953D4872B83CAC9C169B4C9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1403,6 +1283,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C8A4E5CF78E745ECAB83D45AB51E9E4C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C7033CA730DE4C99A0D1E6A50C48786D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1480,7 +1366,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_92902ED009D04B5693C96E7290DC1CB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8C759C10101D4B0F9D069D289897438D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8C103B9FA32240D5A04AD9F392F8D0AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1516,6 +1420,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_70085DE4B9814B7CB2A9A9358D16BE80"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_699074FC507D46A484382B21668F68BD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1528,7 +1438,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_655AA3EE068647968A7F7E40D6F34322"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5C819DEB28E242EB9EA09D962ECDA653"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_56CC181E398B486690B638912E82E1B1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1558,7 +1480,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4AAAED22C40B40368697247D8071C509"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_48461E7FADCB49C2857C7E16985053DC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_46CD6652E93F4EEBA35E51F9FF62F9F3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1582,7 +1516,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_411651FF315A4F46A0150B73BAE7E6F1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3DB8E3266C224318BA8F12ED396EA051"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_36D504DC08DB422691C2A18CABC94F17"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_33FA2ED69E22472A9216BC4D235A190C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1612,6 +1564,18 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_241096F1882C433995D37A16FD7D8576"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1992CD8CFDDB43D4BE8F63B7388AF78C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_18C14984BDFA4F49AEC08F09DF3B48F9"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1619,6 +1583,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_14174C53DB384B99B65EF079D2E46777"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0C713042D3684CE797D4695B1859F8E2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1786,7 +1756,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8554353CBEC9D061C8EC7543CEA3E0AD"
+        "OwnerKey" = "8:_DCA159F64453D9E16EFE8B702133ED72"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1798,13 +1768,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_872A8FEEA9D5D45564745E9A758B50DB"
+        "OwnerKey" = "8:_FA2FF864C5EF0ACE28D2CC3CF887C974"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E7F3DAD7D239EA3E259C1A2C9EEEE40C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8D7DD1D770FB815232EDF2A8C676A9DC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E6B9C6582E0F80BE1EE8B17D68BBBA73"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_67350B90764C79733CBFBB76DDC6A35C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_24CB669987B447BA8900ABD004012FFA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F13BF17B26D85F82EF07F90850FF468"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1897,7 +1897,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_02ED2F46B0374847A3CAD7073A4C8FB4"
@@ -1928,7 +1928,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_03ADE38F5B11402881027EB21CF7896D"
@@ -1959,7 +1959,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=nl-NL, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_05B5BE7A5D0E42CF9A2EA8266DD6FB61"
@@ -1990,7 +1990,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_05CBBCFA4F7044BAA70CD0791D53B0FF"
@@ -2021,7 +2021,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_07F92BD487AA40EB97506231E5C1172F"
@@ -2123,7 +2123,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_0C713042D3684CE797D4695B1859F8E2"
@@ -2194,7 +2194,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_14174C53DB384B99B65EF079D2E46777"
@@ -2245,7 +2245,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_18C14984BDFA4F49AEC08F09DF3B48F9"
@@ -2276,7 +2276,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=nl-NL, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1992CD8CFDDB43D4BE8F63B7388AF78C"
@@ -2347,7 +2347,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_241096F1882C433995D37A16FD7D8576"
@@ -2449,7 +2449,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_26F0D47293F3400BA4C11044A2EC9B0B"
@@ -2480,7 +2480,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=es, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_2A2957953C2A4554A9E27E71FB110390"
@@ -2633,7 +2633,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_33FA2ED69E22472A9216BC4D235A190C"
@@ -2715,7 +2715,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_36D504DC08DB422691C2A18CABC94F17"
@@ -2786,7 +2786,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_3DB8E3266C224318BA8F12ED396EA051"
@@ -2817,7 +2817,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_411651FF315A4F46A0150B73BAE7E6F1"
@@ -2848,7 +2848,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_41EE5DD214704765A3148BF78F1FEF97"
@@ -2879,7 +2879,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_439B7664336C4ECE814ACBBDFE98A565"
@@ -2910,7 +2910,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_440CFD99ED5D437090C46F2751012562"
@@ -2941,7 +2941,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_46CD6652E93F4EEBA35E51F9FF62F9F3"
@@ -2972,7 +2972,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=es, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_48461E7FADCB49C2857C7E16985053DC"
@@ -3003,7 +3003,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4AAAED22C40B40368697247D8071C509"
@@ -3054,7 +3054,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4CB04215B1244CF584BF166E07C4542C"
@@ -3085,7 +3085,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E3A6EFA8C694C3B9C0AFD9A3CE53B7B"
@@ -3198,7 +3198,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=zh-CHS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_54CE9AD8C0034537BC6F57644DE29FBC"
@@ -3229,7 +3229,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_56CC181E398B486690B638912E82E1B1"
@@ -3351,7 +3351,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_655AA3EE068647968A7F7E40D6F34322"
@@ -3484,7 +3484,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_699074FC507D46A484382B21668F68BD"
@@ -3515,7 +3515,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_70085DE4B9814B7CB2A9A9358D16BE80"
@@ -3546,7 +3546,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_70D191DDF4C74C81B02DC5689F6802F3"
@@ -3690,7 +3690,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_7806C4070DA74F4BAA80A0826F3AF47E"
@@ -3777,14 +3777,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8554353CBEC9D061C8EC7543CEA3E0AD"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F13BF17B26D85F82EF07F90850FF468"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:blogExtension, Version=1.1.0.2, Culture=neutral, PublicKeyToken=3bd87fdfe01c7a80"
                 "ScatterAssemblies"
                 {
-                    "_8554353CBEC9D061C8EC7543CEA3E0AD"
+                    "_7F13BF17B26D85F82EF07F90850FF468"
                     {
                     "Name" = "8:blogExtension.dll"
                     "Attributes" = "3:512"
@@ -3848,42 +3848,11 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_872A8FEEA9D5D45564745E9A758B50DB"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.5.0.18, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_872A8FEEA9D5D45564745E9A758B50DB"
-                    {
-                    "Name" = "8:RssBandit.AppServices.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:RssBandit.AppServices.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_88EAA13FB16A412F83CE8501DD8D4D50"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=nl-NL, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_88EAA13FB16A412F83CE8501DD8D4D50"
@@ -3914,7 +3883,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_8C103B9FA32240D5A04AD9F392F8D0AB"
@@ -3945,7 +3914,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=zh-CHS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_8C759C10101D4B0F9D069D289897438D"
@@ -3976,7 +3945,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_8D7C68BD25EB4E168ABF2AED6AEC9FF3"
@@ -4138,7 +4107,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=es, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_92902ED009D04B5693C96E7290DC1CB1"
@@ -4189,7 +4158,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_97EF747A6C784F4EAD063146F6A81249"
@@ -4302,7 +4271,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A073398FEC9247168F1C3B5ADBE0A561"
@@ -4415,7 +4384,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A49BB9E00C16446681EA40DAF91F3556"
@@ -4446,7 +4415,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=es, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A4A939AA32D4419AB65CF95935242BC4"
@@ -4477,7 +4446,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=es, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=es, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A95F3C117D1049F69BD1B3F92AEBDFA9"
@@ -4559,7 +4528,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_AB36BC9B62FA4205B9C04AD762F9309D"
@@ -4610,7 +4579,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_ABE331F2C2AF4F81B6CAAC35E68DED4E"
@@ -4701,7 +4670,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=nl-NL, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B38A29EF6BF5455B8E9D90D027554127"
@@ -4732,7 +4701,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=tr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=tr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B3EDD8EFBF12447FA9EBE52D882211BC"
@@ -4834,7 +4803,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=fr, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=fr, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_BDCEB25FD8EF4879A4A45C4CF9836D5F"
@@ -4865,7 +4834,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C0B39D56DA4C487582D3CD9D62094EBB"
@@ -4896,7 +4865,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=zh-CHS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C7033CA730DE4C99A0D1E6A50C48786D"
@@ -4958,7 +4927,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C8A4E5CF78E745ECAB83D45AB51E9E4C"
@@ -4989,7 +4958,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CA74F14DDEF64C62869630CDB68ABD27"
@@ -5020,7 +4989,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CC213FFB546B40D3A4F5F97E50E35A5B"
@@ -5071,7 +5040,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D29689A4A6DE41508F3019B073C4FEE4"
@@ -5133,7 +5102,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=it, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=it, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D7486236953D4872B83CAC9C169B4C9F"
@@ -5164,7 +5133,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=bg, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=bg, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D7A22D76C5FF4AFB814ECD8D0BAD6BA5"
@@ -5257,7 +5226,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.5.0.18, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_DCA159F64453D9E16EFE8B702133ED72"
@@ -5319,7 +5288,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E092BAA9A48846C6A7C38320418A87D3"
@@ -5350,7 +5319,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.25451, Culture=zh-CHS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.MailThis.resources, Version=1.0.2914.41574, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E0F157F7767D42809691FC569AD67502"
@@ -5441,7 +5410,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=ru, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=ru, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E491078172744409927430B43708007D"
@@ -5472,7 +5441,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=de, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=de, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E4DC6A83ADFF40868D8D2CDBC6A03443"
@@ -5503,7 +5472,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=pl, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=pl, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E650EA8CC826460E81A0500F36E30312"
@@ -5678,7 +5647,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_EA830BDFAF25495788F40113FEA936E3"
@@ -5853,7 +5822,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.5.0.18, Culture=zh-CHS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents.resources, Version=1.6.0.0, Culture=zh-CHS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_F2FB68340451450B8B7FE969DA3BE0E5"
@@ -5904,7 +5873,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.25450, Culture=nl-NL, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Delicious.resources, Version=1.1.2914.41573, Culture=nl-NL, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_F4BBD79CF6B744D9BC27CDAFCC1932B5"
@@ -5993,11 +5962,42 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA2FF864C5EF0ACE28D2CC3CF887C974"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.6.0.0, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FA2FF864C5EF0ACE28D2CC3CF887C974"
+                    {
+                    "Name" = "8:RssBandit.AppServices.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:RssBandit.AppServices.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9C5E66A606674919A517A1B87DDDCCBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FD80BFBB893F421F91703D7B237B3C2E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=pt-BR, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=pt-BR, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_FD80BFBB893F421F91703D7B237B3C2E"
@@ -6028,7 +6028,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.25452, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.BlogThis.LiveWriter.resources, Version=1.0.2914.41576, Culture=sr-Cyrl-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_FE59AA19396747929FB12527B547C421"
@@ -6079,7 +6079,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.25453, Culture=sr-Latn-CS, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BlogExtension.Twitter.resources, Version=1.1.2914.41577, Culture=sr-Latn-CS, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_FFA9DA831F23419F98B27037E9711E61"
@@ -6536,14 +6536,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RssBandit"
-        "ProductCode" = "8:{C52002C2-4261-4574-9502-93F986F8E5DA}"
-        "PackageCode" = "8:{0E32E9CC-E5B2-4B06-8603-E1A223029544}"
+        "ProductCode" = "8:{1A9F8285-E7C0-432C-B546-259EB2746BD2}"
+        "PackageCode" = "8:{C827747D-D442-4C72-A2CB-6087B0BB8650}"
         "UpgradeCode" = "8:{108879A4-BD9B-414D-9C91-852BA402EF72}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.6.0"
+        "ProductVersion" = "8:1.6.1"
         "Manufacturer" = "8:rssbandit.org"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.rssbandit.org/forum/"
