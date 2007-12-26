@@ -19,6 +19,7 @@ using RssBandit.WinGui.Forms;
 
 #if CLR_20
 using ClrMappedWebReference = RssBandit.CLR20.RssBandit.UpdateService;
+using System.ComponentModel;
 #else // CLR_11 
 using ClrMappedWebReference = RssBandit.UpdateService;
 #endif
@@ -40,6 +41,7 @@ namespace RssBandit
 		private ClrMappedWebReference.UpdateService appUpdateService;
 		private AutoResetEvent workDone;
 		private bool cancelled;
+        private SynchronizationContext _currentContext = AsyncOperationManager.SynchronizationContext;
 		
 		public RssBanditUpdateManager(){
 			this.cancelled = false;
@@ -118,8 +120,14 @@ namespace RssBandit
 
 		private void RaiseOnUpdateAvailable(bool isNewVersion, string url)
 		{
-			if (OnUpdateAvailable != null)
-				OnUpdateAvailable(null, new UpdateAvailableEventArgs(isNewVersion, url));
+            UpdateAvailableEventHandler evt = OnUpdateAvailable;
+            _currentContext.Send(delegate
+                                     {
+                                         if (evt != null)
+                                         {
+                                             evt(null, new UpdateAvailableEventArgs(isNewVersion, url));
+                                         }
+                                     }, null);
 		}
 	}
 

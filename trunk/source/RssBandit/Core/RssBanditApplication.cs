@@ -5489,7 +5489,9 @@ namespace RssBandit {
 
 		}
 
-		private void OnApplicationUpdateAvailable(object sender, UpdateAvailableEventArgs e) {
+		private void OnApplicationUpdateAvailable(object sender, UpdateAvailableEventArgs e) 
+        {
+            
 			AutoUpdateMode mode = (AutoUpdateMode)RssBanditUpdateManager.Tag;
 			bool hasUpdates = e.NewVersionAvailable;
 
