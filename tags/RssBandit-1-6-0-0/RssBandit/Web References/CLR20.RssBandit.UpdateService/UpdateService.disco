@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://localhost/RssBandit.UpdateService/UpdateService.asmx?wsdl" docRef="http://localhost/RssBandit.UpdateService/UpdateService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost/RssBandit.UpdateService/UpdateService.asmx" xmlns:q1="urn:schemas-rssbandit-org:rssbandit:update-services" binding="q1:UpdateServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

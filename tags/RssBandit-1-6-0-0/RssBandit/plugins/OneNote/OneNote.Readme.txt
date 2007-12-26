@@ -1,0 +1,15 @@
+RSSBandit Plugins: OneNote
+
+1. How to install
+=================
+
+a) You have downloaded the zipped package, now unzip it  to the subfolder
+of the RSS Bandit application folder named "Plugins". This is usually 
+C:\Program Files\RssBandit\Plugins but may vary depending on the installation
+location of RSS Bandit.  
+
+b) Start RSS Bandit.
+
+c) You will find the "Send to OneNote" feature as a context menu entry
+   for individual feed item posts.
+
