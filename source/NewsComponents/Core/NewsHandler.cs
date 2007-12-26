@@ -2046,7 +2046,7 @@ namespace NewsComponents {
             }
 
             weightedLinks.Sort(delegate(RelationHRefEntry x, RelationHRefEntry y) { return y.Score.CompareTo(x.Score);} );
-            weightedLinks = weightedLinks.GetRange(0, numStories);
+            weightedLinks = weightedLinks.GetRange(0, Math.Min(numStories, weightedLinks.Count));
 
             //fetch titles from HTML page
             numTitlesToDownload = numStories;           
