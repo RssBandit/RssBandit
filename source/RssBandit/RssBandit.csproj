@@ -281,7 +281,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.config" />
+    <None Include="app.config" />
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
       <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>
@@ -293,6 +293,15 @@
       <Generator>StringResourceTool</Generator>
       <LastGenOutput>SR.cs</LastGenOutput>
     </None>
+    <Content Include="Media\Feed Discovered.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\New Attachment Downloaded.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\New Feed Items Received.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2087,7 +2096,7 @@
     <Compile Include="Xml\Namespaces.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="Resources\BanditHelp.chm" />
+    <None Include="Resources\BanditHelp.chm" />
     <None Include="Resources\hotnews.16.png" />
     <Content Include="RssBandit.exe.log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
