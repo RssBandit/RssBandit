@@ -10,7 +10,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using Tst;
 
 namespace NewsComponents.RelationCosmos
 {
@@ -379,14 +378,7 @@ namespace NewsComponents.RelationCosmos
 		#endregion
 
 		#region private static methods
-		private static TstDictionary GetRelationList(string key, TstDictionaries fromRelations) { 
-			TstDictionary list = fromRelations[key];
-			if (list == null) { 
-				list = new TstDictionary();
-				fromRelations.Add(key, list);
-			}
-			return list;  
-		}
+		
         
         private static void AddToRelationList<T>(string key, T relation, IDictionary<string, Object> toRelations) 
             where T : RelationBase<T>
