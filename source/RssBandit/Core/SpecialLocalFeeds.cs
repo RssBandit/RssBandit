@@ -56,9 +56,9 @@ namespace RssBandit.SpecialFeeds
 		
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
 
-        protected List<NewsItem> itemsList = new List<NewsItem>();
+        
 		private string filePath = null;
-		private FeedInfo feedInfo = null;
+		protected FeedInfo feedInfo = null;
 		private string description = null;
 		private bool modified = false;
 
@@ -101,7 +101,7 @@ namespace RssBandit.SpecialFeeds
 			}
 			base.title = feedTitle;
 			
-			this.feedInfo = new FeedInfo(null, filePath, itemsList, feedTitle, base.link, feedDescription);
+			this.feedInfo = new FeedInfo(null, filePath, new List<NewsItem>(), feedTitle, base.link, feedDescription);
 			
 			if (loadItems)
 				LoadItems(this.GetDefaultReader());
@@ -121,13 +121,13 @@ namespace RssBandit.SpecialFeeds
 		}
 
 		public List<NewsItem> Items {
-			get { return itemsList;  }
-			set { itemsList = new List<NewsItem>(value); }
+			get { return this.feedInfo.ItemsList;  }
+			set { this.feedInfo.ItemsList = new List<NewsItem>(value); }
 		}
 
 		public void Add(LocalFeedsFeed lff){
 			foreach(NewsItem item in lff.Items){
-				if(!this.itemsList.Contains(item)){
+				if(!this.feedInfo.ItemsList.Contains(item)){
 					this.Add(item); 
 				}
 			}		
@@ -138,17 +138,17 @@ namespace RssBandit.SpecialFeeds
 				return;
 			
 			item.FeedDetails = this.feedInfo;
-			this.itemsList.Add(item);
+			this.feedInfo.ItemsList.Add(item);
 			this.modified = true;
 		}
 
 		public void Remove(NewsItem item) {
 			if (item != null)
 			{
-				int index = this.itemsList.IndexOf(item);
+				int index = this.feedInfo.ItemsList.IndexOf(item);
 				if (index >= 0)
 				{
-					this.itemsList.RemoveAt(index);
+					this.feedInfo.ItemsList.RemoveAt(index);
 					this.modified = true;
 				}
 			}
@@ -158,10 +158,10 @@ namespace RssBandit.SpecialFeeds
 		public void Remove(string commentFeedUrl){
 			if(!StringHelper.EmptyOrNull(commentFeedUrl)){
 			
-				for(int i = 0; i < this.itemsList.Count; i++){
-					NewsItem ni = itemsList[i] as NewsItem; 
+				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
+					NewsItem ni = feedInfo.ItemsList[i] as NewsItem; 
 					if(ni.CommentRssUrl.Equals(commentFeedUrl)){
-						this.itemsList.RemoveAt(i); 
+						this.feedInfo.ItemsList.RemoveAt(i); 
 						break; 
 					}
 				}
@@ -187,8 +187,8 @@ namespace RssBandit.SpecialFeeds
 		}
 
 		protected void LoadItems(XmlReader reader){
-			if (itemsList.Count > 0)
-				itemsList.Clear(); 
+			if (feedInfo.ItemsList.Count > 0)
+				feedInfo.ItemsList.Clear(); 
 
 			if (reader != null) {
 				try{				
@@ -198,7 +198,7 @@ namespace RssBandit.SpecialFeeds
 						NewsItem item = RssParser.MakeRssItem(this,  new XmlNodeReader(elem)); 
 						item.BeenRead = true;
 						item.FeedDetails = this.feedInfo;
-						itemsList.Add(item); 
+						feedInfo.ItemsList.Add(item); 
 					}
 				}catch(Exception e){
 					ExceptionManager.GetInstance().Add(RssBanditApplication.CreateLocalFeedRequestException(e, this, this.feedInfo));
@@ -263,7 +263,7 @@ namespace RssBandit.SpecialFeeds
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
 		public void Add(System.Exception e) {
 			FeedException fe = new FeedException(this, e);
-			base.itemsList.Add(fe.NewsItemInstance);
+			base.Add(fe.NewsItemInstance);
 			try {
 				base.Save();
 			} catch (Exception ex) {
@@ -277,12 +277,12 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="feedUrl">The feed URL.</param>
 		public void RemoveFeed(string feedUrl) {
 			
-			if (StringHelper.EmptyOrNull(feedUrl) || base.itemsList.Count == 0)
+			if (StringHelper.EmptyOrNull(feedUrl) || base.feedInfo.ItemsList.Count == 0)
 				return;
 			
 			Stack removeAtIndex = new Stack();
-			for (int i = 0; i < base.itemsList.Count; i++) {
-				NewsItem n = base.itemsList[i] as NewsItem;
+			for (int i = 0; i < base.feedInfo.ItemsList.Count; i++) {
+				NewsItem n = base.feedInfo.ItemsList[i] as NewsItem;
 				if (n != null) {
 					XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalFeedElements.OriginalFeedOfErrorItem);
 					if (xe != null && xe.InnerText == feedUrl) {
@@ -294,11 +294,11 @@ namespace RssBandit.SpecialFeeds
 			}
 
 			while (removeAtIndex.Count > 0)
-				base.itemsList.RemoveAt((int)removeAtIndex.Pop());
+				base.feedInfo.ItemsList.RemoveAt((int)removeAtIndex.Pop());
 		}
 
 		public new IList<NewsItem> Items {
-			get { return base.itemsList; }
+			get { return base.feedInfo.ItemsList; }
 		}
 
 		/// <summary>
