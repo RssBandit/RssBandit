@@ -154,27 +154,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\RelationHRefEntry.cs" />
-    <Compile Include="Collections\Tst\TstDictionaries.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstDictionaryEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstDictionaryEntryEventArgs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstDictionaryEnumerator.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstSynchronizedDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\Tst\TstTraverser.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Core\BackgroundDownloadManager.cs">
       <SubType>Code</SubType>
     </Compile>
