@@ -55,9 +55,9 @@ namespace NewsComponents.Utils {
 		#region Filter Name Definitions
 		
 		// these values correspond to the names used as the name of the Xslt in the resource file
-		private static string FILTER_FORMAT_OPML	= "OPML";
-		private static string FILTER_FORMAT_OCS		= "OCS";
-		private static string FILTER_FORMAT_SIAM	= "SIAM";
+		private static readonly string FILTER_FORMAT_OPML	= "OPML";
+		private static readonly string FILTER_FORMAT_OCS		= "OCS";
+		private static readonly string FILTER_FORMAT_SIAM	= "SIAM";
 
 		#endregion
 
@@ -130,7 +130,7 @@ namespace NewsComponents.Utils {
 		/// <returns>System.Xml.Xsl.XslTransform containing the transform that will convert the input to the native feedlist format</returns>
 		public XslTransform GetImportXsl()
 		{
-			string _formatName = String.Empty;
+			string _formatName;
 
 			if(this._feedFormat == ImportFeedFormat.Unknown)
 				this._feedFormat = this.DetectFormat();

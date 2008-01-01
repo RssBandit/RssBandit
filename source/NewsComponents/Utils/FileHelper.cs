@@ -29,6 +29,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -43,8 +44,8 @@ namespace NewsComponents.Utils
 	public sealed class FileHelper {
 	 
 		#region private vars
-		private static int msecsBetweenRetries = 100;
-		private static int bufferSize = 1024 * 20;	// 20K read/write buffer
+		private static readonly int msecsBetweenRetries = 100;
+		private static readonly int bufferSize = 1024 * 20;	// 20K read/write buffer
 		#endregion
 
 
@@ -73,7 +74,7 @@ namespace NewsComponents.Utils
 			safe = safe.Replace(Path.AltDirectorySeparatorChar,'_');
 			safe = safe.Replace(Path.PathSeparator,'_');			
 
-			foreach(Char c in System.IO.Path.InvalidPathChars){				
+			foreach(Char c in Path.GetInvalidFileNameChars()){				
 				safe = safe.Replace(c,'_');
 			}			
  
@@ -265,50 +266,60 @@ namespace NewsComponents.Utils
 			if (stream == null)
 				throw new ArgumentNullException("stream");
 
-			bool saveSuccess = false;
+			bool saveSuccess;
 
-			try {
-				if (stream.CanSeek)	// reset stream pointer
-					stream.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                if (stream.CanSeek) // reset stream pointer
+                    stream.Seek(0, SeekOrigin.Begin);
 
-				string dataPath = fileName + ".new";
-				Stream fsStream = OpenForWrite(dataPath);
-				if (fsStream == null) {
-					// to get the exception:
-					fsStream = new FileStream(dataPath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize);
-				}
-				try {
-					int size = 2048;
-					byte[] writeData = new byte[size];
-					while (true) {
-						size = stream.Read(writeData, 0, size);
-						if (size > 0) {
-							fsStream.Write(writeData, 0, size);
-						} 
-						else {
-							break;
-						}
-					}
-					fsStream.Flush();
-					saveSuccess = true;
-				}
-				finally {
-					fsStream.Close();
-				}
-				// only after successful save of the stream, copy/rename/move to real location
-				if (saveSuccess) {
-					Delete(fileName + ".bak");
-					if (File.Exists(fileName)) {	// if it is the very initial write, there is nothing to rename to .bak
-						File.Move(fileName, fileName + ".bak");
-					}
-					File.Move(fileName + ".new", fileName);
-				}
-			}
-			catch (Exception ex){
-				// write out message to the attached trace listeners
-				saveSuccess = false;
-				Trace.WriteLine("WriteStreamWithBackup('"+fileName+"') caused exception: "+ex.Message);
-			}
+                string dataPath = fileName + ".new";
+                Stream fsStream = OpenForWrite(dataPath);
+                if (fsStream == null)
+                {
+                    // to get the exception:
+                    fsStream = new FileStream(dataPath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize);
+                }
+                try
+                {
+                    int size = 2048;
+                    byte[] writeData = new byte[size];
+                    while (true)
+                    {
+                        size = stream.Read(writeData, 0, size);
+                        if (size > 0)
+                        {
+                            fsStream.Write(writeData, 0, size);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    fsStream.Flush();
+                    saveSuccess = true;
+                }
+                finally
+                {
+                    fsStream.Close();
+                }
+                // only after successful save of the stream, copy/rename/move to real location
+                // any exception will skip this code and go to the hanlder below
+
+                Delete(fileName + ".bak");
+                if (File.Exists(fileName))
+                {
+                    // if it is the very initial write, there is nothing to rename to .bak
+                    File.Move(fileName, fileName + ".bak");
+                }
+                File.Move(fileName + ".new", fileName);
+            }
+            catch (Exception ex)
+            {
+                // write out message to the attached trace listeners
+                saveSuccess = false;
+                Trace.WriteLine("WriteStreamWithBackup('" + fileName + "') caused exception: " + ex.Message);
+            }
 
 			return saveSuccess;
 		}
@@ -331,50 +342,59 @@ namespace NewsComponents.Utils
 			if (stream == null)
 				throw new ArgumentNullException("stream");
 
-			bool saveSuccess = false;
+			bool saveSuccess;
 
-			try {
-				if (stream.CanSeek)	// reset stream pointer
-					stream.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                if (stream.CanSeek) // reset stream pointer
+                    stream.Seek(0, SeekOrigin.Begin);
 
-				string dataPath = fileName + ".new";
-				Stream fsStream = OpenForWrite(dataPath);
-				if (fsStream == null) {
-					// to get the exception:
-					fsStream = new FileStream(dataPath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize);
-				}
-				try {
-					int size = 2048;
-					byte[] writeData = new byte[size];
-					while (true) {
-						size = stream.Read(writeData, 0, size);
-						if (size > 0) {
-							fsStream.Write(writeData, 0, size);
-						} 
-						else {
-							break;
-						}
-					}
-					fsStream.Flush();
-					saveSuccess = true;
-				}
-				finally {
-					fsStream.Close();
-				}
-				// only after successful save of the stream, copy/rename/move to real location
-				if (saveSuccess) {
-					
-					if (File.Exists(fileName)) {	// if it is the very initial write, there is nothing to delete
-						Delete(fileName);
-					}
-					File.Move(fileName + ".new", fileName);
-				}
-			}
-			catch (Exception ex){
-				// write out message to the attached trace listeners
-				saveSuccess = false;
-				Trace.WriteLine("WriteStreamWithRename('"+fileName+"') caused exception: "+ex.Message);
-			}
+                string dataPath = fileName + ".new";
+                Stream fsStream = OpenForWrite(dataPath);
+                if (fsStream == null)
+                {
+                    // to get the exception:
+                    fsStream = new FileStream(dataPath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize);
+                }
+                try
+                {
+                    int size = 2048;
+                    byte[] writeData = new byte[size];
+                    while (true)
+                    {
+                        size = stream.Read(writeData, 0, size);
+                        if (size > 0)
+                        {
+                            fsStream.Write(writeData, 0, size);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    fsStream.Flush();
+                    saveSuccess = true;
+                }
+                finally
+                {
+                    fsStream.Close();
+                }
+                // only after successful save of the stream, copy/rename/move to real location
+
+
+                if (File.Exists(fileName))
+                {
+                    // if it is the very initial write, there is nothing to delete
+                    Delete(fileName);
+                }
+                File.Move(fileName + ".new", fileName);
+            }
+            catch (Exception ex)
+            {
+                // write out message to the attached trace listeners
+                saveSuccess = false;
+                Trace.WriteLine("WriteStreamWithRename('" + fileName + "') caused exception: " + ex.Message);
+            }
 
 			return saveSuccess;
 		}
@@ -552,7 +572,7 @@ namespace NewsComponents.Utils
 			catch( Exception ) {
 				// If we couldn't remove the files, postpone it to the next system reboot
 				if ( Directory.Exists( folderPath) ) {
-					FileHelper.MoveFile(
+					MoveFile(
 						folderPath,
 						null,
 						MoveFileFlag.DelayUntilReboot );
@@ -573,7 +593,7 @@ namespace NewsComponents.Utils
 			}
 			catch {
 				if ( File.Exists( filePath ) ) {
-					FileHelper.MoveFile(
+					MoveFile(
 						filePath,
 						null,
 						MoveFileFlag.DelayUntilReboot );
@@ -581,27 +601,6 @@ namespace NewsComponents.Utils
 			}
 		}
 
-
-		/// <summary>
-		/// Returns the path to the newer version of the .NET Framework installed on the system.
-		/// </summary>
-		/// <returns>A string containig the full path to the newer .Net Framework location</returns>
-		public static string GetLatestDotNetFrameworkPath() {
-			Version latestVersion = null;
-			string fwkPath = Path.GetFullPath( Path.Combine( Environment.SystemDirectory, @"..\Microsoft.NET\Framework" ) );
-			foreach(string path in Directory.GetDirectories( fwkPath, "v*" ) ) {
-				string candidateVersion = Path.GetFileName( path ).TrimStart( 'v' );
-				try {
-					Version curVersion = new Version( candidateVersion );
-					if ( latestVersion == null || ( latestVersion != null && latestVersion < curVersion ) ) {
-						latestVersion = curVersion;
-					}
-				}
-				catch {}
-			}
-
-			return  Path.Combine( fwkPath, "v" + latestVersion.ToString() );
-		}
 
 		#region zip support
 		
@@ -633,11 +632,10 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="files">The list of files to zip</param>
 		/// <param name="zos">The stream to store the zipped files</param>
-		private static void ZipFiles(string[] files, ZipOutputStream zos){
+		private static void ZipFiles(IEnumerable<string> files, ZipOutputStream zos){
 		
 			byte[] buffer = new byte[bufferSize];
-			int size = 0;
-			zos.SetLevel(5); 
+		    zos.SetLevel(5); 
 
 			foreach(string file in files){
 
@@ -650,7 +648,8 @@ namespace NewsComponents.Utils
 							ZipEntry entry = new ZipEntry(Path.GetFileName(file));
 							zos.PutNextEntry(entry);
 
-							do {
+						    int size;
+						    do {
 						
 								size = fs.Read(buffer, 0, buffer.Length);
 								zos.Write(buffer, 0, size);
@@ -717,8 +716,8 @@ namespace NewsComponents.Utils
 		/// <param name="overwrite">Whether the folders should be copied recursively.</param>
 		private static void CopyDirRecurse( string sourcePath, string destinationPath, string originalDestination, bool overwrite ) {
 			//  ensure terminal backslash
-			sourcePath = FileHelper.AppendTerminalBackslash( sourcePath );
-			destinationPath = FileHelper.AppendTerminalBackslash( destinationPath );
+			sourcePath = AppendTerminalBackslash( sourcePath );
+			destinationPath = AppendTerminalBackslash( destinationPath );
 
 			if ( !Directory.Exists( destinationPath ) ) {
 				Directory.CreateDirectory( destinationPath );
@@ -727,13 +726,12 @@ namespace NewsComponents.Utils
 			//  get dir info which may be file or dir info object
 			DirectoryInfo dirInfo = new DirectoryInfo( sourcePath );
 
-			string destFileName = null;
+		    foreach( FileSystemInfo fsi in dirInfo.GetFileSystemInfos() ) {
+				if ( fsi is FileInfo )
+				{
+				    string destFileName = Path.Combine( destinationPath, fsi.Name );
 
-			foreach( FileSystemInfo fsi in dirInfo.GetFileSystemInfos() ) {
-				if ( fsi is FileInfo ) {
-					destFileName = Path.Combine( destinationPath, fsi.Name );
-
-					//  if file object just copy when overwrite is allowed
+				    //  if file object just copy when overwrite is allowed
 					if ( File.Exists( destFileName ) ) {
 						if ( overwrite ) {
 							File.Copy( fsi.FullName, destFileName, true );
@@ -769,7 +767,8 @@ namespace NewsComponents.Utils
 	/// Indicates how to proceed with the move file operation. 
 	/// </summary>
 	[Flags]
-	public enum MoveFileFlag : int {
+	public enum MoveFileFlag
+	{
 		/// <summary>
 		/// Perform a default move funtion.
 		/// </summary>

@@ -54,7 +54,7 @@ namespace NewsComponents.Utils
 		public const string NsCommentAPI = "http://wellformedweb.org/CommentAPI/";
 
 		// object needed to create XmlElement's, etc.
-		private static XmlDocument elementCreator = new XmlDocument();
+		private static readonly XmlDocument elementCreator = new XmlDocument();
 
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace NewsComponents.Utils
 			if (qname != null) {
 				string elem  = (string) elements[qname];
 				if(elem != null) {
-					return (XmlElement) elementCreator.ReadNode(new XmlTextReader(new System.IO.StringReader(elem))); 
+					return (XmlElement) elementCreator.ReadNode(new XmlTextReader(new StringReader(elem))); 
 				}
 			}
 			return null;
@@ -227,7 +227,7 @@ namespace NewsComponents.Utils
 				foreach (XmlQualifiedName qname in qnames) {
 					string elem  = (string) elements[qname];
 					if(elem != null) {
-						xElements.Add(elementCreator.ReadNode(new XmlTextReader(new System.IO.StringReader(elem)))); 
+						xElements.Add(elementCreator.ReadNode(new XmlTextReader(new StringReader(elem)))); 
 					}
 				}
 				return (XmlElement[])xElements.ToArray( typeof(XmlElement) );
@@ -374,8 +374,8 @@ namespace NewsComponents.Utils
 		
 			#region private fields
 
-			private bool sortDescending;
-			private NewsItemSortField sortField;
+			private readonly bool sortDescending;
+			private readonly NewsItemSortField sortField;
 			 
 			#endregion 
 
@@ -433,8 +433,8 @@ namespace NewsComponents.Utils
 							return reverse * ri2.FlagStatus.CompareTo(ri1.FlagStatus);
 
 						case NewsItemSortField.Enclosure:
-							XmlElement x1 = RssHelper.GetOptionalElement(ri1, "enclosure", String.Empty);
-							XmlElement x2 = RssHelper.GetOptionalElement(ri2, "enclosure", String.Empty);
+							XmlElement x1 = GetOptionalElement(ri1, "enclosure", String.Empty);
+							XmlElement x2 = GetOptionalElement(ri2, "enclosure", String.Empty);
 							if (x1 == null && x2 == null) return 0;
 							if (x2 != null) 
 								return reverse * 1;

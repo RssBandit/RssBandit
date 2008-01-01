@@ -16,7 +16,7 @@ namespace NewsComponents.Utils
 {
 	internal class CryptHelper {
 		//FxCop CA1810
-		private static TripleDESCryptoServiceProvider _des = new TripleDESCryptoServiceProvider();
+		private static readonly TripleDESCryptoServiceProvider _des = new TripleDESCryptoServiceProvider();
 
 		private CryptHelper(){}
 
@@ -34,8 +34,7 @@ namespace NewsComponents.Utils
 
 		public static string Decrypt(string str) {
 			byte[] base64;
-			byte[] bytes;
-			string ret;
+		    string ret;
 
 			if (str == null)
 				ret = null;
@@ -45,11 +44,11 @@ namespace NewsComponents.Utils
 				else {
 					try {
 						base64 = Convert.FromBase64String(str);
-						bytes = _des.CreateDecryptor().TransformFinalBlock(base64, 0, base64.GetLength(0));
+						byte[] bytes = _des.CreateDecryptor().TransformFinalBlock(base64, 0, base64.GetLength(0));
 						ret = Encoding.Unicode.GetString(bytes);
 					}
 					catch (Exception e) {
-						Trace.WriteLine("Exception in Decrypt: "+e.ToString(), "CryptHelper");
+						Trace.WriteLine("Exception in Decrypt: "+e, "CryptHelper");
 						ret = String.Empty;
 					}
 				}
@@ -58,18 +57,18 @@ namespace NewsComponents.Utils
 		}
 
 		public static string Decrypt(byte[] bytes) {
-			byte[] tmp;
-			string ret;
+		    string ret;
 
 			if (bytes.GetLength(0) == 0)
 				ret = String.Empty;
 			else {
-				try {
-					tmp = _des.CreateDecryptor().TransformFinalBlock(bytes, 0, bytes.GetLength(0));
-					ret = Encoding.Unicode.GetString(tmp);
+				try
+				{
+				    byte[] tmp = _des.CreateDecryptor().TransformFinalBlock(bytes, 0, bytes.GetLength(0));
+				    ret = Encoding.Unicode.GetString(tmp);
 				}
 				catch (Exception e) {
-					Trace.WriteLine("Exception in Decrypt: "+e.ToString(), "CryptHelper");
+					Trace.WriteLine("Exception in Decrypt: "+e, "CryptHelper");
 					ret = String.Empty;
 				}
 			}
@@ -78,8 +77,7 @@ namespace NewsComponents.Utils
 
 		public static string Encrypt(string str) {
 			byte[] inBytes;
-			byte[] bytes;
-			string ret;
+		    string ret;
 
 			if (str == null)
 				ret = null;
@@ -89,11 +87,11 @@ namespace NewsComponents.Utils
 				else {
 					try {
 						inBytes = Encoding.Unicode.GetBytes(str);
-						bytes = _des.CreateEncryptor().TransformFinalBlock(inBytes, 0, inBytes.GetLength(0));
+						byte[] bytes = _des.CreateEncryptor().TransformFinalBlock(inBytes, 0, inBytes.GetLength(0));
 						ret = Convert.ToBase64String(bytes);
 					}
 					catch (Exception e) {
-						Trace.WriteLine("Exception in Encrypt: "+e.ToString(), "CryptHelper");
+						Trace.WriteLine("Exception in Encrypt: "+e, "CryptHelper");
 						ret = String.Empty;
 					}
 				}
@@ -116,7 +114,7 @@ namespace NewsComponents.Utils
 						ret = _des.CreateEncryptor().TransformFinalBlock(inBytes, 0, inBytes.GetLength(0));
 					}
 					catch (Exception e) {
-						Trace.WriteLine("Exception in Encrypt: "+e.ToString(), "CryptHelper");
+						Trace.WriteLine("Exception in Encrypt: "+e, "CryptHelper");
 						ret = null;
 					}
 				}
@@ -134,7 +132,7 @@ namespace NewsComponents.Utils
 			Random r = new Random(1500450271);	
 			// result array
 			byte[] res = new Byte[500];
-			int i = 0;
+			int i;
 				
 			for (i = 0; i < bLen && i < 500; i++)
 				res[i] = (byte)(b[i] ^ r.Next(30, 127));
