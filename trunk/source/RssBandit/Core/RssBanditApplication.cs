@@ -454,12 +454,18 @@ namespace RssBandit {
 		/// </summary>
 		public void StartMainGui(FormWindowState initialStartupState) {
 			ApplicationExceptionHandler eh = new ApplicationExceptionHandler();
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(eh.OnAppDomainException);
+            // Allow exceptions to be unhandled so they break in the debugger
+#if !DEBUG
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(eh.OnAppDomainException);
+#endif
 			AppDomain.CurrentDomain.DomainUnload += new EventHandler(this.OnAppDomainUnload);
 			AppDomain.CurrentDomain.ProcessExit += new EventHandler(this.OnAppDomainUnload);
 	
 			Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
+            // Allow exceptions to be unhandled so they break in the debugger
+#if !DEBUG
 			Application.ThreadException += new ThreadExceptionEventHandler(this.OnThreadException);
+#endif
 			Splash.Status = SR.AppLoadStateGuiLoading;
 			base.MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
 
@@ -6580,8 +6586,12 @@ namespace RssBandit {
 
 			/* setup handler for unhandled exceptions */ 
 			ApplicationExceptionHandler eh = new ApplicationExceptionHandler();
+
+            // Allow exceptions to be unhandled so they break in the debugger
+#if !DEBUG
 			AppDomain.CurrentDomain.UnhandledException += eh.OnAppDomainException;			
-			
+#endif
+	
 #if DEBUG && TEST_I18N_THISCULTURE			
 			Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(new I18NTestCulture().Culture);
 			Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
