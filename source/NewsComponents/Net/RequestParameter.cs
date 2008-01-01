@@ -97,40 +97,7 @@ namespace NewsComponents.Net
 		#endregion
 
 		#region static creator routines
-		/// <summary>
-		/// To be provided
-		/// </summary>
-		/// <param name="address"></param>
-		/// <param name="userAgent"></param>
-		/// <param name="proxy"></param>
-		/// <param name="credentials"></param>
-		/// <param name="ifModifiedSince"></param>
-		/// <param name="eTag"></param>
-		/// <returns></returns>
-		/// <exception cref="UriFormatException">The URI specified in requestUriString is not a valid URI.</exception>
-		public static RequestParameter Create(string address, string userAgent, 
-			IWebProxy proxy, ICredentials credentials, DateTime ifModifiedSince, string eTag) {
 
-			return new RequestParameter(new Uri(address), userAgent, proxy, credentials, ifModifiedSince, eTag );
-		}
-
-		/// <summary>
-		/// To be provided
-		/// </summary>
-		/// <param name="address"></param>
-		/// <param name="userAgent"></param>
-		/// <param name="proxy"></param>
-		/// <param name="credentials"></param>
-		/// <param name="ifModifiedSince"></param>
-		/// <param name="eTag"></param>
-		/// <param name="setCookies"></param>
-		/// <returns></returns>
-		/// <exception cref="UriFormatException">The URI specified in requestUriString is not a valid URI.</exception>
-		public static RequestParameter Create(string address, string userAgent, 
-			IWebProxy proxy, ICredentials credentials, DateTime ifModifiedSince, string eTag, bool setCookies) {
-
-			return new RequestParameter(new Uri(address), userAgent, proxy, credentials, ifModifiedSince, eTag, setCookies );
-		}
 
 		/// <summary>
 		/// To be provided
@@ -154,8 +121,8 @@ namespace NewsComponents.Net
 		/// <param name="address"></param>
 		/// <param name="p"></param>
 		/// <returns></returns>
-		public static RequestParameter Create(string address, RequestParameter p) {
-			return new RequestParameter(new Uri(address), p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, p.SetCookies );
+		public static RequestParameter Create(Uri address, RequestParameter p) {
+			return new RequestParameter(address, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, p.SetCookies );
 		}
 		/// <summary>
 		/// Creates a new RequestParameter instance.

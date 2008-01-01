@@ -7553,9 +7553,9 @@ namespace RssBandit.WinGui.Forms
         {
             // Create a strip of images by loading an embedded bitmap resource
             // Ensure, the Point() parameter locates a magenta pixel to make it transparent!
-            _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.bmp", new Size(16, 16), new Point(0, 0));
-            _listImages = Resource.LoadBitmapStrip("Resources.ListImages.bmp", new Size(16, 16), new Point(0, 0));
-            _allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.bmp", new Size(16, 16), new Point(0, 0));
+            _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
+            _listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
+            _allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.png", new Size(16, 16));
         }
 
         #endregion

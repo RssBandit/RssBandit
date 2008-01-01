@@ -632,7 +632,7 @@ namespace NewsComponents.Net
                         state.RetryCount++;
                         if (state.RetryCount > RequestState.MAX_RETRIES)
                         {
-// there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
                             throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
                                                    null, WebExceptionStatus.RequestCanceled, httpResponse);
                         }
@@ -652,26 +652,23 @@ namespace NewsComponents.Net
                         // finished one. So the user get better feedback, because the whole processing
                         // of one request (including the redirection/moved/... ) is visualized as one update
                         // action.
-                        try
+
+
+                        Uri req;
+                        //Try absolute first
+                        if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
                         {
-                            RequestParameter rqp = RequestParameter.Create(url2, state.RequestParams);
-                            QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
-                        }
-                        catch (UriFormatException)
-                        {
-                            try
-                            {
-                                url2 = HtmlHelper.ConvertToAbsoluteUrl(url2, httpResponse.ResponseUri, false);
-                                RequestParameter rqp = RequestParameter.Create(url2, state.RequestParams);
-                                QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
-                            }
-                            catch (UriFormatException uex)
-                            {
+                            // Try relative
+                            if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
                                 throw new WebException(
-                                    "Original resource moved. Requesting new resource at '" + url2 + "' failed: " +
-                                    uex.Message, uex);
-                            }
+                                    string.Format(
+                                        "Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
+                                        httpResponse.ResponseUri, url2));
                         }
+
+                        RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
+                        QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+
 
                         // ping the queue listener thread to Dequeue the next request
                         RequestThread.EndRequest(state);
@@ -681,7 +678,7 @@ namespace NewsComponents.Net
                         state.RetryCount++;
                         if (state.RetryCount > RequestState.MAX_RETRIES)
                         {
-// there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
                             throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
                                                    null, WebExceptionStatus.RequestCanceled, httpResponse);
                         }

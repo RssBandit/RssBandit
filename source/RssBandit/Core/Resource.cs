@@ -416,7 +416,8 @@ namespace RssBandit
 		// workhorse:
 		private static ImageList LoadBitmapStrip(string imageName, Size imageSize, bool makeTransparent, Point transparentPixel) {
 			Bitmap bmp = LoadBitmap(imageName, makeTransparent, transparentPixel);
-			ImageList img = new ImageList();
+            ImageList img = new ImageList();
+            img.ColorDepth = ColorDepth.Depth32Bit;
 			img.ImageSize = imageSize;
 			img.Images.AddStrip(bmp);
 			return img;
