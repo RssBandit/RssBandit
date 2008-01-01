@@ -25,16 +25,16 @@ namespace NewsComponents.Feed {
     
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("feed", Type = typeof(feedsFeed), IsNullable = false)]
-		public ArrayList feed = new ArrayList();
+		public List<feedsFeed> feed = new List<feedsFeed>();
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayItemAttribute("category", Type = typeof(category), IsNullable = false)]
-		public ArrayList categories = new ArrayList();	
+		public List<category> categories = new List<category>();	
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayAttribute("listview-layouts")]
 		[System.Xml.Serialization.XmlArrayItemAttribute("listview-layout", Type = typeof(listviewLayout), IsNullable = false)]
-		public ArrayList listviewLayouts = new ArrayList();	
+		public List<listviewLayout> listviewLayouts = new List<listviewLayout>();	
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayItemAttribute("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
@@ -44,7 +44,7 @@ namespace NewsComponents.Feed {
 		/// <remarks/>
 		[System.Xml.Serialization.XmlArrayItemAttribute("identity", Type = typeof(UserIdentity), IsNullable = false)]
 		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "user-identities", IsNullable = false)]
-		public ArrayList identities = new ArrayList();	
+		public List<UserIdentity> identities = new List<UserIdentity>();	
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute("refresh-rate")]
@@ -170,8 +170,8 @@ namespace NewsComponents.Feed {
 		string SortByColumn { get; }
 		SortOrder SortOrder { get ; }
 		string ArrangeByColumn { get; }
-		IList Columns { get; }
-		IList ColumnWidths { get; }
+		IList<string> Columns { get; }
+		IList<int> ColumnWidths { get; }
 	}
 
 	[Serializable]
@@ -181,23 +181,23 @@ namespace NewsComponents.Feed {
 		private SortOrder _sortOrder;
 		private LayoutType _layoutType;
 		private string _arrangeByColumn;
-		internal ArrayList _columns;
-		internal ArrayList _columnWidths;
+		internal List<string> _columns;
+		internal List<int> _columnWidths;
 
 		public FeedColumnLayout():
 			this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null) {	}
-		public FeedColumnLayout(ICollection columns, ICollection columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType):
+		public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType):
 			this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null) {	}
 		
-		public FeedColumnLayout(ICollection columns, ICollection columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn) {
+		public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn) {
 			if (columns != null)
-				_columns = new ArrayList(columns);
+				_columns = new List<string>(columns);
 			else
-				_columns = new ArrayList();
+				_columns = new List<string>();
 			if (columnWidths != null)
-				_columnWidths = new ArrayList(columnWidths);
+				_columnWidths = new List<int>(columnWidths);
 			else
-				_columnWidths = new ArrayList();
+				_columnWidths = new List<int>();
 
 			_sortOrder = SortOrder.None;
 			if (sortByColumn != null && _columns.IndexOf(sortByColumn) >= 0) {
@@ -257,47 +257,47 @@ namespace NewsComponents.Feed {
 		}
 
 		[XmlIgnore]
-		public IList Columns {
+		public IList<string> Columns {
 			get {	return _columns;	}
 			set { 
 				if (value != null)
-					_columns = new ArrayList(value); 
+					_columns = new List<string>(value); 
 				else
-					_columns = new ArrayList();
+					_columns = new List<string>();
 			}
 		}
 
 		[XmlIgnore]
-		public IList ColumnWidths {
+		public IList<int> ColumnWidths {
 			get {	return _columnWidths;	}
 			set { 
 				if (value != null)
-					_columnWidths = new ArrayList(value); 
+					_columnWidths = new List<int>(value); 
 				else
-					_columnWidths = new ArrayList();
+					_columnWidths = new List<int>();
 			}
 		}
 
 		#endregion
 
 		[XmlArrayItem(typeof(string))]
-		public ArrayList ColumnList {
+		public List<string> ColumnList {
 			get {	return _columns;	}
 			set { 
 				if (value != null)
 					_columns = value; 
 				else
-					_columns = new ArrayList();
+					_columns = new List<string>();
 			}
 		}
 		[XmlArrayItem(typeof(int))]
-		public ArrayList ColumnWidthList {
+		public List<int> ColumnWidthList {
 			get {	return _columnWidths;	}
 			set { 
 				if (value != null)
 					_columnWidths = value; 
 				else
-					_columnWidths = new ArrayList();
+					_columnWidths = new List<int>();
 			}
 		}
 
@@ -418,8 +418,8 @@ namespace NewsComponents.Feed {
 
 		protected FeedColumnLayout(SerializationInfo info, StreamingContext context) {
 			int version = info.GetInt32("version");
-			this._columns = (ArrayList)info.GetValue("ColumnList", typeof (ArrayList));
-			this._columnWidths = (ArrayList)info.GetValue("ColumnWidthList", typeof (ArrayList));
+			this._columns = (List<string>)info.GetValue("ColumnList", typeof (List<string>));
+			this._columnWidths = (List<int>)info.GetValue("ColumnWidthList", typeof (List<int>));
 			this._sortByColumn = info.GetString("SortByColumn");
 			this._sortOrder = (SortOrder)info.GetValue("SortOrder", typeof(SortOrder));
 			this._arrangeByColumn = info.GetString("ArrangeByColumn");
