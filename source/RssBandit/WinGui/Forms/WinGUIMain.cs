@@ -4770,18 +4770,23 @@ namespace RssBandit.WinGui.Forms
                     if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
                         try
                         {
+                            
                             // looks like an ICO:
-                            using (MultiIcon ico = new MultiIcon(location))
+                            //using (MultiIcon ico = new MultiIcon(location))
+                            //{
+                            //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+                            //    //HACK: this is a workaround to the AccessViolationException caused
+                            //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                            //    if (smallest.Width != smallest.Height)
+                            //    {
+                            //        return null;
+                            //    }
+                            //    //resize, but do not save:
+                            //    favicon = ResizeFavicon(smallest.ToBitmap(), null);
+                            //}
+                            using(Icon ico = new Icon(location, new Size(16, 16)))
                             {
-                                Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
-                                //HACK: this is a workaround to the AccessViolationException caused
-                                // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                                if (smallest.Width != smallest.Height)
-                                {
-                                    return null;
-                                }
-                                //resize, but do not save:
-                                favicon = ResizeFavicon(smallest.ToBitmap(), null);
+                                favicon = ResizeFavicon(ico.ToBitmap(), location);
                             }
                         }
                         catch (Exception e)
@@ -5667,13 +5672,17 @@ namespace RssBandit.WinGui.Forms
                     try
                     {
                         // looks like an ICO:
-                        using (MultiIcon ico = new MultiIcon(location))
+                        //using (MultiIcon ico = new MultiIcon(location))
+                        //{
+                        //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+                        //    //HACK: this is a workaround to the AccessViolationException caused
+                        //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                        //    if (smallest.Width == smallest.Height) //resize, but do not save:
+                        //        icon = ResizeFavicon(smallest.ToBitmap(), null);
+                        //}
+                        using (Icon ico = new Icon(location, new Size(16, 16)))
                         {
-                            Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
-                            //HACK: this is a workaround to the AccessViolationException caused
-                            // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                            if (smallest.Width == smallest.Height) //resize, but do not save:
-                                icon = ResizeFavicon(smallest.ToBitmap(), null);
+                            icon = ResizeFavicon(ico.ToBitmap(), location);
                         }
                     }
                     catch (Exception e)
@@ -5763,10 +5772,11 @@ namespace RssBandit.WinGui.Forms
                         {
                             icon = _favicons[f.favicon];
                         }
-                        else
+                        else if(File.Exists(location))
                         {
                             try
                             {
+                                
                                 icon = ResizeFavicon(Image.FromFile(location), location);
                                 lock (_favicons)
                                 {
@@ -9833,7 +9843,6 @@ namespace RssBandit.WinGui.Forms
             _timerRefreshFeeds.Start();
             _timerRefreshCommentFeeds.Start();
 #endif
-            //RssBanditApplication.SetWorkingSet();
         }
 
         private void OnFormMove(object sender, EventArgs e)

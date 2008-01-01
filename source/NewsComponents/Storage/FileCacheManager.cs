@@ -318,7 +318,7 @@ namespace NewsComponents.Storage {
 
 					string id = reader.ReadString(); 
 				
-					while(!id.Equals(FileHelper.EndOfBinaryFileMarker)){
+					while(!string.IsNullOrEmpty(id) && !id.Equals(FileHelper.EndOfBinaryFileMarker)){
 						int count = reader.ReadInt32();
 						byte[] content = reader.ReadBytes(count);
 				
