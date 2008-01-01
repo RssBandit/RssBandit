@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 using RssBandit.UIServices;
 using RssBandit.Resources;
+using System.Collections.Generic;
 
 namespace RssBandit.WinGui.Dialogs
 {
@@ -56,7 +57,7 @@ namespace RssBandit.WinGui.Dialogs
 			OnAddInListItemActivate(this, EventArgs.Empty);
 		}
 
-		private void PopulateAddInList(IAddInCollection addIns) {
+		private void PopulateAddInList(IEnumerable<IAddIn> addIns) {
 			if (addIns == null)
 				return;
 

@@ -32,14 +32,21 @@ namespace NewsComponents.RelationCosmos
 			externalRelations = null;
 		}
 
-		/// <summary>
-		/// Return a web reference, a resource ID, mail/message ID, NNTP post ID.
-		/// </summary>
-		public virtual string HRef { get { return hReference; } }
+	    /// <summary>
+	    /// Return a web reference, a resource ID, mail/message ID, NNTP post ID.
+	    /// </summary>
+	    public string HRef
+	    {
+	         get { return hReference; }
+             protected set
+             {
+                 hReference = value;
+             }
+	    }
 		/// <summary>
 		/// Internal: return a web Uri reference 
 		/// </summary>
-		protected string hReference;
+		private string hReference;
 
 		/// <summary>
 		/// The unique identifier.
@@ -188,7 +195,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="pointInTime"></param>
 		public RelationProxy(string href, object realObject, DateTime pointInTime):this() {
 			this.realObject = realObject;
-			hReference = href;
+            HRef = href;
 			base.PointInTime = pointInTime;
 		}
 		
@@ -210,7 +217,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="adjustablePointInTime"></param>
 		public RelationProxy(string href, object realObject, DateTime pointInTime, bool adjustablePointInTime):this() {
 			this.realObject = realObject;
-			hReference = href;
+            HRef = href;
 			SetInternalPointInTime(pointInTime);
 			pointInTimeIsAdjustable = adjustablePointInTime;
 		}
