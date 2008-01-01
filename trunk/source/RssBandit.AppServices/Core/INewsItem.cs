@@ -14,7 +14,7 @@ using System.Xml.XPath;
 namespace NewsComponents
 {
 
-	public interface INewsItem : ICloneable, IXPathNavigable
+	public interface INewsItem : ICloneable, IXPathNavigable, IEquatable<INewsItem>
 	{
 		/// <summary>
 		/// Gets the feed link (source the feed is requested from) the item belongs to.
@@ -113,26 +113,6 @@ namespace NewsComponents
 		/// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
 		/// elements are contained in the table.</remarks>
 		Hashtable OptionalElements { get; set; }
-
-		/// <summary>
-		/// Converts the object to an XML string containing an RSS 2.0 item.  
-		/// </summary>
-		/// <returns></returns>
-		String ToString();
-
-		/// <summary>
-		/// Get the hash code of the object
-		/// </summary>
-		/// <returns></returns>
-		int GetHashCode();
-
-		/// <summary>
-		/// Compares to see if two NewsItems are identical. Identity just checks to see if they have 
-		/// the same link, if both have no link then checks to see if they have the same description
-		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
-		bool Equals(object obj);
 
 	}
 

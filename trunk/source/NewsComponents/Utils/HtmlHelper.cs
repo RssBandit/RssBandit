@@ -311,8 +311,8 @@ namespace NewsComponents.Utils
             {
                 b.Append(s.Substring(cpos, m.Index - cpos));
                 string entity = m.ToString();
-                string decoded = map[entity];
-                if (decoded != null)
+                string decoded;
+                if (map.TryGetValue(entity, out decoded))
                 {
                     b.Append(decoded);
                 }

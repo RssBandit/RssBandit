@@ -721,8 +721,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			navigateComboBox.Name = "tbUrlComboBox";
 			main.toolTip.SetToolTip(navigateComboBox, SR.MenuBrowserNavigateComboBoxDesc);
 			navigateComboBox.KeyDown += main.OnNavigateComboBoxKeyDown;
-			navigateComboBox.KeyPress += main.OnAnyEnterKeyPress;
-			navigateComboBox.DragOver += main.OnNavigateComboBoxDragOver;
+			navigateComboBox.KeyPress += WinGuiMain.OnAnyEnterKeyPress;
+			navigateComboBox.DragOver += WinGuiMain.OnNavigateComboBoxDragOver;
 			navigateComboBox.DragDrop += main.OnNavigateComboBoxDragDrop;
 
 			navigateComboBox.AllowDrop = true;
@@ -775,7 +775,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			searchComboBox.Name = "tbSearchComboBox";
 			main.toolTip.SetToolTip(searchComboBox, SR.MenuDoSearchComboBoxDesc);
 			searchComboBox.KeyDown += main.OnSearchComboBoxKeyDown;
-			searchComboBox.KeyPress += main.OnAnyEnterKeyPress;
+			searchComboBox.KeyPress += WinGuiMain.OnAnyEnterKeyPress;
 			searchComboBox.DragOver += main.OnSearchComboBoxDragOver;
 			searchComboBox.DragDrop += main.OnSearchComboBoxDragDrop;
 			
