@@ -212,7 +212,7 @@ namespace NewsComponents.Search
 		/// <param name="feedID">The feed ID.</param>
 		/// <returns>Number of index documents removed</returns>
 		internal void RemoveNewsItems(string feedID) {
-			if (!StringHelper.EmptyOrNull(feedID)) {
+			if (!string.IsNullOrEmpty(feedID)) {
 				Term term = new Term(LuceneSearch.IndexDocument.FeedID, feedID);
 				 indexModifier.Delete(term);
 			}
@@ -225,7 +225,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="feedID">The feed ID.</param>
 		internal void RemoveFeed(string feedID) {
-			if (!StringHelper.EmptyOrNull(feedID)) {
+			if (!string.IsNullOrEmpty(feedID)) {
 				Term term = new Term(LuceneSearch.IndexDocument.FeedID, feedID);
 				indexModifier.DeleteFeed(term);
 			}

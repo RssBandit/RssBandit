@@ -261,7 +261,7 @@ namespace NewsComponents.Utils
 		/// <remarks>The caller have to close the provided stream by itself!</remarks>
 		public static bool WriteStreamWithBackup(string fileName, Stream stream) {
 			
-			if (StringHelper.EmptyOrNull(fileName))
+			if (string.IsNullOrEmpty(fileName))
 				throw new ArgumentNullException("fileName");
 			if (stream == null)
 				throw new ArgumentNullException("stream");
@@ -337,7 +337,7 @@ namespace NewsComponents.Utils
 		/// <remarks>The caller have to close the provided stream by itself!</remarks>
 		public static bool WriteStreamWithRename(string fileName, Stream stream) {
 			
-			if (StringHelper.EmptyOrNull(fileName))
+			if (string.IsNullOrEmpty(fileName))
 				throw new ArgumentNullException("fileName");
 			if (stream == null)
 				throw new ArgumentNullException("stream");

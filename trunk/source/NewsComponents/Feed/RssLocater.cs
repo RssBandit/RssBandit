@@ -248,7 +248,7 @@ namespace NewsComponents.Feed {
 		/// <param name="credentials">The credentials.</param>
 		public RssLocater(IWebProxy p, string userAgent, ICredentials credentials){
 			this.Proxy = p; 
-			if (!StringHelper.EmptyOrNull(userAgent))
+			if (!string.IsNullOrEmpty(userAgent))
 				this.userAgent = userAgent;
 			this.Credentials = credentials;
 		}

@@ -524,7 +524,7 @@ namespace RssBandit.WinGui
                             request.UserAgent = RssBanditApplication.UserAgent;
                             request.Proxy = rssBanditApp.Proxy;
 
-                            if (!StringHelper.EmptyOrNull(credentialUser))
+                            if (!string.IsNullOrEmpty(credentialUser))
                             {
                                 NetworkCredential nc =
                                     NewsHandler.CreateCredentialsFrom(credentialUser, credentialPassword);
@@ -863,7 +863,7 @@ namespace RssBandit.WinGui
                         request.UserAgent = RssBanditApplication.UserAgent;
                         request.Proxy = rssBanditApp.Proxy;
 
-                        if (!StringHelper.EmptyOrNull(credentialUser))
+                        if (!string.IsNullOrEmpty(credentialUser))
                         {
                             NetworkCredential nc =
                                 NewsHandler.CreateCredentialsFrom(credentialUser, credentialPassword);

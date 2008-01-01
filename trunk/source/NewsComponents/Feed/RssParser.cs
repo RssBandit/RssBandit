@@ -157,7 +157,7 @@ namespace NewsComponents.Feed {
 		/// <param name="url"></param>
 		/// <returns></returns>
 		public static bool CanProcessUrl(string url) {
-			if (StringHelper.EmptyOrNull(url))
+			if (string.IsNullOrEmpty(url))
 				return false;
 			if (url.StartsWith("nntp") || url.StartsWith("news") || url.StartsWith("http") || url.StartsWith("file") || File.Exists(url))
 				return true;
@@ -274,7 +274,7 @@ namespace NewsComponents.Feed {
 				if(reader.NodeType!= XmlNodeType.Element){ continue; }					
 				
 				/* string nodeNamespaceUri = reader.NamespaceURI;
-				if (StringHelper.EmptyOrNull(nodeNamespaceUri))
+				if (string.IsNullOrEmpty(nodeNamespaceUri))
 					nodeNamespaceUri = itemNamespaceUri;	*/	// if in node has no namespace, assume in RSS namespace
 
 				// save some string comparisons
@@ -784,7 +784,7 @@ namespace NewsComponents.Feed {
 
 						try { length = Int64.Parse(reader["length"]); } catch{}
 
-						if(!StringHelper.EmptyOrNull(url)){
+						if(!string.IsNullOrEmpty(url)){
 							enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 												
 							enc = new Enclosure(type, length, url, String.Empty);
 
@@ -813,7 +813,7 @@ namespace NewsComponents.Feed {
 						string type = reader["type"]; 
 						long length  = Int64.MinValue; 					
 
-						if(!StringHelper.EmptyOrNull(url)){
+						if(!string.IsNullOrEmpty(url)){
 							enclosures = (enclosures == null ? new List<Enclosure>(): enclosures); 						
 							enclosures.Add(new Enclosure(type, length, url, String.Empty)); 										
 						}
@@ -985,18 +985,18 @@ namespace NewsComponents.Feed {
 										
 						if(nodeNamespaceUriEqual2Item 
 							&& (localname == atomized_strings[RssParser.nt_link]) 
-							&& !StringHelper.EmptyOrNull(reader["rel"])
+							&& !string.IsNullOrEmpty(reader["rel"])
 							&& reader["rel"].Equals("replies")) {
 
 							try{								
 								string thrNs = (string) atomized_strings[RssParser.nt_ns_thr];
-								if (!StringHelper.EmptyOrNull(reader["count", thrNs]))
+								if (!string.IsNullOrEmpty(reader["count", thrNs]))
 									commentCount = Int32.Parse(reader["count", thrNs]);															
 							}catch(Exception){ /* DO NOTHING */}
 
 							if(reader["href"]!= null){
 
-								if(StringHelper.EmptyOrNull(reader["type"]) || reader["type"].Equals("application/atom+xml")){
+								if(string.IsNullOrEmpty(reader["type"]) || reader["type"].Equals("application/atom+xml")){
 									commentRssUrl = ResolveRelativeUrl(reader, reader.GetAttribute("href")); 							
 								}else{
 									commentUrl =  ResolveRelativeUrl(reader, reader.GetAttribute("href"));
@@ -1244,7 +1244,7 @@ namespace NewsComponents.Feed {
 			// CacheManager works with FeedInfo only and requires a feedLink.
 			// So we check/set it here if not found in the feed itself or relative.
 			// It will be updated the time the feed owner provide a valid value.
-			if (StringHelper.EmptyOrNull(feedLink)) {
+			if (string.IsNullOrEmpty(feedLink)) {
 				// just point to base dir of the feed itself:
 				feedLink = HtmlHelper.ConvertToAbsoluteUrlPath(f.link);
 			} else if (-1 == feedLink.IndexOf("://")) {
@@ -1252,7 +1252,7 @@ namespace NewsComponents.Feed {
 				feedLink = HtmlHelper.ConvertToAbsoluteUrl(feedLink, f.link, false);
 			}
 // old was:			
-//			if (StringHelper.EmptyOrNull(feedLink) && f.link.IndexOf("/") >= 0)
+//			if (string.IsNullOrEmpty(feedLink) && f.link.IndexOf("/") >= 0)
 //				feedLink = f.link.Substring(0, f.link.LastIndexOf("/")+1);	// including the slash
 
 			FeedInfo fi = new FeedInfo(f.id, f.cacheurl, items, feedTitle, feedLink, feedDescription, optionalElements, language);								
@@ -1307,7 +1307,7 @@ namespace NewsComponents.Feed {
 //
 //			_log.Info(iSize.ToString() + "\t byte(s) contained in feed\t" + f.link);
 
-			if(!StringHelper.EmptyOrNull(maxItemAge)){
+			if(!string.IsNullOrEmpty(maxItemAge)){
 				f.maxitemage = maxItemAge; 
 			}
 			
@@ -1746,7 +1746,7 @@ namespace NewsComponents.Feed {
 							string rel  = reader.GetAttribute("rel"); 
 							string href = reader.GetAttribute("href"); 
 
-							if(StringHelper.EmptyOrNull(feedLink)){
+							if(string.IsNullOrEmpty(feedLink)){
 								if((rel != null) && (href != null) &&  
 									rel.Equals("alternate")){
 									feedLink = ResolveRelativeUrl(reader, href); 
@@ -1758,7 +1758,7 @@ namespace NewsComponents.Feed {
 										nodeRead = true; 
 									}
 								}
-							}//if(StringHelper.EmptyOrNull(feedLink))										
+							}//if(string.IsNullOrEmpty(feedLink))										
 												
 						}else if(localname == atomized_strings[RssParser.nt_modified] ||
 							localname == atomized_strings[RssParser.nt_updated]){

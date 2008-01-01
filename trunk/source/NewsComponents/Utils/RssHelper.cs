@@ -109,7 +109,7 @@ namespace NewsComponents.Utils
 		static public IList ItemListToHRefList(IList items) {
 			ArrayList retList = new ArrayList(items.Count);
 			foreach (NewsItem item in items) {
-				if (!StringHelper.EmptyOrNull(item.Link))
+				if (!string.IsNullOrEmpty(item.Link))
 					retList.Add(item.Link);
 			}
 			return retList;
@@ -351,7 +351,7 @@ namespace NewsComponents.Utils
 		/// <param name="url"></param>
 		/// <returns></returns>
 		public static bool IsFeedUrl(string url) {
-			if (StringHelper.EmptyOrNull(url))
+			if (string.IsNullOrEmpty(url))
 				return false;
 			if (url.StartsWith("http") || url.StartsWith("file") || File.Exists(url))
 				return true;
@@ -364,7 +364,7 @@ namespace NewsComponents.Utils
 		/// <param name="url"></param>
 		/// <returns></returns>
 		public static bool IsNntpUrl(string url) {
-			if (StringHelper.EmptyOrNull(url))
+			if (string.IsNullOrEmpty(url))
 				return false;
 			if (url.StartsWith(NntpWebRequest.NntpUriScheme) || url.StartsWith(NntpWebRequest.NewsUriScheme) || url.StartsWith(NntpWebRequest.NntpsUriScheme))
 				return true;

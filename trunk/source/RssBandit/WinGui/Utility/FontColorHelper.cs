@@ -262,7 +262,7 @@ namespace RssBandit.WinGui.Utility
 		
 		private static Font GetFontFromName(string name, Font defaultValue) {
 			try {
-				if (!StringHelper.EmptyOrNull(name)) {
+				if (!string.IsNullOrEmpty(name)) {
 					FontConverter oFontConv = new FontConverter();
 					return oFontConv.ConvertFromString(null, CultureInfo.InvariantCulture, name) as Font;
 				}

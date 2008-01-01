@@ -92,7 +92,7 @@ namespace RssBandit
 					cmtFeed.link = item.CommentRssUrl;
 					cmtFeed.title = item.Feed.title;
 
-					if (!StringHelper.EmptyOrNull(item.Feed.authUser)) {	// take over credential settings
+					if (!string.IsNullOrEmpty(item.Feed.authUser)) {	// take over credential settings
 						string u = null, p = null;
 						NewsHandler.GetFeedCredentials(item.Feed, ref u, ref p);
 						NewsHandler.SetFeedCredentials(cmtFeed, u, p);

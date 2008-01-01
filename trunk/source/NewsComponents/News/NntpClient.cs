@@ -953,7 +953,7 @@ namespace NewsComponents.News {
     	internal IDictionary GetCapabilities(string additionalExtension) {
     		HybridDictionary dict = new HybridDictionary();
     		string cmd = "CAPABILITIES";
-    		if (!StringHelper.EmptyOrNull(additionalExtension))
+    		if (!string.IsNullOrEmpty(additionalExtension))
     			cmd += String.Format(" {0}", additionalExtension);
     		
     		string result = SendCommand(cmd, false);

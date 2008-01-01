@@ -717,7 +717,7 @@ namespace NewsComponents.Net
 					NetworkCredential c = iterate.Current as NetworkCredential;
 					if (c != null) {	// we just take the first one to recreate 
 						string domainUser = c.Domain;
-						if (!StringHelper.EmptyOrNull(domainUser))
+						if (!string.IsNullOrEmpty(domainUser))
 							domainUser = domainUser + @"\";
 						domainUser = String.Concat(domainUser, c.UserName);
 						return NewsHandler.CreateCredentialsFrom(redirectUrl, domainUser, c.Password);
