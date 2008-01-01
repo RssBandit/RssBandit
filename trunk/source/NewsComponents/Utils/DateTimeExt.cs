@@ -8,7 +8,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -22,10 +22,10 @@ namespace NewsComponents.Utils
 	public sealed class DateTimeExt
 	{
 
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(DateTimeExt));
+		//private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(DateTimeExt));
 
-		private static Regex rfc2822 = new Regex(@"\s*(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*,\s*)?(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{2,})\s+(\d{2})\s*:\s*(\d{2})\s*(?::\s*(\d{2}))?\s+([+\-]\d{4}|UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])", RegexOptions.Compiled);
-		private static ArrayList months = new ArrayList(new string[]{"ZeroIndex","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" });
+		private static readonly Regex rfc2822 = new Regex(@"\s*(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*,\s*)?(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{2,})\s+(\d{2})\s*:\s*(\d{2})\s*(?::\s*(\d{2}))?\s+([+\-]\d{4}|UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])", RegexOptions.Compiled);
+		private static readonly List<string> months = new List<string>(new string[]{"ZeroIndex","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" });
 		
 		//private static TimeSpan dayLightDelta = TimeZone.CurrentTimeZone.GetDaylightChanges(DateTime.Now.Year).Delta;
 	
@@ -141,12 +141,12 @@ namespace NewsComponents.Utils
 		private struct TZB
 		{					
 			public TZB(string z, int b) { Zone = z; Bias = b; }
-			public string Zone;
-			public int Bias;
+			public readonly string Zone;
+			public readonly int Bias;
 		}
 
 		private const int timeZones = 35;
-		private static TZB[] ZoneBias = new TZB[timeZones]
+		private static readonly TZB[] ZoneBias = new TZB[timeZones]
 				{
 					new TZB("GMT", 0),     new TZB("UT", 0),
 					new TZB("EST", -5*60), new TZB("EDT", -4*60),

@@ -21,8 +21,8 @@ namespace NewsComponents.Utils
 	/// with default values
 	/// </summary>
 	public class SerializationInfoReader {
-		private SerializationInfo moInfo;
-		private StringCollection keys;
+		private readonly SerializationInfo moInfo;
+		private readonly StringCollection keys;
 
 		/// <summary>
 		/// Gets access to the keys.

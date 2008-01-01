@@ -349,9 +349,6 @@
     <Compile Include="Utils\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\XPathNavigators.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>

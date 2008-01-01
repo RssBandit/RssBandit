@@ -20,8 +20,8 @@ namespace NewsComponents.Utils
 	public sealed class StringHelper
 	{
 		// 'The next line is supposed to be an RFC 2822 address compliant validation expression
-		private static Regex regexEMail = new Regex(@"(?<prefix>mailto:)?(?<address>(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$)", RegexOptions.Singleline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
-		private static Regex regexWords = new Regex(@"\S+", RegexOptions.Multiline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
+		private static readonly Regex regexEMail = new Regex(@"(?<prefix>mailto:)?(?<address>(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$)", RegexOptions.Singleline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
+		private static readonly Regex regexWords = new Regex(@"\S+", RegexOptions.Multiline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
 
 		/// <summary>
 		/// Helper to test strings.
@@ -49,7 +49,7 @@ namespace NewsComponents.Utils
 		/// <param name="s">String</param>
 		/// <returns>Size in bytes</returns>
 		public static int SizeOfStr(string s) {
-			return StringHelper.LengthOfStr(s) * 2;	// in byte
+			return LengthOfStr(s) * 2;	// in byte
 		}
 		/// <summary>
 		/// Return the length of a string. Consider, if it is null.
@@ -57,7 +57,7 @@ namespace NewsComponents.Utils
 		/// <param name="s">String</param>
 		/// <returns>Length</returns>
 		public static int LengthOfStr(string s) {
-			if (StringHelper.EmptyOrNull(s))
+			if (EmptyOrNull(s))
 				return 0;
 			return s.Length;
 		}
