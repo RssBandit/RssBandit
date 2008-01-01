@@ -3201,14 +3201,13 @@ namespace NewsComponents
                     outline.SetAttribute("type", "rss");
                     outline.SetAttribute("text", f.title);
 
-                    FeedInfo fi = (FeedInfo) itemsTable[f.link];
-
-                    if (fi != null)
-                    {
-                        outline.SetAttribute("htmlUrl", fi.Link);
-                        outline.SetAttribute("description", fi.Description);
-                    }
-
+                   FeedDetailsInternal fi  = null;
+                    bool success = itemsTable.TryGetValue(f.link, out fi); 
+			  
+					if(success){
+						outline.SetAttribute("htmlUrl", fi.Link); 
+						outline.SetAttribute("description", fi.Description); 
+					}
 
                     string category = (f.category ?? String.Empty);
 
