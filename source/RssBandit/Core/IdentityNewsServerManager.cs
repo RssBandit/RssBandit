@@ -56,11 +56,10 @@ namespace RssBandit
 
 		private static UserIdentity anonymous;
 
-		private RssBanditApplication app;
-		private string cachePath;
+		private readonly RssBanditApplication app;
+		private readonly string cachePath;
 
-		private IdentityNewsServerManager() {}
-		internal IdentityNewsServerManager(RssBanditApplication app) {
+	    internal IdentityNewsServerManager(RssBanditApplication app) {
 			this.app = app;
 			this.cachePath = RssBanditApplication.GetFeedFileCachePath();
 		}
@@ -85,7 +84,8 @@ namespace RssBandit
 		public IDictionary<string, UserIdentity> CurrentIdentities {
 			get { return this.app.FeedHandler.UserIdentity; }
 		}
-		public IDictionary<string, INntpServerDefinition> CurrentNntpServers {
+        public IDictionary<string, INntpServerDefinition> CurrentNntpServers
+        {
 			get { return this.app.FeedHandler.NntpServers; }
 		}
 
@@ -110,7 +110,7 @@ namespace RssBandit
 		/// <returns>List of groups a server offer</returns>
 		public IList<string> LoadNntpNewsGroups(IWin32Window owner, INntpServerDefinition sd, bool forceLoadFromServer) {
 			
-			IList<string> list = null;
+			IList<string> list;
 			if (forceLoadFromServer) {
 				list = FetchNewsGroupsFromServer(owner, sd);
 				if (list != null && list.Count > 0)
@@ -139,7 +139,7 @@ namespace RssBandit
 			if (sd.Port > 0 && sd.Port != NntpWebRequest.NntpDefaultServerPort)
 				port = sd.Port;				
 				
-			UriBuilder uriBuilder = null;
+			UriBuilder uriBuilder;
 			if (StringHelper.EmptyOrNull(nntpGroup))
 				uriBuilder = new UriBuilder(schema, sd.Server, port);
 			else
@@ -156,12 +156,12 @@ namespace RssBandit
 		private void RemoveCachedGroups(INntpServerDefinition sd) {
 			RemoveCachedGroups(BuildCacheFileName(sd));
 		}
-		private void RemoveCachedGroups(string cachedFileName) {
+		private static void RemoveCachedGroups(string cachedFileName) {
 			if (File.Exists(cachedFileName)) 
 				FileHelper.Delete(cachedFileName);
 		}
 
-		private void SaveNewsGroupsToCache(INntpServerDefinition sd, IList<string> list) {
+		private void SaveNewsGroupsToCache(INntpServerDefinition sd, ICollection<string> list) {
 
 			string fn = BuildCacheFileName(sd);
 			RemoveCachedGroups(fn);
@@ -207,7 +207,7 @@ namespace RssBandit
 		/// <returns>List of groups a server offer</returns>
 		/// <exception cref="ArgumentNullException">If <see paramref="sd">param sd</see> is null</exception>
 		/// <exception cref="Exception">On any failure we get on request</exception>
-		IList<string> FetchNewsGroupsFromServer(IWin32Window owner, INntpServerDefinition sd) {
+		static IList<string> FetchNewsGroupsFromServer(IWin32Window owner, INntpServerDefinition sd) {
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
@@ -240,7 +240,7 @@ namespace RssBandit
 		
 		public void ShowDialog(IWin32Window owner, NewsgroupSettingsView view) {
 			NewsgroupsConfiguration cfg = new NewsgroupsConfiguration(this, view);
-			cfg.DefinitionsModified += new EventHandler(OnCfgDefinitionsModified);
+			cfg.DefinitionsModified += OnCfgDefinitionsModified;
 			try {
 				if (DialogResult.OK == cfg.ShowDialog(owner)) {
 					//TODO: we should differ between the two kinds of general modifications
@@ -270,7 +270,7 @@ namespace RssBandit
 		#region event handling
 		private void OnCfgDefinitionsModified(object sender, EventArgs e) {
 			
-			NewsgroupsConfiguration cfg = sender as NewsgroupsConfiguration;
+			NewsgroupsConfiguration cfg = (NewsgroupsConfiguration)sender;
 
 			// take over the copies from local userIdentities and nntpServers 
 			// to app.FeedHandler.Identity and app.FeedHandler.NntpServers
@@ -307,7 +307,7 @@ namespace RssBandit
 
 		public object GetService(Type serviceType)
 		{
-			IServiceProvider p = this.app as IServiceProvider;
+			IServiceProvider p = this.app;
 			if (p != null)
 				return p.GetService(serviceType);
 			
@@ -321,7 +321,7 @@ namespace RssBandit
 	#region FetchNewsgroupsThreadHandler
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
-		private INntpServerDefinition serverDef;
+		private readonly INntpServerDefinition serverDef;
 		public List<string> Newsgroups;
 
 		public FetchNewsgroupsThreadHandler(INntpServerDefinition sd) {

@@ -10870,7 +10870,7 @@ namespace RssBandit.WinGui.Forms
 				{
 					listFeedItems.Columns.Clear();
 					int i = 0;
-					IList colW = e.Layout.ColumnWidths;
+					IList<int> colW = e.Layout.ColumnWidths;
 					foreach (string colID in e.Layout.Columns) 
 					{
 						AddListviewColumn(colID, (int)colW[i++]);
