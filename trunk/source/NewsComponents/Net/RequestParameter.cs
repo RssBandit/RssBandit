@@ -183,8 +183,8 @@ namespace NewsComponents.Net
 		/// <param name="credentials">The credentials.</param>
 		/// <param name="p">The RequestParameter.</param>
 		/// <returns></returns>
-		public static RequestParameter Create(string address,ICredentials credentials, RequestParameter p) {
-			return new RequestParameter(new Uri(address), p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies );
+		public static RequestParameter Create(Uri address,ICredentials credentials, RequestParameter p) {
+			return new RequestParameter(address, p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies );
 		}
 
 		#endregion
