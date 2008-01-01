@@ -512,7 +512,7 @@ namespace RssBandit.WinGui.Controls {
 		/// 'Main Category\Sub Category\...\catNode Category' without the root node caption.
 		/// </returns>
 		public static string BuildCategoryStoreName(string fullPathName) {
-			if (StringHelper.EmptyOrNull(fullPathName))
+			if (string.IsNullOrEmpty(fullPathName))
 				return null;
 
 			string s = fullPathName.Trim();
@@ -539,7 +539,7 @@ namespace RssBandit.WinGui.Controls {
 		/// and LeaveNode caption.
 		/// </returns>
 		public static string[] BuildCategoryStoreNameArray(string fullPathName, bool ignoreLeaveNode) {
-			if (StringHelper.EmptyOrNull(fullPathName))
+			if (string.IsNullOrEmpty(fullPathName))
 				return new string[]{};
 
 			string s = fullPathName.Trim();

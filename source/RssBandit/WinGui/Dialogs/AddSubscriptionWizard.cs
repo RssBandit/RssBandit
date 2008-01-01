@@ -192,7 +192,7 @@ namespace RssBandit.WinGui.Forms
 			//initialize category combo box			
 			foreach(string category in coreApplication.GetCategories())
 			{
-				if (!StringHelper.EmptyOrNull(category))
+				if (!string.IsNullOrEmpty(category))
 					this.cboFeedCategory.Items.Add(category); 
 			}
 
@@ -2917,7 +2917,7 @@ namespace RssBandit.WinGui.Forms
 			pageNewByNNTPGroup.AllowMoveNext = false;
 			lstNNTPGroups.Items.Clear();
 			string nntpServer = cboNNTPServer.Text;
-			if (StringHelper.EmptyOrNull(nntpServer)) {
+			if (string.IsNullOrEmpty(nntpServer)) {
 				return;
 			}
 			IList groups = coreApplication.GetNntpNewsGroups(nntpServer, forceReloadFromServer);
@@ -2931,7 +2931,7 @@ namespace RssBandit.WinGui.Forms
 		private string ValidateFeedUri(WizardPage page, string url) {
 			Exception ex = null;
 			string validUrl = this.ValidateFeedUri(url, out ex);
-			bool valid = ( ! StringHelper.EmptyOrNull(validUrl) && ex == null);
+			bool valid = ( ! string.IsNullOrEmpty(validUrl) && ex == null);
 			page.AllowMoveNext = valid;
 			if (valid) {
 				page.ProceedText = String.Empty;
@@ -3115,7 +3115,7 @@ namespace RssBandit.WinGui.Forms
 		{
 			get {
 				string c = this.cboFeedCategory.Text.Trim();
-				if (StringHelper.EmptyOrNull(c))
+				if (string.IsNullOrEmpty(c))
 					return null;
 				if (coreApplication.DefaultCategory.Equals(c))
 					return null;
@@ -3123,7 +3123,7 @@ namespace RssBandit.WinGui.Forms
 			} 
 			set
 			{
-				if (!StringHelper.EmptyOrNull(value))
+				if (!string.IsNullOrEmpty(value))
 					this.cboFeedCategory.Text = value;
 			}
 		} 
@@ -3165,7 +3165,7 @@ namespace RssBandit.WinGui.Forms
 		public string FeedStylesheet {
 			get {
 				if (this.checkUseCustomFormatter.Checked) {
-					if (StringHelper.EmptyOrNull(this.comboFormatters.Text))
+					if (string.IsNullOrEmpty(this.comboFormatters.Text))
 						return null;
 					return this.comboFormatters.Text.Trim();
 				}
@@ -3213,7 +3213,7 @@ namespace RssBandit.WinGui.Forms
 				// should be yet validated. But for safety:
 				try { 
 
-					if((!StringHelper.EmptyOrNull(this.cboUpdateFrequency.Text.Trim()))) {
+					if((!string.IsNullOrEmpty(this.cboUpdateFrequency.Text.Trim()))) {
 						Int32 intIn = System.Int32.Parse(this.cboUpdateFrequency.Text.Trim());
 						if (intIn <= 0) {
 							return 0;
@@ -3330,7 +3330,7 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnWindowSerializerLoadStateEvent(object sender, Genghis.Preferences preferences) {
 			this.chkDisplayWelcome.Checked = preferences.GetBoolean(this.Name + ".DisplayWelcome", true);
-			if (StringHelper.EmptyOrNull(this.FeedCategory) ||
+			if (string.IsNullOrEmpty(this.FeedCategory) ||
 				coreApplication.DefaultCategory.Equals(this.FeedCategory)) 
 			{
 				string recentCategory = preferences.GetString(this.Name + ".LastFeedCategory", this.FeedCategory);
@@ -3347,7 +3347,7 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnWindowSerializerSaveStateEvent(object sender, Genghis.Preferences preferences) {
 			preferences.SetProperty(this.Name + ".DisplayWelcome", this.chkDisplayWelcome.Checked);
-			if (!StringHelper.EmptyOrNull(this.FeedCategory) && 
+			if (!string.IsNullOrEmpty(this.FeedCategory) && 
 				!this.FeedCategory.Equals(coreApplication.DefaultCategory))
 			{
 				preferences.SetProperty(this.Name + ".LastFeedCategory", this.FeedCategory);
@@ -3490,7 +3490,7 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnPageNewURLAfterDisplay(object sender, System.EventArgs e) {
 			this.feedInfo = null;
-			if (StringHelper.EmptyOrNull(this.txtNewByURL.Text))
+			if (string.IsNullOrEmpty(this.txtNewByURL.Text))
 				pageNewByURL.AllowMoveNext = false;
 		}
 

@@ -135,7 +135,7 @@ namespace RssBandit.WinGui
 		public void DiscoverFeedInContent(string htmlContent, string pageUrl, string pageTitle) {
 			if (workerPriorityCounter == Int32.MaxValue )	// new requests will get the highest prio.
 				workerPriorityCounter = 0;	// reset, if Bandit runs for a long time
-			if (StringHelper.EmptyOrNull(pageTitle)) {
+			if (string.IsNullOrEmpty(pageTitle)) {
 				string def = pageUrl;
 				try { def = new Uri(pageUrl).Host; } catch (UriFormatException) { /* ignore */ }
 				pageTitle = HtmlHelper.FindTitle(htmlContent, def);
@@ -223,7 +223,7 @@ namespace RssBandit.WinGui
 		/// <param name="pageTitle"></param>
 		private void AsyncDiscoverFeedsInContent(string htmlContent, string pageUrl, string pageTitle) {
 
-			if (StringHelper.EmptyOrNull( pageUrl) )
+			if (string.IsNullOrEmpty( pageUrl) )
 				return;
 
 			string baseUrl = GetBaseUrlOf(pageUrl);

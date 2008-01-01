@@ -140,7 +140,7 @@ namespace RssBandit
 				port = sd.Port;				
 				
 			UriBuilder uriBuilder;
-			if (StringHelper.EmptyOrNull(nntpGroup))
+			if (string.IsNullOrEmpty(nntpGroup))
 				uriBuilder = new UriBuilder(schema, sd.Server, port);
 			else
 				uriBuilder = new UriBuilder(schema, sd.Server, port, nntpGroup);
@@ -337,7 +337,7 @@ namespace RssBandit
 				NntpWebRequest request = (NntpWebRequest) WebRequest.Create(IdentityNewsServerManager.BuildNntpRequestUri(serverDef)); 
 				request.Method = "LIST"; 
 					
-				if (!StringHelper.EmptyOrNull(serverDef.AuthUser)) {
+				if (!string.IsNullOrEmpty(serverDef.AuthUser)) {
 					string u = null, p = null;
 					NewsHandler.GetNntpServerCredentials(serverDef, ref u, ref p);
 					request.Credentials = NewsHandler.CreateCredentialsFrom(u, p);

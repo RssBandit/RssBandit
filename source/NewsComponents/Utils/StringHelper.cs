@@ -17,21 +17,12 @@ namespace NewsComponents.Utils
 	/// <summary>
 	/// Summary description for StringHelper.
 	/// </summary>
-	public sealed class StringHelper
+	public static class StringHelper
 	{
 		// 'The next line is supposed to be an RFC 2822 address compliant validation expression
 		private static readonly Regex regexEMail = new Regex(@"(?<prefix>mailto:)?(?<address>(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$)", RegexOptions.Singleline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
 		private static readonly Regex regexWords = new Regex(@"\S+", RegexOptions.Multiline | RegexOptions.CultureInvariant| RegexOptions.Compiled);
 
-		/// <summary>
-		/// Helper to test strings.
-		/// </summary>
-		/// <param name="text">String to test</param>
-		/// <returns>True, if 'text' was null or of length zero</returns>
-		/// <remarks>No trimming of the string happens</remarks>
-		public static bool EmptyOrNull(string text) {
-			return (text == null || text.Length == 0);
-		}
 
 		/// <summary>
 		/// Helper to test strings.
@@ -57,7 +48,7 @@ namespace NewsComponents.Utils
 		/// <param name="s">String</param>
 		/// <returns>Length</returns>
 		public static int LengthOfStr(string s) {
-			if (EmptyOrNull(s))
+			if (string.IsNullOrEmpty(s))
 				return 0;
 			return s.Length;
 		}
@@ -113,7 +104,7 @@ namespace NewsComponents.Utils
 		/// <returns>True if it looks like a valid e-Mail address, else false.</returns>
 		public static bool IsEMailAddress(string text) 
 		{
-			if (EmptyOrNull(text))
+			if (string.IsNullOrEmpty(text))
 				return false;
 			return regexEMail.IsMatch(text.Trim());
 		}
@@ -125,7 +116,7 @@ namespace NewsComponents.Utils
 		/// <returns></returns>
 		public static string GetEMailAddress(string text) 
 		{
-			if (EmptyOrNull(text))
+			if (string.IsNullOrEmpty(text))
 				return String.Empty;
 
 			Match m = regexEMail.Match(text);
@@ -149,7 +140,5 @@ namespace NewsComponents.Utils
 		{
 			return string.Compare(original, comparand, true, CultureInfo.InvariantCulture) == 0;
 		}
-
-		private StringHelper(){}
 	}
 }

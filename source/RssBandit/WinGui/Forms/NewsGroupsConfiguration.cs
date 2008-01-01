@@ -2360,7 +2360,7 @@ namespace RssBandit.WinGui.Forms
 			if (ui == null)
 				throw new ArgumentNullException("ui");
 
-			if (StringHelper.EmptyOrNull(ui.Name)) {
+			if (string.IsNullOrEmpty(ui.Name)) {
 				ui.Name = "New"; // SR.NewUserIdentityNameTemplate"];
 			}
 			if (this.userIdentities.Contains(ui.Name)) {
@@ -2405,7 +2405,7 @@ namespace RssBandit.WinGui.Forms
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
-			if (StringHelper.EmptyOrNull(sd.Name)) {
+			if (string.IsNullOrEmpty(sd.Name)) {
 				sd.Name = "New"; // SR.NewNntpServerAccountNameTemplate"];
 			}
 			if (this.nntpServers.Contains(sd.Name)) {
@@ -2446,7 +2446,7 @@ namespace RssBandit.WinGui.Forms
 				NewsHandler.GetNntpServerCredentials(sd, ref u, ref p);
 				chkUseAuthentication.Checked = false;
 				txtServerAuthName.Enabled = txtServerAuthPassword.Enabled = false;
-				if (!StringHelper.EmptyOrNull(u)) {
+				if (!string.IsNullOrEmpty(u)) {
 					chkUseAuthentication.Checked = true;
 					txtServerAuthName.Enabled = txtServerAuthPassword.Enabled = true;
 					txtServerAuthName.Text = u;	

@@ -156,7 +156,7 @@ namespace RssBandit.SpecialFeeds
 
 
 		public void Remove(string commentFeedUrl){
-			if(!StringHelper.EmptyOrNull(commentFeedUrl)){
+			if(!string.IsNullOrEmpty(commentFeedUrl)){
 			
 				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
 					NewsItem ni = feedInfo.ItemsList[i] as NewsItem; 
@@ -277,7 +277,7 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="feedUrl">The feed URL.</param>
 		public void RemoveFeed(string feedUrl) {
 			
-			if (StringHelper.EmptyOrNull(feedUrl) || base.feedInfo.ItemsList.Count == 0)
+			if (string.IsNullOrEmpty(feedUrl) || base.feedInfo.ItemsList.Count == 0)
 				return;
 			
 			Stack removeAtIndex = new Stack();

@@ -272,7 +272,7 @@ namespace NewsComponents.Search
 				if (sc is SearchCriteriaString) {
 					SearchCriteriaString c = (SearchCriteriaString) sc;
 				
-					if (StringHelper.EmptyOrNull(c.What))
+					if (string.IsNullOrEmpty(c.What))
 						continue;
 					
 					if (c.Where == SearchStringElement.Undefined) {
@@ -585,7 +585,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="feedID">The feed url.</param>
 		public void IndexRemove(string feedID) {
-			if (!UseIndex || StringHelper.EmptyOrNull(feedID)) return;
+			if (!UseIndex || string.IsNullOrEmpty(feedID)) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
 				indexer.RemoveFeed(feedID);
@@ -741,7 +741,7 @@ namespace NewsComponents.Search
 		/// <param name="culture">The language.</param>
 		/// <returns></returns>
 		internal static string NormalizeCulture(string culture) {
-			if (StringHelper.EmptyOrNull(culture))
+			if (string.IsNullOrEmpty(culture))
 				return DefaultLanguage;
 			culture = culture.ToLower(CultureInfo.InvariantCulture);
 			if (culture == "en" || culture.StartsWith("en-")) return "en";
@@ -809,8 +809,8 @@ namespace NewsComponents.Search
 						DictionaryEntry de = ReadIndexingState(reader);
 							
 						// feed Url is the key:
-						if (!StringHelper.EmptyOrNull((string)de.Key) && 
-							!StringHelper.EmptyOrNull((string)de.Value)) 
+						if (!string.IsNullOrEmpty((string)de.Key) && 
+							!string.IsNullOrEmpty((string)de.Value)) 
 						{
 							// remember last indexed:
 							lastIndexed = de;

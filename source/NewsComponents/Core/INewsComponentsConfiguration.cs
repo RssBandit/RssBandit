@@ -172,7 +172,7 @@ namespace NewsComponents
 		protected string applicationDataPath = null;
 		protected string applicationLocalDataPath = null;
 		protected string applicationDownloadPath = null;
-		protected NewsComponents.SearchIndexBehavior searchBehavior = NewsComponents.SearchIndexBehavior.Default;
+		protected SearchIndexBehavior searchBehavior = NewsComponents.SearchIndexBehavior.Default;
 		protected IPersistedSettings settings = null;
 		protected CacheManager p_cacheManager = null;
 
@@ -250,7 +250,7 @@ namespace NewsComponents
 		/// Gets the search index behavior.
 		/// </summary>
 		/// <value>The search index behavior.</value>
-		public virtual NewsComponents.SearchIndexBehavior SearchIndexBehavior {
+		public virtual SearchIndexBehavior SearchIndexBehavior {
 			get { return searchBehavior; }
 			set { searchBehavior = value; }
 		}
@@ -284,7 +284,7 @@ namespace NewsComponents
 		#region PersistedSettings impl.
 		class SettingStore: IPersistedSettings 
 		{
-			private string settingsRoot;
+			private readonly string settingsRoot;
 			private static readonly ILog _log = Logger.Log.GetLogger(typeof(SettingStore));
 
 			
@@ -297,7 +297,7 @@ namespace NewsComponents
 			public object GetProperty(string name, Type returnType, object defaultValue) {
 				RegistryKey key = null;
 				try {
-					key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(settingsRoot, false);
+					key = Registry.CurrentUser.OpenSubKey(settingsRoot, false);
 					if (key == null)
 						return defaultValue;
 					
@@ -320,9 +320,9 @@ namespace NewsComponents
 
 			public void SetProperty(string name, object value) {
 				try {
-					RegistryKey keySettings = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(settingsRoot, true);
+					RegistryKey keySettings = Registry.CurrentUser.OpenSubKey(settingsRoot, true);
 					if (keySettings == null) {
-						keySettings = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(settingsRoot);
+						keySettings = Registry.CurrentUser.CreateSubKey(settingsRoot);
 					}
 					keySettings.SetValue(name, value);
 					keySettings.Close();

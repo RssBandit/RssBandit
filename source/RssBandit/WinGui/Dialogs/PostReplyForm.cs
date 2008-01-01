@@ -550,7 +550,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		public string PostTitle { 
-			get { return (StringHelper.EmptyOrNull(this.txtTitle.Text) ? SR.PostReplyTitlePrefix(this.ReplyToItem.Title):  this.txtTitle.Text); }
+			get { return (string.IsNullOrEmpty(this.txtTitle.Text) ? SR.PostReplyTitlePrefix(this.ReplyToItem.Title):  this.txtTitle.Text); }
 		}
 
 		/// <summary>
@@ -610,9 +610,9 @@ namespace RssBandit.WinGui.Forms
 		private void OnIdentitySelectionChangeCommitted(object sender, System.EventArgs e) {
 			// fill sent informations textbox
 			this.txtSentInfos.Text = SR.PostReplySentIdentityInfoText(
-				StringHelper.EmptyOrNull(this.UserName) ? NoInfo : this.UserName , 
-				StringHelper.EmptyOrNull(this.UserMailAddress) ? NoInfo : this.UserMailAddress, 
-				StringHelper.EmptyOrNull(this.UserReferrerUrl) ? NoInfo : this.UserReferrerUrl); 		
+				string.IsNullOrEmpty(this.UserName) ? NoInfo : this.UserName , 
+				string.IsNullOrEmpty(this.UserMailAddress) ? NoInfo : this.UserMailAddress, 
+				string.IsNullOrEmpty(this.UserReferrerUrl) ? NoInfo : this.UserReferrerUrl); 		
 		}
 
 		private void btnManageIdentities_Click(object sender, System.EventArgs e) {

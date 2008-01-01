@@ -271,7 +271,7 @@ namespace NewsComponents.News {
 				
 				bool authOK = false;
 				
-				if(StringHelper.EmptyOrNull(nc.Domain)){
+				if(string.IsNullOrEmpty(nc.Domain)){
 					authOK = client.AuthInfo(nc.UserName, nc.Password); 
 				}else{
 					authOK = client.AuthInfo(nc.Domain + "\\" + nc.UserName, nc.Password); 

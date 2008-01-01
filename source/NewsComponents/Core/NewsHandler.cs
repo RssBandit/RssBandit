@@ -173,7 +173,7 @@ namespace NewsComponents
 //      
 //			this.LoadFeedlistSchema();   
 //						
-//			if(!StringHelper.EmptyOrNull(applicationName)){
+//			if(!string.IsNullOrEmpty(applicationName)){
 //				this.applicationName = applicationName;
 //			}
 //
@@ -224,17 +224,17 @@ namespace NewsComponents
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
-            if (StringHelper.EmptyOrNull(configuration.ApplicationID))
+            if (string.IsNullOrEmpty(configuration.ApplicationID))
                 throw new InvalidOperationException(
                     "INewsComponentsConfiguration.ApplicationID cannot be null or empty.");
             if (configuration.CacheManager == null)
                 throw new InvalidOperationException("INewsComponentsConfiguration.CacheManager cannot be null.");
             if (configuration.PersistedSettings == null)
                 throw new InvalidOperationException("INewsComponentsConfiguration.PersistedSettings cannot be null.");
-            if (StringHelper.EmptyOrNull(configuration.UserApplicationDataPath))
+            if (string.IsNullOrEmpty(configuration.UserApplicationDataPath))
                 throw new InvalidOperationException(
                     "INewsComponentsConfiguration.UserApplicationDataPath cannot be null or empty.");
-            if (StringHelper.EmptyOrNull(configuration.UserLocalApplicationDataPath))
+            if (string.IsNullOrEmpty(configuration.UserLocalApplicationDataPath))
                 throw new InvalidOperationException(
                     "INewsComponentsConfiguration.UserLocalApplicationDataPath cannot be null or empty.");
         }
@@ -519,7 +519,7 @@ namespace NewsComponents
         /// <returns>ICredentials</returns>
         public static ICredentials CreateCredentialsFrom(feedsFeed f)
         {
-            if (f != null && !StringHelper.EmptyOrNull(f.authUser))
+            if (f != null && !string.IsNullOrEmpty(f.authUser))
             {
                 string u = null, p = null;
                 GetFeedCredentials(f, ref u, ref p);
@@ -539,7 +539,7 @@ namespace NewsComponents
         {
             ICredentials c = null;
 
-            if (!StringHelper.EmptyOrNull(domainUser))
+            if (!string.IsNullOrEmpty(domainUser))
             {
                 NetworkCredential credentials = CreateCredentialsFrom(domainUser, password);
                 try
@@ -1076,7 +1076,7 @@ namespace NewsComponents
         /// <returns>The long HTTP user agent string</returns>
         public static string UserAgentString(string userAgent)
         {
-            if (StringHelper.EmptyOrNull(userAgent))
+            if (string.IsNullOrEmpty(userAgent))
                 return GlobalUserAgentString;
             return String.Format(userAgentTemplate, userAgent);
         }
@@ -2806,7 +2806,7 @@ namespace NewsComponents
                 }
 
                 //if stylesheet specified in imported feed then use that
-                if (!StringHelper.EmptyOrNull(myFeeds.stylesheet))
+                if (!string.IsNullOrEmpty(myFeeds.stylesheet))
                 {
                     this.stylesheet = myFeeds.stylesheet;
                 }
@@ -2849,26 +2849,26 @@ namespace NewsComponents
                 }
 
                 //if enclosure folder specified in imported feed then use that
-                if (!StringHelper.EmptyOrNull(myFeeds.enclosurefolder))
+                if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
                 {
                     this.EnclosureFolder = myFeeds.enclosurefolder;
                 }
 
                 //if podcast folder specified in imported feed then use that
-                if (!StringHelper.EmptyOrNull(myFeeds.podcastfolder))
+                if (!string.IsNullOrEmpty(myFeeds.podcastfolder))
                 {
                     this.PodcastFolder = myFeeds.podcastfolder;
                 }
 
                 //if podcast file extensions specified in imported feed then use that
-                if (!StringHelper.EmptyOrNull(myFeeds.podcastfileexts))
+                if (!string.IsNullOrEmpty(myFeeds.podcastfileexts))
                 {
                     this.PodcastFileExtensionsAsString = myFeeds.podcastfileexts;
                 }
 
 
                 //if listview layout specified in imported feed then use that
-                if (!StringHelper.EmptyOrNull(myFeeds.listviewlayout))
+                if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
                 {
                     this.listviewlayout = myFeeds.listviewlayout;
                 }
@@ -2876,7 +2876,7 @@ namespace NewsComponents
                 //if max item age in imported feed then use that
                 try
                 {
-                    if (!StringHelper.EmptyOrNull(myFeeds.maxitemage))
+                    if (!string.IsNullOrEmpty(myFeeds.maxitemage))
                     {
                         this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
                     }
@@ -2916,7 +2916,7 @@ namespace NewsComponents
         /// <param name="item">the item to delete</param>
         public void DeleteItem(NewsItem item)
         {
-            if (item.Feed != null && !StringHelper.EmptyOrNull(item.Feed.link))
+            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link))
             {
                 /* 
 				 * There is no attempt to load feed from disk because it is 
@@ -2942,7 +2942,7 @@ namespace NewsComponents
         /// <param name="feed">the feed</param>
         public void DeleteAllItemsInFeed(feedsFeed feed)
         {
-            if (feed != null && !StringHelper.EmptyOrNull(feed.link) && FeedsTable.ContainsKey(feed.link))
+            if (feed != null && !string.IsNullOrEmpty(feed.link) && FeedsTable.ContainsKey(feed.link))
             {
                 FeedInfo fi = itemsTable[feed.link] as FeedInfo;
 
@@ -2965,7 +2965,7 @@ namespace NewsComponents
                 } //if(fi != null)		
 
                 this.SearchHandler.IndexRemove(feed.id);
-            } //if (feed != null && !StringHelper.EmptyOrNull( feed.link ) && FeedsTable.ContainsKey(feed.link)) {
+            } //if (feed != null && !string.IsNullOrEmpty( feed.link ) && FeedsTable.ContainsKey(feed.link)) {
         }
 
         /// <summary>
@@ -2987,7 +2987,7 @@ namespace NewsComponents
         /// <param name="item">the utem to restore</param>
         public void RestoreDeletedItem(NewsItem item)
         {
-            if (item.Feed != null && !StringHelper.EmptyOrNull(item.Feed.link) && FeedsTable.ContainsKey(item.Feed.link))
+            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && FeedsTable.ContainsKey(item.Feed.link))
             {
                 FeedInfo fi = itemsTable[item.Feed.link] as FeedInfo;
 
@@ -3481,7 +3481,7 @@ namespace NewsComponents
         /// <param name="feedUrl">The URL of the RSS feed</param>
         public void MarkAllCachedItemsAsRead(string feedUrl)
         {
-            if (!StringHelper.EmptyOrNull(feedUrl))
+            if (!string.IsNullOrEmpty(feedUrl))
             {
                 feedsFeed feed = this.FeedsTable[feedUrl];
                 if (feed != null)
@@ -3498,7 +3498,7 @@ namespace NewsComponents
         /// <param name="feed">The RSS feed</param>
         public void MarkAllCachedItemsAsRead(feedsFeed feed)
         {
-            if (feed != null && !StringHelper.EmptyOrNull(feed.link) && itemsTable.ContainsKey(feed.link))
+            if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
                 FeedInfo fi = itemsTable[feed.link] as FeedInfo;
 
@@ -3660,7 +3660,7 @@ namespace NewsComponents
             }
             else if (value is string)
             {
-                bool isSet = !StringHelper.EmptyOrNull((string) value);
+                bool isSet = !string.IsNullOrEmpty((string) value);
 
                 if (propertyName.Equals("maxitemage") && isSet)
                 {
@@ -3716,7 +3716,7 @@ namespace NewsComponents
 
                     value = f_value;
                 }
-                else if (inheritCategory && !StringHelper.EmptyOrNull(f.category))
+                else if (inheritCategory && !string.IsNullOrEmpty(f.category))
                 {
                     category c = this.Categories.GetByKey(f.category);
 
@@ -3738,7 +3738,7 @@ namespace NewsComponents
                             c = c.parent;
                         }
                     } //while
-                } //else if(!StringHelper.EmptyOrNull(f.category))
+                } //else if(!string.IsNullOrEmpty(f.category))
             } //if(_feedsTable.ContainsKey(feedUrl)){
 
 
@@ -3968,7 +3968,7 @@ namespace NewsComponents
             object value =
                 this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
-            if (!StringHelper.EmptyOrNull(category))
+            if (!string.IsNullOrEmpty(category))
             {
                 category c = this.Categories.GetByKey(category);
 
@@ -3990,7 +3990,7 @@ namespace NewsComponents
                         c = c.parent;
                     }
                 } //while
-            } //if(!StringHelper.EmptyOrNull(category))
+            } //if(!string.IsNullOrEmpty(category))
 
 
             return value;
@@ -4006,7 +4006,7 @@ namespace NewsComponents
         {
             //TODO: Make this code more efficient
 
-            if (!StringHelper.EmptyOrNull(category))
+            if (!string.IsNullOrEmpty(category))
             {
                 //category c = this.Categories.GetByKey(category);
 
@@ -4031,7 +4031,7 @@ namespace NewsComponents
                         break;
                     } //if(c!= null) 
                 } //foreach
-            } //	if(!StringHelper.EmptyOrNull(category)){
+            } //	if(!string.IsNullOrEmpty(category)){
         }
 
 
@@ -4223,7 +4223,7 @@ namespace NewsComponents
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
         public IFeedDetails GetFeedInfo(string feedUrl, ICredentials credentials)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return null;
 
             FeedDetailsInternal fd = null;
@@ -5480,7 +5480,7 @@ namespace NewsComponents
         /// <returns>Returns true if the file extension is one of those in the podcastfileextensions ArrayList</returns>
         public bool IsPodcast(string filename)
         {
-            if (StringHelper.EmptyOrNull(filename))
+            if (string.IsNullOrEmpty(filename))
             {
                 return false;
             }
@@ -5755,7 +5755,7 @@ namespace NewsComponents
                         else
                         {
                             // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if (current.lastretrievedSpecified && StringHelper.EmptyOrNull(current.cacheurl))
+                            if (current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
                             {
                                 // imported may have lastretrievedSpecified set to reduce the initial payload
                                 double timeSinceLastDownload =
@@ -5771,7 +5771,7 @@ namespace NewsComponents
                             if (!force_download)
                             {
                                 // not in itemsTable, cacheurl set - but no cache file anymore?
-                                if (!StringHelper.EmptyOrNull(current.cacheurl) &&
+                                if (!string.IsNullOrEmpty(current.cacheurl) &&
                                     !this.CacheHandler.FeedExists(current))
                                     force_download = true;
                             }
