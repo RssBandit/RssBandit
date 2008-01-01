@@ -2697,64 +2697,54 @@ namespace RssBandit {
 			Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
 		}
 
-		private IWebProxy CreateProxyFrom(RssBanditPreferences p) {
-			
-			// default proxy init:
-			IWebProxy proxy = WebRequest.DefaultWebProxy; 
-			proxy.Credentials = CredentialCache.DefaultCredentials;
+        private IWebProxy CreateProxyFrom(RssBanditPreferences p)
+        {
 
-			if(p.UseProxy) {	// private proxy settings
 
-				if (p.ProxyPort > 0)
-					proxy = new WebProxy(p.ProxyAddress, p.ProxyPort); 
-				else
-					proxy = new WebProxy(p.ProxyAddress); 
+            if (p.UseProxy)
+            {
+                WebProxy proxy;
+                // private proxy settings
 
-				proxy.Credentials = CredentialCache.DefaultCredentials;
-				((WebProxy)proxy).BypassProxyOnLocal = p.BypassProxyOnLocal;
-				//Get rid of String.Empty in by pass list because it means bypass on all URLs
-				((WebProxy)proxy).BypassList = ListHelper.StripEmptyEntries(p.ProxyBypassList);
+                if (p.ProxyPort > 0)
+                    proxy = new WebProxy(p.ProxyAddress, p.ProxyPort);
+                else
+                    proxy = new WebProxy(p.ProxyAddress);
 
-				if (p.ProxyCustomCredentials) {
+                proxy.Credentials = CredentialCache.DefaultCredentials;
+                (proxy).BypassProxyOnLocal = p.BypassProxyOnLocal;
+                //Get rid of String.Empty in by pass list because it means bypass on all URLs
+                (proxy).BypassList = ListHelper.StripEmptyEntries(p.ProxyBypassList);
 
-					if (!StringHelper.EmptyOrNull(p.ProxyUser)) {
-							
-						proxy.Credentials = NewsHandler.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
+                if (p.ProxyCustomCredentials)
+                {
+                    if (!StringHelper.EmptyOrNull(p.ProxyUser))
+                    {
+                        proxy.Credentials = NewsHandler.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
 
-						#region experimental
-						//CredentialCache credCache = new CredentialCache();
-						//credCache.Add(proxy.Address, "Basic", credentials);
-						//credCache.Add(proxy.Address, "Digest", credentials);
-						//proxy.Credentials = credCache;
-						#endregion
-					}
-				}
+                        #region experimental
 
-			} /* endif UseProxy */ else
-			
-				if (p.UseIEProxySettings) {
+                        //CredentialCache credCache = new CredentialCache();
+                        //credCache.Add(proxy.Address, "Basic", credentials);
+                        //credCache.Add(proxy.Address, "Digest", credentials);
+                        //proxy.Credentials = credCache;
 
-				try {
+                        #endregion
+                    }
+                }
 
-					IWebProxy ieProxy = AutomaticProxy.GetProxyFromIESettings();	
-					
-					if (ieProxy != null) {
-						proxy = ieProxy;
-					}
+                return proxy;
+            } /* endif UseProxy */
 
-				} catch (Exception ex){
-					_log.Error("Apply Preferences.UseIEProxySettings caused exception", ex);
-					this.MessageError(SR.ExceptionProxyConfiguration(ex.Message));
-					p.UseIEProxySettings = false;
-				}
+            // default proxy init:
 
-			} /* endif UseIEProxySettings */
+            // No need to do anything special for .NET 2.0:
+            // http://msdn.microsoft.com/msdnmag/issues/05/08/AutomaticProxyDetection/default.aspx#S3
+            
+            return WebRequest.DefaultWebProxy;
+        }
 
-			return proxy;
-		
-		}
-
-		internal void LoadPreferences() {
+	    internal void LoadPreferences() {
 			
 			string pName = RssBanditApplication.GetPreferencesFileName();
 			bool migrate = false;
