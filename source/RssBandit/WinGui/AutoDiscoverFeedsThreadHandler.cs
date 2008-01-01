@@ -85,7 +85,7 @@ namespace RssBandit.WinGui
 							feedInfo = FeedInfo.Empty;
 						}
 
-						htFeedUrls.Add (rssurl, new string[]{(!StringHelper.EmptyOrNull(feedInfo.Title) ? feedInfo.Title: SR.AutoDiscoveredDefaultTitle), feedInfo.Description, feedInfo.Link, rssurl} );
+						htFeedUrls.Add (rssurl, new string[]{(!string.IsNullOrEmpty(feedInfo.Title) ? feedInfo.Title: SR.AutoDiscoveredDefaultTitle), feedInfo.Description, feedInfo.Link, rssurl} );
 					}
 
 				} else {	// Syndic8SearchType.Keyword

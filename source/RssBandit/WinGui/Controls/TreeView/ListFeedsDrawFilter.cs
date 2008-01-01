@@ -139,7 +139,7 @@ namespace RssBandit.WinGui
 					r2.X += 26;
 					r2.Width = r.X-r2.X;
 					r = r2;
-					string author = (StringHelper.EmptyOrNull(item.Author) ? item.Feed.title: item.Author);
+					string author = (string.IsNullOrEmpty(item.Author) ? item.Feed.title: item.Author);
 					drawParams.Graphics.DrawString(author, treeNode.NodeOwner.Font, bGray, r);
 
 					//Title
@@ -222,7 +222,7 @@ namespace RssBandit.WinGui
 						r.X += UltraTreeExtended.COMMENT_HEIGHT+2;
 						r.Width -= UltraTreeExtended.COMMENT_HEIGHT+2;
 						string byAuthor = "";
-						if(!StringHelper.EmptyOrNull(ni.Author))
+						if(!string.IsNullOrEmpty(ni.Author))
 							byAuthor = "(by " + ni.Author + ") ";//TODO:I18N
 						drawParams.Graphics.DrawString(byAuthor + ni.Title, treeNode.NodeOwner.Font, Brushes.Black, r);
 						//Bottom Line

@@ -592,7 +592,7 @@ namespace NewsComponents.Net
 
 					BG_AUTH_CREDENTIALS credentials = new BG_AUTH_CREDENTIALS();
 					credentials.Credentials.Basic.UserName = 
-						StringHelper.EmptyOrNull(creds.GetCredential(sourceUri, "NTLM").Domain) ? 
+						string.IsNullOrEmpty(creds.GetCredential(sourceUri, "NTLM").Domain) ? 
 						creds.GetCredential(sourceUri, "NTLM").UserName : 
 						creds.GetCredential(sourceUri, "NTLM").Domain + "\\" + creds.GetCredential(sourceUri, "NTLM").UserName ;
 					credentials.Credentials.Basic.Password = creds.GetCredential(sourceUri, "NTLM").Password;
@@ -642,7 +642,7 @@ namespace NewsComponents.Net
 				//Specify NTLM credentials
 				credentials = new BG_AUTH_CREDENTIALS();
 				credentials.Credentials.Basic.UserName = 
-					StringHelper.EmptyOrNull(creds.GetCredential(uri, "NTLM").Domain) ? 
+					string.IsNullOrEmpty(creds.GetCredential(uri, "NTLM").Domain) ? 
 					creds.GetCredential(uri, "NTLM").UserName : 
 					creds.GetCredential(uri, "NTLM").Domain + "\\" + creds.GetCredential(uri, "NTLM").UserName ;
 				credentials.Credentials.Basic.Password = creds.GetCredential(uri, "NTLM").Password;

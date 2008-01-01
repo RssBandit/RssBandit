@@ -74,7 +74,7 @@ namespace RssBandit.WinGui.Forms
 
 			//initialize category combo box			
 			foreach(string category in categories.Keys){
-				if (!StringHelper.EmptyOrNull(category))
+				if (!string.IsNullOrEmpty(category))
 					this.comboBox2.Items.Add(category); 
 			}
 			this.comboBox2.Items.Add(defaultCategory); 

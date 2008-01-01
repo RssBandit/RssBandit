@@ -143,7 +143,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <param name="dockManager">UltraDockManager</param>
 		/// <param name="theSettings">string</param>
 		public static void LoadControlStateFromString(UltraDockManager dockManager, string theSettings) {
-			if (StringHelper.EmptyOrNull(theSettings))
+			if (string.IsNullOrEmpty(theSettings))
 				return;
 
 			using (Stream stream = new MemoryStream()) {
@@ -300,7 +300,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <param name="theSettings">string</param>
 		/// <param name="mediator">The mediator.</param>
 		public static void LoadControlStateFromString(UltraToolbarsManager toolbarManager, string theSettings, CommandMediator mediator) {
-			if (StringHelper.EmptyOrNull(theSettings))
+			if (string.IsNullOrEmpty(theSettings))
 				return;
 
 			using (Stream stream = new MemoryStream()) {

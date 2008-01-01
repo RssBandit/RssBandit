@@ -6,23 +6,92 @@
  * $Revision$
  */
 #endregion
-using System;using System.Drawing;using System.Collections;using System.ComponentModel;using System.Windows.Forms;using System.Diagnostics;using System.Threading;using RssBandit.WinGui;using RssBandit.WinGui.Utility;using NewsComponents.Utils;using NewsComponents.Collections;namespace RssBandit.WinGui.Forms{	/// <summary>	/// Summary description for ImportFeedsDialog.	/// </summary>	public class ImportFeedsDialog : System.Windows.Forms.Form	{		private UrlCompletionExtender urlExtender;
-		private System.Windows.Forms.Label label2;        private System.Windows.Forms.Button btnOk;        private System.Windows.Forms.Button btnCancel;        private System.Windows.Forms.TextBox textUrlOrFile;		private System.Windows.Forms.ToolTip toolTip1;		private System.Windows.Forms.Label label4;
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Diagnostics;
+using System.Threading;
+
+using RssBandit.WinGui;
+using RssBandit.WinGui.Utility;
+using NewsComponents.Utils;
+using NewsComponents.Collections;
+
+namespace RssBandit.WinGui.Forms
+{
+	/// <summary>
+	/// Summary description for ImportFeedsDialog.
+	/// </summary>
+	public class ImportFeedsDialog : System.Windows.Forms.Form
+	{
+		private UrlCompletionExtender urlExtender;
+
+		private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox textUrlOrFile;
+		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.Label label4;
 		internal System.Windows.Forms.Button btnSelectFile;
 		private System.Windows.Forms.ComboBox comboCategory;
-		private System.Windows.Forms.Label label3;		private System.ComponentModel.IContainer components;				/// <summary>		/// Constructor is private because we always want the categories		/// combo box to be filled		/// </summary>		private ImportFeedsDialog()		{			//			// Required for Windows Form Designer support			//			InitializeComponent();			urlExtender = new UrlCompletionExtender(this);
+		private System.Windows.Forms.Label label3;
+		private System.ComponentModel.IContainer components;
+		
+		/// <summary>
+		/// Constructor is private because we always want the categories
+		/// combo box to be filled
+		/// </summary>
+		private ImportFeedsDialog()
+		{
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();
+			urlExtender = new UrlCompletionExtender(this);
 			urlExtender.Add(this.textUrlOrFile, true);
-		}				public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, CategoriesCollection categories):this()	{			this.textUrlOrFile.Text = (urlOrFile != null ? urlOrFile  : String.Empty);			//initialize combo box			
+		}
+		
+		public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, CategoriesCollection categories):this()	{
+			this.textUrlOrFile.Text = (urlOrFile != null ? urlOrFile  : String.Empty);
+			//initialize combo box			
 			if (categories != null) {
 				foreach(string category in categories.Keys){
-					if (!StringHelper.EmptyOrNull(category))
+					if (!string.IsNullOrEmpty(category))
 						this.comboCategory.Items.Add(category); 
 				}
 			}
 			this.comboCategory.Items.Add(defaultCategory);
 			this.comboCategory.Text = (selectedCategory != null ? selectedCategory : String.Empty); 
-		}				public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }		public string FeedCategory { get { return comboCategory.Text; } } 
-		/// <summary>		/// Clean up any resources being used.		/// </summary>		protected override void Dispose( bool disposing )		{			if( disposing )			{				if(components != null)				{					components.Dispose();				}			}			base.Dispose( disposing );		}		#region Windows Form Designer generated code		/// <summary>		/// Required method for Designer support - do not modify		/// the contents of this method with the code editor.		/// </summary>		private void InitializeComponent()		{			this.components = new System.ComponentModel.Container();
+		}
+		
+		public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }
+		public string FeedCategory { get { return comboCategory.Text; } } 
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ImportFeedsDialog));
 			this.label2 = new System.Windows.Forms.Label();
 			this.textUrlOrFile = new System.Windows.Forms.TextBox();
@@ -270,7 +339,15 @@
 			this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
 			this.ResumeLayout(false);
 
-		}		#endregion			private void textUri_TextChanged(object sender, System.EventArgs e)		{			btnOk.Enabled = (textUrlOrFile.Text.Length > 0);		}		private void btnSelectFile_Click(object sender, System.EventArgs e) {
+		}
+		#endregion	
+
+		private void textUri_TextChanged(object sender, System.EventArgs e)
+		{
+			btnOk.Enabled = (textUrlOrFile.Text.Length > 0);
+		}
+
+		private void btnSelectFile_Click(object sender, System.EventArgs e) {
 			OpenFileDialog ofd = new OpenFileDialog();
 
 			ofd.Filter = "OPML files (*.opml)|*.opml|OCS files (*.ocs)|*.ocs|XML files (*.xml)|*.xml|All files (*.*)|*.*" ;
@@ -281,4 +358,6 @@
 			if(ofd.ShowDialog() == DialogResult.OK) {
 				textUrlOrFile.Text = ofd.FileName;
 			}
-		}	}}
+		}
+	}
+}

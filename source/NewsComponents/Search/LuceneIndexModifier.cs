@@ -158,7 +158,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="baseDirectory">The index base directory.</param>
 		public LuceneIndexModifier(string baseDirectory) {
-			if (!StringHelper.EmptyOrNull(baseDirectory)) {
+			if (!string.IsNullOrEmpty(baseDirectory)) {
 				if (!Directory.Exists(baseDirectory))
 					Directory.CreateDirectory(baseDirectory);
 				this.indexBaseDirectory = Lucene.Net.Store.FSDirectory.GetDirectory(baseDirectory, false);
@@ -572,7 +572,7 @@ namespace NewsComponents.Search
 				AssureOpen();
 				CreateIndexWriter();
 				try{
-					if (!StringHelper.EmptyOrNull(culture))
+					if (!string.IsNullOrEmpty(culture))
 						indexWriter.AddDocument(doc, LuceneSearch.GetAnalyzer(culture));
 					else
 						indexWriter.AddDocument(doc);
@@ -611,7 +611,7 @@ namespace NewsComponents.Search
 			if (docs == null || docs.Length == 0) return;
 
 			Analyzer analyzer = null;
-			if (!StringHelper.EmptyOrNull(culture))
+			if (!string.IsNullOrEmpty(culture))
 				analyzer = LuceneSearch.GetAnalyzer(culture);
 #if TRACE_INDEX_OPS
 			_log.Info("Add multiple IndexDoc(s)...");

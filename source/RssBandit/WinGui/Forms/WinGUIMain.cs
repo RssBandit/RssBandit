@@ -1013,7 +1013,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		internal void SetDetailHeaderText(TreeFeedsNodeBase node) {
-			if (node != null && ! StringHelper.EmptyOrNull(node.Text)) {
+			if (node != null && ! string.IsNullOrEmpty(node.Text)) {
 				if (node.UnreadCount > 0)
 					detailHeaderCaption.Text = String.Format("{0} ({1})", node.Text, node.UnreadCount);
 				else
@@ -1127,7 +1127,7 @@ namespace RssBandit.WinGui.Forms
 			if (f == null || feedsNode == null) return;
 			switch (state) {
 				case FeedProcessingState.Normal:
-					if(!StringHelper.EmptyOrNull(f.favicon) && feedsNode.HasCustomIcon && owner.Preferences.UseFavicons){
+					if(!string.IsNullOrEmpty(f.favicon) && feedsNode.HasCustomIcon && owner.Preferences.UseFavicons){
 						feedsNode.SetIndividualImage(null); //revert to original images
 					} else if (f.refreshrateSpecified && f.refreshrate <= 0) {
 						feedsNode.Override.NodeAppearance.Image = Resource.SubscriptionTreeImage.FeedDisabled;
@@ -1552,7 +1552,7 @@ namespace RssBandit.WinGui.Forms
 				node.Clear(); 
 
 				//check if Web search or local search
-				if(!StringHelper.EmptyOrNull(node.Finder.ExternalSearchUrl)){
+				if(!string.IsNullOrEmpty(node.Finder.ExternalSearchUrl)){
 					StartRssRemoteSearch(node.Finder.ExternalSearchUrl, node); 
 				}else{ 
 					AsyncStartNewsSearch(node);	
@@ -2364,7 +2364,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="feedLink">The feed link.</param>
 		private void UnreadItemsNodeRemoveItems(string feedLink) {
-			if (StringHelper.EmptyOrNull(feedLink) ||
+			if (string.IsNullOrEmpty(feedLink) ||
 				! owner.FeedHandler.FeedsTable.ContainsKey(feedLink)) 
 				return;
 			IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
@@ -2764,7 +2764,7 @@ namespace RssBandit.WinGui.Forms
 							_lastPageNumber  = (numItems / itemsPerPage ) + ( numItems % itemsPerPage == 0 ? 0 : 1);
 						
 							//default stylesheet: get first page of items
-							if(StringHelper.EmptyOrNull(stylesheet)){
+							if(string.IsNullOrEmpty(stylesheet)){
 								fi2 = this.GetFeedItemsAtPage(1);; 	
 							}					
 						}
@@ -2820,7 +2820,7 @@ namespace RssBandit.WinGui.Forms
 				_lastPageNumber  = (numItems / itemsPerPage ) + ( numItems % itemsPerPage == 0 ? 0 : 1);
 						
 				//default stylesheet: get first page of items
-				if(StringHelper.EmptyOrNull(stylesheet)){
+				if(string.IsNullOrEmpty(stylesheet)){
 					fil2 = this.GetCategoryItemsAtPage(1); 	
 				}					
 			}
@@ -3062,12 +3062,12 @@ namespace RssBandit.WinGui.Forms
 		//			if (startNode == null) return false;
 		//
 		//			if (startNode.Type == FeedNodeType.Feed) {
-		//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetFeedColumnLayout(startNode.DataKey)))
+		//				if (!string.IsNullOrEmpty(owner.FeedHandler.GetFeedColumnLayout(startNode.DataKey)))
 		//					owner.FeedHandler.SetFeedColumnLayout(startNode.DataKey, layout);
 		//				else
 		//					CurrentFeedFeedColumnLayout = layout;
 		//			} else if(startNode.Type == FeedNodeType.Category) {
-		//				if (!StringHelper.EmptyOrNull(owner.FeedHandler.GetCategoryFeedColumnLayout(startNode.DataKey)))
+		//				if (!string.IsNullOrEmpty(owner.FeedHandler.GetCategoryFeedColumnLayout(startNode.DataKey)))
 		//					owner.FeedHandler.SetCategoryFeedColumnLayout(startNode.DataKey, layout);
 		//				else
 		//					CurrentCategoryFeedColumnLayout = layout;
@@ -4176,7 +4176,7 @@ namespace RssBandit.WinGui.Forms
 
 			string fileName = Path.Combine(enclosure.TargetFolder, enclosure.File.LocalName); 
 
-			if (StringHelper.EmptyOrNull(fileName))
+			if (string.IsNullOrEmpty(fileName))
 				return;
 			try {
 				using(System.Diagnostics.Process p = new Process()){
@@ -4205,7 +4205,7 @@ namespace RssBandit.WinGui.Forms
 			Image favicon = null;		
 		
 			try{//if there is a favicon, load it from disk and resize to 16x16 if necessary
-				if(!StringHelper.EmptyOrNull(name)){
+				if(!string.IsNullOrEmpty(name)){
 
 					if(this._favicons.ContainsKey(name)){
 						return this._favicons[name] as Image; 
@@ -4296,13 +4296,13 @@ namespace RssBandit.WinGui.Forms
 				setFocus = false; 
 			}
 			
-			if (StringHelper.EmptyOrNull(url)) 
+			if (string.IsNullOrEmpty(url)) 
 				return;
 			
 			if (url == "about:blank" && !createNewTab)
 				return;
 			
-			if (StringHelper.EmptyOrNull(tab)) 
+			if (string.IsNullOrEmpty(tab)) 
 				tab = "Web Link";
 
 			HtmlControl hc = null;
@@ -4598,7 +4598,7 @@ namespace RssBandit.WinGui.Forms
 
 				owner.Mediator.SetChecked("-cmdWatchItemComments");	
 
-				if( StringHelper.EmptyOrNull(item.CommentRssUrl) && (item.CommentCount == NewsItem.NoComments))
+				if( string.IsNullOrEmpty(item.CommentRssUrl) && (item.CommentCount == NewsItem.NoComments))
 				{
 					owner.Mediator.SetEnabled("-cmdWatchItemComments");												
 				}
@@ -4665,7 +4665,7 @@ namespace RssBandit.WinGui.Forms
 				FinderNode agfn = feedsNode as FinderNode;
 				if (agfn != null && agfn == _searchResultNode && agfn.Finder != null ) 
 				{
-					bool extResult = !StringHelper.EmptyOrNull(agfn.Finder.ExternalSearchUrl) ;
+					bool extResult = !string.IsNullOrEmpty(agfn.Finder.ExternalSearchUrl) ;
 					owner.Mediator.SetEnabled(extResult, "cmdSubscribeToFinderResult");
 					owner.Mediator.SetEnabled(extResult && agfn.Finder.ExternalResultMerged, "cmdShowFinderProperties");
 				}
@@ -4761,7 +4761,7 @@ namespace RssBandit.WinGui.Forms
 				if (state == ApplicationTrayState.NormalIdle) 
 				{
 					this._timerResetStatus.Start();
-					if (!StringHelper.EmptyOrNull(text)) 
+					if (!string.IsNullOrEmpty(text)) 
 					{
 						this.SetGuiStateFeedback(text);
 					}
@@ -5047,7 +5047,7 @@ namespace RssBandit.WinGui.Forms
 		public void UpdateFavicon(string favicon, StringCollection feedUrls) 
 		{
 			Image icon = null;
-			if (!StringHelper.EmptyOrNull(favicon)) 
+			if (!string.IsNullOrEmpty(favicon)) 
 			{
 				string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), favicon);
 				
@@ -5125,7 +5125,7 @@ namespace RssBandit.WinGui.Forms
 
 					if(owner.Preferences.UseFavicons){
 					
-						if(StringHelper.EmptyOrNull(f.favicon)){ 
+						if(string.IsNullOrEmpty(f.favicon)){ 
 							continue; 
 						}
 
@@ -5220,7 +5220,7 @@ namespace RssBandit.WinGui.Forms
 			
 						//locate NewsItem from original feed 
 						foreach(NewsItem ni in itemFeedInfo.ItemsList){
-							if(!StringHelper.EmptyOrNull(ni.CommentRssUrl) && 
+							if(!string.IsNullOrEmpty(ni.CommentRssUrl) && 
 								feedUrl.Equals(ni.CommentRssUrl)){
 								item = ni; 
 								//some comment feeds place the post as the first entry in the comments feed
@@ -8097,7 +8097,7 @@ namespace RssBandit.WinGui.Forms
 					link = feedsNode.DataKey;
 				}	
 
-				if (!StringHelper.EmptyOrNull(link)) 
+				if (!string.IsNullOrEmpty(link)) 
 				{
 					Clipboard.SetDataObject(link);
 				}
@@ -8125,7 +8125,7 @@ namespace RssBandit.WinGui.Forms
 					title = feedsNode.Text;
 				}	
 
-				if (!StringHelper.EmptyOrNull(link)) 
+				if (!string.IsNullOrEmpty(link)) 
 				{
 					Clipboard.SetDataObject(String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, feedsNode.Text));
 				}
@@ -8152,7 +8152,7 @@ namespace RssBandit.WinGui.Forms
 				if (item != null) 
 				{
 					string link = item.Link;
-					if (!StringHelper.EmptyOrNull(link)) 
+					if (!string.IsNullOrEmpty(link)) 
 					{
 						data.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty ), link);
 					}
@@ -8176,10 +8176,10 @@ namespace RssBandit.WinGui.Forms
 				if (item != null) 
 				{
 					string link = item.Link;
-					if (!StringHelper.EmptyOrNull(link)) 
+					if (!string.IsNullOrEmpty(link)) 
 					{
 						string title = item.Title;
-						if (!StringHelper.EmptyOrNull(title)) 
+						if (!string.IsNullOrEmpty(title)) 
 						{
 							data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>", (i > 0 ? "<br />" + Environment.NewLine : String.Empty ), link, title, title);
 						} 
@@ -8210,14 +8210,14 @@ namespace RssBandit.WinGui.Forms
 				{
 					string link = item.Link;
 					string content = item.Content;
-					if (!StringHelper.EmptyOrNull(content)) 
+					if (!string.IsNullOrEmpty(content)) 
 					{
 						data.AppendFormat("{0}{1}", (i > 0 ? "<br />" + Environment.NewLine : String.Empty ), link);
 					} 
-					else if (!StringHelper.EmptyOrNull(link)) 
+					else if (!string.IsNullOrEmpty(link)) 
 					{
 						string title = item.Title;
-						if (!StringHelper.EmptyOrNull(title)) 
+						if (!string.IsNullOrEmpty(title)) 
 						{
 							data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>", (i > 0 ? "<br />"+ Environment.NewLine : String.Empty ), link, item.Feed.title, title);
 						} 
@@ -8253,7 +8253,7 @@ namespace RssBandit.WinGui.Forms
 			{
 				afn.Clear(); 	
 				this.UpdateTreeNodeUnreadStatus(afn, 0);
-				if (afn.Finder != null && !StringHelper.EmptyOrNull(afn.Finder.ExternalSearchUrl)) 
+				if (afn.Finder != null && !string.IsNullOrEmpty(afn.Finder.ExternalSearchUrl)) 
 				{
 					// does also initiates the local search if merge is true:
 					AsyncStartRssRemoteSearch(afn.Finder.ExternalSearchPhrase, afn.Finder.ExternalSearchUrl, afn.Finder.ExternalResultMerged, true);
@@ -8407,7 +8407,7 @@ namespace RssBandit.WinGui.Forms
 			FinderNode node = this.CurrentSelectedFeedsNode as FinderNode;
 			if (node != null && node.Finder != null) 
 			{
-				if (!StringHelper.EmptyOrNull(node.Finder.ExternalSearchUrl)) 
+				if (!string.IsNullOrEmpty(node.Finder.ExternalSearchUrl)) 
 				{
 					owner.CmdNewFeed(node.Text, node.Finder.ExternalSearchUrl, node.Finder.ExternalSearchPhrase);
 				}
@@ -9648,7 +9648,7 @@ namespace RssBandit.WinGui.Forms
 									return;	// no user navigation happened in listview/detail pane
 							} else {	
 								// other node types does not set the FeedDetailTabState.Url
-								if (StringHelper.EmptyOrNull(FeedDetailTabState.Url))
+								if (string.IsNullOrEmpty(FeedDetailTabState.Url))
 									return;
 							}
 							
@@ -10024,7 +10024,7 @@ namespace RssBandit.WinGui.Forms
 		private void OnTreeFeedsValidateLabelEdit(object sender, ValidateLabelEditEventArgs e) {
 			
 			string newText = e.LabelEditText;
-			if (StringHelper.EmptyOrNull(newText)) {
+			if (string.IsNullOrEmpty(newText)) {
 				e.StayInEditMode = true;
 				return;
 			}
@@ -10498,7 +10498,7 @@ namespace RssBandit.WinGui.Forms
 					RefreshDocumentState(_docContainer.ActiveDocument);
 
 				} 
-				else if (!item.HasContent && !StringHelper.EmptyOrNull(item.Link)) 
+				else if (!item.HasContent && !string.IsNullOrEmpty(item.Link)) 
 				{
 
 					/* if (this.UrlRequestHandledExternally(item.Link, false)) {
@@ -10549,7 +10549,7 @@ namespace RssBandit.WinGui.Forms
 
 					//assume that clicking on the item indicates viewing new comments 
 					//when no comment feed available
-					if( item.WatchComments && StringHelper.EmptyOrNull(item.CommentRssUrl)){
+					if( item.WatchComments && string.IsNullOrEmpty(item.CommentRssUrl)){
 				
 						this.MarkCommentsAsViewed(tn, item); 
 						ApplyStyles(selectedItem, true); 
@@ -11002,7 +11002,7 @@ namespace RssBandit.WinGui.Forms
 						lvi.Selected = true;
 						lvi.Focused = true;
 
-						if (item != null && !StringHelper.EmptyOrNull(item.Link)) 
+						if (item != null && !string.IsNullOrEmpty(item.Link)) 
 						{
 							if (!this.UrlRequestHandledExternally(item.Link, false))
 								DetailTabNavigateToUrl(item.Link, null, false, true);
@@ -11407,7 +11407,7 @@ namespace RssBandit.WinGui.Forms
                 HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
                 window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.OnHtmlWindowError);									
 
-				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
+				if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage) 
 				{
 					AddUrlToHistory (e.url);
 					
@@ -11440,7 +11440,7 @@ namespace RssBandit.WinGui.Forms
                 HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
                 window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.OnHtmlWindowError);									
 
-				if (!StringHelper.EmptyOrNull(e.url) && e.url != "about:blank" && e.IsRootPage) 
+				if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage) 
 				{
 					AddUrlToHistory (e.url);
                     				
@@ -11845,7 +11845,7 @@ namespace RssBandit.WinGui.Forms
 			FinderNode resultContainer = new FinderNode();
 			
 			string newName = e.ResultContainerName;
-			if (!StringHelper.EmptyOrNull(newName)) {	
+			if (!string.IsNullOrEmpty(newName)) {	
 									
 				TreeFeedsNodeBase parent = this.GetRoot(RootFolderType.Finder);
 									
@@ -12213,7 +12213,7 @@ namespace RssBandit.WinGui.Forms
 		private void AutoSubscribeFeed(TreeFeedsNodeBase parent, string feedUrl) 
 		{
 
-			if (StringHelper.EmptyOrNull(feedUrl))
+			if (string.IsNullOrEmpty(feedUrl))
 				return;
 
 			if (parent == null) 
@@ -12925,7 +12925,7 @@ namespace RssBandit.WinGui.Forms
 					}
 					if(!n.CommentsRectangle.IsEmpty && n.CommentsRectangle.Contains(e.X,e.Y)) {
 						//Click on Comment
-						if((n.NewsItem != null) && (!StringHelper.EmptyOrNull(n.NewsItem.CommentRssUrl))){
+						if((n.NewsItem != null) && (!string.IsNullOrEmpty(n.NewsItem.CommentRssUrl))){
 							n.Expanded = !n.Expanded;
 							listFeedItemsO_BeforeExpand(sender,new CancelableNodeEventArgs(n));
 						}
@@ -12950,7 +12950,7 @@ namespace RssBandit.WinGui.Forms
 					NewsItem item = CurrentSelectedFeedItem  = n.NewsItem;								 
 					n.Selected = true;					 					 
 
-					if (item != null && !StringHelper.EmptyOrNull(item.Link)) {
+					if (item != null && !string.IsNullOrEmpty(item.Link)) {
 						if (!this.UrlRequestHandledExternally(item.Link, false))
 							DetailTabNavigateToUrl(item.Link, null, false, true);
 					}

@@ -104,7 +104,7 @@ namespace NewsComponents.Utils
         /// <exception cref="ArgumentNullException">if dataFileName is null or empty</exception>
         public static MimeType CreateFrom(string dataFileName, MimeType mimeProposed)
         {
-            if (StringHelper.EmptyOrNull(dataFileName))
+            if (string.IsNullOrEmpty(dataFileName))
                 throw new ArgumentNullException("dataFileName");
 
             MimeType mimeRet;
@@ -333,11 +333,11 @@ namespace NewsComponents.Utils
         public static MimeType CreateFromFileExt(string fileNameExt)
         {
             // Check/Fix FileNameExt.
-            if (StringHelper.EmptyOrNull(fileNameExt))
+            if (string.IsNullOrEmpty(fileNameExt))
                 return Empty;
 
             string ext = Path.GetExtension(fileNameExt);
-            if (StringHelper.EmptyOrNull(ext))
+            if (string.IsNullOrEmpty(ext))
                 return Empty;
 
             MimeType m = CreateFromRegisteredApps(ext);
@@ -570,7 +570,7 @@ namespace NewsComponents.Utils
         /// <returns>true if the file content match this mimetype, else false</returns>
         public bool MatchContentOf(string fileName)
         {
-            if (StringHelper.EmptyOrNull(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
             return (CreateFrom(fileName, ContentType).Equals(this));
         }
@@ -685,7 +685,7 @@ namespace NewsComponents.Utils
 
         private static bool IsAmbigious(string mimeType)
         {
-            if (StringHelper.EmptyOrNull(mimeType))
+            if (string.IsNullOrEmpty(mimeType))
                 return true;
             if (_binaryMime.Equals(mimeType) || _textMime.Equals(mimeType))
                 return true;
@@ -694,7 +694,7 @@ namespace NewsComponents.Utils
 
         private static bool IsOfficeMimeType(string mimeType)
         {
-            if (StringHelper.EmptyOrNull(mimeType))
+            if (string.IsNullOrEmpty(mimeType))
                 return false;
             if (mimeType.IndexOf("msword") > 0)
                 return true;

@@ -95,7 +95,7 @@ namespace RssBandit.WinGui.Dialogs
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
 		Font StringToFont(string name, Font defaultValue) {
-			if (StringHelper.EmptyOrNull(name))
+			if (string.IsNullOrEmpty(name))
 				return defaultValue;
 			try {
 					FontConverter oFontConv = new FontConverter();
@@ -204,7 +204,7 @@ namespace RssBandit.WinGui.Dialogs
 		private void OnLinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e) {
 				
 			try {
-				if (!StringHelper.EmptyOrNull(e.LinkText)) {
+				if (!string.IsNullOrEmpty(e.LinkText)) {
 					Uri uri = new Uri(e.LinkText);
 					Process.Start(uri.AbsoluteUri);
 				}

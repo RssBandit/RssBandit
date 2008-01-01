@@ -198,8 +198,8 @@ namespace NewsComponents {
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() {
-
-            if (StringHelper.EmptyOrNull(this.Url)) {
+            
+            if (string.IsNullOrEmpty(this.Url)) {
                 return String.Empty.GetHashCode();
             } else {
                 return this.Url.GetHashCode();
@@ -294,7 +294,7 @@ namespace NewsComponents {
         }
 
         internal void SetContent(string newContent, ContentType contentType) {
-            if (StringHelper.EmptyOrNull(newContent)) {
+            if (string.IsNullOrEmpty(newContent)) {
                 p_content = null;
                 p_contentType = ContentType.None;
                 return;
@@ -386,7 +386,7 @@ namespace NewsComponents {
         /// <value>The language.</value>
         public string Language {
             get {
-                if (StringHelper.EmptyOrNull(p_language) && (this.feedInfo != null)) {
+                if (string.IsNullOrEmpty(p_language) && (this.feedInfo != null)) {
                     return this.feedInfo.Language;
                 } else {
                     return p_language;
@@ -612,7 +612,7 @@ namespace NewsComponents {
         /// </summary>
         public override bool HasExternalRelations {
             get {
-                if (!StringHelper.EmptyOrNull(this.commentRssUrl)) {
+                if (!string.IsNullOrEmpty(this.commentRssUrl)) {
                     if (NewsHandler.UnconditionalCommentRss)
                         return true;
                     if (this.commentCount > 0)
@@ -1228,7 +1228,7 @@ namespace NewsComponents {
         /// <returns></returns>
         public override int GetHashCode() {
 
-            if (!StringHelper.EmptyOrNull(base.hReference)) {
+            if (!string.IsNullOrEmpty(base.hReference)) {
                 return base.hReference.GetHashCode();
             } else if (HasContent) {
                 return this.Content.GetHashCode();

@@ -674,7 +674,7 @@ namespace RssBandit
                                                   verInfo.Major, verInfo.Minor,
                                                   verInfo.Build, verInfo.Revision);
 
-                if (!StringHelper.EmptyOrNull(versionPostfix))
+                if (!string.IsNullOrEmpty(versionPostfix))
                     return String.Format("{0} {1}", versionStr, versionPostfix);
                 return versionStr;
             }
@@ -692,7 +692,7 @@ namespace RssBandit
                 string versionStr = String.Format("{0}.{1}",
                                                   verInfo.Major, verInfo.Minor);
 
-                if (!StringHelper.EmptyOrNull(versionPostfix))
+                if (!string.IsNullOrEmpty(versionPostfix))
                     return String.Format("{0} {1}", versionStr, versionPostfix);
                 return versionStr;
             }
@@ -1173,10 +1173,10 @@ namespace RssBandit
         {
             get
             {
-                if (StringHelper.EmptyOrNull(appDataFolderPath))
+                if (string.IsNullOrEmpty(appDataFolderPath))
                 {
                     appDataFolderPath = ConfigurationManager.AppSettings["AppDataFolder"];
-                    if (!StringHelper.EmptyOrNull(appDataFolderPath))
+                    if (!string.IsNullOrEmpty(appDataFolderPath))
                     {
                         appDataFolderPath = Environment.ExpandEnvironmentVariables(appDataFolderPath);
                     }
@@ -1225,7 +1225,7 @@ namespace RssBandit
             get
             {
                 string s = ConfigurationManager.AppSettings["AppCacheFolder"];
-                if (!StringHelper.EmptyOrNull(s))
+                if (!string.IsNullOrEmpty(s))
                 {
                     s = Environment.ExpandEnvironmentVariables(s);
                 }
@@ -1388,7 +1388,7 @@ namespace RssBandit
             try
             {
                 string currentHandler = Win32.Registry.CurrentFeedProtocolHandler;
-                if (StringHelper.EmptyOrNull(currentHandler))
+                if (string.IsNullOrEmpty(currentHandler))
                 {
                     // we just take over the control, if it is not yet set
                     MakeDefaultAggregator();
@@ -2283,7 +2283,7 @@ namespace RssBandit
         {
             HandleSubscriptionRelevantChange(property);
 
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return;
 
             HandleFeedCacheRelevantChange(feedUrl, property);
@@ -2298,7 +2298,7 @@ namespace RssBandit
 
         private void HandleFeedCacheRelevantChange(string feedUrl, NewsFeedProperty property)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return;
             if (this.feedHandler.IsCacheRelevantChange(property))
             {
@@ -2313,7 +2313,7 @@ namespace RssBandit
 
         private void HandleIndexRelevantChange(string feedUrl, NewsFeedProperty property)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return;
             if (this.feedHandler.SearchHandler.IsIndexRelevantChange(property))
                 HandleIndexRelevantChange(GetFeed(feedUrl), property);
@@ -2344,7 +2344,7 @@ namespace RssBandit
         /// <returns>feedsFeed if found, else null</returns>
         public feedsFeed GetFeed(string feedUrl)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return null;
             if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
                 return this.feedHandler.FeedsTable[feedUrl];
@@ -2358,7 +2358,7 @@ namespace RssBandit
         /// <returns>IFeedDetails if found, else null</returns>
         public IFeedDetails GetFeedInfo(string feedUrl)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return null;
             if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
                 return this.feedHandler.GetFeedInfo(feedUrl);
@@ -2536,7 +2536,7 @@ namespace RssBandit
                 ListViewLayout oldLayout;
                 foreach (feedsFeed f in feedHandler.FeedsTable.Values)
                 {
-                    if (StringHelper.EmptyOrNull(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
+                    if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
                         continue;
                     try
                     {
@@ -2573,7 +2573,7 @@ namespace RssBandit
 
                 foreach (category c in feedHandler.Categories.Values)
                 {
-                    if (StringHelper.EmptyOrNull(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
+                    if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
                         continue;
                     try
                     {
@@ -2614,7 +2614,7 @@ namespace RssBandit
                 feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
                 feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
 
-                if (!StringHelper.EmptyOrNull(feedHandler.FeedColumnLayout))
+                if (!string.IsNullOrEmpty(feedHandler.FeedColumnLayout))
                     try
                     {
                         oldLayout = ListViewLayout.CreateFromXML(feedHandler.FeedColumnLayout);
@@ -3083,7 +3083,7 @@ namespace RssBandit
             //validate  refresh rate before setting
             try
             {
-                if (!StringHelper.EmptyOrNull(propertiesDialog.comboRefreshRate.Text))
+                if (!string.IsNullOrEmpty(propertiesDialog.comboRefreshRate.Text))
                 {
                     this.refreshRate = Int32.Parse(propertiesDialog.comboRefreshRate.Text)*MilliSecsMultiplier;
                     feedHandler.RefreshRate = this.refreshRate;
@@ -3403,7 +3403,7 @@ namespace RssBandit
 
                 if (p.ProxyCustomCredentials)
                 {
-                    if (!StringHelper.EmptyOrNull(p.ProxyUser))
+                    if (!string.IsNullOrEmpty(p.ProxyUser))
                     {
                         proxy.Credentials = NewsHandler.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
 
@@ -3512,8 +3512,8 @@ namespace RssBandit
             // have to be migrated from Preferences to the default UserIdentity
 
             // Obsolete() warnings can be ignored for that function.
-            if (!StringHelper.EmptyOrNull(this.Preferences.UserName) &&
-                StringHelper.EmptyOrNull(this.Preferences.UserIdentityForComments))
+            if (!string.IsNullOrEmpty(this.Preferences.UserName) &&
+                string.IsNullOrEmpty(this.Preferences.UserIdentityForComments))
             {
                 if (!this.feedHandler.UserIdentity.ContainsKey(this.Preferences.UserName))
                 {
@@ -4056,7 +4056,7 @@ namespace RssBandit
 
             string layout = feedHandler.GetFeedColumnLayout(feedUrl);
 
-            if (StringHelper.EmptyOrNull(layout))
+            if (string.IsNullOrEmpty(layout))
                 return GlobalFeedColumnLayout;
             else if (feedHandler.ColumnLayouts.ContainsKey(layout))
                 return feedHandler.ColumnLayouts.GetByKey(layout);
@@ -4071,7 +4071,7 @@ namespace RssBandit
 
         public void SetFeedColumnLayout(string feedUrl, FeedColumnLayout layout)
         {
-            if (StringHelper.EmptyOrNull(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl))
                 return;
 
             if (layout == null)
@@ -4088,7 +4088,7 @@ namespace RssBandit
             string key = feedHandler.GetFeedColumnLayout(feedUrl);
             FeedColumnLayout global = GlobalFeedColumnLayout;
 
-            if (StringHelper.EmptyOrNull(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
@@ -4170,7 +4170,7 @@ namespace RssBandit
             string layout;
             layout = feedHandler.GetCategoryFeedColumnLayout(category);
 
-            if (StringHelper.EmptyOrNull(layout))
+            if (string.IsNullOrEmpty(layout))
                 return GlobalCategoryColumnLayout;
             else if (feedHandler.ColumnLayouts.ContainsKey(layout))
                 return feedHandler.ColumnLayouts.GetByKey(layout);
@@ -4185,7 +4185,7 @@ namespace RssBandit
 
         public void SetCategoryColumnLayout(string category, FeedColumnLayout layout)
         {
-            if (StringHelper.EmptyOrNull(category))
+            if (string.IsNullOrEmpty(category))
                 return;
 
             if (layout == null)
@@ -4202,7 +4202,7 @@ namespace RssBandit
             string key = feedHandler.GetCategoryFeedColumnLayout(category);
             FeedColumnLayout global = GlobalCategoryColumnLayout;
 
-            if (StringHelper.EmptyOrNull(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
@@ -4403,7 +4403,7 @@ namespace RssBandit
             {
                 string s = dialog.FeedsUrlOrFile;
                 string cat = (dialog.FeedCategory ?? String.Empty);
-                if (!StringHelper.EmptyOrNull(s))
+                if (!string.IsNullOrEmpty(s))
                 {
                     Stream myStream;
                     if (File.Exists(s))
@@ -4481,7 +4481,7 @@ namespace RssBandit
 
         internal void DeleteFeed(string url)
         {
-            if (StringHelper.EmptyOrNull(url))
+            if (string.IsNullOrEmpty(url))
                 return;
 
             // was possibly an error causing feed:
@@ -4913,7 +4913,7 @@ namespace RssBandit
                     this.watchedItemsFeed.Items.Remove(theItem);
                 }
 
-                if (!StringHelper.EmptyOrNull(theItem.CommentRssUrl) &&
+                if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
                     this.commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
                 {
                     this.commentFeedsHandler.DeleteFeed(theItem.CommentRssUrl);
@@ -4943,7 +4943,7 @@ namespace RssBandit
                     this.watchedItemsFeed.Add(watchedItem);
                 }
 
-                if (!StringHelper.EmptyOrNull(theItem.CommentRssUrl) &&
+                if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
                     !commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
                 {
                     feedsFeed f = new feedsFeed();
@@ -4959,7 +4959,7 @@ namespace RssBandit
                     f.replaceitemsonrefresh = f.replaceitemsonrefreshSpecified = true;
 
                     // set feedsFeed new credentials
-                    if (!StringHelper.EmptyOrNull(theItem.Feed.authUser))
+                    if (!string.IsNullOrEmpty(theItem.Feed.authUser))
                     {
                         string u = null, p = null;
 
@@ -4986,7 +4986,7 @@ namespace RssBandit
 
             this.watchedItemsFeed.Modified = true;
 
-            if (!StringHelper.EmptyOrNull(theItem.Feed.link))
+            if (!string.IsNullOrEmpty(theItem.Feed.link))
             {
                 this.FeedWasModified(theItem.Feed, NewsFeedProperty.FeedItemWatchComments);
             }
@@ -5151,12 +5151,12 @@ namespace RssBandit
                 item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfDeletedItem);
             }
 
-            if (StringHelper.EmptyOrNull(containerFeedUrl))
+            if (string.IsNullOrEmpty(containerFeedUrl))
             {
                 containerFeedUrl = item.Feed.link;
             }
 
-            if (StringHelper.EmptyOrNull(containerFeedUrl))
+            if (string.IsNullOrEmpty(containerFeedUrl))
             {
                 _log.Error("Cannot restore item: feed link missing.");
                 return null;
@@ -5248,7 +5248,7 @@ namespace RssBandit
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
         public void PublishXmlFeedError(Exception e, feedsFeed f, bool updateNodeIcon)
         {
-            if (f != null && !StringHelper.EmptyOrNull(f.link))
+            if (f != null && !string.IsNullOrEmpty(f.link))
             {
                 this.PublishXmlFeedError(e, f.link, updateNodeIcon);
             }
@@ -6286,14 +6286,14 @@ namespace RssBandit
         /// <returns>Value read or defaultValue</returns>
         public static object ReadAppSettingsEntry(string name, Type entryType, object defaultValue)
         {
-            if (StringHelper.EmptyOrNull(name))
+            if (string.IsNullOrEmpty(name))
                 return defaultValue;
 
             if (entryType == null)
                 throw new ArgumentNullException("entryType");
 
             string value = ConfigurationManager.AppSettings[name];
-            if (!StringHelper.EmptyOrNull(value))
+            if (!string.IsNullOrEmpty(value))
             {
                 if (entryType == typeof (bool))
                 {
@@ -6347,7 +6347,7 @@ namespace RssBandit
             if (attributes.Length > 0)
             {
                 string ad = ((AssemblyInformationalVersionAttribute) attributes[0]).InformationalVersion;
-                if (!StringHelper.EmptyOrNull(ad))
+                if (!string.IsNullOrEmpty(ad))
                     return ad;
             }
             return String.Empty;
@@ -6914,13 +6914,13 @@ namespace RssBandit
 
 			if(autoDiscoverFeedsDialog.DialogResult == DialogResult.OK) {														
 
-				if(!autoDiscoverFeedsDialog.IsKeywordSearch && StringHelper.EmptyOrNull(autoDiscoverFeedsDialog.WebpageUrl)) {
+				if(!autoDiscoverFeedsDialog.IsKeywordSearch && string.IsNullOrEmpty(autoDiscoverFeedsDialog.WebpageUrl)) {
 					this.MessageError("RES_GUIFieldWebUrlInvalid");
 					autoDiscoverFeedsDialog.Close(); 
 					return; 
 				}
 
-				if(autoDiscoverFeedsDialog.IsKeywordSearch && StringHelper.EmptyOrNull(autoDiscoverFeedsDialog.Keywords)) {
+				if(autoDiscoverFeedsDialog.IsKeywordSearch && string.IsNullOrEmpty(autoDiscoverFeedsDialog.Keywords)) {
 					this.MessageError("RES_GUIFieldKeywordsInvalid");
 					autoDiscoverFeedsDialog.Close(); 
 					return; 
@@ -7061,7 +7061,7 @@ namespace RssBandit
         public void CmdUpdateFeed(ICommand sender)
         {
             string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
-            if (!StringHelper.EmptyOrNull(feedUrl))
+            if (!string.IsNullOrEmpty(feedUrl))
             {
                 this.feedHandler.AsyncGetItemsForFeed(feedUrl, true, true);
             }
@@ -7126,7 +7126,7 @@ namespace RssBandit
         /// <param name="feedLink">Feed link</param>
         public void CmdValidateFeed(string feedLink)
         {
-            if (!StringHelper.EmptyOrNull(feedLink))
+            if (!string.IsNullOrEmpty(feedLink))
             {
                 this.NavigateToUrlAsUserPreferred(validationUrlBase + HttpUtility.UrlEncode(feedLink),
                                                   SR.TabValidationResultCaption, true, true);
@@ -7150,7 +7150,7 @@ namespace RssBandit
         /// <param name="feedLink">Feed link</param>
         public void CmdNavigateFeedHome(string feedLink)
         {
-            if (!StringHelper.EmptyOrNull(feedLink))
+            if (!string.IsNullOrEmpty(feedLink))
             {
                 IFeedDetails feedInfo = feedHandler.GetFeedInfo(feedLink);
 
@@ -7178,7 +7178,7 @@ namespace RssBandit
         /// <param name="feedLink">Feed link</param>
         public void CmdNavigateFeedLinkCosmos(string feedLink)
         {
-            if (!StringHelper.EmptyOrNull(feedLink))
+            if (!string.IsNullOrEmpty(feedLink))
             {
                 IFeedDetails feedInfo = feedHandler.GetFeedInfo(feedLink);
                 if (feedInfo != null)
@@ -7483,7 +7483,7 @@ namespace RssBandit
 
                     try
                     {
-                        if ((!StringHelper.EmptyOrNull(propertiesDialog.comboBox1.Text.Trim())))
+                        if ((!string.IsNullOrEmpty(propertiesDialog.comboBox1.Text.Trim())))
                         {
                             Int32 intIn = Int32.Parse(propertiesDialog.comboBox1.Text.Trim());
                             changes |= NewsFeedProperty.FeedRefreshRate;
@@ -7550,7 +7550,7 @@ namespace RssBandit
                     {
                         // set feedsFeed new credentials
                         string u = propertiesDialog.textUser.Text.Trim(), p = null;
-                        if (!StringHelper.EmptyOrNull(propertiesDialog.textPwd.Text))
+                        if (!string.IsNullOrEmpty(propertiesDialog.textPwd.Text))
                             p = propertiesDialog.textPwd.Text.Trim();
                         NewsHandler.SetFeedCredentials(f, u, p);
                         changes |= NewsFeedProperty.FeedCredentials;
@@ -7705,7 +7705,7 @@ namespace RssBandit
 
                     try
                     {
-                        if ((!StringHelper.EmptyOrNull(propertiesDialog.comboBox1.Text.Trim())))
+                        if ((!string.IsNullOrEmpty(propertiesDialog.comboBox1.Text.Trim())))
                         {
                             Int32 intIn = Int32.Parse(propertiesDialog.comboBox1.Text.Trim());
                             if (intIn <= 0)
@@ -7992,7 +7992,7 @@ namespace RssBandit
 
                 if (appInstance.HandleCommandLineArgs(args))
                 {
-                    if (! StringHelper.EmptyOrNull(appInstance.commandLineOptions.LocalCulture))
+                    if (! string.IsNullOrEmpty(appInstance.commandLineOptions.LocalCulture))
                     {
                         try
                         {
@@ -8208,7 +8208,7 @@ namespace RssBandit
                 if (!prth.OperationSucceeds)
                 {
                     this.MessageError(SR.ExceptionPostReplyToNewsItem(
-                                          (StringHelper.EmptyOrNull(item2reply.Title)
+                                          (string.IsNullOrEmpty(item2reply.Title)
                                                ? item2reply.Link
                                                : item2reply.Title),
                                           prth.OperationException.Message));
@@ -8261,7 +8261,7 @@ namespace RssBandit
                 if (!prth.OperationSucceeds)
                 {
                     this.MessageError(SR.ExceptionPostNewFeedItem(
-                                          (StringHelper.EmptyOrNull(item2post.Title) ? f.link : item2post.Title),
+                                          (string.IsNullOrEmpty(item2post.Title) ? f.link : item2post.Title),
                                           prth.OperationException.Message));
                     return;
                 }
@@ -8362,7 +8362,7 @@ namespace RssBandit
                 set
                 {
                     localCulture = value;
-                    if (StringHelper.EmptyOrNull(localCulture))
+                    if (string.IsNullOrEmpty(localCulture))
                     {
                         localCulture = String.Empty;
                     }
@@ -8648,7 +8648,7 @@ namespace RssBandit
         public bool SubscribeToFeed(string url, string category, string title)
         {
             WizardMode mode = WizardMode.Default;
-            if (! StringHelper.EmptyOrNull(url))
+            if (! string.IsNullOrEmpty(url))
             {
                 mode = WizardMode.SubscribeURLDirect;
                 if (RssHelper.IsNntpUrl(url))
@@ -8754,11 +8754,11 @@ namespace RssBandit
                 feedHandler.Categories.Add(f.category);
             }
 
-            if (!StringHelper.EmptyOrNull(wiz.FeedCredentialUser))
+            if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))
             {
                 // set feedsFeed new credentials
                 string u = wiz.FeedCredentialUser, p = null;
-                if (!StringHelper.EmptyOrNull(wiz.FeedCredentialPwd))
+                if (!string.IsNullOrEmpty(wiz.FeedCredentialPwd))
                     p = wiz.FeedCredentialPwd;
                 NewsHandler.SetFeedCredentials(f, u, p);
             }
@@ -8864,7 +8864,7 @@ namespace RssBandit
 
         IList ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer)
         {
-            if (! StringHelper.EmptyOrNull(nntpServerName) &&
+            if (! string.IsNullOrEmpty(nntpServerName) &&
                 this.NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName))
             {
                 INntpServerDefinition sd = this.NntpServerManager.CurrentNntpServers[nntpServerName];
@@ -8967,7 +8967,7 @@ namespace RssBandit
         /// <param name="url">Url to navigate to</param>
         public void NavigateToUrlInExternalBrowser(string url)
         {
-            if (StringHelper.EmptyOrNull(url))
+            if (string.IsNullOrEmpty(url))
                 url = "about:blank";
             try
             {
