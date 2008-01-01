@@ -5667,7 +5667,7 @@ namespace NewsComponents
                         AsyncWebRequest.QueueRequest(reqParam,
                                                      null /* new RequestQueuedCallback(this.OnRequestQueued) */,
                                                      null /* new RequestStartCallback(this.OnRequestStart) */,
-                                                     this.OnFaviconRequestComplete,
+                                                     OnFaviconRequestComplete,
                                                      null /* new RequestExceptionCallback(this.OnRequestException) */,
                                                      100 /* priority*/);
 
