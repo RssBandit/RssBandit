@@ -516,8 +516,9 @@ namespace RssBandit
 
         internal void CheckAndLoadAddIns()
         {
-            IAddInCollection addIns = this.addInManager.AddIns;
-            if (addIns == null || addIns.Count == 0)
+            IEnumerable<IAddIn> addIns = this.addInManager.AddIns;
+
+            if (addIns == null)
                 return;
             foreach (IAddIn addIn in addIns)
             {
@@ -546,8 +547,8 @@ namespace RssBandit
         /// </summary>
         internal void UnloadAddIns()
         {
-            IAddInCollection addIns = this.addInManager.AddIns;
-            if (addIns == null || addIns.Count == 0)
+            IEnumerable<IAddIn> addIns = this.addInManager.AddIns;
+            if (addIns == null)
                 return;
             foreach (IAddIn addIn in addIns)
             {

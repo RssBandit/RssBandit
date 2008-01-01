@@ -484,9 +484,9 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		protected void InitFilter() {
-			_filterManager = new NewsItemFilterManager(this);
+			_filterManager = new NewsItemFilterManager();
 			_filterManager.Add("NewsItemReferrerFilter", new NewsItemReferrerFilter(owner));
-			_filterManager.Add("NewsItemFlagFilter", new NewsItemFlagFilter(owner));
+			_filterManager.Add("NewsItemFlagFilter", new NewsItemFlagFilter());
 		}
 
 		#endregion

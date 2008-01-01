@@ -1,4 +1,5 @@
 #region Version Info Header
+
 /*
  * $Id$
  * $HeadURL$
@@ -6,31 +7,32 @@
  * Last modified at $Date$
  * $Revision$
  */
-#endregion
 
+#endregion
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-
 using NewsComponents.Collections;
 using NewsComponents.News;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
 using NewsComponents.Feed;
-
 using RC = NewsComponents.RelationCosmos;
 
-namespace NewsComponents {
-
+namespace NewsComponents
+{
     /// <summary>
     /// Item flag states
     /// </summary>
-    public enum Flagged {
+    public enum Flagged
+    {
         /// <summary>Not flagged</summary>
         None,
         /// <summary>Flagged for follow up</summary>
@@ -50,8 +52,9 @@ namespace NewsComponents {
     /// <summary>
     /// Supported comment styles.
     /// </summary>
-    [Flags]//TODO: Dare, why is this a Flags enum?
-    public enum SupportedCommentStyle {
+    [Flags] //TODO: Dare, why is this a Flags enum?
+    public enum SupportedCommentStyle
+    {
         /// <summary>
         /// Undefined or None.
         /// </summary>
@@ -72,7 +75,8 @@ namespace NewsComponents {
     /// Used on the overloaded ToString() method of the NewsItem to indicate what 
     /// format the NewsItem should be written out as when converted to a string.
     /// </summary>
-    public enum NewsItemSerializationFormat {
+    public enum NewsItemSerializationFormat
+    {
         /// <summary>
         /// Indicates that the NewsItem should be written out as an Rss item element. 
         /// </summary>
@@ -101,12 +105,12 @@ namespace NewsComponents {
     /// <summary>
     /// Represents an RSS enclosure
     /// </summary>
-    public class Enclosure {
-
-        private string mimeType;
-        private long length;
+    public class Enclosure
+    {
+        private readonly string mimeType;
+        private readonly long length;
         private TimeSpan duration;
-        private string url;
+        private readonly string url;
         private string description;
         private bool downloaded;
 
@@ -117,58 +121,92 @@ namespace NewsComponents {
         /// <param name="length">The length of the enclosure in bytes</param>
         /// <param name="url">The URL of the enclosure</param>
         /// <param name="description">The description.</param>
-        public Enclosure(string mimeType, long length, string url, string description) {
+        public Enclosure(string mimeType, long length, string url, string description)
+        {
             this.length = length;
             this.mimeType = mimeType;
             this.url = url;
             this.description = description;
-            this.downloaded = false;
-            this.Duration = TimeSpan.MinValue;
+            downloaded = false;
+            Duration = TimeSpan.MinValue;
         }
 
         /// <summary>
         /// The MIME type of the enclosure
         /// </summary>
-        public string MimeType {
-            get { return mimeType; }
+        public string MimeType
+        {
+            get
+            {
+                return mimeType;
+            }
         }
 
         /// <summary>
         /// The length of the enclosure in bytes
         /// </summary>
-        public long Length {
-            get { return length; }
+        public long Length
+        {
+            get
+            {
+                return length;
+            }
         }
 
         /// <summary>
         /// The MIME type of the enclosure
         /// </summary>
-        public string Url {
-            get { return url; }
+        public string Url
+        {
+            get
+            {
+                return url;
+            }
         }
 
         /// <summary>
         /// The description associated with the item obtained via itunes:subtitle or media:title
         /// </summary>
-        public string Description {
-            get { return description; }
-            set { description = value; }
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+            set
+            {
+                description = value;
+            }
         }
 
         /// <summary>
         /// Indicates whether this enclosure has already been downloaded or not.
         /// </summary>
-        public bool Downloaded {
-            get { return downloaded; }
-            set { downloaded = value; }
+        public bool Downloaded
+        {
+            get
+            {
+                return downloaded;
+            }
+            set
+            {
+                downloaded = value;
+            }
         }
 
         /// <summary>
         /// Gets the playing time of the enclosure. 
         /// </summary>
-        public TimeSpan Duration {
-            get { return duration; }
-            set { duration = value; }
+        public TimeSpan Duration
+        {
+            get
+            {
+                return duration;
+            }
+            set
+            {
+                duration = value;
+            }
         }
 
 
@@ -178,17 +216,26 @@ namespace NewsComponents {
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(Object obj) {
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
 
-            if (Object.ReferenceEquals(this, obj)) { return true; }
+            try
+            {
+                Enclosure item = (Enclosure) obj;
 
-            try {
-                Enclosure item = (Enclosure)obj;
-
-                if (String.Compare(this.Url, item.Url) == 0) {
+                if (String.Compare(Url, item.Url) == 0)
+                {
                     return true;
                 }
-            } catch (InvalidCastException) { ;}
+            }
+            catch (InvalidCastException)
+            {
+                ;
+            }
 
             return false;
         }
@@ -197,15 +244,17 @@ namespace NewsComponents {
         /// Get the hash code of the object
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode() {
-            
-            if (string.IsNullOrEmpty(this.Url)) {
+        public override int GetHashCode()
+        {
+            if (string.IsNullOrEmpty(Url))
+            {
                 return String.Empty.GetHashCode();
-            } else {
-                return this.Url.GetHashCode();
+            }
+            else
+            {
+                return Url.GetHashCode();
             }
         }
-
     }
 
     /// <summary>
@@ -213,33 +262,45 @@ namespace NewsComponents {
     /// </summary>
     public class NewsItem : RelationBase<NewsItem>, INewsItem, ISizeInfo
     {
-
-
         /// <summary>
         /// Gets the Feed Link (Source Url)
         /// </summary>
-        public string FeedLink {
-            [System.Diagnostics.DebuggerStepThrough]
-            get {
+        public string FeedLink
+        {
+            [DebuggerStepThrough]
+            get
+            {
                 if (p_feed != null)
                     return p_feed.link;
                 return null;
             }
         }
+
         /// <summary>
         /// The link to the item.
         /// </summary>
-        public string Link {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return base.hReference; }
+        public string Link
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return HRef;
+            }
         }
 
         /// <summary>
         /// The date the article or blog entry was made. 
         /// </summary>
-        public DateTime Date {
-            get { return base.aPointInTime; }
-            set { base.PointInTime = value; }
+        public DateTime Date
+        {
+            get
+            {
+                return aPointInTime;
+            }
+            set
+            {
+                base.PointInTime = value;
+            }
         }
 
 
@@ -249,52 +310,74 @@ namespace NewsComponents {
         //		/// </summary>
         //		public string Id { get { return p_id; } }
 
-        protected feedsFeed p_feed;		// owner
+        protected feedsFeed p_feed; // owner
+
         /// <summary>
         /// Returns the feed object to which this item belongs
         /// </summary>
-        public feedsFeed Feed { get { return p_feed; } }
+        public feedsFeed Feed
+        {
+            get
+            {
+                return p_feed;
+            }
+        }
 
         private string p_title;
 
-        private string p_parentId;
+        private readonly string p_parentId;
+
         /// <summary>
         /// The unique identifier of the parent.
         /// </summary>
-        public string ParentId { get { return p_parentId; } }
+        public string ParentId
+        {
+            get
+            {
+                return p_parentId;
+            }
+        }
 
         private string p_author;
 
 
         private byte[] p_content;
+
         /// <summary>
         /// The content of the article or blog entry. 
         /// </summary>
-        public string Content {
-            get {
+        public string Content
+        {
+            get
+            {
                 return p_content != null ? Encoding.UTF8.GetString(p_content) : null;
-
             }
         }
 
-        void INewsItem.SetContent(string newContent, ContentType contentType) {
-            this.SetContent(newContent, contentType);
+        void INewsItem.SetContent(string newContent, ContentType contentType)
+        {
+            SetContent(newContent, contentType);
         }
 
-        internal byte[] GetContent() {
+        internal byte[] GetContent()
+        {
             return p_content;
         }
 
-        internal void SetContent(byte[] newContent, ContentType contentType) {
-            if (newContent != null) {
+        internal void SetContent(byte[] newContent, ContentType contentType)
+        {
+            if (newContent != null)
+            {
                 p_content = newContent;
                 p_contentType = contentType;
                 return;
             }
         }
 
-        internal void SetContent(string newContent, ContentType contentType) {
-            if (string.IsNullOrEmpty(newContent)) {
+        internal void SetContent(string newContent, ContentType contentType)
+        {
+            if (string.IsNullOrEmpty(newContent))
+            {
                 p_content = null;
                 p_contentType = ContentType.None;
                 return;
@@ -311,27 +394,47 @@ namespace NewsComponents {
         /// (Content != null &amp;&amp; Content.Length > 0) and is equivalent to 
         /// .ContentType == ContentType.None
         /// </remarks>
-        public bool HasContent {
-            get { return (p_contentType != ContentType.None); }
+        public bool HasContent
+        {
+            get
+            {
+                return (p_contentType != ContentType.None);
+            }
         }
 
 
         protected ContentType p_contentType = ContentType.None;
+
         /// <summary>
         /// Indicates whether the description on this feed is text, HTML or XHTML. 
         /// </summary>
-        public ContentType ContentType {
-            get { return p_contentType; }
-            set { p_contentType = value; }
+        public ContentType ContentType
+        {
+            get
+            {
+                return p_contentType;
+            }
+            set
+            {
+                p_contentType = value;
+            }
         }
 
         protected bool p_beenRead = false;
+
         /// <summary>
         /// Indicates whether the story has been read or not. 
         /// </summary>
-        public bool BeenRead {
-            get { return p_beenRead; }
-            set { p_beenRead = value; }
+        public bool BeenRead
+        {
+            get
+            {
+                return p_beenRead;
+            }
+            set
+            {
+                p_beenRead = value;
+            }
         }
 
         protected IFeedDetails feedInfo;
@@ -339,19 +442,33 @@ namespace NewsComponents {
         /// <summary>
         /// Returns an object implementing the FeedDetails interface to which this item belongs
         /// </summary>
-        public IFeedDetails FeedDetails {
-
-            get { return feedInfo; }
-            set { feedInfo = value; }
+        public IFeedDetails FeedDetails
+        {
+            get
+            {
+                return feedInfo;
+            }
+            set
+            {
+                feedInfo = value;
+            }
         }
 
         protected Flagged p_flagStatus = Flagged.None;
+
         /// <summary>
         /// Indicates whether the item has been flagged for follow up or not. 
         /// </summary>
-        public Flagged FlagStatus {
-            get { return p_flagStatus; }
-            set { p_flagStatus = value; }
+        public Flagged FlagStatus
+        {
+            get
+            {
+                return p_flagStatus;
+            }
+            set
+            {
+                p_flagStatus = value;
+            }
         }
 
         protected bool p_hasNewComments;
@@ -359,9 +476,16 @@ namespace NewsComponents {
         /// <summary>
         /// Indicates that there are new comments to this item. 
         /// </summary>
-        public bool HasNewComments {
-            get { return p_hasNewComments; }
-            set { p_hasNewComments = value; }
+        public bool HasNewComments
+        {
+            get
+            {
+                return p_hasNewComments;
+            }
+            set
+            {
+                p_hasNewComments = value;
+            }
         }
 
         protected bool p_watchComments;
@@ -369,9 +493,16 @@ namespace NewsComponents {
         /// <summary>
         /// Indicates that comments to this item are being watched. 
         /// </summary>
-        public bool WatchComments {
-            get { return p_watchComments; }
-            set { p_watchComments = value; }
+        public bool WatchComments
+        {
+            get
+            {
+                return p_watchComments;
+            }
+            set
+            {
+                p_watchComments = value;
+            }
         }
 
         protected string p_language;
@@ -384,22 +515,33 @@ namespace NewsComponents {
         /// see http://www.ietf.org/rfc/rfc3066.txt
         /// </summary>
         /// <value>The language.</value>
-        public string Language {
-            get {
-                if (string.IsNullOrEmpty(p_language) && (this.feedInfo != null)) {
-                    return this.feedInfo.Language;
-                } else {
+        public string Language
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(p_language) && (feedInfo != null))
+                {
+                    return feedInfo.Language;
+                }
+                else
+                {
                     return p_language;
                 }
             }
-            set { p_language = value; }
+            set
+            {
+                p_language = value;
+            }
         }
 
 
         /// <summary>
         /// An RSS item must always be initialized on construction.
         /// </summary>
-        protected NewsItem() { ;}
+        protected NewsItem()
+        {
+            ;
+        }
 
 
         /// <summary>
@@ -414,7 +556,8 @@ namespace NewsComponents {
         /// <param name="subject">The topic of the article or blog entry.</param>
         public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject)
             :
-            this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), link, null) {
+                this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), link, null)
+        {
         }
 
 
@@ -429,11 +572,12 @@ namespace NewsComponents {
         /// <param name="date">Date of the newsgroup message</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The ID of the message this one is in response to</param>
-        public NewsItem(feedsFeed feed, string title, string link, string content, string author, DateTime date, string id, string parentId)
+        public NewsItem(feedsFeed feed, string title, string link, string content, string author, DateTime date,
+                        string id, string parentId)
             :
-            this(feed, title, link, content, date, null, ContentType.Text, null, id, parentId) {
-
-            this.p_author = author;
+                this(feed, title, link, content, date, null, ContentType.Text, null, id, parentId)
+        {
+            p_author = author;
         }
 
         /// <summary>
@@ -448,9 +592,11 @@ namespace NewsComponents {
         /// <param name="subject">The topic of the article or blog entry.</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The ID of the message this one is in response to</param>		
-        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, string id, string parentId)
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject,
+                        string id, string parentId)
             :
-            this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), id, parentId) {
+                this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), id, parentId)
+        {
         }
 
         /// <summary>
@@ -467,13 +613,14 @@ namespace NewsComponents {
         /// don't map to properties on this class.</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>
-        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId)
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject,
+                        ContentType ctype, Hashtable otherElements, string id, string parentId)
             :
-        this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, link) {
-
+                this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, link)
+        {
         }
 
-             /// <summary>
+        /// <summary>
         /// Initializes an object representation of an RSS item. 
         /// </summary>
         /// <param name="feed">The RSS feed object this item belongs to.</param>
@@ -488,8 +635,12 @@ namespace NewsComponents {
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
-        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) :
-            this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null){
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject,
+                        ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) :
+                            this(
+                            feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null
+                            )
+        {
         }
 
         /// <summary>
@@ -508,20 +659,24 @@ namespace NewsComponents {
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         /// <param name="outgoingLinks">Outgoing hyperlinks from the HTML content of this item</param>
-        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject, ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl, List<string> outgoingLinks) {
-
-            this.OptionalElements = otherElements;
+        public NewsItem(feedsFeed feed, string title, string link, string content, DateTime date, string subject,
+                        ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl,
+                        List<string> outgoingLinks)
+        {
+            OptionalElements = otherElements;
 
             p_feed = feed;
             p_title = title;
-            base.hReference = (link != null ? link.Trim() : null);
+            HRef = (link != null ? link.Trim() : null);
             // fix relative item link url:
-            base.hReference = HtmlHelper.ConvertToAbsoluteUrl(base.hReference, baseUrl);
+            HRef = HtmlHelper.ConvertToAbsoluteUrl(HRef, baseUrl);
 
             //escape commonly occuring entities and remove CDATA sections					      
-            if (content != null) {
-
-                if (content.StartsWith("<![CDATA[")) {			// true, if it is loaded from cache
+            if (content != null)
+            {
+                if (content.StartsWith("<![CDATA["))
+                {
+                    // true, if it is loaded from cache
                     content = content.Replace("<![CDATA[", String.Empty).Replace("]]>", String.Empty);
                 }
 
@@ -532,21 +687,21 @@ namespace NewsComponents {
                 //description = description.Replace("<?xml:namespace", "<p").Replace("&lt;?xml:namespace", "&lt;p"); 
                 //description = description.Replace("<?XML:NAMESPACE", "<p").Replace("&lt;?XML:NAMESPACE", "&lt;p"); 
                 //description = description.Replace("o:", "").Replace("st1:", "").Replace("st2:", "");  
-
             }
 
             //make sure we have a title
-            this.ProcessTitle(content);
+            ProcessTitle(content);
 
             content = HtmlHelper.ExpandRelativeUrls(content, baseUrl);
-            this.SetContent(content, ctype);
+            SetContent(content, ctype);
 
             p_id = id;
 
             // now check for a valid identifier (needed to remember read stories)
-            if (p_id == null) {
+            if (p_id == null)
+            {
                 int hc = (p_title != null ? p_title.GetHashCode() : 0) +
-                    (this.HasContent ? this.Content.GetHashCode() : 0);
+                         (HasContent ? Content.GetHashCode() : 0);
                 p_id = hc.ToString();
             }
 
@@ -555,39 +710,40 @@ namespace NewsComponents {
             base.PointInTime = date;
             this.subject = subject;
 
-			if (outgoingLinks != null)
-				this.OutGoingLinks = outgoingLinks; 
+            if (outgoingLinks != null)
+                OutGoingLinks = outgoingLinks;
 
-            if (NewsHandler.buildRelationCosmos) {
-
-                if (outgoingLinks == null) {
-                    this.ProcessOutGoingLinks(content);
+            if (NewsHandler.buildRelationCosmos)
+            {
+                if (outgoingLinks == null)
+                {
+                    ProcessOutGoingLinks(content);
                 }
 
-                bool idEqHref = Object.ReferenceEquals(base.hReference, p_id);
+                bool idEqHref = ReferenceEquals(HRef, p_id);
 
-                if (null != base.hReference)
-                    base.hReference = RC.RelationCosmos.UrlTable.Add(base.hReference);
+                if (null != HRef)
+                    HRef = RelationCosmos.RelationCosmos.UrlTable.Add(HRef);
 
                 if (idEqHref)
-                    p_id = base.hReference;
+                    p_id = HRef;
                 else
-                    p_id = RC.RelationCosmos.UrlTable.Add(p_id);
+                    p_id = RelationCosmos.RelationCosmos.UrlTable.Add(p_id);
 
-                if (null != p_parentId && p_parentId.Length > 0) {
+                if (null != p_parentId && p_parentId.Length > 0)
+                {
                     // dealing with the relationcosmos string comparer (references only!):
-                    string p_parentIdUrl = RC.RelationCosmos.UrlTable.Add(
+                    string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
                         NntpParser.CreateGoogleUrlFromID(p_parentId));
 
-                    if(Object.ReferenceEquals(this.outgoingRelationships, GetList<string>.Empty)){
-                        outgoingRelationships = new List<string>(1); 
+                    if (ReferenceEquals(outgoingRelationships, GetList<string>.Empty))
+                    {
+                        outgoingRelationships = new List<string>(1);
                     }
 
                     outgoingRelationships.Add(p_parentIdUrl);
                 }
-
             }
-
         }
 
 
@@ -610,12 +766,15 @@ namespace NewsComponents {
         /// CommentCount is only be considered, if NewsHandler.UnconditionalCommentRss
         /// is false (default).
         /// </summary>
-        public override bool HasExternalRelations {
-            get {
-                if (!string.IsNullOrEmpty(this.commentRssUrl)) {
+        public override bool HasExternalRelations
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(commentRssUrl))
+                {
                     if (NewsHandler.UnconditionalCommentRss)
                         return true;
-                    if (this.commentCount > 0)
+                    if (commentCount > 0)
                         return true;
                 }
                 return base.HasExternalRelations;
@@ -634,97 +793,141 @@ namespace NewsComponents {
                 NewsHandler.RelationCosmosRemoveRange(relations);
             }
             NewsHandler.RelationCosmosAddRange(relations);
-            
+
             base.SetExternalRelations(relations);
         }
 
         /// <summary>
         /// The author of the article or blog entry 
         /// </summary>
-        public string Author {
-            get {
-                if (this.FeedDetails.Type == FeedType.Rss) {
+        public string Author
+        {
+            get
+            {
+                if (FeedDetails.Type == FeedType.Rss)
+                {
                     // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                     // internally we use the unexpanded version to work with
                     string t = HtmlHelper.StripAnyTags(p_author);
-                    if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0) {
+                    if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
+                    {
                         //t = System.Web.HttpUtility.HtmlDecode(t);
                         t = HtmlHelper.HtmlDecode(t);
                     }
                     return t;
-
-                } else {
+                }
+                else
+                {
                     return p_author;
                 }
             }
-            set { p_author = value; }
+            set
+            {
+                p_author = value;
+            }
         }
 
 
         /// <summary>
         /// The title of the article or blog entry. 
         /// </summary>
-        public string Title {
-            get {
+        public string Title
+        {
+            get
+            {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                string t = HtmlHelper.StripAnyTags(this.p_title);
-                if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0) {
+                string t = HtmlHelper.StripAnyTags(p_title);
+                if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
+                {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
                     t = HtmlHelper.HtmlDecode(t);
                 }
                 return t.Trim();
             }
-            set {
-                this.p_title = (value == null ? String.Empty : value);
+            set
+            {
+                p_title = (value ?? String.Empty);
             }
         }
 
         /// <summary>
         /// The subject of the article or blog entry. 
         /// </summary>
-        public string Subject {
-            get {
+        public string Subject
+        {
+            get
+            {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                string t = HtmlHelper.StripAnyTags(this.subject);
-                if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0) {
+                string t = HtmlHelper.StripAnyTags(subject);
+                if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
+                {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
                     t = HtmlHelper.HtmlDecode(t);
                 }
                 return t;
             }
-            set {
-                this.subject = (value == null ? String.Empty : value);
+            set
+            {
+                subject = (value ?? String.Empty);
             }
         }
 
         /// <summary>
         /// Indicates whether this item supports posting comments. 
         /// </summary>
-        public SupportedCommentStyle CommentStyle {
-
-            get { return this.commentStyle; }
-            set { this.commentStyle = value; }
+        public SupportedCommentStyle CommentStyle
+        {
+            get
+            {
+                return commentStyle;
+            }
+            set
+            {
+                commentStyle = value;
+            }
         }
+
         /// <summary>
         /// Returns the amount of comments attached.
         /// </summary>
-        public int CommentCount {
-            get { return this.commentCount; }
-            set { this.commentCount = value; }
+        public int CommentCount
+        {
+            get
+            {
+                return commentCount;
+            }
+            set
+            {
+                commentCount = value;
+            }
         }
 
         /// <summary>the URL to post comments to</summary>
-        public string CommentUrl {
-            get { return this.commentUrl; }
-            set { this.commentUrl = value; }
+        public string CommentUrl
+        {
+            get
+            {
+                return commentUrl;
+            }
+            set
+            {
+                commentUrl = value;
+            }
         }
 
         /// <summary>the URL to get an RSS feed of comments from</summary>
-        public string CommentRssUrl {
-            get { return this.commentRssUrl; }
-            set { this.commentRssUrl = value; }
+        public string CommentRssUrl
+        {
+            get
+            {
+                return commentRssUrl;
+            }
+            set
+            {
+                commentRssUrl = value;
+            }
         }
 
 
@@ -732,9 +935,16 @@ namespace NewsComponents {
         /// Container of enclosures on the item. If there are no enclosures on the item
         /// then this value is null. 
         /// </summary>
-        public List<Enclosure> Enclosures {
-            get { return this.enclosures; }
-            set { this.enclosures = value; }
+        public List<Enclosure> Enclosures
+        {
+            get
+            {
+                return enclosures;
+            }
+            set
+            {
+                enclosures = value;
+            }
         }
 
         /// <summary>
@@ -746,42 +956,50 @@ namespace NewsComponents {
         /// <remarks>Setting this field may have the side effect of setting certain read-only 
         /// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
         /// elements are contained in the table.</remarks>
-        public Hashtable OptionalElements {
-
-            get {
-                if (optionalElements == null) {
-                    this.optionalElements = new Hashtable();
+        public Hashtable OptionalElements
+        {
+            get
+            {
+                if (optionalElements == null)
+                {
+                    optionalElements = new Hashtable();
                 }
-                return this.optionalElements;
+                return optionalElements;
             }
 
-            set {
-                this.optionalElements = value;
+            set
+            {
+                optionalElements = value;
                 /*
                 if(value != null){
                     this.ProcessOptionalElements(); 
                 } */
             }
-
         }
 
         /// <summary>
         /// Returns a collection of strings representing URIs to outgoing links in a feed. 
         /// </summary>
-        public List<string> OutGoingLinks {
-
-            get { return base.outgoingRelationships; }
-            internal set { base.outgoingRelationships = value; }
+        public List<string> OutGoingLinks
+        {
+            get
+            {
+                return outgoingRelationships;
+            }
+            internal set
+            {
+                outgoingRelationships = value;
+            }
         }
 
         /// <summary>
         /// Returns a copy of this NewsItem. The OptionalElements is only a shallow copy.
         /// </summary>
         /// <returns>A copy of this NewsItem</returns>
-        public object Clone() {
-
-            NewsItem item = new NewsItem(p_feed, p_title, base.hReference, null, Date, subject, p_id, p_parentId);
-            item.OptionalElements = (Hashtable)OptionalElements.Clone();
+        public object Clone()
+        {
+            NewsItem item = new NewsItem(p_feed, p_title, HRef, null, Date, subject, p_id, p_parentId);
+            item.OptionalElements = (Hashtable) OptionalElements.Clone();
             item.p_beenRead = p_beenRead;
             item.p_author = p_author;
             item.p_flagStatus = p_flagStatus;
@@ -801,8 +1019,9 @@ namespace NewsComponents {
         /// </summary>
         /// <param name="f">feedsFeed</param>
         /// <returns></returns>
-        internal NewsItem CopyTo(feedsFeed f) {
-            NewsItem newItem = (NewsItem)this.Clone();
+        internal NewsItem CopyTo(feedsFeed f)
+        {
+            NewsItem newItem = (NewsItem) Clone();
             newItem.p_feed = f;
             return newItem;
         }
@@ -812,62 +1031,50 @@ namespace NewsComponents {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
-        private void WriteItem(XmlWriter writer, bool useGMTDate) {
-            WriteItem(writer, useGMTDate, NewsItemSerializationFormat.RssItem, false);
-        }
-
-        /// <summary>
-        /// Helper function used by ToString(bool). 
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
-        /// <param name="format">Indicates whether the item is being serialized as part of a FeedDemon newspaper view</param>
-        private void WriteItem(XmlWriter writer, bool useGMTDate, NewsItemSerializationFormat format) {
-            WriteItem(writer, useGMTDate, format, false);
-        }
-
-        /// <summary>
-        /// Helper function used by ToString(bool). 
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
-        /// <param name="format">Indicates whether the item is being serialized as part of a FeedDemon newspaper view</param>
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>						
-        private void WriteItem(XmlWriter writer, bool useGMTDate, NewsItemSerializationFormat format, bool noDescriptions) {
-
+        private void WriteItem(XmlWriter writer, bool useGMTDate, bool noDescriptions)
+        {
             //<item>
             writer.WriteStartElement("item");
 
             // xml:lang attribute
-            if ((p_language != null) && (p_language.Length != 0)) {
+            if ((p_language != null) && (p_language.Length != 0))
+            {
                 writer.WriteAttributeString("xml", "lang", null, p_language);
             }
 
             // <title />
-            if ((p_title != null) && (p_title.Length != 0)) {
+            if ((p_title != null) && (p_title.Length != 0))
+            {
                 writer.WriteElementString("title", p_title);
             }
 
             // <link /> 
-            if ((base.hReference != null) && (base.hReference.Length != 0)) {
-                writer.WriteElementString("link", base.hReference);
+            if ((HRef != null) && (HRef.Length != 0))
+            {
+                writer.WriteElementString("link", HRef);
             }
 
             // <pubDate /> 			we write it with InvariantInfo to get them stored in a non-localized format
-            if (useGMTDate) {
-                writer.WriteElementString("pubDate", this.Date.ToString("r", System.Globalization.DateTimeFormatInfo.InvariantInfo));
-            } else {
-                writer.WriteElementString("pubDate", this.Date.ToLocalTime().ToString("F", System.Globalization.DateTimeFormatInfo.InvariantInfo));
+            if (useGMTDate)
+            {
+                writer.WriteElementString("pubDate", Date.ToString("r", DateTimeFormatInfo.InvariantInfo));
+            }
+            else
+            {
+                writer.WriteElementString("pubDate", Date.ToLocalTime().ToString("F", DateTimeFormatInfo.InvariantInfo));
             }
 
             // <category />
-            if ((this.subject != null) && (this.subject.Length != 0)) {
-                writer.WriteElementString("category", this.subject);
+            if ((subject != null) && (subject.Length != 0))
+            {
+                writer.WriteElementString("category", subject);
             }
 
             //<guid>
-            if ((p_id != null) && (p_id.Length != 0) && (p_id.Equals(base.hReference) == false)) {
+            if ((p_id != null) && (p_id.Length != 0) && (p_id.Equals(HRef) == false))
+            {
                 writer.WriteStartElement("guid");
                 writer.WriteAttributeString("isPermaLink", "false");
                 writer.WriteString(p_id);
@@ -875,53 +1082,57 @@ namespace NewsComponents {
             }
 
             //<dc:creator>
-            if ((this.p_author != null) && (this.p_author.Length != 0)) {
-                writer.WriteElementString("creator", "http://purl.org/dc/elements/1.1/", this.p_author);
+            if ((p_author != null) && (p_author.Length != 0))
+            {
+                writer.WriteElementString("creator", "http://purl.org/dc/elements/1.1/", p_author);
             }
 
             //<annotate:reference>
-            if ((p_parentId != null) && (p_parentId.Length != 0)) {
+            if ((p_parentId != null) && (p_parentId.Length != 0))
+            {
                 writer.WriteStartElement("annotate", "reference", "http://purl.org/rss/1.0/modules/annotate/");
                 writer.WriteAttributeString("rdf", "resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", p_parentId);
                 writer.WriteEndElement();
             }
 
             // Always prefer <description> 
-            if (!noDescriptions && this.HasContent) {
+            if (!noDescriptions && HasContent)
+            {
                 /* if(this.ContentType != ContentType.Xhtml){ */
                 writer.WriteStartElement("description");
-                writer.WriteCData(this.Content);
+                writer.WriteCData(Content);
                 writer.WriteEndElement();
                 /* }else // if(this.contentType == ContentType.Xhtml)  { 
                     writer.WriteStartElement("xhtml", "body",  "http://www.w3.org/1999/xhtml");
                     writer.WriteRaw(this.Content); 
                     writer.WriteEndElement();
                 } */
-
             }
 
             //<wfw:comment />
-            if ((this.commentUrl != null) && (this.commentUrl.Length != 0)) {
-
-                if (this.commentStyle == SupportedCommentStyle.CommentAPI) {
+            if ((commentUrl != null) && (commentUrl.Length != 0))
+            {
+                if (commentStyle == SupportedCommentStyle.CommentAPI)
+                {
                     writer.WriteStartElement("wfw", "comment", RssHelper.NsCommentAPI);
-                    writer.WriteString(this.commentUrl);
+                    writer.WriteString(commentUrl);
                     writer.WriteEndElement();
                 }
             }
 
             //<wfw:commentRss />
-            if ((this.commentRssUrl != null) && (this.commentRssUrl.Length != 0)) {
+            if ((commentRssUrl != null) && (commentRssUrl.Length != 0))
+            {
                 writer.WriteStartElement("wfw", "commentRss", RssHelper.NsCommentAPI);
-                writer.WriteString(this.commentRssUrl);
+                writer.WriteString(commentRssUrl);
                 writer.WriteEndElement();
             }
 
             //<slash:comments>
-            if (this.commentCount != NoComments) {
-
+            if (commentCount != NoComments)
+            {
                 writer.WriteStartElement("slash", "comments", "http://purl.org/rss/1.0/modules/slash/");
-                writer.WriteString(this.commentCount.ToString());
+                writer.WriteString(commentCount.ToString());
                 writer.WriteEndElement();
             }
 
@@ -929,40 +1140,47 @@ namespace NewsComponents {
             //	if(format == NewsItemSerializationFormat.NewsPaper){
 
             writer.WriteStartElement("fd", "state", "http://www.bradsoft.com/feeddemon/xmlns/1.0/");
-            writer.WriteAttributeString("read", this.BeenRead ? "1" : "0");
+            writer.WriteAttributeString("read", BeenRead ? "1" : "0");
             writer.WriteAttributeString("flagged", FlagStatus == Flagged.None ? "0" : "1");
             writer.WriteEndElement();
 
             //	} else { 
             //<rssbandit:flag-status />
-            if (FlagStatus != Flagged.None) {
+            if (FlagStatus != Flagged.None)
+            {
                 //TODO: check: why we don't use the v2004/vCurrent namespace?
                 writer.WriteElementString("flag-status", NamespaceCore.Feeds_v2003, FlagStatus.ToString());
             }
             //	}
 
 
-            if (this.p_watchComments) {
+            if (p_watchComments)
+            {
                 //TODO: check: why we don't use the v2004/vCurrent namespace?
                 writer.WriteElementString("watch-comments", NamespaceCore.Feeds_v2003, "1");
             }
 
-            if (this.HasNewComments) {
+            if (HasNewComments)
+            {
                 //TODO: check: why we don't use the v2004/vCurrent namespace?
                 writer.WriteElementString("has-new-comments", NamespaceCore.Feeds_v2003, "1");
             }
 
             //<enclosure />
-            if (this.enclosures != null) {
-                foreach (Enclosure enc in this.enclosures) {
+            if (enclosures != null)
+            {
+                foreach (Enclosure enc in enclosures)
+                {
                     writer.WriteStartElement("enclosure");
                     writer.WriteAttributeString("url", enc.Url);
                     writer.WriteAttributeString("type", enc.MimeType);
                     writer.WriteAttributeString("length", enc.Length.ToString());
-                    if (enc.Downloaded) {
+                    if (enc.Downloaded)
+                    {
                         writer.WriteAttributeString("downloaded", "1");
                     }
-                    if (enc.Duration != TimeSpan.MinValue) {
+                    if (enc.Duration != TimeSpan.MinValue)
+                    {
                         writer.WriteAttributeString("duration", enc.Duration.ToString());
                     }
                     writer.WriteEndElement();
@@ -971,20 +1189,22 @@ namespace NewsComponents {
 
             //<rssbandit:outgoing-links />            
             writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
-            foreach (string outgoingLink in this.OutGoingLinks) {
+            foreach (string outgoingLink in OutGoingLinks)
+            {
                 writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
             }
-            writer.WriteEndElement();            
+            writer.WriteEndElement();
 
             /* everything else */
-            foreach (string s in this.OptionalElements.Values) {
-
+            foreach (string s in OptionalElements.Values)
+            {
                 writer.WriteRaw(s);
             }
 
             //end </item> 
             writer.WriteEndElement();
         }
+
         /// <summary>
         /// Converts the object to an XML string containing an RSS 2.0 item. 
         /// </summary>
@@ -992,7 +1212,8 @@ namespace NewsComponents {
         /// RSS item element is returned, an entire RSS feed with this item as its 
         /// sole item or an NNTP message.  </param>
         /// <returns></returns>
-        public String ToString(NewsItemSerializationFormat format) {
+        public String ToString(NewsItemSerializationFormat format)
+        {
             return ToString(format, true, false);
         }
 
@@ -1004,7 +1225,8 @@ namespace NewsComponents {
         /// sole item or an NNTP message. </param>
         /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
         /// <returns>A string representation of this news item</returns>		
-        public String ToString(NewsItemSerializationFormat format, bool useGMTDate) {
+        public String ToString(NewsItemSerializationFormat format, bool useGMTDate)
+        {
             return ToString(format, useGMTDate, false);
         }
 
@@ -1019,18 +1241,19 @@ namespace NewsComponents {
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>		
         /// <returns>A string representation of this news item</returns>		
-        public String ToString(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions) {
-
+        public String ToString(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
+        {
             string toReturn;
 
-            switch (format) {
+            switch (format)
+            {
                 case NewsItemSerializationFormat.NewsPaper:
                 case NewsItemSerializationFormat.RssFeed:
                 case NewsItemSerializationFormat.RssItem:
-                    toReturn = this.ToRssFeedOrItem(format, useGMTDate, noDescriptions);
+                    toReturn = ToRssFeedOrItem(format, useGMTDate, noDescriptions);
                     break;
                 case NewsItemSerializationFormat.NntpMessage:
-                    toReturn = this.ToNntpMessage();
+                    toReturn = ToNntpMessage();
                     break;
                 default:
                     throw new NotSupportedException(format.ToString());
@@ -1052,37 +1275,40 @@ namespace NewsComponents {
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>				
         /// <returns>An RSS item or RSS feed</returns>
-        private String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions) {
-
+        private String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
+        {
             StringBuilder sb = new StringBuilder("");
             XmlTextWriter writer = new XmlTextWriter(new StringWriter(sb));
             writer.Formatting = Formatting.Indented;
 
-            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper) {
-
-                if (format == NewsItemSerializationFormat.NewsPaper) {
+            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper)
+            {
+                if (format == NewsItemSerializationFormat.NewsPaper)
+                {
                     writer.WriteStartElement("newspaper");
                     writer.WriteAttributeString("type", "newsitem");
-                } else {
-
+                }
+                else
+                {
                     writer.WriteStartElement("rss");
                     writer.WriteAttributeString("version", "2.0");
                 }
 
                 writer.WriteStartElement("channel");
-                writer.WriteElementString("title", this.FeedDetails.Title);
-                writer.WriteElementString("link", this.FeedDetails.Link);
-                writer.WriteElementString("description", this.FeedDetails.Description);
+                writer.WriteElementString("title", FeedDetails.Title);
+                writer.WriteElementString("link", FeedDetails.Link);
+                writer.WriteElementString("description", FeedDetails.Description);
 
-                foreach (string s in this.FeedDetails.OptionalElements.Values) {
+                foreach (string s in FeedDetails.OptionalElements.Values)
+                {
                     writer.WriteRaw(s);
                 }
             }
 
-            this.WriteItem(writer, useGMTDate, format, noDescriptions);
+            WriteItem(writer, useGMTDate, noDescriptions);
 
-            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper) {
-
+            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper)
+            {
                 writer.WriteEndElement();
                 writer.WriteEndElement();
             }
@@ -1094,9 +1320,9 @@ namespace NewsComponents {
         /// Converts the object to an XML string containing an RSS 2.0 item.  
         /// </summary>
         /// <returns></returns>
-        public override String ToString() {
-
-            return this.ToString(NewsItemSerializationFormat.RssItem);
+        public override String ToString()
+        {
+            return ToString(NewsItemSerializationFormat.RssItem);
         }
 
         /*
@@ -1134,17 +1360,19 @@ namespace NewsComponents {
         /// <summary>
         /// Makes sure the title isn't null or empty string as well as strips markup. 
         /// </summary>
-        private void ProcessTitle(string content) {
-
+        private void ProcessTitle(string content)
+        {
             //if no title provided then use first 8 words of description						
-            if ((p_title == null) || (p_title.Length == 0)) {
+            if ((p_title == null) || (p_title.Length == 0))
+            {
                 p_title = GetFirstWords(HtmlHelper.StripAnyTags(content), 8);
             }
 
             //Get around issues with titles that are one big CDATA section. This 
             //should no longer be needed once we move to .NET 2.0 can use ReadContentAsString()
             //in RssParser.cs 
-            if (p_title.StartsWith("<![CDATA[")) {
+            if (p_title.StartsWith("<![CDATA["))
+            {
                 p_title = p_title.Replace("<![CDATA[", String.Empty).Replace("]]>", String.Empty);
             }
 
@@ -1161,12 +1389,15 @@ namespace NewsComponents {
         /// Processes the <paramref name="content"/> for outgoing links and populate 
         /// the outgoing links property. 
         /// </summary>
-        private void ProcessOutGoingLinks(string content) {
-
-            if (NewsHandler.BuildRelationCosmos) {
-                base.outgoingRelationships = HtmlHelper.RetrieveLinks(content);
-            } else {
-                base.outgoingRelationships = new List<string>();
+        private void ProcessOutGoingLinks(string content)
+        {
+            if (NewsHandler.BuildRelationCosmos)
+            {
+                outgoingRelationships = HtmlHelper.RetrieveLinks(content);
+            }
+            else
+            {
+                outgoingRelationships = new List<string>();
             }
         }
 
@@ -1177,8 +1408,8 @@ namespace NewsComponents {
         /// <param name="text">The target string</param>
         /// <param name="wordCount">The number of words to pick</param>
         /// <returns>The firs</returns>
-        private static string GetFirstWords(string text, int wordCount) {
-
+        private static string GetFirstWords(string text, int wordCount)
+        {
             if (text == null)
                 return String.Empty;
 
@@ -1190,8 +1421,9 @@ namespace NewsComponents {
         /// is equivalent to calling CreateNavigator(false)
         /// </summary>
         /// <returns>An XPathNavigator</returns>
-        public XPathNavigator CreateNavigator() {
-            return this.CreateNavigator(false);
+        public XPathNavigator CreateNavigator()
+        {
+            return CreateNavigator(false);
         }
 
         /// <summary>
@@ -1202,7 +1434,8 @@ namespace NewsComponents {
         /// as the single item within it. When this parameter is true then the navigator 
         /// works over just an RSS item</param>
         /// <returns>An XPathNavigator</returns>
-        public XPathNavigator CreateNavigator(bool standalone) {
+        public XPathNavigator CreateNavigator(bool standalone)
+        {
             return CreateNavigator(standalone, true);
         }
 
@@ -1215,10 +1448,13 @@ namespace NewsComponents {
         /// works over just an RSS item</param>
         /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
         /// <returns>An XPathNavigator</returns>
-        public XPathNavigator CreateNavigator(bool standalone, bool useGMTDate) {
-
-            NewsItemSerializationFormat format = (standalone ? NewsItemSerializationFormat.RssItem : NewsItemSerializationFormat.RssFeed);
-            XPathDocument doc = new XPathDocument(new XmlTextReader(new StringReader(this.ToString(format, useGMTDate))), XmlSpace.Preserve);
+        public XPathNavigator CreateNavigator(bool standalone, bool useGMTDate)
+        {
+            NewsItemSerializationFormat format = (standalone
+                                                      ? NewsItemSerializationFormat.RssItem
+                                                      : NewsItemSerializationFormat.RssFeed);
+            XPathDocument doc =
+                new XPathDocument(new XmlTextReader(new StringReader(ToString(format, useGMTDate))), XmlSpace.Preserve);
             return doc.CreateNavigator();
         }
 
@@ -1226,15 +1462,18 @@ namespace NewsComponents {
         /// Get the hash code of the object
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode() {
-
-            if (!string.IsNullOrEmpty(base.hReference)) {
-                return base.hReference.GetHashCode();
-            } else if (HasContent) {
-                return this.Content.GetHashCode();
+        public override int GetHashCode()
+        {
+            if (!string.IsNullOrEmpty(HRef))
+            {
+                return HRef.GetHashCode();
+            }
+            else if (HasContent)
+            {
+                return Content.GetHashCode();
             }
 
-            return this.Date.GetHashCode(); //fallback 
+            return Date.GetHashCode(); //fallback 
         }
 
 
@@ -1244,15 +1483,22 @@ namespace NewsComponents {
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj) {
-
-            if (Object.ReferenceEquals(this, obj)) { return true; }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
 
             NewsItem item = obj as NewsItem;
 
-            if (item == null) { return false; }
+            if (item == null)
+            {
+                return false;
+            }
 
-            if (this.Id.Equals(item.Id)) {
+            if (Id.Equals(item.Id))
+            {
                 return true;
             }
 
@@ -1264,18 +1510,23 @@ namespace NewsComponents {
         /// Creates a text based version of this object as NNTP message suitable for posting to a news server
         /// </summary>
         /// <returns>the NewsItem as an NNTP message string</returns>
-        private string ToNntpMessage() {
+        private string ToNntpMessage()
+        {
             StringBuilder sb = new StringBuilder();
 
 
             sb.Append("From: ");
             sb.Append(p_author);
 
-            try {
-                Uri newsgroupUri = new Uri(this.FeedDetails.Link);
+            try
+            {
+                Uri newsgroupUri = new Uri(FeedDetails.Link);
                 sb.Append("\r\nNewsgroups: ");
                 sb.Append(newsgroupUri.AbsolutePath.Substring(1));
-            } catch (UriFormatException) { }
+            }
+            catch (UriFormatException)
+            {
+            }
 
             sb.Append("\r\nX-Newsreader: ");
             sb.Append(NewsHandler.GlobalUserAgentString);
@@ -1283,7 +1534,8 @@ namespace NewsComponents {
             sb.Append("\r\nSubject: ");
             sb.Append(p_title);
 
-            if ((p_parentId != null) && (p_parentId.Length != 0)) {
+            if ((p_parentId != null) && (p_parentId.Length != 0))
+            {
                 sb.Append("\r\nReferences: ");
                 sb.Append(p_parentId);
             }
@@ -1299,7 +1551,7 @@ namespace NewsComponents {
             */
 
             sb.Append("\r\n\r\n");
-            sb.Append(this.Content);
+            sb.Append(Content);
             sb.Append("\r\n.\r\n");
 
             return sb.ToString();
@@ -1311,7 +1563,8 @@ namespace NewsComponents {
         /// [used to measure mem]
         /// </summary>
         /// <returns></returns>
-        public int GetSize() {
+        public int GetSize()
+        {
             int l = StringHelper.SizeOfStr(p_id);
             l += StringHelper.SizeOfStr(Link);
             if (HasContent)
@@ -1321,11 +1574,13 @@ namespace NewsComponents {
 
             return l;
         }
+
         /// <summary>
         /// [used to measure mem]
         /// </summary>
-        public string GetSizeDetails() {
-            return this.GetSize().ToString();
+        public string GetSizeDetails()
+        {
+            return GetSize().ToString();
         }
 
         #endregion
@@ -1334,16 +1589,9 @@ namespace NewsComponents {
     /// <summary>
     /// Represents a NewsItem that shows up in the context of search results over local RSS feeds. 
     /// </summary>
-    public class SearchHitNewsItem : NewsItem {
-
-
+    public class SearchHitNewsItem : NewsItem
+    {
         #region Constructors
-
-        /// <summary>
-        /// Default constructor is private. 
-        /// </summary>
-        private SearchHitNewsItem() { ;}
-
 
         /* new NewsItem(f, 
                     doc.Get(LuceneSearch.Keyword.ItemTitle),
@@ -1364,11 +1612,13 @@ namespace NewsComponents {
         /// <param name="author"></param>
         /// <param name="date"></param>
         /// <param name="id"></param>
-        public SearchHitNewsItem(feedsFeed feed, string title, string link, string summary, string author, DateTime date, string id)
+        public SearchHitNewsItem(feedsFeed feed, string title, string link, string summary, string author, DateTime date,
+                                 string id)
             :
-            base(feed, title, link, null, author, date, id, null) {
-            this.Enclosures = GetList<Enclosure>.Empty;
-            this.Summary = summary;
+                base(feed, title, link, null, author, date, id, null)
+        {
+            Enclosures = GetList<Enclosure>.Empty;
+            Summary = summary;
         }
 
 
@@ -1378,38 +1628,51 @@ namespace NewsComponents {
         /// <param name="item"></param>
         public SearchHitNewsItem(NewsItem item)
             :
-            this(item.Feed, item.Title, item.Link, item.Content, item.Author, item.Date, item.Id) {
+                this(item.Feed, item.Title, item.Link, item.Content, item.Author, item.Date, item.Id)
+        {
         }
 
         #endregion
 
         #region Properties and Fields
+
         private string summary = null;
 
         /// <summary>
         /// A text snippet from the actual content of the RSS item. 
         /// </summary>
-        public string Summary {
-            get { return summary; }
+        public string Summary
+        {
+            get
+            {
+                return summary;
+            }
 
-            set {
+            set
+            {
                 summary = value;
                 /* add to OptionalElements hashtable and make sure XML is properly escaped 
                  * by using XmlTextWriter 
                  */
 
-                try {
+                try
+                {
                     XmlQualifiedName qname = new XmlQualifiedName("summary", "http://www.w3.org/2005/Atom");
 
-                    using (StringWriter sw = new StringWriter()) {
+                    using (StringWriter sw = new StringWriter())
+                    {
                         XmlTextWriter xtw = new XmlTextWriter(sw);
                         xtw.WriteElementString(qname.Name, qname.Namespace, value);
                         xtw.Close();
 
-                        this.OptionalElements.Remove(qname);
-                        this.OptionalElements.Add(qname, sw.ToString());
+                        OptionalElements.Remove(qname);
+                        OptionalElements.Add(qname, sw.ToString());
                     }
-                } catch (Exception) { /* XML exception if summary contains invalid XML content */	}
+                }
+                catch (Exception)
+                {
+                    /* XML exception if summary contains invalid XML content */
+                }
             }
         }
 
@@ -1420,27 +1683,42 @@ namespace NewsComponents {
     /// Represents a NewsItem with informations and help about 
     /// a exception occured
     /// </summary>
-    public class ExceptionalNewsItem : SearchHitNewsItem {
-        public ExceptionalNewsItem(feedsFeed feed, string title, string link, string summary, string author, DateTime date, string id)
+    public class ExceptionalNewsItem : SearchHitNewsItem
+    {
+        public ExceptionalNewsItem(feedsFeed feed, string title, string link, string summary, string author,
+                                   DateTime date, string id)
             :
-            base(feed, title, link, summary, author, date, id) {
-            this.SetContent(summary, NewsComponents.ContentType.Html);
+                base(feed, title, link, summary, author, date, id)
+        {
+            SetContent(summary, ContentType.Html);
         }
     }
 
-    internal class RankedNewsItem {
+    internal class RankedNewsItem
+    {
+        private readonly NewsItem item;
+        private readonly float score;
 
-        private NewsItem item;
-        private float score;
-
-        internal RankedNewsItem(NewsItem item, float score) {
+        internal RankedNewsItem(NewsItem item, float score)
+        {
             this.score = score;
             this.item = item;
         }
 
-        internal float Score { get { return score; } }
-        internal NewsItem Item  { get { return item; } }
+        internal float Score
+        {
+            get
+            {
+                return score;
+            }
+        }
 
+        internal NewsItem Item
+        {
+            get
+            {
+                return item;
+            }
+        }
     }
-
 }

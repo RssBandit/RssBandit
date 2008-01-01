@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace RssBandit.UIServices
 {
@@ -46,18 +46,6 @@ namespace RssBandit.UIServices
 	}
 
 	/// <summary>
-	/// A collection of IAddInPackage objects to be used and returned by 
-	/// the IAddInManager.
-	/// </summary>
-	public interface IAddInPackageCollection : ICollection, IEnumerable 
-	{
-		/// <summary>
-		/// Indexer
-		/// </summary>
-		IAddInPackage this[int index] { get; }
-	}
-
-	/// <summary>
 	/// IAddIn represents a AddIn within the parent application.
 	/// </summary>
 	public interface IAddIn: IDisposable 
@@ -76,20 +64,9 @@ namespace RssBandit.UIServices
 		/// Gets the AddIn packages collection.
 		/// </summary>
 		/// <value>The add in packages.</value>
-		IAddInPackageCollection AddInPackages { get; }
+        IList<IAddInPackage> AddInPackages { get; }
 	}
 
-	/// <summary>
-	/// Interface for a Collection of AddIn's
-	/// </summary>
-	public interface IAddInCollection: ICollection, IEnumerable 
-	{
-		/// <summary>
-		/// Gets the <see cref="IAddIn"/> at the specified index.
-		/// </summary>
-		/// <value></value>
-		IAddIn this[int index] { get; }
-	}
 
 	/// <summary>
 	/// The AddIn manager as it is used within the parent application.
@@ -111,7 +88,7 @@ namespace RssBandit.UIServices
 		/// Gets the AddIns collection.
 		/// </summary>
 		/// <value>The add ins.</value>
-		IAddInCollection AddIns { get; }
+        IEnumerable<IAddIn> AddIns { get; }
 	}
 
 } //namespace PROCOS.WinControls.CoreGUI.AddIn
