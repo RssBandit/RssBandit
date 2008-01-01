@@ -8737,7 +8737,7 @@ namespace RssBandit.WinGui.Forms
 
 			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
 
-			owner.CheckAndInitSoundEvents();
+			RssBanditApplication.CheckAndInitSoundEvents();
 			owner.BeginLoadingFeedlist();
 			owner.BeginLoadingSpecialFeeds();
 			
