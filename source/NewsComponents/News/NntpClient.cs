@@ -18,7 +18,7 @@ namespace NewsComponents.News {
 		/// <summary>
 		/// The NNTP headers
 		/// </summary>
-		private NameValueCollection headers;
+		private readonly NameValueCollection headers;
 			
 		/// <summary>
 		/// The message Id
@@ -129,7 +129,7 @@ namespace NewsComponents.News {
 	///  A collection of NntpMessage objects
 	/// </summary>
 	internal class NntpMessages
-		: System.Collections.ReadOnlyCollectionBase{
+		: ReadOnlyCollectionBase{
             
 		internal NntpMessages(){;}
 
@@ -148,7 +148,8 @@ namespace NewsComponents.News {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NntpWebException"/> class.
 		/// </summary>
-		public NntpWebException(): base() {}
+		public NntpWebException()
+		{}
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NntpWebException"/> class.
@@ -184,7 +185,7 @@ namespace NewsComponents.News {
 		/// <summary>
 		/// Matches headers
 		/// </summary>
-		static Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
+		static readonly Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
              
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(NntpClient));
 
@@ -196,8 +197,6 @@ namespace NewsComponents.News {
 		internal NntpClient(string Server, int Port) {
 			socket = new MyTcpClient(Server, Port);
 			socket.NoDelay = true;
-			server = Server;
-			port = Port;
 			connectResp = GetData(false);
 		}
 
@@ -593,7 +592,7 @@ namespace NewsComponents.News {
             return d-decodedStart;
         }
 
-        internal void GroupFiles(NntpMessages messages, SortedList multiFiles)
+        internal static void GroupFiles(NntpMessages messages, SortedList multiFiles)
         {
             Regex[] multipartPatterns = new Regex[2];
             multipartPatterns[0] = new Regex(@"(?<1>.*)\s*\((?<2>\d+)/(?<3>\d+)\)"); // filename (#/#)
@@ -652,57 +651,25 @@ namespace NewsComponents.News {
             }
         }
 
-        private static void FindSingleFiles(ArrayList inFiles, SortedList singleFiles, ArrayList nonSingleFiles)
-        {
-            Regex fileName = new Regex(@"(?<1>\w+\.\w+)");
-            for(int i = 0; i < inFiles.Count;i++)
-            {
-                NntpMessage oMsg = (NntpMessage) inFiles[i];
-                string subject = oMsg.Headers["subject"];
-                if(subject != null)
-                {
-                    Match m = fileName.Match(subject);
-                    if(m.Success)
-                    {
-                        string file = m.Groups[1].Value;
-                        if( singleFiles.Contains(file))
-                        {
-                            NntpMessage old = (NntpMessage) singleFiles[file];
-                            string oldSubject = old.Headers["subject"];
-                            if(oldSubject.StartsWith("Re:"))
-                            {
-                                singleFiles[file] = oMsg;
-                            }
-                        }
-                        else
-                        {
-                            singleFiles.Add(file,oMsg);
-                        }
-                    }
-                }
-            }
-        }
 
-		
-        private Encoding ASCII = Encoding.ASCII;
-        private Regex Split = new Regex("\r\n");
+        private readonly Encoding ASCII = Encoding.ASCII;
+        private readonly Regex Split = new Regex("\r\n");
 
-        private string server;     // news server
-        private int port;     // port
+
         private MyTcpClient socket;    // tcp socket
-        private String connectResp = "";  // connect response
+        private readonly String connectResp = "";  // connect response
 
         private String CurrGroup = "";   // current selected group
 /*
         private int lastGroupMsgCount = -1;   // last number of messages in grp (prev. request)
 */
-		private int currGroupMsgCount;   // current number of messages in grp (this request)
+		//private int currGroupMsgCount;   // current number of messages in grp (this request)
 		private int firstMsg;    // 1st message in group
         private int lastMsg;    // last message in group
 
-        private byte[] bRecv = new byte[4096];
-        private char[] bRecvChars = new Char[4096];
-        private StringBuilder sb = new StringBuilder();
+        private readonly byte[] bRecv = new byte[4096];
+        private readonly char[] bRecvChars = new Char[4096];
+        private readonly StringBuilder sb = new StringBuilder();
 
         // class that lets us do partial reads
         private class MyTcpClient : TcpClient
@@ -740,7 +707,7 @@ namespace NewsComponents.News {
 			StringWriter sw = new StringWriter(sb);
 			
 			//TODO: Decide if we propagate an exception to the user if server returns an error
-			bool result = GetData(expectLongResponse, sw);
+			GetData(expectLongResponse, sw);
 			sw.Flush();
 			sw.Close(); 
 			return sb.ToString(); 
@@ -752,7 +719,7 @@ namespace NewsComponents.News {
         /// <param name="expectLongResponse">flag indicates whether to expect a long response or not</param>
         /// <param name="writer">used for writing the response from the server</param>
         /// <returns>returns true if the operation was successful and false if an error occured</returns>
-        private bool GetData(bool expectLongResponse, TextWriter writer)
+        private void GetData(bool expectLongResponse, TextWriter writer)
         {
             int iBytes;
             sb.Length = 0;
@@ -809,8 +776,6 @@ namespace NewsComponents.News {
                 }
             }
             while(iBytes > 0);
-            
-			return !bError;
         }
 
         // select a particular group
@@ -828,7 +793,7 @@ namespace NewsComponents.News {
             
 			string[] messageNumbers = sData.Split(' ');
         	// index 0 is the response code
-			currGroupMsgCount = Convert.ToInt32( messageNumbers[1] );
+			//currGroupMsgCount = Convert.ToInt32( messageNumbers[1] );
 			firstMsg = Convert.ToInt32( messageNumbers[2] );
 			lastMsg = Convert.ToInt32( messageNumbers[3] );
 			CurrGroup = GroupName;
