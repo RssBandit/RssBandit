@@ -302,6 +302,9 @@
     <Content Include="Media\New Feed Items Received.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\TreeImages.png" />
+    <EmbeddedResource Include="Resources\AllToolImages.png" />
+    <EmbeddedResource Include="Resources\ListImages.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -411,7 +414,6 @@
     <None Include="Resources\2003Plus.gif" />
     <None Include="Resources\add.newsserver.16.png" />
     <None Include="Resources\add.user.16.png" />
-    <EmbeddedResource Include="Resources\AllToolImages.bmp" />
     <EmbeddedResource Include="Resources\AniImagesXP.png" />
     <EmbeddedResource Include="Resources\App.ico" />
     <EmbeddedResource Include="Resources\AppBusy.ico" />
@@ -431,7 +433,6 @@
     <EmbeddedResource Include="Resources\Html.32.png" />
     <EmbeddedResource Include="Resources\iecontext_subscribebandit.htm" />
     <EmbeddedResource Include="Resources\iecontext_subscribefeed.htm" />
-    <EmbeddedResource Include="Resources\ListImages.bmp" />
     <EmbeddedResource Include="Resources\ListStateImages.bmp" />
     <None Include="Resources\nntp.doc.png" />
     <None Include="Resources\no.feed.discovered.16.png" />
@@ -518,7 +519,6 @@
       <DependentUpon>SR.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\TreeImages.bmp" />
     <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
     <EmbeddedResource Include="Resources\UnreadFeedItemsXP.ico" />
     <EmbeddedResource Include="Resources\WizardTask.Failed.png" />

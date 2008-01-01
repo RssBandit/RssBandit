@@ -1,288 +1,303 @@
 #region CVS Version Header
+
 /*
  * $Id$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
+
 #endregion
 
 using System;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Net;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Threading;
+using System.Net;
+using log4net;
 using NewsComponents.Utils;
-
-
+using RssBandit.Common.Logging;
 
 namespace NewsComponents.Net
 {
-	/// <summary>
-	/// This downloader uses HTTP to download files.
-	/// </summary>
-	public sealed class HttpDownloader: IDownloader, IDisposable {
+    /// <summary>
+    /// This downloader uses HTTP to download files.
+    /// </summary>
+    public sealed class HttpDownloader : IDownloader, IDisposable
+    {
+        #region private members
 
-		#region private members
+        private static readonly ILog Logger = Log.GetLogger(typeof (HttpDownloader));
 
-		private static readonly log4net.ILog Logger = RssBandit.Common.Logging.Log.GetLogger(typeof(HttpDownloader));
-
-		/// <summary>
-		/// An IDownloader is only associated with a single DownloadTask. 
-		/// </summary>
-		private DownloadTask currentTask = null; 
-
-
-		/// <summary>
-		/// The current state of the download task
-		/// </summary>
-		private RequestState state = null;
-
-		#endregion
+        /// <summary>
+        /// An IDownloader is only associated with a single DownloadTask. 
+        /// </summary>
+        private DownloadTask currentTask = null;
 
 
-		#region Constructors
+        /// <summary>
+        /// The current state of the download task
+        /// </summary>
+        private RequestState state = null;
 
-		public HttpDownloader() {
-			//
-			// TODO: Add constructor logic here
-			//
-		}
+        #endregion
 
-		#endregion
+        #region Constructors
 
-		#region IDownloader implementation
+        #endregion
 
-		#region Downloader events
+        #region IDownloader implementation
 
-		/// <summary>
-		/// Notifies the application of the download progress. 
-		/// </summary>
-		public event DownloadTaskProgressEventHandler DownloadProgress;
+        #region Downloader events
 
-
-		/// <summary>
-		/// Notifies the application when the download is complete.
-		/// </summary>
-		public event DownloadTaskCompletedEventHandler DownloadCompleted;
-
-		/// <summary>
-		/// Notifies the application when there is a download error. 
-		/// </summary>
-		public event DownloadTaskErrorEventHandler DownloadError;
+        /// <summary>
+        /// Notifies the application of the download progress. 
+        /// </summary>
+        public event DownloadTaskProgressEventHandler DownloadProgress;
 
 
-		/// <summary>
-		/// Notifies the application that the download has started. 
-		/// </summary>
-		public event DownloadTaskStartedEventHandler DownloadStarted;
+        /// <summary>
+        /// Notifies the application when the download is complete.
+        /// </summary>
+        public event DownloadTaskCompletedEventHandler DownloadCompleted;
 
-		/// <summary>
-		/// Helper method to fire the event.
-		/// </summary>
-		/// <param name="e">The event information.</param>
-		private void OnDownloadStarted( TaskEventArgs e ) {
-			if ( DownloadStarted != null ) {
-				DownloadStarted( this, e );
-			}
-		}
-
-		/// <summary>
-		/// Helper method to fire the event.
-		/// </summary>
-		/// <param name="e">The event information.</param>
-		private void OnDownloadProgress( DownloadTaskProgressEventArgs e ) {
-			if ( DownloadProgress != null ) {
-				DownloadProgress( this, e );
-			}
-		}
-
-		/// <summary>
-		/// Helper method to fire the event.
-		/// </summary>
-		/// <param name="e">The event information.</param>
-		private void OnDownloadCompleted( TaskEventArgs e ) {
-			if ( DownloadCompleted != null ) {
-				DownloadCompleted( this, e );
-			}
-		}
-
-		/// <summary>
-		/// Helper method to fire the event.
-		/// </summary>
-		/// <param name="e">The event information.</param>
-		private void OnDownloadError( DownloadTaskErrorEventArgs e ) {
-			if ( DownloadError != null ) {
-				DownloadError( this, e );
-			}
-		}
-
-		#endregion
+        /// <summary>
+        /// Notifies the application when there is a download error. 
+        /// </summary>
+        public event DownloadTaskErrorEventHandler DownloadError;
 
 
-		/// <summary>
-		/// Synchronous download method implementation.
-		/// </summary>
-		/// <param name="task">The DownloadTask to process.</param>
-		/// <param name="maxWaitTime">The maximum wait time.</param>
-		public void Download(DownloadTask task, TimeSpan maxWaitTime) {	
-			this.currentTask = task;
+        /// <summary>
+        /// Notifies the application that the download has started. 
+        /// </summary>
+        public event DownloadTaskStartedEventHandler DownloadStarted;
 
-			WebResponse response = AsyncWebRequest.GetSyncResponse(task.DownloadItem.Enclosure.Url, 
-																task.DownloadItem.Credentials, 
-																NewsHandler.UserAgentString(String.Empty),
-																task.DownloadItem.Proxy,
-																DateTime.MinValue, 
-																null, 
-																Convert.ToInt32(maxWaitTime.TotalSeconds));
+        /// <summary>
+        /// Helper method to fire the event.
+        /// </summary>
+        /// <param name="e">The event information.</param>
+        private void OnDownloadStarted(TaskEventArgs e)
+        {
+            if (DownloadStarted != null)
+            {
+                DownloadStarted(this, e);
+            }
+        }
 
-			this.OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null, DateTime.MinValue, RequestResult.OK, 0); 
-		}
+        /// <summary>
+        /// Helper method to fire the event.
+        /// </summary>
+        /// <param name="e">The event information.</param>
+        private void OnDownloadProgress(DownloadTaskProgressEventArgs e)
+        {
+            if (DownloadProgress != null)
+            {
+                DownloadProgress(this, e);
+            }
+        }
 
-		
-		/// <summary>
-		/// Asynchronous download method implementation.
-		/// </summary>
-		/// <param name="task">The DownloadTask to process.</param>
-		public void BeginDownload(DownloadTask task) {
+        /// <summary>
+        /// Helper method to fire the event.
+        /// </summary>
+        /// <param name="e">The event information.</param>
+        private void OnDownloadCompleted(TaskEventArgs e)
+        {
+            if (DownloadCompleted != null)
+            {
+                DownloadCompleted(this, e);
+            }
+        }
 
-			this.currentTask = task; 
+        /// <summary>
+        /// Helper method to fire the event.
+        /// </summary>
+        /// <param name="e">The event information.</param>
+        private void OnDownloadError(DownloadTaskErrorEventArgs e)
+        {
+            if (DownloadError != null)
+            {
+                DownloadError(this, e);
+            }
+        }
 
-			Uri reqUri = new Uri(task.DownloadItem.Enclosure.Url);
-			int priority = 10;
+        #endregion
 
-			RequestParameter reqParam = RequestParameter.Create(reqUri, NewsHandler.UserAgentString(String.Empty), 
-				task.DownloadItem.Proxy, task.DownloadItem.Credentials, 
-				DateTime.MinValue, null);
-			// global cookie handling:
-			reqParam.SetCookies = NewsHandler.SetCookies;
+        /// <summary>
+        /// Synchronous download method implementation.
+        /// </summary>
+        /// <param name="task">The DownloadTask to process.</param>
+        /// <param name="maxWaitTime">The maximum wait time.</param>
+        public void Download(DownloadTask task, TimeSpan maxWaitTime)
+        {
+            currentTask = task;
 
-				
-			this.state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam, 
-				null /* new RequestQueuedCallback(this.OnRequestQueued) */, 
-				new RequestStartCallback(this.OnRequestStart), 
-				new RequestCompleteCallback(this.OnRequestComplete), 
-				new RequestExceptionCallback(this.OnRequestException), 
-				new RequestProgressCallback(this.OnRequestProgress),
-				priority);
-		
-		}
+            WebResponse response = AsyncWebRequest.GetSyncResponse(task.DownloadItem.Enclosure.Url,
+                                                                   task.DownloadItem.Credentials,
+                                                                   NewsHandler.UserAgentString(String.Empty),
+                                                                   task.DownloadItem.Proxy,
+                                                                   DateTime.MinValue,
+                                                                   null,
+                                                                   Convert.ToInt32(maxWaitTime.TotalSeconds));
 
-
-		/// <summary>
-		/// Terminates or cancels an unfinished asynchronous download.
-		/// </summary>
-		/// <param name="task">The associated <see cref="DownloadTask"/> that holds a reference to the manifest to process</param>
-		/// <returns>Returns true if the task was cancelled.</returns>
-		public bool CancelDownload(DownloadTask task){
-		
-			currentTask = task; 
-			Uri requestUri = new Uri(task.DownloadItem.Enclosure.Url); 
-
-			if(state.InitialRequestUri.Equals(requestUri)){			
-				BackgroundDownloadManager.AsyncWebRequest.FinalizeWebRequest(state);				
-			}
-
-			return true;
-		}
-
-		#endregion
-
-		#region IDisposable implementation
-		
-		//  take care of IDisposable too   
-		/// <summary>
-		/// Allows graceful cleanup of hard resources
-		/// </summary>
-		public void Dispose() {
-			Dispose(true);
-			GC.SuppressFinalize(this); 
-		}
+            OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null,
+                              DateTime.MinValue, RequestResult.OK, 0);
+        }
 
 
-		/// <summary>
-		/// used by externally visible overload.
-		/// </summary>
-		/// <param name="isDisposing">whether or not to clean up managed + unmanaged/large (true) or just unmanaged(false)</param>
-		private void Dispose(bool isDisposing) {	
-			if(this.currentTask.State == DownloadTaskState.Downloading){
-				try{
-					this.CancelDownload(this.currentTask); 
-				}catch(Exception e){
-					Logger.Error(e.Message, e); 
-				}
-			}
-		}
+        /// <summary>
+        /// Asynchronous download method implementation.
+        /// </summary>
+        /// <param name="task">The DownloadTask to process.</param>
+        public void BeginDownload(DownloadTask task)
+        {
+            currentTask = task;
 
-		/// <summary>
-		/// Destructor/Finalizer
-		/// </summary>
-		~HttpDownloader() {
-			// Simply call Dispose(false).
-			Dispose(false);
-		}
+            Uri reqUri = new Uri(task.DownloadItem.Enclosure.Url);
+            int priority = 10;
 
-		#endregion
-
-		#region Event Handling Methods 
-
-		/// <summary>
-		/// Notification that the download of the file has started. 
-		/// </summary>
-		/// <param name="requestUri"></param>
-		/// <param name="cancel"></param>
-		public void OnRequestStart(Uri requestUri, ref bool cancel){
-			this.OnDownloadStarted(new TaskEventArgs(this.currentTask)); 
-		}
-
-		/// <summary>
-		/// Called, if the web request caused an exception, that is not yet handled by the class itself.
-		/// </summary>
-		public void OnRequestException(Uri requestUri, Exception e, int priority){
-			this.OnDownloadError(new DownloadTaskErrorEventArgs(this.currentTask, e));
-		}
+            RequestParameter reqParam = RequestParameter.Create(reqUri, NewsHandler.UserAgentString(String.Empty),
+                                                                task.DownloadItem.Proxy, task.DownloadItem.Credentials,
+                                                                DateTime.MinValue, null);
+            // global cookie handling:
+            reqParam.SetCookies = NewsHandler.SetCookies;
 
 
-		/// <summary>
-		/// Called on every queued request, when the real fetch is finished.
-		/// </summary>
-		public void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified, RequestResult result, int priority){
-			
-			string fileLocation = Path.Combine(this.currentTask.DownloadFilesBase, this.currentTask.DownloadItem.File.LocalName);
-			
-			//write file to disk from memory stream
-			FileHelper.WriteStreamWithRename(fileLocation, response); 
-			response.Close(); 
-			
-			this.OnDownloadCompleted(new TaskEventArgs(this.currentTask)); 
-		}
-
-		/// <summary>
-		/// Called infrequently as bytes are transferred for the file. 
-		/// </summary>
-		public void OnRequestProgress(Uri requestUri, long bytesTransferred){
-			
-			long size = 0;
-				
-			if(currentTask.DownloadItem.File.FileSize > currentTask.DownloadItem.Enclosure.Length){
-				size = currentTask.DownloadItem.File.FileSize;
-			}else{
-				size = currentTask.DownloadItem.Enclosure.Length;
-			}
-
-			this.OnDownloadProgress(new DownloadTaskProgressEventArgs(size, bytesTransferred, 1, 0, this.currentTask));
-		}
+            state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam,
+                                                                           null
+                                                                           /* new RequestQueuedCallback(this.OnRequestQueued) */,
+                                                                           OnRequestStart,
+                                                                           OnRequestComplete,
+                                                                           OnRequestException,
+                                                                           new RequestProgressCallback(OnRequestProgress),
+                                                                           priority);
+        }
 
 
-		#endregion
-	}
+        /// <summary>
+        /// Terminates or cancels an unfinished asynchronous download.
+        /// </summary>
+        /// <param name="task">The associated <see cref="DownloadTask"/> that holds a reference to the manifest to process</param>
+        /// <returns>Returns true if the task was cancelled.</returns>
+        public bool CancelDownload(DownloadTask task)
+        {
+            currentTask = task;
+            Uri requestUri = new Uri(task.DownloadItem.Enclosure.Url);
+
+            if (state.InitialRequestUri.Equals(requestUri))
+            {
+                BackgroundDownloadManager.AsyncWebRequest.FinalizeWebRequest(state);
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region IDisposable implementation
+
+        //  take care of IDisposable too   
+        /// <summary>
+        /// Allows graceful cleanup of hard resources
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        /// <summary>
+        /// used by externally visible overload.
+        /// </summary>
+        /// <param name="isDisposing">whether or not to clean up managed + unmanaged/large (true) or just unmanaged(false)</param>
+        private void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                if (currentTask.State == DownloadTaskState.Downloading)
+                {
+                    try
+                    {
+                        CancelDownload(currentTask);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error(e.Message, e);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Destructor/Finalizer
+        /// </summary>
+        ~HttpDownloader()
+        {
+            // Simply call Dispose(false).
+            Dispose(false);
+        }
+
+        #endregion
+
+        #region Event Handling Methods 
+
+        /// <summary>
+        /// Notification that the download of the file has started. 
+        /// </summary>
+        /// <param name="requestUri"></param>
+        /// <param name="cancel"></param>
+        public void OnRequestStart(Uri requestUri, ref bool cancel)
+        {
+            OnDownloadStarted(new TaskEventArgs(currentTask));
+        }
+
+        /// <summary>
+        /// Called, if the web request caused an exception, that is not yet handled by the class itself.
+        /// </summary>
+        public void OnRequestException(Uri requestUri, Exception e, int priority)
+        {
+            OnDownloadError(new DownloadTaskErrorEventArgs(currentTask, e));
+        }
+
+
+        /// <summary>
+        /// Called on every queued request, when the real fetch is finished.
+        /// </summary>
+        public void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+                                      RequestResult result, int priority)
+        {
+            string fileLocation = Path.Combine(currentTask.DownloadFilesBase, currentTask.DownloadItem.File.LocalName);
+
+            //write file to disk from memory stream
+            FileHelper.WriteStreamWithRename(fileLocation, response);
+            response.Close();
+
+            OnDownloadCompleted(new TaskEventArgs(currentTask));
+        }
+
+        /// <summary>
+        /// Called infrequently as bytes are transferred for the file. 
+        /// </summary>
+        public void OnRequestProgress(Uri requestUri, long bytesTransferred)
+        {
+            long size;
+
+            if (currentTask.DownloadItem.File.FileSize > currentTask.DownloadItem.Enclosure.Length)
+            {
+                size = currentTask.DownloadItem.File.FileSize;
+            }
+            else
+            {
+                size = currentTask.DownloadItem.Enclosure.Length;
+            }
+
+            OnDownloadProgress(new DownloadTaskProgressEventArgs(size, bytesTransferred, 1, 0, currentTask));
+        }
+
+        #endregion
+    }
 }
 
 #region CVS Version Log
+
 /*
  * $Log: HttpDownloader.cs,v $
  * Revision 1.3  2007/06/10 18:41:26  carnage4life
@@ -292,4 +307,5 @@ namespace NewsComponents.Net
  * added: CVS log sections
  *
  */
+
 #endregion
