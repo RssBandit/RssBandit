@@ -260,7 +260,7 @@ namespace NewsComponents
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
-    public class NewsItem : RelationBase<NewsItem>, INewsItem, ISizeInfo
+    public class NewsItem : RelationBase<NewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>
     {
         /// <summary>
         /// Gets the Feed Link (Source Url)
@@ -1473,7 +1473,7 @@ namespace NewsComponents
                 return Content.GetHashCode();
             }
 
-            return Date.GetHashCode(); //fallback 
+            return 0;
         }
 
 
@@ -1485,22 +1485,31 @@ namespace NewsComponents
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
+            return Equals(obj as NewsItem);
+        }
+
+        public bool Equals(INewsItem other)
+        {
+            return Equals(other as NewsItem);
+        }
+
+        public bool Equals(NewsItem other)
+        {
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
 
-            NewsItem item = obj as NewsItem;
-
-            if (item == null)
-            {
+            if (ReferenceEquals(other, null))
                 return false;
-            }
 
-            if (Id.Equals(item.Id))
+            if (Id.Equals(other.Id))
             {
                 return true;
             }
+            // Fallback
+            if (HasContent && other.HasContent)
+                return Content.Equals(other.Content);
 
             return false;
         }
