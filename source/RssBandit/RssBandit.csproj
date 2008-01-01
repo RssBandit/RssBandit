@@ -2075,9 +2075,6 @@
     <Compile Include="WinGui\Utility\FontColorHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WinGui\Utility\MultiIcon.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="WinGui\Utility\NavigationHistory.cs">
       <SubType>Code</SubType>
     </Compile>
