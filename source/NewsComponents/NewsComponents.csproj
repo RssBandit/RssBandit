@@ -184,9 +184,6 @@
     <Compile Include="Net\AsyncWebRequest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Net\AutomaticProxy.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Net\BITSDownloader.cs">
       <SubType>Code</SubType>
     </Compile>
