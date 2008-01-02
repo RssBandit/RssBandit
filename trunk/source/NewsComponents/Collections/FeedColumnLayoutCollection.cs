@@ -551,10 +551,10 @@ namespace NewsComponents.Collections {
 		#region Keys
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing the keys
+        /// Gets an ICollection[string] containing the keys
 		/// in the <see cref="IStringFeedColumnLayoutDictionary"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing the keys
+        /// <value>An ICollection[string] containing the keys
 		/// in the <see cref="IStringFeedColumnLayoutDictionary"/>.</value>
 		/// <remarks>Please refer to <see cref="IDictionary.Keys"/> for details.</remarks>
 
@@ -1457,10 +1457,10 @@ namespace NewsComponents.Collections {
 		#region Keys
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing
+        /// Gets an ICollection[string] containing
 		/// the keys in the <see cref="FeedColumnLayoutCollection"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing
+        /// <value>An ICollection[string] containing
 		/// the keys in the <see cref="FeedColumnLayoutCollection"/>.</value>
 		/// <remarks>Please refer to <see cref="SortedList.Keys"/> for details.</remarks>
 
@@ -1807,7 +1807,7 @@ namespace NewsComponents.Collections {
 		/// The number of elements in the source <see cref="FeedColumnLayoutCollection"/> is greater than
 		/// the available space from <paramref name="arrayIndex"/> to the end of the destination
 		/// <paramref name="array"/>.</para></exception>
-		/// <remarks>Please refer to <see cref="ArrayList.CopyTo"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.CopyTo for details.</remarks>
 
 		public virtual void CopyTo(FeedColumnLayoutEntry[] array, int arrayIndex) {
 			CheckTargetArray(array, arrayIndex);
@@ -1847,7 +1847,7 @@ namespace NewsComponents.Collections {
 		/// <exception cref="InvalidCastException">
 		/// The <see cref="FeedColumnLayoutEntry"/> type cannot be cast automatically
 		/// to the type of the destination <paramref name="array"/>.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.CopyTo"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.CopyTo for details.</remarks>
 
 		void ICollection.CopyTo(Array array, int arrayIndex) {
 			CopyTo((FeedColumnLayoutEntry[]) array, arrayIndex);
@@ -1943,7 +1943,7 @@ namespace NewsComponents.Collections {
 		/// </summary>
 		/// <returns>An <see cref="IStringFeedColumnLayoutEnumerator"/>
 		/// for the entire <see cref="FeedColumnLayoutCollection"/>.</returns>
-		/// <remarks>Please refer to <see cref="ArrayList.GetEnumerator"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.GetEnumerator for details.</remarks>
 
 		public virtual IStringFeedColumnLayoutEnumerator GetEnumerator() {
 			return new Enumerator(this);
@@ -1958,7 +1958,7 @@ namespace NewsComponents.Collections {
 		/// </summary>
 		/// <returns>An <see cref="IEnumerator"/>
 		/// for the entire <see cref="FeedColumnLayoutCollection"/>.</returns>
-		/// <remarks>Please refer to <see cref="ArrayList.GetEnumerator"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.GetEnumerator for details.</remarks>
 
 		IEnumerator IEnumerable.GetEnumerator() {
 			return (IEnumerator) GetEnumerator();
@@ -1993,7 +1993,7 @@ namespace NewsComponents.Collections {
 		/// <summary>
 		/// Gets the keys in the <see cref="FeedColumnLayoutCollection"/>.
 		/// </summary>
-		/// <returns>An <see cref="IStringList"/> containing the keys
+        /// <returns>An ICollection[string] containing the keys
 		/// in the <see cref="FeedColumnLayoutCollection"/>.</returns>
 		/// <remarks>Please refer to <see cref="SortedList.GetKeyList"/> for details.</remarks>
 
@@ -2033,7 +2033,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="FeedColumnLayoutCollection"/>, if found; otherwise, -1.
 		/// </returns>
 		/// <remarks><para>
-		/// Please refer to <see cref="ArrayList.IndexOf"/> for details.
+		/// Please refer to ArrayList.IndexOf for details.
 		/// </para><para>
 		/// <b>IndexOf</b> uses the equality operators defined by <see cref="String"/>
 		/// and <see cref="FeedColumnLayout"/> to locate the specified <paramref name="entry"/>.
@@ -2064,7 +2064,7 @@ namespace NewsComponents.Collections {
 		/// </returns>
 		/// <exception cref="InvalidCastException"><paramref name="entry"/>
 		/// is not compatible with <see cref="FeedColumnLayoutEntry"/>.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.IndexOf"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.IndexOf for details.</remarks>
 
 		int IList.IndexOf(object entry) {
 			return IndexOf((FeedColumnLayoutEntry) entry);
@@ -2341,7 +2341,7 @@ namespace NewsComponents.Collections {
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="collection"/> is a null reference.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.Synchronized"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.Synchronized for details.</remarks>
 
 		public static FeedColumnLayoutCollection Synchronized(FeedColumnLayoutCollection collection) {
 			if (collection == null)
@@ -2360,7 +2360,7 @@ namespace NewsComponents.Collections {
 		/// <returns>A one-dimensional <see cref="Array"/> of <see cref="FeedColumnLayoutEntry"/>
 		/// elements containing copies of the elements of the <see cref="FeedColumnLayoutCollection"/>.
 		/// </returns>
-		/// <remarks>Please refer to <see cref="ArrayList.ToArray"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.ToArray for details.</remarks>
 
 		public virtual FeedColumnLayoutEntry[] ToArray() {
 			FeedColumnLayoutEntry[] array = new FeedColumnLayoutEntry[this._count];
@@ -3567,10 +3567,10 @@ namespace NewsComponents.Collections.Old {
 		#region Keys
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing the keys
+        /// Gets an ICollection[string] containing the keys
 		/// in the <see cref="IStringlistviewLayoutDictionary"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing the keys
+        /// <value>An ICollection[string] containing the keys
 		/// in the <see cref="IStringlistviewLayoutDictionary"/>.</value>
 		/// <remarks>Please refer to <see cref="IDictionary.Keys"/> for details.</remarks>
 
@@ -4540,10 +4540,10 @@ namespace NewsComponents.Collections.Old {
 		#region Keys: IStringCollection
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing
+        /// Gets an ICollection[string] containing
 		/// the keys in the <see cref="listviewLayoutCollection"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing
+        /// <value>An ICollection[string] containing
 		/// the keys in the <see cref="listviewLayoutCollection"/>.</value>
 		/// <remarks>Please refer to <see cref="SortedList.Keys"/> for details.</remarks>
 
@@ -5010,7 +5010,7 @@ namespace NewsComponents.Collections.Old {
 		/// <summary>
 		/// Gets the keys in the <see cref="listviewLayoutCollection"/>.
 		/// </summary>
-		/// <returns>An <see cref="IStringList"/> containing the keys
+        /// <returns>An ICollection[string] containing the keys
 		/// in the <see cref="listviewLayoutCollection"/>.</returns>
 		/// <remarks>Please refer to <see cref="SortedList.GetKeyList"/> for details.</remarks>
 

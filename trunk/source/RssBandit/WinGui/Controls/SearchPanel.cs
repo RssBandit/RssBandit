@@ -1027,6 +1027,7 @@ namespace RssBandit.WinGui.Controls
 		/// Populates the treeview used as RSS search scope selection.
 		/// </summary>
 		/// <param name="sourceRootNode">The source root node.</param>
+		/// <param name="nodeImages"></param>
 		public void PopulateTreeRssSearchScope(TreeFeedsNodeBase sourceRootNode, ImageList nodeImages) {
 			this.externalScopeRootNode = sourceRootNode;
 			this.treeRssSearchScope.ImageList = nodeImages;

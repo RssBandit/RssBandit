@@ -83,7 +83,7 @@ namespace NewsComponents.Threading {
 
 				// Configure the new thread and start it
 				newThread.IsBackground = true;
-				newThread.ApartmentState = ApartmentState.MTA;
+				newThread.TrySetApartmentState(ApartmentState.MTA);
 				newThread.Start();
 			}
 		}

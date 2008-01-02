@@ -269,9 +269,7 @@ namespace RssBandit.WinGui.Tools
 		protected event ExecuteCommandHandler OnExecute;
 
 		public AppPopupMenuCommand(string key):base(key) {
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+			// Required for Windows.Forms Class Composition Designer support
 			InitializeComponent();
 		}
 		
@@ -443,9 +441,9 @@ namespace RssBandit.WinGui.Tools
 		#region ctor's
 
 		public AppButtonToolCommand(string key):base(key) {
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+			
+			// Required for Windows.Forms Class Composition Designer support
+			
 			InitializeComponent();
 		}
 		/// <summary>
@@ -633,9 +631,9 @@ namespace RssBandit.WinGui.Tools
 		#region ctor's
 
 		public AppStateButtonToolCommand(string key):base(key) {
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+			
+			// Required for Windows.Forms Class Composition Designer support
+			
 			InitializeComponent();
 			base.MenuDisplayStyle = StateButtonMenuDisplayStyle.DisplayCheckmark;
 		}

@@ -388,42 +388,6 @@ namespace NewsComponents.Net
         }
 
         /// <summary>
-        /// Internal workaround. 
-        /// DO NOT USE THIS IN YOUR OWN PROJECTS, UNLESS YOU REALLY KNOW WHAT
-        /// YOU ARE DOING!!!
-        /// Fixes the fix in .NET 1.1 SP1 and .NET 1.0 SP3
-        /// they made the header parsing more standards compliant, but this
-        /// leads to various HTTP protocol violation exceptions on subscribed feeds :-(
-        /// </summary>
-        /* 
-		private static void SetAllowUnsafeHeaderParsing() {			         
-
-			// because we only need to modify statics, we just create a dummy reference to get it initialized
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost/dummyUrl");
-			if (request != null) {
-				Type reqestType = request.GetType();
-				// this test also sets the internal used s_NetConfig variable on first call
-				// and we did not have to test for any Framework version numbers 
-				try {
-					bool isSet = (bool) reqestType.InvokeMember("UseUnsafeHeaderParsing", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.GetProperty, null, request, new object[]{});
-					if (! isSet) {
-						// get the s_NetConfig reference:
-						FieldInfo fi = reqestType.GetField("s_NetConfig" , BindingFlags.Static | BindingFlags.NonPublic );
-						object s_netConfig = (fi != null ? fi.GetValue(request) : null);
-						if (s_netConfig != null) {
-							// OK, we have it. Get the type for calling Field.SetValue() later
-							Type netConfigType = s_netConfig.GetType();
-							FieldInfo fi2 = netConfigType.GetField("useUnsafeHeaderParsing" , BindingFlags.NonPublic | BindingFlags.Instance);
-							if (fi2 != null)
-								fi2.SetValue(s_netConfig, true);	// that's it
-						}
-					}
-				} catch (Exception ex) {
-					_log.Warn("SetAllowUnsafeHeaderParsing() failed", ex);
-				}
-			}
-		} */
-        /// <summary>
         /// To be provided
         /// </summary>
         /// <param name="userAgent"></param>

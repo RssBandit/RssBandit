@@ -2946,6 +2946,7 @@ namespace RssBandit.WinGui.Forms
 		/// Returns null, if invalid
 		/// </summary>
 		/// <param name="url"></param>
+		/// <param name="invalidUriException"></param>
 		/// <returns>valid Url or null</returns>
 		private string ValidateFeedUri(string url, out Exception invalidUriException) {
 			invalidUriException = null;
