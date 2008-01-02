@@ -2097,7 +2097,7 @@ namespace RssBandit
 
                 string playlistName = this.Preferences.SinglePlaylistName;
 
-                if (!this.Preferences.SinglePodcastPlaylist && this.feedHandler.FeedsTable.Contains(podcast.OwnerFeedId))
+                if (!this.Preferences.SinglePodcastPlaylist && this.feedHandler.FeedsTable.ContainsKey(podcast.OwnerFeedId))
                 {
                     playlistName = this.feedHandler.FeedsTable[podcast.OwnerFeedId].title;
                 }
@@ -2169,7 +2169,7 @@ namespace RssBandit
 
                 string playlistName = this.Preferences.SinglePlaylistName;
 
-                if (!this.Preferences.SinglePodcastPlaylist && this.feedHandler.FeedsTable.Contains(podcast.OwnerFeedId))
+                if (!this.Preferences.SinglePodcastPlaylist && this.feedHandler.FeedsTable.ContainsKey(podcast.OwnerFeedId))
                 {
                     playlistName = this.feedHandler.FeedsTable[podcast.OwnerFeedId].title;
                 }
@@ -4604,7 +4604,7 @@ namespace RssBandit
                     {
                         string feedUrl = elem.InnerText;
 
-                        if (this.feedHandler.FeedsTable.Contains(feedUrl))
+                        if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
                         {
                             //check if feed exists 
 
@@ -4682,7 +4682,7 @@ namespace RssBandit
                 }
             }
 
-            if (feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl))
+            if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
             {
                 //check if feed exists 
 
@@ -4745,7 +4745,7 @@ namespace RssBandit
 
 
             //find this item in main feed list and set watched state
-            if (feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl))
+            if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
             {
                 //check if feed exists 
 
@@ -5175,7 +5175,7 @@ namespace RssBandit
                 feedsNode = (TreeFeedsNodeBase) guiMain.FlaggedFeedsNode(item.FlagStatus);
                 foundAndRestored = true;
             }
-            else if (this.FeedHandler.FeedsTable.Contains(containerFeedUrl))
+            else if (this.FeedHandler.FeedsTable.ContainsKey(containerFeedUrl))
             {
                 this.FeedHandler.RestoreDeletedItem(item);
                 feedsNode = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), containerFeedUrl);
@@ -5354,7 +5354,7 @@ namespace RssBandit
                 {
                 }
 
-                if (feedUrl != null && this.feedHandler.FeedsTable.Contains(feedUrl))
+                if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
                 {
                     //check if feed exists 
 
@@ -7207,10 +7207,10 @@ namespace RssBandit
                 SaveFileDialog sfd = new SaveFileDialog();
 
                 ArrayList selections = dialog.GetSelectedFeedUrls();
-                FeedsCollection fc = new FeedsCollection(selections.Count);
+                IDictionary<string, feedsFeed> fc = new SortedDictionary<string, feedsFeed>();
                 foreach (string url in selections)
                 {
-                    if (this.feedHandler.FeedsTable.Contains(url))
+                    if (this.feedHandler.FeedsTable.ContainsKey(url))
                         fc.Add(url, this.feedHandler.FeedsTable[url]);
                 }
 
@@ -7868,7 +7868,7 @@ namespace RssBandit
             string feedUrl = tn.DataKey;
             if (feedUrl == null ||
                 !RssHelper.IsNntpUrl(feedUrl) ||
-                !this.FeedHandler.FeedsTable.Contains(feedUrl))
+                !this.FeedHandler.FeedsTable.ContainsKey(feedUrl))
             {
                 this.Mediator.SetEnabled("-cmdFeedItemNewPost");
                 return;
@@ -8738,7 +8738,7 @@ namespace RssBandit
             feedsFeed f = new feedsFeed();
 
             f.link = wiz.FeedUrls(index);
-            if (feedHandler.FeedsTable.Contains(f.link))
+            if (feedHandler.FeedsTable.ContainsKey(f.link))
             {
                 feedsFeed f2 = feedHandler.FeedsTable[f.link];
                 this.MessageInfo(SR.GUIFieldLinkRedundantInfo(
@@ -8839,12 +8839,26 @@ namespace RssBandit
             }
         }
 
-        public IDictionary Subscriptions
+        public bool ContainsFeed(string address)
         {
-            get
+            return this.feedHandler.FeedsTable.ContainsKey(address);
+        }
+
+        public bool TryGetFeedDetails(string url, out string category, out string title, out string link)
+        {
+            feedsFeed f;
+            if (feedHandler.FeedsTable.TryGetValue(url, out f))
             {
-                return new ReadOnlyDictionary(this.feedHandler.FeedsTable);
+                category = f.category ?? string.Empty;
+                title = f.title;
+                link = f.link;
+                return true;
             }
+
+            category = null;
+            title = null;
+            link = null;
+            return false;
         }
 
         IDictionary ICoreApplication.Identities

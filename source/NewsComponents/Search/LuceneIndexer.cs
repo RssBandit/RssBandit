@@ -104,17 +104,16 @@ namespace NewsComponents.Search
 			}
 
 			try {
-				
-				int feedCount = 0, itemCount = 0, maxCount = 0;
+			    int feedCount = 0, itemCount = 0;
 
-				if (newsHandler.FeedsListOK && 
+			    if (newsHandler.FeedsListOK && 
 					0 < newsHandler.FeedsTable.Count) 
 				{
-					maxCount = newsHandler.FeedsTable.Count; 
+					int maxCount = newsHandler.FeedsTable.Count; 
 					// we are working with a copy of the feed list to avoid 
 					// exceptions, if the original feedlist was modified while indexing:
 					string[] feedLinks = new string[maxCount];
-					newsHandler.FeedsTable.GetKeyList().CopyTo(feedLinks, 0);
+					newsHandler.FeedsTable.Keys.CopyTo(feedLinks, 0);
 					for (int i=0; i < maxCount; i++) 
 					{
 						string feedlink = feedLinks[i];
