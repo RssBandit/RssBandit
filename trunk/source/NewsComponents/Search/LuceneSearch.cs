@@ -201,7 +201,7 @@ namespace NewsComponents.Search
 				string feedLink = doc.Get(LuceneSearch.Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
 					f = (feedsFeed) matchedFeeds[feedLink];
-				if (f == null && newsHandler.FeedsTable.Contains(feedLink))
+                if (f == null && newsHandler.FeedsTable.ContainsKey(feedLink))
 					f = newsHandler.FeedsTable[feedLink];
 				if (f == null) continue;
 				SearchHitNewsItem item = new SearchHitNewsItem(f, 

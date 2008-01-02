@@ -2977,13 +2977,15 @@ namespace RssBandit.WinGui.Forms
 				}
 				
 			}
-	
-			IDictionary subscribed = coreApplication.Subscriptions;
-			if(subscribed.Contains(newUrl)) {
-				feedsFeed f2 = (feedsFeed)subscribed[newUrl]; 
+
+    
+            if (coreApplication.ContainsFeed(newUrl))
+            {
+				string category, title, link;
+                coreApplication.TryGetFeedDetails(newUrl, out category, out title, out link);
 				invalidUriException = new InvalidOperationException( 
 					SR.GUIFieldLinkRedundantInfo( 
-					(f2.category == null? String.Empty : f2.category + NewsHandler.CategorySeparator) + f2.title, f2.link ));
+					((category ?? String.Empty) + NewsHandler.CategorySeparator) + title, link ));
 				return null; 
 			}
 

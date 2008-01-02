@@ -240,10 +240,21 @@ namespace RssBandit.AppServices
 		/// <returns></returns>
 		bool SubscribeToFeed(string url, string category, string title);
 
-		/// <summary>
-		/// Gets the Subscriptions Dictionary.
-		/// </summary>
-		IDictionary Subscriptions { get; }
+        /// <summary>
+        /// Checks to see if the feed already exists
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        bool ContainsFeed(string url);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="category"></param>
+        /// <param name="title"></param>
+        /// <param name="link"></param>
+        bool TryGetFeedDetails(string url, out string category, out string title, out string link);
 		#endregion
 
 		#region Channel processing
