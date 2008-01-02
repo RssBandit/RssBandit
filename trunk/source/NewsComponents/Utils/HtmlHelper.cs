@@ -416,12 +416,12 @@ namespace NewsComponents.Utils
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.AllowAutoRedirect = true;
             request.Proxy = proxy;
-            request.Credentials = credentials;
-            request.Timeout = 8*1000 /* 8 second timeout */;
-
-            /* use bogus user agent since some sites will bounce you to unsupported browser page otherwise */
-            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)";
-
+            request.Credentials = credentials; 
+            request.Timeout     = 4 * 1000 /* 4 second timeout */;
+            
+            /* use bogus user agent since some sites will bounce you to unsupported browser page otherwise */ 
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)"; 
+           
             string title = defaultIfNoMatch;
             Stream stream = null;
 
