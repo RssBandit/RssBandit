@@ -224,7 +224,7 @@ namespace RssBandit.WinGui.Controls {
 		}
 
 		/// <summary>
-		/// Saves the current state of a ToolbarManager (including images & texts) to a byte-array.
+		/// Saves the current state of a ToolbarManager (including images &amp; texts) to a byte-array.
 		/// No exceptions are catched in this method
 		/// </summary>
 		/// <param name="toolbarManager">UltraToolbarsManager</param>
@@ -237,7 +237,7 @@ namespace RssBandit.WinGui.Controls {
 		}
 
 		/// <summary>
-		/// Saves the current state of a ToolbarManager (including images & texts) to a (Xml) string.
+		/// Saves the current state of a ToolbarManager (including images &amp; texts) to a (Xml) string.
 		/// No exceptions are catched in this method
 		/// </summary>
 		public static string SaveControlStateToString(UltraToolbarsManager toolbarManager, bool saveUserCustomizations) {
@@ -248,7 +248,7 @@ namespace RssBandit.WinGui.Controls {
 		}
 
 		/// <summary>
-		/// Saves the current state of a ToolbarManager (including images & texts) to a byte-array.
+		/// Saves the current state of a ToolbarManager (including images &amp; texts) to a byte-array.
 		/// No exceptions are catched in this method
 		/// </summary>
 		/// <param name="toolbarManager">UltraToolbarsManager</param>

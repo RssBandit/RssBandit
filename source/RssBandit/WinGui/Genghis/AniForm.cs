@@ -1409,15 +1409,15 @@ namespace Genghis.Windows.Forms
 
         /// <summary>
         /// The background is drawn with a horizontal gradient brush.  The
-        /// gradient starts with <see cref="StartColor"/> and ends with
-        /// <see cref="EndColor"/>
+        /// gradient starts with StartColor and ends with
+        /// EndColor
         /// </summary>
         GradientHorizontal,
 
         /// <summary>
         /// The background is drawn with a vertical gradient brush.  The
-        /// gradient starts with <see cref="StartColor"/> and ends with
-        /// <see cref="EndColor"/>
+        /// gradient starts with StartColor and ends with
+        /// EndColor
         /// </summary>
         GradientVertical
     }
@@ -1429,7 +1429,7 @@ namespace Genghis.Windows.Forms
     {
         /// <summary>
         /// The form is displayed at the position specified by its
-        /// <see cref="Location"/> property
+        /// Location property
         /// </summary>
         Normal,
 
@@ -1472,7 +1472,7 @@ namespace Genghis.Windows.Forms
     {
         /// <summary>
         /// The form will not be stacked and will be placed according
-        /// to the <see cref="Placement"/> and <see cref="StartLocation"/>
+        /// to the Placement and StartLocation
         /// properties
         /// </summary>
         None,
@@ -1582,7 +1582,8 @@ namespace Genghis.Windows.Forms
         }
     }
 
-    internal class OffDisplayException : Exception
+    [Serializable]
+    public class OffDisplayException : Exception
     {
         public OffDisplayException() : base("off screen")
         {

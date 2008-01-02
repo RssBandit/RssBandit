@@ -106,7 +106,7 @@ namespace Genghis
 
         /// <summary>
         /// Gets a property</summary>
-        /// <param name="name">
+        /// <param name="path">
         /// The property name.<br/>
         /// Use slash (/) to logically separate groups of settings.</param>
         /// <param name="defaultValue">
@@ -203,7 +203,7 @@ namespace Genghis
         /// <summary>
         /// Opens a new subnode to store settings under.
         /// </summary>
-        /// <param name="path">The path of the new subnode.</param>
+        /// <param name="subpath">The path of the new subnode.</param>
         /// <remarks>The subnode is created if it doesn't already exist.</remarks>
         public virtual Preferences GetSubnode(string subpath)
         {
@@ -223,7 +223,7 @@ namespace Genghis
 
         /// <summary>
         /// Constructs a per-user preferences object from a class.</summary>
-        /// <param name="c">
+        /// <param name="type">
         /// The class you want to store settings for.  All the
         /// periods in the name will be converted to slashes.</param>
         public static Preferences GetUserNode(Type type)

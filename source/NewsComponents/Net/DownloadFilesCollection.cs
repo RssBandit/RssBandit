@@ -133,10 +133,8 @@ namespace NewsComponents.Net
 	
 		/// <summary>
 		/// Creates a new FileManifest with the deserialized manifest file information.
-		/// </summary>
-		/// <param name="source">The File source location.</param>
-		/// <param name="suggestedType">MimeType</param>
-		/// <param name="expectedSize">long</param>
+        /// </summary>
+        /// <param name="enclosure"></param>
 		public DownloadFile(Enclosure enclosure ) {
 			
 			this.sourceLocation = enclosure.Url;

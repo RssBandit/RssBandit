@@ -147,6 +147,7 @@ namespace RssBandit.WinGui.Controls {
 		/// A helper method that locates the tree node containing the feed 
 		/// that an NewsItem object belongs to. 
 		/// </summary>
+		/// <param name="startNode"></param>
 		/// <param name="item">The RSS item</param>
 		/// <returns>The tree node this object belongs to or null if 
 		/// it can't be found</returns>
@@ -157,6 +158,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <summary>
 		/// Overloaded helper method that locates the tree node containing the feed. 
 		/// </summary>
+		/// <param name="startNode"></param>
 		/// <param name="f">The FeedsFeed</param>
 		/// <returns>The tree node this object belongs to or null if 
 		/// it can't be found</returns>
@@ -172,6 +174,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <summary>
 		/// Overloaded helper method that locates the tree node containing the feed. 
 		/// </summary>
+		/// <param name="startNode"></param>
 		/// <param name="feedUrl">The Feed Url</param>
 		/// <returns>The tree node this object belongs to or null if 
 		/// it can't be found</returns>
@@ -322,15 +325,6 @@ namespace RssBandit.WinGui.Controls {
 			}
 			destinationTree.EndUpdate();
 		}
-
-		/// <summary>
-		/// Copies the node to the destination treeview control.
-		/// </summary>
-		/// <param name="node">The node.</param>
-		/// <param name="destinationTree">The destination tree.</param>
-//		public static void CopyNodes(TreeFeedsNodeBase node, TreeView destinationTree) {
-//			CopyNodes(node, destinationTree, false);
-//		}
 
 		/// <summary>
 		/// Copies the nodes to the destination treeview control.
@@ -1014,6 +1008,7 @@ namespace RssBandit.WinGui.Controls {
 		/// Saves the UltraTreeNodeExpansionMemento instance to specified stream.
 		/// </summary>
 		/// <param name="stream">The stream.</param>
+		/// <param name="tree"></param>
 		public static void Save(Stream stream, UltraTree tree) {
 			UltraTreeNodeExpansionMemento m = new UltraTreeNodeExpansionMemento(tree);
 			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
@@ -1040,6 +1035,7 @@ namespace RssBandit.WinGui.Controls {
 		/// Adds the expanded nodes recursive.
 		/// </summary>
 		/// <param name="node">The node.</param>
+		/// <param name="nodes"></param>
 		private void AddNodesRecursive(TreeFeedsNodeBase node, IList nodes) {
 			if (node == null) 
 				return;
@@ -1057,6 +1053,7 @@ namespace RssBandit.WinGui.Controls {
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <param name="expanded">The expanded.</param>
+		/// <param name="selected"></param>
 		private void ExpandNodesRecursive(TreeFeedsNodeBase node, IDictionary expanded, IDictionary selected) {
 			if (node == null) 
 				return;

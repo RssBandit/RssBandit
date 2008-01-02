@@ -465,6 +465,7 @@ namespace RssBandit.WinGui.Utility {
 		/// Saves the SerializableWebTabState instance to specified stream.
 		/// </summary>
 		/// <param name="stream">The stream.</param>
+		/// <param name="s"></param>
 		public static void Save(Stream stream, SerializableWebTabState s) {
 			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
 				typeof(SerializableWebTabState), RssBanditNamespace.BrowserTabState);
@@ -506,7 +507,7 @@ namespace RssBandit.WinGui.Utility {
 		#endregion
 	}
 	internal class WebTabState: ITabState {
-		private static ITextImageItem[] EmptyHistoryItems = new ITextImageItem[]{};
+		private static readonly ITextImageItem[] EmptyHistoryItems = new ITextImageItem[]{};
 		private string _title;
 		private string _currentUrl;
 		private bool _canGoBack;

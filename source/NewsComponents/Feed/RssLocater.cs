@@ -65,7 +65,7 @@ namespace NewsComponents.Feed {
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
 		/// </summary>
-		private IWebProxy proxy = GlobalProxySelection.GetEmptyWebProxy(); 
+        private IWebProxy proxy = WebRequest.DefaultWebProxy;
 		/// <summary>
 		/// Proxy server information used for connections when fetching feeds. 
 		/// </summary>
@@ -236,6 +236,7 @@ namespace NewsComponents.Feed {
 		/// Creates a new <see cref="RssLocater"/> instance.
 		/// </summary>
 		/// <param name="p">P.</param>
+		/// <param name="userAgent"></param>
 		public RssLocater(IWebProxy p, string userAgent):
 			this(p, userAgent, null) {
 		}

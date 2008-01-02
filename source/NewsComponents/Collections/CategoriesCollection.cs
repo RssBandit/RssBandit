@@ -551,10 +551,10 @@ namespace NewsComponents.Collections {
 		#region Keys
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing the keys
+        /// Gets an ICollection[string] containing the keys
 		/// in the <see cref="IStringcategoryDictionary"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing the keys
+        /// <value>An ICollection[string] containing the keys
 		/// in the <see cref="IStringcategoryDictionary"/>.</value>
 		/// <remarks>Please refer to <see cref="IDictionary.Keys"/> for details.</remarks>
 
@@ -1457,10 +1457,10 @@ namespace NewsComponents.Collections {
 		#region Keys
 
 		/// <summary>
-		/// Gets an <see cref="IStringCollection"/> containing
+        /// Gets an ICollection[string] containing
 		/// the keys in the <see cref="CategoriesCollection"/>.
 		/// </summary>
-		/// <value>An <see cref="IStringCollection"/> containing
+        /// <value>An ICollection[string] containing
 		/// the keys in the <see cref="CategoriesCollection"/>.</value>
 		/// <remarks>Please refer to <see cref="SortedList.Keys"/> for details.</remarks>
 
@@ -1887,7 +1887,7 @@ namespace NewsComponents.Collections {
 		/// The number of elements in the source <see cref="CategoriesCollection"/> is greater than
 		/// the available space from <paramref name="arrayIndex"/> to the end of the destination
 		/// <paramref name="array"/>.</para></exception>
-		/// <remarks>Please refer to <see cref="ArrayList.CopyTo"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.CopyTo for details.</remarks>
 
 		public virtual void CopyTo(CategoryEntry[] array, int arrayIndex) {
 			CheckTargetArray(array, arrayIndex);
@@ -1927,7 +1927,7 @@ namespace NewsComponents.Collections {
 		/// <exception cref="InvalidCastException">
 		/// The <see cref="CategoryEntry"/> type cannot be cast automatically
 		/// to the type of the destination <paramref name="array"/>.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.CopyTo"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.CopyTo for details.</remarks>
 
 		void ICollection.CopyTo(Array array, int arrayIndex) {
 			CopyTo((CategoryEntry[]) array, arrayIndex);
@@ -2023,7 +2023,7 @@ namespace NewsComponents.Collections {
 		/// </summary>
 		/// <returns>An <see cref="IStringcategoryEnumerator"/>
 		/// for the entire <see cref="CategoriesCollection"/>.</returns>
-		/// <remarks>Please refer to <see cref="ArrayList.GetEnumerator"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.GetEnumerator for details.</remarks>
 
 		public virtual IStringcategoryEnumerator GetEnumerator() {
 			return new Enumerator(this);
@@ -2038,7 +2038,7 @@ namespace NewsComponents.Collections {
 		/// </summary>
 		/// <returns>An <see cref="IEnumerator"/>
 		/// for the entire <see cref="CategoriesCollection"/>.</returns>
-		/// <remarks>Please refer to <see cref="ArrayList.GetEnumerator"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.GetEnumerator for details.</remarks>
 
 		IEnumerator IEnumerable.GetEnumerator() {
 			return (IEnumerator) GetEnumerator();
@@ -2073,7 +2073,7 @@ namespace NewsComponents.Collections {
 		/// <summary>
 		/// Gets the keys in the <see cref="CategoriesCollection"/>.
 		/// </summary>
-		/// <returns>An <see cref="IStringList"/> containing the keys
+        /// <returns>A collection containing the keys
 		/// in the <see cref="CategoriesCollection"/>.</returns>
 		/// <remarks>Please refer to <see cref="SortedList.GetKeyList"/> for details.</remarks>
 
@@ -2113,7 +2113,7 @@ namespace NewsComponents.Collections {
 		/// in the <see cref="CategoriesCollection"/>, if found; otherwise, -1.
 		/// </returns>
 		/// <remarks><para>
-		/// Please refer to <see cref="ArrayList.IndexOf"/> for details.
+		/// Please refer to ArrayList.IndexOf for details.
 		/// </para><para>
 		/// <b>IndexOf</b> uses the equality operators defined by <see cref="String"/>
 		/// and <see cref="category"/> to locate the specified <paramref name="entry"/>.
@@ -2144,7 +2144,7 @@ namespace NewsComponents.Collections {
 		/// </returns>
 		/// <exception cref="InvalidCastException"><paramref name="entry"/>
 		/// is not compatible with <see cref="CategoryEntry"/>.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.IndexOf"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.IndexOf for details.</remarks>
 
 		int IList.IndexOf(object entry) {
 			return IndexOf((CategoryEntry) entry);
@@ -2441,7 +2441,7 @@ namespace NewsComponents.Collections {
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="collection"/> is a null reference.</exception>
-		/// <remarks>Please refer to <see cref="ArrayList.Synchronized"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.Synchronized for details.</remarks>
 
 		public static CategoriesCollection Synchronized(CategoriesCollection collection) {
 			if (collection == null)
@@ -2460,7 +2460,7 @@ namespace NewsComponents.Collections {
 		/// <returns>A one-dimensional <see cref="Array"/> of <see cref="CategoryEntry"/>
 		/// elements containing copies of the elements of the <see cref="CategoriesCollection"/>.
 		/// </returns>
-		/// <remarks>Please refer to <see cref="ArrayList.ToArray"/> for details.</remarks>
+		/// <remarks>Please refer to ArrayList.ToArray for details.</remarks>
 
 		public virtual CategoryEntry[] ToArray() {
 			CategoryEntry[] array = new CategoryEntry[this._count];

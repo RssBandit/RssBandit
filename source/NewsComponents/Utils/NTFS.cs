@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using System.Collections.ObjectModel;
 
-///<summary>
-///Encapsulates access to alternative data streams of an NTFS file.
-///Adapted from a C++ sample by Dino Esposito,
-///http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnfiles/html/ntfs5.asp
-///</summary>
+
+//Encapsulates access to alternative data streams of an NTFS file.
+//Adapted from a C++ sample by Dino Esposito,
+//http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnfiles/html/ntfs5.asp
+
 namespace NewsComponents.Utils
 {
     /// <summary>
