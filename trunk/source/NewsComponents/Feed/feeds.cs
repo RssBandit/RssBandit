@@ -1,724 +1,829 @@
 ﻿#region CVS Version Header
+
 /*
  * $Id$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
+
 #endregion
 
 using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Diagnostics;
-
-namespace NewsComponents.Feed {
-
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	[System.Xml.Serialization.XmlRootAttribute("feeds", Namespace=NamespaceCore.Feeds_vCurrent, IsNullable=false)]
-	public class feeds {
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("feed", Type = typeof(feedsFeed), IsNullable = false)]
-		public List<feedsFeed> feed = new List<feedsFeed>();
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("category", Type = typeof(category), IsNullable = false)]
-		public List<category> categories = new List<category>();	
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayAttribute("listview-layouts")]
-		[System.Xml.Serialization.XmlArrayItemAttribute("listview-layout", Type = typeof(listviewLayout), IsNullable = false)]
-		public List<listviewLayout> listviewLayouts = new List<listviewLayout>();	
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
-		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "nntp-servers", IsNullable = false)]
-        public List<NntpServerDefinition> nntpservers = new List<NntpServerDefinition>();	
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("identity", Type = typeof(UserIdentity), IsNullable = false)]
-		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "user-identities", IsNullable = false)]
-		public List<UserIdentity> identities = new List<UserIdentity>();	
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("refresh-rate")]
-		public int refreshrate;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool refreshrateSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("create-subfolders-for-enclosures"), System.ComponentModel.DefaultValue(false) ]		
-		public bool createsubfoldersforenclosures;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool createsubfoldersforenclosuresSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("download-enclosures")]
-		public bool downloadenclosures;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool downloadenclosuresSpecified;
-
-		
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-cache-size-in-MB")]
-		public int enclosurecachesize;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool enclosurecachesizeSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("num-enclosures-to-download-on-new-feed")]
-		public int numtodownloadonnewfeed;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool numtodownloadonnewfeedSpecified;
-		
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-alert")]
-		public bool enclosurealert;    
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool enclosurealertSpecified;
-
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("mark-items-read-on-exit")]
-		public bool markitemsreadonexit;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool markitemsreadonexitSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-folder")]
-		public string enclosurefolder;
-		
-		
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("podcast-folder")]
-		public string podcastfolder;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("podcast-file-exts")]
-		public string podcastfileexts;
-		
-
-		///<summary>ID to an FeedColumnLayout</summary>
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("listview-layout")]
-		public string listviewlayout;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("max-item-age", DataType="duration")]
-		public string maxitemage;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string stylesheet;
-    
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
-	}
-
-
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class listviewLayout {
-		public listviewLayout() {}
-		public listviewLayout(string id,  FeedColumnLayout layout) {
-			this.ID = id;
-			this.FeedColumnLayout = layout;
-		}
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string ID;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute()] //?
-		public FeedColumnLayout FeedColumnLayout;
-	}
-
-
-
-	/// <summary>
-	/// Summary description for IFeedColumnLayout.
-	/// </summary>
-	public interface IFeedColumnLayout {
-		string SortByColumn { get; }
-		SortOrder SortOrder { get ; }
-		string ArrangeByColumn { get; }
-		IList<string> Columns { get; }
-		IList<int> ColumnWidths { get; }
-	}
-
-	[Serializable]
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class FeedColumnLayout: IFeedColumnLayout, ICloneable, ISerializable {
-		private string _sortByColumn;
-		private SortOrder _sortOrder;
-		private LayoutType _layoutType;
-		private string _arrangeByColumn;
-		internal List<string> _columns;
-		internal List<int> _columnWidths;
-
-		public FeedColumnLayout():
-			this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null) {	}
-		public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType):
-			this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null) {	}
-		
-		public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn, SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn) {
-			if (columns != null)
-				_columns = new List<string>(columns);
-			else
-				_columns = new List<string>();
-			if (columnWidths != null)
-				_columnWidths = new List<int>(columnWidths);
-			else
-				_columnWidths = new List<int>();
-
-			_sortOrder = SortOrder.None;
-			if (sortByColumn != null && _columns.IndexOf(sortByColumn) >= 0) {
-				_sortByColumn = sortByColumn;
-				_sortOrder = sortOrder;
-			}
-			if (arrangeByColumn != null && _columns.IndexOf(arrangeByColumn) >= 0) {
-				_arrangeByColumn = arrangeByColumn;
-			}
-			_layoutType = layoutType;
-		}
-
-		public static FeedColumnLayout CreateFromXML(string xmlString) {
-			if (xmlString != null && xmlString.Length > 0) {
-				XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof(FeedColumnLayout));
-				StringReader reader = new StringReader(xmlString);
-				return (FeedColumnLayout)formatter.Deserialize(reader);
-			}
-			return null;
-		}
-
-		public static string SaveAsXML(FeedColumnLayout layout) {
-			if (layout == null)
-				return null;
-			try {
-				XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof(FeedColumnLayout));
-				StringWriter writer = new StringWriter();
-				formatter.Serialize(writer, layout);
-				return writer.ToString();
-			} catch (Exception ex) {
-				Trace.WriteLine("SaveAsXML() failed.", ex.Message);
-			}
-			return null;
-		}
-
-		#region IFeedColumnLayout Members
-
-		public LayoutType LayoutType {
-			get {	return _layoutType; }
-			set { _layoutType = value; }
-		}
-
-
-		public string SortByColumn {
-			get {	return _sortByColumn;	}
-			set {	_sortByColumn = value;	}
-		}
-
-		public SortOrder SortOrder {
-			get {	return _sortOrder; }
-			set { _sortOrder = value; }
-		}
-
-		public string ArrangeByColumn {
-			get {	return _arrangeByColumn;	}
-			set {	_arrangeByColumn = value;	}
-		}
-
-		[XmlIgnore]
-		public IList<string> Columns {
-			get {	return _columns;	}
-			set { 
-				if (value != null)
-					_columns = new List<string>(value); 
-				else
-					_columns = new List<string>();
-			}
-		}
-
-		[XmlIgnore]
-		public IList<int> ColumnWidths {
-			get {	return _columnWidths;	}
-			set { 
-				if (value != null)
-					_columnWidths = new List<int>(value); 
-				else
-					_columnWidths = new List<int>();
-			}
-		}
-
-		#endregion
-
-		[XmlArrayItem(typeof(string))]
-		public List<string> ColumnList {
-			get {	return _columns;	}
-			set { 
-				if (value != null)
-					_columns = value; 
-				else
-					_columns = new List<string>();
-			}
-		}
-		[XmlArrayItem(typeof(int))]
-		public List<int> ColumnWidthList {
-			get {	return _columnWidths;	}
-			set { 
-				if (value != null)
-					_columnWidths = value; 
-				else
-					_columnWidths = new List<int>();
-			}
-		}
-
-		/// <summary>
-		/// Compares two layouts for equality. This method also compares the column widths 
-		/// when determining equality. 
-		/// </summary>
-		/// <param name="obj">the object to compare</param>
-		/// <returns>true if they are equal</returns>
-		public override bool Equals(Object obj){
-			return this.Equals(obj, false); 
-		}
-
-		/// <summary>
-		/// Compares  two layouts for equality.
-		/// </summary>
-		/// <param name="obj">the objects to compare</param>
-		/// <param name="ignoreColumnWidths">indicates whether column widths should be ignored</param>
-		/// <returns>true if they are equal</returns>
-		public bool Equals(object obj, bool ignoreColumnWidths) {
-			if (obj == null)
-				return false;
-			FeedColumnLayout o = obj as FeedColumnLayout;
-			if (o== null)
-				return false;
-			if (this.SortOrder != o.SortOrder)
-				return false;
-			if (this.SortByColumn != o.SortByColumn)
-				return false;
-			if (this._columns == null && o._columns == null)
-				return true;
-			if (this._columns == null || o._columns == null)
-				return false;
-			if (this._columns.Count != o._columns.Count)
-				return false;
-
-			if(ignoreColumnWidths){
-
-				for (int i = 0; i < this._columns.Count; i++) {
-					if (String.Compare((string)this._columns[i], (string)o._columns[i]) != 0 )
-						return false;
-				}
-				
-			}else{
-			
-				for (int i = 0; i < this._columns.Count; i++) {
-					if (String.Compare((string)this._columns[i], (string)o._columns[i]) != 0 || 
-						(int)this._columnWidths[i] != (int)o._columnWidths[i])
-						return false;
-				}
-			}
-
-			return true;
-		}
-
-		/// <summary>
-		/// Returns true, if the layout is a kind of a feed layout (global, individual) and
-		/// they are equal except for column widhts.
-		/// </summary>
-		/// <param name="layout"></param>
-		/// <returns>bool</returns>
-		public bool IsSimilarFeedLayout(FeedColumnLayout layout)
-		{
-			if (layout == null)
-				return false;
-
-			if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalFeedLayout) &&
-				(layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
-				return this.Equals(layout, true);
-			return false;
-		}
-
-		/// <summary>
-		/// Returns true, if the layout is a kind of a category layout (global, individual) and
-		/// they are equal except for column widhts.
-		/// </summary>
-		/// <param name="layout"></param>
-		/// <returns>bool</returns>
-		public bool IsSimilarCategoryLayout(FeedColumnLayout layout) {
-			if (layout == null)
-				return false;
-
-			if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalCategoryLayout) &&
-				(layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
-				return this.Equals(layout, true);
-			return false;
-		}
-
-		public override int GetHashCode() {
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			if (_columns != null && _columns.Count > 0) {
-				for (int i = 0; i < _columns.Count; i++) {
-					sb.AppendFormat("{0};", _columns[i]);
-				}
-			}
-			if (_columnWidths != null && _columnWidths.Count > 0) {
-				for (int i = 0; i < _columnWidths.Count; i++) {
-					sb.AppendFormat("{0};", _columnWidths[i]);
-				}
-			}
-			sb.AppendFormat("{0};", _sortByColumn);
-			sb.AppendFormat("{0};", _sortOrder);
-			sb.AppendFormat("{0};", _arrangeByColumn);
-			sb.AppendFormat("{0};", _layoutType);
-
-			return sb.ToString().GetHashCode();
-		}
-
-		#region ICloneable Members
-
-		public object Clone() {
-			return new FeedColumnLayout(_columns, _columnWidths, _sortByColumn, _sortOrder, _layoutType, _arrangeByColumn);
-		}
-
-		#endregion
-
-		#region ISerializable Members
-
-		protected FeedColumnLayout(SerializationInfo info, StreamingContext context) {
-			int version = info.GetInt32("version");
-			this._columns = (List<string>)info.GetValue("ColumnList", typeof (List<string>));
-			this._columnWidths = (List<int>)info.GetValue("ColumnWidthList", typeof (List<int>));
-			this._sortByColumn = info.GetString("SortByColumn");
-			this._sortOrder = (SortOrder)info.GetValue("SortOrder", typeof(SortOrder));
-			this._arrangeByColumn = info.GetString("ArrangeByColumn");
-		}
-
-
-		public void GetObjectData(SerializationInfo info, StreamingContext context) {
-			info.AddValue("version", 1);
-			info.AddValue("ColumnList", this._columns);
-			info.AddValue("ColumnWidthList", this._columnWidths);
-			info.AddValue("SortByColumn", this._sortByColumn);
-			info.AddValue("SortOrder", this._sortOrder);
-			info.AddValue("ArrangeByColumn", this._arrangeByColumn);
-		}
-
-		#endregion
-	}
-
-
-
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class category {
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("mark-items-read-on-exit")]
-		public bool markitemsreadonexit;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool markitemsreadonexitSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("download-enclosures")]
-		public bool downloadenclosures;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool downloadenclosuresSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-folder")]
-		public string enclosurefolder;
-    
-		///<summary>ID to an FeedColumnLayout</summary>
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("listview-layout")]
-		public string listviewlayout;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string stylesheet;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("refresh-rate")]
-		public int refreshrate;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool refreshrateSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("max-item-age", DataType="duration")]
-		public string maxitemage;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlTextAttribute()]
-		public string Value;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public category parent; 
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-alert"), System.ComponentModel.DefaultValue(false) ]
-		public bool enclosurealert;    
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool enclosurealertSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
-	}
-
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class feedsFeed {
-    
-		/// <remarks/>
-		public string title;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(DataType="anyURI")]
-		public string link;
-    
-		private string _id;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string id {
-			get {
-				if (_id == null || _id.Length == 0) 
-					_id = System.Guid.NewGuid().ToString("N");
-				return _id;
-			}
-			set {
-				_id = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("refresh-rate")]
-		public int refreshrate;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool refreshrateSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("last-retrieved")]
-		public System.DateTime lastretrieved;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool lastretrievedSpecified;
-    
-		/// <remarks/>
-		public string etag;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(DataType="anyURI")]
-		public string cacheurl;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("max-item-age", DataType="duration")]
-		public string maxitemage;
-    
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "stories-recently-viewed", IsNullable = false)]
-		[System.Xml.Serialization.XmlArrayItemAttribute("story", Type = typeof(System.String), IsNullable = false)]
-		public List<string> storiesrecentlyviewed = new List<string>();
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayAttribute(ElementName = "deleted-stories", IsNullable = false)]
-		[System.Xml.Serialization.XmlArrayItemAttribute("story", Type = typeof(System.String), IsNullable = false)]
-		public List<string> deletedstories = new List<string>();
-  
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("if-modified-since")]
-		public System.DateTime lastmodified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool lastmodifiedSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("auth-user")]
-		public string authUser;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("auth-password", DataType="base64Binary")]
-		public System.Byte[] authPassword;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("listview-layout")]
-		public string listviewlayout;
-    
-		/// <remarks/>
-		public string favicon;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("download-enclosures")]
-		public bool downloadenclosures;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool downloadenclosuresSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("enclosure-folder")]
-		public string enclosurefolder;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("replace-items-on-refresh")]
-		public bool replaceitemsonrefresh;    
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool replaceitemsonrefreshSpecified;
-    
-		/// <remarks/>
-		public string stylesheet;
-    
-		/// <remarks>Reference the corresponding NntpServerDefinition</remarks>
-		[System.Xml.Serialization.XmlElementAttribute("news-account")]
-		public string newsaccount;
-		
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("mark-items-read-on-exit")]
-		public bool markitemsreadonexit;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool markitemsreadonexitSpecified;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyElementAttribute()]
-		public System.Xml.XmlElement[] Any;
-    
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("alert"), System.ComponentModel.DefaultValue(false) ]
-		public bool alertEnabled;    
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool alertEnabledSpecified;
-    				
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("enclosure-alert"), System.ComponentModel.DefaultValue(false) ]
-		public bool enclosurealert;    
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool enclosurealertSpecified;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string category;
-    
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
-
-		/// <remarks>True, if the feed caused an exception on request to prevent sequenced
-		/// error reports on every automatic download</remarks>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool causedException {
-			get { return causedExceptionCount != 0; }
-			set { 
-				if (value) {
-					causedExceptionCount++;	// raise counter
-					lastretrievedSpecified = true;
-					lastretrieved = new DateTime(DateTime.Now.Ticks); 
-				} else 
-					causedExceptionCount = 0;	// reset
-			}
-		}
-
-		/// <remarks>Number of exceptions caused on requests</remarks>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public int causedExceptionCount = 0;
-
-		/// <remarks>Can be used to store any attached data</remarks>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public object Tag;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool containsNewMessages; 
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool containsNewComments; 
-
-		/// <summary>
-		/// Gets the value of a particular wildcard element. If the element is not found then 
-		/// null is returned
-		/// </summary>
-		/// <param name="namespaceUri"></param>
-		/// <param name="localName"></param>
-		/// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
-		/// or null if the element is not found. </returns>
-		public string GetElementWildCardValue(string namespaceUri, string localName){
-			foreach(XmlElement element in this.Any){
-			 if(element.LocalName == localName && element.NamespaceURI == namespaceUri)
-				 return element.InnerText; 
-			}			
-			return null; 
-		}
+
+namespace NewsComponents.Feed
+{
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    [XmlRoot("feeds", Namespace=NamespaceCore.Feeds_vCurrent, IsNullable=false)]
+    public class feeds
+    {
+        /// <remarks/>
+        [XmlElement("feed", Type = typeof (feedsFeed), IsNullable = false)]
+        public List<feedsFeed> feed = new List<feedsFeed>();
+
+        /// <remarks/>
+        [XmlArrayItem("category", Type = typeof (category), IsNullable = false)]
+        public List<category> categories = new List<category>();
+
+        /// <remarks/>
+        [XmlArray("listview-layouts")]
+        [XmlArrayItem("listview-layout", Type = typeof (listviewLayout), IsNullable = false)]
+        public List<listviewLayout> listviewLayouts = new List<listviewLayout>();
+
+        /// <remarks/>
+        [XmlArrayItem("server", Type = typeof (NntpServerDefinition), IsNullable = false)]
+        [XmlArray(ElementName = "nntp-servers", IsNullable = false)]
+        public List<NntpServerDefinition> nntpservers = new List<NntpServerDefinition>();
+
+        /// <remarks/>
+        [XmlArrayItem("identity", Type = typeof (UserIdentity), IsNullable = false)]
+        [XmlArray(ElementName = "user-identities", IsNullable = false)]
+        public List<UserIdentity> identities = new List<UserIdentity>();
+
+        /// <remarks/>
+        [XmlAttribute("refresh-rate")]
+        public int refreshrate;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool refreshrateSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("create-subfolders-for-enclosures"), DefaultValue(false)]
+        public bool createsubfoldersforenclosures;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool createsubfoldersforenclosuresSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("download-enclosures")]
+        public bool downloadenclosures;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool downloadenclosuresSpecified;
+
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-cache-size-in-MB")]
+        public int enclosurecachesize;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool enclosurecachesizeSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("num-enclosures-to-download-on-new-feed")]
+        public int numtodownloadonnewfeed;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool numtodownloadonnewfeedSpecified;
+
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-alert")]
+        public bool enclosurealert;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool enclosurealertSpecified;
+
+
+        /// <remarks/>
+        [XmlAttribute("mark-items-read-on-exit")]
+        public bool markitemsreadonexit;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool markitemsreadonexitSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-folder")]
+        public string enclosurefolder;
+
+
+        /// <remarks/>
+        [XmlAttribute("podcast-folder")]
+        public string podcastfolder;
+
+        /// <remarks/>
+        [XmlAttribute("podcast-file-exts")]
+        public string podcastfileexts;
+
+
+        ///<summary>ID to an FeedColumnLayout</summary>
+        /// <remarks/>
+        [XmlAttribute("listview-layout")]
+        public string listviewlayout;
+
+        /// <remarks/>
+        [XmlAttribute("max-item-age", DataType="duration")]
+        public string maxitemage;
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string stylesheet;
+
+
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
+    }
+
+
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class listviewLayout
+    {
+        public listviewLayout()
+        {
+        }
+
+        public listviewLayout(string id, FeedColumnLayout layout)
+        {
+            ID = id;
+            FeedColumnLayout = layout;
+        }
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string ID;
+
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
+
+        /// <remarks/>
+        [XmlElement] //?
+            public FeedColumnLayout FeedColumnLayout;
+    }
+
+
+    /// <summary>
+    /// Summary description for IFeedColumnLayout.
+    /// </summary>
+    public interface IFeedColumnLayout
+    {
+        string SortByColumn { get; }
+        SortOrder SortOrder { get; }
+        string ArrangeByColumn { get; }
+        IList<string> Columns { get; }
+        IList<int> ColumnWidths { get; }
+    }
+
+    [Serializable]
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class FeedColumnLayout : IFeedColumnLayout, ICloneable, ISerializable
+    {
+        private string _sortByColumn;
+        private SortOrder _sortOrder;
+        private LayoutType _layoutType;
+        private string _arrangeByColumn;
+        internal List<string> _columns;
+        internal List<int> _columnWidths;
+
+        public FeedColumnLayout() :
+            this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null)
+        {
+        }
+
+        public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+                                SortOrder sortOrder, LayoutType layoutType) :
+                                    this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null)
+        {
+        }
+
+        public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+                                SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn)
+        {
+            if (columns != null)
+                _columns = new List<string>(columns);
+            else
+                _columns = new List<string>();
+            if (columnWidths != null)
+                _columnWidths = new List<int>(columnWidths);
+            else
+                _columnWidths = new List<int>();
+
+            _sortOrder = SortOrder.None;
+            if (sortByColumn != null && _columns.IndexOf(sortByColumn) >= 0)
+            {
+                _sortByColumn = sortByColumn;
+                _sortOrder = sortOrder;
+            }
+            if (arrangeByColumn != null && _columns.IndexOf(arrangeByColumn) >= 0)
+            {
+                _arrangeByColumn = arrangeByColumn;
+            }
+            _layoutType = layoutType;
+        }
+
+        public static FeedColumnLayout CreateFromXML(string xmlString)
+        {
+            if (xmlString != null && xmlString.Length > 0)
+            {
+                XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
+                StringReader reader = new StringReader(xmlString);
+                return (FeedColumnLayout) formatter.Deserialize(reader);
+            }
+            return null;
+        }
+
+        public static string SaveAsXML(FeedColumnLayout layout)
+        {
+            if (layout == null)
+                return null;
+            try
+            {
+                XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
+                StringWriter writer = new StringWriter();
+                formatter.Serialize(writer, layout);
+                return writer.ToString();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("SaveAsXML() failed.", ex.Message);
+            }
+            return null;
+        }
+
+        #region IFeedColumnLayout Members
+
+        public LayoutType LayoutType
+        {
+            get
+            {
+                return _layoutType;
+            }
+            set
+            {
+                _layoutType = value;
+            }
+        }
+
+
+        public string SortByColumn
+        {
+            get
+            {
+                return _sortByColumn;
+            }
+            set
+            {
+                _sortByColumn = value;
+            }
+        }
+
+        public SortOrder SortOrder
+        {
+            get
+            {
+                return _sortOrder;
+            }
+            set
+            {
+                _sortOrder = value;
+            }
+        }
+
+        public string ArrangeByColumn
+        {
+            get
+            {
+                return _arrangeByColumn;
+            }
+            set
+            {
+                _arrangeByColumn = value;
+            }
+        }
+
+        [XmlIgnore]
+        public IList<string> Columns
+        {
+            get
+            {
+                return _columns;
+            }
+            set
+            {
+                if (value != null)
+                    _columns = new List<string>(value);
+                else
+                    _columns = new List<string>();
+            }
+        }
+
+        [XmlIgnore]
+        public IList<int> ColumnWidths
+        {
+            get
+            {
+                return _columnWidths;
+            }
+            set
+            {
+                if (value != null)
+                    _columnWidths = new List<int>(value);
+                else
+                    _columnWidths = new List<int>();
+            }
+        }
+
+        #endregion
+
+        [XmlArrayItem(typeof (string))]
+        public List<string> ColumnList
+        {
+            get
+            {
+                return _columns;
+            }
+            set
+            {
+                if (value != null)
+                    _columns = value;
+                else
+                    _columns = new List<string>();
+            }
+        }
+
+        [XmlArrayItem(typeof (int))]
+        public List<int> ColumnWidthList
+        {
+            get
+            {
+                return _columnWidths;
+            }
+            set
+            {
+                if (value != null)
+                    _columnWidths = value;
+                else
+                    _columnWidths = new List<int>();
+            }
+        }
+
+        /// <summary>
+        /// Compares two layouts for equality. This method also compares the column widths 
+        /// when determining equality. 
+        /// </summary>
+        /// <param name="obj">the object to compare</param>
+        /// <returns>true if they are equal</returns>
+        public override bool Equals(Object obj)
+        {
+            return Equals(obj, false);
+        }
+
+        /// <summary>
+        /// Compares  two layouts for equality.
+        /// </summary>
+        /// <param name="obj">the objects to compare</param>
+        /// <param name="ignoreColumnWidths">indicates whether column widths should be ignored</param>
+        /// <returns>true if they are equal</returns>
+        public bool Equals(object obj, bool ignoreColumnWidths)
+        {
+            if (obj == null)
+                return false;
+            FeedColumnLayout o = obj as FeedColumnLayout;
+            if (o == null)
+                return false;
+            if (SortOrder != o.SortOrder)
+                return false;
+            if (SortByColumn != o.SortByColumn)
+                return false;
+            if (_columns == null && o._columns == null)
+                return true;
+            if (_columns == null || o._columns == null)
+                return false;
+            if (_columns.Count != o._columns.Count)
+                return false;
+
+            if (ignoreColumnWidths)
+            {
+                for (int i = 0; i < _columns.Count; i++)
+                {
+                    if (String.Compare(_columns[i], o._columns[i]) != 0)
+                        return false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _columns.Count; i++)
+                {
+                    if (String.Compare(_columns[i], o._columns[i]) != 0 ||
+                        _columnWidths[i] != o._columnWidths[i])
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true, if the layout is a kind of a feed layout (global, individual) and
+        /// they are equal except for column widhts.
+        /// </summary>
+        /// <param name="layout"></param>
+        /// <returns>bool</returns>
+        public bool IsSimilarFeedLayout(FeedColumnLayout layout)
+        {
+            if (layout == null)
+                return false;
+
+            if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalFeedLayout) &&
+                (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
+                return Equals(layout, true);
+            return false;
+        }
+
+        /// <summary>
+        /// Returns true, if the layout is a kind of a category layout (global, individual) and
+        /// they are equal except for column widhts.
+        /// </summary>
+        /// <param name="layout"></param>
+        /// <returns>bool</returns>
+        public bool IsSimilarCategoryLayout(FeedColumnLayout layout)
+        {
+            if (layout == null)
+                return false;
+
+            if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalCategoryLayout) &&
+                (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
+                return Equals(layout, true);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (_columns != null && _columns.Count > 0)
+            {
+                for (int i = 0; i < _columns.Count; i++)
+                {
+                    sb.AppendFormat("{0};", _columns[i]);
+                }
+            }
+            if (_columnWidths != null && _columnWidths.Count > 0)
+            {
+                for (int i = 0; i < _columnWidths.Count; i++)
+                {
+                    sb.AppendFormat("{0};", _columnWidths[i]);
+                }
+            }
+            sb.AppendFormat("{0};", _sortByColumn);
+            sb.AppendFormat("{0};", _sortOrder);
+            sb.AppendFormat("{0};", _arrangeByColumn);
+            sb.AppendFormat("{0};", _layoutType);
+
+            return sb.ToString().GetHashCode();
+        }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return
+                new FeedColumnLayout(_columns, _columnWidths, _sortByColumn, _sortOrder, _layoutType, _arrangeByColumn);
+        }
+
+        #endregion
+
+        #region ISerializable Members
+
+        protected FeedColumnLayout(SerializationInfo info, StreamingContext context)
+        {
+            //int version = info.GetInt32("version");
+            _columns = (List<string>) info.GetValue("ColumnList", typeof (List<string>));
+            _columnWidths = (List<int>) info.GetValue("ColumnWidthList", typeof (List<int>));
+            _sortByColumn = info.GetString("SortByColumn");
+            _sortOrder = (SortOrder) info.GetValue("SortOrder", typeof (SortOrder));
+            _arrangeByColumn = info.GetString("ArrangeByColumn");
+        }
+
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("version", 1);
+            info.AddValue("ColumnList", _columns);
+            info.AddValue("ColumnWidthList", _columnWidths);
+            info.AddValue("SortByColumn", _sortByColumn);
+            info.AddValue("SortOrder", _sortOrder);
+            info.AddValue("ArrangeByColumn", _arrangeByColumn);
+        }
+
+        #endregion
+    }
+
+
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class category
+    {
+        /// <remarks/>
+        [XmlAttribute("mark-items-read-on-exit")]
+        public bool markitemsreadonexit;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool markitemsreadonexitSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("download-enclosures")]
+        public bool downloadenclosures;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool downloadenclosuresSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-folder")]
+        public string enclosurefolder;
+
+        ///<summary>ID to an FeedColumnLayout</summary>
+        /// <remarks/>
+        [XmlAttribute("listview-layout")]
+        public string listviewlayout;
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string stylesheet;
+
+        /// <remarks/>
+        [XmlAttribute("refresh-rate")]
+        public int refreshrate;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool refreshrateSpecified;
+
+        /// <remarks/>
+        [XmlAttribute("max-item-age", DataType="duration")]
+        public string maxitemage;
+
+        /// <remarks/>
+        [XmlText]
+        public string Value;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public category parent;
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-alert"), DefaultValue(false)]
+        public bool enclosurealert;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool enclosurealertSpecified;
+
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
+    }
+
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class feedsFeed
+    {
+        /// <remarks/>
+        public string title;
+
+        /// <remarks/>
+        [XmlElement(DataType="anyURI")]
+        public string link;
+
+        private string _id;
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string id
+        {
+            get
+            {
+                if (_id == null || _id.Length == 0)
+                    _id = Guid.NewGuid().ToString("N");
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlElement("refresh-rate")]
+        public int refreshrate;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool refreshrateSpecified;
+
+        /// <remarks/>
+        [XmlElement("last-retrieved")]
+        public DateTime lastretrieved;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool lastretrievedSpecified;
+
+        /// <remarks/>
+        public string etag;
+
+        /// <remarks/>
+        [XmlElement(DataType="anyURI")]
+        public string cacheurl;
+
+        /// <remarks/>
+        [XmlElement("max-item-age", DataType="duration")]
+        public string maxitemage;
+
+
+        /// <remarks/>
+        [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
+        [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
+        public List<string> storiesrecentlyviewed = new List<string>();
+
+        /// <remarks/>
+        [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
+        [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
+        public List<string> deletedstories = new List<string>();
+
+
+        /// <remarks/>
+        [XmlElement("if-modified-since")]
+        public DateTime lastmodified;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool lastmodifiedSpecified;
+
+        /// <remarks/>
+        [XmlElement("auth-user")]
+        public string authUser;
+
+        /// <remarks/>
+        [XmlElement("auth-password", DataType="base64Binary")]
+        public Byte[] authPassword;
+
+        /// <remarks/>
+        [XmlElement("listview-layout")]
+        public string listviewlayout;
+
+        /// <remarks/>
+        public string favicon;
+
+        /// <remarks/>
+        [XmlElement("download-enclosures")]
+        public bool downloadenclosures;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool downloadenclosuresSpecified;
+
+        /// <remarks/>
+        [XmlElement("enclosure-folder")]
+        public string enclosurefolder;
+
+        /// <remarks/>
+        [XmlAttribute("replace-items-on-refresh")]
+        public bool replaceitemsonrefresh;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool replaceitemsonrefreshSpecified;
+
+        /// <remarks/>
+        public string stylesheet;
+
+        /// <remarks>Reference the corresponding NntpServerDefinition</remarks>
+        [XmlElement("news-account")]
+        public string newsaccount;
+
+        /// <remarks/>
+        [XmlElement("mark-items-read-on-exit")]
+        public bool markitemsreadonexit;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool markitemsreadonexitSpecified;
+
+        /// <remarks/>
+        [XmlAnyElement]
+        public XmlElement[] Any;
+
+
+        /// <remarks/>
+        [XmlAttribute("alert"), DefaultValue(false)]
+        public bool alertEnabled;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool alertEnabledSpecified;
+
+
+        /// <remarks/>
+        [XmlAttribute("enclosure-alert"), DefaultValue(false)]
+        public bool enclosurealert;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool enclosurealertSpecified;
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string category;
+
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
+
+        /// <remarks>True, if the feed caused an exception on request to prevent sequenced
+        /// error reports on every automatic download</remarks>
+        [XmlIgnore]
+        public bool causedException
+        {
+            get
+            {
+                return causedExceptionCount != 0;
+            }
+            set
+            {
+                if (value)
+                {
+                    causedExceptionCount++; // raise counter
+                    lastretrievedSpecified = true;
+                    lastretrieved = new DateTime(DateTime.Now.Ticks);
+                }
+                else
+                    causedExceptionCount = 0; // reset
+            }
+        }
+
+        /// <remarks>Number of exceptions caused on requests</remarks>
+        [XmlIgnore]
+        public int causedExceptionCount = 0;
+
+        /// <remarks>Can be used to store any attached data</remarks>
+        [XmlIgnore]
+        public object Tag;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool containsNewMessages;
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool containsNewComments;
+
+        /// <summary>
+        /// Gets the value of a particular wildcard element. If the element is not found then 
+        /// null is returned
+        /// </summary>
+        /// <param name="namespaceUri"></param>
+        /// <param name="localName"></param>
+        /// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
+        /// or null if the element is not found. </returns>
+        public string GetElementWildCardValue(string namespaceUri, string localName)
+        {
+            foreach (XmlElement element in Any)
+            {
+                if (element.LocalName == localName && element.NamespaceURI == namespaceUri)
+                    return element.InnerText;
+            }
+            return null;
+        }
 
         /// <summary>
         /// Tests to see if two feedsFeed objects represent the same feed. 
         /// </summary>
-        /// <param name="f"></param>
         /// <returns></returns>
-        public override bool Equals(Object obj){
-
-            if (Object.ReferenceEquals(this, obj)) { return true; }
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
 
             feedsFeed feed = obj as feedsFeed;
 
-            if (feed == null) { return false; }
+            if (feed == null)
+            {
+                return false;
+            }
 
-            if (this.link.Equals(feed.link))
+            if (link.Equals(feed.link))
             {
                 return true;
             }
@@ -730,214 +835,359 @@ namespace NewsComponents.Feed {
         /// Returns a hashcode for a feedsFeed object. 
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode() {
-            return link.GetHashCode(); 
-        } 
-	}
+        public override int GetHashCode()
+        {
+            return link.GetHashCode();
+        }
+    }
 
-	#region UserIdentity
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class UserIdentity: IUserIdentity, ICloneable
-	{
-	
-		private string name;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("name")] 
-		public string Name {
-			get { return name; }
-			set { name = value; }
-		}
+    #region UserIdentity
 
-		private string realName;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("real-name")] 
-		public string RealName {
-			get { return realName; }
-			set { realName = value; }
-		}
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class UserIdentity : IUserIdentity, ICloneable
+    {
+        private string name;
 
-		private string organization;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("organization")] 
-		public string Organization {
-			get { return organization; }
-			set { organization = value; }
-		}
+        /// <remarks/>
+        [XmlAttribute("name")]
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
 
-		private string mailAddress;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("mail-address")] 
-		public string MailAddress {
-			get { return mailAddress; }
-			set { mailAddress = value; }
-		}
+        private string realName;
 
-		private string responseAddress;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("response-address")] 
-		public string ResponseAddress {
-			get { return responseAddress; }
-			set { responseAddress = value; }
-		}
+        /// <remarks/>
+        [XmlElement("real-name")]
+        public string RealName
+        {
+            get
+            {
+                return realName;
+            }
+            set
+            {
+                realName = value;
+            }
+        }
 
-		private string referrerUrl;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("referrer-url")] 
-		public string ReferrerUrl {
-			get { return referrerUrl; }
-			set { referrerUrl = value; }
-		}
+        private string organization;
 
-		private string signature;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("signature")] 
-		public string Signature {
-			get { return signature; }
-			set { signature = value; }
-		}
+        /// <remarks/>
+        [XmlElement("organization")]
+        public string Organization
+        {
+            get
+            {
+                return organization;
+            }
+            set
+            {
+                organization = value;
+            }
+        }
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
+        private string mailAddress;
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyElementAttribute()]
-		public System.Xml.XmlElement[] Any;
+        /// <remarks/>
+        [XmlElement("mail-address")]
+        public string MailAddress
+        {
+            get
+            {
+                return mailAddress;
+            }
+            set
+            {
+                mailAddress = value;
+            }
+        }
 
-		#region ICloneable Members
+        private string responseAddress;
 
-		public object Clone() {
-			return this.MemberwiseClone();
-		}
+        /// <remarks/>
+        [XmlElement("response-address")]
+        public string ResponseAddress
+        {
+            get
+            {
+                return responseAddress;
+            }
+            set
+            {
+                responseAddress = value;
+            }
+        }
 
-		#endregion
-	}
-	#endregion
+        private string referrerUrl;
 
-	#region NewsServerDefinition
-	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=NamespaceCore.Feeds_vCurrent)]
-	public class NntpServerDefinition: INntpServerDefinition, ICloneable
-	{
-	
-		private string name;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("name")]
-		public string Name {
-			get { return name; }
-			set { name = value; }
-		}
+        /// <remarks/>
+        [XmlElement("referrer-url")]
+        public string ReferrerUrl
+        {
+            get
+            {
+                return referrerUrl;
+            }
+            set
+            {
+                referrerUrl = value;
+            }
+        }
 
-		private string defaultIdentity;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("default-identity")]
-		public string DefaultIdentity {
-			get { return defaultIdentity; }
-			set { defaultIdentity = value; }
-		}
-		
-		private bool preventDownloadOnRefresh;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("prevent-download")]
-		public bool PreventDownloadOnRefresh {
-			get { return preventDownloadOnRefresh; }
-			set { preventDownloadOnRefresh = value; }
-		}
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool PreventDownloadOnRefreshSpecified;
+        private string signature;
 
-		private string server;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("server-address")]
-		public string Server {
-			get { return server; }
-			set { server = value; }
-		}
+        /// <remarks/>
+        [XmlElement("signature")]
+        public string Signature
+        {
+            get
+            {
+                return signature;
+            }
+            set
+            {
+                signature = value;
+            }
+        }
 
-		private string authUser;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("auth-user")]
-		public string AuthUser {
-			get { return authUser; }
-			set { authUser = value; }
-		}
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
 
-		private System.Byte[] authPassword;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("auth-password", DataType="base64Binary")]
-		public System.Byte[] AuthPassword {
-			get { return authPassword; }
-			set { authPassword = value; }
-		}
+        /// <remarks/>
+        [XmlAnyElement]
+        public XmlElement[] Any;
 
-		private bool useSecurePasswordAuthentication;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("auth-use-spa")]
-		public bool UseSecurePasswordAuthentication {
-			get { return useSecurePasswordAuthentication; }
-			set { useSecurePasswordAuthentication = value; }
-		}
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool UseSecurePasswordAuthenticationSpecified;
+        #region ICloneable Members
 
-		private int port;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("port-number")] 
-		public int Port {
-			get { return port; }
-			set { port = value; }
-		}
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool PortSpecified;
-		
-		private bool useSSL;
-		/// <remarks>Makes the 'nntp:' a 'nntps:'</remarks>
-		[System.Xml.Serialization.XmlElementAttribute("use-ssl")]
-		public bool UseSSL {
-			get { return useSSL; }
-			set { useSSL = value; }
-		}
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool UseSSLSpecified;
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		private int timeout;
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("timeout")]
-		public int Timeout {
-			get { return timeout; }
-			set { timeout = value; }
-		}
-		/// <remarks/>
-		[System.Xml.Serialization.XmlIgnoreAttribute()]
-		public bool TimeoutSpecified;
+        #endregion
+    }
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
+    #endregion
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyElementAttribute()]
-		public System.Xml.XmlElement[] Any;
+    #region NewsServerDefinition
 
-		#region ICloneable Members
+    /// <remarks/>
+    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    public class NntpServerDefinition : INntpServerDefinition, ICloneable
+    {
+        private string name;
 
-		public object Clone() {
-			return this.MemberwiseClone();
-		}
+        /// <remarks/>
+        [XmlAttribute("name")]
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
 
-		#endregion
+        private string defaultIdentity;
 
-	}
-	#endregion
+        /// <remarks/>
+        [XmlElement("default-identity")]
+        public string DefaultIdentity
+        {
+            get
+            {
+                return defaultIdentity;
+            }
+            set
+            {
+                defaultIdentity = value;
+            }
+        }
 
+        private bool preventDownloadOnRefresh;
+
+        /// <remarks/>
+        [XmlElement("prevent-download")]
+        public bool PreventDownloadOnRefresh
+        {
+            get
+            {
+                return preventDownloadOnRefresh;
+            }
+            set
+            {
+                preventDownloadOnRefresh = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool PreventDownloadOnRefreshSpecified;
+
+        private string server;
+
+        /// <remarks/>
+        [XmlElement("server-address")]
+        public string Server
+        {
+            get
+            {
+                return server;
+            }
+            set
+            {
+                server = value;
+            }
+        }
+
+        private string authUser;
+
+        /// <remarks/>
+        [XmlElement("auth-user")]
+        public string AuthUser
+        {
+            get
+            {
+                return authUser;
+            }
+            set
+            {
+                authUser = value;
+            }
+        }
+
+        private Byte[] authPassword;
+
+        /// <remarks/>
+        [XmlElement("auth-password", DataType="base64Binary")]
+        public Byte[] AuthPassword
+        {
+            get
+            {
+                return authPassword;
+            }
+            set
+            {
+                authPassword = value;
+            }
+        }
+
+        private bool useSecurePasswordAuthentication;
+
+        /// <remarks/>
+        [XmlElement("auth-use-spa")]
+        public bool UseSecurePasswordAuthentication
+        {
+            get
+            {
+                return useSecurePasswordAuthentication;
+            }
+            set
+            {
+                useSecurePasswordAuthentication = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool UseSecurePasswordAuthenticationSpecified;
+
+        private int port;
+
+        /// <remarks/>
+        [XmlElement("port-number")]
+        public int Port
+        {
+            get
+            {
+                return port;
+            }
+            set
+            {
+                port = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool PortSpecified;
+
+        private bool useSSL;
+
+        /// <remarks>Makes the 'nntp:' a 'nntps:'</remarks>
+        [XmlElement("use-ssl")]
+        public bool UseSSL
+        {
+            get
+            {
+                return useSSL;
+            }
+            set
+            {
+                useSSL = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool UseSSLSpecified;
+
+        private int timeout;
+
+        /// <remarks/>
+        [XmlElement("timeout")]
+        public int Timeout
+        {
+            get
+            {
+                return timeout;
+            }
+            set
+            {
+                timeout = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public bool TimeoutSpecified;
+
+        /// <remarks/>
+        [XmlAnyAttribute]
+        public XmlAttribute[] AnyAttr;
+
+        /// <remarks/>
+        [XmlAnyElement]
+        public XmlElement[] Any;
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        #endregion
+    }
+
+    #endregion
 }
 
 #region CVS Version Log
+
 /*
  * $Log: feeds.cs,v $
  * Revision 1.31  2006/12/16 23:15:51  carnage4life
@@ -974,4 +1224,5 @@ namespace NewsComponents.Feed {
  * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  */
+
 #endregion

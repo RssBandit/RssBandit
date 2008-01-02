@@ -133,6 +133,10 @@ namespace RssBandit
             {
                 // can happen on shutdown
             }
+            catch(InvalidOperationException)
+            {
+                // can happen on shutdown
+            }
             catch (TargetInvocationException e)
             {
 
