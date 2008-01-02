@@ -735,14 +735,6 @@ namespace NewsComponents
         #endregion
 
         /// <summary>
-        /// Gets the refresh rate for a particular feed
-        /// </summary>
-        public static void GetRefreshRate()
-        {
-            //TODO
-        }
-
-        /// <summary>
         /// Returns the user path used to store the current feed and cached items.
         /// </summary>
         /// <param name="appname">The application name that uses the component.</param>
@@ -2040,24 +2032,6 @@ namespace NewsComponents
             return false;
         }
 
-        // not currently used:
-        private bool RaiseFeedSearchResultEvent(feedsFeed f, object tag)
-        {
-            try
-            {
-                if (FeedSearchResult != null)
-                {
-                    FeedSearchResultEventArgs ea = new FeedSearchResultEventArgs(f, tag, false);
-                    FeedSearchResult(this, ea);
-                    return ea.Cancel;
-                }
-            }
-            catch
-            {
-            }
-            return false;
-        }
-
         private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, int matchingFeedsCount,
                                               int matchingItemsCount)
         {
@@ -3190,8 +3164,7 @@ namespace NewsComponents
                 XmlDocument opmlDoc = new XmlDocument();
                 opmlDoc.LoadXml("<opml version='1.0'><head /><body /></opml>");
 
-                Hashtable categoryTable = new Hashtable(categories.Count);
-                //CategoriesCollection categoryList = (CategoriesCollection)categories.Clone();
+                Dictionary<string, XmlElement> categoryTable = new Dictionary<string, XmlElement>(categories.Count);
 
                 foreach (feedsFeed f in feeds.Values)
                 {
@@ -3201,7 +3174,7 @@ namespace NewsComponents
                     outline.SetAttribute("type", "rss");
                     outline.SetAttribute("text", f.title);
 
-                   FeedDetailsInternal fi  = null;
+                   FeedDetailsInternal fi;
                     bool success = itemsTable.TryGetValue(f.link, out fi); 
 			  
 					if(success){
@@ -3213,7 +3186,7 @@ namespace NewsComponents
 
                     XmlElement catnode;
                     if (categoryTable.ContainsKey(category))
-                        catnode = (XmlElement) categoryTable[category];
+                        catnode = categoryTable[category];
                     else
                     {
                         catnode = CreateCategoryHive((XmlElement) opmlDoc.DocumentElement.ChildNodes[1], category);
@@ -6021,8 +5994,8 @@ namespace NewsComponents
             //feedListImported = true; 
             /* TODO: Sync category settings */
 
-            CategoriesCollection categories = new CategoriesCollection();
-            FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
+            CategoriesCollection cats = new CategoriesCollection();
+            FeedColumnLayoutCollection colLayouts = new FeedColumnLayoutCollection();
 
             IDictionary<string, feedsFeed> syncedfeeds = new SortedDictionary<string, feedsFeed>();
 
@@ -6036,7 +6009,7 @@ namespace NewsComponents
 
             while (myFeeds.feed.Count != 0)
             {
-                feedsFeed f1 = (feedsFeed) myFeeds.feed[0];
+                feedsFeed f1 = myFeeds.feed[0];
 
                 bool isBadUri = false;
                 try
@@ -6063,18 +6036,18 @@ namespace NewsComponents
                     {
                         f2.category = f1.category;
 
-                        if ((f2.category != null) && !categories.ContainsKey(f2.category))
+                        if ((f2.category != null) && !cats.ContainsKey(f2.category))
                         {
-                            categories.Add(f2.category);
+                            cats.Add(f2.category);
                         }
 
                         //copy listview layout information over
-                        if ((f1.listviewlayout != null) && !layouts.ContainsKey(f1.listviewlayout))
+                        if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
                         {
                             listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
                             if (layout != null)
-                                layouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
+                                colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
                             else
                                 f1.listviewlayout = null;
                         }
@@ -6144,17 +6117,17 @@ namespace NewsComponents
                 {
                     if (replace)
                     {
-                        if ((f1.category != null) && !categories.ContainsKey(f1.category))
+                        if ((f1.category != null) && !cats.ContainsKey(f1.category))
                         {
-                            categories.Add(f1.category);
+                            cats.Add(f1.category);
                         }
 
-                        if ((f1.listviewlayout != null) && !layouts.ContainsKey(f1.listviewlayout))
+                        if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
                         {
                             listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
                             if (layout != null)
-                                layouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
+                                colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
                             else
                                 f1.listviewlayout = null;
                         }
@@ -6224,7 +6197,7 @@ namespace NewsComponents
                         layout.FeedColumnLayout.LayoutType == LayoutType.GlobalCategoryLayout ||
                         layout.FeedColumnLayout.LayoutType == LayoutType.SearchFolderLayout ||
                         layout.FeedColumnLayout.LayoutType == LayoutType.SpecialFeedsLayout)
-                        layouts.Add(layout.ID, layout.FeedColumnLayout);
+                        colLayouts.Add(layout.ID, layout.FeedColumnLayout);
                 }
                 else if (!this.layouts.ContainsKey(layout.ID))
                 {
@@ -6243,13 +6216,13 @@ namespace NewsComponents
                 /* update feeds table */
                 this._feedsTable = syncedfeeds;
                 /* update category information */
-                this.categories = categories;
+                this.categories = cats;
                 /* update identities */
                 this.identities = identityList;
                 /* update servers */
                 this.nntpServers = serverList;
                 /* update layouts */
-                this.layouts = layouts;
+                this.layouts = colLayouts;
             }
             else
             {
