@@ -284,6 +284,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Core\ApplicationExceptionHandler.cs" />
+    <Compile Include="Core\Exceptions.cs" />
+    <Compile Include="Core\RssBanditApplication.Commands.cs" />
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
       <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>
@@ -1759,6 +1762,9 @@
     <Compile Include="Core\RssBanditApplication.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\RssBanditApplication.EventHandlers.cs" />
+    <Compile Include="Core\RssBanditApplication.Podcasts.cs" />
+    <Compile Include="Core\RssBanditApplication.Statics.cs" />
     <Compile Include="Core\RssBanditPreferences.cs">
       <SubType>Code</SubType>
     </Compile>
