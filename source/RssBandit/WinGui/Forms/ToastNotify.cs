@@ -86,6 +86,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="enclosureActivateCallback"></param>
 		/// <param name="onFeedPropertiesDialog"></param>
+		/// <param name="onFeedActivateCallback"></param>
 		protected void Init(EnclosureActivateCallback enclosureActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog, 	FeedActivateCallback onFeedActivateCallback){
 			Init(null, onFeedPropertiesDialog, onFeedActivateCallback, enclosureActivateCallback); 
 		}
@@ -96,6 +97,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="onItemActivateCallback"></param>
 		/// <param name="onFeedPropertiesDialog"></param>
 		/// <param name="onFeedActivateCallback"></param>
+		/// <param name="enclosureActivateCallback"></param>
 		protected void Init(ItemActivateCallback onItemActivateCallback, 
 			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
 			FeedActivateCallback onFeedActivateCallback, 

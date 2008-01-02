@@ -5691,15 +5691,6 @@ namespace RssBandit
 
         /// <summary>
         /// Pops up the NewFeedDialog class and adds a new feed to the list 
-        /// of subscribed feeds. The category will be preselected/added.
-        /// </summary>
-        /// <param name="category">Feed category</param>
-        /// <returns>true, if the dialog succeeds (feed subscribed), else false</returns>
-//		public bool CmdNewFeed(string category) {
-//			return this.CmdNewFeed(category, null, null);
-//		}
-        /// <summary>
-        /// Pops up the NewFeedDialog class and adds a new feed to the list 
         /// of subscribed feeds.
         /// </summary>
         /// <param name="category">Feed category</param>
@@ -5818,15 +5809,15 @@ namespace RssBandit
         /// http://127.0.0.1:8888/index.html?add_url=&lt;FEED_URL>
         /// http://127.0.0.1:8888/index.html?add_urls=&lt;FEED_URL1>,&lt;FEED_URL2>,...
         /// http://127.0.0.1:8888/index.html?add_url=&lt;OPML_URL>
-        /// fdaction:?action=toggleread&postid=id-of-post
-        /// fdaction:?action=toggleflag&postid=id-of-post
-        /// fdaction:?action=previouspage&currpage=current-page-number
-        /// fdaction:?action=nextpage&currpage=current-page-number
+        /// fdaction:?action=toggleread&amp;postid=id-of-post
+        /// fdaction:?action=toggleflag&amp;postid=id-of-post
+        /// fdaction:?action=previouspage&amp;currpage=current-page-number
+        /// fdaction:?action=nextpage&amp;currpage=current-page-number
         /// From within error detail reports:
-        /// fdaction:?action=navigatetofeed&feedid=id-of-feed
-        /// fdaction:?action=unsubscribefeed&feedid=id-of-feed
+        /// fdaction:?action=navigatetofeed&amp;feedid=id-of-feed
+        /// fdaction:?action=unsubscribefeed&amp;feedid=id-of-feed
         /// From within top story page:
-        /// fdaction?action=markdiscussionread&storyid=id-of-story
+        /// fdaction?action=markdiscussionread&amp;storyid=id-of-story
         /// </code>
         /// </remarks>
         public bool InterceptUrlNavigation(string webUrl)

@@ -260,8 +260,8 @@ namespace NewsComponents.Net
 					}
 				} catch {}
 			}
-			Thread thread = new Thread(new ThreadStart(Run));
-			thread.ApartmentState = ApartmentState.MTA;
+			Thread thread = new Thread(Run);
+            thread.TrySetApartmentState(ApartmentState.MTA);
 			thread.IsBackground = true;
 			thread.Priority = ThreadPriority.Normal;
 			thread.Start();

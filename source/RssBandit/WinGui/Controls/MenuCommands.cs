@@ -163,14 +163,15 @@ namespace RssBandit.WinGui.Menus {
 #if !CLR_20
 		private object tag = null;
 #endif
-		public AppContextMenuCommand():base()	{
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+		public AppContextMenuCommand()
+		{
+			
+			// Required for Windows.Forms Class Composition Designer support
+			
 			InitializeComponent();
 
 			//create default click handler
-			EventHandler evh = new EventHandler (this.ClickHandler);
+			EventHandler evh = ClickHandler;
 			this.Click += evh;
 		}
 
@@ -183,7 +184,7 @@ namespace RssBandit.WinGui.Menus {
 		public AppContextMenuCommand(string cmdId, CommandMediator mediator, ExecuteCommandHandler executor, string caption, string description): 
 			this()	{
 
-			base.Text = caption;
+			Text = caption;
 			this.description = description;
 			
 			Tag = cmdId;

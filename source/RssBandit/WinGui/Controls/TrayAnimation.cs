@@ -392,7 +392,7 @@ namespace RssBandit.WinGui.Controls
 			/// <summary>
 			/// Adds an icon to a balloon ToolTip. It is placed to the left of the title. If the 
 			/// szTitleInfo member is zero-length, the icon is not shown. See 
-			/// <see cref="BalloonIconStyle">RMUtils.WinAPI.Structs.BalloonIconStyle</see> for more
+			/// RMUtils.WinAPI.Structs.BalloonIconStyle for more
 			/// information.
 			/// </summary>
 			public int dwInfoFlags;
@@ -483,18 +483,18 @@ namespace RssBandit.WinGui.Controls
 		#region Constructors/Destructor
 		public NotifyIconAnimation() :base()
 		{
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+			
+			// Required for Windows.Forms Class Composition Designer support
+			
 			InitializeComponent();
 			
 			Initialize();
 		}
 		public NotifyIconAnimation(System.ComponentModel.IContainer container)
 		{
-			/// <summary>
-			/// Required for Windows.Forms Class Composition Designer support
-			/// </summary>
+			
+			// Required for Windows.Forms Class Composition Designer support
+			
 			container.Add(this);
 			InitializeComponent();
 

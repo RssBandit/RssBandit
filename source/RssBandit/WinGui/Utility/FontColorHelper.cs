@@ -187,20 +187,6 @@ namespace RssBandit.WinGui.Utility
 		public static Color DefaultUnreadCounterColor { [DebuggerStepThrough] get { return p_defaultForeColorStyles[6].Color; }	set { p_defaultForeColorStyles[6].Color = value;} }
 		#endregion
 		
-		/// <summary>
-		/// Used to fix the font size issue with some UI widgets (e.g. TreeView)
-		/// </summary>
-		/// <returns>Not used anymore.</returns>
-//		public static Font FontWithMaxWidth() {
-//			int max = 0, index = 0;
-//			for (int i = 0; i < p_foreColorStyles.Length; i++) {
-//				int m = (int) (p_foreColorStyles[i].FontStyle & ( FontStyle.Bold | FontStyle.Italic));
-//				if (m > max) {
-//					max = m; index = i;
-//				}
-//			}
-//			return new Font(p_defaultFont, p_foreColorStyles[index].FontStyle);
-//		}
 
 		/// <summary>
 		/// Return a new Font with the FontStyle of leadingFont and style merged

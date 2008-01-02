@@ -262,15 +262,6 @@ namespace RssBandit.WinGui.Forms
         private const int _currentToolbarsVersion = 7;
 
         /// <summary>
-        /// To be raised by one on every DockMananger docks modification like new docks!
-        /// </summary>
-        /// <remarks>
-        /// If you forget this, you will always get your old docking layout
-        /// restored from the users local machine.
-        /// </remarks>
-       // private const int _currentDockingVersion = 1; //TODO use this after switch to UltraDockManager
-
-        /// <summary>
         /// To be raised by one on every UltraExplorerBar docks modification like new groups!
         /// </summary>
         /// <remarks>
@@ -3444,8 +3435,6 @@ namespace RssBandit.WinGui.Forms
         /// Helper. Work recursive on the startNode down to the leaves.
         /// Then delete all child categories and FeedNode refs in owner.FeedHandler.
         /// </summary>
-        /// <param name="startNode">Node to start with. The startNode itself is 
-        /// considered on delete.</param>
         /// <param name="startNode">new full category name (long name, with all the '\').</param>
         private void WalkdownThenDeleteFeedsOrCategories(TreeFeedsNodeBase startNode)
         {
@@ -9292,7 +9281,7 @@ namespace RssBandit.WinGui.Forms
 
         #region CmdFinder.. routines
 
-        // <summary>
+        /// <summary>
         /// Re-runs the search and repopulates the search folder.
         /// </summary>
         /// <remarks>Assumes that this is called when the current selected node is a search folder</remarks>
@@ -9396,8 +9385,6 @@ namespace RssBandit.WinGui.Forms
         /// Helper. Work recursive on the startNode down to the leaves.
         /// Then delete all child categories and FeedNode refs in owner.FeedHandler.
         /// </summary>
-        /// <param name="startNode">Node to start with. The startNode itself is 
-        /// considered on delete.</param>
         /// <param name="startNode">new full category name (long name, with all the '\').</param>
         private void WalkdownThenDeleteFinders(TreeFeedsNodeBase startNode)
         {

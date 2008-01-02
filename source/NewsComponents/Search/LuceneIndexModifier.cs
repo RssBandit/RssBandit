@@ -637,8 +637,6 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <returns> the number of documents deleted
 		/// </returns>
-		/// <seealso cref="IndexReader.Delete(Term)">
-		/// </seealso>
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
 		private int DeleteTerm(Term term)
 		{

@@ -259,6 +259,7 @@ namespace RssBandit.Utility.Keyboard
 		/// Given a wParam property of a WM_KEYDOWN Message, returns true if the key combination 
 		/// is mapped to the specified command.
 		/// </summary>
+		/// <param name="command"></param>
 		/// <param name="wParam">
 		/// The Message wParam containing the Keys 
 		/// flag corresponding to a key combination.
