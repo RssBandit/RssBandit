@@ -322,6 +322,7 @@
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\ExceptionHelper.cs" />
     <Compile Include="Utils\FileHelper.cs">
       <SubType>Code</SubType>
     </Compile>

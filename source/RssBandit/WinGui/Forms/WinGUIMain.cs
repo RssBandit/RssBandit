@@ -237,6 +237,16 @@ namespace RssBandit.WinGui.Forms
 
         #region private variables
 
+        /// <summary>
+        /// Async invoke on UI thread
+        /// </summary>
+        private readonly Action<Action> InvokeOnGui;
+
+        /// <summary>
+        /// Sync invoke on UI thread
+        /// </summary>
+        private readonly Action<Action> InvokeOnGuiSync;
+
         private static readonly TimeSpan SevenDays = new TimeSpan(7, 0, 0, 0);
 
         private const int BrowserProgressBarWidth = 120;
@@ -450,6 +460,16 @@ namespace RssBandit.WinGui.Forms
 
         public WinGuiMain(RssBanditApplication theGuiOwner, FormWindowState initialFormState)
         {
+            InvokeOnGuiSync = delegate(Action a)
+            {
+                GuiInvoker.Invoke(this, a);
+            };
+
+            InvokeOnGui = delegate(Action a)
+            {
+                GuiInvoker.InvokeAsync(this, a);
+            };
+
             GuiOwner = theGuiOwner;
             initialStartupState = initialFormState;
 
@@ -1812,15 +1832,10 @@ namespace RssBandit.WinGui.Forms
                     itemSelected = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                 // call them sync., because we want to re-set the previous selected item
-                if (listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired)
-                {
-                    PopulateListViewDelegate populateListView = PopulateListView;
-                    Invoke(populateListView, new object[] {feedNode, items, true, false});
-                }
-                else
+                InvokeOnGuiSync(delegate
                 {
                     PopulateListView(feedNode, items, true, false, feedNode);
-                }
+                });
 
                 if (updateGui)
                 {
@@ -1875,15 +1890,10 @@ namespace RssBandit.WinGui.Forms
                 IList<NewsItem> items = node.Items;
 
                 // call them sync., because we want to re-set the previous selected item
-                if (listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired)
-                {
-                    PopulateListViewDelegate populateListView = PopulateListView;
-                    Invoke(populateListView, new object[] {node, items, true, false});
-                }
-                else
+                InvokeOnGuiSync(delegate
                 {
                     PopulateListView(node, items, true, true, node);
-                }
+                });
 
                 if (updateGui)
                 {
@@ -2226,15 +2236,10 @@ namespace RssBandit.WinGui.Forms
         public void AsyncPopulateListView(TreeFeedsNodeBase associatedFeedsNode, IList<NewsItem> list, bool forceReload,
                                           bool categorizedView, TreeFeedsNodeBase initialFeedsNode)
         {
-            if (listFeedItems.InvokeRequired || listFeedItemsO.InvokeRequired)
-            {
-                PopulateListViewDelegate populateListView = PopulateListView;
-                BeginInvoke(populateListView, new object[] {associatedFeedsNode, list, forceReload, categorizedView});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 PopulateListView(associatedFeedsNode, list, forceReload, categorizedView, initialFeedsNode);
-            }
+            });
         }
 
         /// <summary>
@@ -4392,23 +4397,12 @@ namespace RssBandit.WinGui.Forms
             //to have been called from a thread that is not the UI thread we should ensure 
             //that calls to UI components are actually made from the UI thread or marshalled
             //accordingly. 
-            if (treeFeeds.InvokeRequired)
-            {
-                PopulateTreeFeedsDelegate loadTreeStatus = PopulateFeedSubscriptions;
-                Invoke(loadTreeStatus,
-                       new object[]
-                           {
-                               owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable,
-                               RssBanditApplication.DefaultCategory
-                           });
-                Invoke(new MethodInvoker(PopulateTreeSpecialFeeds));
-            }
-            else
+            InvokeOnGui(delegate
             {
                 PopulateFeedSubscriptions(owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable,
                                           RssBanditApplication.DefaultCategory);
                 PopulateTreeSpecialFeeds();
-            }
+            });
         }
 
         private void CheckForFlaggedNodeAndCreate(NewsItem ri)
@@ -7317,16 +7311,11 @@ namespace RssBandit.WinGui.Forms
         /// <param name="newFeedUrl">Feed Url to add</param>
         public void AddFeedUrlSynchronized(string newFeedUrl)
         {
-            if (treeFeeds.InvokeRequired)
-            {
-                SubscribeToFeedUrlDelegate helper = AddFeedUrlSynchronized;
-                Invoke(helper, new object[] {newFeedUrl});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 newFeedUrl = owner.HandleUrlFeedProtocol(newFeedUrl);
                 owner.CmdNewFeed(null, newFeedUrl, null);
-            }
+            });
         }
 
         public void OnFeedUpdateStart(Uri feedUri, ref bool cancel)
@@ -12896,15 +12885,10 @@ namespace RssBandit.WinGui.Forms
 
         private void OnNewsItemSearchFinished(object sender, NewsHandler.SearchFinishedEventArgs e)
         {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new NewsHandler.SearchFinishedEventHandler(OnNewsItemSearchFinished),
-                            new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 SearchFinishedAction(e.Tag, e.MatchingFeeds, e.MatchingItems, e.MatchingFeedsCount, e.MatchingItemsCount);
-            }
+            });
         }
 
         private void OnSearchPanelStartNewsItemSearch(object sender, NewsItemSearchEventArgs e)
@@ -13474,55 +13458,53 @@ namespace RssBandit.WinGui.Forms
 
         private void OnPreferencesChanged(object sender, EventArgs e)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new EventHandler(OnPreferencesChanged), new object[] {sender, e});
-                return;
-            }
+            InvokeOnGui(delegate
+                            {
+                                if (listFeedItems.ShowAsThreads != owner.Preferences.BuildRelationCosmos)
+                                {
+                                    if (owner.Preferences.BuildRelationCosmos)
+                                    {
+                                        listFeedItems.ShowAsThreads = true;
+                                    }
+                                    else
+                                    {
+                                        //listFeedItems.ShowAsThreads = false;
+                                        listFeedItems.ShowInGroups = false;
+                                        listFeedItems.AutoGroupMode = false;
+                                    }
+                                }
 
-            if (listFeedItems.ShowAsThreads != owner.Preferences.BuildRelationCosmos)
-            {
-                if (owner.Preferences.BuildRelationCosmos)
-                {
-                    listFeedItems.ShowAsThreads = true;
-                }
-                else
-                {
-                    //listFeedItems.ShowAsThreads = false;
-                    listFeedItems.ShowInGroups = false;
-                    listFeedItems.AutoGroupMode = false;
-                }
-            }
+                                SetFontAndColor(
+                                    owner.Preferences.NormalFont, owner.Preferences.NormalFontColor,
+                                    owner.Preferences.UnreadFont, owner.Preferences.UnreadFontColor,
+                                    owner.Preferences.FlagFont, owner.Preferences.FlagFontColor,
+                                    owner.Preferences.ErrorFont, owner.Preferences.ErrorFontColor,
+                                    owner.Preferences.RefererFont, owner.Preferences.RefererFontColor,
+                                    owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
+                                    );
 
-            SetFontAndColor(
-                owner.Preferences.NormalFont, owner.Preferences.NormalFontColor,
-                owner.Preferences.UnreadFont, owner.Preferences.UnreadFontColor,
-                owner.Preferences.FlagFont, owner.Preferences.FlagFontColor,
-                owner.Preferences.ErrorFont, owner.Preferences.ErrorFontColor,
-                owner.Preferences.RefererFont, owner.Preferences.RefererFontColor,
-                owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
-                );
+                                owner.Mediator.SetEnabled(owner.Preferences.UseRemoteStorage, "cmdUploadFeeds",
+                                                          "cmdDownloadFeeds");
 
-            owner.Mediator.SetEnabled(owner.Preferences.UseRemoteStorage, "cmdUploadFeeds", "cmdDownloadFeeds");
+                                if (Visible)
+                                {
+                                    // initiate a refresh of the NewsItem detail pane
+                                    OnFeedListItemActivate(this, EventArgs.Empty);
 
-            if (Visible)
-            {
-                // initiate a refresh of the NewsItem detail pane
-                OnFeedListItemActivate(this, EventArgs.Empty);
+                                    if (CurrentSelectedFeedsNode != null)
+                                    {
+                                        CurrentSelectedFeedsNode.Control.SelectedNodes.Clear();
+                                        CurrentSelectedFeedsNode.Selected = true;
+                                        CurrentSelectedFeedsNode.Control.ActiveNode = CurrentSelectedFeedsNode;
 
-                if (CurrentSelectedFeedsNode != null)
-                {
-                    CurrentSelectedFeedsNode.Control.SelectedNodes.Clear();
-                    CurrentSelectedFeedsNode.Selected = true;
-                    CurrentSelectedFeedsNode.Control.ActiveNode = CurrentSelectedFeedsNode;
-
-                    if (NumSelectedListViewItems == 0)
-                    {
-                        //** there isn't any more the "TreeViewAction.Unknown" attribute. before: this.OnTreeFeedAfterSelectma(this, new TreeViewEventArgs(this.CurrentSelectedNode, TreeViewAction.Unknown));
-                        OnTreeFeedAfterSelectManually(CurrentSelectedFeedsNode);
-                    }
-                }
-            }
+                                        if (NumSelectedListViewItems == 0)
+                                        {
+                                            //** there isn't any more the "TreeViewAction.Unknown" attribute. before: this.OnTreeFeedAfterSelectma(this, new TreeViewEventArgs(this.CurrentSelectedNode, TreeViewAction.Unknown));
+                                            OnTreeFeedAfterSelectManually(CurrentSelectedFeedsNode);
+                                        }
+                                    }
+                                }
+                            });
         }
 
         private void OnFeedDeleted(object sender, FeedDeletedEventArgs e)
@@ -13696,18 +13678,13 @@ namespace RssBandit.WinGui.Forms
 
         public void DelayTask(DelayedTasks task, object data, int interval)
         {
-            if (InvokeRequired)
-            {
-                DelayTaskDelegate helper = DelayTask;
-                Invoke(helper, new object[] {task, data, interval});
-            }
-            else
+            GuiInvoker.InvokeAsync(this, delegate
             {
                 _uiTasksTimer.SetData(task, data);
                 if (_uiTasksTimer.Interval != interval)
                     _uiTasksTimer.Interval = interval;
                 _uiTasksTimer.StartTask(task);
-            }
+            });
         }
 
         public void StopTask(DelayedTasks task)

@@ -214,21 +214,22 @@ namespace RssBandit
 		  public void OnOtherInstance(string[] args) {
       
 			  // Transition to the UI thread
-			  if( this.context.MainForm.InvokeRequired ) {
-				  OtherInstanceCallback cb = new OtherInstanceCallback(OnOtherInstance);
-				  this.context.MainForm.Invoke(cb, new object[] { args });
-				  return;
-			  }
+              GuiInvoker.Invoke(context.MainForm,
+                  delegate
+                  {
+                      // Let the UI thread know about the other instance
+                      if (this.callback != null) 
+                          this.callback(args);
 
-			  // Let the UI thread know about the other instance
-			  if( this.callback != null ) this.callback(args);
+                      // Activate the main form
+                      context.MainForm.Activate();
+                  });
+ 
 
-			  // Activate the main form
-			  context.MainForm.Activate();
 		  }
 
-		  ApplicationContext context;
-		  OtherInstanceCallback callback;
+		  readonly ApplicationContext context;
+		  readonly OtherInstanceCallback callback;
 	  }
   }
 }

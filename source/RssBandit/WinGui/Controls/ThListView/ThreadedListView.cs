@@ -27,6 +27,7 @@ using THLV = System.Windows.Forms.ThListView;
 using NewsComponents.Feed;
 using RssBandit.Resources;
 using System.Collections.Generic;
+using RssBandit;
 
 namespace System.Windows.Forms.ThListView
 {
@@ -829,20 +830,18 @@ namespace System.Windows.Forms.ThListView
         /// </summary>
         public void CheckForLayoutModifications()
         {
-            if (!Disposing && !IsDisposed && _layout != null)
+            FeedColumnLayout layout = _layout;
+            if (layout != null)
             {
-                if (InvokeRequired)
-                {
-                    Invoke(new ThreadStart(CheckForLayoutModifications));
-                    return;
-                }
+                GuiInvoker.InvokeAsync(this, delegate
+                                                 {
+                                                     FeedColumnLayout current = FeedColumnLayoutFromCurrentSettings();
 
-                FeedColumnLayout current = FeedColumnLayoutFromCurrentSettings();
-
-                if (!_layout.Equals(current))
-                {
-                    RaiseFeedColumnLayoutModifiedEvent(current);
-                }
+                                                     if (!layout.Equals(current))
+                                                     {
+                                                         RaiseFeedColumnLayoutModifiedEvent(current);
+                                                     }
+                                                 });
             }
         }
 

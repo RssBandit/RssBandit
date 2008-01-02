@@ -168,11 +168,10 @@ namespace RssBandit.WinGui
 				// new entry:
 				WinGuiMain guiMain = (WinGuiMain)app.MainForm; 
 
-				if(guiMain.InvokeRequired){
-					guiMain.BeginInvoke(new AddAutoDiscoveredFeedCallback(guiMain.AddAutoDiscoveredUrl), new object[]{info}); 
-				}else{
+				GuiInvoker.InvokeAsync(guiMain, delegate
+                {
 					guiMain.AddAutoDiscoveredUrl(info); 
-				}
+				});
 
 				/* 
 				duplicateItem = new AppButtonToolCommand(String.Concat("cmdDiscoveredFeed_", ++cmdKeyPostfix), mediator, 
@@ -334,47 +333,54 @@ namespace RssBandit.WinGui
 			if (app == null || app.MainForm == null || app.MainForm.Disposing)
 				return;
 
-			if (app.MainForm.InvokeRequired) {	// snyc. wih main UI thread:
-				app.MainForm.BeginInvoke(new MethodInvoker(this.RefreshDiscoveredItemContainer));
-				return;
-			}
+            GuiInvoker.InvokeAsync(app.MainForm,
+                delegate
+                {
+                    while (newDiscoveredFeeds.Count > 0)
+                    {
+                        AppButtonToolCommand item;
+                        lock (newDiscoveredFeeds)
+                        {
+                            item = (AppButtonToolCommand)newDiscoveredFeeds.Dequeue();
+                        }
+                        lock (itemDropdown.Tools)
+                        {
+                            if (itemDropdown.Tools.Contains(item))
+                                itemDropdown.Tools.Remove(item);
+                            itemDropdown.Tools.Insert(1, item);
+                        }
+                    }
 
-			AppButtonToolCommand item = null;
-			while (newDiscoveredFeeds.Count > 0) {
-				lock(newDiscoveredFeeds) {
-					item = (AppButtonToolCommand)newDiscoveredFeeds.Dequeue();
-				}
-				lock(itemDropdown.Tools) {
-					if (itemDropdown.Tools.Contains(item))
-						itemDropdown.Tools.Remove(item);
-					itemDropdown.Tools.Insert(1, item);
-				}
+                    lock (itemDropdown.Tools)
+                    {
+                        foreach (AppButtonToolCommand m in itemDropdown.Tools)
+                        {
+                            if (m.InstanceProps != null)
+                                m.InstanceProps.IsFirstInGroup = false;
+                        }
+                    }
 
-			}
+                    lock (itemDropdown.Tools)
+                    {
+                        if (itemDropdown.Tools.Count > 1)
+                            itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
 
-			lock(itemDropdown.Tools) {
-				foreach (AppButtonToolCommand m in itemDropdown.Tools) {
-					if (m.InstanceProps != null)
-						m.InstanceProps.IsFirstInGroup = false;
-				}
-			}
-
-			lock(itemDropdown.Tools) {
-				if (itemDropdown.Tools.Count > 1)
-					itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
-
-				// refresh appearances/images:
-				int cnt = itemDropdown.Tools.Count;
-				if (cnt <= 1) {
-					itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[0];
-					itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[1];
-				} else {
-					itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[2];
-					itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[3];
-					if (!itemDropdown.Enabled)
-						itemDropdown.Enabled = true;
-				}
-			}
+                        // refresh appearances/images:
+                        int cnt = itemDropdown.Tools.Count;
+                        if (cnt <= 1)
+                        {
+                            itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[0];
+                            itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[1];
+                        }
+                        else
+                        {
+                            itemDropdown.SharedProps.AppearancesSmall.Appearance = this.discoveredAppearance[2];
+                            itemDropdown.SharedProps.AppearancesLarge.Appearance = this.discoveredAppearance[3];
+                            if (!itemDropdown.Enabled)
+                                itemDropdown.Enabled = true;
+                        }
+                    }
+                });
 		}
 		
 		private void OnToolbarsManager_ToolClick(object sender, ToolClickEventArgs e) {
