@@ -247,12 +247,12 @@ namespace RssBandit
         /// <summary>
         /// Async invoke on UI thread
         /// </summary>
-        public readonly Action<Action> InvokeOnGui;
+        private readonly Action<Action> InvokeOnGui;
 
         /// <summary>
         /// Sync invoke on UI thread
         /// </summary>
-        public readonly Action<Action> InvokeOnGuiSync;
+        private readonly Action<Action> InvokeOnGuiSync;
 
 
         #region constructors and startup
@@ -9046,10 +9046,6 @@ namespace RssBandit.Exceptions
     [Serializable]
     public class ExceptionEventArgs : EventArgs
     {
-        ///// <summary>
-        ///// We define also the delegate here.
-        ///// </summary>
-        //public delegate void EventHandler(object sender, ExceptionEventArgs e);
 
         public ExceptionEventArgs()
         {
