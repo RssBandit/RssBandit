@@ -1744,6 +1744,7 @@
     <Compile Include="Core\ExceptionLog4netPublisher.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\GuiInvoker.cs" />
     <Compile Include="Core\IdentityNewsServerManager.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -244,6 +244,17 @@ namespace RssBandit
         public event EventHandler FeedlistLoaded;
         public event FeedDeletedHandler FeedDeleted;
 
+        /// <summary>
+        /// Async invoke on UI thread
+        /// </summary>
+        public readonly Action<Action> InvokeOnGui;
+
+        /// <summary>
+        /// Sync invoke on UI thread
+        /// </summary>
+        public readonly Action<Action> InvokeOnGuiSync;
+
+
         #region constructors and startup
 
         static RssBanditApplication()
@@ -282,10 +293,23 @@ namespace RssBandit
         public RssBanditApplication() 
         {
             this.commandLineOptions = new CommandLineOptions();
+
+            InvokeOnGuiSync = delegate(Action a)
+            {
+                GuiInvoker.Invoke(guiMain, a);
+            };
+
+            InvokeOnGui = delegate(Action a)
+            {
+                GuiInvoker.InvokeAsync(guiMain, a);
+            };
+
         }
 
         public void Init()
         {
+            
+
             LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
 
@@ -492,6 +516,8 @@ namespace RssBandit
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
+
+            GuiInvoker.Initialize();
 
             // thread results to UI serialization/sync.:
             this.threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
@@ -1468,18 +1494,10 @@ namespace RssBandit
         /// <param name="e">CertificateIssueCancelEventArgs</param>
         private void OnRequestCertificateIssue(object sender, CertificateIssueCancelEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                // call synchronized (dialog shown, and we need the result in the cancel event args:
-                guiMain.Invoke(new CertificateIssueHandler(this.OnRequestCertificateIssue), new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 guiMain.OnRequestCertificateIssue(sender, e);
-            }
+            });
         }
 
         #endregion
@@ -1493,21 +1511,13 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnUpdateFeedsStarted(object sender, NewsHandler.UpdateFeedsEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.UpdateFeedsStartedHandler(this.OnUpdateFeedsStarted),
-                                    new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 if (e.ForcedRefresh)
                     stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllForced);
                 else
                     stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllAuto);
-            }
+            });
         }
 
         /// <summary>
@@ -1517,20 +1527,14 @@ namespace RssBandit
         /// <param name="e"></param>
         private void BeforeDownloadFeedStarted(object sender, NewsHandler.DownloadFeedCancelEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.DownloadFeedStartedCallback(this.BeforeDownloadFeedStarted),
-                                    new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(
+            delegate
             {
                 bool cancel = e.Cancel;
                 guiMain.OnFeedUpdateStart(e.FeedUri, ref cancel);
                 e.Cancel = cancel;
-            }
+            });
+            
         }
 
         /// <summary>
@@ -1540,18 +1544,10 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdateFeedStarted(object sender, NewsHandler.UpdateFeedEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.UpdateFeedStartedHandler(this.OnUpdateFeedStarted),
-                                    new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOne);
-            }
+            });
         }
 
         /// <summary>
@@ -1561,14 +1557,7 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdatedFeed(object sender, NewsHandler.UpdatedFeedEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.UpdatedFeedCallback(this.OnUpdatedFeed), new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 guiMain.UpdateFeed(e.UpdatedFeedUri, e.NewFeedUri, e.UpdateState == RequestResult.OK);
 
@@ -1579,7 +1568,7 @@ namespace RssBandit
                     //this.FeedlistModified = true; 
                 }
                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
-            }
+            });
         }
 
         /// <summary>
@@ -1589,20 +1578,12 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdatedCommentFeed(object sender, NewsHandler.UpdatedFeedEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
+            if (e.UpdateState == RequestResult.OK)
             {
-                guiMain.BeginInvoke(new NewsHandler.UpdatedFeedCallback(this.OnUpdatedCommentFeed),
-                                    new object[] {sender, e});
-            }
-            else
-            {
-                if (e.UpdateState == RequestResult.OK)
-                {
-                    guiMain.UpdateCommentFeed(e.UpdatedFeedUri, e.NewFeedUri);
-                }
+                InvokeOnGui(delegate
+                                {
+                                    guiMain.UpdateCommentFeed(e.UpdatedFeedUri, e.NewFeedUri);
+                                });
             }
         }
 
@@ -1613,18 +1594,10 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdatedFavicon(object sender, NewsHandler.UpdatedFaviconEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.UpdatedFaviconCallback(this.OnUpdatedFavicon),
-                                    new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 guiMain.UpdateFavicon(e.Favicon, e.FeedUrls);
-            }
+            });
         }
 
         /// <summary>
@@ -1646,18 +1619,10 @@ namespace RssBandit
             }
 
             /* update GUI if needed */
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.DownloadedEnclosureCallback(guiMain.OnEnclosureReceived),
-                                    new object[] {sender, e});
-            }
-            else
-            {
-                guiMain.OnEnclosureReceived(sender, e);
-            }
+            InvokeOnGui(delegate
+                            {
+                                guiMain.OnEnclosureReceived(sender, e);
+                            }); 
         }
 
         /// <summary>
@@ -1667,15 +1632,7 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdateFeedException(object sender, NewsHandler.UpdateFeedExceptionEventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new NewsHandler.UpdateFeedExceptionCallback(this.OnUpdateFeedException),
-                                    new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 WebException webex = e.ExceptionThrown as WebException;
                 if (webex != null)
@@ -1684,7 +1641,7 @@ namespace RssBandit
                     if (webex.Status == WebExceptionStatus.NameResolutionFailure ||
                         webex.Status == WebExceptionStatus.ProxyNameResolutionFailure)
                     {
-// connection lost?
+                        // connection lost?
                         this.UpdateInternetConnectionState(true); // update connect state
                         if (!this.InternetAccessAllowed)
                         {
@@ -1697,7 +1654,7 @@ namespace RssBandit
                 Trace.WriteLine(e.ExceptionThrown.StackTrace);
                 this.UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true);
                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
-            }
+            });
         }
 
         /// <summary>
@@ -1707,18 +1664,12 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnAllCommentFeedRequestsCompleted(object sender, EventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
 
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new EventHandler(this.OnAllCommentFeedRequestsCompleted), new object[] {sender, e});
-            }
-            else
-            {
-                guiMain.OnAllAsyncUpdateCommentFeedsFinished();
-                GC.Collect();
-            }
+            InvokeOnGui(delegate
+                            {
+                                guiMain.OnAllAsyncUpdateCommentFeedsFinished();
+                                //GC.Collect();
+                            });
         }
 
         /// <summary>
@@ -1728,20 +1679,13 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnAllRequestsCompleted(object sender, EventArgs e)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-
-            if (guiMain.InvokeRequired)
-            {
-                guiMain.BeginInvoke(new EventHandler(this.OnAllRequestsCompleted), new object[] {sender, e});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllDone);
                 guiMain.TriggerGUIStateOnNewFeeds(true);
                 guiMain.OnAllAsyncUpdateFeedsFinished();
-                GC.Collect();
-            }
+               // GC.Collect();
+            });
         }
 
         #endregion
@@ -5396,17 +5340,10 @@ namespace RssBandit
         {
             autoSaveTimer.Dispose();
 
-            if (guiMain != null && !guiMain.IsDisposed)
+            InvokeOnGuiSync(delegate
             {
-                if (guiMain.InvokeRequired)
-                {
-                    guiMain.Invoke(new WinGuiMain.CloseMainForm(guiMain.Close), new object[] {true});
-                }
-                else
-                {
-                    guiMain.Close(true);
-                }
-            }
+                guiMain.Close(true);
+            });
 
             SaveApplicationState(true);
             guiMain = null;
@@ -5453,15 +5390,18 @@ namespace RssBandit
 
             if (oldState != newState)
             {
-                if (guiMain != null && !guiMain.IsDisposed)
-                {
-                    guiMain.SetGuiStateINetConnected(internet_allowed);
-                    guiMain.SetTitleText(null);
-                    Mediator.SetEnabled(connected, "cmdToggleOfflineMode");
-                    if (connected)
-                        Mediator.SetChecked(offline, "cmdToggleOfflineMode");
-                    Mediator.SetEnabled(internet_allowed, "cmdAutoDiscoverFeed");
-                }
+                InvokeOnGui(delegate
+                                {
+                                    if (guiMain != null && !guiMain.IsDisposed)
+                                    {
+                                        guiMain.SetGuiStateINetConnected(internet_allowed);
+                                        guiMain.SetTitleText(null);
+                                        Mediator.SetEnabled(connected, "cmdToggleOfflineMode");
+                                        if (connected)
+                                            Mediator.SetChecked(offline, "cmdToggleOfflineMode");
+                                        Mediator.SetEnabled(internet_allowed, "cmdAutoDiscoverFeed");
+                                    }
+                                });
 
                 // notify service consumers:
                 EventsHelper.Fire(InternetConnectionStateChange,
@@ -5523,11 +5463,12 @@ namespace RssBandit
         /// <param name="theStateObject"></param>
         private void OnAutoSave(object theStateObject)
         {
-            if (IsFormAvailable(guiMain))
+            InvokeOnGui(delegate
             {
                 if (!guiMain.ShutdownInProgress)
                     guiMain.DelayTask(DelayedTasks.SaveUIConfiguration);
-            }
+            });
+
             this.SaveApplicationState();
             this.UpdateInternetConnectionState();
         }
@@ -6772,10 +6713,10 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdShowMainGui(ICommand sender)
         {
-            if (IsFormAvailable(guiMain))
+            InvokeOnGui(delegate
             {
                 guiMain.DoShow();
-            }
+            });
         }
 
         /// <summary>
@@ -8129,24 +8070,18 @@ namespace RssBandit
 
         private void SetGuiStateFeedbackText(string message)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-            if (this.guiMain.InvokeRequired)
-                guiMain.BeginInvoke(new WinGuiMain.SetGuiMessageFeedbackDelegate(guiMain.SetGuiStateFeedback),
-                                    new object[] {message});
-            else
-                this.guiMain.SetGuiStateFeedback(message);
+            InvokeOnGui(delegate
+                            {
+                                this.guiMain.SetGuiStateFeedback(message);
+                            });
         }
 
         private void SetGuiStateFeedbackText(string message, ApplicationTrayState state)
         {
-            if (!IsFormAvailable(guiMain))
-                return;
-            if (this.guiMain.InvokeRequired)
-                guiMain.BeginInvoke(new WinGuiMain.SetGuiMessageStateFeedbackDelegate(guiMain.SetGuiStateFeedback),
-                                    new object[] {message, state});
-            else
-                this.guiMain.SetGuiStateFeedback(message, state);
+            InvokeOnGui(delegate
+                            {
+                                this.guiMain.SetGuiStateFeedback(message, state);
+                            });
         }
 
         /// <summary>
@@ -8944,15 +8879,10 @@ namespace RssBandit
         /// <param name="setFocus">Force to set the focus to the new Tab/Window</param>
         public void NavigateToUrl(string url, string tabCaption, bool forceNewTabOrWindow, bool setFocus)
         {
-            if (guiMain.InvokeRequired)
-            {
-                WinGuiMain.NavigateToURLDelegate d = guiMain.DetailTabNavigateToUrl;
-                guiMain.Invoke(d, new object[] {url, tabCaption, forceNewTabOrWindow, setFocus});
-            }
-            else
+            InvokeOnGui(delegate
             {
                 guiMain.DetailTabNavigateToUrl(url, tabCaption, forceNewTabOrWindow, setFocus);
-            }
+            });
         }
 
         /// <summary>

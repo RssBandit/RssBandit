@@ -178,28 +178,6 @@ namespace RssBandit.WinGui
 			if (windowIndex < 0)
 				return null;
 
-//			int windowIndex = 0;
-//			bool newsItemToastRequired = (toastObject is NewsItem);
-			
-			//foreach(ToastNotify tnCurrent in _toastWindows) 
-			//{
-			//    if (!tnCurrent.Disposing && !tnCurrent.Animating) {
-			//        if(tnCurrent is NewsItemToastNotify) {
-			//            if (newsItemToastRequired) {
-			//                tn = tnCurrent;
-			//                break;
-			//            }
-			//        }
-			//        if(tnCurrent is EnclosureToastNotify) {
-			//            if (!newsItemToastRequired) {
-			//                tn = tnCurrent;
-			//                break;
-			//            }
-			//        }
-			//    } else {
-			//        windowIndex++;
-			//    }
-			//}
 
 			// because we can display stacked toaster's, we have to re-calc the new position
 			// do it every time, maybe the display resolution was changed as we run the app
@@ -230,27 +208,6 @@ namespace RssBandit.WinGui
 			return tn;
 		}
 
-		//private void CleanupForms() {
-		//    lock (_toastWindows) {
-		//        if (_toastWindows.Count > 0) 
-		//        {
-		//            // We do now set .AutoDispose to true, so it is
-		//            // enough to purge the references:
-
-		//            //foreach(ToastNotify f in _toastWindows) {
-		//            //    if (f.InvokeRequired) {
-		//            //        f.Invoke(new MethodInvoker(f.Close));
-		//            //        f.Invoke(new MethodInvoker(f.Dispose));
-		//            //    } else {
-		//            //        f.Close();
-		//            //        f.Dispose();
-		//            //    }
-		//            //}
-		//            _toastWindows.Clear();
-		//        }
-				
-		//    }
-		//}
 
 		private void OnToastAnimatingDone(object sender, EventArgs e) {
 			ToastNotify n = sender as ToastNotify;

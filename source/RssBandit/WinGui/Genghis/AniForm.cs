@@ -99,6 +99,7 @@ using System.Data;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using RssBandit;
 
 namespace Genghis.Windows.Forms
 {
@@ -1105,39 +1106,24 @@ namespace Genghis.Windows.Forms
         private void EndAnimation()
         {
 			//TR: once again: fighting a cross-thread-call exception:
-			if (this.InvokeRequired) {
-				this.Invoke(new MethodInvoker(this.EndAnimation));
-				return;
-			}
-
-        	if (Visible)
+			GuiInvoker.InvokeAsync(this,
+            delegate
             {
-                //Changes done from Original code of Genghis
-                if (this.InvokeRequired)
-                {
-                    //CloseThreadDelegate cldThread = new CloseThreadDelegate(
-                    //m_eventClosed.Set();
-                    //thAnimate.Abort();
-                    CloseWindowDelegate cldCheck = new CloseWindowDelegate(RequestClose);
-                    this.Invoke(cldCheck);
-
-                    ResetClosedEvent();
-                }
-                else
+                if (Visible)
                 {
                     ShowWindow(this.Handle, SW_HIDE);
                 }
-            }
 
-            Animating = false;
-            OnAnimatingDone(EventArgs.Empty);
+                Animating = false;
+                OnAnimatingDone(EventArgs.Empty);
 
-            if (!this.IsDisposed && m_bAutoDispose)
-            {
-                Hide();
-                Close();
-                Dispose();
-            }
+                if (!this.IsDisposed && m_bAutoDispose)
+                {
+                    Hide();
+                    Close();
+                    Dispose();
+                }
+            });
         }
 
         private void SetClosedEvent()
