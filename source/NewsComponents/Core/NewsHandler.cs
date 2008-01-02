@@ -616,7 +616,7 @@ namespace NewsComponents
         /// <returns>null in the case the feed does not have credentials</returns>
         public ICredentials GetFeedCredentials(string feedUrl)
         {
-            if (feedUrl != null && FeedsTable.Contains(feedUrl))
+            if (feedUrl != null && FeedsTable.ContainsKey(feedUrl))
                 return GetFeedCredentials(FeedsTable[feedUrl]);
             return null;
         }
@@ -778,7 +778,7 @@ namespace NewsComponents
 
                 string[] keys;
 
-                lock (FeedsTable.SyncRoot)
+                lock (FeedsTable)
                 {
                     keys = new string[FeedsTable.Count];
                     if (FeedsTable.Count > 0)
@@ -1145,7 +1145,7 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        private FeedsCollection _feedsTable = new FeedsCollection();
+        private IDictionary<string, feedsFeed> _feedsTable = new SortedDictionary<string, feedsFeed>();
 
         /// <summary>
         /// Represents the list of available categories for feeds. 
@@ -2257,7 +2257,7 @@ namespace NewsComponents
         /// </summary>
         /// <exception cref="InvalidOperationException">If some error occurs on converting 
         /// XML feed list to feed table</exception>
-        public FeedsCollection FeedsTable
+        public IDictionary<string, feedsFeed> FeedsTable
         {
             //		[MethodImpl(MethodImplOptions.Synchronized)]
             get
@@ -2334,7 +2334,7 @@ namespace NewsComponents
 
                 string[] keys;
 
-                lock (FeedsTable.SyncRoot)
+                lock (FeedsTable)
                 {
                     keys = new string[FeedsTable.Count];
                     if (FeedsTable.Count > 0)
@@ -2384,7 +2384,7 @@ namespace NewsComponents
         {
             string[] keys;
 
-            lock (FeedsTable.SyncRoot)
+            lock (FeedsTable)
             {
                 keys = new string[FeedsTable.Count];
                 if (FeedsTable.Count > 0)
@@ -2696,7 +2696,7 @@ namespace NewsComponents
                 {
                     foreach (feedsFeed f in myFeeds.feed)
                     {
-                        if (_feedsTable.Contains(f.link) == false)
+                        if (_feedsTable.ContainsKey(f.link) == false)
                         {
                             bool isBadUri = false;
                             try
@@ -2721,7 +2721,7 @@ namespace NewsComponents
                             else
                             {
                                 // test again: we may have changed to Uri above:
-                                if (_feedsTable.Contains(f.link) == false)
+                                if (_feedsTable.ContainsKey(f.link) == false)
                                     _feedsTable.Add(f.link, f);
                             }
                         }
@@ -2751,7 +2751,7 @@ namespace NewsComponents
                         if (f.category != null)
                         {
                             string cat_trimmed = f.category = f.category.Trim();
-
+                            
                             if (!this.categories.ContainsKey(cat_trimmed))
                             {
                                 this.categories.Add(cat_trimmed);
@@ -3179,7 +3179,7 @@ namespace NewsComponents
         /// <param name="includeEmptyCategories">Set to true, if categories without a contained feed should be included</param>
         /// <exception cref="InvalidOperationException">If anything wrong goes on with XmlSerializer</exception>
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
-        public void SaveFeedList(Stream feedStream, FeedListFormat format, FeedsCollection feeds,
+        public void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, feedsFeed> feeds,
                                  bool includeEmptyCategories)
         {
             if (feedStream == null)
@@ -3623,7 +3623,7 @@ namespace NewsComponents
             {
                 fi = itemsTable[feedUrl];
             }
-            if (this.FeedsTable.Contains(feedUrl))
+            if (this.FeedsTable.ContainsKey(feedUrl))
             {
                 f = this.FeedsTable[feedUrl];
             }
@@ -3860,7 +3860,7 @@ namespace NewsComponents
         {
             string folderName = (IsPodcast(filename) ? this.PodcastFolder : this.EnclosureFolder);
 
-            if (this.CreateSubfoldersForEnclosures && this.FeedsTable.Contains(feedUrl))
+            if (this.CreateSubfoldersForEnclosures && this.FeedsTable.ContainsKey(feedUrl))
             {
                 feedsFeed f = FeedsTable[feedUrl];
                 folderName = Path.Combine(folderName, FileHelper.CreateValidFileName(f.title));
@@ -4433,7 +4433,7 @@ namespace NewsComponents
 
             //We need a reference to the feed so we can see if a cached object exists
             feedsFeed theFeed = null;
-            if (FeedsTable.Contains(feedUrl))
+            if (FeedsTable.ContainsKey(feedUrl))
                 theFeed = FeedsTable[feedUrl];
 
             if (theFeed == null) // not anymore in feedTable
@@ -4757,7 +4757,7 @@ namespace NewsComponents
         {
             if (feedUri == null)
                 return new Hashtable();
-            return this.GetFailureContext(FeedsTable[feedUri]);
+            return this.GetFailureContext(FeedsTable[FeedsCollectionExtenstion.KeyFromUri(FeedsTable, feedUri)]);
         }
 
 
@@ -4864,10 +4864,11 @@ namespace NewsComponents
         {
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
-            if (this.FeedsTable.Contains(requestUri))
+            string key = FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri);
+            if (this.FeedsTable.ContainsKey(key))
             {
                 Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
-                feedsFeed f = FeedsTable[requestUri];
+                feedsFeed f = FeedsTable[key];
                 // now we set this within causedException prop.
                 //f.lastretrieved = DateTime.Now; 
                 //f.lastretrievedSpecified = true; 
@@ -4896,7 +4897,7 @@ namespace NewsComponents
             try
             {
                 //We need a reference to the feed so we can see if a cached object exists
-                feedsFeed theFeed = FeedsTable[requestUri];
+                feedsFeed theFeed = FeedsTable[FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri)];
 
                 if (theFeed == null)
                 {
@@ -5132,10 +5133,11 @@ namespace NewsComponents
             }
             catch (Exception e)
             {
-                if (this.FeedsTable.Contains(requestUri))
+                string key = FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri);
+                if (this.FeedsTable.ContainsKey(key))
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
-                    feedsFeed f = FeedsTable[requestUri];
+                    feedsFeed f = FeedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
                     //f.lastretrievedSpecified = true; 
@@ -5286,7 +5288,7 @@ namespace NewsComponents
                     // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
                     string[] keys;
 
-                    lock (FeedsTable.SyncRoot)
+                    lock (FeedsTable)
                     {
                         keys = new string[FeedsTable.Count];
                         if (FeedsTable.Count > 0)
@@ -6022,7 +6024,7 @@ namespace NewsComponents
             CategoriesCollection categories = new CategoriesCollection();
             FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
 
-            FeedsCollection syncedfeeds = new FeedsCollection();
+            IDictionary<string, feedsFeed> syncedfeeds = new SortedDictionary<string, feedsFeed>();
 
             // InitialHTTPLastModifiedSettings used to reduce the initial payload
             // for the first request of imported feeds.

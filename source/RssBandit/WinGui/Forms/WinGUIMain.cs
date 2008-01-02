@@ -171,10 +171,10 @@ namespace RssBandit.WinGui.Forms
         /// <remarks>Read the article at 
         /// http://msdn.microsoft.com/library/en-us/dnforms/html/winforms06112002.asp
         /// for an explanation of why this delegate is needed.</remarks>
-        public delegate void UpdateTreeStatusDelegate(FeedsCollection theFeeds, RootFolderType rootFolder);
+        public delegate void UpdateTreeStatusDelegate(IDictionary<string, feedsFeed> theFeeds, RootFolderType rootFolder);
 
         private delegate void PopulateTreeFeedsDelegate(
-            CategoriesCollection categories, FeedsCollection feedsTable, string defaultCategory);
+            CategoriesCollection categories, IDictionary<string, feedsFeed> feedsTable, string defaultCategory);
 
         /// <summary>
         /// Delegate used for calling PopulateListView() in the correct thread.
@@ -348,7 +348,7 @@ namespace RssBandit.WinGui.Forms
                     // if a user explicitly close the balloon, we are silent for the next 12 retries (we refresh all 5 minutes, so this equals at least to one hour)
 
         private bool _forceShutdown = false;
-        private FormWindowState initialStartupState = FormWindowState.Normal;
+        private readonly FormWindowState initialStartupState = FormWindowState.Normal;
 
         private int _webTabCounter = 0;
 
@@ -2908,7 +2908,7 @@ namespace RssBandit.WinGui.Forms
         internal void OnEnclosureReceived(object sender, DownloadItemEventArgs e)
         {
             /* display alert window on new download available */
-            if (owner.FeedHandler.FeedsTable.Contains(e.DownloadItem.OwnerFeedId))
+            if (owner.FeedHandler.FeedsTable.ContainsKey(e.DownloadItem.OwnerFeedId))
             {
                 feedsFeed f = owner.FeedHandler.FeedsTable[e.DownloadItem.OwnerFeedId];
 
@@ -3294,7 +3294,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         string feedUrl = child.DataKey;
 
-                        if (feedUrl == null || !owner.FeedHandler.FeedsTable.Contains(feedUrl))
+                        if (feedUrl == null || !owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
                             continue;
 
                         try
@@ -4591,7 +4591,7 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
-        public void PopulateFeedSubscriptions(CategoriesCollection categories, FeedsCollection feedsTable,
+        public void PopulateFeedSubscriptions(CategoriesCollection categories, IDictionary<string, feedsFeed> feedsTable,
                                               string defaultCategory)
         {
             EmptyListView();
@@ -5736,7 +5736,7 @@ namespace RssBandit.WinGui.Forms
 
                 // The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
                 // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)					
-                lock (owner.FeedHandler.FeedsTable.SyncRoot)
+                lock (owner.FeedHandler.FeedsTable)
                 {
                     keys = new string[owner.FeedHandler.FeedsTable.Count];
                     if (owner.FeedHandler.FeedsTable.Count > 0)
@@ -5849,7 +5849,7 @@ namespace RssBandit.WinGui.Forms
             //get the current number of comments on the item
             int commentCount = (items.Count == 0 ? NewsItem.NoComments : items.Count);
 
-            if (!owner.CommentFeedsHandler.FeedsTable.Contains(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
+            if (!owner.CommentFeedsHandler.FeedsTable.ContainsKey(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
             {
                 feedUrl = feedUri.LocalPath;
             }
@@ -6004,7 +6004,7 @@ namespace RssBandit.WinGui.Forms
                 items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
             }
 
-            if (!owner.FeedHandler.FeedsTable.Contains(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
+            if (!owner.FeedHandler.FeedsTable.ContainsKey(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
             {
                 feedUrl = feedUri.LocalPath;
             }
@@ -7138,7 +7138,7 @@ namespace RssBandit.WinGui.Forms
                     if (refNode == null)
                     {
                         // corresponding node can be at any hierarchy level, or temporary (if commentRss)
-                        if (owner.FeedHandler.FeedsTable.Contains(feedurl))
+                        if (owner.FeedHandler.FeedsTable.ContainsKey(feedurl))
                             refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), item);
                         else
                             refNode = TreeHelper.FindNode(GetRoot(RootFolderType.SmartFolders), item);
@@ -7339,8 +7339,8 @@ namespace RssBandit.WinGui.Forms
             else
                 feedUrl = feedUri.AbsoluteUri;
 
-            feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
-            if (f != null)
+            feedsFeed f;
+            if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {
                 feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
             }
@@ -10677,12 +10677,12 @@ namespace RssBandit.WinGui.Forms
         /// Iterates through the treeview and highlights all feed titles that 
         /// have unread messages. 
         /// </summary>
-        private void UpdateTreeStatus(FeedsCollection feedsTable)
+        private void UpdateTreeStatus(IDictionary<string, feedsFeed> feedsTable)
         {
             UpdateTreeStatus(feedsTable, RootFolderType.MyFeeds);
         }
 
-        private void UpdateTreeStatus(FeedsCollection feedsTable, RootFolderType rootFolder)
+        private void UpdateTreeStatus(IDictionary<string, feedsFeed> feedsTable, RootFolderType rootFolder)
         {
             if (feedsTable == null) return;
             if (feedsTable.Count == 0) return;
@@ -10957,7 +10957,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         string feedUrl = tn.DataKey;
-                        if (feedUrl != null && owner.FeedHandler.FeedsTable.Contains(feedUrl))
+                        if (feedUrl != null && owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
                         {
                             owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
                         }
@@ -11073,7 +11073,7 @@ namespace RssBandit.WinGui.Forms
 
                 string feedUrl = item.Feed.link;
 
-                if (feedUrl == null || !owner.FeedHandler.FeedsTable.Contains(feedUrl))
+                if (feedUrl == null || !owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
                     continue;
 
                 try
@@ -13363,7 +13363,7 @@ namespace RssBandit.WinGui.Forms
                         }
                     }
 
-                    if (!multipleSubscriptions && owner.FeedHandler.FeedsTable.Contains(feedUrl))
+                    if (!multipleSubscriptions && owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
                     {
                         feedsFeed f2 = owner.FeedHandler.FeedsTable[feedUrl];
                         owner.MessageInfo(SR.GUIFieldLinkRedundantInfo(

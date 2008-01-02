@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
+using NewsComponents.Collections;
 using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using RssBandit.WinGui.Tools;
@@ -430,14 +431,14 @@ namespace RssBandit.WinGui
 			} catch (UriFormatException) {}
 
 			foreach (string url in feeds) {
-				Uri uri = null;
+				Uri uri;
 				try { 
 					if (baseUri != null) {
 						uri = new Uri(baseUri, url);
 					} else {
 						uri = new Uri(url);
 					}
-					if (!this.app.FeedHandler.FeedsTable.ContainsKey(uri)) {
+					if (!this.app.FeedHandler.FeedsTable.ContainsKey(FeedsCollectionExtenstion.KeyFromUri(app.FeedHandler.FeedsTable,uri))) {
 						ret.Add(uri.AbsoluteUri);
 					}
 				} catch (UriFormatException) { /* ignore invalid urls */ }
