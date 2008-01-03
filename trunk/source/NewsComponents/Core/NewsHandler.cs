@@ -97,7 +97,8 @@ namespace NewsComponents
             sb.Append(")");
 
             userAgentTemplate = sb.ToString();
-            LoadCachedTopStoryTitles();
+            // TODO: REMOVE
+            //LoadCachedTopStoryTitles();
         }
 
         /// <summary>
@@ -4743,7 +4744,10 @@ namespace NewsComponents
         {
             if (feedUri == null)
                 return new Hashtable();
-            return this.GetFailureContext(FeedsTable[feedUri]);
+            if (FeedsTable.ContainsKey(feedUri))
+                return this.GetFailureContext(FeedsTable[feedUri]);
+            else
+                return new Hashtable();
         }
 
         /// <summary>
