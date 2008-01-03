@@ -20,6 +20,7 @@ using System.Web;
 using System.Xml;
 using log4net;
 using NewsComponents.Collections;
+using NewsComponents.Net;
 using RssBandit.Common.Logging;
 using Sgml;
 
@@ -418,6 +419,11 @@ namespace NewsComponents.Utils
             request.Proxy = proxy;
             request.Credentials = credentials; 
             request.Timeout     = 4 * 1000 /* 4 second timeout */;
+
+            if(NewsHandler.SetCookies)
+            {
+                HttpCookieManager.SetCookies(request);
+            }
             
             /* use bogus user agent since some sites will bounce you to unsupported browser page otherwise */ 
             request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)"; 
