@@ -2281,7 +2281,7 @@ namespace RssBandit.WinGui.Forms
                 listFeedItems.Items.AddRange(aNew);
                 ApplyNewsItemPropertyImages(aNew);
 
-                listFeedItems.EndUpdate();
+                //listFeedItems.EndUpdate();
                 if (listFeedItemsO.Visible)
                 {
                     listFeedItemsO.AddRange(aNew);
@@ -3170,12 +3170,16 @@ namespace RssBandit.WinGui.Forms
         /// <param name="tn">the tree node</param>
         private void RefreshCategoryDisplay(TreeFeedsNodeBase tn)
         {
+            listFeedItems.BeginUpdate();
             string category = tn.CategoryStoreName;
             FeedInfoList fil2, unreadItems = new FeedInfoList(category);
 
             PopulateListView(tn, new List<NewsItem>(), true);
             htmlDetail.Clear();
             WalkdownThenRefreshFeed(tn, false, true, tn, unreadItems);
+
+
+            listFeedItems.EndUpdate();
 
             //sort news items
             //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
@@ -3188,6 +3192,8 @@ namespace RssBandit.WinGui.Forms
             {
                 f.ItemsList.Sort(newsItemSorter);
             }
+
+
 
             //store list of unread items then only send one page of results 
             //to newspaper view. 						
@@ -3209,11 +3215,13 @@ namespace RssBandit.WinGui.Forms
                 }
             }
 
+
             if (tn.Selected)
             {
                 FeedDetailTabState.Url = String.Empty;
                 BeginTransformFeedList(fil2, tn, stylesheet);
             }
+            
         }
 
 
@@ -3342,6 +3350,7 @@ namespace RssBandit.WinGui.Forms
                                 {
                                 }
 
+                                //todo -- build list to add at end
                                 PopulateListView(child, items, false, true, initialFeedsNode);
                                 Application.DoEvents();
                             }
