@@ -310,6 +310,7 @@
     <EmbeddedResource Include="Resources\TreeImages.png" />
     <EmbeddedResource Include="Resources\AllToolImages.png" />
     <EmbeddedResource Include="Resources\ListImages.png" />
+    <EmbeddedResource Include="Resources\TreeImagesXP.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
