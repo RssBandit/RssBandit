@@ -88,17 +88,17 @@ if __name__ == "__main__":
         doc = XmlDocument()
         doc.Load(Path.Combine(cache_location, fi.Name))
         # for each item in feed        
-        #  1. Get permalink, title, read status and date
-        #  2. Get list of outgoing links + link title pairs
-        #  3. Convert above to RssItem object
+        # convert each <item> to an RssItem object then apply filter to pick candidate items
         items = [ MakeRssItem(node) for node in doc.SelectNodes("//item")]
+        filteredItems = [item for item in items if filterFunc(item)]
+        
         print "Processing %d items from %s" % (len(items), fi.Name)
         feedTitle = doc.SelectSingleNode("/rss/channel/title").InnerText
 
         #BUGBUG: We should canonicalize URLs
         # apply filter to pick candidate items, then calculate vote for each outgoing url
-        for item in filter(filterFunc, items):
-            vote = [voteFunc(item), item, feedTitle]
+        for item in filteredItems:
+            vote = (voteFunc(item), item, feedTitle)
             #add a vote for the permalink by the author
             if all_links.get(item.permalink) == None:
                  all_links[item.permalink] = []
