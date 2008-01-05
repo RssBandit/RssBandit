@@ -789,7 +789,11 @@ namespace NewsComponents.News {
             if( sData.Substring(0,3) == "411")
             {
                 throw new NntpWebException("No such group: " + GroupName);
-            }
+			}
+			else if (sData.Substring(0, 3) == "550")
+			{
+				throw new NntpWebException("Invalid newsgroup: " + GroupName);
+			}
             
 			string[] messageNumbers = sData.Split(' ');
         	// index 0 is the response code
