@@ -7561,10 +7561,11 @@ namespace RssBandit.WinGui.Forms
 
         protected void InitResources()
         {
-            // Create a strip of images by loading an embedded bitmap resource
-            if(Win32.IsOSAtLeastWindowsVista)
-                _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
-            else
+            // For now just use XP icons until we can update the overlays on the vista one
+            //// Create a strip of images by loading an embedded bitmap resource
+            //if(Win32.IsOSAtLeastWindowsVista)
+            //    _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
+            //else
                 _treeImages = Resource.LoadBitmapStrip("Resources.TreeImagesXP.png", new Size(16, 16));
 
             _listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
