@@ -1463,17 +1463,8 @@ namespace NewsComponents
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
-        {
-            if (!string.IsNullOrEmpty(HRef))
-            {
-                return HRef.GetHashCode();
-            }
-            else if (HasContent)
-            {
-                return Content.GetHashCode();
-            }
-
-            return 0;
+        {         
+            return Id.GetHashCode();
         }
 
 
@@ -1507,10 +1498,7 @@ namespace NewsComponents
             {
                 return true;
             }
-            // Fallback
-            if (HasContent && other.HasContent)
-                return Content.Equals(other.Content);
-
+           
             return false;
         }
 
