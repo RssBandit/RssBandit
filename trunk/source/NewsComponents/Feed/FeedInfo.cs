@@ -346,7 +346,7 @@ namespace NewsComponents.Feed
 			if(reader != null){							
 				id = reader.ReadString(); 
 				
-				while(!id.Equals(FileHelper.EndOfBinaryFileMarker)){
+				while(!id.Equals(FileHelper.EndOfBinaryFileMarker) && !string.IsNullOrEmpty(id)){
 					count = reader.ReadInt32();
 					content = reader.ReadBytes(count);
 				
