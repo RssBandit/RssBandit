@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -93,7 +94,7 @@ namespace NewsComponents.Search
 		/// that are part of the lucene search index. On any change
 		/// of these feedsFeed properties, that feed requires to be re-indexed!
 		/// </summary>
-		private NewsFeedProperty indexRelevantPropertyChanges = 
+		private readonly NewsFeedProperty indexRelevantPropertyChanges = 
 			NewsFeedProperty.FeedLink |
 			NewsFeedProperty.FeedUrl |
 			NewsFeedProperty.FeedTitle |
@@ -104,9 +105,9 @@ namespace NewsComponents.Search
 			NewsFeedProperty.FeedAdded |
 			NewsFeedProperty.FeedRemoved;
 
-		private NewsHandler newsHandler;
-		private LuceneIndexModifier indexModifier;
-		private LuceneSettings settings;
+		private readonly NewsHandler newsHandler;
+		private readonly LuceneIndexModifier indexModifier;
+		private readonly LuceneSettings settings;
 
 		/// <summary>
 		/// Is true, if we have to initially index all feeds
@@ -260,7 +261,7 @@ namespace NewsComponents.Search
 		}
 		
 		
-		private Query BuildLuceneQuery(SearchCriteriaCollection criteria, feedsFeed[] scope, Analyzer analyzer) 
+		private static Query BuildLuceneQuery(SearchCriteriaCollection criteria, feedsFeed[] scope, Analyzer analyzer) 
 		{
 			BooleanQuery masterQuery = null;
 			BooleanQuery bTerms = new BooleanQuery();
@@ -497,8 +498,8 @@ namespace NewsComponents.Search
 					this.indexModifier.CreateIndex();
 				
 				LuceneIndexer indexer = CreateIndexer();
-				indexer.IndexingFinished += new EventHandler(OnIndexingFinished);
-				indexer.IndexingProgress += new LuceneIndexingProgressEventHandler(OnIndexingProgress);
+				indexer.IndexingFinished += OnIndexingFinished;
+				indexer.IndexingProgress += OnIndexingProgress;
 				indexer.IndexAll(restartInfo, lastIndexed);
 			} 
 			else if (fileBasedIndex)
@@ -509,7 +510,7 @@ namespace NewsComponents.Search
 				// indexModifiedAt is greater than lastIndexModification, hence index was modified:
 				if (compareResult > 0) {
 					// attach event to get optimize index finished notification:
-					this.indexModifier.FinishedIndexOperation += new FinishedIndexOperationEventHandler(OnIndexModifierFinishedIndexOperation);
+					this.indexModifier.FinishedIndexOperation += OnIndexModifierFinishedIndexOperation;
 					this.IndexOptimize();
 				} else if (compareResult != 0) {
 					// correct the bad persisted entry:
@@ -521,7 +522,7 @@ namespace NewsComponents.Search
 		
 		private void OnIndexModifierFinishedIndexOperation(object sender, FinishedIndexOperationEventArgs e) {
 			if (e.Operation.Action == IndexOperation.OptimizeIndex) {
-				this.indexModifier.FinishedIndexOperation -= new FinishedIndexOperationEventHandler(OnIndexModifierFinishedIndexOperation);
+				this.indexModifier.FinishedIndexOperation -= OnIndexModifierFinishedIndexOperation;
 				this.settings.LastIndexOptimization = Directory.GetLastWriteTimeUtc(this.settings.IndexPath);
 			}
 		}
@@ -618,7 +619,7 @@ namespace NewsComponents.Search
 //		/// <param name="newsItems">The news items.</param>
 //		public void ReIndex(string feedID, IList newsItems) {
 //			if (!UseIndex) return;
-//			//TODO: way too general, we should optimize that:
+//			//WASTODO: way too general, we should optimize that:
 //			// re-indexing only the really new items, and remove only
 //			// the purged items:
 //			this.IndexRemove(feedID);
@@ -717,11 +718,12 @@ namespace NewsComponents.Search
 				// stemmer is the part of the class name before "Stemmer", e.g., the stemmer in
 				// {@link EnglishStemmer} is named "English".
 				case "en":		return new SnowballAnalyzer("English");
-				//TODO: Danish stemmer cause IndexOutOfRange exception in lucene.net 2.0 b004. Check in newer version(s) for a fix
+				//TODO: review on next lucene update; Danish stemmer cause IndexOutOfRange exception in lucene.net 2.0 b004. Check in newer version(s) for a fix
 				//case "da":		return new SnowballAnalyzer("Danish");
 				case "de":		return new SnowballAnalyzer("German");
 				case "es":		return new SnowballAnalyzer("Spanish");
-				case "fi":		return new SnowballAnalyzer("Finnish");
+				//TODO: review on next lucene update; also cause exceptions. See http://sourceforge.net/tracker/index.php?func=detail&aid=1859508&group_id=96589&atid=615248
+				//case "fi":		return new SnowballAnalyzer("Finnish");
 				case "fr":		return new SnowballAnalyzer("French");
 				case "it":		return new SnowballAnalyzer("Italian");
 				case "nl-nl":	return new SnowballAnalyzer("Dutch");
@@ -796,7 +798,7 @@ namespace NewsComponents.Search
 				try { IndexingFinished(this, EventArgs.Empty); } catch {}
 		}
 
-		private IDictionary ReadIndexingRestartStateFileContent(string indexStateFile, out DictionaryEntry lastIndexed) {
+		private static IDictionary ReadIndexingRestartStateFileContent(string indexStateFile, out DictionaryEntry lastIndexed) {
 			HybridDictionary toReturn = new HybridDictionary();
 			lastIndexed = new DictionaryEntry();
 
@@ -825,7 +827,7 @@ namespace NewsComponents.Search
 
 		
 
-		private static DictionaryEntry ReadIndexingState(StreamReader reader) {
+		private static DictionaryEntry ReadIndexingState(TextReader reader) {
 			string line = reader.ReadLine();	
 			if (!StringHelper.EmptyTrimOrNull(line)) 
 			{
@@ -838,7 +840,7 @@ namespace NewsComponents.Search
 			return new DictionaryEntry();
 		}
 
-		private static void WriteIndexingState(StreamWriter writer, LuceneIndexingProgressCancelEventArgs e) {
+		private static void WriteIndexingState(TextWriter writer, LuceneIndexingProgressCancelEventArgs e) {
 			writer.Write(e.YetIndexedFeedID);
 			writer.Write("\t");
 			writer.WriteLine(e.YetIndexedFeedUrl);
@@ -974,90 +976,3 @@ namespace NewsComponents.Search
 	}
 
 }
-
-#region CVS Version Log
-/*
- * $Log: LuceneSearch.cs,v $
- * Revision 1.29  2007/08/02 12:11:25  t_rendelmann
- * deactivated Danish lucene stemmer because of exception caused (reported as lucene.net project issue at Aug. 2th, 2007 - http://issues.apache.org/jira/browse/LUCENENET-54
- *
- * Revision 1.28  2007/07/26 20:14:51  t_rendelmann
- * switched to new lucene.net v2.0 004 (now using the unmodified binaries)
- *
- * Revision 1.27  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.26  2007/07/13 18:59:42  t_rendelmann
- * added a workaround for the lucene "too many clauses" issue
- *
- * Revision 1.25  2007/07/07 11:10:04  t_rendelmann
- * added comments
- *
- * Revision 1.24  2007/05/05 10:45:43  t_rendelmann
- * fixed: lucene indexing issues caused by thread race condition
- *
- * Revision 1.23  2007/03/04 17:00:32  t_rendelmann
- * fixed: build/use advanced user defined query terms correctly
- *
- * Revision 1.22  2007/02/17 14:45:53  t_rendelmann
- * switched: Resource.Manager indexer usage to strongly typed resources (StringResourceTool)
- *
- * Revision 1.21  2007/02/17 08:36:37  t_rendelmann
- * fixed: the old "Unread Items" persisted search should also display an error message
- *
- * Revision 1.20  2007/02/15 20:04:50  t_rendelmann
- * fixed: lucene search expression were not correctly build (term queries are not AND'd with the range and scope queries)
- *
- * Revision 1.19  2007/02/15 16:37:49  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.18  2007/02/08 16:22:17  carnage4life
- * Fixed regression where checked fields in local search are treated as an AND instead of an OR
- *
- * Revision 1.17  2007/02/01 16:00:42  t_rendelmann
- * fixed: option "Initiate download feeds at startup" was not taken over to the Options UI checkbox
- * fixed: Deserialization issue with Preferences types of wrong AppServices assembly version
- * fixed: OnPreferencesChanged() event was not executed at the main thread
- * changed: prevent execptions while deserialize DownloadTask
- *
- * Revision 1.16  2007/01/18 15:07:29  t_rendelmann
- * finished: lucene integration (scoped searches are now working)
- *
- * Revision 1.15  2007/01/17 19:26:38  carnage4life
- * Added initial support for custom newspaper view for search results
- *
- * Revision 1.14  2007/01/14 19:30:47  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.13  2006/12/07 13:17:18  t_rendelmann
- * now Lucene.OptimizeIndex() calls are only at startup and triggered by index folder modification datetime
- *
- * Revision 1.12  2006/11/05 01:23:55  carnage4life
- * Reduced time consuming locks in indexing code
- *
- * Revision 1.11  2006/10/28 16:33:11  t_rendelmann
- * more progress to lucene search impl.
- *
- * Revision 1.10  2006/10/19 14:05:22  t_rendelmann
- * fixed: issue with duplicate entries in the restart info file
- *
- * Revision 1.9  2006/10/03 16:52:21  t_rendelmann
- * cont. integrate lucene - the search part
- *
- * Revision 1.8  2006/10/03 07:54:38  t_rendelmann
- * refresh to lucene index: optimized the way we add newly received items to prevent re-loading all the item content again for yet indexed items; also purged items (MaxItemAge expires) now handled the better way
- *
- * Revision 1.7  2006/09/29 18:11:59  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- *
- * Revision 1.6  2006/09/12 19:06:53  t_rendelmann
- * next iteration on lucense integration - using a fixed lucene.dll with more localized analyzers
- *
- * Revision 1.5  2006/08/13 17:01:18  t_rendelmann
- * further progress on lucene search (not yet finished)
- *
- */
-#endregion
