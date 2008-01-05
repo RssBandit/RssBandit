@@ -6022,9 +6022,11 @@ namespace RssBandit.WinGui.Forms
                 feedUrl = feedUri.LocalPath;
             }
 
-            feed = owner.FeedHandler.FeedsTable[feedUrl];
 
-            if (feed != null)
+            //feed = owner.FeedHandler.FeedsTable[feedUrl];
+            feed = null;
+
+            if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out feed) && feed != null)
             {
                 tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feed);
             }
