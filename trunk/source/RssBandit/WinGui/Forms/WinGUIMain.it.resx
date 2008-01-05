@@ -112,55 +112,55 @@
     <value>NoControl</value>
   </data>
 <data name="colHeadline.Text">
-    <value>Headline</value>
+    <value>Titolo</value>
   </data>
 	<data name="colDate.Text">
-    <value>Date</value>
+    <value>Data</value>
   </data>
 	<data name="colTopic.Text">
-    <value>Topic</value>
+    <value>Argomento</value>
   </data>
 	<data name="comboBoxRssSearchItemPostedOperator.Items">
-    <value>at</value>
+    <value>a</value>
   </data>
 	<data name="comboBoxRssSearchItemPostedOperator.Items1">
-    <value>before</value>
+    <value>prima</value>
   </data>
 	<data name="comboBoxRssSearchItemPostedOperator.Items2">
-    <value>after</value>
+    <value>dopo</value>
   </data>
 	<data name="comboBoxRssSearchItemPostedOperator.ToolTip">
-    <value>Select the comparison operation...</value>
+    <value>Seleziona l'operatore di comparazione...</value>
   </data>
 	<data name="dateTimeRssSearchItemPost.ToolTip">
-    <value>Select a date to compare to...</value>
+    <value>Seleziona una data con cui effettuare la comparazione...</value>
   </data>
 	<data name="dateTimeRssSearchPostAfter.ToolTip">
-    <value>Select a date as the lower range</value>
+    <value>Seleziona una data da cui iniziare la ricerca</value>
   </data>
 	<data name="dateTimeRssSearchPostBefore.ToolTip">
-    <value>Select a date as the lower range</value>
+    <value>Seleziona una data fino a cui effettuare la ricerca</value>
   </data>
 	<data name="taskPaneSearchOptions.Text">
-    <value>Search Options Pane</value>
+    <value>Pannello delle opzioni di ricerca</value>
   </data>
 	<data name="collapsiblePanelSearchNameEx.Text">
-    <value>Search Folder Name</value>
+    <value>Nome della cartella di ricerca</value>
   </data>
 	<data name="btnRssSearchSave.Text">
-    <value>Save</value>
+    <value>Salva</value>
   </data>
 	<data name="labelSearchFolderNameHint.Text">
-    <value>Specify a name for the defined search to make them persistent. You can preceed the name with one or more categories like this: 'BUZZ Words\Atom'. Delimit them by backslash(es).</value>
+    <value>Specifica un nome per la ricerca specificata in modo da renderla persistente. Puoi prefissare il nome con uno o più categorie come: 'parole alla moda\atom'. Delimtale con delle barre rovesciate.</value>
   </data>
 	<data name="collapsiblePanelRssSearchExprKindEx.Text">
-    <value>Search Type</value>
+    <value>Tipo ricerca</value>
   </data>
 	<data name="radioRssSearchSimpleText.Text">
-    <value>Text</value>
+    <value>Testo</value>
   </data>
 	<data name="labelRssSearchTypeHint.Text">
-    <value>Find all posts containing the specific word or phrase</value>
+    <value>Ricerca tutti i posts che contengono la parola o frase specificata</value>
   </data>
 	<data name="radioRssSearchExprXPath.Text">
     <value>XPath</value>
@@ -169,28 +169,28 @@
     <value>Regular Expression</value>
   </data>
 	<data name="collapsiblePanelItemPropertiesEx.Text">
-    <value>Search Fields</value>
+    <value>Campi ricerca</value>
   </data>
 	<data name="checkBoxRssSearchInDesc.Text">
-    <value>Description</value>
+    <value>Descrizione</value>
   </data>
 	<data name="checkBoxRssSearchInCategory.Text">
-    <value>Topic</value>
+    <value>Argomento</value>
   </data>
 	<data name="checkBoxRssSearchInTitle.Text">
-    <value>Title</value>
+    <value>Titolo</value>
   </data>
 	<data name="checkBoxRssSearchInLink.Text">
-    <value>Item Link</value>
+    <value>Link articolo</value>
   </data>
 	<data name="label1.Text">
-    <value>Check all options you like to have included in the search for posts.</value>
+    <value>Seleziona tutte le opzioni che vuoi includere nella ricerca per i posts.</value>
   </data>
 	<data name="collapsiblePanelAdvancedOptionsEx.Text">
-    <value>Advanced Fields</value>
+    <value>Campi avanzati</value>
   </data>
 	<data name="checkBoxConsiderItemReadState.Text">
-    <value>Read status</value>
+    <value>Stato lettura</value>
   </data>
 	<data name="checkBoxRssSearchUnreadItems.Text">
     <value>Unread Posts</value>
@@ -199,103 +199,103 @@
     <value>Item Age</value>
   </data>
 	<data name="radioRssSearchItemsOlderThan.Text">
-    <value>Older than</value>
+    <value>Più vecchie di</value>
   </data>
 	<data name="comboRssSearchItemAge.Items">
-    <value>1 hour</value>
+    <value>1 ora</value>
   </data>
 	<data name="comboRssSearchItemAge.Items1">
-    <value>2 hours</value>
+    <value>2 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items2">
-    <value>3 hours</value>
+    <value>3 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items3">
-    <value>4 hours</value>
+    <value>4 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items4">
-    <value>5 hours</value>
+    <value>5 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items5">
-    <value>6 hours</value>
+    <value>6 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items6">
-    <value>12 hours</value>
+    <value>12 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items7">
-    <value>18 hours</value>
+    <value>18 ore</value>
   </data>
 	<data name="comboRssSearchItemAge.Items8">
-    <value>1 day</value>
+    <value>1 giorno</value>
   </data>
 	<data name="comboRssSearchItemAge.Items9">
-    <value>2 days</value>
+    <value>2 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items10">
-    <value>3 days</value>
+    <value>3 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items11">
-    <value>4 days</value>
+    <value>4 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items12">
-    <value>5 days</value>
+    <value>5 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items13">
-    <value>6 days</value>
+    <value>6 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items14">
-    <value>7 days</value>
+    <value>7 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items15">
-    <value>14 days</value>
+    <value>14 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items16">
-    <value>21 days</value>
+    <value>21 giorni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items17">
-    <value>1 month</value>
+    <value>1 mese</value>
   </data>
 	<data name="comboRssSearchItemAge.Items18">
-    <value>2 months</value>
+    <value>2 mesi</value>
   </data>
 	<data name="comboRssSearchItemAge.Items19">
-    <value>1 quarter</value>
+    <value>1 quadrimestre</value>
   </data>
 	<data name="comboRssSearchItemAge.Items20">
-    <value>2 quarters</value>
+    <value>2 quadrimestri</value>
   </data>
 	<data name="comboRssSearchItemAge.Items21">
-    <value>3 quarters</value>
+    <value>3 quadrimestri</value>
   </data>
 	<data name="comboRssSearchItemAge.Items22">
-    <value>1 year</value>
+    <value>1 anno</value>
   </data>
 	<data name="comboRssSearchItemAge.Items23">
-    <value>2 years</value>
+    <value>2 anni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items24">
-    <value>3 years</value>
+    <value>3 anni</value>
   </data>
 	<data name="comboRssSearchItemAge.Items25">
-    <value>5 years</value>
+    <value>5 anni</value>
   </data>
 	<data name="radioRssSearchItemsYoungerThan.Text">
-    <value>Newer than</value>
+    <value>Più nuovi di</value>
   </data>
 	<data name="checkBoxRssSearchByDate.Text">
-    <value>Item posted</value>
+    <value>Elementi creati</value>
   </data>
 	<data name="checkBoxRssSearchByDateRange.Text">
-    <value>Item posted between</value>
+    <value>Elementi creati fra</value>
   </data>
 	<data name="collapsiblePanelRssSearchScopeEx.Text">
-    <value>Search Scope</value>
+    <value>Ambito ricerca</value>
   </data>
 	<data name="btnNewSearch.Text">
-    <value>New Search</value>
+    <value>Nuova ricerca</value>
   </data>
 	<data name="btnSearchCancel.Text">
-    <value>Search</value>
+    <value>Ricerca</value>
   </data>
 	<data name="statusBarBrowser.Text">
     <value>Browser</value>
@@ -313,25 +313,25 @@
     <value>SandBarDock</value>
   </data>
 	<data name="toolBarMain.Text">
-    <value>Main Tools</value>
+    <value>Strumenti principali</value>
   </data>
 	<data name="menuBarMain.Text">
-    <value>Menu Bar</value>
+    <value>Barra menu</value>
   </data>
 	<data name="toolBarBrowser.Text">
-    <value>Browser Tools</value>
+    <value>Strumenti browser</value>
   </data>
 	<data name="toolBarWebSearch.Text">
-    <value>Web Search Tools</value>
+    <value>Strumenti di ricerca web</value>
   </data>
 	<data name="dockSubscriptions.Text">
-    <value>Feed Subscriptions</value>
+    <value>Sottoscrizione Feed</value>
   </data>
 	<data name="dockSearch.Text">
     <value>Search</value>
   </data>
 	<data name="_docFeedDetails.Text">
-    <value>Feed Details</value>
+    <value>Dettagli feed</value>
   </data>
 	<data name="$this.Text">
     <value>RSS Bandit</value>

@@ -154,7 +154,7 @@
 		<value>4 giorni</value>
 	</data>
 	<data name="pageFoundMultipleFeeds.Text">
-		<value>Trovati piu' feed</value>
+		<value>Trovati più feed</value>
 	</data>
 	<data name="lblNewByNNTPGroupIntro.Text">
 		<value>Per poter sottoscrivere ad un newsgroup NNTP, devi aver definito almeno un server NNTP. Puoi clickare "Gestisci..." per crearne uno nuovo o cambiare le impostazioni.</value>
@@ -175,7 +175,7 @@
 		<value>Questo passo applica i seguenti task:</value>
 	</data>
 	<data name="lblCompletionMessage.Text">
-		<value>La sottoscrizione e' pronta per essere aggiunta alla tua lista delle sottoscrizioni.</value>
+		<value>La sottoscrizione è pronta per essere aggiunta alla tua lista delle sottoscrizioni.</value>
 	</data>
 	<data name="btnManageSearchEngines.Text">
 		<value>Gestisci...</value>
@@ -184,7 +184,7 @@
 		<value>1 giorno</value>
 	</data>
 	<data name="lblWelcomeInfoBox.Text">
-		<value>Questo wizard richiede in alcuni passi di essere connessi a Internet! Se non lo sei gia', assicurati di connetterti ora.</value>
+		<value>Questo wizard richiede in alcuni passi di essere connessi a Internet! Se non lo sei già, assicurati di connetterti ora.</value>
 	</data>
 	<data name="pageFeedItemDisplay.Text">
 		<value>Visualizzazione Feed/Item</value>
@@ -193,7 +193,7 @@
 		<value>Usa la formatazzione dl feed/item di default o seleziona un formattatore XSLT custom.</value>
 	</data>
 	<data name="lblMultipleFeedsFoundHint2.Text">
-		<value>Se il feed richiesto non pua' essere trovato nella lista, selezionare Indietro per iniziare una nuova ricerca.</value>
+		<value>Se il feed richiesto non puà essere trovato nella lista, selezionare Indietro per iniziare una nuova ricerca.</value>
 	</data>
 	<data name="lblUsername.Text">
 		<value>&amp;Nome utente:</value>
@@ -262,13 +262,13 @@
 		<value>&amp;Abilita la finestra degli alert sugli item ricevuti</value>
 	</data>
 	<data name="lblFeedItemControlIntro.Text">
-		<value>Qui puoi cambiare il comportamento dell'applicazione per l'evento "Nuovi item ricevuti", la massima eta' degli item per controllare il tempo con cui gli items sono automaticamente cancellati e la frequenza di aggiornamento richieste.</value>
+		<value>Qui puoi cambiare il comportamento dell'applicazione per l'evento "Nuovi item ricevuti", la massima età degli item per controllare il tempo con cui gli items sono automaticamente cancellati e la frequenza di aggiornamento richieste.</value>
 	</data>
 	<data name="lblNNTPGroups.Text">
 		<value>Gruppi:</value>
 	</data>
 	<data name="lblNewByURLIntro.Text">
-		<value>Se non sei sicuro dell'URL del feed web, inserisci l'indirizzo del browser web del sito web o della pagina e RSS Bandit cerchera' di scoprire automaticamente il feed.</value>
+		<value>Se non sei sicuro dell'URL del feed web, inserisci l'indirizzo del browser web del sito web o della pagina e RSS Bandit cercherà di scoprire automaticamente il feed.</value>
 	</data>
 	<data name="cboUpdateFrequency.Items1">
 		<value>15</value>
@@ -283,10 +283,10 @@
 		<value>105</value>
 	</data>
 	<data name="lblWelcomeHelpMessage2.Text">
-		<value>• La validazione della sorgente della sottoscrizione e la gestione di proprieta' addizionali puo' essere necesaria per una richiesta positiva (i.e. credenziali).</value>
+		<value>• La validazione della sorgente della sottoscrizione e la gestione di proprietà addizionali può essere necesaria per una richiesta positiva (i.e. credenziali).</value>
 	</data>
 	<data name="radioNewByURL.Text">
-		<value>Inserira' l'URL del feed web o della pagina</value>
+		<value>Inserirà l'URL del feed web o della pagina</value>
 	</data>
 	<data name="lblMultipleFeedsFound.Text">
 		<value>Feeds trovati:</value>
@@ -328,7 +328,7 @@
 		<value>&amp;Titolo:</value>
 	</data>
 	<data name="lblRemoveItemsOlderThan.Text">
-		<value>Rimuovi gli item piu' vecchi di:</value>
+		<value>Rimuovi gli item più vecchi di:</value>
 	</data>
 	<data name="radioNewByTopicSearch.Text">
 		<value>Voglio cercare le sottoscrizioni per parole chiave</value>

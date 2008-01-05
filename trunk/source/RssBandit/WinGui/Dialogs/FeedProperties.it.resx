@@ -118,7 +118,7 @@
 		<value>2 giorni</value>
 	</data>
 	<data name="comboMaxItemAge.ToolTip">
-		<value>Seleziona la massima durata per cui l'item verra' tenuto in cache</value>
+		<value>Seleziona la massima durata per cui l'item verrà tenuto in cache</value>
 	</data>
 	<data name="label4.Text">
 		<value>&amp;Frequenza di aggiornamento:</value>
@@ -217,7 +217,7 @@
 		<value>&amp;Titolo</value>
 	</data>
 	<data name="label15.Text">
-		<value>Rimuovi gli item piu' vecchi di:</value>
+		<value>Rimuovi gli item più vecchi di:</value>
 	</data>
 	<data name="comboMaxItemAge.Items14">
 		<value>1 anno</value>
@@ -238,7 +238,7 @@
 		<value>Visualizza</value>
 	</data>
 	<data name="$this.Text">
-		<value>Proprieta' del feed</value>
+		<value>Proprietà del feed</value>
 	</data>
 <data name="tabAttachments.Text">
     <value>Attachments/Podcasts</value>
