@@ -104,7 +104,7 @@
 		<value>Post di Risposta/Commento</value>
 	</data>
 	<data name="btnManageIdentities.Text">
-		<value>I&amp;dentita'...</value>
+		<value>I&amp;dentità...</value>
 	</data>
 	<data name="grpReplyItems.Text">
 		<value>Rispondi</value>
@@ -116,7 +116,7 @@
 		<value>Annulla</value>
 	</data>
 	<data name="groupBox1.Text">
-		<value>&amp;Identita' utente</value>
+		<value>&amp;Identità utente</value>
 	</data>
 	<data name="button1.Text">
 		<value>&amp;Submit...</value>

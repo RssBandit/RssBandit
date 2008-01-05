@@ -103,7 +103,7 @@
 		<value>Il tuo aggregatore di default</value>
 	</data>
 	<data name="label1.Text">
-		<value>RSS Bandit non e' attualmente impostato come aggregatore di default. Vuoi impostarlo come default?</value>
+		<value>RSS Bandit non è attualmente impostato come aggregatore di default. Vuoi impostarlo come default?</value>
 	</data>
 	<data name="buttonNo.Text">
 		<value>No</value>

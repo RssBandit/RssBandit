@@ -109,7 +109,7 @@
 		<value>Immagine del motore. Deve essere di dimensione 16x16 px</value>
 	</data>
 	<data name="label6.Text">
-		<value>Ricorda la stringa placeholder "{0}"  che verra' rimpiazzata con la frase di ricerca nell'url di una richiesta di ricerca!</value>
+		<value>Ricorda la stringa placeholder "{0}"  che verrà rimpiazzata con la frase di ricerca nell'url di una richiesta di ricerca!</value>
 	</data>
 	<data name="label1.Text">
 		<value>&amp;Titolo</value>
@@ -124,13 +124,13 @@
 		<value>I risultati della ricerca saranno ritornati come RSS</value>
 	</data>
 	<data name="$this.Text">
-		<value>Proprieta' del motore di ricerca Web</value>
+		<value>Proprietà del motore di ricerca Web</value>
 	</data>
 	<data name="label2.ToolTip">
 		<value>Descrizione del motore di ricerca Web</value>
 	</data>
 	<data name="checkBoxMergeRssResultset.ToolTip">
-		<value>Seleziona questa opzione, se il motore di ricerca specificato dall'Url sopra ritornera' i risultati come un feed RSS e vuoi che l'insieme dei risultati venga unito con gli items ritornati dalla ricerca locale</value>
+		<value>Seleziona questa opzione, se il motore di ricerca specificato dall'Url sopra ritornerà i risultati come un feed RSS e vuoi che l'insieme dei risultati venga unito con gli items ritornati dalla ricerca locale</value>
 	</data>
 	<data name="label2.Text">
 		<value>&amp;Descrizione</value>
@@ -142,7 +142,7 @@
 		<value>Url completo comprensivo dei parametri di ricerca del motore di ricerca Web</value>
 	</data>
 	<data name="textCaption.ToolTip">
-		<value>Titolo del motore di ricerca Web come verra' visualizzato nel(nei) menu</value>
+		<value>Titolo del motore di ricerca Web come verrà visualizzato nel(nei) menu</value>
 	</data>
 	<data name="textPicture.ToolTip">
 		<value>Nome dell'immagine del motore. Deve essere di dimensioni 16x16px</value>
@@ -163,10 +163,10 @@
 		<value>Annulla</value>
 	</data>
 	<data name="label1.ToolTip">
-		<value>Titolo del motore di ricerca Web come verra' visualizzato nel(nei) menu</value>
+		<value>Titolo del motore di ricerca Web come verrà visualizzato nel(nei) menu</value>
 	</data>
 	<data name="checkBoxResultsetIsRssFeed.ToolTip">
-		<value>Seleziona questa opzione, se il motore di ricerca specificato dall'Url sopra ritornera' i risultati come un feed RSS</value>
+		<value>Seleziona questa opzione, se il motore di ricerca specificato dall'Url sopra ritornerà i risultati come un feed RSS</value>
 	</data>
 	<data name="pictureEngine.ToolTip">
 		<value>Immagine del motore. Deve essere di dimensioni 16x16 px</value>

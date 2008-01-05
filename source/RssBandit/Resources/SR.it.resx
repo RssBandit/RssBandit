@@ -134,7 +134,7 @@
   </data>
   <data name="URL_ProjectNews">
     <value>http://sourceforge.net/news/?group_id=96589</value>
-    <comment>Pagina di novita' a Sourceforge, default nel caso di .config non valido</comment>
+    <comment>Pagina di novità a Sourceforge, default nel caso di .config non valido</comment>
   </data>
   <data name="URL_WikiWebNews">
     <value>http://www.rssbandit.org/</value>
@@ -153,9 +153,9 @@
     <comment>Caption of the Upgrade Info Messagebox</comment>
   </data>
   <data name="UpgradeFeedlistInfoText">
-    <value>La versione corrente di {0} supporta nuove funzionalita' o fix, che richiedono un cambiamento nel formato della tua lista dei feed.
-Per mantenere funzionante le tue vecchie versioni, l'applicazione cercehra' di creare un nuovo file della lista dei feed dalla tua lista corrente.
-Il file vecchio non sara' toccato.
+    <value>La versione corrente di {0} supporta nuove funzionalità o fix, che richiedono un cambiamento nel formato della tua lista dei feed.
+Per mantenere funzionante le tue vecchie versioni, l'applicazione cercherà di creare un nuovo file della lista dei feed dalla tua lista corrente.
+Il file vecchio non sarà toccato.
 Vuoi continuare?</value>
     <comment>Info text used to inform a user about a feedlist file format change.</comment>
   </data>
@@ -164,7 +164,7 @@ Vuoi continuare?</value>
     <comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
   </data>
   <data name="InvalidFeedURIBoxText">
-    <value>L'URL specificato per il nuovo feed non e' un URL valido</value>
+    <value>L'URL specificato per il nuovo feed non è un URL valido</value>
     <comment>Text of dialog if invalid URI specified when creating a new feed</comment>
   </data>
   <data name="InvalidFeedURIBoxCaption">
@@ -244,14 +244,14 @@ per informazioni dettagliate sull'errore.</value>
     <value>Ne il link ne il titolo per il feed RRS può essere vuoto!</value>
   </data>
   <data name="GUIFieldTitleInvalid">
-    <value>Il titolo della categoria non puo' esere vuoto!</value>
+    <value>Il titolo della categoria non può esere vuoto!</value>
     <comment>NEW</comment>
   </data>
   <data name="GUIBlankFieldDetectedCaption">
     <value>Trovato campo vuoto</value>
   </data>
   <data name="GUIFieldWebUrlInvalid">
-    <value>Non e' stato specificato l'URL della pagina web</value>
+    <value>Non è stato specificato l'URL della pagina web</value>
   </data>
   <data name="GUIFieldKeywordsInvalid">
     <value>Nessuna parola chiave specificata</value>
@@ -265,21 +265,21 @@ per informazioni dettagliate sull'errore.</value>
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessagePrefetchFeed">
-    <value>Sto' richiedendo il feed:
+    <value>Stò richiedendo il feed:
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessageRequestFile">
-    <value>Sto' richiedendo il file:
+    <value>Stò richiedendo il file:
 {0}</value>
   </data>
   <data name="GUIStatusInfoMessageNoFeedsFound">
-    <value>Spiacente, nessun feed RSS puo' essere trovato.</value>
+    <value>Spiacente, nessun feed RSS può essere trovato.</value>
   </data>
   <data name="GUIStatusWaitMessageUpLoadingFeedlist">
     <value>Caricamento lista feed ({0}), attendere...</value>
   </data>
   <data name="GUIFeedlistUploadExceptionMessage">
-    <value>Il caricamento della lista feed e' fallito con l'errore:
+    <value>Il caricamento della lista feed è fallito con l'errore:
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessageDownLoadingFeedlist">
@@ -293,7 +293,7 @@ per informazioni dettagliate sull'errore.</value>
     <value>Feed non trovato</value>
   </data>
   <data name="GUIFieldLinkRedundantInfo">
-    <value>Sei gia' sottoscritto a questo feed.
+    <value>Sei già sottoscritto a questo feed.
  Categoria/Nome: {0}
  Link: {1}.</value>
     <comment>NEW</comment>
@@ -367,13 +367,13 @@ Controlla il file  '{0}' per dettagli sull'errore.</value>
     <value>Operazione cancellata. Il feed '{0}' ha generato un errore: {1}</value>
   </data>
   <data name="ExceptionNewsItemTransformation">
-    <value>L'elemento RSS non pue' essere trasformato in HTML.</value>
+    <value>L'elemento RSS non puè essere trasformato in HTML.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetCompile">
-    <value>Il foglio di stile Xslt non puo' essere compilato.</value>
+    <value>Il foglio di stile Xslt non può essere compilato.</value>
   </data>
   <data name="ExceptionNewsItemFormatterInvalidStylesheet">
-    <value>Foglio di stile Xslt non e' valido.</value>
+    <value>Foglio di stile Xslt non è valido.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetMessage">
     <value>Il foglio di stile Xslt selezionato per formattare gli elementi ha ritornato l'errore:
@@ -387,14 +387,14 @@ Dettagli: {1}</value>
 		a invalid character (they include the invalid char, that breaks our rendering)</comment>
   </data>
   <data name="GUIStatusErrorEmptyTitleNotAllowed">
-    <value>Operazione cancellata. Il titolo non puo' essere lasciato vuoto.</value>
+    <value>Operazione cancellata. Il titolo non può essere lasciato vuoto.</value>
   </data>
   <data name="MainMenuFileCaption">
     <value>&amp;File</value>
     <comment>Caption within main menu</comment>
   </data>
   <data name="MainMenuFileDesc">
-    <value>Menu' file di RSS Bandit</value>
+    <value>Menù file di RSS Bandit</value>
     <comment>Description within main menu</comment>
   </data>
   <data name="MainMenuViewCaption">
@@ -402,7 +402,7 @@ Dettagli: {1}</value>
     <comment>Caption within main menu</comment>
   </data>
   <data name="MainMenuViewDesc">
-    <value>Menu' visualizza di RSS Bandit</value>
+    <value>Menù visualizza di RSS Bandit</value>
     <comment>Description within main menu</comment>
   </data>
   <data name="MainMenuToolsCaption">
@@ -410,7 +410,7 @@ Dettagli: {1}</value>
     <comment>Caption within main menu</comment>
   </data>
   <data name="MainMenuToolsDesc">
-    <value>Menu' strumenti di RSS Bandit</value>
+    <value>Menù strumenti di RSS Bandit</value>
     <comment>Description within main menu</comment>
   </data>
   <data name="MainMenuSearchCaption">
@@ -418,7 +418,7 @@ Dettagli: {1}</value>
     <comment>Caption within main menu</comment>
   </data>
   <data name="MainMenuSearchDesc">
-    <value>Menu' configurazione ricerca web di RSS Bandit</value>
+    <value>Menù configurazione ricerca web di RSS Bandit</value>
     <comment>Description within main menu</comment>
   </data>
   <data name="MainMenuHelpCaption">
@@ -486,7 +486,7 @@ Dettagli: {1}</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuBanditWikiDesc">
-    <value>Leggi le News, suggerisci nuove funzionalita', FAQ e altro...</value>
+    <value>Leggi le News, suggerisci nuove funzionalità, FAQ e altro...</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuBanditForumCaption">
@@ -582,7 +582,7 @@ Dettagli: {1}</value>
     <comment>Caption within file menu</comment>
   </data>
   <data name="MenuAppInternetConnectionModeDesc">
-    <value>Attiva/disattiva la modalita' di connessione Internet</value>
+    <value>Attiva/disattiva la modalità di connessione Internet</value>
     <comment>Description within file menu</comment>
   </data>
   <data name="MenuAppInternetConnectionModeOffline">
@@ -713,11 +713,11 @@ Dettagli: {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuShowCategoryPropertiesCaption">
-    <value>Proprieta'...</value>
+    <value>Proprietà...</value>
     <comment>NEW</comment>
   </data>
   <data name="MenuShowCategoryPropertiesDesc">
-    <value>Visualizza la finestra delle proprieta' della categoria...</value>
+    <value>Visualizza la finestra delle proprietà della categoria...</value>
     <comment>NEW</comment>
   </data>
   <data name="MenuUpdateThisFeedCaption">
@@ -829,11 +829,11 @@ Dettagli: {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuShowFeedPropertiesCaption">
-    <value>Proprieta'...</value>
+    <value>Proprietà...</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuShowFeedPropertiesDesc">
-    <value>Visualizza la finestra delle proprieta' del feed...</value>
+    <value>Visualizza la finestra delle proprietà del feed...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuMarkFeedItemsUnreadCaption">
@@ -901,11 +901,11 @@ Dettagli: {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuShowFinderPropertiesCaption">
-    <value>Proprieta'...</value>
+    <value>Proprietà...</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuShowFinderPropertiesDesc">
-    <value>Visualizza la finestra delle proprieta' di ricerca...</value>
+    <value>Visualizza la finestra delle proprietà di ricerca...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuSubscribeToFinderResultCaption">
@@ -1352,7 +1352,7 @@ Dettagli: {1}</value>
     <value>Download list dei feed dallo storage remoto.</value>
   </data>
   <data name="ExceptionStartDefaultBrowserMessage">
-    <value>C'e' stato un problema lanciando il tuo browser web di default configurato:
+    <value>C'è stato un problema lanciando il tuo browser web di default configurato:
 		
 		'{0}'.
 		
@@ -1360,7 +1360,7 @@ Dettagli: {1}</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="ExceptionStartBrowserCustomExecMessage">
-    <value>C'e' stato un problema lanciando l'eseguibile '{0}' configurato:
+    <value>C'è stato un problema lanciando l'eseguibile '{0}' configurato:
 		
 		'{1}'.
 		
@@ -1368,14 +1368,14 @@ Dettagli: {1}</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="ExceptionOpenFileMessage">
-    <value>Non posso aprire il file '{0}', perche':
+    <value>Non posso aprire il file '{0}', perchè:
 		
 		'{1}'.
 	</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="ExceptionSaveFileMessage">
-    <value>Non posso salvare il file '{0}', perche':
+    <value>Non posso salvare il file '{0}', perchè:
 		
 		'{1}'.
 	</value>
@@ -1394,7 +1394,7 @@ Dettagli: {1}</value>
     <comment>Text used to build Open/Save File Dialog file filters</comment>
   </data>
   <data name="WrongImageSizeMessage">
-    <value>L'immagine non e' di dimensione 16x16 pixel.</value>
+    <value>L'immagine non è di dimensione 16x16 pixel.</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="PreferencesExceptionMessageTitle">
@@ -1402,11 +1402,11 @@ Dettagli: {1}</value>
     <comment>Title of the messagebox displayed on exceptions with it's settings</comment>
   </data>
   <data name="FormatExceptionRefreshRate">
-    <value>Il tasso di aggiornamento non e' un numero.</value>
+    <value>Il tasso di aggiornamento non è un numero.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="OverflowExceptionRefreshRate">
-    <value>Il valore per il tasso di aggiornamento e' troppo alto.</value>
+    <value>Il valore per il tasso di aggiornamento è troppo alto.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="ExceptionRefreshRateInvalid">
@@ -1418,11 +1418,11 @@ Dettagli: {1}</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="FormatExceptionProxyPort">
-    <value>La porta del proxy non e' un numero.</value>
+    <value>La porta del proxy non è un numero.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="ExceptionProxyPortRange">
-    <value>Il valore specificato per il numero porta del proxy non e' nell'intervallo da 0 a 65535.</value>
+    <value>Il valore specificato per il numero porta del proxy non è nell'intervallo da 0 a 65535.</value>
     <comment>Text used within errorProvider</comment>
   </data>
   <data name="ExceptionProxyPortInvalid">
@@ -1454,7 +1454,7 @@ Dettagli: {1}</value>
     <comment>Dynamic label text (Preferences)</comment>
   </data>
   <data name="LabelTextRemoteStorageLocation_WebDAV_hint">
-    <value>Puoi memorizzare lo stato dell'applicazione come rssbandit-state.zip all'intenro di un folder WebDAV. L'URL del servizio dello storage punta ad una cartella WebDAV, i.e. 'http://mywebdav.com/personal/' e dovresti essere in grado di salvare e leggere i files da li'.</value>
+    <value>Puoi memorizzare lo stato dell'applicazione come rssbandit-state.zip all'intenro di un folder WebDAV. L'URL del servizio dello storage punta ad una cartella WebDAV, i.e. 'http://mywebdav.com/personal/' e dovresti essere in grado di salvare e leggere i files da lì.</value>
     <comment>CHANGED</comment>
   </data>
   <data name="LabelTextRemoteStorageLocation_dasBlog">
@@ -1486,7 +1486,7 @@ Dettagli: {1}</value>
     <comment>Messagebox info text</comment>
   </data>
   <data name="RemoteStorageUpload_Question">
-    <value>Questo effettuera' l'upload della lista dei tuoi feed al servizio
+    <value>Questo effettuerà l'upload della lista dei tuoi feed al servizio
 configurato utilizzando il tab dello storage remoto nella finestra delle opzioni. 
         
 Continuare?</value>
@@ -1497,7 +1497,7 @@ Continuare?</value>
     <comment>Messagebox info text</comment>
   </data>
   <data name="RemoteStorageDownload_Question">
-    <value>Questo rimpiazzera la tua lista dei feed locale con quella scaricata 
+    <value>Questo rimpiazzerà la tua lista dei feed locale con quella scaricata 
 dal servizio configurato utilizzando il tab dello storage remoto della finestra delle opzioni.  
         
 Continuare?</value>
@@ -1510,7 +1510,7 @@ Continuare?</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="NotYetImplementedFeature_Info">
-    <value>Spiacente, ma questa caratteristica non e' ancora implementata.</value>
+    <value>Spiacente, ma questa caratteristica non è ancora implementata.</value>
     <comment>Messagebox info text</comment>
   </data>
   <data name="ExceptionLoadingNewsItemFormatterStylesheet">
@@ -1520,7 +1520,7 @@ Continuare?</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="ExceptionImportFeedlist">
-    <value>Si e' verificato un errore nell'importare la lista dei feed da
+    <value>Si è verificato un errore nell'importare la lista dei feed da
 '{0}':
         
 '{1}'</value>
@@ -1531,20 +1531,20 @@ Continuare?</value>
     <comment>GUI status info</comment>
   </data>
   <data name="ExceptionPostReplyToNewsItem">
-    <value>Si e' verificato un errore nel post di una risposta all'elemento 
+    <value>Si è verificato un errore nel post di una risposta all'elemento 
 '{0}' (Link elemento RSS/titolo):
         
 '{1}'</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="ExceptionGeneral">
-    <value>Spiacente, ma si e' verificato un errore:
+    <value>Spiacente, ma si è verificato un errore:
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="ExceptionDuplicateCategoryName">
-    <value>Spiacente, ma il nome '{0}' sembra essere gia' in uso.</value>
+    <value>Spiacente, ma il nome '{0}' sembra essere già in uso.</value>
     <comment>Messagebox error text</comment>
   </data>
   <data name="ExceptionSettingDefaultAggregator">
@@ -1726,7 +1726,7 @@ Continuare?</value>
     <comment>Part of the error text displayed for refresh feed XML exceptions</comment>
   </data>
   <data name="RefreshFeedExceptionGeneratorStringPart">
-    <value>Il feed e' stato generato da '{0}'.</value>
+    <value>Il feed è stato generato da '{0}'.</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
   <data name="RefreshFeedExceptionReportContactInfo">
@@ -1810,11 +1810,11 @@ referrer-url: {2}</value>
     <comment>Message used in Post reply dialog.</comment>
   </data>
   <data name="ExceptionInvalidShortcutSettingsFile">
-    <value>Il file delle impostazioni shortcut non puo' essere validato</value>
+    <value>Il file delle impostazioni shortcut non può essere validato</value>
     <comment>Failure Message if the file is not valid XML.</comment>
   </data>
   <data name="ExceptionGeneralCritical">
-    <value>Si e' vericato un errore ed e' stato loggato nel file
+    <value>Si è vericato un errore ed è stato loggato nel file
 '{0}'.
 Per favore invia il suo contenuto la team di sviluppo dev.rssbandit.org 
 assieme alle seguenti informazioni:
@@ -1822,15 +1822,15 @@ assieme alle seguenti informazioni:
     <comment>Exception message</comment>
   </data>
   <data name="SecurityExceptionCausedByRegistryAccess">
-    <value>Per applicare questa funzionalita' l'applicazione necessita' dei diritti di scrittura
+    <value>Per applicare questa funzionalità l'applicazione necessità dei diritti di scrittura
 alla chiave del registry: '{0}'.
         
 Per farlo funzionare, lancia l'applicazione dal Windows File Explorer
 selezionando 'Run as...' dal menu di contesto visualizzato clickando con il tasto del mouse destro sull'eseguibile.
 Quindi seleziona l'utenza dell'amministratore locale per eseguire l'applicazione e riprova.
 
-I diritti di amministrazione sono necessari per applicare la funzionalita' richiesta.
-Non e' necessario avere tali diritti ogni volta che lanciate l'applicazione. Spiacenti per 
+I diritti di amministrazione sono necessari per applicare la funzionalità richiesta.
+Non è necessario avere tali diritti ogni volta che lanciate l'applicazione. Spiacenti per 
 l'inconveniente.</value>
     <comment>Messagebox error text</comment>
   </data>
@@ -1851,11 +1851,11 @@ l'inconveniente.</value>
     <comment>Text within a messagebox</comment>
   </data>
   <data name="MenuOpenConfigIdentitiesDialogCaption">
-    <value>Gestisci identita'...</value>
+    <value>Gestisci identità...</value>
     <comment>menu caption text</comment>
   </data>
   <data name="MenuOpenConfigIdentitiesDialogdesc">
-    <value>Apre una finestra per gestire le identita'...</value>
+    <value>Apre una finestra per gestire le identità...</value>
     <comment>menu caption tooltip text</comment>
   </data>
   <data name="MenuOpenConfigNntpServerDialogCaption">
@@ -1867,7 +1867,7 @@ l'inconveniente.</value>
     <comment>menu caption tooltip text</comment>
   </data>
   <data name="ConfigIdentitiesDialogCaption">
-    <value>Gestisci identita'</value>
+    <value>Gestisci identità</value>
     <comment>window caption text</comment>
   </data>
   <data name="ConfigNewsServerDialogCaption">
@@ -1875,15 +1875,15 @@ l'inconveniente.</value>
     <comment>window caption text</comment>
   </data>
   <data name="CertificateIssueOnFeedCaption">
-    <value>Le informazioni che scambi con i feed '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'e' un problema con il certificato di sicurezza del feed.</value>
+    <value>Le informazioni che scambi con i feed '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'è un problema con il certificato di sicurezza del feed.</value>
     <comment>Certificate issue dialog heading text</comment>
   </data>
   <data name="CertificateIssueOnSiteCaption">
-    <value>Le informazioni che scambi con il sito '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'e' un problema con il certificato di sicurezza del sito.</value>
+    <value>Le informazioni che scambi con il sito '{0}' non possono essere visualizzate o cambiate dagli altri utenti. Comunque, c'è un problema con il certificato di sicurezza del sito.</value>
     <comment>Certificate issue dialog heading text</comment>
   </data>
   <data name="CertificateIssue_CertCN_NO_MATCH">
-    <value>Il nome del certificato di sicurezza non e' valdo o non corrisponde al nome del sito.</value>
+    <value>Il nome del certificato di sicurezza non è valdo o non corrisponde al nome del sito.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
   <data name="CertificateIssue_CertEXPIRED">
@@ -1891,7 +1891,7 @@ l'inconveniente.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
   <data name="CertificateIssue_CertREVOKED">
-    <value>Il certificato e' stato revocato.</value>
+    <value>Il certificato è stato revocato.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
   <data name="CertificateIssue_CertUNTRUSTEDCA">
@@ -2027,7 +2027,7 @@ l'inconveniente.</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
-    <value>La disposizione sara' valida per tutti i nodi delle categorie senza una assegnazione individuale...</value>
+    <value>La disposizione sarà valida per tutti i nodi delle categorie senza una assegnazione individuale...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
@@ -2035,7 +2035,7 @@ l'inconveniente.</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuColumnChooserUseFeedLayoutGlobalDesc">
-    <value>La disposizione sara' valida per tutti i nodi del feed senza una assegnazione individuale...</value>
+    <value>La disposizione sarà valida per tutti i nodi del feed senza una assegnazione individuale...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuColumnChooserResetLayoutToDefaultCaption">
@@ -2043,7 +2043,7 @@ l'inconveniente.</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuColumnChooserResetLayoutToDefaultDesc">
-    <value>La disposizione sara' rimossa dai nodi delle sottoscrizioni selezionati...</value>
+    <value>La disposizione sarà rimossa dai nodi delle sottoscrizioni selezionati...</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="ListviewColumnCaptionFlagStatus">
@@ -2067,10 +2067,10 @@ l'inconveniente.</value>
     <comment>Download package page at Sourceforge, default nel caso di .config non valido</comment>
   </data>
   <data name="DialogQuestionNewAppVersionAvailable">
-    <value>C'e' una nuova versione disponibile per il download.
-Vuoi saperne di piu'?
+    <value>C'è una nuova versione disponibile per il download.
+Vuoi saperne di più?
 
-Se selezioni NO, ti verra' ricordato ancora in futuro.</value>
+Se selezioni NO, ti verrà ricordato ancora in futuro.</value>
     <comment>Question Dialog Text</comment>
   </data>
   <data name="WaitDialogMessageCheckForNewAppVersion">
@@ -2287,7 +2287,7 @@ Le impostazioni sono ripristinate per non utilizzare il proxy.</value>
     <value>postato in</value>
   </data>
   <data name="XsltDefaultTemplate_ItemEnclosure">
-    <value>Chiusura</value>
+    <value>Allegato</value>
   </data>
   <data name="XsltDefaultTemplate_ToggleReadState">
     <value>Imposta come letto o non letto</value>
@@ -2345,7 +2345,7 @@ Verrà utilizzata la vecchia cartella di cache...</value>
     <comment> Improve the Bandit</comment>
   </data>
   <data name="MenuSendLogsByMailDesc">
-    <value>Inviera' una mail con i log files per analisi del malfunzionamento</value>
+    <value>Invierà una mail con i log files per analisi del malfunzionamento</value>
   </data>
   <data name="MenuFeedItemWatchCommentsCaption">
     <value>&amp;Tieni sotto controllo i commenti</value>
@@ -2396,7 +2396,7 @@ Errore:{1}.</value>
     <value>Annulla tutte le modifiche e chiudi</value>
   </data>
   <data name="ExceptionInvalidEnclosurePath">
-    <value>E' stato specificato un percorso errato per la directory di download</value>
+    <value>È stato specificato un percorso errato per la directory di download</value>
   </data>
   <data name="ExceptionProcessCommandlineCulture">
     <value>Non posso cambiare la cultura dell'applicazione in '{0}':
@@ -2526,11 +2526,11 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <comment> NewsGroupConfiguration dialog toolbar caption</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolCaption">
-    <value>Aggiungi identita'</value>
+    <value>Aggiungi identità</value>
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolDesc">
-    <value>Crea una nuova identita'...</value>
+    <value>Crea una nuova identità...</value>
   </data>
   <data name="NewsGroupConfiguration_NewNewsServerToolCaption">
     <value>Aggiungi un server di news</value>
@@ -2553,7 +2553,7 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <value>Controlla o termina il controllo dei commenti</value>
   </data>
   <data name="MainForm_SubscriptionNavigatorCaption">
-    <value>Sottoscrizioni del Feed</value>
+    <value>Feed sottoscritti</value>
   </data>
   <data name="MainForm_SearchNavigatorCaption">
     <value>Ricerca</value>
@@ -2596,7 +2596,7 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <value>Item &amp;posted</value>
   </data>
   <data name="SearchPanel_advancedOptionItemAgeGroup_Text">
-    <value>Et&amp;a' Item</value>
+    <value>Et&amp;à Item</value>
   </data>
   <data name="SearchPanel_optionSetItemAge_Text">
     <value>Precede&amp;nte di</value>
