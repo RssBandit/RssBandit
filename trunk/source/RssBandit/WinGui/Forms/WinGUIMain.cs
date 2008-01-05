@@ -4762,7 +4762,6 @@ namespace RssBandit.WinGui.Forms
                     if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
                         try
                         {
-                            
                             // looks like an ICO:
                             //using (MultiIcon ico = new MultiIcon(location))
                             //{
@@ -4776,9 +4775,18 @@ namespace RssBandit.WinGui.Forms
                             //    //resize, but do not save:
                             //    favicon = ResizeFavicon(smallest.ToBitmap(), null);
                             //}
-                            using(Icon ico = new Icon(location, new Size(16, 16)))
+                            using (Icon ico = new Icon(location, new Size(16, 16)))
                             {
-                                favicon = ResizeFavicon(ico.ToBitmap(), location);
+                                if(!Win32.IsOSAtLeastWindowsVista)
+                                {
+                                    //HACK: this is a workaround to the AccessViolationException caused
+                                    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                                    // XP and below can't handle non-square icons
+                                    if (ico.Width != ico.Height)
+                                        return null;
+                                }
+
+                                favicon = ResizeFavicon(ico.ToBitmap(), null);
                             }
                         }
                         catch (Exception e)
@@ -5674,7 +5682,20 @@ namespace RssBandit.WinGui.Forms
                         //}
                         using (Icon ico = new Icon(location, new Size(16, 16)))
                         {
-                            icon = ResizeFavicon(ico.ToBitmap(), location);
+                            if (!Win32.IsOSAtLeastWindowsVista)
+                            {
+                                icon = ResizeFavicon(ico.ToBitmap(), null);
+                            }
+                            else
+                            {
+                                //HACK: this is a workaround to the AccessViolationException caused
+                                // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                                // XP and below can't handle non-square icons
+                                if (ico.Width == ico.Height) //resize, but do not save:
+                                    icon = ResizeFavicon(ico.ToBitmap(), null);
+                            }
+
+                            
                         }
                     }
                     catch (Exception e)
