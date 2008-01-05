@@ -5427,7 +5427,7 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Initiate a async. call to RssParser.RefreshFeeds(force_download)
+        /// Initiate a async. call to NewsHandler.RefreshFeeds(force_download)
         /// </summary>
         /// <param name="force_download"></param>
         public void UpdateAllFeeds(bool force_download)
@@ -5456,7 +5456,7 @@ namespace RssBandit.WinGui.Forms
             if (!_timerRefreshFeeds.Enabled)
                 _timerRefreshFeeds.Start();
 #endif
-            if (!_faviconsDownloaded && owner.Preferences.UseFavicons)
+            if (!_faviconsDownloaded && owner.Preferences.UseFavicons && owner.FeedHandler.DownloadIntervalReached)
             {
                 try
                 {
