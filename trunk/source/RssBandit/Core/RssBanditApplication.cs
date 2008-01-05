@@ -209,7 +209,6 @@ namespace RssBandit
         private static readonly string[] applicationUpdateServiceUrls =
             new string[] {"http://www.rssbandit.org/services/UpdateService.asmx"};
 
-
         private static string defaultCategory;
 
         private static readonly string validationUrlBase;
@@ -5341,6 +5340,7 @@ namespace RssBandit
                 this.FeedHandler.Categories.Keys.CopyTo(cats, 1);
             return cats;
         }
+       
 
         public int CurrentGlobalRefreshRate
         {

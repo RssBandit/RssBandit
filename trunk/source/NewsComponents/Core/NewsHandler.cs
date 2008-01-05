@@ -258,6 +258,23 @@ namespace NewsComponents
         private readonly AsyncWebRequest AsyncWebRequest = null;
 
         /// <summary>
+        /// Indicates when the application first started
+        /// </summary>
+        private static DateTime ApplicationStartTime = DateTime.Now;
+
+        /// <summary>
+        /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
+        /// until this property is true. 
+        /// </summary>
+        public bool DownloadIntervalReached
+        {
+            get
+            {
+                return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= this.RefreshRate;
+            }
+        }
+
+        /// <summary>
         /// Downloads enclosures/podcasts in the background using BITS. 
         /// </summary>
         private readonly BackgroundDownloadManager enclosureDownloader;
@@ -5720,7 +5737,7 @@ namespace NewsComponents
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
 
-                                if (timeSinceLastDownload < refreshRate)
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
                                     continue; //no need to download 
                                 }
@@ -5740,7 +5757,7 @@ namespace NewsComponents
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
 
-                                if (timeSinceLastDownload < refreshRate)
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
                                     continue; //no need to download 
                                 }
@@ -5838,7 +5855,7 @@ namespace NewsComponents
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
 
-                                if (timeSinceLastDownload < refreshRate)
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
                                     continue; //no need to download 
                                 }
