@@ -48,10 +48,10 @@
 		<value>Directory non esistente: {0}</value>
 	</data>
 	<data name="ExceptionRFC2822ParseGroupsMessage">
-		<value>La ricerca tramite regex RFC2822 per le date e' riuscita, ma il gruppo di parsing ha causato una eccezione  '{0}'.</value>
+		<value>La ricerca tramite regex RFC2822 per le date è riuscita, ma il gruppo di parsing ha causato una eccezione  '{0}'.</value>
 	</data>
 	<data name="ExceptionRFC2822InvalidTimezoneFormatMessage">
-		<value>Il formato del Timezone e' errato: {0}.</value>
+		<value>Il formato del Timezone è errato: {0}.</value>
 	</data>
 	<data name="ExceptionNoProcessingHandlerMessage">
 		<value>L'url del Feed '{0}' non può essere gestito. Nessun handler implementato.</value>
@@ -65,15 +65,15 @@
     <value>Nessun criterio di ricerca specificato</value>
   </data>
 	<data name="ExceptionSearchQueryBuilder">
-    <value>La query non puo' essere creata dai criteri di ricerca</value>
+    <value>La query non può essere creata dai criteri di ricerca</value>
   </data>
 	<data name="ExceptionSearchQueryBuilderFatal">
-    <value>La query non puo' essere creata dai criteri di ricerca. Si e' verificato un errore: {0}</value>
+    <value>La query non può essere creata dai criteri di ricerca. Si è verificato un errore: {0}</value>
     <comment>.
  Parameters: 0 - error (string) </comment>
   </data>
 	<data name="ExceptionLuceneSearchKindNotSupported">
-    <value>Questo tipo di ricerca non e' piu' supportato ('{0}').</value>
+    <value>Questo tipo di ricerca non è più supportato ('{0}').</value>
     <comment>.
  Parameters: 0 - typeOfSearch (string) </comment>
   </data>
