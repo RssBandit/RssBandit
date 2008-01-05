@@ -112,7 +112,7 @@
 		<value>Server delle News</value>
 	</data>
 	<data name="accountsPane.Text">
-		<value>Identita'</value>
+		<value>Identità</value>
 	</data>
 	<data name="accountSettingsPane.Text">
 		<value>Impostazioni Account </value>
@@ -136,7 +136,7 @@
 		<value>Il tuo  &amp;Nome:</value>
 	</data>
 	<data name="labelIdentityName.Text">
-		<value>Nome &amp;Identita':</value>
+		<value>Nome &amp;Identità:</value>
 	</data>
 	<data name="bottomSandBarDock.Text">
 		<value>SandBarDock</value>
@@ -154,7 +154,7 @@
 		<value>Toolbar principale dei Newsgroups </value>
 	</data>
 	<data name="toolNewIndentity.Text">
-		<value>Agiungi identita'</value>
+		<value>Agiungi identità</value>
 	</data>
 	<data name="toolNewNntpServer.Text">
 		<value>Aggiungi News Server</value>
@@ -193,7 +193,7 @@
 		<value>Includi questo account quando verifichi la presenza di nuovi items</value>
 	</data>
 	<data name="labelDefaultEdentity.Text">
-		<value>Identita' di &amp;Default:</value>
+		<value>Identità di &amp;Default:</value>
 	</data>
 	<data name="labelNewsAccount.Text">
 		<value>Account &amp;News:</value>
@@ -239,7 +239,7 @@
 		<value>Numero di porta del &amp;Server:</value>
 	</data>
 	<data name="$this.Text">
-		<value>Gestisci identita'</value>
+		<value>Gestisci identità</value>
 	</data>
 	<data name="toolBarFilterNewsgroupList.Text">
 		<value>Filtro della lista dei Newsgroup </value>
@@ -257,7 +257,7 @@
 		<value>Nuovo</value>
 	</data>
 <data name="toolNewIndentity.ToolTipText">
-    <value>Crea una nuova identita'...</value>
+    <value>Crea una nuova identità...</value>
   </data>
 	<data name="toolNewNntpServer.ToolTipText">
     <value>Aggiungi un nuovo server NNTP...</value>

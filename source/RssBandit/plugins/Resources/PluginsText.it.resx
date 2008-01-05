@@ -48,13 +48,13 @@
 		<value>Blogga questo usando W::Bloggar...</value>
 	</data>
 	<data name="RES_ExceptionWBloggarNotFound">
-		<value>Nessuna impostazione di registry trovata per w::bloggar. Installa w::bloggar da http://www.bloggar.com per far funzionare questa funzionalita'</value>
+		<value>Nessuna impostazione di registry trovata per w::bloggar. Installa w::bloggar da http://www.bloggar.com per far funzionare questa funzionalità</value>
 	</data>
 	<data name="RES_DeliciousIncompleteSubmissionTitle">
 		<value>Invio incompleto</value>
 	</data>
 	<data name="RES_DeliciousIncompleteSubmissionMessage">
-		<value>Uno dei campi di testo non e' stato riempito</value>
+		<value>Uno dei campi di testo non è stato riempito</value>
 	</data>
 	<data name="RES_DeliciousFormTags">
 		<value>&amp;Tags</value>
@@ -99,6 +99,6 @@
 		<value>Blogga utilizzando Windows Live Writer...</value>
 	</data>
 	<data name="RES_ExceptionLiveWriterNotFound">
-		<value>Nessuna impostazione trovata nei registry per Windows Live Writer. Installa Windows Live Writer da http://ideas.live.com per far funzionare questa funzionalita'</value>
+		<value>Nessuna impostazione trovata nei registry per Windows Live Writer. Installa Windows Live Writer da http://ideas.live.com per far funzionare questa funzionalità</value>
 	</data>
 	</root>

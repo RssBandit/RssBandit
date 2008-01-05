@@ -109,10 +109,10 @@
 		<value>Leggi altro a riguardo di 'conditional get'...</value>
 	</data>
 	<data name="textProxyCredentialUser.ToolTip">
-		<value>Nome utente credenziali. Può essere specificato come 'Dominio\Username'.</value>
+		<value>Nome utente credenziali. Può essere specificato come 'Dominio\Usernamè.</value>
 	</data>
 	<data name="label19.Text">
-		<value>Se modifichi una impostazione di sicurezza, l'impostazione sara' attivata solo nei nuovi browser tab o in tutti i browser tab dopo aver riavviato l'applicazione! Le impostazioni non anno nessun effetto nel pannello di lettura!</value>
+		<value>Se modifichi una impostazione di sicurezza, l'impostazione sarà attivata solo nei nuovi browser tab o in tutti i browser tab dopo aver riavviato l'applicazione! Le impostazioni non anno nessun effetto nel pannello di lettura!</value>
 	</data>
 	<data name="sectionPanelFeedsCommentDefs.Text">
 		<value>Defaults dei commenti</value>
@@ -145,7 +145,7 @@
 		<value>Foglio di &amp;Stile formattazione:</value>
 	</data>
 	<data name="label15.Text">
-		<value>Rimuovo gli items piu' vecchi &amp;Di:</value>
+		<value>Rimuovo gli items più vecchi &amp;Di:</value>
 	</data>
 	<data name="labelProxyBypassListHint.Text">
 		<value>Utilizza punto e virgola ( ; ) per separare le voci.</value>
@@ -166,7 +166,7 @@
 		<value>Lista delle eccezioni degli indirizzi</value>
 	</data>
 	<data name="btnSEMoveDown.Text">
-		<value>Muovi giu'</value>
+		<value>Muovi giù</value>
 	</data>
 	<data name="btnSERemove.Text">
 		<value>Rimuovi</value>
@@ -178,7 +178,7 @@
 		<value>Avvio</value>
 	</data>
 	<data name="label6.Text">
-		<value>Specifica le tue impostazioni di default per inserire le risposte agli item dei feed. Questa caratteristica e' disponibile solo nei feed che supportano le CommentAPI. Vedi anche</value>
+		<value>Specifica le tue impostazioni di default per inserire le risposte agli item dei feed. Questa caratteristica è disponibile solo nei feed che supportano le CommentAPI. Vedi anche</value>
 	</data>
 	<data name="checkUseIEProxySettings.Text">
 		<value>Eredita le impostazioni del proxy server da &amp;Internet Explorer</value>
@@ -247,7 +247,7 @@
 		<value>Seleziona un foglio di stile di formattazione</value>
 	</data>
 	<data name="btnManageIdentities.Text">
-		<value>Identita'...</value>
+		<value>Identità...</value>
 	</data>
 	<data name="radioTrayActionClose.Text">
 		<value>In &amp;Chiusura dell'applicazionee</value>
@@ -259,10 +259,10 @@
 		<value>Por&amp;ta: </value>
 	</data>
 	<data name="radioTrayActionNone.ToolTip">
-		<value>L'applicazione sara' sempre visibile nella taskbar</value>
+		<value>L'applicazione sarà sempre visibile nella taskbar</value>
 	</data>
 	<data name="btnSEProperties.ToolTip">
-		<value>Apri la finestra delle proprieta' del motore di ricerca</value>
+		<value>Apri la finestra delle proprietà del motore di ricerca</value>
 	</data>
 	<data name="sectionPanelWebSearchEngines.Text">
 		<value>Motori di ricerca</value>
@@ -304,7 +304,7 @@
 		<value>Verifica &amp;aggiornamenti:</value>
 	</data>
 	<data name="labelProxyCredentialUserName.ToolTip">
-		<value>Nome utente credenziali Proxy Credential. Puo' essere specificato come 'Dominio\Username'.</value>
+		<value>Nome utente credenziali Proxy Credential. Può essere specificato come 'Dominio\Usernamè.</value>
 	</data>
 	<data name="comboRemoteStorageProtocol.Items1">
 		<value>FTP</value>
@@ -361,7 +361,7 @@
 		<value>Errore</value>
 	</data>
 	<data name="comboAppUpdateFrequency.Items2">
-		<value>Una volta entro 14 giorni</value>
+		<value>Una volta ogni 14 giorni</value>
 	</data>
 	<data name="comboAppUpdateFrequency.Items3">
 		<value>Una volta al mese</value>
@@ -391,7 +391,7 @@
 		<value>&amp;Grassetto</value>
 	</data>
 	<data name="label10.Text">
-		<value>Questa caratteristica permette di memorizzare la tua lista dei feed remotamente, permettendo di essere condivisa tra piu' computers.</value>
+		<value>Questa caratteristica permette di memorizzare la tua lista dei feed remotamente, permettendo di essere condivisa tra più computers.</value>
 	</data>
 	<data name="checkMarkItemsReadOnExit.Text">
 		<value>Imposta tutti gli items come letti lasciando un feed o una categoria</value>
@@ -436,7 +436,7 @@
 		<value>Rimuovi il motore di ricerca selezionato</value>
 	</data>
 	<data name="btnSEProperties.Text">
-		<value>Proprieta'...</value>
+		<value>Proprietà...</value>
 	</data>
 	<data name="lblItemStates.Text">
 		<value>Stati degli &amp;Item:</value>
@@ -457,7 +457,7 @@
 		<value>Seleziona una opzione per definire su quale azione l'applicazione deve "minimizzarsi".</value>
 	</data>
 	<data name="textRemoteStorageUserName.ToolTip">
-		<value>Nome utente credenziali. Puo' essere specificato come 'Dominio\Username'.</value>
+		<value>Nome utente credenziali. Può essere specificato come 'Dominio\Usernamè.</value>
 	</data>
 	<data name="lblFontSampleABC.Text">
 		<value>AaBbCcXxYyZz</value>
@@ -475,7 +475,7 @@
 		<value>Password delle credenziali del Proxy</value>
 	</data>
 	<data name="radioTrayActionClose.ToolTip">
-		<value>L'applicazione non sara' visibile nella taskbar</value>
+		<value>L'applicazione non sarà visibile nella taskbar</value>
 	</data>
 	<data name="btnSEMoveUp.Text">
 		<value>Muovi su</value>
@@ -490,7 +490,7 @@
 		<value>Muovi l'item verso l'alto</value>
 	</data>
 	<data name="lblIdentityDropdownCaption.Text">
-		<value>Identita' dell'utente per i commenti</value>
+		<value>Identità dell'utente per i commenti</value>
 	</data>
 	<data name="linkCommentAPI.Text">
 		<value>http://wellformedweb.org/story/9</value>
@@ -511,7 +511,7 @@
 		<value>Seleziona questa opzione per utilizzare un formattatore custom</value>
 	</data>
 	<data name="chkNewsItemOpenLinkInDetailWindow.Text">
-		<value>Se non c'e' la descrizione, apri il link nel pannello di lettura</value>
+		<value>Se non c'è la descrizione, apri il link nel pannello di lettura</value>
 	</data>
 	<data name="labelRemoteStorageProtocol.Text">
 		<value>Protocollo:</value>
@@ -538,7 +538,7 @@
 		<value>&amp;Aggiorna i feed ogni</value>
 	</data>
 	<data name="labelRemoteStorageUserName.ToolTip">
-		<value>Nome utente credenziali proxy. Puo' essere specificato come 'Dominio\Username'.</value>
+		<value>Nome utente credenziali proxy. Può essere specificato come 'Dominio\Usernamè.</value>
 	</data>
 	<data name="btnSEAdd.ToolTip">
 		<value>Aggiungi un nuovo motore di ricerca</value>
@@ -553,7 +553,7 @@
 		<value>&amp;Non usare il proxy server</value>
 	</data>
 	<data name="radioTrayActionMinimize.ToolTip">
-		<value>L'applicazione non sara' visibile nella taskbar</value>
+		<value>L'applicazione non sarà visibile nella taskbar</value>
 	</data>
 	<data name="tabWebSearch.Text">
 		<value>Ricerca Web</value>
@@ -562,7 +562,7 @@
 		<value>Browser Web</value>
 	</data>
 	<data name="label17.Text">
-		<value>Seleziona il(i) motore(i) di ricerca, questo deve essere attivo se premi il comando 'Ricerca Web' della toolbare con i checkboxes nella lista sotto</value>
+		<value>Seleziona il(i) motore(i) di ricerca, questo deve essere attivo se premi il comando 'Ricerca Web' della toolbar con i checkboxes nella lista sotto</value>
 	</data>
 	<data name="comboMaxItemAge.Items4">
 		<value>5 giorni</value>
@@ -586,7 +586,7 @@
 		<value>File Share</value>
 	</data>
 	<data name="label12.Text">
-		<value>Se il bottone e' disabilitato, RSS Bandit e' il tuo aggregatore di default. Se e' abilitato, puoi farlo diventare il tuo aggregatore di default premendo il bottone.</value>
+		<value>Se il bottone è disabilitato, RSS Bandit è il tuo aggregatore di default. Se è abilitato, puoi farlo diventare il tuo aggregatore di default premendo il bottone.</value>
 	</data>
 	<data name="btnSelectExecutable.Text">
 		<value>...</value>
@@ -684,21 +684,21 @@
     <value>Nuovi commenti (Watched)</value>
   </data>
 	<data name="checkMarkItemsAsReadWhenViewed.Text">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>Imposta tutti gli elementi come letti quando sono stati visti</value>
   </data>
 	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>Se selezionato, gli elementi delle news sono automaticamente impostati come letti quando scorri il pannello di lettura</value>
   </data>
 	<data name="label8.Text">
-    <value>news items per page</value>
+    <value>elementi delle news per pagina</value>
   </data>
 	<data name="numNewsItemsPerPage.ToolTip">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>Il numero degli elementi delle news che deve essere visualizzato nel pannello di lettura per pagina</value>
   </data>
 	<data name="checkLimitNewsItemsPerPage.Text">
-    <value>Show only </value>
+    <value>Solo visualizzazione</value>
   </data>
 	<data name="checkLimitNewsItemsPerPage.ToolTip">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>Se selezionato, il pannello di lettura sarà suddiviso in pagine diverse ognuna contenente il numero specificato di elementi news</value>
   </data>
-	</root>
+	</root> 
