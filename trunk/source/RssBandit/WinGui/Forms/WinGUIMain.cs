@@ -7545,7 +7545,10 @@ namespace RssBandit.WinGui.Forms
             string settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
             try
             {
-                _shortcutHandler.Load(settingsPath);
+                if (File.Exists(settingsPath))
+                {
+                    _shortcutHandler.Load(settingsPath);
+                }
             }
             catch (InvalidShortcutSettingsFileException e)
             {
