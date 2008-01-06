@@ -112,7 +112,7 @@ namespace RssBandit
 
         private static bool validationErrorOccured = false;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
-        private static readonly Settings guiSettings = null;
+        private static Settings guiSettings = null;
         private static readonly ServiceContainer Services = new ServiceContainer( /* no other parent, we are at top */);
 
         private const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
@@ -211,24 +211,24 @@ namespace RssBandit
 
         private static string defaultCategory;
 
-        private static readonly string validationUrlBase;
-        private static readonly string linkCosmosUrlBase;
-        private static readonly string bugReportUrl;
-        private static readonly string workspaceNewsUrl;
-        private static readonly string webHelpUrl;
-        private static readonly string wikiNewsUrl;
-        private static readonly string forumUrl;
-        private static readonly string projectDonationUrl;
-        private static readonly string projectDownloadUrl;
+        private static string validationUrlBase;
+        private static string linkCosmosUrlBase;
+        private static string bugReportUrl;
+        private static string workspaceNewsUrl;
+        private static string webHelpUrl;
+        private static string wikiNewsUrl;
+        private static string forumUrl;
+        private static string projectDonationUrl;
+        private static string projectDownloadUrl;
 
         // advanced .config options:
-        private static readonly bool unconditionalCommentRss;
-        private static readonly bool automaticColorSchemes;
+        private static bool unconditionalCommentRss;
+        private static bool automaticColorSchemes;
 
         /// <summary>
         /// make Bandit running from a stick
         /// </summary>
-        private static readonly bool portableApplicationMode;
+        private static bool portableApplicationMode;
 
         private static Version appVersion;
         private static string appDataFolderPath;
@@ -253,7 +253,7 @@ namespace RssBandit
 
         #region constructors and startup
 
-        static RssBanditApplication()
+        internal static void StaticInit()
         {
             // according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
             //TR 30-Aug-2007: we do not make use of that fix. We assume,
@@ -4755,104 +4755,6 @@ namespace RssBandit
             }
 
             return t;
-        }
-
-        
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static int Main(string[] args)
-        {
-            bool running = true;
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            /* setup handler for unhandled exceptions in non-debug modes */
-            // Allow exceptions to be unhandled so they break in the debugger
-#if !DEBUG
-
-            ApplicationExceptionHandler eh = new ApplicationExceptionHandler();
-
-			AppDomain.CurrentDomain.UnhandledException += eh.OnAppDomainException;
-#endif
-
-#if DEBUG && TEST_I18N_THISCULTURE			
-			Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(new I18NTestCulture().Culture);
-			Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
-#endif
-
-            FormWindowState initialStartupState = Win32.GetStartupWindowState();
-            // if you want to debug the minimzed startup (cannot be configured in VS.IDE),
-            // comment out the line above and uncomment the next one:
-            //FormWindowState initialStartupState =  FormWindowState.Minimized;
-
-            RssBanditApplication appInstance = new RssBanditApplication();
-            OtherInstanceCallback callback = appInstance.OnOtherInstance;
-            try
-            {
-                running = InitialInstanceActivator.Activate(appInstance, callback, args);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex); /* other instance is probably still running */
-            }
-            _log.Info("Application v" + VersionLong + " started, running instance is " + running);
-
-            if (!running)
-            {
-                // init to system default:
-                SharedCulture = CultureInfo.CurrentCulture;
-                SharedUICulture = CultureInfo.CurrentUICulture;
-
-                if (appInstance.HandleCommandLineArgs(args))
-                {
-                    if (! string.IsNullOrEmpty(appInstance.commandLineOptions.LocalCulture))
-                    {
-                        try
-                        {
-                            SharedUICulture =
-                                CultureInfo.CreateSpecificCulture(appInstance.commandLineOptions.LocalCulture);
-                            SharedCulture = SharedUICulture;
-                        }
-                        catch (Exception ex)
-                        {
-                            appInstance.MessageError(
-                                SR.ExceptionProcessCommandlineCulture(appInstance.commandLineOptions.LocalCulture,
-                                                                      ex.Message));
-                        }
-                    }
-
-                    // take over customized cultures to current main thread:
-                    Thread.CurrentThread.CurrentCulture = SharedCulture;
-                    Thread.CurrentThread.CurrentUICulture = SharedUICulture;
-
-                    if (!appInstance.commandLineOptions.StartInTaskbarNotificationAreaOnly &&
-                        initialStartupState != FormWindowState.Minimized)
-                    {
-                        // no splash, if start option is tray only or minimized
-                        Splash.Show();
-                        Splash.Version = String.Format("v{0}", Version);
-                        Splash.Status = SR.AppLoadStateLoading;
-                    }
-
-                    appInstance.Init();
-                    appInstance.StartMainGui(initialStartupState);
-                    Splash.Close();
-
-                    return 0; // OK
-                }
-                else
-                {
-                    return 2; // CommandLine error
-                }
-            }
-            else
-            {
-                return 1; // other running instance
-            }
         }
 
         // Called from other instances of the app on startup
