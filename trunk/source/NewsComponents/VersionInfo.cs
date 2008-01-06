@@ -27,4 +27,4 @@ using System.Reflection;
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.
-[assembly: AssemblyInformationalVersion("1.6.0")]
+[assembly: AssemblyInformationalVersion("1.6.1")]
