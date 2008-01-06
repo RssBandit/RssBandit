@@ -2596,16 +2596,20 @@ namespace NewsComponents
             try
             {
                 string topStories = Path.Combine(GetUserPath("RssBandit"), "top-stories.xml");
-                XmlDocument doc = new XmlDocument();
-                doc.Load(topStories);
-
-                foreach (XmlElement story in doc.SelectNodes("//story"))
+                if (File.Exists(topStories))
                 {
-                    TopStoryTitles.Add(story.Attributes["url"].Value,
-                                       new storyNdate(story.Attributes["title"].Value,
-                                                      XmlConvert.ToDateTime(story.Attributes["firstSeen"].Value))
-                        );
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(topStories);
+
+                    foreach (XmlElement story in doc.SelectNodes("//story"))
+                    {
+                        TopStoryTitles.Add(story.Attributes["url"].Value,
+                                           new storyNdate(story.Attributes["title"].Value,
+                                                          XmlConvert.ToDateTime(story.Attributes["firstSeen"].Value))
+                            );
+                    }
                 }
+
             }
             catch (Exception e)
             {
