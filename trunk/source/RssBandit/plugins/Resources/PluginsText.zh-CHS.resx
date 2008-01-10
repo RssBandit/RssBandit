@@ -154,4 +154,33 @@
   <data name="RES_MenuSendToOneNoteConfigCaption">
     <value>OneNote 插件配置...</value>
   </data>
-</root>
+<data name="RES_MenuLiveWriterCaption" space="preserve">
+    <value>Blog This Using Windows Live Writer...</value>
+  </data>
+	<data name="RES_ExceptionLiveWriterNotFound" space="preserve">
+    <value>No registry setting for Windows Live Writer located. Please install Windows Live Writer from http://ideas.live.com to get this feature to work</value>
+  </data>
+	<data name="RES_MenuTwitterCaption" space="preserve">
+    <value>Post to Twitter</value>
+  </data>
+	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
+    <value>Twitter Plugin Configuration...</value>
+  </data>
+	<data name="RES_TwitterApiUrl" space="preserve">
+    <value>&amp;Twitter API URL</value>
+  </data>
+	<data name="RES_TwitterFormCount" space="preserve">
+    <value>140</value>
+  </data>
+	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
+    <value>Empty Message Body</value>
+  </data>
+	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
+    <value>There was an error loading configuration from '{0}': 
+{1}</value>
+   </data>
+	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
+    <value>There was an error writing configuration file '{0}': 
+{1}</value>
+  </data>
+	</root>
