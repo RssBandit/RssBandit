@@ -1,4 +1,4 @@
-RSSBandit Plugins: OneNote
+RSSBandit Plugins: Send to OneNote
 
 1. How to install
 =================

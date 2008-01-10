@@ -12,9 +12,14 @@ namespace BlogExtension.OneNote
 	public sealed class HtmlHelper {
 		
 		private static Regex RegExBadTags = new Regex(@"<(?:script|object|meta|embed|frameset|i?frame|style|link)[\s>]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private static Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled); 
-		private static Regex RegExAnyEntity = new Regex("&[#a-zA-z0-9]+;", RegexOptions.Compiled); 
-		private static Regex RegExFindTitle = new Regex(@"<head\s*>.*<title\s*>(?<title>[^<]+)</title>.*</head>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled);
+        // according to http://www.w3.org/TR/REC-html40/charset.html#entities
+        // Note: In SGML, it is possible to eliminate the final ";" after a character reference in some cases 
+        // (e.g., at a line break or immediately before a tag). In other circumstances it may not be eliminated 
+        // (e.g., in the middle of a word) - so we make use of the zero or one quantifier for ";":  
+        private static readonly Regex RegExAnyEntity =
+            new Regex("(?:&#[0-9]+;?|&#x[a-f0-9]+;?|&[a-z0-9]+;?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static Regex RegExFindTitle = new Regex(@"<head\s*>.*<title\s*>(?<title>[^<]+)</title>.*</head>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		
 		private static Hashtable _htmlEntities;
 
@@ -25,51 +30,64 @@ namespace BlogExtension.OneNote
 		/// <param name="baseUrl">base Url to be used</param>
 		/// <returns></returns>
 		public static string ConvertToAbsoluteUrl(string url, string baseUrl) {
-			return ConvertToAbsoluteUrl(url, baseUrl, false);
+            if (url == null || url.Length == 0)
+                return null; 
+            return ConvertToAbsoluteUrl(url, baseUrl, false);
 		}
 
-		/// <summary>
-		/// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
-		/// </summary>
-		/// <param name="url">Url to fix</param>
-		/// <param name="baseUrl">base Url to be used</param>
-		/// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
-		/// <returns></returns>
-		public static string ConvertToAbsoluteUrl(string url, string baseUrl, bool onlyValid) {
-			
-			// we try to prevent the exception caused in the case the url is relative
-			// (no scheme info) just for speed
-			if (url.IndexOf(Uri.SchemeDelimiter) < 0 && baseUrl != null) {
-				try {
-					Uri baseUri= new Uri(baseUrl);
-					return (new Uri(baseUri,url).ToString()); 
-				} catch {
-					if (onlyValid)
-						return null;
-				}
-			} 
-			
-			try{ 
-				Uri uri = new Uri(url); 
-				return uri.ToString(); 
-			}catch(Exception){
+        /// <summary>
+        /// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
+        /// </summary>
+        /// <param name="url">Url to fix</param>
+        /// <param name="baseUrl">base Url to be used</param>
+        /// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
+        /// <returns>converted Url</returns>
+        public static string ConvertToAbsoluteUrl(string url, string baseUrl, bool onlyValid)
+        {
+            if (url == null || url.Length == 0)
+                return null;
 
-				if (baseUrl != null) {
-					try {
-						Uri baseUri= new Uri(baseUrl);
-						return (new Uri(baseUri,url).ToString()); 
-					} catch (Exception) {
-						if (onlyValid)
-							return null;
-						return url;
-					}
-				} else {
-					if (onlyValid)
-						return null;
-					return url;
-				}
-			}
-		}
+            Uri baseUri;
+            Uri.TryCreate(baseUrl, UriKind.Absolute, out baseUri);
+            return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
+        }
+
+        /// <summary>
+        /// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
+        /// </summary>
+        /// <param name="url">Url to fix</param>
+        /// <param name="baseUri">base Uri to be used</param>
+        /// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
+        /// <returns>converted Url, or null</returns>
+        public static string ConvertToAbsoluteUrl(string url, Uri baseUri, bool onlyValid)
+        {
+            Uri uri = ConvertToAbsoluteUri(url, baseUri, onlyValid);
+            if (uri != null)
+                return uri.AbsoluteUri;
+
+            if (!onlyValid) // return original:
+                return url;
+            return null;
+        }
+
+        /// <summary>
+        /// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.
+        /// </summary>
+        /// <param name="url">Url to fix</param>
+        /// <param name="baseUri">base Uri to be used</param>
+        /// <param name="onlyValid">Provide true, if the url should only be handled if no UriFormatException happens.</param>
+        /// <returns>converted Url, or null</returns>
+        public static Uri ConvertToAbsoluteUri(string url, Uri baseUri, bool onlyValid)
+        {
+            if (url == null)
+                return null;
+
+            Uri result;
+            if (Uri.TryCreate(baseUri, url, out result))
+                return result;
+            
+            return null;
+        }
 
 
 		/// <summary>
@@ -462,4 +480,32 @@ namespace BlogExtension.OneNote
 		#endregion
 
 	}
+
+    /// <summary>
+    /// helper class used for expanding relative URLs. 
+    /// </summary>
+    internal class RelativeUrlExpander
+    {
+        internal string baseUrl;
+
+        /// <summary>
+        /// Converts the URL in the regex matched to an absolute URL with the base as this.baseUrl 
+        /// then returns the entire match
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns>The matched string with the contained uRL replaced with its absolute URL</returns>
+        internal string ConvertToAbsoluteUrl(Match m)
+        {
+            /* skip non-HTTP URLs and URLs that are already absolute */
+            string href = m.Groups[1].ToString();
+            //handle case where regex starts from quote character
+            string test = (href.StartsWith("\"") || href.StartsWith("'") ? href.Substring(1) : href);
+            if (test.StartsWith("http") || test.StartsWith("mailto:") || test.StartsWith("javascript:"))
+            {
+                return m.Groups[0].ToString();
+            }
+
+            return m.Groups[0].ToString().Replace(href, HtmlHelper.ConvertToAbsoluteUrl(href, baseUrl, true));
+        }
+    }
 }
