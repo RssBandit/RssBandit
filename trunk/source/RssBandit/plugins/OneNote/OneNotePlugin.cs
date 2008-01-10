@@ -71,11 +71,20 @@ namespace BlogExtension.OneNote
 			string title = StripAndDecode(nav.Evaluate("string(//item/title/text())").ToString());
 			Page p = new Page(configInfo.Page, title);           
 			p.Date = DateTime.Parse(nav.Evaluate("string(//item/pubDate/text())").ToString());
-			// Create a new Outline, and add some content to it:          
-			OutlineObject outline = new OutlineObject();      
-			outline.AddContent(new HtmlContent(String.Format(configInfo.ItemLinkTemplate, nav.Evaluate("string(//item/link/text())").ToString())));
-			outline.AddContent(new HtmlContent(String.Format(configInfo.ItemContentTemplate, nav.Evaluate("string(//item/description/text())").ToString())));
-			// Add the outline to our page:          
+			
+            // Create a new Outline, and add some content to it:          
+			OutlineObject outline = new OutlineObject();
+            if (configInfo.ItemLinkBelowContent)
+            {
+                outline.AddContent(new HtmlContent(String.Format(configInfo.ItemContentTemplate, nav.Evaluate("string(//item/description/text())").ToString())));
+                outline.AddContent(new HtmlContent(String.Format(configInfo.ItemLinkTemplate, nav.Evaluate("string(//item/link/text())").ToString())));
+            }
+            else
+            {
+                outline.AddContent(new HtmlContent(String.Format(configInfo.ItemLinkTemplate, nav.Evaluate("string(//item/link/text())").ToString())));
+                outline.AddContent(new HtmlContent(String.Format(configInfo.ItemContentTemplate, nav.Evaluate("string(//item/description/text())").ToString())));
+            }
+            // Add the outline to our page:          
 			p.AddObject(outline);           
 			// Commit the changes to OneNote, and set the actively viewed page:          
 			p.Commit();          
@@ -96,34 +105,48 @@ namespace BlogExtension.OneNote
 			return t; 
 		}
 
-		private void LoadConfig(){
-			
-			if(configInfo == null){
+		private void LoadConfig()
+        {
 
-				if(File.Exists(configFile)){
-
-					XmlTextReader reader = new XmlTextReader(configFile);
-					configInfo = (OneNotePluginConfig) serializer.Deserialize(reader); 					
-					reader.Close();
-			
-				}else{
-					configInfo = new OneNotePluginConfig(); 
-					SaveConfig();
-				}
-			}
+            if (File.Exists(configFile))
+            {
+                try
+                {
+                    using (XmlTextReader reader = new XmlTextReader(configFile))
+                    {
+                        configInfo = (OneNotePluginConfig)serializer.Deserialize(reader);
+                    }
+                } catch (Exception loadEx ) {
+                    string ex = loadEx.Message;
+                    if (loadEx.InnerException != null)
+                        ex += " " + loadEx.InnerException.Message;
+                    string msg = Resource.Manager.FormatMessage("RES_ExceptionOneNoteBadConfigurationFileFormat", configFile, ex);
+                    if (msg == null) // not yet current resource dll's
+                        msg = String.Format("There was an error loading configuration from '{0}': {1}", configFile, ex);
+                    throw new BlogExtensionException(msg, loadEx);
+                }
+            }
+            else
+            {
+                try
+                {
+                    configInfo = new OneNotePluginConfig();
+                    using (Stream f = new FileStream(configFile, FileMode.Create, FileAccess.Write, FileShare.None, 4*1024)) {
+					    serializer.Serialize(f, configInfo); 					
+				    }
+                } catch (Exception saveEx ) {
+                    string ex = saveEx.Message;
+                    if (saveEx.InnerException != null)
+                        ex += " " + saveEx.InnerException.Message; 
+                    string msg = Resource.Manager.FormatMessage("RES_ExceptionOneNoteWritingConfigurationFile", configFile, ex);
+                    if (msg == null) // not yet current resource dll's
+                        msg = String.Format("There was an error writing configuration file '{0}': {1}", configFile, ex);
+                    throw new BlogExtensionException(msg, saveEx);
+                }
+            
+            }
 		}
 
-		private void SaveConfig(){
-			if(configInfo != null){
-				using (Stream f = new FileStream(configFile, FileMode.Create, FileAccess.Write, FileShare.None, 4*1024)) {
-					try {
-						serializer.Serialize(f, configInfo); 					
-					} catch (Exception ex) {
-						Trace.WriteLine("Failed to save '" + configFile + "': " + ex.Message);
-					}
-				}	
-			}		
-		}
 	}
 
 	/// <summary>
@@ -139,6 +162,7 @@ namespace BlogExtension.OneNote
 			this.Page = "General.one";	// default
 			this.ItemLinkTemplate = "Original Web Location: <a href=\"{0}\">click here</a>";
 			this.ItemContentTemplate = "{0}";
+            ItemLinkBelowContent = false;
 		}
 
 		/// <summary>
@@ -158,5 +182,12 @@ namespace BlogExtension.OneNote
 		/// </summary>
 		[System.Xml.Serialization.XmlElementAttribute("item-content-template")]
 		public string ItemContentTemplate;
+
+        /// <summary>
+        /// True, if the item linke should be displayed below the content.
+        /// Default: false.
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("item-link-below-content")]
+        public bool ItemLinkBelowContent;
 	}
 }

@@ -195,4 +195,12 @@
   <data name="RES_TwitterIncompleteSubmissionMessage" xml:space="preserve">
     <value>Empty Message Body</value>
   </data>
+  <data name="RES_ExceptionOneNoteBadConfigurationFileFormat" xml:space="preserve">
+    <value>There was an error loading configuration from '{0}': 
+{1}</value>
+   </data>
+   <data name="RES_ExceptionOneNoteWritingConfigurationFile" xml:space="preserve">
+    <value>There was an error writing configuration file '{0}': 
+{1}</value>
+  </data>
 </root>
