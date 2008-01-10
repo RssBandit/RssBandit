@@ -102,4 +102,27 @@
 	<data name="RES_ExceptionLiveWriterNotFound">
 		<value>Windows Live Writer konnte nicht auf Ihrem System gefunden werden. Bitte installieren Sie Windows Live Writer über http://ideas.live.com, um dieses Feature zu nutzen</value>
 	</data>
+	<data name="RES_MenuTwitterCaption" space="preserve">
+    <value>Senden an Twitter...</value>
+  </data>
+	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
+    <value>Twitter Plugin Konfiguration...</value>
+  </data>
+	<data name="RES_TwitterApiUrl" space="preserve">
+    <value>&amp;Twitter API URL</value>
+  </data>
+	<data name="RES_TwitterFormCount" space="preserve">
+    <value>140</value>
+  </data>
+	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
+    <value>Leere Nachricht</value>
+  </data>
+	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
+    <value>Beim Laden der Konfiguration von '{0}' trat ein Fehler auf: 
+{1}</value>
+   </data>
+	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
+    <value>Beim Speichern der Konfiguration in der Datei '{0}' trat ein Fehler auf:
+{1}</value>
+  </data>
 	</root>
