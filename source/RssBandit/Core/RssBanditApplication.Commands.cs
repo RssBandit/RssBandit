@@ -1658,10 +1658,14 @@ namespace RssBandit
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 
-            postReplyForm.PostToFeed = FeedHandler.FeedsTable[feedUrl];
+            feedsFeed f = null;
 
-            postReplyForm.Show(); // open non-modal
-            Win32.SetForegroundWindow(postReplyForm.Handle);
+            if (FeedHandler.FeedsTable.TryGetValue(feedUrl, out f)) {
+                postReplyForm.PostToFeed = f;
+
+                postReplyForm.Show(); // open non-modal
+                Win32.SetForegroundWindow(postReplyForm.Handle);
+            }
         }
 
         public void CmdBrowserGoBack(ICommand sender)
