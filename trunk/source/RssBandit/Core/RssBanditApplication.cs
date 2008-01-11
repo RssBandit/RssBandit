@@ -2893,8 +2893,8 @@ namespace RssBandit
                         {
                             XmlElement origin = f.Any[0];
                             string sourceFeedUrl = origin.InnerText;
-                            feedsFeed sourceFeed = feedHandler.FeedsTable[sourceFeedUrl];
-                            if (sourceFeed != null)
+                            feedsFeed sourceFeed = null;  
+                            if (feedHandler.FeedsTable.TryGetValue(sourceFeedUrl, out sourceFeed))
                             {
                                 f.Tag = sourceFeed;
                             }
@@ -3055,10 +3055,10 @@ namespace RssBandit
         /// <param name="feedUrl">string</param>
         public void DisableFeed(string feedUrl)
         {
-            if (feedUrl != null)
-            {
-                this.DisableFeed(this.FeedHandler.FeedsTable[feedUrl],
-                                 TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), feedUrl));
+            feedsFeed f = null;
+            if (feedUrl != null && this.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
+            {                
+                this.DisableFeed(f,TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), feedUrl));
             }
         }
 
@@ -3829,8 +3829,8 @@ namespace RssBandit
 
                 if (goneex != null)
                 {
-                    feedsFeed f = this.feedHandler.FeedsTable[resourceUri];
-                    if (f != null)
+                    feedsFeed f = null;
+                    if (this.feedHandler.FeedsTable.TryGetValue(resourceUri,out f))
                         this.DisableFeed(f.link);
                 }
                 else if (updateNodeIcon && resourceUri != null)

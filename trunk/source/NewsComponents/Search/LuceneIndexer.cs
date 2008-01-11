@@ -38,6 +38,7 @@ using System.ComponentModel;
 using System.Threading;
 using Lucene.Net.Index;
 using NewsComponents.Utils;
+using NewsComponents.Feed;
 using RssBandit.Common.Logging;
 
 namespace NewsComponents.Search
@@ -137,8 +138,11 @@ namespace NewsComponents.Search
 							}
 						} else {
 							// reset the feed ID, because it may not get saved 
-							// along with the subscription list on a initial indexing break:
-							newsHandler.FeedsTable[feedlink].id = restartInfo[feedlink] as string;
+							// along with the subscription list on a initial indexing break:                           
+                            feedsFeed f = null;
+                            if(newsHandler.FeedsTable.TryGetValue(feedlink, out f)){
+							    f.id = restartInfo[feedlink] as string;
+                            }
 						}
 					}
 					
