@@ -5763,9 +5763,9 @@ namespace RssBandit.WinGui.Forms
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
                     string feedUrl = keys[i];
-                    feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
+                    feedsFeed f = null;
 
-                    if (f == null)
+                    if (!owner.FeedHandler.FeedsTable.TryGetValue(feedUrl,out f))
                     {
                         continue;
                     }
@@ -5867,7 +5867,7 @@ namespace RssBandit.WinGui.Forms
                 feedUrl = feedUri.LocalPath;
             }
 
-            feed = owner.CommentFeedsHandler.FeedsTable[feedUrl];
+            owner.CommentFeedsHandler.FeedsTable.TryGetValue(feedUrl, out feed);
 
             if (feed != null && feed.Tag != null)
             {
@@ -7374,8 +7374,8 @@ namespace RssBandit.WinGui.Forms
 			else
 				feedUrl = feedUri.AbsoluteUri; */
 
-            feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
-            if (f != null)
+            feedsFeed f = null;
+            if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {
                 feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
             }
@@ -7405,10 +7405,10 @@ namespace RssBandit.WinGui.Forms
             else
                 feedUrl = requestUri.ToString();
 
-            feedsFeed f = owner.FeedHandler.FeedsTable[feedUrl];
+            feedsFeed f = null;
             string issueCaption, issueDesc;
 
-            if (f != null)
+            if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {
                 issueCaption = SR.CertificateIssueOnFeedCaption(f.title);
             }
@@ -11797,9 +11797,8 @@ namespace RssBandit.WinGui.Forms
 						 * now, locate NewsItem in actual feed and mark comments as viewed 
 						 * then update tree node comment status. 							 
 						 */
-                        if (feedUrl != null)
-                        {
-                            feed = owner.FeedHandler.FeedsTable[feedUrl];
+                        if (feedUrl != null && owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out feed))
+                        {                            
                             IList<NewsItem> newsItems = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
 
                             foreach (NewsItem ni in newsItems)

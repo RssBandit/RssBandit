@@ -797,7 +797,10 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    FeedsTable[keys[i]].maxitemage = XmlConvert.ToString(value);
+                    feedsFeed f = null;
+                    if (FeedsTable.TryGetValue(keys[i], out f)) {
+                        f.maxitemage = XmlConvert.ToString(value);
+                    }
                 }
             }
         }
@@ -2335,8 +2338,11 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    FeedsTable[keys[i]].refreshrate = this.refreshrate;
-                    FeedsTable[keys[i]].refreshrateSpecified = true;
+                    feedsFeed f = null;
+                    if (FeedsTable.TryGetValue(keys[i], out f)) {
+                        f.refreshrate = this.refreshrate;
+                        f.refreshrateSpecified = true;
+                    }
                 }
             }
 
@@ -2562,9 +2568,11 @@ namespace NewsComponents
                 try
                 {
                     Uri uri = new Uri(url);
-                    if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains("."))
-                    {
-                        toReturn.Add(FeedsTable[url]);
+                    if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains(".")) {
+                        feedsFeed f = null;
+                        if (FeedsTable.TryGetValue(url, out f)) {
+                            toReturn.Add(f);
+                        }
                     }
                 }
                 catch (Exception e)
@@ -3477,8 +3485,8 @@ namespace NewsComponents
         {
             if (!string.IsNullOrEmpty(feedUrl))
             {
-                feedsFeed feed = this.FeedsTable[feedUrl];
-                if (feed != null)
+                feedsFeed feed = null;
+                if (this.FeedsTable.TryGetValue(feedUrl, out feed))
                 {
                     this.MarkAllCachedItemsAsRead(feed);
                 }
@@ -4544,11 +4552,11 @@ namespace NewsComponents
             }
 
             //We need a reference to the feed so we can see if a cached object exists
-            feedsFeed theFeed = FeedsTable[feedUrl];
+            feedsFeed theFeed = null;
 
             try
             {
-                if (theFeed != null)
+                if (FeedsTable.TryGetValue(feedUrl, out theFeed))
                 {
                     if ((theFeed.cacheurl != null) && (theFeed.cacheurl.Trim().Length > 0) &&
                         (this.CacheHandler.FeedExists(theFeed)))
@@ -4750,9 +4758,10 @@ namespace NewsComponents
         /// <returns>Hashtable</returns>
         public Hashtable GetFailureContext(Uri feedUri)
         {
-            if (feedUri == null)
+            feedsFeed f = null;
+            if (feedUri == null || !FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, feedUri), out f))
                 return new Hashtable();
-            return this.GetFailureContext(FeedsTable[FeedsCollectionExtenstion.KeyFromUri(FeedsTable, feedUri)]);
+            return this.GetFailureContext(f);
         }
 
 
@@ -4895,9 +4904,9 @@ namespace NewsComponents
             try
             {
                 //We need a reference to the feed so we can see if a cached object exists
-                feedsFeed theFeed = FeedsTable[FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri)];
+                feedsFeed theFeed = null;
 
-                if (theFeed == null)
+                if (FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri), out theFeed))
                 {
                     Trace("ATTENTION! FeedsTable[requestUri] as feedsFeed returns null for: '{0}'",
                           requestUri.ToString());
