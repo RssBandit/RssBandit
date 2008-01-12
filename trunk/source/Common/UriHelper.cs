@@ -17,7 +17,7 @@ namespace RssBandit.Common
             Uri.TryCreate(x,UriKind.Absolute, out a);
             Uri.TryCreate(y, UriKind.Absolute, out b); 
             if( a != null && b != null)
-                return a.CanonicalizedUri().ToLowerInvariant().CompareTo(b.CanonicalizedUri().ToLowerInvariant());
+                return a.CanonicalizedUri().CompareTo(b.CanonicalizedUri());
             else 
                 return x.CompareTo(y); 
         }
