@@ -857,10 +857,10 @@ namespace RssBandit
         /// Helper to create a wrapped Exception, that provides more error infos for a feed
         /// </summary>
         /// <param name="e">Exception</param>
-        /// <param name="f">feedsFeed</param>
+        /// <param name="f">NewsFeed</param>
         /// <param name="fi">IFeedDetails</param>
         /// <returns></returns>
-        public static FeedRequestException CreateLocalFeedRequestException(Exception e, feedsFeed f, IFeedDetails fi)
+        public static FeedRequestException CreateLocalFeedRequestException(Exception e, NewsFeed f, IFeedDetails fi)
         {
             return new FeedRequestException(e.Message, e, NewsHandler.GetFailureContext(f, fi));
         }

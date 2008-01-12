@@ -45,7 +45,7 @@ namespace RssBandit.WinGui {
 		/// <param name="feedHandler">The feed handler.</param>
 		/// <param name="item2post">The item2post.</param>
 		/// <param name="postTarget">The post target.</param>
-		public PostReplyThreadHandler(NewsHandler feedHandler, NewsItem item2post, feedsFeed postTarget) {
+		public PostReplyThreadHandler(NewsHandler feedHandler, NewsItem item2post, NewsFeed postTarget) {
 			this.feedHandler = feedHandler;
 			this.item2post = item2post;
 			this.postTarget = postTarget;
@@ -55,7 +55,7 @@ namespace RssBandit.WinGui {
 		private NewsHandler feedHandler = null;
 		private string commentApiUri = null;
 		private NewsItem item2post = null, inReply2item = null;
-		private feedsFeed postTarget = null;
+		private NewsFeed postTarget = null;
 
 		/// <summary>
 		/// Gets or sets the comment API URI.
@@ -79,7 +79,7 @@ namespace RssBandit.WinGui {
 		/// Gets or sets the post target.
 		/// </summary>
 		/// <value>The post target.</value>
-		public feedsFeed PostTarget {
+		public NewsFeed PostTarget {
 			get {	return this.postTarget ;	}
 			set {	this.postTarget = value;	}
 		}

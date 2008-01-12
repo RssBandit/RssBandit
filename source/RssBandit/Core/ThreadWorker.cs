@@ -88,7 +88,7 @@ namespace RssBandit
 					if (item == null)
 						throw new InvalidOperationException("Non-Null task argument 'item' expected.");
 
-					feedsFeed cmtFeed = new feedsFeed();
+					NewsFeed cmtFeed = new NewsFeed();
 					cmtFeed.link = item.CommentRssUrl;
 					cmtFeed.title = item.Feed.title;
 

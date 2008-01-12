@@ -1291,7 +1291,7 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-        /// Reads the RSS feed from the feedsFeed link then caches and returns the feed items 
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
         /// in an array list.
         /// </summary>
         /// <param name="f">Information about the feed. This information is updated based
@@ -1317,7 +1317,7 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Reads the RSS feed from the feedsFeed link then caches and returns the feed items 
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
         /// in an array list.
         /// </summary>
         /// <param name="feedUrl">The feed Url.</param>
@@ -1345,7 +1345,7 @@ namespace NewsComponents.Feed
         /// <param name="feedReader">A reader containing an RSS feed.</param>				
         /// <param name="cachedStream">Flag states update last retrieved date on feed only 
         /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the feedsFeed object passed in. </param>
+        /// on the NewsFeed object passed in. </param>
         /// <returns>A FeedInfo object which represents the feed</returns>
         /// <exception cref="RssParserException">If the RSS feed is not 
         /// version 0.91, 1.0 or 2.0</exception>
@@ -1662,7 +1662,7 @@ namespace NewsComponents.Feed
         /// <param name="feedStream">A stream containing an RSS feed.</param>				
         /// <param name="cachedStream">Flag states update last retrieved date on feed only 
         /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the feedsFeed object passed in. </param>
+        /// on the NewsFeed object passed in. </param>
         /// <returns>A FeedInfo object which represents the feed</returns>
         /// <exception cref="RssParserException">If the RSS feed is not 
         /// version 0.91, 1.0 or 2.0</exception>
@@ -2464,7 +2464,7 @@ namespace NewsComponents.Feed
  * Made changes to AsyncRequest and RequestThread to become instance based instead of static
  *
  * Revision 1.75  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific feedsFeed and does the logic to load item content from disk if needed
+ * Added CopyItemTo method that copies a NewsItem to a specific NewsFeed and does the logic to load item content from disk if needed
  *
  * Revision 1.74  2006/12/14 18:13:29  carnage4life
  * Fixed issue where TypePad feeds showed raw markup instead of rendered HTML

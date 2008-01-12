@@ -195,7 +195,7 @@ namespace RssBandit
         private GuiStateManager stateManager = null;
         private AutoDiscoveredFeedsMenuHandler backgroundDiscoverFeedsHandler = null;
 
-        //private feedsFeed flagItemsFeed;
+        //private NewsFeed flagItemsFeed;
         //private ArrayList flagItemsList;
 
         private FinderSearchNodes findersSearchRoot;
@@ -792,7 +792,7 @@ namespace RssBandit
         /// </summary>
         /// <param name="feed">The feed.</param>
         /// <param name="property">The property.</param>
-        public void FeedWasModified(feedsFeed feed, NewsFeedProperty property)
+        public void FeedWasModified(NewsFeed feed, NewsFeedProperty property)
         {
             HandleSubscriptionRelevantChange(property);
 
@@ -848,7 +848,7 @@ namespace RssBandit
                 HandleIndexRelevantChange(GetFeed(feedUrl), property);
         }
 
-        private void HandleIndexRelevantChange(feedsFeed feed, NewsFeedProperty property)
+        private void HandleIndexRelevantChange(NewsFeed feed, NewsFeedProperty property)
         {
             if (feed == null)
                 return;
@@ -867,11 +867,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Gets the feedsFeed from FeedHandler.
+        /// Gets the NewsFeed from FeedHandler.
         /// </summary>
         /// <param name="feedUrl">The feed URL (can be null).</param>
-        /// <returns>feedsFeed if found, else null</returns>
-        public feedsFeed GetFeed(string feedUrl)
+        /// <returns>NewsFeed if found, else null</returns>
+        public NewsFeed GetFeed(string feedUrl)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
@@ -1063,7 +1063,7 @@ namespace RssBandit
             if (feedHandler.ColumnLayouts.Count == 0)
             {
                 ListViewLayout oldLayout;
-                foreach (feedsFeed f in feedHandler.FeedsTable.Values)
+                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
                 {
                     if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -2887,13 +2887,13 @@ namespace RssBandit
                 {
                     commentFeedsHandler.LoadFeedlist(p, CommentFeedListValidationCallback);
 
-                    foreach (feedsFeed f in commentFeedsHandler.FeedsTable.Values)
+                    foreach (NewsFeed f in commentFeedsHandler.FeedsTable.Values)
                     {
                         if ((f.Any != null) && (f.Any.Length > 0))
                         {
                             XmlElement origin = f.Any[0];
                             string sourceFeedUrl = origin.InnerText;
-                            feedsFeed sourceFeed = null;  
+                            NewsFeed sourceFeed = null;  
                             if (feedHandler.FeedsTable.TryGetValue(sourceFeedUrl, out sourceFeed))
                             {
                                 f.Tag = sourceFeed;
@@ -3016,7 +3016,7 @@ namespace RssBandit
             // was possibly an error causing feed:
             SpecialFeeds.ExceptionManager.GetInstance().RemoveFeed(url);
 
-            feedsFeed f = this.GetFeed(url);
+            NewsFeed f = this.GetFeed(url);
             if (f != null)
             {
                 RaiseFeedDeleted(url, f.title);
@@ -3055,7 +3055,7 @@ namespace RssBandit
         /// <param name="feedUrl">string</param>
         public void DisableFeed(string feedUrl)
         {
-            feedsFeed f = null;
+            NewsFeed f = null;
             if (feedUrl != null && this.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {                
                 this.DisableFeed(f,TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), feedUrl));
@@ -3065,9 +3065,9 @@ namespace RssBandit
         /// <summary>
         /// Disable a feed (with UI update)
         /// </summary>
-        /// <param name="f">feedsFeed</param>
+        /// <param name="f">NewsFeed</param>
         /// <param name="feedsNode">FeedTreeNodeBase</param>
-        internal void DisableFeed(feedsFeed f, TreeFeedsNodeBase feedsNode)
+        internal void DisableFeed(NewsFeed f, TreeFeedsNodeBase feedsNode)
         {
             if (f != null)
             {
@@ -3475,7 +3475,7 @@ namespace RssBandit
                 if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
                     !commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
                 {
-                    feedsFeed f = new feedsFeed();
+                    NewsFeed f = new NewsFeed();
 
                     f.link = theItem.CommentRssUrl;
                     f.title = theItem.Title;
@@ -3487,7 +3487,7 @@ namespace RssBandit
                     //This prevents issues when comments are deleted.
                     f.replaceitemsonrefresh = f.replaceitemsonrefreshSpecified = true;
 
-                    // set feedsFeed new credentials
+                    // set NewsFeed new credentials
                     if (!string.IsNullOrEmpty(theItem.Feed.authUser))
                     {
                         string u = null, p = null;
@@ -3575,9 +3575,9 @@ namespace RssBandit
         /// <summary>
         /// Adds the replyItem to the sent news item feed.
         /// </summary>
-        /// <param name="postTarget">The feedsFeed posted to.</param>
+        /// <param name="postTarget">The NewsFeed posted to.</param>
         /// <param name="replyItem">The reply item itself.</param>
-        public void AddSentNewsItem(feedsFeed postTarget, NewsItem replyItem)
+        public void AddSentNewsItem(NewsFeed postTarget, NewsItem replyItem)
         {
             if (postTarget != null && replyItem != null)
             {
@@ -3773,9 +3773,9 @@ namespace RssBandit
         /// Publish an XML Feed error.
         /// </summary>
         /// <param name="e">XmlException to publish</param>
-        /// <param name="f">The errornous feedsFeed</param>
+        /// <param name="f">The errornous NewsFeed</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
-        public void PublishXmlFeedError(Exception e, feedsFeed f, bool updateNodeIcon)
+        public void PublishXmlFeedError(Exception e, NewsFeed f, bool updateNodeIcon)
         {
             if (f != null && !string.IsNullOrEmpty(f.link))
             {
@@ -3829,7 +3829,7 @@ namespace RssBandit
 
                 if (goneex != null)
                 {
-                    feedsFeed f = null;
+                    NewsFeed f = null;
                     if (this.feedHandler.FeedsTable.TryGetValue(resourceUri,out f))
                         this.DisableFeed(f.link);
                 }
@@ -4309,14 +4309,14 @@ namespace RssBandit
                 else if (webUrl.IndexOf("navigatetofeed") != -1)
                 {
                     string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                    feedsFeed f = GetFeed(normalizedUrl);
+                    NewsFeed f = GetFeed(normalizedUrl);
                     if (f != null)
                         guiMain.NavigateToFeed(f);
                 }
                 else if (webUrl.IndexOf("unsubscribefeed") != -1)
                 {
                     string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                    feedsFeed f = GetFeed(normalizedUrl);
+                    NewsFeed f = GetFeed(normalizedUrl);
                     if (f != null)
                         this.UnsubscribeFeed(f, false);
                 }
@@ -4933,7 +4933,7 @@ namespace RssBandit
             }
             else if (replyEventArgs.PostToFeed != null)
             {
-                feedsFeed f = replyEventArgs.PostToFeed;
+                NewsFeed f = replyEventArgs.PostToFeed;
                 XmlDocument tempDoc = new XmlDocument();
 
                 if (replyEventArgs.Beautify)
@@ -5307,7 +5307,7 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
-                feedsFeed f;
+                NewsFeed f;
 
                 if (wiz.MultipleFeedsToSubscribe)
                 {
@@ -5359,14 +5359,14 @@ namespace RssBandit
             return false;
         }
 
-        private feedsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, int index)
+        private NewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, int index)
         {
-            feedsFeed f = new feedsFeed();
+            NewsFeed f = new NewsFeed();
 
             f.link = wiz.FeedUrls(index);
             if (feedHandler.FeedsTable.ContainsKey(f.link))
             {
-                feedsFeed f2 = feedHandler.FeedsTable[f.link];
+                NewsFeed f2 = feedHandler.FeedsTable[f.link];
                 this.MessageInfo(SR.GUIFieldLinkRedundantInfo(
                                      (f2.category == null ? String.Empty : f2.category + NewsHandler.CategorySeparator) +
                                      f2.title, f2.link));
@@ -5383,7 +5383,7 @@ namespace RssBandit
 
             if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))
             {
-                // set feedsFeed new credentials
+                // set NewsFeed new credentials
                 string u = wiz.FeedCredentialUser, p = null;
                 if (!string.IsNullOrEmpty(wiz.FeedCredentialPwd))
                     p = wiz.FeedCredentialPwd;
@@ -5443,7 +5443,7 @@ namespace RssBandit
         /// </summary>
         /// <param name="feed">The feed.</param>
         /// <param name="askUser">if set to <c>true</c> [ask user].</param>
-        public void UnsubscribeFeed(feedsFeed feed, bool askUser)
+        public void UnsubscribeFeed(NewsFeed feed, bool askUser)
         {
             if (feed == null) return;
 
@@ -5472,7 +5472,7 @@ namespace RssBandit
 
         public bool TryGetFeedDetails(string url, out string category, out string title, out string link)
         {
-            feedsFeed f;
+            NewsFeed f;
             if (feedHandler.FeedsTable.TryGetValue(url, out f))
             {
                 category = f.category ?? string.Empty;

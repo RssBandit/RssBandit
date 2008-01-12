@@ -90,9 +90,9 @@ namespace NewsComponents.Search
 		public static string DefaultLanguage = "en";
 
 		/// <summary>
-		/// Defines all index relevant feedsFeed properties, 
+		/// Defines all index relevant NewsFeed properties, 
 		/// that are part of the lucene search index. On any change
-		/// of these feedsFeed properties, that feed requires to be re-indexed!
+		/// of these NewsFeed properties, that feed requires to be re-indexed!
 		/// </summary>
 		private readonly NewsFeedProperty indexRelevantPropertyChanges = 
 			NewsFeedProperty.FeedLink |

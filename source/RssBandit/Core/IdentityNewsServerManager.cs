@@ -93,11 +93,11 @@ namespace RssBandit
 		/// Gets (filters) the current subscriptions for Nntp feeds of a specific nntp server.
 		/// </summary>
 		/// <param name="sd">NntpServerDefinition</param>
-		/// <returns>List of feedsFeed objects, that match</returns>
-        public IList<feedsFeed> CurrentSubscriptions(INntpServerDefinition sd)
+		/// <returns>List of NewsFeed objects, that match</returns>
+        public IList<NewsFeed> CurrentSubscriptions(INntpServerDefinition sd)
         {
 			//TODO: impl. CurrentSubscriptions()
-			return new List<feedsFeed>();
+			return new List<NewsFeed>();
 		}
 
 		/// <summary>
