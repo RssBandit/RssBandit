@@ -27,8 +27,8 @@ namespace NewsComponents.Feed
     public class feeds
     {
         /// <remarks/>
-        [XmlElement("feed", Type = typeof (feedsFeed), IsNullable = false)]
-        public List<feedsFeed> feed = new List<feedsFeed>();
+        [XmlElement("feed", Type = typeof (NewsFeed), IsNullable = false)]
+        public List<NewsFeed> feed = new List<NewsFeed>();
 
         /// <remarks/>
         [XmlArrayItem("category", Type = typeof (category), IsNullable = false)]
@@ -595,7 +595,7 @@ namespace NewsComponents.Feed
 
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class feedsFeed
+    public class NewsFeed
     {
         /// <remarks/>
         public string title;
@@ -816,7 +816,7 @@ namespace NewsComponents.Feed
                 return true;
             }
 
-            feedsFeed feed = obj as feedsFeed;
+            NewsFeed feed = obj as NewsFeed;
 
             if (feed == null)
             {

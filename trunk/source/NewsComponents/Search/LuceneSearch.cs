@@ -164,7 +164,7 @@ namespace NewsComponents.Search
 		/// <param name="scope">The scope.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, feedsFeed[] scope, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;
@@ -198,10 +198,10 @@ namespace NewsComponents.Search
 			for (int i = 0; i < hits.Length(); i++) {
 				Document doc = hits.Doc(i);
 
-				feedsFeed f = null;
+				NewsFeed f = null;
 				string feedLink = doc.Get(LuceneSearch.Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
-					f = (feedsFeed) matchedFeeds[feedLink];
+					f = (NewsFeed) matchedFeeds[feedLink];
                 if (f == null && newsHandler.FeedsTable.ContainsKey(feedLink))
 					f = newsHandler.FeedsTable[feedLink];
 				if (f == null) continue;
@@ -261,7 +261,7 @@ namespace NewsComponents.Search
 		}
 		
 		
-		private static Query BuildLuceneQuery(SearchCriteriaCollection criteria, feedsFeed[] scope, Analyzer analyzer) 
+		private static Query BuildLuceneQuery(SearchCriteriaCollection criteria, NewsFeed[] scope, Analyzer analyzer) 
 		{
 			BooleanQuery masterQuery = null;
 			BooleanQuery bTerms = new BooleanQuery();
@@ -631,7 +631,7 @@ namespace NewsComponents.Search
 		/// then the items are added to index again.
 		/// </summary>
 		/// <param name="feed">The feed.</param>
-		public void ReIndex(feedsFeed feed) {
+		public void ReIndex(NewsFeed feed) {
 			if (!UseIndex || feed == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
