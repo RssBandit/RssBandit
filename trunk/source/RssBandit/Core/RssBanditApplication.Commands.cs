@@ -129,7 +129,7 @@ namespace RssBandit
 
 				if(newFeedDialog.DialogResult == DialogResult.OK) {
 				
-					feedsFeed f = new feedsFeed(); 
+					NewsFeed f = new NewsFeed(); 
 					f.link  = newFeedDialog.FeedUrl; 
 					f.title = newFeedDialog.FeedTitle;
 					f.refreshrate = 60; 
@@ -150,7 +150,7 @@ namespace RssBandit
 					}
 
 					if(feedHandler.FeedsTable.Contains(f.link)) {
-						feedsFeed f2 = feedHandler.FeedsTable[f.link]; 
+						NewsFeed f2 = feedHandler.FeedsTable[f.link]; 
 						this.MessageInfo("RES_GUIFieldLinkRedundantInfo", 
 							(f2.category == null? String.Empty : category + "\\") + f2.title, f2.link );
 						newFeedDialog.Close(); 
@@ -167,7 +167,7 @@ namespace RssBandit
 						}
 					}
 
-					if (newFeedDialog.textUser.Text != null && newFeedDialog.textUser.Text.Trim().Length != 0 ) {	// set feedsFeed new credentials
+					if (newFeedDialog.textUser.Text != null && newFeedDialog.textUser.Text.Trim().Length != 0 ) {	// set NewsFeed new credentials
 						string u = newFeedDialog.textUser.Text.Trim(), p = null;
 						if (newFeedDialog.textPwd.Text != null && newFeedDialog.textPwd.Text.Trim().Length != 0)
 							p = newFeedDialog.textPwd.Text.Trim();
@@ -985,7 +985,7 @@ namespace RssBandit
                 SaveFileDialog sfd = new SaveFileDialog();
 
                 ArrayList selections = dialog.GetSelectedFeedUrls();
-                IDictionary<string, feedsFeed> fc = new SortedDictionary<string, feedsFeed>();
+                IDictionary<string, NewsFeed> fc = new SortedDictionary<string, NewsFeed>();
                 foreach (string url in selections)
                 {
                     if (feedHandler.FeedsTable.ContainsKey(url))
@@ -1160,7 +1160,7 @@ namespace RssBandit
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
 
-                feedsFeed f;
+                NewsFeed f;
                 int refreshrate = refreshRate;
                 TimeSpan feedMaxItemAge = TimeSpan.Zero;
                 bool feedDisabled = false;
@@ -1199,7 +1199,7 @@ namespace RssBandit
 
                 if (f.authUser != null)
                 {
-                    // feedsFeed has credentials
+                    // NewsFeed has credentials
                     string u = null, p = null;
                     NewsHandler.GetFeedCredentials(f, ref u, ref p);
                     propertiesDialog.textUser.Text = u;
@@ -1327,7 +1327,7 @@ namespace RssBandit
 
                     if (propertiesDialog.textUser.Text != null && propertiesDialog.textUser.Text.Trim().Length != 0)
                     {
-                        // set feedsFeed new credentials
+                        // set NewsFeed new credentials
                         string u = propertiesDialog.textUser.Text.Trim(), p = null;
                         if (!string.IsNullOrEmpty(propertiesDialog.textPwd.Text))
                             p = propertiesDialog.textPwd.Text.Trim();
@@ -1489,7 +1489,7 @@ namespace RssBandit
                             Int32 intIn = Int32.Parse(propertiesDialog.comboBox1.Text.Trim());
                             if (intIn <= 0)
                             {
-                                foreach (feedsFeed f in feedHandler.FeedsTable.Values)
+                                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1502,7 +1502,7 @@ namespace RssBandit
                             }
                             else
                             {
-                                foreach (feedsFeed f in feedHandler.FeedsTable.Values)
+                                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1533,7 +1533,7 @@ namespace RssBandit
                     {
                         if (feedMaxItemAge.CompareTo(propertiesDialog.MaxItemAge) != 0)
                         {
-                            foreach (feedsFeed f in feedHandler.FeedsTable.Values)
+                            foreach (NewsFeed f in feedHandler.FeedsTable.Values)
                             {
                                 if ((f.category != null) &&
                                     (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1658,7 +1658,7 @@ namespace RssBandit
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 
-            feedsFeed f = null;
+            NewsFeed f = null;
 
             if (FeedHandler.FeedsTable.TryGetValue(feedUrl, out f)) {
                 postReplyForm.PostToFeed = f;

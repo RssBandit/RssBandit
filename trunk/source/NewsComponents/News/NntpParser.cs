@@ -147,7 +147,7 @@ namespace NewsComponents.News{
 		/// <param name="newsgroupListStream">A stream containing an nntp news group list.</param>				
 		/// <param name="cachedStream">Flag states update last retrieved date on feed only 
 		/// if the item was not cached. Indicates whether the lastretrieved date is updated
-		/// on the feedsFeed object passed in. </param>
+		/// on the NewsFeed object passed in. </param>
 		/// <returns>A FeedInfo containing the NewsItem objects</returns>		
 		public static FeedInfo GetItemsForNewsGroup(NewsFeed f, Stream newsgroupListStream, bool cachedStream) {
 			
@@ -465,7 +465,7 @@ namespace NewsComponents.News{
  * fixed: title/author encoding failures (e.g. in german news groups)
  *
  * Revision 1.23  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  */
 #endregion

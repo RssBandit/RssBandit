@@ -25,7 +25,7 @@ namespace RssBandit.WinGui
 	public class PrefetchFeedThreadHandler: EntertainmentThreadHandlerBase
 	{
 		private string feedUrl = String.Empty;
-		private feedsFeed discoveredFeed = null;
+		private NewsFeed discoveredFeed = null;
 		private FeedInfo feedInfo = null;
 		private IWebProxy proxy; 
 		private ICredentials credentials = null;
@@ -41,7 +41,7 @@ namespace RssBandit.WinGui
 			set {	this.feedUrl = value;	}
 		}
 
-		public feedsFeed DiscoveredFeed {
+		public NewsFeed DiscoveredFeed {
 			get {	return discoveredFeed;	}
 		}
 
@@ -65,13 +65,13 @@ namespace RssBandit.WinGui
 
 		protected override void Run() {
 			
-			discoveredFeed = new feedsFeed();
+			discoveredFeed = new NewsFeed();
 
 			try {
 				
 				//feedInfo = feedHandler.GetFeedInfo(this.feedUrl, this.credentials);
 				using (Stream mem = AsyncWebRequest.GetSyncResponseStream(this.feedUrl, this.credentials, RssBanditApplication.UserAgent, this.Proxy)) {
-					feedsFeed f = new feedsFeed();
+					NewsFeed f = new NewsFeed();
 					f.link = feedUrl;
 					if (RssParser.CanProcessUrl(feedUrl)) {
 						feedInfo = RssParser.GetItemsForFeed(f, mem, false); 

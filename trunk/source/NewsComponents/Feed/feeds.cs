@@ -806,7 +806,7 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Tests to see if two feedsFeed objects represent the same feed. 
+        /// Tests to see if two NewsFeed objects represent the same feed. 
         /// </summary>
         /// <returns></returns>
         public override bool Equals(Object obj)
@@ -832,7 +832,7 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Returns a hashcode for a feedsFeed object. 
+        /// Returns a hashcode for a NewsFeed object. 
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -1221,7 +1221,7 @@ namespace NewsComponents.Feed
  * refactored: use string constants for our XML namespaces
  *
  * Revision 1.21  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  */
 

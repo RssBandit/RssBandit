@@ -20,11 +20,11 @@ namespace RssBandit.WinGui
 	/// <summary>
 	/// Delegate called on a Feed Properties link click.
 	/// </summary>
-	public delegate void DisplayFeedPropertiesCallback(feedsFeed f);
+	public delegate void DisplayFeedPropertiesCallback(NewsFeed f);
 	/// <summary>
 	/// Delegate called on a Feed link click.
 	/// </summary>
-	public delegate void FeedActivateCallback(feedsFeed f);
+	public delegate void FeedActivateCallback(NewsFeed f);
 	/// <summary>
 	/// dDelegate called on downloaded enclosure link click
 	/// </summary>

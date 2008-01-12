@@ -75,7 +75,7 @@ namespace RssBandit.WinGui
 					htFeedUrls = new Hashtable(arrFeedUrls.Count);
 					
 					foreach (string rssurl in arrFeedUrls) {
-						feedsFeed discoveredFeed = new feedsFeed();
+						NewsFeed discoveredFeed = new NewsFeed();
 						discoveredFeed.link = rssurl;
 						IFeedDetails feedInfo = null;
 						try {

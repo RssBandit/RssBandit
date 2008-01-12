@@ -92,7 +92,7 @@ namespace NewsComponents.Net
 		/// </summary>
 		public string Generator { get { return this.GetValue("GENERATOR"); } }
 		/// <summary>
-		/// Gets the feedsFeed causing the exception
+		/// Gets the NewsFeed causing the exception
 		/// </summary>
 		public NewsFeed Feed { get { return (NewsFeed)this.GetObject("FAILURE_OBJECT"); } }
 
