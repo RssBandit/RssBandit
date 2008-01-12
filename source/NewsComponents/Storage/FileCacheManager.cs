@@ -82,7 +82,7 @@ namespace NewsComponents.Storage {
 		/// </summary>
 		/// <param name="feed">The feed whose FeedInfo is required.</param>
 		/// <returns>The requested feed or null if it doesn't exist</returns>
-		internal override FeedDetailsInternal GetFeed(feedsFeed feed){
+		internal override FeedDetailsInternal GetFeed(NewsFeed feed){
 			
 			if (null == feed || null == feed.cacheurl)
 				return null;
@@ -174,7 +174,7 @@ namespace NewsComponents.Storage {
 		/// Removes a feed from the cache
 		/// </summary>
 		/// <param name="feed">The feed to remove</param>
-		public override void RemoveFeed(feedsFeed feed){
+		public override void RemoveFeed(NewsFeed feed){
 
 			if (feed == null || feed.cacheurl == null)
 				return;
@@ -230,7 +230,7 @@ namespace NewsComponents.Storage {
 		/// </summary>
 		/// <param name="feed">The feed</param>
 		/// <returns>True if a feed with that ID exists in the cache</returns>
-		public override bool FeedExists(feedsFeed feed){	
+		public override bool FeedExists(NewsFeed feed){	
 	
 			string cachelocation = Path.Combine(this.cacheDirectory, feed.cacheurl);
 			return File.Exists(cachelocation); 
