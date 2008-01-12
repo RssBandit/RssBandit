@@ -16,6 +16,7 @@ using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using NewsComponents.Collections;
 using NewsComponents.Utils;
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RssBandit.WinGui.Tools;
 using RssBandit.WinGui.Utility;
@@ -444,8 +445,9 @@ namespace RssBandit.WinGui
 					} else {
 						uri = new Uri(url);
 					}
-					if (!this.app.FeedHandler.FeedsTable.ContainsKey(FeedsCollectionExtenstion.KeyFromUri(app.FeedHandler.FeedsTable,uri))) {
-						ret.Add(uri.AbsoluteUri);
+                    string key = uri.CanonicalizedUri();
+					if (!this.app.FeedHandler.FeedsTable.ContainsKey(key)) {
+						ret.Add(key);
 					}
 				} catch (UriFormatException) { /* ignore invalid urls */ }
 			}

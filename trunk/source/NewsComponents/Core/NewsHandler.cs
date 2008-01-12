@@ -46,6 +46,7 @@ using NewsComponents.Search;
 using NewsComponents.Storage;
 using NewsComponents.Threading;
 using NewsComponents.Utils;
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RC = NewsComponents.RelationCosmos;
 
@@ -1158,7 +1159,7 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        private IDictionary<string, NewsFeed> _feedsTable = new SortedDictionary<string, NewsFeed>();
+        private IDictionary<string, NewsFeed> _feedsTable = new SortedDictionary<string, NewsFeed>(UriHelper.Comparer);
 
         /// <summary>
         /// Represents the list of available categories for feeds. 
@@ -1576,9 +1577,6 @@ namespace NewsComponents
 
         /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
         public event NewsItemSearchResultEventHandler NewsItemSearchResult;
-
-        /// <summary>Called if NewsFeed(s) are found, that match the search criteria(s)</summary>
-        public event FeedSearchResultEventHandler FeedSearchResult;
 
         /// <summary>Called on a search finished</summary>
         public event SearchFinishedEventHandler SearchFinished;
@@ -2711,6 +2709,10 @@ namespace NewsComponents
                                 if (NntpWebRequest.NewsUriScheme.Equals(uri.Scheme))
                                 {
                                     f.link = NntpWebRequest.NntpUriScheme + uri.AbsoluteUri.Substring(uri.Scheme.Length);
+                                }
+                                else
+                                {
+                                    f.link = uri.CanonicalizedUri(); 
                                 }
                             }
                             catch (Exception)
@@ -4759,7 +4761,7 @@ namespace NewsComponents
         public Hashtable GetFailureContext(Uri feedUri)
         {
             NewsFeed f = null;
-            if (feedUri == null || !FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, feedUri), out f))
+            if (feedUri == null || !FeedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
                 return new Hashtable();
             return this.GetFailureContext(f);
         }
@@ -4871,7 +4873,7 @@ namespace NewsComponents
         {
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
-            string key = FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri);
+            string key = requestUri.CanonicalizedUri();
             if (this.FeedsTable.ContainsKey(key))
             {
                 Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
@@ -4906,7 +4908,7 @@ namespace NewsComponents
                 //We need a reference to the feed so we can see if a cached object exists
                 NewsFeed theFeed = null;
 
-                if (!FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri), out theFeed))
+                if (!FeedsTable.TryGetValue(requestUri.CanonicalizedUri(), out theFeed))
                 {
                     Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
                           requestUri.ToString());
@@ -5140,7 +5142,7 @@ namespace NewsComponents
             }
             catch (Exception e)
             {
-                string key = FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri);
+                string key = requestUri.CanonicalizedUri();
                 if (this.FeedsTable.ContainsKey(key))
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);

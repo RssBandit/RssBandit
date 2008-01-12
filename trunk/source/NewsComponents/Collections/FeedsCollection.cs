@@ -43,21 +43,5 @@ namespace NewsComponents.Collections {
 		public static ArrayList Empty { get { return _empty; } }	
 	}
 	#endregion
-
-    public static class FeedsCollectionExtenstion
-    {
-        public static string KeyFromUri<V>(IDictionary<string, V> source, Uri uri)
-        {
-            if (ReferenceEquals(uri, null))
-                throw new ArgumentNullException("uri");
-
-            string feedUrl = uri.AbsoluteUri;
-            if (!source.ContainsKey(feedUrl) && (uri.IsFile || uri.IsUnc))
-            {
-                feedUrl = uri.LocalPath;
-            }
-
-            return feedUrl;
-        }
-    }
+  
 }

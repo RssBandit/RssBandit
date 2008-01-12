@@ -50,7 +50,7 @@ namespace RssBandit
             {
                 running = InitialInstanceActivator.Activate(appInstance, callback, args);
             }
-            catch (Exception ex)
+            catch (Exception /* ex */)
             {
                 //_log.Error(ex); /* other instance is probably still running */
             }

@@ -20,6 +20,7 @@ using Genghis.Windows.Forms;
 using NewsComponents;
 using NewsComponents.Net;
 using NewsComponents.Utils;
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 
@@ -206,7 +207,7 @@ namespace RssBandit.WinGui.Dialogs
 			try {
 				if (!string.IsNullOrEmpty(e.LinkText)) {
 					Uri uri = new Uri(e.LinkText);
-					Process.Start(uri.AbsoluteUri);
+					Process.Start(uri.CanonicalizedUri());
 				}
 					
 			} catch (Exception ex) {

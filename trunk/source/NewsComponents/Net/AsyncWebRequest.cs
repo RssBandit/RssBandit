@@ -27,6 +27,7 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using log4net;
 using NewsComponents.News;
 using NewsComponents.Utils;
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 // for cookie management
     // for unsafeHeaderParsingFix
@@ -223,7 +224,7 @@ namespace NewsComponents.Net
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
 
-            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.AbsoluteUri))
+            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
                 return null; // httpRequest already there
 
             // here are the exceptions caused:
@@ -378,7 +379,7 @@ namespace NewsComponents.Net
             if (prevState == null)
             {
                 // first httpRequest
-                queuedRequests.Add(requestParameter.RequestUri.AbsoluteUri, null);
+                queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
                 state.OnRequestQueued(requestParameter.RequestUri);
             }
 
@@ -427,7 +428,7 @@ namespace NewsComponents.Net
                 _log.Info("RequestStart cancelled: " + state.RequestUri);
                 state.OnRequestCompleted(state.RequestParams.ETag, state.RequestParams.LastModified,
                                          RequestResult.NotModified);
-                queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
                 state.requestFinalized = true;
 
                 if (queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
@@ -443,7 +444,7 @@ namespace NewsComponents.Net
         {
             if (state != null && !state.requestFinalized)
             {
-                _log.Debug("Request finalized. Request of '" + state.InitialRequestUri.AbsoluteUri + "' took " +
+                _log.Debug("Request finalized. Request of '" + state.InitialRequestUri.CanonicalizedUri() + "' took " +
                            DateTime.Now.Subtract(state.StartTime) + " seconds");
 
                 // ensure we close the resource so we do not get out of INet connections
@@ -477,7 +478,7 @@ namespace NewsComponents.Net
                 {
                 }
 
-                queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
                 RequestThread.EndRequest(state); // trigger next available threaded request
                 state.requestFinalized = true;
 
@@ -607,7 +608,7 @@ namespace NewsComponents.Net
 
                         state.movedPermanently = true;
                         //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                         _log.Debug("ResponseCallback() Moved: '" + state.InitialRequestUri + " to " + url2);
 
@@ -652,7 +653,7 @@ namespace NewsComponents.Net
                         HttpCookieManager.GetCookies(httpResponse);
 
                         //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                         _log.Debug("ResponseCallback() Redirect: '" + state.InitialRequestUri + " to " + url2);
                         // Enqueue the request with the new Url. 
@@ -691,7 +692,7 @@ namespace NewsComponents.Net
                             state.RetryCount++;
 
                             //Remove Url from queue 
-                            queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                            queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                             // Enqueue the request with the new Url. 
                             // We raise the queue priority a bit to get the retry request closer to the just
@@ -715,7 +716,7 @@ namespace NewsComponents.Net
                                 state.RetryCount++;
 
                                 //Remove Url from queue 
-                                queuedRequests.Remove(state.InitialRequestUri.AbsoluteUri);
+                                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                                 // Enqueue the request with the new Url. 
                                 // We raise the queue priority a bit to get the retry request closer to the just
@@ -1418,7 +1419,7 @@ namespace NewsComponents.Net
 
         internal static void RaiseOnCertificateIssue(object sender, CertificateIssueCancelEventArgs e)
         {
-            string url = e.WebRequest.RequestUri.AbsoluteUri;
+            string url = e.WebRequest.RequestUri.CanonicalizedUri();
             ICollection trusted = null;
 
             if (trustedCertificateIssues != null)
@@ -1588,7 +1589,7 @@ namespace NewsComponents.Net
                 /* 
 				 * It seems this may log users out of certain sites, 
 				 * see http://www.rssbandit.org/forum/topic.asp?whichpage=1&TOPIC_ID=2080&#4080
-				 *	- InternetSetCookie(response.ResponseUri.AbsoluteUri, null, response.Headers["Set-Cookie"]);
+				 *	- InternetSetCookie(response.ResponseUri.CanonicalizedUri(), null, response.Headers["Set-Cookie"]);
 				 */
             }
         }
@@ -1604,7 +1605,7 @@ namespace NewsComponents.Net
         private static CookieContainer GetCookieContainerUri(Uri url)
         {
             CookieContainer container = new CookieContainer();
-            string cookieHeaders = RetrieveIECookiesForUrl(url.AbsoluteUri);
+            string cookieHeaders = RetrieveIECookiesForUrl(url.CanonicalizedUri());
             if (cookieHeaders.Length > 0)
             {
                 try
@@ -1616,7 +1617,7 @@ namespace NewsComponents.Net
                     //we might get an error on malformed cookies
                     _log.Error(
                         String.Format("GetCookieContainerUri() exception parsing '{0}' for url '{1}'", cookieHeaders,
-                                      url.AbsoluteUri), ce);
+                                      url.CanonicalizedUri()), ce);
                 }
             }
             return container;
