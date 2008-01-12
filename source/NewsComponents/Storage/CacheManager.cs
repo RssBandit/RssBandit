@@ -31,7 +31,7 @@ namespace NewsComponents.Storage {
 		/// </summary>
 		/// <param name="feed">The feed whose FeedInfo is required.</param>
 		/// <returns>The requested feed</returns>
-		internal abstract FeedDetailsInternal GetFeed(feedsFeed feed); 
+		internal abstract FeedDetailsInternal GetFeed(NewsFeed feed); 
 
 		/// <summary>
 		/// Saves a particular RSS feed.
@@ -47,14 +47,14 @@ namespace NewsComponents.Storage {
 		/// Removes a feed from the cache
 		/// </summary>
 		/// <param name="feed">The feed to remove</param>
-		public abstract void RemoveFeed(feedsFeed feed); 
+		public abstract void RemoveFeed(NewsFeed feed); 
 
 		/// <summary>
 		/// Tests whether a feed with the given ID exists in the cache
 		/// </summary>
 		/// <param name="feed">The feed being searched for</param>
 		/// <returns>True if a feed with that ID exists in the cache</returns>
-		public abstract bool FeedExists(feedsFeed feed); 
+		public abstract bool FeedExists(NewsFeed feed); 
 
 
 		/// <summary>

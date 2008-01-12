@@ -139,7 +139,7 @@ namespace NewsComponents.Search
 						} else {
 							// reset the feed ID, because it may not get saved 
 							// along with the subscription list on a initial indexing break:                           
-                            feedsFeed f = null;
+                            NewsFeed f = null;
                             if(newsHandler.FeedsTable.TryGetValue(feedlink, out f)){
 							    f.id = restartInfo[feedlink] as string;
                             }
