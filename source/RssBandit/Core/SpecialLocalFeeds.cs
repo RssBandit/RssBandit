@@ -42,6 +42,7 @@ using NewsComponents.Net;
 using NewsComponents.Utils;
 using RssBandit;
 using RssBandit.Resources;
+using RssBandit.Common;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.SpecialFeeds
@@ -95,7 +96,7 @@ namespace RssBandit.SpecialFeeds
 			filePath = feedUrl;
 			try {
 				Uri feedUri = new Uri(feedUrl);
-				base.link = feedUri.AbsoluteUri;
+				base.link = feedUri.CanonicalizedUri();
 			} catch {
 				base.link = feedUrl;
 			}

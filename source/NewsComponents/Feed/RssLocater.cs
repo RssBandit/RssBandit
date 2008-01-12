@@ -16,6 +16,7 @@ using System.IO;
 using System.Net; 
 using System.Text;
 
+using RssBandit.Common;
 using NewsComponents.Net;
 using NewsComponents.Utils;
 
@@ -513,13 +514,13 @@ namespace NewsComponents.Feed {
 			try
 			{ 
 				Uri uri = new Uri(url); 
-				return uri.AbsoluteUri; 
+				return uri.CanonicalizedUri(); 
 			}
 			catch(UriFormatException)
 			{
 				try{
 					Uri baseUri= new Uri(baseurl);
-					return (new Uri(baseUri,url).AbsoluteUri); 
+					return (new Uri(baseUri,url).CanonicalizedUri()); 
 				}catch(UriFormatException){ /* This is a last resort so we don't bork processing chain*/
 					return "http://www.example.com";
 				}

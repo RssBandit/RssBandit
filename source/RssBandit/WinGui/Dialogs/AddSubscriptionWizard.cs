@@ -9,6 +9,7 @@ using Divelements.WizardFramework;
 using NewsComponents.Net;
 using RssBandit;
 using RssBandit.AppServices;
+using RssBandit.Common;
 using RssBandit.Resources;
 using RssBandit.WebSearch;
 using RssBandit.WinGui.Controls;
@@ -2964,13 +2965,13 @@ namespace RssBandit.WinGui.Forms
 			//handle the common case of feed URI not beginning with HTTP 
 			try{ 
 				Uri reqUri = new Uri(newUrl);
-				newUrl     = reqUri.AbsoluteUri;
+				newUrl     = reqUri.CanonicalizedUri();
 			}catch(UriFormatException){
 
 				if(!url.ToLower().StartsWith("http://")){
 					try {		
 						Uri reqUri = new Uri("http://" + newUrl); 
-						newUrl     = reqUri.AbsoluteUri;
+						newUrl     = reqUri.CanonicalizedUri();
 					} catch (UriFormatException ex) {
 						invalidUriException = ex;
 						return null;
