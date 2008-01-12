@@ -4906,7 +4906,7 @@ namespace NewsComponents
                 //We need a reference to the feed so we can see if a cached object exists
                 NewsFeed theFeed = null;
 
-                if (FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri), out theFeed))
+                if (!FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri), out theFeed))
                 {
                     Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
                           requestUri.ToString());
