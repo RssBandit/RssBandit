@@ -1017,7 +1017,7 @@ namespace NewsComponents
         /// <summary>
         /// Copies the item (clone) and set the new parent to the provided feed 
         /// </summary>
-        /// <param name="f">feedsFeed</param>
+        /// <param name="f">NewsFeed</param>
         /// <returns></returns>
         internal NewsItem CopyTo(NewsFeed f)
         {

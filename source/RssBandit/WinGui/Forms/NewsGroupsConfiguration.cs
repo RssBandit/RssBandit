@@ -2509,12 +2509,12 @@ namespace RssBandit.WinGui.Forms
 				}
 			}
 		}
-        private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<feedsFeed> currentSubscriptions)
+        private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<NewsFeed> currentSubscriptions)
         {
 			this.PopulateNewsGroups(sd, groups, currentSubscriptions, null);
 		}
 
-		private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<feedsFeed> currentSubscriptions, Regex filterExpression) {
+		private void PopulateNewsGroups(NntpServerDefinition sd, IList<string> groups, IList<NewsFeed> currentSubscriptions, Regex filterExpression) {
 			
            if (groups != null) {
 				ArrayList alvs = new ArrayList(groups.Count);
@@ -2523,9 +2523,9 @@ namespace RssBandit.WinGui.Forms
 					// String.Empty is the group description
 					//TODO: how we get this nntp group description?
 
-					//DISCUSS: how is the feedsFeed.link build up?
-					// all feedsFeed objects with f.newsaccount == sd.Name
-					foreach (feedsFeed f in currentSubscriptions) {
+					//DISCUSS: how is the NewsFeed.link build up?
+					// all NewsFeed objects with f.newsaccount == sd.Name
+					foreach (NewsFeed f in currentSubscriptions) {
 						/* if (f.link.IndexOf(group) >= 0)
 							imageIndex = 1;	 subscribed */ 
 					}

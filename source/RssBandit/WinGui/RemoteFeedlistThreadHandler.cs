@@ -77,7 +77,7 @@ namespace RssBandit.WinGui
     /// </summary>
     internal class NgosDownloadFeedState
     {
-        public feedsFeed feed;
+        public NewsFeed feed;
         public StringCollection readItems2Sync;
         public StringCollection deletedItems2Sync;
         public FeedWebService fws;
@@ -313,10 +313,10 @@ namespace RssBandit.WinGui
 
                             ArrayList deletedFeeds = new ArrayList();
 
-                            //foreach(feedsFeed feed in myFeeds.feed){
+                            //foreach(NewsFeed feed in myFeeds.feed){
                             for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
                             {
-                                feedsFeed feed = myFeeds.feed[i];
+                                NewsFeed feed = myFeeds.feed[i];
 
                                 if (!feed.link.Equals(InvalidFeedUrl) &&
                                     rssBanditApp.FeedHandler.FeedsTable.ContainsKey(feed.link))
@@ -348,7 +348,7 @@ namespace RssBandit.WinGui
                                     //we don't need to download this feed from Newsgator Online
                                     Interlocked.Decrement(ref ngosFeedsToDownload);
                                 }
-                            } //foreach(feedsFeed feed...)												
+                            } //foreach(NewsFeed feed...)												
 
 
                             // Wait until all feed information has been obtained from Newsgator Online
@@ -371,11 +371,11 @@ namespace RssBandit.WinGui
                             {
                                 feedListChanged = true;
 
-                                feedsFeed[] currentFeeds =
-                                    new feedsFeed[rssBanditApp.FeedHandler.FeedsTable.Values.Count];
+                                NewsFeed[] currentFeeds =
+                                    new NewsFeed[rssBanditApp.FeedHandler.FeedsTable.Values.Count];
                                 rssBanditApp.FeedHandler.FeedsTable.Values.CopyTo(currentFeeds, 0);
 
-                                foreach (feedsFeed f in currentFeeds)
+                                foreach (NewsFeed f in currentFeeds)
                                 {
                                     if (!myFeeds.feed.Contains(f))
                                     {
@@ -396,7 +396,7 @@ namespace RssBandit.WinGui
 
                                 if (addedFeeds.Count > 0)
                                 {
-                                    foreach (feedsFeed f in addedFeeds)
+                                    foreach (NewsFeed f in addedFeeds)
                                     {
                                         //we should do something better with folders
                                         try
@@ -678,10 +678,10 @@ namespace RssBandit.WinGui
                         feeds myFeeds = (feeds) serializer.Deserialize(reader);
                         reader.Close();
 
-                        //foreach(feedsFeed feed in myFeeds.feed){
+                        //foreach(NewsFeed feed in myFeeds.feed){
                         for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
                         {
-                            feedsFeed feed = myFeeds.feed[i];
+                            NewsFeed feed = myFeeds.feed[i];
 
                             string unseen = feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "unseen");
 
@@ -1059,7 +1059,7 @@ namespace RssBandit.WinGui
             {
                 NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
 
-                feedsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
+                NewsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
                 List<string> readItems = new List<string>();
                 // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
                // readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed);
@@ -1129,7 +1129,7 @@ namespace RssBandit.WinGui
         /// <param name="feed">The feed whose folder ID we are seeking</param>
         /// <param name="newsgatorOpml">The NewsGator OPML file</param>
         /// <returns>The NewsGator folder ID of the item</returns>
-        private static int GetFolderId(FolderWebService fows, feedsFeed feed, XmlElement newsgatorOpml)
+        private static int GetFolderId(FolderWebService fows, NewsFeed feed, XmlElement newsgatorOpml)
         {
             int folderId;
 
@@ -1145,7 +1145,7 @@ namespace RssBandit.WinGui
         /// <param name="feed">The feed whose folder ID we are seeking</param>
         /// <param name="newsgatorOpml">The NewsGator OPML file</param>
         /// <returns>The NewsGator folder ID of the item</returns>
-        private static int CreateNewsgatorCategoryHive(FolderWebService fows, feedsFeed feed, XmlElement newsgatorOpml)
+        private static int CreateNewsgatorCategoryHive(FolderWebService fows, NewsFeed feed, XmlElement newsgatorOpml)
         {
             string category = feed.category;
             if (newsgatorOpml == null)

@@ -603,7 +603,7 @@ namespace NewsComponents
         /// <summary>
         /// Set the authorization credentials for a feed.
         /// </summary>
-        /// <param name="f">feedsFeed to be modified</param>
+        /// <param name="f">NewsFeed to be modified</param>
         /// <param name="user">username, identifier</param>
         /// <param name="pwd">password</param>
         public static void SetFeedCredentials(NewsFeed f, string user, string pwd)
@@ -616,7 +616,7 @@ namespace NewsComponents
         /// <summary>
         /// Get the authorization credentials for a feed.
         /// </summary>
-        /// <param name="f">feedsFeed, where the credentials are taken from</param>
+        /// <param name="f">NewsFeed, where the credentials are taken from</param>
         /// <param name="user">String return parameter containing the username</param>
         /// <param name="pwd">String return parameter, containing the password</param>
         public static void GetFeedCredentials(NewsFeed f, ref string user, ref string pwd)
@@ -642,7 +642,7 @@ namespace NewsComponents
         /// <summary>
         /// Return ICredentials of a feed. 
         /// </summary>
-        /// <param name="f">feedsFeed</param>
+        /// <param name="f">NewsFeed</param>
         /// <returns>null in the case the feed does not have credentials</returns>
         public static ICredentials GetFeedCredentials(NewsFeed f)
         {
@@ -1577,14 +1577,14 @@ namespace NewsComponents
         /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
         public event NewsItemSearchResultEventHandler NewsItemSearchResult;
 
-        /// <summary>Called if feedsFeed(s) are found, that match the search criteria(s)</summary>
+        /// <summary>Called if NewsFeed(s) are found, that match the search criteria(s)</summary>
         public event FeedSearchResultEventHandler FeedSearchResult;
 
         /// <summary>Called on a search finished</summary>
         public event SearchFinishedEventHandler SearchFinished;
 
         /// <summary>
-        /// Contains the search result, if feedsFeed's are found. Used on FeedSearchResult event.
+        /// Contains the search result, if NewsFeed's are found. Used on FeedSearchResult event.
         /// </summary>
         [ComVisible(false)]
         public class FeedSearchResultEventArgs : CancelEventArgs
@@ -1592,7 +1592,7 @@ namespace NewsComponents
             /// <summary>
             /// Initializer
             /// </summary>
-            /// <param name="f">feedsFeed</param>
+            /// <param name="f">NewsFeed</param>
             /// <param name="tag">object, used by the caller only</param>
             /// <param name="cancel">true, if the search request should be cancelled</param>
             public FeedSearchResultEventArgs(
@@ -1603,7 +1603,7 @@ namespace NewsComponents
             }
 
             /// <summary>
-            /// feedsFeed.
+            /// NewsFeed.
             /// </summary>
             public NewsFeed Feed;
 
@@ -1757,7 +1757,7 @@ namespace NewsComponents
         /// Search for NewsItems, that match a provided criteria collection within a optional search scope.
         /// </summary>
         /// <param name="criteria">SearchCriteriaCollection containing the defined search criteria</param>
-        /// <param name="scope">Search scope: an array of feedsFeed</param>
+        /// <param name="scope">Search scope: an array of NewsFeed</param>
         /// <param name="tag">optional object to be used by the caller to identify this search</param>
         /// <param name="cultureName">Name of the culture.</param>
         /// <param name="returnFullItemText">if set to <c>true</c>, full item texts are returned instead of the summery.</param>
@@ -1884,7 +1884,7 @@ namespace NewsComponents
         /// Search for NewsItems, that match a provided criteria collection within a optional search scope.
         /// </summary>
         /// <param name="criteria">SearchCriteriaCollection containing the defined search criteria</param>
-        /// <param name="scope">Search scope: an array of feedsFeed</param>
+        /// <param name="scope">Search scope: an array of NewsFeed</param>
         /// <param name="tag">optional object to be used by the caller to identify this search</param>
         public void SearchNewsItems(SearchCriteriaCollection criteria, NewsFeed[] scope, object tag)
         {
@@ -2023,7 +2023,7 @@ namespace NewsComponents
             // if scope is an empty array: search all, else search only in spec. feeds
             // pseudo code:
             /* int matches = 0;
-			foreach (feedsFeed f in _feedsTable) {
+			foreach (NewsFeed f in _feedsTable) {
 				if (criteria.Match(f)) {
 					matches++;
 					if (RaiseFeedSearchResultEvent(f, tag))
@@ -3521,7 +3521,7 @@ namespace NewsComponents
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 
         /// </summary>
-        /// <param name="f">The feedsFeed object </param>
+        /// <param name="f">The NewsFeed object </param>
         /// <param name="fi">The FeedInfo object</param>
         public void AddFeed(NewsFeed f, FeedInfo fi)
         {
@@ -3551,7 +3551,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Defines all cache relevant feedsFeed properties, 
+        /// Defines all cache relevant NewsFeed properties, 
         /// that requires we have to (re-)write the cached file. 
         /// </summary>
         private const NewsFeedProperty cacheRelevantPropertyChanges =
@@ -3576,7 +3576,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Defines all subscription relevant feedsFeed properties, 
+        /// Defines all subscription relevant NewsFeed properties, 
         /// that requires we have to (re-)write the subscription file. 
         /// </summary>
         private const NewsFeedProperty subscriptionRelevantPropertyChanges =
@@ -4273,7 +4273,7 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Reads the RSS feed from the feedsFeed link then caches and returns the feed items 
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
         /// in an array list.
         /// </summary>
         /// <param name="f">Information about the feed. This information is updated based
@@ -4331,7 +4331,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Reads the RSS feed from the feedsFeed link then caches and returns the feed items 
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
         /// in an array list.
         /// </summary>
         /// <param name="feedUrl">The feed Url.</param>
@@ -4358,7 +4358,7 @@ namespace NewsComponents
         /// <param name="feedReader">A reader containing an feed.</param>				
         /// <param name="cachedStream">Flag states update last retrieved date on feed only 
         /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the feedsFeed object passed in. </param>
+        /// on the NewsFeed object passed in. </param>
         /// <returns>A FeedDetails object which represents the feed</returns>
         /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
         /// <exception cref="XmlException">If an error occured parsing the feed</exception>	
@@ -4388,7 +4388,7 @@ namespace NewsComponents
         /// <param name="feedStream">A stream containing an feed.</param>				
         /// <param name="cachedStream">Flag states update last retrieved date on feed only 
         /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the feedsFeed object passed in. </param>
+        /// on the NewsFeed object passed in. </param>
         /// <returns>A FeedDetails object which represents the feed</returns>
         /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>	
@@ -4509,7 +4509,7 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Creates a copy of the specified NewsItem with the specified feedsFeed as its owner 
+        /// Creates a copy of the specified NewsItem with the specified NewsFeed as its owner 
         /// </summary>
         /// <param name="item">The item to copy</param>
         /// <param name="f">The owner feed</param>
@@ -4752,7 +4752,7 @@ namespace NewsComponents
         /// * PUBLISHER_HOMEPAGE	(opt.; additional info link)
         /// * GENERATOR			(opt.; generator software)
         /// * FULL_TITLE			(allways there; category and title as it is used in the UI)
-        /// * FAILURE_OBJECT 	(allways there; feedsFeed | nntpFeed)
+        /// * FAILURE_OBJECT 	(allways there; NewsFeed | nntpFeed)
         /// </remarks>
         /// <param name="feedUri">Uri</param>
         /// <returns>Hashtable</returns>
@@ -4908,7 +4908,7 @@ namespace NewsComponents
 
                 if (FeedsTable.TryGetValue(FeedsCollectionExtenstion.KeyFromUri(FeedsTable, requestUri), out theFeed))
                 {
-                    Trace("ATTENTION! FeedsTable[requestUri] as feedsFeed returns null for: '{0}'",
+                    Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
                           requestUri.ToString());
                     return;
                 }
@@ -5622,7 +5622,7 @@ namespace NewsComponents
                 string[] keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
-                //  feedsFeed current = FeedsTable[sKey];	
+                //  NewsFeed current = FeedsTable[sKey];	
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
@@ -5717,7 +5717,7 @@ namespace NewsComponents
                 string[] keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
-                //  feedsFeed current = FeedsTable[sKey];	
+                //  NewsFeed current = FeedsTable[sKey];	
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
@@ -5835,7 +5835,7 @@ namespace NewsComponents
                 string[] keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
-                //  feedsFeed current = FeedsTable[sKey];	
+                //  NewsFeed current = FeedsTable[sKey];	
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
@@ -6336,7 +6336,7 @@ namespace NewsComponents
 		 
 			 
 
-				foreach(feedsFeed f in myFeeds.feed){
+				foreach(NewsFeed f in myFeeds.feed){
 		
 					//if the same feed seen twice, ignore second occurence 
 					if(_feedsTable.ContainsKey(f.link) == false){
@@ -6648,7 +6648,7 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>How about Atom feed posting?</remarks>
         /// <param name="item2post">An RSS item that will be posted to the website/NNTP Group</param>
-        /// <param name="postTarget">An feedsFeed as the post target</param>		
+        /// <param name="postTarget">An NewsFeed as the post target</param>		
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
         public void PostComment(NewsItem item2post, NewsFeed postTarget)
@@ -6811,8 +6811,8 @@ namespace NewsComponents
     #region NewsFeedProperty enum
 
     /// <summary>
-    /// Defines all storage relevant feedsFeed properties. On any change
-    /// of a feedsFeed property, that feed requires to be saved with the
+    /// Defines all storage relevant NewsFeed properties. On any change
+    /// of a NewsFeed property, that feed requires to be saved with the
     /// subscriptions list, to the cache or re-indexed!
     /// </summary>
     [Flags]
@@ -7077,7 +7077,7 @@ namespace NewsComponents
  * Fixed issue where comment feeds get confused when a comment is deleted from the feed,
  *
  * Revision 1.151  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific feedsFeed and does the logic to load item content from disk if needed
+ * Added CopyItemTo method that copies a NewsItem to a specific NewsFeed and does the logic to load item content from disk if needed
  *
  * Revision 1.150  2006/12/09 22:57:03  carnage4life
  * Added support for specifying how many podcasts downloaded from new feeds
@@ -7201,7 +7201,7 @@ namespace NewsComponents
  * We now always send If-Last-Modified and default it to being the last retrieved date
  *
  * Revision 1.111  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  */
 

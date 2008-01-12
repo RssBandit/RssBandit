@@ -42,7 +42,7 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// The new subscription - feed, if not null it is ready to be subscribed.
 		/// </summary>
-		internal feedsFeed Feed = null;
+		internal NewsFeed Feed = null;
 
 		private WizardMode wizardMode; 
 		private IServiceProvider serviceProvider;

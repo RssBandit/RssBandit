@@ -28,7 +28,7 @@
  * next iteration on lucense integration - using a fixed lucene.dll with more localized analyzers
  *
  * Revision 1.3  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  * Revision 1.2  2006/08/13 17:01:18  t_rendelmann
  * further progress on lucene search (not yet finished)

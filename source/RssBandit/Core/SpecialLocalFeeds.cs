@@ -24,7 +24,7 @@
  * small optimizations
  *
  * Revision 1.42  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the feedsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
+ * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
  *
  */
 #endregion
@@ -47,12 +47,12 @@ using Logger = RssBandit.Common.Logging;
 namespace RssBandit.SpecialFeeds
 {
 
-	#region specialized local feedsFeed
+	#region specialized local NewsFeed
 		
 	/// <summary>
 	/// Special local feeds
 	/// </summary>
-	public class LocalFeedsFeed:feedsFeed {
+	public class LocalFeedsFeed:NewsFeed {
 		
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
 

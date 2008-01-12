@@ -162,7 +162,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <param name="f">The FeedsFeed</param>
 		/// <returns>The tree node this object belongs to or null if 
 		/// it can't be found</returns>
-		public static TreeFeedsNodeBase FindNode(TreeFeedsNodeBase startNode, feedsFeed f) {
+		public static TreeFeedsNodeBase FindNode(TreeFeedsNodeBase startNode, NewsFeed f) {
 			
 			TreeFeedsNodeBase assocFeedsNode = f.Tag as TreeFeedsNodeBase;
 			if (assocFeedsNode != null)
