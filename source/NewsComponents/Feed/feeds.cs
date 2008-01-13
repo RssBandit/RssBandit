@@ -19,6 +19,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
+using NewsComponents.Utils;
+
 namespace NewsComponents.Feed
 {
     /// <remarks/>
@@ -531,6 +533,22 @@ namespace NewsComponents.Feed
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
     public class category
     {
+        /// <summary>
+        /// A category must have a name
+        /// </summary>
+        private category(){;}
+
+        /// <summary>
+        /// Creates a new category.
+        /// </summary>
+        /// <param name="name">The name of the category</param>
+        public category(string name) {
+            if (StringHelper.EmptyTrimOrNull(name))
+                throw new ArgumentNullException("name");
+
+            this.Value = name; 
+        }
+
         /// <remarks/>
         [XmlAttribute("mark-items-read-on-exit")]
         public bool markitemsreadonexit;
@@ -591,6 +609,75 @@ namespace NewsComponents.Feed
         /// <remarks/>
         [XmlAnyAttribute]
         public XmlAttribute[] AnyAttr;
+
+        #region Static Methods
+
+        /// <summary>
+        /// Helper function that gets the list of ancestor categories for a particular category's hierarchy
+        /// </summary>
+        /// <param name="key">The category whose ancestor's we are seeking</param>
+        /// <returns>The list of ancestor categories in the category hierarchy</returns>
+        public static List<string> GetAncestors(string key)
+        {
+
+            List<string> list = new List<string>();
+            string current = String.Empty;
+            string[] s = key.Split(NewsHandler.CategorySeparator.ToCharArray());
+
+            if (s.Length != 1)
+            {
+
+                for (int i = 0; i < (s.Length - 1); i++)
+                {
+                    current += (i == 0 ? s[i] : NewsHandler.CategorySeparator + s[i]);
+                    list.Add(current);
+                }
+
+            }
+
+            return list;
+        }
+
+        #endregion 
+
+        #region Equality methods
+
+        /// <summary>
+        /// Tests to see if two category objects represent the same feed. 
+        /// </summary>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            category c = obj as category;
+
+            if (c == null)
+            {
+                return false;
+            }
+
+            if (Value.Equals(c.Value))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a hashcode for a category object. 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        #endregion
     }
 
     /// <remarks/>
