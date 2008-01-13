@@ -2917,7 +2917,7 @@ namespace RssBandit
         public void ImportFeeds(string fromFileOrUrl, string selectedCategory)
         {
             ImportFeedsDialog dialog =
-                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.Categories);
+                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.Categories.Keys);
             try
             {
                 dialog.ShowDialog(guiMain);
@@ -5259,9 +5259,8 @@ namespace RssBandit
                 category = category.Trim();
                 if (category.Length > 0 && ! this.FeedHandler.Categories.ContainsKey(category))
                 {
-                    category c = new category();
-                    c.Value = category;
-                    this.FeedHandler.Categories.Add(new CategoryEntry(category, c));
+                    category c = new category(category);
+                    this.FeedHandler.AddCategory(c);
                     this.guiMain.CreateSubscriptionsCategoryHive(this.guiMain.GetRoot(RootFolderType.MyFeeds), category);
                 }
             }
@@ -5378,7 +5377,7 @@ namespace RssBandit
             f.category = wiz.FeedCategory;
             if ((f.category != null) && (!feedHandler.Categories.ContainsKey(f.category)))
             {
-                feedHandler.Categories.Add(f.category);
+                feedHandler.AddCategory(f.category);
             }
 
             if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))

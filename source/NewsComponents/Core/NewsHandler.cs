@@ -1164,7 +1164,7 @@ namespace NewsComponents
         /// <summary>
         /// Represents the list of available categories for feeds. 
         /// </summary>
-        private CategoriesCollection categories = new CategoriesCollection();
+        private IDictionary<string, category> categories = new SortedDictionary<string, category>();
 
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
@@ -2232,16 +2232,16 @@ namespace NewsComponents
         /// Accesses the list of user specified categories used for organizing 
         /// feeds. 
         /// </summary>
-        public CategoriesCollection Categories
+        public ReadOnlyDictionary<string, category> Categories
         {
             get
             {
                 if (categories == null)
                 {
-                    categories = new CategoriesCollection();
+                    categories = new SortedDictionary<string, category>();
                 }
 
-                return categories;
+                return new ReadOnlyDictionary<string, category>(categories);
             }
         }
 
@@ -2760,7 +2760,7 @@ namespace NewsComponents
                             
                             if (!this.categories.ContainsKey(cat_trimmed))
                             {
-                                this.categories.Add(cat_trimmed);
+                                this.AddCategory(cat_trimmed);
                             }
                         }
                     }
@@ -3306,18 +3306,12 @@ namespace NewsComponents
 
 
                 List<category> c = new List<category>(this.categories.Count);
-                /* sometimes we get nulls in the arraylist, remove them */
-                for (int i = 0; i < this.categories.Count; i++)
-                {
-                    CategoryEntry s = this.categories[i];
-                    if (s.Value.Value == null)
-                    {
-                        this.categories.RemoveAt(i);
-                        i--;
-                    }
-                    else
-                    {
-                        c.Add(s.Value);
+                /* sometimes we get nulls in the arraylist */
+                foreach(category cat in this.categories.Values)
+                {                    
+                    if (!StringHelper.EmptyTrimOrNull(cat.Value))
+                    {                       
+                        c.Add(cat);
                     }
                 }
 
@@ -3518,6 +3512,116 @@ namespace NewsComponents
             }
         }
 
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        public void AddCategory(string cat)
+        {
+            if (StringHelper.EmptyTrimOrNull(cat) || this.categories.ContainsKey(cat))
+                return;            
+
+            List<string> ancestors = category.GetAncestors(cat);
+
+            //create rest of category hierarchy if it doesn't exist
+            for (int i = ancestors.Count; i-- > 0; ){          
+                category c = null;  
+
+                if (!this.categories.TryGetValue(ancestors[i], out c))
+                {
+                    this.categories.Add(ancestors[i], new category(ancestors[i]));
+                }
+            }
+
+            category newCategory = new category(cat);
+            newCategory.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
+
+            this.categories.Add(cat, newCategory);
+        }
+
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="category">The category to add</param>
+        public void AddCategory(category cat)
+        {
+            this.categories.Add(cat.Value, cat);
+        }
+
+        /// <summary>
+        /// Deletes a category from the Categories collection. 
+        /// </summary>
+        /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
+        /// fix up the references to this category in its parent and child categories.</remarks>
+        /// <param name="cat"></param>
+        public void DeleteCategory(string cat)
+        {
+
+            this.categories.Remove(cat); 
+        }
+
+        /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public void RenameCategory(string oldName, string newName)
+        {
+            if (StringHelper.EmptyTrimOrNull(oldName)) 
+                throw new ArgumentNullException("oldName");
+
+            if (StringHelper.EmptyTrimOrNull(newName))
+                throw new ArgumentNullException("newName");
+
+            if (this.categories.ContainsKey(oldName))
+            {
+                category cat = this.categories[oldName];
+                this.categories.Remove(oldName);                
+
+                cat.Value = newName;
+                categories.Add(newName, cat);
+            }
+        }
+
+        /// <summary>
+        /// Helper function that gets the parent category object of the named category
+        /// </summary>
+        /// <param name="category">The name of the category</param>
+        /// <returns>The parent category of the specified category</returns>
+        private category GetParentCategory(string category)
+        {
+            int index = category.LastIndexOf(NewsHandler.CategorySeparator);
+            category c = null;
+
+            if (index != -1)
+            {
+                string parentName = category.Substring(0, index);                
+                categories.TryGetValue(parentName, out c);
+            }
+
+            return c;
+        }
+
+        /// <summary>
+        /// Helper function that gets the child categories of the named category
+        /// </summary>
+        /// <param name="category">The name of the category</param>
+        /// <returns>The list of child categories</returns>
+        private List<category> GetChildCategories(string name)
+        {
+
+            List<category> list = new List<category>();
+
+            foreach (category c in this.categories.Values)
+            {
+                if (c.Value.StartsWith(name))
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list;
+        }
 
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
@@ -3722,9 +3826,9 @@ namespace NewsComponents
                 }
                 else if (inheritCategory && !string.IsNullOrEmpty(f.category))
                 {
-                    category c = this.Categories.GetByKey(f.category);
+                    category c = null; 
 
-                    while (c != null)
+                    while (this.categories.TryGetValue(f.category, out c))
                     {
                         object c_value = c.GetType().GetField(propertyName).GetValue(c);
 
@@ -3974,9 +4078,9 @@ namespace NewsComponents
 
             if (!string.IsNullOrEmpty(category))
             {
-                category c = this.Categories.GetByKey(category);
+                category c = null;
 
-                while (c != null)
+                while (this.categories.TryGetValue(category, out c))
                 {
                     object c_value = c.GetType().GetField(propertyName).GetValue(c);
 
@@ -6030,7 +6134,7 @@ namespace NewsComponents
             //feedListImported = true; 
             /* TODO: Sync category settings */
 
-            CategoriesCollection cats = new CategoriesCollection();
+            IDictionary<string, category> cats = new Dictionary<string, category>();
             FeedColumnLayoutCollection colLayouts = new FeedColumnLayoutCollection();
 
             IDictionary<string, NewsFeed> syncedfeeds = new SortedDictionary<string, NewsFeed>();
@@ -6074,7 +6178,7 @@ namespace NewsComponents
 
                         if ((f2.category != null) && !cats.ContainsKey(f2.category))
                         {
-                            cats.Add(f2.category);
+                            cats.Add(f2.category, new category(f2.category));
                         }
 
                         //copy listview layout information over
@@ -6155,7 +6259,7 @@ namespace NewsComponents
                     {
                         if ((f1.category != null) && !cats.ContainsKey(f1.category))
                         {
-                            cats.Add(f1.category);
+                            cats.Add(f1.category, new category(f1.category));
                         }
 
                         if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
@@ -6267,7 +6371,7 @@ namespace NewsComponents
                     //no new subcategories
                     if (category.Length > 0 && this.categories.ContainsKey(category) == false)
                     {
-                        this.categories.Add(category);
+                        this.AddCategory(category);
                     }
                 }
                 else
@@ -6278,7 +6382,7 @@ namespace NewsComponents
 
                         if (this.categories.ContainsKey(cat2) == false)
                         {
-                            this.categories.Add(cat2);
+                            this.AddCategory(cat2);
                         }
                     }
                 }

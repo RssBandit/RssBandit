@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using NewsComponents.Utils;
 using RssBandit.Resources;
 using RssBandit.WinGui.Utility;
@@ -62,7 +63,7 @@ namespace RssBandit.WinGui.Forms
 		private System.ComponentModel.IContainer components;
 
 
-		public FeedProperties(string title, string link, int refreshRate, TimeSpan maxItemAge, string currentCategory, string defaultCategory, CategoriesCollection categories, string stylesheet): 
+		public FeedProperties(string title, string link, int refreshRate, TimeSpan maxItemAge, string currentCategory, string defaultCategory, ICollection<string> categories, string stylesheet): 
 			this()
 		{		
 
@@ -73,7 +74,7 @@ namespace RssBandit.WinGui.Forms
 			tabAuthentication.Enabled = !RssHelper.IsNntpUrl(link);
 
 			//initialize category combo box			
-			foreach(string category in categories.Keys){
+			foreach(string category in categories){
 				if (!string.IsNullOrEmpty(category))
 					this.comboBox2.Items.Add(category); 
 			}
