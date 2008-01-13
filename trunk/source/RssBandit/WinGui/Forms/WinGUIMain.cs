@@ -174,7 +174,7 @@ namespace RssBandit.WinGui.Forms
         public delegate void UpdateTreeStatusDelegate(IDictionary<string, NewsFeed> theFeeds, RootFolderType rootFolder);
 
         private delegate void PopulateTreeFeedsDelegate(
-            CategoriesCollection categories, IDictionary<string, NewsFeed> feedsTable, string defaultCategory);
+            ICollection<category> categories, IDictionary<string, NewsFeed> feedsTable, string defaultCategory);
 
         /// <summary>
         /// Delegate used for calling PopulateListView() in the correct thread.
@@ -3424,7 +3424,7 @@ namespace RssBandit.WinGui.Forms
                     //owner.FeedlistModified = true;
                 }
                 if (newCategory != null && !owner.FeedHandler.Categories.ContainsKey(newCategory))
-                    owner.FeedHandler.Categories.Add(newCategory);
+                    owner.FeedHandler.AddCategory(newCategory);
             }
             else
             {
@@ -3466,7 +3466,7 @@ namespace RssBandit.WinGui.Forms
                         {
                         }
                         if (owner.FeedHandler.Categories.ContainsKey(f.category))
-                            owner.FeedHandler.Categories.Remove(f.category);
+                            owner.FeedHandler.DeleteCategory(f.category);
                     }
                 }
                 else
@@ -4397,7 +4397,7 @@ namespace RssBandit.WinGui.Forms
             //accordingly. 
             InvokeOnGui(delegate
             {
-                PopulateFeedSubscriptions(owner.FeedHandler.Categories, owner.FeedHandler.FeedsTable,
+                PopulateFeedSubscriptions(owner.FeedHandler.Categories.Values, owner.FeedHandler.FeedsTable,
                                           RssBanditApplication.DefaultCategory);
                 PopulateTreeSpecialFeeds();
             });
@@ -4583,7 +4583,7 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
-        public void PopulateFeedSubscriptions(CategoriesCollection categories, IDictionary<string, NewsFeed> feedsTable,
+        public void PopulateFeedSubscriptions(ICollection<category> categories, IDictionary<string, NewsFeed> feedsTable,
                                               string defaultCategory)
         {
             EmptyListView();
@@ -4600,7 +4600,7 @@ namespace RssBandit.WinGui.Forms
                 UnreadItemsNode.Items.Clear();
 
                 Hashtable categoryTable = new Hashtable();
-                CategoriesCollection categoryList = (CategoriesCollection) categories.Clone();
+                List<category> categoryList = new List<category>(categories);
 
                 foreach (NewsFeed f in feedsTable.Values)
                 {
@@ -4629,7 +4629,7 @@ namespace RssBandit.WinGui.Forms
 
                     TreeFeedsNodeBase catnode;
                     if (categoryTable.ContainsKey(category))
-                        catnode = (TreeFeedsNodeBase) categoryTable[category];
+                        catnode = (TreeFeedsNodeBase)categoryTable[category];
                     else
                     {
                         catnode = TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
@@ -4658,14 +4658,20 @@ namespace RssBandit.WinGui.Forms
                         UpdateCommentStatus(tn, f);
                     }
 
-                    if (categoryList.ContainsKey(category))
-                        categoryList.Remove(category);
+                    for (int i = 0; i < categoryList.Count; i++)
+                    {
+                        if (categoryList[i].Value.Equals(category))
+                        {
+                            categoryList.RemoveAt(i);
+                            break;
+                        }
+                    }
                 }
 
                 //add categories, we not already have
-                foreach (string category in categoryList.Keys)
+                foreach (category c in categoryList)
                 {
-                    TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
+                    TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
                 }
             }
             finally
@@ -6203,7 +6209,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (!owner.FeedHandler.Categories.ContainsKey(s))
                 {
-                    owner.FeedHandler.Categories.Add(s);
+                    owner.FeedHandler.AddCategory(s);
                     owner.SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
                     //owner.FeedlistModified = true;
                 }
@@ -7219,7 +7225,7 @@ namespace RssBandit.WinGui.Forms
                 //owner.FeedlistModified = true;
                 if (category != null && !owner.FeedHandler.Categories.ContainsKey(category))
                 {
-                    owner.FeedHandler.Categories.Add(category);
+                    owner.FeedHandler.AddCategory(category);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
                 }
 
@@ -7254,13 +7260,13 @@ namespace RssBandit.WinGui.Forms
                 // target is the root node:
                 if (targetCategory == null && !owner.FeedHandler.Categories.ContainsKey(theNode.Text))
                 {
-                    owner.FeedHandler.Categories.Add(theNode.Text);
+                    owner.FeedHandler.AddCategory(theNode.Text);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
                 }
                 // target is another category node:
                 if (targetCategory != null && !owner.FeedHandler.Categories.ContainsKey(targetCategory))
                 {
-                    owner.FeedHandler.Categories.Add(targetCategory);
+                    owner.FeedHandler.AddCategory(targetCategory);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
                 }
 
@@ -11213,7 +11219,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     string newFullname = editedNode.CategoryStoreName;
 
-                    CategoriesCollection categories = owner.FeedHandler.Categories;
+                    IDictionary<string, category> categories = owner.FeedHandler.Categories;
                     string[] catList = new string[categories.Count];
                     categories.Keys.CopyTo(catList, 0);
                     // iterate on a copied list, so we can change the old one without
@@ -11222,12 +11228,9 @@ namespace RssBandit.WinGui.Forms
                     {
                         if (catKey.Equals(oldFullname) || catKey.StartsWith(oldFullname + NewsHandler.CategorySeparator))
                         {
-                            int i = categories.IndexOfKey(catKey);
-                            CategoryEntry c = categories[i];
-                            categories.RemoveAt(i);
-                            c.Key = catKey.Replace(oldFullname, newFullname);
-                            c.Value.Value = c.Key;
-                            categories.Insert(i, c);
+                            string newCatKey = newFullname + ( catKey.Length == oldFullname.Length ?
+                                                                String.Empty : catKey.Substring(oldFullname.Length));                                            
+                            owner.FeedHandler.RenameCategory(catKey, newCatKey);  
                         }
                     }
 
@@ -13409,7 +13412,7 @@ namespace RssBandit.WinGui.Forms
                                 f.category = category;
                                 if (!owner.FeedHandler.Categories.ContainsKey(f.category))
                                 {
-                                    owner.FeedHandler.Categories.Add(f.category);
+                                    owner.FeedHandler.AddCategory(f.category);
                                 }
 
                                 f.alertEnabled = false;
