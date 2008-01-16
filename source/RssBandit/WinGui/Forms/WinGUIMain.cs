@@ -5491,7 +5491,7 @@ namespace RssBandit.WinGui.Forms
                 IdleTask.RemoveTask(IdleTasks.IndexAllItems);
                 try
                 {
-                    owner.FeedHandler.SearchHandler.CheckIndex(true);
+                    NewsHandler.SearchHandler.CheckIndex(true);
                 }
                 catch (Exception ex)
                 {
@@ -12943,7 +12943,7 @@ namespace RssBandit.WinGui.Forms
             SetSearchStatusText(SR.RssSearchStateMessage);
 
             Exception criteriaValidationException;
-            if (!owner.FeedHandler.SearchHandler.ValidateSearchCriteria(
+            if (!NewsHandler.SearchHandler.ValidateSearchCriteria(
                      e.SearchCriteria, CultureInfo.CurrentUICulture.Name,
                      out criteriaValidationException))
             {

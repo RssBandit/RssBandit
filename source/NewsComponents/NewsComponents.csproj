@@ -171,6 +171,7 @@
     <Compile Include="Core\NewsItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Feed\BanditNewsHandler.cs" />
     <Compile Include="Feed\FeedInfo.cs">
       <SubType>Code</SubType>
     </Compile>

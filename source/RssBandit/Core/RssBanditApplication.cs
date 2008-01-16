@@ -311,7 +311,7 @@ namespace RssBandit
 
 
             INewsComponentsConfiguration myConfig = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = new NewsHandler(myConfig);
+            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, myConfig);
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
@@ -325,7 +325,7 @@ namespace RssBandit
             this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
 
 
-            this.commentFeedsHandler = new NewsHandler(this.CreateCommentFeedHandlerConfiguration(myConfig));
+            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, this.CreateCommentFeedHandlerConfiguration(myConfig));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -844,7 +844,7 @@ namespace RssBandit
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            if (this.feedHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
                 HandleIndexRelevantChange(GetFeed(feedUrl), property);
         }
 
@@ -852,16 +852,16 @@ namespace RssBandit
         {
             if (feed == null)
                 return;
-            if (this.feedHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
             {
                 if (NewsFeedProperty.FeedRemoved == (property & NewsFeedProperty.FeedRemoved))
                 {
-                    this.feedHandler.SearchHandler.IndexRemove(feed.id);
+                    NewsHandler.SearchHandler.IndexRemove(feed.id);
                     // feed added change is handled after first sucessful request of the feed:
                 }
                 else if (NewsFeedProperty.FeedAdded == (property & NewsFeedProperty.FeedAdded))
                 {
-                    this.feedHandler.SearchHandler.ReIndex(feed);
+                    NewsHandler.SearchHandler.ReIndex(feed);
                 }
             }
         }
@@ -4182,7 +4182,7 @@ namespace RssBandit
 
                 // Last operation: write all changes to the search index to disk
                 if (appIsClosing)
-                    this.FeedHandler.SearchHandler.StopIndexer();
+                    NewsHandler.SearchHandler.StopIndexer();
             }
             catch (InvalidOperationException ioe)
             {
