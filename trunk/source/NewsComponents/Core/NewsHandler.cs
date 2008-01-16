@@ -75,6 +75,32 @@ namespace NewsComponents
         NewsHandlerLite,
     }
 
+    /// <summary>
+    /// Enumeration that describes the source of the feeds that are being processed
+    /// by a particular NewsHandler
+    /// </summary>
+    public enum FeedSource { 
+    
+        /// <summary>
+        /// The feeds are sourced from Google Reader.
+        /// </summary>
+        Google,
+
+        /// <summary>
+        /// The feeds are sourced from NewsGator Online.
+        /// </summary>
+        NewsGator,
+
+        /// <summary>
+        /// The feeds are sourced from the Windows RSS platform.
+        /// </summary>
+        WindowsRSS,
+
+        /// <summary>
+        /// The feeds are directly accessed by RSS Bandit.
+        /// </summary>
+        DirectAccess
+    }
 
     /// <summary>
     /// Class for managing News feeds. This class is NOT thread-safe.
