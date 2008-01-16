@@ -449,12 +449,14 @@
     <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
     <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
     <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
-      <SubType>Designer</SubType>
+      <SubType>
+      </SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
-      <SubType>Designer</SubType>
+      <SubType>
+      </SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.bg.resx">
       <DependentUpon>SR.cs</DependentUpon>
