@@ -105,7 +105,7 @@ namespace NewsComponents
     /// <summary>
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
-    public class NewsHandler
+    public abstract class NewsHandler
     {
         #region ctor's
 
@@ -129,44 +129,27 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewsHandler"/> class
-        /// with a default configuration.
+        /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource
         /// </summary>
-        public NewsHandler() :
-            this(NewsComponentsConfiguration.Default)
+        /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static NewsHandler CreateNewsHandler(FeedSource handlerType, INewsComponentsConfiguration configuration)
         {
-        }
+            NewsHandler handler = null;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NewsHandler"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public NewsHandler(INewsComponentsConfiguration configuration)
-        {
-            this.configuration = configuration;
-            if (this.configuration == null)
-                this.configuration = new NewsComponentsConfiguration();
-
-            // check for programmers error in configuration:
-            ValidateAndThrow(this.configuration);
-
-            this.LoadFeedlistSchema();
-
-            this.rssParser = new RssParser(this);
-            this.searchHandler = new LuceneSearch(this.configuration, this);
-
-            // initialize (later on loaded from feedlist):
-            this.PodcastFolder = this.configuration.DownloadedFilesDataPath;
-            this.EnclosureFolder = this.configuration.DownloadedFilesDataPath;
-
-            if (this.EnclosureFolder != null)
+            switch (handlerType)
             {
-                this.enclosureDownloader = new BackgroundDownloadManager(this.configuration, this);
-                this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
+                case FeedSource.DirectAccess:
+                    handler = new BanditNewsHandler(configuration);
+                    break;
+
+                default:
+                    break;
+
             }
 
-            this.AsyncWebRequest = new AsyncWebRequest();
-            this.AsyncWebRequest.OnAllRequestsComplete += this.OnAllRequestsComplete;
+            return handler; 
         }
 
 //		/// <summary>
@@ -230,7 +213,7 @@ namespace NewsComponents
         /// <summary>
         /// Configuration provider
         /// </summary>
-        private readonly INewsComponentsConfiguration configuration = null;
+        protected INewsComponentsConfiguration configuration = null;
 
         /// <summary>
         /// Gets the NewsComponents configuration.
@@ -248,7 +231,7 @@ namespace NewsComponents
         /// Validates the configuration and throw on errors (required settings).
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        private static void ValidateAndThrow(INewsComponentsConfiguration configuration)
+        protected static void ValidateAndThrow(INewsComponentsConfiguration configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
@@ -282,7 +265,7 @@ namespace NewsComponents
         /// <summary>
         /// Used for making asynchronous Web requests
         /// </summary>
-        private readonly AsyncWebRequest AsyncWebRequest = null;
+        protected AsyncWebRequest AsyncWebRequest = null;
 
         /// <summary>
         /// Indicates when the application first started
@@ -304,7 +287,7 @@ namespace NewsComponents
         /// <summary>
         /// Downloads enclosures/podcasts in the background using BITS. 
         /// </summary>
-        private readonly BackgroundDownloadManager enclosureDownloader;
+        protected BackgroundDownloadManager enclosureDownloader;
 
 //		/// <summary>
 //		/// Manages the cache. 
@@ -326,7 +309,7 @@ namespace NewsComponents
         /// <summary>
         /// Manages the FeedType.Rss 
         /// </summary>
-        private readonly RssParser rssParser;
+        protected RssParser rssParser;
 
         /// <summary>
         /// Provide access to the RssParser for Rss specific tasks
@@ -342,21 +325,21 @@ namespace NewsComponents
         /// <summary>
         /// Manage the lucene search 
         /// </summary>
-        private LuceneSearch searchHandler;
+        protected static LuceneSearch searchHandler;
 
         /// <summary>
         /// Gets or sets the search index handler.
         /// </summary>
         /// <value>The search handler.</value>
-        public LuceneSearch SearchHandler
+        public static LuceneSearch SearchHandler
         {
             get
             {
-                return this.searchHandler;
+                return searchHandler;
             }
             set
             {
-                this.searchHandler = value;
+                searchHandler = value;
             }
         }
 
@@ -794,7 +777,7 @@ namespace NewsComponents
         /// <summary>
         /// Maximum item age. Default value is 3 months.
         /// </summary>
-        private TimeSpan maxitemage = new TimeSpan(90, 0, 0, 0);
+        protected TimeSpan maxitemage = new TimeSpan(90, 0, 0, 0);
 
         /// <summary>
         /// Gets or sets the maximum amount of time an item should be kept in the 
@@ -835,7 +818,7 @@ namespace NewsComponents
         /// <summary>
         /// The stylesheet for displaying feeds.
         /// </summary>
-        private string stylesheet;
+        protected string stylesheet;
 
         /// <summary>
         /// Gets or sets the stylesheet for displaying feeds
@@ -856,7 +839,7 @@ namespace NewsComponents
         /// <summary>
         /// The folder for downloading enclosures.
         /// </summary>
-        private string enclosurefolder;
+        protected string enclosurefolder;
 
         /// <summary>
         /// Gets or sets the folder for downloading enclosures
@@ -878,7 +861,7 @@ namespace NewsComponents
         /// <summary>
         /// The file extensions of enclosures that should be treated as podcasts. 
         /// </summary>
-        private readonly ArrayList podcastfileextensions = new ArrayList();
+        protected readonly ArrayList podcastfileextensions = new ArrayList();
 
         /// <summary>
         /// Gets the list of file extensions of enclosures that should be treated as podcasts
@@ -917,7 +900,7 @@ namespace NewsComponents
         /// <summary>
         /// The folder for downloading podcasts.
         /// </summary>
-        private string podcastfolder;
+        protected string podcastfolder;
 
         /// <summary>
         /// Gets or sets the folder for downloading podcasts
@@ -939,7 +922,7 @@ namespace NewsComponents
         /// Indicates whether items in the feed should be marked as read on exiting
         /// the feed in the UI.
         /// </summary>
-        private bool markitemsreadonexit;
+        protected bool markitemsreadonexit;
 
         /// <summary>
         /// Gets or sets whether items in the feed should be marked as read on exiting
@@ -961,7 +944,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether enclosures should be downloaded in the background.
         /// </summary>
-        private bool downloadenclosures;
+        protected bool downloadenclosures;
 
         /// <summary>
         /// Gets or sets whether enclosures should be downloaded in the background
@@ -983,7 +966,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates the maximum amount of space that enclosures and podcasts can use on disk.
         /// </summary>
-        private int enclosurecachesize = Int32.MaxValue;
+        protected int enclosurecachesize = Int32.MaxValue;
 
 
         /// <summary>
@@ -1005,7 +988,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
         /// </summary>
-        private int numtodownloadonnewfeed = Int32.MaxValue;
+        protected int numtodownloadonnewfeed = Int32.MaxValue;
 
 
         /// <summary>
@@ -1029,7 +1012,7 @@ namespace NewsComponents
         /// Indicates whether podcasts and enclosures should be downloaded to a folder 
         /// named after the feed. 
         /// </summary>
-        private bool createsubfoldersforenclosures;
+        protected bool createsubfoldersforenclosures;
 
         /// <summary>
         /// Gets or sets whether  podcasts and enclosures should be downloaded to a folder 
@@ -1051,7 +1034,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether enclosures should be downloaded in the background.
         /// </summary>
-        private bool enclosurealert;
+        protected bool enclosurealert;
 
         /// <summary>
         /// Gets or sets whether a toast windows should be displayed on a successful download
@@ -1073,7 +1056,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates which properties of a NewsItem should be made columns in the RSS Bandit listview
         /// </summary>
-        private string listviewlayout;
+        protected string listviewlayout;
 
         /// <summary>
         /// Gets or sets wwhich properties of a NewsItem should be made columns in the RSS Bandit listview
@@ -1796,7 +1779,7 @@ namespace NewsComponents
             FeedInfoList fiList = new FeedInfoList(String.Empty);
 
             Exception ex;
-            bool valid = this.SearchHandler.ValidateSearchCriteria(criteria, cultureName, out ex);
+            bool valid = SearchHandler.ValidateSearchCriteria(criteria, cultureName, out ex);
 
             if (ex != null) // report always any error (warnings)
             {
@@ -1812,7 +1795,7 @@ namespace NewsComponents
                 try
                 {
                     // do the search (using lucene):
-                    LuceneSearch.Result r = this.SearchHandler.ExecuteSearch(criteria, scope, cultureName);
+                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, cultureName);
 
                     // we iterate r.ItemsMatched to build a
                     // NewsItemIdentifier and ArrayList list with items, that
@@ -2610,7 +2593,7 @@ namespace NewsComponents
 
         ///<summary>Loads the schema for a feedlist into an XmlSchema object. 
         ///<seealso cref="feedsSchema"/></summary>		
-        private void LoadFeedlistSchema()
+        protected void LoadFeedlistSchema()
         {
             using (Stream xsdStream = Resource.Manager.GetStream("Resources.feedListSchema.xsd"))
             {
@@ -2694,7 +2677,7 @@ namespace NewsComponents
         public void LoadFeedlist(string feedListUrl, ValidationEventHandler veh)
         {
             LoadFeedlist(AsyncWebRequest.GetSyncResponseStream(feedListUrl, null, this.UserAgent, this.Proxy), veh);
-            this.SearchHandler.CheckIndex();
+            SearchHandler.CheckIndex();
         }
 
         /// <summary>
@@ -2996,7 +2979,7 @@ namespace NewsComponents
                     }
                 } //if(fi != null)		
 
-                this.SearchHandler.IndexRemove(feed.id);
+                SearchHandler.IndexRemove(feed.id);
             } //if (feed != null && !string.IsNullOrEmpty( feed.link ) && FeedsTable.ContainsKey(feed.link)) {
         }
 
@@ -3038,7 +3021,7 @@ namespace NewsComponents
                     }
                 } //if(fi != null)
 
-                this.SearchHandler.IndexAdd(item);
+                SearchHandler.IndexAdd(item);
             } //if(item.Feed != null) 
         }
 
@@ -3054,7 +3037,7 @@ namespace NewsComponents
                 this.RestoreDeletedItem(item);
             }
 
-            this.SearchHandler.IndexAdd(deletedItems);
+            SearchHandler.IndexAdd(deletedItems);
         }
 
         /// <summary>
@@ -3080,7 +3063,7 @@ namespace NewsComponents
                 itemsTable.Remove(feedUrl);
             }
 
-            this.SearchHandler.IndexRemove(f.id);
+            SearchHandler.IndexRemove(f.id);
             if (this.enclosureDownloader != null)
                 this.enclosureDownloader.CancelPendingDownloads(feedUrl);
 
@@ -5192,7 +5175,7 @@ namespace NewsComponents
                     theFeed.lastretrievedSpecified = true;
 
                     theFeed.cacheurl = this.SaveFeed(theFeed);
-                    this.SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+                    SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
 
                     theFeed.causedException = false;
                     itemsForFeed = fi.ItemsList;
@@ -5297,13 +5280,13 @@ namespace NewsComponents
             }
         }
 
-        private void OnAllRequestsComplete()
+        protected void OnAllRequestsComplete()
         {
             RaiseOnAllAsyncRequestsCompleted();
         }
 
 
-        private void OnEnclosureDownloadComplete(object sender, DownloadItemEventArgs e)
+        protected void OnEnclosureDownloadComplete(object sender, DownloadItemEventArgs e)
         {
             if (this.OnDownloadedEnclosure != null)
             {

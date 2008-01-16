@@ -773,7 +773,7 @@ namespace RssBandit
                 feedHandler.FeedsTable.Clear();
                 feedHandler.Categories.Clear();
                 feedHandler.ClearItemsCache();
-                feedHandler.SearchHandler.IndexRemoveAll();
+                NewsHandler.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;
                 guiMain.InitiatePopulateTreeFeeds();
