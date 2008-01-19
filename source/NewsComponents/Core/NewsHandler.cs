@@ -2317,7 +2317,7 @@ namespace NewsComponents
         /// The value is specified in milliseconds. 
         /// </summary>
         /// <remarks>By default this value is set to one hour. </remarks>
-        private int refreshrate = 60*60*1000;
+        protected int refreshrate = 60*60*1000;
 
         /// <summary>
         ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
