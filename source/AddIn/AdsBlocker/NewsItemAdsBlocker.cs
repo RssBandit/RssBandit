@@ -1,7 +1,16 @@
-using System;
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 using NewsComponents;
 
-namespace ChannelServices.AdsBlocker
+namespace ChannelServices.AdsBlocker.AddIn
 {
 	/// <summary>
 	/// NewsItemAdsBlocker. 
@@ -9,9 +18,7 @@ namespace ChannelServices.AdsBlocker
 	/// </summary>
 	public class NewsItemAdsBlocker: IChannelProcessor
 	{
-		public NewsItemAdsBlocker(){}
-		
-		#region IChannelProcessor Members
+	    #region IChannelProcessor Members
 
 		public INewsChannel[] GetChannels() {
 			return new INewsChannel[] {new AdsBlockerChannel()};
