@@ -1,0 +1,7 @@
+#
+# AdsBlocker blacklist
+#
+# you can use regular expressions here to define the content to be blocked
+#
+feeds\.feedburner\.com     # blocks the feedburner image ads backlinks
+googleadservices\.com      # blocks the google image ads
