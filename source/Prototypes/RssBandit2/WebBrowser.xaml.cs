@@ -31,21 +31,9 @@ namespace RssBandit2
             HtmlControl.SetInternetFeatureEnabled(InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, SetFeatureFlag.SET_FEATURE_ON_PROCESS, htmlControl.ActiveXEnabled);
         }
 
-        private static void SetControlHtml(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var wb = (WebBrowser)obj;
-
-            var str = (string)args.NewValue;
-
-            if (string.IsNullOrEmpty(str))
-                wb.htmlControl.Clear();
-            else
-            {
-                wb.htmlControl.Html = str;
-                wb.htmlControl.Navigate(null);
-            }
-        }
-
+        public static readonly DependencyProperty HtmlProperty =
+            DependencyProperty.Register("Html", typeof(string), typeof(WebBrowser),
+                new UIPropertyMetadata(null, OnHtmlChanged, OnCoerceHtml));
 
         public string Html
         {
@@ -53,10 +41,43 @@ namespace RssBandit2
             set { SetValue(HtmlProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Html.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HtmlProperty =
-            DependencyProperty.Register("Html", typeof(string), typeof(WebBrowser), new UIPropertyMetadata(null, SetControlHtml));
+        #region /* Static Dependency Property Implementation for Html */
 
+        private static void OnHtmlChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
+        {
+            // BEST PRACTICE: Leave this code as is; use the instance override to add your functionality
+            WebBrowser o = source as WebBrowser;
+            if (o != null)
+                o.OnHtmlChanged((string)e.OldValue, (string)e.NewValue);
+        }
 
+        private static object OnCoerceHtml(DependencyObject source, object value)
+        {
+            // BEST PRACTICE: Leave this code as is; use the instance override to add your functionality
+            WebBrowser o = source as WebBrowser;
+            if (o != null)
+                return o.OnCoerceHtml((string)value);
+
+            return value;
+        }
+
+        #endregion
+
+        protected virtual void OnHtmlChanged(string oldValue, string newValue)
+        {
+            if (string.IsNullOrEmpty(newValue))
+                htmlControl.Clear();
+            else
+            {
+                htmlControl.Html = newValue;
+                htmlControl.Navigate(null);
+            }
+        }
+
+        protected virtual string OnCoerceHtml(string value)
+        {
+            // TODO: Implementation code
+            return value;
+        }
     }
 }
