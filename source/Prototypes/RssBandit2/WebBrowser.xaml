@@ -3,6 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ie="clr-namespace:IEControl;assembly=IEControl">
     <WindowsFormsHost Grid.Column="1" Grid.Row="1" Name="windowsFormsHost1">
-        <ie:HtmlControl x:FieldModifier="private" x:Name="htmlControl" ScriptEnabled="False" JavaEnabled="False" />
+        <ie:HtmlControl x:FieldModifier="private" x:Name="htmlControl" 
+                        AllowDrop="True"
+                        ScriptEnabled="False" 
+                        JavaEnabled="False"
+                        Border3d="True"
+                        FlatScrollBars="True"
+                        ScrollBarsEnabled="True"
+                        AllowInPlaceNavigation="False"
+                        SilentModeEnabled="True"
+                        ActiveXEnabled="False"
+                        />
     </WindowsFormsHost>
 </UserControl>

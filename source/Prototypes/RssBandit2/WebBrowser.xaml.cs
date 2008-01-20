@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
+using IEControl;
 
 namespace RssBandit2
 {
@@ -25,6 +26,9 @@ namespace RssBandit2
         public WebBrowser()
         {
             InitializeComponent();
+
+            htmlControl.EnhanceBrowserSecurityForProcess();
+            HtmlControl.SetInternetFeatureEnabled(InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL, SetFeatureFlag.SET_FEATURE_ON_PROCESS, htmlControl.ActiveXEnabled);
         }
 
         private static void SetControlHtml(DependencyObject obj, DependencyPropertyChangedEventArgs args)
