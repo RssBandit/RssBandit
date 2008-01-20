@@ -27,7 +27,8 @@ namespace RssBandit2
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            htmlControl.Navigate("http://www.cnn.com");
+            string html = @"<html><body>Hello.</body></html>";
+            webBrowser.Html = html;
         }
 
 
