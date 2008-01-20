@@ -102,23 +102,23 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
-      <HintPath>..\Common\bin\log4net.dll</HintPath>
+      <HintPath>..\Common\Libraries\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
       <Name>Lucene.Net</Name>
-      <HintPath>bin\Lucene.Net.dll</HintPath>
+      <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\SgmlReaderDll.dll</HintPath>
+      <HintPath>..\Common\Libraries\SgmlReaderDll.dll</HintPath>
     </Reference>
     <Reference Include="Snowball.Net">
       <Name>Snowball.Net</Name>
-      <HintPath>bin\Snowball.Net.dll</HintPath>
+      <HintPath>..\Common\Libraries\Snowball.Net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
