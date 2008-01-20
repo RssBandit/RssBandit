@@ -77,11 +77,11 @@
   <ItemGroup>
     <Reference Include="blogExtension, Version=1.1.0.2, Culture=neutral, PublicKeyToken=3bd87fdfe01c7a80">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Common\bin\blogExtension.dll</HintPath>
+      <HintPath>..\..\..\Common\Libraries\blogExtension.dll</HintPath>
     </Reference>
     <Reference Include="OneNoteImporter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=28cdc0b90a4a9575">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\OneNoteImporter.dll</HintPath>
+      <HintPath>..\..\..\Common\Libraries\OneNoteImporter.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
