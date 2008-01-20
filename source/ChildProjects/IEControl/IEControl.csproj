@@ -82,7 +82,7 @@
                 <Reference
                     Name = "Interop.SHDocVw"
                     AssemblyName = "Interop.SHDocVw"
-                    HintPath = "bin\Interop.SHDocVw.dll"
+                    HintPath = "Libraries\Interop.SHDocVw.dll"
                 />
                 <Reference
                     Name = "System.Design"
