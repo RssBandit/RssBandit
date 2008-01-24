@@ -178,12 +178,15 @@
     <Compile Include="Feed\feeds.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Feed\GoogleReaderNewsHandler.cs" />
+    <Compile Include="Feed\NewsGatorNewsHandler.cs" />
     <Compile Include="Feed\RssLocater.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\RssParser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Feed\WindowsRssNewsHandler.cs" />
     <Compile Include="Net\AsyncWebRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -468,6 +471,16 @@
       <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
       <Name>RssBandit.AppServices</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Feeds.Interop">
+      <Guid>{9CDCD9C9-BC40-41C6-89C5-230466DB0BD0}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
