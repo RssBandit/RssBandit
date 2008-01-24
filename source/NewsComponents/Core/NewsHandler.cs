@@ -102,6 +102,46 @@ namespace NewsComponents
         DirectAccess
     }
 
+
+    /// <summary>
+    /// Provides the location of a subscription location.
+    /// </summary>
+    public class SubscriptionLocation {
+
+        private SubscriptionLocation() { ; }
+
+        /// <summary>
+        /// Initializes the subscription location
+        /// </summary>
+        /// <param name="location">The path or identifier to the list of subscriptions</param>
+        /// <param name="credentials">The credentials required to access the location if any</param>
+        public SubscriptionLocation(string location, ICredentials credentials)
+        {
+
+            this.Location = location;
+            this.Credentials = credentials;
+        }
+
+        /// <summary>
+        /// Initializes the subscription location
+        /// </summary>
+        /// <param name="location">The path or identifier to the list of subscriptions</param>        
+        public SubscriptionLocation(string location) {
+            this.Location = location;
+            this.Credentials = CredentialCache.DefaultCredentials;
+        }
+
+        /// <summary>
+        /// The path or identifier to the list of subscriptions
+        /// </summary>
+        public string Location { get; set; }
+
+        /// <summary>
+        /// The credentials required to access the location if any
+        /// </summary>
+        public ICredentials Credentials { get; set; }
+    }
+
     /// <summary>
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
@@ -136,25 +176,30 @@ namespace NewsComponents
         /// </summary>
         /// <seealso cref="DefaultConfiguration"/>
         /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <param name="location">The location of the subscriptions</param>
         /// <returns>A new NewsHandler</returns>
-        public static NewsHandler CreateNewsHandler(FeedSource handlerType) {
-            return CreateNewsHandler(handlerType, DefaultConfiguration);        
+        public static NewsHandler CreateNewsHandler(FeedSource handlerType, SubscriptionLocation location) {
+            return CreateNewsHandler(handlerType, location, DefaultConfiguration);        
         }
 
         /// <summary>
         /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource
         /// </summary>
         /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <param name="location">The location of the subscriptions</param>
         /// <param name="configuration"></param>
         /// <returns>A new NewsHandler</returns>
-        public static NewsHandler CreateNewsHandler(FeedSource handlerType, INewsComponentsConfiguration configuration)
+        public static NewsHandler CreateNewsHandler(FeedSource handlerType,SubscriptionLocation location, INewsComponentsConfiguration configuration)
         {
+            if (String.IsNullOrEmpty(location.Location))
+                throw new ArgumentNullException("location.Location"); 
+
             NewsHandler handler = null;
 
             switch (handlerType)
             {
                 case FeedSource.DirectAccess:
-                    handler = new BanditNewsHandler(configuration);
+                    handler = new BanditNewsHandler(configuration, location);
                     break;
 
                 default:
@@ -242,6 +287,11 @@ namespace NewsComponents
         }
 
         /// <summary>
+        /// Gets the location of the feed
+        /// </summary>
+        protected SubscriptionLocation location = null; 
+
+        /// <summary>
         /// Used for making asynchronous Web requests
         /// </summary>
         protected AsyncWebRequest AsyncWebRequest = null;
@@ -273,6 +323,8 @@ namespace NewsComponents
 //		/// </summary>
 //		[Obsolete("Use CacheHandler property")]
 //		private CacheManager cacheHandler; 
+
+
 
         /// <summary>
         /// The location where feed items are cached.
@@ -432,15 +484,11 @@ namespace NewsComponents
         }
 
 
-        /// <summary>
-        /// Internal flag used after loading feed list to indicate that a category attribute of a feed is not 
-        /// listed as one of the category elements. 
-        /// </summary>
-        private static bool categoryMismatch = false;
+      
 
         #region Trace support
 
-        private static bool traceMode = false;
+        protected static bool traceMode = false;
 
         /// <summary>
         /// Boolean flag indicates whether errors should be written to a logfile 
@@ -458,7 +506,7 @@ namespace NewsComponents
             }
         }
 
-        private static void Trace(string formatString, params object[] paramArray)
+        protected static void Trace(string formatString, params object[] paramArray)
         {
             if (traceMode)
                 _log.Info(String.Format(formatString, paramArray));
@@ -1160,7 +1208,7 @@ namespace NewsComponents
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
         /// </summary>
-        private FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
+        protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
 
 
         /// <summary>
@@ -2245,15 +2293,8 @@ namespace NewsComponents
         {
             //		[MethodImpl(MethodImplOptions.Synchronized)]
             get
-            {
-                if (!validationErrorOccured)
-                {
-                    return _feedsTable;
-                }
-                else
-                {
-                    return null;
-                }
+            {             
+                    return _feedsTable;             
             }
         }
 
@@ -2344,12 +2385,14 @@ namespace NewsComponents
         ///<summary>
         ///Internal flag used to track whether the XML in the feed list validated against the schema. 
         ///</summary>
-        private static bool validationErrorOccured = false;
+        public static bool validationErrorOccured = false;
+
 
         /// <summary>
-        /// The schema for the RSS feed list format
+        /// Internal flag used after loading feed list to indicate that a category attribute of a feed is not 
+        /// listed as one of the category elements. 
         /// </summary>
-        private XmlSchema feedsSchema = null;
+        protected static bool categoryMismatch = false;
 
         /// <summary>
         /// Boolean flag indicates whether the feeds list was loaded 
@@ -2572,16 +2615,7 @@ namespace NewsComponents
 
             return toReturn;
         }
-
-        ///<summary>Loads the schema for a feedlist into an XmlSchema object. 
-        ///<seealso cref="feedsSchema"/></summary>		
-        protected void LoadFeedlistSchema()
-        {
-            using (Stream xsdStream = Resource.Manager.GetStream("Resources.feedListSchema.xsd"))
-            {
-                feedsSchema = XmlSchema.Read(xsdStream, null);
-            }
-        }
+      
 
         /// <summary>
         /// Loads the cache of {url:page_title} pairs so we don't have to go to the Web if we've previously 
@@ -2650,243 +2684,16 @@ namespace NewsComponents
             }
         }
 
-        /// <summary>
-        /// Loads the RSS feedlist from the given URL and validates it against the schema. 
-        /// </summary>
-        /// <param name="feedListUrl">The URL of the feedlist</param>
-        /// <param name="veh">The event handler that should be invoked on the client if validation errors occur</param>
-        /// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
-        public void LoadFeedlist(string feedListUrl, ValidationEventHandler veh)
-        {
-            LoadFeedlist(AsyncWebRequest.GetSyncResponseStream(feedListUrl, null, this.UserAgent, this.Proxy), veh);
-            SearchHandler.CheckIndex();
-        }
+        #region abstract methods 
 
         /// <summary>
-        /// Loads the RSS feedlist from the given URL and validates it against the schema. 
-        /// </summary>
-        /// <param name="xmlStream">The XML Stream of a feedlist to load</param>
-        /// <param name="veh">The event handler that should be invoked on the client if validation errors occur</param>
-        /// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
-        public void LoadFeedlist(Stream xmlStream, ValidationEventHandler veh)
-        {
-            XmlParserContext context =
-                new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
-            XmlReader reader = new RssBanditXmlReader(xmlStream, XmlNodeType.Document, context);
-            validationErrorOccured = false;
+        /// Loads the feedlist from the FeedLocation. 
+        ///</summary>
+        public abstract void LoadFeedlist();
 
-            //convert XML to objects
-            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
-            feeds myFeeds = (feeds) serializer.Deserialize(reader);
-            reader.Close();
+        #endregion 
 
-
-            if (!validationErrorOccured)
-            {
-                //copy feeds over if we are importing a new feed  
-
-                if (myFeeds.feed != null)
-                {
-                    foreach (NewsFeed f in myFeeds.feed)
-                    {
-                        if (_feedsTable.ContainsKey(f.link) == false)
-                        {
-                            bool isBadUri = false;
-                            try
-                            {
-                                Uri uri = new Uri(f.link);
-                                // CLR 2.0 Uri does not like "news:" scheme, so we 
-                                // switch it to "nntp:" (see http://msdn2.microsoft.com/en-us/library/system.uri.scheme.aspx)
-                                if (NntpWebRequest.NewsUriScheme.Equals(uri.Scheme))
-                                {
-                                    f.link = NntpWebRequest.NntpUriScheme + uri.AbsoluteUri.Substring(uri.Scheme.Length);
-                                }
-                                else
-                                {
-                                    f.link = uri.CanonicalizedUri(); 
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                isBadUri = true;
-                            }
-
-                            if (isBadUri)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                // test again: we may have changed to Uri above:
-                                if (_feedsTable.ContainsKey(f.link) == false)
-                                {
-                                    f.owner = this;
-                                    _feedsTable.Add(f.link, f);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //copy over category info if we are importing a new feed
-                if (myFeeds.categories != null)
-                {
-                    foreach (category cat in myFeeds.categories)
-                    {
-                        string cat_trimmed = cat.Value.Trim();
-                        if (!this.categories.ContainsKey(cat_trimmed))
-                        {
-                            cat.Value = cat_trimmed;
-                            this.categories.Add(cat_trimmed, cat);
-                        }
-                    }
-                }
-
-                //This happens if for some reason the category of a feed didn't end up 
-                //in the categories collection during the last save of the feedlist. 
-                if (categoryMismatch && (myFeeds.feed != null))
-                {
-                    foreach (NewsFeed f in myFeeds.feed)
-                    {
-                        if (f.category != null)
-                        {
-                            string cat_trimmed = f.category = f.category.Trim();
-                            
-                            if (!this.categories.ContainsKey(cat_trimmed))
-                            {
-                                this.AddCategory(cat_trimmed);
-                            }
-                        }
-                    }
-
-                    categoryMismatch = false;
-                }
-
-                //copy over layout info if we are importing a new feed
-                if (myFeeds.listviewLayouts != null)
-                {
-                    foreach (listviewLayout layout in myFeeds.listviewLayouts)
-                    {
-                        string layout_trimmed = layout.ID.Trim();
-                        if (!this.layouts.ContainsKey(layout_trimmed))
-                        {
-                            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-                        }
-                    }
-                }
-
-                //copy nntp-server defs. over if we are importing  
-                if (myFeeds.nntpservers != null)
-                {
-                    foreach (NntpServerDefinition sd in myFeeds.nntpservers)
-                    {
-                        if (nntpServers.ContainsKey(sd.Name) == false)
-                        {
-                            nntpServers.Add(sd.Name, sd);
-                        }
-                    }
-                }
-
-                //copy user-identities over if we are importing  
-                if (myFeeds.identities != null)
-                {
-                    foreach (UserIdentity ui in myFeeds.identities)
-                    {
-                        if (identities.ContainsKey(ui.Name) == false)
-                        {
-                            identities.Add(ui.Name, ui);
-                        }
-                    }
-                }
-
-                //if refresh rate in imported feed then use that
-                if (myFeeds.refreshrateSpecified)
-                {
-                    this.refreshrate = myFeeds.refreshrate;
-                }
-
-                //if stylesheet specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.stylesheet))
-                {
-                    this.stylesheet = myFeeds.stylesheet;
-                }
-
-                //if download enclosures specified in imported feed then use that
-                if (myFeeds.downloadenclosuresSpecified)
-                {
-                    this.downloadenclosures = myFeeds.downloadenclosures;
-                }
-
-                //if maximum enclosure cache size specified in imported feed then use that
-                if (myFeeds.enclosurecachesizeSpecified)
-                {
-                    this.enclosurecachesize = myFeeds.enclosurecachesize;
-                }
-
-                //if maximum number of enclosures to download on a new feed specified in imported feed then use that
-                if (myFeeds.numtodownloadonnewfeedSpecified)
-                {
-                    this.numtodownloadonnewfeed = myFeeds.numtodownloadonnewfeed;
-                }
-
-                //if cause alert on enclosures specified in imported feed then use that
-                if (myFeeds.enclosurealertSpecified)
-                {
-                    this.enclosurealert = myFeeds.enclosurealert;
-                }
-
-                //if create subfolders for enclosures specified in imported feed then use that
-                if (myFeeds.createsubfoldersforenclosuresSpecified)
-                {
-                    this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
-                }
-
-
-                //if marking items as read on exit specified in imported feed then use that
-                if (myFeeds.markitemsreadonexitSpecified)
-                {
-                    this.markitemsreadonexit = myFeeds.markitemsreadonexit;
-                }
-
-                //if enclosure folder specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
-                {
-                    this.EnclosureFolder = myFeeds.enclosurefolder;
-                }
-
-                //if podcast folder specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.podcastfolder))
-                {
-                    this.PodcastFolder = myFeeds.podcastfolder;
-                }
-
-                //if podcast file extensions specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.podcastfileexts))
-                {
-                    this.PodcastFileExtensionsAsString = myFeeds.podcastfileexts;
-                }
-
-
-                //if listview layout specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
-                {
-                    this.listviewlayout = myFeeds.listviewlayout;
-                }
-
-                //if max item age in imported feed then use that
-                try
-                {
-                    if (!string.IsNullOrEmpty(myFeeds.maxitemage))
-                    {
-                        this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
-                    }
-                }
-                catch (FormatException fe)
-                {
-                    Trace("Error occured while parsing maximum item age from feed list: {0}", fe.ToString());
-                }
-            }
-        }
+       
 
 
         /// <summary>
@@ -6894,18 +6701,7 @@ namespace NewsComponents
             {
                 return receivingNewsChannel;
             }
-        }
-
-        /// <summary>
-        /// The schema for the RSS feed list format
-        /// </summary>
-        public XmlSchema FeedsSchema
-        {
-            get
-            {
-                return feedsSchema;
-            }
-        }
+        }       
 
         #endregion
     }
