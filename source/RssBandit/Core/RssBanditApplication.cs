@@ -310,22 +310,19 @@ namespace RssBandit
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
 
 
-            INewsComponentsConfiguration myConfig = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, myConfig);
+            NewsHandler.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
+            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess);
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
-
             this.feedHandler.BeforeDownloadFeedStarted += this.BeforeDownloadFeedStarted;
             this.feedHandler.UpdateFeedsStarted += this.OnUpdateFeedsStarted;
             this.feedHandler.OnUpdatedFavicon += this.OnUpdatedFavicon;
             this.feedHandler.OnDownloadedEnclosure += this.OnDownloadedEnclosure;
-
             
             this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
 
-
-            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, this.CreateCommentFeedHandlerConfiguration(myConfig));
+            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, this.CreateCommentFeedHandlerConfiguration(NewsHandler.DefaultConfiguration));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -438,7 +435,7 @@ namespace RssBandit
             return cfg;
         }
 
-        private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
+private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             INewsComponentsConfiguration configTemplate)
         {
             NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();
@@ -861,7 +858,7 @@ namespace RssBandit
                 }
                 else if (NewsFeedProperty.FeedAdded == (property & NewsFeedProperty.FeedAdded))
                 {
-                    NewsHandler.SearchHandler.ReIndex(feed);
+                    NewsHandler.SearchHandler.ReIndex(feed, this.feedHandler.GetCachedItemsForFeed(feed.link));
                 }
             }
         }
@@ -5394,12 +5391,11 @@ namespace RssBandit
             }
 
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
-
+            
             // add feed to backend
             if (wiz.FeedInfo != null)
                 feedHandler.AddFeed(f, wiz.FeedInfo);
-            else
-                feedHandler.FeedsTable.Add(f.link, f);
+           
             this.FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
 
