@@ -874,6 +874,10 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public bool containsNewComments;
 
+        /// <remarks />                
+        [XmlIgnore]
+        public NewsHandler owner;
+
         /// <summary>
         /// Gets the value of a particular wildcard element. If the element is not found then 
         /// null is returned

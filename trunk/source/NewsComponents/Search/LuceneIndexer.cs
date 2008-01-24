@@ -54,18 +54,19 @@ namespace NewsComponents.Search
 
 		private LuceneIndexModifier indexModifier;
 		private Thread IndexingThread;
-		private NewsHandler newsHandler;
 		private IDictionary restartInfo;
 		private DictionaryEntry lastIndexed;
+        private IList<NewsHandler> newsHandlers;
 		
-		public LuceneIndexer(NewsHandler newsHandler, LuceneIndexModifier indexModifier) {
-			this.newsHandler = newsHandler;
-			if (this.newsHandler == null)
-				throw new ArgumentNullException("newsHandler");
+		public LuceneIndexer(LuceneIndexModifier indexModifier, IList<NewsHandler> newsHandlers) {
 		
 			this.indexModifier = indexModifier;
 			if (this.indexModifier == null)
 				throw new ArgumentNullException("indexModifier");
+
+            this.newsHandlers = newsHandlers;
+            if (this.newsHandlers == null || this.newsHandlers.Count == 0)
+                throw new ArgumentException("newsHandlers");
 		}
 
 		/// <summary>
@@ -105,51 +106,62 @@ namespace NewsComponents.Search
 			}
 
 			try {
-			    int feedCount = 0, itemCount = 0;
 
-			    if (newsHandler.FeedsListOK && 
-					0 < newsHandler.FeedsTable.Count) 
-				{
-					int maxCount = newsHandler.FeedsTable.Count; 
-					// we are working with a copy of the feed list to avoid 
-					// exceptions, if the original feedlist was modified while indexing:
-					string[] feedLinks = new string[maxCount];
-					newsHandler.FeedsTable.Keys.CopyTo(feedLinks, 0);
-					for (int i=0; i < maxCount; i++) 
-					{
-						string feedlink = feedLinks[i];
-						
-						if (!newsHandler.FeedsTable.ContainsKey(feedlink))
-							continue;
+                int feedCount = 0, itemCount = 0;
 
-						feedCount++;
-						if (!restartInfo.Contains(feedlink)) 
-						{
-							// the ID gets generated on request:
-							string feedID = newsHandler.FeedsTable[feedlink].id;
-							if (!this.RaiseIndexingProgress(feedCount, maxCount, feedlink, feedID)) 
-							{
-								// if there was a feed refresh meanwhile, we must ensure to get
-								// already indexed feeds not indexed again:
-								RemoveNewsItems(feedID);
-								// now add items to index:
-								itemCount += IndexNewsItems(newsHandler.GetCachedItemsForFeed(feedlink));
-								Log.Info("IndexAll() progress: " + feedCount + " feeds, " + itemCount + " items processed.");
-							}
-						} else {
-							// reset the feed ID, because it may not get saved 
-							// along with the subscription list on a initial indexing break:                           
-                            NewsFeed f = null;
-                            if(newsHandler.FeedsTable.TryGetValue(feedlink, out f)){
-							    f.id = restartInfo[feedlink] as string;
+                foreach(NewsHandler newsHandler in newsHandlers)
+                {			   
+
+                if (newsHandler.FeedsListOK &&
+                    0 < newsHandler.FeedsTable.Count)
+                {
+                    int maxCount = newsHandler.FeedsTable.Count;
+                    // we are working with a copy of the feed list to avoid 
+                    // exceptions, if the original feedlist was modified while indexing:
+                    string[] feedLinks = new string[maxCount];
+                    newsHandler.FeedsTable.Keys.CopyTo(feedLinks, 0);
+                    for (int i = 0; i < maxCount; i++)
+                    {
+                        string feedlink = feedLinks[i];
+
+                        if (!newsHandler.FeedsTable.ContainsKey(feedlink))
+                            continue;
+
+                        feedCount++;
+                        if (!restartInfo.Contains(feedlink))
+                        {
+                            // the ID gets generated on request:
+                            string feedID = newsHandler.FeedsTable[feedlink].id;
+                            if (!this.RaiseIndexingProgress(feedCount, maxCount, feedlink, feedID))
+                            {
+                                // if there was a feed refresh meanwhile, we must ensure to get
+                                // already indexed feeds not indexed again:
+                                RemoveNewsItems(feedID);
+                                // now add items to index:
+                                itemCount += IndexNewsItems(newsHandler.GetCachedItemsForFeed(feedlink));
+                                Log.Info("IndexAll() progress: " + feedCount + " feeds, " + itemCount + " items processed.");
                             }
-						}
-					}
+                        }
+                        else
+                        {
+                            // reset the feed ID, because it may not get saved 
+                            // along with the subscription list on a initial indexing break:                           
+                            NewsFeed f = null;
+                            if (newsHandler.FeedsTable.TryGetValue(feedlink, out f))
+                            {
+                                f.id = restartInfo[feedlink] as string;
+                            }
+                        }
+                    }//for(int i = 0; i < maxCount; i++)
+
+                }//if (newsHandler.FeedsListOK &&
+
+                }//foreach
 					
 					System.DateTime end = System.DateTime.Now;
 					TimeSpan timeRequired = TimeSpan.FromTicks(end.Ticks - start.Ticks);
 					Log.Info(String.Format("Lucene Indexing all items finished at {0}. Time required: {1}h:{2} min for {3} feeds with {4} items.", end, timeRequired.TotalHours, timeRequired.TotalMinutes, feedCount, itemCount ) ); 
-				}
+				
 
 				// are these statistics above also important for an end-user???
 				this.RaiseIndexingFinished(/* statistics */);
@@ -175,8 +187,8 @@ namespace NewsComponents.Search
 					if (item != null) {
 						try {
 							// we do not always have the content loaded:
-							if (item.ContentType == ContentType.None)
-								newsHandler.GetCachedContentForItem(item);
+							if (item.ContentType == ContentType.None && item.Feed != null && item.Feed.owner != null)
+								item.Feed.owner.GetCachedContentForItem(item);
 							indexModifier.Add(LuceneNewsItemSearch.Document(item), item.Language);
 						} catch (Exception ex) {
 							Log.Error("IndexNewsItems() error", ex);

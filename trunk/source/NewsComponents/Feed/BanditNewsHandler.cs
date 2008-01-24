@@ -11,15 +11,7 @@ namespace NewsComponents.Feed {
     /// and newsgroups via NNTP. 
     /// </summary>
     class BanditNewsHandler : NewsHandler{
-
-          /// <summary>
-        /// Initializes a new instance of the <see cref="NewsHandler"/> class
-        /// with a default configuration.
-        /// </summary>
-        public BanditNewsHandler() :
-            this(NewsComponentsConfiguration.Default)
-        {
-        }
+       
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewsHandler"/> class.
@@ -37,11 +29,7 @@ namespace NewsComponents.Feed {
             this.LoadFeedlistSchema();
 
             this.rssParser = new RssParser(this);
-
-            //TODO: LuceneSearch and LuceneIndexer need to work in a world with multiple 
-            //      NewsHandlers. 
-            if(searchHandler == null)
-                searchHandler = new LuceneSearch(this.configuration, this);
+           
 
             // initialize (later on loaded from feedlist):
             this.PodcastFolder = this.configuration.DownloadedFilesDataPath;
