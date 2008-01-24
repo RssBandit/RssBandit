@@ -128,12 +128,25 @@ namespace NewsComponents
             //LoadCachedTopStoryTitles();
         }
 
+
+
+        /// <summary>
+        /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource using
+        /// the default configuration
+        /// </summary>
+        /// <seealso cref="DefaultConfiguration"/>
+        /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <returns>A new NewsHandler</returns>
+        public static NewsHandler CreateNewsHandler(FeedSource handlerType) {
+            return CreateNewsHandler(handlerType, DefaultConfiguration);        
+        }
+
         /// <summary>
         /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource
         /// </summary>
         /// <param name="handlerType">The type of NewsHandler to create</param>
         /// <param name="configuration"></param>
-        /// <returns></returns>
+        /// <returns>A new NewsHandler</returns>
         public static NewsHandler CreateNewsHandler(FeedSource handlerType, INewsComponentsConfiguration configuration)
         {
             NewsHandler handler = null;
@@ -149,66 +162,32 @@ namespace NewsComponents
 
             }
 
+            //Add the NewsHandler to the list of NewsHandlers known by the SearchHandler
+            if ((handler.configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
+                && (handler.configuration.SearchIndexBehavior == NewsHandler.DefaultConfiguration.SearchIndexBehavior))
+            {
+                SearchHandler.AddNewsHandler(handler);
+            }
+
             return handler; 
         }
 
-//		/// <summary>
-//		/// Initializes class. 
-//		/// </summary>
-//		public NewsHandler(): this(null, null,null){;}
-//
-//
-//		/// <summary>		
-//		/// </summary>
-//		/// <param name="cm">The object that manages the on-disk cache of feeds for the 
-//		/// application. </param>
-//		public NewsHandler(CacheManager cm): this(null, cm, null) {;}
-//
-//		/// <summary>
-//		/// Constructor initializes class.
-//		/// </summary>
-//		/// <param name="applicationName">The Application Name or ID that uses the component. This will be used to 
-//		/// initialize the user path to store the feeds file and cached items.</param>
-//		public NewsHandler(string applicationName): this(applicationName, null,null) {;}
-//
-//
-//		/// <summary>
-//		/// Constructor initializes class.
-//		/// </summary>
-//		/// <param name="applicationName">The Application Name or ID that uses the component. This will be used to
-//		/// initialize the user path to store the feeds file and cached items.</param>
-//		/// <param name="cm">The object that manages the on-disk cache of feeds for the
-//		/// application.</param>
-//		/// <param name="searchIndexPath">The search index path.</param>
-//		public NewsHandler(string applicationName, CacheManager cm, string searchIndexPath){
-//      
-//			this.LoadFeedlistSchema();   
-//						
-//			if(!string.IsNullOrEmpty(applicationName)){
-//				this.applicationName = applicationName;
-//			}
-//
-//			this.cacheHandler    = cm; 
-//
-//			if(this.cacheHandler == null){
-//				string path = Path.Combine(GetUserPath(this.applicationName), "Cache");
-//				if (!File.Exists(path))
-//					Directory.CreateDirectory(path);
-//				this.cacheHandler = new FileCacheManager(path);  
-//			}
-//
-//			this.rssParser = new RssParser(this);
-//			this.searchHandler = new LuceneSearch(this, searchIndexPath);			
-//			
-//			this.enclosureDownloader = new BackgroundDownloadManager(this.applicationName, this); 
-//			this.enclosureDownloader.DownloadCompleted +=  new DownloadCompletedEventHandler(this.OnEnclosureDownloadComplete);
-//
-//			this.AsyncWebRequest = new AsyncWebRequest();
-//			this.AsyncWebRequest.OnAllRequestsComplete += new AsyncWebRequest.RequestAllCompleteCallback(this.OnAllRequestsComplete);
-//
-//		}
+  
+
 
         #endregion
+
+        #region static properties 
+
+        private static INewsComponentsConfiguration defaultConfiguration; 
+
+        public static INewsComponentsConfiguration DefaultConfiguration {
+
+            get { return defaultConfiguration ?? NewsComponentsConfiguration.Default; }
+            set { defaultConfiguration = value; }
+        }
+
+        #endregion 
 
         /// <summary>
         /// Configuration provider
@@ -335,8 +314,11 @@ namespace NewsComponents
         {
             get
             {
+                if (searchHandler == null)
+                    searchHandler = new LuceneSearch(NewsHandler.DefaultConfiguration);
+
                 return searchHandler;
-            }
+            }        
             set
             {
                 searchHandler = value;
@@ -1795,7 +1777,7 @@ namespace NewsComponents
                 try
                 {
                     // do the search (using lucene):
-                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, cultureName);
+                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, new List<NewsHandler> { this }, cultureName);
 
                     // we iterate r.ItemsMatched to build a
                     // NewsItemIdentifier and ArrayList list with items, that
@@ -2737,7 +2719,10 @@ namespace NewsComponents
                             {
                                 // test again: we may have changed to Uri above:
                                 if (_feedsTable.ContainsKey(f.link) == false)
+                                {
+                                    f.owner = this;
                                     _feedsTable.Add(f.link, f);
+                                }
                             }
                         }
                     }
@@ -3551,7 +3536,7 @@ namespace NewsComponents
         /// <summary>
         /// Adds a category to the list of feed categories known by this feed handler
         /// </summary>
-        /// <param name="category">The category to add</param>
+        /// <param name="cat">The category to add</param>
         public void AddCategory(category cat)
         {
             this.categories.Add(cat.Value, cat);
@@ -3614,7 +3599,7 @@ namespace NewsComponents
         /// <summary>
         /// Helper function that gets the child categories of the named category
         /// </summary>
-        /// <param name="category">The name of the category</param>
+        /// <param name="name">The name of the category</param>
         /// <returns>The list of child categories</returns>
         private List<category> GetChildCategories(string name)
         {
@@ -3648,6 +3633,7 @@ namespace NewsComponents
                     {
                         FeedsTable.Remove(f.link);
                     }
+                    f.owner = this;
                     FeedsTable.Add(f.link, f);
                 }
             }
@@ -6260,6 +6246,7 @@ namespace NewsComponents
                         }
                     }
 
+                    f2.owner = this;
                     syncedfeeds.Add(f2.link, f2);
                 }
                 else

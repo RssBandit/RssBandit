@@ -104,10 +104,10 @@ namespace NewsComponents.Search
 			NewsFeedProperty.FeedItemsDeleteUndelete |
 			NewsFeedProperty.FeedAdded |
 			NewsFeedProperty.FeedRemoved;
-
-		private readonly NewsHandler newsHandler;
+		
 		private readonly LuceneIndexModifier indexModifier;
 		private readonly LuceneSettings settings;
+        private readonly List<NewsHandler> newsHandlers = new List<NewsHandler>(); 
 
 		/// <summary>
 		/// Is true, if we have to initially index all feeds
@@ -127,11 +127,8 @@ namespace NewsComponents.Search
 		/// <exception cref="ArgumentNullException">if newsHandler or configuration are null</exception>
 		/// <exception cref="IOException">On indexPath directory creation failures</exception>
 		/// <exception cref="SecurityException">On indexPath directory creation failures</exception>
-		public LuceneSearch(INewsComponentsConfiguration configuration, NewsHandler newsHandler)
+		public LuceneSearch(INewsComponentsConfiguration configuration)
 		{
-			this.newsHandler = newsHandler;
-			if (this.newsHandler == null)
-				throw new ArgumentNullException("newsHandler");
 			
 			if (configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
 			{
@@ -157,6 +154,25 @@ namespace NewsComponents.Search
 			get { return this.settings; }
 		}
 
+        /// <summary>
+        /// The list of NewsHandlers being handled by this SearchHandler
+        /// </summary>
+        internal IList<NewsHandler> NewsHandlers {
+            get { return this.newsHandlers; }
+        }
+
+        /// <summary>
+        /// Adds a NewsHandler to the list of NewsHandlers being processed by this Search handler
+        /// </summary>
+        /// <param name="handler"></param>
+        public void AddNewsHandler(NewsHandler handler) {
+            if (handler != null)
+            {
+                newsHandlers.Add(handler);
+            }
+        }
+
+
 		/// <summary>
 		/// Executes a search. 
 		/// </summary>
@@ -164,7 +180,7 @@ namespace NewsComponents.Search
 		/// <param name="scope">The scope.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, IList<NewsHandler> newsHandlers, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;
@@ -202,8 +218,18 @@ namespace NewsComponents.Search
 				string feedLink = doc.Get(LuceneSearch.Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
 					f = (NewsFeed) matchedFeeds[feedLink];
-                if (f == null && newsHandler.FeedsTable.ContainsKey(feedLink))
-					f = newsHandler.FeedsTable[feedLink];
+
+                if (f == null){
+                    foreach (NewsHandler h in newsHandlers)
+                    {
+                        if (h.FeedsTable.ContainsKey(feedLink))
+                        {
+                            f = h.FeedsTable[feedLink];
+                            break;
+                        }
+                    }
+                }
+
 				if (f == null) continue;
 				SearchHitNewsItem item = new SearchHitNewsItem(f, 
 					doc.Get(LuceneSearch.Keyword.ItemTitle),
@@ -631,12 +657,13 @@ namespace NewsComponents.Search
 		/// then the items are added to index again.
 		/// </summary>
 		/// <param name="feed">The feed.</param>
-		public void ReIndex(NewsFeed feed) {
+        /// <param name="items">The NewsItems belonging to the feed</param>
+		public void ReIndex(NewsFeed feed, IList<NewsItem> items) {
 			if (!UseIndex || feed == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
-				indexer.RemoveNewsItems(feed.id);
-				indexer.IndexNewsItems(newsHandler.GetCachedItemsForFeed(feed.link));
+				indexer.RemoveNewsItems(feed.id); 
+				indexer.IndexNewsItems(items);
 			} catch (Exception ex) {
 				Log.Error("Failure while ReIndex item(s) in search index.", ex);
 			}
@@ -773,7 +800,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <returns></returns>
 		private LuceneIndexer CreateIndexer() {
-			return new LuceneIndexer(this.newsHandler, this.indexModifier);	
+			return new LuceneIndexer(this.indexModifier, newsHandlers);	
 		}
 
 		private bool UseIndex {
