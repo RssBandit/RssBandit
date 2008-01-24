@@ -308,10 +308,10 @@ namespace RssBandit
 
             LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
-
+           
 
             NewsHandler.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess);
+            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
@@ -322,7 +322,9 @@ namespace RssBandit
             
             this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
 
-            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, this.CreateCommentFeedHandlerConfiguration(NewsHandler.DefaultConfiguration));
+            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, 
+                                                            new SubscriptionLocation(GetCommentsFeedListFileName()) , 
+                                                            this.CreateCommentFeedHandlerConfiguration(NewsHandler.DefaultConfiguration));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -2842,11 +2844,11 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 try
                 {
-                    feedHandler.LoadFeedlist(p, FeedListValidationCallback);
+                    feedHandler.LoadFeedlist();
                 }
                 catch (Exception e)
                 {
-                    if (!validationErrorOccured)
+                    if (!NewsHandler.validationErrorOccured)
                     {
                         // set by validation callback handler
                         _log.Error("Exception on loading '" + p + "'.", e);
@@ -2858,9 +2860,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     /* All right here... 	*/
                 }
-                else if (validationErrorOccured)
+                else if (NewsHandler.validationErrorOccured)
                 {
-                    validationErrorOccured = false;
+                    NewsHandler.validationErrorOccured = false;
                     throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
                 }
                 else
@@ -2882,7 +2884,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 try
                 {
-                    commentFeedsHandler.LoadFeedlist(p, CommentFeedListValidationCallback);
+                    commentFeedsHandler.LoadFeedlist();
 
                     foreach (NewsFeed f in commentFeedsHandler.FeedsTable.Values)
                     {

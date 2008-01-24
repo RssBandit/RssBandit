@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+using NewsComponents.Net;
+using NewsComponents.Search;
+
+namespace NewsComponents.Feed {
+    /// <summary>
+    /// A NewsHandler that retrieves user subscriptions and feeds from Google Reader. 
+    /// </summary>
+    class GoogleReaderNewsHandler : NewsHandler{
+
+        #region public methods
+
+        /// <summary>
+        /// Loads the feedlist from the FeedLocation. 
+        ///</summary>
+        public override void LoadFeedlist()
+        {
+        }
+
+        #endregion 
+
+    }
+}
