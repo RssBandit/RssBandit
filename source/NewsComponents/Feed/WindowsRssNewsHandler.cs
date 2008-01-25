@@ -1,4 +1,14 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,12 +35,12 @@ namespace NewsComponents.Feed {
         /// <param name="configuration">The configuration.</param>
         public WindowsRssNewsHandler(INewsComponentsConfiguration configuration)
         {
-            this.configuration = configuration;
-            if (this.configuration == null)
-                this.configuration = NewsHandler.DefaultConfiguration;
+            this.p_configuration = configuration;
+            if (this.p_configuration == null)
+                this.p_configuration = NewsHandler.DefaultConfiguration;
 
             // check for programmers error in configuration:
-            ValidateAndThrow(this.configuration);
+            ValidateAndThrow(this.Configuration);
            
         }    
 
