@@ -3628,9 +3628,10 @@ namespace NewsComponents
                 }
                 else if (inheritCategory && !string.IsNullOrEmpty(f.category))
                 {
-                    category c = null; 
+                    category c;
+                    this.categories.TryGetValue(f.category, out c);
 
-                    while (this.categories.TryGetValue(f.category, out c))
+                    while (c != null)
                     {
                         object c_value = c.GetType().GetField(propertyName).GetValue(c);
 
