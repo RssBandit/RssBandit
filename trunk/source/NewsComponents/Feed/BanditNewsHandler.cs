@@ -1,6 +1,15 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -8,10 +17,9 @@ using System.Xml.Schema;
 
 using NewsComponents.Net;
 using NewsComponents.News;
-using NewsComponents.Search;
-
+// required to make it compile with the Uri extension methods.
+// DO NOT REMOVE IT, also if Resharper complains about (not used!?)...
 using RssBandit.Common;
-using RssBandit.Common.Logging;
 
 namespace NewsComponents.Feed
 {
@@ -34,14 +42,14 @@ namespace NewsComponents.Feed
         /// <param name="location">The feedlist URL</param>
         internal BanditNewsHandler(INewsComponentsConfiguration configuration, SubscriptionLocation location)
         {
-            this.configuration = configuration;
-            if (this.configuration == null)
-                this.configuration = NewsHandler.DefaultConfiguration;
+            this.p_configuration = configuration;
+            if (this.p_configuration == null)
+                this.p_configuration = NewsHandler.DefaultConfiguration;
 
             this.location = location;
 
             // check for programmers error in configuration:
-            ValidateAndThrow(this.configuration);
+            ValidateAndThrow(this.Configuration);
 
             this.LoadFeedlistSchema();
 
@@ -49,12 +57,12 @@ namespace NewsComponents.Feed
 
 
             // initialize (later on loaded from feedlist):
-            this.PodcastFolder = this.configuration.DownloadedFilesDataPath;
-            this.EnclosureFolder = this.configuration.DownloadedFilesDataPath;
+            this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
+            this.EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
 
             if (this.EnclosureFolder != null)
             {
-                this.enclosureDownloader = new BackgroundDownloadManager(this.configuration, this);
+                this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
                 this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
             }
 

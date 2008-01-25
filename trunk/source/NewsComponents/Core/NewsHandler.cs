@@ -1,22 +1,14 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
 
 #region framework usings
-
-#endregion
-
-    #region project usings
-
-    #endregion
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +27,9 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
+#endregion
+
+#region project usings
 using log4net;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
@@ -49,6 +44,7 @@ using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RC = NewsComponents.RelationCosmos;
+#endregion
 
 namespace NewsComponents
 {
@@ -145,6 +141,10 @@ namespace NewsComponents
     /// <summary>
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
+    //TODO: just there to make it compile while refactoring. MUST BE REMOVED ON RELEASE
+#if DEBUG 
+    [CLSCompliant(false)]
+#endif
     public abstract class NewsHandler
     {
         #region ctor's
@@ -208,8 +208,8 @@ namespace NewsComponents
             }
 
             //Add the NewsHandler to the list of NewsHandlers known by the SearchHandler
-            if ((handler.configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
-                && (handler.configuration.SearchIndexBehavior == NewsHandler.DefaultConfiguration.SearchIndexBehavior))
+            if (handler != null && (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
+                && (handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior))
             {
                 SearchHandler.AddNewsHandler(handler);
             }
@@ -237,7 +237,7 @@ namespace NewsComponents
         /// <summary>
         /// Configuration provider
         /// </summary>
-        protected INewsComponentsConfiguration configuration = null;
+        protected INewsComponentsConfiguration p_configuration = null;
 
         /// <summary>
         /// Gets the NewsComponents configuration.
@@ -247,7 +247,7 @@ namespace NewsComponents
         {
             get
             {
-                return this.configuration;
+                return this.p_configuration;
             }
         }
 
@@ -282,7 +282,7 @@ namespace NewsComponents
         {
             get
             {
-                return configuration.CacheManager;
+                return p_configuration.CacheManager;
             }
         }
 
@@ -356,7 +356,7 @@ namespace NewsComponents
         /// <summary>
         /// Manage the lucene search 
         /// </summary>
-        protected static LuceneSearch searchHandler;
+        protected static LuceneSearch p_searchHandler;
 
         /// <summary>
         /// Gets or sets the search index handler.
@@ -366,14 +366,14 @@ namespace NewsComponents
         {
             get
             {
-                if (searchHandler == null)
-                    searchHandler = new LuceneSearch(NewsHandler.DefaultConfiguration);
+                if (p_searchHandler == null)
+                    p_searchHandler = new LuceneSearch(NewsHandler.DefaultConfiguration);
 
-                return searchHandler;
+                return p_searchHandler;
             }        
             set
             {
-                searchHandler = value;
+                p_searchHandler = value;
             }
         }
 
@@ -488,7 +488,7 @@ namespace NewsComponents
 
         #region Trace support
 
-        protected static bool traceMode = false;
+        protected static bool p_traceMode = false;
 
         /// <summary>
         /// Boolean flag indicates whether errors should be written to a logfile 
@@ -498,17 +498,17 @@ namespace NewsComponents
         {
             set
             {
-                traceMode = value;
+                p_traceMode = value;
             }
             get
             {
-                return traceMode;
+                return p_traceMode;
             }
         }
 
         protected static void Trace(string formatString, params object[] paramArray)
         {
-            if (traceMode)
+            if (p_traceMode)
                 _log.Info(String.Format(formatString, paramArray));
         }
 
