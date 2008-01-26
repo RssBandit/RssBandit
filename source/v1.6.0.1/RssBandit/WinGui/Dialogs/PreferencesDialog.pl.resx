@@ -1,0 +1,849 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCancel.Text">
+    <value>Anuluj</value>
+  </data>
+  <data name="tabGeneral.Text">
+    <value>Ogólne</value>
+  </data>
+  <data name="tabGeneral.ToolTipText">
+    <value>Ogólne właściwości aplikacji</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text">
+    <value>Uruchamianie</value>
+  </data>
+  
+  
+  
+  <data name="checkRefreshFeedsOnStartup.Text">
+    <value>Wymuś odświeżenie wszystkich kanałów przy starcie programu</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text">
+    <value>Działanie aplikacji</value>
+  </data>
+  
+  <data name="btnMakeDefaultAggregator.Text">
+    <value>Ustaw RSS Bandit jako domyślny agregator</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip">
+    <value>Włącza rozpoznawanie adresów URL rozpoczynających się od 'feed:' przez RSS Bandit </value>
+  </data>
+  
+  
+  <data name="label12.Text">
+    <value>Jeżeli poniższy przycisk jest wyłączony, to RSS Bandit jest już Twoim domyślnym agregatorem. W innym przypadku możesz uczynić go domyślnym naciskając przycisk.</value>
+  </data>
+  
+  
+  <data name="radioTrayActionNone.Text">
+    <value>&amp;Nigdy</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip">
+    <value>Program zawsze będzie widoczny w pasku zadań</value>
+  </data>
+  
+  <data name="label1.Text">
+    <value>Określ kiedy aplikacja powinna ukrywać się do postaci ikony w obszarze powiadomień</value>
+  </data>
+  
+  
+  <data name="radioTrayActionClose.Text">
+    <value>Przy &amp;zamknięciu aplikacji</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip">
+    <value>Ikona programu zniknie z paska zadań</value>
+  </data>
+  
+  
+  <data name="radioTrayActionMinimize.Text">
+    <value>Przy minimalizowaniu aplikacji (zalecane)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip">
+    <value>Ikona programu zniknie z paska zadań</value>
+  </data>
+  
+  
+  <data name="labelCheckForUpdates.Text">
+    <value>Sprawdzaj aktualizacje:</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items">
+    <value>Ręcznie</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1">
+    <value>Przy starcie aplikacji</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2">
+    <value>Raz na 14 dni</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3">
+    <value>Raz na miesiąc</value>
+  </data>
+  
+  <data name="tabRemoteStorage.Text">
+    <value>Przechowywanie zdalne</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Zdalna lista kanałów informacyjnych</value>
+  </data>
+  
+  
+  
+  <data name="textRemoteStorageUserName.ToolTip">
+    <value>Nazwa użytkownika. Można używać formy 'Domena\Nazwa użytkownika'</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items">
+    <value>Udział plikowy</value>
+  </data>
+  
+  
+  
+  
+  <data name="checkUseRemoteStorage.Text">
+    <value>&amp;Włącz przechowywanie zdalne</value>
+  </data>
+  
+  <data name="label10.Text">
+    <value>Opcja ta pozwala przechowywać listę kanałów na zdalnym komputerze, dzięki czemu może być ona współdzielona przez wiele komputerów.</value>
+  </data>
+  
+  
+  <data name="labelRemoteStorageLocation.Text">
+    <value>Adres URL usługi</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip">
+    <value />
+  </data>
+  
+  <data name="labelRemoteStoragePassword.Text">
+    <value>&amp;Hasło</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip">
+    <value>Hasło użytkownika</value>
+  </data>
+  
+  <data name="labelRemoteStorageUserName.Text">
+    <value>Użytkownik</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip">
+    <value>Nazwa użytkownika. Może również zostać podana w formie 'Domena\NazwaUzytkownika'.</value>
+  </data>
+  
+  <data name="labelRemoteStorageProtocol.Text">
+    <value>&amp;Protokół</value>
+  </data>
+  
+  
+  <data name="tabNewsItems.Text">
+    <value>Wyświetlanie</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text">
+    <value>Ogólne</value>
+  </data>
+  
+  <data name="checkMarkItemsReadOnExit.Text">
+    <value>&amp;Oznacz elementy jako przeczytane w istniejącej kategorii</value>
+  </data>
+  
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>&amp;Jeżeli brak opisu, wyświetl element w oknie szczegółów</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Formatowanie elementów</value>
+  </data>
+  
+  
+  <data name="comboFormatters.ToolTip">
+    <value>Wybierz arkusz stylów dla formatowania elementów</value>
+  </data>
+  
+  <data name="label2.Text">
+    <value>Wybierz arkusz formatowania wiadomości: jeden z dostarczonych z programem lub własny (z foldera /templates).</value>
+  </data>
+  
+  <data name="checkCustomFormatter.Text">
+    <value>Użyj własnego &amp;arkusza XSLT</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip">
+    <value>Włącz tą opcję aby korzystać z własnego arkusza stylów</value>
+  </data>
+  
+  
+  <data name="labelFormatters.Text">
+    <value>Arkusz formatujący</value>
+  </data>
+  <data name="tabFeeds.Text">
+    <value>Kanały</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Ustawienia domyślne komentarzy</value>
+  </data>
+  <data name="btnManageIdentities.Text">
+    <value>Tożsamości...</value>
+  </data>
+  
+  
+  <data name="linkCommentAPI.ToolTip">
+    <value>Przeczytaj więcej o 'CommentAPI'...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text">
+    <value>Domyślna tożsamość użytkownika</value>
+  </data>
+  
+  <data name="label6.Text">
+    <value>Określ ustawienia domyślne używane przy komentowaniu wiadomości (komentowanie możliwe tylko w przypadku kanałów obsługujących CommentAPI):</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text">
+    <value>Kanały</value>
+  </data>
+  
+  
+  <data name="label15.Text">
+    <value>Usuń elementy starsze niż</value>
+  </data>
+  <data name="label15.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  
+  <data name="linkLabel1.ToolTip">
+    <value />
+  </data>
+  
+  
+  <data name="label5.Text">
+    <value>(minuty)</value>
+  </data>
+  
+  
+  <data name="label4.Text">
+    <value>Odświeżaj co</value>
+  </data>
+  <data name="label4.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 dzień</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 dni</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 miesiąc</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 miesiące</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 kwartał</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 kwartały</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 kwartały</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 rok</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Nie usuwaj</value>
+  </data>
+  
+  
+  
+  <data name="label3.Text">
+    <value>Określ częstotliwość odświeżania kanału informacyjnego (Conditional Get). Więcej o warunkowym pobieraniu przeczytasz tu:</value>
+  </data>
+  <data name="tabNetConnection.Text">
+    <value>Połączenie sieciowe</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Serwer proxy</value>
+  </data>
+  
+  <data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip">
+    <value>Lista wyjątków</value>
+  </data>
+  
+  <data name="checkNoProxy.Text">
+    <value>&amp;Nie używaj serwera proxy</value>
+  </data>
+  
+  
+  <data name="labelProxyCredentialPassword.Text">
+    <value>&amp;Hasło</value>
+  </data>
+  <data name="labelProxyCredentialPassword.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip">
+    <value />
+  </data>
+  
+  <data name="labelProxyCredentialUserName.Text">
+    <value>&amp;Użytkownik</value>
+  </data>
+  <data name="labelProxyCredentialUserName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip">
+    <value>Nazwa użytkownika. Może również zostać podana w formie 'Domena\NazwaUzytkownika'.</value>
+  </data>
+  
+  <data name="textProxyCredentialUser.ToolTip">
+    <value>Nazwa użytkownika. Można używać formy 'Domena\Nazwa użytkownika'.</value>
+  </data>
+  <data name="checkProxyAuth.Text">
+    <value>Serwer proxy wymaga &amp;autoryzacji:</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text">
+    <value>Użyj średników ( ; ) do oddzielenia wpisów</value>
+  </data>
+  <data name="labelProxyBypassList.Text">
+    <value>N&amp;ie używaj proxy dla adresów rozpoczynających się od:</value>
+  </data>
+  
+  <data name="checkUseProxy.Text">
+    <value>Użyj własnych ustawień serwera &amp;proxy:</value>
+  </data>
+  
+  <data name="checkUseIEProxySettings.Text">
+    <value>Pobierz ustawienia proxy z programu Internet Explorer</value>
+  </data>
+  <data name="labelProxyServerSummery.Text">
+    <value>Serwer proxy pośredniczy między Twoim komputerem i Internetem podczas pobierania plików z serwerów Web.</value>
+  </data>
+  <data name="textProxyPort.ToolTip">
+    <value>Numer portu na którym nasłuchuje serwer proxy</value>
+  </data>
+  
+  
+  <data name="labelProxyPort.Text">
+    <value>Por&amp;t</value>
+  </data>
+  <data name="labelProxyPort.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  
+  <data name="labelProxyAddress.Text">
+    <value>Adre&amp;s</value>
+  </data>
+  <data name="labelProxyAddress.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleRight</value>
+  </data>
+  
+  
+  <data name="textProxyAddress.ToolTip">
+    <value>Adres serwera proxy</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text">
+    <value>Pomiń ustawienia serwera proxy dla adresów lokalnych</value>
+  </data>
+  <data name="tabFonts.Text">
+    <value>Czcionki</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text">
+    <value>Subskrypcje, elementy kanałów</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text">
+    <value>Określ czcionki, style i kolory używane do podświetlania lub oznaczania stanów subskrypcji i elementów kanałów informacyjnych.</value>
+  </data>
+  
+  <data name="btnChangeFont.Text">
+    <value>&amp;Zmień...</value>
+  </data>
+  
+  
+  
+  <data name="chkFontItalic.Text">
+    <value>&amp;Kursywa</value>
+  </data>
+  
+  <data name="chkFontBold.Text">
+    <value>&amp;Pogrubienie</value>
+  </data>
+  
+  <data name="btnChangeColor.Text">
+    <value>&amp;Kolor...</value>
+  </data>
+  
+  <data name="lblItemStates.Text">
+    <value>&amp;Stany elementów:</value>
+  </data>
+  
+  <data name="lstItemStates.ToolTip">
+    <value>Wybierz stan elementu, dla którego chcesz zmienić formatowanie</value>
+  </data>
+  
+  <data name="chkFontUnderline.Text">
+    <value>P&amp;odkreślenie</value>
+  </data>
+  
+  <data name="chkFontStrikeout.Text">
+    <value>&amp;Przekreślenie</value>
+  </data>
+  <data name="lblFontSampleCaption.Text">
+    <value>Przykład:</value>
+  </data>
+  <data name="tabWebBrowser.Text">
+    <value>Przeglądarka</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Zabezpieczenia, restrykcje</value>
+  </data>
+  
+  <data name="labelCheckToAllow.Text">
+    <value>Zaznacz, aby pozwolić na:</value>
+  </data>
+  
+  <data name="checkBrowserActiveXAllowed.Text">
+    <value>Kontrolki ActiveX</value>
+  </data>
+  
+  <data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript</value>
+  </data>
+  
+  <data name="checkBrowserJavaAllowed.Text">
+    <value>Applety Java</value>
+  </data>
+  
+  <data name="checkBrowserBGSoundAllowed.Text">
+    <value>Dźwięki</value>
+  </data>
+  
+  <data name="checkBrowserVideoAllowed.Text">
+    <value>Pliki wideo</value>
+  </data>
+  
+  <data name="checkBrowserImagesAllowed.Text">
+    <value>Pobieranie obrazów</value>
+  </data>
+  
+  <data name="label19.Text">
+    <value>Efekty zmian wprowadzonych w tej grupie będą natychmiast widoczne w nowych zakładkach przeglądarki i we wszystkich zakładkach po restarcie aplikacji. Nie mają one wpływu na panel treści!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>Kliknięcie odnośnika, nowe okno</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text">
+    <value>Uruchom program</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Otwórz w domyślnej przeglądarce</value>
+  </data>
+  
+  <data name="optNewWindowOnTab.Text">
+    <value>Otwórz w nowej zakładce (domyślne)</value>
+  </data>
+  
+  <data name="checkReuseFirstBrowserTab.Text">
+    <value>Wykorzystuj ponownie zakładki przeglądarki</value>
+  </data>
+  
+  
+  <data name="labelBrowserStartExecutable.Text">
+    <value>&amp;Program</value>
+  </data>
+  
+  <data name="label16.Text">
+    <value>Określ działanie aplikacji po kliknięciu odnośnika HTML lub otworzeniu nowego okna.</value>
+  </data>
+  <data name="tabWebSearch.Text">
+    <value>Wyszukiwanie</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text">
+    <value>Mechanizmy wyszukiwania</value>
+  </data>
+  
+  
+  <data name="btnSERemove.Text">
+    <value>Usuń</value>
+  </data>
+  <data name="btnSERemove.ToolTip">
+    <value>Usuń zaznaczoną pozycję</value>
+  </data>
+  
+  
+  <data name="btnSEAdd.Text">
+    <value>Dodaj...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip">
+    <value>Dodaj nowy mechanizm wyszukiwania</value>
+  </data>
+  
+  
+  <data name="btnSEProperties.Text">
+    <value>Właściwości...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip">
+    <value>Właściwości mechanizmu wyszukiwania</value>
+  </data>
+  
+  
+  <data name="btnSEMoveDown.Text">
+    <value>W dół</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip">
+    <value>Przesuń element na liście o jedną pozycję w dół</value>
+  </data>
+  
+  
+  <data name="btnSEMoveUp.Text">
+    <value>W górę</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip">
+    <value>Przesuń element na liście o jedną pozycję w górę</value>
+  </data>
+  
+  
+  <data name="columnHeader1.Text">
+    <value>Nazwa</value>
+  </data>
+  <data name="columnHeader2.Text">
+    <value>Opis</value>
+  </data>
+  <data name="label17.Text">
+    <value>Określ które mechanizmy z poniższej listy mają zostać użyte w trakcie przeszukiwania sieci.</value>
+  </data>
+  <data name="btnApply.Text">
+    <value>&amp;Zastosuj</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.Text">
+    <value>Opcje</value>
+  </data>
+  <data name="btnOK.Text">
+    <value>&amp;OK</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1">
+    <value>FTP</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items2">
+    <value>dasBlog</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items3">
+    <value>Newsgator Online</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items4">
+    <value>WebDAV</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip">
+    <value>Hasło serwera proxy</value>
+  </data>
+  <data name="linkCommentAPI.Text">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+  <data name="linkLabel1.Text">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+  <data name="comboRefreshRate.Items">
+    <value>15</value>
+  </data>
+  <data name="comboRefreshRate.Items1">
+    <value>30</value>
+  </data>
+  <data name="comboRefreshRate.Items2">
+    <value>45</value>
+  </data>
+  <data name="comboRefreshRate.Items3">
+    <value>60</value>
+  </data>
+  <data name="comboRefreshRate.Items4">
+    <value>75</value>
+  </data>
+  <data name="comboRefreshRate.Items5">
+    <value>90</value>
+  </data>
+  <data name="comboRefreshRate.Items6">
+    <value>105</value>
+  </data>
+  <data name="comboRefreshRate.Items7">
+    <value>120</value>
+  </data>
+  <data name="comboRefreshRate.Items8">
+    <value>240</value>
+  </data>
+  <data name="comboRefreshRate.Items9">
+    <value>480</value>
+  </data>
+  <data name="comboRefreshRate.Items10">
+    <value>720</value>
+  </data>
+  <data name="comboRefreshRate.Items11">
+    <value>1440</value>
+  </data>
+  <data name="lblUsedFontNameSize.Text">
+    <value>Tahoma, 8pt</value>
+  </data>
+  <data name="lstItemStates.Items">
+    <value>Przeczytany (normalny)</value>
+  </data>
+  <data name="lstItemStates.Items1">
+    <value>Nie przeczytany</value>
+  </data>
+  <data name="lstItemStates.Items2">
+    <value>Oznaczony</value>
+  </data>
+  <data name="lstItemStates.Items3">
+    <value>Polecający</value>
+  </data>
+  <data name="lstItemStates.Items4">
+    <value>Błąd</value>
+  </data>
+  <data name="lblFontSampleABC.Text">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+  <data name="btnSelectExecutable.Text">
+    <value>...</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text">
+    <value>Wyświetl powiązane elementy jako wątki dyskusji</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip">
+    <value>Włącz tą opcję, aby elementy zawierające odnośniki dla innych znanych elementów były wyświetlane w formie wątków dyskusji</value>
+  </data>
+<data name="optionSectionPanel1.Text">
+    <value>Dzwięki</value>
+  </data>
+	<data name="checkAllowAppEventSounds.Text">
+    <value>Włącz dzwięki przy zdarzeniach aplikacji</value>
+  </data>
+	<data name="btnConfigureAppSounds.Text">
+    <value>Konfiuruj...</value>
+  </data>
+	<data name="btnConfigureAppSounds.ToolTip">
+    <value>Otwiera Panel Konfiguracji Dzwięków Windows aby pozwolić na konfigurację dzwięków w RSS Bandit...</value>
+	<comment>CHANGED</comment>
+  </data>
+	<data name="checkRunAtStartup.Text">
+    <value>Uruchom aplikację po zalogowaniu się do systemu Windows</value>
+  </data>
+	<data name="checkUseFavicons.Text">
+    <value>Używaj favicon jako ikon kanałów w drzewie Subskrybcji Kanałów Informacyjnych</value>
+  </data>
+	<data name="checkUseFavicons.ToolTip">
+    <value>Jeżeli zaznaczone, sybskrybowane kanały będą wyświetlać favicon'y jako symbole kanałów</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="checkOpenTabsInBackground.Text">
+    <value>Ładuj nowe zakładki w tle</value>
+  </data>
+	<data name="tabEnclosures.Text">
+    <value>Załączniki/Podcasty</value>
+  </data>
+	<data name="sectionPanelEnclosurePodcasts.Text">
+    <value>Podcasty</value>
+  </data>
+	<data name="btnPodcastOptions.Text">
+    <value>Zaawansowane opcje...</value>
+  </data>
+	<data name="lblSectionPanelPodcastOptions.Text">
+    <value>Wciśnij przycisk poniżej aby skonfigurować opcję Podcastów:</value>
+  </data>
+	<data name="sectionPanelEnclosureGeneral.Text">
+    <value>Ogólne</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.Text">
+    <value>...</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.ToolTip">
+    <value>Szukaj folderu w systemie...</value>
+  </data>
+	<data name="lblDownloadAttachmentsSmallerThanPostfix.Text">
+    <value>MB</value>
+  </data>
+	<data name="checkEnclosureSizeOnDiskLimited.Text">
+    <value>Całkowita zajętość dysku nie może przekroczyć</value>
+  </data>
+	<data name="lblDownloadXAttachmentsPostfix.Text">
+    <value>Załączniki</value>
+  </data>
+	<data name="checkOnlyDownloadLastXAttachments.Text">
+    <value>Przy początkowej subskrybcji: pobieraj tylko ostatnie</value>
+  </data>
+	<data name="checkDownloadCreateFolderPerFeed.Text">
+    <value>Umieść pobrane pliki w podkatalogach o nazwie kanału</value>
+  </data>
+	<data name="textEnclosureDirectory.ToolTip">
+    <value>Załącz ścieżkę pobrania</value>
+  </data>
+	<data name="labelEnclosureDirectory.Text">
+    <value>Pobierz załączniki do:</value>
+  </data>
+	<data name="checkDownloadEnclosures.Text">
+    <value>Automatycznie pobieraj załączniki</value>
+  </data>
+	<data name="checkEnableEnclosureAlerts.Text">
+    <value>&amp;Pozwól na pokazywanie okien błędów dla nowo pobranych załączników</value>
+  </data>
+	<data name="lblSectionPanelEnclosureGeneral.Text">
+    <value>Konfiguruj zachowanie pobierania i ogólne miejsce pobierania załączników.</value>
+  </data>
+	<data name="lstItemStates.Items5">
+    <value>Nowe komentarze (Obserwowane)</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.Text">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+	<data name="label8.Text">
+    <value>news items per page</value>
+  </data>
+	<data name="numNewsItemsPerPage.ToolTip">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.Text">
+    <value>Show only </value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.ToolTip">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+	</root>

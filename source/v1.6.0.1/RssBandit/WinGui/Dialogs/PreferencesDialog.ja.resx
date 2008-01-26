@@ -1,0 +1,796 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+		<value>NoControl</value>
+	</data>
+	<data name="btnOK.Text">
+		<value>OK(&amp;O)</value>
+	</data>
+	<data name="btnOK.ToolTip">
+		<value />
+	</data>
+	<data name="btnCancel.Text">
+		<value>キャンセル</value>
+	</data>
+	<data name="btnCancel.ToolTip">
+		<value />
+	</data>
+	<data name="tabGeneral.Text">
+		<value>全般</value>
+	</data>
+	<data name="sectionPanelGeneralStartup.Text">
+		<value>スタートアップ</value>
+	</data>
+	<data name="checkRefreshFeedsOnStartup.Text">
+		<value>起動時に必ずフィードをダウンロードする</value>
+	</data>
+	<data name="checkRefreshFeedsOnStartup.ToolTip">
+		<value />
+	</data>
+	<data name="sectionPanelGeneralBehavior.Text">
+		<value>最小化の動作</value>
+	</data>
+	<data name="sectionPanelGeneralBehavior.ToolTip">
+		<value />
+	</data>
+	<data name="btnMakeDefaultAggregator.Text">
+		<value>RSS Bandit をデフォルトアグリゲータに設定</value>
+	</data>
+	<data name="btnMakeDefaultAggregator.ToolTip">
+		<value>RSS Bandit を "feed:" プロトコルのデフォルトアグリゲータに設定する</value>
+	</data>
+	<data name="label12.Text">
+		<value>ボタンが無効の場合、RSS Banditはでふォルトアグリゲータに設定済みです。有効の場合、クリックするとデフォルトアグリゲータに設定します。</value>
+	</data>
+	<data name="label12.ToolTip">
+		<value />
+	</data>
+	<data name="radioTrayActionNone.Text">
+		<value>なし(&amp;E)</value>
+	</data>
+	<data name="radioTrayActionNone.ToolTip">
+		<value>最小化時もタスクバーに表示する</value>
+	</data>
+	<data name="label1.Text">
+		<value>RSS Bandit を最小化したときの動作を選択してください。</value>
+	</data>
+	<data name="label1.ToolTip">
+		<value />
+	</data>
+	<data name="radioTrayActionClose.Text">
+		<value>アプリケーションを閉じる(&amp;C)</value>
+	</data>
+	<data name="radioTrayActionClose.ToolTip">
+		<value>タスクバーに表示しない</value>
+	</data>
+	<data name="radioTrayActionMinimize.Text">
+		<value>最小化 (推薦)</value>
+	</data>
+	<data name="radioTrayActionMinimize.ToolTip">
+		<value>タスクバーに表示しない</value>
+	</data>
+	<data name="labelCheckForUpdates.Text">
+		<value>新バージョンの確認:</value>
+	</data>
+	<data name="labelCheckForUpdates.ToolTip">
+		<value />
+	</data>
+	<data name="tabNetConnection.Text">
+		<value>ネットワーク接続</value>
+	</data>
+	<data name="sectionPanelNetworkConnectionProxy.Text">
+		<value>プロキシサーバー</value>
+	</data>
+	<data name="checkNoProxy.Text">
+		<value>プロキシサーバーを使用しない(&amp;D)</value>
+	</data>
+	<data name="labelProxyCredentialPassword.Text">
+		<value>パスワード(&amp;W):</value>
+	</data>
+	<data name="labelProxyCredentialPassword.ToolTip">
+		<value>プロキシ認証パスワード</value>
+	</data>
+	<data name="labelProxyCredentialUserName.Text">
+		<value>ユーザー名(&amp;N):</value>
+	</data>
+	<data name="labelProxyCredentialUserName.ToolTip">
+		<value>プロキシ認証ユーザー名。"Domain\Username" の形式で指定できます</value>
+	</data>
+	<data name="textProxyCredentialUser.ToolTip">
+		<value>認証ユーザー名</value>
+	</data>
+	<data name="checkProxyAuth.Text">
+		<value>プロキシは、ログオンが必要(&amp;A)</value>
+	</data>
+	<data name="checkProxyAuth.ToolTip">
+		<value />
+	</data>
+	<data name="labelProxyBypassListHint.Text">
+		<value>セミコロン ( ; ) を使用して、エントリを分けてください</value>
+	</data>
+	<data name="labelProxyBypassListHint.ToolTip">
+		<value />
+	</data>
+	<data name="labelProxyBypassList.Text">
+		<value>次の文字ではじまるアドレスは、プロキシを使用しない(&amp;O):</value>
+	</data>
+	<data name="labelProxyBypassList.ToolTip">
+		<value />
+	</data>
+	<data name="textProxyBypassList.Text">
+		<value />
+	</data>
+	<data name="textProxyBypassList.ToolTip">
+		<value>除外するアドレスの一覧</value>
+	</data>
+	<data name="checkUseProxy.Text">
+		<value>専用のプロキシサーバー設定を使用する(&amp;P)</value>
+	</data>
+	<data name="checkUseProxy.ToolTip">
+		<value />
+	</data>
+	<data name="checkUseIEProxySettings.Text">
+		<value>Internet Explorer のプロキシサーバー設定を使う(&amp;I)</value>
+	</data>
+	<data name="checkUseIEProxySettings.ToolTip">
+		<value />
+	</data>
+	<data name="labelProxyServerSummery.Text">
+		<value>プロキシサーバーは、LAN とコンピュータを仲介し、リモートWebサーバーからファイルを取得できるようにします</value>
+	</data>
+	<data name="labelProxyServerSummery.ToolTip">
+		<value />
+	</data>
+	<data name="textProxyPort.Text">
+		<value />
+	</data>
+	<data name="textProxyPort.ToolTip">
+		<value>プロキシポート番号</value>
+	</data>
+	<data name="labelProxyPort.Text">
+		<value>ポート:</value>
+	</data>
+	<data name="labelProxyPort.ToolTip">
+		<value />
+	</data>
+	<data name="labelProxyAddress.Text">
+		<value>アドレス(&amp;E)</value>
+	</data>
+	<data name="labelProxyAddress.ToolTip">
+		<value />
+	</data>
+	<data name="textProxyAddress.Text">
+		<value />
+	</data>
+	<data name="textProxyAddress.ToolTip">
+		<value>プロキシアドレス</value>
+	</data>
+	<data name="checkProxyBypassLocal.Text">
+		<value>ローカルアドレスには、プロキシサーバーを使用しない(&amp;B)</value>
+	</data>
+	<data name="checkProxyBypassLocal.ToolTip">
+		<value />
+	</data>
+	<data name="tabFonts.Text">
+		<value>フォント</value>
+	</data>
+	<data name="tabFonts.ToolTip">
+		<value />
+	</data>
+	<data name="sectionPanelFontsSubscriptions.Text">
+		<value>フィード、記事</value>
+	</data>
+	<data name="sectionPanelFontsSubscriptions.ToolTip">
+		<value />
+	</data>
+	<data name="labelFontsSubscriptionsSummery.Text">
+		<value>フィードや記事の状態ごとに、フォント、色などの書式を設定します</value>
+	</data>
+	<data name="btnChangeFont.Text">
+		<value>変更(&amp;C)...</value>
+	</data>
+	<data name="lblUsedFontNameSize.Text">
+		<value>Tahoma, 9pt</value>
+	</data>
+	<data name="chkFontItalic.Text">
+		<value>斜体(&amp;T)</value>
+	</data>
+	<data name="chkFontBold.Text">
+		<value>太字(&amp;B)</value>
+	</data>
+	<data name="btnChangeColor.Text">
+		<value>色(&amp;O)</value>
+	</data>
+	<data name="lblItemStates.Text">
+		<value>記事状態(&amp;I):</value>
+	</data>
+	<data name="lstItemStates.ToolTip">
+		<value>設定を変更したい記事の状態を選択します</value>
+	</data>
+	<data name="chkFontUnderline.Text">
+		<value>下線(&amp;U)</value>
+	</data>
+	<data name="chkFontStrikeout.Text">
+		<value>取り消し線(&amp;S)</value>
+	</data>
+	<data name="lblFontSampleCaption.Text">
+		<value>サンプル:</value>
+	</data>
+	<data name="lblFontSampleABC.Text">
+		<value>AaBbCcXxYyZzあいうえお</value>
+	</data>
+	<data name="tabNewsItems.Text">
+		<value>表示</value>
+	</data>
+	<data name="sectionPanelDisplayGeneral.Text">
+		<value>全般</value>
+	</data>
+	<data name="checkMarkItemsReadOnExit.Text">
+		<value>フィードやカテゴリの終了時に記事を開封済みにする</value>
+	</data>
+	<data name="chkNewsItemOpenLinkInDetailWindow.Text">
+		<value>説明がない場合、リンク先を表示する</value>
+	</data>
+	<data name="sectionPanelDisplayItemFormatting.Text">
+		<value>記事フォーマット</value>
+	</data>
+	<data name="comboFormatters.ToolTip">
+		<value>フォーマット用スタイルシートを選択します</value>
+	</data>
+	<data name="label2.Text">
+		<value>デフォルトのスタイルシートを使うか、カスタム XSLT スタイルシートを選択します</value>
+	</data>
+	<data name="checkCustomFormatter.Text">
+		<value>カスタム XSLT スタイルシートを使う(&amp;C)</value>
+	</data>
+	<data name="checkCustomFormatter.ToolTip">
+		<value>カスタムスタイルシートを使う場合、チェックします</value>
+	</data>
+	<data name="labelFormatters.Text">
+		<value>スタイルシート</value>
+	</data>
+	<data name="tabFeeds.Text">
+		<value>フィード</value>
+	</data>
+	<data name="sectionPanelFeedsCommentDefs.Text">
+		<value>返信設定</value>
+	</data>
+	<data name="linkCommentAPI.Text">
+		<value>http://wellformedweb.org/story/9</value>
+	</data>
+	<data name="linkCommentAPI.ToolTip">
+		<value>'CommentAPI'について...</value>
+	</data>
+	<data name="btnManageIdentities.Text">
+		<value>アカウント...</value>
+	</data>
+	<data name="lblIdentityDropdownCaption.Text">
+		<value>返信用アカウント:</value>
+	</data>
+	<data name="label6.Text">
+		<value>返信につかうデフォルトアカウントを指定してください。この機能は、CommentAPI に対応する記事にのみ有効です。</value>
+	</data>
+	<data name="sectionPanelFeedsTimings.Text">
+		<value>フィード更新</value>
+	</data>
+	<data name="label15.Text">
+		<value>対象期間(&amp;T):</value>
+	</data>
+	<data name="linkLabel1.Text">
+		<value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+	</data>
+	<data name="linkLabel1.ToolTip">
+		<value>'conditional get'について...</value>
+	</data>
+	<data name="label5.Text">
+		<value>分</value>
+	</data>
+	<data name="label4.Text">
+		<value>更新間隔(&amp;U)</value>
+	</data>
+	<data name="label3.Text">
+		<value>フィードの更新間隔を指定してください。各フィードはこの間隔で、更新されているかどうかを確認します</value>
+	</data>
+	<data name="tabRemoteStorage.Text">
+		<value>リモートストレージ</value>
+	</data>
+	<data name="sectionPanelRemoteStorageFeedlist.Text">
+		<value>リモートフィード一覧ストレージ</value>
+	</data>
+	<data name="textRemoteStorageUserName.ToolTip">
+		<value>認証ユーザー名。'Domain\User' の形式で指定できます</value>
+	</data>
+	<data name="checkUseRemoteStorage.Text">
+		<value>リモートストレージを使う(&amp;R)</value>
+	</data>
+	<data name="label10.Text">
+		<value>このフィード一覧を保存する機能を使うと、複数のコンピュータでフィード一覧を共有できます</value>
+	</data>
+	<data name="labelRemoteStorageLocation.Text">
+		<value>ストレージサービス URL(&amp;U):</value>
+	</data>
+	<data name="labelRemoteStorageLocation.ToolTip">
+		<value>リモートストレージサービスのURL</value>
+	</data>
+	<data name="labelRemoteStoragePassword.Text">
+		<value>パスワード(&amp;W):</value>
+	</data>
+	<data name="labelRemoteStoragePassword.ToolTip">
+		<value>リモートストレージの認証パスワード</value>
+	</data>
+	<data name="labelRemoteStorageUserName.Text">
+		<value>ユーザー名(&amp;N):</value>
+	</data>
+	<data name="labelRemoteStorageUserName.ToolTip">
+		<value>リモートストレージの認証ユーザー名</value>
+	</data>
+	<data name="labelRemoteStorageProtocol.Text">
+		<value>プロトコル:</value>
+	</data>
+	<data name="labelRemoteStorageProtocol.ToolTip">
+		<value>リモートストレージのプロトコル</value>
+	</data>
+	<data name="tabWebBrowser.Text">
+		<value>Web ブラウザ</value>
+	</data>
+	<data name="sectionPanelWebBrowserSecurity.Text">
+		<value>セキュリティ設定</value>
+	</data>
+	<data name="labelCheckToAllow.Text">
+		<value>許可する機能:</value>
+	</data>
+	<data name="checkBrowserActiveXAllowed.Text">
+		<value>ActiveX コントロール</value>
+	</data>
+	<data name="checkBrowserJavascriptAllowed.Text">
+		<value>Java スクリプト</value>
+	</data>
+	<data name="checkBrowserJavaAllowed.Text">
+		<value>Java アプレット</value>
+	</data>
+	<data name="checkBrowserBGSoundAllowed.Text">
+		<value>サウンドを再生</value>
+	</data>
+	<data name="checkBrowserVideoAllowed.Text">
+		<value>ビデオを再生</value>
+	</data>
+	<data name="checkBrowserImagesAllowed.Text">
+		<value>画像を表示</value>
+	</data>
+	<data name="label19.Text">
+		<value>セキュリティ設定の変更は、新しいウィンドウを開くか、アプリケーションを再起動したときに有効になります。現在開いているウィンドウには影響しません</value>
+	</data>
+	<data name="sectionPanelWebBrowserOnNewWindow.Text">
+		<value>リンククリック時のウィンドウの開き方</value>
+	</data>
+	<data name="optNewWindowCustomExec.Text">
+		<value>プログラムを起動する(&amp;X)</value>
+	</data>
+	<data name="optNewWindowDefaultWebBrowser.Text">
+		<value>デフォルトWebブラウザを開く(&amp;D)</value>
+	</data>
+	<data name="optNewWindowOnTab.Text">
+		<value>新しいタブを開く(&amp;T) (デフォルト)</value>
+	</data>
+	<data name="checkReuseFirstBrowserTab.Text">
+		<value>既に開いているタブを使う</value>
+	</data>
+	<data name="btnSelectExecutable.Text">
+		<value>...</value>
+	</data>
+	<data name="labelBrowserStartExecutable.Text">
+		<value>プログラム(&amp;P)</value>
+	</data>
+	<data name="label16.Text">
+		<value>内蔵のブラウザのリンクをクリックしたときの処理の仕方を選択してください。</value>
+	</data>
+	<data name="tabWebSearch.Text">
+		<value>Web検索</value>
+	</data>
+	<data name="sectionPanelWebSearchEngines.Text">
+		<value>検索エンジン</value>
+	</data>
+	<data name="btnSERemove.Text">
+		<value>削除</value>
+	</data>
+	<data name="btnSERemove.ToolTip">
+		<value>選択した検索エンジンを削除する</value>
+	</data>
+	<data name="btnSEAdd.Text">
+		<value>追加...</value>
+	</data>
+	<data name="btnSEAdd.ToolTip">
+		<value>検索エンジンを追加する</value>
+	</data>
+	<data name="btnSEProperties.Text">
+		<value>プロパティ...</value>
+	</data>
+	<data name="btnSEProperties.ToolTip">
+		<value>検索エンジンのプロパティダイアログを開く</value>
+	</data>
+	<data name="btnSEMoveDown.Text">
+		<value>下へ</value>
+	</data>
+	<data name="btnSEMoveDown.ToolTip">
+		<value>下に移動する</value>
+	</data>
+	<data name="btnSEMoveUp.Text">
+		<value>上へ</value>
+	</data>
+	<data name="btnSEMoveUp.ToolTip">
+		<value>上に移動する</value>
+	</data>
+	<data name="columnHeader1.Text">
+		<value>エンジン名</value>
+	</data>
+	<data name="columnHeader2.Text">
+		<value>説明</value>
+	</data>
+	<data name="label17.Text">
+		<value>Web検索ボタンを押したときに利用したい検索エンジンをチェックしてください</value>
+	</data>
+	<data name="btnApply.Text">
+		<value>適用</value>
+	</data>
+	<data name="$this.Text">
+		<value>オプション</value>
+	</data>
+	<data name="comboMaxItemAge.Items">
+		<value>1 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items1">
+		<value>2 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items2">
+		<value>3 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items3">
+		<value>4 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items4">
+		<value>5 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items5">
+		<value>6 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items6">
+		<value>7 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items7">
+		<value>14 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items8">
+		<value>21 日</value>
+	</data>
+	<data name="comboMaxItemAge.Items9">
+		<value>1 ヶ月</value>
+	</data>
+	<data name="comboMaxItemAge.Items10">
+		<value>2 ヶ月</value>
+	</data>
+	<data name="comboMaxItemAge.Items11">
+		<value>3 ヶ月</value>
+	</data>
+	<data name="comboMaxItemAge.Items12">
+		<value>6 ヶ月</value>
+	</data>
+	<data name="comboMaxItemAge.Items13">
+		<value>9 ヶ月</value>
+	</data>
+	<data name="comboMaxItemAge.Items14">
+		<value>1 年</value>
+	</data>
+	<data name="comboMaxItemAge.Items15">
+		<value>無期限</value>
+	</data>
+	<data name="openExeFileDialog.Filter">
+		<value>プログラム|*.exe|すべてのファイル|*.*</value>
+	</data>
+	<data name="openExeFileDialog.Title">
+		<value>プログラムの参照</value>
+	</data>
+	<data name="comboAppUpdateFrequency.Items">
+		<value>手動</value>
+	</data>
+	<data name="comboAppUpdateFrequency.Items1">
+		<value>アプリケーション起動時</value>
+	</data>
+	<data name="comboAppUpdateFrequency.Items2">
+		<value>14日毎</value>
+	</data>
+	<data name="comboAppUpdateFrequency.Items3">
+		<value>1ヵ月毎</value>
+	</data>
+	<data name="comboRemoteStorageProtocol.Items">
+		<value>ファイル共有</value>
+	</data>
+	<data name="comboRemoteStorageProtocol.Items1">
+		<value>FTP</value>
+	</data>
+	<data name="comboRemoteStorageProtocol.Items2">
+		<value>dasBlog</value>
+	</data>
+	<data name="comboRemoteStorageProtocol.Items3">
+		<value>Newsgator Online</value>
+	</data>
+	<data name="comboRemoteStorageProtocol.Items4">
+		<value>WebDAV</value>
+	</data>
+	<data name="comboRefreshRate.Items">
+		<value>15</value>
+	</data>
+	<data name="comboRefreshRate.Items1">
+		<value>30</value>
+	</data>
+	<data name="comboRefreshRate.Items2">
+		<value>45</value>
+	</data>
+	<data name="comboRefreshRate.Items3">
+		<value>60</value>
+	</data>
+	<data name="comboRefreshRate.Items4">
+		<value>75</value>
+	</data>
+	<data name="comboRefreshRate.Items5">
+		<value>90</value>
+	</data>
+	<data name="comboRefreshRate.Items6">
+		<value>105</value>
+	</data>
+	<data name="comboRefreshRate.Items7">
+		<value>120</value>
+	</data>
+	<data name="comboRefreshRate.Items8">
+		<value>240</value>
+	</data>
+	<data name="comboRefreshRate.Items9">
+		<value>480</value>
+	</data>
+	<data name="comboRefreshRate.Items10">
+		<value>720</value>
+	</data>
+	<data name="comboRefreshRate.Items11">
+		<value>1440</value>
+	</data>
+	<data name="lstItemStates.Items">
+		<value>既読 (標準)</value>
+	</data>
+	<data name="lstItemStates.Items1">
+		<value>未読</value>
+	</data>
+	<data name="lstItemStates.Items2">
+		<value>フラグ</value>
+	</data>
+	<data name="lstItemStates.Items3">
+		<value>リファラ</value>
+	</data>
+	<data name="lstItemStates.Items4">
+		<value>エラー</value>
+	</data>
+	<data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+		<value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+	</data>
+	<data name="checkBuildRelationCosmos.Text">
+		<value>関連アイテムをスレッド表示</value>
+	</data>
+	<data name="checkBuildRelationCosmos.ToolTip">
+		<value>チェック時、他のアイテムへのリンクを含むアイテムをスレッド表示</value>
+	</data>
+	<data name="tabGeneral.ToolTipText">
+		<value>アプリケーション全般の設定</value>
+	</data>
+<data name="optionSectionPanel1.Text">
+    <value>Sounds</value>
+  </data>
+	<data name="checkAllowAppEventSounds.Text">
+    <value>Enable application event sounds</value>
+  </data>
+	<data name="btnConfigureAppSounds.Text">
+    <value>Configure...</value>
+  </data>
+	<data name="btnConfigureAppSounds.ToolTip">
+    <value>Opens the Windows Sounds Configuration Panel to allow RSS Bandit Application Sound configuration...</value>
+	<comment>CHANGED</comment>
+  </data>
+	<data name="checkRunAtStartup.Text">
+    <value>Start application after logon to Windows</value>
+  </data>
+	<data name="checkUseFavicons.Text">
+    <value>Use favicons as feed icons in Feed Subscriptions tree </value>
+  </data>
+	<data name="checkUseFavicons.ToolTip">
+    <value>If checked, subscribed feeds will display favicons as feed symbols</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="checkOpenTabsInBackground.Text">
+    <value>Load new tabs in the background</value>
+  </data>
+	<data name="tabEnclosures.Text">
+    <value>Attachments/Podcasts</value>
+  </data>
+	<data name="sectionPanelEnclosurePodcasts.Text">
+    <value>Podcasts</value>
+  </data>
+	<data name="btnPodcastOptions.Text">
+    <value>Advanced Options...</value>
+  </data>
+	<data name="lblSectionPanelPodcastOptions.Text">
+    <value>Click the button below to configure Podcast options:</value>
+  </data>
+	<data name="sectionPanelEnclosureGeneral.Text">
+    <value>General</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.Text">
+    <value>...</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.ToolTip">
+    <value>Lookup for a folder on the filesystem...</value>
+  </data>
+	<data name="lblDownloadAttachmentsSmallerThanPostfix.Text">
+    <value>MB</value>
+  </data>
+	<data name="checkEnclosureSizeOnDiskLimited.Text">
+    <value>Total disk space used must not exceed</value>
+  </data>
+	<data name="lblDownloadXAttachmentsPostfix.Text">
+    <value>Attachments</value>
+  </data>
+	<data name="checkOnlyDownloadLastXAttachments.Text">
+    <value>On initial subscription: only download last</value>
+  </data>
+	<data name="checkDownloadCreateFolderPerFeed.Text">
+    <value>Place downloads in subfolders named after the feed</value>
+  </data>
+	<data name="textEnclosureDirectory.ToolTip">
+    <value>Enclosure download path</value>
+  </data>
+	<data name="labelEnclosureDirectory.Text">
+    <value>Download Attachments to:</value>
+  </data>
+	<data name="checkDownloadEnclosures.Text">
+    <value>Automatically download attachments</value>
+  </data>
+	<data name="checkEnableEnclosureAlerts.Text">
+    <value>&amp;Enable alert windows for newly downloaded attachments</value>
+  </data>
+	<data name="lblSectionPanelEnclosureGeneral.Text">
+    <value>Configure the download behavior and download location of attachments in general.</value>
+  </data>
+	<data name="lstItemStates.Items5">
+    <value>New Comments (Watched)</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.Text">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+	<data name="label8.Text">
+    <value>news items per page</value>
+  </data>
+	<data name="numNewsItemsPerPage.ToolTip">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.Text">
+    <value>Show only </value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.ToolTip">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+	</root>
