@@ -249,38 +249,47 @@
     <Reference Include="Infragistics2.Shared.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Shared.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinEditors.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinStatusBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTabControl.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinToolbars.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTree.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -449,14 +458,12 @@
     <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
     <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
     <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.bg.resx">
       <DependentUpon>SR.cs</DependentUpon>
