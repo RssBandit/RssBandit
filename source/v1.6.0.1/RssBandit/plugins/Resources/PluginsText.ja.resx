@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="RES_MenuEmailThisCaption">
+		<value>メール送信する</value>
+	</data>
+	<data name="RES_MenuDeliciousCaption">
+		<value>del.icio.us へ投稿する</value>
+	</data>
+	<data name="RES_MenuWBloggarCaption">
+		<value>W::Bloggar を使ったブログを作成する</value>
+	</data>
+	<data name="RES_ExceptionWBloggarNotFound">
+		<value>w::bloggar のレジストリ設定が見つかりません。w::bloggar をインストールしてください</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionTitle">
+		<value>設定できませんでした</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionMessage">
+		<value>記入されていない項目があります</value>
+	</data>
+	<data name="RES_DeliciousFormTags">
+		<value>タグ(&amp;T)</value>
+	</data>
+	<data name="RES_DeliciousFormUrl">
+		<value>URL(&amp;U)</value>
+	</data>
+	<data name="RES_DeliciousFormDescription">
+		<value>説明(&amp;D)</value>
+	</data>
+	<data name="RES_DeliciousFormCancel">
+		<value>キャンセル</value>
+	</data>
+	<data name="RES_DeliciousFormPost">
+		<value>投稿</value>
+	</data>
+	<data name="RES_DeliciousFormOk">
+		<value>OK</value>
+	</data>
+	<data name="RES_DeliciousFormAuthentication">
+		<value>認証</value>
+	</data>
+	<data name="RES_DeliciousFormPassword">
+		<value>パスワード(&amp;P)</value>
+	</data>
+	<data name="RES_DeliciousFormUsername">
+		<value>ユーザー名(&amp;N)</value>
+	</data>
+	<data name="RES_DeliciousFormApiUrl">
+		<value>&amp;del.icio.us API URL</value>
+	</data>
+	<data name="RES_DeliciousFormConfiguration">
+		<value>Del.icio.us プラグイン設定</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>OneNote へ送る...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>OneNote プラグイン設定...</value>
+	</data>
+<data name="RES_MenuLiveWriterCaption">
+		<value>Blog This Using Windows Live Writer...</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>No registry setting for Windows Live Writer located. Please install Windows Live Writer from http://ideas.live.com to get this feature to work</value>
+	</data>
+	</root>
