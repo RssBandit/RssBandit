@@ -1,10 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
-using NewsComponents.Utils;
 
 namespace System
 {
@@ -20,7 +18,7 @@ namespace RssBandit
     /// IMPORTANT: Initialize() method must be called from your UI thread prior to the invoke methods being called.
     /// </summary>
     [DebuggerNonUserCode]
-    internal static class GuiInvoker
+    public static class GuiInvoker
     {
         #region Public Methods
 
@@ -30,7 +28,7 @@ namespace RssBandit
         public static void Initialize()
         {
             if (_context == null)
-                _context = AsyncOperationManager.SynchronizationContext;
+                _context = GetMarshalingControl();
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace RssBandit
                 throw new InvalidOperationException("Initialize must be called first.");
         }
 
-        private static void DoInvoke(Control control, Action action, SynchronizationContext context, bool synchronous)
+        private static void DoInvoke(Control control, Action action, Control context, bool synchronous)
         {
             if (action == null)
                 throw new ArgumentNullException("action");
@@ -96,62 +94,82 @@ namespace RssBandit
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            try
+            //try
+            //{
+            if (control != null)
             {
-                if (control != null)
-                {
-                    InvokeControl invokeControl = new InvokeControl(control, action);
+                InvokeControl invokeControl = new InvokeControl(control, action);
 
-                    if (synchronous)
+                if (synchronous)
+                {
+                    // if we're already on the right thread, just execute
+                    if (control.IsHandleCreated && !control.InvokeRequired)
                     {
-                        // if we're already on the right thread, just execute
-                        if (control.IsHandleCreated && !control.InvokeRequired)
-                        {
-                            SafeInvoke(invokeControl);
-                            return;
-                        }
+                        SafeInvoke(invokeControl);
+                        return;
                     }
-
-                    if (synchronous)
-                        context.Send(SafeInvoke, invokeControl);
-                    else
-                        context.Post(SafeInvoke, invokeControl);
                 }
+
+                if (synchronous)
+                    context.Invoke((WaitCallback)SafeInvoke, invokeControl);
                 else
-                {
-                    if (synchronous)
-                        context.Send(ActionInvoke, action);
-                    else
-                        context.Post(ActionInvoke, action);
-                }
+                    context.BeginInvoke((WaitCallback)SafeInvoke, invokeControl);
             }
-            catch (InvalidAsynchronousStateException)
+            else
             {
-                // This can happen on shutdown
-            }
-            catch (NullReferenceException)
-            {
-                // can happen on shutdown
-            }
-            catch(InvalidOperationException)
-            {
-                // can happen on shutdown
-            }
-            catch (TargetInvocationException e)
-            {
-
-                if (e.InnerException != null)
-                {
-                    ExceptionHelper.PreserveExceptionStackTrace(e.InnerException);
-
-                    // Throw the new exception
-                    throw e.InnerException;
-                }
+                if (synchronous)
+                    context.Invoke((WaitCallback)ActionInvoke, action);
                 else
-                {
-                    throw;
-                }
+                    context.BeginInvoke((WaitCallback)ActionInvoke, action);
             }
+            //}
+            //catch (InvalidAsynchronousStateException)
+            //{
+            //    // This can happen on shutdown
+            //}
+            //catch(InvalidOperationException)
+            //{
+            //    // This can happen on shutdown
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    // can happen on shutdown
+            //}
+            //catch (TargetInvocationException e)
+            //{
+
+            //    if (e.InnerException != null)
+            //    {
+            //        ExceptionHelper.PreserveExceptionStackTrace(e.InnerException);
+
+            //        // Throw the new exception
+            //        throw e.InnerException;
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+        }
+
+
+        /// <summary>
+        /// Get a reference to the control used for GUI marshalling
+        /// </summary>
+        /// <returns></returns>
+        private static Control GetMarshalingControl()
+        {
+            Type context = Type.GetType("System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+
+            MethodInfo current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
+
+            PropertyInfo prop = context.GetProperty("MarshalingControl", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            object thread = current.Invoke(null, null);
+
+            Control control = (Control)prop.GetValue(thread, null);
+
+            return control;
         }
 
         #endregion
@@ -205,7 +223,7 @@ namespace RssBandit
 
         #region Private Fields
 
-        private static SynchronizationContext _context;
+        private static Control _context;
 
         #endregion Private Fields
     }
