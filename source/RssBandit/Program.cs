@@ -27,12 +27,12 @@ namespace RssBandit
 
             /* setup handler for unhandled exceptions in non-debug modes */
             // Allow exceptions to be unhandled so they break in the debugger
-//#if !DEBUG
+#if !DEBUG
 
             ApplicationExceptionHandler eh = new ApplicationExceptionHandler();
 
             AppDomain.CurrentDomain.UnhandledException += eh.OnAppDomainException;
-//#endif
+#endif
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 			Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(new I18NTestCulture().Culture);
