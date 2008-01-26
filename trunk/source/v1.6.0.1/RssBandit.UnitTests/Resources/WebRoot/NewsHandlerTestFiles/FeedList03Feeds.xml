@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="7200000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  <feed category="Development">
+    <title>MSDN: Visual C#</title>
+    <link>http://msdn.microsoft.com/vcsharp/rss.xml</link>
+    <refresh-rate>7200000</refresh-rate>
+    <last-retrieved>2004-08-07T19:51:12.1093750-07:00</last-retrieved>
+    <etag>"045a6c3b47bc41:a89f"</etag>
+    <cacheurl>msdn.microsoft.com.80.434980203.05032b501b2c4e4189be7f146f172055.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://msdn.microsoft.com/visualc/default.aspx?pull=/library/en-us/dnvs05/html/VS05Cplus.asp</story>
+      <story>http://msdn.microsoft.com/msdnmag/issues/04/08/EndBracket/default.aspx</story>
+      <story>http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dntablet/html/hwrecog.asp</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T05:56:18.0000000-07:00</if-modified-since>
+  </feed>
+  <feed category="Forums">
+    <title>ASP.NET Forums: Architecture</title>
+    <link>http://www.asp.net/Forums/rss.aspx?forumid=16</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-07T19:51:12.5781250-07:00</last-retrieved>
+    <cacheurl>www.asp.net.80.1330717902.4da39ded455b4fa1a693a0432da0d3eb.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://www.asp.net/Forums/ShowPost.aspx?tabindex=1&amp;PostID=532241</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-07T19:51:05.0000000-07:00</if-modified-since>
+    <auth-user>haacked</auth-user>
+    <auth-password>h2JaXsDRG+LNb314elfK2Px+LMXGDCRP</auth-password>
+  </feed>
+  <feed category="News Technology">
+    <title>Slashdot</title>
+    <link>http://slashdot.org/slashdot.rss</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-07T19:51:11.8750000-07:00</last-retrieved>
+    <cacheurl>slashdot.org.80.1841849223.41ed32b7541447668f0465a34ec74387.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://slashdot.org/article.pl?sid=04/08/08/0028232</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/07/2311253</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/07/220231</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/07/2133249</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/07/2020236</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/01/2331201</story>
+      <story>http://slashdot.org/article.pl?sid=04/08/01/2253247</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-07T19:51:11.6250000-07:00</if-modified-since>
+  </feed>
+  <categories>
+    <category>Development</category>
+    <category>Forums</category>
+    <category>News Technology</category>
+  </categories>
+</feeds>

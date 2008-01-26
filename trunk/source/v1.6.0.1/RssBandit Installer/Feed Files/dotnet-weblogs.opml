@@ -1,0 +1,411 @@
+﻿<opml>
+  <body>
+    <outline title="help.net" htmlUrl="http://weblogs.asp.net/pleloup" xmlUrl="http://weblogs.asp.net/pleloup/rss.aspx" />
+    <outline title="ISerializable" htmlUrl="http://weblogs.asp.net/rosherove" xmlUrl="http://weblogs.asp.net/rosherove/rss.aspx" />
+    <outline title="Robert McLaws: FunWithCoding.NET" htmlUrl="http://weblogs.asp.net/rmclaws" xmlUrl="http://weblogs.asp.net/rmclaws/rss.aspx" />
+    <outline title="Julia Lerman Blog" htmlUrl="http://weblogs.asp.net/jlerman" xmlUrl="http://weblogs.asp.net/jlerman/rss.aspx" />
+    <outline title="Jesse Ezell Blog" htmlUrl="http://weblogs.asp.net/jezell" xmlUrl="http://weblogs.asp.net/jezell/rss.aspx" />
+    <outline title="Drew's Blog" htmlUrl="http://weblogs.asp.net/dmarsh" xmlUrl="http://weblogs.asp.net/dmarsh/rss.aspx" />
+    <outline title="ShowUsYour&amp;lt;Blog&gt;" htmlUrl="http://weblogs.asp.net/dneimke" xmlUrl="http://weblogs.asp.net/dneimke/rss.aspx" />
+    <outline title=".Avery Blog" htmlUrl="http://weblogs.asp.net/javery" xmlUrl="http://weblogs.asp.net/javery/rss.aspx" />
+    <outline title="Brad Abrams " htmlUrl="http://weblogs.asp.net/brada" xmlUrl="http://weblogs.asp.net/brada/rss.aspx" />
+    <outline title="Loosely Coupled" htmlUrl="http://weblogs.asp.net/tmarman" xmlUrl="http://weblogs.asp.net/tmarman/rss.aspx" />
+    <outline title="SBC DotNet Weblog" htmlUrl="http://weblogs.asp.net/sbchatterjee" xmlUrl="http://weblogs.asp.net/sbchatterjee/rss.aspx" />
+    <outline title="Randy Holloway's Weblog" htmlUrl="http://weblogs.asp.net/rholloway" xmlUrl="http://weblogs.asp.net/rholloway/rss.aspx" />
+    <outline title="Jeff Key" htmlUrl="http://weblogs.asp.net/jkey" xmlUrl="http://weblogs.asp.net/jkey/rss.aspx" />
+    <outline title="Code/Tea/Etc..." htmlUrl="http://weblogs.asp.net/duncanma" xmlUrl="http://weblogs.asp.net/duncanma/rss.aspx" />
+    <outline title="The Old New Thing" htmlUrl="http://weblogs.asp.net/oldnewthing" xmlUrl="http://weblogs.asp.net/oldnewthing/rss.aspx" />
+    <outline title="Christian Weyer: Web Services &amp; .NET" htmlUrl="http://weblogs.asp.net/cweyer" xmlUrl="http://weblogs.asp.net/cweyer/rss.aspx" />
+    <outline title="Andres Aguiar's Weblog" htmlUrl="http://weblogs.asp.net/aaguiar" xmlUrl="http://weblogs.asp.net/aaguiar/rss.aspx" />
+    <outline title="A Blog for Graymad" htmlUrl="http://weblogs.asp.net/gad" xmlUrl="http://weblogs.asp.net/gad/rss.aspx" />
+    <outline title="Fabrice's weblog" htmlUrl="http://weblogs.asp.net/fmarguerie" xmlUrl="http://weblogs.asp.net/fmarguerie/rss.aspx" />
+    <outline title="Phil Scott's WebLog" htmlUrl="http://weblogs.asp.net/pscott" xmlUrl="http://weblogs.asp.net/pscott/rss.aspx" />
+    <outline title="The Galactic Patrol" htmlUrl="http://weblogs.asp.net/bwill" xmlUrl="http://weblogs.asp.net/bwill/rss.aspx" />
+    <outline title=".NET Blog - Chris Frazier Style" htmlUrl="http://weblogs.asp.net/cfrazier" xmlUrl="http://weblogs.asp.net/cfrazier/rss.aspx" />
+    <outline title="Andrew Stopford's Weblog" htmlUrl="http://weblogs.asp.net/astopford" xmlUrl="http://weblogs.asp.net/astopford/rss.aspx" />
+    <outline title="Greg Robinson's Blog" htmlUrl="http://weblogs.asp.net/grobinson" xmlUrl="http://weblogs.asp.net/grobinson/rss.aspx" />
+    <outline title="Kent Sharkey's blog" htmlUrl="http://weblogs.asp.net/ksharkey" xmlUrl="http://weblogs.asp.net/ksharkey/rss.aspx" />
+    <outline title="DonXML Blog" htmlUrl="http://weblogs.asp.net/donxml" xmlUrl="http://weblogs.asp.net/donxml/rss.aspx" />
+    <outline title="LauraJ's Weblog" htmlUrl="http://weblogs.asp.net/lauraj" xmlUrl="http://weblogs.asp.net/lauraj/rss.aspx" />
+    <outline title="Yosi Taguri's WebLog" htmlUrl="http://weblogs.asp.net/yosit" xmlUrl="http://weblogs.asp.net/yosit/rss.aspx" />
+    <outline title="Robert A. Wlodarczyk's Blog (MSFT)" htmlUrl="http://weblogs.asp.net/rwlodarc" xmlUrl="http://weblogs.asp.net/rwlodarc/rss.aspx" />
+    <outline title="Ed Kaim" htmlUrl="http://weblogs.asp.net/EdKaim" xmlUrl="http://weblogs.asp.net/EdKaim/rss.aspx" />
+    <outline title="Jason Tucker's Blog" htmlUrl="http://weblogs.asp.net/jtucker" xmlUrl="http://weblogs.asp.net/jtucker/rss.aspx" />
+    <outline title="David Stone's Blog" htmlUrl="http://weblogs.asp.net/dstone" xmlUrl="http://weblogs.asp.net/dstone/rss.aspx" />
+    <outline title="Colt Kwong's Blog" htmlUrl="http://weblogs.asp.net/coltk" xmlUrl="http://weblogs.asp.net/coltk/rss.aspx" />
+    <outline title="Eric Gunnerson's C# Compendium" htmlUrl="http://weblogs.asp.net/ericgu" xmlUrl="http://weblogs.asp.net/ericgu/rss.aspx" />
+    <outline title="Datagrid Girl" htmlUrl="http://weblogs.asp.net/datagridgirl" xmlUrl="http://weblogs.asp.net/datagridgirl/rss.aspx" />
+    <outline title=".NET Brain Droppings" htmlUrl="http://weblogs.asp.net/dbrowning" xmlUrl="http://weblogs.asp.net/dbrowning/rss.aspx" />
+    <outline title="Kirk Allen Evans' Blog" htmlUrl="http://weblogs.asp.net/kaevans" xmlUrl="http://weblogs.asp.net/kaevans/rss.aspx" />
+    <outline title="Christian Nagel's OneNotes" htmlUrl="http://weblogs.asp.net/cnagel" xmlUrl="http://weblogs.asp.net/cnagel/rss.aspx" />
+    <outline title="Dave Burke" htmlUrl="http://weblogs.asp.net/dburke" xmlUrl="http://weblogs.asp.net/dburke/rss.aspx" />
+    <outline title="Santomania" htmlUrl="http://weblogs.asp.net/ASanto" xmlUrl="http://weblogs.asp.net/ASanto/rss.aspx" />
+    <outline title="Robert Hurlbut's .Net Blog" htmlUrl="http://weblogs.asp.net/rhurlbut" xmlUrl="http://weblogs.asp.net/rhurlbut/rss.aspx" />
+    <outline title="CSharpener's Weblog" htmlUrl="http://weblogs.asp.net/jtobler" xmlUrl="http://weblogs.asp.net/jtobler/rss.aspx" />
+    <outline title="Matthew &quot;.NET 247&quot; Reynolds" htmlUrl="http://weblogs.asp.net/mreynolds" xmlUrl="http://weblogs.asp.net/mreynolds/rss.aspx" />
+    <outline title="Dev Notes" htmlUrl="http://weblogs.asp.net/ssadasivuni" xmlUrl="http://weblogs.asp.net/ssadasivuni/rss.aspx" />
+    <outline title="Samer Ibrahim's Blog" htmlUrl="http://weblogs.asp.net/sibrahim" xmlUrl="http://weblogs.asp.net/sibrahim/rss.aspx" />
+    <outline title="Korby Parnell's WebLog" htmlUrl="http://weblogs.asp.net/korbyp" xmlUrl="http://weblogs.asp.net/korbyp/rss.aspx" />
+    <outline title="Soapbox 3.0" htmlUrl="http://weblogs.asp.net/mlafleur" xmlUrl="http://weblogs.asp.net/mlafleur/rss.aspx" />
+    <outline title="KC on Exchange and Outlook" htmlUrl="http://weblogs.asp.net/kclemson" xmlUrl="http://weblogs.asp.net/kclemson/rss.aspx" />
+    <outline title="HumanCompiler - Erik Porter (.NET MVP) Blog" htmlUrl="http://weblogs.asp.net/eporter" xmlUrl="http://weblogs.asp.net/eporter/rss.aspx" />
+    <outline title="shawn's blog" htmlUrl="http://weblogs.asp.net/shawnmor" xmlUrl="http://weblogs.asp.net/shawnmor/rss.aspx" />
+    <outline title="Chad Osgood's Blog" htmlUrl="http://weblogs.asp.net/cosgood" xmlUrl="http://weblogs.asp.net/cosgood/rss.aspx" />
+    <outline title="Raghallach Reloaded" htmlUrl="http://weblogs.asp.net/cameronreilly" xmlUrl="http://weblogs.asp.net/cameronreilly/rss.aspx" />
+    <outline title="Tim Sneath" htmlUrl="http://weblogs.asp.net/tims" xmlUrl="http://weblogs.asp.net/tims/rss.aspx" />
+    <outline title="Fabulous Adventures In Coding" htmlUrl="http://weblogs.asp.net/EricLippert" xmlUrl="http://weblogs.asp.net/EricLippert/rss.aspx" />
+    <outline title="Wayne Allen's Weblog" htmlUrl="http://weblogs.asp.net/wallen" xmlUrl="http://weblogs.asp.net/wallen/rss.aspx" />
+    <outline title="Wes' Puzzling Blog" htmlUrl="http://weblogs.asp.net/whaggard" xmlUrl="http://weblogs.asp.net/whaggard/rss.aspx" />
+    <outline title="Jan Tielens' Bloggings" htmlUrl="http://weblogs.asp.net/jan" xmlUrl="http://weblogs.asp.net/jan/rss.aspx" />
+    <outline title="CLaueR's Blog" htmlUrl="http://weblogs.asp.net/clauer" xmlUrl="http://weblogs.asp.net/clauer/rss.aspx" />
+    <outline title="Frans Bouma's blog" htmlUrl="http://weblogs.asp.net/fbouma" xmlUrl="http://weblogs.asp.net/fbouma/rss.aspx" />
+    <outline title="Office Development, Security, Randomness..." htmlUrl="http://weblogs.asp.net/ptorr" xmlUrl="http://weblogs.asp.net/ptorr/rss.aspx" />
+    <outline title="Lance's Whiteboard" htmlUrl="http://weblogs.asp.net/lhunt" xmlUrl="http://weblogs.asp.net/lhunt/rss.aspx" />
+    <outline title="Rob Chartier's Excogitation" htmlUrl="http://weblogs.asp.net/rchartier" xmlUrl="http://weblogs.asp.net/rchartier/rss.aspx" />
+    <outline title="Paul Wilson's .NET Blog" htmlUrl="http://weblogs.asp.net/pwilson" xmlUrl="http://weblogs.asp.net/pwilson/rss.aspx" />
+    <outline title="Dan Fernandez's Blog" htmlUrl="http://weblogs.asp.net/danielfe" xmlUrl="http://weblogs.asp.net/danielfe/rss.aspx" />
+    <outline title="Nino.Mobile" htmlUrl="http://weblogs.asp.net/nino" xmlUrl="http://weblogs.asp.net/nino/rss.aspx" />
+    <outline title="Patrick Steele's .NET Blog" htmlUrl="http://weblogs.asp.net/psteele" xmlUrl="http://weblogs.asp.net/psteele/rss.aspx" />
+    <outline title="load of Tosh" htmlUrl="http://weblogs.asp.net/tmeston" xmlUrl="http://weblogs.asp.net/tmeston/rss.aspx" />
+    <outline title="#region /* comments */ " htmlUrl="http://weblogs.asp.net/mnissen" xmlUrl="http://weblogs.asp.net/mnissen/rss.aspx" />
+    <outline title="Emitter" htmlUrl="http://weblogs.asp.net/pgielens" xmlUrl="http://weblogs.asp.net/pgielens/rss.aspx" />
+    <outline title="Andy Smith's Blog" htmlUrl="http://weblogs.asp.net/asmith" xmlUrl="http://weblogs.asp.net/asmith/rss.aspx" />
+    <outline title="musings from a snowstorm...." htmlUrl="http://weblogs.asp.net/jblizzard" xmlUrl="http://weblogs.asp.net/jblizzard/rss.aspx" />
+    <outline title="Wallace B. McClure" htmlUrl="http://weblogs.asp.net/wallym" xmlUrl="http://weblogs.asp.net/wallym/rss.aspx" />
+    <outline title="NUnitAddin" htmlUrl="http://weblogs.asp.net/nunitaddin" xmlUrl="http://weblogs.asp.net/nunitaddin/rss.aspx" />
+    <outline title="Ashutosh Nilkanth's .NET Blog" htmlUrl="http://weblogs.asp.net/ashben" xmlUrl="http://weblogs.asp.net/ashben/rss.aspx" />
+    <outline title="Kevin Dente's RantLog" htmlUrl="http://weblogs.asp.net/KDente" xmlUrl="http://weblogs.asp.net/KDente/rss.aspx" />
+    <outline title="Lorenzo Barbieri" htmlUrl="http://weblogs.asp.net/lbarbieri" xmlUrl="http://weblogs.asp.net/lbarbieri/rss.aspx" />
+    <outline title="Adventures of Dotnet Boy (aka Brenton House)" htmlUrl="http://weblogs.asp.net/bhouse" xmlUrl="http://weblogs.asp.net/bhouse/rss.aspx" />
+    <outline title="Brian Goldfarb's Blog" htmlUrl="http://weblogs.asp.net/bgold" xmlUrl="http://weblogs.asp.net/bgold/rss.aspx" />
+    <outline title="frankarr's place" htmlUrl="http://weblogs.asp.net/frankarr" xmlUrl="http://weblogs.asp.net/frankarr/rss.aspx" />
+    <outline title="Matt Powell" htmlUrl="http://weblogs.asp.net/Mpowell" xmlUrl="http://weblogs.asp.net/Mpowell/rss.aspx" />
+    <outline title="Alex Lowe's .NET Blog" htmlUrl="http://weblogs.asp.net/alowe" xmlUrl="http://weblogs.asp.net/alowe/rss.aspx" />
+    <outline title="The ASPSmith's Blog" htmlUrl="http://weblogs.asp.net/ssmith" xmlUrl="http://weblogs.asp.net/ssmith/rss.aspx" />
+    <outline title="Paolo's Notes" htmlUrl="http://weblogs.asp.net/pmarcucci" xmlUrl="http://weblogs.asp.net/pmarcucci/rss.aspx" />
+    <outline title="Jason Alexander's Blog" htmlUrl="http://weblogs.asp.net/jalexander" xmlUrl="http://weblogs.asp.net/jalexander/rss.aspx" />
+    <outline title="Dan Bright's .NET Weblog" htmlUrl="http://weblogs.asp.net/dbright" xmlUrl="http://weblogs.asp.net/dbright/rss.aspx" />
+    <outline title="IXml* - Welcome to the real world" htmlUrl="http://weblogs.asp.net/cazzu" xmlUrl="http://weblogs.asp.net/cazzu/rss.aspx" />
+    <outline title="Scooblog" htmlUrl="http://weblogs.asp.net/jledgard" xmlUrl="http://weblogs.asp.net/jledgard/rss.aspx" />
+    <outline title="Brian Desmond's Blog" htmlUrl="http://weblogs.asp.net/BDesmond" xmlUrl="http://weblogs.asp.net/BDesmond/rss.aspx" />
+    <outline title="Eric J. Smith's Weblog" htmlUrl="http://weblogs.asp.net/ericjsmith" xmlUrl="http://weblogs.asp.net/ericjsmith/rss.aspx" />
+    <outline title="tatochip.net" htmlUrl="http://weblogs.asp.net/tatochip" xmlUrl="http://weblogs.asp.net/tatochip/rss.aspx" />
+    <outline title="Chris Stewart's Weblog" htmlUrl="http://weblogs.asp.net/cstewart" xmlUrl="http://weblogs.asp.net/cstewart/rss.aspx" />
+    <outline title="Eli Robillard's World of Blog." htmlUrl="http://weblogs.asp.net/erobillard" xmlUrl="http://weblogs.asp.net/erobillard/rss.aspx" />
+    <outline title="CôaCôaCôa" htmlUrl="http://weblogs.asp.net/coacoacoa" xmlUrl="http://weblogs.asp.net/coacoacoa/rss.aspx" />
+    <outline title="Jason Nadal" htmlUrl="http://weblogs.asp.net/jnadal" xmlUrl="http://weblogs.asp.net/jnadal/rss.aspx" />
+    <outline title="Johan Danforth's WebLog" htmlUrl="http://weblogs.asp.net/JDanforth" xmlUrl="http://weblogs.asp.net/JDanforth/rss.aspx" />
+    <outline title="Keith Pleas Blog" htmlUrl="http://weblogs.asp.net/kpleas" xmlUrl="http://weblogs.asp.net/kpleas/rss.aspx" />
+    <outline title="Blogadocious" htmlUrl="http://weblogs.asp.net/bmore" xmlUrl="http://weblogs.asp.net/bmore/rss.aspx" />
+    <outline title="Martin Spedding's Blog" htmlUrl="http://weblogs.asp.net/Mspedding" xmlUrl="http://weblogs.asp.net/Mspedding/rss.aspx" />
+    <outline title="Carl Franklin" htmlUrl="http://weblogs.asp.net/CFranklin" xmlUrl="http://weblogs.asp.net/CFranklin/rss.aspx" />
+    <outline title="Nonsensical Saunter of All Things Irrelevant" htmlUrl="http://weblogs.asp.net/Jsemeniuk" xmlUrl="http://weblogs.asp.net/Jsemeniuk/rss.aspx" />
+    <outline title="Nauman Leghari's Blog" htmlUrl="http://weblogs.asp.net/nleghari" xmlUrl="http://weblogs.asp.net/nleghari/rss.aspx" />
+    <outline title="Jason Salas' WebLog" htmlUrl="http://weblogs.asp.net/jasonsalas" xmlUrl="http://weblogs.asp.net/jasonsalas/rss.aspx" />
+    <outline title="Mathew Nolton Blog" htmlUrl="http://weblogs.asp.net/Mnolton" xmlUrl="http://weblogs.asp.net/Mnolton/rss.aspx" />
+    <outline title="Ralfs Sudelbücher" htmlUrl="http://weblogs.asp.net/ralfw" xmlUrl="http://weblogs.asp.net/ralfw/rss.aspx" />
+    <outline title="Kevin W. Hammond" htmlUrl="http://weblogs.asp.net/kevinha" xmlUrl="http://weblogs.asp.net/kevinha/rss.aspx" />
+    <outline title="Owen Allen" htmlUrl="http://weblogs.asp.net/oallen" xmlUrl="http://weblogs.asp.net/oallen/rss.aspx" />
+    <outline title="BufferOverrun" htmlUrl="http://weblogs.asp.net/brianjo" xmlUrl="http://weblogs.asp.net/brianjo/rss.aspx" />
+    <outline title="Natty Gur" htmlUrl="http://weblogs.asp.net/NGur" xmlUrl="http://weblogs.asp.net/NGur/rss.aspx" />
+    <outline title="~mkw" htmlUrl="http://weblogs.asp.net/kwarren" xmlUrl="http://weblogs.asp.net/kwarren/rss.aspx" />
+    <outline title="Shawn A. Van Ness's weblog" htmlUrl="http://weblogs.asp.net/savanness" xmlUrl="http://weblogs.asp.net/savanness/rss.aspx" />
+    <outline title="ASP.NET and UK web development blog :: Chris Garrett" htmlUrl="http://weblogs.asp.net/cgarrett" xmlUrl="http://weblogs.asp.net/cgarrett/rss.aspx" />
+    <outline title="JonGalloway.ToString()" htmlUrl="http://weblogs.asp.net/jgalloway" xmlUrl="http://weblogs.asp.net/jgalloway/rss.aspx" />
+    <outline title="S. Srinivasa Sivakumar's Blog World" htmlUrl="http://weblogs.asp.net/ssivakumar" xmlUrl="http://weblogs.asp.net/ssivakumar/rss.aspx" />
+    <outline title="Rob Howard's Blog" htmlUrl="http://weblogs.asp.net/RHoward" xmlUrl="http://weblogs.asp.net/RHoward/rss.aspx" />
+    <outline title="ScottGu's Blog" htmlUrl="http://weblogs.asp.net/scottgu" xmlUrl="http://weblogs.asp.net/scottgu/rss.aspx" />
+    <outline title="Alex Hoffman" htmlUrl="http://weblogs.asp.net/ahoffman" xmlUrl="http://weblogs.asp.net/ahoffman/rss.aspx" />
+    <outline title="Yasser Shohoud" htmlUrl="http://weblogs.asp.net/Yassers" xmlUrl="http://weblogs.asp.net/Yassers/rss.aspx" />
+    <outline title="Vibro.NET" htmlUrl="http://weblogs.asp.net/vbertocci" xmlUrl="http://weblogs.asp.net/vbertocci/rss.aspx" />
+    <outline title="Business Implications of Web Services" htmlUrl="http://weblogs.asp.net/rdias" xmlUrl="http://weblogs.asp.net/rdias/rss.aspx" />
+    <outline title="John Lawrence (MSFT): &quot;Can you hear me now?&quot;" htmlUrl="http://weblogs.asp.net/johnlawr" xmlUrl="http://weblogs.asp.net/johnlawr/rss.aspx" />
+    <outline title="SlavoF's WebLog" htmlUrl="http://weblogs.asp.net/SFurman" xmlUrl="http://weblogs.asp.net/SFurman/rss.aspx" />
+    <outline title="Tom Richards .NET Weblog" htmlUrl="http://weblogs.asp.net/Trichards" xmlUrl="http://weblogs.asp.net/Trichards/rss.aspx" />
+    <outline title="Chris Szurgot's Blog" htmlUrl="http://weblogs.asp.net/cszurgot" xmlUrl="http://weblogs.asp.net/cszurgot/rss.aspx" />
+    <outline title="Ajay Juneja" htmlUrl="http://weblogs.asp.net/AJuneja" xmlUrl="http://weblogs.asp.net/AJuneja/rss.aspx" />
+    <outline title="Andrew Conrad's WebLog" htmlUrl="http://weblogs.asp.net/aconrad" xmlUrl="http://weblogs.asp.net/aconrad/rss.aspx" />
+    <outline title="cbrumme's WebLog" htmlUrl="http://weblogs.asp.net/cbrumme" xmlUrl="http://weblogs.asp.net/cbrumme/rss.aspx" />
+    <outline title="arpans's WebLog" htmlUrl="http://weblogs.asp.net/arpans" xmlUrl="http://weblogs.asp.net/arpans/rss.aspx" />
+    <outline title="Philip Rieck" htmlUrl="http://weblogs.asp.net/prieck" xmlUrl="http://weblogs.asp.net/prieck/rss.aspx" />
+    <outline title="Jerry Dennany's Occasional Clue" htmlUrl="http://weblogs.asp.net/jdennany" xmlUrl="http://weblogs.asp.net/jdennany/rss.aspx" />
+    <outline title="Mike Diehl's WebLog" htmlUrl="http://weblogs.asp.net/miked" xmlUrl="http://weblogs.asp.net/miked/rss.aspx" />
+    <outline title="Dustin Mihalik's Blog" htmlUrl="http://weblogs.asp.net/dmihalik" xmlUrl="http://weblogs.asp.net/dmihalik/rss.aspx" />
+    <outline title="The Ollie Blog" htmlUrl="http://weblogs.asp.net/olliec" xmlUrl="http://weblogs.asp.net/olliec/rss.aspx" />
+    <outline title="Joshua Prismon's Technical weblog" htmlUrl="http://weblogs.asp.net/jprismon" xmlUrl="http://weblogs.asp.net/jprismon/rss.aspx" />
+    <outline title="cflaat's WebLog" htmlUrl="http://weblogs.asp.net/cflaat" xmlUrl="http://weblogs.asp.net/cflaat/rss.aspx" />
+    <outline title="Frederic Gos's WebLog" htmlUrl="http://weblogs.asp.net/FGos" xmlUrl="http://weblogs.asp.net/FGos/rss.aspx" />
+    <outline title="Deepak Sharma's .Net WebLog" htmlUrl="http://weblogs.asp.net/dsharma" xmlUrl="http://weblogs.asp.net/dsharma/rss.aspx" />
+    <outline title="&amp;lt;ChristophDotNet " htmlUrl="http://weblogs.asp.net/CSchittko" xmlUrl="http://weblogs.asp.net/CSchittko/rss.aspx" />
+    <outline title="Doug Reilly's Weblog" htmlUrl="http://weblogs.asp.net/dreilly" xmlUrl="http://weblogs.asp.net/dreilly/rss.aspx" />
+    <outline title="Craig Skibo's WebLog" htmlUrl="http://weblogs.asp.net/CraigSkibo" xmlUrl="http://weblogs.asp.net/CraigSkibo/rss.aspx" />
+    <outline title="Eric Maino" htmlUrl="http://weblogs.asp.net/EMaino" xmlUrl="http://weblogs.asp.net/EMaino/rss.aspx" />
+    <outline title="Rachel's Blogging .NET (mostly)" htmlUrl="http://weblogs.asp.net/rreese" xmlUrl="http://weblogs.asp.net/rreese/rss.aspx" />
+    <outline title="Mitch Rupp's .NET Blog" htmlUrl="http://weblogs.asp.net/mrupp" xmlUrl="http://weblogs.asp.net/mrupp/rss.aspx" />
+    <outline title="Adam Nathan's Interop-Centric CLR Blog" htmlUrl="http://weblogs.asp.net/Adam_Nathan" xmlUrl="http://weblogs.asp.net/Adam_Nathan/rss.aspx" />
+    <outline title="Klaus Aschenbrenner's thoughts on the .NET Framework" htmlUrl="http://weblogs.asp.net/Klaus.Aschenbrenner" xmlUrl="http://weblogs.asp.net/Klaus.Aschenbrenner/rss.aspx" />
+    <outline title="Andy Oakley" htmlUrl="http://weblogs.asp.net/aoakley" xmlUrl="http://weblogs.asp.net/aoakley/rss.aspx" />
+    <outline title="I Love that New Syntax Smell" htmlUrl="http://weblogs.asp.net/arich" xmlUrl="http://weblogs.asp.net/arich/rss.aspx" />
+    <outline title="Pierre Greborio.NET" htmlUrl="http://weblogs.asp.net/pgreborio" xmlUrl="http://weblogs.asp.net/pgreborio/rss.aspx" />
+    <outline title="Roland Weigelt " htmlUrl="http://weblogs.asp.net/rweigelt" xmlUrl="http://weblogs.asp.net/rweigelt/rss.aspx" />
+    <outline title="Edgar Sánchez's .NET Blog" htmlUrl="http://weblogs.asp.net/esanchez" xmlUrl="http://weblogs.asp.net/esanchez/rss.aspx" />
+    <outline title="Tim Walters .NET + Flash Blog" htmlUrl="http://weblogs.asp.net/twalters" xmlUrl="http://weblogs.asp.net/twalters/rss.aspx" />
+    <outline title="Darren Jefford" htmlUrl="http://weblogs.asp.net/darrenj" xmlUrl="http://weblogs.asp.net/darrenj/rss.aspx" />
+    <outline title="XML Eye for the Object Guy" htmlUrl="http://weblogs.asp.net/tewald" xmlUrl="http://weblogs.asp.net/tewald/rss.aspx" />
+    <outline title="Steven Livingstone Blog Language (SL-Blog)" htmlUrl="http://weblogs.asp.net/slivingstone" xmlUrl="http://weblogs.asp.net/slivingstone/rss.aspx" />
+    <outline title="Dino Esposito's WebLog" htmlUrl="http://weblogs.asp.net/despos" xmlUrl="http://weblogs.asp.net/despos/rss.aspx" />
+    <outline title="Thomas Johansen's Blog" htmlUrl="http://weblogs.asp.net/tjohansen" xmlUrl="http://weblogs.asp.net/tjohansen/rss.aspx" />
+    <outline title="Web Service Guy" htmlUrl="http://weblogs.asp.net/vlindesay" xmlUrl="http://weblogs.asp.net/vlindesay/rss.aspx" />
+    <outline title="Christoc's Blog" htmlUrl="http://weblogs.asp.net/christoc" xmlUrl="http://weblogs.asp.net/christoc/rss.aspx" />
+    <outline title="jasmo's WebLog" htmlUrl="http://weblogs.asp.net/jasmo" xmlUrl="http://weblogs.asp.net/jasmo/rss.aspx" />
+    <outline title="rbfigueira.net" htmlUrl="http://weblogs.asp.net/rfigueira" xmlUrl="http://weblogs.asp.net/rfigueira/rss.aspx" />
+    <outline title="Blog: Serge van den Oever" htmlUrl="http://weblogs.asp.net/soever" xmlUrl="http://weblogs.asp.net/soever/rss.aspx" />
+    <outline title="Site News" htmlUrl="http://weblogs.asp.net/sitenews" xmlUrl="http://weblogs.asp.net/sitenews/rss.aspx" />
+    <outline title="Jason N. Gaylord's Blog" htmlUrl="http://weblogs.asp.net/jgaylord" xmlUrl="http://weblogs.asp.net/jgaylord/rss.aspx" />
+    <outline title="Laurent Kempé" htmlUrl="http://weblogs.asp.net/lkempe" xmlUrl="http://weblogs.asp.net/lkempe/rss.aspx" />
+    <outline title="Oddur Magnusson " htmlUrl="http://weblogs.asp.net/OMagnusson" xmlUrl="http://weblogs.asp.net/OMagnusson/rss.aspx" />
+    <outline title="Cool Client Stuff" htmlUrl="http://weblogs.asp.net/rprabhu" xmlUrl="http://weblogs.asp.net/rprabhu/rss.aspx" />
+    <outline title="FrankPr's Random Thoughts" htmlUrl="http://weblogs.asp.net/frankpr" xmlUrl="http://weblogs.asp.net/frankpr/rss.aspx" />
+    <outline title="Kentc's SOAPbox" htmlUrl="http://weblogs.asp.net/Kentc" xmlUrl="http://weblogs.asp.net/Kentc/rss.aspx" />
+    <outline title="Mark Fussell's WebLog" htmlUrl="http://weblogs.asp.net/mfussell" xmlUrl="http://weblogs.asp.net/mfussell/rss.aspx" />
+    <outline title="Suzanne Cook's .NET CLR Loader Notes" htmlUrl="http://weblogs.asp.net/suzcook" xmlUrl="http://weblogs.asp.net/suzcook/rss.aspx" />
+    <outline title="Yves Reynhout's Blog" htmlUrl="http://weblogs.asp.net/yreynhout" xmlUrl="http://weblogs.asp.net/yreynhout/rss.aspx" />
+    <outline title="The Road to .Net End" htmlUrl="http://weblogs.asp.net/gharwood" xmlUrl="http://weblogs.asp.net/gharwood/rss.aspx" />
+    <outline title="Followers of the IHttpHandler" htmlUrl="http://weblogs.asp.net/vga" xmlUrl="http://weblogs.asp.net/vga/rss.aspx" />
+    <outline title="Jayme Davis' WebLog" htmlUrl="http://weblogs.asp.net/jdavis" xmlUrl="http://weblogs.asp.net/jdavis/rss.aspx" />
+    <outline title="simonguest.com" htmlUrl="http://weblogs.asp.net/smguest" xmlUrl="http://weblogs.asp.net/smguest/rss.aspx" />
+    <outline title="when setup isn't just xcopy" htmlUrl="http://weblogs.asp.net/robmen" xmlUrl="http://weblogs.asp.net/robmen/rss.aspx" />
+    <outline title="Chris Johnson" htmlUrl="http://weblogs.asp.net/CJohnson" xmlUrl="http://weblogs.asp.net/CJohnson/rss.aspx" />
+    <outline title="Diego Gonzalez" htmlUrl="http://weblogs.asp.net/DGonzalez" xmlUrl="http://weblogs.asp.net/DGonzalez/rss.aspx" />
+    <outline title="Rosey's Blog" htmlUrl="http://weblogs.asp.net/Mroselius" xmlUrl="http://weblogs.asp.net/Mroselius/rss.aspx" />
+    <outline title="A Portion of Buff" htmlUrl="http://weblogs.asp.net/jarnold" xmlUrl="http://weblogs.asp.net/jarnold/rss.aspx" />
+    <outline title="Thom Allen's WebLog" htmlUrl="http://weblogs.asp.net/tallen" xmlUrl="http://weblogs.asp.net/tallen/rss.aspx" />
+    <outline title="Rogelio Morrell's WebLog" htmlUrl="http://weblogs.asp.net/RMorrell" xmlUrl="http://weblogs.asp.net/RMorrell/rss.aspx" />
+    <outline title="Matt Scilipoti's WebLog" htmlUrl="http://weblogs.asp.net/MScilipoti" xmlUrl="http://weblogs.asp.net/MScilipoti/rss.aspx" />
+    <outline title="Sreedhar Koganti's Blog" htmlUrl="http://weblogs.asp.net/skoganti" xmlUrl="http://weblogs.asp.net/skoganti/rss.aspx" />
+    <outline title="Suresh Behera" htmlUrl="http://weblogs.asp.net/SBehera" xmlUrl="http://weblogs.asp.net/SBehera/rss.aspx" />
+    <outline title="Oleg Lvovitch" htmlUrl="http://weblogs.asp.net/oleglv" xmlUrl="http://weblogs.asp.net/oleglv/rss.aspx" />
+    <outline title="Okoboji: a lake, a mythical university, Kevin Moore's blog" htmlUrl="http://weblogs.asp.net/okoboji" xmlUrl="http://weblogs.asp.net/okoboji/rss.aspx" />
+    <outline title="BCLTeam's WebLog" htmlUrl="http://weblogs.asp.net/BCLTeam" xmlUrl="http://weblogs.asp.net/BCLTeam/rss.aspx" />
+    <outline title="Scott Woodgate's E-Business OutBursts" htmlUrl="http://weblogs.asp.net/scottwoo" xmlUrl="http://weblogs.asp.net/scottwoo/rss.aspx" />
+    <outline title="stevencl's WebLog" htmlUrl="http://weblogs.asp.net/stevencl" xmlUrl="http://weblogs.asp.net/stevencl/rss.aspx" />
+    <outline title="AllenD's WebLog" htmlUrl="http://weblogs.asp.net/AllenD" xmlUrl="http://weblogs.asp.net/AllenD/rss.aspx" />
+    <outline title="Russell Pooley's .NET Blog" htmlUrl="http://weblogs.asp.net/rpooley" xmlUrl="http://weblogs.asp.net/rpooley/rss.aspx" />
+    <outline title="Carl Prothman's Blog" htmlUrl="http://weblogs.asp.net/prothman" xmlUrl="http://weblogs.asp.net/prothman/rss.aspx" />
+    <outline title="Ian Stallings Blog" htmlUrl="http://weblogs.asp.net/jmoon" xmlUrl="http://weblogs.asp.net/jmoon/rss.aspx" />
+    <outline title="Sijin Joseph's blog" htmlUrl="http://weblogs.asp.net/sjoseph" xmlUrl="http://weblogs.asp.net/sjoseph/rss.aspx" />
+    <outline title="carlos medina Weblog" htmlUrl="http://weblogs.asp.net/cmedina" xmlUrl="http://weblogs.asp.net/cmedina/rss.aspx" />
+    <outline title="MsCorEE" htmlUrl="http://weblogs.asp.net/jgonzalez" xmlUrl="http://weblogs.asp.net/jgonzalez/rss.aspx" />
+    <outline title="Paul Speranza's .Net Life" htmlUrl="http://weblogs.asp.net/psperanza" xmlUrl="http://weblogs.asp.net/psperanza/rss.aspx" />
+    <outline title="Glavs Blog" htmlUrl="http://weblogs.asp.net/pglavich" xmlUrl="http://weblogs.asp.net/pglavich/rss.aspx" />
+    <outline title="Hannes Preishuber" htmlUrl="http://weblogs.asp.net/HPreishuber" xmlUrl="http://weblogs.asp.net/HPreishuber/rss.aspx" />
+    <outline title="Sara Williams' blog" htmlUrl="http://weblogs.asp.net/saraw" xmlUrl="http://weblogs.asp.net/saraw/rss.aspx" />
+    <outline title="Franci Penov" htmlUrl="http://weblogs.asp.net/francip" xmlUrl="http://weblogs.asp.net/francip/rss.aspx" />
+    <outline title="kavitak's WebLog" htmlUrl="http://weblogs.asp.net/kavitak" xmlUrl="http://weblogs.asp.net/kavitak/rss.aspx" />
+    <outline title="DanVDW's WebLog" htmlUrl="http://weblogs.asp.net/DanVDW" xmlUrl="http://weblogs.asp.net/DanVDW/rss.aspx" />
+    <outline title="Ken Robertson's Blog" htmlUrl="http://weblogs.asp.net/KRobertson" xmlUrl="http://weblogs.asp.net/KRobertson/rss.aspx" />
+    <outline title="Visual Studio Tools for Office" htmlUrl="http://weblogs.asp.net/vsto" xmlUrl="http://weblogs.asp.net/vsto/rss.aspx" />
+    <outline title="Sean Gephardt's WebLog" htmlUrl="http://weblogs.asp.net/SeanGep.NET" xmlUrl="http://weblogs.asp.net/SeanGep.NET/rss.aspx" />
+    <outline title="Paul Andrew" htmlUrl="http://weblogs.asp.net/PAndrew" xmlUrl="http://weblogs.asp.net/PAndrew/rss.aspx" />
+    <outline title="Steve Sharrock" htmlUrl="http://weblogs.asp.net/SSharrock" xmlUrl="http://weblogs.asp.net/SSharrock/rss.aspx" />
+    <outline title="David McDonald Blog" htmlUrl="http://weblogs.asp.net/DMcDonald" xmlUrl="http://weblogs.asp.net/DMcDonald/rss.aspx" />
+    <outline title="Keith 'StarPilot' Barrows" htmlUrl="http://weblogs.asp.net/kbarrows" xmlUrl="http://weblogs.asp.net/kbarrows/rss.aspx" />
+    <outline title="Ben Miller Blog" htmlUrl="http://weblogs.asp.net/benmiller" xmlUrl="http://weblogs.asp.net/benmiller/rss.aspx" />
+    <outline title="Ben's Blog" htmlUrl="http://weblogs.asp.net/brichardson" xmlUrl="http://weblogs.asp.net/brichardson/rss.aspx" />
+    <outline title="John Mandia" htmlUrl="http://weblogs.asp.net/JMandia" xmlUrl="http://weblogs.asp.net/JMandia/rss.aspx" />
+    <outline title="David Findley's Blog" htmlUrl="http://weblogs.asp.net/dfindley" xmlUrl="http://weblogs.asp.net/dfindley/rss.aspx" />
+    <outline title="Ted Graham's Blog" htmlUrl="http://weblogs.asp.net/tgraham" xmlUrl="http://weblogs.asp.net/tgraham/rss.aspx" />
+    <outline title="David Lemson's WebLog" htmlUrl="http://weblogs.asp.net/dlemson" xmlUrl="http://weblogs.asp.net/dlemson/rss.aspx" />
+    <outline title="Omer van Kloeten's .NET Zen" htmlUrl="http://weblogs.asp.net/OKloeten" xmlUrl="http://weblogs.asp.net/OKloeten/rss.aspx" />
+    <outline title="Adam Kinney on .NET" htmlUrl="http://weblogs.asp.net/AKinney" xmlUrl="http://weblogs.asp.net/AKinney/rss.aspx" />
+    <outline title="Jason Zander's WebLog" htmlUrl="http://weblogs.asp.net/jasonz" xmlUrl="http://weblogs.asp.net/jasonz/rss.aspx" />
+    <outline title="Florin Lazar's WebLog" htmlUrl="http://weblogs.asp.net/florinlazar" xmlUrl="http://weblogs.asp.net/florinlazar/rss.aspx" />
+    <outline title="C++ Potential" htmlUrl="http://weblogs.asp.net/branbray" xmlUrl="http://weblogs.asp.net/branbray/rss.aspx" />
+    <outline title="eWorld.UI - Matt Hawley" htmlUrl="http://weblogs.asp.net/mhawley" xmlUrl="http://weblogs.asp.net/mhawley/rss.aspx" />
+    <outline title="Stan Lippman's BLog" htmlUrl="http://weblogs.asp.net/slippman" xmlUrl="http://weblogs.asp.net/slippman/rss.aspx" />
+    <outline title="The Jeff" htmlUrl="http://weblogs.asp.net/JBerg" xmlUrl="http://weblogs.asp.net/JBerg/rss.aspx" />
+    <outline title="Rico Mariani's WebLog" htmlUrl="http://weblogs.asp.net/ricom" xmlUrl="http://weblogs.asp.net/ricom/rss.aspx" />
+    <outline title="Ryan LaNeve" htmlUrl="http://weblogs.asp.net/rlaneve" xmlUrl="http://weblogs.asp.net/rlaneve/rss.aspx" />
+    <outline title="Lovin' SQLCLR 2004" htmlUrl="http://weblogs.asp.net/scoriani" xmlUrl="http://weblogs.asp.net/scoriani/rss.aspx" />
+    <outline title="schwarz-interactive" htmlUrl="http://weblogs.asp.net/mschwarz" xmlUrl="http://weblogs.asp.net/mschwarz/rss.aspx" />
+    <outline title="The Dave Blog" htmlUrl="http://weblogs.asp.net/DGottlieb" xmlUrl="http://weblogs.asp.net/DGottlieb/rss.aspx" />
+    <outline title="Georged Weblog" htmlUrl="http://weblogs.asp.net/doubinski" xmlUrl="http://weblogs.asp.net/doubinski/rss.aspx" />
+    <outline title="Herb Sutter's Blog" htmlUrl="http://weblogs.asp.net/hsutter" xmlUrl="http://weblogs.asp.net/hsutter/rss.aspx" />
+    <outline title="&lt;font size=&quot;6&quot;&gt;Stefan Goßner&lt;/font&gt;&lt;/a&gt;&lt;/h1&gt;&lt;font size=&quot;2&quot;&gt;&lt;i&gt;Escalation Engineer for MCMS&lt;/i&gt;&lt;/font" htmlUrl="http://weblogs.asp.net/stefan_gossner" xmlUrl="http://weblogs.asp.net/stefan_gossner/rss.aspx" />
+    <outline title="Paul Stubbs " htmlUrl="http://weblogs.asp.net/pstubbs" xmlUrl="http://weblogs.asp.net/pstubbs/rss.aspx" />
+    <outline title="Brian Loomis' WebLog" htmlUrl="http://weblogs.asp.net/bloomis" xmlUrl="http://weblogs.asp.net/bloomis/rss.aspx" />
+    <outline title="The crazed ramblings of Eric King" htmlUrl="http://weblogs.asp.net/eking" xmlUrl="http://weblogs.asp.net/eking/rss.aspx" />
+    <outline title="Kartal Guner" htmlUrl="http://weblogs.asp.net/KGuner" xmlUrl="http://weblogs.asp.net/KGuner/rss.aspx" />
+    <outline title="Scott Sargent : Codeboy's Blog" htmlUrl="http://weblogs.asp.net/ssargent" xmlUrl="http://weblogs.asp.net/ssargent/rss.aspx" />
+    <outline title="ASP &amp; ASP.NET WebLog" htmlUrl="http://weblogs.asp.net/ksamaschke" xmlUrl="http://weblogs.asp.net/ksamaschke/rss.aspx" />
+    <outline title="Woodster.com .Net Web Log" htmlUrl="http://weblogs.asp.net/mwoodruff" xmlUrl="http://weblogs.asp.net/mwoodruff/rss.aspx" />
+    <outline title="Scott Weinstein's .net blog" htmlUrl="http://weblogs.asp.net/sweinstein" xmlUrl="http://weblogs.asp.net/sweinstein/rss.aspx" />
+    <outline title="Mike Harsh's Blog" htmlUrl="http://weblogs.asp.net/mharsh" xmlUrl="http://weblogs.asp.net/mharsh/rss.aspx" />
+    <outline title="BSTR blog;" htmlUrl="http://weblogs.asp.net/bcoverston" xmlUrl="http://weblogs.asp.net/bcoverston/rss.aspx" />
+    <outline title="Tom Miller" htmlUrl="http://weblogs.asp.net/tmiller" xmlUrl="http://weblogs.asp.net/tmiller/rss.aspx" />
+    <outline title="Wanta .NET ?" htmlUrl="http://weblogs.asp.net/dwanta" xmlUrl="http://weblogs.asp.net/dwanta/rss.aspx" />
+    <outline title="Raj's Online Thinking pad" htmlUrl="http://weblogs.asp.net/rmahato" xmlUrl="http://weblogs.asp.net/rmahato/rss.aspx" />
+    <outline title="MrDave's WebLog" htmlUrl="http://weblogs.asp.net/mrdave" xmlUrl="http://weblogs.asp.net/mrdave/rss.aspx" />
+    <outline title="Stephen Toub" htmlUrl="http://weblogs.asp.net/toub" xmlUrl="http://weblogs.asp.net/toub/rss.aspx" />
+    <outline title="Five Testers From VC" htmlUrl="http://weblogs.asp.net/FiveTestersFromVC" xmlUrl="http://weblogs.asp.net/FiveTestersFromVC/rss.aspx" />
+    <outline title="Gaston Milano's WebLog" htmlUrl="http://weblogs.asp.net/GMilano" xmlUrl="http://weblogs.asp.net/GMilano/rss.aspx" />
+    <outline title="Andrew Krowczyk's Blog" htmlUrl="http://weblogs.asp.net/AKrowczyk" xmlUrl="http://weblogs.asp.net/AKrowczyk/rss.aspx" />
+    <outline title="GisliO.net [MSFT]" htmlUrl="http://weblogs.asp.net/Gisli" xmlUrl="http://weblogs.asp.net/Gisli/rss.aspx" />
+    <outline title="How do you USE this darn thing????" htmlUrl="http://weblogs.asp.net/danac" xmlUrl="http://weblogs.asp.net/danac/rss.aspx" />
+    <outline title="Jonathan Cogley's Blog" htmlUrl="http://weblogs.asp.net/JCogley" xmlUrl="http://weblogs.asp.net/JCogley/rss.aspx" />
+    <outline title="Ricky Datta Blog" htmlUrl="http://weblogs.asp.net/RDatta" xmlUrl="http://weblogs.asp.net/RDatta/rss.aspx" />
+    <outline title="Models and Hacks" htmlUrl="http://weblogs.asp.net/randerson" xmlUrl="http://weblogs.asp.net/randerson/rss.aspx" />
+    <outline title="jeffdav's WebLog" htmlUrl="http://weblogs.asp.net/jeffdav" xmlUrl="http://weblogs.asp.net/jeffdav/rss.aspx" />
+    <outline title="shawnfa's WebLog" htmlUrl="http://weblogs.asp.net/shawnfa" xmlUrl="http://weblogs.asp.net/shawnfa/rss.aspx" />
+    <outline title="David Ornstein's WebLog" htmlUrl="http://weblogs.asp.net/dornstein" xmlUrl="http://weblogs.asp.net/dornstein/rss.aspx" />
+    <outline title="ChuckOp's eXPeriences" htmlUrl="http://weblogs.asp.net/ChuckOp" xmlUrl="http://weblogs.asp.net/ChuckOp/rss.aspx" />
+    <outline title="Sara Ford's WebLog" htmlUrl="http://weblogs.asp.net/saraford" xmlUrl="http://weblogs.asp.net/saraford/rss.aspx" />
+    <outline title=".NET Banana" htmlUrl="http://weblogs.asp.net/gsnowman" xmlUrl="http://weblogs.asp.net/gsnowman/rss.aspx" />
+    <outline title="Steven M. Cohn's WebLog" htmlUrl="http://weblogs.asp.net/stevencohn" xmlUrl="http://weblogs.asp.net/stevencohn/rss.aspx" />
+    <outline title="&lt;img src=&quot;http://www.asp.net/images/quickstart.gif&quot; align=left border=0&gt;Damian Barrow's Blog" htmlUrl="http://weblogs.asp.net/dbarrow" xmlUrl="http://weblogs.asp.net/dbarrow/rss.aspx" />
+    <outline title="Brian Ritchie's Blog" htmlUrl="http://weblogs.asp.net/britchie" xmlUrl="http://weblogs.asp.net/britchie/rss.aspx" />
+    <outline title="Sean Colyer's Used Code Emporium" htmlUrl="http://weblogs.asp.net/SColyer" xmlUrl="http://weblogs.asp.net/SColyer/rss.aspx" />
+    <outline title="Marco Trova's weblog" htmlUrl="http://weblogs.asp.net/mtrova" xmlUrl="http://weblogs.asp.net/mtrova/rss.aspx" />
+    <outline title="Andrew Filev" htmlUrl="http://weblogs.asp.net/afilev" xmlUrl="http://weblogs.asp.net/afilev/rss.aspx" />
+    <outline title="Brian Swiger" htmlUrl="http://weblogs.asp.net/BSwiger" xmlUrl="http://weblogs.asp.net/BSwiger/rss.aspx" />
+    <outline title="Joel Pobar's weblog" htmlUrl="http://weblogs.asp.net/joelpob" xmlUrl="http://weblogs.asp.net/joelpob/rss.aspx" />
+    <outline title="Ed Daniel's .net blog..." htmlUrl="http://weblogs.asp.net/edaniel" xmlUrl="http://weblogs.asp.net/edaniel/rss.aspx" />
+    <outline title="Daniel Bjørnbakk" htmlUrl="http://weblogs.asp.net/dbjornbakk" xmlUrl="http://weblogs.asp.net/dbjornbakk/rss.aspx" />
+    <outline title="The &quot;U&quot; Word" htmlUrl="http://weblogs.asp.net/jdzions" xmlUrl="http://weblogs.asp.net/jdzions/rss.aspx" />
+    <outline title="Conrad Agramont's WebLog" htmlUrl="http://weblogs.asp.net/conrad" xmlUrl="http://weblogs.asp.net/conrad/rss.aspx" />
+    <outline title="Srinath Vasireddy - Online journal" htmlUrl="http://weblogs.asp.net/srinathv" xmlUrl="http://weblogs.asp.net/srinathv/rss.aspx" />
+    <outline title="Ramkumar Kothandaraman's Weblog" htmlUrl="http://weblogs.asp.net/ramkoth" xmlUrl="http://weblogs.asp.net/ramkoth/rss.aspx" />
+    <outline title="darkcanuck's WebLog" htmlUrl="http://weblogs.asp.net/darkcanuck" xmlUrl="http://weblogs.asp.net/darkcanuck/rss.aspx" />
+    <outline title="Stan's WebLog" htmlUrl="http://weblogs.asp.net/sspotts" xmlUrl="http://weblogs.asp.net/sspotts/rss.aspx" />
+    <outline title="Carter Maslan" htmlUrl="http://weblogs.asp.net/jcmaslan" xmlUrl="http://weblogs.asp.net/jcmaslan/rss.aspx" />
+    <outline title="Loren Halvorson's Blog" htmlUrl="http://weblogs.asp.net/lorenh" xmlUrl="http://weblogs.asp.net/lorenh/rss.aspx" />
+    <outline title="Naive Ineffectual Issue" htmlUrl="http://weblogs.asp.net/JReese" xmlUrl="http://weblogs.asp.net/JReese/rss.aspx" />
+    <outline title="Ambrosian Scripture" htmlUrl="http://weblogs.asp.net/jambrose" xmlUrl="http://weblogs.asp.net/jambrose/rss.aspx" />
+    <outline title="WebLog!" htmlUrl="http://weblogs.asp.net/thigley" xmlUrl="http://weblogs.asp.net/thigley/rss.aspx" />
+    <outline title="I Evangelist..." htmlUrl="http://weblogs.asp.net/sworley" xmlUrl="http://weblogs.asp.net/sworley/rss.aspx" />
+    <outline title="Betsy Aoki's WebLog" htmlUrl="http://weblogs.asp.net/betsya" xmlUrl="http://weblogs.asp.net/betsya/rss.aspx" />
+    <outline title="arpande's WebLog" htmlUrl="http://weblogs.asp.net/arpande" xmlUrl="http://weblogs.asp.net/arpande/rss.aspx" />
+    <outline title="Trish Mendenhall" htmlUrl="http://weblogs.asp.net/trishm" xmlUrl="http://weblogs.asp.net/trishm/rss.aspx" />
+    <outline title="Eddie Garmon's Weblog" htmlUrl="http://weblogs.asp.net/EGarmon" xmlUrl="http://weblogs.asp.net/EGarmon/rss.aspx" />
+    <outline title="Shane Bauer" htmlUrl="http://weblogs.asp.net/SBauer" xmlUrl="http://weblogs.asp.net/SBauer/rss.aspx" />
+    <outline title="Alex Campbell" htmlUrl="http://weblogs.asp.net/ACampbell" xmlUrl="http://weblogs.asp.net/ACampbell/rss.aspx" />
+    <outline title="Scott Lock's Blog" htmlUrl="http://weblogs.asp.net/slock" xmlUrl="http://weblogs.asp.net/slock/rss.aspx" />
+    <outline title="Preachin' to the Choir" htmlUrl="http://weblogs.asp.net/sbellware" xmlUrl="http://weblogs.asp.net/sbellware/rss.aspx" />
+    <outline title="&quot;Texas Yankee&quot;" htmlUrl="http://weblogs.asp.net/sswienton" xmlUrl="http://weblogs.asp.net/sswienton/rss.aspx" />
+    <outline title="blog" htmlUrl="http://weblogs.asp.net/JMelvin" xmlUrl="http://weblogs.asp.net/JMelvin/rss.aspx" />
+    <outline title="Devin's Blog" htmlUrl="http://weblogs.asp.net/drader" xmlUrl="http://weblogs.asp.net/drader/rss.aspx" />
+    <outline title="Simon Mourier's WebLog" htmlUrl="http://weblogs.asp.net/smourier" xmlUrl="http://weblogs.asp.net/smourier/rss.aspx" />
+    <outline title="public interface IKnowNothing{}" htmlUrl="http://weblogs.asp.net/rjohnson" xmlUrl="http://weblogs.asp.net/rjohnson/rss.aspx" />
+    <outline title="ZeroSleep" htmlUrl="http://weblogs.asp.net/bclaridge" xmlUrl="http://weblogs.asp.net/bclaridge/rss.aspx" />
+    <outline title="Steve Presley" htmlUrl="http://weblogs.asp.net/spresley" xmlUrl="http://weblogs.asp.net/spresley/rss.aspx" />
+    <outline title="Antonio Cangiano's Blog" htmlUrl="http://weblogs.asp.net/ACangiano" xmlUrl="http://weblogs.asp.net/ACangiano/rss.aspx" />
+    <outline title="The World of Squee" htmlUrl="http://weblogs.asp.net/JCollins" xmlUrl="http://weblogs.asp.net/JCollins/rss.aspx" />
+    <outline title="Andreas Eide" htmlUrl="http://weblogs.asp.net/andrease" xmlUrl="http://weblogs.asp.net/andrease/rss.aspx" />
+    <outline title="juye | blog" htmlUrl="http://weblogs.asp.net/jsymons" xmlUrl="http://weblogs.asp.net/jsymons/rss.aspx" />
+    <outline title="Hendrix's Blog" htmlUrl="http://weblogs.asp.net/Htavarez" xmlUrl="http://weblogs.asp.net/Htavarez/rss.aspx" />
+    <outline title="The Giesbrecht Blog" htmlUrl="http://weblogs.asp.net/jgiesbrecht" xmlUrl="http://weblogs.asp.net/jgiesbrecht/rss.aspx" />
+    <outline title="Ben Hickman's Blog" htmlUrl="http://weblogs.asp.net/BHickman" xmlUrl="http://weblogs.asp.net/BHickman/rss.aspx" />
+    <outline title="Scott Davies' .NET WebLog" htmlUrl="http://weblogs.asp.net/scottdavies" xmlUrl="http://weblogs.asp.net/scottdavies/rss.aspx" />
+    <outline title="Tony Schreiner's WebLog" htmlUrl="http://weblogs.asp.net/tonyschr" xmlUrl="http://weblogs.asp.net/tonyschr/rss.aspx" />
+    <outline title="A View from Elsewhere" htmlUrl="http://weblogs.asp.net/johnmont" xmlUrl="http://weblogs.asp.net/johnmont/rss.aspx" />
+    <outline title="Cameron Beccario" htmlUrl="http://weblogs.asp.net/cambecc" xmlUrl="http://weblogs.asp.net/cambecc/rss.aspx" />
+    <outline title="Scott Forsyth's WebLog" htmlUrl="http://weblogs.asp.net/owscott" xmlUrl="http://weblogs.asp.net/owscott/rss.aspx" />
+    <outline title="Mike Cole's .NET Blog" htmlUrl="http://weblogs.asp.net/mikecole" xmlUrl="http://weblogs.asp.net/mikecole/rss.aspx" />
+    <outline title="Raj" htmlUrl="http://weblogs.asp.net/rajbk" xmlUrl="http://weblogs.asp.net/rajbk/rss.aspx" />
+    <outline title="Jonathan Caves Blog" htmlUrl="http://weblogs.asp.net/joncaves" xmlUrl="http://weblogs.asp.net/joncaves/rss.aspx" />
+    <outline title="Puleen Patel" htmlUrl="http://weblogs.asp.net/puleen" xmlUrl="http://weblogs.asp.net/puleen/rss.aspx" />
+    <outline title="DanVallejo's WebLog" htmlUrl="http://weblogs.asp.net/danvallejo" xmlUrl="http://weblogs.asp.net/danvallejo/rss.aspx" />
+    <outline title="James Steele" htmlUrl="http://weblogs.asp.net/jamessteele" xmlUrl="http://weblogs.asp.net/jamessteele/rss.aspx" />
+    <outline title="Erik Dibbern Röser" htmlUrl="http://weblogs.asp.net/erikdib" xmlUrl="http://weblogs.asp.net/erikdib/rss.aspx" />
+    <outline title="dangriff's WebLog" htmlUrl="http://weblogs.asp.net/dangriff" xmlUrl="http://weblogs.asp.net/dangriff/rss.aspx" />
+    <outline title="Omar Shahine's WebLog" htmlUrl="http://weblogs.asp.net/omars" xmlUrl="http://weblogs.asp.net/omars/rss.aspx" />
+    <outline title="aaron's weblog" htmlUrl="http://weblogs.asp.net/aaronbrethorst" xmlUrl="http://weblogs.asp.net/aaronbrethorst/rss.aspx" />
+    <outline title="Jeff Widmer's Blog" htmlUrl="http://weblogs.asp.net/jeffwids" xmlUrl="http://weblogs.asp.net/jeffwids/rss.aspx" />
+    <outline title="Scott's Basic Blog" htmlUrl="http://weblogs.asp.net/SStoecker" xmlUrl="http://weblogs.asp.net/SStoecker/rss.aspx" />
+    <outline title="Urs Bertschy Blog" htmlUrl="http://weblogs.asp.net/UBertschy" xmlUrl="http://weblogs.asp.net/UBertschy/rss.aspx" />
+    <outline title="Bit-cycling" htmlUrl="http://weblogs.asp.net/justsean" xmlUrl="http://weblogs.asp.net/justsean/rss.aspx" />
+    <outline title="Patrice Pelland WebLog" htmlUrl="http://weblogs.asp.net/ppelland" xmlUrl="http://weblogs.asp.net/ppelland/rss.aspx" />
+    <outline title="Nihit Kaul's WebLog" htmlUrl="http://weblogs.asp.net/nihitk" xmlUrl="http://weblogs.asp.net/nihitk/rss.aspx" />
+    <outline title="Firoz Ansari's Weblog" htmlUrl="http://weblogs.asp.net/Firoz" xmlUrl="http://weblogs.asp.net/Firoz/rss.aspx" />
+    <outline title="36 Hour Day" htmlUrl="http://weblogs.asp.net/palexander" xmlUrl="http://weblogs.asp.net/palexander/rss.aspx" />
+    <outline title="Haroon R. Malik Blog" htmlUrl="http://weblogs.asp.net/hmalik" xmlUrl="http://weblogs.asp.net/hmalik/rss.aspx" />
+    <outline title="Richard Bornost Under the Desert Moon" htmlUrl="http://weblogs.asp.net/rbornost" xmlUrl="http://weblogs.asp.net/rbornost/rss.aspx" />
+    <outline title="JKemp's .Net Blog" htmlUrl="http://weblogs.asp.net/jkemp" xmlUrl="http://weblogs.asp.net/jkemp/rss.aspx" />
+    <outline title="Joerg M. Freiberger" htmlUrl="http://weblogs.asp.net/jfreiberger" xmlUrl="http://weblogs.asp.net/jfreiberger/rss.aspx" />
+    <outline title="Jeffrey Wall's WebLog" htmlUrl="http://weblogs.asp.net/Jeffrey_Wall" xmlUrl="http://weblogs.asp.net/Jeffrey_Wall/rss.aspx" />
+    <outline title="Plip's WebLog" htmlUrl="http://weblogs.asp.net/Plip" xmlUrl="http://weblogs.asp.net/Plip/rss.aspx" />
+    <outline title="Lior Rozner Blog" htmlUrl="http://weblogs.asp.net/lrozner" xmlUrl="http://weblogs.asp.net/lrozner/rss.aspx" />
+    <outline title="Juan Esteban Suarez Blog" htmlUrl="http://weblogs.asp.net/Jsuarez" xmlUrl="http://weblogs.asp.net/Jsuarez/rss.aspx" />
+    <outline title="Michael Murray's .NET Blog" htmlUrl="http://weblogs.asp.net/Mmurray" xmlUrl="http://weblogs.asp.net/Mmurray/rss.aspx" />
+    <outline title="Sean Cull's .NET Blog" htmlUrl="http://weblogs.asp.net/scull" xmlUrl="http://weblogs.asp.net/scull/rss.aspx" />
+    <outline title="ICodeThereForeIAm" htmlUrl="http://weblogs.asp.net/Sjoshi" xmlUrl="http://weblogs.asp.net/Sjoshi/rss.aspx" />
+    <outline title="Michal Cierniak's Weblog" htmlUrl="http://weblogs.asp.net/michaljc" xmlUrl="http://weblogs.asp.net/michaljc/rss.aspx" />
+    <outline title="FxCop" htmlUrl="http://weblogs.asp.net/fxcop" xmlUrl="http://weblogs.asp.net/fxcop/rss.aspx" />
+    <outline title="Tristan Cartony Presents..." htmlUrl="http://weblogs.asp.net/tristanc" xmlUrl="http://weblogs.asp.net/tristanc/rss.aspx" />
+    <outline title="Tiago Pascoal's WebLog" htmlUrl="http://weblogs.asp.net/tspascoal" xmlUrl="http://weblogs.asp.net/tspascoal/rss.aspx" />
+    <outline title="TimSull's Blog" htmlUrl="http://weblogs.asp.net/timsull" xmlUrl="http://weblogs.asp.net/timsull/rss.aspx" />
+    <outline title="Jeremy Bostron's Blog" htmlUrl="http://weblogs.asp.net/jerbos" xmlUrl="http://weblogs.asp.net/jerbos/rss.aspx" />
+    <outline title="Jürgen writes..." htmlUrl="http://weblogs.asp.net/juergenp" xmlUrl="http://weblogs.asp.net/juergenp/rss.aspx" />
+    <outline title="Johan Lindfors's WebLog" htmlUrl="http://weblogs.asp.net/johanlindfors" xmlUrl="http://weblogs.asp.net/johanlindfors/rss.aspx" />
+    <outline title="David Hill's WebLog" htmlUrl="http://weblogs.asp.net/dphill" xmlUrl="http://weblogs.asp.net/dphill/rss.aspx" />
+    <outline title="jaybaz_MS's WebLog" htmlUrl="http://weblogs.asp.net/jaybaz_MS" xmlUrl="http://weblogs.asp.net/jaybaz_MS/rss.aspx" />
+    <outline title="Greg Schechter's Blog" htmlUrl="http://weblogs.asp.net/Greg_Schechter" xmlUrl="http://weblogs.asp.net/Greg_Schechter/rss.aspx" />
+    <outline title="JoeN's WebLog" htmlUrl="http://weblogs.asp.net/joen" xmlUrl="http://weblogs.asp.net/joen/rss.aspx" />
+    <outline title="Alex Barnett blog" htmlUrl="http://weblogs.asp.net/alexbarn" xmlUrl="http://weblogs.asp.net/alexbarn/rss.aspx" />
+    <outline title="John Bristowe's Weblog" htmlUrl="http://weblogs.asp.net/John" xmlUrl="http://weblogs.asp.net/John/rss.aspx" />
+    <outline title="Alan Shi's Fusion Weblog" htmlUrl="http://weblogs.asp.net/alanshi" xmlUrl="http://weblogs.asp.net/alanshi/rss.aspx" />
+    <outline title="samsp's WebLog" htmlUrl="http://weblogs.asp.net/samsp" xmlUrl="http://weblogs.asp.net/samsp/rss.aspx" />
+    <outline title="Alex Papadimoulis's WebLog" htmlUrl="http://weblogs.asp.net/Alex_Papadimoulis" xmlUrl="http://weblogs.asp.net/Alex_Papadimoulis/rss.aspx" />
+    <outline title="Ed Draper" htmlUrl="http://weblogs.asp.net/draper" xmlUrl="http://weblogs.asp.net/draper/rss.aspx" />
+    <outline title="Dariusz quatscht" htmlUrl="http://weblogs.asp.net/dparys" xmlUrl="http://weblogs.asp.net/dparys/rss.aspx" />
+    <outline title="markcli's WebLog" htmlUrl="http://weblogs.asp.net/markcli" xmlUrl="http://weblogs.asp.net/markcli/rss.aspx" />
+    <outline title="Jake Ashcraft's WebLog" htmlUrl="http://weblogs.asp.net/jakeashcraft" xmlUrl="http://weblogs.asp.net/jakeashcraft/rss.aspx" />
+    <outline title="Mike Polson's WebLog" htmlUrl="http://weblogs.asp.net/Mike_Polson" xmlUrl="http://weblogs.asp.net/Mike_Polson/rss.aspx" />
+    <outline title="Single Guy's Blog" htmlUrl="http://weblogs.asp.net/knotmarried" xmlUrl="http://weblogs.asp.net/knotmarried/rss.aspx" />
+    <outline title="Robert Horvick's Weblog" htmlUrl="http://weblogs.asp.net/RobertHorvick" xmlUrl="http://weblogs.asp.net/RobertHorvick/rss.aspx" />
+    <outline title="Test Monkey" htmlUrl="http://weblogs.asp.net/JArcher" xmlUrl="http://weblogs.asp.net/JArcher/rss.aspx" />
+    <outline title="CsGero's WebLog " htmlUrl="http://weblogs.asp.net/Cgero" xmlUrl="http://weblogs.asp.net/Cgero/rss.aspx" />
+    <outline title="dantib's WebLog" htmlUrl="http://weblogs.asp.net/dantib" xmlUrl="http://weblogs.asp.net/dantib/rss.aspx" />
+    <outline title="Frank Eller .blog" htmlUrl="http://weblogs.asp.net/FEller" xmlUrl="http://weblogs.asp.net/FEller/rss.aspx" />
+    <outline title="Susan Warren's Blog" htmlUrl="http://weblogs.asp.net/swarren" xmlUrl="http://weblogs.asp.net/swarren/rss.aspx" />
+    <outline title="IHuman" htmlUrl="http://weblogs.asp.net/TWeiss" xmlUrl="http://weblogs.asp.net/TWeiss/rss.aspx" />
+    <outline title="Doug King" htmlUrl="http://weblogs.asp.net/DKing" xmlUrl="http://weblogs.asp.net/DKing/rss.aspx" />
+    <outline title="JPerry - Blog of the Mundane" htmlUrl="http://weblogs.asp.net/jperry" xmlUrl="http://weblogs.asp.net/jperry/rss.aspx" />
+    <outline title="Naughton Futilities" htmlUrl="http://weblogs.asp.net/naughton" xmlUrl="http://weblogs.asp.net/naughton/rss.aspx" />
+    <outline title="Weblog of Doug Rohrer" htmlUrl="http://weblogs.asp.net/drohrer" xmlUrl="http://weblogs.asp.net/drohrer/rss.aspx" />
+    <outline title="Omid Bayani's WebLog" htmlUrl="http://weblogs.asp.net/obayani" xmlUrl="http://weblogs.asp.net/obayani/rss.aspx" />
+    <outline title=".Net will set you free!" htmlUrl="http://weblogs.asp.net/mbruce" xmlUrl="http://weblogs.asp.net/mbruce/rss.aspx" />
+    <outline title="John Stryker" htmlUrl="http://weblogs.asp.net/jstryker" xmlUrl="http://weblogs.asp.net/jstryker/rss.aspx" />
+    <outline title="Tales from the Corp" htmlUrl="http://weblogs.asp.net/tiverson" xmlUrl="http://weblogs.asp.net/tiverson/rss.aspx" />
+    <outline title="Faisal Mohamood's Blog" htmlUrl="http://weblogs.asp.net/FMohamood" xmlUrl="http://weblogs.asp.net/FMohamood/rss.aspx" />
+    <outline title="Rob Birdwell's Rarely Used .NET Blog " htmlUrl="http://weblogs.asp.net/rbirdwell" xmlUrl="http://weblogs.asp.net/rbirdwell/rss.aspx" />
+    <outline title="Michell Cronberg" htmlUrl="http://weblogs.asp.net/MCronberg" xmlUrl="http://weblogs.asp.net/MCronberg/rss.aspx" />
+    <outline title="Rob Rentz" htmlUrl="http://weblogs.asp.net/RRentz" xmlUrl="http://weblogs.asp.net/RRentz/rss.aspx" />
+    <outline title="StFisher's TabletPC Blog" htmlUrl="http://weblogs.asp.net/stfisher" xmlUrl="http://weblogs.asp.net/stfisher/rss.aspx" />
+    <outline title="ScottW's WebLog" htmlUrl="http://weblogs.asp.net/Scottw" xmlUrl="http://weblogs.asp.net/Scottw/rss.aspx" />
+    <outline title="Shane Henderson" htmlUrl="http://weblogs.asp.net/SHenderson" xmlUrl="http://weblogs.asp.net/SHenderson/rss.aspx" />
+    <outline title="itsover's WebLog" htmlUrl="http://weblogs.asp.net/itsover" xmlUrl="http://weblogs.asp.net/itsover/rss.aspx" />
+    <outline title="Zhanbo Sun's Blog" htmlUrl="http://weblogs.asp.net/zhanbos" xmlUrl="http://weblogs.asp.net/zhanbos/rss.aspx" />
+    <outline title=".What" htmlUrl="http://weblogs.asp.net/Nhustler" xmlUrl="http://weblogs.asp.net/Nhustler/rss.aspx" />
+    <outline title="Suda Bhat Blog" htmlUrl="http://weblogs.asp.net/Sbhat" xmlUrl="http://weblogs.asp.net/Sbhat/rss.aspx" />
+    <outline title="Musings by Brent" htmlUrl="http://weblogs.asp.net/BGiesler" xmlUrl="http://weblogs.asp.net/BGiesler/rss.aspx" />
+    <outline title="IndoJoe" htmlUrl="http://weblogs.asp.net/indojoe" xmlUrl="http://weblogs.asp.net/indojoe/rss.aspx" />
+    <outline title="BenL's WebLog" htmlUrl="http://weblogs.asp.net/BenL" xmlUrl="http://weblogs.asp.net/BenL/rss.aspx" />
+    <outline title="Think Fast" htmlUrl="http://weblogs.asp.net/jangr" xmlUrl="http://weblogs.asp.net/jangr/rss.aspx" />
+    <outline title="yunjin's WebLog" htmlUrl="http://weblogs.asp.net/yunjin" xmlUrl="http://weblogs.asp.net/yunjin/rss.aspx" />
+    <outline title="Peter Koen's WebLog" htmlUrl="http://weblogs.asp.net/Peter_Koen" xmlUrl="http://weblogs.asp.net/Peter_Koen/rss.aspx" />
+    <outline title="Mark Harrison - UK eBiz &amp; Portals" htmlUrl="http://weblogs.asp.net/mrharrison" xmlUrl="http://weblogs.asp.net/mrharrison/rss.aspx" />
+    <outline title="Dan Fay's WebLog" htmlUrl="http://weblogs.asp.net/dan_fay" xmlUrl="http://weblogs.asp.net/dan_fay/rss.aspx" />
+    <outline title="Koichi Nakamura's WebLog" htmlUrl="http://weblogs.asp.net/koichin" xmlUrl="http://weblogs.asp.net/koichin/rss.aspx" />
+    <outline title="Joshua Schwartzberg's WebLog" htmlUrl="http://weblogs.asp.net/dotjosh" xmlUrl="http://weblogs.asp.net/dotjosh/rss.aspx" />
+    <outline title="aarons1's WebLog" htmlUrl="http://weblogs.asp.net/aarons" xmlUrl="http://weblogs.asp.net/aarons/rss.aspx" />
+    <outline title="Windows CE .Net Graphics" htmlUrl="http://weblogs.asp.net/jsirois" xmlUrl="http://weblogs.asp.net/jsirois/rss.aspx" />
+    <outline title="lolmedo's WebLog" htmlUrl="http://weblogs.asp.net/lolmedo" xmlUrl="http://weblogs.asp.net/lolmedo/rss.aspx" />
+    <outline title="jeffknutson's WebLog" htmlUrl="http://weblogs.asp.net/jeffknutson" xmlUrl="http://weblogs.asp.net/jeffknutson/rss.aspx" />
+    <outline title="johnporcaro's WebLog" htmlUrl="http://weblogs.asp.net/johnporcaro" xmlUrl="http://weblogs.asp.net/johnporcaro/rss.aspx" />
+    <outline title="mvstanton's WebLog" htmlUrl="http://weblogs.asp.net/mvstanton" xmlUrl="http://weblogs.asp.net/mvstanton/rss.aspx" />
+    <outline title="Jeremy Epling" htmlUrl="http://weblogs.asp.net/jepling" xmlUrl="http://weblogs.asp.net/jepling/rss.aspx" />
+    <outline title="Chris McGuirk's WebLog" htmlUrl="http://weblogs.asp.net/leedgitar" xmlUrl="http://weblogs.asp.net/leedgitar/rss.aspx" />
+    <outline title="briankel's WebLog" htmlUrl="http://weblogs.asp.net/briankel" xmlUrl="http://weblogs.asp.net/briankel/rss.aspx" />
+  </body>
+</opml>

@@ -1,0 +1,2414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+		<xsd:element name="root" msdata:IsDataSet="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="metadata">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="mimetype" type="xsd:string" />
+		<xsd:attribute ref="xml:space" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="assembly">
+				 <xsd:complexType>
+		<xsd:attribute name="alias" type="xsd:string" />
+		<xsd:attribute name="name" type="xsd:string" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="data">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		<xsd:attribute ref="xml:space" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <data name="AddInGeneralFailure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>An general failure occured in AddIn '{1}':
+{0}</value>
+    <comment> AddIn failure message box.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AddInLoadFailure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading AddIn '{1}' failed:
+{0}</value>
+    <comment> AddIn failure message box	.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AddInUnloadFailure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unload AddIn '{1}' failed:
+{0}</value>
+    <comment> AddIn failure message box.
+ Parameters: 0 - error (string), 1 - addInName (string) </comment>
+  </data>
+  <data name="AppLoadStateGuiLoading" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Main Gui...</value>
+    <comment> Splash screen state message</comment>
+  </data>
+  <data name="AppLoadStateLoading" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Application...</value>
+    <comment> Splash screen state message</comment>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>[Autodiscovered]</value>
+    <comment> default title of a autodiscovered feed, if no title could be extracted from the content</comment>
+  </data>
+  <data name="CertificateIssue_CertCHAINING" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate is already a member of the trust chain.</value>
+    <comment> Certificate issue dialog detail texts</comment>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The name on the security certificate is invalid or does not match the name of the site.</value>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate caused a critical error.</value>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The issued certificate expired at {0}.</value>
+    <comment>.
+ Parameters: 0 - dateString (string) </comment>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate issuer is already a member of the trust chain.</value>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate is malformed.</value>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate caused an error: path length const.</value>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The purpose of the certificate does not match the required task.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The revocation of the certificate failed.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOKED" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate was revoked.</value>
+  </data>
+  <data name="CertificateIssue_CertROLE" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The role of the certificate is wrong.</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate has a untrusted Certification Authory (CA).</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate has a untrusted CA (Certification Authory) root.</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate has a untrusted test CA (Certification Authory) root.</value>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The validity period of the certificate is nesting.</value>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The certificate cannot be used for the required task.</value>
+  </data>
+  <data name="CertificateIssue_Unknown" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The security certificate caused a general unknown problem: '{0}'.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="CertificateIssueOnFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Information you exchange with feed '{0}' cannot be viewed or changed by other users. However, there is a problem with the feed's security certificate.</value>
+    <comment> Certificate issue dialog heading texts.
+ Parameters: 0 - feedTitle (string) </comment>
+  </data>
+  <data name="CertificateIssueOnSiteCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Information you exchange with the site '{0}' cannot be viewed or changed by other users. However, there is a problem with the site's security certificate.</value>
+    <comment>.
+ Parameters: 0 - siteUrl (string) </comment>
+  </data>
+  <data name="CmdLineCultureDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Start Application in a different language (ISO language code)</value>
+    <comment> Command line parameter descriptions</comment>
+  </data>
+  <data name="CmdLineHelpDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Prints this message</value>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Start minimized to taskbar notification area</value>
+  </data>
+  <data name="CmdLineSubscribeToDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe to the specified feed(s)</value>
+  </data>
+  <data name="CmdLineResetUIDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Will reset the user interface to the default</value>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Manage Identities</value>
+    <comment> window caption texts</comment>
+  </data>
+  <data name="ConfigNewsServerDialogCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Manage Newsgroups</value>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Collapse panel...</value>
+    <comment> displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Expand panel...</value>
+    <comment> displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="DetailHeaderCaptionWelcome" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Welcome!</value>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>There are currently no new updates available for download.</value>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>There is a new version available for download.
+Do you want to find out more?
+
+If you choose NO, you will be reminded again later.</value>
+  </data>
+  <data name="DirectoryDoesNotExistMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Specified directory does not exist</value>
+    <comment> Used in Options dialog for remote storage UNC</comment>
+  </data>
+  <data name="DragDockablePanelInfo" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Hold down CTRL to prevent docking.</value>
+    <comment> StatusBar feedback text</comment>
+  </data>
+  <data name="ExceptionCategory" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>General Failure</value>
+    <comment> Exception topic text</comment>
+  </data>
+  <data name="ExceptionDuplicateCategoryName" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sorry, but the name '{0}' seems to be already in use.</value>
+    <comment>.
+ Parameters: 0 - dupCategoryName (string) </comment>
+  </data>
+  <data name="ExceptionGeneral" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sorry, but an error occured:
+
+{0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionGeneralCritical" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>An error occurred and have been logged to file
+{0}.
+
+Please report it's content to the dev.rssbandit.org development team
+along with the following information:
+</value>
+    <comment>.
+ Parameters: 0 - logFileName (string) </comment>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>IBlogExtension (PlugIn) function '{0}' call caused an error:
+'{1}'.</value>
+    <comment>.
+ Parameters: 0 - functionName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionImportFeedlist" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>An error on import the feedlist from
+'{0}' occurs:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - importUrl (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>FTP Remote locations needs to use the 'ftp:' url scheme.</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Validation error while loading search configuration.
+Please have a look to the file at '{0}' for details about the error.</value>
+    <comment>.
+ Parameters: 0 - failureFileName (string) </comment>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Shortcut Settings File Could not be validated	Failure Message if the file is not valid XML.</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>a invalid character </value>
+    <comment> Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect a specific error message by string matching (this one) to find the message reporting a invalid character (they include the invalid char, that breaks our rendering)"</comment>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unexpected error on loading the XSLT stylesheet for feed item formatting:
+
+{0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unexpected error loading search configuration: {0}.
+Please have a look to the file at '{1}' for details about the error.</value>
+    <comment>.
+ Parameters: 0 - configFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Xslt stylesheet is invalid.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Xslt stylesheet cannot be compiled.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The selected Xslt stylesheet to format items reports this problem:
+{0}
+Detail: {1}</value>
+    <comment>.
+ Parameters: 0 - problem (string), 1 - details (string) </comment>
+  </data>
+  <data name="ExceptionNewsItemTransformation" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed item cannot be transformed to HTML.</value>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Newsgroups from '{0}' failed:
+{1}</value>
+    <comment>.
+ Parameters: 0 - serverName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide the executable file path and name, please.</value>
+    <comment> Texts used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyAuthUser" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide the proxy authentication user, please.</value>
+  </data>
+  <data name="ExceptionNoProxyUrl" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide the proxy address (IP or Host name), please.</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid path to download directory specified</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide a remote storage authentication user name, please.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide a remote storage location, please.</value>
+  </data>
+  <data name="ExceptionOpenFileMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Could not open file '{0}', because:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionPostNewFeedItem" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>An error on post a new item
+'{0}' (RSS Item link/title) occurs:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - item (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>An error on post a reply to item
+'{0}' (RSS Item link/title) occurs:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - item (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionProxyConfiguration" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid proxy configuration:
+{0}.
+
+Settings are reset to use no proxy.</value>
+    <comment> Failure messages on proxy config errors.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionProxyPortInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid proxy port.</value>
+  </data>
+  <data name="ExceptionProxyPortRange" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The specified value for proxy port is not in the valid range of 0 to 65535.</value>
+  </data>
+  <data name="ExceptionReadingFeedlistFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unexpected error on loading feedlist:
+{0}.
+
+Please have a look to the file at
+{1}
+for more details on the error occured.</value>
+    <comment>.
+ Parameters: 0 - error (string), 1 - errorFileName (string) </comment>
+  </data>
+  <data name="ExceptionRefreshRateInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid refresh rate.</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refreshing '{0}' failed (fatal error):
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refreshing '{0}' failed (XML error):
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionSaveFileMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Could not save file 
+{0}, because:
+
+{1}.</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The system reported an error while attempting to set the default aggregator:
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>There was a problem starting your configured custom executable
+'{0}':
+
+{1}.
+
+Should we open the Url
+'{2}'
+on a new Tab?</value>
+    <comment>.
+ Parameters: 0 - executableName (string), 1 - error (string), 2 - url (string) </comment>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>There was a problem starting your configured default web browser:
+
+{0}.
+
+Should we open the Url
+'{1}'
+on a new Tab?</value>
+    <comment>.
+ Parameters: 0 - error (string), 1 - url (string) </comment>
+  </data>
+  <data name="ExceptionUISettingsSave" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unexpected error on saving UI settings (.settings.xml):
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unexpected error on saving Web search engine settings:
+
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The system reported an error while attempting to play enclosure:
+
+{0}
+
+Error:{1}.</value>
+    <comment>.
+ Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cannot switch application culture to '{0}':
+
+Error:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureDownloadError" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Download Failure</value>
+  </data>
+  <data name="FeedDefaultCategory" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>[Unclassified Feeds]</value>
+    <comment> name for the default category (used in dropdown boxes)</comment>
+  </data>
+  <data name="FeedDetailDocumentTabCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Details</value>
+    <comment> Document Tab Caption</comment>
+  </data>
+  <data name="FeedListNoChildsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No child items...</value>
+    <comment> Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Deleted Items</value>
+    <comment> SmartNode captions/descr.</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of deleted items</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Errors</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of feed errors caused by subscribed feeds</value>
+  </data>
+  <data name="FeedNodeFinderRootCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search Folders</value>
+    <comment> Searches Root Node caption</comment>
+  </data>
+  <data name="FeedNodeFinderRootDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of persistent search feeds</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Flagged Items</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of flagged feeds</value>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Items For Follow Up</value>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Items For Forward</value>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Items For Read</value>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Items For Reply</value>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Items For Review</value>
+  </data>
+  <data name="FeedNodeMyFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>My Feeds</value>
+    <comment> Root Node caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of subscribed feeds</value>
+  </data>
+  <data name="FeedNodeSentItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sent Items</value>
+    <comment> Special local feed for sent items</comment>
+  </data>
+  <data name="FeedNodeSentItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of sent items (reply)</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Watched Items</value>
+    <comment> Special local feed for watched items</comment>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of watched items</value>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unread Items</value>
+    <comment> Special local feed for unread items</comment>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of unread items</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Special Feeds</value>
+    <comment> Special local feeds root node</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Container of special feeds</value>
+  </data>
+  <data name="FileDialogFilterAllFiles" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>All Files</value>
+    <comment> Texts used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterOPMLFiles" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>OPML Files</value>
+  </data>
+  <data name="FileDialogFilterXMLFiles" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>XML Files</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select or create a folder to store downloaded attachments</value>
+    <comment> Text in the browse for folder dialog</comment>
+  </data>
+  <data name="FormatExceptionProxyPort" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Proxy port is not a number.</value>
+    <comment> Validation error messages (used by errorProvider)</comment>
+  </data>
+  <data name="FormatExceptionRefreshRate" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh rate is not a number.</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide a search url, please</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide a search caption, please</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Missing the '{0}' parameter specification</value>
+    <comment>.
+ Parameters: 0 - parameter (string) </comment>
+  </data>
+  <data name="GeneralNewItemText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>[New]</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>[New {0}]</value>
+    <comment>.
+ Parameters: 0 - counter (int) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The data cache location
+
+{0}
+
+seems to be a child of the old cache, so old cache folder cannot be automatically moved.
+Will continue using the old cache folder...</value>
+    <comment>.
+ Parameters: 0 - folderName (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cannot move the old cache folder to new data cache location at
+
+{0}
+
+An error was reported:
+{1}
+
+Will continue using the old cache folder...</value>
+    <comment>.
+ Parameters: 0 - folderName (string), 1 - exception (string) </comment>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Autodiscover feeds failed</value>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Blank Field Detected</value>
+  </data>
+  <data name="GUICurrentConnectionState_Info" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Current internet connection state...</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Error occurs</value>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Error on request comments feed: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feedlist download failed with error:
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feedlist upload failed with error:
+{0}.</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUILoadFileOperationExceptionMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUISaveFileOperationExceptionMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Saving of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUIUserInfoAboutDefaultTreeState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+  <data name="GUIFieldKeywordsInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No Keyword(s) specified</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You are already subscribed to this feed.
+	Category/Name: {0}
+	Link: {1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - dupLink (string) </comment>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Neither the link nor title for the RSS feed can be blank!</value>
+  </data>
+  <data name="GUIFieldTitleInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The title for the category cannot be blank!</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No Web Page URL specified</value>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Newsgroups failed</value>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No Feed Item selected.</value>
+  </data>
+  <data name="GUIStatusBusyRefresh" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Busy, refresh...</value>
+    <comment> also displayed as a tooltip</comment>
+  </data>
+  <data name="GUIStatusChildItemsNA" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unable to load child items, you are disconnected.</value>
+  </data>
+  <data name="GUIStatusDone" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Done</value>
+    <comment> GUI status info</comment>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Action cancelled. Title cannot be left blank.</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Action cancelled. Feed '{0}' generates an error: 
+{1}.</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid Feed.</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Validation error while loading search configuration list</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Feed failed: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Error while loading search configuration</value>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Error on loading feedlist file.</value>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Received: 1 file</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Received: {0} item(s)</value>
+    <comment>.
+ Parameters: 0 - itemCount (int) </comment>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} Feed(s) Updated.</value>
+    <comment>.
+ Parameters: 0 - feedCount (int) </comment>
+  </data>
+  <data name="GUIStatusIdle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Idle</value>
+    <comment> also displayed as a Tooltip on the tray icon</comment>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Not Found</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sorry, no Feed could be located.</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading, please wait...</value>
+  </data>
+  <data name="GUIStatusLoadingFeed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading...</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading feedlist...</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Feed Items received...</value>
+    <comment> also displayed as a tooltip</comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} feed(s) with {1} new message(s)</value>
+    <comment> also displayed as a tooltip.
+ Parameters: 0 - feedsCount (int), 1 - itemsCount (int) </comment>
+  </data>
+  <data name="GUIStatusNoFeedlistFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No feed list.</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No Feed Updates.</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No more unread Feed Items.</value>
+  </data>
+  <data name="GUIStatusPostNewFeedItem" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Post the new item, please wait...</value>
+  </data>
+  <data name="GUIStatusPostReplyToItem" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Post the reply, please wait...</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Check current internet connection state...</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refreshing Feeds...</value>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refreshing: {0} ...</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Requesting comment feed, please wait...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Unread feed items available...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} unread Feed Item(s) left.</value>
+    <comment>.
+ Parameters: 0 - unreadItemsCount (string) </comment>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Validation error on loading feed list.</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Locating feeds for page:
+{0}</value>
+    <comment>.
+ Parameters: 0 - location (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Locating feeds containing keyword(s):
+{0}</value>
+    <comment>.
+ Parameters: 0 - keyWords (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Downloading feedlist ({0}), please wait...</value>
+    <comment>.
+ Parameters: 0 - feedListName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Requesting feed:
+{0}</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Requesting file:
+{0}</value>
+    <comment>.
+ Parameters: 0 - fileName (string) </comment>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Uploading feedlist ({0}), please wait...</value>
+    <comment>.
+ Parameters: 0 - feedListName (string) </comment>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe in RSS Bandit</value>
+    <comment> Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe in default feed reader</value>
+    <comment> Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid Feed File</value>
+    <comment> Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+  </data>
+  <data name="InvalidFeedlistFileMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The feed file was invalid. Please have a look to the file at
+'{0}'
+for detailed information about the error occured.</value>
+    <comment>.
+ Parameters: 0 - errorFileName (string) </comment>
+  </data>
+  <data name="InvalidFeedURIBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid URL</value>
+    <comment> Caption of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="InvalidFeedURIBoxText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The specified URL for the new feed is not a valid URL</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web service Url:</value>
+    <comment> Dynamic label texts (Preferences, remote storage)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You can store your subscribed feeds as blogroll.opml if you are a user of dasBlog (http://www.dasblog.net). The storage service URL should be http://yourblog.com/dasblog/ConfigEditingService.asmx and you should enable the Configuration Editing service in dasBlog.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Directory path:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You can store your application state as rssbandit-state.zip on a local or network file share. Provide the directory path such as '\\yournetworkshare\feedlist\' or 'H:\'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>FTP server/path:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You can store your application state as rssbandit-state.zip using an FTP server. Provide the name of the FTP server and path such as 'ftp://yourserver.com:7788/feedlistfolder/'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Location:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You can synchronize your application state with your subscribed feeds on Newsgator Online. To sign up for Newsgator Online go to http://www.newsgator.com</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>WebDAV folder Url:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You can store your application state as rssbandit-state.zip within a WebDAV folder. The storage service URL should point to a WebDAV folder, e. g. 'http://mywebdav.com/personal/' and you should be able to save and read files there.</value>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Comments</value>
+    <comment> Column captions within listview</comment>
+  </data>
+  <data name="ListviewColumnCaptionCreator" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Author</value>
+  </data>
+  <data name="ListviewColumnCaptionDate" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Date</value>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Attachments</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Description</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Title</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Url</value>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Flag</value>
+  </data>
+  <data name="ListviewColumnCaptionHeadline" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Headline</value>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Site Url</value>
+  </data>
+  <data name="ListviewColumnCaptionTopic" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Topic</value>
+  </data>
+  <data name="MainMenuEditCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Edit</value>
+    <comment> Caption/Desc. within main/context menus/toolbar buttons</comment>
+  </data>
+  <data name="MainMenuEditDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Edit control commands</value>
+  </data>
+  <data name="MainMenuFileCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;File</value>
+  </data>
+  <data name="MainMenuFileDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>File commands menu</value>
+  </data>
+  <data name="MainMenuHelpCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MainMenuHelpDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Help links and infos...</value>
+  </data>
+  <data name="MainMenuSearchCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Search</value>
+  </data>
+  <data name="MainMenuSearchDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Seb search configuration commands</value>
+  </data>
+  <data name="MainMenuToolsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="MainMenuToolsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Tool commands</value>
+  </data>
+  <data name="MainMenuViewCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;View</value>
+  </data>
+  <data name="MainMenuViewDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>View control commands</value>
+  </data>
+  <data name="MenuAboutCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;About...</value>
+  </data>
+  <data name="MenuAboutDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide informations about this application</value>
+  </data>
+  <data name="MenuSendLogsByMailCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Send Log Files by mail...</value>
+    <comment> Improve the Bandit</comment>
+  </data>
+  <data name="MenuSendLogsByMailDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Will send a mail with log files for failure analyzis</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>This Feed</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Advanced/More Feed Info...</value>
+  </data>
+  <data name="MenuAppCloseExitCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="MenuAppCloseExitDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Close and Exit this Application</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Work &amp;Offline</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggle the Internet Connection Mode</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>[Working Offline]</value>
+    <comment> Caption Postfix on the main window</comment>
+  </data>
+  <data name="MenuAppOptionsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Options...</value>
+  </data>
+  <data name="MenuAppOptionsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the application options dialog...</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Discovered Feeds</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display all discovered feeds from visited websites...</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Locate Feed</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Locate the RSS Feed for a particular website or topic</value>
+  </data>
+  <data name="MenuBanditForumCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Visit RSS Bandit &amp;Forums...</value>
+  </data>
+  <data name="MenuBanditForumDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Discuss any related theme...</value>
+  </data>
+  <data name="MenuBanditWikiCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Visit RSS Bandit &amp;Homepage...</value>
+  </data>
+  <data name="MenuBanditWikiDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Read News, suggest new features, FAQ and more...</value>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Go</value>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate to specified Url...</value>
+  </data>
+  <data name="MenuBrowserNavigateBackCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Back</value>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate back in history...</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Stop</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cancel navigation...</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Url</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Address to navigate to...</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Forward</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate forward...</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Open in default Web Browser</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Open the link in the default Web Browser Application...</value>
+  </data>
+  <data name="MenuBrowserNewTabCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuBrowserNewTabDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create a new Browser Tab...</value>
+  </data>
+  <data name="MenuBrowserRefreshCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh</value>
+  </data>
+  <data name="MenuBrowserRefreshDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh...</value>
+  </data>
+  <data name="MenuBugReportCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Report a Bug (Sourceforge)...</value>
+  </data>
+  <data name="MenuBugReportDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Enables you to report a bug for this application on Sourceforge.net</value>
+  </data>
+  <data name="MenuCatchUpCategoryCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark All Items In Category As Read</value>
+  </data>
+  <data name="MenuCatchUpCategoryDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark all feeds within this category read...</value>
+  </data>
+  <data name="MenuCatchUpOnAllCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark All Items As Read</value>
+  </data>
+  <data name="MenuCatchUpOnAllDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark All Items As Read</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark as read</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark all feed items as read on the selected subscription node in the tree view...</value>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark All Items As Read</value>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark all feed items as read...</value>
+  </data>
+  <data name="MenuCheckForUpdatesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Check for updates...</value>
+  </data>
+  <data name="MenuCheckForUpdatesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Check for program updates</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Clear discovered feeds list</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Clear all discovered feeds displayed below...</value>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Author</value>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the author column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Column Layout</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Comment Count</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the comment counter column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserDateCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Date</value>
+  </data>
+  <data name="MenuColumnChooserDateDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the date column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Manage displayed columns and layout...</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Enclosure State</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the enclosure state column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Subscription Title</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the subscription title column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserFlagCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Flag State</value>
+  </data>
+  <data name="MenuColumnChooserFlagDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the flag state column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reset layout to default	</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Layout will be removed from the selected subscription node...</value>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Topic</value>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the subject (category, topic) column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserTitleCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Headline</value>
+  </data>
+  <data name="MenuColumnChooserTitleDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the headline (title) column of a news item...</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Use layout as default for categories</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Layout will be valid for all category nodes without an individual assigned layout...</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Use layout as default for feeds	</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Layout will be valid for all feed nodes without an individual assigned layout...</value>
+  </data>
+  <data name="MenuConfigCommandCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Configure...</value>
+  </data>
+  <data name="MenuCopyFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy</value>
+  </data>
+  <data name="MenuCopyFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy fields of the selected Feed to...</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Homepage with it's title as Link to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy Feed Homepage with it's title as Link of the current selected RSS Feed to the clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Homepage as Link to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy the feed Homepage as a link of the current selected Feed to the clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item Content to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy the Content of the current selected Feed Item to the clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy fields of an Feed Item to...</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item Link to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy the Link of the current selected Feed Item to the clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item Title as Link to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy the Title as a Link of the current selected RSS Item to the clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Link to Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Copy the Feedlink of the current selected feed node to the clipboard...</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete all items</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Removes all contained items...</value>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete All Feeds</value>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete All feeds...</value>
+  </data>
+  <data name="MenuDeleteCategoryCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete Category</value>
+  </data>
+  <data name="MenuDeleteCategoryDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Deletes this category and the containing feeds...</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete	</value>
+    <comment> Caption within context menu, was formerly "Delete selected items"</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Deletes all selected items...</value>
+  </data>
+  <data name="MenuDeleteThisFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete Feed</value>
+  </data>
+  <data name="MenuDeleteThisFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Deletes this feed...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Close all documents</value>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Closes all document tabs on all strips...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Close all documents on strip</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Closes the document tabs on the selected strip...</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Close document</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Closes the current selected document tab...</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Horizontal split layout</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>If checked, splitted doc tabs can be of horizontal layout...</value>
+  </data>
+  <data name="MenuDonateToProjectCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Donate...</value>
+  </data>
+  <data name="MenuDonateToProjectDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigates to an Url where you can support the project...</value>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Search For</value>
+  </data>
+  <data name="MenuDoSearchComboBoxDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Word(s) to search the web...</value>
+  </data>
+  <data name="MenuDoSearchWebCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search the Web</value>
+  </data>
+  <data name="MenuDoSearchWebDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search the phrase on the web...</value>
+  </data>
+  <data name="MenuDownloadAttachmentCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Download Attachment</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Download the item's enclosure files to the specified Podcasts folder</value>
+  </data>
+  <data name="MenuDownloadFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Download Feeds...	</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Download feed list from remote storage.	</value>
+  </data>
+  <data name="MenuExportFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Export Feeds...</value>
+  </data>
+  <data name="MenuExportFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Export the feed list...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reading Pane at Top</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed items list at bottom, content at top...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Reading Pane Position</value>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details layout...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reading Pane on Right</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed items list at left, content right...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reading Pane on Left</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed items list at right, content left...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reading Pane at Bottom</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed items list at top, content below...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Post reply...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Post a reply to this feed item...</value>
+  </data>
+  <data name="MenuFinderDeleteAllCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete All</value>
+  </data>
+  <data name="MenuFinderDeleteAllDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete all the search folders below the selected node...</value>
+  </data>
+  <data name="MenuFinderDeleteCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete</value>
+  </data>
+  <data name="MenuFinderDeleteDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete the selected search folder...</value>
+  </data>
+  <data name="MenuFinderRenameCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename Search Folder</value>
+  </data>
+  <data name="MenuFinderRenameDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename selected Search Folder</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show excerpts in search results</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles between summary and full item texts</value>
+  </data>
+  <data name="MenuFlagFeedItemCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Flag item</value>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Clear</value>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Remove the selected feed item(s) from the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Complete</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Flag as complete and removes the selected feed item(s) from the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Follow Up</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Forward</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Read</value>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reply</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Review</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>IBlogExtension (PlugIn) command	</value>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>IBlogExtension (PlugIn) configuration</value>
+  </data>
+  <data name="MenuImportFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Import Feeds...</value>
+  </data>
+  <data name="MenuImportFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Import a feed list (.xml, .ocs or .opml)</value>
+  </data>
+  <data name="MenuListViewSelectAllCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select &amp;All</value>
+  </data>
+  <data name="MenuListViewSelectAllDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select all items of the news item list panel</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark as &amp;unread</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark the selected feed items unread...</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Homepage</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate to Feed Homepage...</value>
+  </data>
+  <data name="MenuNewCategoryCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New &amp;Category</value>
+  </data>
+  <data name="MenuNewCategoryDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add a new category to group feeds</value>
+  </data>
+  <data name="MenuNewCmdsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;New...</value>
+    <comment> Caption for the 'new' command toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewCmdsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create new subscriptions</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Search Results Subscription...</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Find a feed or subscribe to a search result feed</value>
+  </data>
+  <data name="MenuTopStoriesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Top Stories</value>
+    <comment> Top Stories related</comment>
+  </data>
+  <data name="MenuTopStoriesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>View the most recently popular links in your subscriptions</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="ProcessTopStoriesEntertainmentWaitMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Determining Top Stories, please wait...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="TopStoriesHtmlPageTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+  <data name="TopStoriesHtmlDiscussionSectionTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Discussion:</value>
+  </data>
+  <data name="MenuNewFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Feed Subscription...</value>
+  </data>
+  <data name="MenuNewFeedCaption2" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;New Feed Subscription...	</value>
+  </data>
+  <data name="MenuNewFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe to a new feed	</value>
+  </data>
+  <data name="MenuNewFinderCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Search Folder</value>
+  </data>
+  <data name="MenuNewFinderDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create a new search folder...</value>
+  </data>
+  <data name="MenuNewNntpFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Newsgroup Subscription...</value>
+  </data>
+  <data name="MenuNewNntpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe to a new feed</value>
+  </data>
+  <data name="MenuNewRssSearchCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search</value>
+  </data>
+  <data name="MenuNewRssSearchDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search locally for items...</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;New Subscription...</value>
+    <comment> Caption within menu to call the subscription wizard</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create new subscriptions by the help of a wizard</value>
+  </data>
+  <data name="MenuNextUnreadItemCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Next Unread Item</value>
+  </data>
+  <data name="MenuNextUnreadItemDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Move to the next unread feed item...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Manage Identities...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Opens a dialog to manage identities...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Newsgroups...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Opens a dialog to manage NNTP servers and newsgroups...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Add-Ins...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the application Add-In management dialog...</value>
+  </data>
+  <data name="MenuPostNewFeedItemCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Post</value>
+    <comment> Toolbar button capt./descr. (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="MenuPostNewFeedItemDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create a new post to send to the selected feed</value>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Post reply...</value>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Post a reply to this feed item...</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Watch Comments</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Be notified of new comments to this entry</value>
+  </data>
+  <data name="MenuRefreshFinderCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh Search</value>
+  </data>
+  <data name="MenuRefreshFinderDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refreshes the search results in the search folder...</value>
+  </data>
+  <data name="MenuRenameCaptionDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename this search folder...</value>
+  </data>
+  <data name="MenuRenameCategoryCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename Category</value>
+  </data>
+  <data name="MenuRenameCategoryDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename this category...</value>
+  </data>
+  <data name="MenuRenameThisFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Re&amp;name Feed</value>
+  </data>
+  <data name="MenuRenameThisFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Rename this feed...</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Restore</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Restores all selected items...</value>
+  </data>
+  <data name="MenuShowAlertWindowsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Feed Alert Windows</value>
+  </data>
+  <data name="MenuShowAlertWindowsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Control the display of the configured alert window notifications...</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Always</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display alert window notifications on all new received posts...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Properties...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the Category properties dialog...</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>As configured per feed</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display alert window notifications as configured per feed...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Properties...	</value>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the Feed properties dialog...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Properties...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the Find properties dialog...</value>
+  </data>
+  <data name="MenuShowLinkCosmosCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Link Cosmos</value>
+  </data>
+  <data name="MenuShowLinkCosmosDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate to Technorati and view Feed's link cosmos...</value>
+  </data>
+  <data name="MenuShowMainGuiCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Open RSS Bandit</value>
+  </data>
+  <data name="MenuShowMainGuiDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Re-display/open the RSS Bandit Main Window...</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show New Items Desktop Alert</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Control the display of the balloon alert notification about new received items...</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Never</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display no alert window notifications at all...	Description within context menu</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribe...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Display the new feed dialog to subscribe to the finder result...</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Search</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the RSS Search panel.</value>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Feed Subscriptions</value>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the feedlist tree panel.</value>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Update &amp;All Feeds</value>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Initiate an update of all feeds...</value>
+  </data>
+  <data name="MenuUpdateCategoryCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Update Category</value>
+  </data>
+  <data name="MenuUpdateCategoryDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh all feeds within this category...</value>
+  </data>
+  <data name="MenuUpdateThisFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Update Feed</value>
+  </data>
+  <data name="MenuUpdateThisFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh/Update this feed...</value>
+  </data>
+  <data name="MenuUploadFeedsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Upload Feeds...</value>
+  </data>
+  <data name="MenuUploadFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Upload feed list to remote storage.	</value>
+  </data>
+  <data name="MenuValidateFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Validate</value>
+  </data>
+  <data name="MenuValidateFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Validate the source of this feed (link)...</value>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>View Source</value>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>View the source of this feed...</value>
+  </data>
+  <data name="MenuViewToolbarMainCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Standard</value>
+  </data>
+  <data name="MenuViewToolbarMainDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the standard toolbar.</value>
+  </data>
+  <data name="MenuViewToolbarsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Toolbars</value>
+  </data>
+  <data name="MenuViewToolbarsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the various toolbars.</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Navigation</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the web navigation toolbar.</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Search</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toggles the view state of the web search toolbar.</value>
+  </data>
+  <data name="MenuWebHelpCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Online Documentation</value>
+  </data>
+  <data name="MenuWebHelpDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Get help about the application, getting started, FAQ, etc.</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Tab for Results</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Search Results should be displayed on new Tab(s)...</value>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Check this entry, to include it within the simultaneous search...</value>
+  </data>
+  <data name="MenuWorkspaceNewsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Display news (Sourceforge)...</value>
+  </data>
+  <data name="MenuWorkspaceNewsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Read latest news about this application on Sourceforge.net</value>
+  </data>
+  <data name="MenuViewOutlookReadingPane" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Show Items in Groups</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete this category and all contained categories/feeds?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete All feeds?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete all search folders?</value>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete all items?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete this feed subscription?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Do you really want to delete this search folder?</value>
+  </data>
+  <data name="NameRequiredInPostReplyMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You must provide a name when posting a reply</value>
+  </data>
+  <data name="NewPostToFeedFormCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Post to Feed: {0}</value>
+    <comment> New Post to a Feed Form Caption.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Loading Newsgroups. This can take a few moments, ...</value>
+    <comment> Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Advanced Settings</value>
+    <comment> NNTP Server Configuration Settings Node captions</comment>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>General Settings</value>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Server Settings</value>
+  </data>
+  <data name="NotYetImplementedFeature_Info" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sorry, but this feature is not yet implemented.</value>
+  </data>
+  <data name="OverflowExceptionRefreshRate" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The specified value for refresh rate is too high.</value>
+  </data>
+  <data name="PostReplyFormCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Post Reply - Feed: {0}</value>
+    <comment>.
+ Parameters: 0 - feedName (string) </comment>
+  </data>
+  <data name="PostReplySentIdentityInfoText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>user-name: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+    <comment> Post reply identity infos about properties we provide to the receiver.
+ Parameters: 0 - userName (string), 1 - eMail (string), 2 - referrerUrl (string) </comment>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&lt;none&gt;</value>
+    <comment> Post reply identity info displayed for an empty property</comment>
+  </data>
+  <data name="PostReplyTitlePrefix" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Re: {0}</value>
+    <comment> Post reply prefix to a Feed Item Title caption.
+ Parameters: 0 - subject (string) </comment>
+  </data>
+  <data name="PreferencesExceptionMessageTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Preferences setting exception</value>
+  </data>
+  <data name="ProtocolViolationExceptionCategory" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Protocol Violation Exception</value>
+    <comment> Category name displayed for refresh feed exceptions (listview)</comment>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The Feed was generated by '{0}'.</value>
+    <comment> Parts of the error text displayed for refresh feed exceptions.
+ Parameters: 0 - generator (string) </comment>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Contact information(s):	</value>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Homepage</value>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Managing Editor</value>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Refresh feed '&lt;strong&gt;{0}&lt;/strong&gt;' failed with error: {1}</value>
+    <comment>.
+ Parameters: 0 - feedName (string), 1 - error (string) </comment>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Click here to &lt;strong&gt;validate&lt;/strong&gt; the feed.</value>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Master</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionIntroText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>What do you want to do now?</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionNavigateToSubscription" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Navigate to the subscription...</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionDeleteSubscription" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Remove this subscription...</value>
+  </data>
+  <data name="RemoteStorageDownload_Question" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>This will replace your local feed list with one downloaded
+from the service configured using the Remote Storage tab of the Options dialog.
+
+Proceed?</value>
+  </data>
+  <data name="RemoteStorageFeature_Info" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>You must configure Remote Storage through the Options dialog before you can use this command.</value>
+  </data>
+  <data name="RemoteStorageUpload_Question" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>This will upload your feed list to the service
+configured using the Remote Storage tab of the Options dialog.
+
+Proceed?</value>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed list successfully uploaded.</value>
+  </data>
+  <data name="RssSearchCancelledStateMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search cancel in progress, ...</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cancel</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Press to cancel the current search...</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Press to start the defined search...</value>
+  </data>
+  <data name="RssSearchNoResultMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>No items found.</value>
+  </data>
+  <data name="RssSearchResultNodeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search result</value>
+    <comment> Search Result Node caption</comment>
+  </data>
+  <data name="RssSearchStateMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Searching, ...</value>
+  </data>
+  <data name="RssSearchSuccessResultMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} item(s) found.</value>
+    <comment>.
+ Parameters: 0 - foundItemsCount (int) </comment>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Find all posts that contain words or phrases that match a regular expression.</value>
+  </data>
+  <data name="RssSearchTypeTextHintCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Find all posts containing the specific word or phrase.</value>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Find all posts who's RSS 2.0 representation matches the specified XPath.</value>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>To apply this functionality the application needs write access rights
+to this Windows registry key: '{0}'.
+
+To get it work, please start the application from within the Windows File Explorer
+by selecting 'Run as...' from the context menu displayed on a Right-Click to the executable.
+Then choose the local Administrator account to run the application and try again.
+
+The administrative rights are only needed to apply the requested functionality.
+It is not required to have them each time you run the application.
+Sorry for the inconvenience.</value>
+    <comment>.
+ Parameters: 0 - regKey (string) </comment>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Subscribed feeds: {0}</value>
+    <comment> Display the overall subscribed feeds count.
+ Parameters: 0 - feedsCount (int) </comment>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Selection contains {0} items</value>
+    <comment> Display the overall items per selection count.
+ Parameters: 0 - selectionCount (int) </comment>
+  </data>
+  <data name="Syndic8FeedSearchTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Syndic8 Service</value>
+    <comment> syndic8.com Feed search service caption</comment>
+  </data>
+  <data name="TabFeedHomeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Home: {0}</value>
+    <comment> Tab caption of the feed home page (Webpage).
+ Parameters: 0 - home (string) </comment>
+  </data>
+  <data name="TabFeedSourceCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Source: {0}</value>
+    <comment> Tab caption of the feed source view (Xml Webpage).
+ Parameters: 0 - source (string) </comment>
+  </data>
+  <data name="TabLinkCosmosCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Link Cosmos: {0}</value>
+    <comment> Tab caption of the feed's technorati link cosmos (Webpage).
+ Parameters: 0 - cosmos (string) </comment>
+  </data>
+  <data name="TabValidationResultCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Validation Result</value>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add or Remove Buttons</value>
+    <comment> Toolbar chevron dropdown menu caption</comment>
+  </data>
+  <data name="ToolbarOptionsCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Toolbar Options</value>
+    <comment> Toolbar chevron dropdown menu tip</comment>
+  </data>
+  <data name="UpgradeFeedlistInfoText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>The current version of {0} supports new program features or bugfixes, that
+requires a change of your feedlist file format.
+To keep your older versions running, the application will try to create a new feedlist file from your current list.
+
+The old file will be left untouched.
+
+Do you want to continue?</value>
+    <comment> Info text used to inform a user about a feedlist file format change.
+ Parameters: 0 - appName (string) </comment>
+  </data>
+  <data name="UpgradeInfoBoxCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Upgrade Information</value>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Checking for new updates...</value>
+  </data>
+  <data name="WebExceptionCategory" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Failure</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Request of URL {0} failed:
+{1}	</value>
+    <comment>.
+ Parameters: 0 - url (string), 1 - error (string) </comment>
+  </data>
+  <data name="WindowAboutCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>About {0}</value>
+    <comment>.
+ Parameters: 0 - productName (string) </comment>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Go back to change the keyword(s) or click Cancel</value>
+    <comment> Subscription wizard tasks/infos</comment>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Go back to change the URL or click Cancel</value>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Get the web feed title...</value>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Invalid web feed.	</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Prefetch web feed cancelled.</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Prefetch web feed failed.</value>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search cancelled.</value>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search failed.</value>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Searching...</value>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} Web feed(s) found.</value>
+    <comment>.
+ Parameters: 0 - foundFeedsCount (int) </comment>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web feed retrieved.</value>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Verifying URL...</value>
+  </data>
+  <data name="WrongImageSizeMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Image is not of size 16x16 pixel.</value>
+  </data>
+  <data name="XmlExceptionCategory" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Xml Failure</value>
+  </data>
+  <data name="XsltDefaultTemplate_Previous" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Previous</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_Next" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Next</value>
+  </data>
+  <data name="XsltDefaultTemplate_Displaying_page" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Displaying page</value>
+  </data>
+  <data name="XsltDefaultTemplate_of" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>of</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Publisher</value>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Related Links</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Author</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>posted at</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Enclosure</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Mark read or unread</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Set or clear flag</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Watch or stop watching comments</value>
+  </data>
+  <data name="URL_BugReport" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+    <comment> some urls as fallback if invalid or missing in .config</comment>
+  </data>
+  <data name="URL_FeedLinkCosmosUrlBase" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+  </data>
+  <data name="URL_FeedValidationBase" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://www.feedvalidator.org/check?url=</value>
+  </data>
+  <data name="URL_ProjectDonation" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+  </data>
+  <data name="URL_ProjectDownload" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+  </data>
+  <data name="URL_ProjectNews" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://sourceforge.net/news/?group_id=96589</value>
+  </data>
+  <data name="URL_UserForum" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://www.rssbandit.org/forum/</value>
+  </data>
+  <data name="URL_WebHelp" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://www.rssbandit.org/docs/</value>
+  </data>
+  <data name="URL_WikiWebNews" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>http://www.rssbandit.org/</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Accept all changes and close</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Dismiss any changes and close</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Option requires higher user privileges (Administrator)...</value>
+  </data>
+  <data name="PodcastOptionDialog_Title" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Podcast Options</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>General</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Treat these file types as podcasts - use semicolons (';') to separate entries:</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>List of podcast file extensions separated by semicolons</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>After downloading copy the podcast to:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Destination folder of podcasts</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Click to select the destination folder of podcasts</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Windows Media Player playlist</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>iTunes playlist</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>This folder:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Playlist</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>As playlist name:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Use the file's source name</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Use the Feed name</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add all files to a single playlist with this name:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Provide the name of the playlist</value>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Main Menu Bar</value>
+    <comment> Main Form control captions</comment>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Main Application Tools</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Browser Tools</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search Tools</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Menu</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>File</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Edit</value>
+  </data>
+  <data name="MainForm_ToolCategoryView" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>View</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Tools</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Help</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Browse</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Type a URL to browse to</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Subscriptions</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Web Browser status...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Request page progress...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Network connection state...</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>RSS Engine state...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Welcome!</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Feed Discovered</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Item(s) Received</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>New Attachment Downloaded</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Sorry, failed to display Windows Control Panel to configure System and Application Sounds:
+
+{0}
+
+Please try to open the Panel manually using the Control Panel Start Menu.</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Save</value>
+    <comment> SearchPanel control</comment>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item &amp;Link</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Top&amp;ic</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Description</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Title</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Check all the fields you want searched</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item &amp;posted</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Item &amp;Age</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Newer than</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAgeOlderThan_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Older than</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Read Status</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Unread Posts</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Reset Search</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Cancel</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>&amp;Save This Search As</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search &amp;Fields</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Advanced &amp;Options</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Search Scope</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>at</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>before</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>after</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>between</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>1 hour</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} hours</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>1 day</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} days</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>1 month</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} months</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>1 quarter</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} quarters</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>1 year</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>{0} years</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Main Tools</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add Identity</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Create a new identity...</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add News Server</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add a new NNTP Server...</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Delete</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Removes the selected item</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+</root>

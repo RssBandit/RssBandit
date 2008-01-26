@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="3600000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  
+  <feed category="Weblogs">
+    <title>Don Box</title>
+    <link>http://www.gotdotnet.com/team/dbox/rss.aspx?version=0.91</link>
+   </feed>
+  
+
+  <feed category="Weblogs">
+    <title>Tim Ewald</title>
+    <link>http://www.gotdotnet.com/team/tewald/rss.aspx?version=0.91</link>   
+  </feed>
+  
+  <feed category="Weblogs">
+     <title>Scott Guthrie</title>
+     <link>http://dotnetweblogs.com/ScottGu/Rss.aspx</link>
+  </feed>
+
+  <feed category="Weblogs">
+   <title>Chris Anderson</title>
+   <link>http://www.simplegeek.com/blogxbrowsing.asmx/GetRss?</link>
+  </feed>
+
+  <feed category="Weblogs">
+   <title>Doug Purdy</title>
+   <link>http://www.gotdotnet.com/team/douglasp/rss.aspx</link>
+  </feed>
+
+  <feed category="Weblogs">
+    <title>Ingo Rammer</title>
+    <link>http://www.ingorammer.com/weblog/rss.aspx</link>
+  </feed>
+
+  <feed category="Weblogs">
+   <title>Chris Brumme</title>
+   <link>http://blogs.gotdotnet.com/cbrumme/blogxbrowsing.asmx/GetRss?</link>
+  </feed>
+
+   <feed category="Weblogs">
+   <title>Raymond Chen</title>
+   <link>http://blogs.gotdotnet.com/raymondc/blogxbrowsing.asmx/GetRss?</link>
+  </feed>
+
+   <feed category="Weblogs">
+   <title>Rebecca Dias</title>
+   <link>http://blogs.gotdotnet.com/rdias/blogxbrowsing.asmx/GetRss?</link>
+  </feed>
+
+  <feed category="Weblogs">
+   <title>Sam Gentile</title>
+   <link>http://dotnetweblogs.com/sgentile/Rss.aspx</link>
+  </feed>
+
+  <feed category="Weblogs">
+    <title>Kirk Allen Evans</title>
+    <link>http://dotnetweblogs.com/KAEvans/rss.aspx</link>
+  </feed>
+  
+   <feed category="Weblogs">
+    <title>Joel Spolsky</title>
+    <link>http://www.joelonsoftware.com/rss.xml</link>
+  </feed>
+  
+  <feed category="Weblogs">
+    <title>Tim Bray</title>
+    <link>http://tbray.org/ongoing/ongoing.rss</link>
+  </feed>
+
+  <categories>
+   <category>Weblogs</category>
+  </categories>
+</feeds>
