@@ -1,0 +1,11 @@
+using System.Reflection;
+using System.Resources;
+[assembly: AssemblyTitle("Test.IEControl")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyInformationalVersion("1.1.40716.100")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Test")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: System.CLSCompliant(true)]
+[assembly: AssemblyDelaySign(false)]

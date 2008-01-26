@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>NoControl</value>
+  </data>
+<data name="textProxyAddress.ToolTip">
+    <value>Прокси адрес</value>
+  </data>
+	<data name="sectionPanelFeedsTimings.Text">
+    <value>Новинарски канали, Обновяване</value>
+  </data>
+	<data name="linkLabel1.ToolTip">
+    <value>Прочетeje повече за 'conditional get'...</value>
+  </data>
+	<data name="textProxyCredentialUser.ToolTip">
+    <value>Credential User Name. Can be specified as 'Domain\Username'.</value>
+  </data>
+	<data name="label19.Text">
+    <value>Ако измените някоя от настройките, то промените ще влязат в сила при отварянето на  нов прозорец. За да влязат в сила за всички - рестартирайте програмата. Настройките не влияят върху подреждането и позицията на новините!</value>
+  </data>
+	<data name="sectionPanelFeedsCommentDefs.Text">
+    <value>Comment Defaults</value>
+  </data>
+	<data name="comboRefreshRate.Items1">
+    <value>30</value>
+  </data>
+	<data name="comboRefreshRate.Items3">
+    <value>60</value>
+  </data>
+	<data name="comboRefreshRate.Items2">
+    <value>45</value>
+  </data>
+	<data name="comboRefreshRate.Items5">
+    <value>90</value>
+  </data>
+	<data name="comboRefreshRate.Items4">
+    <value>75</value>
+  </data>
+	<data name="comboRefreshRate.Items9">
+    <value>480</value>
+  </data>
+	<data name="comboRefreshRate.Items8">
+    <value>240</value>
+  </data>
+	<data name="btnCancel.Text">
+    <value>Отказ</value>
+  </data>
+	<data name="labelFormatters.Text">
+    <value>Стил на формата:</value>
+  </data>
+	<data name="label15.Text">
+    <value>Премахвай новини по-стари от:</value>
+  </data>
+	<data name="labelProxyBypassListHint.Text">
+    <value>Използвайте ( ; ) за разделяне на въведеното.</value>
+  </data>
+	<data name="sectionPanelNetworkConnectionProxy.Text">
+    <value>Прокси сървър</value>
+  </data>
+	<data name="btnChangeFont.Text">
+    <value>&amp;Промени...</value>
+  </data>
+	<data name="sectionPanelDisplayItemFormatting.Text">
+    <value>Форматиране на канала</value>
+  </data>
+	<data name="labelRemoteStorageUserName.Text">
+    <value>Потребителско &amp;Име:</value>
+  </data>
+	<data name="textProxyBypassList.ToolTip">
+    <value>Списък с изключените адреси</value>
+  </data>
+	<data name="btnSEMoveDown.Text">
+    <value>Премести надолу</value>
+  </data>
+	<data name="btnSERemove.Text">
+    <value>Премахни</value>
+  </data>
+	<data name="comboMaxItemAge.Items">
+    <value>1 ден</value>
+  </data>
+	<data name="sectionPanelGeneralStartup.Text">
+    <value>Начало</value>
+  </data>
+	<data name="label6.Text">
+    <value>Определете личните данни, които ще се прилагат ако напишете коментар към новина. Това е възможно само в канали поддържащи "CommentAPI". Вижте също...</value>
+  </data>
+	<data name="checkUseIEProxySettings.Text">
+    <value>Вземи прокси настройките от IE</value>
+  </data>
+	<data name="checkProxyAuth.Text">
+    <value>Има нужда от ауторизация...</value>
+  </data>
+	<data name="comboRefreshRate.Items7">
+    <value>120</value>
+  </data>
+	<data name="comboRefreshRate.Items6">
+    <value>105</value>
+  </data>
+	<data name="tabNewsItems.Text">
+    <value>Покажи</value>
+  </data>
+	<data name="linkCommentAPI.ToolTip">
+    <value>Прочетeте повече за 'CommentAPI'...</value>
+  </data>
+	<data name="checkCustomFormatter.Text">
+    <value>Използвай собствен формат</value>
+  </data>
+	<data name="checkRefreshFeedsOnStartup.Text">
+    <value>Търси нови публикации при стартиране</value>
+  </data>
+	<data name="checkReuseFirstBrowserTab.Text">
+    <value>Използвай един и същ таб на браузера</value>
+  </data>
+	<data name="lblFontSampleCaption.Text">
+    <value>Пример:</value>
+  </data>
+	<data name="labelRemoteStoragePassword.Text">
+    <value>&amp;Парола:</value>
+  </data>
+	<data name="labelRemoteStorageLocation.ToolTip">
+    <value>Парола за сързване към прокси</value>
+  </data>
+	<data name="lblUsedFontNameSize.Text">
+    <value>Tahoma, 8pt</value>
+  </data>
+	<data name="tabGeneral.Text">
+    <value>Общи</value>
+  </data>
+	<data name="comboRefreshRate.Items">
+    <value>15</value>
+  </data>
+	<data name="label2.Text">
+    <value>Използвай формата по подразбиране или избери друг XSLT-формат</value>
+  </data>
+	<data name="checkBrowserActiveXAllowed.Text">
+    <value>ActiveX controls</value>
+  </data>
+  <data name="optNewWindowOnTab.Text">
+    <value>Отвори нов &amp;Таб (по подразбиране)</value>
+  </data>
+	<data name="label3.Text">
+    <value>Определете интервала за търсене на нови публикации. Всеки канал ще бъде запитван след толкова време (Conditional Get). Вижте също...</value>
+  </data>
+	<data name="sectionPanelGeneralBehavior.Text">
+    <value>Поведение на програмата</value>
+  </data>
+	<data name="btnMakeDefaultAggregator.Text">
+    <value>Направи "RSS Bandit" основна програма за новини</value>
+  </data>
+	<data name="comboFormatters.ToolTip">
+    <value>Изберете стил на форматиране</value>
+  </data>
+	<data name="btnManageIdentities.Text">
+    <value>Самоличности...</value>
+  </data>
+	<data name="radioTrayActionClose.Text">
+    <value>При &amp;затваряне на програмата</value>
+  </data>
+	<data name="radioTrayActionMinimize.Text">
+    <value>При &amp;минимизиране на програмата (препоръчително)</value>
+  </data>
+	<data name="labelProxyPort.Text">
+    <value>Порт: </value>
+  </data>
+	<data name="radioTrayActionNone.ToolTip">
+    <value>Програмата ще бъде в лентата за задачи (taskbar)</value>
+  </data>
+	<data name="btnSEProperties.ToolTip">
+    <value>Отваря диалог за настройка на "Търсене"</value>
+  </data>
+	<data name="sectionPanelWebSearchEngines.Text">
+    <value>Търсачки</value>
+  </data>
+	<data name="labelProxyServerSummery.Text">
+    <value>Прокси-сървърът изпълнява роля на посредник между вашия компютър и Интернет; сваля файлове от отдалечени Web-сървери. </value>
+  </data>
+	<data name="sectionPanelWebBrowserOnNewWindow.Text">
+    <value>При кликване върху връзка или нов прозорец</value>
+  </data>
+	<data name="label16.Text">
+    <value>Изберете начин за отваряне на линк при кликване. С вградения браузър или в нов прозорец</value>
+  </data>
+	<data name="labelCheckToAllow.Text">
+    <value>Отметни за "разрешено":</value>
+  </data>
+	<data name="comboMaxItemAge.Items15">
+    <value>Неограничен</value>
+  </data>
+	<data name="comboMaxItemAge.Items14">
+    <value>1 година</value>
+  </data>
+	<data name="comboMaxItemAge.Items11">
+    <value>3 месеца</value>
+  </data>
+	<data name="comboMaxItemAge.Items10">
+    <value>2 месеца</value>
+  </data>
+	<data name="comboMaxItemAge.Items13">
+    <value>9 месеца</value>
+  </data>
+	<data name="comboMaxItemAge.Items12">
+    <value>6 месеца</value>
+  </data>
+	<data name="labelProxyCredentialUserName.Text">
+    <value>Потребителско име:</value>
+  </data>
+	<data name="labelCheckForUpdates.Text">
+    <value>Провери за обновления:</value>
+  </data>
+	<data name="labelProxyCredentialUserName.ToolTip">
+    <value>Потребителско име за прокси. Може да се определи като 'Domain\Username'.</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items1">
+    <value>FTP</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items3">
+    <value>Newsgator Online</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items2">
+    <value>dasBlog</value>
+  </data>
+	<data name="btnOK.Text">
+    <value>&amp;OK</value>
+  </data>
+	<data name="labelFontsSubscriptionsSummery.Text">
+    <value>Конфигуриране на шрифт, стил и цветове в показваните новинарски канали</value>
+  </data>
+	<data name="checkUseProxy.Text">
+    <value>Използване на лични прокси настройки:</value>
+  </data>
+	<data name="comboMaxItemAge.Items8">
+    <value>21 дни</value>
+  </data>
+	<data name="comboMaxItemAge.Items9">
+    <value>1 месец</value>
+  </data>
+	<data name="comboMaxItemAge.Items5">
+    <value>6 дни</value>
+  </data>
+	<data name="comboMaxItemAge.Items6">
+    <value>7 дни</value>
+  </data>
+	<data name="comboMaxItemAge.Items1">
+    <value>2 дни</value>
+  </data>
+	<data name="comboMaxItemAge.Items2">
+    <value>3 дни</value>
+  </data>
+	<data name="lstItemStates.Items">
+    <value>Прочетени (обикновен)</value>
+  </data>
+	<data name="columnHeader1.Text">
+    <value>Име на търсачката</value>
+  </data>
+	<data name="tabFonts.Text">
+    <value>Шрифтове</value>
+  </data>
+	<data name="lstItemStates.Items2">
+    <value>Флаг</value>
+  </data>
+	<data name="lstItemStates.Items3">
+    <value>Източник</value>
+  </data>
+	<data name="lstItemStates.Items4">
+    <value>Грешка</value>
+  </data>
+	<data name="comboAppUpdateFrequency.Items2">
+    <value>Веднъж на 14 дни</value>
+  </data>
+	<data name="comboAppUpdateFrequency.Items3">
+    <value>Веднъж месечно</value>
+  </data>
+	<data name="comboAppUpdateFrequency.Items1">
+    <value>Всеки път при старта на програмата</value>
+  </data>
+	<data name="btnMakeDefaultAggregator.ToolTip">
+    <value>Направи  RSS Bandit програма по подразбиране за получаване на новини от Url protocol...</value>
+  </data>
+	<data name="checkBrowserImagesAllowed.Text">
+    <value>Сваляне на картинки</value>
+  </data>
+	<data name="optNewWindowCustomExec.Text">
+    <value>Стартирай тази програма:</value>
+  </data>
+	<data name="checkBrowserVideoAllowed.Text">
+    <value>Видео</value>
+  </data>
+	<data name="lstItemStates.Items1">
+    <value>Непрочетени</value>
+  </data>
+	<data name="label5.Text">
+    <value>минути</value>
+  </data>
+	<data name="chkFontBold.Text">
+    <value>&amp;Одебелен</value>
+  </data>
+	<data name="label10.Text">
+    <value>Тази опция ви дава възможност да съхранявате списъци с новини на място, от което да се ползват и от други компютри  </value>
+  </data>
+	<data name="checkMarkItemsReadOnExit.Text">
+    <value>Маркирай като прочетено при излизане от канала или категорията</value>
+  </data>
+	<data name="checkBrowserJavaAllowed.Text">
+    <value>Java Аплети</value>
+  </data>
+	<data name="checkUseRemoteStorage.Text">
+    <value>Използвай "отдалечено съхранение"</value>
+  </data>
+	<data name="textProxyPort.ToolTip">
+    <value>Номер на прокси-порта</value>
+  </data>
+	<data name="tabNetConnection.Text">
+    <value>Връзка с Мрежата</value>
+  </data>
+	<data name="labelRemoteStorageLocation.Text">
+    <value>URL на съхранените новини:</value>
+  </data>
+	<data name="btnApply.Text">
+    <value>Приложи</value>
+  </data>
+	<data name="labelRemoteStorageProtocol.ToolTip">
+    <value>Парола за прокси</value>
+  </data>
+	<data name="btnSEAdd.Text">
+    <value>Добави...</value>
+  </data>
+	<data name="checkBrowserBGSoundAllowed.Text">
+    <value>Звук</value>
+  </data>
+	<data name="radioTrayActionNone.Text">
+    <value>Нищо</value>
+  </data>
+	<data name="sectionPanelFontsSubscriptions.Text">
+    <value>Абонаменти, новини</value>
+  </data>
+	<data name="checkBrowserJavascriptAllowed.Text">
+    <value>Javascript execution</value>
+  </data>
+	<data name="btnSERemove.ToolTip">
+    <value>Премахни избраната търсачка</value>
+  </data>
+	<data name="btnSEProperties.Text">
+    <value>Допълнения...</value>
+  </data>
+	<data name="lblItemStates.Text">
+    <value>&amp;Състояние:</value>
+  </data>
+	<data name="chkFontUnderline.Text">
+    <value>&amp;Подчертан</value>
+  </data>
+	<data name="labelProxyCredentialPassword.Text">
+    <value>Парола:</value>
+  </data>
+	<data name="labelRemoteStoragePassword.ToolTip">
+    <value>Парола за прокси</value>
+  </data>
+	<data name="lstItemStates.ToolTip">
+    <value>Изберете това, което искате да промените...</value>
+  </data>
+	<data name="label1.Text">
+    <value>Изберете при кое действие програмата да се минимизира до часовника (Sistem Tray)</value>
+  </data>
+	<data name="textRemoteStorageUserName.ToolTip">
+    <value>Потребителско име - 'Domain\Username'.</value>
+  </data>
+	<data name="lblFontSampleABC.Text">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+	<data name="btnChangeColor.Text">
+    <value>Цвят...</value>
+  </data>
+	<data name="comboRefreshRate.Items10">
+    <value>720</value>
+  </data>
+	<data name="comboRefreshRate.Items11">
+    <value>1440</value>
+  </data>
+	<data name="labelProxyCredentialPassword.ToolTip">
+    <value>Парола за прокси</value>
+  </data>
+	<data name="radioTrayActionClose.ToolTip">
+    <value>Програмата няма да се вижда в лентата за задачи</value>
+  </data>
+	<data name="btnSEMoveUp.Text">
+    <value>Нагоре</value>
+  </data>
+	<data name="tabFeeds.Text">
+    <value>Канали</value>
+  </data>
+	<data name="tabRemoteStorage.Text">
+    <value>Отдалечени</value>
+  </data>
+	<data name="btnSEMoveUp.ToolTip">
+    <value>Мести Нагоре</value>
+  </data>
+	<data name="lblIdentityDropdownCaption.Text">
+    <value>Потребителско име за коментари</value>
+  </data>
+	<data name="linkCommentAPI.Text">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+	<data name="$this.Text">
+    <value>Опции</value>
+  </data>
+	<data name="sectionPanelRemoteStorageFeedlist.Text">
+    <value>Отдалечено съхранение....</value>
+  </data>
+	<data name="linkLabel1.Text">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+	<data name="chkFontItalic.Text">
+    <value>Наклонен</value>
+  </data>
+	<data name="checkCustomFormatter.ToolTip">
+    <value>Маркирайте тук, за да използвате друг формат</value>
+  </data>
+	<data name="chkNewsItemOpenLinkInDetailWindow.Text">
+    <value>Ако няма друго предписание, отвори линка в прозореца за четене</value>
+  </data>
+	<data name="labelRemoteStorageProtocol.Text">
+    <value>Протокол:</value>
+  </data>
+	<data name="sectionPanelWebBrowserSecurity.Text">
+    <value>Сигурност, Ограничения</value>
+  </data>
+	<data name="btnSEMoveDown.ToolTip">
+    <value>Премести надолу</value>
+  </data>
+	<data name="labelProxyAddress.Text">
+    <value>Адрес: </value>
+  </data>
+	<data name="checkProxyBypassLocal.Text">
+    <value>Игнорирай прокси сървъра</value>
+  </data>
+	<data name="labelProxyBypassList.Text">
+    <value>Не използвай прокси за адреси започващи с:</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items4">
+    <value>WebDAV</value>
+  </data>
+	<data name="label4.Text">
+    <value>Обновявай каналите на...</value>
+  </data>
+	<data name="labelRemoteStorageUserName.ToolTip">
+    <value>Потребителсо име за прокси - 'Domain\Username'.</value>
+  </data>
+	<data name="btnSEAdd.ToolTip">
+    <value>Добави нова търсачка</value>
+  </data>
+	<data name="optNewWindowDefaultWebBrowser.Text">
+    <value>Отвори с браузъра</value>
+  </data>
+	<data name="comboAppUpdateFrequency.Items">
+    <value>Ръчно</value>
+  </data>
+	<data name="checkNoProxy.Text">
+    <value>Не използвай прокси сървър</value>
+  </data>
+	<data name="radioTrayActionMinimize.ToolTip">
+    <value>Програмата няма да се вижда в лентата за задачи</value>
+  </data>
+	<data name="tabWebSearch.Text">
+    <value>Web Търсене</value>
+  </data>
+	<data name="tabWebBrowser.Text">
+    <value>Web Браузър</value>
+  </data>
+	<data name="label17.Text">
+    <value>Изберете търсачка от списъка по-долу, която ще е активна когато натиснете Търси</value>
+  </data>
+	<data name="comboMaxItemAge.Items4">
+    <value>5 дни</value>
+  </data>
+	<data name="columnHeader2.Text">
+    <value>Описание</value>
+  </data>
+	<data name="comboMaxItemAge.Items7">
+    <value>14 дни</value>
+  </data>
+	<data name="comboMaxItemAge.Items3">
+    <value>4 дни</value>
+  </data>
+	<data name="sectionPanelDisplayGeneral.Text">
+    <value>Общи</value>
+  </data>
+	<data name="chkFontStrikeout.Text">
+    <value>Зачертани</value>
+  </data>
+	<data name="comboRemoteStorageProtocol.Items">
+    <value>File Share</value>
+  </data>
+	<data name="label12.Text">
+    <value>Ако бутонът не е активен, то RSS Bandit е Вашият "новинар" по подразбиране. Ако е активен, можете да го направите с един клик.</value>
+  </data>
+	<data name="btnSelectExecutable.Text">
+    <value>...</value>
+  </data>
+	<data name="labelBrowserStartExecutable.Text">
+    <value>Файл:</value>
+  </data>
+	<data name="checkBuildRelationCosmos.Text">
+    <value>Показва свързаните публикации в дискусията</value>
+  </data>
+	<data name="checkBuildRelationCosmos.ToolTip">
+    <value>Ако е маркирано, публикациите свързани с други ще бъдат изобразени като дискусия</value>
+  </data>
+	<data name="tabGeneral.ToolTipText">
+    <value>Общи настройки на програмата</value>
+  </data>
+	<data name="optionSectionPanel1.Text">
+    <value>Звуци</value>
+  </data>
+	<data name="checkAllowAppEventSounds.Text">
+    <value>Разреши звуци</value>
+  </data>
+	<data name="btnConfigureAppSounds.Text">
+    <value>Настройки...</value>
+  </data>
+	<data name="btnConfigureAppSounds.ToolTip">
+    <value>Отваря конфигурационния панел за настройване на звуци във Windows ...</value>
+	<comment>CHANGED</comment>
+  </data>
+	<data name="checkRunAtStartup.Text">
+    <value>Стартирай едновременно с Windows</value>
+  </data>
+	<data name="checkUseFavicons.Text">
+    <value>Използай favicons, като икони за отделните канали</value>
+  </data>
+	<data name="checkUseFavicons.ToolTip">
+    <value>Ако е маркирано, отделните канали ще използват favicon като изображение в списъка</value>
+    <comment>CHANGED</comment>
+  </data>
+	<data name="checkOpenTabsInBackground.Text">
+    <value>Зареждай новите табове на заден план</value>
+  </data>
+	<data name="tabEnclosures.Text">
+    <value>Звукови канали</value>
+  </data>
+	<data name="sectionPanelEnclosurePodcasts.Text">
+    <value>Звукови канали</value>
+  </data>
+	<data name="btnPodcastOptions.Text">
+    <value>Разширени...</value>
+  </data>
+	<data name="lblSectionPanelPodcastOptions.Text">
+    <value>Кликнете върху бутона по-долу, за да настройване на Звуковите канали:</value>
+  </data>
+	<data name="sectionPanelEnclosureGeneral.Text">
+    <value>Общи</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.Text">
+    <value>...</value>
+  </data>
+	<data name="btnSelectEnclosureFolder2.ToolTip">
+    <value>Намерете определена папка в компютъра...</value>
+  </data>
+	<data name="lblDownloadAttachmentsSmallerThanPostfix.Text">
+    <value>MB</value>
+  </data>
+	<data name="checkEnclosureSizeOnDiskLimited.Text">
+    <value>Общият размер дисково пространство не трябва да надвишава</value>
+  </data>
+	<data name="lblDownloadXAttachmentsPostfix.Text">
+    <value>Приложения</value>
+  </data>
+	<data name="checkOnlyDownloadLastXAttachments.Text">
+    <value>При първоначално записване: сваляй само най-новите</value>
+  </data>
+	<data name="checkDownloadCreateFolderPerFeed.Text">
+    <value>Съхранявай сваленото в папка с името на канала</value>
+  </data>
+	<data name="textEnclosureDirectory.ToolTip">
+    <value>Показва адреса на папката за съхранение</value>
+  </data>
+	<data name="labelEnclosureDirectory.Text">
+    <value>Сваляй приложените файлове в:</value>
+  </data>
+	<data name="checkDownloadEnclosures.Text">
+    <value>Сваляй приложенията автоматично</value>
+  </data>
+	<data name="checkEnableEnclosureAlerts.Text">
+    <value>Разреши изплуващ прозорец при изтеглен нов файл</value>
+  </data>
+	<data name="lblSectionPanelEnclosureGeneral.Text">
+    <value>Общи настройки за сваляне на файлове.</value>
+  </data>
+	<data name="lstItemStates.Items5">
+    <value>Нови коментари</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.Text">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+	<data name="label8.Text">
+    <value>news items per page</value>
+  </data>
+	<data name="numNewsItemsPerPage.ToolTip">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.Text">
+    <value>Show only </value>
+  </data>
+	<data name="checkLimitNewsItemsPerPage.ToolTip">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+	</root>

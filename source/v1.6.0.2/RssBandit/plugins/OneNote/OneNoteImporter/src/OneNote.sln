@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNote", "OneNote\OneNote.csproj", "{F1BCF15A-CABB-4934-8FEF-0386E717F2A0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A92CDF07-6294-4D7C-A276-7304E27FEA36}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{F1BCF15A-CABB-4934-8FEF-0386E717F2A0}.Debug.ActiveCfg = Debug|.NET
+		{F1BCF15A-CABB-4934-8FEF-0386E717F2A0}.Debug.Build.0 = Debug|.NET
+		{F1BCF15A-CABB-4934-8FEF-0386E717F2A0}.Release.ActiveCfg = Release|.NET
+		{F1BCF15A-CABB-4934-8FEF-0386E717F2A0}.Release.Build.0 = Release|.NET
+		{A92CDF07-6294-4D7C-A276-7304E27FEA36}.Debug.ActiveCfg = Debug|.NET
+		{A92CDF07-6294-4D7C-A276-7304E27FEA36}.Debug.Build.0 = Debug|.NET
+		{A92CDF07-6294-4D7C-A276-7304E27FEA36}.Release.ActiveCfg = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
