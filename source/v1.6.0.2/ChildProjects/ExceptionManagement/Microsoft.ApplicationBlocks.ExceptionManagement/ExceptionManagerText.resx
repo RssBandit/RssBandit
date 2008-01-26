@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter</value>
+	</resheader>
+	<data name="RES_EXCEPTION_LOADING_CONFIGURATION">
+		<value>Error loading exceptionManagement configuration.</value>
+		<comment>Configuration Exception message text.</comment>
+	</data>
+	<data name="RES_CUSTOM_PUBLISHER_FAILURE_MESSAGE">
+		<value>Custom Publisher failed to execute.</value>
+		<comment>Custom Publisher Exception message text.</comment>
+	</data>
+	<data name="RES_EXCEPTIONMANAGEMENT_PERMISSION_DENIED">
+		<value>Permission Denied</value>
+		<comment>Permission to access this information has been denied.</comment>
+	</data>
+	<data name="RES_EXCEPTIONMANAGEMENT_INFOACCESS_EXCEPTION">
+		<value>Information could not be accessed.</value>
+	</data>
+	<data name="RES_EXCEPTIONMANAGEMENT_XMLSERIALIZATION_EXCEPTION">
+		<value>Exception Manager could not serialize the Exception information into XML.</value>
+	</data>
+	<data name="RES_DEFAULTPUBLISHER_EVENTLOG_DENIED">
+		<value>The event source {0} does not exist and cannot be created with the current permissions.</value>
+	</data>
+	<data name="RES_EXCEPTIONMANAGER_INTERNAL_EXCEPTIONS">
+		<value>ExceptionManagerInternalException</value>
+	</data>
+	<data name="RES_EXCEPTIONMANAGER_PUBLISHED_EXCEPTIONS">
+		<value>ExceptionManagerPublishedException</value>
+	</data>
+	<data name="RES_XML_ROOT">
+		<value>ExceptionInformation</value>
+	</data>
+	<data name="RES_XML_ADDITIONAL_INFORMATION">
+		<value>AdditionalInformationProperty</value>
+	</data>
+	<data name="RES_XML_EXCEPTION">
+		<value>Exception</value>
+	</data>
+	<data name="RES_XML_STACK_TRACE">
+		<value>StackTrace</value>
+	</data>
+</root>

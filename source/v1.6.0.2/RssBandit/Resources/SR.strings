@@ -1,0 +1,808 @@
+# CVS Version Header
+# $Id$
+#  Last modified by $Author$
+#  Last modified at $Date$
+#  $Revision$
+# 
+# This file is used to generate SR.cs and SR.resx files. 
+#
+ 
+# Options are specified as lines starting with "#!"
+
+# Comments are lines starting with ";" or "#"
+
+# To define the SR class public instead of internal (default):
+##! accessor_class_accessibility = public
+
+#! culture_info = RssBandit.RssBanditApplication.SharedUICulture
+
+[strings]
+; AddIn failure message box
+AddInGeneralFailure(string error, string addInName) = An general failure occured in AddIn '{1}':\r\n{0}
+; AddIn failure message box	
+AddInLoadFailure(string error, string addInName) = Loading AddIn '{1}' failed:\r\n{0}
+; AddIn failure message box
+AddInUnloadFailure(string error, string addInName) = Unload AddIn '{1}' failed:\r\n{0}
+; Splash screen state message
+AppLoadStateGuiLoading = Loading Main Gui...
+; Splash screen state message
+AppLoadStateLoading	= Loading Application...
+; default title of a autodiscovered feed, if no title could be extracted from the content
+AutoDiscoveredDefaultTitle = [Autodiscovered]
+
+; Certificate issue dialog detail texts
+CertificateIssue_CertCHAINING = The certificate is already a member of the trust chain.
+CertificateIssue_CertCN_NO_MATCH = The name on the security certificate is invalid or does not match the name of the site.
+CertificateIssue_CertCRITICAL = The certificate caused a critical error.
+CertificateIssue_CertEXPIRED(string dateString) = The issued certificate expired at {0}.
+CertificateIssue_CertISSUERCHAINING = The certificate issuer is already a member of the trust chain.
+CertificateIssue_CertMALFORMED = The certificate is malformed.
+CertificateIssue_CertPATHLENCONST = The certificate caused an error: path length const.
+CertificateIssue_CertPURPOSE = The purpose of the certificate does not match the required task.
+CertificateIssue_CertREVOCATION_FAILURE = The revocation of the certificate failed.
+CertificateIssue_CertREVOKED = The certificate was revoked.
+CertificateIssue_CertROLE = The role of the certificate is wrong.
+CertificateIssue_CertUNTRUSTEDCA = The certificate has a untrusted Certification Authory (CA).
+CertificateIssue_CertUNTRUSTEDROOT = The certificate has a untrusted CA (Certification Authory) root.
+CertificateIssue_CertUNTRUSTEDTESTROOT = The certificate has a untrusted test CA (Certification Authory) root.
+CertificateIssue_CertVALIDITYPERIODNESTING = The validity period of the certificate is nesting.
+CertificateIssue_CertWRONG_USAGE = The certificate cannot be used for the required task.
+CertificateIssue_Unknown(string error) = The security certificate caused a general unknown problem: '{0}'.
+; Certificate issue dialog heading texts
+CertificateIssueOnFeedCaption(string feedTitle) = Information you exchange with feed '{0}' cannot be viewed or changed by other users. However, there is a problem with the feed's security certificate.
+CertificateIssueOnSiteCaption(string siteUrl) = Information you exchange with the site '{0}' cannot be viewed or changed by other users. However, there is a problem with the site's security certificate.
+
+; Command line parameter descriptions
+CmdLineCultureDesc = Start Application in a different language (ISO language code)
+CmdLineHelpDesc = Prints this message
+CmdLineStartInTaskbarDesc = Start minimized to taskbar notification area
+CmdLineSubscribeToDesc = Subscribe to the specified feed(s)
+CmdLineResetUIDesc = Will reset the user interface to the default
+
+; window caption texts
+ConfigIdentitiesDialogCaption = Manage Identities
+ConfigNewsServerDialogCaption = Manage Newsgroups
+
+; displayed as a tooltip on a collapsible panel button
+ControlCollapsiblePanelCollapseTooltip = Collapse panel...
+; displayed as a tooltip on a collapsible panel button
+ControlCollapsiblePanelExpandTooltip = Expand panel...
+
+DetailHeaderCaptionWelcome = Welcome!
+DialogMessageNoNewAppVersionAvailable = There are currently no new updates available for download.
+DialogQuestionNewAppVersionAvailable = There is a new version available for download.\r\nDo you want to find out more?\r\n\r\nIf you choose NO, you will be reminded again later.
+
+; Used in Options dialog for remote storage UNC
+DirectoryDoesNotExistMessage = Specified directory does not exist
+; StatusBar feedback text
+DragDockablePanelInfo = Hold down CTRL to prevent docking.
+; Exception topic text
+ExceptionCategory = General Failure
+ExceptionDuplicateCategoryName(string dupCategoryName) = Sorry, but the name '{0}' seems to be already in use.
+ExceptionGeneral(string error) = Sorry, but an error occured:\r\n\r\n{0}
+ExceptionGeneralCritical(string logFileName) = An error occurred and have been logged to file\r\n{0}.\r\n\r\nPlease report it's content to the dev.rssbandit.org development team\r\nalong with the following information:\r\n
+ExceptionIBlogExtensionFunctionCall(string functionName, string error) = IBlogExtension (PlugIn) function '{0}' call caused an error:\r\n'{1}'.
+
+ExceptionImportFeedlist(string importUrl, string error) = An error on import the feedlist from\r\n'{0}' occurs:\r\n\r\n{1}.
+ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation = FTP Remote locations needs to use the 'ftp:' url scheme.
+ExceptionInvalidSearchEnginesMessage(string failureFileName) = Validation error while loading search configuration.\r\nPlease have a look to the file at '{0}' for details about the error.
+ExceptionInvalidShortcutSettingsFile = Shortcut Settings File Could not be validated	Failure Message if the file is not valid XML.
+
+; Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+; a specific error message by string matching (this one) to find the message reporting
+; a invalid character (they include the invalid char, that breaks our rendering)"
+ExceptionInvalidXmlChracterMessage = a invalid character 
+ExceptionLoadingNewsItemFormatterStylesheet(string error) = Unexpected error on loading the XSLT stylesheet for feed item formatting:\r\n\r\n{0}
+ExceptionLoadingSearchEnginesMessage(string configFileName, string error) = Unexpected error loading search configuration: {0}.\r\nPlease have a look to the file at '{1}' for details about the error.
+ExceptionNewsItemFormatterInvalidStylesheet = Xslt stylesheet is invalid.
+ExceptionNewsItemFormatterStylesheetCompile = Xslt stylesheet cannot be compiled.
+
+ExceptionNewsItemFormatterStylesheetMessage(string problem, string details) = The selected Xslt stylesheet to format items reports this problem:\r\n{0}\r\nDetail: {1}
+ExceptionNewsItemTransformation = Feed item cannot be transformed to HTML.
+
+ExceptionNntpLoadingGroupsFailed(string serverName, string error) = Loading Newsgroups from '{0}' failed:\r\n{1}
+; Texts used within errorProvider
+ExceptionNoOnNewWindowExecutable = Provide the executable file path and name, please.
+ExceptionNoProxyAuthUser = Provide the proxy authentication user, please.
+ExceptionNoProxyUrl = Provide the proxy address (IP or Host name), please.
+ExceptionInvalidEnclosurePath = Invalid path to download directory specified
+ExceptionNoRemoteStorageAuthUser = Provide a remote storage authentication user name, please.
+ExceptionNoRemoteStorageLocation = Provide a remote storage location, please.
+
+ExceptionOpenFileMessage(string fileName, string error) = Could not open file '{0}', because:\r\n\r\n{1}.
+ExceptionPostNewFeedItem(string item, string error) = An error on post a new item\r\n'{0}' (RSS Item link/title) occurs:\r\n\r\n{1}.
+ExceptionPostReplyToNewsItem(string item, string error) = An error on post a reply to item\r\n'{0}' (RSS Item link/title) occurs:\r\n\r\n{1}.
+; Failure messages on proxy config errors
+ExceptionProxyConfiguration(string error) = Invalid proxy configuration:\r\n{0}.\r\n\r\nSettings are reset to use no proxy.
+ExceptionProxyPortInvalid = Invalid proxy port.
+ExceptionProxyPortRange = The specified value for proxy port is not in the valid range of 0 to 65535.
+
+ExceptionReadingFeedlistFile(string error, string errorFileName) = Unexpected error on loading feedlist:\r\n{0}.\r\n\r\nPlease have a look to the file at\r\n{1}\r\nfor more details on the error occured.
+ExceptionRefreshRateInvalid = Invalid refresh rate.
+ExceptionRefreshThisFeedFatalFailed(string feedName, string error) = Refreshing '{0}' failed (fatal error):\r\n{1}.
+ExceptionRefreshThisFeedXMLFailed(string feedName, string error) = Refreshing '{0}' failed (XML error):\r\n{1}.
+ExceptionSaveFileMessage(string fileName, string error) = Could not save file \r\n{0}, because:\r\n\r\n{1}.
+ExceptionSettingDefaultAggregator(string error) = The system reported an error while attempting to set the default aggregator:\r\n\r\n{0}.
+ExceptionStartBrowserCustomExecMessage(string executableName, string error, string url) = There was a problem starting your configured custom executable\r\n'{0}':\r\n\r\n{1}.\r\n\r\nShould we open the Url\r\n'{2}'\r\non a new Tab?
+ExceptionStartDefaultBrowserMessage(string error, string url) = There was a problem starting your configured default web browser:\r\n\r\n{0}.\r\n\r\nShould we open the Url\r\n'{1}'\r\non a new Tab?
+ExceptionUISettingsSave(string error) = Unexpected error on saving UI settings (.settings.xml):\r\n\r\n{0}.
+ExceptionWebSearchEnginesSave(string error) = Unexpected error on saving Web search engine settings:\r\n\r\n{0}.
+ExceptionProcessStartToPlayEnclosure(string enclosureFileName, string error) = The system reported an error while attempting to play enclosure:\r\n\r\n{0}\r\n\r\nError:{1}.
+ExceptionProcessCommandlineCulture(string cultureProvided, string error) = Cannot switch application culture to '{0}':\r\n\r\nError:{1}.
+ExceptionEnclosureDownloadError = Download Failure
+
+; name for the default category (used in dropdown boxes)
+FeedDefaultCategory	= [Unclassified Feeds]
+; Document Tab Caption
+FeedDetailDocumentTabCaption = Feed Details
+; Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)
+FeedListNoChildsMessage = No child items...
+; SmartNode captions/descr.
+FeedNodeDeletedItemsCaption = Deleted Items
+FeedNodeDeletedItemsDesc = Container of deleted items
+FeedNodeFeedExceptionsCaption = Feed Errors
+FeedNodeFeedExceptionsDesc = Container of feed errors caused by subscribed feeds
+; Searches Root Node caption
+FeedNodeFinderRootCaption = Search Folders
+FeedNodeFinderRootDesc = Container of persistent search feeds
+FeedNodeFlaggedFeedsCaption = Flagged Items
+FeedNodeFlaggedFeedsDesc = Container of flagged feeds
+FeedNodeFlaggedForFollowUpCaption = Items For Follow Up
+FeedNodeFlaggedForForwardCaption = Items For Forward
+FeedNodeFlaggedForReadCaption = Items For Read
+FeedNodeFlaggedForReplyCaption = Items For Reply
+FeedNodeFlaggedForReviewCaption = Items For Review
+; Root Node caption
+FeedNodeMyFeedsCaption = My Feeds
+FeedNodeMyFeedsDesc = Container of subscribed feeds
+; Special local feed for sent items
+FeedNodeSentItemsCaption = Sent Items
+FeedNodeSentItemsDesc = Container of sent items (reply)
+; Special local feed for watched items
+FeedNodeWatchedItemsCaption = Watched Items
+FeedNodeWatchedItemsDesc = Container of watched items
+; Special local feed for unread items
+FeedNodeUnreadItemsCaption = Unread Items
+FeedNodeUnreadItemsDesc = Container of unread items
+; Special local feeds root node
+FeedNodeSpecialFeedsCaption = Special Feeds
+FeedNodeSpecialFeedsDesc = Container of special feeds
+
+; Texts used to build Open/Save File Dialog file filters
+FileDialogFilterAllFiles = All Files
+FileDialogFilterOPMLFiles = OPML Files
+FileDialogFilterXMLFiles = XML Files
+
+; Text in the browse for folder dialog
+BrowseForFolderEnclosureDownloadLocation = Select or create a folder to store downloaded attachments
+
+; Validation error messages (used by errorProvider)
+FormatExceptionProxyPort = Proxy port is not a number.
+FormatExceptionRefreshRate = Refresh rate is not a number.
+SearchEnginePropertiesSearchUrlEmpty = Provide a search url, please
+SearchEnginePropertiesSearchCaptionEmpty = Provide a search caption, please
+SearchEnginePropertiesSearchUrlMissingParam(string parameter) = Missing the '{0}' parameter specification
+
+GeneralNewItemText = [New]
+GeneralNewItemTextWithCounter(int counter) = [New {0}]
+
+CacheFolderInvalid_CannotBeMoved(string folderName) = The data cache location\r\n\r\n{0}\r\n\r\nseems to be a child of the old cache, so old cache folder cannot be automatically moved.\r\nWill continue using the old cache folder...
+CacheFolderInvalid_CannotBeMovedException(string folderName, string exception) = Cannot move the old cache folder to new data cache location at\r\n\r\n{0}\r\n\r\nAn error was reported:\r\n{1}\r\n\r\nWill continue using the old cache folder...
+
+GUIAutoDiscoverFeedFailedCaption = Autodiscover feeds failed
+GUIBlankFieldDetectedCaption = Blank Field Detected
+GUICurrentConnectionState_Info = Current internet connection state...
+GUIErrorMessageBoxCaption = Error occurs
+GUIExceptionRetriveCommentRssFeed(string error) = Error on request comments feed: {0}
+GUIFeedlistDownloadExceptionMessage(string error) = Feedlist download failed with error:\r\n{0}.
+GUIFeedlistUploadExceptionMessage(string error) = Feedlist upload failed with error:\r\n{0}.
+GUILoadFileOperationExceptionMessage(string fileName, string error, string additionalInfo) = Loading of file\r\n{0}\r\nfailed with error:\r\n{1}\r\n\r\n{2}
+GUISaveFileOperationExceptionMessage(string fileName, string error, string additionalInfo) = Saving of file\r\n{0}\r\nfailed with error:\r\n{1}\r\n\r\n{2}
+GUIUserInfoAboutDefaultTreeState = Using defaults for the subscription tree folder states.
+GUIFieldKeywordsInvalid = No Keyword(s) specified
+GUIFieldLinkRedundantInfo(string feedName, string dupLink) = You are already subscribed to this feed.\r\n\tCategory/Name: {0}\r\n\tLink: {1}.
+GUIFieldLinkTitleInvalid = Neither the link nor title for the RSS feed can be blank!
+GUIFieldTitleInvalid = The title for the category cannot be blank!
+GUIFieldWebUrlInvalid = No Web Page URL specified
+GUINntpLoadingGroupsFailedCaption = Loading Newsgroups failed
+GuiStateNoFeedItemSelectedMessage = No Feed Item selected.
+; also displayed as a tooltip
+GUIStatusBusyRefresh = Busy, refresh...
+GUIStatusChildItemsNA = Unable to load child items, you are disconnected.
+; GUI status info
+GUIStatusDone = Done
+GUIStatusErrorEmptyTitleNotAllowed = Action cancelled. Title cannot be left blank.
+GUIStatusErrorGeneralFeedMessage(string feedName, string error) = Action cancelled. Feed '{0}' generates an error: \r\n{1}.
+GUIStatusErrorInvalidFeed = Invalid Feed.
+GUIStatusErrorInvalidSearchConfig = Validation error while loading search configuration list
+GUIStatusErrorLoadingFeedMessage(string error) = Loading Feed failed: {0}
+GUIStatusErrorLoadingSearchConfig = Error while loading search configuration
+GUIStatusErrorReadingFeedlistFile = Error on loading feedlist file.
+; displayed in the Toast window(s)
+GUIStatusEnclosureJustReceivedItemsMessage = Received: 1 file
+GUIStatusFeedJustReceivedItemsMessage(int itemCount) = Received: {0} item(s)
+GUIStatusFeedsAreUpdatedMessage(int feedCount) = {0} Feed(s) Updated.
+; also displayed as a Tooltip on the tray icon
+GUIStatusIdle = Idle
+GUIStatusInfoCaptionNoFeeds = Feed Not Found
+GUIStatusInfoMessageNoFeedsFound = Sorry, no Feed could be located.
+GUIStatusLoadingChildItems = Loading, please wait...
+GUIStatusLoadingFeed = Loading...
+GUIStatusLoadingFeedlist = Loading feedlist...
+; also displayed as a tooltip
+GUIStatusNewFeedItemsReceived = New Feed Items received...
+; also displayed as a tooltip
+GUIStatusNewFeedItemsReceivedMessage(int feedsCount, int itemsCount) = {0} feed(s) with {1} new message(s)
+GUIStatusNoFeedlistFile = No feed list.
+GUIStatusNoFeedsAreUpdated = No Feed Updates.
+GUIStatusNoUnreadFeedItemsLeft = No more unread Feed Items.
+GUIStatusPostNewFeedItem = Post the new item, please wait...
+GUIStatusPostReplyToItem = Post the reply, please wait...
+GUIStatusRefreshConnectionState = Check current internet connection state...
+GUIStatusRefreshFeedsMessage = Refreshing Feeds...
+GUIStatusRefreshThisFeedMessage(string feedName) = Refreshing: {0} ...
+GUIStatusRetriveCommentRssFeed = Requesting comment feed, please wait...
+GUIStatusUnreadFeedItemsAvailable = Unread feed items available...
+GUIStatusUnreadFeedItemsLeftMessage(unreadItemsCount) = {0} unread Feed Item(s) left.
+GUIStatusValidationErrorReadingFeedlistFile = Validation error on loading feed list.
+GUIStatusWaitMessageDetectingFeeds(string location) = Locating feeds for page:\r\n{0}
+GUIStatusWaitMessageDetectingFeedsWithKeywords(string keyWords) = Locating feeds containing keyword(s):\r\n{0}
+GUIStatusWaitMessageDownLoadingFeedlist(string feedListName) = Downloading feedlist ({0}), please wait...
+GUIStatusWaitMessagePrefetchFeed(string feedName) = Requesting feed:\r\n{0}
+GUIStatusWaitMessageRequestFile(string fileName) = Requesting file:\r\n{0}
+GUIStatusWaitMessageUpLoadingFeedlist(string feedListName) = Uploading feedlist ({0}), please wait...
+; Internet Explorer Menu Extension Caption
+InternetExplorerMenuExtBanditCaption = Subscribe in RSS Bandit
+; Internet Explorer Menu Extension Caption
+InternetExplorerMenuExtDefaultCaption = Subscribe in default feed reader
+; Caption of the infobox displaying an error message about an invalid feedlist file
+InvalidFeedFileInfoBoxCaption = Invalid Feed File
+InvalidFeedlistFileMessage(string errorFileName) = The feed file was invalid. Please have a look to the file at\r\n'{0}'\r\nfor detailed information about the error occured.
+; Caption of dialog if invalid URI specified when creating a new feed
+InvalidFeedURIBoxCaption = Invalid URL
+InvalidFeedURIBoxText = The specified URL for the new feed is not a valid URL
+
+; Dynamic label texts (Preferences, remote storage)
+LabelTextRemoteStorageLocation_dasBlog = Web service Url:
+LabelTextRemoteStorageLocation_dasBlog_hint = You can store your subscribed feeds as blogroll.opml if you are a user of dasBlog (http://www.dasblog.net). The storage service URL should be http://yourblog.com/dasblog/ConfigEditingService.asmx and you should enable the Configuration Editing service in dasBlog.
+LabelTextRemoteStorageLocation_fileShare = Directory path:
+LabelTextRemoteStorageLocation_fileShare_hint = You can store your application state as rssbandit-state.zip on a local or network file share. Provide the directory path such as '\\\\yournetworkshare\\feedlist\\' or 'H:\\'.
+LabelTextRemoteStorageLocation_ftp = FTP server/path:
+LabelTextRemoteStorageLocation_ftp_hint = You can store your application state as rssbandit-state.zip using an FTP server. Provide the name of the FTP server and path such as 'ftp://yourserver.com:7788/feedlistfolder/'.
+LabelTextRemoteStorageLocation_NewsgatorOnline = Location:
+LabelTextRemoteStorageLocation_NewsgatorOnline_hint = You can synchronize your application state with your subscribed feeds on Newsgator Online. To sign up for Newsgator Online go to http://www.newsgator.com
+LabelTextRemoteStorageLocation_WebDAV = WebDAV folder Url:
+LabelTextRemoteStorageLocation_WebDAV_hint = You can store your application state as rssbandit-state.zip within a WebDAV folder. The storage service URL should point to a WebDAV folder, e. g. 'http://mywebdav.com/personal/' and you should be able to save and read files there.
+
+; Column captions within listview
+ListviewColumnCaptionCommentCount = Comments
+ListviewColumnCaptionCreator = Author
+ListviewColumnCaptionDate = Date
+ListviewColumnCaptionEnclosure = Attachments
+ListviewColumnCaptionFeedDesc = Feed Description
+ListviewColumnCaptionFeedTitle = Feed Title
+ListviewColumnCaptionFeedUrl = Feed Url
+ListviewColumnCaptionFlagStatus	= Flag
+ListviewColumnCaptionHeadline = Headline
+ListviewColumnCaptionSiteUrl = Site Url
+ListviewColumnCaptionTopic = Topic
+
+; Caption/Desc. within main/context menus/toolbar buttons
+MainMenuEditCaption	= &Edit
+MainMenuEditDesc = Edit control commands
+MainMenuFileCaption = &File
+MainMenuFileDesc = File commands menu
+MainMenuHelpCaption = &Help
+MainMenuHelpDesc = Help links and infos...
+MainMenuSearchCaption = &Search
+MainMenuSearchDesc = Seb search configuration commands
+MainMenuToolsCaption = &Tools
+MainMenuToolsDesc = Tool commands
+MainMenuViewCaption = &View
+MainMenuViewDesc = View control commands
+MenuAboutCaption = &About...
+MenuAboutDesc = Provide informations about this application
+; Improve the Bandit
+MenuSendLogsByMailCaption = Send Log Files by mail...
+MenuSendLogsByMailDesc = Will send a mail with log files for failure analyzis
+
+MenuAdvancedFeedInfoCaption = This Feed
+MenuAdvancedFeedInfoDesc = Advanced/More Feed Info...
+MenuAppCloseExitCaption = E&xit
+MenuAppCloseExitDesc = Close and Exit this Application
+MenuAppInternetConnectionModeCaption = Work &Offline
+MenuAppInternetConnectionModeDesc = Toggle the Internet Connection Mode
+; Caption Postfix on the main window
+MenuAppInternetConnectionModeOffline = [Working Offline]
+MenuAppOptionsCaption = &Options...
+MenuAppOptionsDesc = Display the application options dialog...
+MenuAutodiscoveredFeedsDropdownCaption = Discovered Feeds
+MenuAutodiscoveredFeedsDropdownDesc = Display all discovered feeds from visited websites...
+MenuAutoDiscoverFeedCaption = &Locate Feed
+MenuAutoDiscoverFeedDesc = Locate the RSS Feed for a particular website or topic
+MenuBanditForumCaption = Visit RSS Bandit &Forums...
+MenuBanditForumDesc = Discuss any related theme...
+MenuBanditWikiCaption = Visit RSS Bandit &Homepage...
+MenuBanditWikiDesc = Read News, suggest new features, FAQ and more...
+MenuBrowserDoNavigateCaption = Go
+MenuBrowserDoNavigateDesc = Navigate to specified Url...
+MenuBrowserNavigateBackCaption = Back
+MenuBrowserNavigateBackDesc = Navigate back in history...
+MenuBrowserNavigateCancelCaption = Stop
+MenuBrowserNavigateCancelDesc = Cancel navigation...
+MenuBrowserNavigateComboBoxCaption = Url
+MenuBrowserNavigateComboBoxDesc = Web Address to navigate to...
+MenuBrowserNavigateForwardCaption = Forward
+MenuBrowserNavigateForwardDesc = Navigate forward...
+MenuBrowserNewExternalWindowCaption = Open in default Web Browser
+MenuBrowserNewExternalWindowDesc = Open the link in the default Web Browser Application...
+MenuBrowserNewTabCaption = New Tab
+MenuBrowserNewTabDesc = Create a new Browser Tab...
+MenuBrowserRefreshCaption = Refresh
+MenuBrowserRefreshDesc = Refresh...
+MenuBugReportCaption = &Report a Bug (Sourceforge)...
+MenuBugReportDesc = Enables you to report a bug for this application on Sourceforge.net
+MenuCatchUpCategoryCaption = Mark All Items In Category As Read
+MenuCatchUpCategoryDesc = Mark all feeds within this category read...
+MenuCatchUpOnAllCaption = Mark All Items As Read
+MenuCatchUpOnAllDesc = Mark All Items As Read
+MenuCatchUpSelectedNodeCaption = Mark as read
+MenuCatchUpSelectedNodeDesc = Mark all feed items as read on the selected subscription node in the tree view...
+MenuCatchUpThisFeedCaption = Mark All Items As Read
+MenuCatchUpThisFeedDesc = Mark all feed items as read...
+MenuCheckForUpdatesCaption = Check for updates...
+MenuCheckForUpdatesDesc = Check for program updates
+MenuClearAutodiscoveredFeedsListCaption = Clear discovered feeds list
+MenuClearAutodiscoveredFeedsListDesc = Clear all discovered feeds displayed below...
+MenuColumnChooserAuthorCaption = Show Author
+MenuColumnChooserAuthorDesc = Display the author column of a news item...
+MenuColumnChooserCaption = Column Layout
+MenuColumnChooserCommentCountCaption = Show Comment Count
+MenuColumnChooserCommentCountDesc = Display the comment counter column of a news item...
+MenuColumnChooserDateCaption = Show Date
+MenuColumnChooserDateDesc = Display the date column of a news item...
+MenuColumnChooserDesc = Manage displayed columns and layout...
+MenuColumnChooserEnclosureCaption = Show Enclosure State
+MenuColumnChooserEnclosureDesc = Display the enclosure state column of a news item...
+MenuColumnChooserFeedTitleCaption = Show Subscription Title
+MenuColumnChooserFeedTitleDesc = Display the subscription title column of a news item...
+MenuColumnChooserFlagCaption = Show Flag State
+MenuColumnChooserFlagDesc = Display the flag state column of a news item...
+MenuColumnChooserResetLayoutToDefaultCaption = Reset layout to default	
+MenuColumnChooserResetLayoutToDefaultDesc = Layout will be removed from the selected subscription node...
+MenuColumnChooserSubjectCaption = Show Topic
+MenuColumnChooserSubjectDesc = Display the subject (category, topic) column of a news item...
+MenuColumnChooserTitleCaption = Show Headline
+MenuColumnChooserTitleDesc = Display the headline (title) column of a news item...
+MenuColumnChooserUseCategoryLayoutGlobalCaption = Use layout as default for categories
+MenuColumnChooserUseCategoryLayoutGlobalDesc = Layout will be valid for all category nodes without an individual assigned layout...
+MenuColumnChooserUseFeedLayoutGlobalCaption = Use layout as default for feeds	
+MenuColumnChooserUseFeedLayoutGlobalDesc = Layout will be valid for all feed nodes without an individual assigned layout...
+MenuConfigCommandCaption = Configure...
+MenuCopyFeedCaption = Copy
+MenuCopyFeedDesc = Copy fields of the selected Feed to...
+MenuCopyFeedFeedHomeTitleLinkToClipboardCaption = Feed Homepage with it's title as Link to Clipboard
+MenuCopyFeedFeedHomeTitleLinkToClipboardDesc = Copy Feed Homepage with it's title as Link of the current selected RSS Feed to the clipboard...
+MenuCopyFeedHomeLinkToClipboardCaption = Feed Homepage as Link to Clipboard
+MenuCopyFeedHomeLinkToClipboardDesc = Copy the feed Homepage as a link of the current selected Feed to the clipboard...
+MenuCopyFeedItemCaption	= Copy
+MenuCopyFeedItemContentToClipboardCaption = Item Content to Clipboard
+MenuCopyFeedItemContentToClipboardDesc = Copy the Content of the current selected Feed Item to the clipboard...
+MenuCopyFeedItemDesc = Copy fields of an Feed Item to...
+MenuCopyFeedItemLinkToClipboardCaption = Item Link to Clipboard
+MenuCopyFeedItemLinkToClipboardDesc = Copy the Link of the current selected Feed Item to the clipboard...
+MenuCopyFeedItemTitleLinkToClipboardCaption = Item Title as Link to Clipboard
+MenuCopyFeedItemTitleLinkToClipboardDesc = Copy the Title as a Link of the current selected RSS Item to the clipboard...
+MenuCopyFeedLinkToClipboardCaption = Feed Link to Clipboard
+MenuCopyFeedLinkToClipboardDesc = Copy the Feedlink of the current selected feed node to the clipboard...
+MenuDeleteAllFeedItemsCaption = Delete all items
+MenuDeleteAllFeedItemsDesc = Removes all contained items...
+MenuDeleteAllFeedsCaption = Delete All Feeds
+MenuDeleteAllFeedsDesc = Delete All feeds...
+MenuDeleteCategoryCaption = Delete Category
+MenuDeleteCategoryDesc = Deletes this category and the containing feeds...
+; Caption within context menu, was formerly "Delete selected items"
+MenuDeleteSelectedFeedItemsCaption = Delete	
+MenuDeleteSelectedFeedItemsDesc = Deletes all selected items...
+MenuDeleteThisFeedCaption = Delete Feed
+MenuDeleteThisFeedDesc = Deletes this feed...
+MenuDocTabsCloseAllCaption = Close all documents
+MenuDocTabsCloseAllDesc = Closes all document tabs on all strips...
+MenuDocTabsCloseAllOnStripCaption = Close all documents on strip
+MenuDocTabsCloseAllOnStripDesc = Closes the document tabs on the selected strip...
+MenuDocTabsCloseCurrentCaption = Close document
+MenuDocTabsCloseCurrentDesc = Closes the current selected document tab...
+MenuDocTabsLayoutHorizontalCaption = Horizontal split layout
+MenuDocTabsLayoutHorizontalDesc = If checked, splitted doc tabs can be of horizontal layout...
+MenuDonateToProjectCaption = Donate...
+MenuDonateToProjectDesc = Navigates to an Url where you can support the project...
+MenuDoSearchComboBoxCaption	= Web Search For
+MenuDoSearchComboBoxDesc = Word(s) to search the web...
+MenuDoSearchWebCaption = Search the Web
+MenuDoSearchWebDesc = Search the phrase on the web...
+MenuDownloadAttachmentCaption = Download Attachment
+MenuDownloadAttachmentDesc = Download the item's enclosure files to the specified Podcasts folder
+MenuDownloadFeedsCaption = &Download Feeds...	
+MenuDownloadFeedsDesc = Download feed list from remote storage.	
+MenuExportFeedsCaption = &Export Feeds...
+MenuExportFeedsDesc	= Export the feed list...
+MenuFeedDetailLayoutBottomCaption = Reading Pane at Top
+MenuFeedDetailLayoutBottomDesc = Feed items list at bottom, content at top...
+MenuFeedDetailLayoutCaption = &Reading Pane Position
+MenuFeedDetailLayoutDesc = Select/Change the feed details layout...
+MenuFeedDetailLayoutLeftCaption = Reading Pane on Right
+MenuFeedDetailLayoutLeftDesc = Feed items list at left, content right...
+MenuFeedDetailLayoutRightCaption = Reading Pane on Left
+MenuFeedDetailLayoutRightDesc = Feed items list at right, content left...
+MenuFeedDetailLayoutTopCaption = Reading Pane at Bottom
+MenuFeedDetailLayoutTopDesc = Feed items list at top, content below...
+MenuFeedItemPostReplyCaption = &Post reply...
+MenuFeedItemPostReplyDesc = Post a reply to this feed item...
+MenuFinderDeleteAllCaption = Delete All
+MenuFinderDeleteAllDesc = Delete all the search folders below the selected node...
+MenuFinderDeleteCaption = Delete
+MenuFinderDeleteDesc = Delete the selected search folder...
+MenuFinderRenameCaption = Rename Search Folder
+MenuFinderRenameDesc = Rename selected Search Folder
+MenuFinderShowExcerptsCaption = Show excerpts in search results
+MenuFinderShowExcerptsDesc = Toggles between summary and full item texts
+MenuFlagFeedItemCaption = Flag item
+MenuFlagFeedItemClearCaption = Clear
+MenuFlagFeedItemClearDesc = Remove the selected feed item(s) from the Flagged Items Collection...
+MenuFlagFeedItemCompleteCaption = Complete
+MenuFlagFeedItemCompleteDesc = Flag as complete and removes the selected feed item(s) from the Flagged Items Collection...
+MenuFlagFeedItemDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuFlagFeedItemFollowUpCaption = Follow Up
+MenuFlagFeedItemFollowUpDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuFlagFeedItemForwardCaption = Forward
+MenuFlagFeedItemForwardDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuFlagFeedItemReadCaption = Read
+MenuFlagFeedItemReadDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuFlagFeedItemReplyCaption = Reply
+MenuFlagFeedItemReplyDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuFlagFeedItemReviewCaption = Review
+MenuFlagFeedItemReviewDesc = Add the selected feed item(s) to the Flagged Items Collection...
+MenuIBlogExtensionCommandDesc = IBlogExtension (PlugIn) command	
+MenuIBlogExtensionConfigCommandDesc = IBlogExtension (PlugIn) configuration
+MenuImportFeedsCaption = &Import Feeds...
+MenuImportFeedsDesc = Import a feed list (.xml, .ocs or .opml)
+MenuListViewSelectAllCaption = Select &All
+MenuListViewSelectAllDesc = Select all items of the news item list panel
+MenuMarkFeedItemsUnreadCaption = Mark as &unread
+MenuMarkFeedItemsUnreadDesc = Mark the selected feed items unread...
+MenuNavigateToFeedHomeCaption = Homepage
+MenuNavigateToFeedHomeDesc = Navigate to Feed Homepage...
+MenuNewCategoryCaption = New &Category
+MenuNewCategoryDesc = Add a new category to group feeds
+; Caption for the 'new' command toolbar/dropdown
+MenuNewCmdsCaption = &New...
+MenuNewCmdsDesc = Create new subscriptions
+MenuNewDiscoveredFeedCaption = &Search Results Subscription...
+MenuNewDiscoveredFeedDesc = Find a feed or subscribe to a search result feed
+; Top Stories related
+MenuTopStoriesCaption = Top Stories
+;CHANGED
+MenuTopStoriesDesc = View the most recently popular links in your subscriptions
+;CHANGED
+ProcessTopStoriesEntertainmentWaitMessage = Determining Top Stories, please wait...
+;CHANGED
+TopStoriesHtmlPageTitle(string appTitle) = {0} Top Stories: Most Linked Recent Stories
+TopStoriesHtmlDiscussionSectionTitle = Discussion:
+MenuNewFeedCaption = &Feed Subscription...
+MenuNewFeedCaption2 = &New Feed Subscription...	
+MenuNewFeedDesc = Subscribe to a new feed	
+MenuNewFinderCaption = New Search Folder
+MenuNewFinderDesc = Create a new search folder...
+MenuNewNntpFeedCaption = &Newsgroup Subscription...
+MenuNewNntpFeedDesc = Subscribe to a new feed
+MenuNewRssSearchCaption = Search
+MenuNewRssSearchDesc = Search locally for items...
+; Caption within menu to call the subscription wizard
+MenuNewSubscriptionByWizardCaption = &New Subscription...
+MenuNewSubscriptionByWizardDesc = Create new subscriptions by the help of a wizard
+MenuNextUnreadItemCaption = Next Unread Item
+MenuNextUnreadItemDesc = Move to the next unread feed item...
+MenuOpenConfigIdentitiesDialogCaption = Manage Identities...
+MenuOpenConfigIdentitiesDialogdesc = Opens a dialog to manage identities...
+MenuOpenConfigNntpServerDialogCaption = Newsgroups...
+MenuOpenConfigNntpServerDialogDesc = Opens a dialog to manage NNTP servers and newsgroups...
+MenuOpenManageAddInsDialogCaption = &Add-Ins...
+MenuOpenManageAddInsDialogDesc = Display the application Add-In management dialog...
+; Toolbar button capt./descr. (post a new item to a NNTP group)
+MenuPostNewFeedItemCaption = New Post
+MenuPostNewFeedItemDesc = Create a new post to send to the selected feed
+MenuPostReplyFeedItemCaption = &Post reply...
+MenuPostReplyFeedItemDesc = Post a reply to this feed item...
+MenuFeedItemWatchCommentsCaption = &Watch Comments
+MenuFeedItemWatchCommentsDesc = Be notified of new comments to this entry
+MenuRefreshFinderCaption = Refresh Search
+MenuRefreshFinderDesc = Refreshes the search results in the search folder...
+MenuRenameCaptionDesc = Rename this search folder...
+MenuRenameCategoryCaption = Rename Category
+MenuRenameCategoryDesc = Rename this category...
+MenuRenameThisFeedCaption = Re&name Feed
+MenuRenameThisFeedDesc = Rename this feed...
+MenuRestoreSelectedFeedItemsCaption = Restore
+MenuRestoreSelectedFeedItemsDesc = Restores all selected items...
+MenuShowAlertWindowsCaption = Show Feed Alert Windows
+MenuShowAlertWindowsDesc = Control the display of the configured alert window notifications...
+MenuShowAllAlertWindowsCaption = Always
+MenuShowAllAlertWindowsDesc = Display alert window notifications on all new received posts...
+MenuShowCategoryPropertiesCaption = Properties...
+MenuShowCategoryPropertiesDesc = Display the Category properties dialog...
+MenuShowConfiguredFeedAlertWindowsCaption = As configured per feed
+MenuShowConfiguredFeedAlertWindowsDesc = Display alert window notifications as configured per feed...
+MenuShowFeedPropertiesCaption = Properties...	
+MenuShowFeedPropertiesDesc = Display the Feed properties dialog...
+MenuShowFinderPropertiesCaption = Properties...
+MenuShowFinderPropertiesDesc = Display the Find properties dialog...
+MenuShowLinkCosmosCaption = Link Cosmos
+MenuShowLinkCosmosDesc = Navigate to Technorati and view Feed's link cosmos...
+MenuShowMainGuiCaption = Open RSS Bandit
+MenuShowMainGuiDesc = Re-display/open the RSS Bandit Main Window...
+MenuShowNewItemsReceivedBalloonCaption = Show New Items Desktop Alert
+MenuShowNewItemsReceivedBalloonDesc = Control the display of the balloon alert notification about new received items...
+MenuShowNoneAlertWindowsCaption = Never
+MenuShowNoneAlertWindowsDesc = Display no alert window notifications at all...	Description within context menu
+MenuSubscribeToFinderResultCaption = Subscribe...
+MenuSubscribeToFinderResultDesc = Display the new feed dialog to subscribe to the finder result...
+MenuToggleRssSearchTabStateCaption = &Search
+MenuToggleRssSearchTabStateDesc = Toggles the view state of the RSS Search panel.
+MenuToggleTreeViewStateCaption = &Feed Subscriptions
+MenuToggleTreeViewStateDesc = Toggles the view state of the feedlist tree panel.
+MenuUpdateAllFeedsCaption = Update &All Feeds
+MenuUpdateAllFeedsDesc = Initiate an update of all feeds...
+MenuUpdateCategoryCaption = Update Category
+MenuUpdateCategoryDesc = Refresh all feeds within this category...
+MenuUpdateThisFeedCaption = &Update Feed
+MenuUpdateThisFeedDesc = Refresh/Update this feed...
+MenuUploadFeedsCaption = &Upload Feeds...
+MenuUploadFeedsDesc = Upload feed list to remote storage.	
+MenuValidateFeedCaption = Validate
+MenuValidateFeedDesc = Validate the source of this feed (link)...
+MenuViewSourceOfFeedCaption = View Source
+MenuViewSourceOfFeedDesc = View the source of this feed...
+MenuViewToolbarMainCaption = Standard
+MenuViewToolbarMainDesc = Toggles the view state of the standard toolbar.
+MenuViewToolbarsCaption = &Toolbars
+MenuViewToolbarsDesc = Toggles the view state of the various toolbars.
+MenuViewToolbarWebNavigationCaption = Web Navigation
+MenuViewToolbarWebNavigationDesc = Toggles the view state of the web navigation toolbar.
+MenuViewToolbarWebSearchCaption = Web Search
+MenuViewToolbarWebSearchDesc = Toggles the view state of the web search toolbar.
+MenuWebHelpCaption = &Online Documentation
+MenuWebHelpDesc = Get help about the application, getting started, FAQ, etc.
+MenuWebSearchRequiresNewTabCaption = New Tab for Results
+MenuWebSearchRequiresNewTabDesc = Web Search Results should be displayed on new Tab(s)...
+MenuWebSearchToogleEngineDesc = Check this entry, to include it within the simultaneous search...
+MenuWorkspaceNewsCaption = &Display news (Sourceforge)...
+MenuWorkspaceNewsDesc = Read latest news about this application on Sourceforge.net
+MenuViewOutlookReadingPane = Show Items in Groups
+MessageBoxDeleteAllFeedsInCategoryQuestion = Do you really want to delete this category and all contained categories/feeds?
+MessageBoxDeleteAllFeedsQuestion = Do you really want to delete All feeds?
+MessageBoxDeleteAllFindersQuestion = Do you really want to delete all search folders?
+MessageBoxDeleteAllItemsQuestion = Do you really want to delete all items?
+MessageBoxDeleteThisFeedQuestion = Do you really want to delete this feed subscription?
+MessageBoxDeleteThisFinderQuestion = Do you really want to delete this search folder?
+NameRequiredInPostReplyMessage = You must provide a name when posting a reply
+; New Post to a Feed Form Caption
+NewPostToFeedFormCaption(string feedName) = New Post to Feed: {0}
+; Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server
+NntpLoadingGroupsWaitMessage = Loading Newsgroups. This can take a few moments, ...
+; NNTP Server Configuration Settings Node captions
+NntpServerConfig_AdvancedSettingsNodeCaption = Advanced Settings
+NntpServerConfig_GeneralSettingsNodeCaption = General Settings
+NntpServerConfig_ServerSettingsNodeCaption = Server Settings
+NotYetImplementedFeature_Info = Sorry, but this feature is not yet implemented.
+OverflowExceptionRefreshRate = The specified value for refresh rate is too high.
+PostReplyFormCaption(string feedName) = Post Reply - Feed: {0}
+; Post reply identity infos about properties we provide to the receiver
+PostReplySentIdentityInfoText(string userName, string eMail, string referrerUrl) = user-name: {0}\r\ne-mail: {1}\r\nreferrer-url: {2}
+; Post reply identity info displayed for an empty property
+PostReplySentIdentityInfoTextEmptyValue = <none>
+; Post reply prefix to a Feed Item Title caption
+PostReplyTitlePrefix(string subject) = Re: {0}
+
+PreferencesExceptionMessageTitle = Preferences setting exception
+; Category name displayed for refresh feed exceptions (listview)
+ProtocolViolationExceptionCategory = Protocol Violation Exception
+; Parts of the error text displayed for refresh feed exceptions
+RefreshFeedExceptionGeneratorStringPart(string generator) = The Feed was generated by '{0}'.
+RefreshFeedExceptionReportContactInfo = Contact information(s):	
+RefreshFeedExceptionReportHomePage = Feed Homepage
+RefreshFeedExceptionReportManagingEditor = Managing Editor
+RefreshFeedExceptionReportStringPart(string feedName, string error) = Refresh feed '<strong>{0}</strong>' failed with error: {1}
+RefreshFeedExceptionReportValidationPart = Click here to <strong>validate</strong> the feed.
+RefreshFeedExceptionReportWebMaster = Web Master
+RefreshFeedExceptionUserActionIntroText = What do you want to do now?
+RefreshFeedExceptionUserActionNavigateToSubscription = Navigate to the subscription...
+RefreshFeedExceptionUserActionDeleteSubscription = Remove this subscription...
+RemoteStorageDownload_Question = This will replace your local feed list with one downloaded\r\nfrom the service configured using the Remote Storage tab of the Options dialog.\r\n\r\nProceed?
+RemoteStorageFeature_Info = You must configure Remote Storage through the Options dialog before you can use this command.
+RemoteStorageUpload_Question = This will upload your feed list to the service\r\nconfigured using the Remote Storage tab of the Options dialog.\r\n\r\nProceed?
+RemoteStorageUploadSucceeds_Info = Feed list successfully uploaded.
+RssSearchCancelledStateMessage = Search cancel in progress, ...
+RssSearchDialogButtonCancelCaption = Cancel
+RssSearchDialogButtonCancelDesc = Press to cancel the current search...
+RssSearchDialogButtonSearchCaption = Search
+RssSearchDialogButtonSearchDesc = Press to start the defined search...
+RssSearchNoResultMessage = No items found.
+; Search Result Node caption
+RssSearchResultNodeCaption = Search result
+RssSearchStateMessage = Searching, ...
+RssSearchSuccessResultMessage(int foundItemsCount) = {0} item(s) found.
+RssSearchTypeRegExHintCaption = Find all posts that contain words or phrases that match a regular expression.
+RssSearchTypeTextHintCaption = Find all posts containing the specific word or phrase.
+RssSearchTypeXPathHintCaption = Find all posts who's RSS 2.0 representation matches the specified XPath.
+SecurityExceptionCausedByRegistryAccess(string regKey) = To apply this functionality the application needs write access rights\r\nto this Windows registry key: '{0}'.\r\n\r\nTo get it work, please start the application from within the Windows File Explorer\r\nby selecting 'Run as...' from the context menu displayed on a Right-Click to the executable.\r\nThen choose the local Administrator account to run the application and try again.\r\n\r\nThe administrative rights are only needed to apply the requested functionality.\r\nIt is not required to have them each time you run the application.\r\nSorry for the inconvenience.
+; Display the overall subscribed feeds count
+StatisticsAllFeedsCountMessage(int feedsCount) = Subscribed feeds: {0}
+; Display the overall items per selection count
+StatisticsItemsDisplayedMessage(int selectionCount) = Selection contains {0} items
+; syndic8.com Feed search service caption
+Syndic8FeedSearchTitle = Syndic8 Service
+; Tab caption of the feed home page (Webpage)
+TabFeedHomeCaption(string home) = Feed Home: {0}
+; Tab caption of the feed source view (Xml Webpage)
+TabFeedSourceCaption(string source) = Feed Source: {0}
+; Tab caption of the feed's technorati link cosmos (Webpage)
+TabLinkCosmosCaption(string cosmos) = Feed Link Cosmos: {0}
+TabValidationResultCaption = Feed Validation Result
+; Toolbar chevron dropdown menu caption
+ToolbarAddRemoveButtonsCaption = Add or Remove Buttons
+; Toolbar chevron dropdown menu tip
+ToolbarOptionsCaption = Toolbar Options
+; Info text used to inform a user about a feedlist file format change
+UpgradeFeedlistInfoText(string appName) = The current version of {0} supports new program features or bugfixes, that\r\nrequires a change of your feedlist file format.\r\nTo keep your older versions running, the application will try to create a new feedlist file from your current list.\r\n\r\nThe old file will be left untouched.\r\n\r\nDo you want to continue?
+UpgradeInfoBoxCaption = Upgrade Information
+WaitDialogMessageCheckForNewAppVersion = Checking for new updates...
+WebExceptionCategory = Web Failure
+WebExceptionOnUrlAccess(string url, string error) = Request of URL {0} failed:\r\n{1}	
+WindowAboutCaption(string productName) = About {0}
+
+; Subscription wizard tasks/infos
+WizardLocateFeedBySearchTask_NoFeedFoundMessage = Go back to change the keyword(s) or click Cancel
+WizardLocateFeedByUrlTask_NoFeedFoundMessage = Go back to change the URL or click Cancel
+WizardValidationTask_GetWebFeedTitleMessage = Get the web feed title...
+WizardValidationTask_InvalidFeedMessage = Invalid web feed.	
+WizardValidationTask_PrefetchCanceledMessage = Prefetch web feed cancelled.
+WizardValidationTask_PrefetchFailedMessage = Prefetch web feed failed.
+WizardValidationTask_SearchCanceledMessage = Search cancelled.
+WizardValidationTask_SearchFailedMessage = Search failed.
+WizardValidationTask_SearchingMessage = Searching...
+WizardValidationTask_Success_xFeedsFound_Message(int foundFeedsCount) = {0} Web feed(s) found.
+WizardValidationTask_SuccessMessage = Web feed retrieved.
+WizardValidationTask_VerifyingUrlMessage = Verifying URL...
+WrongImageSizeMessage = Image is not of size 16x16 pixel.
+XmlExceptionCategory = Xml Failure
+
+; Xslt default template language resources
+XsltDefaultTemplate_Previous = Previous
+XsltDefaultTemplate_Next = Next
+XsltDefaultTemplate_Displaying_page = Displaying page
+XsltDefaultTemplate_of = of
+XsltDefaultTemplate_ItemPublisher = Publisher
+XsltDefaultTemplate_RelatedLinks = Related Links
+XsltDefaultTemplate_ItemAuthor = Author
+XsltDefaultTemplate_ItemDate = posted at
+XsltDefaultTemplate_ItemEnclosure = Enclosure
+XsltDefaultTemplate_ToggleReadState = Mark read or unread
+XsltDefaultTemplate_ToggleFlagState = Set or clear flag
+XsltDefaultTemplate_ToggleWatchState = Watch or stop watching comments
+
+; some urls as fallback if invalid or missing in .config
+URL_BugReport = http://sourceforge.net/tracker/?atid=615248&group_id=96589&func=browse
+URL_FeedLinkCosmosUrlBase = http://www.technorati.com/cosmos/links.html?rank=links&url=
+URL_FeedValidationBase = http://www.feedvalidator.org/check?url=
+URL_ProjectDonation = http://sourceforge.net/donate/index.php?group_id=96589
+URL_ProjectDownload = http://sourceforge.net/project/showfiles.php?group_id=96589&package_id=103276
+URL_ProjectNews = http://sourceforge.net/news/?group_id=96589
+URL_UserForum = http://www.rssbandit.org/forum/
+URL_WebHelp = http://www.rssbandit.org/docs/
+URL_WikiWebNews = http://www.rssbandit.org/
+
+; DialogBase control captions
+DialogBase_SubmitButtonCaption = OK
+DialogBase_SubmitButtonCaptionTip = Accept all changes and close
+DialogBase_CancelButtonCaption = Cancel
+DialogBase_CancelButtonCaptionTip = Dismiss any changes and close
+DialogBase_UACShieldedHint = Option requires higher user privileges (Administrator)...
+
+; Podcast option dialog title
+PodcastOptionDialog_Title = Podcast Options
+; Podcast option dialog general section
+PodcastOptionDialog_GeneralSectionCaption = General
+PodcastOptionDialog_TreatFileTypesCaption = Treat these file types as podcasts - use semicolons (';') to separate entries:
+PodcastOptionDialog_TreatFileTypesTip = List of podcast file extensions separated by semicolons
+PodcastOptionDialog_CopyPodcastFilesLabelCaption = After downloading copy the podcast to:
+PodcastOptionDialog_CopyPodcastFilesLocationTip = Destination folder of podcasts
+PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip = Click to select the destination folder of podcasts
+PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption = Windows Media Player playlist
+PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption = iTunes playlist
+PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption = This folder:
+; Podcast option dialog playlist section
+PodcastOptionDialog_PlaylistSectionCaption = Playlist
+PodcastOptionDialog_PlaylistSectionLabelCaption = As playlist name:
+PodcastOptionDialog_PlaylistFromFileSourceOptionCaption = Use the file's source name
+PodcastOptionDialog_PlaylistFromFeedOptionCaption = Use the Feed name
+PodcastOptionDialog_PlaylistFromCustomNameOptionCaption = Add all files to a single playlist with this name:
+PodcastOptionDialog_PlaylistCustomNameTip = Provide the name of the playlist
+
+; Main Form control captions
+MainForm_MainMenuToolbarCaption = Main Menu Bar
+MainForm_MainAppToolbarCaption = Main Application Tools
+MainForm_MainWebToolbarCaption = Web Browser Tools
+MainForm_MainSearchToolbarCaption = Search Tools
+MainForm_ToolCategoryMenu = Menu
+MainForm_ToolCategoryFile = File
+MainForm_ToolCategoryEdit = Edit
+MainForm_ToolCategoryView = View
+MainForm_ToolCategoryTools = Tools
+MainForm_ToolCategoryHelp = Help
+MainForm_ToolCategoryBrowse = Browse
+MainForm_ToolCategorySearch = Search
+MainForm_ToolUrlDropdownCueText = Type a URL to browse to
+MainForm_SubscriptionNavigatorCaption = Feed Subscriptions
+MainForm_SearchNavigatorCaption = Search
+MainForm_StatusBarBrowser_ToolTipText = Web Browser status...
+MainForm_StatusBarBrowserProgress_ToolTipText = Request page progress...
+MainForm_StatusBarConnectionState_ToolTipText = Network connection state...
+MainForm_StatusBarRssParser_ToolTipText = RSS Engine state...
+MainForm_DetailHeaderCaption_AtStartup = Welcome!
+
+; Windows Sound Control Panel - sound caption
+WindowsSoundControlPanelNewFeedDiscovered = Feed Discovered
+; Windows Sound Control Panel - sound caption
+WindowsSoundControlPanelNewItemsReceived = New Item(s) Received
+; Windows Sound Control Panel - sound caption
+WindowsSoundControlPanelNewAttachmentDownloaded = New Attachment Downloaded
+; Windows Sound Control Panel - start Control panel configuration failed
+WindowsSoundControlPanelDisplayFailed(string failure) = Sorry, failed to display Windows Control Panel to configure System and Application Sounds:\r\n\r\n{0}\r\n\r\nPlease try to open the Panel manually using the Control Panel Start Menu.
+
+; SearchPanel control
+SearchPanel_btnRssSearchSave_Text = Save
+SearchPanel_checkBoxRssSearchInLink_Text = Item &Link
+SearchPanel_checkBoxRssSearchInCategory_Text = Top&ic
+SearchPanel_checkBoxRssSearchInDesc_Text = &Description
+SearchPanel_checkBoxRssSearchInTitle_Text = &Title
+SearchPanel_labelSearchFieldsHint_Text = Check all the fields you want searched
+SearchPanel_advancedOptionItemPostedGroup_Text = Item &posted
+SearchPanel_advancedOptionItemAgeGroup_Text = Item &Age
+SearchPanel_optionSetItemAge_Text = &Newer than
+SearchPanel_optionSetItemAgeOlderThan_Text = &Older than
+SearchPanel_advancedOptionReadStatusGroup_Text = &Read Status
+SearchPanel_checkBoxRssSearchUnreadItems_Text = &Unread Posts
+SearchPanel_btnNewSearch_Text = Reset Search
+SearchPanel_btnSearch_Text = Search
+SearchPanel_btnSearchCancel_Text = Cancel
+SearchPanel_searchTaskPaneSaveOptions_Text = &Save This Search As
+SearchPanel_searchTaskPaneFields_Text = Search &Fields
+SearchPanel_searchTaskPaneAdvancedOptions_Text = Advanced &Options
+SearchPanel_searchTaskPaneScope_Text = Search Scope
+SearchPanel_comboBoxRssSearchItemPostedOperator_at = at
+SearchPanel_comboBoxRssSearchItemPostedOperator_before = before
+SearchPanel_comboBoxRssSearchItemPostedOperator_after = after
+SearchPanel_comboBoxRssSearchItemPostedOperator_between = between
+SearchPanel_comboRssSearchItemAge_1_hour = 1 hour
+SearchPanel_comboRssSearchItemAge_x_hours(int hours) = {0} hours
+SearchPanel_comboRssSearchItemAge_1_day = 1 day
+SearchPanel_comboRssSearchItemAge_x_days(int days) = {0} days
+SearchPanel_comboRssSearchItemAge_1_month = 1 month
+SearchPanel_comboRssSearchItemAge_x_months(int months) = {0} months
+SearchPanel_comboRssSearchItemAge_1_quarter = 1 quarter
+SearchPanel_comboRssSearchItemAge_x_quarters(int quarters) = {0} quarters
+SearchPanel_comboRssSearchItemAge_1_year = 1 year
+SearchPanel_comboRssSearchItemAge_x_years(int years) = {0} years
+
+
+; NewsGroupConfiguration dialog toolbar caption
+NewsGroupConfiguration_MainToolbarCaption = Main Tools
+; NewsGroupConfiguration dialog main tool
+NewsGroupConfiguration_NewIdentityToolCaption = Add Identity
+NewsGroupConfiguration_NewIdentityToolDesc = Create a new identity...
+; NewsGroupConfiguration dialog main tool
+NewsGroupConfiguration_NewNewsServerToolCaption = Add News Server
+NewsGroupConfiguration_NewNewsServerToolDesc = Add a new NNTP Server...
+; NewsGroupConfiguration dialog main tool
+NewsGroupConfiguration_DeleteToolCaption = Delete
+NewsGroupConfiguration_DeleteToolDesc = Removes the selected item

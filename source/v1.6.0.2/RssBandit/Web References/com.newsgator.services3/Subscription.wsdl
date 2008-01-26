@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s1="http://services.newsgator.com/svc/Subscription.asmx/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://services.newsgator.com/svc/Subscription.asmx" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://services.newsgator.com/svc/Subscription.asmx" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://services.newsgator.com/svc/Subscription.asmx">
+      <s:element name="AddSubscription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlUrl" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="folderId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="cred" type="tns:NGOSCredential" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="NGOSCredential">
+        <s:sequence>
+          <s:choice minOccurs="1" maxOccurs="1">
+            <s:element minOccurs="0" maxOccurs="1" name="networkCredential" type="tns:Credential" />
+            <s:element minOccurs="0" maxOccurs="1" name="useNGOSCredentials" />
+          </s:choice>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Credential">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="passwordenc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="domain" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddSubscriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddSubscriptionResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NGAPIToken" type="tns:NGAPIToken" />
+      <s:complexType name="NGAPIToken">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteSubscriptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="subscriptionList" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteSubscriptionsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReplaceSubscriptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opmlDocument">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReplaceSubscriptionsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MergeSubscriptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opmlDocument">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeSubscriptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MergeSubscriptionsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveSubscription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="subscriptionId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="toFolderId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveSubscriptionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RenameSubscription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="subscriptionId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="newName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RenameSubscriptionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSubscriptionCounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="location" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriptionCountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSubscriptionCountsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriptionList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="location" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="syncToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriptionListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSubscriptionListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="syncToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUpdatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUpdatesResult" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="newToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema targetNamespace="http://services.newsgator.com/svc/Subscription.asmx/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddSubscriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSubscription" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:AddSubscriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriptionNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSubscriptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteSubscriptions" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSubscriptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteSubscriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSubscriptionsNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="ReplaceSubscriptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:ReplaceSubscriptions" />
+  </wsdl:message>
+  <wsdl:message name="ReplaceSubscriptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:ReplaceSubscriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReplaceSubscriptionsNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="MergeSubscriptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeSubscriptions" />
+  </wsdl:message>
+  <wsdl:message name="MergeSubscriptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeSubscriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="MergeSubscriptionsNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="MoveSubscriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveSubscription" />
+  </wsdl:message>
+  <wsdl:message name="MoveSubscriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveSubscriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveSubscriptionNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="RenameSubscriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:RenameSubscription" />
+  </wsdl:message>
+  <wsdl:message name="RenameSubscriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:RenameSubscriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="RenameSubscriptionNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionCountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSubscriptionCounts" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionCountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSubscriptionCountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionCountsNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSubscriptionList" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSubscriptionListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionListNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUpdates" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUpdatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSubscriptionsHttpPostIn">
+    <wsdl:part name="subscriptionList" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSubscriptionsHttpPostOut" />
+  <wsdl:message name="MoveSubscriptionHttpPostIn">
+    <wsdl:part name="subscriptionId" type="s:string" />
+    <wsdl:part name="toFolderId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MoveSubscriptionHttpPostOut" />
+  <wsdl:message name="RenameSubscriptionHttpPostIn">
+    <wsdl:part name="subscriptionId" type="s:string" />
+    <wsdl:part name="newName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RenameSubscriptionHttpPostOut" />
+  <wsdl:message name="GetSubscriptionCountsHttpPostIn">
+    <wsdl:part name="location" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionCountsHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionListHttpPostIn">
+    <wsdl:part name="location" type="s:string" />
+    <wsdl:part name="syncToken" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriptionListHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:portType name="SubscriptionWebServiceSoap">
+    <wsdl:operation name="AddSubscription">
+      <wsdl:input message="tns:AddSubscriptionSoapIn" />
+      <wsdl:output message="tns:AddSubscriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSubscriptions">
+      <wsdl:input message="tns:DeleteSubscriptionsSoapIn" />
+      <wsdl:output message="tns:DeleteSubscriptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReplaceSubscriptions">
+      <wsdl:input message="tns:ReplaceSubscriptionsSoapIn" />
+      <wsdl:output message="tns:ReplaceSubscriptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeSubscriptions">
+      <wsdl:input message="tns:MergeSubscriptionsSoapIn" />
+      <wsdl:output message="tns:MergeSubscriptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveSubscription">
+      <wsdl:input message="tns:MoveSubscriptionSoapIn" />
+      <wsdl:output message="tns:MoveSubscriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RenameSubscription">
+      <wsdl:input message="tns:RenameSubscriptionSoapIn" />
+      <wsdl:output message="tns:RenameSubscriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionCounts">
+      <wsdl:input message="tns:GetSubscriptionCountsSoapIn" />
+      <wsdl:output message="tns:GetSubscriptionCountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionList">
+      <wsdl:input message="tns:GetSubscriptionListSoapIn" />
+      <wsdl:output message="tns:GetSubscriptionListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a list of feeds that have updated since the last sync</documentation>
+      <wsdl:input message="tns:GetUpdatesSoapIn" />
+      <wsdl:output message="tns:GetUpdatesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SubscriptionWebServiceHttpPost">
+    <wsdl:operation name="DeleteSubscriptions">
+      <wsdl:input message="tns:DeleteSubscriptionsHttpPostIn" />
+      <wsdl:output message="tns:DeleteSubscriptionsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveSubscription">
+      <wsdl:input message="tns:MoveSubscriptionHttpPostIn" />
+      <wsdl:output message="tns:MoveSubscriptionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RenameSubscription">
+      <wsdl:input message="tns:RenameSubscriptionHttpPostIn" />
+      <wsdl:output message="tns:RenameSubscriptionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionCounts">
+      <wsdl:input message="tns:GetSubscriptionCountsHttpPostIn" />
+      <wsdl:output message="tns:GetSubscriptionCountsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionList">
+      <wsdl:input message="tns:GetSubscriptionListHttpPostIn" />
+      <wsdl:output message="tns:GetSubscriptionListHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SubscriptionWebServiceSoap" type="tns:SubscriptionWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="AddSubscription">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/AddSubscription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddSubscriptionNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSubscriptions">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/DeleteSubscriptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSubscriptionsNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReplaceSubscriptions">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/ReplaceSubscriptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ReplaceSubscriptionsNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeSubscriptions">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/MergeSubscriptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:MergeSubscriptionsNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveSubscription">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/MoveSubscription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:MoveSubscriptionNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenameSubscription">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/RenameSubscription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RenameSubscriptionNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionCounts">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/GetSubscriptionCounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetSubscriptionCountsNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionList">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/GetSubscriptionList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetSubscriptionListNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <soap:operation soapAction="http://services.newsgator.com/svc/Subscription.asmx/GetUpdates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SubscriptionWebServiceHttpPost" type="tns:SubscriptionWebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="DeleteSubscriptions">
+      <http:operation location="/DeleteSubscriptions" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="MoveSubscription">
+      <http:operation location="/MoveSubscription" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="RenameSubscription">
+      <http:operation location="/RenameSubscription" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionCounts">
+      <http:operation location="/GetSubscriptionCounts" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriptionList">
+      <http:operation location="/GetSubscriptionList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SubscriptionWebService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">NewsGator Online Subscription Service</documentation>
+    <wsdl:port name="SubscriptionWebServiceSoap" binding="tns:SubscriptionWebServiceSoap">
+      <soap:address location="http://services.newsgator.com/ngws/svc/Subscription.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SubscriptionWebServiceHttpPost" binding="tns:SubscriptionWebServiceHttpPost">
+      <http:address location="http://services.newsgator.com/ngws/svc/Subscription.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

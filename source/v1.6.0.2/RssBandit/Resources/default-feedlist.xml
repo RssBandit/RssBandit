@@ -1,0 +1,158 @@
+<feeds refresh-rate='3600000' xmlns='http://www.25hoursaday.com/2004/RSSBandit/feeds/'>
+   <feed category='RSS Bandit'>
+ 	<title>RSS Bandit News</title>
+	<link>http://sourceforge.net/export/rss2_projnews.php?group_id=96589</link>
+   </feed>  
+   <feed category='RSS Bandit'>
+ 	<title>Torsten's RSS Bandit Blog</title>
+	<link>http://www.rendelmann.info/blog/SyndicationService.asmx/GetRssCategory?categoryName=RSS%20Bandit</link>
+    <refresh-rate>86400000</refresh-rate>
+   </feed>
+   <feed category='RSS Bandit'>
+ 	<title>Dare's RSS Bandit Blog</title>
+	<link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRssCategory?categoryName=RSS%20Bandit</link>
+    <refresh-rate>86400000</refresh-rate> 
+   </feed>
+   <feed category='News'>
+ 	<title>BBC News</title>
+	<link>http://news.bbc.co.uk/rss/newsonline_world_edition/front_page/rss091.xml</link>
+   </feed>
+   <feed category='News'>
+ 	<title>Yahoo News</title>
+	<link>http://rss.news.yahoo.com/rss/topstories</link>
+   </feed>
+   <feed category='Entertainment'>
+ 	<title>Rolling Stone</title>
+	<link>http://www.rollingstone.com/rssxml/music_news.xml</link>
+   </feed>
+   <feed category='Entertainment'>
+ 	<title>Yahoo News [Entertainment]</title>
+	<link>http://rss.news.yahoo.com/rss/entertainment</link>
+   </feed>  
+   <feed category='Politics'>
+ 	<title>Yahoo News [Politics]</title>
+	<link>http://rss.news.yahoo.com/rss/politics</link>
+   </feed>
+   <feed category='News\Technology'>
+	<title>Slashdot</title>
+	<link>http://slashdot.org/slashdot.rss</link>
+    <listview-layout>0ecbbe6fd000496e868f93f8932cc570</listview-layout>
+	<stylesheet>slashdot</stylesheet>
+   </feed>
+   <feed category='News\Technology'>
+	<title>TechCrunch</title>
+	<link>http://feeds.feedburner.com/Techcrunch</link>
+   </feed>
+  <feed category='News\Technology'>
+    <title>Engadget</title>
+    <link>http://www.engadget.com/rss.xml</link>
+  </feed>
+    <feed category='Blogs'>
+     <title>Robert Scoble</title>
+     <link>http://scobleizer.wordpress.com/feed/</link>
+   </feed>
+  <feed category='Blogs'>
+    <title>Dave Winer</title>
+    <link>http://www.scripting.com/rss.xml</link>
+  </feed>
+    <feed category='Blogs'>
+     <title>Jason Kottke</title>
+     <link>http://www.kottke.org/index.xml</link>
+   </feed>
+  <feed category='Comics'>
+    <title>XKCD</title>
+    <link>http://xkcd.com/rss.xml</link>
+  </feed>
+   <feed category='Comics'>
+     <title>Dilbert</title>
+     <link>http://dwlt.net/tapestry/dilbert.rdf</link>
+   </feed>
+    <feed category='Comics'>
+     <title>Peanuts</title>
+     <link>http://www.tapestrycomics.com/peanuts.xml</link>
+   </feed>
+    <feed category="Podcasts">
+	 <title>Ze Frank</title>
+     <link>http://feeds.feedburner.com/theshowzefrank</link>
+    </feed>
+    <feed category="Podcasts">
+     <title>This week in Tech</title>
+     <link>http://leoville.tv/podcasts/twit.xml</link>
+    </feed>
+   <categories>    
+    <category>Entertainment</category>
+    <category>Politics</category>
+    <category>News</category>
+    <category>News\Technology</category>
+    <category>RSS Bandit</category>
+	<category>Blogs</category>
+    <category>Comics</category>
+    <category>Podcasts</category>
+   </categories>
+   <listview-layouts>
+    <listview-layout ID='54b7a2c3d0b74fcea19e84e0cae0e745'>
+	 <FeedColumnLayout>
+	    <LayoutType>GlobalFeedLayout</LayoutType>
+	    <SortByColumn>Date</SortByColumn>
+		<SortOrder>Descending</SortOrder>
+		<ColumnList>
+		 <string>Title</string>
+		 <string>Subject</string>
+		 <string>Date</string>
+		 <string>CommentCount</string>
+		</ColumnList>
+		<ColumnWidthList>
+		 <int>343</int>
+		 <int>113</int>
+		 <int>135</int>
+		 <int>63</int>
+		</ColumnWidthList>
+	</FeedColumnLayout>
+   </listview-layout>
+   <listview-layout ID='9bc6fd4047384a19a030b315ffba5723'>
+    <FeedColumnLayout>
+		<LayoutType>GlobalCategoryLayout</LayoutType>
+		<SortByColumn>Date</SortByColumn>
+		<SortOrder>Descending</SortOrder>
+		<ColumnList>
+		 <string>Title</string>
+		 <string>Subject</string>
+		 <string>Date</string>
+		 <string>FeedTitle</string>
+		</ColumnList>
+		<ColumnWidthList>
+		 <int>250</int>
+		 <int>120</int>
+		 <int>100</int>
+		 <int>100</int>
+		</ColumnWidthList>
+	  </FeedColumnLayout>
+	</listview-layout>
+    <listview-layout ID='0ecbbe6fd000496e868f93f8932cc570'>
+	 <FeedColumnLayout>
+	  <LayoutType>IndividualLayout</LayoutType>
+	    <SortByColumn>Date</SortByColumn>
+	    <SortOrder>Descending</SortOrder>
+		<ColumnList>
+		 <string>Title</string>
+		 <string>Author</string>
+		 <string>Subject</string>
+		 <string>Date</string>
+		 <string>CommentCount</string>
+		</ColumnList>
+		<ColumnWidthList>
+		 <int>313</int>
+		 <int>94</int>
+		 <int>78</int>
+		 <int>109</int>
+		 <int>120</int>
+	   </ColumnWidthList>
+	  </FeedColumnLayout>
+     </listview-layout>
+    </listview-layouts>
+    <nntp-servers>
+     <server name='Microsoft'>
+	  <server-address>news.microsoft.com</server-address>
+	 </server>	
+	</nntp-servers>
+   </feeds>
