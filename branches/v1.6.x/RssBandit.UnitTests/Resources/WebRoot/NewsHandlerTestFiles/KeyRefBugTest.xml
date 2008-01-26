@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="7200000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  <feed category="Blogs">
+    <title>you've been HAACKED</title>
+    <link>http://haacked.com/Rss.aspx</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-06T17:38:45.2371336-07:00</last-retrieved>
+    <etag>8/6/2004 12:54:58 PM</etag>
+    <cacheurl>haacked.europe.webmatrixhosting.net.80.1537125231.731428cfa3454779940150bac842e8ba.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://haacked.com/archive/2004/08/06/883.aspx</story>
+      <story>http://haacked.com/archive/2004/08/06/882.aspx</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T12:54:58.0000000-07:00</if-modified-since>
+  </feed>
+  <categories>
+    <category>NotBlogs</category>
+  </categories>
+ </feeds>

@@ -1,0 +1,585 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFT
+        eXN0ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6wAA
+        AAIBAAAAAQAAAAAAAAAAAAAAANYAAABMAAAAqh0AAOQFAAABAAAAAQIAAAAAAAAAAAAAAAAAAAAAAABM
+        AAAAAAAAAAAAAAABAAAA4NBXAHM1zxGuaQgAKy4SYggAAAAAAAAATAAAAAEUAgAAAAAAwAAAAAAAAEaB
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAADgAFAAf
+        AIBTHIegQmkQouoIACswMJ0iAGGAAAAAAGEAYgBvAHUAdAA6AGIAbABhAG4AawAAAAAAAAAAAAAACw==
+</value>
+  </data>
+  <data name="colHeadline.Text">
+    <value>Заголовок</value>
+  </data>
+  <data name="colDate.Text">
+    <value>Дата</value>
+  </data>
+  <data name="colTopic.Text">
+    <value>Тема</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items">
+    <value>когда</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items1">
+    <value>ранее</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Items2">
+    <value>позднее</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 216</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 21</value>
+  </data>
+  <data name="comboBoxRssSearchItemPostedOperator.ToolTip">
+    <value>Выберите оператор сравнения...</value>
+  </data>
+  <data name="dateTimeRssSearchItemPost.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 243</value>
+  </data>
+  <data name="dateTimeRssSearchItemPost.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 21</value>
+  </data>
+  <data name="dateTimeRssSearchItemPost.ToolTip">
+    <value>Выберите дату для сравнения...</value>
+  </data>
+  <data name="dateTimeRssSearchPostAfter.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 21</value>
+  </data>
+  <data name="dateTimeRssSearchPostAfter.ToolTip">
+    <value>Выберите дату как нижнее значение интервала</value>
+  </data>
+  <data name="dateTimeRssSearchPostBefore.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 21</value>
+  </data>
+  <data name="dateTimeRssSearchPostBefore.ToolTip">
+    <value>Выберите дату как нижнее значение интервала</value>
+  </data>
+  <data name="treeFeeds.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 349</value>
+  </data>
+  <data name="panelRssSearch.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 349</value>
+  </data>
+  <data name="taskPaneSearchOptions.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 309</value>
+  </data>
+  <data name="collapsiblePanelSearchNameEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 23</value>
+  </data>
+  <data name="collapsiblePanelSearchNameEx.Text">
+    <value>Имя папки поиска</value>
+  </data>
+  <data name="btnRssSearchSave.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>148, 30</value>
+  </data>
+  <data name="btnRssSearchSave.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>81, 23</value>
+  </data>
+  <data name="btnRssSearchSave.Text">
+    <value>Сохранить</value>
+  </data>
+  <data name="labelSearchFolderNameHint.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>9, 60</value>
+  </data>
+  <data name="labelSearchFolderNameHint.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>223, 105</value>
+  </data>
+  <data name="labelSearchFolderNameHint.Text">
+    <value>Задайте имя для поиска чтобы сделать его постоянным. Вы можете включить в имя одну или больше категорий, например 'BUZZ Words\Atom'. Разделяйте их обратным слэшем.</value>
+  </data>
+  <data name="textFinderCaption.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>6, 30</value>
+  </data>
+  <data name="textFinderCaption.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>136, 21</value>
+  </data>
+  <data name="collapsiblePanelRssSearchExprKindEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 23</value>
+  </data>
+  <data name="collapsiblePanelRssSearchExprKindEx.Text">
+    <value>Тип поиска</value>
+  </data>
+  <data name="radioRssSearchSimpleText.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>224, 20</value>
+  </data>
+  <data name="radioRssSearchSimpleText.Text">
+    <value>Текст</value>
+  </data>
+  <data name="labelRssSearchTypeHint.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>229, 42</value>
+  </data>
+  <data name="labelRssSearchTypeHint.Text">
+    <value>Найти сообщения, содержащие слова или фразы</value>
+  </data>
+  <data name="radioRssSearchExprXPath.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>224, 20</value>
+  </data>
+  <data name="radioRssSearchRegEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>224, 20</value>
+  </data>
+  <data name="radioRssSearchRegEx.Text">
+    <value>Regexp</value>
+  </data>
+  <data name="collapsiblePanelItemPropertiesEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 23</value>
+  </data>
+  <data name="collapsiblePanelItemPropertiesEx.Text">
+    <value>Поля поиска</value>
+  </data>
+  <data name="checkBoxRssSearchInDesc.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>221, 20</value>
+  </data>
+  <data name="checkBoxRssSearchInDesc.Text">
+    <value>Описание</value>
+  </data>
+  <data name="checkBoxRssSearchInCategory.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>6, 72</value>
+  </data>
+  <data name="checkBoxRssSearchInCategory.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>221, 20</value>
+  </data>
+  <data name="checkBoxRssSearchInCategory.Text">
+    <value>Тема</value>
+  </data>
+  <data name="checkBoxRssSearchInTitle.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>221, 20</value>
+  </data>
+  <data name="checkBoxRssSearchInTitle.Text">
+    <value>Заголовок</value>
+  </data>
+  <data name="checkBoxRssSearchInLink.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>6, 93</value>
+  </data>
+  <data name="checkBoxRssSearchInLink.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>221, 20</value>
+  </data>
+  <data name="checkBoxRssSearchInLink.Text">
+    <value>Ссылка на сообщение</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>3, 117</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>229, 39</value>
+  </data>
+  <data name="label1.Text">
+    <value>Выберите поля для включения их в поиск.</value>
+  </data>
+  <data name="collapsiblePanelAdvancedOptionsEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 23</value>
+  </data>
+  <data name="collapsiblePanelAdvancedOptionsEx.Text">
+    <value>Дополнительные поля</value>
+  </data>
+  <data name="checkBoxConsiderItemReadState.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>78, 20</value>
+  </data>
+  <data name="checkBoxConsiderItemReadState.Text">
+    <value>Статус</value>
+  </data>
+  <data name="checkBoxRssSearchUnreadItems.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 54</value>
+  </data>
+  <data name="checkBoxRssSearchUnreadItems.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>198, 25</value>
+  </data>
+  <data name="checkBoxRssSearchUnreadItems.Text">
+    <value>Непрочтенные</value>
+  </data>
+  <data name="horizontalEdge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>87, 99</value>
+  </data>
+  <data name="horizontalEdge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>144, 3</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>87, 39</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>147, 3</value>
+  </data>
+  <data name="checkBoxRssSearchTimeSpan.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>81, 20</value>
+  </data>
+  <data name="checkBoxRssSearchTimeSpan.Text">
+    <value>Возраст</value>
+  </data>
+  <data name="radioRssSearchItemsOlderThan.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="radioRssSearchItemsOlderThan.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 114</value>
+  </data>
+  <data name="radioRssSearchItemsOlderThan.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 20</value>
+  </data>
+  <data name="radioRssSearchItemsOlderThan.Text">
+    <value>Старее чем</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items">
+    <value>1 час</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items1">
+    <value>2 часа</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items2">
+    <value>3 часа</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items3">
+    <value>4 часа</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items4">
+    <value>5 часов</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items5">
+    <value>6 часов</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items6">
+    <value>12 часов</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items7">
+    <value>18 часов</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items8">
+    <value>1 день</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items9">
+    <value>2 дня</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items10">
+    <value>3 дня</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items11">
+    <value>4 дня</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items12">
+    <value>5 дней</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items13">
+    <value>6 дней</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items14">
+    <value>7 дней</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items15">
+    <value>14 дней</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items16">
+    <value>21 день</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items17">
+    <value>1 месяц</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items18">
+    <value>2 месяца</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items19">
+    <value>1 квартал</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items20">
+    <value>2 квартала</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items21">
+    <value>3 квартала</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items22">
+    <value>1 год</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items23">
+    <value>2 года</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items24">
+    <value>3 года</value>
+  </data>
+  <data name="comboRssSearchItemAge.Items25">
+    <value>5 лет</value>
+  </data>
+  <data name="comboRssSearchItemAge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 159</value>
+  </data>
+  <data name="comboRssSearchItemAge.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 21</value>
+  </data>
+  <data name="radioRssSearchItemsYoungerThan.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="radioRssSearchItemsYoungerThan.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 135</value>
+  </data>
+  <data name="radioRssSearchItemsYoungerThan.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 20</value>
+  </data>
+  <data name="radioRssSearchItemsYoungerThan.Text">
+    <value>Новее чем</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>126, 199</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>107, 3</value>
+  </data>
+  <data name="checkBoxRssSearchByDate.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>6, 186</value>
+  </data>
+  <data name="checkBoxRssSearchByDate.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>120, 27</value>
+  </data>
+  <data name="checkBoxRssSearchByDate.Text">
+    <value>Опубликовано</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>201, 291</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>31, 3</value>
+  </data>
+  <data name="checkBoxRssSearchByDateRange.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>TopLeft</value>
+  </data>
+  <data name="checkBoxRssSearchByDateRange.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 276</value>
+  </data>
+  <data name="checkBoxRssSearchByDateRange.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>194, 30</value>
+  </data>
+  <data name="checkBoxRssSearchByDateRange.Text">
+    <value>Сообщение опубликовано между</value>
+  </data>
+  <data name="collapsiblePanelRssSearchScopeEx.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 23</value>
+  </data>
+  <data name="collapsiblePanelRssSearchScopeEx.Text">
+    <value>Дапазон поиска</value>
+  </data>
+  <data name="treeRssSearchScope.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Top, Left</value>
+  </data>
+  <data name="treeRssSearchScope.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Fill</value>
+  </data>
+  <data name="treeRssSearchScope.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1, 23</value>
+  </data>
+  <data name="treeRssSearchScope.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>235, 191</value>
+  </data>
+  <data name="panelRssSearchCommands.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 40</value>
+  </data>
+  <data name="btnNewSearch.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>155, 45</value>
+  </data>
+  <data name="btnNewSearch.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>95, 23</value>
+  </data>
+  <data name="btnNewSearch.Text">
+    <value>Новый поиск</value>
+  </data>
+  <data name="textSearchExpression.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 21</value>
+  </data>
+  <data name="btnSearchCancel.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>156, 11</value>
+  </data>
+  <data name="btnSearchCancel.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>94, 23</value>
+  </data>
+  <data name="btnSearchCancel.Text">
+    <value>Поиск</value>
+  </data>
+  <data name="labelRssSearchState.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>10, 50</value>
+  </data>
+  <data name="labelRssSearchState.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>140, 15</value>
+  </data>
+  <data name="statusBarBrowser.Text">
+    <value>Браузер</value>
+  </data>
+  <data name="statusBarBrowser.ToolTipText">
+    <value>Статус Web браузера...</value>
+  </data>
+  <data name="statusBarBrowserProgress.ToolTipText">
+    <value>Ход запроса страницы...</value>
+  </data>
+  <data name="statusBarConnectionState.ToolTipText">
+    <value>Состояние сетевого соединения...</value>
+  </data>
+  <data name="statusBarRssParser.ToolTipText">
+    <value>Состояние RSS системы...</value>
+  </data>
+  <data name="toolBarMain.Text">
+    <value>Основные инструменты</value>
+  </data>
+  <data name="menuBarMain.Text">
+    <value>Меню</value>
+  </data>
+  <data name="toolBarBrowser.Text">
+    <value>Инструменты браузера</value>
+  </data>
+  <data name="toolBarWebSearch.Text">
+    <value>Инструменты поиска</value>
+  </data>
+  <data name="leftSandDock.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 397</value>
+  </data>
+  <data name="dockSubscriptions.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 349</value>
+  </data>
+  <data name="dockSubscriptions.TabText">
+    <value>Подписки</value>
+  </data>
+  <data name="dockSubscriptions.Text">
+    <value>Подписки</value>
+  </data>
+  <data name="dockSearch.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>261, 349</value>
+  </data>
+  <data name="dockSearch.TabText">
+    <value>Поиск</value>
+  </data>
+  <data name="dockSearch.Text">
+    <value>Поиск</value>
+  </data>
+  <data name="_docContainer.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>265, 54</value>
+  </data>
+  <data name="_docContainer.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>407, 397</value>
+  </data>
+  <data name="_docFeedDetails.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>397, 359</value>
+  </data>
+  <data name="_docFeedDetails.TabText">
+    <value>Лента новостей</value>
+  </data>
+  <data name="_docFeedDetails.Text">
+    <value>Лента новостей</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+<data name="taskPaneSearchOptions.Text">
+    <value>Search Options Pane</value>
+  </data>
+	<data name="radioRssSearchExprXPath.Text">
+    <value>XPath</value>
+  </data>
+	<data name="bottomSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="leftSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="rightSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="topSandBarDock.Text">
+    <value>SandBarDock</value>
+  </data>
+	<data name="$this.Text">
+    <value>RSS Bandit</value>
+  </data>
+	</root>

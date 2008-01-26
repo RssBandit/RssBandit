@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:schemas-rssbandit-org:rssbandit:update-services" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="urn:schemas-rssbandit-org:rssbandit:update-services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:schemas-rssbandit-org:rssbandit:update-services">
+      <s:element name="DownloadLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="currentAppVersion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="appKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DownloadLinkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DownloadLinkResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="DownloadLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:DownloadLink" />
+  </wsdl:message>
+  <wsdl:message name="DownloadLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:DownloadLinkResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UpdateServiceSoap">
+    <wsdl:operation name="DownloadLink">
+      <wsdl:input message="tns:DownloadLinkSoapIn" />
+      <wsdl:output message="tns:DownloadLinkSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UpdateServiceSoap" type="tns:UpdateServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="DownloadLink">
+      <soap:operation soapAction="urn:schemas-rssbandit-org:rssbandit:update-services/DownloadLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UpdateService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="UpdateServiceSoap" binding="tns:UpdateServiceSoap">
+      <soap:address location="http://localhost/RssBandit.UpdateService/UpdateService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

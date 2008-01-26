@@ -1,0 +1,61 @@
+body { background-color: #808080; color: White; font-family: Verdana, Tahoma, Arial; font-size: 10pt;
+       margin: 5px; padding 0px;}
+
+a, a:visited, a:active { 
+  color: #F0D2C7;
+  text-decoration: none;
+  border-bottom: 1px dotted #F0D2C7;
+}
+
+a:hover { 
+  color: #CC6699;
+  text-decoration: none;
+  border-bottom: 1px dotted #CC6699;
+}
+
+td.PostFrame { 
+background-color: black; border: 1px solid black; padding: 10px;
+ background-image : url(images/aura-8.jpg);
+ background-attachment : fixed;
+}
+
+div.PostTitle { 
+  font-size: 12pt;
+}
+
+.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+  border-width: 0px;
+  color: #CC6699;
+  font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.PostTitle a:hover {
+  border-width: 0px;
+  text-decoration: underline;
+}
+
+div.PostInfos { 
+  color: #CC6699;
+  font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+  font-size: 8pt;
+  font-weight: normal;
+  text-transform: none;
+}
+
+div.PostContent {
+  border-top: 1px dotted #CC6699;
+  font-size: 10pt;
+  margin: 10px 0px 10px 0px;
+  padding: 10px 0px 10px 0px;
+  border-bottom: 1px dotted #CC6699;
+}
+
+div.PostSignature { 
+  text-align: right;
+  font-size: 10px; 
+  font-style: italic;
+}
+
+.PostSignature a { font-size: 10px; }
