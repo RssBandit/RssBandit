@@ -308,23 +308,24 @@ namespace RssBandit
 
             LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
-           
 
-            NewsHandler.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+
+            INewsComponentsConfiguration myConfig = this.CreateFeedHandlerConfiguration();
+            this.feedHandler = new NewsHandler(myConfig);
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
+
             this.feedHandler.BeforeDownloadFeedStarted += this.BeforeDownloadFeedStarted;
             this.feedHandler.UpdateFeedsStarted += this.OnUpdateFeedsStarted;
             this.feedHandler.OnUpdatedFavicon += this.OnUpdatedFavicon;
             this.feedHandler.OnDownloadedEnclosure += this.OnDownloadedEnclosure;
+
             
             this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
 
-            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, 
-                                                            new SubscriptionLocation(GetCommentsFeedListFileName()) , 
-                                                            this.CreateCommentFeedHandlerConfiguration(NewsHandler.DefaultConfiguration));
+
+            this.commentFeedsHandler = new NewsHandler(this.CreateCommentFeedHandlerConfiguration(myConfig));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -437,7 +438,7 @@ namespace RssBandit
             return cfg;
         }
 
-private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
+        private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             INewsComponentsConfiguration configTemplate)
         {
             NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();
@@ -843,7 +844,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (this.feedHandler.SearchHandler.IsIndexRelevantChange(property))
                 HandleIndexRelevantChange(GetFeed(feedUrl), property);
         }
 
@@ -851,16 +852,16 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (feed == null)
                 return;
-            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (this.feedHandler.SearchHandler.IsIndexRelevantChange(property))
             {
                 if (NewsFeedProperty.FeedRemoved == (property & NewsFeedProperty.FeedRemoved))
                 {
-                    NewsHandler.SearchHandler.IndexRemove(feed.id);
+                    this.feedHandler.SearchHandler.IndexRemove(feed.id);
                     // feed added change is handled after first sucessful request of the feed:
                 }
                 else if (NewsFeedProperty.FeedAdded == (property & NewsFeedProperty.FeedAdded))
                 {
-                    NewsHandler.SearchHandler.ReIndex(feed, this.feedHandler.GetCachedItemsForFeed(feed.link));
+                    this.feedHandler.SearchHandler.ReIndex(feed);
                 }
             }
         }
@@ -2844,11 +2845,11 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 try
                 {
-                    feedHandler.LoadFeedlist();
+                    feedHandler.LoadFeedlist(p, FeedListValidationCallback);
                 }
                 catch (Exception e)
                 {
-                    if (!NewsHandler.validationErrorOccured)
+                    if (!validationErrorOccured)
                     {
                         // set by validation callback handler
                         _log.Error("Exception on loading '" + p + "'.", e);
@@ -2860,9 +2861,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     /* All right here... 	*/
                 }
-                else if (NewsHandler.validationErrorOccured)
+                else if (validationErrorOccured)
                 {
-                    NewsHandler.validationErrorOccured = false;
+                    validationErrorOccured = false;
                     throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
                 }
                 else
@@ -2884,7 +2885,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 try
                 {
-                    commentFeedsHandler.LoadFeedlist();
+                    commentFeedsHandler.LoadFeedlist(p, CommentFeedListValidationCallback);
 
                     foreach (NewsFeed f in commentFeedsHandler.FeedsTable.Values)
                     {
@@ -2916,7 +2917,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         public void ImportFeeds(string fromFileOrUrl, string selectedCategory)
         {
             ImportFeedsDialog dialog =
-                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.Categories.Keys);
+                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.Categories);
             try
             {
                 dialog.ShowDialog(guiMain);
@@ -4181,7 +4182,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
                 // Last operation: write all changes to the search index to disk
                 if (appIsClosing)
-                    NewsHandler.SearchHandler.StopIndexer();
+                    this.FeedHandler.SearchHandler.StopIndexer();
             }
             catch (InvalidOperationException ioe)
             {
@@ -5258,8 +5259,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 category = category.Trim();
                 if (category.Length > 0 && ! this.FeedHandler.Categories.ContainsKey(category))
                 {
-                    category c = new category(category);
-                    this.FeedHandler.AddCategory(c);
+                    category c = new category();
+                    c.Value = category;
+                    this.FeedHandler.Categories.Add(new CategoryEntry(category, c));
                     this.guiMain.CreateSubscriptionsCategoryHive(this.guiMain.GetRoot(RootFolderType.MyFeeds), category);
                 }
             }
@@ -5376,7 +5378,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             f.category = wiz.FeedCategory;
             if ((f.category != null) && (!feedHandler.Categories.ContainsKey(f.category)))
             {
-                feedHandler.AddCategory(f.category);
+                feedHandler.Categories.Add(f.category);
             }
 
             if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))
@@ -5393,11 +5395,12 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             }
 
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
-            
+
             // add feed to backend
             if (wiz.FeedInfo != null)
                 feedHandler.AddFeed(f, wiz.FeedInfo);
-           
+            else
+                feedHandler.FeedsTable.Add(f.link, f);
             this.FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
 

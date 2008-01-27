@@ -150,54 +150,54 @@
     </Reference>
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
-      <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
+      <HintPath>bin\blogExtension.dll</HintPath>
     </Reference>
     <Reference Include="Eyefinder">
       <Name>Eyefinder</Name>
-      <HintPath>..\Common\Libraries\Eyefinder.dll</HintPath>
+      <HintPath>bin\Eyefinder.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IEControl">
       <Name>IEControl</Name>
-      <HintPath>..\Common\Libraries\IEControl.dll</HintPath>
+      <HintPath>bin\IEControl.dll</HintPath>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
-      <HintPath>..\Common\Libraries\Interop.iTunesLib.dll</HintPath>
+      <HintPath>bin\Interop.iTunesLib.dll</HintPath>
     </Reference>
     <Reference Include="Interop.SHDocVw">
       <Name>Interop.SHDocVw</Name>
-      <HintPath>..\Common\Libraries\Interop.SHDocVw.dll</HintPath>
+      <HintPath>bin\Interop.SHDocVw.dll</HintPath>
     </Reference>
     <Reference Include="Interop.WMPLib">
       <Name>Interop.WMPLib</Name>
-      <HintPath>..\Common\Libraries\Interop.WMPLib.dll</HintPath>
+      <HintPath>bin\Interop.WMPLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
-      <HintPath>..\Common\Libraries\log4net.dll</HintPath>
+      <HintPath>..\Common\bin\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement">
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement</Name>
-      <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
+      <HintPath>bin\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces">
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
-      <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
+      <HintPath>bin\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <Name>mscorlib</Name>
     </Reference>
     <Reference Include="SandDock">
       <Name>SandDock</Name>
-      <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
+      <HintPath>bin\SandDock.dll</HintPath>
     </Reference>
     <Reference Include="ShellBasics">
       <Name>ShellBasics</Name>
-      <HintPath>..\Common\Libraries\ShellBasics.dll</HintPath>
+      <HintPath>bin\ShellBasics.dll</HintPath>
     </Reference>
     <Reference Include="sysglobl" />
     <Reference Include="System">
@@ -234,7 +234,7 @@
     </Reference>
     <Reference Include="WizardFramework">
       <Name>WizardFramework</Name>
-      <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
+      <HintPath>bin\WizardFramework.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
       <Name>NewsComponents</Name>
@@ -247,49 +247,40 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <Reference Include="Infragistics2.Shared.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Shared.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Shared.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.Misc.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinEditors.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinEditors.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinExplorerBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinStatusBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinStatusBar.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTabControl.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinTabControl.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinToolbars.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinToolbars.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTree.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.UltraWinTree.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.v7.3.dll</HintPath>
+      <HintPath>bin\Infragistics2.Win.v7.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

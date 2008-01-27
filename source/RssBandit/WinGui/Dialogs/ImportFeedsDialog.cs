@@ -10,7 +10,6 @@
 using System;
 using System.Drawing;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -55,11 +54,11 @@ namespace RssBandit.WinGui.Forms
 			urlExtender.Add(this.textUrlOrFile, true);
 		}
 		
-		public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, ICollection<string> categories):this()	{
+		public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, CategoriesCollection categories):this()	{
 			this.textUrlOrFile.Text = (urlOrFile != null ? urlOrFile  : String.Empty);
 			//initialize combo box			
 			if (categories != null) {
-				foreach(string category in categories){
+				foreach(string category in categories.Keys){
 					if (!string.IsNullOrEmpty(category))
 						this.comboCategory.Items.Add(category); 
 				}

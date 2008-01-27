@@ -1,13 +1,13 @@
-#region Version Info Header
+#region CVS Version Header
+
 /*
  * $Id$
- * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-#endregion
 
+#endregion
 
 using System;
 using System.Collections.Generic;
@@ -247,7 +247,7 @@ namespace AppInteropServices
                 return foundTypes;
             }
 
-            if (addIns == null)
+            if (addInList == null || addInList.Count == 0)
             {
                 return foundTypes;
             }

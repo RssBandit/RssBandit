@@ -29,7 +29,6 @@ using NewsComponents.News;
 using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using System.Net.Security;
 // for cookie management
     // for unsafeHeaderParsingFix
     // used for certificate issue handling
@@ -109,11 +108,6 @@ namespace NewsComponents.Net
         static AsyncWebRequest()
         {
             ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
-#if USENEW_CERTCHECK
-            // experimental:
-            ServicePointManager.ServerCertificateValidationCallback =
-                TrustSelectedCertificatePolicy.CheckServerCertificate;  
-#endif
             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
@@ -1538,7 +1532,6 @@ namespace NewsComponents.Net
     /// </summary>
     internal class TrustSelectedCertificatePolicy : ICertificatePolicy
     {
-        // this is marked obsolete by MS in the CLR 2.0
         public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
         {
             try
@@ -1547,11 +1540,7 @@ namespace NewsComponents.Net
                 {
                     // move bits around to get it casted from an signed int to a normal long enum type:
                     CertificateIssue issue = (CertificateIssue) (((problem << 1) >> 1) + 0x80000000);
-                    
-                    // this is marked obsolete by MS in the CLR 2.0
-					// It seems also they has broken the old impl., we don't get a valid cert object now (handle is 0) on WinXP SP2
-					// via parameter, so we now use that of the servicepoint as a workaround:
-					CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, sp.Certificate, req, true);
+                    CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, cert, req, true);
                     AsyncWebRequest.RaiseOnCertificateIssue(sp, args);
                     return !args.Cancel;
                 }
@@ -1563,21 +1552,6 @@ namespace NewsComponents.Net
             // The 1.1 framework calls this method with a problem of 0, even if nothing is wrong
             return (problem == 0);
         }
-
-        /// <summary>
-        /// Checks the server certificate.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="certificate">The certificate.</param>
-        /// <param name="chain">The chain.</param>
-        /// <param name="sslPolicyErrors">The SSL policy errors.</param>
-        /// <returns></returns>
-        public static bool CheckServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            //TODO: impl.
-            return true;
-        }
-
     }
 
     #endregion
@@ -1688,3 +1662,63 @@ namespace NewsComponents.Net
     #endregion
 }
 
+#region CVS Version Log
+
+/*
+ * $Log: AsyncWebRequest.cs,v $
+ * Revision 1.54  2007/08/02 13:36:11  t_rendelmann
+ * added support to NewsSubscriptionWizard for rewire the credential step on authentication exceptions
+ *
+ * Revision 1.53  2007/07/29 15:20:28  carnage4life
+ * Removed calls to InternetGetCookie due to issue reportred at http://www.rssbandit.org/forum/topic.asp?whichpage=1&TOPIC_ID=2080&#4080
+ *
+ * Revision 1.52  2007/07/13 16:05:03  t_rendelmann
+ * added a cookie fixup procedure
+ *
+ * Revision 1.51  2007/06/19 15:01:22  t_rendelmann
+ * fixed: [ 1702811 ] Cannot access .treestate.xml (now report a read error as a warning once, but log only at save time during autosave)
+ *
+ * Revision 1.50  2007/06/15 08:46:33  t_rendelmann
+ * fixed: local file feeds were not working anymore (regression)
+ *
+ * Revision 1.49  2006/12/20 00:11:34  carnage4life
+ * Made fix so that OnRequestProgress is now called
+ *
+ * Revision 1.48  2006/12/19 04:39:51  carnage4life
+ * Made changes to AsyncRequest and RequestThread to become instance based instead of static
+ *
+ * Revision 1.47  2006/12/12 01:16:25  carnage4life
+ * Disabled usage of HTTP pipelining
+ *
+ * Revision 1.46  2006/11/23 11:20:29  t_rendelmann
+ * applied a fix to reduce resource leak on internet connections for CLR 1.0/1.1
+ *
+ * Revision 1.45  2006/10/17 11:39:12  t_rendelmann
+ * fixed: the ZipException is not anymore specific enough to catch the wired Deflater exception (for fallback) with the new ziplib version 0.84. using the SharpZipBaseException enstead seems to correct this to get the old working behavior
+ *
+ * Revision 1.44  2006/10/17 10:39:55  t_rendelmann
+ * fixed: relative urls on redirects not handled in AsyncWebRequest.GetSyncResponseStream() that is also called from within RssLocator
+ *
+ * Revision 1.43  2006/10/10 15:07:22  carnage4life
+ * Referenced correct version of #ziplib assembly
+ *
+ * Revision 1.42  2006/10/10 15:03:11  carnage4life
+ * Merged differences between local machine and CVS versions
+ *
+ * Revision 1.41  2006/10/10 12:42:04  carnage4life
+ * Fixed some minor issues
+ *
+ * Revision 1.40  2006/10/05 06:24:48  carnage4life
+ * Added call to FinalizeWebRequest() in TimeoutCallback()
+ *
+ * Revision 1.39  2006/08/08 17:06:19  carnage4life
+ * Added debug statements to track feed mixup issues
+ *
+ * Revision 1.38  2006/08/08 10:17:24  t_rendelmann
+ * changed: made CVS Log a separate code region
+ *
+ * Revision 1.37  2006/08/08 10:14:07  t_rendelmann
+ * changed: replaced CVS Revision key word by the CVS log message supplied during commit
+ */
+
+#endregion

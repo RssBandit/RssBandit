@@ -102,23 +102,23 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
-      <HintPath>..\Common\Libraries\log4net.dll</HintPath>
+      <HintPath>..\Common\bin\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
       <Name>Lucene.Net</Name>
-      <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
+      <HintPath>bin\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\SgmlReaderDll.dll</HintPath>
+      <HintPath>bin\SgmlReaderDll.dll</HintPath>
     </Reference>
     <Reference Include="Snowball.Net">
       <Name>Snowball.Net</Name>
-      <HintPath>..\Common\Libraries\Snowball.Net.dll</HintPath>
+      <HintPath>bin\Snowball.Net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -148,13 +148,15 @@
     <Compile Include="..\Common\UriHelper.cs">
       <Link>UriHelper.cs</Link>
     </Compile>
+    <Compile Include="Collections\CategoriesCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Collections\FeedColumnLayoutCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\FeedsCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Collections\ReadOnlyCollections.cs" />
     <Compile Include="Collections\RelationHRefEntry.cs" />
     <Compile Include="Core\BackgroundDownloadManager.cs">
       <SubType>Code</SubType>
@@ -171,22 +173,18 @@
     <Compile Include="Core\NewsItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\BanditNewsHandler.cs" />
     <Compile Include="Feed\FeedInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\feeds.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\GoogleReaderNewsHandler.cs" />
-    <Compile Include="Feed\NewsGatorNewsHandler.cs" />
     <Compile Include="Feed\RssLocater.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\RssParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\WindowsRssNewsHandler.cs" />
     <Compile Include="Net\AsyncWebRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -325,7 +323,6 @@
     <Compile Include="Utils\CryptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\DataBindingHelper.cs" />
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -457,8 +454,7 @@
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
     <EmbeddedResource Include="Resources\feedListSchema.xsd">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\rss-0.91.dtd" />
     <EmbeddedResource Include="Resources\xhtml-lat1.ent" />
@@ -472,16 +468,6 @@
       <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
       <Name>RssBandit.AppServices</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Feeds.Interop">
-      <Guid>{9CDCD9C9-BC40-41C6-89C5-230466DB0BD0}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

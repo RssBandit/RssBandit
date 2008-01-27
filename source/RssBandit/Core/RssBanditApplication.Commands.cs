@@ -773,7 +773,7 @@ namespace RssBandit
                 feedHandler.FeedsTable.Clear();
                 feedHandler.Categories.Clear();
                 feedHandler.ClearItemsCache();
-                NewsHandler.SearchHandler.IndexRemoveAll();
+                feedHandler.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;
                 guiMain.InitiatePopulateTreeFeeds();
@@ -1190,7 +1190,7 @@ namespace RssBandit
                 FeedProperties propertiesDialog =
                     new FeedProperties(f.title, f.link, refreshrate/60000, feedMaxItemAge,
                                        (f.category ?? defaultCategory), defaultCategory,
-                                       feedHandler.Categories.Keys, feedHandler.GetStyleSheet(f.link));
+                                       feedHandler.Categories, feedHandler.GetStyleSheet(f.link));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
                 propertiesDialog.checkEnableAlerts.Checked = f.alertEnabled;
                 propertiesDialog.checkMarkItemsReadOnExit.Checked = feedMarkItemsReadOnExit;
@@ -1306,7 +1306,7 @@ namespace RssBandit
                         changes |= NewsFeedProperty.FeedCategory;
                         if (!feedHandler.Categories.ContainsKey(category))
                         {
-                            feedHandler.AddCategory(category);
+                            feedHandler.Categories.Add(category);
                         }
                         // find/create the target node:
                         TreeFeedsNodeBase target =
@@ -1475,13 +1475,10 @@ namespace RssBandit
                             categoryName = propertiesDialog.textBox2.Text.Trim();
                             // this call yet cause a FeedModified() notification:
                             guiMain.RenameTreeNode(tn, categoryName);
-                            feedHandler.RenameCategory(category, tn.CategoryStoreName);
-                            /* 
                             category c = feedHandler.Categories.GetByKey(category);
                             feedHandler.Categories.Remove(category);
                             category = tn.CategoryStoreName;
                             feedHandler.Categories.Add(category, c);
-                             */ 
                         }
                     }
 
