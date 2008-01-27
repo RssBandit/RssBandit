@@ -501,8 +501,8 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(eh.OnAppDomainException);
 #endif
-            AppDomain.CurrentDomain.DomainUnload += OnAppDomainUnload;
-            AppDomain.CurrentDomain.ProcessExit += OnAppDomainUnload;
+            //AppDomain.CurrentDomain.DomainUnload += OnAppDomainUnload;
+            //AppDomain.CurrentDomain.ProcessExit += OnAppDomainUnload;
 
             Application.ApplicationExit += OnApplicationExit;
             // Allow exceptions to be unhandled so they break in the debugger
@@ -3921,21 +3921,18 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// <param name="e">Event args.</param>
         private void OnApplicationExit(object sender, EventArgs e)
         {
-            autoSaveTimer.Dispose();
-
-            InvokeOnGuiSync(delegate
+            if (guiMain != null)
             {
-                guiMain.Close(true);
-            });
+                autoSaveTimer.Dispose();
 
-            SaveApplicationState(true);
-            guiMain = null;
-        }
+                InvokeOnGuiSync(delegate
+                                    {
+                                        guiMain.Close(true);
+                                    });
 
-        private void OnAppDomainUnload(object sender, EventArgs e)
-        {
-            // forward to:
-            OnApplicationExit(sender, e);
+                SaveApplicationState(true);
+                guiMain = null;
+            }
         }
 
 #if !DEBUG
