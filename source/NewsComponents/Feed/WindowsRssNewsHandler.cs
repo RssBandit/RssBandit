@@ -47,9 +47,9 @@ namespace NewsComponents.Feed {
         #endregion 
 
 
-        #region
+        #region private methods
 
-        #endregion private methods
+        #endregion 
 
         #region public methods
 

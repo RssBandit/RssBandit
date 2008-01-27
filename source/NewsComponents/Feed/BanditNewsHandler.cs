@@ -98,8 +98,6 @@ namespace NewsComponents.Feed
         #endregion
 
 
-
-
         #region private methods
 
         ///<summary>Loads the schema for a feedlist into an XmlSchema object. 
