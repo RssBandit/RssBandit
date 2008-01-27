@@ -2736,7 +2736,7 @@ namespace NewsComponents
                 {
                     lock (fi.itemsList)
                     {
-                        item.Feed.deletedstories.Add(item.Id);
+                        item.Feed.AddDeletedStory(item.Id);
                         fi.itemsList.Remove(item);
                     }
                 } //if(fi != null)
@@ -2765,7 +2765,7 @@ namespace NewsComponents
                     {
                         foreach (NewsItem item in fi.itemsList)
                         {
-                            feed.deletedstories.Add(item.Id);
+                            feed.AddDeletedStory(item.Id);
                         }
                         fi.itemsList.Clear();
                     }
@@ -2808,7 +2808,7 @@ namespace NewsComponents
                 {
                     lock (fi.itemsList)
                     {
-                        item.Feed.deletedstories.Remove(item.Id);
+                        item.Feed.RemoveDeletedStory(item.Id);
                         fi.itemsList.Add(item);
                     }
                 } //if(fi != null)
@@ -3097,7 +3097,7 @@ namespace NewsComponents
                                     if (ri.BeenRead && !f.storiesrecentlyviewed.Contains(ri.Id))
                                     {
                                         //THIS MAY BE SLOW
-                                        f.storiesrecentlyviewed.Add(ri.Id);
+                                        f.AddViewedStory(ri.Id);
                                     }
                                 }
                             } //foreach
@@ -3581,7 +3581,7 @@ namespace NewsComponents
             }
             else
             {
-                return (bool) owner.GetType().GetField(propertyName + "Specified").GetValue(owner);
+                return (bool) owner.GetType().GetProperty(propertyName + "Specified").GetValue(owner, null);
             }
         }
 
@@ -3615,7 +3615,7 @@ namespace NewsComponents
             if (_feedsTable.ContainsKey(feedUrl))
             {
                 NewsFeed f = this.FeedsTable[feedUrl];
-                object f_value = f.GetType().GetField(propertyName).GetValue(f);
+                object f_value = f.GetType().GetProperty(propertyName).GetValue(f, null);
 
                 if (IsPropertyValueSet(f_value, propertyName, f))
                 {
@@ -3674,11 +3674,11 @@ namespace NewsComponents
                 {
                     value = XmlConvert.ToString((TimeSpan) value);
                 }
-                f.GetType().GetField(propertyName).SetValue(f, value);
+                f.GetType().GetProperty(propertyName).SetValue(f, value, null);
 
                 if ((value != null) && !(value is string))
                 {
-                    f.GetType().GetField(propertyName + "Specified").SetValue(f, true);
+                    f.GetType().GetProperty(propertyName + "Specified").SetValue(f, true, null);
                 }
             }
         }
@@ -5011,7 +5011,7 @@ namespace NewsComponents
                     {
                         if (ri.BeenRead)
                         {
-                            theFeed.storiesrecentlyviewed.Add(ri.Id);
+                            theFeed.AddViewedStory(ri.Id);
                         }
 
                         if (ri.HasNewComments)
@@ -6028,7 +6028,7 @@ namespace NewsComponents
                     {
                         if (!f2.deletedstories.Contains(story))
                         {
-                            f2.deletedstories.Add(story);
+                            f2.AddDeletedStory(story);
                         }
                     } //foreach
 
@@ -6037,7 +6037,7 @@ namespace NewsComponents
                     {
                         if (!f2.storiesrecentlyviewed.Contains(story))
                         {
-                            f2.storiesrecentlyviewed.Add(story);
+                            f2.AddViewedStory(story);
                         }
                     } //foreach					
 
@@ -6431,7 +6431,7 @@ namespace NewsComponents
         /// then this method merely copies over item state of any oldItems that are in newItems then returns newItems</param>
         /// <returns>IList merge/purge result</returns>
         public static List<NewsItem> MergeAndPurgeItems(List<NewsItem> oldItems, List<NewsItem> newItems,
-                                                        List<string> deletedItems, out List<NewsItem> receivedNewItems,
+                                                        ICollection<string> deletedItems, out List<NewsItem> receivedNewItems,
                                                         bool onlyKeepNewItems)
         {
             receivedNewItems = new List<NewsItem>();

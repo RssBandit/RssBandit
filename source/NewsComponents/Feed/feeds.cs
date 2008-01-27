@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -19,10 +20,11 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
+using NewsComponents.Collections;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed
-{
+{  
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
     [XmlRoot("feeds", Namespace=NamespaceCore.Feeds_vCurrent, IsNullable=false)]
@@ -551,64 +553,64 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlAttribute("mark-items-read-on-exit")]
-        public bool markitemsreadonexit;
+        public bool markitemsreadonexit { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool markitemsreadonexitSpecified;
+        public bool markitemsreadonexitSpecified { get; set; }
 
         /// <remarks/>
         [XmlAttribute("download-enclosures")]
-        public bool downloadenclosures;
+        public bool downloadenclosures { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool downloadenclosuresSpecified;
+        public bool downloadenclosuresSpecified { get; set; }
 
         /// <remarks/>
         [XmlAttribute("enclosure-folder")]
-        public string enclosurefolder;
+        public string enclosurefolder { get; set; }
 
         ///<summary>ID to an FeedColumnLayout</summary>
         /// <remarks/>
         [XmlAttribute("listview-layout")]
-        public string listviewlayout;
+        public string listviewlayout { get; set; }
 
         /// <remarks/>
         [XmlAttribute]
-        public string stylesheet;
+        public string stylesheet { get; set; }
 
         /// <remarks/>
         [XmlAttribute("refresh-rate")]
-        public int refreshrate;
+        public int refreshrate { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool refreshrateSpecified;
+        public bool refreshrateSpecified { get; set; }
 
         /// <remarks/>
         [XmlAttribute("max-item-age", DataType="duration")]
-        public string maxitemage;
+        public string maxitemage { get; set; }
 
         /// <remarks/>
         [XmlText]
-        public string Value;
+        public string Value { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public category parent;
+        public category parent { get; set; }
 
         /// <remarks/>
         [XmlAttribute("enclosure-alert"), DefaultValue(false)]
-        public bool enclosurealert;
+        public bool enclosurealert { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool enclosurealertSpecified;
+        public bool enclosurealertSpecified { get; set; }
 
         /// <remarks/>
         [XmlAnyAttribute]
-        public XmlAttribute[] AnyAttr;
+        public XmlAttribute[] AnyAttr { get; set; }
 
         #region Static Methods
 
@@ -680,19 +682,175 @@ namespace NewsComponents.Feed
         #endregion
     }
 
+
+    public interface INewsFeed : INotifyPropertyChanged  
+    {
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string title { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string link { get; set; }
+       
+        string id { get; set; }       
+        bool lastretrievedSpecified { get; set; }
+        DateTime lastretrieved { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        int refreshrate { get; set; }
+
+        bool refreshrateSpecified { get; set; }
+        string etag { get; set; }
+        string cacheurl { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string maxitemage { get; set; }
+
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        ReadOnlyICollection<string> storiesrecentlyviewed { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        ReadOnlyICollection<string> deletedstories { get; set; }
+        
+        DateTime lastmodified { get; set; }
+        bool lastmodifiedSpecified { get; set; }
+        string authUser { get; set; }
+        Byte[] authPassword { get; set; }
+        string listviewlayout { get; set; }
+
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string favicon { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        bool downloadenclosures { get; set; }
+        
+        bool downloadenclosuresSpecified { get; set; }
+        
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string enclosurefolder { get; set; }
+
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        string stylesheet { get; set; }
+
+        int causedExceptionCount { get; set; }
+        bool causedException { get; set; }  
+        bool replaceitemsonrefresh { get; set; }
+        bool replaceitemsonrefreshSpecified {get; set;}
+        string newsaccount { get; set; }
+        bool markitemsreadonexit { get; set; }
+        bool markitemsreadonexitSpecified { get; set; }
+        XmlElement[] Any { get; set; }
+        bool alertEnabled { get; set; }
+        bool alertEnabledSpecified { get; set; }
+        bool enclosurealert { get; set; }
+        bool enclosurealertSpecified { get; set; }
+        object Tag { get; set; }
+
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        bool containsNewComments { get; set; }
+
+        /// <summary />
+        /// <remarks>Notifies on change. </remarks>
+        bool containsNewMessages { get; set; }
+
+        //TODO: Make this a collection
+        string category { get; set; }
+
+         /// <summary>
+        /// Gets the value of a particular wildcard element. If the element is not found then 
+        /// null is returned
+        /// </summary>
+        /// <param name="namespaceUri"></param>
+        /// <param name="localName"></param>
+        /// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
+        /// or null if the element is not found. </returns>
+        string GetElementWildCardValue(string namespaceUri, string localName);
+
+        /// <summary>
+        /// Removes an entry from the storiesrecentlyviewed collection
+        /// </summary>
+        /// <seealso cref="storiesrecentlyviewed"/>
+        /// <param name="storyid">The ID to add</param>
+        void AddViewedStory(string storyid);
+
+        /// <summary>
+        /// Adds an entry to the storiesrecentlyviewed collection
+        /// </summary>
+        /// <seealso cref="storiesrecentlyviewed"/>
+        /// <param name="storyid">The ID to remove</param>
+        void RemoveViewedStory(string storyid);
+
+        /// <summary>
+        /// Removes an entry from the deletedstories collection
+        /// </summary>
+        /// <seealso cref="deletedstories"/>
+        /// <param name="storyid">The ID to add</param>
+        void AddDeletedStory(string storyid);
+
+        /// <summary>
+        /// Adds an entry to the deletedstories collection
+        /// </summary>
+        /// <seealso cref="deletedstories"/>
+        /// <param name="storyid">The ID to remove</param>
+        void RemoveDeletedStory(string storyid);
+    }
+
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class NewsFeed
+    public class NewsFeed : INewsFeed
     {
-        /// <remarks/>
-        public string title;
 
+        #region INewsFeed implementation 
+
+        private string _title = null; 
         /// <remarks/>
-        [XmlElement(DataType="anyURI")]
-        public string link;
+        public string title {
+            get
+            {
+                return _title;
+            }
+
+            set
+            {
+                if (String.IsNullOrEmpty(_title) || !_title.Equals(value))
+                {
+                    _title = value;
+                    this.OnPropertyChanged("title"); 
+                }
+            }
+        }
+
+        private string _link = null; 
+        /// <remarks/>
+        [XmlElement(DataType = "anyURI")]
+        public string link
+        {
+            get
+            {
+                return _link;
+            }
+
+            set
+            {
+                if (String.IsNullOrEmpty(_link) || !_link.Equals(value))
+                {
+                    _link = value;
+                    this.OnPropertyChanged("link");
+                }
+            }
+        }
 
         private string _id;
-
         /// <remarks/>
         [XmlAttribute]
         public string id
@@ -709,132 +867,251 @@ namespace NewsComponents.Feed
             }
         }
 
+        private int _refreshrate; 
         /// <remarks/>
         [XmlElement("refresh-rate")]
-        public int refreshrate;
+        public int refreshrate
+        {
+            get
+            {
+                return _refreshrate;
+            }
+
+            set
+            {
+                if (!_refreshrate.Equals(value))
+                {
+                    _refreshrate = value;
+                    this.OnPropertyChanged("refreshrate");
+                }
+            }
+        }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool refreshrateSpecified;
+        public bool refreshrateSpecified { get; set; }
 
         /// <remarks/>
         [XmlElement("last-retrieved")]
-        public DateTime lastretrieved;
+        public DateTime lastretrieved { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool lastretrievedSpecified;
+        public bool lastretrievedSpecified { get; set; }
 
         /// <remarks/>
-        public string etag;
+        public string etag { get; set; }
 
         /// <remarks/>
-        [XmlElement(DataType="anyURI")]
-        public string cacheurl;
+        [XmlElement(DataType = "anyURI")]
+        public string cacheurl { get; set; }
 
+        private string _maxitemage; 
         /// <remarks/>
-        [XmlElement("max-item-age", DataType="duration")]
-        public string maxitemage;
+        [XmlElement("max-item-age", DataType = "duration")]
+        public string maxitemage
+        {
+            get
+            {
+                return _maxitemage;
+            }
 
+            set
+            {
+                if (String.IsNullOrEmpty(_maxitemage) || !_maxitemage.Equals(value))
+                {
+                    _maxitemage = value;
+                    this.OnPropertyChanged("maxitemage");
+                }
+            }
+        }
 
+        private List<string> _storiesrecentlyviewed = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
-        [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
-        public List<string> storiesrecentlyviewed = new List<string>();
+        [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
+        public ReadOnlyICollection<string> storiesrecentlyviewed 
+        { 
+            get{
+                return new ReadOnlyICollection<string>(_storiesrecentlyviewed);
+            }
+            set
+            {
+                _storiesrecentlyviewed = new List<string>(value);
+            }        
+        }
 
+        private List<string> _deletedstories = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
-        public List<string> deletedstories = new List<string>();
+        public ReadOnlyICollection<string> deletedstories
+        {
+            get
+            {
+                return new ReadOnlyICollection<string>(_deletedstories);
+            }
+            set
+            {
+                _deletedstories = new List<string>(value);
+            }
+        }
 
 
         /// <remarks/>
         [XmlElement("if-modified-since")]
-        public DateTime lastmodified;
+        public DateTime lastmodified { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool lastmodifiedSpecified;
-
+        public bool lastmodifiedSpecified { get; set; }
+        
         /// <remarks/>
         [XmlElement("auth-user")]
-        public string authUser;
+        public string authUser { get; set; }
 
         /// <remarks/>
-        [XmlElement("auth-password", DataType="base64Binary")]
-        public Byte[] authPassword;
+        [XmlElement("auth-password", DataType = "base64Binary")]
+        public Byte[] authPassword { get; set; }
 
         /// <remarks/>
         [XmlElement("listview-layout")]
-        public string listviewlayout;
+        public string listviewlayout { get; set; }
 
+        private string _favicon; 
         /// <remarks/>
-        public string favicon;
+        public string favicon
+        {
+            get
+            {
+                return _favicon;
+            }
 
+            set
+            {
+                if (String.IsNullOrEmpty(_favicon) || !_favicon.Equals(value))
+                {
+                    _favicon = value;
+                    this.OnPropertyChanged("favicon");
+                }
+            }
+        }
+
+
+        private bool _downloadenclosures; 
         /// <remarks/>
         [XmlElement("download-enclosures")]
-        public bool downloadenclosures;
+        public bool downloadenclosures
+        {
+            get
+            {
+                return _downloadenclosures;
+            }
+
+            set
+            {
+                if (!_downloadenclosures.Equals(value))
+                {
+                    _downloadenclosures = value;
+                    this.OnPropertyChanged("downloadenclosures");
+                }
+            }
+        }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool downloadenclosuresSpecified;
+        public bool downloadenclosuresSpecified { get; set; }
 
+        private string _enclosurefolder;
         /// <remarks/>
         [XmlElement("enclosure-folder")]
-        public string enclosurefolder;
+        public string enclosurefolder
+        {
+            get
+            {
+                return _enclosurefolder;
+            }
+
+            set
+            {
+                if (String.IsNullOrEmpty(_enclosurefolder) || !_enclosurefolder.Equals(value))
+                {
+                    _enclosurefolder = value;
+                    this.OnPropertyChanged("enclosurefolder");
+                }
+            }
+        }
 
         /// <remarks/>
         [XmlAttribute("replace-items-on-refresh")]
-        public bool replaceitemsonrefresh;
+        public bool replaceitemsonrefresh { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool replaceitemsonrefreshSpecified;
+        public bool replaceitemsonrefreshSpecified {get; set;}
 
+        private string _stylesheet; 
         /// <remarks/>
-        public string stylesheet;
+        public string stylesheet
+        {
+            get
+            {
+                return _stylesheet;
+            }
+
+            set
+            {
+                if (String.IsNullOrEmpty(_stylesheet) || !_stylesheet.Equals(value))
+                {
+                    _stylesheet = value;
+                    this.OnPropertyChanged("stylesheet");
+                }
+            }
+        } 
 
         /// <remarks>Reference the corresponding NntpServerDefinition</remarks>
         [XmlElement("news-account")]
-        public string newsaccount;
+        public string newsaccount { get; set; }
 
         /// <remarks/>
         [XmlElement("mark-items-read-on-exit")]
-        public bool markitemsreadonexit;
+        public bool markitemsreadonexit { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool markitemsreadonexitSpecified;
+        public bool markitemsreadonexitSpecified { get; set; }
 
         /// <remarks/>
         [XmlAnyElement]
-        public XmlElement[] Any;
+        public XmlElement[] Any { get; set; }
 
 
         /// <remarks/>
         [XmlAttribute("alert"), DefaultValue(false)]
-        public bool alertEnabled;
+        public bool alertEnabled { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool alertEnabledSpecified;
+        public bool alertEnabledSpecified { get; set; }
 
 
         /// <remarks/>
         [XmlAttribute("enclosure-alert"), DefaultValue(false)]
-        public bool enclosurealert;
+        public bool enclosurealert { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool enclosurealertSpecified;
+        public bool enclosurealertSpecified { get; set; }
 
+
+        //TODO: Make this a collection
         /// <remarks/>
         [XmlAttribute]
-        public string category;
+        public string category { get; set; }
 
         /// <remarks/>
         [XmlAnyAttribute]
-        public XmlAttribute[] AnyAttr;
+        public XmlAttribute[] AnyAttr { get; set; }
 
         /// <remarks>True, if the feed caused an exception on request to prevent sequenced
         /// error reports on every automatic download</remarks>
@@ -860,23 +1137,55 @@ namespace NewsComponents.Feed
 
         /// <remarks>Number of exceptions caused on requests</remarks>
         [XmlIgnore]
-        public int causedExceptionCount = 0;
+        public int causedExceptionCount { get; set; }
 
         /// <remarks>Can be used to store any attached data</remarks>
         [XmlIgnore]
-        public object Tag;
+        public object Tag { get; set; }
 
+        private bool _containsNewMessages;
         /// <remarks/>
         [XmlIgnore]
-        public bool containsNewMessages;
+        public bool containsNewMessages
+        {
+            get
+            {
+                return _containsNewMessages;
+            }
 
+            set
+            {
+                if (!_containsNewMessages.Equals(value))
+                {
+                    _containsNewMessages = value;
+                    this.OnPropertyChanged("containsNewMessages");
+                }
+            }
+        }
+
+        private bool _containsNewComments;
         /// <remarks/>
         [XmlIgnore]
-        public bool containsNewComments;
+        public bool containsNewComments
+        {
+            get
+            {
+                return _containsNewComments;
+            }
+
+            set
+            {
+                if (!_containsNewComments.Equals(value))
+                {
+                    _containsNewComments = value;
+                    this.OnPropertyChanged("containsNewComments");
+                }
+            }
+        }
 
         /// <remarks />                
         [XmlIgnore]
-        public NewsHandler owner;
+        public NewsHandler owner { get; set; }
 
         /// <summary>
         /// Gets the value of a particular wildcard element. If the element is not found then 
@@ -895,6 +1204,105 @@ namespace NewsComponents.Feed
             }
             return null;
         }
+
+        /// <summary>
+        /// Removes an entry from the storiesrecentlyviewed collection
+        /// </summary>
+        /// <seealso cref="storiesrecentlyviewed"/>
+        /// <param name="storyid">The ID to add</param>
+        public void AddViewedStory(string storyid) {
+            if (!_storiesrecentlyviewed.Contains(storyid)) 
+            {
+                _storiesrecentlyviewed.Add(storyid);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("storiesrecentlyviewed", CollectionChangeAction.Add, storyid));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an entry to the storiesrecentlyviewed collection
+        /// </summary>
+        /// <seealso cref="storiesrecentlyviewed"/>
+        /// <param name="storyid">The ID to remove</param>
+        public void RemoveViewedStory(string storyid)
+        {
+            if (_storiesrecentlyviewed.Contains(storyid))
+            {
+                _storiesrecentlyviewed.Remove(storyid);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("storiesrecentlyviewed", CollectionChangeAction.Remove, storyid));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes an entry from the deletedstories collection
+        /// </summary>
+        /// <seealso cref="deletedstories"/>
+        /// <param name="storyid">The ID to add</param>
+        public void AddDeletedStory(string storyid)
+        {
+            if (!_deletedstories.Contains(storyid))
+            {
+                _deletedstories.Add(storyid);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("deletedstories", CollectionChangeAction.Add, storyid));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an entry to the deletedstories collection
+        /// </summary>
+        /// <seealso cref="deletedstories"/>
+        /// <param name="storyid">The ID to remove</param>
+        public void RemoveDeletedStory(string storyid) {
+            if (_deletedstories.Contains(storyid))
+            {
+                _deletedstories.Remove(storyid);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("deletedstories", CollectionChangeAction.Remove, storyid));
+                }
+            }
+        
+        }
+
+        #endregion 
+
+        #region INotifyPropertyChanged implementation 
+
+        /// <summary>
+        ///  Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Fired whenever a property is changed. 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(DataBindingHelper.GetPropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Notifies listeners that a property has changed. 
+        /// </summary>
+        /// <param name="e">Details on the property change event</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (null != PropertyChanged)
+            {
+                PropertyChanged(this, e);
+            }
+        }
+
+        #endregion 
 
         /// <summary>
         /// Tests to see if two NewsFeed objects represent the same feed. 
