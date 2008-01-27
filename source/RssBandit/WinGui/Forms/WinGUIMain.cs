@@ -5676,20 +5676,21 @@ namespace RssBandit.WinGui.Forms
                         //{
                         //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
                         //    //HACK: this is a workaround to the AccessViolationException caused
-                        //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                        //    // on call .ToBitmap(), if the ico.Width is != ico.Height on XP
                         //    if (smallest.Width == smallest.Height) //resize, but do not save:
                         //        icon = ResizeFavicon(smallest.ToBitmap(), null);
                         //}
                         using (Icon ico = new Icon(location, new Size(16, 16)))
                         {
-                            if (!Win32.IsOSAtLeastWindowsVista)
+                            if (Win32.IsOSAtLeastWindowsVista)
                             {
+                                // Vista can resize any icon
                                 icon = ResizeFavicon(ico.ToBitmap(), null);
                             }
-                            else
+                            else // is XP 
                             {
                                 //HACK: this is a workaround to the AccessViolationException caused
-                                // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+                                // on call .ToBitmap(), if the ico.Width is != ico.Height 
                                 // XP and below can't handle non-square icons
                                 if (ico.Width == ico.Height) //resize, but do not save:
                                     icon = ResizeFavicon(ico.ToBitmap(), null);
