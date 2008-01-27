@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="RES_MenuEmailThisCaption">
+		<value>E-mail dit...</value>
+	</data>
+	<data name="RES_MenuDeliciousCaption">
+		<value>Publiceer op del.icio.us</value>
+	</data>
+	<data name="RES_MenuWBloggarCaption">
+		<value>Blog dit met W::Bloggar...</value>
+	</data>
+	<data name="RES_MenuLiveWriterCaption">
+		<value>Blog dit met Windows Live Writer...</value>
+	</data>
+	<data name="RES_ExceptionWBloggarNotFound">
+		<value>Geen installatie van w::bloggar gevonden. Download en installeer w::bloggar vanaf http://www.bloggar.com om gebruik te kunnen maken van deze toepassing.</value>
+	</data>
+	<data name="RES_ExceptionLiveWriterNotFound">
+		<value>Geen installatie van Windows Live Writer gevonden. Download en installeer Windows Live Writer vanaf http://ideas.live.com om gebruik te kunnen maken van deze toepassing.</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionTitle">
+		<value>Verzending is niet volledig.</value>
+	</data>
+	<data name="RES_DeliciousIncompleteSubmissionMessage">
+		<value>Een van de tekstvelden niet ingevuld.</value>
+	</data>
+	<data name="RES_DeliciousFormTags">
+		<value>&amp;Sleutelwoorden</value>
+	</data>
+	<data name="RES_DeliciousFormUrl">
+		<value>&amp;Webadres</value>
+	</data>
+	<data name="RES_DeliciousFormDescription">
+		<value>&amp;Onderwerp</value>
+	</data>
+	<data name="RES_DeliciousFormCancel">
+		<value>Annuleren</value>
+	</data>
+	<data name="RES_DeliciousFormPost">
+		<value>Verzenden</value>
+	</data>
+	<data name="RES_DeliciousFormOk">
+		<value>Ok</value>
+	</data>
+	<data name="RES_DeliciousFormAuthentication">
+		<value>Authenticatie</value>
+	</data>
+	<data name="RES_DeliciousFormPassword">
+		<value>&amp;Wachtwoord</value>
+	</data>
+	<data name="RES_DeliciousFormUsername">
+		<value>User&amp;Gebruikersnaam</value>
+	</data>
+	<data name="RES_DeliciousFormApiUrl">
+		<value>&amp;del.icio.us API webadres</value>
+	</data>
+	<data name="RES_DeliciousFormConfiguration">
+		<value>Del.icio.us Plugin instellingen...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteCaption">
+		<value>Verzenden naar OneNote...</value>
+	</data>
+	<data name="RES_MenuSendToOneNoteConfigCaption">
+		<value>OneNote Plugin instellingen...</value>
+	</data>
+<data name="RES_MenuTwitterCaption" space="preserve">
+    <value>Post to Twitter</value>
+  </data>
+	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
+    <value>Twitter Plugin Configuration...</value>
+  </data>
+	<data name="RES_TwitterApiUrl" space="preserve">
+    <value>&amp;Twitter API URL</value>
+  </data>
+	<data name="RES_TwitterFormCount" space="preserve">
+    <value>140</value>
+  </data>
+	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
+    <value>Empty Message Body</value>
+  </data>
+	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
+    <value>There was an error loading configuration from '{0}': 
+{1}</value>
+   </data>
+	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
+    <value>There was an error writing configuration file '{0}': 
+{1}</value>
+  </data>
+	</root>

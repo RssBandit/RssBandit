@@ -1,0 +1,32 @@
+# CVS Version Header
+# $Id$
+#  Last modified by $Author$
+#  Last modified at $Date$
+#  $Revision$
+# 
+# This file is used to generate NewsComponentsText.cs and NewsComponentsText.resx files. 
+#
+# Options are specified as lines starting with "#!"
+# Comments are lines starting with ";" or "#"
+# To define the SR class public instead of internal (default):
+##! accessor_class_accessibility = public
+##! culture_info = My.SharedUICulture 
+[strings]
+ExceptionUnsupportedAtomVersion = Unsupported ATOM version
+ExceptionUnknownXmlDialect = This XML document does not look like an RSS feed
+ExceptionDirectoryNotExistsMessage(string directoryName) = Non-Existent Directory: {0}
+ExceptionRFC2822ParseGroupsMessage(string exceptionTypeName) = RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.
+ExceptionRFC2822InvalidTimezoneFormatMessage(string originalDateTimeString) = Invalid Timezone Format: {0}.
+ExceptionNoProcessingHandlerMessage(string url) = Feed Url '{0}' cannot be processed. No handler implemented.
+ExceptionEnclosureCacheLimitReached(string fileName, int sizeLimit) = The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.
+ExceptionSearchNoSearchCriteria = No search criteria specified
+ExceptionSearchQueryBuilder = Query could not be build from search criterias
+ExceptionSearchQueryBuilderFatal(string error) = Query could not be build from search criterias. An error was caused: {0}
+ExceptionLuceneSearchKindNotSupported(string typeOfSearch) = This kind of search is not anymore supported ('{0}').
+ExceptionSearchFatal = Fatal search error
+ExceptionHelpFeedTitle = Help on errors
+ExceptionHelpFeedItemTitle(string typeOfError) = Kind of error: {0}
+ExceptionHelpFeedDesc = Provides help on errors
+ExceptionNntpServerAuthenticationFailed(string nntpServer) = Connect to NNTP server '{0}' with authentication failed: invalid username/password
+ExceptionResourceAuthorization = Unauthorized access, credentials required or invalid credentials (HTTP status 401)
+ExceptionResourceGone = The requested resource is not longer available (HTTP status 410)

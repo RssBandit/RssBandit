@@ -1,0 +1,11 @@
+[DEFAULT]
+[DEFAULT]
+BASEURL=http://www.dasblog.info/
+[InternetShortcut]
+URL=http://www.rssbandit.org/docs/
+HotKey=0
+IDList=
+IconFile=http://www.rssbandit.org/favicon.ico
+IconIndex=1
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2

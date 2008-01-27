@@ -1,0 +1,379 @@
+/*=(===============================================================)*/
+
+/*=(===============================================================)*/
+/*=(Created with RoboEditor.)=======================================*/
+/*=(===============================================================)*/
+
+
+/*begin-old-version{{*/
+/*=(===============================================================)*/
+
+/*=(===============================================================)*/
+/*=(Created with RoboEditor.)=======================================*/
+/*=(===============================================================)*/
+@import url("csharp.css");
+
+BODY {
+	font-family: verdana,arial,helvetica;
+	font-size: 11.0pt;
+	background-color: #ffffff;
+}
+
+H1 /*begin!kadov{{*/ ,LI.kadov-H1 /*}}end!kadov*/   {
+	font-weight: bold;
+	font-size : 145%
+}
+
+H2 /*begin!kadov{{*/ ,LI.kadov-H2 /*}}end!kadov*/   {
+	font-weight: bold;
+	font-size : 125%
+}
+
+H3 /*begin!kadov{{*/ ,LI.kadov-H3 /*}}end!kadov*/   {
+	font-weight: bold;
+	font-size : 115%
+}
+
+H4 /*begin!kadov{{*/ ,LI.kadov-H4 /*}}end!kadov*/   {
+	font-weight: bold;
+	font-size : 105%
+}
+
+H5 /*begin!kadov{{*/ ,LI.kadov-H5 /*}}end!kadov*/   {
+	font-weight: bold;
+	font-size : 100%
+}
+
+P /*begin!kadov{{*/ ,LI.kadov-P /*}}end!kadov*/   {
+	font-size: 11.0pt;
+}
+
+A.expandspot {
+	color: #008000;
+	cursor: hand;
+	font-style: italic;
+	text-decoration: none;
+}
+
+SPAN.expandtext {
+	font-style: italic;
+	font-weight: normal;
+	color: #ff0000;
+}
+
+A.dropspot {
+	cursor: hand;
+	color: #008000;
+	font-style: italic;
+	text-decoration: none;
+}
+
+A.glossterm {
+	color: #800000;
+	cursor: hand;
+	font-style: italic;
+	text-decoration: none;
+}
+
+SPAN.glosstext {
+	font-style: italic;
+	font-weight: normal;
+	color: #0000ff;
+}
+
+OL, UL { 
+	margin-top: 0px; 
+	margin-bottom: 0px;
+}
+.Note {
+	margin: 1em;
+	padding: 5pt;
+	background-color: #FFFFCC;
+	border: 1pt inset  #999999;
+}
+
+ SPAN.UserInput {
+	font-family: monospace;
+	font: 12pt "Courier New" Courier mono;
+}
+ SPAN.ModuleCaption  {
+	font-family : Tahoma, Arial;
+	font-size : 11pt;
+}
+SPAN.Code  {
+	font-family: monospace;
+	font: 11pt "Courier New" Courier mono;
+	font-weight: bold;
+}
+
+ .Mini { font-size: xx-small; }
+
+ .Label { font-weight: bold; }
+ CITE.expandspot { font-style : normal;
+		color : green;
+		cursor: hand;}
+ .mvd-CITE-expandspot { font-style : normal;
+		color : green;
+		cursor: hand;}
+ DFN.collapsed { font-style : italic;
+		font-weight : normal;
+		display : 'none';
+		color : red;}
+ .mvd-DFN-collapsed { font-style : italic;
+		font-weight : normal;
+		display : 'none';
+		color : red;}
+ DFN.expanded { font-style : italic;
+		font-weight : normal;
+		color : red;}
+ .mvd-DFN-expanded { font-style : italic;
+		font-weight : normal;
+		color : red;}
+ EM.dropspot { cursor : hand;
+		color : green;}
+ .mvd-EM-dropspot { cursor : hand;
+		color : green;}
+ CITE.glossterm { font-style : normal;
+		color : maroon;
+		cursor : hand;}
+ .mvd-CITE-glossterm { font-style : normal;
+		color : maroon;
+		cursor : hand;}
+ DFN.glosscollapsed { font-style : italic;
+		font-weight : normal;
+		display : 'none';
+		color : blue;}
+ .mvd-DFN-glosscollapsed { font-style : italic;
+		font-weight : normal;
+		display : 'none';
+		color : blue;}
+ DFN.glossexpanded { font-style : italic;
+		font-weight : normal;
+		color : blue;}
+ .mvd-DFN-glossexpanded { font-style : italic;
+		font-weight : normal;
+		color : blue;}
+
+/*}}end-old-version*/
+BODY {
+	font-family: Verdana, Arial, helvetica;
+	font-size: 11.0pt;
+	background-color: #ffffff;
+}
+
+H1 {
+	font-weight: bold;
+	font-size: 145%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-H1 {
+	font-weight: bold;
+	font-size: 145%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+H2 {
+	font-weight: bold;
+	font-size: 125%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-H2 {
+	font-weight: bold;
+	font-size: 125%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+H3 {
+	font-weight: bold;
+	font-size: 115%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-H3 {
+	font-weight: bold;
+	font-size: 115%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+H4 {
+	font-weight: bold;
+	font-size: 105%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-H4 {
+	font-weight: bold;
+	font-size: 105%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+H5 {
+	font-weight: bold;
+	font-size: 100%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-H5 {
+	font-weight: bold;
+	font-size: 100%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+P {
+	font-size: 11.0pt;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-P {
+	font-size: 11.0pt;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+A.expandspot {
+	color: #008000;
+	cursor: hand;
+	font-style: italic;
+	x-text-underline: off;
+	x-text-overline: off;
+	x-text-line-through: off;
+	/*begin!kadov{{*/ text-decoration: none none none; /*}}end!kadov*/ 
+}
+
+SPAN.expandtext {
+	font-style: italic;
+	font-weight: normal;
+	color: #ff0000;
+}
+
+A.dropspot {
+	cursor: hand;
+	color: #008000;
+	font-style: italic;
+	x-text-underline: off;
+	x-text-overline: off;
+	x-text-line-through: off;
+	/*begin!kadov{{*/ text-decoration: none none none; /*}}end!kadov*/ 
+}
+
+A.glossterm {
+	color: #800000;
+	cursor: hand;
+	font-style: italic;
+	x-text-underline: off;
+	x-text-overline: off;
+	x-text-line-through: off;
+	/*begin!kadov{{*/ text-decoration: none none none; /*}}end!kadov*/ 
+}
+
+SPAN.glosstext {
+	font-style: italic;
+	font-weight: normal;
+	color: #0000ff;
+}
+
+OL,
+UL {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.Note {
+	margin: 1em;
+	padding: 5pt;
+	background-color: #FFFFCC;
+	border: 1pt inset #999999;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CNote {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+SPAN.UserInput {
+	font-family: monospace;
+	font: 12pt "Courier New" Courier mono;
+}
+
+SPAN.ModuleCaption {
+	font-family: Tahoma, Arial;
+	font-size: 11pt;
+}
+
+SPAN.Code {
+	font-family: monospace;
+	font: 11pt "Courier New" Courier mono;
+	font-weight: bold;
+}
+
+.Mini {
+	font-size: xx-small;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CMini {
+	font-size: xx-small;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.Label {
+	font-weight: bold;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CLabel {
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+
+/*=(===============================================================)*/
+
+
+.figure
+{
+	font: bold 11px arial;
+}
+
+.tip
+{
+	display: block;
+	font-size: 1.5em;
+}

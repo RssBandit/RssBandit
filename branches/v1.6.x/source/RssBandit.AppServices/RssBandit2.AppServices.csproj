@@ -1,0 +1,163 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>RssBandit.AppServices.2</AssemblyName>
+    <AssemblyOriginatorKeyFile>rssbandit.org.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RssBandit.AppServices</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug2|AnyCPU' ">
+    <OutputPath>bin\Debug2\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release2|AnyCPU' ">
+    <OutputPath>bin\Release2\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>doc/RssBandit.AppServices.xml</DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddIn\AddInBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AddIn\AddInInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Channel\FeedChannelBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Channel\IChannelProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Channel\INewsChannel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Channel\NewsItemChannelBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Collections\CollectionInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\CommonInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\EventsAndDelegates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ICoreApplication.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\IFeedDetails.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\INewsItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\INntpServerDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ISearchEngine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\IUserIdentity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\IUserPreferences.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\NewsComponentEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\CommandBarInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\WindowManagementInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="rssbandit.org.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

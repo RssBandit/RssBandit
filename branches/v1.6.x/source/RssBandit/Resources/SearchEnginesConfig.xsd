@@ -1,0 +1,47 @@
+<xs:schema targetNamespace="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:c="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/">
+	<xs:element name="searchConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="engine" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="title" type="xs:string" minOccurs="1" />
+							<xs:element name="search-link" type="xs:anyURI" minOccurs="1">
+								<xs:annotation>
+									<xs:documentation>
+		 This defines the base URL of the search engine. 
+		 The placeholder for the search expression is '{0}' without
+     the single quotes but with the braces!
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="description" type="xs:string" minOccurs="0" />
+							<xs:element name="image-name" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+						<xs:attribute name="active" type="xs:boolean" />
+						<xs:attribute name="category" type="xs:string" use="optional" />
+						<xs:attribute name="rss-resultset" type="xs:boolean" use="optional" default="false" />
+						<xs:attribute name="merge-with-local-resultset" type="xs:boolean" use="optional" default="false" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="categories" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="category" type="xs:string" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="open-newtab" type="xs:boolean" use="optional" />
+		</xs:complexType>
+		<xs:key name="categories-key">
+			<xs:selector xpath="c:categories/c:category" />
+			<xs:field xpath="." />
+		</xs:key>
+		<xs:keyref name="categories-keyref" refer="c:categories-key">
+			<xs:selector xpath="c:engine" />
+			<xs:field xpath="@category" />
+		</xs:keyref>
+	</xs:element>
+</xs:schema>

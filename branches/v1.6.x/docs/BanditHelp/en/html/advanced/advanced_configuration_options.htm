@@ -1,0 +1,914 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Advanced Configuration Options</title>
+
+<!--(Meta)==========================================================-->
+
+<meta name="template" content="Bandit Topic.htt">
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=3542>
+<meta name=layout-width content=835>
+
+
+<!--(Links)=========================================================-->
+
+<link rel="StyleSheet" href="..\..\default.css">
+
+
+
+<!--(Style Sheet)===================================================-->
+
+<style>
+<!--
+
+body {
+	border-bottom-style: Groove;
+	border-bottom-width: 3px;
+	border-bottom-color: #000000;
+}
+
+-->
+</style>
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<!--kadov_tag{{<placeholder id="header">}}-->
+<div>
+<h1><!--kadov_tag{{<variable name=title
+							x-format=default
+							x-value="Advanced Configuration Options">}}-->Advanced 
+ Configuration Options<!--kadov_tag{{</variable>}}--></h1>
+</div>
+
+<h2>General</h2>
+
+<p>Like other DOT.NET Framework application RSS Bandit supports configuration 
+ options specified in a file named <span class=ModuleCaption
+										style="font-weight: bold;">RssBandit.exe.config</span>. 
+ The location is always the path you installed the program, usually <span 
+ class=ModuleCaption>C:\Program Files\RssBandit</span> and can be edited 
+ with a normal text editor like Notepad or your favourite XML editor. </p>
+
+<p>This file defines e.g. options to allow execution with currently released 
+ CLR runtime version (<span class=UserInput>&lt;startup&gt;&lt;supportedRuntime&gt;</span> 
+ entries), but also some specific options only valid for RSS Bandit. This 
+ options are all located within one section named <span class=UserInput>&lt;appSettings&gt;</span>.</p>
+
+<p>The recommended way to change some of the options there is to create 
+ a new file with the name &quot;<span class=UserInput
+										style="font-weight: bold;">RssBandit.exe.user.config</span>&quot; 
+ in the same directory. You should remind we will overwrite the original 
+ RssBandit.exe.config file each time you install an update of the application! 
+ As long you choose the same folder for uninstall/reinstall your newly 
+ created file will be left untouched but used with your customized options.</p>
+
+<p>The contents of the file must look like this:</p>
+
+<div style="border: solid 1px #000000; padding: 3px;">
+<p style="color: #800080;"><span class=Code>&lt;appSettings&gt;</span><span 
+ style="color: #800080;"><br>
+...</span><span class=Code
+				style="color: #800080;"><br>
+&lt;/appSettings&gt;</span></p>
+</div>
+
+<p>Each application option entry must be specified in this format:</p>
+
+<div style="border: solid 1px #000000; padding: 3px;">
+<p style="color: #800080;"><span class=Code>&lt;add </span><span class=Code
+	style="color: #ff0000;">key</span><span class=Code
+											style="color: #007fff;">=&quot;[option 
+ key]&quot;</span><span class=Code> </span><span class=Code
+												style="color: #ff0000;">value</span><span 
+ class=Code
+	style="color: #007fff;">=&quot;[option value]&quot;</span><span class=Code> 
+ /&gt;</span></p>
+</div>
+
+<p>So here is a more complete sample:</p>
+
+<div style="border: solid 1px #000000; padding: 3px;">
+<p style="color: #800080;"><span class=Code>&lt;appSettings&gt;<br>
+&lt;add </span><span class=Code
+					style="color: #ff0000;">key</span><span class=Code
+															style="color: #007fff;">=&quot;MaxDownloadThreads&quot;</span><span 
+ class=Code> </span><span class=Code
+							style="color: #ff0000;">value</span><span class=Code
+	style="color: #007fff;">=&quot;4&quot;</span><span class=Code> /&gt;<br>
+&lt;/appSettings&gt;</span></p>
+</div>
+
+<h2>Supported options</h2>
+
+<p>The following table describes all known and supported options with the 
+ allowed values. </p>
+
+<p class=Note><span style="font-weight: bold;">Important note</span>: the 
+ option keys must be spelled exactly as they are specified below!</p>
+
+<!--kadov_tag{{<implicit_empty_p>}}-->&nbsp;<br><!--kadov_tag{{</implicit_empty_p>}}-->
+
+<!--(Table)=========================================================-->
+<table x-use-null-cells
+		style="x-cell-content-align: top;
+				width: 100%;
+				border-spacing: 0px;
+				border-spacing: 0px;"
+		cellspacing=0
+		width=100%>
+<col style="width: 30%;">
+<col style="width: 50%;">
+<col style="width: 20%;">
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td style="width: 30%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-left-color: #000080;
+			border-top-style: Double;
+			border-top-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;
+			border-left-width: 3px;
+			border-left-style: double;
+			border-top-width: 3px;"
+	width=30%>
+<p style="font-weight: bold;">Option key</td>
+<td style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-top-color: #000080;
+			border-top-style: Double;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-top-width: 3px;"
+	width=50%>
+<p style="font-weight: bold;">Option values</td>
+<td style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-top-color: #000080;
+			border-top-style: Double;
+			border-right-style: Double;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-top-width: 3px;
+			border-right-width: 3px;"
+	width=20%>
+<p style="font-weight: bold;">Application Version</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td style="width: 30%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-left-color: #000080;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-right-width: 1px;
+			border-left-width: 3px;
+			border-left-style: double;"
+	width=30%>
+<p><span class=UserInput>MaxDownloadThreads</span></td>
+<td style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=50%>
+<p>Integer; default is 4; Recommended Range 1..16;</p>
+<p>Amount of threads used to request feeds.</td>
+<td style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-right-width: 3px;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>All</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-color: #000080;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-left-width: 3px;
+			border-left-style: double;
+			border-bottom-width: 1px;"
+	width=10px>
+<p><span class=UserInput>UnconditionalCommentRss</span></td>
+<td style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-bottom-width: 1px;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>By default we consider the feed element tag &lt;slash:comments&gt; (namespace 
+ http://purl.org/rss/1.0/modules/slash/) containing the amount of comments 
+ posted to detect if we have to request the comment feed for a particular 
+ post. If the counter is zero, we will not request the comment feed, but 
+ if you set this option to true, we will always request the comment feed 
+ regardless the value of the counter.</td>
+<td style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-style: Double;
+			border-right-color: #000080;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;
+			border-right-width: 3px;"
+	width=20%>
+<p>v1.3.0.23 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p><span class=UserInput>AutomaticColorSchemes</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is true.</p>
+<p>Set this to false if you consider any bad UI rendering effects while 
+ running software, that tweaks the windows default color scheme handling 
+ (Custom theme manager; Windows XP and higher) to provide &quot;extended&quot; 
+ schemes like the well known Window Blinds or StyleXP applications.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.24 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-color: #000080;
+			border-left-width: 3px;
+			border-left-style: double;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;"
+	width=10px>
+<p><span class=UserInput>UseEnglishReplyPrefix</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-bottom-width: 1px;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>If you reply to a post (feed must support this), a short string is used 
+ as a prefix similar to Outlook/Outlook express. If you really like to 
+ have English reply title prefix &quot;Re: &quot; instead of the localized 
+ (in German e.g. &quot;AW: &quot;), set this value to true. </td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-style: Double;
+			border-right-color: #000080;
+			border-right-width: 3px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;"
+	width=20%>
+<p>v1.3.0.24 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-color: #000080;
+			border-left-width: 3px;
+			border-left-style: double;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;"
+	width=10px>
+<p><span class=UserInput>AppDataFolder</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;
+			border-bottom-width: 1px;"
+	width=50%>
+<p>String (Operating System Path); default is &lt;Documents and Settings&gt;\&lt;LoggedOnUser&gt;\Application 
+ Data\RssBandit; this is usually part of Windows <span style="font-weight: bold;">Roaming 
+ User Profile</span> (<a href="http://technet2.microsoft.com/WindowsServer/en/Library/b41402c2-c982-4bfb-891e-91b47f211e181033.mspx?mfr=true">RUP</a>).</p>
+<p>You can specify a custom path here like &quot;D:\My Feeds\RSS Bandit&quot;. 
+ Do not forget to copy all the files from the original location and RSS 
+ Bandit should not be running while you do so!</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-style: Double;
+			border-right-color: #000080;
+			border-right-width: 3px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;
+			border-bottom-width: 1px;"
+	width=20%>
+<p>v1.3.0.3 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p><span class=UserInput>AppCacheFolder</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>String (Operating System Path); default is &lt;Documents and Settings&gt;\&lt;LoggedOnUser&gt;\Local 
+ Settings\ Application Data\RssBandit; this is usually <span style="font-weight: bold;">not</span> 
+ part of Windows <span style="font-weight: bold;">Roaming User Profile</span> 
+ (<a href="http://technet2.microsoft.com/WindowsServer/en/Library/b41402c2-c982-4bfb-891e-91b47f211e181033.mspx?mfr=true">RUP</a>).</p>
+<p>You can specify a custom path here like &quot;D:\My Feeds\RSS Bandit&quot;. 
+ It is allowed to specify the same path as used for setting <span class=UserInput>AppDataFolder</span> 
+ to have all related files in one location. Do not forget to copy all the 
+ files from the original location and RSS Bandit should not be running 
+ while you do so!</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p><span class=UserInput>Lucene.SearchIndexBehavior</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>String; the following values are supported (case sensitive):</p>
+<ul style="list-style: disc;"
+	type=disc>
+	
+	<li class=kadov-p><span class=UserInput>NoIndexing</span> - no search 
+ index is build/maintained, and local search feature is disabled</li>
+	
+	<li class=kadov-p><span class=UserInput>LocalAppDataDirectoryBased</span> 
+ - Index is directory based and build relative to the user's local application 
+ data folder (<span style="font-weight: bold;">default</span>)</li>
+	
+	<li class=kadov-p><span class=UserInput>AppDataDirectoryBased</span> 
+ - Index is directory based and build relative to the user's application 
+ data folder</li>
+	
+	<li class=kadov-p><span class=UserInput>TempDirectoryBased</span> - 
+ Index is directory based and build relative to the user's temporary folder</li>
+</ul></td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.5.0.15 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p><span class=UserInput>UseCookiesFromIE</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is true.</p>
+<p>By default we send cookies written by Internet Explorer (if they match 
+ the site) along with the feed request. Some feeds/hosts manage access 
+ to the feeds by informations stored in a cookie.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.39 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 30%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=30%>
+<p><span class=UserInput>RemoteFeedlist/ Ftp.ConnectionMode.Passive</span><br>
+(do not use spaces in the key name!)</td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is true.</p>
+<p>Disable (false) this setting to configure the ACTIVE MODE for <a href="../syncronization/synchronization_using_ftp.htm">Synchronization 
+ using FTP</a>.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42 and higher</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 30%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=30%>
+<p style="font-weight: bold;">Settings below are not anymore valid for 
+ v1.5.x:</td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>&nbsp;</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>&nbsp;</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p style="color: #808080;"><span class=UserInput>FeedDetailPane.ActiveXEnabled</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>Security setting for the feed detail view pane. Allow/Deny to execute 
+ Active X components.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42; v1.5.x uses the <a HREF="../getting_started/changing_web_browser_security_settings.htm">Web 
+ browser security settings</a> instead</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p style="color: #808080;"><span class=UserInput>FeedDetailPane.ImagesDownloadEnabled</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is true.</p>
+<p>Security setting for the feed detail view pane. Allow/Deny download/display 
+ if images.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42; v1.5.x uses the <a href="../getting_started/changing_web_browser_security_settings.htm">Web 
+ browser security settings</a> instead</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p style="color: #808080;"><span class=UserInput>FeedDetailPane.JavaEnabled</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>Security setting for the feed detail view pane. Allow/Deny to execute 
+ Java components.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42; v1.5.x uses the <a href="../getting_started/changing_web_browser_security_settings.htm">Web 
+ browser security settings</a> instead</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p style="color: #808080;"><span class=UserInput>FeedDetailPane.VideoEnabled</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>Security setting for the feed detail view pane. Allow/Deny to play video 
+ media components.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42; v1.5.x uses the <a href="../getting_started/changing_web_browser_security_settings.htm">Web 
+ browser security settings</a> instead</td></tr>
+
+<tr style="x-cell-content-align: top;"
+	valign=top>
+<td colspan=1
+	rowspan=1
+	style="width: 'padding-right:' 10px;
+			padding-left: 10px;
+			border-left-style: double;
+			border-left-width: 3px;
+			border-left-color: #000080;
+			border-right-width: 1px;
+			border-right-style: Solid;
+			border-right-color: #000080;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=10px>
+<p style="color: #808080;"><span class=UserInput>FeedDetailPane.FrameDownloadEnabled</span></td>
+<td colspan=1
+	rowspan=1
+	style="width: 50%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-color: #000080;
+			border-right-style: Solid;
+			border-right-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-color: #000080;
+			border-bottom-style: Solid;"
+	width=50%>
+<p>Boolean (true/false); default is false.</p>
+<p>Security setting for the feed detail view pane. Allow/Deny HTML frames 
+ support.</td>
+<td colspan=1
+	rowspan=1
+	style="width: 20%;
+			padding-right: 10px;
+			padding-left: 10px;
+			border-right-width: 3px;
+			border-right-color: #000080;
+			border-right-style: Double;
+			border-bottom-width: 1px;
+			border-bottom-style: Solid;
+			border-bottom-color: #000080;"
+	width=20%>
+<p>v1.3.0.42; v1.5.x don't use it anymore</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+<!--kadov_tag{{<placeholder id="footer">}}-->
+</body>
+
+</html>
