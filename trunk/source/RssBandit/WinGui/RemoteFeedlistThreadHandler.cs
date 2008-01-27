@@ -1030,11 +1030,11 @@ namespace RssBandit.WinGui
 
                     if (guid != null)
                     {
-                        state.feed.storiesrecentlyviewed.Add(guid.InnerText);
+                        state.feed.AddViewedStory(guid.InnerText);
                     }
                     else if (link != null)
                     {
-                        state.feed.storiesrecentlyviewed.Add(link.InnerText);
+                        state.feed.AddViewedStory(link.InnerText);
                     }
                 } //foreach(XmlNode item...)	
             }

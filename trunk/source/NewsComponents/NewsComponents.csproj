@@ -325,6 +325,7 @@
     <Compile Include="Utils\CryptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\DataBindingHelper.cs" />
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>

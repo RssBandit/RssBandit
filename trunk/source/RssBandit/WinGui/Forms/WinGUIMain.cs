@@ -7068,12 +7068,12 @@ namespace RssBandit.WinGui.Forms
                     {
                         if (!item.Feed.storiesrecentlyviewed.Contains(item.Id))
                         {
-                            item.Feed.storiesrecentlyviewed.Add(item.Id);
+                            item.Feed.AddViewedStory(item.Id);
                         }
                     }
                     else
                     {
-                        item.Feed.storiesrecentlyviewed.Remove(item.Id);
+                        item.Feed.RemoveViewedStory(item.Id);
                     }
 
                     /* locate actual item if this is a search result */
