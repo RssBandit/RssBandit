@@ -3474,7 +3474,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
                     !commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
                 {
-                    NewsFeed f = new NewsFeed();
+                    INewsFeed f = new NewsFeed();
 
                     f.link = theItem.CommentRssUrl;
                     f.title = theItem.Title;
@@ -3500,7 +3500,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     }
 
                     // add feed to backend					
-                    commentFeedsHandler.FeedsTable.Add(f.link, f);
+                    f = commentFeedsHandler.AddFeed(f);
 
                     // set properties the backend requires the feed just added
                     int intIn = feedHandler.GetRefreshRate(theItem.Feed.link)/2*MilliSecsMultiplier;

@@ -13403,7 +13403,7 @@ namespace RssBandit.WinGui.Forms
                                     feedTitle = HtmlHelper.HtmlDecode(fetchHandler.DiscoveredDetails.Title);
 
                                 // setup the new feed magically, and add them to the parent node
-                                NewsFeed f = fetchHandler.DiscoveredFeed;
+                                INewsFeed f = fetchHandler.DiscoveredFeed;
                                 f.link = feedUrl;
                                 f.title = feedTitle;
                                 f.refreshrate = 60;
@@ -13416,7 +13416,7 @@ namespace RssBandit.WinGui.Forms
                                 }
 
                                 f.alertEnabled = false;
-                                owner.FeedHandler.FeedsTable.Add(f.link, f);
+                                f = owner.FeedHandler.AddFeed(f);
                                 owner.FeedWasModified(f, NewsFeedProperty.FeedAdded);
                                 //owner.FeedlistModified = true;
 

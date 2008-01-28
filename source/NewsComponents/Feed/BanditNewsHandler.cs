@@ -182,7 +182,7 @@ namespace NewsComponents.Feed
                                 if (FeedsTable.ContainsKey(f.link) == false)
                                 {
                                     f.owner = this;
-                                    FeedsTable.Add(f.link, f);
+                                    this._feedsTable.Add(f.link, f);
                                 }
                             }
                         }
