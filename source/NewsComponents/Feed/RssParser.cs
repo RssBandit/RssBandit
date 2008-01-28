@@ -229,7 +229,7 @@ namespace NewsComponents.Feed
         /// <param name="f">The feed object the NewsItem being created belongs to</param>
         /// <param name="reader">XmlReader</param>
         /// <returns>An NewsItem object containing the information in the XML node passed in.</returns>
-        public static NewsItem MakeRssItem(NewsFeed f, XmlReader reader)
+        public static NewsItem MakeRssItem(INewsFeed f, XmlReader reader)
         {
             //setup the NameTable used by the XmlReader
             object[] atomized_strings = FillNameTable(reader.NameTable);
@@ -251,7 +251,7 @@ namespace NewsComponents.Feed
         /// the array are from the XmlReader's nametable</param>
         /// <param name="defaultItemDate">The default item date to be used if there is no/invalid date information on an item.</param>
         /// <returns>An NewsItem object containing the information in the XmlReader passed in.</returns>
-        public static NewsItem MakeRssItem(NewsFeed f, XmlReader reader, object[] atomized_strings,
+        public static NewsItem MakeRssItem(INewsFeed f, XmlReader reader, object[] atomized_strings,
                                            DateTime defaultItemDate)
         {
             ContentType ctype = ContentType.None;
@@ -734,7 +734,7 @@ namespace NewsComponents.Feed
         /// <param name="f">The feed object the NewsItem being created belongs to</param>
         /// <param name="reader">XmlReader</param>
         /// <returns>An NewsItem object containing the information in the XML node passed in.</returns>
-        public static NewsItem MakeAtomItem(NewsFeed f, XmlReader reader)
+        public static NewsItem MakeAtomItem(INewsFeed f, XmlReader reader)
         {
             //setup the NameTable used by the XmlReader
             object[] atomized_strings = FillNameTable(reader.NameTable);
@@ -782,7 +782,7 @@ namespace NewsComponents.Feed
         /// the array are from the XmlReader's nametable</param>
         /// <param name="defaultItemDate">The default item date to be used if there is no/invalid date information on an item.</param>
         /// <returns>An NewsItem object containing the information in the XmlReader passed in.</returns>
-        public static NewsItem MakeAtomItem(NewsFeed f, XmlReader reader, object[] atomized_strings,
+        public static NewsItem MakeAtomItem(INewsFeed f, XmlReader reader, object[] atomized_strings,
                                             DateTime defaultItemDate)
         {
             ContentType ctype = ContentType.None;
@@ -1301,7 +1301,7 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<NewsItem> GetItemsForFeed(NewsFeed f)
+        public List<NewsItem> GetItemsForFeed(INewsFeed f)
         {
             if (offline)
                 return new List<NewsItem>();
@@ -1351,7 +1351,7 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public static FeedInfo GetItemsForFeed(NewsFeed f, XmlReader feedReader, bool cachedStream)
+        public static FeedInfo GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream)
         {
             List<NewsItem> items = new List<NewsItem>();
             Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();
@@ -1669,7 +1669,7 @@ namespace NewsComponents.Feed
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public static FeedInfo GetItemsForFeed(NewsFeed f, Stream feedStream, bool cachedStream)
+        public static FeedInfo GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream)
         {
             //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)			
             XmlTextReader r = new XmlTextReader(feedStream);
@@ -1837,7 +1837,7 @@ namespace NewsComponents.Feed
         /// <param name="items">Items in the feed</param>
         /// <param name="defaultItemDate">Default DateTime for the items</param>
         /// <param name="language">The language of the feed</param>
-        private static void ProcessFeedElements(NewsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref DateTime channelBuildDate, IDictionary<XmlQualifiedName, string> optionalElements, ICollection<NewsItem> items, DateTime defaultItemDate, ref string language)
+        private static void ProcessFeedElements(INewsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref DateTime channelBuildDate, IDictionary<XmlQualifiedName, string> optionalElements, ICollection<NewsItem> items, DateTime defaultItemDate, ref string language)
         {
             bool matched; //indicates whether this is a known element
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()

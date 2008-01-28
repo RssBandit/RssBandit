@@ -58,7 +58,7 @@ namespace NewsComponents.Net
 		/// <summary>
 		/// The feed this object is associated with. 
 		/// </summary>
-		private NewsFeed ownerFeed;
+		private INewsFeed ownerFeed;
 		
 		#endregion
 
@@ -109,7 +109,7 @@ namespace NewsComponents.Net
 		/// <summary>
 		/// The feed that this item belongs to. 
 		/// </summary>
-		public NewsFeed OwnerFeed{
+		public INewsFeed OwnerFeed{
 			get {
 				return this.ownerFeed;
 			}
