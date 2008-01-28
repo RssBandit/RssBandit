@@ -731,11 +731,11 @@ namespace NewsComponents.Feed
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
-        ReadOnlyICollection<string> storiesrecentlyviewed { get; set; }
+        List<string> storiesrecentlyviewed { get; set; }
         
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
-        ReadOnlyICollection<string> deletedstories { get; set; }
+        List<string> deletedstories { get; set; }
         
         DateTime lastmodified { get; set; }
         bool lastmodifiedSpecified { get; set; }
@@ -942,10 +942,10 @@ namespace NewsComponents.Feed
         /// <remarks/>
         [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
-        public ReadOnlyICollection<string> storiesrecentlyviewed 
+        public List<string> storiesrecentlyviewed 
         { 
             get{
-                return new ReadOnlyICollection<string>(_storiesrecentlyviewed);
+                return _storiesrecentlyviewed;
             }
             set
             {
@@ -957,11 +957,11 @@ namespace NewsComponents.Feed
         /// <remarks/>
         [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
-        public ReadOnlyICollection<string> deletedstories
+        public List<string> deletedstories
         {
             get
             {
-                return new ReadOnlyICollection<string>(_deletedstories);
+                return _deletedstories;
             }
             set
             {
