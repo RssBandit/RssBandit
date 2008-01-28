@@ -1326,7 +1326,7 @@ namespace RssBandit.WinGui.Forms
             theBrowser.Focus();
         }
 
-        internal void SetSubscriptionNodeState(NewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
+        internal void SetSubscriptionNodeState(INewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
         {
             if (f == null || feedsNode == null) return;
             if (RssHelper.IsNntpUrl(f.link))
@@ -1339,7 +1339,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private static void SetNntpNodeState(NewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
+        private static void SetNntpNodeState(INewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
         {
             if (f == null || feedsNode == null) return;
             switch (state)
@@ -1378,7 +1378,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void SetFeedNodeState(NewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
+        private void SetFeedNodeState(INewsFeed f, TreeFeedsNodeBase feedsNode, FeedProcessingState state)
         {
             if (f == null || feedsNode == null) return;
             switch (state)
@@ -1430,7 +1430,7 @@ namespace RssBandit.WinGui.Forms
         /// <returns>True if an unread item exists for this feed and false otherwise</returns>
         private bool FindNextUnreadItem(TreeFeedsNodeBase tn)
         {
-            NewsFeed f = null;
+            INewsFeed f = null;
             bool repopulated = false, isTopLevel = true;
             ListViewItem foundLVItem = null;
 
@@ -1924,7 +1924,7 @@ namespace RssBandit.WinGui.Forms
                         }
                         break;
                     case NewsItemSortField.FeedTitle:
-                        NewsFeed f = newsItem.Feed;
+                        INewsFeed f = newsItem.Feed;
                         //if we are in a Smart Folder then use the original title of the feed 
                         string feedUrl = GetOriginalFeedUrl(newsItem);
                         if ((feedUrl != null) && owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
@@ -2604,7 +2604,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="tn">The tree node whose comment status is being updated</param>
         /// <param name="f">The feed associated with the tree node</param>
-        private void UpdateCommentStatus(TreeFeedsNodeBase tn, NewsFeed f)
+        private void UpdateCommentStatus(TreeFeedsNodeBase tn, INewsFeed f)
         {
             IList<NewsItem> itemsWithNewComments = GetFeedItemsWithNewComments(f);
             tn.UpdateCommentStatus(tn, itemsWithNewComments.Count);
@@ -2677,7 +2677,7 @@ namespace RssBandit.WinGui.Forms
         /// Remove unread items of the feed f from the unread item tree node container.
         /// </summary>
         /// <param name="f">The feed.</param>
-        private void UnreadItemsNodeRemoveItems(NewsFeed f)
+        private void UnreadItemsNodeRemoveItems(INewsFeed f)
         {
             if (f == null) return;
             UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(f));
@@ -2702,7 +2702,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="f">The feed.</param>
         /// <returns></returns>
-        private IList<NewsItem> FilterUnreadFeedItems(NewsFeed f)
+        private IList<NewsItem> FilterUnreadFeedItems(INewsFeed f)
         {
             List<NewsItem> result = new List<NewsItem>();
 
@@ -2764,7 +2764,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="f">The target feed</param>
         /// <returns>The number of items with unread comments </returns>
-        private IList<NewsItem> GetFeedItemsWithNewComments(NewsFeed f)
+        private IList<NewsItem> GetFeedItemsWithNewComments(INewsFeed f)
         {
             List<NewsItem> itemsWithNewComments = new List<NewsItem>();
 
@@ -2906,7 +2906,7 @@ namespace RssBandit.WinGui.Forms
             /* display alert window on new download available */
             if (owner.FeedHandler.FeedsTable.ContainsKey(e.DownloadItem.OwnerFeedId))
             {
-                NewsFeed f = owner.FeedHandler.FeedsTable[e.DownloadItem.OwnerFeedId];
+                INewsFeed f = owner.FeedHandler.FeedsTable[e.DownloadItem.OwnerFeedId];
 
                 if (owner.FeedHandler.GetEnclosureAlert(f.link))
                 {
@@ -3065,7 +3065,7 @@ namespace RssBandit.WinGui.Forms
             if (!tn.Selected || tn.Type != FeedNodeType.Feed)
                 return;
 
-            NewsFeed f = owner.GetFeed(tn.DataKey);
+            INewsFeed f = owner.GetFeed(tn.DataKey);
 
             if (f != null)
             {
@@ -3311,7 +3311,7 @@ namespace RssBandit.WinGui.Forms
                             else if (categorized)
                             {
                                 IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
-                                NewsFeed f = owner.GetFeed(feedUrl);
+                                INewsFeed f = owner.GetFeed(feedUrl);
                                 FeedInfo fi;
 
                                 if (f != null)
@@ -3412,7 +3412,7 @@ namespace RssBandit.WinGui.Forms
         private void WalkdownThenRenameFeedCategory(TreeFeedsNodeBase startNode, string newCategory)
         {
             if (startNode == null) return;
-            NewsFeed f;
+            INewsFeed f;
 
             if (startNode.Type == FeedNodeType.Feed)
             {
@@ -3453,7 +3453,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (owner.FeedHandler.FeedsTable.ContainsKey(startNode.DataKey))
                 {
-                    NewsFeed f = owner.GetFeed(startNode.DataKey);
+                    INewsFeed f = owner.GetFeed(startNode.DataKey);
                     if (f != null)
                     {
                         UnreadItemsNodeRemoveItems(f);
@@ -4583,7 +4583,7 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
-        public void PopulateFeedSubscriptions(ICollection<category> categories, IDictionary<string, NewsFeed> feedsTable,
+        public void PopulateFeedSubscriptions(ICollection<INewsFeedCategory> categories, IDictionary<string, INewsFeed> feedsTable,
                                               string defaultCategory)
         {
             EmptyListView();
@@ -4600,7 +4600,7 @@ namespace RssBandit.WinGui.Forms
                 UnreadItemsNode.Items.Clear();
 
                 Hashtable categoryTable = new Hashtable();
-                List<category> categoryList = new List<category>(categories);
+                List<INewsFeedCategory> categoryList = new List<INewsFeedCategory>(categories);
 
                 foreach (NewsFeed f in feedsTable.Values)
                 {
@@ -5512,7 +5512,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (tn.Type == FeedNodeType.Feed)
                 {
-                    NewsFeed f = owner.GetFeed(tn.DataKey);
+                    INewsFeed f = owner.GetFeed(tn.DataKey);
                     if (f != null)
                     {
                         return f.category;
@@ -5540,7 +5540,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="category">Feed Category</param>
         /// <param name="f">Feed</param>
-        public void AddNewFeedNode(string category, NewsFeed f)
+        public void AddNewFeedNode(string category, INewsFeed f)
         {
             TreeFeedsNodeBase catnode;
             TreeFeedsNodeBase tn;
@@ -5769,7 +5769,7 @@ namespace RssBandit.WinGui.Forms
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
                     string feedUrl = keys[i];
-                    NewsFeed f = null;
+                    INewsFeed f = null;
 
                     if (!owner.FeedHandler.FeedsTable.TryGetValue(feedUrl,out f))
                     {
@@ -5851,7 +5851,7 @@ namespace RssBandit.WinGui.Forms
             IList<NewsItem> items;
 
             string feedUrl = feedUri.AbsoluteUri;
-            NewsFeed feed;
+            INewsFeed feed;
             TreeFeedsNodeBase tn;
             NewsItem item = null;
             bool modified = false;
@@ -6011,7 +6011,7 @@ namespace RssBandit.WinGui.Forms
             IList<NewsItem> unread = null;
 
             string feedUrl = feedUri.AbsoluteUri;
-            NewsFeed feed;
+            INewsFeed feed;
             TreeFeedsNodeBase tn;
 
             if (newFeedUri != null)
@@ -6247,7 +6247,7 @@ namespace RssBandit.WinGui.Forms
 
             if (selectedNode == null) return;
 
-            NewsFeed f = null;
+            INewsFeed f = null;
             if (selectedNode.Type == FeedNodeType.Feed)
                 f = owner.GetFeed(selectedNode.DataKey);
 
@@ -7006,10 +7006,10 @@ namespace RssBandit.WinGui.Forms
         private class RefLookupItem
         {
             public readonly TreeFeedsNodeBase Node;
-            public readonly NewsFeed Feed;
+            public readonly INewsFeed Feed;
             public int UnreadCount;
 
-            public RefLookupItem(TreeFeedsNodeBase feedsNode, NewsFeed feed, int unreadCount)
+            public RefLookupItem(TreeFeedsNodeBase feedsNode, INewsFeed feed, int unreadCount)
             {
                 Node = feedsNode;
                 Feed = feed;
@@ -7215,7 +7215,7 @@ namespace RssBandit.WinGui.Forms
 
             if (theNode.Type == FeedNodeType.Feed)
             {
-                NewsFeed f = owner.GetFeed(theNode.DataKey);
+                INewsFeed f = owner.GetFeed(theNode.DataKey);
                 if (f == null)
                     return;
 
@@ -7355,7 +7355,7 @@ namespace RssBandit.WinGui.Forms
             else
                 feedUrl = feedUri.AbsoluteUri;
 
-            NewsFeed f;
+            INewsFeed f;
             if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {
                 feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
@@ -7380,7 +7380,7 @@ namespace RssBandit.WinGui.Forms
 			else
 				feedUrl = feedUri.AbsoluteUri; */
 
-            NewsFeed f = null;
+            INewsFeed f = null;
             if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
             {
                 feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
@@ -7411,7 +7411,7 @@ namespace RssBandit.WinGui.Forms
             else
                 feedUrl = requestUri.ToString();
 
-            NewsFeed f = null;
+            INewsFeed f = null;
             string issueCaption, issueDesc;
 
             if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
@@ -10695,12 +10695,12 @@ namespace RssBandit.WinGui.Forms
         /// Iterates through the treeview and highlights all feed titles that 
         /// have unread messages. 
         /// </summary>
-        private void UpdateTreeStatus(IDictionary<string, NewsFeed> feedsTable)
+        private void UpdateTreeStatus(IDictionary<string, INewsFeed> feedsTable)
         {
             UpdateTreeStatus(feedsTable, RootFolderType.MyFeeds);
         }
 
-        private void UpdateTreeStatus(IDictionary<string, NewsFeed> feedsTable, RootFolderType rootFolder)
+        private void UpdateTreeStatus(IDictionary<string, INewsFeed> feedsTable, RootFolderType rootFolder)
         {
             if (feedsTable == null) return;
             if (feedsTable.Count == 0) return;
@@ -10929,7 +10929,7 @@ namespace RssBandit.WinGui.Forms
                 else if (tn.Type == FeedNodeType.Feed)
                 {
                     string feedUrl = tn.DataKey;
-                    NewsFeed f = owner.GetFeed(feedUrl);
+                    INewsFeed f = owner.GetFeed(feedUrl);
 
                     if (f != null && feedUrl != null && owner.FeedHandler.GetMarkItemsReadOnExit(feedUrl) &&
                         f.containsNewMessages)
@@ -11189,7 +11189,7 @@ namespace RssBandit.WinGui.Forms
             {
                 //feed node 
 
-                NewsFeed f = owner.GetFeed(editedNode.DataKey);
+                INewsFeed f = owner.GetFeed(editedNode.DataKey);
                 if (f != null)
                 {
                     f.title = newLabel;
@@ -11219,7 +11219,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     string newFullname = editedNode.CategoryStoreName;
 
-                    IDictionary<string, category> categories = owner.FeedHandler.Categories;
+                    IDictionary<string, INewsFeedCategory> categories = owner.FeedHandler.Categories;
                     string[] catList = new string[categories.Count];
                     categories.Keys.CopyTo(catList, 0);
                     // iterate on a copied list, so we can change the old one without
@@ -11765,7 +11765,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="currentNewsItem">The item whose comments have been read</param>
         private void MarkCommentsAsViewed(TreeFeedsNodeBase tn, NewsItem currentNewsItem)
         {
-            NewsFeed feed = currentNewsItem.Feed;
+            INewsFeed feed = currentNewsItem.Feed;
             bool commentsJustRead = currentNewsItem.HasNewComments;
             currentNewsItem.HasNewComments = false;
 
@@ -13221,7 +13221,7 @@ namespace RssBandit.WinGui.Forms
         }
 
         //toastNotify callbacks
-        private void OnExternalDisplayFeedProperties(NewsFeed f)
+        private void OnExternalDisplayFeedProperties(INewsFeed f)
         {
             DelayTask(DelayedTasks.ShowFeedPropertiesDialog, f);
         }
@@ -13231,12 +13231,12 @@ namespace RssBandit.WinGui.Forms
             DelayTask(DelayedTasks.NavigateToFeedNewsItem, item);
         }
 
-        private void OnExternalActivateFeed(NewsFeed f)
+        private void OnExternalActivateFeed(INewsFeed f)
         {
             DelayTask(DelayedTasks.NavigateToFeed, f);
         }
 
-        private void DisplayFeedProperties(NewsFeed f)
+        private void DisplayFeedProperties(INewsFeed f)
         {
             TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
             if (tn != null)
@@ -13306,7 +13306,7 @@ namespace RssBandit.WinGui.Forms
             _navigationActionInProgress = false;
         }
 
-        internal void NavigateToFeed(NewsFeed f)
+        internal void NavigateToFeed(INewsFeed f)
         {
             NavigateToNode(TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f));
         }
@@ -13374,7 +13374,7 @@ namespace RssBandit.WinGui.Forms
 
                     if (!multipleSubscriptions && owner.FeedHandler.FeedsTable.ContainsKey(feedUrl))
                     {
-                        NewsFeed f2 = owner.FeedHandler.FeedsTable[feedUrl];
+                        INewsFeed f2 = owner.FeedHandler.FeedsTable[feedUrl];
                         owner.MessageInfo(SR.GUIFieldLinkRedundantInfo(
                                               (f2.category == null
                                                    ? String.Empty

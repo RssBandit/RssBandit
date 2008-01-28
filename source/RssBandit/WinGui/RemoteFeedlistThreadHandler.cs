@@ -77,7 +77,7 @@ namespace RssBandit.WinGui
     /// </summary>
     internal class NgosDownloadFeedState
     {
-        public NewsFeed feed;
+        public INewsFeed feed;
         public StringCollection readItems2Sync;
         public StringCollection deletedItems2Sync;
         public FeedWebService fws;
@@ -316,7 +316,7 @@ namespace RssBandit.WinGui
                             //foreach(NewsFeed feed in myFeeds.feed){
                             for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
                             {
-                                NewsFeed feed = myFeeds.feed[i];
+                                INewsFeed feed = myFeeds.feed[i];
 
                                 if (!feed.link.Equals(InvalidFeedUrl) &&
                                     rssBanditApp.FeedHandler.FeedsTable.ContainsKey(feed.link))
@@ -681,7 +681,7 @@ namespace RssBandit.WinGui
                         //foreach(NewsFeed feed in myFeeds.feed){
                         for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
                         {
-                            NewsFeed feed = myFeeds.feed[i];
+                            INewsFeed feed = myFeeds.feed[i];
 
                             string unseen = feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "unseen");
 
@@ -702,12 +702,12 @@ namespace RssBandit.WinGui
 
                             if (!feed.link.Equals(InvalidFeedUrl))
                             {
-                                syncedFeeds.feed.Add(feed);
+                                syncedFeeds.feed.Add(feed as NewsFeed);
                             }
                         } //foreach
 
                         //make sure we do not overwrite feeds not supported by NewsGator
-                        syncedFeeds.feed.AddRange(rssBanditApp.FeedHandler.GetNonInternetFeeds());
+                        syncedFeeds.feed.AddRange(rssBanditApp.FeedHandler.GetNonInternetFeeds() as IEnumerable<NewsFeed>);
 
                         // Wait until all feed information has been obtained from Newsgator Online
                         // meaning eventX.Set() was called:
@@ -1059,7 +1059,7 @@ namespace RssBandit.WinGui
             {
                 NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
 
-                NewsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
+                INewsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
                 List<string> readItems = new List<string>();
                 // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
                // readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed);

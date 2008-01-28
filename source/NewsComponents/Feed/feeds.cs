@@ -32,6 +32,7 @@ namespace NewsComponents.Feed
     {
         /// <remarks/>
         [XmlElement("feed", Type = typeof (NewsFeed), IsNullable = false)]
+        //[XmlElement("feed", Type = typeof(WindowsRssNewsFeed), IsNullable = false)]
         public List<NewsFeed> feed = new List<NewsFeed>();
 
         /// <remarks/>
@@ -531,9 +532,28 @@ namespace NewsComponents.Feed
     }
 
 
+    public interface INewsFeedCategory { //TODO: Implement INotifyPropertyChange ?
+
+        bool markitemsreadonexit { get; set; }
+        bool markitemsreadonexitSpecified { get; set; }
+        bool downloadenclosures { get; set; }
+        bool downloadenclosuresSpecified { get; set; }
+        string enclosurefolder { get; set; }
+        string listviewlayout { get; set; }
+        string stylesheet { get; set; }
+        int refreshrate { get; set; }
+        bool refreshrateSpecified { get; set; }
+        string maxitemage { get; set; }
+        string Value { get; set; }
+        INewsFeedCategory parent { get; set; }
+        bool enclosurealert { get; set; }
+        bool enclosurealertSpecified { get; set; }
+        XmlAttribute[] AnyAttr { get; set; }
+    }
+
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class category
+    public class category : INewsFeedCategory
     {
         /// <summary>
         /// A category must have a name
@@ -598,7 +618,7 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlIgnore]
-        public category parent { get; set; }
+        public INewsFeedCategory parent { get; set; }
 
         /// <remarks/>
         [XmlAttribute("enclosure-alert"), DefaultValue(false)]
@@ -749,11 +769,13 @@ namespace NewsComponents.Feed
         bool markitemsreadonexit { get; set; }
         bool markitemsreadonexitSpecified { get; set; }
         XmlElement[] Any { get; set; }
+        XmlAttribute[] AnyAttr { get; set; }
         bool alertEnabled { get; set; }
         bool alertEnabledSpecified { get; set; }
         bool enclosurealert { get; set; }
         bool enclosurealertSpecified { get; set; }
         object Tag { get; set; }
+        NewsHandler owner { get; set; }
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
@@ -1304,6 +1326,7 @@ namespace NewsComponents.Feed
 
         #endregion 
 
+        #region public methods
         /// <summary>
         /// Tests to see if two NewsFeed objects represent the same feed. 
         /// </summary>
@@ -1338,6 +1361,8 @@ namespace NewsComponents.Feed
         {
             return link.GetHashCode();
         }
+
+        #endregion 
     }
 
     #region UserIdentity

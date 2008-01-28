@@ -146,7 +146,7 @@ namespace NewsComponents.Search
                         {
                             // reset the feed ID, because it may not get saved 
                             // along with the subscription list on a initial indexing break:                           
-                            NewsFeed f = null;
+                            INewsFeed f = null;
                             if (newsHandler.FeedsTable.TryGetValue(feedlink, out f))
                             {
                                 f.id = restartInfo[feedlink] as string;
