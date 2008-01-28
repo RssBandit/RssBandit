@@ -198,7 +198,7 @@ namespace NewsComponents.Feed
                         if (!this.Categories.ContainsKey(cat_trimmed))
                         {
                             cat.Value = cat_trimmed;
-                            this.Categories.Add(cat_trimmed, cat);
+                            this.categories.Add(cat_trimmed, cat);
                         }
                     }
                 }
