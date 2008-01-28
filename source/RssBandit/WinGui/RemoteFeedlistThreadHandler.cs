@@ -339,7 +339,7 @@ namespace RssBandit.WinGui
                                     {
                                         deletedFeeds.Add(
                                             Int32.Parse(
-                                                feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id")));
+                                                NewsFeed.GetElementWildCardValue(feed, "http://newsgator.com/schema/opml", "id")));
                                     }
                                     catch (Exception e)
                                     {
@@ -683,7 +683,7 @@ namespace RssBandit.WinGui
                         {
                             INewsFeed feed = myFeeds.feed[i];
 
-                            string unseen = feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "unseen");
+                            string unseen = NewsFeed.GetElementWildCardValue(feed, "http://newsgator.com/schema/opml", "unseen");
 
                             if (!feed.link.Equals(InvalidFeedUrl) &&
                                 ((unseen != null) && unseen.ToLower().Equals("true")))
@@ -1014,7 +1014,7 @@ namespace RssBandit.WinGui
             {
                 NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
 
-                string feedId = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id");
+                string feedId = NewsFeed.GetElementWildCardValue(state.feed, "http://newsgator.com/schema/opml", "id");
                 XmlElement feed2Sync =
                     state.fws.GetNews(Int32.Parse(feedId), NgosLocationName, null
                                       /* this.rssBanditApp.Preferences.NgosSyncToken */, false);
@@ -1065,7 +1065,7 @@ namespace RssBandit.WinGui
                // readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed);
                 readItems.AddRange(feedInBandit.storiesrecentlyviewed);
 
-                string feedId = state.feed.GetElementWildCardValue("http://newsgator.com/schema/opml", "id");
+                string feedId = NewsFeed.GetElementWildCardValue(state.feed, "http://newsgator.com/schema/opml", "id");
 
                 XmlElement feed2Sync =
                     state.fws.GetNews(Int32.Parse(feedId), NgosLocationName, null
