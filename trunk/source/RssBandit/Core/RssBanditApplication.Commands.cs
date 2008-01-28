@@ -1301,13 +1301,13 @@ namespace RssBandit
                     }
 
                     if (category != null && !category.Equals(f.category))
-                    {
-                        f.category = category;
+                    {                       
                         changes |= NewsFeedProperty.FeedCategory;
                         if (!feedHandler.Categories.ContainsKey(category))
                         {
                             feedHandler.AddCategory(category);
                         }
+                        feedHandler.ChangeCategory(f, feedHandler.Categories[category]);
                         // find/create the target node:
                         TreeFeedsNodeBase target =
                             guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);

@@ -64,6 +64,38 @@ namespace NewsComponents.Feed {
 
         #region private methods
 
+        /// <summary>
+        /// Add a folder to the Windows RSS common feed list
+        /// </summary>
+        /// <param name="path">The path to the folder</param>
+        public IFeedFolder AddFolder(string path)
+        {
+            IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
+
+            if (!StringHelper.EmptyTrimOrNull(path))
+            {
+                string[] categoryPath = path.Split(new char[] { '\\' });
+
+                foreach (string c in categoryPath)
+                {
+                    if (folder.ExistsSubfolder(c))
+                    {
+                        folder = folder.GetSubfolder(c) as IFeedFolder;
+                    }
+                    else
+                    {
+                        folder = folder.CreateSubfolder(c) as IFeedFolder;
+                        if (!folder.Path.Equals(path) && !categories.ContainsKey(folder.Path)) {
+                            this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder));
+                        }
+                    }
+                }
+            }// if (!StringHelper.EmptyTrimOrNull(category))           
+
+            return folder;
+        }
+
+
         #endregion 
 
         #region public methods
@@ -74,7 +106,29 @@ namespace NewsComponents.Feed {
         /// <param name="cat">The category to add</param>
         public override INewsFeedCategory AddCategory(INewsFeedCategory cat)
         {
-            return null;
+            if (cat is WindowsRssNewsFeedCategory)
+            {
+                if (!categories.ContainsKey(cat.Value))
+                {
+                    categories.Add(cat.Value, cat);
+                }
+            }
+            else
+            {
+                if (!categories.ContainsKey(cat.Value))
+                {
+                    IFeedFolder folder = this.AddFolder(cat.Value);
+                    cat = new WindowsRssNewsFeedCategory(folder, cat);
+                    this.categories.Add(cat.Value, cat);
+                }
+                else
+                {
+                    cat = categories[cat.Value];
+                }
+
+            }
+            
+            return cat;
         }
 
         /// <summary>
@@ -83,7 +137,18 @@ namespace NewsComponents.Feed {
         /// <param name="cat">The name of the category</param>
         public override INewsFeedCategory AddCategory(string cat)
         {
-            return null;
+            INewsFeedCategory toReturn; 
+
+            if (!this.categories.ContainsKey(cat))
+            {                
+                    IFeedFolder folder = this.AddFolder(cat);
+                    toReturn = new WindowsRssNewsFeedCategory(folder);
+                    this.categories.Add(cat, toReturn);
+            }else{ 
+                toReturn = categories[cat];
+            }
+
+            return toReturn;
         }
 
         /// <summary>
@@ -103,7 +168,15 @@ namespace NewsComponents.Feed {
             }
             else
             {
+                if (!feedManager.ExistsFolder(f.category))
+                {
+                    this.AddCategory(f.category);
+                }
 
+                IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
+                IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
+                f = new WindowsRssNewsFeed(newFeed, f);
+                _feedsTable.Add(f.link, f);
             }
 
             return f;
@@ -134,11 +207,8 @@ namespace NewsComponents.Feed {
                         catch (Exception)
                         {
                             continue;
-                        }
-
-                       
-                        
-                            this._feedsTable.Add(uri.CanonicalizedUri(), new WindowsRssNewsFeed(feed));
+                        }                                               
+                        this._feedsTable.Add(uri.CanonicalizedUri(), new WindowsRssNewsFeed(feed));
                         
                     }//foreach(IFeed feed in ...)
                 }
