@@ -1198,12 +1198,12 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        private IDictionary<string, INewsFeed> _feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+        protected IDictionary<string, INewsFeed> _feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
 
         /// <summary>
         /// Represents the list of available categories for feeds. 
         /// </summary>
-        private IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
+        protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
 
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
@@ -2274,7 +2274,7 @@ namespace NewsComponents
         public ReadOnlyDictionary<string, INewsFeedCategory> Categories
         {
             get
-            {
+            { //TODO: Optimize this by caching the ReadOnlyDictionary and only creating new one of it has changed
                 if (categories == null)
                 {
                     categories = new SortedDictionary<string, INewsFeedCategory>();
@@ -2289,12 +2289,12 @@ namespace NewsComponents
         /// </summary>
         /// <exception cref="InvalidOperationException">If some error occurs on converting 
         /// XML feed list to feed table</exception>
-        public IDictionary<string, INewsFeed> FeedsTable
+        public ReadOnlyDictionary<string, INewsFeed> FeedsTable
         {
             //		[MethodImpl(MethodImplOptions.Synchronized)]
             get
             {             
-                    return _feedsTable;             
+                    return new ReadOnlyDictionary<string,INewsFeed>(_feedsTable);             
             }
         }
 
@@ -3439,6 +3439,18 @@ namespace NewsComponents
             return list;
         }
 
+
+          /// <summary>
+        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
+        /// Any existing feed objects are replaced by the new objects. 
+        /// </summary>
+        /// <param name="f">The NewsFeed object </param>
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public virtual INewsFeed AddFeed(INewsFeed f)
+        {
+            return this.AddFeed(f, null); 
+        }
+
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 
@@ -3457,7 +3469,7 @@ namespace NewsComponents
                         FeedsTable.Remove(f.link);
                     }
                     f.owner = this;
-                    FeedsTable.Add(f.link, f);
+                    this._feedsTable.Add(f.link, f);
                 }
             }
 
@@ -4853,7 +4865,7 @@ namespace NewsComponents
 
                     FeedsTable.Remove(feedUrl);
                     theFeed.link = newUri.AbsoluteUri;
-                    FeedsTable.Add(theFeed.link, theFeed);
+                    this._feedsTable.Add(theFeed.link, theFeed);
 
                     lock (itemsTable)
                     {

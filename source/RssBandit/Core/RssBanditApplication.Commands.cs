@@ -1246,7 +1246,7 @@ namespace RssBandit
                             }
 
                             f.link = newLink;
-                            feedHandler.FeedsTable.Add(f.link, f);
+                            f = feedHandler.AddFeed(f);
                             tn.DataKey = f.link;
 
                             refreshThisFeed = true;
