@@ -786,17 +786,7 @@ namespace NewsComponents.Feed
         bool containsNewMessages { get; set; }
 
         //TODO: Make this a collection
-        string category { get; set; }
-
-         /// <summary>
-        /// Gets the value of a particular wildcard element. If the element is not found then 
-        /// null is returned
-        /// </summary>
-        /// <param name="namespaceUri"></param>
-        /// <param name="localName"></param>
-        /// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
-        /// or null if the element is not found. </returns>
-        string GetElementWildCardValue(string namespaceUri, string localName);
+        string category { get; set; }        
 
         /// <summary>
         /// Removes an entry from the storiesrecentlyviewed collection
@@ -1217,9 +1207,9 @@ namespace NewsComponents.Feed
         /// <param name="localName"></param>
         /// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
         /// or null if the element is not found. </returns>
-        public string GetElementWildCardValue(string namespaceUri, string localName)
+        public static string GetElementWildCardValue(INewsFeed f, string namespaceUri, string localName)
         {
-            foreach (XmlElement element in Any)
+            foreach (XmlElement element in f.Any)
             {
                 if (element.LocalName == localName && element.NamespaceURI == namespaceUri)
                     return element.InnerText;
