@@ -3377,6 +3377,25 @@ namespace NewsComponents
         }
 
         /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public virtual void ChangeCategory(INewsFeed feed, INewsFeedCategory cat) { 
+            if(feed == null)
+                throw new ArgumentNullException("feed"); 
+
+            if(cat != null)
+            {
+                feed.category = cat.Value;
+            }else{
+                feed.category = null; 
+            }
+        }
+
+        /// <summary>
         /// Renames the specified category
         /// </summary>        
         /// <param name="oldName">The old name of the category</param>
