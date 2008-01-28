@@ -18,6 +18,8 @@ using System.Xml.Serialization;
 using System.Runtime.InteropServices;
 using Microsoft.Feeds.Interop;
 
+using RssBandit.Common;
+
 using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.Search;
@@ -94,9 +96,9 @@ namespace NewsComponents.Feed {
         {
             if (f is WindowsRssNewsFeed)
             {
-                if (!FeedsTable.ContainsKey(f.link))
+                if (!_feedsTable.ContainsKey(f.link))
                 {
-                    FeedsTable.Add(f.link, f);
+                    _feedsTable.Add(f.link, f);
                 }
             }
             else
@@ -123,16 +125,29 @@ namespace NewsComponents.Feed {
                 {
                     foreach (IFeed feed in rootFeeds)
                     {
+                        Uri uri = null;
 
-                        this.AddFeed(new WindowsRssNewsFeed(feed), null);
-                    }
+                        try
+                        {
+                            uri = new Uri(feed.DownloadUrl);
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+
+                       
+                        
+                            this._feedsTable.Add(uri.CanonicalizedUri(), new WindowsRssNewsFeed(feed));
+                        
+                    }//foreach(IFeed feed in ...)
                 }
 
                 if (rootFolders.Count > 0)
                 {
                     foreach (IFeedFolder folder in rootFolders)
                     {
-                        this.AddCategory(new WindowsRssNewsFeedCategory(folder));
+                        this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder)); 
                     }
                 }
             }
