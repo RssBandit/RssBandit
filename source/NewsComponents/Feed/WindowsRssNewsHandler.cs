@@ -550,7 +550,7 @@ namespace NewsComponents.Feed {
         /// <remarks/>
         [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
-        public ReadOnlyICollection<string> storiesrecentlyviewed
+        public List<string> storiesrecentlyviewed
         {
             get
             {
@@ -565,7 +565,7 @@ namespace NewsComponents.Feed {
                         _storiesrecentlyviewed.Add(item.LocalId.ToString());
                     }
                 } 
-                return new ReadOnlyICollection<string>(_storiesrecentlyviewed);
+                return _storiesrecentlyviewed;
             }
             set
             {
@@ -577,11 +577,11 @@ namespace NewsComponents.Feed {
         /// <remarks/>
         [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
-        public ReadOnlyICollection<string> deletedstories
+        public List<string> deletedstories
         {
             get
             {
-                return new ReadOnlyICollection<string>(_deletedstories);
+                return _deletedstories;
             }
             set
             {
