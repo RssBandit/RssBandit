@@ -310,12 +310,12 @@ namespace NewsComponents
         //		/// </summary>
         //		public string Id { get { return p_id; } }
 
-        protected NewsFeed p_feed; // owner
+        protected INewsFeed p_feed; // owner
 
         /// <summary>
         /// Returns the feed object to which this item belongs
         /// </summary>
-        public NewsFeed Feed
+        public INewsFeed Feed
         {
             get
             {
@@ -554,7 +554,7 @@ namespace NewsComponents
         /// contain markup. </param>
         /// <param name="date">The date the article or blog entry was written or when it was fetched.</param>		
         /// <param name="subject">The topic of the article or blog entry.</param>
-        public NewsItem(NewsFeed feed, string title, string link, string content, DateTime date, string subject)
+        public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject)
             :
                 this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), link, null)
         {
@@ -572,7 +572,7 @@ namespace NewsComponents
         /// <param name="date">Date of the newsgroup message</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The ID of the message this one is in response to</param>
-        public NewsItem(NewsFeed feed, string title, string link, string content, string author, DateTime date,
+        public NewsItem(INewsFeed feed, string title, string link, string content, string author, DateTime date,
                         string id, string parentId)
             :
                 this(feed, title, link, content, date, null, ContentType.Text, null, id, parentId)
@@ -592,7 +592,7 @@ namespace NewsComponents
         /// <param name="subject">The topic of the article or blog entry.</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The ID of the message this one is in response to</param>		
-        public NewsItem(NewsFeed feed, string title, string link, string content, DateTime date, string subject,
+        public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         string id, string parentId)
             :
                 this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), id, parentId)
@@ -613,7 +613,7 @@ namespace NewsComponents
         /// don't map to properties on this class.</param>
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>
-        public NewsItem(NewsFeed feed, string title, string link, string content, DateTime date, string subject,
+        public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         ContentType ctype, Hashtable otherElements, string id, string parentId)
             :
                 this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, link)
@@ -635,7 +635,7 @@ namespace NewsComponents
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
-        public NewsItem(NewsFeed feed, string title, string link, string content, DateTime date, string subject,
+        public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) :
                             this(
                             feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null
@@ -659,7 +659,7 @@ namespace NewsComponents
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         /// <param name="outgoingLinks">Outgoing hyperlinks from the HTML content of this item</param>
-        public NewsItem(NewsFeed feed, string title, string link, string content, DateTime date, string subject,
+        public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl,
                         List<string> outgoingLinks)
         {
@@ -1609,7 +1609,7 @@ namespace NewsComponents
         /// <param name="author"></param>
         /// <param name="date"></param>
         /// <param name="id"></param>
-        public SearchHitNewsItem(NewsFeed feed, string title, string link, string summary, string author, DateTime date,
+        public SearchHitNewsItem(INewsFeed feed, string title, string link, string summary, string author, DateTime date,
                                  string id)
             :
                 base(feed, title, link, null, author, date, id, null)

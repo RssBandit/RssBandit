@@ -59,7 +59,7 @@ namespace NewsComponents.News{
 		/// <returns>The NNTP Status code returned</returns>
 		/// <exception cref="WebException">If an error occurs when the POSTing the 
 		/// comment</exception>
-		public static void PostCommentViaNntp(NewsItem item2post, NewsFeed postTarget, ICredentials credentials){			  
+		public static void PostCommentViaNntp(NewsItem item2post, INewsFeed postTarget, ICredentials credentials){			  
 							
 			string comment = item2post.ToString(NewsItemSerializationFormat.NntpMessage);
 			Encoding enc = Encoding.UTF8, unicode = Encoding.Unicode;
@@ -149,7 +149,7 @@ namespace NewsComponents.News{
 		/// if the item was not cached. Indicates whether the lastretrieved date is updated
 		/// on the NewsFeed object passed in. </param>
 		/// <returns>A FeedInfo containing the NewsItem objects</returns>		
-		public static FeedInfo GetItemsForNewsGroup(NewsFeed f, Stream newsgroupListStream, bool cachedStream) {
+		public static FeedInfo GetItemsForNewsGroup(INewsFeed f, Stream newsgroupListStream, bool cachedStream) {
 			
 			int readItems = 0;
             List<NewsItem> items = new List<NewsItem>(); 

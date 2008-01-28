@@ -985,7 +985,7 @@ namespace RssBandit
                 SaveFileDialog sfd = new SaveFileDialog();
 
                 ArrayList selections = dialog.GetSelectedFeedUrls();
-                IDictionary<string, NewsFeed> fc = new SortedDictionary<string, NewsFeed>();
+                IDictionary<string, INewsFeed> fc = new SortedDictionary<string, INewsFeed>();
                 foreach (string url in selections)
                 {
                     if (feedHandler.FeedsTable.ContainsKey(url))
@@ -1160,7 +1160,7 @@ namespace RssBandit
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
 
-                NewsFeed f;
+                INewsFeed f;
                 int refreshrate = refreshRate;
                 TimeSpan feedMaxItemAge = TimeSpan.Zero;
                 bool feedDisabled = false;
@@ -1661,7 +1661,7 @@ namespace RssBandit
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 
-            NewsFeed f = null;
+            INewsFeed f = null;
 
             if (FeedHandler.FeedsTable.TryGetValue(feedUrl, out f)) {
                 postReplyForm.PostToFeed = f;

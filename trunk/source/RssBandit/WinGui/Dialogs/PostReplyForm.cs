@@ -33,7 +33,7 @@ namespace RssBandit.WinGui.Forms
 
 		private string NoInfo;
 		private NewsItem replyToItem;
-		private NewsFeed postToFeed;
+		private INewsFeed postToFeed;
 		private IdentityNewsServerManager identityManager;
 
 		private System.Windows.Forms.Label label4;
@@ -509,7 +509,7 @@ namespace RssBandit.WinGui.Forms
 		/// Gets or sets the NewsFeed to post to.
 		/// </summary>
 		/// <value>The NewsFeed to post to.</value>
-		public NewsFeed PostToFeed {
+		public INewsFeed PostToFeed {
 			get { return this.postToFeed; }
 			set {
 				this.postToFeed = value;
@@ -656,7 +656,7 @@ namespace RssBandit.WinGui.Forms
 		public bool Beautify;
 		public string Title; 	
 		public NewsItem ReplyToItem = null;
-		public NewsFeed PostToFeed = null;
+		public INewsFeed PostToFeed = null;
 
 		/// <summary>
 		/// Designated initializer
@@ -677,7 +677,7 @@ namespace RssBandit.WinGui.Forms
 			this.Title = title;
 			this.Beautify = beautify;
 		}
-		public PostReplyEventArgs(NewsFeed postToFeed, string title, string name, string url, string email, string comment, bool beautify) {
+		public PostReplyEventArgs(INewsFeed postToFeed, string title, string name, string url, string email, string comment, bool beautify) {
 			this.PostToFeed = postToFeed;
 			this.FromName = name;
 			this.FromUrl = url;

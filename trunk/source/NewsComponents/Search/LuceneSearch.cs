@@ -214,7 +214,7 @@ namespace NewsComponents.Search
 			for (int i = 0; i < hits.Length(); i++) {
 				Document doc = hits.Doc(i);
 
-				NewsFeed f = null;
+				INewsFeed f = null;
 				string feedLink = doc.Get(LuceneSearch.Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
 					f = (NewsFeed) matchedFeeds[feedLink];
@@ -658,7 +658,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="feed">The feed.</param>
         /// <param name="items">The NewsItems belonging to the feed</param>
-		public void ReIndex(NewsFeed feed, IList<NewsItem> items) {
+		public void ReIndex(INewsFeed feed, IList<NewsItem> items) {
 			if (!UseIndex || feed == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();

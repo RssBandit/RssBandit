@@ -575,7 +575,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f">The feed</param>
         /// <returns>ICredentials</returns>
-        public static ICredentials CreateCredentialsFrom(NewsFeed f)
+        public static ICredentials CreateCredentialsFrom(INewsFeed f)
         {
             if (f != null && !string.IsNullOrEmpty(f.authUser))
             {
@@ -646,7 +646,7 @@ namespace NewsComponents
         /// <param name="f">NewsFeed to be modified</param>
         /// <param name="user">username, identifier</param>
         /// <param name="pwd">password</param>
-        public static void SetFeedCredentials(NewsFeed f, string user, string pwd)
+        public static void SetFeedCredentials(INewsFeed f, string user, string pwd)
         {
             if (f == null) return;
             f.authPassword = CryptHelper.EncryptB(pwd);
@@ -659,7 +659,7 @@ namespace NewsComponents
         /// <param name="f">NewsFeed, where the credentials are taken from</param>
         /// <param name="user">String return parameter containing the username</param>
         /// <param name="pwd">String return parameter, containing the password</param>
-        public static void GetFeedCredentials(NewsFeed f, ref string user, ref string pwd)
+        public static void GetFeedCredentials(INewsFeed f, ref string user, ref string pwd)
         {
             if (f == null) return;
             pwd = CryptHelper.Decrypt(f.authPassword);
@@ -684,7 +684,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f">NewsFeed</param>
         /// <returns>null in the case the feed does not have credentials</returns>
-        public static ICredentials GetFeedCredentials(NewsFeed f)
+        public static ICredentials GetFeedCredentials(INewsFeed f)
         {
             ICredentials c = null;
             if (f != null && f.authUser != null)
@@ -747,7 +747,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f">The feed.</param>
         /// <returns>ICredentials</returns>
-        internal ICredentials GetNntpServerCredentials(NewsFeed f)
+        internal ICredentials GetNntpServerCredentials(INewsFeed f)
         {
             ICredentials c = null;
             if (f == null || ! RssHelper.IsNntpUrl(f.link))
@@ -837,7 +837,7 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    NewsFeed f = null;
+                    INewsFeed f = null;
                     if (FeedsTable.TryGetValue(keys[i], out f)) {
                         f.maxitemage = XmlConvert.ToString(value);
                     }
@@ -1198,12 +1198,12 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        private IDictionary<string, NewsFeed> _feedsTable = new SortedDictionary<string, NewsFeed>(UriHelper.Comparer);
+        private IDictionary<string, INewsFeed> _feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
 
         /// <summary>
         /// Represents the list of available categories for feeds. 
         /// </summary>
-        private IDictionary<string, category> categories = new SortedDictionary<string, category>();
+        private IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
 
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
@@ -2271,16 +2271,16 @@ namespace NewsComponents
         /// Accesses the list of user specified categories used for organizing 
         /// feeds. 
         /// </summary>
-        public ReadOnlyDictionary<string, category> Categories
+        public ReadOnlyDictionary<string, INewsFeedCategory> Categories
         {
             get
             {
                 if (categories == null)
                 {
-                    categories = new SortedDictionary<string, category>();
+                    categories = new SortedDictionary<string, INewsFeedCategory>();
                 }
 
-                return new ReadOnlyDictionary<string, category>(categories);
+                return new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
             }
         }
 
@@ -2289,7 +2289,7 @@ namespace NewsComponents
         /// </summary>
         /// <exception cref="InvalidOperationException">If some error occurs on converting 
         /// XML feed list to feed table</exception>
-        public IDictionary<string, NewsFeed> FeedsTable
+        public IDictionary<string, INewsFeed> FeedsTable
         {
             //		[MethodImpl(MethodImplOptions.Synchronized)]
             get
@@ -2368,7 +2368,7 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    NewsFeed f = null;
+                    INewsFeed f = null;
                     if (FeedsTable.TryGetValue(keys[i], out f)) {
                         f.refreshrate = this.refreshrate;
                         f.refreshrateSpecified = true;
@@ -2585,9 +2585,9 @@ namespace NewsComponents
         /// Retrieves all non-internet feed URLs (e.g. intranet and local feeds)
         /// </summary>
         /// <returns>A feeds table with the non-internet feeds</returns>
-        public IEnumerable<NewsFeed> GetNonInternetFeeds()
+        public IEnumerable<INewsFeed> GetNonInternetFeeds()
         {
-            List<NewsFeed> toReturn = new List<NewsFeed>();
+            List<INewsFeed> toReturn = new List<INewsFeed>();
 
             if (this.FeedsTable.Count == 0)
                 return toReturn;
@@ -2601,7 +2601,7 @@ namespace NewsComponents
                 {
                     Uri uri = new Uri(url);
                     if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains(".")) {
-                        NewsFeed f = null;
+                        INewsFeed f = null;
                         if (FeedsTable.TryGetValue(url, out f)) {
                             toReturn.Add(f);
                         }
@@ -2691,6 +2691,14 @@ namespace NewsComponents
         ///</summary>
         public abstract void LoadFeedlist();
 
+        /// <summary>
+        /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
+        /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
+        /// is on the Web). 
+        /// </summary>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        public abstract void BootstrapAndLoadFeedlist(feeds feedlist);
+
         #endregion 
 
        
@@ -2710,7 +2718,7 @@ namespace NewsComponents
                 return;
             }
 
-            NewsFeed f = FeedsTable[feedUrl];
+            INewsFeed f = FeedsTable[feedUrl];
             f.refreshrate = 0;
             f.refreshrateSpecified = true;
         }
@@ -2747,7 +2755,7 @@ namespace NewsComponents
         /// Deletes all the items in a feed
         /// </summary>
         /// <param name="feed">the feed</param>
-        public void DeleteAllItemsInFeed(NewsFeed feed)
+        public void DeleteAllItemsInFeed(INewsFeed feed)
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && FeedsTable.ContainsKey(feed.link))
             {
@@ -2847,7 +2855,7 @@ namespace NewsComponents
                 return;
             }
 
-            NewsFeed f = FeedsTable[feedUrl];
+            INewsFeed f = FeedsTable[feedUrl];
             FeedsTable.Remove(feedUrl);
 
             if (itemsTable.ContainsKey(feedUrl))
@@ -2986,7 +2994,7 @@ namespace NewsComponents
         /// <param name="includeEmptyCategories">Set to true, if categories without a contained feed should be included</param>
         /// <exception cref="InvalidOperationException">If anything wrong goes on with XmlSerializer</exception>
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
-        public void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, NewsFeed> feeds,
+        public void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, INewsFeed> feeds,
                                  bool includeEmptyCategories)
         {
             if (feedStream == null)
@@ -3194,7 +3202,7 @@ namespace NewsComponents
         /// information and thus force a download. 
         /// </summary>
         /// <param name="f">The feed to mark for download</param>
-        public void MarkForDownload(NewsFeed f)
+        public void MarkForDownload(INewsFeed f)
         {
             f.etag = null;
             f.lastretrievedSpecified = false;
@@ -3282,7 +3290,7 @@ namespace NewsComponents
         {
             if (!string.IsNullOrEmpty(feedUrl))
             {
-                NewsFeed feed = null;
+                INewsFeed feed = null;
                 if (this.FeedsTable.TryGetValue(feedUrl, out feed))
                 {
                     this.MarkAllCachedItemsAsRead(feed);
@@ -3295,7 +3303,7 @@ namespace NewsComponents
         /// for a particular feed.
         /// </summary>
         /// <param name="feed">The RSS feed</param>
-        public void MarkAllCachedItemsAsRead(NewsFeed feed)
+        public void MarkAllCachedItemsAsRead(INewsFeed feed)
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
@@ -3317,16 +3325,20 @@ namespace NewsComponents
         /// Adds a category to the list of feed categories known by this feed handler
         /// </summary>
         /// <param name="cat">The name of the category</param>
-        public void AddCategory(string cat)
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        public virtual INewsFeedCategory AddCategory(string cat)
         {
-            if (StringHelper.EmptyTrimOrNull(cat) || this.categories.ContainsKey(cat))
-                return;            
+            if (StringHelper.EmptyTrimOrNull(cat))
+                return null; 
+
+               if( this.categories.ContainsKey(cat))
+                return this.categories[cat];            
 
             List<string> ancestors = category.GetAncestors(cat);
 
             //create rest of category hierarchy if it doesn't exist
             for (int i = ancestors.Count; i-- > 0; ){          
-                category c = null;  
+                INewsFeedCategory c = null;  
 
                 if (!this.categories.TryGetValue(ancestors[i], out c))
                 {
@@ -3334,19 +3346,22 @@ namespace NewsComponents
                 }
             }
 
-            category newCategory = new category(cat);
+            INewsFeedCategory newCategory = new category(cat);
             newCategory.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
 
             this.categories.Add(cat, newCategory);
+            return newCategory;
         }
 
         /// <summary>
         /// Adds a category to the list of feed categories known by this feed handler
         /// </summary>
         /// <param name="cat">The category to add</param>
-        public void AddCategory(category cat)
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        public virtual INewsFeedCategory AddCategory(INewsFeedCategory cat)
         {
             this.categories.Add(cat.Value, cat);
+            return cat;
         }
 
         /// <summary>
@@ -3355,7 +3370,7 @@ namespace NewsComponents
         /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
         /// fix up the references to this category in its parent and child categories.</remarks>
         /// <param name="cat"></param>
-        public void DeleteCategory(string cat)
+        public virtual void DeleteCategory(string cat)
         {
 
             this.categories.Remove(cat); 
@@ -3366,7 +3381,7 @@ namespace NewsComponents
         /// </summary>        
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
-        public void RenameCategory(string oldName, string newName)
+        public virtual void RenameCategory(string oldName, string newName)
         {
             if (StringHelper.EmptyTrimOrNull(oldName)) 
                 throw new ArgumentNullException("oldName");
@@ -3376,7 +3391,7 @@ namespace NewsComponents
 
             if (this.categories.ContainsKey(oldName))
             {
-                category cat = this.categories[oldName];
+                INewsFeedCategory cat = this.categories[oldName];
                 this.categories.Remove(oldName);                
 
                 cat.Value = newName;
@@ -3389,10 +3404,10 @@ namespace NewsComponents
         /// </summary>
         /// <param name="category">The name of the category</param>
         /// <returns>The parent category of the specified category</returns>
-        private category GetParentCategory(string category)
+        private INewsFeedCategory GetParentCategory(string category)
         {
             int index = category.LastIndexOf(NewsHandler.CategorySeparator);
-            category c = null;
+            INewsFeedCategory c = null;
 
             if (index != -1)
             {
@@ -3408,12 +3423,12 @@ namespace NewsComponents
         /// </summary>
         /// <param name="name">The name of the category</param>
         /// <returns>The list of child categories</returns>
-        private List<category> GetChildCategories(string name)
+        private List<INewsFeedCategory> GetChildCategories(string name)
         {
 
-            List<category> list = new List<category>();
+            List<INewsFeedCategory> list = new List<INewsFeedCategory>();
 
-            foreach (category c in this.categories.Values)
+            foreach (INewsFeedCategory c in this.categories.Values)
             {
                 if (c.Value.StartsWith(name))
                 {
@@ -3430,7 +3445,8 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f">The NewsFeed object </param>
         /// <param name="fi">The FeedInfo object</param>
-        public void AddFeed(NewsFeed f, FeedInfo fi)
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public virtual INewsFeed AddFeed(INewsFeed f, FeedInfo fi)
         {
             if (f != null)
             {
@@ -3456,6 +3472,8 @@ namespace NewsComponents
                     itemsTable.Add(f.link, fi);
                 }
             }
+
+            return f;
         }
 
         /// <summary>
@@ -3529,7 +3547,7 @@ namespace NewsComponents
                 throw new ArgumentNullException("feedUrl");
 
             FeedDetailsInternal fi = null;
-            NewsFeed f = null;
+            INewsFeed f = null;
             if (itemsTable.ContainsKey(feedUrl))
             {
                 fi = itemsTable[feedUrl];
@@ -3614,7 +3632,7 @@ namespace NewsComponents
 
             if (_feedsTable.ContainsKey(feedUrl))
             {
-                NewsFeed f = this.FeedsTable[feedUrl];
+                INewsFeed f = this.FeedsTable[feedUrl];
                 object f_value = f.GetType().GetProperty(propertyName).GetValue(f, null);
 
                 if (IsPropertyValueSet(f_value, propertyName, f))
@@ -3628,7 +3646,7 @@ namespace NewsComponents
                 }
                 else if (inheritCategory && !string.IsNullOrEmpty(f.category))
                 {
-                    category c;
+                    INewsFeedCategory c;
                     this.categories.TryGetValue(f.category, out c);
 
                     while (c != null)
@@ -3668,7 +3686,7 @@ namespace NewsComponents
 
             if (_feedsTable.ContainsKey(feedUrl))
             {
-                NewsFeed f = this.FeedsTable[feedUrl];
+                INewsFeed f = this.FeedsTable[feedUrl];
 
                 if (value is TimeSpan)
                 {
@@ -3774,7 +3792,7 @@ namespace NewsComponents
 
             if (this.CreateSubfoldersForEnclosures && this.FeedsTable.ContainsKey(feedUrl))
             {
-                NewsFeed f = FeedsTable[feedUrl];
+                INewsFeed f = FeedsTable[feedUrl];
                 folderName = Path.Combine(folderName, FileHelper.CreateValidFileName(f.title));
             }
 
@@ -3881,7 +3899,7 @@ namespace NewsComponents
 
             if (!string.IsNullOrEmpty(category))
             {
-                category c = null;
+                INewsFeedCategory c = null;
 
                 while (this.categories.TryGetValue(category, out c))
                 {
@@ -4141,7 +4159,7 @@ namespace NewsComponents
 
             if (!itemsTable.ContainsKey(feedUrl))
             {
-                NewsFeed theFeed = FeedsTable[feedUrl];
+                INewsFeed theFeed = FeedsTable[feedUrl];
 
                 if (theFeed == null)
                 {
@@ -4344,7 +4362,7 @@ namespace NewsComponents
             }
 
             //We need a reference to the feed so we can see if a cached object exists
-            NewsFeed theFeed = null;
+            INewsFeed theFeed = null;
             if (FeedsTable.ContainsKey(feedUrl))
                 theFeed = FeedsTable[feedUrl];
 
@@ -4461,7 +4479,7 @@ namespace NewsComponents
             }
 
             //We need a reference to the feed so we can see if a cached object exists
-            NewsFeed theFeed = null;
+            INewsFeed theFeed = null;
 
             try
             {
@@ -4592,7 +4610,7 @@ namespace NewsComponents
                 }
 
                 //We need a reference to the feed so we can see if a cached object exists
-                NewsFeed theFeed = null;
+                INewsFeed theFeed = null;
                 if (FeedsTable.ContainsKey(feedUrl))
                     theFeed = FeedsTable[feedUrl];
 
@@ -4667,7 +4685,7 @@ namespace NewsComponents
         /// <returns>Hashtable</returns>
         public Hashtable GetFailureContext(Uri feedUri)
         {
-            NewsFeed f = null;
+            INewsFeed f = null;
             if (feedUri == null || !FeedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
                 return new Hashtable();
             return this.GetFailureContext(f);
@@ -4694,7 +4712,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
-        public Hashtable GetFailureContext(NewsFeed f)
+        public Hashtable GetFailureContext(INewsFeed f)
         {
             if (f == null)
             {
@@ -4720,7 +4738,7 @@ namespace NewsComponents
         /// <param name="f"></param>
         /// <param name="fi"></param>
         /// <returns></returns>
-        public static Hashtable GetFailureContext(NewsFeed f, IFeedDetails fi)
+        public static Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
         {
             Hashtable context = new Hashtable();
 
@@ -4784,7 +4802,7 @@ namespace NewsComponents
             if (this.FeedsTable.ContainsKey(key))
             {
                 Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
-                NewsFeed f = FeedsTable[key];
+                INewsFeed f = FeedsTable[key];
                 // now we set this within causedException prop.
                 //f.lastretrieved = DateTime.Now; 
                 //f.lastretrievedSpecified = true; 
@@ -4813,7 +4831,7 @@ namespace NewsComponents
             try
             {
                 //We need a reference to the feed so we can see if a cached object exists
-                NewsFeed theFeed = null;
+                INewsFeed theFeed = null;
 
                 if (!FeedsTable.TryGetValue(requestUri.CanonicalizedUri(), out theFeed))
                 {
@@ -5053,7 +5071,7 @@ namespace NewsComponents
                 if (this.FeedsTable.ContainsKey(key))
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
-                    NewsFeed f = FeedsTable[key];
+                    INewsFeed f = FeedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
                     //f.lastretrievedSpecified = true; 
@@ -5231,7 +5249,7 @@ namespace NewsComponents
                             if ((uri != null) && uri.Authority.Equals(requestUri.Authority))
                             {
                                 feedUrls.Add(feedUrl);
-                                NewsFeed f = FeedsTable[feedUrl];
+                                INewsFeed f = FeedsTable[feedUrl];
                                 f.favicon = favicon;
                             }
                         }
@@ -5633,7 +5651,7 @@ namespace NewsComponents
                     if (!FeedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    NewsFeed current = FeedsTable[keys[i]];
+                    INewsFeed current = FeedsTable[keys[i]];
 
                     try
                     {
@@ -5751,7 +5769,7 @@ namespace NewsComponents
                     if (!FeedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    NewsFeed current = FeedsTable[keys[i]];
+                    INewsFeed current = FeedsTable[keys[i]];
 
                     try
                     {
@@ -5937,10 +5955,10 @@ namespace NewsComponents
             //feedListImported = true; 
             /* TODO: Sync category settings */
 
-            IDictionary<string, category> cats = new Dictionary<string, category>();
+            IDictionary<string, INewsFeedCategory> cats = new Dictionary<string, INewsFeedCategory>();
             FeedColumnLayoutCollection colLayouts = new FeedColumnLayoutCollection();
 
-            IDictionary<string, NewsFeed> syncedfeeds = new SortedDictionary<string, NewsFeed>();
+            IDictionary<string, INewsFeed> syncedfeeds = new SortedDictionary<string, INewsFeed>();
 
             // InitialHTTPLastModifiedSettings used to reduce the initial payload
             // for the first request of imported feeds.
@@ -5952,7 +5970,7 @@ namespace NewsComponents
 
             while (myFeeds.feed.Count != 0)
             {
-                NewsFeed f1 = myFeeds.feed[0];
+                INewsFeed f1 = myFeeds.feed[0];
 
                 bool isBadUri = false;
                 try
@@ -5973,7 +5991,7 @@ namespace NewsComponents
                 if (replace && _feedsTable.ContainsKey(f1.link))
                 {
                     //copy category information over
-                    NewsFeed f2 = _feedsTable[f1.link];
+                    INewsFeed f2 = _feedsTable[f1.link];
 
                     if (!keepLocalSettings)
                     {
@@ -6328,7 +6346,7 @@ namespace NewsComponents
         /// <param name="feed">The the feed to save. This is an identifier
         /// and not used to actually fetch the feed from the WWW.</param>
         /// <returns>An identifier for the saved feed. </returns>		
-        private string SaveFeed(NewsFeed feed)
+        private string SaveFeed(INewsFeed feed)
         {
             TimeSpan maxItemAge = this.GetMaxItemAge(feed.link);
             FeedDetailsInternal fi = this.itemsTable[feed.link];
@@ -6366,7 +6384,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feed">The feed whose FeedInfo is required.</param>
         /// <returns>The requested feed or null if it doesn't exist</returns>
-        private FeedDetailsInternal GetFeed(NewsFeed feed)
+        private FeedDetailsInternal GetFeed(INewsFeed feed)
         {
             FeedDetailsInternal fi = this.CacheHandler.GetFeed(feed);
 
@@ -6561,7 +6579,7 @@ namespace NewsComponents
         /// <param name="postTarget">An NewsFeed as the post target</param>		
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
-        public void PostComment(NewsItem item2post, NewsFeed postTarget)
+        public void PostComment(NewsItem item2post, INewsFeed postTarget)
         {
             if (item2post.CommentStyle == SupportedCommentStyle.NNTP)
             {
