@@ -4844,7 +4844,7 @@ namespace NewsComponents
                 Trace("AsyncRequst.OnRequestException() '{0}' NOT found in feedsTable.", requestUri.ToString());
             }
 
-            RaiseOnUpdateFeedException(requestUri.AbsoluteUri, e, priority);
+            RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
         }
 
         private void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
@@ -4874,8 +4874,8 @@ namespace NewsComponents
                 string feedUrl = theFeed.link;
                 if (true)
                 {
-                    if (String.Compare(feedUrl, requestUri.AbsoluteUri, true) != 0)
-                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.AbsoluteUri);
+                    if (String.Compare(feedUrl, requestUri.CanonicalizedUri(), true) != 0)
+                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.CanonicalizedUri());
                 }
 
                 if (newUri != null)
@@ -4883,7 +4883,7 @@ namespace NewsComponents
                     // Uri changed/moved permanently
 
                     FeedsTable.Remove(feedUrl);
-                    theFeed.link = newUri.AbsoluteUri;
+                    theFeed.link = newUri.CanonicalizedUri();
                     this._feedsTable.Add(theFeed.link, theFeed);
 
                     lock (itemsTable)
@@ -4961,8 +4961,7 @@ namespace NewsComponents
                                 fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
                                                                   out newReceivedItems, theFeed.replaceitemsonrefresh);
                             }
-
-                            //fi.MaxItemAge = fi2.MaxItemAge;						 
+					 
 
                             /*
 							 * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
@@ -4986,7 +4985,7 @@ namespace NewsComponents
                                         _log.Error(
                                             String.Format(
                                                 "Feed mixup encountered when downloading {2} because fi2.link != fi.link: {0}!= {1}",
-                                                fi2.Link, fi.Link, requestUri.AbsoluteUri));
+                                                fi2.Link, fi.Link, requestUri.CanonicalizedUri()));
                                         return;
                                     }
                                 } //foreach
@@ -5114,7 +5113,7 @@ namespace NewsComponents
                           requestUri.ToString(), e.StackTrace);
                 }
 
-                RaiseOnUpdateFeedException(requestUri.AbsoluteUri, e, priority);
+                RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
             }
             finally
             {
