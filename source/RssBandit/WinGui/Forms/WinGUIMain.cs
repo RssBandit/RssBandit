@@ -58,6 +58,7 @@ using NewsComponents.RelationCosmos;
 using NewsComponents.Search;
 using NewsComponents.Utils;
 using RssBandit.AppServices;
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RssBandit.Filter;
 using RssBandit.Resources;
@@ -7403,13 +7404,7 @@ namespace RssBandit.WinGui.Forms
             if (!Visible) // do not bother if hidden. Just go on an report the issue as a feed error
                 return;
 
-            Uri requestUri = e.WebRequest.RequestUri;
-            string feedUrl;
-
-            if (requestUri.IsFile || requestUri.IsUnc)
-                feedUrl = requestUri.LocalPath;
-            else
-                feedUrl = requestUri.ToString();
+			string feedUrl = e.WebRequest.RequestUri.CanonicalizedUri();
 
             INewsFeed f = null;
             string issueCaption, issueDesc;
@@ -7479,18 +7474,19 @@ namespace RssBandit.WinGui.Forms
             }
 
             // show cert. issue dialog
-            SecurityIssueDialog dialog = new SecurityIssueDialog(issueCaption, issueDesc);
+			using (SecurityIssueDialog dialog = new SecurityIssueDialog(issueCaption, issueDesc)) 
+			{
+				// prepare special command (show certificate):
+				dialog.CustomCommand.Tag = e.Certificate;
+				dialog.CustomCommand.Click += OnSecurityIssueDialogCustomCommandClick;
+				dialog.CustomCommand.Visible = (e.Certificate != null && e.Certificate.Handle != IntPtr.Zero);
 
-            dialog.CustomCommand.Tag = e.Certificate;
-            dialog.CustomCommand.Click += OnSecurityIssueDialogCustomCommandClick;
-            dialog.CustomCommand.Visible = true;
-
-            Win32.SetForegroundWindow(Handle); // ensure, it is in front
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                e.Cancel = false;
-                owner.AddTrustedCertificateIssue(feedUrl, e.CertificateIssue);
-            }
+				Win32.SetForegroundWindow(Handle); // ensure, it is in front
+				if (dialog.ShowDialog(this) == DialogResult.OK) {
+					e.Cancel = false;
+					owner.AddTrustedCertificateIssue(feedUrl, e.CertificateIssue);
+				}
+			}
         }
 
         private static void OnSecurityIssueDialogCustomCommandClick(object sender, EventArgs e)
@@ -7501,7 +7497,10 @@ namespace RssBandit.WinGui.Forms
             Application.DoEvents();
 
             X509Certificate cert = (X509Certificate) cmd.Tag;
-            string certFilename = Path.Combine(Path.GetTempPath(), cert.GetHashCode() + ".temp.cer");
+			if (cert == null)
+				return; 
+			
+			string certFilename = Path.Combine(Path.GetTempPath(), cert.GetHashCode() + ".temp.cer");
 
             try
             {

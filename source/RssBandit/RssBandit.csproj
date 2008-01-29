@@ -2026,6 +2026,9 @@
     <Compile Include="WinGui\Dialogs\SecurityIssueDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinGui\Dialogs\SecurityIssueDialog.Designer.cs">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\DisplayingNewsChannelProcessor.cs">
       <SubType>Code</SubType>
     </Compile>
