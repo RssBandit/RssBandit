@@ -108,11 +108,12 @@ namespace NewsComponents.Net
         /// </summary>
         static AsyncWebRequest()
         {
-            ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
-#if USENEW_CERTCHECK
+            #if USENEW_CERTCHECK
             // experimental:
             ServicePointManager.ServerCertificateValidationCallback =
                 TrustSelectedCertificatePolicy.CheckServerCertificate;  
+#else
+			ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
 #endif
             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
