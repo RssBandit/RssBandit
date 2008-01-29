@@ -160,7 +160,7 @@ namespace NewsComponents.Feed
                                 // switch it to "nntp:" (see http://msdn2.microsoft.com/en-us/library/system.uri.scheme.aspx)
                                 if (NntpWebRequest.NewsUriScheme.Equals(uri.Scheme))
                                 {
-                                    f.link = NntpWebRequest.NntpUriScheme + uri.AbsoluteUri.Substring(uri.Scheme.Length);
+                                    f.link = NntpWebRequest.NntpUriScheme + uri.CanonicalizedUri().Substring(uri.Scheme.Length);
                                 }
                                 else
                                 {

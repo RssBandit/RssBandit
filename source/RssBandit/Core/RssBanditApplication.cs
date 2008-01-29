@@ -86,6 +86,7 @@ using Timer=System.Threading.Timer;
     #endregion
 
     #region project namespaces
+using RssBandit.Common;
 
 #endregion
 
@@ -2966,9 +2967,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                         if (uri != null)
                         {
                             HttpRequestFileThreadHandler fileHandler =
-                                new HttpRequestFileThreadHandler(uri.AbsoluteUri, this.feedHandler.Proxy);
+                                new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), this.feedHandler.Proxy);
                             DialogResult result =
-                                fileHandler.Start(guiMain, SR.GUIStatusWaitMessageRequestFile(uri.AbsoluteUri));
+                                fileHandler.Start(guiMain, SR.GUIStatusWaitMessageRequestFile(uri.CanonicalizedUri()));
 
                             if (result != DialogResult.OK)
                                 return;
@@ -2976,7 +2977,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                             if (!fileHandler.OperationSucceeds)
                             {
                                 this.MessageError(SR.WebExceptionOnUrlAccess(
-                                                      uri.AbsoluteUri, fileHandler.OperationException.Message));
+                                                      uri.CanonicalizedUri(), fileHandler.OperationException.Message));
                                 return;
                             }
 
