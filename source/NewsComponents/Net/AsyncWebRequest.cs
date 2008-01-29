@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Security;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -107,8 +108,15 @@ namespace NewsComponents.Net
         /// </summary>
         static AsyncWebRequest()
         {
-            ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
-            // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
+			#if USENEW_CERTCHECK
+            // experimental:
+            ServicePointManager.ServerCertificateValidationCallback =
+                TrustSelectedCertificatePolicy.CheckServerCertificate;  
+#else
+			// CLR 2.0 marked as obsolete:
+			ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
+#endif
+			// SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
 
@@ -1532,7 +1540,10 @@ namespace NewsComponents.Net
     /// </summary>
     internal class TrustSelectedCertificatePolicy : ICertificatePolicy
     {
-        public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
+		private static readonly ILog _log = Log.GetLogger(typeof(TrustSelectedCertificatePolicy));
+
+		// this is marked obsolete by MS in the CLR 2.0
+		public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
         {
             try
             {
@@ -1540,18 +1551,36 @@ namespace NewsComponents.Net
                 {
                     // move bits around to get it casted from an signed int to a normal long enum type:
                     CertificateIssue issue = (CertificateIssue) (((problem << 1) >> 1) + 0x80000000);
-                    CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, cert, req, true);
+					
+					// this is marked obsolete by MS in the CLR 2.0
+					// It seems also they has broken the old impl., we don't get a valid cert object now (handle is 0) on WinXP SP2
+					// via parameter, so we now use that of the servicepoint as a workaround:
+					CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, sp.Certificate, req, true);
                     AsyncWebRequest.RaiseOnCertificateIssue(sp, args);
                     return !args.Cancel;
                 }
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("TrustSelectedCertificatePolicy.CheckValidationResult() error: " + ex.Message);
+                _log.Error("TrustSelectedCertificatePolicy.CheckValidationResult() error: " + ex.Message, ex);
             }
             // The 1.1 framework calls this method with a problem of 0, even if nothing is wrong
             return (problem == 0);
         }
+
+		/// <summary>
+		/// Checks the server certificate.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="certificate">The certificate.</param>
+		/// <param name="chain">The chain.</param>
+		/// <param name="sslPolicyErrors">The SSL policy errors.</param>
+		/// <returns></returns>
+		public static bool CheckServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+		{
+			//TODO: impl.
+			return true;
+		}
     }
 
     #endregion
