@@ -17,6 +17,8 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 
+using RssBandit.Common;
+
 namespace RssBandit
 {
     internal partial class RssBanditApplication
@@ -1233,7 +1235,7 @@ namespace RssBandit
                             try
                             {
                                 Uri reqUri = new Uri(newLink);
-                                newLink = reqUri.AbsoluteUri;
+                                newLink = reqUri.CanonicalizedUri();
                             }
                             catch (UriFormatException)
                             {
@@ -1241,7 +1243,7 @@ namespace RssBandit
                                 {
                                     newLink = "http://" + newLink;
                                     Uri reqUri = new Uri(newLink);
-                                    newLink = reqUri.AbsoluteUri;
+                                    newLink = reqUri.CanonicalizedUri();
                                 }
                             }
 

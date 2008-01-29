@@ -234,10 +234,7 @@ namespace NewsComponents.Feed
 
 			//<description /> 
 			writer.WriteElementString("description", this.Description); 
-
-			//<rssbandit:maxItemAge />
-			//writer.WriteElementString("maxItemAge", "http://www.25hoursaday.com/2003/RSSBandit/feeds/", this.maxItemAge.ToString()); 
-
+			
 			//other stuff
 			foreach(string s in this.optionalElements.Values){
 				writer.WriteRaw(s); 	  
