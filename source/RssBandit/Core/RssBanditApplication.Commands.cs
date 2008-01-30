@@ -1243,7 +1243,7 @@ namespace RssBandit
                                 {
                                     newLink = "http://" + newLink;
                                     Uri reqUri = new Uri(newLink);
-                                    newLink = reqUri.AbsoluteUri;
+                                    newLink = reqUri.CanonicalizedUri();
                                 }
                             }
 

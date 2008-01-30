@@ -2708,7 +2708,7 @@ namespace NewsComponents
                                 // switch it to "nntp:" (see http://msdn2.microsoft.com/en-us/library/system.uri.scheme.aspx)
                                 if (NntpWebRequest.NewsUriScheme.Equals(uri.Scheme))
                                 {
-                                    f.link = NntpWebRequest.NntpUriScheme + uri.AbsoluteUri.Substring(uri.Scheme.Length);
+                                    f.link = NntpWebRequest.NntpUriScheme + uri.CanonicalizedUri().Substring(uri.Scheme.Length);
                                 }
                                 else
                                 {
@@ -4888,7 +4888,7 @@ namespace NewsComponents
                 Trace("AsyncRequst.OnRequestException() '{0}' NOT found in feedsTable.", requestUri.ToString());
             }
 
-            RaiseOnUpdateFeedException(requestUri.AbsoluteUri, e, priority);
+            RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
         }
 
         private void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
@@ -4918,8 +4918,8 @@ namespace NewsComponents
                 string feedUrl = theFeed.link;
                 if (true)
                 {
-                    if (String.Compare(feedUrl, requestUri.AbsoluteUri, true) != 0)
-                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.AbsoluteUri);
+                    if (String.Compare(feedUrl, requestUri.CanonicalizedUri(), true) != 0)
+                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.CanonicalizedUri());
                 }
 
                 if (newUri != null)
@@ -4927,7 +4927,7 @@ namespace NewsComponents
                     // Uri changed/moved permanently
 
                     FeedsTable.Remove(feedUrl);
-                    theFeed.link = newUri.AbsoluteUri;
+                    theFeed.link = newUri.CanonicalizedUri();
                     FeedsTable.Add(theFeed.link, theFeed);
 
                     lock (itemsTable)
@@ -5158,7 +5158,7 @@ namespace NewsComponents
                           requestUri.ToString(), e.StackTrace);
                 }
 
-                RaiseOnUpdateFeedException(requestUri.AbsoluteUri, e, priority);
+                RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
             }
             finally
             {
