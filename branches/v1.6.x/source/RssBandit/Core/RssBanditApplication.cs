@@ -87,6 +87,7 @@ using Timer=System.Threading.Timer;
 
     #region project namespaces
 
+using RssBandit.Common;
 #endregion
 
 #if DEBUG && TEST_I18N_THISCULTURE			
@@ -2967,9 +2968,9 @@ namespace RssBandit
                         if (uri != null)
                         {
                             HttpRequestFileThreadHandler fileHandler =
-                                new HttpRequestFileThreadHandler(uri.AbsoluteUri, this.feedHandler.Proxy);
+                                new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), this.feedHandler.Proxy);
                             DialogResult result =
-                                fileHandler.Start(guiMain, SR.GUIStatusWaitMessageRequestFile(uri.AbsoluteUri));
+                                fileHandler.Start(guiMain, SR.GUIStatusWaitMessageRequestFile(uri.CanonicalizedUri()));
 
                             if (result != DialogResult.OK)
                                 return;
@@ -2977,7 +2978,7 @@ namespace RssBandit
                             if (!fileHandler.OperationSucceeds)
                             {
                                 this.MessageError(SR.WebExceptionOnUrlAccess(
-                                                      uri.AbsoluteUri, fileHandler.OperationException.Message));
+                                                      uri.CanonicalizedUri(), fileHandler.OperationException.Message));
                                 return;
                             }
 

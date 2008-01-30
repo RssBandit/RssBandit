@@ -5846,7 +5846,7 @@ namespace RssBandit.WinGui.Forms
         {
             IList<NewsItem> items;
 
-            string feedUrl = feedUri.AbsoluteUri;
+            string feedUrl = feedUri.CanonicalizedUri();
             NewsFeed feed;
             TreeFeedsNodeBase tn;
             NewsItem item = null;
@@ -5854,7 +5854,7 @@ namespace RssBandit.WinGui.Forms
 
             if (newFeedUri != null)
             {
-                items = owner.CommentFeedsHandler.GetCachedItemsForFeed(newFeedUri.AbsoluteUri);
+                items = owner.CommentFeedsHandler.GetCachedItemsForFeed(newFeedUri.CanonicalizedUri());
             }
             else
             {
@@ -6006,13 +6006,13 @@ namespace RssBandit.WinGui.Forms
             IList<NewsItem> items;
             IList<NewsItem> unread = null;
 
-            string feedUrl = feedUri.AbsoluteUri;
+            string feedUrl = feedUri.CanonicalizedUri();
             NewsFeed feed;
             TreeFeedsNodeBase tn;
 
             if (newFeedUri != null)
             {
-                items = owner.FeedHandler.GetCachedItemsForFeed(newFeedUri.AbsoluteUri);
+                items = owner.FeedHandler.GetCachedItemsForFeed(newFeedUri.CanonicalizedUri());
             }
             else
             {
@@ -6045,7 +6045,7 @@ namespace RssBandit.WinGui.Forms
                     if (newFeedUri.IsFile || newFeedUri.IsUnc)
                         feedUrl = newFeedUri.LocalPath;
                     else
-                        feedUrl = newFeedUri.AbsoluteUri;
+                        feedUrl = newFeedUri.CanonicalizedUri();
                     tn.DataKey = feedUrl;
                     feed = owner.GetFeed(feedUrl);
                     if (feed != null)
@@ -7349,7 +7349,7 @@ namespace RssBandit.WinGui.Forms
             if (feedUri.IsFile || feedUri.IsUnc)
                 feedUrl = feedUri.LocalPath;
             else
-                feedUrl = feedUri.AbsoluteUri;
+                feedUrl = feedUri.CanonicalizedUri();
 
             NewsFeed f;
             if (owner.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
@@ -12339,7 +12339,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     // accept uri only
                     Uri uri = new Uri(sData);
-                    UrlText = uri.AbsoluteUri;
+                    UrlText = uri.CanonicalizedUri();
                 }
                 catch
                 {
