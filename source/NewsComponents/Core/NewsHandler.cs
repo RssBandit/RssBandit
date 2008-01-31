@@ -2389,12 +2389,6 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Internal flag used after loading feed list to indicate that a category attribute of a feed is not 
-        /// listed as one of the category elements. 
-        /// </summary>
-        protected static bool categoryMismatch = false;
-
-        /// <summary>
         /// Boolean flag indicates whether the feeds list was loaded 
         /// successfully during the last call to LoadFeedlist()
         /// </summary>
@@ -6362,7 +6356,7 @@ namespace NewsComponents
                     }
                     else
                     {
-                        categoryMismatch = true;
+                      //  categoryMismatch = true;
                     }
                 } //if(xse != null) 
             } //if(args.Severity...)	
