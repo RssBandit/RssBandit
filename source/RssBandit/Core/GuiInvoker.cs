@@ -159,6 +159,37 @@ namespace RssBandit
         /// <returns></returns>
         private static Control GetMarshalingControl()
         {
+            /*
+             * We use this code instead of the SynchronizationContext to workaround
+             * a defect in the way WinForms interacts with the context.
+             * 
+             * The issue is that Windows Forms doesn't support the correct 
+             * delegate type in its internal marshaling machinery.  The 
+             * SynchronizationContext uses a SendOrPostCallback delegate and 
+             * that gets sent over to the marshaling control as either an Invoke 
+             * or BeginInvoke.  In the implementation of Control.Invoke/BeginInvoke, 
+             * they check for a few well-known delegate types for early binding.  
+             * They check for EventHandler, MethodInvoker and WaitCallback.  
+             * If the supplied delegate is one of those types, they cast to it
+             * and early-bind/invoke it.  Otherwise, they do a late-bound dynamic 
+             * invoke on the delegate type.  
+             * 
+             * There are to side-effects of this behavior:
+             * 1) Late-bind calls are an order of magnitude slower than early-bound 
+             *    ones.  Now it's still very fast, but it adds up
+             * 2) Any exception in a late-bound call is caught, wrapped in a 
+             *    TargetInvocationException and rethrown. This makes it impossible 
+             *    for VS to get to the point of the exception when it's unhandled.  
+             *    (First-chance still works.)
+             * 
+             * The WPF synchronization context does not suffer from this issue as the
+             * Dispatcher's marshalling mechanism does check for the SendOrPostCallback 
+             * delegate type and early-binds.  This was an error of omission by the 
+             * Windows Forms 2.0 team.  By using the same internal control and using 
+             * one of the "supported" delegate types, we get the desired behavior.
+             * 
+            */
+
             Type context = Type.GetType("System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
 
             MethodInfo current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
