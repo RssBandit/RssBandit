@@ -174,7 +174,7 @@ namespace RssBandit
              * and early-bind/invoke it.  Otherwise, they do a late-bound dynamic 
              * invoke on the delegate type.  
              * 
-             * There are to side-effects of this behavior:
+             * There are two side-effects of this behavior:
              * 1) Late-bind calls are an order of magnitude slower than early-bound 
              *    ones.  Now it's still very fast, but it adds up
              * 2) Any exception in a late-bound call is caught, wrapped in a 
