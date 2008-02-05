@@ -5727,7 +5727,14 @@ namespace RssBandit.WinGui.Forms
                 foreach (string feedUrl in feedUrls)
                 {
                     TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
-                    tn.SetIndividualImage(icon);
+                    if (tn == null)
+                    {
+                        _log.Debug("TreeHelper.FindNode() could not find matching tree node for " + feedUrl);
+                    }
+                    else
+                    {
+                        tn.SetIndividualImage(icon);
+                    }
                 }
             }
 
