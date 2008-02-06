@@ -183,12 +183,69 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
+        /// Removes all information related to a feed from the NewsHandler.   
+        /// </summary>
+        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
+        /// <param name="feedUrl">The URL of the feed to delete. </param>
+        /// <exception cref="ApplicationException">If an error occured while 
+        /// attempting to delete the cached feed. Examine the InnerException property 
+        /// for details</exception>
+        public virtual void DeleteFeed(string feedUrl)
+        {
+            if (this.FeedsTable.ContainsKey(feedUrl))
+            {
+                WindowsRssNewsFeed f = this.FeedsTable[feedUrl] as WindowsRssNewsFeed;
+                this._feedsTable.Remove(f.link); 
+
+                IFeedFolder folder = feedManager.RootFolder as IFeedFolder;                
+
+                if (category != null)
+                {
+                    string[] categoryPath = category.Split(new char[] { '\\' });
+
+                    foreach (string c in categoryPath)
+                    {
+                        folder = folder.GetSubfolder(c);
+                    }
+                }
+
+                IFeed feed = folder.GetFeed(f.title) as IFeed; 
+                feed.Delete();
+            }
+        }
+
+        /// <summary>
         /// Loads the feedlist from the FeedLocation. 
         ///</summary>
         public override void LoadFeedlist()
         {
+            this.BootstrapAndLoadFeedlist(new feeds()); 
+        }
+       
+
+        /// <summary>
+        /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
+        /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
+        /// is on the Web). 
+        /// </summary>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        public override void BootstrapAndLoadFeedlist(feeds feedlist)
+        {
+            Dictionary<string, NewsFeed> bootstrapFeeds = new Dictionary<string, NewsFeed>();
+            Dictionary<string, INewsFeedCategory> bootstrapCategories = new Dictionary<string, INewsFeedCategory>();
+
+            foreach (NewsFeed f in feedlist.feed) 
+            {
+                bootstrapFeeds.Add(f.link, f); 
+            }
+
+            foreach (category c in feedlist.categories) 
+            {
+                bootstrapCategories.Add(c.Value, c);   
+            }
+
             IFeedFolder root = feedManager.RootFolder as IFeedFolder;
-           
+
             if (root != null)
             {
                 IFeedsEnum rootFeeds = root.Feeds as IFeedsEnum;
@@ -207,203 +264,28 @@ namespace NewsComponents.Feed {
                         catch (Exception)
                         {
                             continue;
-                        }                                               
-                        this._feedsTable.Add(uri.CanonicalizedUri(), new WindowsRssNewsFeed(feed));
-                        
+                        }
+                        string feedUrl   = uri.CanonicalizedUri();
+                        INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null ); 
+                        this._feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
+
                     }//foreach(IFeed feed in ...)
                 }
 
                 if (rootFolders.Count > 0)
-                {
+                {                    
                     foreach (IFeedFolder folder in rootFolders)
                     {
-                        this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder)); 
+                        string categoryName = folder.Path;
+                        INewsFeedCategory bootstrapCategory = (bootstrapCategories.ContainsKey(categoryName) ? bootstrapCategories[categoryName] : null); 
+                        this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder, bootstrapCategory));
                     }
                 }
             }
-
-        }
-       
-
-        /// <summary>
-        /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
-        /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
-        /// is on the Web). 
-        /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
-        public override void BootstrapAndLoadFeedlist(feeds feedlist)
-        {
-
         }
 
 
-        /* 
-        /// <summary>
-        /// Loads the RSS feedlist from the given URL and validates it against the schema. 
-        /// </summary>
-        /// <param name="feedListUrl">The URL of the feedlist</param>
-        /// <param name="veh">The event handler that should be invoked on the client if validation errors occur</param>
-        /// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
-        public void LoadFeedlist(string feedListUrl, ValidationEventHandler veh)
-        {
-            // LoadFeedlist(AsyncWebRequest.GetSyncResponseStream(feedListUrl, null, this.UserAgent, this.Proxy), veh); 
-
-            IFeeds fs = new FeedsClass();
-            IFeedFolder root = fs.Subscriptions;
-
-            if (root.Feeds.Count > 0)
-            {
-                foreach (IFeed f in root.Feeds)
-                {
-                    this.AddFeed(f, null, null);
-                }
-            }
-
-            if (root.Subfolders.Count > 0)
-            {
-                foreach (IFeedFolder f in root.Subfolders)
-                {
-                    this.AddFolder(f, null, null, null);
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Grabs the common feedlist and populates the input collections
-        /// </summary>
-        /// <param name="f"></param>
-        /// <param name="c"></param>
-        public void GetCurrentCommonFeedList(FeedsCollection feedList, CategoriesCollection catList)
-        {
-
-            IFeeds fs = new FeedsClass();
-            IFeedFolder root = fs.Subscriptions;
-
-            if (root.Feeds.Count > 0)
-            {
-                foreach (IFeed f in root.Feeds)
-                {
-                    this.AddFeed(f, null, feedList);
-                }
-            }
-
-            if (root.Subfolders.Count > 0)
-            {
-                foreach (IFeedFolder f in root.Subfolders)
-                {
-                    this.AddFolder(f, null, feedList, catList);
-                }
-            }
-
-
-        }
-
-        /// <summary>
-        /// Adds an IFeed instance to the subscription list
-        /// </summary>
-        /// <param name="feed">The feed to add</param>
-        /// <param name="category">it's category</param>
-        public void AddFeed(IFeed feed, string category, FeedsCollection feedList)
-        {
-
-            feedList = (feedList == null ? _feedsTable : feedList);
-
-            feedsFeed f = new feedsFeed();
-            f.link = feed.Url;
-            f.title = feed.Name;
-            f.category = category;
-
-            if (feedList.Contains(f.link) == false)
-            {
-                feedList.Add(f.link, f);
-            }
-        }
-
-        /// <summary>
-        /// Adds an IFeed instance to the common feed list
-        /// </summary>
-        /// <param name="feed">The feed to add</param>
-        /// <param name="category">it's category</param>
-        public void AddFeed2CommonFeedList(feedsFeed feed, string category)
-        {
-
-            IFeeds fs = new FeedsClass();
-            IFeedFolder folder = fs.Subscriptions;
-
-            if (category != null)
-            {
-                string[] categoryPath = category.Split(new char[] { '\\' });
-
-                foreach (string c in categoryPath)
-                {
-                    folder = folder.GetSubfolder(c);
-                }
-            }
-
-            folder.CreateFeed(feed.title, feed.link);
-        }
-
-        /// Adds an IFeed instance to the common feed list
-        /// </summary>
-        /// <param name="feed">The feed to add</param>
-        /// <param name="category">it's category</param>
-        public void DeleteFeedFromCommonFeedList(feedsFeed feed, string category)
-        {
-
-            IFeeds fs = new FeedsClass();
-            IFeedFolder folder = fs.Subscriptions;
-
-            if (category != null)
-            {
-                string[] categoryPath = category.Split(new char[] { '\\' });
-
-                foreach (string c in categoryPath)
-                {
-                    folder = folder.GetSubfolder(c);
-                }
-            }
-
-            folder.GetFeed(feed.title).Delete();
-        }
-
-        /// <summary>
-        /// Add a folder to the feedlist 
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <param name="category">The path to the folder</param>
-        public void AddFolder(IFeedFolder folder, string path, FeedsCollection feedList, CategoriesCollection catList)
-        {
-
-            feedList = (feedList == null ? _feedsTable : feedList);
-            catList = (catList == null ? this.categories : catList);
-
-            string category = (path == null ? folder.Name : path + "\\" + folder.Name);
-
-            if (folder.Feeds.Count > 0)
-            {
-
-                foreach (IFeed f in folder.Feeds)
-                {
-                    this.AddFeed(f, category, feedList);
-                }
-
-                if (!catList.ContainsKey(category))
-                {
-                    catList.Add(category);
-                }
-            }
-
-            if (folder.Subfolders.Count > 0)
-            {
-                foreach (IFeedFolder f in folder.Subfolders)
-                {
-                    this.AddFolder(f, category, feedList, catList);
-                }
-            }
-        }
-
-*/ 
+  
         #endregion
 
     }
@@ -439,20 +321,23 @@ namespace NewsComponents.Feed {
         /// <param name="banditfeed">The object that contains the settings that will be used to initialize this class</param>
         public WindowsRssNewsFeed(IFeed feed, INewsFeed banditfeed): this(feed)
         {
-            this.refreshrate = banditfeed.refreshrate;
-            this.refreshrateSpecified = banditfeed.refreshrateSpecified;
-            this.maxitemage = banditfeed.maxitemage;
-            this.markitemsreadonexit = banditfeed.markitemsreadonexit;
-            this.markitemsreadonexitSpecified = banditfeed.markitemsreadonexitSpecified;
-            this.listviewlayout = banditfeed.listviewlayout;
-            this.favicon = banditfeed.favicon;
-            this.stylesheet = banditfeed.stylesheet;
-            this.enclosurealert = banditfeed.enclosurealert;
-            this.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
-            this.alertEnabled = banditfeed.alertEnabled;
-            this.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
-            this.Any = banditfeed.Any;
-            this.AnyAttr = banditfeed.AnyAttr;
+            if (banditfeed != null)
+            {
+                this.refreshrate = banditfeed.refreshrate;
+                this.refreshrateSpecified = banditfeed.refreshrateSpecified;
+                this.maxitemage = banditfeed.maxitemage;
+                this.markitemsreadonexit = banditfeed.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = banditfeed.markitemsreadonexitSpecified;
+                this.listviewlayout = banditfeed.listviewlayout;
+                this.favicon = banditfeed.favicon;
+                this.stylesheet = banditfeed.stylesheet;
+                this.enclosurealert = banditfeed.enclosurealert;
+                this.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
+                this.alertEnabled = banditfeed.alertEnabled;
+                this.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
+                this.Any = banditfeed.Any;
+                this.AnyAttr = banditfeed.AnyAttr;
+            }
         }
 
         #endregion 
@@ -849,25 +734,10 @@ namespace NewsComponents.Feed {
 
             set
             {
-                if (!StringHelper.EmptyTrimOrNull(value))
+                if (!StringHelper.EmptyTrimOrNull(value) && !value.Equals(this.category))
                 {
-
-                    if (owner.Categories.ContainsKey(value))
-                    {
-                        /* 
-                         * STEP 1: Find corresponding category/folder 
-                         * STEP 2: If it exists then move this IFeeds to that folder
-                         */ 
-                    }
-                    else { //we need to create the folder 
-                    
-                        /* 
-                         * STEP 1: Create the folder 
-                         * STEP 2: Add category object to categories object in owner
-                         * STEP 3: Move IFeed object to the new  folder
-                         */ 
-                    }
-                }//if(!StringBuilder.EmptryTrimOrNull(..))
+                    owner.ChangeCategory(this, owner.AddCategory(value)); 
+                }
             }
         
         }
