@@ -197,15 +197,16 @@ namespace NewsComponents.Feed {
                 WindowsRssNewsFeed f = this.FeedsTable[feedUrl] as WindowsRssNewsFeed;
                 this._feedsTable.Remove(f.link); 
 
-                IFeedFolder folder = feedManager.RootFolder as IFeedFolder;                
+                IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
+                string cat = f.category;
 
-                if (category != null)
+                if (cat != null)
                 {
-                    string[] categoryPath = category.Split(new char[] { '\\' });
+                    string[] categoryPath = cat.Split(new char[] { '\\' });
 
                     foreach (string c in categoryPath)
                     {
-                        folder = folder.GetSubfolder(c);
+                        folder = folder.GetSubfolder(c) as IFeedFolder;
                     }
                 }
 
