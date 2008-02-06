@@ -151,6 +151,52 @@ namespace NewsComponents.Feed {
             return toReturn;
         }
 
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
+        {
+            if (feed == null)
+                throw new ArgumentNullException("feed");
+
+            if (cat != null)
+            {
+                feed.category = cat.Value;
+            }
+            else
+            {
+                feed.category = null;
+            }
+        }
+
+        /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public override void RenameCategory(string oldName, string newName)
+        {
+            if (StringHelper.EmptyTrimOrNull(oldName))
+                throw new ArgumentNullException("oldName");
+
+            if (StringHelper.EmptyTrimOrNull(newName))
+                throw new ArgumentNullException("newName");
+
+            if (this.categories.ContainsKey(oldName))
+            {
+                INewsFeedCategory cat = this.categories[oldName];
+                this.categories.Remove(oldName);
+
+                cat.Value = newName;
+                categories.Add(newName, cat);
+            }
+        }
+
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 
@@ -190,7 +236,7 @@ namespace NewsComponents.Feed {
         /// <exception cref="ApplicationException">If an error occured while 
         /// attempting to delete the cached feed. Examine the InnerException property 
         /// for details</exception>
-        public virtual void DeleteFeed(string feedUrl)
+        public override void DeleteFeed(string feedUrl)
         {
             if (this.FeedsTable.ContainsKey(feedUrl))
             {
