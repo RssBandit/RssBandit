@@ -2842,7 +2842,7 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">If an error occured while 
         /// attempting to delete the cached feed. Examine the InnerException property 
         /// for details</exception>
-        public void DeleteFeed(string feedUrl)
+        public virtual void DeleteFeed(string feedUrl)
         {
             if (!FeedsTable.ContainsKey(feedUrl))
             {
