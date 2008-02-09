@@ -164,13 +164,17 @@ namespace NewsComponents.Feed {
             if (feed == null)
                 throw new ArgumentNullException("feed");
 
-            if (cat != null)
+            if (cat == null)
+                throw new ArgumentNullException("cat");
+
+            WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
+
+            if (f != null && _feedsTable.ContainsKey(f.link))
             {
-                feed.category = cat.Value;
-            }
-            else
-            {
-                feed.category = null;
+                IFeedFolder folder = String.IsNullOrEmpty(f.category) ? feedManager.RootFolder as IFeedFolder 
+                                                                      : feedManager.GetFolder(f.category) as IFeedFolder;
+                IFeed ifeed        = folder.GetFeed(f.title) as IFeed;
+                ifeed.Move(cat.Value);                                 
             }
         }
 
@@ -189,11 +193,16 @@ namespace NewsComponents.Feed {
 
             if (this.categories.ContainsKey(oldName))
             {
-                INewsFeedCategory cat = this.categories[oldName];
-                this.categories.Remove(oldName);
+                WindowsRssNewsFeedCategory cat = this.categories[oldName] as WindowsRssNewsFeedCategory;
+                
 
-                cat.Value = newName;
-                categories.Add(newName, cat);
+                IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
+                if (folder != null)
+                {
+                    folder.Rename(newName);
+                    this.categories.Remove(oldName);
+                    categories.Add(newName, new WindowsRssNewsFeedCategory(folder, cat));
+                }
             }
         }
 
@@ -268,7 +277,56 @@ namespace NewsComponents.Feed {
         {
             this.BootstrapAndLoadFeedlist(new feeds()); 
         }
-       
+
+
+        /// <summary>
+        /// Used to recursively load a folder and its children (feeds and subfolders) into the FeedsTable and Categories collections. 
+        /// </summary>
+        /// <param name="folder2load">The folder to load</param>
+        /// <param name="bootstrapFeeds">The RSS Bandit metadata about the feeds being loaded</param>
+        /// <param name="bootstrapCategories">The RSS Bandit metadata about the folders/categories being loaded</param>
+        private void LoadFolder(IFeedFolder folder2load, Dictionary<string, NewsFeed> bootstrapFeeds, Dictionary<string, INewsFeedCategory> bootstrapCategories)
+        {
+
+            if (folder2load != null)
+            {
+                IFeedsEnum Feeds = folder2load.Feeds as IFeedsEnum;
+                IFeedsEnum Subfolders = folder2load.Subfolders as IFeedsEnum;
+
+                if (Feeds.Count > 0)
+                {
+                    foreach (IFeed feed in Feeds)
+                    {
+                        Uri uri = null;
+
+                        try
+                        {
+                            uri = new Uri(feed.DownloadUrl);
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                        string feedUrl = uri.CanonicalizedUri();
+                        INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
+                        this._feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
+
+                    }//foreach(IFeed feed in ...)
+                }
+
+                if (Subfolders.Count > 0)
+                {
+                    foreach (IFeedFolder folder in Subfolders)
+                    {
+                        string categoryName = folder.Path;
+                        INewsFeedCategory bootstrapCategory = (bootstrapCategories.ContainsKey(categoryName) ? bootstrapCategories[categoryName] : null);
+                        this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder, bootstrapCategory));
+                        LoadFolder(folder, bootstrapFeeds, bootstrapCategories);  
+                    }
+                }
+            }
+
+        }
 
         /// <summary>
         /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
@@ -292,43 +350,7 @@ namespace NewsComponents.Feed {
             }
 
             IFeedFolder root = feedManager.RootFolder as IFeedFolder;
-
-            if (root != null)
-            {
-                IFeedsEnum rootFeeds = root.Feeds as IFeedsEnum;
-                IFeedsEnum rootFolders = root.Subfolders as IFeedsEnum;
-
-                if (rootFeeds.Count > 0)
-                {
-                    foreach (IFeed feed in rootFeeds)
-                    {
-                        Uri uri = null;
-
-                        try
-                        {
-                            uri = new Uri(feed.DownloadUrl);
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                        string feedUrl   = uri.CanonicalizedUri();
-                        INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null ); 
-                        this._feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
-
-                    }//foreach(IFeed feed in ...)
-                }
-
-                if (rootFolders.Count > 0)
-                {                    
-                    foreach (IFeedFolder folder in rootFolders)
-                    {
-                        string categoryName = folder.Path;
-                        INewsFeedCategory bootstrapCategory = (bootstrapCategories.ContainsKey(categoryName) ? bootstrapCategories[categoryName] : null); 
-                        this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder, bootstrapCategory));
-                    }
-                }
-            }
+            LoadFolder(root, bootstrapFeeds, bootstrapCategories);                        
         }
 
 
