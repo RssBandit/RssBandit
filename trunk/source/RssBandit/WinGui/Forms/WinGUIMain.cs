@@ -13384,7 +13384,7 @@ namespace RssBandit.WinGui.Forms
                         owner.MessageInfo(SR.GUIFieldLinkRedundantInfo(
                                               (f2.category == null
                                                    ? String.Empty
-                                                   : category + NewsHandler.CategorySeparator) + f2.title, f2.link));
+                                                   : f2.category + NewsHandler.CategorySeparator) + f2.title, f2.link));
                         return;
                     }
 
