@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -1198,12 +1199,25 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        protected IDictionary<string, INewsFeed> _feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+        protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+
+        /// <summary>
+        /// This is the object that is returned when returning the list of categories in GetFeeds()
+        /// </summary>
+        /// <seealso cref="GetFeeds"/>
+        protected ReadOnlyDictionary<string, INewsFeed> readonly_feedsTable = null;
+
 
         /// <summary>
         /// Represents the list of available categories for feeds. 
         /// </summary>
         protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
+
+        /// <summary>
+        /// This is the object that is returned when returning the list of categories in GetCategories()
+        /// </summary>
+        /// <seealso cref="GetCategories"/>
+        protected ReadOnlyDictionary<string, INewsFeedCategory> readonly_categories = null; 
 
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
@@ -2060,7 +2074,7 @@ namespace NewsComponents
             // if scope is an empty array: search all, else search only in spec. feeds
             // pseudo code:
             /* int matches = 0;
-			foreach (NewsFeed f in _feedsTable) {
+			foreach (NewsFeed f in feedsTable) {
 				if (criteria.Match(f)) {
 					matches++;
 					if (RaiseFeedSearchResultEvent(f, tag))
@@ -2271,7 +2285,7 @@ namespace NewsComponents
         /// Accesses the list of user specified categories used for organizing 
         /// feeds. 
         /// </summary>
-        public ReadOnlyDictionary<string, INewsFeedCategory> Categories
+        /* public ReadOnlyDictionary<string, INewsFeedCategory> Categories
         {
             get
             { //TODO: Optimize this by caching the ReadOnlyDictionary and only creating new one of it has changed
@@ -2282,7 +2296,7 @@ namespace NewsComponents
 
                 return new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
             }
-        }
+        } */ 
 
         /// <summary>
         /// Accesses the table of RSS feed objects. 
@@ -2294,7 +2308,7 @@ namespace NewsComponents
             //		[MethodImpl(MethodImplOptions.Synchronized)]
             get
             {             
-                    return new ReadOnlyDictionary<string,INewsFeed>(_feedsTable);             
+                    return new ReadOnlyDictionary<string,INewsFeed>(feedsTable);             
             }
         }
 
@@ -2872,6 +2886,16 @@ namespace NewsComponents
         }
 
         /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        public virtual void DeleteAllFeedsAndCategories() {
+            this.feedsTable.Clear();
+            this.categories.Clear();
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);         
+        }
+
+        /// <summary>
         /// Saves the feed list to the specified stream. The feed is written in 
         /// the RSS Bandit feed file format as described in feeds.xsd
         /// </summary>
@@ -2975,7 +2999,7 @@ namespace NewsComponents
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
         public void SaveFeedList(Stream feedStream, FeedListFormat format)
         {
-            this.SaveFeedList(feedStream, format, this._feedsTable, true);
+            this.SaveFeedList(feedStream, format, this.feedsTable, true);
         }
 
         /// <summary>
@@ -3344,6 +3368,8 @@ namespace NewsComponents
             newCategory.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
 
             this.categories.Add(cat, newCategory);
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
             return newCategory;
         }
 
@@ -3358,17 +3384,73 @@ namespace NewsComponents
             return cat;
         }
 
+
         /// <summary>
-        /// Deletes a category from the Categories collection. 
+        /// Tests whether this category name exists in the NewsHandler. 
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        /// <returns>True if this category is used by the NewsHandler</returns>
+        public virtual bool HasCategory(string cat) {
+
+            if (cat == null)
+            {
+                return false;
+            }
+
+            return this.categories.ContainsKey(cat); 
+        }
+
+
+        /// <summary>
+        /// Returns a ReadOnlyDictionary containing the list of categories used by the NewsHandler
+        /// </summary>
+        /// <returns>A read-only dictionary of categories</returns>
+        public ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
+            return readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);         
+        }
+
+        /// <summary>
+        /// Deletes a category from the NewsHandler. This process includes deleting all subcategories and the 
+        /// corresponding feeds. 
         /// </summary>
         /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
         /// fix up the references to this category in its parent and child categories.</remarks>
         /// <param name="cat"></param>
         public virtual void DeleteCategory(string cat)
         {
+            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            {
+                IList<string> categories2remove = this.GetChildCategories(cat);
+                categories2remove.Add(cat);
+                
+                //remove category and all its subcategories
+                lock (this.categories)
+                {
+                    foreach (string c in categories2remove)
+                    {
+                        this.categories.Remove(c);
+                    }
+                }
 
-            this.categories.Remove(cat); 
+                //remove feeds in deleted categories and subcategories
+                var feeds2delete =
+                   from f in this.feedsTable.Values
+                   where categories2remove.Contains(f.category)
+                   select f.link;
+
+                lock (this.feedsTable)
+                {
+                    foreach (string feedUrl in feeds2delete)
+                    {
+                        this.feedsTable.Remove(feedUrl); 
+                    }
+                }
+
+                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories); 
+            }// if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
         }
+
+
 
         /// <summary>
         /// Changes the category of a particular INewsFeed. This method should be used instead of setting
@@ -3436,16 +3518,16 @@ namespace NewsComponents
         /// </summary>
         /// <param name="name">The name of the category</param>
         /// <returns>The list of child categories</returns>
-        private List<INewsFeedCategory> GetChildCategories(string name)
+        private List<string> GetChildCategories(string name)
         {
 
-            List<INewsFeedCategory> list = new List<INewsFeedCategory>();
+            List<string> list = new List<string>();
 
             foreach (INewsFeedCategory c in this.categories.Values)
             {
-                if (c.Value.StartsWith(name))
+                if (c.Value.StartsWith(name + NewsHandler.CategorySeparator))
                 {
-                    list.Add(c);
+                    list.Add(c.Value);
                 }
             }
 
@@ -3482,7 +3564,7 @@ namespace NewsComponents
                         FeedsTable.Remove(f.link);
                     }
                     f.owner = this;
-                    this._feedsTable.Add(f.link, f);
+                    this.feedsTable.Add(f.link, f);
                 }
             }
 
@@ -3655,7 +3737,7 @@ namespace NewsComponents
             object value =
                 this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
-            if (_feedsTable.ContainsKey(feedUrl))
+            if (feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = this.FeedsTable[feedUrl];
                 object f_value = f.GetType().GetProperty(propertyName).GetValue(f, null);
@@ -3693,7 +3775,7 @@ namespace NewsComponents
                         }
                     } //while
                 } //else if(!string.IsNullOrEmpty(f.category))
-            } //if(_feedsTable.ContainsKey(feedUrl)){
+            } //if(feedsTable.ContainsKey(feedUrl)){
 
 
             return value;
@@ -3709,7 +3791,7 @@ namespace NewsComponents
         {
             //TODO: Make this code more efficient
 
-            if (_feedsTable.ContainsKey(feedUrl))
+            if (feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = this.FeedsTable[feedUrl];
 
@@ -3964,7 +4046,7 @@ namespace NewsComponents
             {
                 //category c = this.Categories.GetByKey(category);
 
-                foreach (category c in this.Categories.Values)
+                foreach (category c in this.categories.Values)
                 {
                     //if(c!= null){			
 
@@ -4878,7 +4960,7 @@ namespace NewsComponents
 
                     FeedsTable.Remove(feedUrl);
                     theFeed.link = newUri.CanonicalizedUri();
-                    this._feedsTable.Add(theFeed.link, theFeed);
+                    this.feedsTable.Add(theFeed.link, theFeed);
 
                     lock (itemsTable)
                     {
@@ -6012,10 +6094,10 @@ namespace NewsComponents
                     continue;
                 }
 
-                if (replace && _feedsTable.ContainsKey(f1.link))
+                if (replace && feedsTable.ContainsKey(f1.link))
                 {
                     //copy category information over
-                    INewsFeed f2 = _feedsTable[f1.link];
+                    INewsFeed f2 = feedsTable[f1.link];
 
                     if (!keepLocalSettings)
                     {
@@ -6130,11 +6212,11 @@ namespace NewsComponents
                             f1.category = (f1.category == null ? category : category + CategorySeparator + f1.category);
                         }
                         //f1.category = (category  == String.Empty ? f1.category : category + NewsHandler.CategorySeparator + f1.category); 
-                        if (!_feedsTable.ContainsKey(f1.link))
+                        if (!feedsTable.ContainsKey(f1.link))
                         {
                             f1.lastretrievedSpecified = true;
                             f1.lastretrieved = dta[count%dtaCount];
-                            _feedsTable.Add(f1.link, f1);
+                            feedsTable.Add(f1.link, f1);
                         }
                     }
                 }
@@ -6200,7 +6282,7 @@ namespace NewsComponents
             if (replace)
             {
                 /* update feeds table */
-                this._feedsTable = syncedfeeds;
+                this.feedsTable = syncedfeeds;
                 /* update category information */
                 this.categories = cats;
                 /* update identities */
@@ -6282,8 +6364,8 @@ namespace NewsComponents
 				feeds myFeeds = (feeds)serializer.Deserialize(reader); 
 				reader.Close(); 
 
-				if(_feedsTable == null){	
-					_feedsTable = new FeedsCollection(); 
+				if(feedsTable == null){	
+					feedsTable = new FeedsCollection(); 
 				}
 		 
 			 
@@ -6291,12 +6373,12 @@ namespace NewsComponents
 				foreach(NewsFeed f in myFeeds.feed){
 		
 					//if the same feed seen twice, ignore second occurence 
-					if(_feedsTable.ContainsKey(f.link) == false){
+					if(feedsTable.ContainsKey(f.link) == false){
 						if(category != String.Empty){
 							f.category = (f.category == null ? category : category + NewsHandler.CategorySeparator + f.category);
 						}
 						//f.category = (category  == String.Empty ? f.category : category + NewsHandler.CategorySeparator + f.category); 
-						_feedsTable.Add(f.link, f); 
+						feedsTable.Add(f.link, f); 
 					}
 				}		
 	

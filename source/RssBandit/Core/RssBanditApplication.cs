@@ -1100,7 +1100,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     }
                 }
 
-                foreach (category c in feedHandler.Categories.Values)
+                foreach (category c in feedHandler.GetCategories().Values)
                 {
                     if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -2917,7 +2917,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         public void ImportFeeds(string fromFileOrUrl, string selectedCategory)
         {
             ImportFeedsDialog dialog =
-                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.Categories.Keys);
+                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.GetCategories().Keys);
             try
             {
                 dialog.ShowDialog(guiMain);
@@ -5233,10 +5233,10 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
         public string[] GetCategories()
         {
-            string[] cats = new string[1 + this.FeedHandler.Categories.Count];
+            string[] cats = new string[1 + this.FeedHandler.GetCategories().Count];
             cats[0] = DefaultCategory;
             if (cats.Length > 1)
-                this.FeedHandler.Categories.Keys.CopyTo(cats, 1);
+                this.FeedHandler.GetCategories().Keys.CopyTo(cats, 1);
             return cats;
         }
        
@@ -5254,7 +5254,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             if (category != null)
             {
                 category = category.Trim();
-                if (category.Length > 0 && ! this.FeedHandler.Categories.ContainsKey(category))
+                if (category.Length > 0 && ! this.FeedHandler.HasCategory(category))
                 {
                     category c = new category(category);
                     this.FeedHandler.AddCategory(c);
@@ -5372,7 +5372,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
             f.title = wiz.FeedTitles(index);
             f.category = wiz.FeedCategory;
-            if ((f.category != null) && (!feedHandler.Categories.ContainsKey(f.category)))
+            if ((f.category != null) && (!feedHandler.HasCategory(f.category)))
             {
                 feedHandler.AddCategory(f.category);
             }

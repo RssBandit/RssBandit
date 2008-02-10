@@ -148,7 +148,7 @@ namespace NewsComponents.Feed
                 foreach (category cat in myFeeds.categories)
                 {
                     string cat_trimmed = cat.Value.Trim();
-                    if (!this.Categories.ContainsKey(cat_trimmed))
+                    if (!this.categories.ContainsKey(cat_trimmed))
                     {
                         cat.Value = cat_trimmed;
                         this.categories.Add(cat_trimmed, cat);
@@ -193,14 +193,14 @@ namespace NewsComponents.Feed
                             if (FeedsTable.ContainsKey(f.link) == false)
                             {
                                 f.owner = this;
-                                this._feedsTable.Add(f.link, f);
+                                this.feedsTable.Add(f.link, f);
 
                                 //add category if needed
                                 if (f.category != null)
                                 {
                                     string cat_trimmed = f.category = f.category.Trim();
 
-                                    if (!this.Categories.ContainsKey(cat_trimmed))
+                                    if (!this.categories.ContainsKey(cat_trimmed))
                                     {
                                         this.AddCategory(cat_trimmed);
                                     }
@@ -345,6 +345,15 @@ namespace NewsComponents.Feed
 
         #region public methods
 
+
+           /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        public virtual void DeleteAllFeedsAndCategories()
+        {
+            base.DeleteAllFeedsAndCategories();
+            this.ClearItemsCache();
+        }
 
         /// <summary>
         /// Loads the feedlist from the FeedLocation. 
