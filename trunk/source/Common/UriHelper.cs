@@ -57,8 +57,9 @@ namespace RssBandit.Common
 
             UriBuilder builder = new UriBuilder(uri);
             builder.Host = (builder.Host.ToLower().StartsWith("www.") ? builder.Host.Substring(4) : builder.Host);
-            builder.Path = (builder.Path.EndsWith("/") ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);   
-            return builder.ToString().Replace(":" + builder.Port + "/", "/");
+            builder.Path = (builder.Path.EndsWith("/") ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path); 
+  
+            return builder.Port != 80 ? builder.ToString() : builder.ToString().Replace(":" + builder.Port + "/", "/");
         }
     }
 }
