@@ -772,9 +772,7 @@ namespace RssBandit
         {
             if (MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
-                feedHandler.FeedsTable.Clear();
-                feedHandler.Categories.Clear();
-                feedHandler.ClearItemsCache();
+                feedHandler.DeleteAllFeedsAndCategories();
                 NewsHandler.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;
@@ -1192,7 +1190,7 @@ namespace RssBandit
                 FeedProperties propertiesDialog =
                     new FeedProperties(f.title, f.link, refreshrate/60000, feedMaxItemAge,
                                        (f.category ?? defaultCategory), defaultCategory,
-                                       feedHandler.Categories.Keys, feedHandler.GetStyleSheet(f.link));
+                                       feedHandler.GetCategories().Keys, feedHandler.GetStyleSheet(f.link));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
                 propertiesDialog.checkEnableAlerts.Checked = f.alertEnabled;
                 propertiesDialog.checkMarkItemsReadOnExit.Checked = feedMarkItemsReadOnExit;
@@ -1305,11 +1303,11 @@ namespace RssBandit
                     if (category != null && !category.Equals(f.category))
                     {                       
                         changes |= NewsFeedProperty.FeedCategory;
-                        if (!feedHandler.Categories.ContainsKey(category))
+                        if (!feedHandler.HasCategory(category))
                         {
                             feedHandler.AddCategory(category);
                         }
-                        feedHandler.ChangeCategory(f, feedHandler.Categories[category]);
+                        feedHandler.ChangeCategory(f, feedHandler.GetCategories()[category]);
                         // find/create the target node:
                         TreeFeedsNodeBase target =
                             guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);

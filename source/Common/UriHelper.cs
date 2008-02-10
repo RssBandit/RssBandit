@@ -62,15 +62,3 @@ namespace RssBandit.Common
         }
     }
 }
-
-
-/* HACK: We add ExtensionAttribute class here so we don't need project to target .NET 3.5 */ 
-namespace System.Runtime.CompilerServices
-
-   {
-         [AttributeUsage(AttributeTargets.Method)]
-         public sealed class ExtensionAttribute : Attribute
-         {
-             public ExtensionAttribute() { }
-         }
-     }

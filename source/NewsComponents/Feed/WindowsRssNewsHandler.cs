@@ -169,7 +169,7 @@ namespace NewsComponents.Feed {
 
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
 
-            if (f != null && _feedsTable.ContainsKey(f.link))
+            if (f != null && feedsTable.ContainsKey(f.link))
             {
                 IFeedFolder folder = String.IsNullOrEmpty(f.category) ? feedManager.RootFolder as IFeedFolder 
                                                                       : feedManager.GetFolder(f.category) as IFeedFolder;
@@ -216,9 +216,9 @@ namespace NewsComponents.Feed {
         {
             if (f is WindowsRssNewsFeed)
             {
-                if (!_feedsTable.ContainsKey(f.link))
+                if (!feedsTable.ContainsKey(f.link))
                 {
-                    _feedsTable.Add(f.link, f);
+                    feedsTable.Add(f.link, f);
                 }
             }
             else
@@ -231,7 +231,7 @@ namespace NewsComponents.Feed {
                 IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
                 IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
                 f = new WindowsRssNewsFeed(newFeed, f);
-                _feedsTable.Add(f.link, f);
+                feedsTable.Add(f.link, f);
             }
 
             return f;
@@ -250,24 +250,27 @@ namespace NewsComponents.Feed {
             if (this.FeedsTable.ContainsKey(feedUrl))
             {
                 WindowsRssNewsFeed f = this.FeedsTable[feedUrl] as WindowsRssNewsFeed;
-                this._feedsTable.Remove(f.link); 
-
-                IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
-                string cat = f.category;
-
-                if (cat != null)
+                this.feedsTable.Remove(f.link);                
+                IFeed feed = feedManager.GetFeedByUrl(feedUrl) as IFeed;
+                
+                if (feed != null)
                 {
-                    string[] categoryPath = cat.Split(new char[] { '\\' });
-
-                    foreach (string c in categoryPath)
-                    {
-                        folder = folder.GetSubfolder(c) as IFeedFolder;
-                    }
+                    feed.Delete();
                 }
-
-                IFeed feed = folder.GetFeed(f.title) as IFeed; 
-                feed.Delete();
             }
+        }
+
+        /// <summary>
+        /// Deletes a category from the Categories collection. 
+        /// </summary>
+        /// <remarks>This also deletes the corresponding folder from the underlying Windows RSS platform.</remarks>
+        /// <param name="cat"></param>
+        public override void DeleteCategory(string cat)
+        {
+            base.DeleteCategory(cat);
+
+            IFeedFolder folder = feedManager.GetFolder(cat) as IFeedFolder;
+            folder.Delete(); 
         }
 
         /// <summary>
@@ -309,7 +312,7 @@ namespace NewsComponents.Feed {
                         }
                         string feedUrl = uri.CanonicalizedUri();
                         INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
-                        this._feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
+                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
 
                     }//foreach(IFeed feed in ...)
                 }
