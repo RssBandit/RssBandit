@@ -18,13 +18,13 @@ using System.Reflection;
 //      Revision (like SP's for a build)
 //
 // Please raise Build Number on each significant (e.g. interface changes) modification !!!
-[assembly: AssemblyVersion("1.6.0.1")]
+[assembly: AssemblyVersion("1.6.0.3")]
 
 // This attribute attaches version information to 
 // an assembly file to allow version verification by users.
 // Please raise Build Number on each modification !!!
-[assembly: AssemblyFileVersion("1.6.0.1")]
+[assembly: AssemblyFileVersion("1.6.0.3")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.
-[assembly: AssemblyInformationalVersion("1.6.1")]
+[assembly: AssemblyInformationalVersion("1.6.3")]
