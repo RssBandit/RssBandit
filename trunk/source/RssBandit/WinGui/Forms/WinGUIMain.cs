@@ -3424,7 +3424,7 @@ namespace RssBandit.WinGui.Forms
                     owner.FeedWasModified(f, NewsFeedProperty.FeedCategory);
                     //owner.FeedlistModified = true;
                 }
-                if (newCategory != null && !owner.FeedHandler.Categories.ContainsKey(newCategory))
+                if (newCategory != null && !owner.FeedHandler.HasCategory(newCategory))
                     owner.FeedHandler.AddCategory(newCategory);
             }
             else
@@ -3466,23 +3466,23 @@ namespace RssBandit.WinGui.Forms
                         catch
                         {
                         }
-                        if (owner.FeedHandler.Categories.ContainsKey(f.category))
+                        if (owner.FeedHandler.HasCategory(f.category))
                             owner.FeedHandler.DeleteCategory(f.category);
                     }
                 }
                 else
                 {
                     string catName = TreeFeedsNodeBase.BuildCategoryStoreName(startNode.Parent);
-                    if (owner.FeedHandler.Categories.ContainsKey(catName))
-                        owner.FeedHandler.Categories.Remove(catName);
+                    if (owner.FeedHandler.HasCategory(catName))
+                        owner.FeedHandler.DeleteCategory(catName);
                 }
             }
             else
             {
                 // other
                 string catName = startNode.CategoryStoreName;
-                if (owner.FeedHandler.Categories.ContainsKey(catName))
-                    owner.FeedHandler.Categories.Remove(catName);
+                if (owner.FeedHandler.HasCategory(catName))
+                    owner.FeedHandler.DeleteCategory(catName);
 
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
@@ -4398,7 +4398,7 @@ namespace RssBandit.WinGui.Forms
             //accordingly. 
             InvokeOnGui(delegate
             {
-                PopulateFeedSubscriptions(owner.FeedHandler.Categories.Values, owner.FeedHandler.FeedsTable,
+                PopulateFeedSubscriptions(owner.FeedHandler.GetCategories().Values, owner.FeedHandler.FeedsTable,
                                           RssBanditApplication.DefaultCategory);
                 PopulateTreeSpecialFeeds();
             });
@@ -6215,7 +6215,7 @@ namespace RssBandit.WinGui.Forms
                 TreeSelectedFeedsNode = newFeedsNode;
                 s = newFeedsNode.CategoryStoreName;
 
-                if (!owner.FeedHandler.Categories.ContainsKey(s))
+                if (!owner.FeedHandler.HasCategory(s))
                 {
                     owner.FeedHandler.AddCategory(s);
                     owner.SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
@@ -7231,7 +7231,7 @@ namespace RssBandit.WinGui.Forms
                 f.category = category;
                 changes |= NewsFeedProperty.FeedCategory;
                 //owner.FeedlistModified = true;
-                if (category != null && !owner.FeedHandler.Categories.ContainsKey(category))
+                if (category != null && !owner.FeedHandler.HasCategory(category))
                 {
                     owner.FeedHandler.AddCategory(category);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
@@ -7260,19 +7260,19 @@ namespace RssBandit.WinGui.Forms
                 string sourceCategory = theNode.CategoryStoreName;
 
                 // refresh category store
-                if (sourceCategory != null && owner.FeedHandler.Categories.ContainsKey(sourceCategory))
+                if (sourceCategory != null && owner.FeedHandler.HasCategory(sourceCategory))
                 {
-                    owner.FeedHandler.Categories.Remove(sourceCategory);
+                    owner.FeedHandler.DeleteCategory(sourceCategory);
                     changes |= NewsFeedProperty.FeedCategoryRemoved;
                 }
                 // target is the root node:
-                if (targetCategory == null && !owner.FeedHandler.Categories.ContainsKey(theNode.Text))
+                if (targetCategory == null && !owner.FeedHandler.HasCategory(theNode.Text))
                 {
                     owner.FeedHandler.AddCategory(theNode.Text);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
                 }
                 // target is another category node:
-                if (targetCategory != null && !owner.FeedHandler.Categories.ContainsKey(targetCategory))
+                if (targetCategory != null && !owner.FeedHandler.HasCategory(targetCategory))
                 {
                     owner.FeedHandler.AddCategory(targetCategory);
                     changes |= NewsFeedProperty.FeedCategoryAdded;
@@ -11225,7 +11225,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     string newFullname = editedNode.CategoryStoreName;
 
-                    IDictionary<string, INewsFeedCategory> categories = owner.FeedHandler.Categories;
+                    IDictionary<string, INewsFeedCategory> categories = owner.FeedHandler.GetCategories();
                     string[] catList = new string[categories.Count];
                     categories.Keys.CopyTo(catList, 0);
                     // iterate on a copied list, so we can change the old one without
@@ -13416,7 +13416,7 @@ namespace RssBandit.WinGui.Forms
                                 //f.storiesrecentlyviewed = new ArrayList(); 				
                                 //f.deletedstories = new ArrayList(); 				
                                 f.category = category;
-                                if (!owner.FeedHandler.Categories.ContainsKey(f.category))
+                                if (!owner.FeedHandler.HasCategory(f.category))
                                 {
                                     owner.FeedHandler.AddCategory(f.category);
                                 }
