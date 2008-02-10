@@ -25,12 +25,12 @@ using System.Resources;
 //	The build number should be incremented after each successful build/checkin. 
 //
 // Please raise Build Number on each modification !!!
-[assembly: AssemblyVersion("1.6.0.1")]
-[assembly: AssemblyFileVersion("1.6.0.1")]
+[assembly: AssemblyVersion("1.6.0.3")]
+[assembly: AssemblyFileVersion("1.6.0.3")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.
-[assembly: AssemblyInformationalVersion("1.6.0")]
+[assembly: AssemblyInformationalVersion("1.6.3")]
 
 // Allows you to update a main assembly without having to update your satellite assembly, 
 // or vice versa. When the main assembly is updated, its assembly version number is changed. 

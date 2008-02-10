@@ -297,7 +297,6 @@
     <Compile Include="Core\ApplicationExceptionHandler.cs" />
     <Compile Include="Core\Exceptions.cs" />
     <Compile Include="Core\RssBanditApplication.Commands.cs" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
       <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>
