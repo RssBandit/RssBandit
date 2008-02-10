@@ -238,6 +238,27 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        public override void DeleteAllFeedsAndCategories()
+        {
+            string[] keys = new string[categories.Count];
+            this.categories.Keys.CopyTo(keys, 0);
+            foreach (string categoryName in keys)
+            {
+                this.DeleteCategory(categoryName);
+            }
+
+            keys = new string[feedsTable.Count];
+            this.feedsTable.Keys.CopyTo(keys, 0);
+            foreach (string feedUrl in keys) {
+                this.DeleteFeed(feedUrl);             
+            }          
+
+            base.DeleteAllFeedsAndCategories();             
+        }
+
+        /// <summary>
         /// Removes all information related to a feed from the NewsHandler.   
         /// </summary>
         /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
@@ -270,7 +291,10 @@ namespace NewsComponents.Feed {
             base.DeleteCategory(cat);
 
             IFeedFolder folder = feedManager.GetFolder(cat) as IFeedFolder;
-            folder.Delete(); 
+            if (folder != null)
+            {
+                folder.Delete();
+            }
         }
 
         /// <summary>

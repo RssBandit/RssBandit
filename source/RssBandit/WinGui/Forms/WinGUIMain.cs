@@ -3252,6 +3252,8 @@ namespace RssBandit.WinGui.Forms
             }
 
             WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode);
+            string catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);           
+            owner.FeedHandler.DeleteCategory(catName);             
             UpdateTreeNodeUnreadStatus(categoryFeedsNode, 0);
 
             try
@@ -3458,32 +3460,15 @@ namespace RssBandit.WinGui.Forms
                     if (f != null)
                     {
                         UnreadItemsNodeRemoveItems(f);
-                        f.Tag = null; // remove tree node ref.
-                        try
-                        {
-                            owner.FeedHandler.DeleteFeed(f.link);
-                        }
-                        catch
-                        {
-                        }
-                        if (owner.FeedHandler.HasCategory(f.category))
-                            owner.FeedHandler.DeleteCategory(f.category);
+                        f.Tag = null; // remove tree node ref.                  
                     }
-                }
-                else
-                {
-                    string catName = TreeFeedsNodeBase.BuildCategoryStoreName(startNode.Parent);
-                    if (owner.FeedHandler.HasCategory(catName))
-                        owner.FeedHandler.DeleteCategory(catName);
-                }
+                }              
             }
             else
             {
                 // other
                 string catName = startNode.CategoryStoreName;
-                if (owner.FeedHandler.HasCategory(catName))
-                    owner.FeedHandler.DeleteCategory(catName);
-
+              
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
                     WalkdownThenDeleteFeedsOrCategories(child);
