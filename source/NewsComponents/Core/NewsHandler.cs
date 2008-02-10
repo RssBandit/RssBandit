@@ -3436,12 +3436,14 @@ namespace NewsComponents
                 var feeds2delete =
                    from f in this.feedsTable.Values
                    where categories2remove.Contains(f.category)
-                   select f.link;
+                   select f.link.ToString();
+
+                string[] feeds2remove = feeds2delete.ToArray<string>();
 
                 lock (this.feedsTable)
                 {
-                    foreach (string feedUrl in feeds2delete)
-                    {
+                    foreach (var feedUrl in feeds2remove)
+                    {                    
                         this.feedsTable.Remove(feedUrl); 
                     }
                 }
