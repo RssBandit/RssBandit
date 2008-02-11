@@ -36,18 +36,33 @@ namespace RssBandit.Common
 
         /// <summary>
         /// Returns a the URI canonicalized in the following way. (1) if the file is a UNC or file URI then it only returns the local part. 
-        /// (2) for Web URIs it removes trailing slashes and preceding "www." 
+        /// (2) for Web URIs it removes trailing slashes
         /// </summary>
         /// <param name="uri">The URI to canonicalize</param>
         /// <returns>The canonicalized URI as a string</returns>
         public static string CanonicalizedUri(this Uri uri)
+        {
+            return CanonicalizedUri(uri, false);
+        }
+
+        /// <summary>
+        /// Returns a the URI canonicalized in the following way. (1) if the file is a UNC or file URI then it only returns the local part. 
+        /// (2) for Web URIs it removes trailing slashes and preceding "www." 
+        /// </summary>
+        /// <param name="uri">The URI to canonicalize</param>
+        /// <param name="replaceWWW">Indicates whether preceding 'www' should be removed or not</param>
+        /// <returns>The canonicalized URI as a string</returns>        
+        public static string CanonicalizedUri(this Uri uri, bool replaceWWW)
         {
 
             if (uri.IsFile || uri.IsUnc)
                 return uri.LocalPath;
 
             UriBuilder builder = new UriBuilder(uri);
-            builder.Host = (builder.Host.ToLower().StartsWith("www.") ? builder.Host.Substring(4) : builder.Host);
+            if (replaceWWW)
+            {
+                builder.Host = (builder.Host.ToLower().StartsWith("www.") ? builder.Host.Substring(4) : builder.Host);
+            }
             builder.Path = (builder.Path.EndsWith("/") ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);
 
             string strUri = builder.ToString();
