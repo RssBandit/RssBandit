@@ -151,8 +151,8 @@ namespace RssBandit
 				
 					}
 
-					if(feedHandler.FeedsTable.Contains(f.link)) {
-						NewsFeed f2 = feedHandler.FeedsTable[f.link]; 
+					if(feedHandler.GetFeeds().Contains(f.link)) {
+						NewsFeed f2 = feedHandler.GetFeeds()[f.link]; 
 						this.MessageInfo("RES_GUIFieldLinkRedundantInfo", 
 							(f2.category == null? String.Empty : category + "\\") + f2.title, f2.link );
 						newFeedDialog.Close(); 
@@ -180,7 +180,7 @@ namespace RssBandit
 
 					f.alertEnabled = f.alertEnabledSpecified = newFeedDialog.checkEnableAlerts.Checked;
 
-					feedHandler.FeedsTable.Add(f.link, f); 
+					feedHandler.GetFeeds().Add(f.link, f); 
 					this.FeedlistModified = true;
 
 					guiMain.AddNewFeedNode(f.category, f);
@@ -988,12 +988,12 @@ namespace RssBandit
                 IDictionary<string, INewsFeed> fc = new SortedDictionary<string, INewsFeed>();
                 foreach (string url in selections)
                 {
-                    if (feedHandler.FeedsTable.ContainsKey(url))
-                        fc.Add(url, feedHandler.FeedsTable[url]);
+                    if (feedHandler.IsSubscribed(url))
+                        fc.Add(url, feedHandler.GetFeeds()[url]);
                 }
 
                 if (fc.Count == 0)
-                    fc = feedHandler.FeedsTable;
+                    fc = feedHandler.GetFeeds();
 
                 bool includeEmptyCategories = false;
                 FeedListFormat format = FeedListFormat.OPML;
@@ -1168,7 +1168,7 @@ namespace RssBandit
 
                 try
                 {
-                    f = feedHandler.FeedsTable[tn.DataKey];
+                    f = feedHandler.GetFeeds()[tn.DataKey];
                     //refreshrate = (f.refreshrateSpecified ? f.refreshrate : this.refreshRate); 							
                     try
                     {
@@ -1225,7 +1225,7 @@ namespace RssBandit
                         if (!f.link.Equals(propertiesDialog.textBox2.Text.Trim()))
                         {
                             // link was changed						   						  
-                            feedHandler.FeedsTable.Remove(f.link);
+                            feedHandler.GetFeeds().Remove(f.link);
                             changes |= NewsFeedProperty.FeedLink;
 
                             string newLink = propertiesDialog.textBox2.Text.Trim();
@@ -1492,7 +1492,7 @@ namespace RssBandit
                             Int32 intIn = Int32.Parse(propertiesDialog.comboBox1.Text.Trim());
                             if (intIn <= 0)
                             {
-                                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
+                                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1505,7 +1505,7 @@ namespace RssBandit
                             }
                             else
                             {
-                                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
+                                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1536,7 +1536,7 @@ namespace RssBandit
                     {
                         if (feedMaxItemAge.CompareTo(propertiesDialog.MaxItemAge) != 0)
                         {
-                            foreach (NewsFeed f in feedHandler.FeedsTable.Values)
+                            foreach (NewsFeed f in feedHandler.GetFeeds().Values)
                             {
                                 if ((f.category != null) &&
                                     (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1649,7 +1649,7 @@ namespace RssBandit
             string feedUrl = tn.DataKey;
             if (feedUrl == null ||
                 !RssHelper.IsNntpUrl(feedUrl) ||
-                !FeedHandler.FeedsTable.ContainsKey(feedUrl))
+                !FeedHandler.IsSubscribed(feedUrl))
             {
                 Mediator.SetEnabled("-cmdFeedItemNewPost");
                 return;
@@ -1663,7 +1663,7 @@ namespace RssBandit
 
             INewsFeed f = null;
 
-            if (FeedHandler.FeedsTable.TryGetValue(feedUrl, out f)) {
+            if (FeedHandler.GetFeeds().TryGetValue(feedUrl, out f)) {
                 postReplyForm.PostToFeed = f;
 
                 postReplyForm.Show(); // open non-modal

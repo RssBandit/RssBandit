@@ -675,8 +675,8 @@ namespace NewsComponents
         /// <returns>null in the case the feed does not have credentials</returns>
         public ICredentials GetFeedCredentials(string feedUrl)
         {
-            if (feedUrl != null && FeedsTable.ContainsKey(feedUrl))
-                return GetFeedCredentials(FeedsTable[feedUrl]);
+            if (feedUrl != null && feedsTable.ContainsKey(feedUrl))
+                return GetFeedCredentials(feedsTable[feedUrl]);
             return null;
         }
 
@@ -829,17 +829,18 @@ namespace NewsComponents
 
                 string[] keys;
 
-                lock (FeedsTable)
+                lock (feedsTable)
                 {
-                    keys = new string[FeedsTable.Count];
-                    if (FeedsTable.Count > 0)
-                        FeedsTable.Keys.CopyTo(keys, 0);
+                    keys = new string[feedsTable.Count];
+                    if (feedsTable.Count > 0)
+                        feedsTable.Keys.CopyTo(keys, 0);
                 }
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
                     INewsFeed f = null;
-                    if (FeedsTable.TryGetValue(keys[i], out f)) {
+                    if (feedsTable.TryGetValue(keys[i], out f))
+                    {
                         f.maxitemage = XmlConvert.ToString(value);
                     }
                 }
@@ -2303,6 +2304,7 @@ namespace NewsComponents
         /// </summary>
         /// <exception cref="InvalidOperationException">If some error occurs on converting 
         /// XML feed list to feed table</exception>
+        /* 
         public ReadOnlyDictionary<string, INewsFeed> FeedsTable
         {
             //		[MethodImpl(MethodImplOptions.Synchronized)]
@@ -2310,7 +2312,7 @@ namespace NewsComponents
             {             
                     return new ReadOnlyDictionary<string,INewsFeed>(feedsTable);             
             }
-        }
+        }*/ 
 
         /// <summary>
         /// Accesses the list of NntpServerDefinition objects 
@@ -2373,17 +2375,18 @@ namespace NewsComponents
 
                 string[] keys;
 
-                lock (FeedsTable)
+                lock (feedsTable)
                 {
-                    keys = new string[FeedsTable.Count];
-                    if (FeedsTable.Count > 0)
-                        FeedsTable.Keys.CopyTo(keys, 0);
+                    keys = new string[feedsTable.Count];
+                    if (feedsTable.Count > 0)
+                        feedsTable.Keys.CopyTo(keys, 0);
                 }
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
                     INewsFeed f = null;
-                    if (FeedsTable.TryGetValue(keys[i], out f)) {
+                    if (feedsTable.TryGetValue(keys[i], out f))
+                    {
                         f.refreshrate = this.refreshrate;
                         f.refreshrateSpecified = true;
                     }
@@ -2422,11 +2425,11 @@ namespace NewsComponents
         {
             string[] keys;
 
-            lock (FeedsTable)
+            lock (feedsTable)
             {
-                keys = new string[FeedsTable.Count];
-                if (FeedsTable.Count > 0)
-                    FeedsTable.Keys.CopyTo(keys, 0);
+                keys = new string[feedsTable.Count];
+                if (feedsTable.Count > 0)
+                    feedsTable.Keys.CopyTo(keys, 0);
             }
 
             return keys;
@@ -2597,11 +2600,11 @@ namespace NewsComponents
         {
             List<INewsFeed> toReturn = new List<INewsFeed>();
 
-            if (this.FeedsTable.Count == 0)
+            if (this.feedsTable.Count == 0)
                 return toReturn;
 
-            string[] keys = new string[this.FeedsTable.Keys.Count];
-            this.FeedsTable.Keys.CopyTo(keys, 0);
+            string[] keys = new string[this.feedsTable.Keys.Count];
+            this.feedsTable.Keys.CopyTo(keys, 0);
 
             foreach (string url in keys)
             {
@@ -2610,7 +2613,8 @@ namespace NewsComponents
                     Uri uri = new Uri(url);
                     if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains(".")) {
                         INewsFeed f = null;
-                        if (FeedsTable.TryGetValue(url, out f)) {
+                        if (feedsTable.TryGetValue(url, out f))
+                        {
                             toReturn.Add(f);
                         }
                     }
@@ -2721,12 +2725,12 @@ namespace NewsComponents
         /// <param name="feedUrl">The URL of the feed to ignore. </param>
         public void DisableFeed(string feedUrl)
         {
-            if (!FeedsTable.ContainsKey(feedUrl))
+            if (!feedsTable.ContainsKey(feedUrl))
             {
                 return;
             }
 
-            INewsFeed f = FeedsTable[feedUrl];
+            INewsFeed f = feedsTable[feedUrl];
             f.refreshrate = 0;
             f.refreshrateSpecified = true;
         }
@@ -2765,7 +2769,7 @@ namespace NewsComponents
         /// <param name="feed">the feed</param>
         public void DeleteAllItemsInFeed(INewsFeed feed)
         {
-            if (feed != null && !string.IsNullOrEmpty(feed.link) && FeedsTable.ContainsKey(feed.link))
+            if (feed != null && !string.IsNullOrEmpty(feed.link) && feedsTable.ContainsKey(feed.link))
             {
                 FeedInfo fi = itemsTable[feed.link] as FeedInfo;
 
@@ -2788,7 +2792,7 @@ namespace NewsComponents
                 } //if(fi != null)		
 
                 SearchHandler.IndexRemove(feed.id);
-            } //if (feed != null && !string.IsNullOrEmpty( feed.link ) && FeedsTable.ContainsKey(feed.link)) {
+            } //if (feed != null && !string.IsNullOrEmpty( feed.link ) && feedsTable.ContainsKey(feed.link)) {
         }
 
         /// <summary>
@@ -2797,9 +2801,9 @@ namespace NewsComponents
         /// <param name="feedUrl">the URL of the feed</param>
         public void DeleteAllItemsInFeed(string feedUrl)
         {
-            if (FeedsTable.ContainsKey(feedUrl))
+            if (feedsTable.ContainsKey(feedUrl))
             {
-                this.DeleteAllItemsInFeed(FeedsTable[feedUrl]);
+                this.DeleteAllItemsInFeed(feedsTable[feedUrl]);
             }
         }
 
@@ -2810,7 +2814,7 @@ namespace NewsComponents
         /// <param name="item">the utem to restore</param>
         public void RestoreDeletedItem(NewsItem item)
         {
-            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && FeedsTable.ContainsKey(item.Feed.link))
+            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && feedsTable.ContainsKey(item.Feed.link))
             {
                 FeedInfo fi = itemsTable[item.Feed.link] as FeedInfo;
 
@@ -2848,52 +2852,7 @@ namespace NewsComponents
             SearchHandler.IndexAdd(deletedItems);
         }
 
-        /// <summary>
-        /// Removes all information related to a feed from the NewsHandler.   
-        /// </summary>
-        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
-        /// <param name="feedUrl">The URL of the feed to delete. </param>
-        /// <exception cref="ApplicationException">If an error occured while 
-        /// attempting to delete the cached feed. Examine the InnerException property 
-        /// for details</exception>
-        public virtual void DeleteFeed(string feedUrl)
-        {
-            if (!FeedsTable.ContainsKey(feedUrl))
-            {
-                return;
-            }
-
-            INewsFeed f = FeedsTable[feedUrl];
-            FeedsTable.Remove(feedUrl);
-
-            if (itemsTable.ContainsKey(feedUrl))
-            {
-                itemsTable.Remove(feedUrl);
-            }
-
-            SearchHandler.IndexRemove(f.id);
-            if (this.enclosureDownloader != null)
-                this.enclosureDownloader.CancelPendingDownloads(feedUrl);
-
-            try
-            {
-                this.CacheHandler.RemoveFeed(f);
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.Message, e);
-            }
-        }
-
-        /// <summary>
-        /// Deletes all subscribed feeds and categories 
-        /// </summary>
-        public virtual void DeleteAllFeedsAndCategories() {
-            this.feedsTable.Clear();
-            this.categories.Clear();
-            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
-            this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);         
-        }
+      
 
         /// <summary>
         /// Saves the feed list to the specified stream. The feed is written in 
@@ -3238,7 +3197,7 @@ namespace NewsComponents
         {
             if (this.FeedsListOK)
             {
-                foreach (NewsFeed f in this.FeedsTable.Values)
+                foreach (NewsFeed f in feedsTable.Values)
                 {
                     this.MarkForDownload(f);
                 }
@@ -3260,7 +3219,7 @@ namespace NewsComponents
         /// </summary>
         public void MarkAllCachedItemsAsRead()
         {
-            foreach (NewsFeed f in this.FeedsTable.Values)
+            foreach (NewsFeed f in feedsTable.Values)
             {
                 this.MarkAllCachedItemsAsRead(f);
             }
@@ -3278,7 +3237,7 @@ namespace NewsComponents
             {
                 if (this.categories.ContainsKey(category))
                 {
-                    foreach (NewsFeed f in this.FeedsTable.Values)
+                    foreach (NewsFeed f in feedsTable.Values)
                     {
                         if ((f.category != null) && f.category.Equals(category))
                         {
@@ -3288,7 +3247,7 @@ namespace NewsComponents
                 }
                 else if (category == null /* the default category */)
                 {
-                    foreach (NewsFeed f in this.FeedsTable.Values)
+                    foreach (NewsFeed f in feedsTable.Values)
                     {
                         if (f.category == null)
                         {
@@ -3309,7 +3268,7 @@ namespace NewsComponents
             if (!string.IsNullOrEmpty(feedUrl))
             {
                 INewsFeed feed = null;
-                if (this.FeedsTable.TryGetValue(feedUrl, out feed))
+                if (feedsTable.TryGetValue(feedUrl, out feed))
                 {
                     this.MarkAllCachedItemsAsRead(feed);
                 }
@@ -3338,6 +3297,8 @@ namespace NewsComponents
                 feed.containsNewMessages = false;
             }
         }
+
+        #region category manipulation methods 
 
         /// <summary>
         /// Adds a category to the list of feed categories known by this feed handler
@@ -3406,7 +3367,8 @@ namespace NewsComponents
         /// </summary>
         /// <returns>A read-only dictionary of categories</returns>
         public ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
-            return readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);         
+            readonly_categories = readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            return readonly_categories;
         }
 
         /// <summary>
@@ -3536,8 +3498,11 @@ namespace NewsComponents
             return list;
         }
 
+        #endregion 
 
-          /// <summary>
+        #region Feed manipulation methods
+
+        /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 
         /// </summary>
@@ -3559,14 +3524,14 @@ namespace NewsComponents
         {
             if (f != null)
             {
-                lock (this.FeedsTable)
+                lock (feedsTable)
                 {
-                    if (FeedsTable.ContainsKey(f.link))
+                    if (feedsTable.ContainsKey(f.link))
                     {
-                        FeedsTable.Remove(f.link);
+                        feedsTable.Remove(f.link);
                     }
                     f.owner = this;
-                    this.feedsTable.Add(f.link, f);
+                    feedsTable.Add(f.link, f);
                 }
             }
 
@@ -3581,9 +3546,86 @@ namespace NewsComponents
                     itemsTable.Add(f.link, fi);
                 }
             }
-
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
             return f;
         }
+
+        /// <summary>
+        /// Removes all information related to a feed from the NewsHandler.   
+        /// </summary>
+        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
+        /// <param name="feedUrl">The URL of the feed to delete. </param>
+        /// <exception cref="ApplicationException">If an error occured while 
+        /// attempting to delete the cached feed. Examine the InnerException property 
+        /// for details</exception>
+        public virtual void DeleteFeed(string feedUrl)
+        {
+            if (!feedsTable.ContainsKey(feedUrl))
+            {
+                return;
+            }
+
+            INewsFeed f = feedsTable[feedUrl];
+            feedsTable.Remove(feedUrl);
+
+            if (itemsTable.ContainsKey(feedUrl))
+            {
+                itemsTable.Remove(feedUrl);
+            }
+
+            SearchHandler.IndexRemove(f.id);
+            if (this.enclosureDownloader != null)
+                this.enclosureDownloader.CancelPendingDownloads(feedUrl);
+
+            try
+            {
+                this.CacheHandler.RemoveFeed(f);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.Message, e);
+            }
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
+        }
+
+        /// <summary>
+        /// Returns a read-only dictionary of feeds managed by this NewsHandler
+        /// </summary>
+        /// <returns></returns>
+        public ReadOnlyDictionary<string, INewsFeed> GetFeeds()
+        {
+            readonly_feedsTable = readonly_feedsTable ?? new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+            return readonly_feedsTable;
+        }
+
+        /// <summary>
+        /// Tests whether this feed is currently subscribed to. 
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed</param>
+        /// <returns>True if this feed is used by the NewsHandler</returns>
+        public virtual bool IsSubscribed(string feedUrl)
+        {
+
+            if (StringHelper.EmptyTrimOrNull(feedUrl))
+            {
+                return false;
+            }
+
+            return feedsTable.ContainsKey(feedUrl);
+        }
+
+        /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        public virtual void DeleteAllFeedsAndCategories()
+        {
+            this.feedsTable.Clear();
+            this.categories.Clear();
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+        }
+
+#endregion
 
         /// <summary>
         /// Defines all cache relevant NewsFeed properties, 
@@ -3661,9 +3703,9 @@ namespace NewsComponents
             {
                 fi = itemsTable[feedUrl];
             }
-            if (this.FeedsTable.ContainsKey(feedUrl))
+            if (feedsTable.ContainsKey(feedUrl))
             {
-                f = this.FeedsTable[feedUrl];
+                f = feedsTable[feedUrl];
             }
             if (fi != null && f != null)
             {
@@ -3741,7 +3783,7 @@ namespace NewsComponents
 
             if (feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = this.FeedsTable[feedUrl];
+                INewsFeed f = feedsTable[feedUrl];
                 object f_value = f.GetType().GetProperty(propertyName).GetValue(f, null);
 
                 if (IsPropertyValueSet(f_value, propertyName, f))
@@ -3795,7 +3837,7 @@ namespace NewsComponents
 
             if (feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = this.FeedsTable[feedUrl];
+                INewsFeed f = feedsTable[feedUrl];
 
                 if (value is TimeSpan)
                 {
@@ -3899,9 +3941,9 @@ namespace NewsComponents
         {
             string folderName = (IsPodcast(filename) ? this.PodcastFolder : this.EnclosureFolder);
 
-            if (this.CreateSubfoldersForEnclosures && this.FeedsTable.ContainsKey(feedUrl))
+            if (this.CreateSubfoldersForEnclosures && feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = FeedsTable[feedUrl];
+                INewsFeed f = feedsTable[feedUrl];
                 folderName = Path.Combine(folderName, FileHelper.CreateValidFileName(f.title));
             }
 
@@ -4268,7 +4310,7 @@ namespace NewsComponents
 
             if (!itemsTable.ContainsKey(feedUrl))
             {
-                INewsFeed theFeed = FeedsTable[feedUrl];
+                INewsFeed theFeed = feedsTable[feedUrl];
 
                 if (theFeed == null)
                 {
@@ -4472,8 +4514,8 @@ namespace NewsComponents
 
             //We need a reference to the feed so we can see if a cached object exists
             INewsFeed theFeed = null;
-            if (FeedsTable.ContainsKey(feedUrl))
-                theFeed = FeedsTable[feedUrl];
+            if (feedsTable.ContainsKey(feedUrl))
+                theFeed = feedsTable[feedUrl];
 
             if (theFeed == null) // not anymore in feedTable
                 return EmptyItemList;
@@ -4592,7 +4634,7 @@ namespace NewsComponents
 
             try
             {
-                if (FeedsTable.TryGetValue(feedUrl, out theFeed))
+                if (feedsTable.TryGetValue(feedUrl, out theFeed))
                 {
                     if ((theFeed.cacheurl != null) && (theFeed.cacheurl.Trim().Length > 0) &&
                         (this.CacheHandler.FeedExists(theFeed)))
@@ -4720,8 +4762,8 @@ namespace NewsComponents
 
                 //We need a reference to the feed so we can see if a cached object exists
                 INewsFeed theFeed = null;
-                if (FeedsTable.ContainsKey(feedUrl))
-                    theFeed = FeedsTable[feedUrl];
+                if (feedsTable.ContainsKey(feedUrl))
+                    theFeed = feedsTable[feedUrl];
 
                 if (theFeed == null)
                     return false;
@@ -4795,7 +4837,7 @@ namespace NewsComponents
         public Hashtable GetFailureContext(Uri feedUri)
         {
             INewsFeed f = null;
-            if (feedUri == null || !FeedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
+            if (feedUri == null || !feedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
                 return new Hashtable();
             return this.GetFailureContext(f);
         }
@@ -4810,8 +4852,8 @@ namespace NewsComponents
         {
             if (feedUri == null)
                 return new Hashtable();
-            if (FeedsTable.ContainsKey(feedUri))
-                return this.GetFailureContext(FeedsTable[feedUri]);
+            if (feedsTable.ContainsKey(feedUri))
+                return this.GetFailureContext(feedsTable[feedUri]);
             else
                 return new Hashtable();
         }
@@ -4908,10 +4950,10 @@ namespace NewsComponents
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
             string key = requestUri.CanonicalizedUri();
-            if (this.FeedsTable.ContainsKey(key))
+            if (feedsTable.ContainsKey(key))
             {
                 Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
-                INewsFeed f = FeedsTable[key];
+                INewsFeed f = feedsTable[key];
                 // now we set this within causedException prop.
                 //f.lastretrieved = DateTime.Now; 
                 //f.lastretrievedSpecified = true; 
@@ -4942,7 +4984,7 @@ namespace NewsComponents
                 //We need a reference to the feed so we can see if a cached object exists
                 INewsFeed theFeed = null;
 
-                if (!FeedsTable.TryGetValue(requestUri.CanonicalizedUri(), out theFeed))
+                if (!feedsTable.TryGetValue(requestUri.CanonicalizedUri(), out theFeed))
                 {
                     Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
                           requestUri.ToString());
@@ -4960,7 +5002,7 @@ namespace NewsComponents
                 {
                     // Uri changed/moved permanently
 
-                    FeedsTable.Remove(feedUrl);
+                    feedsTable.Remove(feedUrl);
                     theFeed.link = newUri.CanonicalizedUri();
                     this.feedsTable.Add(theFeed.link, theFeed);
 
@@ -5176,10 +5218,10 @@ namespace NewsComponents
             catch (Exception e)
             {
                 string key = requestUri.CanonicalizedUri();
-                if (this.FeedsTable.ContainsKey(key))
+                if (feedsTable.ContainsKey(key))
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
-                    INewsFeed f = FeedsTable[key];
+                    INewsFeed f = feedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
                     //f.lastretrievedSpecified = true; 
@@ -5330,11 +5372,11 @@ namespace NewsComponents
                     // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
                     string[] keys;
 
-                    lock (FeedsTable)
+                    lock (feedsTable)
                     {
-                        keys = new string[FeedsTable.Count];
-                        if (FeedsTable.Count > 0)
-                            FeedsTable.Keys.CopyTo(keys, 0);
+                        keys = new string[feedsTable.Count];
+                        if (feedsTable.Count > 0)
+                            feedsTable.Keys.CopyTo(keys, 0);
                     }
 
                     //get all feeds that should use the returned favicon
@@ -5357,7 +5399,7 @@ namespace NewsComponents
                             if ((uri != null) && uri.Authority.Equals(requestUri.Authority))
                             {
                                 feedUrls.Add(feedUrl);
-                                INewsFeed f = FeedsTable[feedUrl];
+                                INewsFeed f = feedsTable[feedUrl];
                                 f.favicon = favicon;
                             }
                         }
@@ -5756,10 +5798,10 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    if (!FeedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    INewsFeed current = FeedsTable[keys[i]];
+                    INewsFeed current = feedsTable[keys[i]];
 
                     try
                     {
@@ -5874,10 +5916,10 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    if (!FeedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    INewsFeed current = FeedsTable[keys[i]];
+                    INewsFeed current = feedsTable[keys[i]];
 
                     try
                     {

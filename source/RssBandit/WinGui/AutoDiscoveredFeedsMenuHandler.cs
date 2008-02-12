@@ -446,7 +446,7 @@ namespace RssBandit.WinGui
 						uri = new Uri(url);
 					}
                     string key = uri.CanonicalizedUri();
-					if (!this.app.FeedHandler.FeedsTable.ContainsKey(key)) {
+					if (!this.app.FeedHandler.IsSubscribed(key)) {
 						ret.Add(key);
 					}
 				} catch (UriFormatException) { /* ignore invalid urls */ }
