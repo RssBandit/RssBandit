@@ -222,9 +222,9 @@ namespace NewsComponents.Search
                 if (f == null){
                     foreach (NewsHandler h in newsHandlers)
                     {
-                        if (h.FeedsTable.ContainsKey(feedLink))
+                        if (h.IsSubscribed(feedLink))
                         {
-                            f = h.FeedsTable[feedLink];
+                            f = h.GetFeeds()[feedLink];
                             break;
                         }
                     }

@@ -113,25 +113,25 @@ namespace NewsComponents.Search
                 {			   
 
                 if (newsHandler.FeedsListOK &&
-                    0 < newsHandler.FeedsTable.Count)
+                    0 < newsHandler.GetFeeds().Count)
                 {
-                    int maxCount = newsHandler.FeedsTable.Count;
+                    int maxCount = newsHandler.GetFeeds().Count;
                     // we are working with a copy of the feed list to avoid 
                     // exceptions, if the original feedlist was modified while indexing:
                     string[] feedLinks = new string[maxCount];
-                    newsHandler.FeedsTable.Keys.CopyTo(feedLinks, 0);
+                    newsHandler.GetFeeds().Keys.CopyTo(feedLinks, 0);
                     for (int i = 0; i < maxCount; i++)
                     {
                         string feedlink = feedLinks[i];
 
-                        if (!newsHandler.FeedsTable.ContainsKey(feedlink))
+                        if (!newsHandler.IsSubscribed(feedlink))
                             continue;
 
                         feedCount++;
                         if (!restartInfo.Contains(feedlink))
                         {
                             // the ID gets generated on request:
-                            string feedID = newsHandler.FeedsTable[feedlink].id;
+                            string feedID = newsHandler.GetFeeds()[feedlink].id;
                             if (!this.RaiseIndexingProgress(feedCount, maxCount, feedlink, feedID))
                             {
                                 // if there was a feed refresh meanwhile, we must ensure to get
@@ -147,7 +147,7 @@ namespace NewsComponents.Search
                             // reset the feed ID, because it may not get saved 
                             // along with the subscription list on a initial indexing break:                           
                             INewsFeed f = null;
-                            if (newsHandler.FeedsTable.TryGetValue(feedlink, out f))
+                            if (newsHandler.GetFeeds().TryGetValue(feedlink, out f))
                             {
                                 f.id = restartInfo[feedlink] as string;
                             }
