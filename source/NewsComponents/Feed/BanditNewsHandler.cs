@@ -161,7 +161,7 @@ namespace NewsComponents.Feed
             {
                 foreach (NewsFeed f in myFeeds.feed)
                 {
-                    if (FeedsTable.ContainsKey(f.link) == false)
+                    if (feedsTable.ContainsKey(f.link) == false)
                     {
                         bool isBadUri = false;
                         try
@@ -190,7 +190,7 @@ namespace NewsComponents.Feed
                         else
                         {
                             // test again: we may have changed to Uri above:
-                            if (FeedsTable.ContainsKey(f.link) == false)
+                            if (feedsTable.ContainsKey(f.link) == false)
                             {
                                 f.owner = this;
                                 this.feedsTable.Add(f.link, f);

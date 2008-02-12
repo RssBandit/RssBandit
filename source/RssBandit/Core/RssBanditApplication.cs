@@ -393,7 +393,7 @@ namespace RssBandit
             backgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
             backgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += this.OnBackgroundDiscoveredFeedsSubscribe;
 
-            this.modifiedFeeds = new Queue(this.feedHandler.FeedsTable.Count + 11);
+            this.modifiedFeeds = new Queue(this.feedHandler.GetFeeds().Count + 11);
 
             // Create a timer that waits three minutes , then invokes every five minutes.
             autoSaveTimer = new Timer(this.OnAutoSave, this, 3*MilliSecsMultiplier, 5*MilliSecsMultiplier);
@@ -875,8 +875,8 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
-            if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
-                return this.feedHandler.FeedsTable[feedUrl];
+            if (this.feedHandler.IsSubscribed(feedUrl))
+                return this.feedHandler.GetFeeds()[feedUrl];
             return null;
         }
 
@@ -889,7 +889,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
-            if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
+            if (this.feedHandler.IsSubscribed(feedUrl))
                 return this.feedHandler.GetFeedInfo(feedUrl);
             return null;
         }
@@ -1063,7 +1063,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             if (feedHandler.ColumnLayouts.Count == 0)
             {
                 ListViewLayout oldLayout;
-                foreach (NewsFeed f in feedHandler.FeedsTable.Values)
+                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
                 {
                     if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -2887,14 +2887,14 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     commentFeedsHandler.LoadFeedlist();
 
-                    foreach (INewsFeed f in commentFeedsHandler.FeedsTable.Values)
+                    foreach (INewsFeed f in commentFeedsHandler.GetFeeds().Values)
                     {
                         if ((f.Any != null) && (f.Any.Length > 0))
                         {
                             XmlElement origin = f.Any[0];
                             string sourceFeedUrl = origin.InnerText;
                             INewsFeed sourceFeed = null;  
-                            if (feedHandler.FeedsTable.TryGetValue(sourceFeedUrl, out sourceFeed))
+                            if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
                             {
                                 f.Tag = sourceFeed;
                             }
@@ -3056,7 +3056,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         public void DisableFeed(string feedUrl)
         {
             INewsFeed f = null;
-            if (feedUrl != null && this.FeedHandler.FeedsTable.TryGetValue(feedUrl, out f))
+            if (feedUrl != null && this.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
             {                
                 this.DisableFeed(f,TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), feedUrl));
             }
@@ -3132,7 +3132,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     {
                         string feedUrl = elem.InnerText;
 
-                        if (this.feedHandler.FeedsTable.ContainsKey(feedUrl))
+                        if (this.feedHandler.IsSubscribed(feedUrl))
                         {
                             //check if feed exists 
 
@@ -3210,7 +3210,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 }
             }
 
-            if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
+            if (feedUrl != null && this.feedHandler.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
 
@@ -3273,7 +3273,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
 
             //find this item in main feed list and set watched state
-            if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
+            if (feedUrl != null && this.feedHandler.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
 
@@ -3443,7 +3443,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 }
 
                 if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
-                    this.commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
+                    this.commentFeedsHandler.IsSubscribed(theItem.CommentRssUrl))
                 {
                     this.commentFeedsHandler.DeleteFeed(theItem.CommentRssUrl);
                     this.commentFeedlistModified = true;
@@ -3473,7 +3473,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 }
 
                 if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
-                    !commentFeedsHandler.FeedsTable.ContainsKey(theItem.CommentRssUrl))
+                    !commentFeedsHandler.IsSubscribed(theItem.CommentRssUrl))
                 {
                     INewsFeed f = new NewsFeed();
 
@@ -3703,7 +3703,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 feedsNode = (TreeFeedsNodeBase) guiMain.FlaggedFeedsNode(item.FlagStatus);
                 foundAndRestored = true;
             }
-            else if (this.FeedHandler.FeedsTable.ContainsKey(containerFeedUrl))
+            else if (this.FeedHandler.IsSubscribed(containerFeedUrl))
             {
                 this.FeedHandler.RestoreDeletedItem(item);
                 feedsNode = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), containerFeedUrl);
@@ -3830,7 +3830,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 if (goneex != null)
                 {
                     INewsFeed f = null;
-                    if (this.feedHandler.FeedsTable.TryGetValue(resourceUri,out f))
+                    if (this.feedHandler.GetFeeds().TryGetValue(resourceUri,out f))
                         this.DisableFeed(f.link);
                 }
                 else if (updateNodeIcon && resourceUri != null)
@@ -3882,7 +3882,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                 }
 
-                if (feedUrl != null && this.feedHandler.FeedsTable.ContainsKey(feedUrl))
+                if (feedUrl != null && this.feedHandler.IsSubscribed(feedUrl))
                 {
                     //check if feed exists 
 
@@ -4115,7 +4115,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 			 * */
             try
             {
-                if (this.feedlistModified && this.feedHandler != null && this.feedHandler.FeedsTable != null &&
+                if (this.feedlistModified && this.feedHandler != null && this.feedHandler.GetFeeds() != null &&
                     this.feedHandler.FeedsListOK)
                 {
                     using (MemoryStream stream = new MemoryStream())
@@ -4148,7 +4148,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     this.watchedItemsFeed.Save();
 
                 if (this.commentFeedlistModified && this.commentFeedsHandler != null &&
-                    this.commentFeedsHandler.FeedsTable != null &&
+                    this.commentFeedsHandler.GetFeeds() != null &&
                     this.commentFeedsHandler.FeedsListOK)
                 {
                     using (MemoryStream stream = new MemoryStream())
@@ -5360,9 +5360,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             INewsFeed f = new NewsFeed();
 
             f.link = wiz.FeedUrls(index);
-            if (feedHandler.FeedsTable.ContainsKey(f.link))
+            if (feedHandler.IsSubscribed(f.link))
             {
-                INewsFeed f2 = feedHandler.FeedsTable[f.link];
+                INewsFeed f2 = feedHandler.GetFeeds()[f.link];
                 this.MessageInfo(SR.GUIFieldLinkRedundantInfo(
                                      (f2.category == null ? String.Empty : f2.category + NewsHandler.CategorySeparator) +
                                      f2.title, f2.link));
@@ -5462,13 +5462,13 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
         public bool ContainsFeed(string address)
         {
-            return this.feedHandler.FeedsTable.ContainsKey(address);
+            return this.feedHandler.IsSubscribed(address);
         }
 
         public bool TryGetFeedDetails(string url, out string category, out string title, out string link)
         {
             INewsFeed f;
-            if (feedHandler.FeedsTable.TryGetValue(url, out f))
+            if (feedHandler.GetFeeds().TryGetValue(url, out f))
             {
                 category = f.category ?? string.Empty;
                 title = f.title;

@@ -319,7 +319,7 @@ namespace RssBandit.WinGui
                                 INewsFeed feed = myFeeds.feed[i];
 
                                 if (!feed.link.Equals(InvalidFeedUrl) &&
-                                    rssBanditApp.FeedHandler.FeedsTable.ContainsKey(feed.link))
+                                    rssBanditApp.FeedHandler.IsSubscribed(feed.link))
                                 {
                                     NgosDownloadFeedState state = new NgosDownloadFeedState();
                                     state.feed = feed;
@@ -367,13 +367,13 @@ namespace RssBandit.WinGui
                             ArrayList addedFeeds = new ArrayList();
 
                             //check if a feed added locally that isn't in Newsgator Online
-                            if ((myFeeds.feed.Count != rssBanditApp.FeedHandler.FeedsTable.Count) || feedListChanged)
+                            if ((myFeeds.feed.Count != rssBanditApp.FeedHandler.GetFeeds().Count) || feedListChanged)
                             {
                                 feedListChanged = true;
 
                                 NewsFeed[] currentFeeds =
-                                    new NewsFeed[rssBanditApp.FeedHandler.FeedsTable.Values.Count];
-                                rssBanditApp.FeedHandler.FeedsTable.Values.CopyTo(currentFeeds, 0);
+                                    new NewsFeed[rssBanditApp.FeedHandler.GetFeeds().Values.Count];
+                                rssBanditApp.FeedHandler.GetFeeds().Values.CopyTo(currentFeeds, 0);
 
                                 foreach (NewsFeed f in currentFeeds)
                                 {
@@ -1059,7 +1059,7 @@ namespace RssBandit.WinGui
             {
                 NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
 
-                INewsFeed feedInBandit = rssBanditApp.FeedHandler.FeedsTable[state.feed.link];
+                INewsFeed feedInBandit = rssBanditApp.FeedHandler.GetFeeds()[state.feed.link];
                 List<string> readItems = new List<string>();
                 // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
                // readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed);

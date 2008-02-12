@@ -268,9 +268,9 @@ namespace NewsComponents.Feed {
         /// for details</exception>
         public override void DeleteFeed(string feedUrl)
         {
-            if (this.FeedsTable.ContainsKey(feedUrl))
+            if (feedsTable.ContainsKey(feedUrl))
             {
-                WindowsRssNewsFeed f = this.FeedsTable[feedUrl] as WindowsRssNewsFeed;
+                WindowsRssNewsFeed f = feedsTable[feedUrl] as WindowsRssNewsFeed;
                 this.feedsTable.Remove(f.link);                
                 IFeed feed = feedManager.GetFeedByUrl(feedUrl) as IFeed;
                 
