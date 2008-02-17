@@ -109,9 +109,6 @@ namespace NewsComponents
 		/// are instances of XmlQualifiedName while the values are instances 
 		/// of XmlNode. 
 		/// </summary>
-		/// <remarks>Setting this field may have the side effect of setting certain read-only 
-		/// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
-		/// elements are contained in the table.</remarks>
 		Hashtable OptionalElements { get; set; }
 
 	}
