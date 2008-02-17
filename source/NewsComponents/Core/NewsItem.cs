@@ -953,9 +953,6 @@ namespace NewsComponents
         /// are instances of XmlQualifiedName while the values are instances 
         /// of XmlNode. 
         /// </summary>
-        /// <remarks>Setting this field may have the side effect of setting certain read-only 
-        /// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
-        /// elements are contained in the table.</remarks>
         public Hashtable OptionalElements
         {
             get
@@ -1469,8 +1466,7 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Compares to see if two NewsItems are identical. Identity just checks to see if they have 
-        /// the same link, if both have no link then checks to see if they have the same description
+        /// Compares to see if two NewsItems are identical. 
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>

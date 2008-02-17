@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 
 using System.Runtime.InteropServices;
 using Microsoft.Feeds.Interop;
@@ -404,12 +405,337 @@ namespace NewsComponents.Feed {
 
     }
 
-    #region WindowsRssNewsFeed 
+    #region WindowsRssNewsItem 
+
+
+    /// <summary>
+    /// Represents a NewsItem obtained from the Windows RSS platform
+    /// </summary>
+    public class WindowsRssNewsItem : INewsItem, IDisposable
+    {
+
+        #region constructors 
+
+        /// <summary>
+        /// We always want an associated IFeedItem instance
+        /// </summary>
+        private WindowsRssNewsItem() { ;}
+
+          /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="item">The IFeedItem instance that this object will wrap</param>
+        public WindowsRssNewsItem(IFeedItem item, WindowsRssNewsFeed owner)
+        {
+            if (item == null) throw new ArgumentNullException("item"); 
+            this.myitem = item;
+            this.myfeed = owner;
+        }
+
+
+        #endregion 
+
+        #region private fields
+
+        /// <summary>
+        /// Indicates that the object has been disposed
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
+        /// The actual IFeedItem instance that this object is wrapping
+        /// </summary>
+        private IFeedItem myitem = null;
+
+        /// <summary>
+        /// The INewsFeed instance which this item belongs to
+        /// </summary>
+        private WindowsRssNewsFeed myfeed = null;
+
+        #endregion 
+
+          #region destructor and IDisposable implementation 
+
+        /// <summary>
+        /// Releases the associated COM objects
+        /// </summary>
+        /// <seealso cref="myitem"/>
+        ~WindowsRssNewsItem() {
+            Dispose(false);           
+        }
+
+        /// <summary>
+        /// Disposes of the class
+        /// </summary>
+        public void Dispose()
+        {
+
+            if (!disposed)
+            {
+                Dispose(true);
+            }
+
+        }
+
+        /// <summary>
+        /// Disposes of the class
+        /// </summary>
+        /// <param name="disposing"></param>
+        public void Dispose(bool disposing)
+        {
+            lock (this)
+            {                
+                if (myitem != null)
+                {
+                    Marshal.ReleaseComObject(myitem);
+                }
+                System.GC.SuppressFinalize(this);
+                disposed = true; 
+            }
+        }
+
+        #endregion
+
+
+        #region INewsItem implementation 
+
+        /// <summary>
+        /// Gets the feed link (source the feed is requested from) the item belongs to.
+        /// </summary>
+        public string FeedLink
+        {
+            get { return (myitem.Parent as IFeed).DownloadUrl; }
+        }
+
+        /// <summary>
+        /// The link to the item.
+        /// </summary>
+        public string Link
+        {
+            get { return myitem.Link; }
+        }
+
+        /// <summary>
+        /// The date the article or blog entry was made. 
+        /// </summary>
+        /// <remarks>This field is read only </remarks>
+        public DateTime Date
+        {
+            get { return myitem.PubDate; }
+            set { /* can't set IFeedItem.PubDate */ }
+        }
+
+        /// <summary>
+        /// The unique identifier.
+        /// </summary>
+        public string Id
+        {
+            get { return myitem.LocalId.ToString(); }
+        }
+
+        /// <summary>
+        /// The unique identifier of the parent.
+        /// </summary>
+        public string ParentId
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// The content of the article or blog entry. 
+        /// </summary>
+        public string Content
+        {
+            get { return myitem.Description; }
+        }
+
+        /// <summary>
+        /// Returns true, if Content contains something; else false.
+        /// </summary>
+        /// <remarks>Should be used instead of testing 
+        /// (Content != null &amp;&amp; Content.Length > 0) and is equivalent to 
+        /// .ContentType == ContentType.None
+        /// </remarks>
+        public bool HasContent
+        { 
+            get { return true; } 
+        }
+
+        /// <summary>
+        /// Set new content of the article or blog entry.
+        /// </summary>
+        /// <remarks>WARNING: This method does nothing.</remarks>
+        /// <param name="newContent">string</param>
+        /// <param name="contentType">ContentType</param>
+        public void SetContent(string newContent, ContentType contentType)
+        {
+            /* Can't set IFeedItem.Description */ 
+        }
+
+        /// <summary>
+        /// Indicates whether the description on this feed is text, HTML or XHTML. 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public ContentType ContentType
+        {
+            get { return ContentType.Html; }
+            set { } 
+        }
+
+        /// <summary>
+        /// Indicates whether the story has been read or not. 
+        /// </summary>
+        public bool BeenRead
+        {
+            get { return myitem.IsRead; }
+            set { myitem.IsRead = value;}
+        }
+
+        /// <summary>
+        /// Returns an object implementing the FeedDetails interface to which this item belongs
+        /// </summary>
+        public IFeedDetails FeedDetails {
+            get { return this.myfeed; }
+            set
+            {
+                if (value is WindowsRssNewsFeed)
+                    this.myfeed = value as WindowsRssNewsFeed;
+            }
+        }
+
+        /// <summary>
+        /// The author of the article or blog entry 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public string Author {
+            get { return this.myitem.Author; }
+            set { /* Can't set IFeedItem.Author */ }
+        }
+
+        /// <summary>
+        /// The title of the article or blog entry. 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+       public string Title { 
+            get { return myitem.Title; }
+            set { /* Can't set IFeedItem.Title */ } 
+       }
+
+        /// <summary>
+        /// The subject of the article or blog entry. 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public string Subject {
+            get { return null; }
+            set { /* not supported */ }
+        }
+
+        /// <summary>
+        /// Returns the amount of comments attached.
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public int CommentCount
+        {
+            get { return 0; }
+            set { /* */ }
+        }
+
+        /// <summary>the URL to post comments to</summary>
+        public string CommentUrl
+        {
+            get{ return null;}
+        }
+
+        /// <summary>the URL to get an RSS feed of comments from</summary>
+        public string CommentRssUrl {
+            get { return null; }
+        }
+
+        private Hashtable _optionalElements = null; 
+        /// <summary>
+        /// Container for all the optional RSS elements for an item. Also 
+        /// holds information from RSS modules. The keys in the hashtable 
+        /// are instances of XmlQualifiedName while the values are instances 
+        /// of XmlNode. 
+        /// </summary>
+        /// <remarks>Setting this field may have the side effect of setting certain read-only 
+        /// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
+        /// elements are contained in the table.</remarks>
+        public Hashtable OptionalElements {
+            get { return _optionalElements; }
+            set { _optionalElements = null; }
+        }
+
+        #endregion 
+
+        #region ICloneable implementation 
+
+        /// <summary>
+        /// Returns a copy of this object
+        /// </summary>
+        /// <returns>A copy of this object</returns>
+        public object Clone()
+        {
+            return new WindowsRssNewsItem(this.myitem, this.myfeed); 
+        }
+
+        #endregion 
+
+        #region IEquatable implementation 
+
+        /// <summary>
+        /// Compares to see if two NewsItems are identical. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as INewsItem);
+        }
+
+        public bool Equals(INewsItem other)
+        {
+            return Equals(other as WindowsRssNewsItem);
+        }
+
+        /// <summary>
+        /// Tests if this item is the same as another. The item to test. 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Equals(WindowsRssNewsItem item) {
+            if (item == null)
+                return false;
+
+            return item.myfeed.id.Equals(this.myfeed.id) && item.Id.Equals(this.Id); 
+        }
+
+        #endregion 
+
+        #region IXPathNavigable implementation 
+
+        /// <summary>
+        /// Creates an XPathNavigator over this object
+        /// </summary>
+        /// <returns></returns>
+        public XPathNavigator CreateNavigator()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(this.myitem.Xml(FEEDS_XML_INCLUDE_FLAGS.FXIF_NONE));
+            return doc.CreateNavigator(); 
+        }
+
+        #endregion 
+    }
+
+    #endregion 
+
+    #region WindowsRssNewsFeed
 
     /// <summary>
     /// Represents a NewsFeed obtained from the Windows RSS platform
     /// </summary>
-    class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
+    public class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
     {
 
         #region constructors 
