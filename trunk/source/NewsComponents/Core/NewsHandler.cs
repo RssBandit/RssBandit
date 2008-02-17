@@ -5777,7 +5777,7 @@ namespace NewsComponents
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public void RefreshFeeds(bool force_download)
+        public virtual RefreshFeeds(bool force_download)
         {
             if (this.FeedsListOK == false)
             {
