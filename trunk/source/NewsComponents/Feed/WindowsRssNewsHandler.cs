@@ -9,6 +9,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -408,7 +409,7 @@ namespace NewsComponents.Feed {
     /// <summary>
     /// Represents a NewsFeed obtained from the Windows RSS platform
     /// </summary>
-    class WindowsRssNewsFeed : INewsFeed, IDisposable
+    class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
     {
 
         #region constructors 
@@ -1023,7 +1024,54 @@ namespace NewsComponents.Feed {
 
         #endregion 
 
-        #region INotifyPropertyChanged implementation 
+        #region IFeedDetails implementation 
+
+        /// <summary>Gets the Feed Language</summary>
+        public string Language { 
+            get { return this.myfeed.Language; }
+        }
+
+        /// <summary>Gets the Feed Title</summary>
+        public string Title {
+            get { return this.myfeed.Title; }
+        }
+
+        /// <summary>Gets the Feed Homepage Link</summary>
+        public string Link {
+            get { return this.myfeed.Link; }
+        }
+
+        /// <summary>Gets the Feed Description</summary>
+        public string Description {
+            get { return this.myfeed.Description; }
+        }
+
+
+        private Hashtable _optionalElements = new Hashtable(); 
+        /// <summary>Gets the optional elements found at Feed level</summary>	  
+        public IDictionary OptionalElements {
+            get { return this._optionalElements; } 
+        }
+
+        /// <summary>
+        /// Gets the type of the FeedDetails info
+        /// </summary>
+        public FeedType Type {
+            get { return FeedType.Rss; }
+        }
+
+        /// <summary>
+        /// Returns a copy of this object
+        /// </summary>
+        /// <returns>A copy of this object</returns>
+        public object Clone()
+        {
+            return new WindowsRssNewsFeed(myfeed); 
+        }
+
+        #endregion 
+
+        #region INotifyPropertyChanged implementation
 
         /// <summary>
         ///  Occurs when a property value changes.
