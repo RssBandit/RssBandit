@@ -377,11 +377,28 @@ namespace NewsComponents.Feed {
             }
 
             IFeedFolder root = feedManager.RootFolder as IFeedFolder;
-            LoadFolder(root, bootstrapFeeds, bootstrapCategories);                        
+            LoadFolder(root, bootstrapFeeds, bootstrapCategories);
+                         
+            feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
         }
 
 
-  
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(bool force_download)
+        {
+            if (force_download)
+            {
+                this.feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_RUNNOW);
+            }
+        }
+
         #endregion
 
     }
