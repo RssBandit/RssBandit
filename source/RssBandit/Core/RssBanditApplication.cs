@@ -3081,7 +3081,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// </summary>
         /// <param name="folder"></param>
         /// <param name="item"></param>
-        public void RemoveItemFromSmartFolder(ISmartFolder folder, NewsItem item)
+        public void RemoveItemFromSmartFolder(ISmartFolder folder, INewsItem item)
         {
             if (folder == null || item == null)
                 return;
@@ -3136,7 +3136,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                         {
                             //check if feed exists 
 
-                            IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
+                            IList<INewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
 
                             //find this item 
                             int itemIndex = itemsForFeed.IndexOf(ri);
@@ -3146,7 +3146,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                             {
                                 //check if item still exists 
 
-                                NewsItem item = itemsForFeed[itemIndex];
+                                INewsItem item = itemsForFeed[itemIndex];
                                 item.FlagStatus = Flagged.None;
                                 item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfFlaggedItem);
                                 break;
@@ -3168,7 +3168,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// find the corresponding feed containing the item and re-flag them.
         /// </summary>
         /// <param name="theItem">NewsItem to re-flag</param>
-        public void ReFlagNewsItem(NewsItem theItem)
+        public void ReFlagNewsItem(INewsItem theItem)
         {
             if (theItem == null)
                 return;
@@ -3214,7 +3214,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 //check if feed exists 
 
-                IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -3223,7 +3223,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     //check if item still exists 
 
-                    NewsItem item = itemsForFeed[itemIndex];
+                    INewsItem item = itemsForFeed[itemIndex];
                     item.FlagStatus = theItem.FlagStatus;
 
                     this.FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag);
@@ -3239,7 +3239,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// find the corresponding feed containing the item and unwatches them.
         /// </summary>
         /// <param name="theItem">NewsItem to re-flag</param>
-        public void ReWatchNewsItem(NewsItem theItem)
+        public void ReWatchNewsItem(INewsItem theItem)
         {
             if (theItem == null)
                 return;
@@ -3267,7 +3267,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 //check if item exists 
 
-                NewsItem item = this.watchedItemsFeed.Items[index];
+                INewsItem item = this.watchedItemsFeed.Items[index];
                 item.WatchComments = theItem.WatchComments;
             }
 
@@ -3277,7 +3277,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 //check if feed exists 
 
-                IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -3286,7 +3286,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     //check if item still exists 
 
-                    NewsItem item = itemsForFeed[itemIndex];
+                    INewsItem item = itemsForFeed[itemIndex];
                     item.WatchComments = theItem.WatchComments;
 
                     this.FeedWasModified(feedUrl, NewsFeedProperty.FeedItemWatchComments);
@@ -3318,7 +3318,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 if (!this.flaggedItemsFeed.Items.Contains(theItem))
                 {
                     // now create a full copy (including item content)
-                    NewsItem flagItem = this.feedHandler.CopyNewsItemTo(theItem, flaggedItemsFeed);
+                    INewsItem flagItem = this.feedHandler.CopyNewsItemTo(theItem, flaggedItemsFeed);
 
                     //take over flag status
                     flagItem.FlagStatus = theItem.FlagStatus;
@@ -3347,7 +3347,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     if (itemIndex != -1)
                     {
                         //check if item still exists 
-                        NewsItem flagItem = this.flaggedItemsFeed.Items[itemIndex];
+                        INewsItem flagItem = this.flaggedItemsFeed.Items[itemIndex];
                         flagItem.FlagStatus = theItem.FlagStatus;
                     }
                 }
@@ -3393,12 +3393,12 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// Updates the state of the WatchedItems based on the state of the items passed in
         /// </summary>
         /// <param name="items"></param>
-        public void UpdateWatchedItems(IList<NewsItem> items)
+        public void UpdateWatchedItems(IList<INewsItem> items)
         {
             if ((items == null) || (items.Count == 0))
                 return;
 
-            foreach (NewsItem ni in items)
+            foreach (INewsItem ni in items)
             {
                 if (this.watchedItemsFeed.Items.Contains(ni))
                 {
@@ -3410,7 +3410,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                         AdditionalFeedElements.OriginalFeedOfWatchedItem.Namespace,
                         ni.Feed.link);
 
-                    NewsItem watchedItem = this.feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
+                    INewsItem watchedItem = this.feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
 
                     if (null ==
                         RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
@@ -3459,7 +3459,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
                 if (!this.watchedItemsFeed.Items.Contains(theItem))
                 {
-                    NewsItem watchedItem = this.feedHandler.CopyNewsItemTo(theItem, watchedItemsFeed);
+                    INewsItem watchedItem = this.feedHandler.CopyNewsItemTo(theItem, watchedItemsFeed);
 
                     if (null ==
                         RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
@@ -3886,7 +3886,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     //check if feed exists 
 
-                    IList<NewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
+                    IList<INewsItem> itemsForFeed = this.feedHandler.GetItemsForFeed(feedUrl, false);
 
                     //find this item 
                     int itemIndex = itemsForFeed.IndexOf(ri);
@@ -3896,7 +3896,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     {
                         //check if item still exists 
 
-                        NewsItem item = itemsForFeed[itemIndex];
+                        INewsItem item = itemsForFeed[itemIndex];
                         if (item.FlagStatus != ri.FlagStatus)
                         {
 // correction: older Bandit versions are not able to store flagStatus
@@ -4472,7 +4472,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// <param name="item">The NewsItem</param>
         /// <param name="toHighlight">To highlight.</param>
         /// <returns>The NewsItem formatted as a HTML string</returns>
-        public string FormatNewsItem(string stylesheet, NewsItem item, SearchCriteriaCollection toHighlight)
+        public string FormatNewsItem(string stylesheet, INewsItem item, SearchCriteriaCollection toHighlight)
         {
             if (!this.NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
             {
@@ -4952,7 +4952,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 item2post.FeedDetails = this.feedHandler.GetFeedInfo(f.link);
                 if (item2post.FeedDetails == null)
                     item2post.FeedDetails =
-                        new FeedInfo(f.id, f.cacheurl, new List<NewsItem>(0), f.title, f.link, f.title);
+                        new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(0), f.title, f.link, f.title);
                 item2post.Author = (email == null) || (email.Trim().Length == 0) ? name : email + " (" + name + ")";
 
                 /* redundancy here, because Joe Gregorio changed spec now must support both <author> and <dc:creator> */

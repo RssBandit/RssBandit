@@ -197,7 +197,7 @@ namespace RssBandit.WinGui.Controls
 		public WatchedItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
 			base(itemStore, imageIndex, selectedImageIndex, menu) {	}
 
-		public override void Remove(NewsItem item) {
+		public override void Remove(INewsItem item) {
 			base.Remove (item);
 			this.UpdateCommentStatus(this, -1); 
 		}
@@ -216,7 +216,7 @@ namespace RssBandit.WinGui.Controls
 		}
 
 		#region Overrides of ISmartFolder to delegate item handling to ExceptionManager instance
-		public override void MarkItemRead(NewsItem item) {
+		public override void MarkItemRead(INewsItem item) {
 			if (item == null) return;
 			foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
 				if (item.Equals(ri)) {
@@ -227,7 +227,7 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override void MarkItemUnread(NewsItem item) {
+		public override void MarkItemUnread(INewsItem item) {
 			if (item == null) return;
 			foreach (NewsItem ri in ExceptionManager.GetInstance().Items) {
 				if (item.Equals(ri)) {
@@ -256,14 +256,14 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override List<NewsItem> Items {
-			get {	return ExceptionManager.GetInstance().Items as List<NewsItem>;	}
+		public override List<INewsItem> Items {
+			get {	return ExceptionManager.GetInstance().Items as List<INewsItem>;	}
 		}
 
-		public override void Add(NewsItem item) {	// not the preferred way to add exceptions, but impl. the interface
+		public override void Add(INewsItem item) {	// not the preferred way to add exceptions, but impl. the interface
 			ExceptionManager.GetInstance().Add(item);
 		}
-		public override void Remove(NewsItem item) {
+		public override void Remove(INewsItem item) {
 			ExceptionManager.GetInstance().Remove(item);
 		}
 
@@ -295,7 +295,7 @@ namespace RssBandit.WinGui.Controls
 		}
 
 		#region Some Overrides of ISmartFolder to filter items by flags
-		public override void MarkItemRead(NewsItem item) {
+		public override void MarkItemRead(INewsItem item) {
 			if (item == null) return;
 			foreach (NewsItem ri in base.itemsFeed.Items) {
 				if (item.Equals(ri) && ri.FlagStatus == flagsFiltered) {
@@ -306,7 +306,7 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override void MarkItemUnread(NewsItem item) {
+		public override void MarkItemUnread(INewsItem item) {
 			if (item == null) return;
 			foreach (NewsItem ri in base.itemsFeed.Items) {
 				if (item.Equals(ri) && ri.FlagStatus == flagsFiltered) {
@@ -335,10 +335,10 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override List<NewsItem> Items {
+		public override List<INewsItem> Items {
 			get {	
-				List<NewsItem> a = new List<NewsItem>(base.itemsFeed.Items.Count);
-				foreach (NewsItem ri in base.itemsFeed.Items) {
+				List<INewsItem> a = new List<INewsItem>(base.itemsFeed.Items.Count);
+				foreach (INewsItem ri in base.itemsFeed.Items) {
 					if (ri.FlagStatus == flagsFiltered)
 						a.Add(ri);	
 				}
@@ -389,7 +389,7 @@ namespace RssBandit.WinGui.Controls
 		public UnreadItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
 			base(itemStore, imageIndex, selectedImageIndex, menu) {	}
 		
-		public override void MarkItemRead(NewsItem item) {
+		public override void MarkItemRead(INewsItem item) {
 			if (item == null) return;
 			int idx = itemsFeed.Items.IndexOf(item);
 			if (idx >= 0) {
@@ -398,7 +398,7 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public override void MarkItemUnread(NewsItem item) {
+		public override void MarkItemUnread(INewsItem item) {
 			if (item == null) return;
 			int idx = itemsFeed.Items.IndexOf(item);
 			if (idx < 0) {
@@ -539,7 +539,7 @@ namespace RssBandit.WinGui.Controls
 		private ContextMenu _popup = null;						// context menu
 		private LocalFeedsFeed itemsFeed;
         //use a dictionary because we want fast access to objects
-        private List<NewsItem> items = new List<NewsItem>();
+        private List<INewsItem> items = new List<INewsItem>();
 		private RssFinder finder = null;
 
 		public FinderNode():base() {}
@@ -594,7 +594,7 @@ namespace RssBandit.WinGui.Controls
 
 		public bool ContainsNewMessages {
 			get {
-				foreach (NewsItem ri in items) {
+				foreach (INewsItem ri in items) {
 					if (!ri.BeenRead) return true;
 				}
 				return false;
@@ -604,7 +604,7 @@ namespace RssBandit.WinGui.Controls
 		public int NewMessagesCount {
 			get {
 				int i = 0;
-				foreach (NewsItem ri in items) {
+				foreach (INewsItem ri in items) {
 					if (!ri.BeenRead) i++;
 				}
 				return i;
@@ -613,7 +613,7 @@ namespace RssBandit.WinGui.Controls
 
 		public virtual bool HasNewComments {
 			get {
-				foreach (NewsItem ri in items) {
+				foreach (INewsItem ri in items) {
 					if (ri.HasNewComments) return true;
 				}
 				return false;
@@ -624,18 +624,18 @@ namespace RssBandit.WinGui.Controls
 		public virtual int NewCommentsCount {
 			get {
 				int count = 0;
-				foreach (NewsItem ri in items) {
+				foreach (INewsItem ri in items) {
 					if (ri.HasNewComments) count++;
 				}
 				return count;
 			}
 		}
 
-		public void MarkItemRead(NewsItem item) {
+		public void MarkItemRead(INewsItem item) {
 			if (item == null) return;
             int index = items.IndexOf(item);
 			if (index!= -1){
-				NewsItem ri = items[index];
+				INewsItem ri = items[index];
 				if (!ri.BeenRead) {
 					ri.BeenRead = true;
 					base.UpdateReadStatus(this, -1);
@@ -643,11 +643,11 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public void MarkItemUnread(NewsItem item) {
+		public void MarkItemUnread(INewsItem item) {
 			if (item == null) return;
             int index = items.IndexOf(item);
 			if (index!= -1){
-				NewsItem ri = items[index];
+				INewsItem ri = items[index];
 				if (ri.BeenRead) {
 					ri.BeenRead = false;
 					base.UpdateReadStatus(this, 1);
@@ -655,18 +655,18 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
-		public List<NewsItem> Items {
+		public List<INewsItem> Items {
 			get {	
 				return items;	
 			}
 		}
 
-		public void Add(NewsItem item) {	
+		public void Add(INewsItem item) {	
 			if (item == null) return;
             if (!items.Contains(item))
 				items.Add(item);
 		}
-		public void AddRange(IList<NewsItem> newItems)
+		public void AddRange(IList<INewsItem> newItems)
 		{	
 			if (newItems == null) return;
 			for (int i=0; i < newItems.Count; i++) {
@@ -675,7 +675,7 @@ namespace RssBandit.WinGui.Controls
 					items.Add(item);
 			}
 		}
-		public void Remove(NewsItem item) {
+		public void Remove(INewsItem item) {
 			if (item == null) return;
 			if (items.Contains(item))
 				items.Remove(item);

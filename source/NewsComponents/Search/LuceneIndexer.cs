@@ -178,17 +178,20 @@ namespace NewsComponents.Search
 			}
 		}
 
-		internal int IndexNewsItems(IList<NewsItem> newsItems) {
+		internal int IndexNewsItems(IList<INewsItem> newsItems) {
 			
 			if (newsItems != null) 
 			{
 				for (int i=0; i < newsItems.Count; i++) {
-					NewsItem item = newsItems[i] as NewsItem;
+					INewsItem item = newsItems[i] as INewsItem;
 					if (item != null) {
 						try {
 							// we do not always have the content loaded:
-							if (item.ContentType == ContentType.None && item.Feed != null && item.Feed.owner != null)
-								item.Feed.owner.GetCachedContentForItem(item);
+                            if (item.ContentType == ContentType.None && item.Feed != null && item.Feed.owner != null)
+                            {
+                                NewsHandler handler = item.Feed.owner as NewsHandler;
+                                handler.GetCachedContentForItem(item);
+                            }
 							indexModifier.Add(LuceneNewsItemSearch.Document(item), item.Language);
 						} catch (Exception ex) {
 							Log.Error("IndexNewsItems() error", ex);

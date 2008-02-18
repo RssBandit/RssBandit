@@ -152,7 +152,7 @@ namespace NewsComponents.News{
 		public static FeedInfo GetItemsForNewsGroup(INewsFeed f, Stream newsgroupListStream, bool cachedStream) {
 			
 			int readItems = 0;
-            List<NewsItem> items = new List<NewsItem>(); 
+            List<INewsItem> items = new List<INewsItem>(); 
 			NewsItem item; 
 			string currentLine, title, author, parentId, headerName, headerValue, id; 
 			StringBuilder content = new StringBuilder(); 
@@ -230,7 +230,7 @@ namespace NewsComponents.News{
 						item = new NewsItem(f, title, CreateGoogleUrlFromID(id), content.ToString(), author, pubDate, id,  parentId); 					
 						item.FeedDetails = fi;
 						item.CommentStyle = SupportedCommentStyle.NNTP;
-                        item.Enclosures = NewsComponents.Collections.GetList<Enclosure>.Empty; 
+                        item.Enclosures = NewsComponents.Collections.GetList<IEnclosure>.Empty; 
 						items.Add(item); 
 						NewsHandler.ReceivingNewsChannelServices.ProcessItem(item);
 					} else {

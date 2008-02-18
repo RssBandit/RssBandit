@@ -85,7 +85,7 @@ namespace RssBandit.WinGui
 		/// feed, and just only one new was received, that the window display only a link
 		/// to that one newest item by specify 1 (one) as the parameter.
 		/// </remarks>
-        public void Alert(string feedName, int dispItemCount, IList<NewsItem> items) {
+        public void Alert(string feedName, int dispItemCount, IList<INewsItem> items) {
             this.Alert(feedName, dispItemCount, (IList)items); 
         }
 

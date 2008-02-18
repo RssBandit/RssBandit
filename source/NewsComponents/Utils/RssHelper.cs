@@ -121,7 +121,7 @@ namespace NewsComponents.Utils
 		/// <param name="item"></param>
 		/// <param name="elementName"></param>
 		/// <returns></returns>
-		static public string GetDcElementValue(NewsItem item, string elementName) {
+		static public string GetDcElementValue(INewsItem item, string elementName) {
 			return GetOptionalElementValue(item, elementName, NsDcElements);
 		}
 
@@ -130,7 +130,7 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		static public string GetHashCode(NewsItem item) {
+		static public string GetHashCode(INewsItem item) {
 			if (item == null) return null;
 			System.Text.StringBuilder newHash = new System.Text.StringBuilder();
 			
@@ -149,7 +149,7 @@ namespace NewsComponents.Utils
 			return newHash.ToString();
 		}
 
-		static private string GetOptionalElementValue(NewsItem item, string elementName, string elementNamespace) {
+		static private string GetOptionalElementValue(INewsItem item, string elementName, string elementNamespace) {
 			if (item.OptionalElements == null || item.OptionalElements.Count == 0)
 				return null;
 
@@ -169,7 +169,7 @@ namespace NewsComponents.Utils
 		/// <param name="elementName">String</param>
 		/// <param name="elementNamespace">String</param>
 		/// <returns></returns>
-		static public XmlElement GetOptionalElement(NewsItem item, string elementName, string elementNamespace) {
+		static public XmlElement GetOptionalElement(INewsItem item, string elementName, string elementNamespace) {
 			if (item == null || item.OptionalElements == null)
 				return null;
 			return GetOptionalElement(item.OptionalElements, elementName, elementNamespace);
@@ -182,7 +182,7 @@ namespace NewsComponents.Utils
 		/// <param name="item">NewsItem</param>
 		/// <param name="qName">XmlQualifiedName</param>
 		/// <returns>XmlElement</returns>
-		static public XmlElement GetOptionalElement(NewsItem item, XmlQualifiedName qName) {
+		static public XmlElement GetOptionalElement(INewsItem item, XmlQualifiedName qName) {
 			if (item == null || item.OptionalElements == null || qName == null)
 				return null;
 			return GetOptionalElement(item.OptionalElements, qName.Name, qName.Namespace);
@@ -319,7 +319,7 @@ namespace NewsComponents.Utils
 		/// Returns the default NewsItem comparer.
 		/// </summary>
 		/// <returns>Ascending sorting NewsItemComparer (by Date)</returns>
-        static public IComparer<NewsItem> GetComparer() {
+        static public IComparer<INewsItem> GetComparer() {
 			return new NewsItemComparer();
 		}
 		/// <summary>
@@ -328,7 +328,7 @@ namespace NewsComponents.Utils
 		/// <param name="sortDescending">Set to False, if it should sort ascending (by date), 
 		/// else true</param>
 		/// <returns></returns>
-		static public IComparer<NewsItem> GetComparer(bool sortDescending) {
+		static public IComparer<INewsItem> GetComparer(bool sortDescending) {
 			return new NewsItemComparer(sortDescending);
 		}
 
@@ -341,7 +341,7 @@ namespace NewsComponents.Utils
 		/// <param name="sortField">indicates which field on the NewsItem object should be used for 
 		/// sorting</param>
 		/// <returns></returns>
-		static public IComparer<NewsItem> GetComparer(bool sortDescending, NewsItemSortField sortField) {
+		static public IComparer<INewsItem> GetComparer(bool sortDescending, NewsItemSortField sortField) {
 			return new NewsItemComparer(sortDescending, sortField);
 		}
 
@@ -370,7 +370,7 @@ namespace NewsComponents.Utils
 				return true;
 			return false;
 		}
-		internal class NewsItemComparer: IComparer, IComparer<NewsItem> {
+		internal class NewsItemComparer: IComparer, IComparer<INewsItem> {
 		
 			#region private fields
 
@@ -397,10 +397,10 @@ namespace NewsComponents.Utils
 			#region Implementation of IComparer
 
             public int Compare(object o1, object o2) {
-                return this.Compare(o1 as NewsItem, o2 as NewsItem); 
+                return this.Compare(o1 as INewsItem, o2 as INewsItem); 
             }
 
-            public int Compare(NewsItem ri1, NewsItem ri2) {
+            public int Compare(INewsItem ri1, INewsItem ri2) {
                
 				try {
 					//NewsItem ri1 = x as NewsItem, ri2 = y as NewsItem;

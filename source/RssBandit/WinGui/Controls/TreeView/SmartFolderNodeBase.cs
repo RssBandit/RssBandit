@@ -72,7 +72,7 @@ namespace RssBandit.WinGui.Controls
 
 		public virtual bool ContainsNewMessages {
 			get {
-				foreach (NewsItem ri in itemsFeed.Items) {
+				foreach (INewsItem ri in itemsFeed.Items) {
 					if (!ri.BeenRead) return true;
 				}
 				return false;
@@ -106,42 +106,42 @@ namespace RssBandit.WinGui.Controls
 			get {
 				int count = 0;
 				for (int i=0; i < itemsFeed.Items.Count; i++) {
-					NewsItem ri = (NewsItem)itemsFeed.Items[i];
+					INewsItem ri = itemsFeed.Items[i];
 					if (ri.HasNewComments) count++;
 				}
 				return count;
 			}
 		}
 
-		public virtual void MarkItemRead(NewsItem item) {
+		public virtual void MarkItemRead(INewsItem item) {
 			if (item == null) return;
 			int index = itemsFeed.Items.IndexOf(item);
 			if (index >= 0)
 			{
-				NewsItem ri = (NewsItem)itemsFeed.Items[index];
+				INewsItem ri = itemsFeed.Items[index];
 				ri.BeenRead = true;
 				base.UpdateReadStatus(this, -1);
 			}
 		}
 
-		public virtual void MarkItemUnread(NewsItem item) {
+		public virtual void MarkItemUnread(INewsItem item) {
 			if (item == null) return;
 			int index = itemsFeed.Items.IndexOf(item);
 			if (index >= 0)
 			{
-				NewsItem ri = (NewsItem)itemsFeed.Items[index];
+				INewsItem ri = (INewsItem)itemsFeed.Items[index];
 				ri.BeenRead = false;
 			}
 		}
 
-		public virtual List<NewsItem> Items {
+		public virtual List<INewsItem> Items {
 			get {	return itemsFeed.Items;	}
 		}
 
-		public virtual void Add(NewsItem item) {	
+		public virtual void Add(INewsItem item) {	
 			itemsFeed.Add(item);
 		}
-		public virtual void Remove(NewsItem item) {
+		public virtual void Remove(INewsItem item) {
 			itemsFeed.Remove(item);
 		}
 

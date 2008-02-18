@@ -242,10 +242,16 @@ namespace NewsComponents.Storage {
 		/// non-null value for its Id property. 
 		/// </summary>
 		/// <param name="item"></param>
-		public override void LoadItemContent(NewsItem item){		
+		public override void LoadItemContent(INewsItem target){
 
+            NewsItem item = target as NewsItem; 
 			FileStream fs = null; 
-			BinaryReader reader = null; 
+			BinaryReader reader = null;
+
+            if (item == null)
+            {
+                return;
+            }
 
 			try{ 
 

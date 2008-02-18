@@ -65,7 +65,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relation">Relation to add</param>
 		public void Add<T>(T relation) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			InternalAdd(relation);
 		}
@@ -75,7 +75,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relations">RelationBase objects</param>
 		public void AddRange<T>(IEnumerable<T> relations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			InternalAddRange(relations);
 		}
@@ -86,7 +86,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relation">Relation to be removed</param>
 		public void Remove<T>(T relation) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			InternalRemove(relation);
 		}
@@ -96,7 +96,7 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
         public void RemoveRange<T>(IEnumerable<T> relations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			InternalRemoveRange(relations);
 		}
@@ -121,7 +121,7 @@ namespace NewsComponents.RelationCosmos
         /// that date are return</param>
         /// <returns>RelationList</returns>
         public IList<T> GetIncoming<T>(string hRef, DateTime since)
-            where T : RelationBase<T> 
+            where T : IRelation
         {
             IList<T> ret = new List<T>();
             if (String.IsNullOrEmpty(hRef)) return ret;
@@ -130,8 +130,7 @@ namespace NewsComponents.RelationCosmos
                 Object value;
                 bool inDictionary = relationsLinkTo.TryGetValue(hRef, out value);
                 if (inDictionary) {
-                    IList<T> list = value as IList<T>;
-                    T item = value as T;
+                    IList<T> list = value as IList<T>;                   
 
                     if (list != null) {
                         foreach (T linkBack in list) {
@@ -139,7 +138,8 @@ namespace NewsComponents.RelationCosmos
                                 ret.Add(linkBack);
                             }
                         }
-                    } else if (item != null) {
+                    } else if (value != null) {
+                        T item = (T)value;
                         if (item.PointInTime > since) {
                             ret.Add(item);
                         }
@@ -159,7 +159,7 @@ namespace NewsComponents.RelationCosmos
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
         public IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (relation == null) return new List<T>();
 
@@ -172,15 +172,15 @@ namespace NewsComponents.RelationCosmos
                     bool inDictionary = relationsLinkTo.TryGetValue(hRef, out value);
                     if (inDictionary) {
                         IList<T> list = value as IList<T>;
-                        T item = value as T;
-
+                       
                         if (list != null) {
                             foreach (T linkBack in list) {
                                 if (!excludeRelations.Contains(linkBack) && !ret.Contains(linkBack)) {
                                     ret.Add(linkBack);
                                 }
                             }
-                        } else if (item != null) {
+                        } else if (value != null) {
+                            T item = (T)value; 
                             if (!excludeRelations.Contains(item)) {
                                 ret.Add(item);
                            }
@@ -202,7 +202,7 @@ namespace NewsComponents.RelationCosmos
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
         public IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (relation == null) return new List<T>();
 
@@ -210,7 +210,7 @@ namespace NewsComponents.RelationCosmos
 			
 			lock (syncRoot) {
 				IList<T> ret = new List<T>(relation.OutgoingRelations.Count);
-				foreach (string hrefOut in relation.outgoingRelationships) {
+				foreach (string hrefOut in relation.OutgoingRelations) {
 					if (excludeUrls.Contains(hrefOut))
 						continue;
 
@@ -234,7 +234,7 @@ namespace NewsComponents.RelationCosmos
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
         public IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			// not required...?
             return new List<T>();
@@ -251,14 +251,14 @@ namespace NewsComponents.RelationCosmos
 		/// True, if any relation was found, else false
 		/// </returns>
         public bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			if (relation == null) return false;
 			IList<string> excludeUrls = GetRelationUrls(excludeRelations);
 
             lock (syncRoot) {
                 // check for outgoing:
-                foreach (string hrefOut in relation.outgoingRelationships) {
+                foreach (string hrefOut in relation.OutgoingRelations) {
                     if (excludeUrls.Contains(hrefOut))
                         continue;
 
@@ -273,7 +273,6 @@ namespace NewsComponents.RelationCosmos
                     bool inDictionary = relationsLinkTo.TryGetValue(hRef, out value);
                     if (inDictionary) {
                         IList<T> list = value as IList<T>;
-                        T item = value as T;
 
                         if (list != null) {
                             foreach (T linkBack in list) {
@@ -281,7 +280,8 @@ namespace NewsComponents.RelationCosmos
                                     return true;
                                 }
                             }
-                        } else if (item != null) {
+                        } else if (value != null) {
+                            T item = (T)value;
                             if (!excludeRelations.Contains(item)) {
                                 return true;
                             }
@@ -316,7 +316,7 @@ namespace NewsComponents.RelationCosmos
 
 		#region private members
 		private void InternalAddRange<T>(IEnumerable<T> relations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			if (relations == null) return;
 			lock (syncRoot) {
@@ -326,7 +326,7 @@ namespace NewsComponents.RelationCosmos
 		}
 
 		private void InternalAdd<T>(T relation) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			if (relation == null) return;
 
@@ -342,7 +342,7 @@ namespace NewsComponents.RelationCosmos
 						registeredRelations[href] = relation;
 					}
 
-					foreach (string hrefOut in relation.outgoingRelationships) {
+					foreach (string hrefOut in relation.OutgoingRelations) {
 						AddToRelationList(hrefOut, relation, relationsLinkTo);
 					}
 
@@ -354,11 +354,11 @@ namespace NewsComponents.RelationCosmos
 		}
 
 		private void InternalRemove<T>(T relation)
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			if (relation == null) return;
 			lock (syncRoot) {
-				foreach (string hrefOut in relation.outgoingRelationships) {
+				foreach (string hrefOut in relation.OutgoingRelations) {
 					RemoveFromRelationList(hrefOut, relation, relationsLinkTo);
 				}
 				if (relation.HRef != null) registeredRelations.Remove(relation.HRef);	
@@ -366,7 +366,7 @@ namespace NewsComponents.RelationCosmos
 		}
 
         private void InternalRemoveRange<T>(IEnumerable<T> relations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
 			if (relations == null) return;
 			lock (syncRoot) {
@@ -381,7 +381,7 @@ namespace NewsComponents.RelationCosmos
 		
         
         private static void AddToRelationList<T>(string key, T relation, IDictionary<string, Object> toRelations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
             Object value; 
             bool inDictionary  = toRelations.TryGetValue(key, out value);
@@ -397,11 +397,11 @@ namespace NewsComponents.RelationCosmos
 
                 if (inDictionary) {
                     IList<T> list = value as IList<T>;
-                    T item = value as T; 
                     
                     if (list != null) {
                         list.Add(relation);
-                    } else if (item != null) {
+                    } else if (value != null) {
+                        T item = (T)value;
                         list = new List<T>();
                         list.Add(item);
                         list.Add(relation); 
@@ -416,7 +416,7 @@ namespace NewsComponents.RelationCosmos
         }
 
         private static void RemoveFromRelationList<T>(string key, T relation, Dictionary<string, Object> fromRelations) 
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (key != null) {
                 Object value;
@@ -424,14 +424,13 @@ namespace NewsComponents.RelationCosmos
 
                 if (inDictionary) {
                     IList<T> list = value as IList<T>;
-                    T item = value as T; 
                    
                     if (list != null) {
                             list.Remove(relation);
                         if (list.Count == 0) {
                             fromRelations.Remove(key);
                         }
-                    } else if (item != null) {
+                    } else if (value != null) {
                         fromRelations.Remove(key);
                     }
                 }//if(inDictionary)
