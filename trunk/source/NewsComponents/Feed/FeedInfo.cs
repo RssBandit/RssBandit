@@ -25,7 +25,7 @@ namespace NewsComponents.Feed
 	public class FeedInfo : FeedDetailsInternal, ISizeInfo
 	{						 
 
-		public static readonly FeedInfo Empty = new FeedInfo(String.Empty, String.Empty, new List<NewsItem>(), String.Empty,String.Empty,String.Empty, new Dictionary<XmlQualifiedName, string>(0), String.Empty);
+		public static readonly FeedInfo Empty = new FeedInfo(String.Empty, String.Empty, new List<INewsItem>(), String.Empty,String.Empty,String.Empty, new Dictionary<XmlQualifiedName, string>(0), String.Empty);
 
 		
 		internal string id;
@@ -42,9 +42,9 @@ namespace NewsComponents.Feed
 			set { feedLocation = value; }
 		}
 
-		internal List<NewsItem> itemsList; 
+		internal List<INewsItem> itemsList; 
 
-		public List<NewsItem> ItemsList {
+		public List<INewsItem> ItemsList {
 			get { return itemsList; }
 			set { itemsList = value; }
 		}
@@ -56,11 +56,11 @@ namespace NewsComponents.Feed
 		/// <param name="id"></param>
 		/// <param name="feedLocation"></param>
 		/// <param name="itemsList"></param>
-		public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList){
+		public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList){
 			this.id = id;
 			this.feedLocation = feedLocation;  
             if(itemsList != null){
-			    this.itemsList = new List<NewsItem>(itemsList); 
+			    this.itemsList = new List<INewsItem>(itemsList); 
             }
 		}
 
@@ -73,7 +73,7 @@ namespace NewsComponents.Feed
 		/// <param name="title"></param>
 		/// <param name="link"></param>
 		/// <param name="description"></param>
-        public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList, string title, string link, string description)
+        public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList, string title, string link, string description)
 			:this(id, feedLocation, itemsList, title, link, description, new Dictionary<XmlQualifiedName, string>(), String.Empty){			
 		}
 
@@ -88,11 +88,11 @@ namespace NewsComponents.Feed
 		/// <param name="description"></param>
 		/// <param name="optionalElements"></param>
 		/// <param name="language"></param>
-        public FeedInfo(string id, string feedLocation, IList<NewsItem> itemsList, string title, string link, string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
+        public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList, string title, string link, string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
         {
 			this.id = id;
 			this.feedLocation = feedLocation; 
-			this.itemsList = new List<NewsItem>(itemsList); 
+			this.itemsList = new List<INewsItem>(itemsList); 
 			this.title = title; 
 			this.link = link; 
 			this.description = description; 
@@ -301,7 +301,7 @@ namespace NewsComponents.Feed
 		public FeedInfo Clone(bool includeNewsItems)
 		{
 			FeedInfo toReturn = new FeedInfo(this.id, this.feedLocation,
-                (includeNewsItems ? new List<NewsItem>(this.itemsList) : new List<NewsItem>()), 
+                (includeNewsItems ? new List<INewsItem>(this.itemsList) : new List<INewsItem>()), 
 				this.title, this.link, this.description, 
 				new Dictionary<XmlQualifiedName, string>(this.optionalElements), this.language); 
 
@@ -452,9 +452,9 @@ namespace NewsComponents.Feed
 		/// Returns all the NewsItems contained within this FeedInfoList in an ArrayList
 		/// </summary>
 		/// <returns>a list of all the NewsItems in this FeedInfoList</returns>
-		public IList<NewsItem> GetAllNewsItems(){
+		public IList<INewsItem> GetAllNewsItems(){
 
-            List<NewsItem> allItems = new List<NewsItem>(); 
+            List<INewsItem> allItems = new List<INewsItem>(); 
 
 			foreach(FeedInfo fi in this.feeds){
 				allItems.InsertRange(0, fi.ItemsList); 

@@ -151,7 +151,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <param name="item">The RSS item</param>
 		/// <returns>The tree node this object belongs to or null if 
 		/// it can't be found</returns>
-		public static TreeFeedsNodeBase FindNode(TreeFeedsNodeBase startNode, NewsItem item) {
+		public static TreeFeedsNodeBase FindNode(TreeFeedsNodeBase startNode, INewsItem item) {
 			return FindNode(startNode, item.Feed);
 		}
 

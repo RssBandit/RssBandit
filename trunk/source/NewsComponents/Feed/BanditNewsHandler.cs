@@ -349,7 +349,7 @@ namespace NewsComponents.Feed
            /// <summary>
         /// Deletes all subscribed feeds and categories 
         /// </summary>
-        public virtual void DeleteAllFeedsAndCategories()
+        public override void DeleteAllFeedsAndCategories()
         {
             base.DeleteAllFeedsAndCategories();
             this.ClearItemsCache();

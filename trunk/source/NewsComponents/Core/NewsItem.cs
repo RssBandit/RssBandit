@@ -27,48 +27,7 @@ using NewsComponents.Feed;
 using RC = NewsComponents.RelationCosmos;
 
 namespace NewsComponents
-{
-    /// <summary>
-    /// Item flag states
-    /// </summary>
-    public enum Flagged
-    {
-        /// <summary>Not flagged</summary>
-        None,
-        /// <summary>Flagged for follow up</summary>
-        FollowUp,
-        /// <summary>Flagged for read (again). This is NOT the "been read" flag!</summary>
-        Read,
-        /// <summary>Flagged for review</summary>
-        Review,
-        /// <summary>Flagged for forward</summary>
-        Forward,
-        /// <summary>Flagged for reply. Is also set if you replied to an item</summary>
-        Reply,
-        /// <summary>Flagged for complete</summary>
-        Complete
-    }
-
-    /// <summary>
-    /// Supported comment styles.
-    /// </summary>
-    [Flags] //TODO: Dare, why is this a Flags enum?
-    public enum SupportedCommentStyle
-    {
-        /// <summary>
-        /// Undefined or None.
-        /// </summary>
-        None = 0,
-        /// <summary>
-        /// Comment API
-        /// </summary>
-        CommentAPI = 1,
-
-        /// <summary>
-        /// NNTP posting
-        /// </summary>
-        NNTP = 2
-    }
+{    
 
 
     /// <summary>
@@ -105,7 +64,7 @@ namespace NewsComponents
     /// <summary>
     /// Represents an RSS enclosure
     /// </summary>
-    public class Enclosure
+    public class Enclosure: IEnclosure
     {
         private readonly string mimeType;
         private readonly long length;
@@ -209,6 +168,20 @@ namespace NewsComponents
             }
         }
 
+        /// <summary>
+        /// Compares to see if two Enclosures are identical. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Enclosure);
+        }
+
+        public bool Equals(IEnclosure other)
+        {
+            return Equals(other as Enclosure);
+        }
 
         /// <summary>
         /// Compares to see if two Enclosures are identical. Identity just checks to see if they have 
@@ -216,27 +189,23 @@ namespace NewsComponents
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(Object obj)
+        public bool Equals(Enclosure item)
         {
-            if (ReferenceEquals(this, obj))
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, item))
             {
                 return true;
             }
 
-            try
+            if (String.Compare(Url, item.Url) == 0)
             {
-                Enclosure item = (Enclosure) obj;
-
-                if (String.Compare(Url, item.Url) == 0)
-                {
-                    return true;
-                }
+                return true;
             }
-            catch (InvalidCastException)
-            {
-                ;
-            }
-
+           
             return false;
         }
 
@@ -545,6 +514,28 @@ namespace NewsComponents
 
 
         /// <summary>
+        /// Creates a new NewsItem which is initialized from the input NewsItem and has it's owner feed as the 
+        /// input INewsFeed. 
+        /// </summary>
+        /// <returns>A copy of this NewsItem</returns>
+        public NewsItem (INewsFeed parent, INewsItem item)
+        {
+            NewsItem newitem = new NewsItem(parent, item.Title, item.Link, null, item.Date, item.Subject, item.Id, item.ParentId);
+            this.OptionalElements = (Hashtable)OptionalElements.Clone();
+            this.p_beenRead = item.BeenRead;
+            this.p_author = item.Author;
+            this.p_flagStatus = item.FlagStatus;
+            this.SetContent(item.Content, item.ContentType); 
+            this.p_contentType = item.ContentType;
+            this.commentUrl = item.CommentUrl;
+            this.commentRssUrl = item.CommentRssUrl;
+            this.commentCount = item.CommentCount;
+            this.commentStyle = item.CommentStyle;
+            this.p_watchComments = item.WatchComments;
+            this.p_hasNewComments = item.HasNewComments;
+        }
+
+        /// <summary>
         /// Initializes an object representation of an RSS item. 
         /// </summary>
         /// <param name="feed">The RSS feed object this item belongs to.</param>
@@ -753,7 +744,7 @@ namespace NewsComponents
         private string commentRssUrl = null;
         private int commentCount = NoComments;
         private Hashtable optionalElements;
-        private List<Enclosure> enclosures = null;
+        private List<IEnclosure> enclosures = null;
 
         ///<summary>
         ///numeric value that indicates that no comments exist for an item
@@ -786,7 +777,7 @@ namespace NewsComponents
         /// of a NewsItem.
         /// </summary>
         /// <param name="relations"></param>
-        public override void SetExternalRelations(IList<NewsItem> relations)
+        public override void SetExternalRelations<T>(IList<T> relations)
         {
             if (base.GetExternalRelations().Count > 0)
             {
@@ -935,7 +926,7 @@ namespace NewsComponents
         /// Container of enclosures on the item. If there are no enclosures on the item
         /// then this value is null. 
         /// </summary>
-        public List<Enclosure> Enclosures
+        public List<IEnclosure> Enclosures
         {
             get
             {
@@ -1016,7 +1007,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="f">NewsFeed</param>
         /// <returns></returns>
-        internal NewsItem CopyTo(NewsFeed f)
+        public INewsItem Clone(INewsFeed f)
         {
             NewsItem newItem = (NewsItem) Clone();
             newItem.p_feed = f;
@@ -1610,7 +1601,7 @@ namespace NewsComponents
             :
                 base(feed, title, link, null, author, date, id, null)
         {
-            Enclosures = GetList<Enclosure>.Empty;
+            Enclosures = GetList<IEnclosure>.Empty;
             Summary = summary;
         }
 
@@ -1619,7 +1610,7 @@ namespace NewsComponents
         /// Initialize with a NewsItem 
         /// </summary>
         /// <param name="item"></param>
-        public SearchHitNewsItem(NewsItem item)
+        public SearchHitNewsItem(INewsItem item)
             :
                 this(item.Feed, item.Title, item.Link, item.Content, item.Author, item.Date, item.Id)
         {
@@ -1689,10 +1680,10 @@ namespace NewsComponents
 
     internal class RankedNewsItem
     {
-        private readonly NewsItem item;
+        private readonly INewsItem item;
         private readonly float score;
 
-        internal RankedNewsItem(NewsItem item, float score)
+        internal RankedNewsItem(INewsItem item, float score)
         {
             this.score = score;
             this.item = item;
@@ -1706,7 +1697,7 @@ namespace NewsComponents
             }
         }
 
-        internal NewsItem Item
+        internal INewsItem Item
         {
             get
             {

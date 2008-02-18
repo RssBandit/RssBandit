@@ -24,6 +24,7 @@ using RssBandit.Common;
 
 using NewsComponents.Collections;
 using NewsComponents.Net;
+using NewsComponents.RelationCosmos;
 using NewsComponents.Search;
 using NewsComponents.Utils;
 
@@ -430,6 +431,8 @@ namespace NewsComponents.Feed {
             if (item == null) throw new ArgumentNullException("item"); 
             this.myitem = item;
             this.myfeed = owner;
+
+            //TODO: RelationCosmos and outgoing links processing? 
         }
 
 
@@ -500,6 +503,108 @@ namespace NewsComponents.Feed {
         #region INewsItem implementation 
 
         /// <summary>
+        /// Container of enclosures on the item. If there are no enclosures on the item
+        /// then this value is null. 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public List<IEnclosure> Enclosures
+        {
+            get
+            {
+                if (myitem.Enclosure != null)
+                {
+                    IEnclosure enc = new WindowsRssEnclosure(myitem.Enclosure as IFeedEnclosure);
+                    return new List<IEnclosure>() { enc };
+                }
+                else
+                {
+                    return GetList<IEnclosure>.Empty;
+                }
+            }
+            set
+            {
+                /* Can't set IFeedItem.Enclosure */ 
+            }
+        }
+
+        private bool p_hasNewComments;
+        /// <summary>
+        /// Indicates that there are new comments to this item. 
+        /// </summary>
+        public bool HasNewComments
+        {
+            get
+            {
+                return p_hasNewComments;
+            }
+            set
+            {
+                p_hasNewComments = value;
+            }
+        }
+
+        private bool p_watchComments;
+        /// <summary>
+        /// Indicates that comments to this item are being watched. 
+        /// </summary>
+        public bool WatchComments
+        {
+            get
+            {
+                return p_watchComments;
+            }
+            set
+            {
+                p_watchComments = value;
+            }
+        }
+
+        private Flagged p_flagStatus = Flagged.None;
+        /// <summary>
+        /// Indicates whether the item has been flagged for follow up or not. 
+        /// </summary>
+        public Flagged FlagStatus
+        {
+            get
+            {
+                return p_flagStatus;
+            }
+            set
+            {
+                p_flagStatus = value;
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether this item supports posting comments. 
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public SupportedCommentStyle CommentStyle
+        {
+            get
+            {
+                return SupportedCommentStyle.None;
+            }
+            set
+            {
+                /* do nothing */ 
+            }
+        }
+
+         /// <summary>
+        /// Gets or sets the language of the entry.
+        /// Format of the corresponfing attribute as defined in
+        /// http://www.w3.org/TR/REC-xml/#sec-lang-tag;
+        /// Format of the language string: 
+        /// see http://www.ietf.org/rfc/rfc3066.txt
+        /// </summary>
+        /// <value>The language.</value>
+        public string Language
+        {
+            get { return myfeed.Language; }
+        }
+
+        /// <summary>
         /// Gets the feed link (source the feed is requested from) the item belongs to.
         /// </summary>
         public string FeedLink
@@ -528,9 +633,11 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// The unique identifier.
         /// </summary>
+        /// <remarks>This property is read only</remarks>
         public string Id
         {
             get { return myitem.LocalId.ToString(); }
+            set { /* Can't set IFeedItem.LocalId */ }
         }
 
         /// <summary>
@@ -666,9 +773,98 @@ namespace NewsComponents.Feed {
             set { _optionalElements = null; }
         }
 
+
+        private List<string> outgoingRelationships = new List<string>(); 
+        /// <summary>
+        /// Returns a collection of strings representing URIs to outgoing links in a feed. 
+        /// </summary>
+        public List<string> OutGoingLinks
+        {
+            get
+            {
+                return outgoingRelationships;
+            }
+            internal set
+            {
+                outgoingRelationships = value;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Returns the feed object to which this item belongs
+        /// </summary>
+        public INewsFeed Feed
+        {
+            get
+            {
+                return this.myfeed;
+            }
+        }
+
         #endregion 
 
-        #region ICloneable implementation 
+        #region IRelation implementation 
+
+        /// <summary>
+        /// Return a web reference, a resource ID, mail/message ID, NNTP post ID.
+        /// </summary>
+        public string HRef
+        {
+            get { return this.Link; }
+        }
+
+        /// <summary>
+        /// Return a list of outgoing Relation objects, e.g. 
+        /// links the current relation resource points to.
+        /// </summary>
+        public IList<string> OutgoingRelations
+        {
+            get
+            {
+                return outgoingRelationships;
+            }
+        }
+
+        /// <summary>
+        /// The DateTime the item was published/updated. It should be specified as UTC.
+        /// </summary>
+        /// <remarks>This property is read only</remarks>
+        public virtual DateTime PointInTime
+        {
+            get { return this.Date; }
+            set { /* can't set IFeedItem.PubDate */ }
+        }
+
+        /// <summary>
+        /// Return true, if the Relation has some external relations (that are not part
+        /// of the RelationCosmos). Default is false;
+        /// </summary>
+        public virtual bool HasExternalRelations { get { return false; } }
+
+        /// <summary>
+        /// Gets called if <see cref="HasExternalRelations">HasExternalRelations</see>
+        /// returns true to retrieve the external Relation resource(s).
+        /// Default return is the RelationCosmos.EmptyRelationList.
+        /// </summary>
+        public virtual IList<IRelation> GetExternalRelations()
+        {
+                return GetList<IRelation>.Empty;
+        }
+        /// <summary>
+        /// Should be overridden. Stores a collection of external Relations related
+        /// to this RelationBase.
+        /// </summary>
+        public virtual void SetExternalRelations<T>(IList<T> relations) where T: IRelation
+        {
+            /* not supported for Windows RSS items */ 
+        }
+
+        #endregion 
+
+
+        #region ICloneable implementation
 
         /// <summary>
         /// Returns a copy of this object
@@ -679,12 +875,23 @@ namespace NewsComponents.Feed {
             return new WindowsRssNewsItem(this.myitem, this.myfeed); 
         }
 
+        /// <summary>
+        /// Copies the item (clone) and set the new parent to the provided feed 
+        /// </summary>
+        /// <param name="f">NewsFeed</param>
+        /// <returns></returns>
+        public INewsItem Clone(INewsFeed f)
+        {
+            //BUGBUG: This will throw exceptions when used as part of flagging or watching items. Instead return NewsItem instance
+            return new WindowsRssNewsItem(this.myitem, f as WindowsRssNewsFeed); 
+        }
+
         #endregion 
 
         #region IEquatable implementation 
 
         /// <summary>
-        /// Compares to see if two NewsItems are identical. 
+        /// Compares to see if two WindowsRssNewsItems are identical. 
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -710,7 +917,46 @@ namespace NewsComponents.Feed {
             return item.myfeed.id.Equals(this.myfeed.id) && item.Id.Equals(this.Id); 
         }
 
+        /// <summary>
+        /// Returns a hashcode for the given item
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
         #endregion 
+
+        #region IComparable implementation
+
+        /// <summary>
+        /// Impl. IComparable.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(object obj)
+        {
+            return CompareTo(obj as WindowsRssNewsItem);
+        }
+
+        public int CompareTo(WindowsRssNewsItem other)
+        {
+            if (ReferenceEquals(this, other))
+                return 0;
+
+            if (ReferenceEquals(other, null))
+                return 1;
+
+            return this.Date.CompareTo(other.Date);
+        }
+
+        public int CompareTo(IRelation other)
+        {
+            return CompareTo(other as WindowsRssNewsItem);
+        }
+
+        #endregion
 
         #region IXPathNavigable implementation 
 
@@ -726,6 +972,163 @@ namespace NewsComponents.Feed {
         }
 
         #endregion 
+    }
+
+    #endregion 
+
+    #region WindowsRssEnclosure
+
+    /// <summary>
+    /// Represents an enclosure from the Windows RSS platform
+    /// </summary>
+    public class WindowsRssEnclosure : IEnclosure
+    {
+
+        #region constructors 
+
+           /// <summary>
+        /// We always want an associated IFeedItem instance
+        /// </summary>
+        private WindowsRssEnclosure() { ;}
+
+          /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="enclosure">The IFeedEnclosure instance that this object will wrap</param>
+        public WindowsRssEnclosure(IFeedEnclosure enclosure)
+        {
+            if (enclosure == null) throw new ArgumentNullException("enclosure");
+            this.myenclosure = enclosure;
+          
+            //TODO: RelationCosmos and outgoing links processing? 
+        }
+
+        #endregion 
+
+        #region private fields
+
+        /// <summary>
+        /// The IFeedEnclosure instance wrapped by this object
+        /// </summary>
+        private IFeedEnclosure myenclosure = null; 
+
+        #endregion 
+
+
+
+        #region IEnclosure implementation 
+
+        /// <summary>
+        /// The MIME type of the enclosure
+        /// </summary>
+        public string MimeType
+        {
+            get { return myenclosure.Type; }
+        }
+
+        /// <summary>
+        /// The length of the enclosure in bytes
+        /// </summary>
+        public long Length
+        {
+            get { return myenclosure.Length; }
+        }
+
+        /// <summary>
+        /// The MIME type of the enclosure
+        /// </summary>
+        public string Url
+        {
+            get { return myenclosure.DownloadUrl; }
+        }
+
+        /// <summary>
+        /// The description associated with the item obtained via itunes:subtitle or media:title
+        /// </summary>
+        /// <remarks>This field is read only</remarks>
+        public string Description {
+            get { return null; }
+            set { ; }
+        }
+
+        private bool _downloaded;
+        /// <summary>
+        /// Indicates whether this enclosure has already been downloaded or not.
+        /// </summary>
+        public bool Downloaded
+        {
+            get { return _downloaded; }
+            set { _downloaded = value;  }
+        }
+
+
+        /// <summary>
+        /// Gets the playing time of the enclosure. 
+        /// </summary>
+        /// <remarks>This field is read only</remarks>
+        public TimeSpan Duration
+        {
+            get { return TimeSpan.MinValue; }
+            set { /* */ }
+        }
+
+        #endregion 
+
+        #region IEquatable implementation 
+
+        /// <summary>
+        /// Compares to see if two Enclosures are identical. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as WindowsRssEnclosure);
+        }
+
+        /// <summary>
+        /// Compares to see if two WindowsRssEnclosure are identical. Identity just checks to see if they have 
+        /// the same link, 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(IEnclosure item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, item))
+            {
+                return true;
+            }
+
+            if (String.Compare(Url, item.Url) == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get the hash code of the object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            if (string.IsNullOrEmpty(Url))
+            {
+                return String.Empty.GetHashCode();
+            }
+            else
+            {
+                return Url.GetHashCode();
+            }
+        }
+
+        #endregion
     }
 
     #endregion 
@@ -1176,7 +1579,8 @@ namespace NewsComponents.Feed {
             {
                 if (!StringHelper.EmptyTrimOrNull(value) && !value.Equals(this.category))
                 {
-                    owner.ChangeCategory(this, owner.AddCategory(value)); 
+                    WindowsRssNewsHandler handler = owner as WindowsRssNewsHandler;
+                    handler.ChangeCategory(this, handler.AddCategory(value)); 
                 }
             }
         
@@ -1258,7 +1662,7 @@ namespace NewsComponents.Feed {
 
         /// <remarks />                
         [XmlIgnore]
-        public NewsHandler owner { get; set; }
+        public object owner { get; set; }
 
         /// <summary>
         /// Gets the value of a particular wildcard element. If the element is not found then 

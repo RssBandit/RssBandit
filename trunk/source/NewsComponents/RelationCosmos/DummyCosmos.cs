@@ -9,21 +9,21 @@ namespace NewsComponents.RelationCosmos
     internal class DummyCosmos : IRelationCosmos
     {
         
-        public void Add<T>(T relation) where T : RelationBase<T>
+        public void Add<T>(T relation) where T : IRelation
         {
         }
 
         public void AddRange<T>(IEnumerable<T> relations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
         }
 
-        public void Remove<T>(T relation) where T : RelationBase<T>
+        public void Remove<T>(T relation) where T : IRelation
         {
         }
 
         public void RemoveRange<T>(IEnumerable<T> relations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
         }
 
@@ -59,27 +59,27 @@ namespace NewsComponents.RelationCosmos
             }
         }
 
-        public IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
+        public IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : IRelation
         {
             return new List<T>();
         }
 
-        public IList<T> GetIncoming<T>(string hRef, DateTime since) where T : RelationBase<T> {
+        public IList<T> GetIncoming<T>(string hRef, DateTime since) where T : IRelation {
             return new List<T>();
         }
 
 
-        public IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
+        public IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation
         {
             return new List<T>();
         }
 
-        public IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
+        public IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation
         {
             return new List<T>();
         }
 
-        public bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>
+        public bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation
         {
             return false;
         }

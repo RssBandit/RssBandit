@@ -561,7 +561,7 @@ namespace NewsComponents.Search
 		/// Add the list of NewsItems to the lucene search index.
 		/// </summary>
 		/// <param name="newsItems">The news items list.</param>
-		public void IndexAdd(IList<NewsItem> newsItems) {
+		public void IndexAdd(IList<INewsItem> newsItems) {
 			if (!UseIndex || newsItems == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
@@ -576,9 +576,9 @@ namespace NewsComponents.Search
 		/// Add the NewsItem to the lucene search index.
 		/// </summary>
 		/// <param name="item">The news item.</param>
-		public void IndexAdd(NewsItem item) {
+		public void IndexAdd(INewsItem item) {
 			if (!UseIndex || item == null) return;
-			this.IndexAdd(new NewsItem[]{item});
+			this.IndexAdd(new INewsItem[]{item});
 		}
 
 		#endregion
@@ -589,7 +589,7 @@ namespace NewsComponents.Search
 		/// Remove the list of NewsItems from the lucene search index.
 		/// </summary>
 		/// <param name="newsItems">The news items list.</param>
-		public void IndexRemove(NewsItem[] newsItems) {
+		public void IndexRemove(INewsItem[] newsItems) {
 			if (!UseIndex || newsItems == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();
@@ -603,9 +603,9 @@ namespace NewsComponents.Search
 		/// Remove the list of NewsItems from the lucene search index.
 		/// </summary>
 		/// <param name="newsItem">The news items list.</param>
-		public void IndexRemove(NewsItem newsItem) {
+		public void IndexRemove(INewsItem newsItem) {
 			if (!UseIndex || newsItem == null) return;
-			this.IndexRemove(new NewsItem[] {newsItem});
+			this.IndexRemove(new INewsItem[] {newsItem});
 		}
 		/// <summary>
 		/// Remove the feed (and all it's items) from the lucene search index.
@@ -658,7 +658,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="feed">The feed.</param>
         /// <param name="items">The NewsItems belonging to the feed</param>
-		public void ReIndex(INewsFeed feed, IList<NewsItem> items) {
+		public void ReIndex(INewsFeed feed, IList<INewsItem> items) {
 			if (!UseIndex || feed == null) return;
 			try {
 				LuceneIndexer indexer = CreateIndexer();

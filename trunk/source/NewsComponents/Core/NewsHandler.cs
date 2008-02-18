@@ -381,7 +381,7 @@ namespace NewsComponents
         /// <summary>
         /// Gets a empty item list.
         /// </summary>
-        public static readonly List<NewsItem> EmptyItemList = new List<NewsItem>(0);
+        public static readonly List<INewsItem> EmptyItemList = new List<INewsItem>(0);
 
         // logging/tracing:
         private static readonly ILog _log = Log.GetLogger(typeof (NewsHandler));
@@ -1678,7 +1678,7 @@ namespace NewsComponents
             /// <param name="tag">Object used by caller</param>
             /// <param name="cancel"></param>
             public NewsItemSearchResultEventArgs(
-                List<NewsItem> items, object tag, bool cancel) : base(cancel)
+                List<INewsItem> items, object tag, bool cancel) : base(cancel)
             {
                 this.NewsItems = items;
                 this.Tag = tag;
@@ -1687,7 +1687,7 @@ namespace NewsComponents
             /// <summary>
             /// NewsItem list
             /// </summary>
-            public List<NewsItem> NewsItems;
+            public List<INewsItem> NewsItems;
 
             /// <summary>
             /// Object used by caller
@@ -1711,13 +1711,13 @@ namespace NewsComponents
             /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
             public SearchFinishedEventArgs(
                 object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount) :
-                    this(tag, matchingFeeds, new List<NewsItem>(), matchingFeedsCount, matchingItemsCount)
+                    this(tag, matchingFeeds, new List<INewsItem>(), matchingFeedsCount, matchingItemsCount)
             {
-                List<NewsItem> temp = new List<NewsItem>();
+                List<INewsItem> temp = new List<INewsItem>();
 
                 foreach (FeedInfo fi in matchingFeeds)
                 {
-                    foreach (NewsItem ni in fi.ItemsList)
+                    foreach (INewsItem ni in fi.ItemsList)
                     {
                         if (ni is SearchHitNewsItem)
                             temp.Add(ni);
@@ -1740,13 +1740,13 @@ namespace NewsComponents
             /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
             /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
             public SearchFinishedEventArgs(
-                object tag, FeedInfoList matchingFeeds, IEnumerable<NewsItem> matchingNewsItems, int matchingFeedsCount,
+                object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingNewsItems, int matchingFeedsCount,
                 int matchingItemsCount)
             {
                 this.MatchingFeedsCount = matchingFeedsCount;
                 this.MatchingItemsCount = matchingItemsCount;
                 this.MatchingFeeds = matchingFeeds;
-                this.MatchingItems = new List<NewsItem>(matchingNewsItems);
+                this.MatchingItems = new List<INewsItem>(matchingNewsItems);
                 this.Tag = tag;
             }
 
@@ -1763,7 +1763,7 @@ namespace NewsComponents
             public readonly FeedInfoList MatchingFeeds;
 
             /// <summary></summary>
-            public readonly List<NewsItem> MatchingItems;
+            public readonly List<INewsItem> MatchingItems;
         }
 
         #endregion
@@ -1771,12 +1771,12 @@ namespace NewsComponents
         private const int maxItemsPerSearchResult = 10;
 
 
-        private List<NewsItem> SearchNewsItemsHelper(IEnumerable<NewsItem> prevMatchItems,
+        private List<INewsItem> SearchNewsItemsHelper(IEnumerable<INewsItem> prevMatchItems,
                                                      SearchCriteriaCollection criteria, FeedDetailsInternal fi,
                                                      FeedDetailsInternal fiMatchedItems, ref int itemmatches,
                                                      ref int feedmatches, object tag)
         {
-            List<NewsItem> matchItems = new List<NewsItem>(maxItemsPerSearchResult);
+            List<INewsItem> matchItems = new List<INewsItem>(maxItemsPerSearchResult);
             matchItems.AddRange(prevMatchItems);
             bool cancel = false;
             bool feedmatch = false;
@@ -1820,7 +1820,7 @@ namespace NewsComponents
             int feedmatches = 0;
             int itemmatches = 0;
 
-            IList<NewsItem> unreturnedMatchItems = new List<NewsItem>();
+            IList<INewsItem> unreturnedMatchItems = new List<INewsItem>();
             FeedInfoList fiList = new FeedInfoList(String.Empty);
 
             Exception ex;
@@ -1920,12 +1920,12 @@ namespace NewsComponents
 
             newsItem.Subject = e.GetType().Name;
             newsItem.CommentStyle = SupportedCommentStyle.None;
-            newsItem.Enclosures = GetList<Enclosure>.Empty;
+            newsItem.Enclosures = GetList<IEnclosure>.Empty;
             newsItem.WatchComments = false;
             newsItem.Language = CultureInfo.CurrentUICulture.Name;
             newsItem.HasNewComments = false;
 
-            FeedInfo fi = new FeedInfo(f.id, f.cacheurl, new List<NewsItem>(new NewsItem[] {newsItem}),
+            FeedInfo fi = new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(new NewsItem[] {newsItem}),
                                        f.title, f.link, ComponentsText.ExceptionHelpFeedDesc,
                                        new Dictionary<XmlQualifiedName, string>(1), newsItem.Language);
             newsItem.FeedDetails = fi;
@@ -1945,7 +1945,7 @@ namespace NewsComponents
             int itemmatches = 0;
             int feedcounter = 0;
 
-            List<NewsItem> unreturnedMatchItems = new List<NewsItem>();
+            List<INewsItem> unreturnedMatchItems = new List<INewsItem>();
             FeedInfoList fiList = new FeedInfoList(String.Empty);
 
             try
@@ -2052,7 +2052,7 @@ namespace NewsComponents
             int feedmatches;
             int itemmatches;
 
-            List<NewsItem> unreturnedMatchItems = this.GetItemsForFeed(searchFeedUrl);
+            List<INewsItem> unreturnedMatchItems = this.GetItemsForFeed(searchFeedUrl);
             RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
             feedmatches = 1;
             itemmatches = unreturnedMatchItems.Count;
@@ -2087,14 +2087,14 @@ namespace NewsComponents
             throw new NotSupportedException();
         }
 
-        private bool RaiseNewsItemSearchResultEvent(IEnumerable<NewsItem> matchItems, object tag)
+        private bool RaiseNewsItemSearchResultEvent(IEnumerable<INewsItem> matchItems, object tag)
         {
             try
             {
                 if (NewsItemSearchResult != null)
                 {
                     NewsItemSearchResultEventArgs ea =
-                        new NewsItemSearchResultEventArgs(new List<NewsItem>(matchItems), tag, false);
+                        new NewsItemSearchResultEventArgs(new List<INewsItem>(matchItems), tag, false);
                     NewsItemSearchResult(this, ea);
                     return ea.Cancel;
                 }
@@ -2123,7 +2123,7 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, IEnumerable<NewsItem> matchingItems,
+        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingItems,
                                               int matchingFeedsCount, int matchingItemsCount)
         {
             try
@@ -2146,7 +2146,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="nid">The value used to identify the NewsItem</param>
         /// <returns>The NewsItem or null if it could not be found</returns>
-        public NewsItem FindNewsItem(SearchHitNewsItem nid)
+        public INewsItem FindNewsItem(SearchHitNewsItem nid)
         {
             if (nid != null)
             {
@@ -2154,9 +2154,9 @@ namespace NewsComponents
 
                 if (fi != null)
                 {
-                    List<NewsItem> items = new List<NewsItem>(fi.ItemsList);
+                    List<INewsItem> items = new List<INewsItem>(fi.ItemsList);
 
-                    foreach (NewsItem ni in items)
+                    foreach (INewsItem ni in items)
                     {
                         if (ni.Id.Equals(nid.Id))
                         {
@@ -2195,7 +2195,7 @@ namespace NewsComponents
         {
             FeedInfoList fiList = new FeedInfoList(String.Empty);
             Dictionary<string, FeedInfo> matchedFeeds = new Dictionary<string, FeedInfo>();
-            Dictionary<string, List<NewsItem>> itemlists = new Dictionary<string, List<NewsItem>>();
+            Dictionary<string, List<INewsItem>> itemlists = new Dictionary<string, List<INewsItem>>();
 
             foreach (SearchHitNewsItem nid in nids)
             {
@@ -2206,7 +2206,7 @@ namespace NewsComponents
 
                 if (originalfi != null)
                 {
-                    List<NewsItem> items;
+                    List<INewsItem> items;
                     if (matchedFeeds.ContainsKey(nid.FeedLink))
                     {
                         fi = matchedFeeds[nid.FeedLink];
@@ -2215,7 +2215,7 @@ namespace NewsComponents
                     else
                     {
                         fi = originalfi.Clone(false);
-                        items = new List<NewsItem>(originalfi.ItemsList);
+                        items = new List<INewsItem>(originalfi.ItemsList);
                         matchedFeeds.Add(nid.FeedLink, fi);
                         itemlists.Add(nid.FeedLink, items);
                     }
@@ -2465,13 +2465,13 @@ namespace NewsComponents
                 FeedInfo fi = (FeedInfo) itemsTable[keys[i]];
 
                 //get all news items that fall within the date range
-                List<NewsItem> items =
-                    fi.ItemsList.FindAll(delegate(NewsItem item)
+                List<INewsItem> items =
+                    fi.ItemsList.FindAll(delegate(INewsItem item)
                                              {
                                                  return (DateTime.Now - item.Date) < since;
                                              });
 
-                foreach (NewsItem item in items)
+                foreach (INewsItem item in items)
                 {
                     //create score and ranked news item that represents a weighted link to a URL
                     float score = 1.0f - (DateTime.Now.Ticks - item.Date.Ticks)*1.0f/since.Ticks;
@@ -2812,7 +2812,7 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>if the parent feed has been deleted then this does nothing</remarks>
         /// <param name="item">the utem to restore</param>
-        public void RestoreDeletedItem(NewsItem item)
+        public void RestoreDeletedItem(INewsItem item)
         {
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && feedsTable.ContainsKey(item.Feed.link))
             {
@@ -2842,9 +2842,9 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>if the parent feed has been deleted then this does nothing</remarks>
         /// <param name="deletedItems">the list of items to restore</param>
-        public void RestoreDeletedItem(IList<NewsItem> deletedItems)
+        public void RestoreDeletedItem(IList<INewsItem> deletedItems)
         {
-            foreach (NewsItem item in deletedItems)
+            foreach (INewsItem item in deletedItems)
             {
                 this.RestoreDeletedItem(item);
             }
@@ -3067,7 +3067,7 @@ namespace NewsComponents
 
                         if (itemsTable.ContainsKey(f.link))
                         {
-                            IList<NewsItem> items = itemsTable[f.link].ItemsList;
+                            IList<INewsItem> items = itemsTable[f.link].ItemsList;
 
                             // Taken out because it meant that when we sync we lose information
                             // about stuff we've read from other instances of RSS Bandit synced from 
@@ -4361,10 +4361,10 @@ namespace NewsComponents
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<NewsItem> GetItemsForFeed(NewsFeed f)
+        public List<INewsItem> GetItemsForFeed(NewsFeed f)
         {
             //REM gets called from Bandit (retrive comment feeds)
-            List<NewsItem> returnList = EmptyItemList;
+            List<INewsItem> returnList = EmptyItemList;
 
             if (this.offline)
                 return returnList;
@@ -4418,7 +4418,7 @@ namespace NewsComponents
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<NewsItem> GetItemsForFeed(string feedUrl)
+        public List<INewsItem> GetItemsForFeed(string feedUrl)
         {
             NewsFeed f = new NewsFeed();
             f.link = feedUrl;
@@ -4502,7 +4502,7 @@ namespace NewsComponents
         /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
         /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public IList<NewsItem> GetItemsForFeed(string feedUrl, bool force_download)
+        public IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
         {
             //REM gets called from Bandit
             string url2Access = feedUrl;
@@ -4592,14 +4592,14 @@ namespace NewsComponents
         /// <param name="item">The item to copy</param>
         /// <param name="f">The owner feed</param>
         /// <returns>A copy of the specified news item</returns>
-        public NewsItem CopyNewsItemTo(NewsItem item, NewsFeed f)
+        public INewsItem CopyNewsItemTo(INewsItem item, INewsFeed f)
         {
             //load item content from disk if not in memory, to get a full clone later on
             if (!item.HasContent)
                 this.GetCachedContentForItem(item);
 
             // now create a full copy (including item content)
-            return item.CopyTo(f);
+            return new NewsItem(f, item);
         }
 
         /// <summary>
@@ -4609,7 +4609,7 @@ namespace NewsComponents
         /// <remarks>This should be called when a user clicks on an item which 
         /// had previously been read and thus wasn't loaded from disk on startup. </remarks>
         /// <param name="item"></param>
-        public void GetCachedContentForItem(NewsItem item)
+        public void GetCachedContentForItem(INewsItem item)
         {
             this.CacheHandler.LoadItemContent(item);
         }
@@ -4619,7 +4619,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feedUrl"></param>
         /// <returns>A ArrayList of NewsItem objects</returns>
-        public IList<NewsItem> GetCachedItemsForFeed(string feedUrl)
+        public IList<INewsItem> GetCachedItemsForFeed(string feedUrl)
         {
             lock (itemsTable)
             {
@@ -4975,7 +4975,7 @@ namespace NewsComponents
                 Trace("AsyncRequest.OnRequestComplete: perma redirect of '{0}' to '{1}'.", requestUri.ToString(),
                       newUri.ToString());
 
-            IList<NewsItem> itemsForFeed;
+            IList<INewsItem> itemsForFeed;
             bool firstSuccessfulDownload = false;
 
             //grab items from feed, then save stream to cache. 
@@ -5057,7 +5057,7 @@ namespace NewsComponents
 						 */
                     }
 
-                    List<NewsItem> newReceivedItems = null;
+                    List<INewsItem> newReceivedItems = null;
 
                     //Merge items list from cached copy of feed with this newly fetched feed. 
                     //Thus if a feed removes old entries (such as a news site with daily updates) we 
@@ -5592,7 +5592,7 @@ namespace NewsComponents
         /// Helper function that marks all of an items enclosures as downloaded. 
         /// </summary>
         /// <param name="item"></param>
-        private static void MarkEnclosuresDownloaded(NewsItem item)
+        private static void MarkEnclosuresDownloaded(INewsItem item)
         {
             if (item == null)
             {
@@ -6211,9 +6211,9 @@ namespace NewsComponents
 
                     if (itemsTable.ContainsKey(f2.link))
                     {
-                        List<NewsItem> items = ((FeedInfo) itemsTable[f2.link]).itemsList;
+                        List<INewsItem> items = ((FeedInfo) itemsTable[f2.link]).itemsList;
 
-                        foreach (NewsItem item in items)
+                        foreach (INewsItem item in items)
                         {
                             if (f2.storiesrecentlyviewed.Contains(item.Id))
                             {
@@ -6500,7 +6500,7 @@ namespace NewsComponents
         {
             TimeSpan maxItemAge = this.GetMaxItemAge(feed.link);
             FeedDetailsInternal fi = this.itemsTable[feed.link];
-            IList<NewsItem> items = fi.ItemsList;
+            IList<INewsItem> items = fi.ItemsList;
 
             /* remove items that have expired according to users cache requirements */
             if (maxItemAge != TimeSpan.MinValue)
@@ -6511,7 +6511,7 @@ namespace NewsComponents
                 {
                     for (int i = 0, count = items.Count; i < count; i++)
                     {
-                        NewsItem item = items[i];
+                        INewsItem item = items[i];
 
                         if (feed.deletedstories.Contains(item.Id) || ((DateTime.Now - item.Date) >= maxItemAge))
                         {
@@ -6545,7 +6545,7 @@ namespace NewsComponents
 
                 int readItems = 0;
 
-                IList<NewsItem> items = fi.ItemsList;
+                IList<INewsItem> items = fi.ItemsList;
                 lock (items)
                 {
                     /* check if feed set to never delete items */
@@ -6557,7 +6557,7 @@ namespace NewsComponents
 
                     for (int i = 0, count = items.Count; i < count; i++)
                     {
-                        NewsItem item = items[i];
+                        INewsItem item = items[i];
 
                         if ((!keepAll) && ((DateTime.Now - item.Date) >= maxItemAge) ||
                             feed.deletedstories.Contains(item.Id))
@@ -6598,11 +6598,11 @@ namespace NewsComponents
         /// <param name="onlyKeepNewItems">Indicates that we only want the items from newItems to be kept. If this value is true 
         /// then this method merely copies over item state of any oldItems that are in newItems then returns newItems</param>
         /// <returns>IList merge/purge result</returns>
-        public static List<NewsItem> MergeAndPurgeItems(List<NewsItem> oldItems, List<NewsItem> newItems,
-                                                        ICollection<string> deletedItems, out List<NewsItem> receivedNewItems,
+        public static List<INewsItem> MergeAndPurgeItems(List<INewsItem> oldItems, List<INewsItem> newItems,
+                                                        ICollection<string> deletedItems, out List<INewsItem> receivedNewItems,
                                                         bool onlyKeepNewItems)
         {
-            receivedNewItems = new List<NewsItem>();
+            receivedNewItems = new List<INewsItem>();
             //ArrayList removedOldItems = new ArrayList(); 
 
             lock (oldItems)
@@ -6622,7 +6622,7 @@ namespace NewsComponents
                     }
                     else
                     {
-                        NewsItem olditem = oldItems[index];
+                        INewsItem olditem = oldItems[index];
                         newitem.BeenRead = olditem.BeenRead;
                         /*
 						COMMENTED OUT BECAUSE WE WON'T SAVE NEWLY DOWNLOADED TEXT IF THE 
@@ -6664,14 +6664,14 @@ namespace NewsComponents
 
                                 if (j != -1)
                                 {
-                                    Enclosure oldEnc = newitem.Enclosures[j];
+                                    IEnclosure oldEnc = newitem.Enclosures[j];
                                     enc.Downloaded = oldEnc.Downloaded;
                                 }
                                 else
                                 {
                                     if (ReferenceEquals(newitem.Enclosures, GetList<Enclosure>.Empty))
                                     {
-                                        newitem.Enclosures = new List<Enclosure>();
+                                        newitem.Enclosures = new List<IEnclosure>();
                                     }
                                     newitem.Enclosures.Add(enc);
                                 }
@@ -6744,12 +6744,12 @@ namespace NewsComponents
         /// <param name="item"></param>
         /// <param name="excludeItemsList"></param>
         /// <returns></returns>
-        public ICollection<NewsItem> GetItemsWithIncomingLinks(NewsItem item, IList<NewsItem> excludeItemsList)
+        public ICollection<INewsItem> GetItemsWithIncomingLinks(INewsItem item, IList<INewsItem> excludeItemsList)
         {
             if (buildRelationCosmos)
                 return relationCosmos.GetIncoming(item, excludeItemsList);
             else
-                return new List<NewsItem>();
+                return new List<INewsItem>();
         }
 
         /// <summary>
@@ -6757,15 +6757,15 @@ namespace NewsComponents
         /// <param name="url"></param>
         /// <param name="since"></param>
         /// <returns></returns>
-        public IList<NewsItem> GetItemsWithIncomingLinks(string url, DateTime since)
+        public IList<INewsItem> GetItemsWithIncomingLinks(string url, DateTime since)
         {
             //make sure we are using the interned string for lookup
             url = RelationCosmos.RelationCosmos.UrlTable.Add(url);
 
             if (buildRelationCosmos)
-                return relationCosmos.GetIncoming<NewsItem>(url, since);
+                return relationCosmos.GetIncoming<INewsItem>(url, since);
             else
-                return new List<NewsItem>();
+                return new List<INewsItem>();
         }
 
         /// <summary>
@@ -6773,12 +6773,12 @@ namespace NewsComponents
         /// <param name="item"></param>
         /// <param name="excludeItemsList"></param>
         /// <returns></returns>
-        public ICollection<NewsItem> GetItemsFromOutGoingLinks(NewsItem item, IList<NewsItem> excludeItemsList)
+        public ICollection<INewsItem> GetItemsFromOutGoingLinks(INewsItem item, IList<INewsItem> excludeItemsList)
         {
             if (buildRelationCosmos)
                 return relationCosmos.GetOutgoing(item, excludeItemsList);
             else
-                return new List<NewsItem>();
+                return new List<INewsItem>();
         }
 
         /// <summary>
@@ -6786,7 +6786,7 @@ namespace NewsComponents
         /// <param name="item"></param>
         /// <param name="excludeItemsList"></param>
         /// <returns></returns>
-        public bool HasItemAnyRelations(NewsItem item, IList<NewsItem> excludeItemsList)
+        public bool HasItemAnyRelations(INewsItem item, IList<INewsItem> excludeItemsList)
         {
             if (buildRelationCosmos)
                 return relationCosmos.HasIncomingOrOutgoing(item, excludeItemsList);
@@ -6799,7 +6799,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="relation"></param>
         internal static void RelationCosmosAdd<T>(T relation)
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (buildRelationCosmos)
                 relationCosmos.Add(relation);
@@ -6808,7 +6808,7 @@ namespace NewsComponents
         }
 
         internal static void RelationCosmosAddRange<T>(IEnumerable<T> relations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (buildRelationCosmos)
                 relationCosmos.AddRange(relations);
@@ -6817,7 +6817,7 @@ namespace NewsComponents
         }
 
         internal static void RelationCosmosRemove<T>(T relation)
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (buildRelationCosmos)
                 relationCosmos.Remove(relation);
@@ -6826,7 +6826,7 @@ namespace NewsComponents
         }
 
         internal static void RelationCosmosRemoveRange<T>(IList<T> relations)
-            where T : RelationBase<T>
+            where T : IRelation
         {
             if (buildRelationCosmos)
                 relationCosmos.RemoveRange(relations);
@@ -6959,7 +6959,7 @@ namespace NewsComponents
     internal interface FeedDetailsInternal : IFeedDetails
     {
         new Dictionary<XmlQualifiedName, string> OptionalElements { get; }
-        List<NewsItem> ItemsList { get; set; }
+        List<INewsItem> ItemsList { get; set; }
         string FeedLocation { get; set; }
         string Id { get; set; }
         void WriteTo(XmlWriter writer);

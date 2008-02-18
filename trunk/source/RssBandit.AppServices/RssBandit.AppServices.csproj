@@ -148,10 +148,12 @@
     <Compile Include="Core\IFeedDetails.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\INewsFeed.cs" />
     <Compile Include="Core\INewsItem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\INntpServerDefinition.cs" />
+    <Compile Include="Core\IRelation.cs" />
     <Compile Include="Core\ISearchEngine.cs" />
     <Compile Include="Core\IUserIdentity.cs" />
     <Compile Include="Core\IUserPreferences.cs">

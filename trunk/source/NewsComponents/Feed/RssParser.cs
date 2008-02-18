@@ -274,7 +274,7 @@ namespace NewsComponents.Feed
             Flagged flagged = Flagged.None;
             bool watchComments = false, hasNewComments = false;
             ArrayList subjects = new ArrayList();
-            List<Enclosure> enclosures = null;
+            List<IEnclosure> enclosures = null;
             List<string> outgoingLinks = null;
             string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 
@@ -593,7 +593,7 @@ namespace NewsComponents.Feed
                     {
                     }
 
-                    enclosures = (enclosures ?? new List<Enclosure>());
+                    enclosures = (enclosures ?? new List<IEnclosure>());
                     enc = new Enclosure(type, length, url, String.Empty);
                     enc.Downloaded = downloaded;
 
@@ -720,7 +720,7 @@ namespace NewsComponents.Feed
             newsItem.CommentRssUrl = commentRssUrl;
             newsItem.CommentUrl = commentUrl;
             newsItem.CommentStyle = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI);
-            newsItem.Enclosures = (enclosures ?? GetList<Enclosure>.Empty);
+            newsItem.Enclosures = (enclosures ?? GetList<IEnclosure>.Empty);
             newsItem.WatchComments = watchComments;
             newsItem.Language = reader.XmlLang;
             newsItem.HasNewComments = hasNewComments;
@@ -804,7 +804,7 @@ namespace NewsComponents.Feed
             Hashtable optionalElements = new Hashtable();
             Flagged flagged = Flagged.None;
             ArrayList subjects = new ArrayList();
-            List<Enclosure> enclosures = null;
+            List<IEnclosure> enclosures = null;
             string itemNamespaceUri = reader.NamespaceURI;
 
 
@@ -914,7 +914,7 @@ namespace NewsComponents.Feed
 
                     if (!string.IsNullOrEmpty(url))
                     {
-                        enclosures = (enclosures ?? new List<Enclosure>());
+                        enclosures = (enclosures ?? new List<IEnclosure>());
                         enc = new Enclosure(type, length, url, String.Empty);
 
                         if (encDuration != TimeSpan.MinValue)
@@ -946,7 +946,7 @@ namespace NewsComponents.Feed
 
                     if (!string.IsNullOrEmpty(url))
                     {
-                        enclosures = (enclosures ?? new List<Enclosure>());
+                        enclosures = (enclosures ?? new List<IEnclosure>());
                         enclosures.Add(new Enclosure(type, length, url, String.Empty));
                     }
 
@@ -1283,7 +1283,7 @@ namespace NewsComponents.Feed
             newsItem.CommentRssUrl = commentRssUrl;
             newsItem.CommentUrl = commentUrl;
             newsItem.CommentStyle = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI);
-            newsItem.Enclosures = (enclosures ?? GetList<Enclosure>.Empty);
+            newsItem.Enclosures = (enclosures ?? GetList<IEnclosure>.Empty);
             newsItem.Language = reader.XmlLang;
 
             return newsItem;
@@ -1301,12 +1301,12 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<NewsItem> GetItemsForFeed(INewsFeed f)
+        public List<INewsItem> GetItemsForFeed(INewsFeed f)
         {
             if (offline)
-                return new List<NewsItem>();
+                return new List<INewsItem>();
 
-            List<NewsItem> returnList;
+            List<INewsItem> returnList;
 
             using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
             {
@@ -1326,7 +1326,7 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<NewsItem> GetItemsForFeed(string feedUrl)
+        public List<INewsItem> GetItemsForFeed(string feedUrl)
         {
             NewsFeed f = new NewsFeed();
             f.link = feedUrl;
@@ -1353,7 +1353,7 @@ namespace NewsComponents.Feed
         /// RSS feed</exception>	
         public static FeedInfo GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream)
         {
-            List<NewsItem> items = new List<NewsItem>();
+            List<INewsItem> items = new List<INewsItem>();
             Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();
             string feedLink = String.Empty,
                    feedDescription = String.Empty,
@@ -1484,7 +1484,7 @@ namespace NewsComponents.Feed
 
             for (int i = 0, count = items.Count; i < count; i++)
             {
-                NewsItem ri = items[i];
+                INewsItem ri = items[i];
                 if ((f.storiesrecentlyviewed != null) && f.storiesrecentlyviewed.Contains(ri.Id))
                 {
                     ri.BeenRead = true;
@@ -1837,7 +1837,7 @@ namespace NewsComponents.Feed
         /// <param name="items">Items in the feed</param>
         /// <param name="defaultItemDate">Default DateTime for the items</param>
         /// <param name="language">The language of the feed</param>
-        private static void ProcessFeedElements(INewsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref DateTime channelBuildDate, IDictionary<XmlQualifiedName, string> optionalElements, ICollection<NewsItem> items, DateTime defaultItemDate, ref string language)
+        private static void ProcessFeedElements(INewsFeed f, XmlReader reader, object[] atomized_strings, string rssNamespaceUri, SyndicationFormat format, ref string feedLink, ref string feedTitle, ref string feedDescription, ref DateTime channelBuildDate, IDictionary<XmlQualifiedName, string> optionalElements, ICollection<INewsItem> items, DateTime defaultItemDate, ref string language)
         {
             bool matched; //indicates whether this is a known element
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()

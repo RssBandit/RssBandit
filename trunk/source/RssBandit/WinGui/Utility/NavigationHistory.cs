@@ -284,12 +284,12 @@ namespace RssBandit.WinGui.Utility
 	internal class HistoryEntry {
 		public HistoryEntry():this(null,null) {}
 		public HistoryEntry(TreeFeedsNodeBase feedsNode):this(feedsNode, null) {}
-		public HistoryEntry(TreeFeedsNodeBase feedsNode, NewsItem item) {
+		public HistoryEntry(TreeFeedsNodeBase feedsNode, INewsItem item) {
 			this.Node = feedsNode;
 			this.Item = item;
 		}
 		public TreeFeedsNodeBase Node;
-		public NewsItem Item;
+		public INewsItem Item;
 		public override bool Equals(object obj) {
 			if (null == (obj as HistoryEntry))
 				return false;
