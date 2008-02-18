@@ -69,25 +69,25 @@ namespace NewsComponents.RelationCosmos
 		/// </summary>
 		/// <param name="relation">Relation to add</param>
 		/// <exception cref="ArgumentNullException">If relation or relation.HRef is null</exception>
-		void Add<T>(T relation) where T : RelationBase<T>;
+		void Add<T>(T relation) where T : IRelation;
 
 		/// <summary>
 		/// Add a range of <c>RelationBase</c> objects
 		/// </summary>
 		/// <param name="relations">IList</param>
-        void AddRange<T>(IEnumerable<T> relations) where T : RelationBase<T>;
+        void AddRange<T>(IEnumerable<T> relations) where T : IRelation;
 
 		/// <summary>
 		/// Remove a relation from the RelationCosmos.
 		/// </summary>
 		/// <param name="relation">Relation to be removed</param>
-		void Remove<T>(T relation) where T : RelationBase<T>;
+		void Remove<T>(T relation) where T : IRelation;
 
 		/// <summary>
 		/// Overloaded. Remove a amount of RelationBase objects from the RelationCosmos.
 		/// </summary>
 		/// <param name="relations">To be removed RelationBase object's</param>
-        void RemoveRange<T>(IEnumerable<T> relations) where T : RelationBase<T>;
+        void RemoveRange<T>(IEnumerable<T> relations) where T : IRelation;
 
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>;
+        IList<T> GetIncoming<T>(T relation, IList<T> excludeRelations) where T : IRelation;
 
         /// <summary>
         /// Returns a list of relations, that are known in RelationCosmos and pointing to
@@ -113,7 +113,7 @@ namespace NewsComponents.RelationCosmos
         /// <param name="since">The date used to filter the returned relations. Only items that have been published since 
         /// that date are return</param>
         /// <returns>RelationList</returns>
-        IList<T> GetIncoming<T>(string hRef, DateTime since) where T : RelationBase<T>;
+        IList<T> GetIncoming<T>(string hRef, DateTime since) where T : IRelation;
 
 		/// <summary>
 		/// Returns a list of relations, that are known in RelationCosmos and that 
@@ -123,7 +123,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>;
+        IList<T> GetOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation;
 
 		/// <summary>
 		/// Returns a list merged of incoming and outging relations.
@@ -132,7 +132,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of relations, 
 		/// that should be excluded in that check</param>
 		/// <returns>RelationList</returns>
-        IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>;
+        IList<T> GetIncomingAndOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation;
 
 		/// <summary>
 		/// Return true, if the <c>relation</c> has any incoming or outgoing relations 
@@ -142,7 +142,7 @@ namespace NewsComponents.RelationCosmos
 		/// <param name="excludeRelations">List of strings with relation.HRef's, 
 		/// that should be excluded in that check</param>
 		/// <returns>True, if any relation was found, else false</returns>
-        bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) where T : RelationBase<T>;
+        bool HasIncomingOrOutgoing<T>(T relation, IList<T> excludeRelations) where T : IRelation;
 
 		/// <summary>
 		/// Not yet fully implemented/supported!

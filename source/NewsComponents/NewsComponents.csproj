@@ -247,7 +247,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationCosmos\DummyCosmos.cs" />
-    <Compile Include="RelationCosmos\IRelation.cs" />
     <Compile Include="RelationCosmos\RelationCosmos4.cs" />
     <Compile Include="RelationCosmos\Collections\StringTable.cs">
       <SubType>Code</SubType>

@@ -13,12 +13,12 @@ namespace NewsComponents.Collections
             HRef = (link ?? String.Empty);
             Text = (text ?? String.Empty);
             Score = score;
-            References = new List<NewsItem>();
+            References = new List<INewsItem>();
         }
         public float Score;
         public string Text;
         public string HRef;
-        public IList<NewsItem> References;
+        public IList<INewsItem> References;
 
 
         /// <summary>

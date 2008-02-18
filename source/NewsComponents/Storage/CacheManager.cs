@@ -67,6 +67,6 @@ namespace NewsComponents.Storage {
 		/// non-null value for its Id property. 
 		/// </summary>
 		/// <param name="item"></param>
-		public abstract void LoadItemContent(NewsItem item); 
+		public abstract void LoadItemContent(INewsItem item); 
 	}
 }

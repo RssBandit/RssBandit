@@ -32,7 +32,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="item">NewsItem to comapre (work on)</param>
 		/// <returns>true, if this criteria match that item</returns>
-		public abstract bool Match(NewsItem item);
+		public abstract bool Match(INewsItem item);
 		/// <summary>
 		/// Method to implement for a feed compare. Should return true,
 		/// if the criteria match that feed.
@@ -133,7 +133,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="item">NewsItem</param>
 		/// <returns>true, if ALL criteria matches that item, else false</returns>
-		public bool Match(NewsItem item) { 
+		public bool Match(INewsItem item) { 
 			if (criteriaList.Count == 0)
 				return false;
 			//iterate all criteria and return true if all match ...(AND)
@@ -304,7 +304,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public override bool Match(NewsItem item) { 
+		public override bool Match(INewsItem item) { 
 			if (this.WhatRelativeToToday.CompareTo(TimeSpan.Zero) == 0) {
 				// compare dates only
 				int itemDate = DateTimeExt.DateAsInteger(item.Date);
@@ -411,7 +411,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public override bool Match(NewsItem item) { 
+		public override bool Match(INewsItem item) { 
 			// compare dates only
 			int itemDate = DateTimeExt.DateAsInteger(item.Date);
 			return itemDate > lowDateOnly && itemDate < highDateOnly;
@@ -439,7 +439,7 @@ namespace NewsComponents.Search
 		public SearchCriteriaProperty() {}
 		
 		// interface impl.
-		public override bool Match(NewsItem item) { 
+		public override bool Match(INewsItem item) { 
 			switch(WhatKind){ 
 			
 				case PropertyExpressionKind.Flagged:
@@ -463,11 +463,11 @@ namespace NewsComponents.Search
 		/// </summary>
 		public class SearchRssDocument:IDocument 
 		{
-			private NewsItem item;
+			private INewsItem item;
 			private SearchStringElement Where;
 			private Regex htmlRegex = SearchCriteriaString.htmlRegex;
 
-			public SearchRssDocument(NewsItem item,SearchStringElement where)
+			public SearchRssDocument(INewsItem item,SearchStringElement where)
 			{
 				this.item=item;
 				this.Where=where;
@@ -545,7 +545,7 @@ namespace NewsComponents.Search
 			
 
 		// interface impl.
-		public override bool Match(NewsItem item) 
+		public override bool Match(INewsItem item) 
 		{ 
 	
 			switch(WhatKind){
@@ -609,6 +609,8 @@ namespace NewsComponents.Search
 
 				case StringExpressionKind.XPathExpression:
 
+                    //TODO: Disable XPath option in the UI
+                    /* 
 					XPathDocument doc  = new XPathDocument(new StringReader(item.ToString(NewsItemSerializationFormat.RssItem))); 
 					XPathNavigator nav = doc.CreateNavigator(); 
 
@@ -617,6 +619,8 @@ namespace NewsComponents.Search
 					}else{
 						return false; 
 					}
+                     */ 
+                    return false; 
 				
 				case StringExpressionKind.LuceneExpression:
 					return true;	// strings are yet handled

@@ -114,20 +114,27 @@ namespace NewsComponents.RelationCosmos
 		public virtual bool HasExternalRelations { get { return false; } }
 		/// <summary>
 		/// Gets called if <see cref="HasExternalRelations">HasExternalRelations</see>
-		/// returns true to retrive the external Relation resource(s).
+		/// returns true to retrieve the external Relation resource(s).
 		/// Default return is the RelationCosmos.EmptyRelationList.
 		/// </summary>
-		public virtual IList<T> GetExternalRelations() {
+		public virtual IList<IRelation> GetExternalRelations() {
             if (externalRelations == null)
-                return new List<T>();
-			return externalRelations;
+                return new List<IRelation>();
+
+            //TODO: Implement this in a more elegant manner
+            List<IRelation> list = new List<IRelation>();
+            foreach (IRelation relation in externalRelations)
+            {
+                list.Add(relation);
+            }
+            return list;
 		}
 		/// <summary>
 		/// Should be overridden. Stores a collection of external Relations related
 		/// to this RelationBase.
 		/// </summary>
-		public virtual void SetExternalRelations(IList<T> relations) { 
-			externalRelations = relations; 
+		public virtual void SetExternalRelations<X>(IList<X> relations) where X: IRelation{ 
+			externalRelations = (IList<T>) relations; 
 		}
 		/// <summary>
 		/// Internal accessor.

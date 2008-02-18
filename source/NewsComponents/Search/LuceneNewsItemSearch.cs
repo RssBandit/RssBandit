@@ -53,7 +53,7 @@ namespace NewsComponents.Search
 		/// <summary>
 		/// Creates a document for a NewsItem.
 		/// </summary>
-		internal static Document Document(NewsItem item) {
+		internal static Document Document(INewsItem item) {
 			
 			// make a new, empty document
 			Document doc = new Document();
@@ -186,7 +186,7 @@ namespace NewsComponents.Search
 		internal static char UrlPathSeparator = '/';
 		internal static char UnicodeNullChar = '\u0000';
 		
-		public static string UID(NewsItem item) {
+		public static string UID(INewsItem item) {
 			string s = String.Concat(item.Feed.id, UnicodeNullChar, item.Id.Replace(UrlPathSeparator, UnicodeNullChar));
 			return s;
 		}

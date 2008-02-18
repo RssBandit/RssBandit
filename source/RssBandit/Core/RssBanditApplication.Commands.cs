@@ -57,7 +57,7 @@ namespace RssBandit
                         // we need to unflag the items within each subscribed feed:
                         for (int i = 0, j = isFolder.Items.Count; i < j; i++)
                         {
-                            NewsItem item = isFolder.Items[0];
+                            INewsItem item = isFolder.Items[0];
                             RemoveItemFromSmartFolder(isFolder, item);
                         }
                     }

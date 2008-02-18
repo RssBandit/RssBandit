@@ -102,7 +102,7 @@ namespace RssBandit.SpecialFeeds
 			}
 			base.title = feedTitle;
 			
-			this.feedInfo = new FeedInfo(null, filePath, new List<NewsItem>(), feedTitle, base.link, feedDescription);
+			this.feedInfo = new FeedInfo(null, filePath, new List<INewsItem>(), feedTitle, base.link, feedDescription);
 			
 			if (loadItems)
 				LoadItems(this.GetDefaultReader());
@@ -121,20 +121,20 @@ namespace RssBandit.SpecialFeeds
 			LoadItems(reader);
 		}
 
-		public List<NewsItem> Items {
+		public List<INewsItem> Items {
 			get { return this.feedInfo.ItemsList;  }
-			set { this.feedInfo.ItemsList = new List<NewsItem>(value); }
+			set { this.feedInfo.ItemsList = new List<INewsItem>(value); }
 		}
 
 		public void Add(LocalFeedsFeed lff){
-			foreach(NewsItem item in lff.Items){
+			foreach(INewsItem item in lff.Items){
 				if(!this.feedInfo.ItemsList.Contains(item)){
 					this.Add(item); 
 				}
 			}		
 		}
 
-		public void Add(NewsItem item) {
+		public void Add(INewsItem item) {
 			if (item == null)
 				return;
 			
@@ -143,7 +143,7 @@ namespace RssBandit.SpecialFeeds
 			this.modified = true;
 		}
 
-		public void Remove(NewsItem item) {
+		public void Remove(INewsItem item) {
 			if (item != null)
 			{
 				int index = this.feedInfo.ItemsList.IndexOf(item);
@@ -298,7 +298,7 @@ namespace RssBandit.SpecialFeeds
 				base.feedInfo.ItemsList.RemoveAt((int)removeAtIndex.Pop());
 		}
 
-		public new IList<NewsItem> Items {
+		public new IList<INewsItem> Items {
 			get { return base.feedInfo.ItemsList; }
 		}
 

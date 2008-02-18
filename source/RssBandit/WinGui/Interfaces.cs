@@ -70,11 +70,11 @@ namespace RssBandit.WinGui.Interfaces
 		bool HasNewComments             { get ; }
 		int NewMessagesCount			{ get ; }
 		int NewCommentsCount            { get ; }
-		void MarkItemRead				(NewsItem item);
-		void MarkItemUnread				(NewsItem item);	
-		List<NewsItem> Items					{ get ; }
-		void Add						(NewsItem item);
-		void Remove						(NewsItem item);
+		void MarkItemRead				(INewsItem item);
+		void MarkItemUnread				(INewsItem item);	
+		List<INewsItem> Items					{ get ; }
+		void Add						(INewsItem item);
+		void Remove						(INewsItem item);
 		void UpdateReadStatus 			();
 		void UpdateCommentStatus        ();
 		bool Modified					{ get ; set ; }
