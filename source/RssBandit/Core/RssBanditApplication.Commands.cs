@@ -1612,7 +1612,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdPostReplyToItem(ICommand sender)
         {
-            NewsItem item2reply = guiMain.CurrentSelectedFeedItem;
+            INewsItem item2reply = guiMain.CurrentSelectedFeedItem;
 
             if (item2reply == null)
             {

@@ -4389,7 +4389,7 @@ namespace RssBandit.WinGui.Forms
             });
         }
 
-        private void CheckForFlaggedNodeAndCreate(NewsItem ri)
+        private void CheckForFlaggedNodeAndCreate(INewsItem ri)
         {
             ISmartFolder isf;
             TreeFeedsNodeBase tn = null;
@@ -6423,7 +6423,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         public void MarkFeedItemsFlagged(Flagged flag)
         {
-            NewsItem item;
+            INewsItem item;
             ColumnKeyIndexMap colIndex = listFeedItems.Columns.GetColumnIndexMap();
             IList selectedItems = GetSelectedLVItems();
             ArrayList toBeRemoved = null;
@@ -9515,7 +9515,7 @@ namespace RssBandit.WinGui.Forms
         private void CmdDownloadAttachment(ICommand sender)
         {
             string fileName = sender.CommandID.Split(new char[] {'<'})[1];
-            NewsItem item = CurrentSelectedFeedItem;
+            INewsItem item = CurrentSelectedFeedItem;
 
             try
             {
@@ -13217,7 +13217,7 @@ namespace RssBandit.WinGui.Forms
             DelayTask(DelayedTasks.ShowFeedPropertiesDialog, f);
         }
 
-        private void OnExternalActivateFeedItem(NewsItem item)
+        private void OnExternalActivateFeedItem(INewsItem item)
         {
             DelayTask(DelayedTasks.NavigateToFeedNewsItem, item);
         }
@@ -14092,7 +14092,7 @@ namespace RssBandit.WinGui.Forms
                 if (n != null && e.Clicks > 1)
                 {
                     //DblClick
-                    NewsItem item = CurrentSelectedFeedItem = n.NewsItem;
+                    INewsItem item = CurrentSelectedFeedItem = n.NewsItem;
                     n.Selected = true;
 
                     if (item != null && !string.IsNullOrEmpty(item.Link))

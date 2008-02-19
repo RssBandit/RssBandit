@@ -12,6 +12,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -802,6 +804,306 @@ namespace NewsComponents.Feed {
                 return this.myfeed;
             }
         }
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message.  </param>
+        /// <returns></returns>
+        public String ToString(NewsItemSerializationFormat format)
+        {
+            return ToString(format, true, false);
+        }
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+        /// <returns>A string representation of this news item</returns>		
+        public String ToString(NewsItemSerializationFormat format, bool useGMTDate)
+        {
+            return ToString(format, useGMTDate, false);
+        }
+
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>		
+        /// <returns>A string representation of this news item</returns>		
+        public String ToString(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
+        {
+            string toReturn;
+
+            switch (format)
+            {
+                case NewsItemSerializationFormat.NewsPaper:
+                case NewsItemSerializationFormat.RssFeed:
+                case NewsItemSerializationFormat.RssItem:
+                    toReturn = ToRssFeedOrItem(format, useGMTDate, noDescriptions);
+                    break;
+                case NewsItemSerializationFormat.NntpMessage:
+                    throw new NotSupportedException(format.ToString());
+                    break;
+                default:
+                    throw new NotSupportedException(format.ToString());
+            }
+
+
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item.  
+        /// </summary>
+        /// <returns></returns>
+        public override String ToString()
+        {
+            return ToString(NewsItemSerializationFormat.RssItem);
+        }
+
+        /// <summary>
+        /// Converts the NewsItem to an XML representation of an 
+        /// RSS item element is returned or an entire RSS feed with this item as its 
+        /// sole item.
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>		
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>				
+        /// <returns>An RSS item or RSS feed</returns>
+        public String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
+        {
+            StringBuilder sb = new StringBuilder("");
+            XmlTextWriter writer = new XmlTextWriter(new StringWriter(sb));
+            writer.Formatting = Formatting.Indented;
+
+            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper)
+            {
+                if (format == NewsItemSerializationFormat.NewsPaper)
+                {
+                    writer.WriteStartElement("newspaper");
+                    writer.WriteAttributeString("type", "newsitem");
+                }
+                else
+                {
+                    writer.WriteStartElement("rss");
+                    writer.WriteAttributeString("version", "2.0");
+                }
+
+                writer.WriteStartElement("channel");
+                writer.WriteElementString("title", FeedDetails.Title);
+                writer.WriteElementString("link", FeedDetails.Link);
+                writer.WriteElementString("description", FeedDetails.Description);
+
+                foreach (string s in FeedDetails.OptionalElements.Values)
+                {
+                    writer.WriteRaw(s);
+                }
+            }
+
+            WriteItem(writer, useGMTDate, noDescriptions);
+
+            if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper)
+            {
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Helper function used by ToString(bool). 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>						
+        public void WriteItem(XmlWriter writer, bool useGMTDate, bool noDescriptions)
+        {
+            //<item>
+            writer.WriteStartElement("item");
+
+            // xml:lang attribute
+            if ((Language != null) && (Language.Length != 0))
+            {
+                writer.WriteAttributeString("xml", "lang", null, Language);
+            }
+
+            // <title />
+            if ((Title != null) && (Title.Length != 0))
+            {
+                writer.WriteElementString("title", Title);
+            }
+
+            // <link /> 
+            if ((HRef != null) && (HRef.Length != 0))
+            {
+                writer.WriteElementString("link", HRef);
+            }
+
+            // <pubDate /> 			we write it with InvariantInfo to get them stored in a non-localized format
+            if (useGMTDate)
+            {
+                writer.WriteElementString("pubDate", Date.ToString("r", DateTimeFormatInfo.InvariantInfo));
+            }
+            else
+            {
+                writer.WriteElementString("pubDate", Date.ToLocalTime().ToString("F", DateTimeFormatInfo.InvariantInfo));
+            }
+
+            // <category />
+            if ((Subject != null) && (Subject.Length != 0))
+            {
+                writer.WriteElementString("category", Subject);
+            }
+
+            //<guid>
+            if ((Id != null) && (Id.Length != 0) && (Id.Equals(HRef) == false))
+            {
+                writer.WriteStartElement("guid");
+                writer.WriteAttributeString("isPermaLink", "false");
+                writer.WriteString(Id);
+                writer.WriteEndElement();
+            }
+
+            //<dc:creator>
+            if ((Author != null) && (Author.Length != 0))
+            {
+                writer.WriteElementString("creator", "http://purl.org/dc/elements/1.1/", Author);
+            }
+
+            //<annotate:reference>
+            if ((ParentId != null) && (ParentId.Length != 0))
+            {
+                writer.WriteStartElement("annotate", "reference", "http://purl.org/rss/1.0/modules/annotate/");
+                writer.WriteAttributeString("rdf", "resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", ParentId);
+                writer.WriteEndElement();
+            }
+
+            // Always prefer <description> 
+            if (!noDescriptions && HasContent)
+            {
+                /* if(this.ContentType != ContentType.Xhtml){ */
+                writer.WriteStartElement("description");
+                writer.WriteCData(Content);
+                writer.WriteEndElement();
+                /* }else // if(this.contentType == ContentType.Xhtml)  { 
+                    writer.WriteStartElement("xhtml", "body",  "http://www.w3.org/1999/xhtml");
+                    writer.WriteRaw(this.Content); 
+                    writer.WriteEndElement();
+                } */
+            }
+
+            //<wfw:comment />
+            if ((CommentUrl != null) && (CommentUrl.Length != 0))
+            {
+                if (CommentStyle == SupportedCommentStyle.CommentAPI)
+                {
+                    writer.WriteStartElement("wfw", "comment", RssHelper.NsCommentAPI);
+                    writer.WriteString(CommentUrl);
+                    writer.WriteEndElement();
+                }
+            }
+
+            //<wfw:commentRss />
+            if ((CommentRssUrl != null) && (CommentRssUrl.Length != 0))
+            {
+                writer.WriteStartElement("wfw", "commentRss", RssHelper.NsCommentAPI);
+                writer.WriteString(CommentRssUrl);
+                writer.WriteEndElement();
+            }
+
+            //<slash:comments>
+            if (CommentCount != NewsItem.NoComments)
+            {
+                writer.WriteStartElement("slash", "comments", "http://purl.org/rss/1.0/modules/slash/");
+                writer.WriteString(CommentCount.ToString());
+                writer.WriteEndElement();
+            }
+
+
+            //	if(format == NewsItemSerializationFormat.NewsPaper){
+
+            writer.WriteStartElement("fd", "state", "http://www.bradsoft.com/feeddemon/xmlns/1.0/");
+            writer.WriteAttributeString("read", BeenRead ? "1" : "0");
+            writer.WriteAttributeString("flagged", FlagStatus == Flagged.None ? "0" : "1");
+            writer.WriteEndElement();
+
+            //	} else { 
+            //<rssbandit:flag-status />
+            if (FlagStatus != Flagged.None)
+            {
+                //TODO: check: why we don't use the v2004/vCurrent namespace?
+                writer.WriteElementString("flag-status", NamespaceCore.Feeds_v2003, FlagStatus.ToString());
+            }
+            //	}
+
+
+            if (p_watchComments)
+            {
+                //TODO: check: why we don't use the v2004/vCurrent namespace?
+                writer.WriteElementString("watch-comments", NamespaceCore.Feeds_v2003, "1");
+            }
+
+            if (HasNewComments)
+            {
+                //TODO: check: why we don't use the v2004/vCurrent namespace?
+                writer.WriteElementString("has-new-comments", NamespaceCore.Feeds_v2003, "1");
+            }
+
+            //<enclosure />
+            if (Enclosures != null)
+            {
+                foreach (IEnclosure enc in Enclosures)
+                {
+                    writer.WriteStartElement("enclosure");
+                    writer.WriteAttributeString("url", enc.Url);
+                    writer.WriteAttributeString("type", enc.MimeType);
+                    writer.WriteAttributeString("length", enc.Length.ToString());
+                    if (enc.Downloaded)
+                    {
+                        writer.WriteAttributeString("downloaded", "1");
+                    }
+                    if (enc.Duration != TimeSpan.MinValue)
+                    {
+                        writer.WriteAttributeString("duration", enc.Duration.ToString());
+                    }
+                    writer.WriteEndElement();
+                }
+            }
+
+            //<rssbandit:outgoing-links />            
+            writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
+            foreach (string outgoingLink in OutGoingLinks)
+            {
+                writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
+            }
+            writer.WriteEndElement();
+
+            /* everything else */
+            foreach (string s in OptionalElements.Values)
+            {
+                writer.WriteRaw(s);
+            }
+
+            //end </item> 
+            writer.WriteEndElement();
+        }
+
 
         #endregion 
 

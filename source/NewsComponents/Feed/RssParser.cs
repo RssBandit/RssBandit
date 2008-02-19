@@ -2140,7 +2140,7 @@ namespace NewsComponents.Feed
         /// <returns>The HTTP Status code returned</returns>
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
-        public HttpStatusCode PostCommentViaCommentAPI(string url, NewsItem item2post, NewsItem inReply2item,
+        public HttpStatusCode PostCommentViaCommentAPI(string url, INewsItem item2post, INewsItem inReply2item,
                                                        ICredentials credentials)
         {
             string comment = item2post.ToString(NewsItemSerializationFormat.RssItem);

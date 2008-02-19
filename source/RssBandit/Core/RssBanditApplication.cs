@@ -3300,7 +3300,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// Get a NewsItem to flag and add them (Clone) to the flagged item node collection
         /// </summary>
         /// <param name="theItem">NewsItem to flag</param>
-        public void FlagNewsItem(NewsItem theItem)
+        public void FlagNewsItem(INewsItem theItem)
         {
             if (theItem == null)
                 return;
@@ -3429,7 +3429,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// Gets a NewsItem to Watch and adds it (Clone) to the watched item node
         /// </summary>
         /// <param name="theItem">NewsItem to watch</param>
-        public void WatchNewsItem(NewsItem theItem)
+        public void WatchNewsItem(INewsItem theItem)
         {
             if (theItem == null)
                 return;
@@ -3538,7 +3538,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// </summary>
         /// <param name="inResponse2item">The item responded to.</param>
         /// <param name="replyItem">The reply item itself.</param>
-        public void AddSentNewsItem(NewsItem inResponse2item, NewsItem replyItem)
+        public void AddSentNewsItem(INewsItem inResponse2item, INewsItem replyItem)
         {
             //TODO: do use a different approach and do not overwrite the flag!	
             if (inResponse2item != null)
@@ -3577,7 +3577,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// </summary>
         /// <param name="postTarget">The NewsFeed posted to.</param>
         /// <param name="replyItem">The reply item itself.</param>
-        public void AddSentNewsItem(INewsFeed postTarget, NewsItem replyItem)
+        public void AddSentNewsItem(INewsFeed postTarget, INewsItem replyItem)
         {
             if (postTarget != null && replyItem != null)
             {
@@ -3613,7 +3613,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// Gets a NewsItem to delete and add them to the deleted items feed
         /// </summary>
         /// <param name="theItem">NewsItem to delete</param>
-        public void DeleteNewsItem(NewsItem theItem)
+        public void DeleteNewsItem(INewsItem theItem)
         {
             if (theItem == null)
                 return;
@@ -3667,7 +3667,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// </summary>
         /// <param name="item">NewsItem</param>
         /// <returns>FeedTreeNodeBase</returns>
-        public TreeFeedsNodeBase RestoreNewsItem(NewsItem item)
+        public TreeFeedsNodeBase RestoreNewsItem(INewsItem item)
         {
             if (item == null)
                 return null;
@@ -4873,7 +4873,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             string email = replyEventArgs.FromEMail;
             string comment;
 
-            NewsItem item2post, item2reply;
+            INewsItem item2post, item2reply;
             PostReplyThreadHandler prth;
 
             if (replyEventArgs.ReplyToItem != null)
