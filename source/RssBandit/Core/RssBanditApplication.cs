@@ -3115,7 +3115,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
         public void ClearFlaggedItems()
         {
-            foreach (NewsItem ri in this.flaggedItemsFeed.Items)
+            foreach (INewsItem ri in this.flaggedItemsFeed.Items)
             {
                 try
                 {
@@ -3205,7 +3205,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     //check if item exists 
 
-                    NewsItem item = (NewsItem) this.flaggedItemsFeed.Items[itemIndex];
+                    INewsItem item = (INewsItem) this.flaggedItemsFeed.Items[itemIndex];
                     item.FlagStatus = theItem.FlagStatus;
                 }
             }
@@ -4480,7 +4480,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             }
 
             // display channel processing:
-            item = (NewsItem) DisplayingNewsChannelServices.ProcessItem(item);
+            item = (INewsItem) DisplayingNewsChannelServices.ProcessItem(item);
 
             if (toHighlight == null)
             {
