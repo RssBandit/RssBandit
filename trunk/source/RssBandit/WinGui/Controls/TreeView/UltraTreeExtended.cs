@@ -35,7 +35,7 @@ namespace RssBandit.WinGui.Controls
 {
 	public class UltraTreeNodeExtended : UltraTreeNode
 	{
-		private NewsItem _newsItem = null;
+		private INewsItem _newsItem = null;
 		private DateTime _datetime = DateTime.MinValue;
 		private ThreadedListViewItem _nodeOwner = null;
 		private bool _isGroupOneDay = false;
@@ -86,7 +86,7 @@ namespace RssBandit.WinGui.Controls
 			set { _nodeOwner = value; }
 		}
 
-		public NewsItem NewsItem
+		public INewsItem NewsItem
 		{
 			get { return _newsItem; }
 			set { _newsItem = value; }
@@ -301,7 +301,7 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 		
-		public void ConfigureArticle(UltraTreeNodeExtended n, NewsItem ni)
+		public void ConfigureArticle(UltraTreeNodeExtended n, INewsItem ni)
 		{
 			n.Cells[0].Value = /*ni.Date.ToString()+" "+ */ni.Title;
 			n.Cells[0].Appearance.Cursor = Cursors.Hand;
@@ -358,7 +358,7 @@ namespace RssBandit.WinGui.Controls
 			this.EndUpdate();
 		}
 
-		private void ConfigureComment(UltraTreeNodeExtended n, NewsItem ni)
+		private void ConfigureComment(UltraTreeNodeExtended n, INewsItem ni)
 		{
 			n.Override.ItemHeight = COMMENT_HEIGHT;
 			n.Cells[0].Value = ni.Title;

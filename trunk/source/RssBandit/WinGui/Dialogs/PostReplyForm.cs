@@ -32,7 +32,7 @@ namespace RssBandit.WinGui.Forms
 			typeof(bool), false);
 
 		private string NoInfo;
-		private NewsItem replyToItem;
+		private INewsItem replyToItem;
 		private INewsFeed postToFeed;
 		private IdentityNewsServerManager identityManager;
 
@@ -493,7 +493,7 @@ namespace RssBandit.WinGui.Forms
 		/// Gets or sets the reply to NewsItem.
 		/// </summary>
 		/// <value>The reply to item.</value>
-		public NewsItem ReplyToItem {
+		public INewsItem ReplyToItem {
 			get { return this.replyToItem; }
 			set {
 				this.replyToItem = value;
@@ -655,7 +655,7 @@ namespace RssBandit.WinGui.Forms
 		public string Comment; 	
 		public bool Beautify;
 		public string Title; 	
-		public NewsItem ReplyToItem = null;
+		public INewsItem ReplyToItem = null;
 		public INewsFeed PostToFeed = null;
 
 		/// <summary>
@@ -668,7 +668,7 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="email"></param>
 		/// <param name="comment"></param>
 		/// <param name="beautify"></param>
-		public PostReplyEventArgs(NewsItem replyToItem, string title, string name, string url, string email, string comment, bool beautify) {
+		public PostReplyEventArgs(INewsItem replyToItem, string title, string name, string url, string email, string comment, bool beautify) {
 			this.ReplyToItem = replyToItem;
 			this.FromName = name;
 			this.FromUrl = url;

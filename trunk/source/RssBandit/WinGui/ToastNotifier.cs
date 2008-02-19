@@ -16,7 +16,7 @@ namespace RssBandit.WinGui
 	/// <summary>
 	/// Delegate called on a NewsItem link click.
 	/// </summary>
-	public delegate void ItemActivateCallback(NewsItem item);
+	public delegate void ItemActivateCallback(INewsItem item);
 	/// <summary>
 	/// Delegate called on a Feed Properties link click.
 	/// </summary>

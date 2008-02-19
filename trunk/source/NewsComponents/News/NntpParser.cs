@@ -46,7 +46,7 @@ namespace NewsComponents.News{
 		/// <returns>The NNTP Status code returned</returns>
 		/// <exception cref="WebException">If an error occurs when the POSTing the 
 		/// comment</exception>
-		public static void PostCommentViaNntp(NewsItem item2post, NewsItem inReply2item, ICredentials credentials){			  
+		public static void PostCommentViaNntp(INewsItem item2post, INewsItem inReply2item, ICredentials credentials){			  
 			PostCommentViaNntp(item2post, inReply2item.Feed, credentials);
 		}
 
@@ -59,7 +59,7 @@ namespace NewsComponents.News{
 		/// <returns>The NNTP Status code returned</returns>
 		/// <exception cref="WebException">If an error occurs when the POSTing the 
 		/// comment</exception>
-		public static void PostCommentViaNntp(NewsItem item2post, INewsFeed postTarget, ICredentials credentials){			  
+		public static void PostCommentViaNntp(INewsItem item2post, INewsFeed postTarget, ICredentials credentials){			  
 							
 			string comment = item2post.ToString(NewsItemSerializationFormat.NntpMessage);
 			Encoding enc = Encoding.UTF8, unicode = Encoding.Unicode;
