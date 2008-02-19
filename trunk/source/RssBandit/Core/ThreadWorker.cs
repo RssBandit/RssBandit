@@ -84,7 +84,7 @@ namespace RssBandit
 					break;
 
 				case Task.LoadCommentFeed:
-					NewsItem item = (NewsItem)task.Arguments[0];
+					INewsItem item = (INewsItem)task.Arguments[0];
 					if (item == null)
 						throw new InvalidOperationException("Non-Null task argument 'item' expected.");
 

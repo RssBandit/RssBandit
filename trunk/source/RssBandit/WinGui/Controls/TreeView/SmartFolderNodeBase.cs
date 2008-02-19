@@ -85,7 +85,7 @@ namespace RssBandit.WinGui.Controls
 				int count = 0;
 				for (int i=0; i < itemsFeed.Items.Count; i++) 
 				{
-					NewsItem ri = (NewsItem)itemsFeed.Items[i];
+					INewsItem ri = (INewsItem)itemsFeed.Items[i];
 					if (!ri.BeenRead) count++;
 				}
 				return count;

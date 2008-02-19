@@ -324,7 +324,7 @@ namespace RssBandit.WinGui.Forms
 
         private ShortcutHandler _shortcutHandler;
 
-        private NewsItem _currentNewsItem = null;
+        private INewsItem _currentNewsItem = null;
 
         private TreeFeedsNodeBase _currentSelectedFeedsNode = null;
                                   // currently selected node at the treeView (could be also temp. change on Right-Click, so it is different from treeView.SelectedNode )
@@ -1101,7 +1101,7 @@ namespace RssBandit.WinGui.Forms
         /// selection. This behavior enables to have a context menu related to the current
         /// clicked item row or (if set to null) a context menu related to current ListView
         /// selection (highlighted).</remarks>
-        public NewsItem CurrentSelectedFeedItem
+        public INewsItem CurrentSelectedFeedItem
         {
             get
             {
@@ -1109,11 +1109,11 @@ namespace RssBandit.WinGui.Forms
                     return _currentNewsItem;
                 if (listFeedItems.Visible && (listFeedItems.SelectedItems.Count > 0))
                 {
-                    return (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
+                    return (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
                 }
                 if (listFeedItemsO.Visible && (listFeedItemsO.SelectedItems.Count > 0))
                 {
-                    return (NewsItem) ((ThreadedListViewItem) listFeedItemsO.SelectedItems[0]).Key;
+                    return (INewsItem) ((ThreadedListViewItem) listFeedItemsO.SelectedItems[0]).Key;
                 }
                 return null;
             }
@@ -1819,9 +1819,9 @@ namespace RssBandit.WinGui.Forms
 
             if (updateGui || TreeSelectedFeedsNode == feedNode)
             {
-                NewsItem itemSelected = null;
+                INewsItem itemSelected = null;
                 if (listFeedItems.SelectedItems.Count > 0)
-                    itemSelected = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
+                    itemSelected = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                 // call them sync., because we want to re-set the previous selected item
                 InvokeOnGuiSync(delegate
@@ -1860,9 +1860,9 @@ namespace RssBandit.WinGui.Forms
             //accordingly. 
             if (updateGui || TreeSelectedFeedsNode == node)
             {
-                NewsItem itemSelected = null;
+                INewsItem itemSelected = null;
                 if (listFeedItems.SelectedItems.Count > 0)
-                    itemSelected = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
+                    itemSelected = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                 // now the FinderNode handle refresh of the read state only, so we need to initiate a new search again...:
                 node.AnyUnread = false;
@@ -3237,7 +3237,7 @@ namespace RssBandit.WinGui.Forms
             // if there are feed items displayed, we may have to delete the content
             // if rss items are of a feed with the category to delete
             if (listFeedItems.Items.Count > 0)
-                cnf = TreeHelper.FindNode(categoryFeedsNode, (NewsItem) (listFeedItems.Items[0]).Key);
+                cnf = TreeHelper.FindNode(categoryFeedsNode, (INewsItem) (listFeedItems.Items[0]).Key);
             if (cnf != null)
             {
                 EmptyListView();
@@ -3622,7 +3622,7 @@ namespace RssBandit.WinGui.Forms
             for (int i = 0; i < listFeedItems.Items.Count; i++)
             {
                 ThreadedListViewItem currentItem = listFeedItems.Items[i];
-                NewsItem item = (NewsItem) currentItem.Key;
+                INewsItem item = (INewsItem) currentItem.Key;
 
                 if (item.Id.Equals(id) || item.Id.Equals(normalizedId))
                 {
@@ -6098,9 +6098,9 @@ namespace RssBandit.WinGui.Forms
 
                 if (modified && (tn.Selected || categorized))
                 {
-                    NewsItem itemSelected = null;
+                    INewsItem itemSelected = null;
                     if (listFeedItems.SelectedItems.Count > 0)
-                        itemSelected = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
+                        itemSelected = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                     PopulateListView(tn, items, false, categorized, ftnSelected);
 
@@ -6266,7 +6266,7 @@ namespace RssBandit.WinGui.Forms
                 for (int i = 0; i < listFeedItems.Items.Count; i++)
                 {
                     ThreadedListViewItem lvi = listFeedItems.Items[i];
-                    NewsItem newsItem = (NewsItem) lvi.Key;
+                    INewsItem newsItem = (INewsItem) lvi.Key;
 
                     if (newsItem != null &&
                         (newsItem.Feed == f || selectedIsChild || selectedNode == TreeSelectedFeedsNode ||
@@ -6349,7 +6349,7 @@ namespace RssBandit.WinGui.Forms
 
             if (lvItem != null)
             {
-                NewsItem item = (NewsItem) lvItem.Key;
+                INewsItem item = (INewsItem) lvItem.Key;
 
                 Flagged oldStatus = item.FlagStatus;
 
@@ -6411,7 +6411,7 @@ namespace RssBandit.WinGui.Forms
             {
                 ThreadedListViewItem selectedItem = (ThreadedListViewItem) selectedItems[i];
 
-                NewsItem item = (NewsItem) selectedItem.Key;
+                INewsItem item = (INewsItem) selectedItem.Key;
                 item.WatchComments = !item.WatchComments;
                 owner.WatchNewsItem(item);
             }
@@ -6432,7 +6432,7 @@ namespace RssBandit.WinGui.Forms
             {
                 ThreadedListViewItem selectedItem = (ThreadedListViewItem) selectedItems[i];
 
-                item = (NewsItem) selectedItem.Key;
+                item = (INewsItem) selectedItem.Key;
 
                 if (item.FlagStatus == flag)
                     continue; // no change
@@ -6547,7 +6547,7 @@ namespace RssBandit.WinGui.Forms
                     // we just take that of the last iterated item:
                     itemIndex = currentItem.Index;
 
-                    NewsItem item = (NewsItem) currentItem.Key;
+                    INewsItem item = (INewsItem) currentItem.Key;
 
                     if (item == null)
                         continue;
@@ -6713,7 +6713,7 @@ namespace RssBandit.WinGui.Forms
                     // we just take that of the last iterated item:
                     itemIndex = selectedItem.Index;
 
-                    NewsItem item = (NewsItem) selectedItem.Key;
+                    INewsItem item = (INewsItem) selectedItem.Key;
 
                     if (item == null)
                     {
@@ -6840,7 +6840,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (item != null)
             {
-                NewsItem n = (NewsItem) item.Key;
+                INewsItem n = (INewsItem) item.Key;
                 if (n != null)
                     ApplyStyles(item, n.BeenRead, n.HasNewComments);
             }
@@ -6850,7 +6850,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (item != null)
             {
-                NewsItem n = (NewsItem) item.Key;
+                INewsItem n = (INewsItem) item.Key;
                 if (n != null)
                     ApplyStyles(item, beenRead, n.HasNewComments);
             }
@@ -6962,7 +6962,7 @@ namespace RssBandit.WinGui.Forms
 
             if (lvItem != null)
             {
-                bool oldReadState = ((NewsItem) lvItem.Key).BeenRead;
+                bool oldReadState = ((INewsItem) lvItem.Key).BeenRead;
                 if (!markRead || (markRead != oldReadState))
                 {
                     SetFeedItemsReadState(new ThreadedListViewItem[] {lvItem}, !oldReadState);
@@ -6990,7 +6990,7 @@ namespace RssBandit.WinGui.Forms
 
             if (lvItem != null)
             {
-                NewsItem item = (NewsItem) lvItem.Key;
+                INewsItem item = (INewsItem) lvItem.Key;
                 item.WatchComments = !item.WatchComments;
                 owner.WatchNewsItem(item);
             }
@@ -9218,7 +9218,7 @@ namespace RssBandit.WinGui.Forms
             StringBuilder data = new StringBuilder();
             for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                NewsItem item = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
+                INewsItem item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
@@ -9242,7 +9242,7 @@ namespace RssBandit.WinGui.Forms
             StringBuilder data = new StringBuilder();
             for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                NewsItem item = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
+                INewsItem item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
@@ -9277,7 +9277,7 @@ namespace RssBandit.WinGui.Forms
             StringBuilder data = new StringBuilder();
             for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                NewsItem item = (NewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
+                INewsItem item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
@@ -11519,7 +11519,7 @@ namespace RssBandit.WinGui.Forms
             try
             {
                 // get the current item/feedNode
-                INewsItem item = CurrentSelectedFeedItem = (NewsItem) selectedItem.Key;
+                INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
                 string stylesheet;
 
@@ -12086,7 +12086,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         //DblClick
 
-                        NewsItem item = CurrentSelectedFeedItem = (NewsItem) lvi.Key;
+                        INewsItem item = CurrentSelectedFeedItem = (INewsItem) lvi.Key;
 
                         lv.SelectedItems.Clear();
                         lvi.Selected = true;
@@ -12144,7 +12144,7 @@ namespace RssBandit.WinGui.Forms
             // reselect the last selected
             if (lvLastSelected != null && lvLastSelected.IndentLevel == 0)
             {
-                ReSelectListViewItem((NewsItem) lvLastSelected.Key);
+                ReSelectListViewItem((INewsItem) lvLastSelected.Key);
             }
         }
 
@@ -12158,7 +12158,7 @@ namespace RssBandit.WinGui.Forms
                 for (int i = 0; i < listFeedItems.Items.Count; i++)
                 {
                     ThreadedListViewItem theItem = listFeedItems.Items[i];
-                    string thisItemId = ((NewsItem) theItem.Key).Id;
+                    string thisItemId = ((INewsItem) theItem.Key).Id;
                     if (selItemId.CompareTo(thisItemId) == 0)
                     {
                         listFeedItems.Items[i].Selected = true;
@@ -12199,7 +12199,7 @@ namespace RssBandit.WinGui.Forms
             if (e.Button == MouseButtons.Left)
             {
                 ThreadedListViewItem item = (ThreadedListViewItem) e.Item;
-                NewsItem r = (NewsItem) item.Key;
+                INewsItem r = (INewsItem) item.Key;
                 if (r.Link != null)
                 {
                     treeFeeds.AllowDrop = false; // do not drag to tree
@@ -13262,7 +13262,7 @@ namespace RssBandit.WinGui.Forms
                     for (int i = 0; i < listFeedItems.Items.Count; i++)
                     {
                         ThreadedListViewItem lvi = listFeedItems.Items[i];
-                        NewsItem ti = (NewsItem) lvi.Key;
+                        INewsItem ti = (INewsItem) lvi.Key;
                         if (item.Equals(ti))
                         {
                             foundLVItem = lvi;
@@ -13625,21 +13625,21 @@ namespace RssBandit.WinGui.Forms
             if (_uiTasksTimer[DelayedTasks.ShowFeedPropertiesDialog])
             {
                 _uiTasksTimer.StopTask(DelayedTasks.ShowFeedPropertiesDialog);
-                NewsFeed f = (NewsFeed) _uiTasksTimer.GetData(DelayedTasks.ShowFeedPropertiesDialog, true);
+                INewsFeed f = (INewsFeed) _uiTasksTimer.GetData(DelayedTasks.ShowFeedPropertiesDialog, true);
                 DisplayFeedProperties(f);
             }
 
             if (_uiTasksTimer[DelayedTasks.NavigateToFeedNewsItem])
             {
                 _uiTasksTimer.StopTask(DelayedTasks.NavigateToFeedNewsItem);
-                NewsItem item = (NewsItem) _uiTasksTimer.GetData(DelayedTasks.NavigateToFeedNewsItem, true);
+                INewsItem item = (INewsItem) _uiTasksTimer.GetData(DelayedTasks.NavigateToFeedNewsItem, true);
                 NavigateToFeedNewsItem(item);
             }
 
             if (_uiTasksTimer[DelayedTasks.NavigateToFeed])
             {
                 _uiTasksTimer.StopTask(DelayedTasks.NavigateToFeed);
-                NewsFeed f = (NewsFeed) _uiTasksTimer.GetData(DelayedTasks.NavigateToFeed, true);
+                INewsFeed f = (INewsFeed) _uiTasksTimer.GetData(DelayedTasks.NavigateToFeed, true);
                 NavigateToFeed(f);
             }
 

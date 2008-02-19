@@ -696,7 +696,7 @@ namespace RssBandit.WinGui.Forms
 			int unreadCount = 0, currentIndex = 0, maxLabels = linkLabels.GetLength(0);
 
 			for (int i = 0; i < items.Count; i++) {
-				NewsItem item = (NewsItem)items[i];
+				INewsItem item = (INewsItem)items[i];
 				if (!item.BeenRead) {
 					if (unreadCount < maxLabels) {
 						linkLabels[unreadCount].Text = StringHelper.ShortenByEllipsis(item.Title, 36);
@@ -742,7 +742,7 @@ namespace RssBandit.WinGui.Forms
 			//navigate to feed options dialog
 			if (displayFeedPropertiesCallback != null) {
 				try {
-					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
+					INewsItem item = (INewsItem)this.linkLabel1.Tag;	// we should have always at least one
 					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
 					displayFeedPropertiesCallback(item.Feed);
 				} catch {}
@@ -754,7 +754,7 @@ namespace RssBandit.WinGui.Forms
 			//navigate to feed item 
 			if (itemActivateCallback != null) {
 				try {
-					NewsItem item = (NewsItem)((LinkLabel)sender).Tag;
+					INewsItem item = (INewsItem)((LinkLabel)sender).Tag;
 					itemActivateCallback(item);
 				} catch {}
 			}
@@ -765,7 +765,7 @@ namespace RssBandit.WinGui.Forms
 			//navigate to feed item 
 			if (feedActivateCallback != null) {
 				try {
-					NewsItem item = (NewsItem)this.linkLabel1.Tag;	// we should have always at least one
+					INewsItem item = (INewsItem)this.linkLabel1.Tag;	// we should have always at least one
 					System.Diagnostics.Debug.Assert(item != null, "linkLabel1.Tag is undefined");
 					feedActivateCallback(item.Feed);
 				} catch {}

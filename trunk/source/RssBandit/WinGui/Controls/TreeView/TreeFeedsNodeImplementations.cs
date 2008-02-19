@@ -406,7 +406,7 @@ namespace RssBandit.WinGui.Controls
 				base.UpdateReadStatus(this, 1);
 			} else {
 				// should not happen, just if we get called this way:
-				((NewsItem) itemsFeed.Items[idx]).BeenRead = false;
+				((INewsItem) itemsFeed.Items[idx]).BeenRead = false;
 				base.UpdateReadStatus(this, 1);
 			}
 		}
