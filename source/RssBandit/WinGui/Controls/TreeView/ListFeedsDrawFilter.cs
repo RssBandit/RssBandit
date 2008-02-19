@@ -98,7 +98,7 @@ namespace RssBandit.WinGui
 				}
 				if(treeNode.Level==1)
 				{
-					NewsItem item = treeNode.NewsItem;
+					INewsItem item = treeNode.NewsItem;
 					Brush bGray = new SolidBrush(Color.FromArgb(128, 128, 128));
 					if(treeNode.Selected){
 						bGray = Brushes.White;						
@@ -209,7 +209,7 @@ namespace RssBandit.WinGui
 					}
 					else
 					{
-						NewsItem ni = treeNode.NewsItem;
+						INewsItem ni = treeNode.NewsItem;
 						r.X += 27;
 						r.Width -= 27;
 						r.Y += 3;

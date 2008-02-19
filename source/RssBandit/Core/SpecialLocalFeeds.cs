@@ -431,7 +431,7 @@ namespace RssBandit.SpecialFeeds
 			}
 
 			public string ID { get {return _ID; }	}
-			public NewsItem NewsItemInstance { 
+			public INewsItem NewsItemInstance { 
 				get { 
 					INewsItem ri = (INewsItem)_delegateTo.Clone(); 
 					ri.FeedDetails = _delegateTo.FeedDetails;	// not cloned!

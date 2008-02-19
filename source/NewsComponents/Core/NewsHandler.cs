@@ -2741,7 +2741,7 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>If the item doesn't exist in the NewsHandler then nothing is done</remarks>
         /// <param name="item">the item to delete</param>
-        public void DeleteItem(NewsItem item)
+        public void DeleteItem(INewsItem item)
         {
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link))
             {
@@ -5611,7 +5611,7 @@ namespace NewsComponents
         /// <param name="item">The newsitem whose enclosures are being downloaded</param>
         /// <param name="maxNumToDownload">The maximum number of enclosures that can be downloaded from this item</param>
         /// <returns>The number of downloaded enclosures</returns>
-        private int DownloadEnclosure(NewsItem item, int maxNumToDownload)
+        private int DownloadEnclosure(INewsItem item, int maxNumToDownload)
         {
             int numDownloaded = 0;
 
@@ -5644,7 +5644,7 @@ namespace NewsComponents
         /// Downloads all the enclosures associated with the specified NewsItem
         /// </summary>
         /// <param name="item">The newsitem whose enclosures are being downloaded</param>
-        public void DownloadEnclosure(NewsItem item)
+        public void DownloadEnclosure(INewsItem item)
         {
             this.DownloadEnclosure(item, Int32.MaxValue);
         }
@@ -5656,7 +5656,7 @@ namespace NewsComponents
         /// field of one of the Enclosure objects in the Enclosures collection of the specified NewsItem</remarks>
         /// <param name="item"></param>
         /// <param name="fileName">The name of the enclosure file to download</param>
-        public void DownloadEnclosure(NewsItem item, string fileName)
+        public void DownloadEnclosure(INewsItem item, string fileName)
         {
             if ((item != null) && (item.Enclosures.Count > 0))
             {
@@ -6708,7 +6708,7 @@ namespace NewsComponents
         /// <param name="inReply2item">An RSS item that is the post parent</param>		
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
-        public void PostComment(string url, NewsItem item2post, NewsItem inReply2item)
+        public void PostComment(string url, INewsItem item2post, INewsItem inReply2item)
         {
             if (inReply2item.CommentStyle == SupportedCommentStyle.CommentAPI)
             {
@@ -6729,7 +6729,7 @@ namespace NewsComponents
         /// <param name="postTarget">An NewsFeed as the post target</param>		
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
-        public void PostComment(NewsItem item2post, INewsFeed postTarget)
+        public void PostComment(INewsItem item2post, INewsFeed postTarget)
         {
             if (item2post.CommentStyle == SupportedCommentStyle.NNTP)
             {

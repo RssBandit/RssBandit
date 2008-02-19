@@ -30,36 +30,7 @@ namespace NewsComponents
 {    
 
 
-    /// <summary>
-    /// Used on the overloaded ToString() method of the NewsItem to indicate what 
-    /// format the NewsItem should be written out as when converted to a string.
-    /// </summary>
-    public enum NewsItemSerializationFormat
-    {
-        /// <summary>
-        /// Indicates that the NewsItem should be written out as an Rss item element. 
-        /// </summary>
-        RssItem,
-        /// <summary>
-        /// Indicates that the NewsItem should be written out as a single item element within 
-        /// an RSS feed
-        /// </summary>
-        RssFeed,
-        /// <summary>
-        /// Indicates that the NewsItem should be written out as an NNTP message
-        /// </summary>
-        NntpMessage,
-        /// <summary>
-        /// Indicates that the NewsItem should be written out as a single item element within 
-        /// an RSS feed that is itself within a FeedDemon newspaper element 
-        /// </summary>
-        NewsPaper,
-        /// <summary>
-        /// Indicates that the NewsItem should be written out as a single item element within 
-        /// an RSS 'channel' element 
-        /// </summary>
-        Channel
-    }
+   
 
     /// <summary>
     /// Represents an RSS enclosure
@@ -1021,7 +992,7 @@ namespace NewsComponents
         /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>						
-        private void WriteItem(XmlWriter writer, bool useGMTDate, bool noDescriptions)
+        public void WriteItem(XmlWriter writer, bool useGMTDate, bool noDescriptions)
         {
             //<item>
             writer.WriteStartElement("item");
@@ -1263,7 +1234,7 @@ namespace NewsComponents
         /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
         /// be written out or not.</param>				
         /// <returns>An RSS item or RSS feed</returns>
-        private String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
+        public String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
         {
             StringBuilder sb = new StringBuilder("");
             XmlTextWriter writer = new XmlTextWriter(new StringWriter(sb));

@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.XPath;
 
 using NewsComponents.Feed;
@@ -57,6 +58,37 @@ namespace NewsComponents
         Reply,
         /// <summary>Flagged for complete</summary>
         Complete
+    }
+
+    /// <summary>
+    /// Used on the overloaded ToString() method of the NewsItem to indicate what 
+    /// format the NewsItem should be written out as when converted to a string.
+    /// </summary>
+    public enum NewsItemSerializationFormat
+    {
+        /// <summary>
+        /// Indicates that the NewsItem should be written out as an Rss item element. 
+        /// </summary>
+        RssItem,
+        /// <summary>
+        /// Indicates that the NewsItem should be written out as a single item element within 
+        /// an RSS feed
+        /// </summary>
+        RssFeed,
+        /// <summary>
+        /// Indicates that the NewsItem should be written out as an NNTP message
+        /// </summary>
+        NntpMessage,
+        /// <summary>
+        /// Indicates that the NewsItem should be written out as a single item element within 
+        /// an RSS feed that is itself within a FeedDemon newspaper element 
+        /// </summary>
+        NewsPaper,
+        /// <summary>
+        /// Indicates that the NewsItem should be written out as a single item element within 
+        /// an RSS 'channel' element 
+        /// </summary>
+        Channel
     }
 
 	public interface INewsItem : IRelation, ICloneable, IXPathNavigable, IEquatable<INewsItem>
@@ -204,6 +236,60 @@ namespace NewsComponents
         /// <param name="newParent">The parent feed of the cloned item</param>
         /// <returns></returns>
         INewsItem Clone(INewsFeed newParent); 
+
+        /// <summary>
+        /// Helper function used by ToString(bool). 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="useGMTDate">Indicates whether the time should be written out as GMT or local time</param>
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>						
+        void WriteItem(XmlWriter writer, bool useGMTDate, bool noDescriptions);
+
+        /// <summary>
+        /// Converts the NewsItem to an XML representation of an 
+        /// RSS item element is returned or an entire RSS feed with this item as its 
+        /// sole item.
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>		
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>				
+        /// <returns>An RSS item or RSS feed</returns>
+        String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions);
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+        /// <param name="noDescriptions">Indicates whether the contents of RSS items should 
+        /// be written out or not.</param>		
+        /// <returns>A string representation of this news item</returns>		
+        String ToString(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions);
+
+         /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message. </param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+        /// <returns>A string representation of this news item</returns>		
+        String ToString(NewsItemSerializationFormat format, bool useGMTDate);
+
+        /// <summary>
+        /// Converts the object to an XML string containing an RSS 2.0 item. 
+        /// </summary>
+        /// <param name="format">Indicates whether an XML representation of an 
+        /// RSS item element is returned, an entire RSS feed with this item as its 
+        /// sole item or an NNTP message.  </param>
+        /// <returns></returns>
+        String ToString(NewsItemSerializationFormat format);
 	}
 
     /// <summary>
