@@ -266,7 +266,7 @@ namespace RssBandit.WinGui.Controls
 		
 		public void Add(ThreadedListViewItem item)
 		{
-			NewsItem ni = (NewsItem) item.Key;
+			INewsItem ni = (INewsItem) item.Key;
 			UltraTreeNodeExtended root = null;
 			if(item.IsComment)
 			{
@@ -344,7 +344,7 @@ namespace RssBandit.WinGui.Controls
 			//
 			foreach(ThreadedListViewItem item in items)
 			{
-				NewsItem ni = (NewsItem) item.Key;
+				INewsItem ni = (INewsItem) item.Key;
 				UltraTreeNodeExtended n = new UltraTreeNodeExtended();
 				n.NewsItem = ni;
 				n.DateTime = ni.Date;

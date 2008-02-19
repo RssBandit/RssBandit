@@ -140,8 +140,8 @@ namespace RssBandit.WinGui.Utility
 			try	{
 				XPathDocument doc = null; 
 				
-				if(transformTarget is NewsItem){
-					NewsItem item = (NewsItem) transformTarget;
+				if(transformTarget is INewsItem){
+					INewsItem item = (INewsItem) transformTarget;
 					link = item.FeedLink;
 					content = item.Content;
 					doc = new XPathDocument(new XmlTextReader(new StringReader(item.ToString(format, false))), XmlSpace.Preserve);				
