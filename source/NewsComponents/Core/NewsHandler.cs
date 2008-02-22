@@ -4599,7 +4599,8 @@ namespace NewsComponents
                 this.GetCachedContentForItem(item);
 
             // now create a full copy (including item content)
-            return new NewsItem(f, item);
+            NewsItem n = new NewsItem(f, item);
+            return n; 
         }
 
         /// <summary>

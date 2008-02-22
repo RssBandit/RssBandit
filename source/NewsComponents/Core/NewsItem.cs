@@ -489,8 +489,8 @@ namespace NewsComponents
         /// </summary>
         /// <returns>A copy of this NewsItem</returns>
         public NewsItem (INewsFeed parent, INewsItem item)
+            : this(parent, item.Title, item.Link, null, item.Date, item.Subject, item.Id, item.ParentId)
         {
-            NewsItem newitem = new NewsItem(parent, item.Title, item.Link, null, item.Date, item.Subject, item.Id, item.ParentId);
             this.OptionalElements = (Hashtable)OptionalElements.Clone();
             this.p_beenRead = item.BeenRead;
             this.p_author = item.Author;
