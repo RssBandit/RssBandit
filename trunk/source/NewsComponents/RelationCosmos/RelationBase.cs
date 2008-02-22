@@ -16,7 +16,7 @@ namespace NewsComponents.RelationCosmos
 	/// Abstract base class used by RelationCosmos to work with relational items. 
 	/// </summary>
 	public abstract class RelationBase <T>: IRelation, IComparable
-        where T : RelationBase<T>
+        where T : IRelation
     {
         
         protected static List<string> EmptyList = new List<string>(0);
