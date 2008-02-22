@@ -24,7 +24,6 @@ using NewsComponents.News;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
 using NewsComponents.Feed;
-using RC = NewsComponents.RelationCosmos;
 
 namespace NewsComponents
 {    
@@ -200,7 +199,7 @@ namespace NewsComponents
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
-    public class NewsItem : RelationBase<NewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>
+    public class NewsItem : RelationBase<INewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>
     {
         /// <summary>
         /// Gets the Feed Link (Source Url)
