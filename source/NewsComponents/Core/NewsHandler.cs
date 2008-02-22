@@ -6670,7 +6670,7 @@ namespace NewsComponents
                                 }
                                 else
                                 {
-                                    if (ReferenceEquals(newitem.Enclosures, GetList<Enclosure>.Empty))
+                                    if (ReferenceEquals(newitem.Enclosures, GetList<IEnclosure>.Empty))
                                     {
                                         newitem.Enclosures = new List<IEnclosure>();
                                     }
