@@ -5393,8 +5393,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
             
             // add feed to backend
-            if (wiz.FeedInfo != null)
-                feedHandler.AddFeed(f, wiz.FeedInfo);
+            feedHandler.AddFeed(f, wiz.FeedInfo);
            
             this.FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
