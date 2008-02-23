@@ -4049,28 +4049,29 @@ namespace NewsComponents
         	object value = GetSharedPropertyValue(this, propertyName); //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
             if (!string.IsNullOrEmpty(category))
-            {
-                INewsFeedCategory c = null;
+			{
+				INewsFeedCategory c;
+				this.categories.TryGetValue(category, out c);
 
-                while (this.categories.TryGetValue(category, out c))
-                {
+				while (c != null)
+				{
 					object c_value = GetSharedPropertyValue(c, propertyName); //c.GetType().GetProperty(propertyName).GetValue(c, null);
 
-                    if (IsPropertyValueSet(c_value, propertyName, c))
-                    {
-                        if (propertyName.Equals("maxitemage"))
-                        {
-                            c_value = XmlConvert.ToTimeSpan((string) c_value);
-                        }
-                        value = c_value;
-                        break;
-                    }
-                    else
-                    {
-                        c = c.parent;
-                    }
-                } //while
-            } //if(!string.IsNullOrEmpty(category))
+					if (IsPropertyValueSet(c_value, propertyName, c))
+					{
+						if (propertyName.Equals("maxitemage"))
+						{
+							c_value = XmlConvert.ToTimeSpan((string)c_value);
+						}
+						value = c_value;
+						break;
+					}
+					else
+					{
+						c = c.parent;
+					}
+				} //while
+			} //if(!string.IsNullOrEmpty(category))
 
 
             return value;
