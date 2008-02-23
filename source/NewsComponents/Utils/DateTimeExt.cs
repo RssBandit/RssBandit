@@ -205,6 +205,17 @@ namespace NewsComponents.Utils
 
 			DateTime  toReturn = XmlConvert.ToDateTime(datetime); 
 
+			// just fix a common issue of feed publishers: they specify the timezone
+			// as "-0300", not as defined by http://www.w3.org/TR/NOTE-datetime format 
+			// TZD  = time zone designator (Z or +hh:mm or -hh:mm)
+			if (offset.Length == 1 && offset[0].Length == 4)
+			{
+				string[] offset2 = new string[2];
+				offset2[0] = offset[0].Substring(0,2);
+				offset2[1] = offset[0].Substring(2);
+				offset = offset2;
+			}
+
 			try{
 
 				switch(offsetOp){
