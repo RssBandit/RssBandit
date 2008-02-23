@@ -1540,7 +1540,12 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// The actual IFeed instance that this object is wrapping
         /// </summary>
-        private IFeed myfeed = null; 
+        private IFeed myfeed = null;
+
+        /// <summary>
+        /// The list of WindowsRssNewsItem instances contained by this feed. 
+        /// </summary>
+        private List<INewsItem> items = null; 
 
         #endregion
 
@@ -2079,9 +2084,39 @@ namespace NewsComponents.Feed {
         }
 
 
-        private Hashtable _optionalElements = new Hashtable(); 
+        /// <summary>
+        /// The list of news items belonging to the feed
+        /// </summary>
+        public List<INewsItem> ItemsList
+        {
+
+            get
+            {
+                lock (this.items)
+                {
+                    if (this.items == null)
+                    {
+                        this.items = new List<INewsItem>();
+                        IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
+
+                        foreach (IFeedItem item in feedItems)
+                        {
+                            this.items.Add(new WindowsRssNewsItem(item, this));
+                        }
+                    }
+                }
+                return this.items;
+            }
+            set
+            {
+                /* Can't set IFeed.Items */
+            }
+
+        }
+
+        private Dictionary<XmlQualifiedName, string> _optionalElements = new Dictionary<XmlQualifiedName, string>(); 
         /// <summary>Gets the optional elements found at Feed level</summary>	  
-        public IDictionary OptionalElements {
+        public Dictionary<XmlQualifiedName, string> OptionalElements {
             get { return this._optionalElements; } 
         }
 
@@ -2093,13 +2128,71 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
+        /// The unique identifier for the feed
+        /// </summary>
+        string IFeedDetails.Id
+        {
+            get { return this.id; }
+
+            set
+            {
+                /* can't set IFeed.LocalId */
+            }
+        }
+
+        /// <summary>
         /// Returns a copy of this object
         /// </summary>
         /// <returns>A copy of this object</returns>
         public object Clone()
         {
-            return new WindowsRssNewsFeed(myfeed); 
+            return new WindowsRssNewsFeed(myfeed);
         }
+      
+
+        /// <summary>
+        /// Writes this object as an RSS 2.0 feed to the specified writer
+        /// </summary>
+        /// <param name="writer"></param>       
+        public void WriteTo(XmlWriter writer)
+        {
+
+            //writer.WriteStartDocument(); 
+
+                //<rss version="2.0">
+                writer.WriteStartElement("rss");
+                writer.WriteAttributeString("version", "2.0");
+            
+            //<channel>
+            writer.WriteStartElement("channel");
+
+            //<title />
+            writer.WriteElementString("title", this.Title);
+
+            //<link /> 
+            writer.WriteElementString("link", this.Link);
+
+            //<description /> 
+            writer.WriteElementString("description", this.Description);
+
+            //other stuff
+            foreach (string s in this.OptionalElements.Values)
+            {
+                writer.WriteRaw(s);
+            }
+
+            //<item />
+            foreach (INewsItem item in this.ItemsList)
+            {
+                writer.WriteRaw(item.ToString(NewsItemSerializationFormat.RssItem, true));
+            }
+
+            //</rss>
+            writer.WriteEndElement();
+            //writer.WriteEndDocument(); 
+
+        }
+
 
         #endregion 
 

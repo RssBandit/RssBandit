@@ -128,19 +128,12 @@ namespace NewsComponents.Feed
 		/// <summary></summary>
 		public string Language{
 			get { return language; }
-		}
-
-        /// <summary>
-        /// 
-        /// </summary>
-        IDictionary IFeedDetails.OptionalElements {
-            get { return this.optionalElements; }
-        }
+		}      
 
 		/// <summary>
 		/// Table of optional feed elements.
 		/// </summary>
-		Dictionary<XmlQualifiedName, string> FeedDetailsInternal.OptionalElements{
+		public Dictionary<XmlQualifiedName, string> OptionalElements{
 			get{ return this.optionalElements; }
 		}
 
