@@ -4054,7 +4054,7 @@ namespace NewsComponents
 
                 while (this.categories.TryGetValue(category, out c))
                 {
-                    object c_value = c.GetType().GetField(propertyName).GetValue(c);
+					object c_value = c.GetType().GetProperty(propertyName).GetValue(c, null);
 
                     if (IsPropertyValueSet(c_value, propertyName, c))
                     {
@@ -4101,11 +4101,11 @@ namespace NewsComponents
                             value = XmlConvert.ToString((TimeSpan) value);
                         }
 
-                        c.GetType().GetField(propertyName).SetValue(c, value);
+                        c.GetType().GetProperty(propertyName).SetValue(c, value, null);
 
                         if ((value != null) && !(value is string))
                         {
-                            c.GetType().GetField(propertyName + "Specified").SetValue(c, true);
+							c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
                         }
 
                         break;
