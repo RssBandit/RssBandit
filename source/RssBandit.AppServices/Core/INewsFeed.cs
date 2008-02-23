@@ -1,13 +1,22 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Text;
 using System.Xml;
+using RssBandit.AppServices.Core;
 
 namespace NewsComponents.Feed
 {
-    public interface INewsFeed : INotifyPropertyChanged
+    public interface INewsFeed : INotifyPropertyChanged, ISharedProperty
     {
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
@@ -21,17 +30,17 @@ namespace NewsComponents.Feed
         bool lastretrievedSpecified { get; set; }
         DateTime lastretrieved { get; set; }
 
-        /// <summary />
-        /// <remarks>Notifies on change. </remarks>
-        int refreshrate { get; set; }
+		///// <summary />
+		///// <remarks>Notifies on change. </remarks>
+		//int refreshrate { get; set; }
 
-        bool refreshrateSpecified { get; set; }
+		//bool refreshrateSpecified { get; set; }
         string etag { get; set; }
         string cacheurl { get; set; }
 
-        /// <summary />
-        /// <remarks>Notifies on change. </remarks>
-        string maxitemage { get; set; }
+		///// <summary />
+		///// <remarks>Notifies on change. </remarks>
+		//string maxitemage { get; set; }
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
@@ -45,39 +54,39 @@ namespace NewsComponents.Feed
         bool lastmodifiedSpecified { get; set; }
         string authUser { get; set; }
         Byte[] authPassword { get; set; }
-        string listviewlayout { get; set; }
+		//string listviewlayout { get; set; }
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
         string favicon { get; set; }
 
-        /// <summary />
-        /// <remarks>Notifies on change. </remarks>
-        bool downloadenclosures { get; set; }
+		///// <summary />
+		///// <remarks>Notifies on change. </remarks>
+		//bool downloadenclosures { get; set; }
 
-        bool downloadenclosuresSpecified { get; set; }
+		//bool downloadenclosuresSpecified { get; set; }
 
-        /// <summary />
-        /// <remarks>Notifies on change. </remarks>
-        string enclosurefolder { get; set; }
+		///// <summary />
+		///// <remarks>Notifies on change. </remarks>
+		//string enclosurefolder { get; set; }
 
-        /// <summary />
-        /// <remarks>Notifies on change. </remarks>
-        string stylesheet { get; set; }
+		///// <summary />
+		///// <remarks>Notifies on change. </remarks>
+		//string stylesheet { get; set; }
 
         int causedExceptionCount { get; set; }
         bool causedException { get; set; }
         bool replaceitemsonrefresh { get; set; }
         bool replaceitemsonrefreshSpecified { get; set; }
         string newsaccount { get; set; }
-        bool markitemsreadonexit { get; set; }
-        bool markitemsreadonexitSpecified { get; set; }
+		//bool markitemsreadonexit { get; set; }
+		//bool markitemsreadonexitSpecified { get; set; }
         XmlElement[] Any { get; set; }
         XmlAttribute[] AnyAttr { get; set; }
         bool alertEnabled { get; set; }
         bool alertEnabledSpecified { get; set; }
-        bool enclosurealert { get; set; }
-        bool enclosurealertSpecified { get; set; }
+		//bool enclosurealert { get; set; }
+		//bool enclosurealertSpecified { get; set; }
         object Tag { get; set; }
         object owner { get; set; } /* NewsHandler */ 
 
@@ -93,28 +102,28 @@ namespace NewsComponents.Feed
         string category { get; set; }
 
         /// <summary>
-        /// Removes an entry from the storiesrecentlyviewed collection
+		/// Adds an entry to the storiesrecentlyviewed collection
         /// </summary>
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to add</param>
         void AddViewedStory(string storyid);
 
         /// <summary>
-        /// Adds an entry to the storiesrecentlyviewed collection
+        /// Removes an entry from the storiesrecentlyviewed collection
         /// </summary>
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to remove</param>
         void RemoveViewedStory(string storyid);
 
         /// <summary>
-        /// Adds an entry from the deletedstories collection
+        /// Adds an entry to the deletedstories collection
         /// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to add</param>
         void AddDeletedStory(string storyid);
 
         /// <summary>
-        /// Remove an entry to the deletedstories collection
+        /// Remove an entry from the deletedstories collection
         /// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to remove</param>
