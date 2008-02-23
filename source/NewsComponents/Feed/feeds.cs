@@ -22,6 +22,7 @@ using System.Xml.Serialization;
 
 using NewsComponents.Collections;
 using NewsComponents.Utils;
+using RssBandit.AppServices.Core;
 
 namespace NewsComponents.Feed
 {  
@@ -532,22 +533,24 @@ namespace NewsComponents.Feed
     }
 
 
-    public interface INewsFeedCategory { //TODO: Implement INotifyPropertyChange ?
+    public interface INewsFeedCategory : ISharedProperty
+	{ 
+		//TODO: Implement INotifyPropertyChange ?
 
-        bool markitemsreadonexit { get; set; }
-        bool markitemsreadonexitSpecified { get; set; }
-        bool downloadenclosures { get; set; }
-        bool downloadenclosuresSpecified { get; set; }
-        string enclosurefolder { get; set; }
-        string listviewlayout { get; set; }
-        string stylesheet { get; set; }
-        int refreshrate { get; set; }
-        bool refreshrateSpecified { get; set; }
-        string maxitemage { get; set; }
+		//bool markitemsreadonexit { get; set; }
+		//bool markitemsreadonexitSpecified { get; set; }
+		//bool downloadenclosures { get; set; }
+		//bool downloadenclosuresSpecified { get; set; }
+		//string enclosurefolder { get; set; }
+		//string listviewlayout { get; set; }
+		//string stylesheet { get; set; }
+		//int refreshrate { get; set; }
+		//bool refreshrateSpecified { get; set; }
+		//string maxitemage { get; set; }
         string Value { get; set; }
         INewsFeedCategory parent { get; set; }
-        bool enclosurealert { get; set; }
-        bool enclosurealertSpecified { get; set; }
+		//bool enclosurealert { get; set; }
+		//bool enclosurealertSpecified { get; set; }
         XmlAttribute[] AnyAttr { get; set; }
     }
 

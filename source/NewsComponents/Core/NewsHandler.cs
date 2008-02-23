@@ -45,6 +45,7 @@ using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RC = NewsComponents.RelationCosmos;
+using RssBandit.AppServices.Core;
 #endregion
 
 namespace NewsComponents
@@ -146,7 +147,7 @@ namespace NewsComponents
 #if DEBUG 
     [CLSCompliant(false)]
 #endif
-    public abstract class NewsHandler
+    public abstract class NewsHandler: ISharedProperty
     {
         #region ctor's
 
@@ -192,6 +193,8 @@ namespace NewsComponents
         /// <returns>A new NewsHandler</returns>
         public static NewsHandler CreateNewsHandler(FeedSource handlerType,SubscriptionLocation location, INewsComponentsConfiguration configuration)
         {
+			if (location == null)
+				throw new ArgumentNullException("location"); 
             if (String.IsNullOrEmpty(location.Location))
                 throw new ArgumentNullException("location.Location"); 
 
@@ -3729,7 +3732,7 @@ namespace NewsComponents
         /// <param name="propertyName">Name of the property to set</param>
         /// <param name="owner">the object which the property comes from</param>
         /// <returns>true if it is set and false otherwise</returns>
-        private static bool IsPropertyValueSet(object value, string propertyName, object owner)
+        private static bool IsPropertyValueSet(object value, string propertyName, ISharedProperty owner)
         {
             //TODO: Make this code more efficient
 
@@ -3750,7 +3753,8 @@ namespace NewsComponents
             }
             else
             {
-                return (bool) owner.GetType().GetProperty(propertyName + "Specified").GetValue(owner, null);
+            	return (bool) GetSharedPropertyValue(owner, propertyName + "Specified");
+                //return (bool) owner.GetType().GetProperty(propertyName + "Specified").GetValue(owner, null);
             }
         }
 
@@ -3778,13 +3782,12 @@ namespace NewsComponents
         {
             //TODO: Make this code more efficient
 
-            object value =
-                this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+        	object value = GetSharedPropertyValue(this, propertyName);//this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
             if (feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
-                object f_value = f.GetType().GetProperty(propertyName).GetValue(f, null);
+				object f_value = GetSharedPropertyValue(f, propertyName);// f.GetType().GetProperty(propertyName).GetValue(f, null);
 
                 if (IsPropertyValueSet(f_value, propertyName, f))
                 {
@@ -3802,7 +3805,7 @@ namespace NewsComponents
 
                     while (c != null)
                     {
-						object c_value = c.GetType().GetProperty(propertyName).GetValue(c, null);
+						object c_value = GetSharedPropertyValue(c, propertyName);// c.GetType().GetProperty(propertyName).GetValue(c, null);
 
                         if (IsPropertyValueSet(c_value, propertyName, c))
                         {
@@ -3843,11 +3846,11 @@ namespace NewsComponents
                 {
                     value = XmlConvert.ToString((TimeSpan) value);
                 }
-                f.GetType().GetProperty(propertyName).SetValue(f, value, null);
+				SetSharedPropertyValue(f, propertyName, value); //f.GetType().GetProperty(propertyName).SetValue(f, value, null);
 
                 if ((value != null) && !(value is string))
                 {
-                    f.GetType().GetProperty(propertyName + "Specified").SetValue(f, true, null);
+					SetSharedPropertyValue(f, propertyName + "Specified", true); //f.GetType().GetProperty(propertyName + "Specified").SetValue(f, true, null);
                 }
             }
         }
@@ -4043,10 +4046,7 @@ namespace NewsComponents
         /// <returns>the value of the property</returns>
         private object GetCategoryProperty(string category, string propertyName)
         {
-            //TODO: Make this code more efficient
-
-            object value =
-                this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+        	object value = GetSharedPropertyValue(this, propertyName); //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
             if (!string.IsNullOrEmpty(category))
             {
@@ -4054,7 +4054,7 @@ namespace NewsComponents
 
                 while (this.categories.TryGetValue(category, out c))
                 {
-					object c_value = c.GetType().GetProperty(propertyName).GetValue(c, null);
+					object c_value = GetSharedPropertyValue(c, propertyName); //c.GetType().GetProperty(propertyName).GetValue(c, null);
 
                     if (IsPropertyValueSet(c_value, propertyName, c))
                     {
@@ -4101,11 +4101,13 @@ namespace NewsComponents
                             value = XmlConvert.ToString((TimeSpan) value);
                         }
 
-                        c.GetType().GetProperty(propertyName).SetValue(c, value, null);
+						SetSharedPropertyValue(c, propertyName, value);
+                        //c.GetType().GetProperty(propertyName).SetValue(c, value, null);
 
                         if ((value != null) && !(value is string))
                         {
-							c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
+							SetSharedPropertyValue(c, propertyName + "Specified", value);
+							//c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
                         }
 
                         break;
@@ -6766,9 +6768,184 @@ namespace NewsComponents
             {
                 return receivingNewsChannel;
             }
-        }       
+        }
 
-        #endregion
+    	#endregion
+
+   		#region ISharedProperty Members
+
+		private static object GetSharedPropertyValue(ISharedProperty instance, string propertyName) {
+			switch (propertyName)
+			{
+				case "maxitemage": return instance.maxitemage;
+				case "downloadenclosures": return instance.downloadenclosures;
+				case "downloadenclosuresSpecified": return instance.downloadenclosuresSpecified;
+				case "enclosurealert": return instance.enclosurealert;
+				case "enclosurealertSpecified": return instance.enclosurealertSpecified;
+				case "enclosurefolder": return instance.enclosurefolder;
+				case "listviewlayout": return instance.listviewlayout;
+				case "markitemsreadonexit": return instance.markitemsreadonexit;
+				case "markitemsreadonexitSpecified": return instance.markitemsreadonexitSpecified;
+				case "refreshrate": return instance.refreshrate;
+				case "refreshrateSpecified": return instance.refreshrateSpecified;
+				case "stylesheet": return instance.stylesheet;
+				default: Debug.Assert(true, "unknown shared property name: " + propertyName);
+					break;
+			}
+			return null;
+		}
+
+		private static void SetSharedPropertyValue(ISharedProperty instance, string propertyName, object value)
+		{
+			switch (propertyName)
+			{
+				case "maxitemage": instance.maxitemage = value as string;
+					break;
+				case "downloadenclosures": instance.downloadenclosures = (bool)value;
+					break;
+				case "downloadenclosuresSpecified": instance.downloadenclosuresSpecified = (bool)value;
+					break;
+				case "enclosurealert": instance.enclosurealert = (bool)value;
+					break;
+				case "enclosurealertSpecified": instance.enclosurealertSpecified = (bool)value;
+					break;
+				case "enclosurefolder": instance.enclosurefolder = value as string;
+					break;
+				case "listviewlayout": instance.listviewlayout = value as string;
+					break;
+				case "markitemsreadonexit": instance.markitemsreadonexit = (bool)value;
+					break;
+				case "markitemsreadonexitSpecified": instance.markitemsreadonexitSpecified = (bool)value;
+					break;
+				case "refreshrate": instance.refreshrate = (int)value;
+					break;
+				case "refreshrateSpecified": instance.refreshrateSpecified = (bool)value;
+					break;
+				case "stylesheet": instance.stylesheet = value as string;
+					break;
+				default: Debug.Assert(true, "unknown shared property name: " + propertyName);
+					break;
+			}
+
+		}
+
+    	/// <summary>
+    	/// Gets or sets the maximum item age.
+    	/// </summary>
+    	/// <value>The max. item age.</value>
+    	string ISharedProperty.maxitemage {
+    		get { return XmlConvert.ToString(this.MaxItemAge); }
+    		set { this.MaxItemAge = XmlConvert.ToTimeSpan(value); }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets the refresh rate.
+    	/// </summary>
+    	/// <value>The refreshrate.</value>
+    	int ISharedProperty.refreshrate {
+    		get { return this.RefreshRate; }
+			set { this.RefreshRate = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether [refresh rate is specified].
+    	/// </summary>
+    	/// <value><c>true</c> if [refresh rate specified]; otherwise, <c>false</c>.</value>
+    	bool ISharedProperty.refreshrateSpecified {
+    		get { return true; }
+			set { /* ignore */ }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should download enclosures.
+    	/// </summary>
+    	/// <value><c>true</c> if download enclosures; otherwise, <c>false</c>.</value>
+    	bool ISharedProperty.downloadenclosures {
+    		get { return this.DownloadEnclosures; }
+			set { this.DownloadEnclosures = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether [download enclosures is specified].
+    	/// </summary>
+    	/// <value>
+    	/// 	<c>true</c> if [download enclosures specified]; otherwise, <c>false</c>.
+    	/// </value>
+    	bool ISharedProperty.downloadenclosuresSpecified {
+			get { return true; }
+			set { /* ignore */ }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should alert on enclosure downloads.
+    	/// </summary>
+    	/// <value><c>true</c> if enclosurealert; otherwise, <c>false</c>.</value>
+    	bool ISharedProperty.enclosurealert {
+    		get { return this.EnclosureAlert; }
+			set { this.EnclosureAlert = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether [enclosure alert specified].
+    	/// </summary>
+    	/// <value>
+    	/// 	<c>true</c> if [enclosurealert specified]; otherwise, <c>false</c>.
+    	/// </value>
+    	bool ISharedProperty.enclosurealertSpecified {
+			get { return true; }
+			set { /* ignore */ }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets the enclosure folder.
+    	/// </summary>
+    	/// <value>The enclosure folder.</value>
+    	string ISharedProperty.enclosurefolder {
+			get { return this.EnclosureFolder; }
+			set { this.EnclosureFolder = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets the listview layout.
+    	/// </summary>
+    	/// <value>The listview layout.</value>
+    	string ISharedProperty.listviewlayout {
+    		get { return this.listviewlayout; }
+			set { this.listviewlayout = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets the stylesheet to render the feed/items.
+    	/// </summary>
+    	/// <value>The stylesheet.</value>
+    	string ISharedProperty.stylesheet {
+    		get { return this.Stylesheet; }
+			set { this.Stylesheet = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should mark items read on exit.
+    	/// </summary>
+    	/// <value><c>true</c> if markitemsreadonexit; otherwise, <c>false</c>.</value>
+    	bool ISharedProperty.markitemsreadonexit {
+    		get { return this.MarkItemsReadOnExit; }
+			set { this.MarkItemsReadOnExit = value; }
+    	}
+
+    	/// <summary>
+    	/// Gets or sets a value indicating whether [mark items read on exit specified].
+    	/// </summary>
+    	/// <value>
+    	/// 	<c>true</c> if [mark items read on exit specified]; otherwise, <c>false</c>.
+    	/// </value>
+    	bool ISharedProperty.markitemsreadonexitSpecified {
+			get { return true; }
+			set { /* ignore */ }
+    	}
+
+    	#endregion
+
+
     }
 
     #region NewsFeedProperty enum
@@ -6933,241 +7110,3 @@ namespace NewsComponents
 
     #endregion
 }
-
-#region CVS Version Log
-
-/*
- * $Log: NewsHandler.cs,v $
- * Revision 1.184  2007/07/26 02:50:56  carnage4life
- * Fixed issue where global refresh rate is not applied to newly subscribed feeds
- *
- * Revision 1.183  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.182  2007/07/11 18:11:50  carnage4life
- * Fixed ArgumentNullException if we couldn't detect the file extension of a favicon
- *
- * Revision 1.181  2007/07/07 10:32:20  t_rendelmann
- * fix: report search errors to the user
- *
- * Revision 1.180  2007/06/09 18:32:47  carnage4life
- * No results displayed when performing Web searches with Feedster or other search engines that return results as RSS feeds
- *
- * Revision 1.179  2007/06/07 19:51:22  carnage4life
- * Added full support for pagination in newspaper views
- *
- * Revision 1.178  2007/06/07 19:00:41  carnage4life
- * Added support for favicons in JPG format.
- *
- * Revision 1.177  2007/05/12 18:15:18  carnage4life
- * Changed a number of APIs to treat feed URLs as System.String instead of System.Uri because some feed URLs such as those containing unicode cannot be used to create instances of System.Uri
- *
- * Revision 1.176  2007/03/27 14:22:57  t_rendelmann
- * fixed: image magic length not correctly initialized
- *
- * Revision 1.175  2007/03/19 11:29:05  t_rendelmann
- * fixed: ignore invalid bitmap formats (mostly HTML failure reports or not common image format)
- *
- * Revision 1.174  2007/03/19 10:40:59  t_rendelmann
- * changed: now detecting the favicon image format of some common image formats (ico, png, gif)
- *
- * Revision 1.173  2007/03/13 16:13:13  t_rendelmann
- * fixed: sometimes the feed did not get anymore refreshed automatically
- *
- * Revision 1.172  2007/03/11 16:17:33  t_rendelmann
- * fixed: [ 1678119 ] Bandit sends out weird User Agent string (https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1678119&group_id=96589)
- *
- * Revision 1.171  2007/03/04 03:25:05  carnage4life
- * Fixed issue where OPML exported by RSS Bandit cannot be read by IE 7
- *
- * Revision 1.170  2007/02/17 14:45:52  t_rendelmann
- * switched: Resource.Manager indexer usage to strongly typed resources (StringResourceTool)
- *
- * Revision 1.169  2007/02/15 16:37:48  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.168  2007/02/11 15:58:53  carnage4life
- * 1.) Added proper handling for when a podcast download exceeds the size limit on the podcast folder
- *
- * Revision 1.167  2007/02/10 15:28:22  carnage4life
- * Fixed issue where marking an item as read in a search folder doesn't mark it as read in the main feed.
- *
- * Revision 1.166  2007/02/07 17:58:36  t_rendelmann
- * fixed: null ref. exceptions caused on feeds without item content
- *
- * Revision 1.165  2007/02/01 16:00:41  t_rendelmann
- * fixed: option "Initiate download feeds at startup" was not taken over to the Options UI checkbox
- * fixed: Deserialization issue with Preferences types of wrong AppServices assembly version
- * fixed: OnPreferencesChanged() event was not executed at the main thread
- * changed: prevent execptions while deserialize DownloadTask
- *
- * Revision 1.164  2007/01/25 18:42:56  carnage4life
- * Fixed issues where setting to download last X enclosures from a feed were ignored
- *
- * Revision 1.163  2007/01/22 16:42:09  carnage4life
- * Changes to fix issues before shipping Jubilee release candidate
- *
- * Revision 1.162  2007/01/20 15:54:08  carnage4life
- * Fixed problems that occur when users import OPMLs with bad feed URLs
- *
- * Revision 1.161  2007/01/18 04:03:08  carnage4life
- * Completed support for custom newspaper view for search results
- *
- * Revision 1.160  2007/01/17 19:26:37  carnage4life
- * Added initial support for custom newspaper view for search results
- *
- * Revision 1.159  2007/01/16 15:31:27  t_rendelmann
- * changed: read state interpretation in returned search hits
- *
- * Revision 1.158  2007/01/16 00:27:54  carnage4life
- * Made some perf improvements related to SearchNewsItems()
- *
- * Revision 1.157  2007/01/14 19:30:46  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.156  2007/01/14 00:57:46  carnage4life
- * Added methods for finding NewsItems given feed URL and NewsItem.Id
- *
- * Revision 1.155  2006/12/20 17:05:05  carnage4life
- * RefreshFavicons now respects offline status
- *
- * Revision 1.154  2006/12/19 04:39:51  carnage4life
- * Made changes to AsyncRequest and RequestThread to become instance based instead of static
- *
- * Revision 1.153  2006/12/18 02:00:20  carnage4life
- * Added support for using Content-Disposition header to specify local file name for an enclosure
- *
- * Revision 1.152  2006/12/16 23:15:51  carnage4life
- * Fixed issue where comment feeds get confused when a comment is deleted from the feed,
- *
- * Revision 1.151  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific NewsFeed and does the logic to load item content from disk if needed
- *
- * Revision 1.150  2006/12/09 22:57:03  carnage4life
- * Added support for specifying how many podcasts downloaded from new feeds
- *
- * Revision 1.149  2006/12/07 13:17:18  t_rendelmann
- * now Lucene.OptimizeIndex() calls are only at startup and triggered by index folder modification datetime
- *
- * Revision 1.148  2006/12/05 04:06:25  carnage4life
- * Made changes so that when comments for an item are viewed from Watched Items folder, the actual feed is updated and vice versa
- *
- * Revision 1.147  2006/11/24 20:04:33  carnage4life
- * Made some changes to handle duplicate categories corrupting subscriptions.xml
- *
- * Revision 1.146  2006/11/23 16:02:03  t_rendelmann
- * moved to latest stable log4net
- *
- * Revision 1.145  2006/11/22 00:14:03  carnage4life
- * Added support for last of Podcast options
- *
- * Revision 1.144  2006/11/21 17:25:53  carnage4life
- * Made changes to support options for Podcasts
- *
- * Revision 1.143  2006/11/20 22:26:20  carnage4life
- * Added support for most of the Podcast and Attachment options except for podcast file extensions and copying podcasts to a specified folder
- *
- * Revision 1.142  2006/11/19 03:11:10  carnage4life
- * Added support for persisting podcast settings when changed in the Preferences dialog
- *
- * Revision 1.141  2006/11/12 01:25:01  carnage4life
- * 1.) Added Support for Alert windows on received podcasts.
- * 2.) Fixed feed mixup issues
- *
- * Revision 1.140  2006/10/30 19:18:24  carnage4life
- * Added code to automatically download enclosures from newly received items if the user selects that option
- *
- * Revision 1.139  2006/10/28 23:10:00  carnage4life
- * Added "Attachments/Podcasts" to Feed Properties and Category properties dialogs.
- *
- * Revision 1.138  2006/10/28 16:33:11  t_rendelmann
- * more progress to lucene search impl.
- *
- * Revision 1.137  2006/10/24 15:15:13  carnage4life
- * Changed the default folders for podcasts
- *
- * Revision 1.136  2006/10/21 23:34:15  carnage4life
- * Changes related to adding the "Download Attachment" right-click menu option in the list view
- *
- * Revision 1.135  2006/10/18 00:19:50  carnage4life
- * Fixed NullReferenceException in MakeAtomItem
- *
- * Revision 1.134  2006/10/17 15:23:26  carnage4life
- * Integrated BITS code for downloading enclosures
- *
- * Revision 1.133  2006/10/13 18:20:51  carnage4life
- * Added some debug statements
- *
- * Revision 1.132  2006/10/11 19:37:27  carnage4life
- * Fixed a bug I introduced in RelationCosmos processing
- *
- * Revision 1.131  2006/10/11 02:56:38  carnage4life
- * 1.) Fixed issue where we assumed that thr:replies would always point to an atom feed
- * 2.) Fixed issue where items marked as unread were showing up as read on restart
- *
- * Revision 1.130  2006/10/10 15:03:10  carnage4life
- * Merged differences between local machine and CVS versions
- *
- * Revision 1.129  2006/10/05 17:39:14  carnage4life
- * Fixed issue where favicons not loaded on startup
- *
- * Revision 1.128  2006/10/05 15:46:29  t_rendelmann
- * rework: now using XmlSerializerCache everywhere to get the XmlSerializer instance
- *
- * Revision 1.127  2006/10/05 08:00:13  t_rendelmann
- * refactored: use string constants for our XML namespaces
- *
- * Revision 1.126  2006/10/04 21:27:27  carnage4life
- * Fixed issue where relative links in Atom feeds did not work
- *
- * Revision 1.125  2006/10/03 16:52:21  t_rendelmann
- * cont. integrate lucene - the search part
- *
- * Revision 1.124  2006/10/03 14:03:26  carnage4life
- * Fixed issue where some favicons were not fetched
- *
- * Revision 1.123  2006/10/03 13:44:27  carnage4life
- * Fixed issue where outgoing/incoming links point to unread items when the item has been read
- *
- * Revision 1.122  2006/10/03 07:54:38  t_rendelmann
- * refresh to lucene index: optimized the way we add newly received items to prevent re-loading all the item content again for yet indexed items; also purged items (MaxItemAge expires) now handled the better way
- *
- * Revision 1.121  2006/09/29 18:11:59  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- *
- * Revision 1.120  2006/09/22 18:24:52  carnage4life
- * Fixed double click behavior on Outlook 2003 list view
- *
- * Revision 1.119  2006/09/11 21:32:50  carnage4life
- * Fixed issue where formerly watched comments lose their comment count when the feed is refetched and no comment count is in the feed
- *
- * Revision 1.118  2006/09/08 01:05:08  carnage4life
- * Fixed yet another bug in how comment feeds and comment watching work.
- *
- * Revision 1.117  2006/09/07 17:58:54  carnage4life
- * Fixed issue where comment counts where lost on watched comments whose feeds don't expose comment count
- *
- * Revision 1.116  2006/09/05 05:26:26  carnage4life
- * Fixed a number of bugs in comment watching code for comment feeds
- *
- * Revision 1.115  2006/09/03 19:08:50  carnage4life
- * Added support for favicons
- *
- * Revision 1.114  2006/09/02 02:11:46  carnage4life
- * Began favicon support
- *
- * Revision 1.113  2006/09/01 02:40:08  carnage4life
- * When "Update Category" is selected it refreshes all categories that begin with the name of the currently selected category instead of just that category and its child categories.
- *
- * Revision 1.112  2006/08/31 22:10:33  carnage4life
- * We now always send If-Last-Modified and default it to being the last retrieved date
- *
- * Revision 1.111  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- */
-
-#endregion
