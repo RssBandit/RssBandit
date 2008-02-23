@@ -155,6 +155,7 @@
     <Compile Include="Core\INntpServerDefinition.cs" />
     <Compile Include="Core\IRelation.cs" />
     <Compile Include="Core\ISearchEngine.cs" />
+    <Compile Include="Core\ISharedProperty.cs" />
     <Compile Include="Core\IUserIdentity.cs" />
     <Compile Include="Core\IUserPreferences.cs">
       <SubType>Code</SubType>
