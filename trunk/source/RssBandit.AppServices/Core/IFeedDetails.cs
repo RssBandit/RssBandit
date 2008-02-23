@@ -9,6 +9,9 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml; 
+
 
 namespace NewsComponents
 {
@@ -26,14 +29,25 @@ namespace NewsComponents
 		/// <summary>Gets the Feed Description</summary>
 		string Description{ get; }
 		/// <summary>Gets the optional elements found at Feed level</summary>	  
-		IDictionary OptionalElements { get; }
+        Dictionary<XmlQualifiedName, string> OptionalElements { get; }
 		/// <summary>
 		/// Gets the type of the FeedDetails info
 		/// </summary>
 		FeedType Type { get; }
-		/// <summary>? TO DISCUSS ...</summary>	  
-		/* TimeSpan MaxItemAge { get; set; } */ 
-        
-        /* HOW COME NO ITEMS COLLECTION? */ 
+        /// <summary>
+        /// The list of news items belonging to the feed
+        /// </summary>
+        List<INewsItem> ItemsList { get; set; }        
+
+        /// <summary>
+        /// The unique identifier for the feed
+        /// </summary>
+        string Id { get; set; }
+
+        /// <summary>
+        /// Writes the feed to the provided XML writer
+        /// </summary>
+        /// <param name="writer"></param>
+        void WriteTo(XmlWriter writer);        
 	}
 }
