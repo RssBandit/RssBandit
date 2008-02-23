@@ -3802,7 +3802,7 @@ namespace NewsComponents
 
                     while (c != null)
                     {
-                        object c_value = c.GetType().GetField(propertyName).GetValue(c);
+						object c_value = c.GetType().GetProperty(propertyName).GetValue(c, null);
 
                         if (IsPropertyValueSet(c_value, propertyName, c))
                         {
