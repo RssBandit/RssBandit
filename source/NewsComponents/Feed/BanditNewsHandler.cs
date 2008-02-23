@@ -11,9 +11,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Schema;
+
 
 using NewsComponents.Net;
 using NewsComponents.News;
@@ -372,7 +374,124 @@ namespace NewsComponents.Feed
         /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
+            this.ImportFeedlist(feedlist, null, true, false); 
+        }
 
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(bool force_download)
+        {
+            if (this.FeedsListOK == false)
+            {
+                //we don't have a feed list
+                return;
+            }
+
+            bool anyRequestQueued = false;
+
+            try
+            {
+                RaiseOnUpdateFeedsStarted(force_download);
+
+                string[] keys = GetFeedsTableKeys();
+
+                //foreach(string sKey in FeedsTable.Keys){
+                //  NewsFeed current = FeedsTable[sKey];	
+
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    INewsFeed current = feedsTable[keys[i]];
+
+                    try
+                    {
+                        // new: giving up after ten unsuccessfull requests
+                        if (!force_download && current.causedExceptionCount >= 10)
+                        {
+                            continue;
+                        }
+
+                        if (current.refreshrateSpecified && (current.refreshrate == 0))
+                        {
+                            continue;
+                        }
+
+                        if (itemsTable.ContainsKey(current.link))
+                        {
+                            //check if feed downloaded in the past
+
+                            //check if enough time has elapsed as to require a download attempt
+                            if ((!force_download) && current.lastretrievedSpecified)
+                            {
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            } //if(current.lastretrievedSpecified...) 
+
+
+                            if (this.AsyncGetItemsForFeed(current.link, true, false))
+                                anyRequestQueued = true;
+                        }
+                        else
+                        {
+                            // not yet loaded, so not loaded from cache, new subscribed or imported
+                            if (current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
+                            {
+                                // imported may have lastretrievedSpecified set to reduce the initial payload
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            }
+
+                            if (!force_download)
+                            {
+                                // not in itemsTable, cacheurl set - but no cache file anymore?
+                                if (!string.IsNullOrEmpty(current.cacheurl) &&
+                                    !this.CacheHandler.FeedExists(current))
+                                    force_download = true;
+                            }
+
+                            if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                                anyRequestQueued = true;
+                        }
+
+                        Thread.Sleep(15); // force a context switches
+                    }
+                    catch (Exception e)
+                    {
+                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToString());
+                    }
+                } //for(i)
+            }
+            catch (InvalidOperationException ioe)
+            {
+                // New feeds added to FeedsTable from another thread  
+
+                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToString());
+            }
+            finally
+            {
+                if (offline || !anyRequestQueued)
+                    RaiseOnAllAsyncRequestsCompleted();
+            }
         }
 
         #endregion

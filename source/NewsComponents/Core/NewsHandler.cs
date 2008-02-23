@@ -466,7 +466,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
-        private bool offline = false;
+        protected bool offline = false;
 
         /// <summary>
         /// Indicates whether the application is offline or not. 
@@ -1229,8 +1229,8 @@ namespace NewsComponents
         /// <summary>
         /// Hashtable representing downloaded feed items
         /// </summary>
-        private readonly Dictionary<string, FeedDetailsInternal> itemsTable =
-            new Dictionary<string, FeedDetailsInternal>();
+        protected readonly Dictionary<string, IFeedDetails> itemsTable =
+            new Dictionary<string, IFeedDetails>();
 
         /// <summary>
         /// Collection contains NntpServerDefinition objects.
@@ -2199,7 +2199,7 @@ namespace NewsComponents
 
             foreach (SearchHitNewsItem nid in nids)
             {
-                FeedDetailsInternal fdi;
+                IFeedDetails fdi;
                 FeedInfo fi, originalfi = null; // this.itemsTable[nid.FeedLink] as FeedInfo; 
                 if (this.itemsTable.TryGetValue(nid.FeedLink, out fdi))
                     originalfi = fdi as FeedInfo;
@@ -2421,7 +2421,7 @@ namespace NewsComponents
         /// Helper method which retrieves the list of Keys in the FeedsTable object using the CopyTo method. 
         /// </summary>
         /// <returns>An array containing the "keys" of the FeedsTable</returns>
-        private string[] GetFeedsTableKeys()
+        protected string[] GetFeedsTableKeys()
         {
             string[] keys;
 
@@ -2992,7 +2992,7 @@ namespace NewsComponents
                     outline.SetAttribute("type", "rss");
                     outline.SetAttribute("text", f.title);
 
-                   FeedDetailsInternal fi;
+                   IFeedDetails fi;
                     bool success = itemsTable.TryGetValue(f.link, out fi); 
 			  
 					if(success){
@@ -3697,7 +3697,7 @@ namespace NewsComponents
             if (feedUrl == null || feedUrl.Length == 0)
                 throw new ArgumentNullException("feedUrl");
 
-            FeedDetailsInternal fi = null;
+            IFeedDetails fi = null;
             INewsFeed f = null;
             if (itemsTable.ContainsKey(feedUrl))
             {
@@ -4306,7 +4306,7 @@ namespace NewsComponents
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
 
-            FeedDetailsInternal fd = null;
+            IFeedDetails fd = null;
 
             if (!itemsTable.ContainsKey(feedUrl))
             {
@@ -5011,7 +5011,7 @@ namespace NewsComponents
                     {
                         if (itemsTable.ContainsKey(feedUrl))
                         {
-                            FeedDetailsInternal FI = itemsTable[feedUrl];
+                            IFeedDetails FI = itemsTable[feedUrl];
                             itemsTable.Remove(feedUrl);
                             itemsTable.Remove(theFeed.link); //remove any old cached versions of redirected link
                             itemsTable.Add(theFeed.link, FI);
@@ -5075,7 +5075,7 @@ namespace NewsComponents
 
                         if (itemsTable.ContainsKey(feedUrl))
                         {
-                            FeedDetailsInternal fi2 = itemsTable[feedUrl];
+                            IFeedDetails fi2 = itemsTable[feedUrl];
 
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
@@ -5501,7 +5501,7 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseOnAllAsyncRequestsCompleted()
+        protected void RaiseOnAllAsyncRequestsCompleted()
         {
             if (OnAllAsyncRequestsCompleted != null)
             {
@@ -5516,7 +5516,7 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseOnUpdateFeedsStarted(bool forced)
+        protected void RaiseOnUpdateFeedsStarted(bool forced)
         {
             if (UpdateFeedsStarted != null)
             {
@@ -5778,114 +5778,9 @@ namespace NewsComponents
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public virtual void RefreshFeeds(bool force_download)
-        {
-            if (this.FeedsListOK == false)
-            {
-                //we don't have a feed list
-                return;
-            }
+        public abstract void RefreshFeeds(bool force_download);
 
-            bool anyRequestQueued = false;
-
-            try
-            {
-                RaiseOnUpdateFeedsStarted(force_download);
-
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
-
-                    INewsFeed current = feedsTable[keys[i]];
-
-                    try
-                    {
-                        // new: giving up after ten unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 10)
-                        {
-                            continue;
-                        }
-
-                        if (current.refreshrateSpecified && (current.refreshrate == 0))
-                        {
-                            continue;
-                        }
-
-                        if (itemsTable.ContainsKey(current.link))
-                        {
-                            //check if feed downloaded in the past
-
-                            //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
-                            {
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            } //if(current.lastretrievedSpecified...) 
-
-
-                            if (this.AsyncGetItemsForFeed(current.link, true, false))
-                                anyRequestQueued = true;
-                        }
-                        else
-                        {
-                            // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if (current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
-                            {
-                                // imported may have lastretrievedSpecified set to reduce the initial payload
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            }
-
-                            if (!force_download)
-                            {
-                                // not in itemsTable, cacheurl set - but no cache file anymore?
-                                if (!string.IsNullOrEmpty(current.cacheurl) &&
-                                    !this.CacheHandler.FeedExists(current))
-                                    force_download = true;
-                            }
-
-                            if (this.AsyncGetItemsForFeed(current.link, force_download, false))
-                                anyRequestQueued = true;
-                        }
-
-                        Thread.Sleep(15); // force a context switches
-                    }
-                    catch (Exception e)
-                    {
-                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToString());
-                    }
-                } //for(i)
-            }
-            catch (InvalidOperationException ioe)
-            {
-// New feeds added to FeedsTable from another thread  
-
-                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToString());
-            }
-            finally
-            {
-                if (offline || !anyRequestQueued)
-                    RaiseOnAllAsyncRequestsCompleted();
-            }
-        }
+       
 
         /// <summary>
         /// Downloads every feed that has either never been downloaded before or 
@@ -6500,7 +6395,7 @@ namespace NewsComponents
         private string SaveFeed(INewsFeed feed)
         {
             TimeSpan maxItemAge = this.GetMaxItemAge(feed.link);
-            FeedDetailsInternal fi = this.itemsTable[feed.link];
+            FeedDetailsInternal fi = this.itemsTable[feed.link] as FeedDetailsInternal;
             IList<INewsItem> items = fi.ItemsList;
 
             /* remove items that have expired according to users cache requirements */
@@ -6959,13 +6854,15 @@ namespace NewsComponents
     /// </summary>
     internal interface FeedDetailsInternal : IFeedDetails
     {
-        new Dictionary<XmlQualifiedName, string> OptionalElements { get; }
+        /* new Dictionary<XmlQualifiedName, string> OptionalElements { get; }
         List<INewsItem> ItemsList { get; set; }
-        string FeedLocation { get; set; }
         string Id { get; set; }
         void WriteTo(XmlWriter writer);
-        void WriteTo(XmlWriter writer, bool noDescriptions);
+        void WriteTo(XmlWriter writer, bool noDescriptions); */
+
+        string FeedLocation { get; set; }
         void WriteItemContents(BinaryReader reader, BinaryWriter writer);
+        void WriteTo(XmlWriter writer, bool noDescriptions);
     }
 
     /// <summary>
