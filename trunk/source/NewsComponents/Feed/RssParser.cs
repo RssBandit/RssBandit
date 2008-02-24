@@ -1296,6 +1296,59 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="f">Information about the feed. This information is updated based
         /// on the results of processing the feed. </param>
+        /// <param name="proxy">The proxy server to use to make the request.</param>
+        /// <param name="offline">Indicates whether the application is offline or not.</param>
+        /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>
+        /// <exception cref="ApplicationException">If the RSS feed is not 
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the 
+        /// RSS feed</exception>	
+        public static List<INewsItem> DownloadItemsFromFeed(NewsFeed f, IWebProxy proxy, bool offline)
+        {
+            //REM gets called from Bandit (retrive comment feeds)
+            List<INewsItem> returnList = GetList<INewsItem>.Empty;
+
+            if (offline)
+                return returnList;
+
+            ICredentials c = FeedSource.CreateCredentialsFrom(f);           
+
+            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, c, FeedSource.DefaultUserAgent, proxy))
+            {
+                if (RssParser.CanProcessUrl(f.link))
+                {
+                    returnList = RssParser.GetItemsForFeed(f, mem, false).itemsList;
+                }
+            }
+
+            return returnList;
+        }
+
+
+        /// <summary>
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
+        /// in an array list.
+        /// </summary>
+        /// <param name="feedUrl">The feed Url.</param>
+        /// <returns>An arraylist of RSS items (i.e. instances of the NewsItem class)</returns>
+        /// <exception cref="ApplicationException">If the RSS feed is not 
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the 
+        /// RSS feed</exception>	
+        public static List<INewsItem> DownloadItemsFromFeed(string feedUrl)
+        {
+            NewsFeed f = new NewsFeed();
+            f.link = feedUrl;
+            return DownloadItemsFromFeed(f, HttpWebRequest.DefaultWebProxy, false);
+        }
+
+
+        /// <summary>
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
+        /// in an array list.
+        /// </summary>
+        /// <param name="f">Information about the feed. This information is updated based
+        /// on the results of processing the feed. </param>
         /// <returns>An arraylist of RSS items (i.e. instances of the NewsItem class)</returns>
         /// <exception cref="RssParserException">If the RSS feed is not 
         /// version 0.91, 1.0 or 2.0</exception>

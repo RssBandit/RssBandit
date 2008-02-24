@@ -1114,7 +1114,7 @@ namespace NewsComponents
         /// <summary>
         /// Our default short HTTP user agent string
         /// </summary>
-        public const string DefaultUserAgent = "NewsHandler 1.1";
+        public const string DefaultUserAgent = "RssBandit 2.x";
 
         /// <summary>
         /// A template string to assamble a unified user agent string.
@@ -2212,7 +2212,7 @@ namespace NewsComponents
             int feedmatches;
             int itemmatches;
 
-            List<INewsItem> unreturnedMatchItems = this.GetItemsForFeed(searchFeedUrl);
+            List<INewsItem> unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
             RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
             feedmatches = 1;
             itemmatches = unreturnedMatchItems.Count;
@@ -4511,81 +4511,6 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
-        /// in an array list.
-        /// </summary>
-        /// <param name="f">Information about the feed. This information is updated based
-        /// on the results of processing the feed. </param>
-        /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>
-        /// <exception cref="ApplicationException">If the RSS feed is not 
-        /// version 0.91, 1.0 or 2.0</exception>
-        /// <exception cref="XmlException">If an error occured parsing the 
-        /// RSS feed</exception>	
-        public virtual List<INewsItem> GetItemsForFeed(INewsFeed f)
-        {
-            //REM gets called from Bandit (retrive comment feeds)
-            List<INewsItem> returnList = EmptyItemList;
-
-            if (this.offline)
-                return returnList;
-
-            ICredentials c = null;
-
-            if (RssHelper.IsNntpUrl(f.link))
-            {
-                try
-                {
-                    Uri feedUri = new Uri(f.link);
-
-                    foreach (NntpServerDefinition nsd  in this.nntpServers.Values)
-                    {
-                        if (nsd.Server.Equals(feedUri.Authority))
-                        {
-                            c = this.GetNntpServerCredentials(nsd.Name);
-                            break;
-                        }
-                    }
-                }
-                catch (UriFormatException)
-                {
-                    ;
-                }
-            }
-            else
-            {
-                c = CreateCredentialsFrom(f);
-            }
-
-
-            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, c, this.UserAgent, this.Proxy))
-            {
-                if (RssParser.CanProcessUrl(f.link))
-                {
-                    returnList = RssParser.GetItemsForFeed(f, mem, false).itemsList;
-                }
-            }
-
-            return returnList;
-        }
-
-        /// <summary>
-        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
-        /// in an array list.
-        /// </summary>
-        /// <param name="feedUrl">The feed Url.</param>
-        /// <returns>An arraylist of RSS items (i.e. instances of the NewsItem class)</returns>
-        /// <exception cref="ApplicationException">If the RSS feed is not 
-        /// version 0.91, 1.0 or 2.0</exception>
-        /// <exception cref="XmlException">If an error occured parsing the 
-        /// RSS feed</exception>	
-        public virtual List<INewsItem> GetItemsForFeed(string feedUrl)
-        {
-            NewsFeed f = new NewsFeed();
-            f.link = feedUrl;
-            return this.GetItemsForFeed(f);
-        }
-
-        /// <summary>
         /// Reads the feed from the stream then caches and returns the feed items 
         /// in an array list.
         /// </summary>
@@ -4643,8 +4568,7 @@ namespace NewsComponents
 
             //TODO: NntpHandler.CanProcessUrl())
             throw new ApplicationException(ComponentsText.ExceptionNoProcessingHandlerMessage(f.link));
-        }
-
+        }       
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
