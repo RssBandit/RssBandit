@@ -128,6 +128,35 @@ namespace RssBandit.WinGui.Controls {
 			return null;
 		}
 
+        /// <summary>
+        /// Locates a category node and returns null if it wasn't found. 
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="category"></param>
+        /// <returns>The requested category node or null if it was not found. </returns>
+        public static TreeFeedsNodeBase FindCategoryNode(TreeFeedsNodeBase startNode, string category)
+        {
+            if (category == null || category.Length == 0 || startNode == null) return startNode;
+
+            string[] catHives = category.Split(NewsHandler.CategorySeparator.ToCharArray());
+            TreeFeedsNodeBase n = null;
+            bool wasNew = false;
+
+            foreach (string catHive in catHives)
+            {
+                if (startNode != null)
+                {
+                    startNode = FindChildNode(startNode, catHive, FeedNodeType.Category);
+                }else{
+                    startNode = null;
+                    break; 
+                }                
+
+            }//foreach
+
+            return startNode; 
+        }
+
 		/// <summary>
 		/// Determines whether nodeToTest is a child node of the specified parent.
 		/// </summary>

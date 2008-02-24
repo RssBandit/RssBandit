@@ -4,9 +4,13 @@ using System.Net;
 using System.Windows.Forms;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
+using NewsComponents.Feed;
 using NewsComponents.Net;
 using RssBandit.Resources;
 using RssBandit.WinGui;
+using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Forms;
+using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit
 {
@@ -33,7 +37,159 @@ namespace RssBandit
         #region NewsHandler events
 
         /// <summary>
-        /// Called by RssParser, if a RefreshFeeds() was initiated (all feeds)
+        /// Called by NewsHandler if feed moved from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="?"></param>
+        private void OnMovedFeed(object sender, NewsHandler.FeedMovedEventArgs e){
+            InvokeOnGui(delegate
+            {
+                TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
+                TreeFeedsNodeBase parent = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.NewCategory);
+                if (tn != null && parent!= null)
+                {
+                    guiMain.MoveNode(tn, parent); 
+                    SubscriptionModified(NewsFeedProperty.FeedAdded);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Called by NewsHandler if feed is renamed from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRenamedFeed(object sender, NewsHandler.FeedRenamedEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
+                if (tn != null)
+                {
+                    guiMain.RenameTreeNode(tn, e.NewName);
+                    SubscriptionModified(NewsFeedProperty.FeedTitle);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Called by NewsHandler if a feed is deleted from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDeletedFeed(object sender, NewsHandler.FeedDeletedEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                RaiseFeedDeleted(e.FeedUrl, e.Title);
+                SubscriptionModified(NewsFeedProperty.FeedRemoved); 
+            });
+        }
+
+        /// <summary>
+        /// Called by NewsHandler if a feed is added from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnAddedFeed(object sender, NewsHandler.FeedChangedEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                INewsFeed f = null;
+                this.FeedHandler.GetFeeds().TryGetValue(e.FeedUrl, out f);
+
+                if (f != null)
+                {
+                    guiMain.AddNewFeedNode(f.category, f);
+                    SubscriptionModified(NewsFeedProperty.FeedAdded);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Called by NewsHandler if a category is moved from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMovedCategory(object sender, NewsHandler.CategoryChangedEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                TreeFeedsNodeBase parent = null, tn = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName);
+                int index = e.NewCategoryName.LastIndexOf(NewsHandler.CategorySeparator); 
+
+                if(index == -1){
+                    parent = guiMain.GetRoot(RootFolderType.MyFeeds); 
+                }else{ 
+                    parent = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.NewCategoryName.Substring(0, index));
+                }
+                                                                    
+                if (tn != null && parent != null)
+                {
+                    guiMain.MoveNode(tn, parent);
+                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+                }
+            });
+
+        }
+
+
+        /// <summary>
+        /// Called by NewsHandler if a category is renamed from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRenamedCategory(object sender, NewsHandler.CategoryChangedEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                TreeFeedsNodeBase tn = TreeHelper.FindChildNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName, FeedNodeType.Category);
+                if (tn != null)
+                {
+                    guiMain.RenameTreeNode(tn, e.NewCategoryName);
+                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+                }
+            });
+
+        }
+
+
+        /// <summary>
+        /// Called by NewsHandler if a category is added from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnAddedCategory(object sender, NewsHandler.CategoryEventArgs e)
+        {
+                InvokeOnGui(delegate
+                {
+                    this.AddCategory(e.CategoryName);
+                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded); 
+                });
+            
+        }
+
+        /// <summary>
+        /// Called by NewsHandler if a category is deleted from outside the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDeletedCategory(object sender, NewsHandler.CategoryEventArgs e)
+        {
+            InvokeOnGui(delegate
+            {
+                TreeFeedsNodeBase tn = TreeHelper.FindChildNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName, FeedNodeType.Category);
+                if (tn != null)
+                {
+                    guiMain.DeleteCategory(tn);
+                    SubscriptionModified(NewsFeedProperty.FeedCategoryRemoved);
+                }
+            });
+
+        }
+
+        /// <summary>
+        /// Called by NewsHandler, if a RefreshFeeds() was initiated (all feeds)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -49,7 +205,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, if a feed start's to download.
+        /// Called by NewsHandler, if a feed start's to download.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -65,7 +221,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, if a Refresh of a individual Feed was initiated
+        /// Called by NewsHandler, if a Refresh of a individual Feed was initiated
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -78,7 +234,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, after a feed was updated.
+        /// Called by NewsHandler, after a feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -99,7 +255,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, after a comment feed was updated.
+        /// Called by NewsHandler, after a comment feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -153,7 +309,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, if update of a feed caused an exception
+        /// Called by NewsHandler, if update of a feed caused an exception
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -185,7 +341,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, if all pending comment feed updates are done.
+        /// Called by NewsHandler, if all pending comment feed updates are done.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -199,7 +355,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by RssParser, if all pending feed updates are done.
+        /// Called by NewsHandler, if all pending feed updates are done.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
