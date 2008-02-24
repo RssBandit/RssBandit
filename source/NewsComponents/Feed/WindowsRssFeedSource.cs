@@ -71,7 +71,22 @@ namespace NewsComponents.Feed {
             fw = (IFeedFolderEvents_Event) rootFolder.GetWatcher(
                     FEEDS_EVENTS_SCOPE.FES_ALL,
                     FEEDS_EVENTS_MASK.FEM_FEEDEVENTS | FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
-           
+            fw.Error += new IFeedFolderEvents_ErrorEventHandler(Error);
+            fw.FeedAdded += new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
+            fw.FeedDeleted += new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
+            fw.FeedDownloadCompleted += new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
+            fw.FeedDownloading += new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
+            fw.FeedItemCountChanged += new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
+            fw.FeedMovedFrom += new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
+            fw.FeedMovedTo += new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
+            fw.FeedRenamed += new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
+            fw.FeedUrlChanged += new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
+            fw.FolderAdded += new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
+            fw.FolderDeleted += new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
+            fw.FolderItemCountChanged += new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
+            fw.FolderMovedFrom += new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
+            fw.FolderMovedTo += new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
+            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);            
         }    
 
         #endregion 
@@ -1229,8 +1244,10 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>the URL to get an RSS feed of comments from</summary>
+        /// <remarks>This is not exposed in the Windows RSS platform data model</remarks>
         public string CommentRssUrl {
             get { return null; }
+            set { /* can't be set */ }
         }
 
         private Hashtable _optionalElements = null; 
@@ -2049,7 +2066,7 @@ namespace NewsComponents.Feed {
 
         public string title
         {
-            get { return myfeed.Title; }
+            get { return myfeed.Name; }
           
             set
             {
@@ -2238,7 +2255,6 @@ namespace NewsComponents.Feed {
 
 
 
-        private bool _downloadenclosures;
         /// <remarks/>
         [XmlElement("download-enclosures")]
         public bool downloadenclosures
@@ -2708,7 +2724,7 @@ namespace NewsComponents.Feed {
         /// </summary>
         public void RefreshFeed()
         {
-            this.myfeed.AsyncDownload(); 
+            this.myfeed.Download(); 
         }
 
         #endregion 

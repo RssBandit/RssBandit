@@ -174,7 +174,7 @@ namespace NewsComponents
 		string CommentUrl { get; }
 
 		/// <summary>the URL to get an RSS feed of comments from</summary>
-		string CommentRssUrl { get; }
+        string CommentRssUrl { get; set; }
 
 		/// <summary>
 		/// Container for all the optional RSS elements for an item. Also 

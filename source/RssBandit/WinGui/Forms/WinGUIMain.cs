@@ -5852,7 +5852,7 @@ namespace RssBandit.WinGui.Forms
             string feedUrl = feedUri.CanonicalizedUri();
             INewsFeed feed;
             TreeFeedsNodeBase tn;
-            NewsItem item = null;
+            INewsItem item = null;
             bool modified = false;
 
             if (newFeedUri != null)
@@ -5876,7 +5876,7 @@ namespace RssBandit.WinGui.Forms
 
             if (feed != null && feed.Tag != null)
             {
-                NewsFeed itemFeed = (NewsFeed) feed.Tag;
+                INewsFeed itemFeed = (INewsFeed) feed.Tag;
                 FeedInfo itemFeedInfo = owner.FeedHandler.GetFeedInfo(itemFeed.link) as FeedInfo;
 
                 tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), itemFeed);
@@ -5886,7 +5886,7 @@ namespace RssBandit.WinGui.Forms
                     lock (itemFeedInfo.ItemsList)
                     {
                         //locate NewsItem from original feed 
-                        foreach (NewsItem ni in itemFeedInfo.ItemsList)
+                        foreach (INewsItem ni in itemFeedInfo.ItemsList)
                         {
                             if (!string.IsNullOrEmpty(ni.CommentRssUrl) &&
                                 feedUrl.Equals(ni.CommentRssUrl))
