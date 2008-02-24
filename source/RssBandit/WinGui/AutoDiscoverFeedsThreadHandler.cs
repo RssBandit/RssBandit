@@ -80,7 +80,7 @@ namespace RssBandit.WinGui
 						IFeedDetails feedInfo = null;
 						try {
 							// can raise System.Net.WebException: The remote server returned an error: (403) Forbidden
-							feedInfo = FeedSource.GetItemsForFeed(discoveredFeed, this.GetWebResponseStream(rssurl), false);
+							feedInfo = RssParser.GetItemsForFeed(discoveredFeed, this.GetWebResponseStream(rssurl), false);
 						} catch (Exception) {	// fatal errors
 							feedInfo = FeedInfo.Empty;
 						}

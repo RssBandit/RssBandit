@@ -4510,65 +4510,8 @@ namespace NewsComponents
         }
 
 
-        /// <summary>
-        /// Reads the feed from the stream then caches and returns the feed items 
-        /// in an array list.
-        /// </summary>
-        /// <remarks>If the feedUrl is currently not stored in this object's internal table 
-        ///	then it is added/</remarks>		
-        /// <param name="f">Information about the feed. This information is updated based
-        /// on the results of processing the feed. </param>
-        /// <param name="feedReader">A reader containing an feed.</param>				
-        /// <param name="cachedStream">Flag states update last retrieved date on feed only 
-        /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the NewsFeed object passed in. </param>
-        /// <returns>A FeedDetails object which represents the feed</returns>
-        /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
-        /// <exception cref="XmlException">If an error occured parsing the feed</exception>	
-        public static IFeedDetails GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream)
-        {
-            //REM gets called from Bandit (AutoDiscoverFeedsThreadandler)
-            if (f == null || f.link == null)
-                return null;
 
-            if (RssParser.CanProcessUrl(f.link))
-            {
-                return RssParser.GetItemsForFeed(f, feedReader, cachedStream);
-            }
-
-            //TODO: NntpHandler.CanProcessUrl())
-            throw new ApplicationException(ComponentsText.ExceptionNoProcessingHandlerMessage(f.link));
-        }
-
-        /// <summary>
-        /// Reads a feed from the stream then caches and returns the feed items 
-        /// in an array list.
-        /// </summary>
-        /// <remarks>If the feedUrl is currently not stored in this object's internal table 
-        ///	then it is added/</remarks>		
-        /// <param name="f">Information about the feed. This information is updated based
-        /// on the results of processing the feed. </param>
-        /// <param name="feedStream">A stream containing an feed.</param>				
-        /// <param name="cachedStream">Flag states update last retrieved date on feed only 
-        /// if the item was not cached. Indicates whether the lastretrieved date is updated
-        /// on the NewsFeed object passed in. </param>
-        /// <returns>A FeedDetails object which represents the feed</returns>
-        /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
-        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>	
-        //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public static IFeedDetails GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream)
-        {
-            if (f == null || f.link == null)
-                return null;
-
-            if (RssParser.CanProcessUrl(f.link))
-            {
-                return RssParser.GetItemsForFeed(f, feedStream, cachedStream);
-            }
-
-            //TODO: NntpHandler.CanProcessUrl())
-            throw new ApplicationException(ComponentsText.ExceptionNoProcessingHandlerMessage(f.link));
-        }       
+          
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
