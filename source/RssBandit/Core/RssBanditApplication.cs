@@ -312,8 +312,12 @@ namespace RssBandit
            
 
             FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
-            this.feedHandler.UserAgent = UserAgent;
+#if TEST_WINRSS_PLATFORM
+			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
+#else
+			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+#endif
+			this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
             this.feedHandler.BeforeDownloadFeedStarted += this.BeforeDownloadFeedStarted;
