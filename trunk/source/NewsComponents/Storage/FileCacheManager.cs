@@ -87,14 +87,14 @@ namespace NewsComponents.Storage {
 			if (null == feed || null == feed.cacheurl)
 				return null;
 
-			FeedInfo fi = null; 
+            FeedDetailsInternal fi = null; 
 
 			string cachelocation = Path.Combine(this.cacheDirectory, feed.cacheurl);
 
 			if(File.Exists(cachelocation)){
 				
 				using (Stream feedStream = FileHelper.OpenForRead(cachelocation)) {
-					fi = RssParser.GetItemsForFeed(feed, feedStream, true); 
+					fi = RssParser.GetItemsForFeed(feed, feedStream, true) as FeedDetailsInternal; 
 				}				  			  				
 				this.LoadItemContent(fi); 
 			}
@@ -295,7 +295,12 @@ namespace NewsComponents.Storage {
 		/// optimization so we only have the content of items that are unread on load.  
 		/// </summary>
 		/// <param name="fi"></param>
-		private void LoadItemContent(FeedInfo fi){
+		private void LoadItemContent(FeedDetailsInternal fi){
+
+            if (fi == null)
+            {
+                return;
+            }
 					
 			Hashtable unreadItems = new Hashtable(); 
 			FileStream fs = null; 
@@ -303,7 +308,7 @@ namespace NewsComponents.Storage {
 
 
 			//get list of unread items 
-			foreach(NewsItem item in fi.itemsList){
+			foreach(NewsItem item in fi.ItemsList){
 				if(!item.BeenRead){
 					try{
 						unreadItems.Add(item.Id, item); 
@@ -315,7 +320,7 @@ namespace NewsComponents.Storage {
 
 			try{ 
 
-				string feedContentLocation = fi.feedLocation.Substring(0, fi.feedLocation.Length - 4) + ".bin";											
+				string feedContentLocation = fi.FeedLocation.Substring(0, fi.FeedLocation.Length - 4) + ".bin";											
 
 				if(File.Exists(Path.Combine(this.cacheDirectory, feedContentLocation))){
 
