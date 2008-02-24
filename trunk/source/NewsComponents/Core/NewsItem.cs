@@ -674,7 +674,7 @@ namespace NewsComponents
             if (outgoingLinks != null)
                 OutGoingLinks = outgoingLinks;
 
-            if (NewsHandler.buildRelationCosmos)
+            if (FeedSource.buildRelationCosmos)
             {
                 if (outgoingLinks == null)
                 {
@@ -724,7 +724,7 @@ namespace NewsComponents
         /// <summary>
         /// Overrides the default impl. of RelationBase. We return true, if we have a
         /// valid commentRssUrl and the commentCount is greater than zero.
-        /// CommentCount is only be considered, if NewsHandler.UnconditionalCommentRss
+        /// CommentCount is only be considered, if FeedSource.UnconditionalCommentRss
         /// is false (default).
         /// </summary>
         public override bool HasExternalRelations
@@ -733,7 +733,7 @@ namespace NewsComponents
             {
                 if (!string.IsNullOrEmpty(commentRssUrl))
                 {
-                    if (NewsHandler.UnconditionalCommentRss)
+                    if (FeedSource.UnconditionalCommentRss)
                         return true;
                     if (commentCount > 0)
                         return true;
@@ -751,9 +751,9 @@ namespace NewsComponents
         {
             if (base.GetExternalRelations().Count > 0)
             {
-                NewsHandler.RelationCosmosRemoveRange(relations);
+                FeedSource.RelationCosmosRemoveRange(relations);
             }
-            NewsHandler.RelationCosmosAddRange(relations);
+            FeedSource.RelationCosmosAddRange(relations);
 
             base.SetExternalRelations(relations);
         }
@@ -1349,7 +1349,7 @@ namespace NewsComponents
         /// </summary>
         private void ProcessOutGoingLinks(string content)
         {
-            if (NewsHandler.BuildRelationCosmos)
+            if (FeedSource.BuildRelationCosmos)
             {
                 outgoingRelationships = HtmlHelper.RetrieveLinks(content);
             }
@@ -1483,7 +1483,7 @@ namespace NewsComponents
             }
 
             sb.Append("\r\nX-Newsreader: ");
-            sb.Append(NewsHandler.GlobalUserAgentString);
+            sb.Append(FeedSource.GlobalUserAgentString);
 
             sb.Append("\r\nSubject: ");
             sb.Append(p_title);

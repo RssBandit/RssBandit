@@ -21,7 +21,7 @@ namespace NewsComponents
 
 	/// <summary>
 	/// INewsComponentsConfiguration provides the relevant configuration
-	/// information required to run NewsHandler.
+	/// information required to run FeedSource.
 	/// </summary>
 	public interface INewsComponentsConfiguration
 	{

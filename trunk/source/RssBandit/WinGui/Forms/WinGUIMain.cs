@@ -5419,7 +5419,7 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Initiate a async. call to NewsHandler.RefreshFeeds(force_download)
+        /// Initiate a async. call to FeedSource.RefreshFeeds(force_download)
         /// </summary>
         /// <param name="force_download"></param>
         public void UpdateAllFeeds(bool force_download)
@@ -5477,7 +5477,7 @@ namespace RssBandit.WinGui.Forms
                 IdleTask.RemoveTask(IdleTasks.IndexAllItems);
                 try
                 {
-                    NewsHandler.SearchHandler.CheckIndex(true);
+                    FeedSource.SearchHandler.CheckIndex(true);
                 }
                 catch (Exception ex)
                 {
@@ -7660,7 +7660,7 @@ namespace RssBandit.WinGui.Forms
             searchPanel.TabIndex = 0;
             panelRssSearch.Controls.Add(searchPanel);
 
-            //this.owner.FeedHandler.NewsItemSearchResult += new NewsHandler.NewsItemSearchResultEventHandler(this.OnNewsItemSearchResult);
+            //this.owner.FeedHandler.NewsItemSearchResult += new FeedSource.NewsItemSearchResultEventHandler(this.OnNewsItemSearchResult);
             owner.FeedHandler.SearchFinished += OnNewsItemSearchFinished;
 
             searchPanel.BeforeNewsItemSearch += OnSearchPanelBeforeNewsItemSearch;
@@ -7772,7 +7772,7 @@ namespace RssBandit.WinGui.Forms
         {
             // enable native info tips support:
             //Win32.ModifyWindowStyle(treeFeeds.Handle, 0, Win32.TVS_INFOTIP);
-            treeFeeds.PathSeparator = NewsHandler.CategorySeparator;
+            treeFeeds.PathSeparator = FeedSource.CategorySeparator;
             treeFeeds.ImageList = _treeImages;
             treeFeeds.Nodes.Override.Sort = SortType.None; // do not sort the root entries
             treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
@@ -11203,7 +11203,7 @@ namespace RssBandit.WinGui.Forms
                     // build old category store name by replace the new label returned
                     // by the oldLabel kept:
                     catArray[catArray.Length - 1] = oldLabel;
-                    oldFullname = String.Join(NewsHandler.CategorySeparator, catArray);
+                    oldFullname = String.Join(FeedSource.CategorySeparator, catArray);
                 }
 
                 if (GetRoot(editedNode) == RootFolderType.MyFeeds)
@@ -11217,7 +11217,7 @@ namespace RssBandit.WinGui.Forms
                     // side effects
                     foreach (string catKey in catList)
                     {
-                        if (catKey.Equals(oldFullname) || catKey.StartsWith(oldFullname + NewsHandler.CategorySeparator))
+                        if (catKey.Equals(oldFullname) || catKey.StartsWith(oldFullname + FeedSource.CategorySeparator))
                         {
                             string newCatKey = newFullname + ( catKey.Length == oldFullname.Length ?
                                                                 String.Empty : catKey.Substring(oldFullname.Length));                                            
@@ -12899,7 +12899,7 @@ namespace RssBandit.WinGui.Forms
 
         #region SearchPanel routines
 
-        private void OnNewsItemSearchFinished(object sender, NewsHandler.SearchFinishedEventArgs e)
+        private void OnNewsItemSearchFinished(object sender, FeedSource.SearchFinishedEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -12934,7 +12934,7 @@ namespace RssBandit.WinGui.Forms
             SetSearchStatusText(SR.RssSearchStateMessage);
 
             Exception criteriaValidationException;
-            if (!NewsHandler.SearchHandler.ValidateSearchCriteria(
+            if (!FeedSource.SearchHandler.ValidateSearchCriteria(
                      e.SearchCriteria, CultureInfo.CurrentUICulture.Name,
                      out criteriaValidationException))
             {
@@ -12950,11 +12950,11 @@ namespace RssBandit.WinGui.Forms
             {
                 TreeFeedsNodeBase parent = GetRoot(RootFolderType.Finder);
 
-                if (newName.IndexOf(NewsHandler.CategorySeparator) > 0)
+                if (newName.IndexOf(FeedSource.CategorySeparator) > 0)
                 {
-                    string[] a = newName.Split(NewsHandler.CategorySeparator.ToCharArray());
+                    string[] a = newName.Split(FeedSource.CategorySeparator.ToCharArray());
                     parent = TreeHelper.CreateCategoryHive(parent,
-                                                           String.Join(NewsHandler.CategorySeparator, a, 0, a.Length - 1),
+                                                           String.Join(FeedSource.CategorySeparator, a, 0, a.Length - 1),
                                                            _treeSearchFolderContextMenu,
                                                            FeedNodeType.FinderCategory);
 
@@ -13054,7 +13054,7 @@ namespace RssBandit.WinGui.Forms
 
             if (categories != null)
             {
-                string sep = NewsHandler.CategorySeparator;
+                string sep = FeedSource.CategorySeparator;
                 foreach (NewsFeed f in owner.FeedHandler.GetFeeds().Values)
                 {
                     foreach (string category in categories)
@@ -13369,7 +13369,7 @@ namespace RssBandit.WinGui.Forms
                         owner.MessageInfo(SR.GUIFieldLinkRedundantInfo(
                                               (f2.category == null
                                                    ? String.Empty
-                                                   : f2.category + NewsHandler.CategorySeparator) + f2.title, f2.link));
+                                                   : f2.category + FeedSource.CategorySeparator) + f2.title, f2.link));
                         return;
                     }
 

@@ -2443,7 +2443,7 @@ namespace RssBandit.WinGui.Forms
 
 				txtNewsServerName.Text = sd.Server;
 				string u = sd.AuthUser, p = null;
-				NewsHandler.GetNntpServerCredentials(sd, ref u, ref p);
+				FeedSource.GetNntpServerCredentials(sd, ref u, ref p);
 				chkUseAuthentication.Checked = false;
 				txtServerAuthName.Enabled = txtServerAuthPassword.Enabled = false;
 				if (!string.IsNullOrEmpty(u)) {
@@ -2796,7 +2796,7 @@ namespace RssBandit.WinGui.Forms
 			}
 			if (sender == this.txtServerAuthPassword) {
 				if (selectedServer != null)
-					NewsHandler.SetNntpServerCredentials(selectedServer, this.txtServerAuthName.Text, txtServerAuthPassword.Text);
+					FeedSource.SetNntpServerCredentials(selectedServer, this.txtServerAuthName.Text, txtServerAuthPassword.Text);
 			}			
 			if (sender == this.txtServerPort) {
 				if (selectedServer != null) {

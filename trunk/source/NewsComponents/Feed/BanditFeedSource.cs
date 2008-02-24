@@ -29,24 +29,24 @@ namespace NewsComponents.Feed
     
 
     /// <summary>
-    /// A NewsHandler that directly accesses RSS/Atom feeds via HTTP or HTTPS 
+    /// A FeedSource that directly accesses RSS/Atom feeds via HTTP or HTTPS 
     /// and newsgroups via NNTP. 
     /// </summary>
-    class BanditNewsHandler : NewsHandler
+    class BanditFeedSource : FeedSource
     {
 
         #region constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewsHandler"/> class.
+        /// Initializes a new instance of the <see cref="FeedSource"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="location">The feedlist URL</param>
-        internal BanditNewsHandler(INewsComponentsConfiguration configuration, SubscriptionLocation location)
+        internal BanditFeedSource(INewsComponentsConfiguration configuration, SubscriptionLocation location)
         {
             this.p_configuration = configuration;
             if (this.p_configuration == null)
-                this.p_configuration = NewsHandler.DefaultConfiguration;
+                this.p_configuration = FeedSource.DefaultConfiguration;
 
             this.location = location;
 
@@ -366,7 +366,7 @@ namespace NewsComponents.Feed
         ///</summary>
         public override void LoadFeedlist()
         {
-            this.LoadFeedlist(location.Location, NewsHandler.ValidationCallbackOne);
+            this.LoadFeedlist(location.Location, FeedSource.ValidationCallbackOne);
 
         }
 
@@ -375,7 +375,7 @@ namespace NewsComponents.Feed
         /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
         /// is on the Web). 
         /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
             this.ImportFeedlist(feedlist, null, true, false);

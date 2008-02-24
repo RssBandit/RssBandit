@@ -339,8 +339,8 @@ namespace RssBandit
 					
 				if (!string.IsNullOrEmpty(serverDef.AuthUser)) {
 					string u = null, p = null;
-					NewsHandler.GetNntpServerCredentials(serverDef, ref u, ref p);
-					request.Credentials = NewsHandler.CreateCredentialsFrom(u, p);
+					FeedSource.GetNntpServerCredentials(serverDef, ref u, ref p);
+					request.Credentials = FeedSource.CreateCredentialsFrom(u, p);
 				}
 
 				//TODO: implement proxy support in NntpWebRequest

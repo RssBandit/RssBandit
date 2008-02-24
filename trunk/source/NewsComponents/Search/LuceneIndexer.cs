@@ -56,9 +56,9 @@ namespace NewsComponents.Search
 		private Thread IndexingThread;
 		private IDictionary restartInfo;
 		private DictionaryEntry lastIndexed;
-        private IList<NewsHandler> newsHandlers;
+        private IList<FeedSource> newsHandlers;
 		
-		public LuceneIndexer(LuceneIndexModifier indexModifier, IList<NewsHandler> newsHandlers) {
+		public LuceneIndexer(LuceneIndexModifier indexModifier, IList<FeedSource> newsHandlers) {
 		
 			this.indexModifier = indexModifier;
 			if (this.indexModifier == null)
@@ -109,7 +109,7 @@ namespace NewsComponents.Search
 
                 int feedCount = 0, itemCount = 0;
 
-                foreach(NewsHandler newsHandler in newsHandlers)
+                foreach(FeedSource newsHandler in newsHandlers)
                 {			   
 
                 if (newsHandler.FeedsListOK &&
@@ -189,7 +189,7 @@ namespace NewsComponents.Search
 							// we do not always have the content loaded:
                             if (item.ContentType == ContentType.None && item.Feed != null && item.Feed.owner != null)
                             {
-                                NewsHandler handler = item.Feed.owner as NewsHandler;
+                                FeedSource handler = item.Feed.owner as FeedSource;
                                 handler.GetCachedContentForItem(item);
                             }
 							indexModifier.Add(LuceneNewsItemSearch.Document(item), item.Language);

@@ -333,7 +333,7 @@ namespace NewsComponents.RelationCosmos
 			try {
 				lock (syncRoot) {
 					//TR: causes collection modified exception if called from InternalAddRange:
-					// NewsHandler.MergeAndPurgeItems() was the entry point; I added a single 
+					// FeedSource.MergeAndPurgeItems() was the entry point; I added a single 
 					// RelationCosmosRemove() instead there directly.
 					//InternalRemove(relation);
 				

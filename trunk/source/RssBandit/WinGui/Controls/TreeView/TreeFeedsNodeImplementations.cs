@@ -435,11 +435,11 @@ namespace RssBandit.WinGui.Controls
 
 				finder.Container = null;	// may contain old node references on a re-populate call
 
-				if (finder.FullPath.IndexOf(NewsHandler.CategorySeparator) > 0) {	// one with category
+				if (finder.FullPath.IndexOf(FeedSource.CategorySeparator) > 0) {	// one with category
 					
-					string[] a = finder.FullPath.Split(NewsHandler.CategorySeparator.ToCharArray());
+					string[] a = finder.FullPath.Split(FeedSource.CategorySeparator.ToCharArray());
 					int aLen = a.GetLength(0);
-					string sCat = String.Join(NewsHandler.CategorySeparator,a, 0, aLen-1);
+					string sCat = String.Join(FeedSource.CategorySeparator,a, 0, aLen-1);
 
 					if (categories.ContainsKey(sCat)) {
 						parent = (TreeFeedsNodeBase)categories[sCat];
@@ -460,7 +460,7 @@ namespace RssBandit.WinGui.Controls
 								//								cn.Cells[0].Appearance.Cursor = WinGuiMain.CursorHand;
 								parent = cn;
 							}
-							sb.Append(NewsHandler.CategorySeparator + a[i+1]);
+							sb.Append(FeedSource.CategorySeparator + a[i+1]);
 						}
 					}
 				}

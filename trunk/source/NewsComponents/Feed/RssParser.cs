@@ -184,11 +184,11 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The owner, used for internal callbacks
         /// </summary>
-        private readonly NewsHandler owner;
+        private readonly FeedSource owner;
 
         #region ctor's
 
-        public RssParser(NewsHandler owner)
+        public RssParser(FeedSource owner)
         {
             if (owner == null)
                 throw new ArgumentNullException("owner");
@@ -1475,8 +1475,8 @@ namespace NewsComponents.Feed
             FeedInfo fi =
                 new FeedInfo(f.id, f.cacheurl, items, feedTitle, feedLink, feedDescription, optionalElements, language);
 
-            //NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-            //NewsHandler.RelationCosmosAddRange(items);
+            //FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
+            //FeedSource.RelationCosmosAddRange(items);
 
             //int iSize = 0;	   
 
@@ -1513,14 +1513,14 @@ namespace NewsComponents.Feed
                 }
 
                 if ((f.deletedstories.Contains(ri.Id) ||
-                     null == NewsHandler.ReceivingNewsChannelServices.ProcessItem(ri)))
+                     null == FeedSource.ReceivingNewsChannelServices.ProcessItem(ri)))
                 {
                     // processor wants to remove the item:
                     if (ri.BeenRead) readItems--;
                     ri.FeedDetails = null;
 
                     items.RemoveAt(i);
-                    NewsHandler.RelationCosmosRemove(ri);
+                    FeedSource.RelationCosmosRemove(ri);
 
                     i--;
                     count--;
@@ -1547,8 +1547,8 @@ namespace NewsComponents.Feed
             else
             {
                 //add to relationcosmos if loaded from disk
-                NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-                NewsHandler.RelationCosmosAddRange(items);
+                FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
+                FeedSource.RelationCosmosAddRange(items);
             }
             //any new items in feed? 
             if (readItems == items.Count)

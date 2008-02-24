@@ -600,7 +600,7 @@ namespace RssBandit.WinGui.Controls
 			if (catArray.Length == 0)
 				return null;
 
-			return String.Join(NewsHandler.CategorySeparator, catArray);
+			return String.Join(FeedSource.CategorySeparator, catArray);
 
 			#region Old impl. (kept for ref/check the new impl. for regressions)
 //			string pathSep = @"\";
@@ -640,7 +640,7 @@ namespace RssBandit.WinGui.Controls
 			}
 
 //			string s = node.FullPath.Trim();
-//			ArrayList a = new ArrayList(s.Split(NewsHandler.CategorySeparator.ToCharArray()));
+//			ArrayList a = new ArrayList(s.Split(FeedSource.CategorySeparator.ToCharArray()));
 //
 //			if (node.Type == FeedNodeType.Feed || node.Type == FeedNodeType.Finder) {
 //				if (a.Count > 2) {
@@ -669,11 +669,11 @@ namespace RssBandit.WinGui.Controls
 		/// <value>The tpyed root full path.</value>
 		public string TypedRootFullPath {
 			get {
-				string[] a = this.FullPath.Split(NewsHandler.CategorySeparator.ToCharArray());
+				string[] a = this.FullPath.Split(FeedSource.CategorySeparator.ToCharArray());
 				if (a.Length > 0) {
 					a[0] = this.RootNode.GetType().Name;
 				}
-				return String.Join(NewsHandler.CategorySeparator, a);
+				return String.Join(FeedSource.CategorySeparator, a);
 			}
 		}
 		
