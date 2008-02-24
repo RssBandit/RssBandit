@@ -169,28 +169,28 @@
     <Compile Include="Core\NewsChannelServices.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\NewsHandler.cs">
+    <Compile Include="Core\FeedSource.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\NewsItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\BanditNewsHandler.cs" />
+    <Compile Include="Feed\BanditFeedSource.cs" />
     <Compile Include="Feed\FeedInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\feeds.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\GoogleReaderNewsHandler.cs" />
-    <Compile Include="Feed\NewsGatorNewsHandler.cs" />
+    <Compile Include="Feed\GoogleReaderFeedSource.cs" />
+    <Compile Include="Feed\NewsGatorFeedSource.cs" />
     <Compile Include="Feed\RssLocater.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\RssParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Feed\WindowsRssNewsHandler.cs" />
+    <Compile Include="Feed\WindowsRssFeedSource.cs" />
     <Compile Include="Net\AsyncWebRequest.cs">
       <SubType>Code</SubType>
     </Compile>
