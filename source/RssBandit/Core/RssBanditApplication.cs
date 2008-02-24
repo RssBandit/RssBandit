@@ -312,7 +312,7 @@ namespace RssBandit
            
 
             FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
@@ -1071,7 +1071,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             if (feedHandler.ColumnLayouts.Count == 0)
             {
                 ListViewLayout oldLayout;
-                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
+                foreach (INewsFeed f in feedHandler.GetFeeds().Values)
                 {
                     if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -1108,7 +1108,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     }
                 }
 
-                foreach (category c in feedHandler.GetCategories().Values)
+                foreach (INewsFeedCategory c in feedHandler.GetCategories().Values)
                 {
                     if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
                         continue;
