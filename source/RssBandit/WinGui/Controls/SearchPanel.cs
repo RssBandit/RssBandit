@@ -141,7 +141,7 @@ namespace RssBandit.WinGui.Controls
 
 			// enable native info tips support:
 			Win32.ModifyWindowStyle(treeRssSearchScope.Handle, 0, Win32.TVS_INFOTIP);
-			this.treeRssSearchScope.PathSeparator = NewsHandler.CategorySeparator;
+			this.treeRssSearchScope.PathSeparator = FeedSource.CategorySeparator;
 			
 			this.BackColor = FontColorHelper.UiColorScheme.TaskPaneNavigationArea;
 		}

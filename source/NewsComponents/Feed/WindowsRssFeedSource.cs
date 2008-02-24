@@ -43,23 +43,23 @@ namespace NewsComponents.Feed {
     } 
 
     /// <summary>
-    /// A NewsHandler that retrieves user subscriptions and feeds from the Windows RSS platform. 
+    /// A FeedSource that retrieves user subscriptions and feeds from the Windows RSS platform. 
     /// </summary>
-    class WindowsRssNewsHandler : NewsHandler, IFeedFolderEvents
+    class WindowsRssFeedSource : FeedSource, IFeedFolderEvents
     {
 
 
         #region constructor
 
          /// <summary>
-        /// Initializes a new instance of the <see cref="NewsHandler"/> class.
+        /// Initializes a new instance of the <see cref="FeedSource"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public WindowsRssNewsHandler(INewsComponentsConfiguration configuration)
+        public WindowsRssFeedSource(INewsComponentsConfiguration configuration)
         {
             this.p_configuration = configuration;
             if (this.p_configuration == null)
-                this.p_configuration = NewsHandler.DefaultConfiguration;
+                this.p_configuration = FeedSource.DefaultConfiguration;
 
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
@@ -329,7 +329,7 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
-        /// Removes all information related to a feed from the NewsHandler.   
+        /// Removes all information related to a feed from the FeedSource.   
         /// </summary>
         /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
         /// <param name="feedUrl">The URL of the feed to delete. </param>
@@ -432,7 +432,7 @@ namespace NewsComponents.Feed {
         /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
         /// is on the Web). 
         /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
             Dictionary<string, NewsFeed> bootstrapFeeds = new Dictionary<string, NewsFeed>();
@@ -610,7 +610,7 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedDeleted(string Path)
         {
-            int index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+            int index = Path.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
             if (index == -1)
@@ -652,7 +652,7 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedRenamed(string Path, string oldPath)
         {
-            int index = oldPath.LastIndexOf(NewsHandler.CategorySeparator);
+            int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
             if (index == -1)
@@ -676,7 +676,7 @@ namespace NewsComponents.Feed {
                 {
                     if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
                     {
-                        index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+                        index = Path.LastIndexOf(FeedSource.CategorySeparator);
                         string newTitle = (index == -1 ? Path : Path.Substring(index + 1));
 
                         RaiseOnRenamedFeed(new FeedRenamedEventArgs(f.link, newTitle));
@@ -703,7 +703,7 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedMovedTo(string Path, string oldPath)
         {
-            int index = oldPath.LastIndexOf(NewsHandler.CategorySeparator);
+            int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
             if (index == -1)
@@ -727,7 +727,7 @@ namespace NewsComponents.Feed {
                 {
                     if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
                     {
-                        index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+                        index = Path.LastIndexOf(FeedSource.CategorySeparator);
                         string newCategory = (index == -1 ? Path : Path.Substring(0, index));
 
                         RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, newCategory));
@@ -744,7 +744,7 @@ namespace NewsComponents.Feed {
         public void FeedUrlChanged(string Path)
         {
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
-            int index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+            int index = Path.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
             if (index == -1)
@@ -828,7 +828,7 @@ namespace NewsComponents.Feed {
 
                 if (wf == null)
                 {
-                    Exception e = new FeedRequestException(Error.ToString(), new WebException(Error.ToString()), NewsHandler.GetFailureContext(wf, wf));
+                    Exception e = new FeedRequestException(Error.ToString(), new WebException(Error.ToString()), FeedSource.GetFailureContext(wf, wf));
                     RaiseOnUpdateFeedException(ifeed.DownloadUrl, e, 1100);
                 }
 
@@ -2318,7 +2318,7 @@ namespace NewsComponents.Feed {
             {
                 if (!StringHelper.EmptyTrimOrNull(value) && !value.Equals(this.category))
                 {
-                    WindowsRssNewsHandler handler = owner as WindowsRssNewsHandler;
+                    WindowsRssFeedSource handler = owner as WindowsRssFeedSource;
                     handler.ChangeCategory(this, handler.AddCategory(value)); 
                 }
             }

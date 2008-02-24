@@ -173,9 +173,9 @@ namespace RssBandit
 						string u = newFeedDialog.textUser.Text.Trim(), p = null;
 						if (newFeedDialog.textPwd.Text != null && newFeedDialog.textPwd.Text.Trim().Length != 0)
 							p = newFeedDialog.textPwd.Text.Trim();
-						NewsHandler.SetFeedCredentials(f, u, p);
+						FeedSource.SetFeedCredentials(f, u, p);
 					} else {
-						NewsHandler.SetFeedCredentials(f, null, null);
+						FeedSource.SetFeedCredentials(f, null, null);
 					}
 
 					f.alertEnabled = f.alertEnabledSpecified = newFeedDialog.checkEnableAlerts.Checked;
@@ -773,7 +773,7 @@ namespace RssBandit
             if (MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
                 feedHandler.DeleteAllFeedsAndCategories();
-                NewsHandler.SearchHandler.IndexRemoveAll();
+                FeedSource.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;
                 guiMain.InitiatePopulateTreeFeeds();
@@ -1201,7 +1201,7 @@ namespace RssBandit
                 {
                     // NewsFeed has credentials
                     string u = null, p = null;
-                    NewsHandler.GetFeedCredentials(f, ref u, ref p);
+                    FeedSource.GetFeedCredentials(f, ref u, ref p);
                     propertiesDialog.textUser.Text = u;
                     propertiesDialog.textPwd.Text = p;
                 }
@@ -1331,13 +1331,13 @@ namespace RssBandit
                         string u = propertiesDialog.textUser.Text.Trim(), p = null;
                         if (!string.IsNullOrEmpty(propertiesDialog.textPwd.Text))
                             p = propertiesDialog.textPwd.Text.Trim();
-                        NewsHandler.SetFeedCredentials(f, u, p);
+                        FeedSource.SetFeedCredentials(f, u, p);
                         changes |= NewsFeedProperty.FeedCredentials;
                         refreshThisFeed = true;
                     }
                     else
                     {
-                        NewsHandler.SetFeedCredentials(f, null, null);
+                        FeedSource.SetFeedCredentials(f, null, null);
                         changes |= NewsFeedProperty.FeedCredentials;
                     }
 
@@ -1425,7 +1425,7 @@ namespace RssBandit
                 try
                 {
                     category = tn.CategoryStoreName;
-                    catPlusSep = category + NewsHandler.CategorySeparator;
+                    catPlusSep = category + FeedSource.CategorySeparator;
                     categoryName = tn.Text;
 
                     try

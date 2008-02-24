@@ -2705,7 +2705,7 @@ namespace RssBandit.WinGui.Forms
 				}
 				
 				if (this.textUser.Text.Trim().Length > 0) {
-					autoDiscover.Credentials = NewsHandler.CreateCredentialsFrom(this.textUser.Text.Trim(), this.textPassword.Text.Trim());
+					autoDiscover.Credentials = FeedSource.CreateCredentialsFrom(this.textUser.Text.Trim(), this.textPassword.Text.Trim());
 				}
 				
 				SetWizardTaskInfo(taskIndex, WizardValidationTask.InProgress, autoDiscover.OperationMessage);
@@ -2763,7 +2763,7 @@ namespace RssBandit.WinGui.Forms
 
 				PrefetchFeedThreadHandler fetchHandler = new PrefetchFeedThreadHandler(url, coreApplication.Proxy);
 				if (this.textUser.Text.Trim().Length > 0) {
-					fetchHandler.Credentials = NewsHandler.CreateCredentialsFrom(this.textUser.Text.Trim(), this.textPassword.Text.Trim());
+					fetchHandler.Credentials = FeedSource.CreateCredentialsFrom(this.textUser.Text.Trim(), this.textPassword.Text.Trim());
 				}
 				string message = SR.GUIStatusWaitMessagePrefetchFeed(url);
 				SetWizardTaskInfo(taskIndex, WizardValidationTask.InProgress, message);
@@ -2987,7 +2987,7 @@ namespace RssBandit.WinGui.Forms
                 coreApplication.TryGetFeedDetails(newUrl, out category, out title, out link);
 				invalidUriException = new InvalidOperationException( 
 					SR.GUIFieldLinkRedundantInfo( 
-					((category ?? String.Empty) + NewsHandler.CategorySeparator) + title, link ));
+					((category ?? String.Empty) + FeedSource.CategorySeparator) + title, link ));
 				return null; 
 			}
 

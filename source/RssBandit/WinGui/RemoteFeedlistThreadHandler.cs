@@ -435,7 +435,7 @@ namespace RssBandit.WinGui
                             remoteStore.Proxy = rssBanditApp.Proxy;
 
                             //TODO: figure out, when we have to use Credentials????
-                            //	remoteStore.Credentials = 	NewsHandler.CreateCredentialsFrom(credentialUser, credentialPassword);
+                            //	remoteStore.Credentials = 	FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
 
                             remoteStore.PostBlogroll("blogroll", doc.DocumentElement);
                                 // ".opml" is appended by the service!
@@ -527,7 +527,7 @@ namespace RssBandit.WinGui
                             if (!string.IsNullOrEmpty(credentialUser))
                             {
                                 NetworkCredential nc =
-                                    NewsHandler.CreateCredentialsFrom(credentialUser, credentialPassword);
+                                    FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
 
                                 CredentialCache cc = new CredentialCache();
                                 cc.Add(remoteUri, "Basic", nc);
@@ -866,7 +866,7 @@ namespace RssBandit.WinGui
                         if (!string.IsNullOrEmpty(credentialUser))
                         {
                             NetworkCredential nc =
-                                NewsHandler.CreateCredentialsFrom(credentialUser, credentialPassword);
+                                FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
 
                             CredentialCache cc = new CredentialCache();
                             cc.Add(remoteUri, "Basic", nc);
@@ -1161,7 +1161,7 @@ namespace RssBandit.WinGui
 
             try
             {
-                string[] catHives = category.Split(NewsHandler.CategorySeparator.ToCharArray());
+                string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
                 XmlElement n;
                 bool wasNew = false;
 
@@ -1169,7 +1169,7 @@ namespace RssBandit.WinGui
                 {
                     if (!wasNew)
                     {
-                        string xpath = "child::outline[@title=" + NewsHandler.buildXPathString(catHive) +
+                        string xpath = "child::outline[@title=" + FeedSource.buildXPathString(catHive) +
                                        " and (count(@*)= 1)]";
                         n = (XmlElement) startNode.SelectSingleNode(xpath);
                     }

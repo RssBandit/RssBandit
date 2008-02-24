@@ -17,9 +17,9 @@ using NewsComponents.Search;
 
 namespace NewsComponents.Feed {
     /// <summary>
-    /// A NewsHandler that retrieves user subscriptions and feeds from Google Reader. 
+    /// A FeedSource that retrieves user subscriptions and feeds from Google Reader. 
     /// </summary>
-    class GoogleReaderNewsHandler : NewsHandler{
+    class GoogleReaderFeedSource : FeedSource{
 
 
         #region public methods
@@ -38,7 +38,7 @@ namespace NewsComponents.Feed {
         /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
         /// is on the Web). 
         /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
 

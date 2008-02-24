@@ -232,7 +232,7 @@ namespace NewsComponents.News{
 						item.CommentStyle = SupportedCommentStyle.NNTP;
                         item.Enclosures = NewsComponents.Collections.GetList<IEnclosure>.Empty; 
 						items.Add(item); 
-						NewsHandler.ReceivingNewsChannelServices.ProcessItem(item);
+						FeedSource.ReceivingNewsChannelServices.ProcessItem(item);
 					} else {
 #if DEBUG
 						_log.Warn("No message-id header found for item:\r\n" + itemSource.ToString() );
@@ -257,8 +257,8 @@ namespace NewsComponents.News{
 					f.containsNewMessages = true; 
 				}
 
-				NewsHandler.ReceivingNewsChannelServices.ProcessItem(fi);
-                NewsHandler.RelationCosmosAddRange(items); 
+				FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
+                FeedSource.RelationCosmosAddRange(items); 
                 fi.itemsList.AddRange(items); 
  
 			}

@@ -63,7 +63,7 @@ namespace RssBandit.WinGui.Controls {
 
 			if (category == null || category.Length == 0 || startNode == null) return startNode;
 
-			string[] catHives = category.Split(NewsHandler.CategorySeparator.ToCharArray());
+			string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
 			TreeFeedsNodeBase n = null;
 			bool wasNew = false;
 			int nodeImageIndex, expandedNodeImageIndex;
@@ -138,7 +138,7 @@ namespace RssBandit.WinGui.Controls {
         {
             if (category == null || category.Length == 0 || startNode == null) return startNode;
 
-            string[] catHives = category.Split(NewsHandler.CategorySeparator.ToCharArray());
+            string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
             TreeFeedsNodeBase n = null;
             bool wasNew = false;
 
@@ -539,10 +539,10 @@ namespace RssBandit.WinGui.Controls {
 				return null;
 
 			string s = fullPathName.Trim();
-			string[] a = s.Split(NewsHandler.CategorySeparator.ToCharArray());
+			string[] a = s.Split(FeedSource.CategorySeparator.ToCharArray());
 
 			if (a.GetLength(0) > 1)
-				return String.Join(NewsHandler.CategorySeparator, a, 1, a.GetLength(0)-1);
+				return String.Join(FeedSource.CategorySeparator, a, 1, a.GetLength(0)-1);
 			
 			return null;	
 		}
@@ -566,7 +566,7 @@ namespace RssBandit.WinGui.Controls {
 				return new string[]{};
 
 			string s = fullPathName.Trim();
-			ArrayList a = new ArrayList(s.Split(NewsHandler.CategorySeparator.ToCharArray()));
+			ArrayList a = new ArrayList(s.Split(FeedSource.CategorySeparator.ToCharArray()));
 
 			if (ignoreLeaveNode) 
 			{

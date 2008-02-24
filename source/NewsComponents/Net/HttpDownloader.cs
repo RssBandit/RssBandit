@@ -131,7 +131,7 @@ namespace NewsComponents.Net
 
             WebResponse response = AsyncWebRequest.GetSyncResponse(task.DownloadItem.Enclosure.Url,
                                                                    task.DownloadItem.Credentials,
-                                                                   NewsHandler.UserAgentString(String.Empty),
+                                                                   FeedSource.UserAgentString(String.Empty),
                                                                    task.DownloadItem.Proxy,
                                                                    DateTime.MinValue,
                                                                    null,
@@ -153,11 +153,11 @@ namespace NewsComponents.Net
             Uri reqUri = new Uri(task.DownloadItem.Enclosure.Url);
             int priority = 10;
 
-            RequestParameter reqParam = RequestParameter.Create(reqUri, NewsHandler.UserAgentString(String.Empty),
+            RequestParameter reqParam = RequestParameter.Create(reqUri, FeedSource.UserAgentString(String.Empty),
                                                                 task.DownloadItem.Proxy, task.DownloadItem.Credentials,
                                                                 DateTime.MinValue, null);
             // global cookie handling:
-            reqParam.SetCookies = NewsHandler.SetCookies;
+            reqParam.SetCookies = FeedSource.SetCookies;
 
 
             state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam,

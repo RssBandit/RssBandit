@@ -402,7 +402,7 @@ namespace NewsComponents.Net
         /// <returns></returns>
         public static string FullUserAgent(string userAgent)
         {
-            return NewsHandler.UserAgentString(userAgent);
+            return FeedSource.UserAgentString(userAgent);
         }
 
 
@@ -818,7 +818,7 @@ namespace NewsComponents.Net
                         if (!string.IsNullOrEmpty(domainUser))
                             domainUser = domainUser + @"\";
                         domainUser = String.Concat(domainUser, c.UserName);
-                        return NewsHandler.CreateCredentialsFrom(redirectUrl, domainUser, c.Password);
+                        return FeedSource.CreateCredentialsFrom(redirectUrl, domainUser, c.Password);
                     }
                 }
             }

@@ -119,8 +119,8 @@ namespace RssBandit
         private const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
         private CommandMediator cmdMediator;
-        private NewsHandler feedHandler;
-        private NewsHandler commentFeedsHandler;
+        private FeedSource feedHandler;
+        private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
         private PostReplyForm postReplyForm;
@@ -280,7 +280,7 @@ namespace RssBandit
             // read advanced settings:
             unconditionalCommentRss = (bool) ReadAppSettingsEntry("UnconditionalCommentRss", typeof (bool), false);
             automaticColorSchemes = (bool) ReadAppSettingsEntry("AutomaticColorSchemes", typeof (bool), true);
-            NewsHandler.SetCookies = (bool) ReadAppSettingsEntry("UseCookiesFromIE", typeof (bool), true);
+            FeedSource.SetCookies = (bool) ReadAppSettingsEntry("UseCookiesFromIE", typeof (bool), true);
             portableApplicationMode = (bool) ReadAppSettingsEntry("PortableApplicationMode", typeof (bool), false);
 
             // Gui Settings (Form position, layouts,...)
@@ -311,8 +311,8 @@ namespace RssBandit
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
            
 
-            NewsHandler.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-            this.feedHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+            FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
+            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
             this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
@@ -331,18 +331,18 @@ namespace RssBandit
             this.feedHandler.OnRenamedFeed += this.OnRenamedFeed;
             this.feedHandler.OnMovedFeed += this.OnMovedFeed;
 
-            this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, 
+            this.commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, 
                                                             new SubscriptionLocation(GetCommentsFeedListFileName()) , 
-                                                            this.CreateCommentFeedHandlerConfiguration(NewsHandler.DefaultConfiguration));
+                                                            this.CreateCommentFeedHandlerConfiguration(FeedSource.DefaultConfiguration));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             this.commentFeedsHandler.OnAllAsyncRequestsCompleted += this.OnAllCommentFeedRequestsCompleted;
             this.commentFeedsHandler.OnUpdatedFeed += this.OnUpdatedCommentFeed;
 
-            NewsHandler.UnconditionalCommentRss = UnconditionalCommentRss;
+            FeedSource.UnconditionalCommentRss = UnconditionalCommentRss;
 #if DEBUG
-            NewsHandler.TraceMode = true;
+            FeedSource.TraceMode = true;
 #endif
 
             this.searchEngines = new SearchEngineHandler();
@@ -740,7 +740,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
         
 
-        public NewsHandler FeedHandler
+        public FeedSource FeedHandler
         {
             get
             {
@@ -748,7 +748,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             }
         }
 
-        public NewsHandler CommentFeedsHandler
+        public FeedSource CommentFeedsHandler
         {
             get
             {
@@ -852,7 +852,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (FeedSource.SearchHandler.IsIndexRelevantChange(property))
                 HandleIndexRelevantChange(GetFeed(feedUrl), property);
         }
 
@@ -860,16 +860,16 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             if (feed == null)
                 return;
-            if (NewsHandler.SearchHandler.IsIndexRelevantChange(property))
+            if (FeedSource.SearchHandler.IsIndexRelevantChange(property))
             {
                 if (NewsFeedProperty.FeedRemoved == (property & NewsFeedProperty.FeedRemoved))
                 {
-                    NewsHandler.SearchHandler.IndexRemove(feed.id);
+                    FeedSource.SearchHandler.IndexRemove(feed.id);
                     // feed added change is handled after first sucessful request of the feed:
                 }
                 else if (NewsFeedProperty.FeedAdded == (property & NewsFeedProperty.FeedAdded))
                 {
-                    NewsHandler.SearchHandler.ReIndex(feed, this.feedHandler.GetCachedItemsForFeed(feed.link));
+                    FeedSource.SearchHandler.ReIndex(feed, this.feedHandler.GetCachedItemsForFeed(feed.link));
                 }
             }
         }
@@ -1903,7 +1903,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         {
             this.FeedHandler.MaxItemAge = Preferences.MaxItemAge;
             this.Proxy = CreateProxyFrom(Preferences);
-            NewsHandler.BuildRelationCosmos = Preferences.BuildRelationCosmos;
+            FeedSource.BuildRelationCosmos = Preferences.BuildRelationCosmos;
 
             try
             {
@@ -1942,7 +1942,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     if (!string.IsNullOrEmpty(p.ProxyUser))
                     {
-                        proxy.Credentials = NewsHandler.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
+                        proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
 
                         #region experimental
 
@@ -2857,7 +2857,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 }
                 catch (Exception e)
                 {
-                    if (!NewsHandler.validationErrorOccured)
+                    if (!FeedSource.validationErrorOccured)
                     {
                         // set by validation callback handler
                         _log.Error("Exception on loading '" + p + "'.", e);
@@ -2869,9 +2869,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 {
                     /* All right here... 	*/
                 }
-                else if (NewsHandler.validationErrorOccured)
+                else if (FeedSource.validationErrorOccured)
                 {
-                    NewsHandler.validationErrorOccured = false;
+                    FeedSource.validationErrorOccured = false;
                     throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
                 }
                 else
@@ -3500,12 +3500,12 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     {
                         string u = null, p = null;
 
-                        NewsHandler.GetFeedCredentials(theItem.Feed, ref u, ref p);
-                        NewsHandler.SetFeedCredentials(f, u, p);
+                        FeedSource.GetFeedCredentials(theItem.Feed, ref u, ref p);
+                        FeedSource.SetFeedCredentials(f, u, p);
                     }
                     else
                     {
-                        NewsHandler.SetFeedCredentials(f, null, null);
+                        FeedSource.SetFeedCredentials(f, null, null);
                     }
 
                     // add feed to backend					
@@ -4182,12 +4182,12 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 //save search folders
                 this.SaveSearchFolders();
 
-                if (NewsHandler.TopStoriesModified)
-                    NewsHandler.SaveCachedTopStoryTitles();
+                if (FeedSource.TopStoriesModified)
+                    FeedSource.SaveCachedTopStoryTitles();
 
                 // Last operation: write all changes to the search index to disk
                 if (appIsClosing)
-                    NewsHandler.SearchHandler.StopIndexer();
+                    FeedSource.SearchHandler.StopIndexer();
             }
             catch (InvalidOperationException ioe)
             {
@@ -5372,7 +5372,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             {
                 INewsFeed f2 = feedHandler.GetFeeds()[f.link];
                 this.MessageInfo(SR.GUIFieldLinkRedundantInfo(
-                                     (f2.category == null ? String.Empty : f2.category + NewsHandler.CategorySeparator) +
+                                     (f2.category == null ? String.Empty : f2.category + FeedSource.CategorySeparator) +
                                      f2.title, f2.link));
 
                 return null;
@@ -5391,11 +5391,11 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                 string u = wiz.FeedCredentialUser, p = null;
                 if (!string.IsNullOrEmpty(wiz.FeedCredentialPwd))
                     p = wiz.FeedCredentialPwd;
-                NewsHandler.SetFeedCredentials(f, u, p);
+                FeedSource.SetFeedCredentials(f, u, p);
             }
             else
             {
-                NewsHandler.SetFeedCredentials(f, null, null);
+                FeedSource.SetFeedCredentials(f, null, null);
             }
 
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
@@ -5406,7 +5406,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             this.FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
 
-            /* DON'T NEED THIS, IT WILL INHERIT FROM NewsHandler.RefreshRate
+            /* DON'T NEED THIS, IT WILL INHERIT FROM FeedSource.RefreshRate
 				f.refreshrate = 60;	
 				int intIn = wiz.RefreshRate * MilliSecsMultiplier;
 				this.feedHandler.SetRefreshRate(f.link, intIn); 
