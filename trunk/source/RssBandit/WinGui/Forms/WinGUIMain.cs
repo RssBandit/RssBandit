@@ -4588,7 +4588,7 @@ namespace RssBandit.WinGui.Forms
                 Hashtable categoryTable = new Hashtable();
                 List<INewsFeedCategory> categoryList = new List<INewsFeedCategory>(categories);
 
-                foreach (NewsFeed f in feedsTable.Values)
+                foreach (INewsFeed f in feedsTable.Values)
                 {
                     if (Disposing)
                         return;
@@ -4655,7 +4655,7 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 //add categories, we not already have
-                foreach (category c in categoryList)
+                foreach (INewsFeedCategory c in categoryList)
                 {
                     TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
                 }

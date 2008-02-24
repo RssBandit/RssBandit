@@ -205,7 +205,9 @@ namespace NewsComponents
                 case FeedSourceType.DirectAccess:
                     handler = new BanditFeedSource(configuration, location);
                     break;
-
+                case FeedSourceType.WindowsRSS:
+                    handler = new WindowsRssFeedSource(configuration);
+                    break;
                 default:
                     break;
 
@@ -5824,7 +5826,7 @@ namespace NewsComponents
         /// <summary>
         /// Resumes pending BITS downloads from a if any exist. 
         /// </summary>
-        public void ResumePendingDownloads()
+        public virtual void ResumePendingDownloads()
         {
             this.enclosureDownloader.ResumePendingDownloads();
         }
