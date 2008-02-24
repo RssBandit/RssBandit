@@ -45,7 +45,7 @@ namespace NewsComponents.Feed {
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from the Windows RSS platform. 
     /// </summary>
-    class WindowsRssFeedSource : FeedSource, IFeedFolderEvents
+    class WindowsRssFeedSource : FeedSource
     {
 
 
