@@ -1357,7 +1357,7 @@ namespace RssBandit.WinGui.Utility {
 			get { 
 				if (container != null)
 					return container.Text;
-				string[] a = fullpathname.Split(NewsHandler.CategorySeparator.ToCharArray());
+				string[] a = fullpathname.Split(FeedSource.CategorySeparator.ToCharArray());
 				return a[a.GetLength(0)-1];
 			}
 			set { 
@@ -1370,9 +1370,9 @@ namespace RssBandit.WinGui.Utility {
 			get {
 				if (container != null) {
 					string s = container.FullPath.Trim();
-					string[] a = s.Split(NewsHandler.CategorySeparator.ToCharArray());
+					string[] a = s.Split(FeedSource.CategorySeparator.ToCharArray());
 					if (a.GetLength(0) > 1)
-						return String.Join(NewsHandler.CategorySeparator,a, 1, a.GetLength(0)-1);
+						return String.Join(FeedSource.CategorySeparator,a, 1, a.GetLength(0)-1);
 			
 					return s;	// name only
 				} else {

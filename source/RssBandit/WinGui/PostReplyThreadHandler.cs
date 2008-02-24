@@ -33,7 +33,7 @@ namespace RssBandit.WinGui {
 		/// <param name="commentApiUri">The comment API URI.</param>
 		/// <param name="item2post">The item2post.</param>
 		/// <param name="inReply2item">The in reply2item.</param>
-		public PostReplyThreadHandler(NewsHandler feedHandler, string commentApiUri, INewsItem item2post, INewsItem inReply2item) {
+		public PostReplyThreadHandler(FeedSource feedHandler, string commentApiUri, INewsItem item2post, INewsItem inReply2item) {
 			this.feedHandler = feedHandler;
 			this.commentApiUri = commentApiUri;
 			this.item2post = item2post;
@@ -45,14 +45,14 @@ namespace RssBandit.WinGui {
 		/// <param name="feedHandler">The feed handler.</param>
 		/// <param name="item2post">The item2post.</param>
 		/// <param name="postTarget">The post target.</param>
-		public PostReplyThreadHandler(NewsHandler feedHandler, INewsItem item2post, INewsFeed postTarget) {
+		public PostReplyThreadHandler(FeedSource feedHandler, INewsItem item2post, INewsFeed postTarget) {
 			this.feedHandler = feedHandler;
 			this.item2post = item2post;
 			this.postTarget = postTarget;
 		}
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PostReplyThreadHandler));
-		private NewsHandler feedHandler = null;
+		private FeedSource feedHandler = null;
 		private string commentApiUri = null;
 		private INewsItem item2post = null, inReply2item = null;
 		private INewsFeed postTarget = null;

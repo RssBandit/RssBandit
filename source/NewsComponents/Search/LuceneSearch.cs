@@ -107,7 +107,7 @@ namespace NewsComponents.Search
 		
 		private readonly LuceneIndexModifier indexModifier;
 		private readonly LuceneSettings settings;
-        private readonly List<NewsHandler> newsHandlers = new List<NewsHandler>(); 
+        private readonly List<FeedSource> newsHandlers = new List<FeedSource>(); 
 
 		/// <summary>
 		/// Is true, if we have to initially index all feeds
@@ -157,15 +157,15 @@ namespace NewsComponents.Search
         /// <summary>
         /// The list of NewsHandlers being handled by this SearchHandler
         /// </summary>
-        internal IList<NewsHandler> NewsHandlers {
+        internal IList<FeedSource> NewsHandlers {
             get { return this.newsHandlers; }
         }
 
         /// <summary>
-        /// Adds a NewsHandler to the list of NewsHandlers being processed by this Search handler
+        /// Adds a FeedSource to the list of NewsHandlers being processed by this Search handler
         /// </summary>
         /// <param name="handler"></param>
-        public void AddNewsHandler(NewsHandler handler) {
+        public void AddNewsHandler(FeedSource handler) {
             if (handler != null)
             {
                 newsHandlers.Add(handler);
@@ -180,7 +180,7 @@ namespace NewsComponents.Search
 		/// <param name="scope">The scope.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, IList<NewsHandler> newsHandlers, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, IList<FeedSource> newsHandlers, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;
@@ -220,7 +220,7 @@ namespace NewsComponents.Search
 					f = (NewsFeed) matchedFeeds[feedLink];
 
                 if (f == null){
-                    foreach (NewsHandler h in newsHandlers)
+                    foreach (FeedSource h in newsHandlers)
                     {
                         if (h.IsSubscribed(feedLink))
                         {

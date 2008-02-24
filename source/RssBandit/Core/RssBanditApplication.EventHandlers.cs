@@ -34,14 +34,14 @@ namespace RssBandit
 
         #endregion
 
-        #region NewsHandler events
+        #region FeedSource events
 
         /// <summary>
-        /// Called by NewsHandler if feed moved from outside the application
+        /// Called by FeedSource if feed moved from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="?"></param>
-        private void OnMovedFeed(object sender, NewsHandler.FeedMovedEventArgs e){
+        private void OnMovedFeed(object sender, FeedSource.FeedMovedEventArgs e){
             InvokeOnGui(delegate
             {
                 TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
@@ -55,11 +55,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler if feed is renamed from outside the application
+        /// Called by FeedSource if feed is renamed from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnRenamedFeed(object sender, NewsHandler.FeedRenamedEventArgs e)
+        private void OnRenamedFeed(object sender, FeedSource.FeedRenamedEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -73,11 +73,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler if a feed is deleted from outside the application
+        /// Called by FeedSource if a feed is deleted from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnDeletedFeed(object sender, NewsHandler.FeedDeletedEventArgs e)
+        private void OnDeletedFeed(object sender, FeedSource.FeedDeletedEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -87,11 +87,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler if a feed is added from outside the application
+        /// Called by FeedSource if a feed is added from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnAddedFeed(object sender, NewsHandler.FeedChangedEventArgs e)
+        private void OnAddedFeed(object sender, FeedSource.FeedChangedEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -107,16 +107,16 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler if a category is moved from outside the application
+        /// Called by FeedSource if a category is moved from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnMovedCategory(object sender, NewsHandler.CategoryChangedEventArgs e)
+        private void OnMovedCategory(object sender, FeedSource.CategoryChangedEventArgs e)
         {
             InvokeOnGui(delegate
             {
                 TreeFeedsNodeBase parent = null, tn = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName);
-                int index = e.NewCategoryName.LastIndexOf(NewsHandler.CategorySeparator); 
+                int index = e.NewCategoryName.LastIndexOf(FeedSource.CategorySeparator); 
 
                 if(index == -1){
                     parent = guiMain.GetRoot(RootFolderType.MyFeeds); 
@@ -135,11 +135,11 @@ namespace RssBandit
 
 
         /// <summary>
-        /// Called by NewsHandler if a category is renamed from outside the application
+        /// Called by FeedSource if a category is renamed from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnRenamedCategory(object sender, NewsHandler.CategoryChangedEventArgs e)
+        private void OnRenamedCategory(object sender, FeedSource.CategoryChangedEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -155,11 +155,11 @@ namespace RssBandit
 
 
         /// <summary>
-        /// Called by NewsHandler if a category is added from outside the application
+        /// Called by FeedSource if a category is added from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnAddedCategory(object sender, NewsHandler.CategoryEventArgs e)
+        private void OnAddedCategory(object sender, FeedSource.CategoryEventArgs e)
         {
                 InvokeOnGui(delegate
                 {
@@ -170,11 +170,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler if a category is deleted from outside the application
+        /// Called by FeedSource if a category is deleted from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnDeletedCategory(object sender, NewsHandler.CategoryEventArgs e)
+        private void OnDeletedCategory(object sender, FeedSource.CategoryEventArgs e)
         {
             InvokeOnGui(delegate
             {
@@ -189,11 +189,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if a RefreshFeeds() was initiated (all feeds)
+        /// Called by FeedSource, if a RefreshFeeds() was initiated (all feeds)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnUpdateFeedsStarted(object sender, NewsHandler.UpdateFeedsEventArgs e)
+        private void OnUpdateFeedsStarted(object sender, FeedSource.UpdateFeedsEventArgs e)
         {
             InvokeOnGui(delegate
                             {
@@ -205,11 +205,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if a feed start's to download.
+        /// Called by FeedSource, if a feed start's to download.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BeforeDownloadFeedStarted(object sender, NewsHandler.DownloadFeedCancelEventArgs e)
+        private void BeforeDownloadFeedStarted(object sender, FeedSource.DownloadFeedCancelEventArgs e)
         {
             InvokeOnGui(
                 delegate
@@ -221,11 +221,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if a Refresh of a individual Feed was initiated
+        /// Called by FeedSource, if a Refresh of a individual Feed was initiated
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void OnUpdateFeedStarted(object sender, NewsHandler.UpdateFeedEventArgs e)
+        internal void OnUpdateFeedStarted(object sender, FeedSource.UpdateFeedEventArgs e)
         {
             InvokeOnGui(delegate
                             {
@@ -234,11 +234,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, after a feed was updated.
+        /// Called by FeedSource, after a feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void OnUpdatedFeed(object sender, NewsHandler.UpdatedFeedEventArgs e)
+        internal void OnUpdatedFeed(object sender, FeedSource.UpdatedFeedEventArgs e)
         {
             InvokeOnGui(delegate
                             {
@@ -255,11 +255,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, after a comment feed was updated.
+        /// Called by FeedSource, after a comment feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void OnUpdatedCommentFeed(object sender, NewsHandler.UpdatedFeedEventArgs e)
+        internal void OnUpdatedCommentFeed(object sender, FeedSource.UpdatedFeedEventArgs e)
         {
             if (e.UpdateState == RequestResult.OK)
             {
@@ -271,11 +271,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, after a favicon was updated.
+        /// Called by FeedSource, after a favicon was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void OnUpdatedFavicon(object sender, NewsHandler.UpdatedFaviconEventArgs e)
+        internal void OnUpdatedFavicon(object sender, FeedSource.UpdatedFaviconEventArgs e)
         {
             InvokeOnGui(delegate
                             {
@@ -284,7 +284,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, after an enclosure has been downloaded.
+        /// Called by FeedSource, after an enclosure has been downloaded.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -309,11 +309,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if update of a feed caused an exception
+        /// Called by FeedSource, if update of a feed caused an exception
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void OnUpdateFeedException(object sender, NewsHandler.UpdateFeedExceptionEventArgs e)
+        internal void OnUpdateFeedException(object sender, FeedSource.UpdateFeedExceptionEventArgs e)
         {
             InvokeOnGui(delegate
                             {
@@ -341,7 +341,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if all pending comment feed updates are done.
+        /// Called by FeedSource, if all pending comment feed updates are done.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -355,7 +355,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by NewsHandler, if all pending feed updates are done.
+        /// Called by FeedSource, if all pending feed updates are done.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

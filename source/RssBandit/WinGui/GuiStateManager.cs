@@ -33,7 +33,7 @@ namespace RssBandit.WinGui
 	/// </summary>
 	public class GuiStateManager
 	{
-		#region NewsHandler state handling
+		#region FeedSource state handling
 		public delegate void NewsHandlerBeforeStateMoveHandler(NewsHandlerState oldState, NewsHandlerState newState, ref bool cancel);
 		public event NewsHandlerBeforeStateMoveHandler NewsHandlerBeforeStateMove;
 		public delegate void NewsHandlerStateMovedHandler(NewsHandlerState oldState, NewsHandlerState newState);

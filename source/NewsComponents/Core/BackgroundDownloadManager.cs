@@ -76,7 +76,7 @@ namespace NewsComponents
         /// This is used to provide information about the files being downloaded 
         /// such as target directory and credentials. 
         /// </summary>
-        private readonly NewsHandler downloadInfoProvider = null;
+        private readonly FeedSource downloadInfoProvider = null;
 
         /// <summary>
         /// Key in the task context.
@@ -146,7 +146,7 @@ namespace NewsComponents
         /// <param name="downloadInfoProvider">The IDownloadInfoProvider instance. It is used to 
         /// request the download informations like proxy or credentials at the time the real
         /// download is queued.</param>
-        public BackgroundDownloadManager(INewsComponentsConfiguration configuration, NewsHandler downloadInfoProvider)
+        public BackgroundDownloadManager(INewsComponentsConfiguration configuration, FeedSource downloadInfoProvider)
         {
             applicationId = configuration.ApplicationID;
             this.downloadInfoProvider = downloadInfoProvider;
@@ -163,7 +163,7 @@ namespace NewsComponents
         /// <param name="downloadInfoProvider">The IDownloadInfoProvider instance. It is used to 
         /// request the download informations like proxy or credentials at the time the real
         /// download is queued.</param>
-        public BackgroundDownloadManager(string applicationName, NewsHandler downloadInfoProvider)
+        public BackgroundDownloadManager(string applicationName, FeedSource downloadInfoProvider)
         {
             applicationId = applicationName;
             this.downloadInfoProvider = downloadInfoProvider;

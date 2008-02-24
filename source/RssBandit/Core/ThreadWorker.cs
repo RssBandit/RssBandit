@@ -94,8 +94,8 @@ namespace RssBandit
 
 					if (!string.IsNullOrEmpty(item.Feed.authUser)) {	// take over credential settings
 						string u = null, p = null;
-						NewsHandler.GetFeedCredentials(item.Feed, ref u, ref p);
-						NewsHandler.SetFeedCredentials(cmtFeed, u, p);
+						FeedSource.GetFeedCredentials(item.Feed, ref u, ref p);
+						FeedSource.SetFeedCredentials(cmtFeed, u, p);
 					}
 						
 					object result = app.FeedHandler.GetItemsForFeed(cmtFeed);
@@ -208,9 +208,9 @@ namespace RssBandit
 			resultInfos = PriorityQueue.Synchronize(new PriorityQueue());
 			
 			// what we catch on:
-			this.owner.FeedHandler.UpdateFeedStarted += new NewsHandler.UpdateFeedStartedHandler(this.OnUpdateFeedStarted);
-			this.owner.FeedHandler.OnUpdatedFeed += new NewsHandler.UpdatedFeedCallback(this.OnUpdatedFeed);
-			this.owner.FeedHandler.OnUpdateFeedException += new NewsHandler.UpdateFeedExceptionCallback(this.OnUpdateFeedException);
+			this.owner.FeedHandler.UpdateFeedStarted += new FeedSource.UpdateFeedStartedHandler(this.OnUpdateFeedStarted);
+			this.owner.FeedHandler.OnUpdatedFeed += new FeedSource.UpdatedFeedCallback(this.OnUpdatedFeed);
+			this.owner.FeedHandler.OnUpdateFeedException += new FeedSource.UpdateFeedExceptionCallback(this.OnUpdateFeedException);
 
 			//processResult = new System.Timers.Timer(250);
 			processResult.Tick += new EventHandler(OnProcessResultTick); //new System.Timers.ElapsedEventHandler(OnProcessResultElapsed);
@@ -232,12 +232,12 @@ namespace RssBandit
 		//			// get them out of the resultInfos list and deliver
 		//			if (resultInfos.Count > 0) {
 		//				ThreadResultInfo t = (ThreadResultInfo)resultInfos.Dequeue();
-		//				if (t.Args is NewsHandler.UpdateFeedEventArgs) {
-		//					this.owner.OnUpdateFeedStarted(t.sender, (NewsHandler.UpdateFeedEventArgs)t.Args);
-		//				} else if (t.Args is NewsHandler.UpdatedFeedEventArgs) {
-		//					this.owner.OnUpdatedFeed(t.sender, (NewsHandler.UpdatedFeedEventArgs)t.Args);
-		//				} else if (t.Args is NewsHandler.UpdateFeedExceptionEventArgs) {
-		//					this.owner.OnUpdateFeedException(t.sender, (NewsHandler.UpdateFeedExceptionEventArgs)t.Args);
+		//				if (t.Args is FeedSource.UpdateFeedEventArgs) {
+		//					this.owner.OnUpdateFeedStarted(t.sender, (FeedSource.UpdateFeedEventArgs)t.Args);
+		//				} else if (t.Args is FeedSource.UpdatedFeedEventArgs) {
+		//					this.owner.OnUpdatedFeed(t.sender, (FeedSource.UpdatedFeedEventArgs)t.Args);
+		//				} else if (t.Args is FeedSource.UpdateFeedExceptionEventArgs) {
+		//					this.owner.OnUpdateFeedException(t.sender, (FeedSource.UpdateFeedExceptionEventArgs)t.Args);
 		//				}
 		//			}
 		//		}
@@ -246,23 +246,23 @@ namespace RssBandit
 			// get them out of the resultInfos list and deliver
 			if (resultInfos.Count > 0) {
 				ThreadResultInfo t = (ThreadResultInfo)resultInfos.Dequeue();
-				if (t.Args is NewsHandler.UpdateFeedEventArgs) {
-					this.owner.OnUpdateFeedStarted(t.sender, (NewsHandler.UpdateFeedEventArgs)t.Args);
-				} else if (t.Args is NewsHandler.UpdatedFeedEventArgs) {
-					this.owner.OnUpdatedFeed(t.sender, (NewsHandler.UpdatedFeedEventArgs)t.Args);
-				} else if (t.Args is NewsHandler.UpdateFeedExceptionEventArgs) {
-					this.owner.OnUpdateFeedException(t.sender, (NewsHandler.UpdateFeedExceptionEventArgs)t.Args);
+				if (t.Args is FeedSource.UpdateFeedEventArgs) {
+					this.owner.OnUpdateFeedStarted(t.sender, (FeedSource.UpdateFeedEventArgs)t.Args);
+				} else if (t.Args is FeedSource.UpdatedFeedEventArgs) {
+					this.owner.OnUpdatedFeed(t.sender, (FeedSource.UpdatedFeedEventArgs)t.Args);
+				} else if (t.Args is FeedSource.UpdateFeedExceptionEventArgs) {
+					this.owner.OnUpdateFeedException(t.sender, (FeedSource.UpdateFeedExceptionEventArgs)t.Args);
 				}
 			}
 		}
 
-		private void OnUpdateFeedStarted(object sender, NewsHandler.UpdateFeedEventArgs e) {
+		private void OnUpdateFeedStarted(object sender, FeedSource.UpdateFeedEventArgs e) {
 			this.resultInfos.Enqueue(e.Priority, new ThreadResultInfo(sender, e));
 		}
-		private void OnUpdatedFeed(object sender, NewsHandler.UpdatedFeedEventArgs e) {
+		private void OnUpdatedFeed(object sender, FeedSource.UpdatedFeedEventArgs e) {
 			this.resultInfos.Enqueue(e.Priority, new ThreadResultInfo(sender, e));
 		}
-		private void OnUpdateFeedException(object sender, NewsHandler.UpdateFeedExceptionEventArgs e) {
+		private void OnUpdateFeedException(object sender, FeedSource.UpdateFeedExceptionEventArgs e) {
 			this.resultInfos.Enqueue(e.Priority, new ThreadResultInfo(sender, e));
 		}
 

@@ -64,20 +64,20 @@ namespace NewsComponents
         /// </summary>
         OPML,
         /// <summary>
-        /// Native NewsHandler format
+        /// Native FeedSource format
         /// </summary>
         NewsHandler,
         /// <summary>
-        /// Native reduced/light NewsHandler format
+        /// Native reduced/light FeedSource format
         /// </summary>
         NewsHandlerLite,
     }
 
     /// <summary>
     /// Enumeration that describes the source of the feeds that are being processed
-    /// by a particular NewsHandler
+    /// by a particular FeedSource
     /// </summary>
-    public enum FeedSource { 
+    public enum FeedSourceType { 
     
         /// <summary>
         /// The feeds are sourced from Google Reader.
@@ -147,14 +147,14 @@ namespace NewsComponents
 #if DEBUG 
     [CLSCompliant(false)]
 #endif
-    public abstract class NewsHandler: ISharedProperty
+    public abstract class FeedSource: ISharedProperty
     {
         #region ctor's
 
         /// <summary>
         /// Initialize the userAgent template
         /// </summary>
-        static NewsHandler()
+        static FeedSource()
         {
             StringBuilder sb = new StringBuilder(200);
             sb.Append("{0}"); // userAgent filled in later
@@ -173,37 +173,37 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource using
+        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType using
         /// the default configuration
         /// </summary>
         /// <seealso cref="DefaultConfiguration"/>
-        /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <param name="handlerType">The type of FeedSource to create</param>
         /// <param name="location">The location of the subscriptions</param>
-        /// <returns>A new NewsHandler</returns>
-        public static NewsHandler CreateNewsHandler(FeedSource handlerType, SubscriptionLocation location) {
-            return CreateNewsHandler(handlerType, location, DefaultConfiguration);        
+        /// <returns>A new FeedSource</returns>
+        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location) {
+            return CreateFeedSource(handlerType, location, DefaultConfiguration);        
         }
 
         /// <summary>
-        /// Creates the appropriate NewsHandler subtype based on the supplied FeedSource
+        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType
         /// </summary>
-        /// <param name="handlerType">The type of NewsHandler to create</param>
+        /// <param name="handlerType">The type of FeedSource to create</param>
         /// <param name="location">The location of the subscriptions</param>
         /// <param name="configuration"></param>
-        /// <returns>A new NewsHandler</returns>
-        public static NewsHandler CreateNewsHandler(FeedSource handlerType,SubscriptionLocation location, INewsComponentsConfiguration configuration)
+        /// <returns>A new FeedSource</returns>
+        public static FeedSource CreateFeedSource(FeedSourceType handlerType,SubscriptionLocation location, INewsComponentsConfiguration configuration)
         {
 			if (location == null)
 				throw new ArgumentNullException("location"); 
             if (String.IsNullOrEmpty(location.Location))
                 throw new ArgumentNullException("location.Location"); 
 
-            NewsHandler handler = null;
+            FeedSource handler = null;
 
             switch (handlerType)
             {
-                case FeedSource.DirectAccess:
-                    handler = new BanditNewsHandler(configuration, location);
+                case FeedSourceType.DirectAccess:
+                    handler = new BanditFeedSource(configuration, location);
                     break;
 
                 default:
@@ -211,7 +211,7 @@ namespace NewsComponents
 
             }
 
-            //Add the NewsHandler to the list of NewsHandlers known by the SearchHandler
+            //Add the FeedSource to the list of NewsHandlers known by the SearchHandler
             if (handler != null && (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
                 && (handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior))
             {
@@ -371,7 +371,7 @@ namespace NewsComponents
             get
             {
                 if (p_searchHandler == null)
-                    p_searchHandler = new LuceneSearch(NewsHandler.DefaultConfiguration);
+                    p_searchHandler = new LuceneSearch(FeedSource.DefaultConfiguration);
 
                 return p_searchHandler;
             }        
@@ -387,7 +387,7 @@ namespace NewsComponents
         public static readonly List<INewsItem> EmptyItemList = new List<INewsItem>(0);
 
         // logging/tracing:
-        private static readonly ILog _log = Log.GetLogger(typeof (NewsHandler));
+        private static readonly ILog _log = Log.GetLogger(typeof (FeedSource));
 
         /// <summary>
         /// Manage the NewsItem relations
@@ -1143,7 +1143,7 @@ namespace NewsComponents
         /// Returns a global long HTTP user agent string build from the
         /// instance setting. 
         /// To be used by sub-components that do not have a instance variable 
-        /// of the NewsHandler.
+        /// of the FeedSource.
         /// </summary>
         public static string GlobalUserAgentString
         {
@@ -2000,7 +2000,7 @@ namespace NewsComponents
                 try
                 {
                     // do the search (using lucene):
-                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, new List<NewsHandler> { this }, cultureName);
+                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, new List<FeedSource> { this }, cultureName);
 
                     // we iterate r.ItemsMatched to build a
                     // NewsItemIdentifier and ArrayList list with items, that
@@ -2868,7 +2868,7 @@ namespace NewsComponents
         /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
         /// is on the Web). 
         /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
         public abstract void BootstrapAndLoadFeedlist(feeds feedlist);
 
         #endregion 
@@ -2897,9 +2897,9 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Removes all information related to a feed from the NewsHandler. 
+        /// Removes all information related to a feed from the FeedSource. 
         /// </summary>
-        /// <remarks>If the item doesn't exist in the NewsHandler then nothing is done</remarks>
+        /// <remarks>If the item doesn't exist in the FeedSource then nothing is done</remarks>
         /// <param name="item">the item to delete</param>
         public void DeleteItem(INewsItem item)
         {
@@ -3507,10 +3507,10 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Tests whether this category name exists in the NewsHandler. 
+        /// Tests whether this category name exists in the FeedSource. 
         /// </summary>
         /// <param name="cat">The name of the category</param>
-        /// <returns>True if this category is used by the NewsHandler</returns>
+        /// <returns>True if this category is used by the FeedSource</returns>
         public virtual bool HasCategory(string cat) {
 
             if (cat == null)
@@ -3523,7 +3523,7 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Returns a ReadOnlyDictionary containing the list of categories used by the NewsHandler
+        /// Returns a ReadOnlyDictionary containing the list of categories used by the FeedSource
         /// </summary>
         /// <returns>A read-only dictionary of categories</returns>
         public virtual ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
@@ -3532,7 +3532,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Deletes a category from the NewsHandler. This process includes deleting all subcategories and the 
+        /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
         /// corresponding feeds. 
         /// </summary>
         /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
@@ -3625,7 +3625,7 @@ namespace NewsComponents
         /// <returns>The parent category of the specified category</returns>
         private INewsFeedCategory GetParentCategory(string category)
         {
-            int index = category.LastIndexOf(NewsHandler.CategorySeparator);
+            int index = category.LastIndexOf(FeedSource.CategorySeparator);
             INewsFeedCategory c = null;
 
             if (index != -1)
@@ -3649,7 +3649,7 @@ namespace NewsComponents
 
             foreach (INewsFeedCategory c in this.categories.Values)
             {
-                if (c.Value.StartsWith(name + NewsHandler.CategorySeparator))
+                if (c.Value.StartsWith(name + FeedSource.CategorySeparator))
                 {
                     list.Add(c.Value);
                 }
@@ -3711,7 +3711,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Removes all information related to a feed from the NewsHandler.   
+        /// Removes all information related to a feed from the FeedSource.   
         /// </summary>
         /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
         /// <param name="feedUrl">The URL of the feed to delete. </param>
@@ -3749,7 +3749,7 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Returns a read-only dictionary of feeds managed by this NewsHandler
+        /// Returns a read-only dictionary of feeds managed by this FeedSource
         /// </summary>
         /// <returns></returns>
         public ReadOnlyDictionary<string, INewsFeed> GetFeeds()
@@ -3762,7 +3762,7 @@ namespace NewsComponents
         /// Tests whether this feed is currently subscribed to. 
         /// </summary>
         /// <param name="feedUrl">The URL of the feed</param>
-        /// <returns>True if this feed is used by the NewsHandler</returns>
+        /// <returns>True if this feed is used by the FeedSource</returns>
         public virtual bool IsSubscribed(string feedUrl)
         {
 
@@ -6339,7 +6339,7 @@ namespace NewsComponents
                         {
                             f1.category = (f1.category == null ? category : category + CategorySeparator + f1.category);
                         }
-                        //f1.category = (category  == String.Empty ? f1.category : category + NewsHandler.CategorySeparator + f1.category); 
+                        //f1.category = (category  == String.Empty ? f1.category : category + FeedSource.CategorySeparator + f1.category); 
                         if (!feedsTable.ContainsKey(f1.link))
                         {
                             f1.lastretrievedSpecified = true;
@@ -6503,9 +6503,9 @@ namespace NewsComponents
 					//if the same feed seen twice, ignore second occurence 
 					if(feedsTable.ContainsKey(f.link) == false){
 						if(category != String.Empty){
-							f.category = (f.category == null ? category : category + NewsHandler.CategorySeparator + f.category);
+							f.category = (f.category == null ? category : category + FeedSource.CategorySeparator + f.category);
 						}
-						//f.category = (category  == String.Empty ? f.category : category + NewsHandler.CategorySeparator + f.category); 
+						//f.category = (category  == String.Empty ? f.category : category + FeedSource.CategorySeparator + f.category); 
 						feedsTable.Add(f.link, f); 
 					}
 				}		
@@ -6517,7 +6517,7 @@ namespace NewsComponents
 				}else {
 
 					foreach(string cat in myFeeds.categories){
-						string cat2 = (category == String.Empty ? cat : category + NewsHandler.CategorySeparator + cat); 
+						string cat2 = (category == String.Empty ? cat : category + FeedSource.CategorySeparator + cat); 
 				
 						if(this.categories.ContainsKey(cat2) == false){
 							this.categories.Add(cat2); 
@@ -6770,7 +6770,7 @@ namespace NewsComponents
                 } //foreach
 
                 //remove old objects from relation cosmos and add newly downloaded items to relationcosmos
-                //NewsHandler.RelationCosmosRemoveRange(removedOldItems); 
+                //FeedSource.RelationCosmosRemoveRange(removedOldItems); 
                 RelationCosmosAddRange(receivedNewItems);
             } //lock
 

@@ -420,7 +420,7 @@ namespace NewsComponents.Utils
             request.Credentials = credentials; 
             request.Timeout     = 4 * 1000 /* 4 second timeout */;
 
-            if(NewsHandler.SetCookies)
+            if(FeedSource.SetCookies)
             {
                 HttpCookieManager.SetCookies(request);
             }

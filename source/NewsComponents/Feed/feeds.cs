@@ -647,14 +647,14 @@ namespace NewsComponents.Feed
 
             List<string> list = new List<string>();
             string current = String.Empty;
-            string[] s = key.Split(NewsHandler.CategorySeparator.ToCharArray());
+            string[] s = key.Split(FeedSource.CategorySeparator.ToCharArray());
 
             if (s.Length != 1)
             {
 
                 for (int i = 0; i < (s.Length - 1); i++)
                 {
-                    current += (i == 0 ? s[i] : NewsHandler.CategorySeparator + s[i]);
+                    current += (i == 0 ? s[i] : FeedSource.CategorySeparator + s[i]);
                     list.Add(current);
                 }
 

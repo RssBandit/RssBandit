@@ -51,7 +51,7 @@ namespace NewsComponents.Feed {
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(RssLocater));
 
 		
-		private string userAgent = NewsHandler.DefaultUserAgent;
+		private string userAgent = FeedSource.DefaultUserAgent;
 		
 		private ICredentials credentials = null; 
 		/// <summary>
@@ -581,7 +581,7 @@ namespace NewsComponents.Feed {
 			HttpWebRequest request = (HttpWebRequest) WebRequest.Create("http://www.syndic8.com/xmlrpc.php");
 			request.Timeout          = 1 * 60 * 1000; //one minute timeout 
 			request.Credentials = CredentialCache.DefaultCredentials; //???
-			request.UserAgent = NewsHandler.GlobalUserAgentString;
+			request.UserAgent = FeedSource.GlobalUserAgentString;
 			request.Method = "POST";
 			request.ContentType = "text/xml";
 			request.Proxy            = this.Proxy;
