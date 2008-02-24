@@ -2727,27 +2727,35 @@ namespace RssBandit.WinGui.Forms
             return result;
         }
 
-        /// <summary>
-        /// Gets the unread items out of the provided list.
-        /// </summary>
-        /// <param name="items">The items.</param>
-        /// <returns></returns>
-        private static IList<NewsItem> FilterUnreadFeedItems(IList<NewsItem> items)
-        {
-            List<NewsItem> result = new List<NewsItem>();
+		private static IList<NewsItem> FilterUnreadFeedItems(IList<NewsItem> items)
+		{
+			return FilterUnreadFeedItems(items, false);
+		}
+		/// <summary>
+		/// Gets the unread items out of the provided list.
+		/// </summary>
+		/// <param name="items">The items.</param>
+		/// <param name="sorted">if set to <c>true</c> it returns a sorted list (descending by item date,
+		/// means newest first).</param>
+		/// <returns></returns>
+		private static IList<NewsItem> FilterUnreadFeedItems(IList<NewsItem> items, bool sorted)
+		{
+			List<NewsItem> result = new List<NewsItem>();
 
-            if (items == null || items.Count == 0)
-                return result;
+			if (items == null || items.Count == 0)
+				return result;
 
-            for (int i = 0; i < items.Count; i++)
-            {
-                NewsItem item = items[i];
-                if (!item.BeenRead)
-                    result.Add(item);
-            }
+			for (int i = 0; i < items.Count; i++)
+			{
+				NewsItem item = items[i];
+				if (!item.BeenRead)
+					result.Add(item);
+			}
 
-            return result;
-        }
+			if (sorted)
+				result.Sort(RssHelper.GetComparer(true));
+			return result;
+		}
 
         /// <summary>
         /// Returns the number of unread items in a particular feed
@@ -3078,7 +3086,7 @@ namespace RssBandit.WinGui.Forms
                     //ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
                     // this will just get the items from cache:
                     IList<NewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
-                    IList<NewsItem> unread = FilterUnreadFeedItems(items);
+                    IList<NewsItem> unread = FilterUnreadFeedItems(items, true);
 
                     if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow ||
                          (DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow &&
@@ -6068,22 +6076,21 @@ namespace RssBandit.WinGui.Forms
                         if (modified)
                             owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
 
+						unread = FilterUnreadFeedItems(items, true);
+                        UnreadItemsNodeRemoveItems(unread);
+                        UnreadItemsNode.Items.AddRange(unread);
+                        UpdateTreeNodeUnreadStatus(tn, unread.Count);
+                        UnreadItemsNode.UpdateReadStatus();
+
                         if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow ||
                              (DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow &&
                               feed.alertEnabled)) &&
                             modified)
                         {
                             // new flag on feed, states if toast is enabled (off by default)
-                            // we have to sort items first (newest on top)
-                            List<NewsItem> sortedItems = new List<NewsItem>(items);
-                            sortedItems.Sort(RssHelper.GetComparer());
-                            toastNotifier.Alert(tn.Text, tn.UnreadCount, sortedItems);
+                            toastNotifier.Alert(tn.Text, tn.UnreadCount, unread);
                         }
-                        unread = FilterUnreadFeedItems(items);
-                        UnreadItemsNodeRemoveItems(unread);
-                        UnreadItemsNode.Items.AddRange(unread);
-                        UpdateTreeNodeUnreadStatus(tn, unread.Count);
-                        UnreadItemsNode.UpdateReadStatus();
+                        
                     }
 
                     if (feed.containsNewComments)
