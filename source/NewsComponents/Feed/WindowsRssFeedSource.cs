@@ -124,6 +124,13 @@ namespace NewsComponents.Feed {
 
         #region public methods
 
+         /// <summary>
+        /// Resumes pending BITS downloads from a if any exist. 
+        /// </summary>
+        public override void ResumePendingDownloads()
+        {
+            /* Do nothing here. This is handled by the Windows RSS platform automatically */ 
+        }
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. 
@@ -2702,20 +2709,24 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="folder">The IFeed instance that this object will wrap</param>
         /// <param name="category">A category instance from which this object shall obtain the values for it's INewsFeedCategory properties</param>
-        public WindowsRssNewsFeedCategory(IFeedFolder folder, INewsFeedCategory category) : this(folder)
-        {            
-            this.AnyAttr = category.AnyAttr;
-            this.downloadenclosures = category.downloadenclosures;
-            this.downloadenclosuresSpecified = category.downloadenclosuresSpecified;
-            this.enclosurealert = category.enclosurealert;
-            this.enclosurealertSpecified = category.enclosurealertSpecified;
-            this.listviewlayout = category.listviewlayout;
-            this.markitemsreadonexit = category.markitemsreadonexit;
-            this.markitemsreadonexitSpecified = category.markitemsreadonexitSpecified;
-            this.maxitemage = category.maxitemage;
-            this.refreshrate = category.refreshrate;
-            this.refreshrateSpecified = category.refreshrateSpecified;
-            this.stylesheet = category.stylesheet;           
+        public WindowsRssNewsFeedCategory(IFeedFolder folder, INewsFeedCategory category)
+            : this(folder)
+        {
+            if (category != null)
+            {
+                this.AnyAttr = category.AnyAttr;
+                this.downloadenclosures = category.downloadenclosures;
+                this.downloadenclosuresSpecified = category.downloadenclosuresSpecified;
+                this.enclosurealert = category.enclosurealert;
+                this.enclosurealertSpecified = category.enclosurealertSpecified;
+                this.listviewlayout = category.listviewlayout;
+                this.markitemsreadonexit = category.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = category.markitemsreadonexitSpecified;
+                this.maxitemage = category.maxitemage;
+                this.refreshrate = category.refreshrate;
+                this.refreshrateSpecified = category.refreshrateSpecified;
+                this.stylesheet = category.stylesheet;
+            }
         }
 
         #endregion 
