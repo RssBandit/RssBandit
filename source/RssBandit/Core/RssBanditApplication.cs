@@ -322,6 +322,14 @@ namespace RssBandit
             this.feedHandler.OnDownloadedEnclosure += this.OnDownloadedEnclosure;
             
             this.feedHandler.OnAllAsyncRequestsCompleted += this.OnAllRequestsCompleted;
+            this.feedHandler.OnAddedCategory += this.OnAddedCategory;
+            this.feedHandler.OnDeletedCategory += this.OnDeletedCategory;
+            this.feedHandler.OnMovedCategory += this.OnMovedCategory;
+            this.feedHandler.OnRenamedCategory += this.OnRenamedCategory;
+            this.feedHandler.OnAddedFeed += this.OnAddedFeed;
+            this.feedHandler.OnDeletedFeed += this.OnDeletedFeed;
+            this.feedHandler.OnRenamedFeed += this.OnRenamedFeed;
+            this.feedHandler.OnMovedFeed += this.OnMovedFeed;
 
             this.commentFeedsHandler = NewsHandler.CreateNewsHandler(FeedSource.DirectAccess, 
                                                             new SubscriptionLocation(GetCommentsFeedListFileName()) , 

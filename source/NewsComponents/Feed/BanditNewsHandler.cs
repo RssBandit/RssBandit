@@ -347,7 +347,7 @@ namespace NewsComponents.Feed
 
         #region public methods
 
-
+        #region feed and category management 
            /// <summary>
         /// Deletes all subscribed feeds and categories 
         /// </summary>
@@ -356,6 +356,10 @@ namespace NewsComponents.Feed
             base.DeleteAllFeedsAndCategories();
             this.ClearItemsCache();
         }
+
+        #endregion 
+
+        #region feed list methods
 
         /// <summary>
         /// Loads the feedlist from the FeedLocation. 
@@ -374,8 +378,12 @@ namespace NewsComponents.Feed
         /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this NewsHandler</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
-            this.ImportFeedlist(feedlist, null, true, false); 
+            this.ImportFeedlist(feedlist, null, true, false);
         }
+
+#endregion
+
+        #region feed downloading methods
 
         /// <summary>
         /// Downloads every feed that has either never been downloaded before or 
@@ -493,6 +501,111 @@ namespace NewsComponents.Feed
                     RaiseOnAllAsyncRequestsCompleted();
             }
         }
+
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="category">Refresh all feeds, that are part of the category</param>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(string category, bool force_download)
+        {
+            if (this.FeedsListOK == false)
+            {
+                //we don't have a feed list
+                return;
+            }
+
+            bool anyRequestQueued = false;
+
+            try
+            {
+                RaiseOnUpdateFeedsStarted(force_download);
+
+                string[] keys = GetFeedsTableKeys();
+
+                //foreach(string sKey in FeedsTable.Keys){
+                //  NewsFeed current = FeedsTable[sKey];	
+
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    INewsFeed current = feedsTable[keys[i]];
+
+                    try
+                    {
+                        // new: giving up after three unsuccessfull requests
+                        if (!force_download && current.causedExceptionCount >= 3)
+                        {
+                            continue;
+                        }
+
+                        if (current.refreshrateSpecified && (current.refreshrate == 0))
+                        {
+                            continue;
+                        }
+
+                        if (itemsTable.ContainsKey(current.link))
+                        {
+                            //check if feed downloaded in the past
+
+                            //check if enough time has elapsed as to require a download attempt
+                            if ((!force_download) && current.lastretrievedSpecified)
+                            {
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            } //if(current.lastretrievedSpecified...) 
+
+
+                            if (current.category != null && IsChildOrSameCategory(category, current.category))
+                            {
+                                if (this.AsyncGetItemsForFeed(current.link, true, false))
+                                    anyRequestQueued = true;
+                            }
+                        }
+                        else
+                        {
+                            if (current.category != null && IsChildOrSameCategory(category, current.category))
+                            {
+                                if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                                    anyRequestQueued = true;
+                            }
+                        }
+
+                        Thread.Sleep(15); // force a context switches
+                    }
+                    catch (Exception e)
+                    {
+                        Trace("RefreshFeeds(string,bool) unexpected error processing feed '{0}': {1}", current.link,
+                              e.ToString());
+                    }
+                } //for(i)
+            }
+            catch (InvalidOperationException ioe)
+            {
+                // New feeds added to FeedsTable from another thread  
+
+                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToString());
+            }
+            finally
+            {
+                if (offline || !anyRequestQueued)
+                    RaiseOnAllAsyncRequestsCompleted();
+            }
+        }
+
+        #endregion 
 
         #endregion
 
