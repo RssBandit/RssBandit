@@ -1342,6 +1342,9 @@ namespace NewsComponents.Feed
             return DownloadItemsFromFeed(f, HttpWebRequest.DefaultWebProxy, false);
         }
 
+        
+
+
 
         /// <summary>
         /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
@@ -1724,6 +1727,14 @@ namespace NewsComponents.Feed
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public static FeedInfo GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream)
         {
+            if (f == null || f.link == null)
+                return null;
+
+            if (!CanProcessUrl(f.link))
+            {
+                throw new ApplicationException(ComponentsText.ExceptionNoProcessingHandlerMessage(f.link));     
+            }            
+
             //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)			
             XmlTextReader r = new XmlTextReader(feedStream);
             r.WhitespaceHandling = WhitespaceHandling.Significant;
