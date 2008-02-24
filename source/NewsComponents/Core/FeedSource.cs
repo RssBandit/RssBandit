@@ -4756,7 +4756,7 @@ namespace NewsComponents
         /// <returns>true, if the request really was queued up</returns>
         /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public bool AsyncGetItemsForFeed(string feedUrl, bool force_download, bool manual)
+        public virtual bool AsyncGetItemsForFeed(string feedUrl, bool force_download, bool manual)
         {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");

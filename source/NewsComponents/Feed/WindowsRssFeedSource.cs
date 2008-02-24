@@ -131,6 +131,7 @@ namespace NewsComponents.Feed {
         {
             /* Do nothing here. This is handled by the Windows RSS platform automatically */ 
         }
+
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. 
@@ -461,6 +462,40 @@ namespace NewsComponents.Feed {
             feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
         }
 
+
+        /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="force_download">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public override bool AsyncGetItemsForFeed(string feedUrl, bool force_download, bool manual)
+        {
+            if (feedUrl == null || feedUrl.Trim().Length == 0)
+                throw new ArgumentNullException("feedUrl");
+
+            INewsFeed f = null;
+            feedsTable.TryGetValue(feedUrl, out f);
+            WindowsRssNewsFeed f2 = f as WindowsRssNewsFeed;
+
+            if (f2 != null)
+            {
+                f2.RefreshFeed(); 
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Downloads every feed that has either never been downloaded before or 
