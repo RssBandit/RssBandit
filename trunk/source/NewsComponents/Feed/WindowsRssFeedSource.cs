@@ -64,29 +64,9 @@ namespace NewsComponents.Feed {
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
 
-            //set up event handlers
-            IFeedFolderEvents_Event fw;
+            
             IFeedFolder rootFolder = feedManager.RootFolder as IFeedFolder;
-
-            fw = (IFeedFolderEvents_Event) rootFolder.GetWatcher(
-                    FEEDS_EVENTS_SCOPE.FES_ALL,
-                    FEEDS_EVENTS_MASK.FEM_FEEDEVENTS | FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
-            fw.Error += new IFeedFolderEvents_ErrorEventHandler(Error);
-            fw.FeedAdded += new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
-            fw.FeedDeleted += new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
-            fw.FeedDownloadCompleted += new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
-            fw.FeedDownloading += new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
-            fw.FeedItemCountChanged += new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
-            fw.FeedMovedFrom += new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
-            fw.FeedMovedTo += new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
-            fw.FeedRenamed += new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
-            fw.FeedUrlChanged += new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
-            fw.FolderAdded += new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
-            fw.FolderDeleted += new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
-            fw.FolderItemCountChanged += new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
-            fw.FolderMovedFrom += new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
-            fw.FolderMovedTo += new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
-            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);            
+            this.AttachEventHandlers(rootFolder);  
         }    
 
         #endregion 
@@ -102,6 +82,35 @@ namespace NewsComponents.Feed {
         #endregion 
 
         #region private methods
+
+        /// <summary>
+        /// Attaches event handlers to the IFeedFolder
+        /// </summary>
+        /// <param name="folder"></param>
+        private void AttachEventHandlers(IFeedFolder folder)
+        {
+            //set up event handlers
+            IFeedFolderEvents_Event fw;
+            fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+                   FEEDS_EVENTS_SCOPE.FES_ALL,
+                   FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+            fw.Error += new IFeedFolderEvents_ErrorEventHandler(Error);
+            fw.FeedAdded += new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
+            fw.FeedDeleted += new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
+            fw.FeedDownloadCompleted += new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
+            fw.FeedDownloading += new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
+            fw.FeedItemCountChanged += new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
+            fw.FeedMovedFrom += new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
+            fw.FeedMovedTo += new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
+            fw.FeedRenamed += new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
+            fw.FeedUrlChanged += new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
+            fw.FolderAdded += new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
+            fw.FolderDeleted += new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
+            fw.FolderItemCountChanged += new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
+            fw.FolderMovedFrom += new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
+            fw.FolderMovedTo += new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
+            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);    
+        }
 
         /// <summary>
         /// Add a folder to the Windows RSS common feed list
@@ -131,6 +140,7 @@ namespace NewsComponents.Feed {
                 }
             }// if (!StringHelper.EmptyTrimOrNull(category))           
 
+            this.AttachEventHandlers(folder);
             return folder;
         }
 
@@ -403,7 +413,7 @@ namespace NewsComponents.Feed {
         {
 
             if (folder2load != null)
-            {
+            {                
                 IFeedsEnum Feeds = folder2load.Feeds as IFeedsEnum;
                 IFeedsEnum Subfolders = folder2load.Subfolders as IFeedsEnum;
 
