@@ -1303,6 +1303,86 @@ namespace NewsComponents
 
 
         /// <summary>
+        /// Callback delegate used on event OnDeletedCategory.
+        /// </summary>
+        public delegate void DeletedCategoryCallback(object sender, CategoryEventArgs e);
+
+        /// <summary>
+        /// Event called on every deleted category.
+        /// </summary>
+        public event DeletedCategoryCallback OnDeletedCategory = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnDeletedCategory.
+        /// </summary>
+        public delegate void AddedCategoryCallback(object sender, CategoryEventArgs e);
+
+        /// <summary>
+        /// Event called on every deleted category.
+        /// </summary>
+        public event AddedCategoryCallback OnAddedCategory = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnRenamedCategory.
+        /// </summary>
+        public delegate void RenamedCategoryCallback(object sender, CategoryChangedEventArgs e);
+
+        /// <summary>
+        /// Event called on every renamed category.
+        /// </summary>
+        public event RenamedCategoryCallback OnRenamedCategory = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnMovedCategory.
+        /// </summary>
+        public delegate void MovedCategoryCallback(object sender, CategoryChangedEventArgs e);
+
+        /// <summary>
+        /// Event called on every moved category.
+        /// </summary>
+        public event MovedCategoryCallback OnMovedCategory = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnAddedFeed.
+        /// </summary>
+        public delegate void AddedFeedCallback(object sender, FeedChangedEventArgs e);
+
+        /// <summary>
+        /// Event called on every added feed.
+        /// </summary>
+        public event AddedFeedCallback OnAddedFeed = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnDeletedFeed.
+        /// </summary>
+        public delegate void DeletedFeedCallback(object sender, FeedDeletedEventArgs e);
+
+        /// <summary>
+        /// Event called on every deleted feed.
+        /// </summary>
+        public event DeletedFeedCallback OnDeletedFeed = null;
+
+        /// <summary>
+        /// Callback delegate used on event OnRenamedFeed.
+        /// </summary>
+        public delegate void RenamedFeedCallback(object sender, FeedRenamedEventArgs e);
+
+        /// <summary>
+        /// Event called on every renamed feed.
+        /// </summary>
+        public event RenamedFeedCallback OnRenamedFeed = null;       
+
+        /// <summary>
+        /// Callback delegate used on event OnMovedFeed.
+        /// </summary>
+        public delegate void MovedFeedCallback(object sender, FeedMovedEventArgs e);
+
+        /// <summary>
+        /// Event called on every moved feed.
+        /// </summary>
+        public event MovedFeedCallback OnMovedFeed = null;
+
+        /// <summary>
         /// Callback delegate used on event OnDownloadedEnclosure.
         /// </summary>
         public delegate void DownloadedEnclosureCallback(object sender, DownloadItemEventArgs e);
@@ -1365,6 +1445,83 @@ namespace NewsComponents
                 }
             }
         }
+
+        public class FeedChangedEventArgs : EventArgs
+        {            
+            public string FeedUrl { get; set; }
+
+            public FeedChangedEventArgs(string feedUrl)
+            {
+                this.FeedUrl = feedUrl;                
+            }
+        }
+
+        public class FeedDeletedEventArgs : FeedChangedEventArgs
+        {
+            public string Title    { get; set; }
+
+            public FeedDeletedEventArgs(string feedUrl, string title): base(feedUrl)
+            {                
+                this.Title = title; 
+            }
+        }
+
+        public class FeedMovedEventArgs : FeedChangedEventArgs
+        {
+            public string NewCategory { get; set; }
+
+            public FeedMovedEventArgs(string feedUrl, string newCategory): base(feedUrl)
+            {
+                this.NewCategory = newCategory;
+            }
+        }
+
+        public class FeedRenamedEventArgs : FeedChangedEventArgs
+        {
+            public string NewName { get; set; }
+
+            public FeedRenamedEventArgs(string feedUrl, string newName):base(feedUrl)
+            {
+                this.NewName = newName; 
+            }
+        }
+
+        /// <summary>
+        /// Category event argument class.
+        /// </summary>
+        public class CategoryEventArgs : EventArgs
+        {
+            public string CategoryName { get; set; }
+
+            /// <summary>
+            /// Provides information on the category event
+            /// </summary>
+            /// <param name="categoryName">The name of the affected category</param>
+            public CategoryEventArgs(string categoryName)
+            {
+                this.CategoryName = categoryName;
+            }
+        }
+
+
+        /// <summary>
+        /// Category event argument class.
+        /// </summary>
+        public class CategoryChangedEventArgs : CategoryEventArgs
+        {
+            public string NewCategoryName { get; set; }
+
+            /// <summary>
+            /// Provides information on the category event
+            /// </summary>
+            /// <param name="categoryName">The name of the affected category</param>
+            public CategoryChangedEventArgs(string categoryName, string newCategoryName)
+                : base(categoryName)
+            {
+                this.NewCategoryName = newCategoryName;
+            }
+        }
+
 
         /// <summary>
         /// OnUpdatedFeed event argument class.
@@ -3369,7 +3526,7 @@ namespace NewsComponents
         /// Returns a ReadOnlyDictionary containing the list of categories used by the NewsHandler
         /// </summary>
         /// <returns>A read-only dictionary of categories</returns>
-        public ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
+        public virtual ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
             readonly_categories = readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
             return readonly_categories;
         }
@@ -4364,7 +4521,7 @@ namespace NewsComponents
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<INewsItem> GetItemsForFeed(NewsFeed f)
+        public virtual List<INewsItem> GetItemsForFeed(INewsFeed f)
         {
             //REM gets called from Bandit (retrive comment feeds)
             List<INewsItem> returnList = EmptyItemList;
@@ -4421,7 +4578,7 @@ namespace NewsComponents
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<INewsItem> GetItemsForFeed(string feedUrl)
+        public virtual List<INewsItem> GetItemsForFeed(string feedUrl)
         {
             NewsFeed f = new NewsFeed();
             f.link = feedUrl;
@@ -4443,7 +4600,7 @@ namespace NewsComponents
         /// <returns>A FeedDetails object which represents the feed</returns>
         /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
         /// <exception cref="XmlException">If an error occured parsing the feed</exception>	
-        public static IFeedDetails GetItemsForFeed(NewsFeed f, XmlReader feedReader, bool cachedStream)
+        public static IFeedDetails GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream)
         {
             //REM gets called from Bandit (AutoDiscoverFeedsThreadandler)
             if (f == null || f.link == null)
@@ -4474,7 +4631,7 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">If the feed cannot be processed</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>	
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public static IFeedDetails GetItemsForFeed(NewsFeed f, Stream feedStream, bool cachedStream)
+        public static IFeedDetails GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream)
         {
             if (f == null || f.link == null)
                 return null;
@@ -4505,7 +4662,7 @@ namespace NewsComponents
         /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
         /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
+        public virtual IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
         {
             //REM gets called from Bandit
             string url2Access = feedUrl;
@@ -5444,6 +5601,21 @@ namespace NewsComponents
             }
         }
 
+        protected void RaiseOnMovedFeed(FeedMovedEventArgs fmea)
+        {
+            if (OnMovedFeed != null)
+            {
+                try
+                {
+                    OnMovedFeed(this, fmea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
         private void RaiseOnUpdatedFavicon(string favicon, StringCollection feedUrls)
         {
             if (OnUpdatedFavicon != null)
@@ -5460,7 +5632,7 @@ namespace NewsComponents
         }
 
 
-        private void RaiseOnUpdatedFeed(Uri requestUri, Uri newUri, RequestResult result, int priority,
+        protected void RaiseOnUpdatedFeed(Uri requestUri, Uri newUri, RequestResult result, int priority,
                                         bool firstSuccessfulDownload)
         {
             if (OnUpdatedFeed != null)
@@ -5487,7 +5659,7 @@ namespace NewsComponents
 			}
 		} */
 
-        private void RaiseOnUpdateFeedException(string requestUri, Exception e, int priority)
+        protected void RaiseOnUpdateFeedException(string requestUri, Exception e, int priority)
         {
             if (OnUpdateFeedException != null)
             {
@@ -5519,6 +5691,111 @@ namespace NewsComponents
             }
         }
 
+        protected void RaiseOnAddedCategory(CategoryEventArgs cea)
+        {
+            if (OnAddedCategory != null)
+            {
+                try
+                {
+                    OnAddedCategory(this, cea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnDeletedCategory(CategoryEventArgs cea)
+        {
+            if (OnDeletedCategory != null)
+            {
+                try
+                {
+                    OnDeletedCategory(this, cea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnRenamedCategory(CategoryChangedEventArgs ccea)
+        {
+            if (OnRenamedCategory != null)
+            {
+                try
+                {
+                    OnRenamedCategory(this, ccea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnDeletedFeed(FeedDeletedEventArgs fdea)
+        {
+            if (OnDeletedFeed != null)
+            {
+                try
+                {
+                    OnDeletedFeed(this, fdea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnRenamedFeed(FeedRenamedEventArgs frea)
+        {
+            if (OnRenamedFeed != null)
+            {
+                try
+                {
+                    OnRenamedFeed(this, frea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnAddedFeed(FeedChangedEventArgs fcea)
+        {
+            if (OnAddedFeed != null)
+            {
+                try
+                {
+                    OnAddedFeed(this, fcea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
+        protected void RaiseOnMovedCategory(CategoryChangedEventArgs ccea)
+        {
+            if (OnMovedCategory != null)
+            {
+                try
+                {
+                    OnMovedCategory(this, ccea);
+                }
+                catch
+                {
+                    /* ignore ex. thrown by callback */
+                }
+            }
+        }
+
         protected void RaiseOnUpdateFeedsStarted(bool forced)
         {
             if (UpdateFeedsStarted != null)
@@ -5534,7 +5811,7 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseOnUpdateFeedStarted(Uri feedUri, bool forced, int priority)
+        protected void RaiseOnUpdateFeedStarted(Uri feedUri, bool forced, int priority)
         {
             if (UpdateFeedStarted != null)
             {
@@ -5783,8 +6060,6 @@ namespace NewsComponents
         /// HTTP headers when downloading feeds.</remarks>	
         public abstract void RefreshFeeds(bool force_download);
 
-       
-
         /// <summary>
         /// Downloads every feed that has either never been downloaded before or 
         /// whose elapsed time since last download indicates a fresh attempt should be made. 
@@ -5794,99 +6069,9 @@ namespace NewsComponents
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public void RefreshFeeds(string category, bool force_download)
-        {
-            if (this.FeedsListOK == false)
-            {
-                //we don't have a feed list
-                return;
-            }
+        public abstract void RefreshFeeds(string category, bool force_download); 
 
-            bool anyRequestQueued = false;
-
-            try
-            {
-                RaiseOnUpdateFeedsStarted(force_download);
-
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
-
-                    INewsFeed current = feedsTable[keys[i]];
-
-                    try
-                    {
-                        // new: giving up after three unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 3)
-                        {
-                            continue;
-                        }
-
-                        if (current.refreshrateSpecified && (current.refreshrate == 0))
-                        {
-                            continue;
-                        }
-
-                        if (itemsTable.ContainsKey(current.link))
-                        {
-                            //check if feed downloaded in the past
-
-                            //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
-                            {
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            } //if(current.lastretrievedSpecified...) 
-
-
-                            if (current.category != null && IsChildOrSameCategory(category, current.category))
-                            {
-                                if (this.AsyncGetItemsForFeed(current.link, true, false))
-                                    anyRequestQueued = true;
-                            }
-                        }
-                        else
-                        {
-                            if (current.category != null && IsChildOrSameCategory(category, current.category))
-                            {
-                                if (this.AsyncGetItemsForFeed(current.link, force_download, false))
-                                    anyRequestQueued = true;
-                            }
-                        }
-
-                        Thread.Sleep(15); // force a context switches
-                    }
-                    catch (Exception e)
-                    {
-                        Trace("RefreshFeeds(string,bool) unexpected error processing feed '{0}': {1}", current.link,
-                              e.ToString());
-                    }
-                } //for(i)
-            }
-            catch (InvalidOperationException ioe)
-            {
-// New feeds added to FeedsTable from another thread  
-
-                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToString());
-            }
-            finally
-            {
-                if (offline || !anyRequestQueued)
-                    RaiseOnAllAsyncRequestsCompleted();
-            }
-        }
+      
 
         /// <summary>
         /// Determines whether two categories are the same or are whether 
@@ -5894,7 +6079,7 @@ namespace NewsComponents
         /// <param name="category">The category we are testing against</param>
         /// <param name="testCategory">The category being tested</param>
         /// <returns></returns>
-        private static bool IsChildOrSameCategory(string category, string testCategory)
+        protected static bool IsChildOrSameCategory(string category, string testCategory)
         {
             if (testCategory.Equals(category) || testCategory.StartsWith(category + CategorySeparator))
                 return true;

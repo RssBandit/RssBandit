@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
@@ -31,10 +33,19 @@ using NewsComponents.Search;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed {
+
+    /// <summary>
+    /// Indicates that an exception occured in the Windows RSS platform and the feed list must be reloaded. 
+    /// </summary>
+    public class WindowsRssPlatformException : Exception {
+
+        public WindowsRssPlatformException(string message) : base(message) { }
+    } 
+
     /// <summary>
     /// A NewsHandler that retrieves user subscriptions and feeds from the Windows RSS platform. 
     /// </summary>
-    class WindowsRssNewsHandler : NewsHandler
+    class WindowsRssNewsHandler : NewsHandler, IFeedFolderEvents
     {
 
 
@@ -52,6 +63,14 @@ namespace NewsComponents.Feed {
 
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
+
+            //set up event handlers
+            IFeedFolderEvents_Event fw;
+            IFeedFolder rootFolder = feedManager.RootFolder as IFeedFolder;
+
+            fw = (IFeedFolderEvents_Event) rootFolder.GetWatcher(
+                    FEEDS_EVENTS_SCOPE.FES_ALL,
+                    FEEDS_EVENTS_MASK.FEM_FEEDEVENTS | FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
            
         }    
 
@@ -104,6 +123,51 @@ namespace NewsComponents.Feed {
         #endregion 
 
         #region public methods
+
+        /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. 
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="force_download">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not 
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the 
+        /// RSS feed</exception>
+        /// <exception cref="WebException">If an error occurs while attempting to download from the URL</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public override IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
+        {          
+            //We need a reference to the feed so we can see if a cached object exists
+            WindowsRssNewsFeed theFeed = null;
+            INewsFeed f = null;
+            feedsTable.TryGetValue(feedUrl, out f);                
+
+            if (f == null) // not anymore in feedTable
+                return EmptyItemList;
+            else
+                theFeed = f as WindowsRssNewsFeed;
+
+            try
+            {
+                if (force_download)
+                {
+                    theFeed.RefreshFeed();
+                }
+
+                return theFeed.ItemsList;
+            }
+            catch (Exception ex)
+            {
+                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToString());
+            }
+
+            return EmptyItemList; 
+        }
 
         /// <summary>
         /// Adds a category to the list of feed categories known by this feed handler
@@ -210,6 +274,7 @@ namespace NewsComponents.Feed {
                 }
             }
         }
+      
 
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
@@ -302,13 +367,7 @@ namespace NewsComponents.Feed {
             }
         }
 
-        /// <summary>
-        /// Loads the feedlist from the FeedLocation. 
-        ///</summary>
-        public override void LoadFeedlist()
-        {
-            this.BootstrapAndLoadFeedlist(new feeds()); 
-        }
+      
 
 
         /// <summary>
@@ -361,6 +420,14 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
+        /// Loads the feedlist from the FeedLocation. 
+        ///</summary>
+        public override void LoadFeedlist()
+        {
+            this.BootstrapAndLoadFeedlist(new feeds());
+        }
+
+        /// <summary>
         /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
         /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
         /// is on the Web). 
@@ -401,6 +468,370 @@ namespace NewsComponents.Feed {
             if (force_download)
             {
                 this.feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_RUNNOW);
+            }
+        }
+
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="category">Refresh all feeds, that are part of the category</param>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(string category, bool force_download)
+        {
+            //RaiseOnUpdateFeedsStarted(force_download);
+            string[] keys = GetFeedsTableKeys();
+
+            for (int i = 0, len = keys.Length; i < len; i++)
+            {
+                if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                    continue;
+
+                WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
+
+                if (current.category != null && IsChildOrSameCategory(category, current.category))
+                {
+                    current.RefreshFeed();
+                }
+
+                Thread.Sleep(15); // force a context switches
+            } //for(i)
+
+        }
+
+        #endregion
+
+        #region IFeedFolderEvents implementation
+
+        /// <summary>
+        /// Occurs when a feed event error occurs.
+        /// </summary>
+        /// <remarks>The advice in documentation for when this happens is that the application must assume that some events have 
+        /// not been raised, and should recover by rereading the feed subscription list as if running for the first time. 
+        /// </remarks>
+        public void Error()
+        {
+            throw new WindowsRssPlatformException("Windows RSS platform has raised an error. Please reload the Windows RSS feed list"); 
+        }
+
+        /// <summary>
+        /// A subfolder was added.
+        /// </summary>
+        /// <param name="Path">The path to the folder</param>
+        public void FolderAdded(string Path)
+        {
+            this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder));
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+            RaiseOnAddedCategory(new CategoryEventArgs(Path));
+        }
+
+        /// <summary>
+        /// A subfolder was added.
+        /// </summary>
+        /// <param name="Path">The path to the folder</param>
+        public void FolderDeleted(string Path)
+        {
+            this.categories.Remove(Path);
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+            RaiseOnDeletedCategory(new CategoryEventArgs(Path));
+        }
+
+        /// <summary>
+        /// A subfolder was moved from this folder to another folder.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FolderMovedFrom(string Path, string oldPath)
+        {
+         /* Do nothing since we get the same event repeated in FolderMoveTo */  
+        }
+        
+        /// <summary>
+        /// A subfolder was moved into this folder.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FolderMovedTo(string Path, string oldPath)
+        {
+            INewsFeedCategory cat = this.categories[oldPath];
+            this.categories.Remove(oldPath);
+            this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder, cat));
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
+            RaiseOnMovedCategory(new CategoryChangedEventArgs(oldPath, Path));
+        }
+
+
+        /// <summary>
+        /// A subfolder was renamed.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FolderRenamed(string Path, string oldPath)
+        {
+
+            INewsFeedCategory cat = this.categories[oldPath];
+            this.categories.Remove(oldPath);
+            this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder, cat));
+            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
+            RaiseOnRenamedCategory(new CategoryChangedEventArgs(oldPath, Path));
+        }
+
+        /// <summary>
+        /// Occurs when the aggregated item count of a feed folder changes.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="itemCountType"></param>
+        public void FolderItemCountChanged(string Path, int itemCountType)
+        {
+            /* Do nothing since we also get events from FeedItemCountChanged */ 
+        }
+
+        /// <summary>
+        /// Occurs when a feed is added to the folder.
+        /// </summary>
+        /// <param name="Path"></param>
+        public void FeedAdded(string Path)
+        {
+            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+            this.feedsTable.Add(ifeed.DownloadUrl, new WindowsRssNewsFeed(ifeed));
+            this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
+
+            RaiseOnAddedFeed(new FeedChangedEventArgs(ifeed.DownloadUrl));
+        }
+
+        /// <summary>
+        /// A feed was deleted.
+        /// </summary>
+        /// <param name="Path"></param>
+        public void FeedDeleted(string Path)
+        {
+            int index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+            string categoryName = null, title = null;
+
+            if (index == -1)
+            {
+                title = Path;
+            }
+            else
+            {
+                categoryName = Path.Substring(0, index);
+                title = Path.Substring(index + 1);
+            }
+
+            string[] keys = GetFeedsTableKeys();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                INewsFeed f = null;
+                feedsTable.TryGetValue(keys[i], out f);
+
+                if (f != null)
+                {
+                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    {
+                        this.feedsTable.Remove(f.link);
+                        this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
+
+                        RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// A feed was renamed.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FeedRenamed(string Path, string oldPath)
+        {
+            int index = oldPath.LastIndexOf(NewsHandler.CategorySeparator);
+            string categoryName = null, title = null;
+
+            if (index == -1)
+            {
+                title = oldPath;
+            }
+            else
+            {
+                categoryName = oldPath.Substring(0, index);
+                title = oldPath.Substring(index + 1);
+            }
+
+            string[] keys = GetFeedsTableKeys();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                INewsFeed f = null;
+                feedsTable.TryGetValue(keys[i], out f);
+
+                if (f != null)
+                {
+                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    {
+                        index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+                        string newTitle = (index == -1 ? Path : Path.Substring(index + 1));
+
+                        RaiseOnRenamedFeed(new FeedRenamedEventArgs(f.link, newTitle));
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// A feed was moved from this folder to another folder.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FeedMovedFrom(string Path, string oldPath)
+        {
+            /* Do nothing since we get the same event repeated in FeedMoveTo */
+        }
+
+        /// <summary>
+        /// A feed was moved to this folder.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="oldPath"></param>
+        public void FeedMovedTo(string Path, string oldPath)
+        {
+            int index = oldPath.LastIndexOf(NewsHandler.CategorySeparator);
+            string categoryName = null, title = null;
+
+            if (index == -1)
+            {
+                title = oldPath;
+            }
+            else
+            {
+                categoryName = oldPath.Substring(0, index);
+                title = oldPath.Substring(index + 1);
+            }
+
+            string[] keys = GetFeedsTableKeys();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                INewsFeed f = null;
+                feedsTable.TryGetValue(keys[i], out f);
+
+                if (f != null)
+                {
+                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    {
+                        index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+                        string newCategory = (index == -1 ? Path : Path.Substring(0, index));
+
+                        RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, newCategory));
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// The URL of a feed changed.
+        /// </summary>
+        /// <param name="Path"></param>
+        public void FeedUrlChanged(string Path)
+        {
+            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+            int index = Path.LastIndexOf(NewsHandler.CategorySeparator);
+            string categoryName = null, title = null;
+
+            if (index == -1)
+            {
+                title = Path;
+            }
+            else
+            {
+                categoryName = Path.Substring(0, index);
+                title = Path.Substring(index + 1);
+            }
+
+            string[] keys = GetFeedsTableKeys();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                INewsFeed f = null;
+                feedsTable.TryGetValue(keys[i], out f);
+
+                if (f != null)
+                {
+                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    {
+                        Uri requestUri = new Uri(f.link);
+                        Uri newUri = new Uri(ifeed.DownloadUrl);
+                        RaiseOnUpdatedFeed(requestUri, newUri, RequestResult.NotModified, 1110, false);
+                        break;
+                    }
+                }
+            }//for
+
+        }
+
+
+        /// <summary>
+        /// The number of items or unread items in a feed changed.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="itemCountType"></param>
+        public void FeedItemCountChanged(string Path, int itemCountType)
+        {
+
+            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+            Uri requestUri = new Uri(ifeed.DownloadUrl);
+            RaiseOnUpdatedFeed(requestUri, null, RequestResult.OK, 1110, false);
+        }
+
+
+        /// <summary>
+        /// A feed has started downloading.
+        /// </summary>
+        /// <param name="Path"></param>
+        public void FeedDownloading(string Path)
+        {
+
+            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+            Uri requestUri = new Uri(ifeed.DownloadUrl);
+            RaiseOnUpdateFeedStarted(requestUri, true, 1110);
+        }       
+         
+
+        /// <summary>
+        /// A feed has completed downloading (success or error).
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="Error"></param>
+        public void FeedDownloadCompleted(string Path, FEEDS_DOWNLOAD_ERROR Error)
+        {
+            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+            Uri requestUri = new Uri(ifeed.DownloadUrl);
+
+            if (Error == FEEDS_DOWNLOAD_ERROR.FDE_NONE)
+            {
+                RaiseOnUpdatedFeed(requestUri, null, RequestResult.OK, 1110, false);
+            }
+            else
+            {
+                INewsFeed f = null;
+                feedsTable.TryGetValue(ifeed.DownloadUrl, out f);
+                WindowsRssNewsFeed wf = f as WindowsRssNewsFeed;
+
+                if (wf == null)
+                {
+                    Exception e = new FeedRequestException(Error.ToString(), new WebException(Error.ToString()), NewsHandler.GetFailureContext(wf, wf));
+                    RaiseOnUpdateFeedException(ifeed.DownloadUrl, e, 1100);
+                }
+
             }
         }
 
@@ -1274,6 +1705,7 @@ namespace NewsComponents.Feed {
         }
 
         #endregion 
+
     }
 
     #endregion 
@@ -2224,6 +2656,18 @@ namespace NewsComponents.Feed {
             }
         }
 
+
+        #endregion 
+
+        #region public methods
+
+        /// <summary>
+        /// Asynchronously downloads the feed using the Windows RSS platform
+        /// </summary>
+        public void RefreshFeed()
+        {
+            this.myfeed.AsyncDownload(); 
+        }
 
         #endregion 
     }
