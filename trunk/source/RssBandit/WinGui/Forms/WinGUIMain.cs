@@ -7146,7 +7146,7 @@ namespace RssBandit.WinGui.Forms
 
             Hashtable lookup = new Hashtable(modifiedItems.Count);
 
-            foreach (NewsItem item in modifiedItems)
+            foreach (INewsItem item in modifiedItems)
             {
                 string feedurl = item.Feed.link;
 
