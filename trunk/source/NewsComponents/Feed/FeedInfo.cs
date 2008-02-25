@@ -398,7 +398,7 @@ namespace NewsComponents.Feed
 	/// <summary>
 	/// Represents a list of FeedInfo objects. This is primarily used for generating newspaper views of multiple feeds.
 	/// </summary>
-	public class FeedInfoList: IEnumerable, ICollection
+	public class FeedInfoList: IEnumerable<IFeedDetails>, ICollection<IFeedDetails>
 	{
 
 		#region Private Members
@@ -406,7 +406,7 @@ namespace NewsComponents.Feed
 		/// <summary>
 		/// The list of feeds
 		/// </summary>
-		private ArrayList feeds = new ArrayList();
+        private List<IFeedDetails> feeds = new List<IFeedDetails>();
 
 		/// <summary>
 		/// The title of this list when displayed in a newspaper view
@@ -461,17 +461,36 @@ namespace NewsComponents.Feed
 		/// </summary>
 		/// <param name="feed">The FeedInfo object to add</param>
 		/// <returns>The position into which the new feed was inserted</returns>
-		public int Add(FeedInfo feed){
-			return this.feeds.Add(feed);
+		public void Add(IFeedDetails feed){
+			this.feeds.Add(feed);
 		}
 		/// <summary>
 		/// Adds the range of feeds (FeedInfo collection).
 		/// </summary>
 		/// <param name="feedCollection">The feed collection.</param>
-		public void AddRange(ICollection feedCollection)
+		public void AddRange(IEnumerable<IFeedDetails> feedCollection)
 		{
 			this.feeds.AddRange(feedCollection);
 		}
+
+        /// <summary>
+        /// Removes a Feed from the list
+        /// </summary>
+        /// <param name="feed">The IFeedDetails object to remove</param>
+        public bool Remove(IFeedDetails feed)
+        {
+            return this.feeds.Remove(feed);
+        }
+
+        /// <summary>
+        /// Tests to see if the specified feed is in the list
+        /// </summary>
+        /// <param name="feed"></param>
+        /// <returns></returns>
+        public bool Contains(IFeedDetails feed)
+        {
+            return this.feeds.Contains(feed);
+        }
 
 		/// <summary>
 		/// Removes all FeedInfo objects from the list
@@ -549,8 +568,18 @@ namespace NewsComponents.Feed
 			return this.feeds.GetEnumerator(); 
 		}
 
+        /// <summary>
+        /// Returns an enumerator used to iterate over the FeedInfo objects in the list
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator<IFeedDetails> IEnumerable<IFeedDetails>.GetEnumerator()
+        {
+            return this.feeds.GetEnumerator();
+        }
+
 		#endregion 
 	
+
 	
 		#region ICollection Members
 
@@ -563,30 +592,17 @@ namespace NewsComponents.Feed
 		/// <exception cref="T:System.ArgumentOutOfRangeException">index is less than zero. </exception>
 		/// <exception cref="T:System.ArgumentException">array is multidimensional.-or- index is equal to or greater than the length of array.-or- The number of elements in the source <see cref="T:System.Collections.ICollection"></see> is greater than the available space from index to the end of the destination array. </exception>
 		/// <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.ICollection"></see> cannot be cast automatically to the type of the destination array. </exception>
-		public void CopyTo(Array array, int index)
-		{
+		public void CopyTo(IFeedDetails[] array, int index)
+		{            
 			feeds.CopyTo(array, index);
 		}
 
-		/// <summary>
-		/// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe).
-		/// </summary>
-		/// <value></value>
-		/// <returns>true if access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe); otherwise, false.</returns>
-		public bool IsSynchronized
-		{
-			get { return feeds.IsSynchronized; }
-		}
+	
 
-		/// <summary>
-		/// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
-		/// </summary>
-		/// <value></value>
-		/// <returns>An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.</returns>
-		public object SyncRoot
-		{
-			get { return feeds.SyncRoot; }
-		}
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
 
 		#endregion
 	}

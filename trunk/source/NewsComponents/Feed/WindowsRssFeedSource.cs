@@ -1329,7 +1329,7 @@ namespace NewsComponents.Feed {
             set { /* can't be set */ }
         }
 
-        private Hashtable _optionalElements = null; 
+        private Hashtable _optionalElements = new Hashtable(); 
         /// <summary>
         /// Container for all the optional RSS elements for an item. Also 
         /// holds information from RSS modules. The keys in the hashtable 
@@ -2743,20 +2743,50 @@ namespace NewsComponents.Feed {
         {
             return new WindowsRssNewsFeed(myfeed);
         }
-      
 
         /// <summary>
         /// Writes this object as an RSS 2.0 feed to the specified writer
         /// </summary>
-        /// <param name="writer"></param>       
+        /// <param name="writer"></param>
         public void WriteTo(XmlWriter writer)
         {
+            this.WriteTo(writer, NewsItemSerializationFormat.RssFeed, true);
+        }
 
+
+        /// <summary>
+        /// Writes this object as an RSS 2.0 feed to the specified writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="format">indicates whether we are writing a FeedDemon newspaper or an RSS feed</param>
+        public void WriteTo(XmlWriter writer, NewsItemSerializationFormat format)
+        {
+            this.WriteTo(writer, format, true);
+        }
+
+        /// <summary>
+        /// Writes this object as an RSS 2.0 feed to the specified writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="format">indicates whether we are writing a FeedDemon newspaper or an RSS feed</param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>				
+        public void WriteTo(XmlWriter writer, NewsItemSerializationFormat format, bool useGMTDate)
+        {
             //writer.WriteStartDocument(); 
 
+            if (format == NewsItemSerializationFormat.NewsPaper)
+            {
+                //<newspaper type="channel">
+                writer.WriteStartElement("newspaper");
+                writer.WriteAttributeString("type", "channel");
+                writer.WriteElementString("title", this.title);
+            }
+            else if (format != NewsItemSerializationFormat.Channel)
+            {
                 //<rss version="2.0">
                 writer.WriteStartElement("rss");
                 writer.WriteAttributeString("version", "2.0");
+            }
             
             //<channel>
             writer.WriteStartElement("channel");
@@ -2782,9 +2812,44 @@ namespace NewsComponents.Feed {
                 writer.WriteRaw(item.ToString(NewsItemSerializationFormat.RssItem, true));
             }
 
-            //</rss>
             writer.WriteEndElement();
+
+            if (format != NewsItemSerializationFormat.Channel)
+            {
+                writer.WriteEndElement();
+            }
+
             //writer.WriteEndDocument(); 
+        }
+
+        /// <summary>
+        /// Provides the XML representation of the feed as an RSS 2.0 feed. 
+        /// </summary>
+        /// <param name="format">Indicates whether the XML should be returned as an RSS feed or a newspaper view</param>
+        /// <returns>the feed as an XML string</returns>
+        public string ToString(NewsItemSerializationFormat format)
+        {
+            return this.ToString(format, true);
+        }
+
+        /// <summary>
+        /// Provides the XML representation of the feed as an RSS 2.0 feed. 
+        /// </summary>
+        /// <param name="format">Indicates whether the XML should be returned as an RSS feed or a newspaper view</param>
+        /// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+        /// <returns>the feed as an XML string</returns>
+        public string ToString(NewsItemSerializationFormat format, bool useGMTDate)
+        {
+
+            StringBuilder sb = new StringBuilder("");
+            XmlTextWriter writer = new XmlTextWriter(new StringWriter(sb));
+
+            this.WriteTo(writer, format, useGMTDate);
+
+            writer.Flush();
+            writer.Close();
+
+            return sb.ToString();
 
         }
 

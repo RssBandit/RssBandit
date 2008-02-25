@@ -146,7 +146,7 @@ namespace RssBandit.WinGui.Utility
 					content = item.Content;
 					doc = new XPathDocument(new XmlTextReader(new StringReader(item.ToString(format, false))), XmlSpace.Preserve);				
 				}else if(transformTarget is FeedInfo){
-					FeedInfo feed = (FeedInfo) transformTarget;
+					IFeedDetails feed = (IFeedDetails) transformTarget;
 					link = feed.Link;
 					doc = new XPathDocument(new XmlTextReader(new StringReader(feed.ToString(format, false))), XmlSpace.Preserve);				
 				}else if(transformTarget is FeedInfoList){
