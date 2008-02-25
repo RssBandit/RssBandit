@@ -529,7 +529,7 @@ namespace NewsComponents.Feed {
             WindowsRssNewsFeed f2 = f as WindowsRssNewsFeed;
 
             if (f2 != null)
-            {
+            {                
                 f2.RefreshFeed(); 
             }
 
@@ -1984,7 +1984,8 @@ namespace NewsComponents.Feed {
         /// <param name="feed">The IFeed instance that this object will wrap</param>
         public WindowsRssNewsFeed(IFeed feed) {
             if (feed == null) throw new ArgumentNullException("feed"); 
-            this.myfeed = feed; 
+            this.myfeed = feed;
+            this.LoadItemsList(); 
         }
 
         /// <summary>
@@ -2076,6 +2077,25 @@ namespace NewsComponents.Feed {
         private List<INewsItem> items = new List<INewsItem>(); 
 
         #endregion
+
+        #region private methods
+
+        /// <summary>
+        /// Loads items from the underlying Windows RSS platform into the ItemsList property
+        /// </summary>
+        /// <seealso cref="ItemsList"/>
+        private void LoadItemsList()
+        {
+            this.items.Clear();
+            IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
+
+            foreach (IFeedItem item in feedItems)
+            {
+                this.items.Add(new WindowsRssNewsItem(item, this));
+            }
+        }
+
+        #endregion 
 
         #region public methods
 
@@ -2632,13 +2652,7 @@ namespace NewsComponents.Feed {
             {
                 lock (this.items)
                 {
-                    this.items.Clear(); 
-                    IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
-
-                    foreach (IFeedItem item in feedItems)
-                    {
-                        this.items.Add(new WindowsRssNewsItem(item, this));
-                    }
+                    LoadItemsList(); 
                 }
 
                 return this.items;
