@@ -48,7 +48,20 @@ namespace NewsComponents.Feed
 			get { return itemsList; }
 			set { itemsList = value; }
 		}
-        internal Dictionary<XmlQualifiedName, string> optionalElements; 
+        internal Dictionary<XmlQualifiedName, string> optionalElements;
+
+
+        /// <summary>
+        /// Creates a FeedInfo initialized from the specified IFeedDetails object
+        /// </summary>
+        /// <param name="ifd">The object to copy from</param>
+        public FeedInfo(IFeedDetails ifd)
+            : this(ifd.Id, String.Empty, new List<INewsItem>(ifd.ItemsList),
+                ifd.Title, ifd.Link, ifd.Description, 
+                new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
+        {
+
+        }
 
 		/// <summary>
 		/// Overloaded. Initializer
