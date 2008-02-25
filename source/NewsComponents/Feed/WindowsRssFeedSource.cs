@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -581,11 +582,10 @@ namespace NewsComponents.Feed {
                     if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
+                    //let the UI know that we have items since LoadItemsList() was called in WindowsRssNewsFeed constructor
                     WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
-                    current.LoadItemsList();
                     this.RaiseOnUpdatedFeed(new Uri(current.link), null, RequestResult.OK, 1110, false); 
 
-                    //Thread.Sleep(15); // force a context switches
                 } //for(i)
                 this.first_refresh_attempt = false;
             }
@@ -987,6 +987,8 @@ namespace NewsComponents.Feed {
             if (item == null) throw new ArgumentNullException("item"); 
             this.myitem = item;
             this.myfeed = owner;
+            /* do this here because COM interop is too slow to check it each time property is accessed */
+            this._id = myitem.LocalId.ToString();            
 
             //TODO: RelationCosmos and outgoing links processing? 
         }
@@ -1196,13 +1198,14 @@ namespace NewsComponents.Feed {
             set { /* can't set IFeedItem.PubDate */ }
         }
 
+        private string _id; 
         /// <summary>
         /// The unique identifier.
         /// </summary>
         /// <remarks>This property is read only</remarks>
         public string Id
         {
-            get { return myitem.LocalId.ToString(); }
+            get { return _id; }
             set { /* Can't set IFeedItem.LocalId */ }
         }
 
@@ -2024,6 +2027,11 @@ namespace NewsComponents.Feed {
         public WindowsRssNewsFeed(IFeed feed) {
             if (feed == null) throw new ArgumentNullException("feed"); 
             this.myfeed = feed;
+            
+            /* do this here because COM interop is too slow to check it each time property is accessed */
+            this._id = myfeed.LocalId; 
+            
+            //make sure we have a list of items ready to go
             this.LoadItemsList();             
         }
 
@@ -2132,6 +2140,7 @@ namespace NewsComponents.Feed {
             {
                 this.items.Add(new WindowsRssNewsItem(item, this));
             }
+            Console.WriteLine("LOAD_ITEMS_LIST:'{0}' loaded {1} item(s)", myfeed.Path, items.Count); 
         }
 
         #endregion 
@@ -2199,13 +2208,14 @@ namespace NewsComponents.Feed {
             }
         }
 
+        private string _id; 
         /// <summary>
         /// Setting this value does nothing. 
         /// </summary>
         [XmlAttribute]
         public string id
         {
-            get { return myfeed.LocalId; }
+            get { return _id; }
 
             set
             {
@@ -2524,23 +2534,19 @@ namespace NewsComponents.Feed {
         [XmlIgnore]
         public object Tag { get; set; }
 
-        private bool _containsNewMessages;
         /// <remarks/>
         [XmlIgnore]
         public bool containsNewMessages
         {
             get
             {
-                return _containsNewMessages;
+                bool hasUnread = items.Any(item => item.BeenRead == false);
+                return hasUnread; 
             }
 
             set
             {
-                if (!_containsNewMessages.Equals(value))
-                {
-                    _containsNewMessages = value;
-                    this.OnPropertyChanged("containsNewMessages");
-                }
+                /* This value is always correct */ 
             }
         }
 
