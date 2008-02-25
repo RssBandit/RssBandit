@@ -3425,7 +3425,7 @@ namespace NewsComponents
         /// for a particular feed.
         /// </summary>
         /// <param name="feedUrl">The URL of the RSS feed</param>
-        public void MarkAllCachedItemsAsRead(string feedUrl)
+        public virtual void MarkAllCachedItemsAsRead(string feedUrl)
         {
             if (!string.IsNullOrEmpty(feedUrl))
             {
@@ -3442,7 +3442,7 @@ namespace NewsComponents
         /// for a particular feed.
         /// </summary>
         /// <param name="feed">The RSS feed</param>
-        public void MarkAllCachedItemsAsRead(INewsFeed feed)
+        public virtual void MarkAllCachedItemsAsRead(INewsFeed feed)
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {

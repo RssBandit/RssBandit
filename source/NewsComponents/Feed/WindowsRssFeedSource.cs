@@ -179,6 +179,25 @@ namespace NewsComponents.Feed {
         }
 
         /// <summary>
+        /// Marks all items stored in the internal cache of RSS items as read
+        /// for a particular feed.
+        /// </summary>
+        /// <param name="feed">The RSS feed</param>
+        public override void MarkAllCachedItemsAsRead(INewsFeed feed)
+        {
+            WindowsRssNewsFeed f = feed as WindowsRssNewsFeed;
+
+            if (f != null && !string.IsNullOrEmpty(f.link))
+            {
+                foreach (INewsItem ri in f.ItemsList)
+                {
+                    ri.BeenRead = true;
+                }
+            }
+            
+        }
+
+        /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. 
         /// </summary>
