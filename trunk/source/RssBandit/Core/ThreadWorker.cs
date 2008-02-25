@@ -103,7 +103,7 @@ namespace RssBandit
 					return null;
 
 				case Task.TransformFeed:
-					FeedInfo feed = (FeedInfo)task.Arguments[0];
+                    IFeedDetails feed = (IFeedDetails)task.Arguments[0];
 					feedNode = (UltraTreeNode)task.Arguments[1];
 					stylesheet = (string)task.Arguments[2];					
 					html = app.FormatFeed(stylesheet, feed); 

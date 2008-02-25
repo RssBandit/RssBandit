@@ -2926,7 +2926,7 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        private void BeginTransformFeed(FeedInfo feed, UltraTreeNode feedNode, string stylesheet)
+        private void BeginTransformFeed(IFeedDetails feed, UltraTreeNode feedNode, string stylesheet)
         {
             /* perform XSLT transformation in a background thread */
             owner.MakeAndQueueTask(ThreadWorker.Task.TransformFeed, OnFeedTransformed,
@@ -3117,7 +3117,7 @@ namespace RssBandit.WinGui.Forms
 
                         //we use a clone of the FeedInfo because it isn't 
                         //necessarily true that everything in the main FeedInfo is being rendered
-                        FeedInfo fi2 = (FeedInfo) fi.Clone();
+                        FeedInfo fi2 = new FeedInfo(fi);
                         fi2.ItemsList.Clear();
 
                         fi2.ItemsList.AddRange(unread);
@@ -13945,16 +13945,16 @@ namespace RssBandit.WinGui.Forms
                         string category = tn.CategoryStoreName;
                         Hashtable temp = new Hashtable();
 
-                        foreach (NewsItem item in groupSelected)
+                        foreach (INewsItem item in groupSelected)
                         {
-                            FeedInfo fi;
+                            IFeedDetails fi;
                             if (temp.ContainsKey(item.Feed.link))
                             {
-                                fi = (FeedInfo) temp[item.Feed.link];
+                                fi = (IFeedDetails)temp[item.Feed.link];
                             }
                             else
                             {
-                                fi = (FeedInfo) item.FeedDetails.Clone();
+                                fi = (IFeedDetails)item.FeedDetails.Clone();
                                 fi.ItemsList.Clear();
                                 temp.Add(item.Feed.link, fi);
                             }
@@ -13963,7 +13963,7 @@ namespace RssBandit.WinGui.Forms
 
                         FeedInfoList redispItems = new FeedInfoList(category);
 
-                        foreach (FeedInfo fi in temp.Values)
+                        foreach (IFeedDetails fi in temp.Values)
                         {
                             if (fi.ItemsList.Count > 0)
                                 redispItems.Add(fi);
@@ -13978,10 +13978,10 @@ namespace RssBandit.WinGui.Forms
 
                         if (fi != null)
                         {
-                            FeedInfo fi2;
-                            fi2 = (FeedInfo) fi.Clone();
+                            IFeedDetails fi2;
+                            fi2 = (IFeedDetails)fi.Clone();
                             fi2.ItemsList.Clear();
-                            foreach (NewsItem ni in groupSelected)
+                            foreach (INewsItem ni in groupSelected)
                             {
                                 fi2.ItemsList.Add(ni);
                             }
