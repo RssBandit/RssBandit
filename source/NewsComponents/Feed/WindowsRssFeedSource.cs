@@ -168,6 +168,19 @@ namespace NewsComponents.Feed {
         }
 
 
+        /// <summary>
+        /// Returns the FeedDetails of a feed.
+        /// </summary>
+        /// <param name="feedUrl">string feed's Url</param>
+        /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
+        /* TODO: Why does this lead to InvalidComException later on? */ 
+         public override IFeedDetails GetFeedInfo(string feedUrl)
+        {
+            INewsFeed f = null;
+            feedsTable.TryGetValue(feedUrl, out f);
+            return f as IFeedDetails; 
+        } 
+
          /// <summary>
         /// Retrieves items from local cache. 
         /// </summary>
@@ -1194,7 +1207,17 @@ namespace NewsComponents.Feed {
         /// </summary>
         public string Link
         {
-            get { return myitem.Link; }
+            get
+            {
+                try
+                {
+                    return myitem.Link;
+                }
+                catch
+                {
+                    return String.Empty;
+                }
+            }
         }
 
         /// <summary>
@@ -1588,12 +1611,7 @@ namespace NewsComponents.Feed {
                 /* if(this.ContentType != ContentType.Xhtml){ */
                 writer.WriteStartElement("description");
                 writer.WriteCData(Content);
-                writer.WriteEndElement();
-                /* }else // if(this.contentType == ContentType.Xhtml)  { 
-                    writer.WriteStartElement("xhtml", "body",  "http://www.w3.org/1999/xhtml");
-                    writer.WriteRaw(this.Content); 
-                    writer.WriteEndElement();
-                } */
+                writer.WriteEndElement();              
             }
 
             //<wfw:comment />
@@ -2437,7 +2455,14 @@ namespace NewsComponents.Feed {
         {
             get
             {
-                return myfeed.IsList;
+                try
+                {
+                    return myfeed.IsList;
+                }
+                catch
+                {
+                    return false; 
+                }
             }
             set
             {
