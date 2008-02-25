@@ -4440,9 +4440,9 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             }
 
             // display channel processing:
-            foreach (FeedInfo fi in feeds)
+            foreach (IFeedDetails fi in feeds)
             {
-                foreach (NewsItem n in fi.ItemsList)
+                foreach (INewsItem n in fi.ItemsList)
                 {
                     DisplayingNewsChannelServices.ProcessItem(n);
                 }
@@ -4459,7 +4459,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// <param name="stylesheet">The stylesheet.</param>
         /// <param name="feed">The feed to transform</param>
         /// <returns>The feed formatted as a HTML string</returns>
-        public string FormatFeed(string stylesheet, FeedInfo feed)
+        public string FormatFeed(string stylesheet, IFeedDetails feed)
         {
             if (!this.NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
             {
@@ -4467,7 +4467,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             }
 
             // display channel processing:
-            foreach (NewsItem item in feed.ItemsList)
+            foreach (INewsItem item in feed.ItemsList)
             {
                 DisplayingNewsChannelServices.ProcessItem(item);
             }

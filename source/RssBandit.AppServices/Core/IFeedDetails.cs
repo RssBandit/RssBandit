@@ -49,5 +49,36 @@ namespace NewsComponents
         /// </summary>
         /// <param name="writer"></param>
         void WriteTo(XmlWriter writer);        
+
+        /// <summary>
+		/// Writes this object as an RSS 2.0 feed to the specified writer
+		/// </summary>
+		/// <param name="writer"></param>
+		/// <param name="format">indicates whether we are writing a FeedDemon newspaper or an RSS feed</param>
+        void WriteTo(XmlWriter writer, NewsItemSerializationFormat format);
+
+        /// <summary>
+		/// Writes this object as an RSS 2.0 feed to the specified writer
+		/// </summary>
+		/// <param name="writer"></param>
+		/// <param name="format">indicates whether we are writing a FeedDemon newspaper or an RSS feed</param>
+		/// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>				
+        void WriteTo(XmlWriter writer, NewsItemSerializationFormat format, bool useGMTDate);
+
+        /// <summary>
+		/// Provides the XML representation of the feed as an RSS 2.0 feed. 
+		/// </summary>
+		/// <param name="format">Indicates whether the XML should be returned as an RSS feed or a newspaper view</param>
+		/// <returns>the feed as an XML string</returns>
+        string ToString(NewsItemSerializationFormat format);
+
+        /// <summary>
+		/// Provides the XML representation of the feed as an RSS 2.0 feed. 
+		/// </summary>
+		/// <param name="format">Indicates whether the XML should be returned as an RSS feed or a newspaper view</param>
+		/// <param name="useGMTDate">Indicates whether the date should be GMT or local time</param>
+		/// <returns>the feed as an XML string</returns>
+        string ToString(NewsItemSerializationFormat format, bool useGMTDate);
+			
 	}
 }
