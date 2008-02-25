@@ -79,6 +79,11 @@ namespace NewsComponents.Feed {
         /// </summary>
         private IFeedsManager feedManager = new FeedsManagerClass();
 
+        /// <summary>
+        /// Needed for event handling support with Windows RSS platform
+        /// </summary>
+        private IFeedFolderEvents_Event fw;
+
         #endregion 
 
         #region private methods
@@ -89,11 +94,9 @@ namespace NewsComponents.Feed {
         /// <param name="folder"></param>
         private void AttachEventHandlers(IFeedFolder folder)
         {
-            //set up event handlers
-            IFeedFolderEvents_Event fw;
             fw = (IFeedFolderEvents_Event)folder.GetWatcher(
-                   FEEDS_EVENTS_SCOPE.FES_ALL,
-                   FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+                    FEEDS_EVENTS_SCOPE.FES_ALL,
+                    FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
             fw.Error += new IFeedFolderEvents_ErrorEventHandler(Error);
             fw.FeedAdded += new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
             fw.FeedDeleted += new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
@@ -109,7 +112,7 @@ namespace NewsComponents.Feed {
             fw.FolderItemCountChanged += new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
             fw.FolderMovedFrom += new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
             fw.FolderMovedTo += new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
-            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);    
+            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);                
         }
 
         /// <summary>
@@ -155,6 +158,17 @@ namespace NewsComponents.Feed {
         public override void ResumePendingDownloads()
         {
             /* Do nothing here. This is handled by the Windows RSS platform automatically */ 
+        }
+
+
+         /// <summary>
+        /// Retrieves items from local cache. 
+        /// </summary>
+        /// <param name="feedUrl"></param>
+        /// <returns>A ArrayList of NewsItem objects</returns>
+        public override IList<INewsItem> GetCachedItemsForFeed(string feedUrl)
+        {
+            return this.GetItemsForFeed(feedUrl, false); 
         }
 
         /// <summary>
@@ -484,7 +498,7 @@ namespace NewsComponents.Feed {
             IFeedFolder root = feedManager.RootFolder as IFeedFolder;
             LoadFolder(root, bootstrapFeeds, bootstrapCategories);
                          
-            feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
+            //feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
         }
 
 
@@ -611,8 +625,10 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="oldPath"></param>
-        public void FolderMovedFrom(string Path, string oldPath)
+        public static void FolderMovedFrom(string Path, string oldPath)
         {
+            Console.WriteLine("Folder moved from {0} to {1}", oldPath, Path); 
+         
          /* Do nothing since we get the same event repeated in FolderMoveTo */  
         }
         
@@ -758,8 +774,9 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="oldPath"></param>
-        public void FeedMovedFrom(string Path, string oldPath)
+        public static void FeedMovedFrom(string Path, string oldPath)
         {
+            Console.WriteLine("Feed moved from {0} to {1}", oldPath, Path); 
             /* Do nothing since we get the same event repeated in FeedMoveTo */
         }
 
@@ -1126,7 +1143,17 @@ namespace NewsComponents.Feed {
         /// <remarks>This field is read only </remarks>
         public DateTime Date
         {
-            get { return myitem.PubDate; }
+            get
+            {
+                try
+                {
+                    return myitem.PubDate;
+                }
+                catch (Exception) /* thrown if Windows RSS platform can't parse the date */
+                {
+                    return myitem.LastDownloadTime; 
+                }
+            }
             set { /* can't set IFeedItem.PubDate */ }
         }
 
@@ -2046,7 +2073,7 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// The list of WindowsRssNewsItem instances contained by this feed. 
         /// </summary>
-        private List<INewsItem> items = null; 
+        private List<INewsItem> items = new List<INewsItem>(); 
 
         #endregion
 
@@ -2094,7 +2121,18 @@ namespace NewsComponents.Feed {
         [XmlElement(DataType = "anyURI")]
         public string link
         {
-            get { return myfeed.DownloadUrl; }
+            get
+            {
+                try
+                {
+                    return myfeed.DownloadUrl;
+                }
+                catch (COMException) /* thrown if the feed has never been downloaded */ 
+                {
+                    return myfeed.Url; 
+                }
+
+            }
 
             set
             {
@@ -2594,17 +2632,15 @@ namespace NewsComponents.Feed {
             {
                 lock (this.items)
                 {
-                    if (this.items == null)
-                    {
-                        this.items = new List<INewsItem>();
-                        IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
+                    this.items.Clear(); 
+                    IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
 
-                        foreach (IFeedItem item in feedItems)
-                        {
-                            this.items.Add(new WindowsRssNewsItem(item, this));
-                        }
+                    foreach (IFeedItem item in feedItems)
+                    {
+                        this.items.Add(new WindowsRssNewsItem(item, this));
                     }
                 }
+
                 return this.items;
             }
             set
