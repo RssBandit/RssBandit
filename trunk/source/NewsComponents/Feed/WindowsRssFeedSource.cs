@@ -66,7 +66,8 @@ namespace NewsComponents.Feed {
 
             
             IFeedFolder rootFolder = feedManager.RootFolder as IFeedFolder;
-            this.AttachEventHandlers(rootFolder);  
+            this.AttachEventHandlers(rootFolder);
+            feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
         }    
 
         #endregion 
@@ -83,6 +84,11 @@ namespace NewsComponents.Feed {
         /// Needed for event handling support with Windows RSS platform
         /// </summary>
         private IFeedFolderEvents_Event fw;
+
+        /// <summary>
+        /// Indicates whether an attempt has been made to refresh feeds or not. 
+        /// </summary>
+        private bool first_refresh_attempt = true; 
 
         #endregion 
 
@@ -443,12 +449,18 @@ namespace NewsComponents.Feed {
                         }
                         catch (Exception)
                         {
-                            continue;
+                            try
+                            {
+                                uri = new Uri(feed.Url);
+                            }
+                            catch (Exception)
+                            {
+                                continue; 
+                            }
                         }
                         string feedUrl = uri.CanonicalizedUri();
                         INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
-                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));
-
+                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));                         
                     }//foreach(IFeed feed in ...)
                 }
 
@@ -546,9 +558,36 @@ namespace NewsComponents.Feed {
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(bool force_download)
         {
+            string[] keys = GetFeedsTableKeys();
+
             if (force_download)
+            {               
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
+                    current.RefreshFeed();
+                   
+                    //Thread.Sleep(15); // force a context switches
+                } //for(i)
+                
+            }
+            else if (first_refresh_attempt) 
             {
-                this.feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_RUNNOW);
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
+                    current.LoadItemsList();
+                    this.RaiseOnUpdatedFeed(new Uri(current.link), null, RequestResult.OK, 1110, false); 
+
+                    //Thread.Sleep(15); // force a context switches
+                } //for(i)
+                this.first_refresh_attempt = false;
             }
         }
 
@@ -1985,7 +2024,7 @@ namespace NewsComponents.Feed {
         public WindowsRssNewsFeed(IFeed feed) {
             if (feed == null) throw new ArgumentNullException("feed"); 
             this.myfeed = feed;
-            this.LoadItemsList(); 
+            this.LoadItemsList();             
         }
 
         /// <summary>
@@ -2084,7 +2123,7 @@ namespace NewsComponents.Feed {
         /// Loads items from the underlying Windows RSS platform into the ItemsList property
         /// </summary>
         /// <seealso cref="ItemsList"/>
-        private void LoadItemsList()
+        internal void LoadItemsList()
         {
             this.items.Clear();
             IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
