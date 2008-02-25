@@ -2758,9 +2758,9 @@ namespace NewsComponents
         /// Retrieves all non-internet feed URLs (e.g. intranet and local feeds)
         /// </summary>
         /// <returns>A feeds table with the non-internet feeds</returns>
-        public IEnumerable<INewsFeed> GetNonInternetFeeds()
+        public IEnumerable<NewsFeed> GetNonInternetFeeds()
         {
-            List<INewsFeed> toReturn = new List<INewsFeed>();
+            List<NewsFeed> toReturn = new List<NewsFeed>();
 
             if (this.feedsTable.Count == 0)
                 return toReturn;
@@ -2777,7 +2777,7 @@ namespace NewsComponents
                         INewsFeed f = null;
                         if (feedsTable.TryGetValue(url, out f))
                         {
-                            toReturn.Add(f);
+                            toReturn.Add(new NewsFeed(f));
                         }
                     }
                 }
@@ -3223,9 +3223,9 @@ namespace NewsComponents
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
                     feedlist.markitemsreadonexitSpecified = true;
 
-                    foreach (NewsFeed f in feeds.Values)
+                    foreach (INewsFeed f in feeds.Values)
                     {
-                        feedlist.feed.Add(f);
+                        feedlist.feed.Add(new NewsFeed(f));
 
                         if (itemsTable.ContainsKey(f.link))
                         {
@@ -3239,7 +3239,7 @@ namespace NewsComponents
 
                             if (!format.Equals(FeedListFormat.NewsHandlerLite))
                             {
-                                foreach (NewsItem ri in items)
+                                foreach (INewsItem ri in items)
                                 {
                                     if (ri.BeenRead && !f.storiesrecentlyviewed.Contains(ri.Id))
                                     {
@@ -3255,11 +3255,11 @@ namespace NewsComponents
 
                 List<category> c = new List<category>(this.categories.Count);
                 /* sometimes we get nulls in the arraylist */
-                foreach(category cat in this.categories.Values)
+                foreach(INewsFeedCategory cat in this.categories.Values)
                 {                    
                     if (!StringHelper.EmptyTrimOrNull(cat.Value))
                     {                       
-                        c.Add(cat);
+                        c.Add(new category(cat));
                     }
                 }
 
@@ -4649,7 +4649,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feedUrl"></param>
         /// <returns>A ArrayList of NewsItem objects</returns>
-        public IList<INewsItem> GetCachedItemsForFeed(string feedUrl)
+        public virtual IList<INewsItem> GetCachedItemsForFeed(string feedUrl)
         {
             lock (itemsTable)
             {

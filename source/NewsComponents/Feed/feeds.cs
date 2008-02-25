@@ -574,6 +574,31 @@ namespace NewsComponents.Feed
             this.Value = name; 
         }
 
+        /// <summary>
+        /// Creates a new category by initializing it from an existing one. 
+        /// </summary>
+        /// <param name="categorytoclone">The category whose properties are being copied</param>
+        public category(INewsFeedCategory categorytoclone)
+        {
+            if (categorytoclone != null)
+            {
+                this.AnyAttr = categorytoclone.AnyAttr;
+                this.downloadenclosures = categorytoclone.downloadenclosures;
+                this.downloadenclosuresSpecified = categorytoclone.downloadenclosuresSpecified;
+                this.enclosurealert = categorytoclone.enclosurealert;
+                this.enclosurealertSpecified = categorytoclone.enclosurealertSpecified;
+                this.enclosurefolder = categorytoclone.enclosurefolder;
+                this.listviewlayout = categorytoclone.listviewlayout;
+                this.markitemsreadonexit = categorytoclone.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = categorytoclone.markitemsreadonexitSpecified;
+                this.maxitemage = categorytoclone.maxitemage;
+                this.refreshrate = categorytoclone.refreshrate;
+                this.refreshrateSpecified = categorytoclone.refreshrateSpecified;
+                this.stylesheet = categorytoclone.stylesheet;
+                this.Value = categorytoclone.Value;
+            }
+        }
+
         /// <remarks/>
         [XmlAttribute("mark-items-read-on-exit")]
         public bool markitemsreadonexit { get; set; }
@@ -713,7 +738,59 @@ namespace NewsComponents.Feed
     public class NewsFeed : INewsFeed
     {
 
-        #region INewsFeed implementation 
+        #region constructor
+
+        /// <summary>
+        /// Initializes the class.
+        /// </summary>
+        public NewsFeed() { ; }
+
+        /// <summary>
+        /// Initializes the class from an INewsFeed instance
+        /// </summary>
+        /// <param name="feedtoclone">The feed to obtain it's properties from</param>
+         public NewsFeed(INewsFeed feedtoclone)
+        {
+            if (feedtoclone != null)
+            {
+                this.link = feedtoclone.link;
+                this.title = feedtoclone.title;
+                this.category = feedtoclone.category;
+                this.storiesrecentlyviewed = new List<string>(feedtoclone.storiesrecentlyviewed);
+                this.deletedstories = new List<string>(feedtoclone.deletedstories);
+                this.id = feedtoclone.id;
+                this.lastretrieved = feedtoclone.lastretrieved;
+                this.lastretrievedSpecified = feedtoclone.lastretrievedSpecified;
+                this.lastmodified = feedtoclone.lastmodified;
+                this.lastmodifiedSpecified = feedtoclone.lastmodifiedSpecified;
+                this.authUser = feedtoclone.authUser;
+                this.authPassword = feedtoclone.authPassword;
+                this.downloadenclosures = feedtoclone.downloadenclosures;
+                this.downloadenclosuresSpecified = feedtoclone.downloadenclosuresSpecified;
+                this.enclosurefolder = feedtoclone.enclosurefolder;
+                this.replaceitemsonrefresh = feedtoclone.replaceitemsonrefresh;
+                this.replaceitemsonrefreshSpecified = feedtoclone.replaceitemsonrefreshSpecified;
+                this.refreshrate = feedtoclone.refreshrate;
+                this.refreshrateSpecified = feedtoclone.refreshrateSpecified;
+                this.maxitemage = feedtoclone.maxitemage;
+                this.etag = feedtoclone.etag;
+                this.markitemsreadonexit = feedtoclone.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = feedtoclone.markitemsreadonexitSpecified;
+                this.listviewlayout = feedtoclone.listviewlayout;
+                this.favicon = feedtoclone.favicon;
+                this.stylesheet = feedtoclone.stylesheet;
+                this.enclosurealert = feedtoclone.enclosurealert;
+                this.enclosurealertSpecified = feedtoclone.enclosurealertSpecified;
+                this.alertEnabled = feedtoclone.alertEnabled;
+                this.alertEnabledSpecified = feedtoclone.alertEnabledSpecified;
+                this.Any = feedtoclone.Any;
+                this.AnyAttr = feedtoclone.AnyAttr;
+            }
+        }
+
+        #endregion 
+
+        #region INewsFeed implementation
 
         private string _title = null; 
         /// <remarks/>
