@@ -931,7 +931,7 @@ namespace RssBandit
         {
             if (!string.IsNullOrEmpty(feedLink))
             {
-                IFeedDetails feedInfo = feedHandler.GetFeedInfo(feedLink);
+                IFeedDetails feedInfo = feedHandler.GetFeedDetails(feedLink);
 
                 if (feedInfo != null)
                 {
@@ -959,7 +959,7 @@ namespace RssBandit
         {
             if (!string.IsNullOrEmpty(feedLink))
             {
-                IFeedDetails feedInfo = feedHandler.GetFeedInfo(feedLink);
+                IFeedDetails feedInfo = feedHandler.GetFeedDetails(feedLink);
                 if (feedInfo != null)
                 {
                     NavigateToUrlAsUserPreferred(linkCosmosUrlBase + HttpUtility.UrlEncode(feedInfo.Link),

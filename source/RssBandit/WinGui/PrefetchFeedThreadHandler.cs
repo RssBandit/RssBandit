@@ -69,7 +69,7 @@ namespace RssBandit.WinGui
 
 			try {
 				
-				//feedInfo = feedHandler.GetFeedInfo(this.feedUrl, this.credentials);
+				//feedInfo = feedHandler.GetFeedDetails(this.feedUrl, this.credentials);
 				using (Stream mem = AsyncWebRequest.GetSyncResponseStream(this.feedUrl, this.credentials, RssBanditApplication.UserAgent, this.Proxy)) {
 					NewsFeed f = new NewsFeed();
 					f.link = feedUrl;
