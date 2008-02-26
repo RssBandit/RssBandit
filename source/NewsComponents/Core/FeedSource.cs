@@ -4452,7 +4452,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feedUrl">string feed's Url</param>
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
-        public virtual IFeedDetails GetFeedInfo(string feedUrl)
+        public virtual IFeedDetails GetFeedDetails(string feedUrl)
         {
             return this.GetFeedInfo(feedUrl, null);
         }

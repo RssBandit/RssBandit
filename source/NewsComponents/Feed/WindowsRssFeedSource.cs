@@ -174,7 +174,7 @@ namespace NewsComponents.Feed {
         /// <param name="feedUrl">string feed's Url</param>
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
         /* TODO: Why does this lead to InvalidComException later on? */ 
-         public override IFeedDetails GetFeedInfo(string feedUrl)
+         public override IFeedDetails GetFeedDetails(string feedUrl)
         {
             INewsFeed f = null;
             feedsTable.TryGetValue(feedUrl, out f);
