@@ -897,12 +897,12 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
         /// </summary>
         /// <param name="feedUrl">The feed URL (can be null).</param>
         /// <returns>IFeedDetails if found, else null</returns>
-        public IFeedDetails GetFeedInfo(string feedUrl)
+        public IFeedDetails GetFeedDetails(string feedUrl)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
             if (this.feedHandler.IsSubscribed(feedUrl))
-                return this.feedHandler.GetFeedInfo(feedUrl);
+                return this.feedHandler.GetFeedDetails(feedUrl);
             return null;
         }
 
@@ -4961,7 +4961,7 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
 
                 item2post.CommentStyle = SupportedCommentStyle.NNTP;
                 // in case the feed does not yet have downloaded items, we may get null here:
-                item2post.FeedDetails = this.feedHandler.GetFeedInfo(f.link);
+                item2post.FeedDetails = this.feedHandler.GetFeedDetails(f.link);
                 if (item2post.FeedDetails == null)
                     item2post.FeedDetails =
                         new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(0), f.title, f.link, f.title);

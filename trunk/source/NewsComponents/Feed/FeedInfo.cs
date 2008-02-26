@@ -247,7 +247,7 @@ namespace NewsComponents.Feed
 			}
 
 			//<item />
-			foreach(NewsItem item in this.itemsList){													
+			foreach(INewsItem item in this.itemsList){													
 				writer.WriteRaw(item.ToString(NewsItemSerializationFormat.RssItem, useGMTDate, noDescriptions)); 					
 			}
 					
@@ -564,7 +564,7 @@ namespace NewsComponents.Feed
 			writer.WriteAttributeString("type", "group"); 
 			writer.WriteElementString("title", this.title); 
 
-			foreach(FeedInfo feed in this.feeds){
+			foreach(IFeedDetails feed in this.feeds){
 				feed.WriteTo(writer, NewsItemSerializationFormat.Channel, false); 
 			}
 			

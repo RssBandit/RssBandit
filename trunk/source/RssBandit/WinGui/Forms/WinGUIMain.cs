@@ -3109,7 +3109,7 @@ namespace RssBandit.WinGui.Forms
                         PopulateListView(tn, items, true, false, tn);
                     }
 
-                    IFeedDetails fi = owner.GetFeedInfo(tn.DataKey);
+                    IFeedDetails fi = owner.GetFeedDetails(tn.DataKey);
 
                     if (fi != null)
                     {
@@ -3325,20 +3325,20 @@ namespace RssBandit.WinGui.Forms
 
                                 if (f != null)
                                 {
-                                    fi = (FeedInfo) owner.GetFeedInfo(f.link);
+                                    IFeedDetails ifd = (IFeedDetails) owner.GetFeedDetails(f.link);
 
-                                    if (fi == null) // with with an error, and the like: ignore
+                                    if (ifd == null) // with with an error, and the like: ignore
                                         continue;
 
-                                    fi = fi.Clone(false);
-                                    //fi.ItemsList.Clear();
+                                    fi = new FeedInfo(ifd);
+                                    fi.ItemsList.Clear();
                                 }
                                 else
                                 {
                                     fi = FeedInfo.Empty;
                                 }
 
-                                foreach (NewsItem i in items)
+                                foreach (INewsItem i in items)
                                 {
                                     if (!i.BeenRead)
                                         fi.ItemsList.Add(i);
@@ -5877,7 +5877,7 @@ namespace RssBandit.WinGui.Forms
             if (feed != null && feed.Tag != null)
             {
                 INewsFeed itemFeed = (INewsFeed) feed.Tag;
-                FeedInfo itemFeedInfo = owner.FeedHandler.GetFeedInfo(itemFeed.link) as FeedInfo;
+                FeedInfo itemFeedInfo = owner.FeedHandler.GetFeedDetails(itemFeed.link) as FeedInfo;
 
                 tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), itemFeed);
 
@@ -9159,7 +9159,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedInfo(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
                 string link;
 
                 if (fd != null)
@@ -9186,7 +9186,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedInfo(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
                 string link, title;
 
                 if (fd != null)
@@ -10767,7 +10767,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if a feed was selected in the treeview, we display the feed homepage,
                                 // not the feed url in the Url dropdown box:
-                                IFeedDetails fi = owner.GetFeedInfo(selectedNode.DataKey);
+                                IFeedDetails fi = owner.GetFeedDetails(selectedNode.DataKey);
                                 if (fi != null && fi.Link == FeedDetailTabState.Url)
                                     return; // no user navigation happened in listview/detail pane
                             }
@@ -11097,7 +11097,7 @@ namespace RssBandit.WinGui.Forms
                         fi = fiCache[feedUrl] as FeedInfo;
                     else
                     {
-                        fi = (FeedInfo) owner.GetFeedInfo(feedUrl);
+                        fi = (FeedInfo) owner.GetFeedDetails(feedUrl);
                         if (fi != null)
                         {
                             fi = fi.Clone(false);
@@ -11257,7 +11257,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     IFeedDetails fd = null;
                     if (CurrentDragNode.Type == FeedNodeType.Feed)
-                        fd = owner.GetFeedInfo(CurrentDragNode.DataKey);
+                        fd = owner.GetFeedDetails(CurrentDragNode.DataKey);
                     if (fd != null)
                     {
                         dragObject = fd.Link;
@@ -13974,7 +13974,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         string feedUrl = tn.DataKey;
-                        IFeedDetails fi = owner.FeedHandler.GetFeedInfo(feedUrl);
+                        IFeedDetails fi = owner.FeedHandler.GetFeedDetails(feedUrl);
 
                         if (fi != null)
                         {
