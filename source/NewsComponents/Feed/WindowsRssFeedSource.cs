@@ -26,6 +26,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Feeds.Interop;
 
 using RssBandit.Common;
+using RssBandit.Common.Logging;
+
+using log4net;
 
 using NewsComponents.Collections;
 using NewsComponents.Net;
@@ -788,7 +791,7 @@ namespace NewsComponents.Feed {
                 {
                     if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
                     {
-                        this.feedsTable.Remove(f.link);
+                        this.feedsTable.Remove(f.link); 
                         this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
 
                         RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
@@ -2160,6 +2163,10 @@ namespace NewsComponents.Feed {
         /// </summary>
         private List<INewsItem> items = new List<INewsItem>(); 
 
+
+        private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssNewsFeed));
+
+
         #endregion
 
         #region private methods
@@ -2220,6 +2227,7 @@ namespace NewsComponents.Feed {
             }
         }
 
+        private string _link; 
         /// <summary>
         /// Setting this value does nothing. 
         /// </summary>
@@ -2230,13 +2238,23 @@ namespace NewsComponents.Feed {
             {
                 try
                 {
-                    return myfeed.DownloadUrl;
+                    _link = myfeed.DownloadUrl;
                 }
-                catch (COMException) /* thrown if the feed has never been downloaded */ 
+                catch (Exception e) /* thrown if the feed has never been downloaded */ 
                 {
-                    return myfeed.Url; 
+                    _log.Debug("Exception on accessing IFeed.DownloadUrl", e); 
+
+                    try
+                    {
+                        _link = myfeed.Url;
+                    }
+                    catch (Exception e2)  /* thrown if the feed has been deleted. */
+                    { 
+                        _log.Debug("Exception on accessing IFeed.Url", e2); 
+                    } 
                 }
 
+                return _link; /* we should get the last known link for the IFeed if one was ever obtained */ 
             }
 
             set
@@ -2523,7 +2541,7 @@ namespace NewsComponents.Feed {
             {
                 IFeedFolder myfolder = myfeed.Parent as IFeedFolder;
 
-                if (myfolder != null)
+                if ((myfolder!= null) && !StringHelper.EmptyTrimOrNull(myfolder.Path))
                 {
                     return myfolder.Path;
                 }
