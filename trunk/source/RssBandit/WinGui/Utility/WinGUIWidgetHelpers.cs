@@ -1302,11 +1302,11 @@ namespace RssBandit.WinGui.Utility {
 		/// feed Urls. The callback should return a array of NewsFeed, that contains
 		/// the valid scope set. 
 		/// </summary>
-		public delegate NewsFeed[] SearchScopeResolveCallback(ArrayList categoryPaths, ArrayList feedUrls);
+		public delegate INewsFeed[] SearchScopeResolveCallback(ArrayList categoryPaths, ArrayList feedUrls);
 
 		#region private ivars
 		private SearchCriteriaCollection searchCriterias = null;
-		private NewsFeed[] searchScope = new NewsFeed[]{};
+		private INewsFeed[] searchScope = new INewsFeed[]{};
 		private ArrayList categoryPathScope, feedUrlScope;
 		private SearchScopeResolveCallback resolve;
 		private FinderNode container;
@@ -1407,7 +1407,7 @@ namespace RssBandit.WinGui.Utility {
 		}
 
 		[XmlIgnore()]
-		public NewsFeed[] SearchScope {
+		public INewsFeed[] SearchScope {
 			get { 
 				RaiseScopeResolver();
 				return searchScope;	

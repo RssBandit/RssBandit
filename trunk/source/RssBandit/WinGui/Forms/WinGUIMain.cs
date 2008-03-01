@@ -6156,7 +6156,7 @@ namespace RssBandit.WinGui.Forms
                 if (finder.Container != null && !finder.Container.AnyUnread)
                 {
                     SearchCriteriaCollection sc = finder.SearchCriterias;
-                    foreach (NewsItem item in items)
+                    foreach (INewsItem item in items)
                     {
                         if (!item.BeenRead && sc.Match(item))
                         {
@@ -13060,17 +13060,17 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private NewsFeed[] ScopeResolve(ArrayList categories, ArrayList feedUrls)
+        private INewsFeed[] ScopeResolve(ArrayList categories, ArrayList feedUrls)
         {
             if (categories == null && feedUrls == null)
-                return new NewsFeed[] {};
+                return new INewsFeed[] {};
 
             ArrayList result = new ArrayList();
 
             if (categories != null)
             {
                 string sep = FeedSource.CategorySeparator;
-                foreach (NewsFeed f in owner.FeedHandler.GetFeeds().Values)
+                foreach (INewsFeed f in owner.FeedHandler.GetFeeds().Values)
                 {
                     foreach (string category in categories)
                     {
@@ -13095,12 +13095,12 @@ namespace RssBandit.WinGui.Forms
 
             if (result.Count > 0)
             {
-                NewsFeed[] fa = new NewsFeed[result.Count];
+                INewsFeed[] fa = new INewsFeed[result.Count];
                 result.CopyTo(fa);
                 return fa;
             }
 
-            return new NewsFeed[] {};
+            return new INewsFeed[] {};
         }
 
 
