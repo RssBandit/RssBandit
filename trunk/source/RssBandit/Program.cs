@@ -25,6 +25,9 @@ namespace RssBandit
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			// child threads should impersonate the current windows user
+			AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.WindowsPrincipal);
+			
             /* setup handler for unhandled exceptions in non-debug modes */
             // Allow exceptions to be unhandled so they break in the debugger
 #if !DEBUG
