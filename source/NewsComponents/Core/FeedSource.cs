@@ -1976,7 +1976,7 @@ namespace NewsComponents
         /// <param name="tag">optional object to be used by the caller to identify this search</param>
         /// <param name="cultureName">Name of the culture.</param>
         /// <param name="returnFullItemText">if set to <c>true</c>, full item texts are returned instead of the summery.</param>
-        public void SearchNewsItems(SearchCriteriaCollection criteria, NewsFeed[] scope, object tag, string cultureName,
+        public void SearchNewsItems(SearchCriteriaCollection criteria, INewsFeed[] scope, object tag, string cultureName,
                                     bool returnFullItemText)
         {
             // if scope is an empty array: search all, else search only in spec. feeds
