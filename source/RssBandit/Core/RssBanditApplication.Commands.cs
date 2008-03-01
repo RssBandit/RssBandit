@@ -1312,7 +1312,7 @@ namespace RssBandit
                         TreeFeedsNodeBase target =
                             guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);
                         // move to new location:
-                        guiMain.MoveNode(tn, target);
+                        guiMain.MoveNode(tn, target, true);
                     }
 
                     if (propertiesDialog.comboMaxItemAge.Enabled)

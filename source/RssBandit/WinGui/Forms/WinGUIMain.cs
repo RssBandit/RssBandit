@@ -2133,7 +2133,7 @@ namespace RssBandit.WinGui.Forms
             {
                 lock (listFeedItems.Items)
                 {
-                    if (TreeSelectedFeedsNode != initialFeedsNode)
+                    if ((initialFeedsNode != null) && TreeSelectedFeedsNode != initialFeedsNode)
                     {
                         return;
                     }
@@ -6092,13 +6092,16 @@ namespace RssBandit.WinGui.Forms
                 bool categorized = false;
                 TreeFeedsNodeBase ftnSelected = TreeSelectedFeedsNode;
 
-                if (ftnSelected.Type == FeedNodeType.Category && NodeIsChildOf(tn, ftnSelected))
-                    categorized = true;
-
-                if (ftnSelected is UnreadItemsNode && unread != null && unread.Count > 0)
+                if (ftnSelected != null)
                 {
-                    modified = categorized = true;
-                    items = unread;
+                    if (ftnSelected.Type == FeedNodeType.Category && NodeIsChildOf(tn, ftnSelected))
+                        categorized = true;
+
+                    if (ftnSelected is UnreadItemsNode && unread != null && unread.Count > 0)
+                    {
+                        modified = categorized = true;
+                        items = unread;
+                    }
                 }
 
                 if (modified && (tn.Selected || categorized))
@@ -7201,7 +7204,8 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="theNode">FeedTreeNodeBase to move.</param>
         /// <param name="target">New Parent FeedTreeNodeBase.</param>
-        public void MoveNode(TreeFeedsNodeBase theNode, TreeFeedsNodeBase target)
+        /// <param name="userInitiated">Indicates whether the node was moved due to a user initiated action</param>
+        public void MoveNode(TreeFeedsNodeBase theNode, TreeFeedsNodeBase target, bool userInitiated)
         {
             if (theNode == null || target == null)
                 return;
@@ -7217,14 +7221,17 @@ namespace RssBandit.WinGui.Forms
                 if (f == null)
                     return;
 
-                string category = target.CategoryStoreName;
-                f.category = category;
-                changes |= NewsFeedProperty.FeedCategory;
-                //owner.FeedlistModified = true;
-                if (category != null && !owner.FeedHandler.HasCategory(category))
+                if (userInitiated)
                 {
-                    owner.FeedHandler.AddCategory(category);
-                    changes |= NewsFeedProperty.FeedCategoryAdded;
+                    string category = target.CategoryStoreName;
+                    f.category = category;
+                    changes |= NewsFeedProperty.FeedCategory;
+                    //owner.FeedlistModified = true;
+                    if (category != null && !owner.FeedHandler.HasCategory(category))
+                    {
+                        owner.FeedHandler.AddCategory(category);
+                        changes |= NewsFeedProperty.FeedCategoryAdded;
+                    }
                 }
 
                 treeFeeds.BeginUpdate();
@@ -7249,23 +7256,26 @@ namespace RssBandit.WinGui.Forms
                 string targetCategory = target.CategoryStoreName;
                 string sourceCategory = theNode.CategoryStoreName;
 
-                // refresh category store
-                if (sourceCategory != null && owner.FeedHandler.HasCategory(sourceCategory))
+                if (userInitiated)
                 {
-                    owner.FeedHandler.DeleteCategory(sourceCategory);
-                    changes |= NewsFeedProperty.FeedCategoryRemoved;
-                }
-                // target is the root node:
-                if (targetCategory == null && !owner.FeedHandler.HasCategory(theNode.Text))
-                {
-                    owner.FeedHandler.AddCategory(theNode.Text);
-                    changes |= NewsFeedProperty.FeedCategoryAdded;
-                }
-                // target is another category node:
-                if (targetCategory != null && !owner.FeedHandler.HasCategory(targetCategory))
-                {
-                    owner.FeedHandler.AddCategory(targetCategory);
-                    changes |= NewsFeedProperty.FeedCategoryAdded;
+                    // refresh category store
+                    if (sourceCategory != null && owner.FeedHandler.HasCategory(sourceCategory))
+                    {
+                        owner.FeedHandler.DeleteCategory(sourceCategory);
+                        changes |= NewsFeedProperty.FeedCategoryRemoved;
+                    }
+                    // target is the root node:
+                    if (targetCategory == null && !owner.FeedHandler.HasCategory(theNode.Text))
+                    {
+                        owner.FeedHandler.AddCategory(theNode.Text);
+                        changes |= NewsFeedProperty.FeedCategoryAdded;
+                    }
+                    // target is another category node:
+                    if (targetCategory != null && !owner.FeedHandler.HasCategory(targetCategory))
+                    {
+                        owner.FeedHandler.AddCategory(targetCategory);
+                        changes |= NewsFeedProperty.FeedCategoryAdded;
+                    }
                 }
 
                 treeFeeds.BeginUpdate();
@@ -11432,7 +11442,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (node2move != null)
                 {
-                    MoveNode(node2move, target);
+                    MoveNode(node2move, target, true);
                 }
                 else
                 {
