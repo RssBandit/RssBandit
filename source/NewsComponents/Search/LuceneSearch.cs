@@ -180,7 +180,7 @@ namespace NewsComponents.Search
 		/// <param name="scope">The scope.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, NewsFeed[] scope, IList<FeedSource> newsHandlers, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IList<FeedSource> newsHandlers, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;
@@ -287,7 +287,7 @@ namespace NewsComponents.Search
 		}
 		
 		
-		private static Query BuildLuceneQuery(SearchCriteriaCollection criteria, NewsFeed[] scope, Analyzer analyzer) 
+		private static Query BuildLuceneQuery(SearchCriteriaCollection criteria, INewsFeed[] scope, Analyzer analyzer) 
 		{
 			BooleanQuery masterQuery = null;
 			BooleanQuery bTerms = new BooleanQuery();
