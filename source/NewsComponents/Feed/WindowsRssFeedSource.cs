@@ -595,35 +595,8 @@ namespace NewsComponents.Feed {
         public override void RefreshFeeds(bool force_download)
         {
             string[] keys = GetFeedsTableKeys();
-
-            if (force_download)
-            {               
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
-
-                    WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
-                    current.RefreshFeed(true);
-                   
-                    //Thread.Sleep(15); // force a context switches
-                } //for(i)
-                
-            }
-            else if (first_refresh_attempt) 
-            {
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
-
-                    //let the UI know that we have items since LoadItemsList() was called in WindowsRssNewsFeed constructor
-                    WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
-                    this.RaiseOnUpdatedFeed(new Uri(current.link), null, RequestResult.OK, 1110, false); 
-
-                } //for(i)
-                this.first_refresh_attempt = false;
-            }
+            this.feedManager.AsyncSyncAll();            
+            this.RaiseOnAllAsyncRequestsCompleted();
         }
 
         /// <summary>
@@ -973,7 +946,12 @@ namespace NewsComponents.Feed {
 
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
-            RaiseOnUpdateFeedStarted(requestUri, true, 1110);
+            bool cancel = false; 
+            RaiseOnDownloadFeedStarted(requestUri, ref cancel);
+            if (cancel)
+            {
+                ifeed.CancelAsyncDownload(); 
+            }
         }       
          
 
@@ -2999,13 +2977,20 @@ namespace NewsComponents.Feed {
         /// <param name="async">Determines whether the download should happen asynchronously</param>
         public void RefreshFeed(bool async)
         {
-            if (async)
+            try
             {
-                this.myfeed.AsyncDownload();
+                if (async)
+                {
+                    this.myfeed.AsyncDownload();
+                }
+                else
+                {
+                    this.myfeed.Download();
+                }
             }
-            else
+            catch (Exception e)
             {
-                this.myfeed.Download();
+                _log.Debug("Exception in WindowsRssNewsFeed.RefreshFeed()", e); 
             }
         }
 
