@@ -714,8 +714,21 @@ namespace NewsComponents.Feed {
         public void FolderMovedTo(string Path, string oldPath)
         {
             INewsFeedCategory cat = this.categories[oldPath];
-            this.categories.Remove(oldPath);
+            List<INewsFeedCategory> childCategories = this.GetChildCategories(cat);
+
+            //remove category and subcategories
+            base.DeleteCategory(oldPath); 
+
+            //add moved category 
             this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder, cat));
+
+            //add moved subcategories
+            foreach (INewsFeedCategory c in childCategories)
+            {
+                string newPath = Path + FeedSource.CategorySeparator + c.Value.Substring(c.Value.LastIndexOf(FeedSource.CategorySeparator) + 1);
+                this.categories.Add(newPath, new WindowsRssNewsFeedCategory(feedManager.GetFolder(newPath) as IFeedFolder, cat));
+            }
+
             this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
 
             RaiseOnMovedCategory(new CategoryChangedEventArgs(oldPath, Path));
