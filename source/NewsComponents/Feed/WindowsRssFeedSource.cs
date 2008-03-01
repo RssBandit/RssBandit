@@ -578,7 +578,7 @@ namespace NewsComponents.Feed {
 
             if (f2 != null)
             {                
-                f2.RefreshFeed(); 
+                f2.RefreshFeed(true); 
             }
 
             return true;
@@ -604,7 +604,7 @@ namespace NewsComponents.Feed {
                         continue;
 
                     WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
-                    current.RefreshFeed();
+                    current.RefreshFeed(true);
                    
                     //Thread.Sleep(15); // force a context switches
                 } //for(i)
@@ -649,7 +649,7 @@ namespace NewsComponents.Feed {
 
                 if (current.category != null && IsChildOrSameCategory(category, current.category))
                 {
-                    current.RefreshFeed();
+                    current.RefreshFeed(true);
                 }
 
                 Thread.Sleep(15); // force a context switches
@@ -2986,11 +2986,27 @@ namespace NewsComponents.Feed {
         #region public methods
 
         /// <summary>
-        /// Asynchronously downloads the feed using the Windows RSS platform
+        /// Synchronously downloads the feed using the Windows RSS platform
         /// </summary>
         public void RefreshFeed()
         {
-            this.myfeed.Download(); 
+            this.RefreshFeed(false);
+        }
+
+        /// <summary>
+        /// Asynchronously downloads the feed using the Windows RSS platform
+        /// </summary>
+        /// <param name="async">Determines whether the download should happen asynchronously</param>
+        public void RefreshFeed(bool async)
+        {
+            if (async)
+            {
+                this.myfeed.AsyncDownload();
+            }
+            else
+            {
+                this.myfeed.Download();
+            }
         }
 
         #endregion 
