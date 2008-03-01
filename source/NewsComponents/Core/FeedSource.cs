@@ -3962,9 +3962,11 @@ namespace NewsComponents
         /// <returns>the value of the property</returns>
         private object GetFeedProperty(string feedUrl, string propertyName, bool inheritCategory)
         {
-            //TODO: Make this code more efficient
-
         	object value = GetSharedPropertyValue(this, propertyName);//this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+			if (propertyName.Equals("maxitemage"))
+			{
+				value = XmlConvert.ToTimeSpan((string)value);
+			}
 
             if (feedsTable.ContainsKey(feedUrl))
             {
@@ -4229,6 +4231,10 @@ namespace NewsComponents
         private object GetCategoryProperty(string category, string propertyName)
         {
         	object value = GetSharedPropertyValue(this, propertyName); //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+			if (propertyName.Equals("maxitemage"))
+			{
+				value = XmlConvert.ToTimeSpan((string)value);
+			}
 
             if (!string.IsNullOrEmpty(category))
 			{
