@@ -49,7 +49,7 @@ namespace NewsComponents.Feed {
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from the Windows RSS platform. 
     /// </summary>
-    class WindowsRssFeedSource : FeedSource
+    class WindowsRssFeedSource : FeedSource, IFeedFolderEvents
     {
 
 
@@ -389,7 +389,7 @@ namespace NewsComponents.Feed {
 
                 IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
                 IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
-                f = new WindowsRssNewsFeed(newFeed, f);
+                f = new WindowsRssNewsFeed(newFeed, f, this);
                 feedsTable.Add(f.link, f);
             }
 
@@ -496,7 +496,7 @@ namespace NewsComponents.Feed {
                         }
                         string feedUrl = uri.CanonicalizedUri();
                         INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
-                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed));                         
+                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed, this));                         
                     }//foreach(IFeed feed in ...)
                 }
 
@@ -699,7 +699,7 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="oldPath"></param>
-        public static void FolderMovedFrom(string Path, string oldPath)
+        public void FolderMovedFrom(string Path, string oldPath)
         {
             Console.WriteLine("Folder moved from {0} to {1}", oldPath, Path); 
          
@@ -848,7 +848,7 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="oldPath"></param>
-        public static void FeedMovedFrom(string Path, string oldPath)
+        public void FeedMovedFrom(string Path, string oldPath)
         {
             Console.WriteLine("Feed moved from {0} to {1}", oldPath, Path); 
             /* Do nothing since we get the same event repeated in FeedMoveTo */
@@ -885,10 +885,10 @@ namespace NewsComponents.Feed {
                 {
                     if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
                     {
-                        index = Path.LastIndexOf(FeedSource.CategorySeparator);
-                        string newCategory = (index == -1 ? Path : Path.Substring(0, index));
+                        //we need to get the new IFeed instance for the moved feed
+                        ((WindowsRssNewsFeed)f).SetIFeed(feedManager.GetFeed(Path) as IFeed); 
 
-                        RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, newCategory));
+                        RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, f.category));
                         break;
                     }
                 }
@@ -1047,6 +1047,11 @@ namespace NewsComponents.Feed {
         /// The INewsFeed instance which this item belongs to
         /// </summary>
         private WindowsRssNewsFeed myfeed = null;
+
+        /// <summary>
+        /// Used for logging. 
+        /// </summary>
+        private static readonly ILog _log = Log.GetLogger(typeof(WindowsRssNewsItem));
 
         #endregion 
 
@@ -1308,7 +1313,18 @@ namespace NewsComponents.Feed {
         /// </summary>
         public bool BeenRead
         {
-            get { return myitem.IsRead; }
+            get 
+            {
+                try
+                {
+                    return myitem.IsRead;
+                }
+                catch (Exception e)
+                {
+                    _log.Debug(e.StackTrace);
+                    return false; 
+                }
+            }
             set { myitem.IsRead = value;}
         }
 
@@ -2080,7 +2096,8 @@ namespace NewsComponents.Feed {
         /// </summary>
         /// <param name="feed">The IFeed instance that this object will wrap</param>
         /// <param name="banditfeed">The object that contains the settings that will be used to initialize this class</param>
-        public WindowsRssNewsFeed(IFeed feed, INewsFeed banditfeed): this(feed)
+        /// <param name="owner">This object's owner</param>
+        public WindowsRssNewsFeed(IFeed feed, INewsFeed banditfeed, object owner): this(feed)
         {
             if (banditfeed != null)
             {
@@ -2098,6 +2115,11 @@ namespace NewsComponents.Feed {
                 this.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
                 this.Any = banditfeed.Any;
                 this.AnyAttr = banditfeed.AnyAttr;
+            }
+            
+            if (owner is WindowsRssFeedSource)
+            {
+                this.owner = owner;
             }
         }
 
@@ -2242,7 +2264,7 @@ namespace NewsComponents.Feed {
                 }
                 catch (Exception e) /* thrown if the feed has never been downloaded */ 
                 {
-                    _log.Debug("Exception on accessing IFeed.DownloadUrl", e); 
+                    _log.Debug("Exception on accessing IFeed.DownloadUrl: " + _link, e); 
 
                     try
                     {
@@ -2250,7 +2272,7 @@ namespace NewsComponents.Feed {
                     }
                     catch (Exception e2)  /* thrown if the feed has been deleted. */
                     { 
-                        _log.Debug("Exception on accessing IFeed.Url", e2); 
+                        _log.Debug("Exception on accessing IFeed.Url: " + _link, e2); 
                     } 
                 }
 
@@ -2539,16 +2561,15 @@ namespace NewsComponents.Feed {
 
             get
             {
-                IFeedFolder myfolder = myfeed.Parent as IFeedFolder;
+                string categoryName = null, path  = this.myfeed.Path;
+                int index = path.LastIndexOf(FeedSource.CategorySeparator);
+             
+                if (index != -1)
+                {                 
+                    categoryName = path.Substring(0, index);                   
+                }
 
-                if ((myfolder!= null) && !StringHelper.EmptyTrimOrNull(myfolder.Path))
-                {
-                    return myfolder.Path;
-                }
-                else
-                {
-                    return null;
-                }
+                return categoryName; 
             }
 
             set

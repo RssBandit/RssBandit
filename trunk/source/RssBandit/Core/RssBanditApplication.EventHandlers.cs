@@ -48,7 +48,7 @@ namespace RssBandit
                 TreeFeedsNodeBase parent = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.NewCategory);
                 if (tn != null && parent!= null)
                 {
-                    guiMain.MoveNode(tn, parent); 
+                    guiMain.MoveNode(tn, parent, false); 
                     SubscriptionModified(NewsFeedProperty.FeedAdded);
                 }
             });
@@ -126,7 +126,7 @@ namespace RssBandit
                                                                     
                 if (tn != null && parent != null)
                 {
-                    guiMain.MoveNode(tn, parent);
+                    guiMain.MoveNode(tn, parent, false);
                     SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
                 }
             });
