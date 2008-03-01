@@ -351,7 +351,7 @@ namespace NewsComponents
         /// <summary>
         /// Provide access to the RssParser for Rss specific tasks
         /// </summary>
-        internal RssParser RssParser
+        internal RssParser RssParserInstance
         {
             get
             {
@@ -481,8 +481,8 @@ namespace NewsComponents
             set
             {
                 offline = value;
-				if (RssParser != null)
-					RssParser.Offline = value;
+				if (RssParserInstance != null)
+					RssParserInstance.Offline = value;
             }
             get
             {
@@ -6666,7 +6666,7 @@ namespace NewsComponents
         {
             if (inReply2item.CommentStyle == SupportedCommentStyle.CommentAPI)
             {
-                this.RssParser.PostCommentViaCommentAPI(url, item2post, inReply2item,
+				this.RssParserInstance.PostCommentViaCommentAPI(url, item2post, inReply2item,
                                                         GetFeedCredentials(inReply2item.Feed));
             }
             else if (inReply2item.CommentStyle == SupportedCommentStyle.NNTP)
