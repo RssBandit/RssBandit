@@ -3645,7 +3645,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="name">The name of the category</param>
         /// <returns>The list of child categories</returns>
-        private List<string> GetChildCategories(string name)
+        protected List<string> GetChildCategories(string name)
         {
 
             List<string> list = new List<string>();
@@ -3655,6 +3655,28 @@ namespace NewsComponents
                 if (c.Value.StartsWith(name + FeedSource.CategorySeparator))
                 {
                     list.Add(c.Value);
+                }
+            }
+
+            return list;
+        }
+
+
+        /// <summary>
+        /// Helper function that gets the child categories of the named category
+        /// </summary>
+        /// <param name="parent">The parent category</param>
+        /// <returns>The list of child categories</returns>
+        protected List<INewsFeedCategory> GetChildCategories(INewsFeedCategory parent)
+        {
+
+            List<INewsFeedCategory> list = new List<INewsFeedCategory>();
+
+            foreach (INewsFeedCategory c in this.categories.Values)
+            {
+                if (c.Value.StartsWith(parent.Value + FeedSource.CategorySeparator))
+                {
+                    list.Add(c);
                 }
             }
 
