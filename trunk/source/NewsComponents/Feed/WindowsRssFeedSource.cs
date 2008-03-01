@@ -68,9 +68,7 @@ namespace NewsComponents.Feed {
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
 
-            
-            IFeedFolder rootFolder = feedManager.RootFolder as IFeedFolder;
-            this.AttachEventHandlers(rootFolder);
+            this.AttachEventHandlers();
             feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
         }    
 
@@ -92,18 +90,30 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates whether an attempt has been made to refresh feeds or not. 
         /// </summary>
-        private bool first_refresh_attempt = true; 
+        private bool first_refresh_attempt = true;
+
+        /// <summary>
+        /// Indicates whether an event received from the Windows RSS platform was caused by RSS Bandit
+        /// </summary>
+        internal static bool caused_by_rssbandit = false;
+
+        /// <summary>
+        /// Synchronization point for caused_by_rssbandit
+        /// </summary>
+        /// <seealso cref="caused_by_rssbandit"/>
+        internal static Object caused_by_rssbandit_syncroot = new Object(); 
 
         #endregion 
 
         #region private methods
 
         /// <summary>
-        /// Attaches event handlers to the IFeedFolder
+        /// Attaches event handlers to the root IFeedFolder
         /// </summary>
         /// <param name="folder"></param>
-        private void AttachEventHandlers(IFeedFolder folder)
+        internal void AttachEventHandlers()
         {
+            IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
             fw = (IFeedFolderEvents_Event)folder.GetWatcher(
                     FEEDS_EVENTS_SCOPE.FES_ALL,
                     FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
@@ -125,35 +135,68 @@ namespace NewsComponents.Feed {
             fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);                
         }
 
+
+        /// <summary>
+        /// Detaches event handlers from the root IFeedFolder
+        /// </summary>
+        /// <param name="folder"></param>
+        internal void DetachEventHandlers()
+        {
+            IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
+            fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+                    FEEDS_EVENTS_SCOPE.FES_ALL,
+                    FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+            fw.Error -= new IFeedFolderEvents_ErrorEventHandler(Error);
+            fw.FeedAdded -= new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
+            fw.FeedDeleted -= new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
+            fw.FeedDownloadCompleted -= new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
+            fw.FeedDownloading -= new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
+            fw.FeedItemCountChanged -= new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
+            fw.FeedMovedFrom -= new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
+            fw.FeedMovedTo -= new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
+            fw.FeedRenamed -= new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
+            fw.FeedUrlChanged -= new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
+            fw.FolderAdded -= new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
+            fw.FolderDeleted -= new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
+            fw.FolderItemCountChanged -= new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
+            fw.FolderMovedFrom -= new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
+            fw.FolderMovedTo -= new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
+            fw.FolderRenamed -= new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);
+        }
         /// <summary>
         /// Add a folder to the Windows RSS common feed list
         /// </summary>
         /// <param name="path">The path to the folder</param>
         public IFeedFolder AddFolder(string path)
         {
+
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
 
-            if (!StringHelper.EmptyTrimOrNull(path))
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
             {
-                string[] categoryPath = path.Split(new char[] { '\\' });
-
-                foreach (string c in categoryPath)
+                if (!StringHelper.EmptyTrimOrNull(path))
                 {
-                    if (folder.ExistsSubfolder(c))
+                    string[] categoryPath = path.Split(new char[] { '\\' });
+
+                    foreach (string c in categoryPath)
                     {
-                        folder = folder.GetSubfolder(c) as IFeedFolder;
-                    }
-                    else
-                    {
-                        folder = folder.CreateSubfolder(c) as IFeedFolder;
-                        if (!folder.Path.Equals(path) && !categories.ContainsKey(folder.Path)) {
-                            this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder));
+                        if (folder.ExistsSubfolder(c))
+                        {
+                            folder = folder.GetSubfolder(c) as IFeedFolder;
+                        }
+                        else
+                        {
+                            folder = folder.CreateSubfolder(c) as IFeedFolder;
+                            if (!folder.Path.Equals(path) && !categories.ContainsKey(folder.Path))
+                            {
+                                this.categories.Add(folder.Path, new WindowsRssNewsFeedCategory(folder));
+                            }
                         }
                     }
-                }
-            }// if (!StringHelper.EmptyTrimOrNull(category))           
+                }// if (!StringHelper.EmptyTrimOrNull(category))           
 
-            this.AttachEventHandlers(folder);
+                WindowsRssFeedSource.caused_by_rssbandit = true;
+            }
             return folder;
         }
 
@@ -349,18 +392,24 @@ namespace NewsComponents.Feed {
             if (StringHelper.EmptyTrimOrNull(newName))
                 throw new ArgumentNullException("newName");
 
-            if (this.categories.ContainsKey(oldName))
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
             {
-                WindowsRssNewsFeedCategory cat = this.categories[oldName] as WindowsRssNewsFeedCategory;
-                
 
-                IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
-                if (folder != null)
+                if (this.categories.ContainsKey(oldName))
                 {
-                    folder.Rename(newName);
-                    this.categories.Remove(oldName);
-                    categories.Add(newName, new WindowsRssNewsFeedCategory(folder, cat));
+                    WindowsRssNewsFeedCategory cat = this.categories[oldName] as WindowsRssNewsFeedCategory;
+
+
+                    IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
+                    if (folder != null)
+                    {
+                        folder.Rename(newName);
+                        this.categories.Remove(oldName);
+                        categories.Add(newName, new WindowsRssNewsFeedCategory(folder, cat));
+                    }
                 }
+
+                WindowsRssFeedSource.caused_by_rssbandit = true;
             }
         }
       
@@ -373,26 +422,31 @@ namespace NewsComponents.Feed {
         /// <param name="fi">The FeedInfo object</param>
         public override INewsFeed AddFeed(INewsFeed f, FeedInfo fi)
         {
-            if (f is WindowsRssNewsFeed)
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
             {
-                if (!feedsTable.ContainsKey(f.link))
+
+                if (f is WindowsRssNewsFeed)
                 {
+                    if (!feedsTable.ContainsKey(f.link))
+                    {
+                        feedsTable.Add(f.link, f);
+                    }
+                }
+                else
+                {
+                    if (!feedManager.ExistsFolder(f.category))
+                    {
+                        this.AddCategory(f.category);
+                    }
+
+                    IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
+                    IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
+                    f = new WindowsRssNewsFeed(newFeed, f, this);
                     feedsTable.Add(f.link, f);
                 }
-            }
-            else
-            {
-                if (!feedManager.ExistsFolder(f.category))
-                {
-                    this.AddCategory(f.category);
-                }
 
-                IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
-                IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
-                f = new WindowsRssNewsFeed(newFeed, f, this);
-                feedsTable.Add(f.link, f);
+                WindowsRssFeedSource.caused_by_rssbandit = true;
             }
-
             return f;
         }
 
@@ -740,6 +794,15 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedAdded(string Path)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return; 
+                }
+            }
+
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             this.feedsTable.Add(ifeed.DownloadUrl, new WindowsRssNewsFeed(ifeed));
             this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
@@ -753,6 +816,15 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedDeleted(string Path)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
+
             int index = Path.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
@@ -795,6 +867,15 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedRenamed(string Path, string oldPath)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
+
             int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
@@ -847,6 +928,15 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedMovedTo(string Path, string oldPath)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
+            
             int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
 
@@ -887,6 +977,15 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedUrlChanged(string Path)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
+
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             int index = Path.LastIndexOf(FeedSource.CategorySeparator);
             string categoryName = null, title = null;
@@ -930,6 +1029,14 @@ namespace NewsComponents.Feed {
         /// <param name="itemCountType"></param>
         public void FeedItemCountChanged(string Path, int itemCountType)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
 
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
@@ -943,6 +1050,14 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedDownloading(string Path)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
 
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
@@ -962,6 +1077,15 @@ namespace NewsComponents.Feed {
         /// <param name="Error"></param>
         public void FeedDownloadCompleted(string Path, FEEDS_DOWNLOAD_ERROR Error)
         {
+            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    return;
+                }
+            }
+
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
 
@@ -1316,7 +1440,13 @@ namespace NewsComponents.Feed {
                     return false; 
                 }
             }
-            set { myitem.IsRead = value;}
+            set {
+                lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+                {
+                    WindowsRssFeedSource.caused_by_rssbandit = true;
+                    myitem.IsRead = value;
+                }
+            }
         }
 
         /// <summary>
@@ -2229,14 +2359,19 @@ namespace NewsComponents.Feed {
         public string title
         {
             get { return myfeed.Name; }
-          
+
             set
             {
-              if(!StringHelper.EmptyTrimOrNull(value))
-              { 
-                  myfeed.Rename(value);
-                  OnPropertyChanged("title");
-              }
+                lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+                {
+                    if (!StringHelper.EmptyTrimOrNull(value))
+                    {
+                        myfeed.Rename(value);
+                        OnPropertyChanged("title");
+                    }
+                }
+                
+                WindowsRssFeedSource.caused_by_rssbandit = true;
             }
         }
 
