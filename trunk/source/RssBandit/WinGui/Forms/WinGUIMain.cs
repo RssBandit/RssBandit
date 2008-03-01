@@ -2814,7 +2814,7 @@ namespace RssBandit.WinGui.Forms
 
             unreadFeeds = unreadMessages = 0;
 
-            foreach (NewsFeed f in owner.FeedHandler.GetFeeds().Values)
+            foreach (INewsFeed f in owner.FeedHandler.GetFeeds().Values)
             {
                 if (f.containsNewMessages)
                 {
