@@ -481,7 +481,8 @@ namespace NewsComponents
             set
             {
                 offline = value;
-                RssParser.Offline = value;
+				if (RssParser != null)
+					RssParser.Offline = value;
             }
             get
             {
