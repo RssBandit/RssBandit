@@ -5482,7 +5482,7 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseOnDownloadFeedStarted(Uri requestUri, ref bool cancel)
+        protected void RaiseOnDownloadFeedStarted(Uri requestUri, ref bool cancel)
         {
             if (BeforeDownloadFeedStarted != null)
             {
