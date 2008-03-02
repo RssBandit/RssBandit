@@ -4999,7 +4999,7 @@ namespace NewsComponents
         private void OnRequestStart(Uri requestUri, ref bool cancel)
         {
             Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
-            this.RaiseOnDownloadFeedStarted(requestUri, ref cancel);
+            this.RaiseBeforeDownloadFeedStarted(requestUri, ref cancel);
             if (!cancel)
                 cancel = this.Offline;
         }
@@ -5482,7 +5482,7 @@ namespace NewsComponents
             }
         }
 
-        protected void RaiseOnDownloadFeedStarted(Uri requestUri, ref bool cancel)
+        protected void RaiseBeforeDownloadFeedStarted(Uri requestUri, ref bool cancel)
         {
             if (BeforeDownloadFeedStarted != null)
             {

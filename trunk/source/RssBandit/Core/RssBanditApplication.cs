@@ -30,6 +30,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Configuration;
 using System.Diagnostics;
@@ -263,25 +264,21 @@ namespace RssBandit
             //ApplyResourceNameFix();
 
             // read app.config If a key was not found, take defaults from the embedded resources
-            validationUrlBase =
-                (string) ReadAppSettingsEntry("validationUrlBase", typeof (string), SR.URL_FeedValidationBase);
-            linkCosmosUrlBase =
-                (string) ReadAppSettingsEntry("linkCosmosUrlBase", typeof (string), SR.URL_FeedLinkCosmosUrlBase);
-            bugReportUrl = (string) ReadAppSettingsEntry("bugReportUrl", typeof (string), SR.URL_BugReport);
-            webHelpUrl = (string) ReadAppSettingsEntry("webHelpUrl", typeof (string), SR.URL_WebHelp);
-            workspaceNewsUrl = (string) ReadAppSettingsEntry("projectNewsUrl", typeof (string), SR.URL_ProjectNews);
-            wikiNewsUrl = (string) ReadAppSettingsEntry("wikiWebUrl", typeof (string), SR.URL_WikiWebNews);
-            forumUrl = (string) ReadAppSettingsEntry("userForumUrl", typeof (string), SR.URL_UserForum);
-            projectDonationUrl =
-                (string) ReadAppSettingsEntry("projectDonationUrl", typeof (string), SR.URL_ProjectDonation);
-            projectDownloadUrl =
-                (string) ReadAppSettingsEntry("projectDownloadUrl", typeof (string), SR.URL_ProjectDownload);
+            validationUrlBase = ReadAppSettingsEntry("validationUrlBase", SR.URL_FeedValidationBase);
+            linkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", SR.URL_FeedLinkCosmosUrlBase);
+            bugReportUrl = ReadAppSettingsEntry("bugReportUrl", SR.URL_BugReport);
+            webHelpUrl = ReadAppSettingsEntry("webHelpUrl", SR.URL_WebHelp);
+            workspaceNewsUrl = ReadAppSettingsEntry("projectNewsUrl", SR.URL_ProjectNews);
+            wikiNewsUrl = ReadAppSettingsEntry("wikiWebUrl", SR.URL_WikiWebNews);
+            forumUrl = ReadAppSettingsEntry("userForumUrl", SR.URL_UserForum);
+            projectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", SR.URL_ProjectDonation);
+            projectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", SR.URL_ProjectDownload);
 
             // read advanced settings:
-            unconditionalCommentRss = (bool) ReadAppSettingsEntry("UnconditionalCommentRss", typeof (bool), false);
-            automaticColorSchemes = (bool) ReadAppSettingsEntry("AutomaticColorSchemes", typeof (bool), true);
-            FeedSource.SetCookies = (bool) ReadAppSettingsEntry("UseCookiesFromIE", typeof (bool), true);
-            portableApplicationMode = (bool) ReadAppSettingsEntry("PortableApplicationMode", typeof (bool), false);
+            unconditionalCommentRss = ReadAppSettingsEntry("UnconditionalCommentRss", false);
+            automaticColorSchemes = ReadAppSettingsEntry("AutomaticColorSchemes", true);
+            FeedSource.SetCookies = ReadAppSettingsEntry("UseCookiesFromIE", true);
+            portableApplicationMode = ReadAppSettingsEntry("PortableApplicationMode", false);
 
             // Gui Settings (Form position, layouts,...)
             guiSettings = new Settings(String.Empty);
@@ -4624,81 +4621,66 @@ private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
                     Replace("[", "\\[").Replace("]", "\\]");
         }
 
-        /// <summary>
-        /// Reads an app settings entry.
-        /// </summary>
-        /// <param name="name">The name of the entry.</param>
-        /// <param name="entryType">Expected Type of the entry.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <returns>Value read or defaultValue</returns>
-        public static object ReadAppSettingsEntry(string name, Type entryType, object defaultValue)
-        {
-            if (string.IsNullOrEmpty(name))
-                return defaultValue;
+		///// <summary>
+		///// Reads an app settings entry.
+		///// </summary>
+		///// <param name="name">The name of the entry.</param>
+		///// <param name="entryType">Expected Type of the entry.</param>
+		///// <param name="defaultValue">The default value.</param>
+		///// <returns>Value read or defaultValue</returns>
+		//public static object ReadAppSettingsEntry(string name, Type entryType, object defaultValue)
+		//{
+		//    if (string.IsNullOrEmpty(name))
+		//        return defaultValue;
 
-            if (entryType == null)
-                throw new ArgumentNullException("entryType");
+		//    if (entryType == null)
+		//        throw new ArgumentNullException("entryType");
 
-            string value = ConfigurationManager.AppSettings[name];
-            if (!string.IsNullOrEmpty(value))
-            {
-                if (entryType == typeof (bool))
-                {
-                    try
-                    {
-                        return Boolean.Parse(value);
-                    }
-                    catch (FormatException)
-                    {
-                    }
-                }
-                else if (entryType == typeof (string))
-                {
-                    return value;
-                }
-                else if (entryType.IsEnum)
-                {
-                    try
-                    {
-                        return Enum.Parse(entryType, value, true);
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
-                }
-                else if (entryType == typeof (Color))
-                {
-                    Color c = Color.FromName(value);
-                    // If name is not the valid name of a pre-defined color, 
-                    // the FromName method creates a Color structure that has
-                    // an ARGB value of zero (that is, all ARGB components are 0).
-                    if (c.ToArgb() != 0)
-                        return c;
-                }
-                else
-                {
-                    Trace.WriteLine("ReadAppSettingsEntry() unsupported type: " + entryType.FullName);
-                }
-            }
-            return defaultValue;
-        }
+		//    string value = ConfigurationManager.AppSettings[name];
+		//    if (!string.IsNullOrEmpty(value))
+		//    {
+		//        if (entryType == typeof (bool))
+		//        {
+		//            try
+		//            {
+		//                return Boolean.Parse(value);
+		//            }
+		//            catch (FormatException)
+		//            {
+		//            }
+		//        }
+		//        else if (entryType == typeof (string))
+		//        {
+		//            return value;
+		//        }
+		//        else if (entryType.IsEnum)
+		//        {
+		//            try
+		//            {
+		//                return Enum.Parse(entryType, value, true);
+		//            }
+		//            catch (ArgumentException)
+		//            {
+		//            }
+		//        }
+		//        else if (entryType == typeof (Color))
+		//        {
+		//            Color c = Color.FromName(value);
+		//            // If name is not the valid name of a pre-defined color, 
+		//            // the FromName method creates a Color structure that has
+		//            // an ARGB value of zero (that is, all ARGB components are 0).
+		//            if (c.ToArgb() != 0)
+		//                return c;
+		//        }
+		//        else
+		//        {
+		//            Trace.WriteLine("ReadAppSettingsEntry() unsupported type: " + entryType.FullName);
+		//        }
+		//    }
+		//    return defaultValue;
+		//}
 
-        /// <summary>
-        /// Retrives the assembly informational version (from the AssemblyInformationalVersionAttribute).
-        /// </summary>
-        /// <param name="assembly">Assembly</param>
-        /// <returns>String. It is empty if no description was found.</returns>
-        public static string GetAssemblyInformationalVersion(Assembly assembly)
-        {
-            object[] attributes = assembly.GetCustomAttributes(typeof (AssemblyInformationalVersionAttribute), false);
-            if (attributes.Length > 0)
-            {
-                string ad = ((AssemblyInformationalVersionAttribute) attributes[0]).InformationalVersion;
-                if (!string.IsNullOrEmpty(ad))
-                    return ad;
-            }
-            return String.Empty;
-        }
+		
 
         /// <summary>
         /// Loads the default stylesheet from disk and returns it as a string
