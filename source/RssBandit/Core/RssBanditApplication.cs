@@ -430,8 +430,7 @@ namespace RssBandit
             try
             {
                 cfg.SearchIndexBehavior =
-                    (SearchIndexBehavior)
-                    ReadAppSettingsEntry("Lucene.SearchIndexBehavior", typeof (SearchIndexBehavior),
+                    ReadAppSettingsEntry("Lucene.SearchIndexBehavior", 
                                          SearchIndexBehavior.Default);
             }
             catch (Exception configException)
