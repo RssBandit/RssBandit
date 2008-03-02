@@ -95,13 +95,13 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates whether an event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
-        internal static bool caused_by_rssbandit = false;
+        internal static bool event_caused_by_rssbandit = false;
 
         /// <summary>
         /// Synchronization point for caused_by_rssbandit
         /// </summary>
         /// <seealso cref="caused_by_rssbandit"/>
-        internal static Object caused_by_rssbandit_syncroot = new Object(); 
+        internal static Object event_caused_by_rssbandit_syncroot = new Object(); 
 
         #endregion 
 
@@ -172,7 +172,7 @@ namespace NewsComponents.Feed {
 
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
 
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
                 if (!StringHelper.EmptyTrimOrNull(path))
                 {
@@ -195,7 +195,7 @@ namespace NewsComponents.Feed {
                     }
                 }// if (!StringHelper.EmptyTrimOrNull(category))           
 
-                WindowsRssFeedSource.caused_by_rssbandit = true;
+                WindowsRssFeedSource.event_caused_by_rssbandit = true;
             }
             return folder;
         }
@@ -245,7 +245,7 @@ namespace NewsComponents.Feed {
         public override void MarkAllCachedItemsAsRead(INewsFeed feed)
         {
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed;
-
+            this.DetachEventHandlers(); 
             if (f != null && !string.IsNullOrEmpty(f.link))
             {
                 foreach (INewsItem ri in f.ItemsList)
@@ -253,6 +253,8 @@ namespace NewsComponents.Feed {
                     ri.BeenRead = true;
                 }
             }
+            Thread.Sleep(1000); /* give events time to finish firing */ 
+            this.AttachEventHandlers(); 
             
         }
 
@@ -392,7 +394,7 @@ namespace NewsComponents.Feed {
             if (StringHelper.EmptyTrimOrNull(newName))
                 throw new ArgumentNullException("newName");
 
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
 
                 if (this.categories.ContainsKey(oldName))
@@ -409,7 +411,7 @@ namespace NewsComponents.Feed {
                     }
                 }
 
-                WindowsRssFeedSource.caused_by_rssbandit = true;
+                WindowsRssFeedSource.event_caused_by_rssbandit = true;
             }
         }
       
@@ -422,7 +424,7 @@ namespace NewsComponents.Feed {
         /// <param name="fi">The FeedInfo object</param>
         public override INewsFeed AddFeed(INewsFeed f, FeedInfo fi)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
 
                 if (f is WindowsRssNewsFeed)
@@ -445,7 +447,7 @@ namespace NewsComponents.Feed {
                     feedsTable.Add(f.link, f);
                 }
 
-                WindowsRssFeedSource.caused_by_rssbandit = true;
+                WindowsRssFeedSource.event_caused_by_rssbandit = true;
             }
             return f;
         }
@@ -794,11 +796,11 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedAdded(string Path)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return; 
                 }
             }
@@ -816,11 +818,11 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedDeleted(string Path)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -867,11 +869,11 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedRenamed(string Path, string oldPath)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -928,11 +930,11 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FeedMovedTo(string Path, string oldPath)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -977,11 +979,11 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedUrlChanged(string Path)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -1029,11 +1031,11 @@ namespace NewsComponents.Feed {
         /// <param name="itemCountType"></param>
         public void FeedItemCountChanged(string Path, int itemCountType)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -1050,11 +1052,11 @@ namespace NewsComponents.Feed {
         /// <param name="Path"></param>
         public void FeedDownloading(string Path)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -1077,11 +1079,11 @@ namespace NewsComponents.Feed {
         /// <param name="Error"></param>
         public void FeedDownloadCompleted(string Path, FEEDS_DOWNLOAD_ERROR Error)
         {
-            lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.caused_by_rssbandit)
+                if (WindowsRssFeedSource.event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = false;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -1441,9 +1443,9 @@ namespace NewsComponents.Feed {
                 }
             }
             set {
-                lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+                lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
-                    WindowsRssFeedSource.caused_by_rssbandit = true;
+                    WindowsRssFeedSource.event_caused_by_rssbandit = true;
                     myitem.IsRead = value;
                 }
             }
@@ -2362,7 +2364,7 @@ namespace NewsComponents.Feed {
 
             set
             {
-                lock (WindowsRssFeedSource.caused_by_rssbandit_syncroot)
+                lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
                     if (!StringHelper.EmptyTrimOrNull(value))
                     {
@@ -2371,7 +2373,7 @@ namespace NewsComponents.Feed {
                     }
                 }
                 
-                WindowsRssFeedSource.caused_by_rssbandit = true;
+                WindowsRssFeedSource.event_caused_by_rssbandit = true;
             }
         }
 
