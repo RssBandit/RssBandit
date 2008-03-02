@@ -1774,6 +1774,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\RssBanditApplication.EventHandlers.cs" />
+    <Compile Include="Core\FeedSourceManager.cs" />
     <Compile Include="Core\RssBanditApplication.Podcasts.cs" />
     <Compile Include="Core\RssBanditApplication.Statics.cs" />
     <Compile Include="Core\RssBanditPreferences.cs">
