@@ -7748,9 +7748,7 @@ namespace RssBandit.WinGui.Forms
                 //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.JavaEnabled", typeof(bool), false);
             htmlDetail.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
                 //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.VideoEnabled", typeof(bool), false);
-            htmlDetail.FrameDownloadEnabled =
-                (bool)
-                RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", typeof (bool), false);
+            htmlDetail.FrameDownloadEnabled = RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", false);
             // hardcoded settings:
             htmlDetail.Border3d = true;
             htmlDetail.FlatScrollBars = true;
@@ -13463,10 +13461,7 @@ namespace RssBandit.WinGui.Forms
             {
                 LoadAndRestoreBrowserTabState();
             }
-            _startupTimer.Interval = 1000*
-                                     (int)
-                                     RssBanditApplication.ReadAppSettingsEntry(
-                                         "ForcedRefreshOfFeedsAtStartupDelay.Seconds", typeof (int), 30);
+            _startupTimer.Interval = 1000 * RssBanditApplication.ReadAppSettingsEntry("ForcedRefreshOfFeedsAtStartupDelay.Seconds", 30);
                 // wait 30 secs
             _startupTimer.Enabled = true;
         }

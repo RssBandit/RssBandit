@@ -88,9 +88,9 @@ namespace RssBandit.WinGui.Utility
 			
 			// can be overridden by App.config settings:
 			p_foreColorStyles[(int) FontStates.UnreadCounter].FontStyle = 
-				(FontStyle)RssBanditApplication.ReadAppSettingsEntry("UnreadCounterFontStyle", typeof(FontStyle), DefaultUnreadCounterStyle);
+				RssBanditApplication.ReadAppSettingsEntry("UnreadCounterFontStyle", DefaultUnreadCounterStyle);
 			p_foreColorStyles[(int) FontStates.UnreadCounter].Color = 
-				(Color)RssBanditApplication.ReadAppSettingsEntry("UnreadCounterFontColor", typeof(Color), DefaultUnreadCounterColor);
+				RssBanditApplication.ReadAppSettingsEntry("UnreadCounterFontColor", DefaultUnreadCounterColor);
 		}
 		/// <summary>
 		/// Gets the static UI colors for the currently used color scheme.

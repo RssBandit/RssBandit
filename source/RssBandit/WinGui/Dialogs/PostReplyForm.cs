@@ -1,22 +1,22 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+
 using System;
 using System.Globalization;
 using NewsComponents;
-using NewsComponents.Utils;
 using NewsComponents.Feed;
 using RssBandit.Resources;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
-
 	/// <summary>
 	/// Summary description for PostReplyForm.
 	/// </summary>
@@ -27,14 +27,12 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// Someone may not like to have the translated/localized "Re: " prefixes
 		/// </summary>
-		private static bool useEnglishReplyPrefix = (bool)
-			RssBanditApplication.ReadAppSettingsEntry("UseEnglishReplyPrefix", 
-			typeof(bool), false);
+		private static readonly bool useEnglishReplyPrefix = RssBanditApplication.ReadAppSettingsEntry("UseEnglishReplyPrefix", false);
 
-		private string NoInfo;
+		private readonly string NoInfo;
 		private INewsItem replyToItem;
 		private INewsFeed postToFeed;
-		private IdentityNewsServerManager identityManager;
+		private readonly IdentityNewsServerManager identityManager;
 
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button button1;
@@ -62,9 +60,9 @@ namespace RssBandit.WinGui.Forms
 			this.OnIdentitySelectionChangeCommitted(this, EventArgs.Empty);
 			this.richTextBox1.Text = this.UserSignature;
 
-			this.txtTitle.TextChanged += new EventHandler(this.OnTxtTitleTextChanged);
-			this.richTextBox1.TextChanged += new EventHandler(this.OnTxtRichTextTextChanged);
-			this.Activated += new EventHandler(PostReplyForm_Activated);
+			this.txtTitle.TextChanged += this.OnTxtTitleTextChanged;
+			this.richTextBox1.TextChanged += this.OnTxtRichTextTextChanged;
+			this.Activated += PostReplyForm_Activated;
 		}
 
 		public PostReplyForm()
@@ -76,7 +74,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		static PostReplyForm() {
-			useEnglishReplyPrefix = (bool)RssBanditApplication.ReadAppSettingsEntry("UseEnglishReplyPrefix", typeof(bool), false);
+			useEnglishReplyPrefix = RssBanditApplication.ReadAppSettingsEntry("UseEnglishReplyPrefix", false);
 		}
 		/// <summary>
 		/// Clean up any resources being used.
@@ -522,13 +520,13 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		public string SelectedIdentityName {
-			get { return (this.cboUserIdentityForComments.Text == null ? String.Empty: this.cboUserIdentityForComments.Text); }
+			get { return (this.cboUserIdentityForComments.Text ?? String.Empty); }
 		}
 
 		public UserIdentity SelectedIdentity {
 			get { 
 				if (this.identityManager.CurrentIdentities.ContainsKey(SelectedIdentityName)) {
-					return (UserIdentity)this.identityManager.CurrentIdentities[SelectedIdentityName];
+					return this.identityManager.CurrentIdentities[SelectedIdentityName];
 				} else {
 					return IdentityNewsServerManager.AnonymousIdentity; 
 				}
@@ -558,7 +556,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		/// <param name="feedItemTitle">The feed item title.</param>
 		/// <returns></returns>
-		private string GetPrefixedTitle(string feedItemTitle) {
+		private static string GetPrefixedTitle(string feedItemTitle) {
 			if (feedItemTitle == null)
 				feedItemTitle = String.Empty;
 
@@ -588,12 +586,12 @@ namespace RssBandit.WinGui.Forms
 			if (PostReply != null) {
 				if (this.PostToFeed == null) {
 					PostReply(this, new PostReplyEventArgs(this.ReplyToItem, this.PostTitle, 
-						this.UserName, this.UserReferrerUrl, this.UserMailAddress, 
-						this.richTextBox1.Text, this.chkBeautify.Checked ));
+					                                       this.UserName, this.UserReferrerUrl, this.UserMailAddress, 
+					                                       this.richTextBox1.Text, this.chkBeautify.Checked ));
 				} else {
 					PostReply(this, new PostReplyEventArgs(this.PostToFeed, this.PostTitle, 
-						this.UserName, this.UserReferrerUrl, this.UserMailAddress, 
-						this.richTextBox1.Text, this.chkBeautify.Checked ));	
+					                                       this.UserName, this.UserReferrerUrl, this.UserMailAddress, 
+					                                       this.richTextBox1.Text, this.chkBeautify.Checked ));	
 				}
 			}
 		}
@@ -645,6 +643,7 @@ namespace RssBandit.WinGui.Forms
 	/// Callback to initiate the post action
 	/// </summary>
 	public delegate void PostReplyEventHandler(object sender, PostReplyEventArgs e);
+
 	/// <summary>
 	/// Event arguments container for post reply action
 	/// </summary>
@@ -687,5 +686,4 @@ namespace RssBandit.WinGui.Forms
 			this.Beautify = beautify;
 		}
 	}
-
 }
