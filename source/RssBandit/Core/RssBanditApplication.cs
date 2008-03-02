@@ -21,24 +21,16 @@
 //#define TEST_I18N_THISCULTURE
 
 #region framework namespaces
-
-#endregion
-
-    #region external namespaces
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -46,7 +38,6 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
 using System.Xml;
@@ -54,9 +45,15 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using Microsoft.Win32;
+
+#endregion
+
+#region own/3'rd party namespaces
+
 using AppInteropServices;
 using log4net;
-using Microsoft.Win32;
+
 using NewsComponents;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
@@ -84,12 +81,9 @@ using Logger = RssBandit.Common.Logging;
 using SortOrder=NewsComponents.SortOrder;
 using Timer=System.Threading.Timer;
 
-    #endregion
-
-    #region project namespaces
 using RssBandit.Common;
-
 #endregion
+
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -97,6 +91,7 @@ internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"
 
 namespace RssBandit
 {
+
     /// <summary>
     /// Summary description for WinGuiMainMediator.
     /// </summary>
@@ -120,7 +115,8 @@ namespace RssBandit
         private const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
         private CommandMediator cmdMediator;
-        private FeedSource feedHandler;
+    	private FeedSourceManager sourceManager;
+		private FeedSource feedHandler;
         private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
@@ -303,17 +299,22 @@ namespace RssBandit
         public void Init()
         {
             
-
-            LoadTrustedCertificateIssues();
+			this.sourceManager = new FeedSourceManager();
+            
+			LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
            
 
             FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
 #if TEST_WINRSS_PLATFORM
 			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
+			
 #else
 			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
 #endif
+			// just for test, add the one source
+			this.sourceManager.Add(feedHandler, "My Feeds");
+
 			this.feedHandler.UserAgent = UserAgent;
             this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
