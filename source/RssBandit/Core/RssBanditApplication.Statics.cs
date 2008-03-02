@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -865,6 +866,56 @@ namespace RssBandit
             return new FeedRequestException(e.Message, e, FeedSource.GetFailureContext(f, fi));
         }
 
+		/// <summary>
+		/// Reads an app settings entry. Can be used to init the command line
+		/// ivars with settings from a App.config or User.App.config.
+		/// Preferred calls should be located in the constructor to init the
+		/// ivars, so user provided command line params can override that
+		/// initialization.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name">The name of the entry.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns>Value read or defaultValue</returns>
+		public static T ReadAppSettingsEntry<T>(string name, T defaultValue)
+		{
+			if (string.IsNullOrEmpty(name))
+				return defaultValue;
+
+			Type t = typeof(T);
+			string value = ConfigurationManager.AppSettings[name];
+
+			if (!string.IsNullOrEmpty(value))
+			{
+				if (t == typeof(string))
+					return (T)(object)value;
+
+				TypeConverter converter = TypeDescriptor.GetConverter(t);
+				if (converter != null && converter.CanConvertFrom(typeof(string)))
+					return (T)converter.ConvertFrom(value);
+
+				throw new InvalidOperationException(String.Format("ReadAppSettingsEntry('{0}') cannot convert entry string to type '{1}'", name, t.FullName));
+
+			}
+			return defaultValue;
+		}
+
+		/// <summary>
+		/// Retrives the assembly informational version (from the AssemblyInformationalVersionAttribute).
+		/// </summary>
+		/// <param name="assembly">Assembly</param>
+		/// <returns>String. It is empty if no description was found.</returns>
+		public static string GetAssemblyInformationalVersion(Assembly assembly)
+		{
+			object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+			if (attributes.Length > 0)
+			{
+				string ad = ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
+				if (!string.IsNullOrEmpty(ad))
+					return ad;
+			}
+			return String.Empty;
+		}
         #endregion
     }
 }

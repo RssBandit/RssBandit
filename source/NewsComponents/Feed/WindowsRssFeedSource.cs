@@ -1062,7 +1062,7 @@ namespace NewsComponents.Feed {
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
             bool cancel = false; 
-            RaiseOnDownloadFeedStarted(requestUri, ref cancel);
+            RaiseBeforeDownloadFeedStarted(requestUri, ref cancel);
             if (cancel)
             {
                 ifeed.CancelAsyncDownload(); 
