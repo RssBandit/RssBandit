@@ -3382,7 +3382,7 @@ namespace NewsComponents
         /// </summary>
         public void MarkAllCachedItemsAsRead()
         {
-            foreach (NewsFeed f in feedsTable.Values)
+            foreach (INewsFeed f in feedsTable.Values)
             {
                 this.MarkAllCachedItemsAsRead(f);
             }
@@ -3447,11 +3447,11 @@ namespace NewsComponents
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
-                FeedInfo fi = itemsTable[feed.link] as FeedInfo;
+                IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
 
                 if (fi != null)
                 {
-                    foreach (NewsItem ri in fi.itemsList)
+                    foreach (INewsItem ri in fi.itemsList)
                     {
                         ri.BeenRead = true;
                     }

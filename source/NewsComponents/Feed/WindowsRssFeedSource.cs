@@ -103,6 +103,9 @@ namespace NewsComponents.Feed {
         /// <seealso cref="caused_by_rssbandit"/>
         internal static Object event_caused_by_rssbandit_syncroot = new Object(); 
 
+         private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssFeedSource));
+
+
         #endregion 
 
         #region private methods
@@ -552,7 +555,19 @@ namespace NewsComponents.Feed {
                         }
                         string feedUrl = uri.CanonicalizedUri();
                         INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
-                        this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed, this));                         
+
+                        if (this.feedsTable.ContainsKey(feedUrl)) //duplicate subscription
+                        {
+                            try { 
+                                feed.Delete(); 
+                            }catch (Exception e){
+                                _log.Debug("Exception deleting duplicate feed " + feedUrl, e);
+                            }
+                        }
+                        else
+                        {
+                            this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed, this));
+                        }
                     }//foreach(IFeed feed in ...)
                 }
 
@@ -1140,7 +1155,8 @@ namespace NewsComponents.Feed {
             this.myitem = item;
             this.myfeed = owner;
             /* do this here because COM interop is too slow to check it each time property is accessed */
-            this._id = myitem.LocalId.ToString();            
+            this._id = myitem.LocalId.ToString();
+            this._beenRead = myitem.IsRead;
 
             //TODO: RelationCosmos and outgoing links processing? 
         }
@@ -1425,6 +1441,7 @@ namespace NewsComponents.Feed {
             set { } 
         }
 
+        private bool _beenRead;
         /// <summary>
         /// Indicates whether the story has been read or not. 
         /// </summary>
@@ -1434,7 +1451,7 @@ namespace NewsComponents.Feed {
             {
                 try
                 {
-                    return myitem.IsRead;
+                    return _beenRead;
                 }
                 catch (Exception e)
                 {
@@ -2329,7 +2346,7 @@ namespace NewsComponents.Feed {
             {
                 this.items.Add(new WindowsRssNewsItem(item, this));
             }
-            Console.WriteLine("LOAD_ITEMS_LIST:'{0}' loaded {1} item(s)", myfeed.Path, items.Count); 
+            _log.DebugFormat("LOAD_ITEMS_LIST:'{0}' loaded {1} item(s)", myfeed.Path, items.Count); 
         }
 
         #endregion 
@@ -2488,14 +2505,12 @@ namespace NewsComponents.Feed {
             get
             {
                 //TODO: Can we make this less expensive. Current implementation tries to be careful in case
-                // items marked as read outside RSS Bandit
-                _storiesrecentlyviewed.Clear(); 
-                IFeedsEnum items = myfeed.Items as IFeedsEnum;
-                foreach (IFeedItem item in items)
+                // items marked as read outside RSS Bandit               
+                foreach (INewsItem item in items)
                 {
-                    if (item.IsRead)
+                    if (item.BeenRead)
                     {
-                        _storiesrecentlyviewed.Add(item.LocalId.ToString());
+                        _storiesrecentlyviewed.Add(item.Id);
                     }
                 } 
                 return _storiesrecentlyviewed;
