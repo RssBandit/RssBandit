@@ -3451,7 +3451,7 @@ namespace NewsComponents
 
                 if (fi != null)
                 {
-                    foreach (INewsItem ri in fi.itemsList)
+                    foreach (INewsItem ri in fi.ItemsList)
                     {
                         ri.BeenRead = true;
                     }
