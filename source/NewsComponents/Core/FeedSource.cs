@@ -877,7 +877,7 @@ namespace NewsComponents
         /// <summary>
         /// The folder for downloading enclosures.
         /// </summary>
-        protected string enclosurefolder;
+        protected string enclosurefolder = String.Empty;
 
         /// <summary>
         /// Gets or sets the folder for downloading enclosures
