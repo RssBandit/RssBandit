@@ -251,12 +251,9 @@ namespace NewsComponents.Feed {
             this.DetachEventHandlers(); 
             if (f != null && !string.IsNullOrEmpty(f.link))
             {
-                foreach (INewsItem ri in f.ItemsList)
-                {
-                    ri.BeenRead = true;
-                }
+                f.MarkAllItemsAsRead(); 
             }
-            Thread.Sleep(1000); /* give events time to finish firing */ 
+            //Thread.Sleep(1000); /* give events time to finish firing */ 
             this.AttachEventHandlers(); 
             
         }
@@ -1046,6 +1043,7 @@ namespace NewsComponents.Feed {
         /// <param name="itemCountType"></param>
         public void FeedItemCountChanged(string Path, int itemCountType)
         {
+
             lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
                 if (WindowsRssFeedSource.event_caused_by_rssbandit)
@@ -2369,6 +2367,21 @@ namespace NewsComponents.Feed {
                     myfeed = feed;
                 }
             }        
+        }
+
+        /// <summary>
+        /// Marks all items in the feed as read
+        /// </summary>
+        public void MarkAllItemsAsRead()
+        {
+            if (myfeed != null)
+            {
+                lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+                {
+                    WindowsRssFeedSource.event_caused_by_rssbandit = true;
+                    myfeed.MarkAllItemsRead(); 
+                }                
+            }
         }
 
         #endregion 
