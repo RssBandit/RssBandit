@@ -1667,16 +1667,17 @@ namespace NewsComponents.Net
 
         /// <summary>
         /// Fixups the cookies IE may return. 
+        /// If there is a semicolon, we replace it with a comma because 
+        /// .NET requires comma as a cookie separators.        
         /// If there is a comma AND a semicolon, we escape the comma
-        /// first, then replace the semicolon with a comma (.CLR requires
-        /// comma as a cookie separators).
+        /// first, then replace the semicolon with a comma 
         /// </summary>
         /// <param name="b">The b.</param>
         /// <returns></returns>
         private static string FixupIECookies(StringBuilder b)
         {
             string s = b.ToString();
-            if (s.IndexOf(",") >= 0 && s.IndexOf(";") >= 0)
+            if (s.IndexOf(",") >= 0 || s.IndexOf(";") >= 0)
             {
                 s = s.Replace(",", escapedComma).Replace(";", ",");
             }
