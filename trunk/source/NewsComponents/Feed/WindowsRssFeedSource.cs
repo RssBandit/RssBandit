@@ -486,12 +486,19 @@ namespace NewsComponents.Feed {
             if (feedsTable.ContainsKey(feedUrl))
             {
                 WindowsRssNewsFeed f = feedsTable[feedUrl] as WindowsRssNewsFeed;
-                this.feedsTable.Remove(f.link);                
-                IFeed feed = feedManager.GetFeedByUrl(feedUrl) as IFeed;
-                
-                if (feed != null)
+                this.feedsTable.Remove(f.link);
+                try
                 {
-                    feed.Delete();
+                    IFeed feed = feedManager.GetFeedByUrl(feedUrl) as IFeed;
+
+                    if (feed != null)
+                    {
+                        feed.Delete();
+                    }
+                }
+                catch(Exception e)
+                {
+                    _log.Debug("Exception on deleting feed: " + feedUrl, e); 
                 }
             }
         }
