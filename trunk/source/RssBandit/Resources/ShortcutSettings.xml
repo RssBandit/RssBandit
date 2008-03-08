@@ -291,7 +291,7 @@
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
     <shortcut>
-      <command>cmdReadingPaneTextSize</command>
+      <command>cmdFeedDetailTextSize</command>
       <shortcutEnumValue>None</shortcutEnumValue>
     </shortcut>
 		<shortcut>
