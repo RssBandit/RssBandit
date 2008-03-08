@@ -66,6 +66,18 @@ namespace RssBandit
 		NewsgatorOnline,
 	}
 
+    /// <summary>
+    /// The size of the text in the reading pane
+    /// </summary>
+    public enum TextSize
+    {
+        Smallest = 0,
+        Smaller,
+        Medium,
+        Larger,
+        Largest
+    }
+
 	/// <summary>
 	/// Embedded Web-Browser behavior on new window requests
 	/// </summary>

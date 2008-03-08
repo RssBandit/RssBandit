@@ -77,6 +77,9 @@ namespace RssBandit {
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditPreferences));
 		
+        //new 2.0.x
+        private TextSize readingPaneTextSize = TextSize.Medium;
+
 		//new 1.5.x
 		private decimal numNewsItemsPerPage = 10;
 
@@ -132,7 +135,22 @@ namespace RssBandit {
 
 		#region public properties
 
-		
+
+        /// <summary>
+        /// Gets/Sets the size of the text in the reading pane
+        /// </summary>
+        public TextSize ReadingPaneTextSize
+        {
+            [DebuggerStepThrough()]
+            get { return readingPaneTextSize; }
+            set
+            {
+                readingPaneTextSize = value;
+                EventsHelper.Fire(PropertyChanged, this,
+                    new PropertyChangedEventArgs("ReadingPaneTextSize"));
+            }	
+        }
+
 		/// <summary>
 		/// Gets/Sets the number of news items to display per page in the newspaper view
 		/// </summary>
@@ -1247,7 +1265,9 @@ namespace RssBandit {
 
 			this.NgosSyncToken = reader.GetString("NgosSyncToken", String.Empty); 
 
-			this.NumNewsItemsPerPage = reader.GetDecimal("NumNewsItemsPerPage", 10); 
+			this.NumNewsItemsPerPage = reader.GetDecimal("NumNewsItemsPerPage", 10);
+
+            this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
 		}
 
 		/// <summary>
@@ -1261,7 +1281,7 @@ namespace RssBandit {
 		 SecurityPermissionAttribute(SecurityAction.LinkDemand)]
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)	{
 		
-			info.AddValue("_PrefsVersion", 23);	// added settings for limiting number of news items per page
+			info.AddValue("_PrefsVersion", 24);	// added setting for text size in reading pane
 			EncryptionHelper.CompatibilityMode = false;
 			info.AddValue("ProxyAddress", ProxyAddress);
 			info.AddValue("ProxyPort", ProxyPort);
@@ -1296,6 +1316,7 @@ namespace RssBandit {
 			info.AddValue("AllOptionalFlags", this.allOptionalFlags);
 			info.AddValue("NgosSyncToken", this.NgosSyncToken); 
 			info.AddValue("NumNewsItemsPerPage", this.NumNewsItemsPerPage);
+            info.AddValue("ReadingPaneTextSize", this.ReadingPaneTextSize);
 		}
 		#endregion
 
