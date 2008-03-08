@@ -155,6 +155,15 @@ namespace RssBandit.WinGui.Forms
         RssSearch,
     }
 
+    internal enum TextSize
+    {
+        Smallest = 0,
+        Smaller,
+        Medium,
+        Larger,
+        Largest
+    }
+
     #endregion
 
     /// <summary>
@@ -239,6 +248,11 @@ namespace RssBandit.WinGui.Forms
         #region private variables
 
         /// <summary>
+        /// The text size in the reading pane. 
+        /// </summary>
+        private TextSize _readingPaneTextSize = TextSize.Medium;
+
+        /// <summary>
         /// Async invoke on UI thread
         /// </summary>
         private readonly Action<Action> InvokeOnGui;
@@ -260,7 +274,7 @@ namespace RssBandit.WinGui.Forms
         /// If you forget this, you will always get your old toolbars layout
         /// restored from the users local machine.
         /// </remarks>
-        private const int _currentToolbarsVersion = 7;
+        private const int _currentToolbarsVersion = 8;
 
         /// <summary>
         /// To be raised by one on every UltraExplorerBar docks modification like new groups!
@@ -549,6 +563,17 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #region public properties/accessor routines
+
+        /// <summary>
+        /// Returns the current text size of the reading pane
+        /// </summary>
+        public TextSize ReadingPaneTextSize
+        {
+            get
+            {
+                return _readingPaneTextSize;
+            }
+        }
 
         /// <summary>
         /// Returns the current page number in the reading pane. 
@@ -3791,7 +3816,7 @@ namespace RssBandit.WinGui.Forms
             _override1.LabelEdit = Infragistics.Win.DefaultableBoolean.True;
             _override1.Sort = Infragistics.Win.UltraWinTree.SortType.Ascending;
             this.treeFeeds.Override = _override1;
-            this.treeFeeds.SettingsKey = "";
+            this.treeFeeds.SettingsKey = "WinGuiMain.treeFeeds";
             this.helpProvider1.SetShowHelp(this.treeFeeds, ((bool)(resources.GetObject("treeFeeds.ShowHelp"))));
             // 
             // NavigatorSearch
@@ -3883,7 +3908,7 @@ namespace RssBandit.WinGui.Forms
             _override2.ItemHeight = 35;
             _override2.SelectionType = Infragistics.Win.UltraWinTree.SelectType.Extended;
             this.listFeedItemsO.Override = _override2;
-            this.listFeedItemsO.SettingsKey = "";
+            this.listFeedItemsO.SettingsKey = "WinGuiMain.listFeedItemsO";
             this.helpProvider1.SetShowHelp(this.listFeedItemsO, ((bool)(resources.GetObject("listFeedItemsO.ShowHelp"))));
             // 
             // listFeedItems
@@ -4992,7 +5017,6 @@ namespace RssBandit.WinGui.Forms
             hc.ProgressChanged += OnWebProgressChanged;
             hc.TranslateAccelerator += OnWebTranslateAccelerator;
             hc.OnQuit += OnWebQuit;
-
             return hc;
         }
 
@@ -6813,7 +6837,7 @@ namespace RssBandit.WinGui.Forms
         /// context menu.
         /// </summary>
         public void MarkSelectedItemsLVRead()
-        {
+        {         
             SetFeedItemsReadState(GetSelectedLVItems(), true);
         }
 
@@ -7774,7 +7798,7 @@ namespace RssBandit.WinGui.Forms
             htmlDetail.ProgressChanged += OnWebProgressChanged;
 
             htmlDetail.TranslateAccelerator += OnWebTranslateAccelerator;
-
+           
             if (clearContent)
             {
                 htmlDetail.Clear();
@@ -8540,8 +8564,8 @@ namespace RssBandit.WinGui.Forms
                                                                      SR.MenuDocTabsLayoutHorizontalCaption,
                                                                      SR.MenuDocTabsLayoutHorizontalDesc,
                                                                      _shortcutHandler);
-            subDT4.Checked = (_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal);
-
+            subDT4.Checked = (_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal);           
+         
 
             AppContextMenuCommand subDT5 = new AppContextMenuCommand("cmdFeedDetailLayoutPosition",
                                                                      owner.Mediator, new ExecuteCommandHandler(CmdNop),
@@ -8579,6 +8603,8 @@ namespace RssBandit.WinGui.Forms
                                                                       SR.MenuFeedDetailLayoutBottomCaption,
                                                                       SR.MenuFeedDetailLayoutBottomDesc,
                                                                       _shortcutHandler);
+
+
 
             subDT5.MenuItems.AddRange(new MenuItem[] {subSub1, subSub2, subSub3, subSub4});
 
@@ -9628,6 +9654,70 @@ namespace RssBandit.WinGui.Forms
         {
             owner.Mediator.SetChecked(false, "cmdFeedDetailLayoutPosTop", "cmdFeedDetailLayoutPosLeft",
                                       "cmdFeedDetailLayoutPosRight", "cmdFeedDetailLayoutPosBottom");
+        }
+
+
+        internal void CmdFeedDetailTextSizeSmallest(ICommand sender)
+        {
+            SetFeedDetailTextSize(TextSize.Smallest);
+        }
+
+        internal void CmdFeedDetailTextSizeSmaller(ICommand sender)
+        {
+            SetFeedDetailTextSize(TextSize.Smaller);
+        }
+
+
+        internal void CmdFeedDetailTextSizeMedium(ICommand sender)
+        {
+            SetFeedDetailTextSize(TextSize.Medium);
+        }
+
+
+        internal void CmdFeedDetailTextSizeLarger(ICommand sender)
+        {
+            SetFeedDetailTextSize(TextSize.Larger);
+        }
+
+
+        internal void CmdFeedDetailTextSizeLargest(ICommand sender)
+        {
+            SetFeedDetailTextSize(TextSize.Largest);
+        }
+
+        private void SetFeedDetailTextSize(TextSize size)
+        {
+            try
+            {
+                int z = (int) ReadingPaneTextSize;
+
+                switch (size)
+                {
+                    case TextSize.Smallest:
+                        z = 0;
+                        break;
+                    case TextSize.Smaller:
+                        z = 1;
+                        break;
+                    case TextSize.Medium:
+                        z = 2;
+                        break;
+                    case TextSize.Larger:
+                        z = 3;
+                        break;
+                    case TextSize.Largest:
+                        z = 4;
+                        break;
+                }
+
+                object Z = z;
+                object NULL = new Object();
+                htmlDetail.ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref Z, ref NULL);
+            }
+            catch (Exception e)
+            {
+                _log.Error("Exception while changing reading pane text size", e); 
+            }
         }
 
         private void SetFeedDetailLayout(DockStyle style)

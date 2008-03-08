@@ -365,16 +365,67 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuFeedDetailLayoutBottomCaption, SR.MenuFeedDetailLayoutBottomDesc, 
 				Resource.ToolItemImage.ItemDetailViewAtBottom, shortcutHandler);
 
-			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {subSub1, subSub2, subSub3, subSub4});
-			layoutPositionDropDownMenu.Tools.AddRange(new ToolBase[]{subSub1, subSub2, subSub3, subSub4});
-			foreach (ToolBase tool in layoutPositionDropDownMenu.Tools) {
-				tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
-			}
+
+            // must be added to the toolbar first:
+            this.manager.Tools.AddRange(new ToolBase[] { subSub1, subSub2, subSub3, subSub4 });
+            layoutPositionDropDownMenu.Tools.AddRange(new ToolBase[] { subSub1, subSub2, subSub3, subSub4 });
+            foreach (ToolBase tool in layoutPositionDropDownMenu.Tools)
+            {
+                tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
+            }
+
+
+            AppPopupMenuCommand textSizeDropDownMenu = new AppPopupMenuCommand(
+                "cmdReadingPaneTextSize", owner.Mediator, null,
+                SR.MenuFeedDetailTextSizeCaption, SR.MenuFeedDetailTextSizeDesc);
+          
+            // subMenu:			
+            AppStateButtonToolCommand subSub10 = new AppStateButtonToolCommand(
+                "cmdReadingPaneTextSizeSmallest", owner.Mediator, main.CmdFeedDetailTextSizeSmallest,
+                SR.MenuFeedDetailTextSizeSmallestCaption, SR.MenuFeedDetailTextSizeSmallestDesc,
+                shortcutHandler);
+
+            subSub10.Checked = (main.ReadingPaneTextSize == TextSize.Smallest); 
+
+            AppStateButtonToolCommand subSub20 = new AppStateButtonToolCommand(
+                "cmdReadingPaneTextSizeSmaller", owner.Mediator, main.CmdFeedDetailTextSizeSmaller,
+                SR.MenuFeedDetailTextSizeSmallerCaption, SR.MenuFeedDetailTextSizeSmallerDesc,
+                shortcutHandler);
+
+            subSub20.Checked = (main.ReadingPaneTextSize == TextSize.Smaller); 
+        
+            AppStateButtonToolCommand subSub30 = new AppStateButtonToolCommand(
+               "cmdReadingPaneTextSizeMedium", owner.Mediator, main.CmdFeedDetailTextSizeMedium,
+               SR.MenuFeedDetailTextSizeMediumCaption, SR.MenuFeedDetailTextSizeMediumDesc,
+               shortcutHandler);
+		          
+            subSub30.Checked = (main.ReadingPaneTextSize == TextSize.Medium); // default
+
+            AppStateButtonToolCommand subSub40 = new AppStateButtonToolCommand(
+               "cmdReadingPaneTextSizeLarger", owner.Mediator, main.CmdFeedDetailTextSizeLarger,
+               SR.MenuFeedDetailTextSizeLargerCaption, SR.MenuFeedDetailTextSizeLargerDesc,
+               shortcutHandler);
+
+            subSub40.Checked = (main.ReadingPaneTextSize == TextSize.Larger); 
+
+            AppStateButtonToolCommand subSub50 = new AppStateButtonToolCommand(
+               "cmdReadingPaneTextSizeLargest", owner.Mediator, main.CmdFeedDetailTextSizeLargest,
+               SR.MenuFeedDetailTextSizeLargestCaption, SR.MenuFeedDetailTextSizeLargestDesc,
+               shortcutHandler);
+
+            subSub50.Checked = (main.ReadingPaneTextSize == TextSize.Largest); 
+
+            // must be added to the toolbar first:
+            this.manager.Tools.AddRange(new ToolBase[] { subSub10, subSub20, subSub30, subSub40, subSub50 });
+            textSizeDropDownMenu.Tools.AddRange(new ToolBase[] { subSub10, subSub20, subSub30, subSub40, subSub50 });
+            foreach (ToolBase tool in textSizeDropDownMenu.Tools)
+            {
+                tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
+            }
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {toogleTreeViewState,toggleRssSearchViewState,toolbarsDropDownMenu,layoutPositionDropDownMenu,columnChooserDropDownMenu,outlookReadingViewState});
-			mc.Tools.AddRange(new ToolBase[]{toogleTreeViewState,toggleRssSearchViewState,toolbarsDropDownMenu,layoutPositionDropDownMenu,columnChooserDropDownMenu,outlookReadingViewState});
+            this.manager.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
+            mc.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
 			}
