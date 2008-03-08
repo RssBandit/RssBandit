@@ -376,44 +376,44 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 
 
             AppPopupMenuCommand textSizeDropDownMenu = new AppPopupMenuCommand(
-                "cmdReadingPaneTextSize", owner.Mediator, null,
+                "cmdFeedDetailTextSize", owner.Mediator, null,
                 SR.MenuFeedDetailTextSizeCaption, SR.MenuFeedDetailTextSizeDesc);
           
             // subMenu:			
             AppStateButtonToolCommand subSub10 = new AppStateButtonToolCommand(
-                "cmdReadingPaneTextSizeSmallest", owner.Mediator, main.CmdFeedDetailTextSizeSmallest,
+                "cmdFeedDetailTextSizeSmallest", owner.Mediator, main.CmdFeedDetailTextSizeSmallest,
                 SR.MenuFeedDetailTextSizeSmallestCaption, SR.MenuFeedDetailTextSizeSmallestDesc,
                 shortcutHandler);
 
-            subSub10.Checked = (main.ReadingPaneTextSize == TextSize.Smallest); 
+            subSub10.Checked = (owner.Preferences.ReadingPaneTextSize == TextSize.Smallest); 
 
             AppStateButtonToolCommand subSub20 = new AppStateButtonToolCommand(
-                "cmdReadingPaneTextSizeSmaller", owner.Mediator, main.CmdFeedDetailTextSizeSmaller,
+                "cmdFeedDetailTextSizeSmaller", owner.Mediator, main.CmdFeedDetailTextSizeSmaller,
                 SR.MenuFeedDetailTextSizeSmallerCaption, SR.MenuFeedDetailTextSizeSmallerDesc,
                 shortcutHandler);
 
-            subSub20.Checked = (main.ReadingPaneTextSize == TextSize.Smaller); 
+            subSub20.Checked = (owner.Preferences.ReadingPaneTextSize == TextSize.Smaller); 
         
             AppStateButtonToolCommand subSub30 = new AppStateButtonToolCommand(
-               "cmdReadingPaneTextSizeMedium", owner.Mediator, main.CmdFeedDetailTextSizeMedium,
+               "cmdFeedDetailTextSizeMedium", owner.Mediator, main.CmdFeedDetailTextSizeMedium,
                SR.MenuFeedDetailTextSizeMediumCaption, SR.MenuFeedDetailTextSizeMediumDesc,
                shortcutHandler);
 		          
-            subSub30.Checked = (main.ReadingPaneTextSize == TextSize.Medium); // default
+            subSub30.Checked = (owner.Preferences.ReadingPaneTextSize == TextSize.Medium); // default
 
             AppStateButtonToolCommand subSub40 = new AppStateButtonToolCommand(
-               "cmdReadingPaneTextSizeLarger", owner.Mediator, main.CmdFeedDetailTextSizeLarger,
+               "cmdFeedDetailTextSizeLarger", owner.Mediator, main.CmdFeedDetailTextSizeLarger,
                SR.MenuFeedDetailTextSizeLargerCaption, SR.MenuFeedDetailTextSizeLargerDesc,
                shortcutHandler);
 
-            subSub40.Checked = (main.ReadingPaneTextSize == TextSize.Larger); 
+            subSub40.Checked = (owner.Preferences.ReadingPaneTextSize == TextSize.Larger); 
 
             AppStateButtonToolCommand subSub50 = new AppStateButtonToolCommand(
-               "cmdReadingPaneTextSizeLargest", owner.Mediator, main.CmdFeedDetailTextSizeLargest,
+               "cmdFeedDetailTextSizeLargest", owner.Mediator, main.CmdFeedDetailTextSizeLargest,
                SR.MenuFeedDetailTextSizeLargestCaption, SR.MenuFeedDetailTextSizeLargestDesc,
                shortcutHandler);
 
-            subSub50.Checked = (main.ReadingPaneTextSize == TextSize.Largest); 
+            subSub50.Checked = (owner.Preferences.ReadingPaneTextSize == TextSize.Largest); 
 
             // must be added to the toolbar first:
             this.manager.Tools.AddRange(new ToolBase[] { subSub10, subSub20, subSub30, subSub40, subSub50 });

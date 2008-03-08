@@ -155,15 +155,6 @@ namespace RssBandit.WinGui.Forms
         RssSearch,
     }
 
-    internal enum TextSize
-    {
-        Smallest = 0,
-        Smaller,
-        Medium,
-        Larger,
-        Largest
-    }
-
     #endregion
 
     /// <summary>
@@ -246,12 +237,7 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #region private variables
-
-        /// <summary>
-        /// The text size in the reading pane. 
-        /// </summary>
-        private TextSize _readingPaneTextSize = TextSize.Medium;
-
+       
         /// <summary>
         /// Async invoke on UI thread
         /// </summary>
@@ -274,7 +260,7 @@ namespace RssBandit.WinGui.Forms
         /// If you forget this, you will always get your old toolbars layout
         /// restored from the users local machine.
         /// </remarks>
-        private const int _currentToolbarsVersion = 8;
+        private const int _currentToolbarsVersion = 9;
 
         /// <summary>
         /// To be raised by one on every UltraExplorerBar docks modification like new groups!
@@ -563,17 +549,6 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #region public properties/accessor routines
-
-        /// <summary>
-        /// Returns the current text size of the reading pane
-        /// </summary>
-        public TextSize ReadingPaneTextSize
-        {
-            get
-            {
-                return _readingPaneTextSize;
-            }
-        }
 
         /// <summary>
         /// Returns the current page number in the reading pane. 
@@ -9689,7 +9664,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                int z = (int) ReadingPaneTextSize;
+                int z = (int) owner.Preferences.ReadingPaneTextSize;
 
                 switch (size)
                 {
@@ -9713,6 +9688,12 @@ namespace RssBandit.WinGui.Forms
                 object Z = z;
                 object NULL = new Object();
                 htmlDetail.ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref Z, ref NULL);
+
+                owner.Preferences.ReadingPaneTextSize = size; 
+                owner.Mediator.SetChecked(false, "cmdFeedDetailTextSizeLargest", "cmdFeedDetailTextSizeLarger",
+                                            "cmdFeedDetailTextSizeMedium", "cmdFeedDetailTextSizeSmaller",
+                                            "cmdFeedDetailTextSizeSmallest"); 
+                owner.Mediator.SetChecked(true, "cmdFeedDetailTextSize" + owner.Preferences.ReadingPaneTextSize.ToString());
             }
             catch (Exception e)
             {
