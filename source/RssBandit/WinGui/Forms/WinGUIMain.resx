@@ -145,7 +145,7 @@
     <value>treeFeeds</value>
   </data>
   <data name="&gt;&gt;treeFeeds.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;treeFeeds.Parent" xml:space="preserve">
     <value>NavigatorFeedSubscriptions</value>
@@ -169,7 +169,7 @@
     <value>NavigatorFeedSubscriptions</value>
   </data>
   <data name="&gt;&gt;NavigatorFeedSubscriptions.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;NavigatorFeedSubscriptions.Parent" xml:space="preserve">
     <value>Navigator</value>
@@ -223,7 +223,7 @@
     <value>NavigatorSearch</value>
   </data>
   <data name="&gt;&gt;NavigatorSearch.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;NavigatorSearch.Parent" xml:space="preserve">
     <value>Navigator</value>
@@ -339,7 +339,7 @@
     <value>listFeedItemsO</value>
   </data>
   <data name="&gt;&gt;listFeedItemsO.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.UltraTreeExtended, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.UltraTreeExtended, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;listFeedItemsO.Parent" xml:space="preserve">
     <value>panelFeedItems</value>
@@ -384,7 +384,7 @@
     <value>listFeedItems</value>
   </data>
   <data name="&gt;&gt;listFeedItems.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ThListView.ThreadedListView, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.ThListView.ThreadedListView, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;listFeedItems.Parent" xml:space="preserve">
     <value>panelFeedItems</value>
@@ -438,7 +438,7 @@
     <value>detailsPaneSplitter</value>
   </data>
   <data name="&gt;&gt;detailsPaneSplitter.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.CollapsibleSplitter, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.CollapsibleSplitter, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;detailsPaneSplitter.Parent" xml:space="preserve">
     <value>panelFeedDetails</value>
@@ -555,7 +555,7 @@
     <value>detailHeaderCaption</value>
   </data>
   <data name="&gt;&gt;detailHeaderCaption.Type" xml:space="preserve">
-    <value>Infragistics.Win.Misc.UltraLabel, Infragistics2.Win.Misc.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.Misc.UltraLabel, Infragistics2.Win.Misc.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;detailHeaderCaption.Parent" xml:space="preserve">
     <value>panelFeedDetailsContainer</value>
@@ -623,8 +623,8 @@
   <data name="appearance2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAABj1JREFUWEfFVwtQVFUYRsx0UpMpK9SUhyOoGCaOZOU4jZSpYSY6jobPSUBgQEbkoQ2g
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAABj1JREFUWEfFVwtQVFUYRsx0UpMpK9SUhyOoGCaOZOU4jZSpYSY6jobPSUBgQEbkoQ2g
         BKGwNIrIgICAPIIEwQSa1EDRBOS5PBaBlWXZXd4Ly/ISFvj672XaRARhtfHOfMM9j3u+7//Of/6zTAGg
         9lofRsDrxLjk/K1qmtVb1XIrTdWEhOYqU7VGajdS/7Nooj4GhYR5kwloXAEM+WMLXZQe1IYkxh314Q4Q
         +22D2FkfTW7LIfNagU4/Q/ScW4UnASsJH4ER8coEUMSyysOLwXPfTGuOfLq5NyAL2YSeIGMoQtdCcfkz
@@ -676,8 +676,8 @@
   <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
         hMDJbw0EEWWYAeXTQRAEZQQFRkCGAQYRkGH4noEB5FNARFFEVMzf3ndKyvxgT3V255z/ee9773vu/3ef
         +zz3nfcewOb/+pMA7qba6Ta/tUy3KaieZtModLpmmk27uG8X/T9Uh+iTVCz0+GDz3hi/q7n0kGReZ/8M
         5YtH0Lp3PafCnWnZNoMW99F0rHuBbo8X6dk2jkvy8VxWvCT0BySInw1ArLi72u5Zqtb/Xcx586+3NInu
@@ -756,7 +756,7 @@
     <value>Navigator</value>
   </data>
   <data name="&gt;&gt;Navigator.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;Navigator.Parent" xml:space="preserve">
     <value>panelClientAreaContainer</value>
@@ -808,7 +808,7 @@
     <value>navigatorHiddenCaption</value>
   </data>
   <data name="&gt;&gt;navigatorHiddenCaption.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.VerticalHeaderLabel, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.VerticalHeaderLabel, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;navigatorHiddenCaption.Parent" xml:space="preserve">
     <value>pNavigatorCollapsed</value>
@@ -2667,25 +2667,25 @@
     <value>ultraToolTipManager</value>
   </data>
   <data name="&gt;&gt;ultraToolTipManager.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v7.3, Version=7.3.20073.1043, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v8.1, Version=8.1.20081.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;colHeadline.Name" xml:space="preserve">
     <value>colHeadline</value>
   </data>
   <data name="&gt;&gt;colHeadline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;colDate.Name" xml:space="preserve">
     <value>colDate</value>
   </data>
   <data name="&gt;&gt;colDate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;colTopic.Name" xml:space="preserve">
     <value>colTopic</value>
   </data>
   <data name="&gt;&gt;colTopic.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.ThListView.ThreadedListViewColumnHeader, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
     <value>toolTip</value>
@@ -2757,7 +2757,7 @@
     <value>_uiTasksTimer</value>
   </data>
   <data name="&gt;&gt;_uiTasksTimer.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Forms.WinGuiMain+UITaskTimer, RSSBandit, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Forms.WinGuiMain+UITaskTimer, RSSBandit, Version=1.6.0.3, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;helpProvider1.Name" xml:space="preserve">
     <value>helpProvider1</value>
