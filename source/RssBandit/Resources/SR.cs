@@ -2292,7 +2292,8 @@ namespace RssBandit.Resources
 				return Keys.GetString(Keys.MenuFeedDetailLayoutDesc);
 			}
 		}
-		
+    
+
 		public static string MenuFeedDetailLayoutLeftCaption
 		{
 			get
@@ -2340,7 +2341,103 @@ namespace RssBandit.Resources
 				return Keys.GetString(Keys.MenuFeedDetailLayoutTopDesc);
 			}
 		}
-		
+
+        public static string MenuFeedDetailTextSizeCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeDesc);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeLargestCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeLargestCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeLargestDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeLargestDesc);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeLargerCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeLargerCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeLargerDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeLargerDesc);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeMediumCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeMediumCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeMediumDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeMediumDesc);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeSmallerCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeSmallerCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeSmallerDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeSmallerDesc);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeSmallestCaption
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeSmallestCaption);
+            }
+        }
+
+        public static string MenuFeedDetailTextSizeSmallestDesc
+        {
+            get
+            {
+                return Keys.GetString(Keys.MenuFeedDetailTextSizeSmallestDesc);
+            }
+        }
+
 		public static string MenuFeedItemPostReplyCaption
 		{
 			get
@@ -5771,7 +5868,7 @@ namespace RssBandit.Resources
 			public const string MenuFeedDetailLayoutCaption = "MenuFeedDetailLayoutCaption";
 			
 			public const string MenuFeedDetailLayoutDesc = "MenuFeedDetailLayoutDesc";
-			
+           
 			public const string MenuFeedDetailLayoutLeftCaption = "MenuFeedDetailLayoutLeftCaption";
 			
 			public const string MenuFeedDetailLayoutLeftDesc = "MenuFeedDetailLayoutLeftDesc";
@@ -5783,8 +5880,32 @@ namespace RssBandit.Resources
 			public const string MenuFeedDetailLayoutTopCaption = "MenuFeedDetailLayoutTopCaption";
 			
 			public const string MenuFeedDetailLayoutTopDesc = "MenuFeedDetailLayoutTopDesc";
-			
-			public const string MenuFeedItemPostReplyCaption = "MenuFeedItemPostReplyCaption";
+
+            public const string MenuFeedDetailTextSizeCaption = "MenuFeedDetailTextSizeCaption";
+
+            public const string MenuFeedDetailTextSizeDesc = "MenuFeedDetailTextSizeDesc";
+
+            public const string MenuFeedDetailTextSizeSmallestCaption = "MenuFeedDetailTextSizeSmallestCaption";
+
+            public const string MenuFeedDetailTextSizeSmallestDesc = "MenuFeedDetailTextSizeSmallestDesc";
+
+            public const string MenuFeedDetailTextSizeSmallerCaption = "MenuFeedDetailTextSizeSmallerCaption";
+
+            public const string MenuFeedDetailTextSizeSmallerDesc = "MenuFeedDetailTextSizeSmallerDesc";
+
+            public const string MenuFeedDetailTextSizeMediumCaption = "MenuFeedDetailTextSizeMediumCaption";
+
+            public const string MenuFeedDetailTextSizeMediumDesc = "MenuFeedDetailTextSizeMediumDesc";
+
+            public const string MenuFeedDetailTextSizeLargerCaption = "MenuFeedDetailTextSizeLargerCaption";
+
+            public const string MenuFeedDetailTextSizeLargerDesc = "MenuFeedDetailTextSizeLargerDesc";
+
+            public const string MenuFeedDetailTextSizeLargestCaption = "MenuFeedDetailTextSizeLargestCaption";
+
+            public const string MenuFeedDetailTextSizeLargestDesc = "MenuFeedDetailTextSizeLargestDesc";			
+
+            public const string MenuFeedItemPostReplyCaption = "MenuFeedItemPostReplyCaption";
 			
 			public const string MenuFeedItemPostReplyDesc = "MenuFeedItemPostReplyDesc";
 			

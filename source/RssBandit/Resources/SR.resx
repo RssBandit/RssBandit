@@ -1312,6 +1312,42 @@ for detailed information about the error occured.</value>
   <data name="MenuExportFeedsDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>Export the feed list...</value>
   </data>
+  <data name="MenuFeedDetailTextSizeCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Text Size</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Smallest</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text to smallest size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Smaller</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text to smaller size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Medium</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text to medium size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Larger</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text to larger size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Largest</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Select/Change the feed details text to largest size...</value>
+  </data>
   <data name="MenuFeedDetailLayoutBottomCaption" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>Reading Pane at Top</value>
   </data>

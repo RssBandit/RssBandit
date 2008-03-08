@@ -290,6 +290,10 @@
 			<command>cmdFeedDetailLayoutPosition</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
+    <shortcut>
+      <command>cmdReadingPaneTextSize</command>
+      <shortcutEnumValue>None</shortcutEnumValue>
+    </shortcut>
 		<shortcut>
 			<command>cmdFeedDetailLayoutPosTop</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
