@@ -1050,7 +1050,11 @@ namespace NewsComponents.Feed {
         /// <param name="itemCountType"></param>
         public void FeedItemCountChanged(string Path, int itemCountType)
         {
+            //Do nothing because we can't distinguish events caused by our application (e.g. marking lots of items as read) 
+            //from events created by changing read state in another application like Outlook or IE. So instead we will ONLY
+            //sync read state on successful feed download events. 
 
+            /* 
             lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
                 if (WindowsRssFeedSource.event_caused_by_rssbandit)
@@ -1063,6 +1067,7 @@ namespace NewsComponents.Feed {
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             Uri requestUri = new Uri(ifeed.DownloadUrl);
             RaiseOnUpdatedFeed(requestUri, null, RequestResult.OK, 1110, false);
+             */ 
         }
 
 
