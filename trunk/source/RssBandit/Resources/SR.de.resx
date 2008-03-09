@@ -2258,20 +2258,56 @@ ist fehlgeschlagen. Es trat folgender Fehler auf:
 <data name="MenuTopStoriesCaption">
     <value>Schlagzeilen</value>
   </data>
-	<data name="MenuTopStoriesDesc">
-    <value>Zeigt die am meisten verlinkten neuesten Nachrichten aus Ihren Abonnements</value>
+	<data name="MenuTopStoriesDesc" >
+    <value>Anzeige der zuletzt am meisten verlinkten Beiträge in Ihren Abonnements</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="ProcessTopStoriesEntertainmentWaitMessage">
-    <value>Neueste Schlagzeilen werden ermittelt, bitte warten...</value>
+	<data name="ProcessTopStoriesEntertainmentWaitMessage" >
+    <value>Schlagzeilen werden ermittelt, bitte warten...</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="TopStoriesHtmlPageTitle">
-    <value>{0} Neueste Schlagzeilen: die am meisten verlinkten neuesten Nachrichten</value>
+	<data name="TopStoriesHtmlPageTitle" >
+    <value>{0} Schlagzeilen: die zuletzt am meisten verlinkten Beiträge</value>
     <comment>CHANGED.
  Parameters: 0 - appTitle (string) </comment>
   </data>
 	<data name="TopStoriesHtmlDiscussionSectionTitle">
     <value>Diskussion:</value>
   </data>
-</root>
+<data name="MenuFeedDetailTextSizeCaption" >
+    <value>Textgröße</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallestCaption" >
+    <value>Klein</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallestDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Klein...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallerCaption" >
+    <value>Kleiner</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallerDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Kleiner...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeMediumCaption" >
+    <value>Normal</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeMediumDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Normal...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargerCaption" >
+    <value>Größer</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargerDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Größer...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargestCaption" >
+    <value>Groß</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargestDesc" >
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Groß...</value>
+  </data>
+	</root>
