@@ -113,7 +113,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="location">The path or identifier to the list of subscriptions</param>
         /// <param name="credentials">The credentials required to access the location if any</param>
-        public SubscriptionLocation(string location, ICredentials credentials)
+        public SubscriptionLocation(string location, NetworkCredential credentials)
         {
 
             this.Location = location;
@@ -126,7 +126,7 @@ namespace NewsComponents
         /// <param name="location">The path or identifier to the list of subscriptions</param>        
         public SubscriptionLocation(string location) {
             this.Location = location;
-            this.Credentials = CredentialCache.DefaultCredentials;
+            this.Credentials = CredentialCache.DefaultNetworkCredentials;
         }
 
         /// <summary>
@@ -134,10 +134,12 @@ namespace NewsComponents
         /// </summary>
         public string Location { get; set; }
 
+
+
         /// <summary>
         /// The credentials required to access the location if any
         /// </summary>
-        public ICredentials Credentials { get; set; }
+        public NetworkCredential Credentials { get; set; }
     }
 
     /// <summary>
@@ -207,6 +209,9 @@ namespace NewsComponents
                     break;
                 case FeedSourceType.WindowsRSS:
                     handler = new WindowsRssFeedSource(configuration);
+                    break;
+                case FeedSourceType.Google:
+                    handler = new GoogleReaderFeedSource(configuration, location);
                     break;
                 default:
                     break;

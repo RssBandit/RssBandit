@@ -87,11 +87,7 @@ namespace NewsComponents.Feed {
         /// </summary>
         private IFeedFolderEvents_Event fw;
 
-        /// <summary>
-        /// Indicates whether an attempt has been made to refresh feeds or not. 
-        /// </summary>
-        private bool first_refresh_attempt = true;
-
+       
         /// <summary>
         /// Indicates whether an event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
