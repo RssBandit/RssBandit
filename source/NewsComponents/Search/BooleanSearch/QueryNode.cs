@@ -17,6 +17,10 @@ namespace NewsComponents.Search.BooleanSearch
 		private string m_data = "";
 		private bool m_inverted = false;
 
+		/// <summary>
+		/// Gets or sets the value.
+		/// </summary>
+		/// <value>The value.</value>
 		public string Value
 		{
 			get
@@ -29,6 +33,10 @@ namespace NewsComponents.Search.BooleanSearch
 			}
 		}
 
+		/// <summary>
+		/// Gets the parent.
+		/// </summary>
+		/// <value>The parent.</value>
 		public QueryNode Parent
 		{
 			get
@@ -37,6 +45,10 @@ namespace NewsComponents.Search.BooleanSearch
 			}
 		}
 
+		/// <summary>
+		/// Gets the children.
+		/// </summary>
+		/// <value>The children.</value>
 		public QueryNode[] Children
 		{
 			get
@@ -45,6 +57,10 @@ namespace NewsComponents.Search.BooleanSearch
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="QueryNode"/> is inverted.
+		/// </summary>
+		/// <value><c>true</c> if inverted; otherwise, <c>false</c>.</value>
 		public bool Inverted
 		{
 			get
@@ -57,6 +73,10 @@ namespace NewsComponents.Search.BooleanSearch
 			}
 		}
 
+		/// <summary>
+		/// Adds the child.
+		/// </summary>
+		/// <returns></returns>
 		public QueryNode AddChild()
 		{
 			QueryNode child = new QueryNode();
@@ -66,6 +86,10 @@ namespace NewsComponents.Search.BooleanSearch
 			return child;
 		}
 
+		/// <summary>
+		/// Inserts the above.
+		/// </summary>
+		/// <returns></returns>
 		public QueryNode InsertAbove()
 		{
 			// Insert a node immediately above the current node,

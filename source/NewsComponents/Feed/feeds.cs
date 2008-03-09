@@ -181,13 +181,36 @@ namespace NewsComponents.Feed
     /// </summary>
     public interface IFeedColumnLayout
     {
+		/// <summary>
+		/// Gets the sort by column.
+		/// </summary>
+		/// <value>The sort by column.</value>
         string SortByColumn { get; }
+		/// <summary>
+		/// Gets the sort order.
+		/// </summary>
+		/// <value>The sort order.</value>
         SortOrder SortOrder { get; }
+		/// <summary>
+		/// Gets the arrange by column.
+		/// </summary>
+		/// <value>The arrange by column.</value>
         string ArrangeByColumn { get; }
+		/// <summary>
+		/// Gets the columns.
+		/// </summary>
+		/// <value>The columns.</value>
         IList<string> Columns { get; }
+		/// <summary>
+		/// Gets the column widths.
+		/// </summary>
+		/// <value>The column widths.</value>
         IList<int> ColumnWidths { get; }
     }
 
+	/// <summary>
+	/// A feed column layout container
+	/// </summary>
     [Serializable]
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
     public class FeedColumnLayout : IFeedColumnLayout, ICloneable, ISerializable
@@ -199,17 +222,37 @@ namespace NewsComponents.Feed
         internal List<string> _columns;
         internal List<int> _columnWidths;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+		/// </summary>
         public FeedColumnLayout() :
             this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null)
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+		/// </summary>
+		/// <param name="columns">The columns.</param>
+		/// <param name="columnWidths">The column widths.</param>
+		/// <param name="sortByColumn">The sort by column.</param>
+		/// <param name="sortOrder">The sort order.</param>
+		/// <param name="layoutType">Type of the layout.</param>
         public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
                                 SortOrder sortOrder, LayoutType layoutType) :
                                     this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null)
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+		/// </summary>
+		/// <param name="columns">The columns.</param>
+		/// <param name="columnWidths">The column widths.</param>
+		/// <param name="sortByColumn">The sort by column.</param>
+		/// <param name="sortOrder">The sort order.</param>
+		/// <param name="layoutType">Type of the layout.</param>
+		/// <param name="arrangeByColumn">The arrange by column.</param>
         public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
                                 SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn)
         {
@@ -235,6 +278,11 @@ namespace NewsComponents.Feed
             _layoutType = layoutType;
         }
 
+		/// <summary>
+		/// Creates from XML.
+		/// </summary>
+		/// <param name="xmlString">The XML string.</param>
+		/// <returns></returns>
         public static FeedColumnLayout CreateFromXML(string xmlString)
         {
             if (xmlString != null && xmlString.Length > 0)
@@ -246,6 +294,11 @@ namespace NewsComponents.Feed
             return null;
         }
 
+		/// <summary>
+		/// Saves as XML.
+		/// </summary>
+		/// <param name="layout">The layout.</param>
+		/// <returns></returns>
         public static string SaveAsXML(FeedColumnLayout layout)
         {
             if (layout == null)
@@ -349,6 +402,10 @@ namespace NewsComponents.Feed
 
         #endregion
 
+		/// <summary>
+		/// Gets or sets the column list.
+		/// </summary>
+		/// <value>The column list.</value>
         [XmlArrayItem(typeof (string))]
         public List<string> ColumnList
         {
@@ -365,6 +422,10 @@ namespace NewsComponents.Feed
             }
         }
 
+		/// <summary>
+		/// Gets or sets the column width list.
+		/// </summary>
+		/// <value>The column width list.</value>
         [XmlArrayItem(typeof (int))]
         public List<int> ColumnWidthList
         {
@@ -1167,14 +1228,17 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public object owner { get; set; }
 
-        /// <summary>
-        /// Gets the value of a particular wildcard element. If the element is not found then 
-        /// null is returned
-        /// </summary>
-        /// <param name="namespaceUri"></param>
-        /// <param name="localName"></param>
-        /// <returns>The value of the wildcard element obtained by calling XmlElement.InnerText
-        /// or null if the element is not found. </returns>
+		/// <summary>
+		/// Gets the value of a particular wildcard element. If the element is not found then
+		/// null is returned
+		/// </summary>
+		/// <param name="f">The f.</param>
+		/// <param name="namespaceUri">The namespace URI.</param>
+		/// <param name="localName">Name of the local.</param>
+		/// <returns>
+		/// The value of the wildcard element obtained by calling XmlElement.InnerText
+		/// or null if the element is not found.
+		/// </returns>
         public static string GetElementWildCardValue(INewsFeed f, string namespaceUri, string localName)
         {
             foreach (XmlElement element in f.Any)

@@ -1,30 +1,14 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: IdentityNewsServerManager.cs,v $
- * Revision 1.18  2006/10/31 13:36:35  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- * Revision 1.17  2006/09/29 18:14:36  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- */
-#endregion
-
 using System;
-//using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;

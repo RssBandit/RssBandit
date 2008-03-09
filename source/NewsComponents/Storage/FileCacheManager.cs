@@ -238,10 +238,10 @@ namespace NewsComponents.Storage {
 
 
 		/// <summary>
-		/// Loads the contents of the NewsItem from the cache. The provided NewsItem must have 
-		/// non-null value for its Id property. 
+		/// Loads the contents of the NewsItem from the cache. The provided NewsItem must have
+		/// non-null value for its Id property.
 		/// </summary>
-		/// <param name="item"></param>
+		/// <param name="target">The target.</param>
 		public override void LoadItemContent(INewsItem target){
 
             NewsItem item = target as NewsItem; 
