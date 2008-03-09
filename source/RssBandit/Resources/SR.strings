@@ -493,11 +493,8 @@ MenuNewDiscoveredFeedCaption = &Search Results Subscription...
 MenuNewDiscoveredFeedDesc = Find a feed or subscribe to a search result feed
 ; Top Stories related
 MenuTopStoriesCaption = Top Stories
-;CHANGED
 MenuTopStoriesDesc = View the most recently popular links in your subscriptions
-;CHANGED
 ProcessTopStoriesEntertainmentWaitMessage = Determining Top Stories, please wait...
-;CHANGED
 TopStoriesHtmlPageTitle(string appTitle) = {0} Top Stories: Most Linked Recent Stories
 TopStoriesHtmlDiscussionSectionTitle = Discussion:
 MenuNewFeedCaption = &Feed Subscription...
