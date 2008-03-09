@@ -1085,17 +1085,18 @@ namespace NewsComponents.Net
         /// <param name="eTag">Header tag</param>
         /// <param name="timeout">Request timeout. E.g. 60 * 1000, means one minute timeout. 
         /// If zero or less than zero, the default timeout of one minute will be used</param>
+        /// <param name="cookies">HTTP cookies to send along with the request</param>
         /// <returns>WebResponse</returns>
         public static WebResponse GetSyncResponse(string address, ICredentials credentials, string userAgent,
-                                                  IWebProxy proxy, DateTime ifModifiedSince, string eTag, int timeout)
+                                                  IWebProxy proxy, DateTime ifModifiedSince, string eTag, int timeout, CookieCollection cookies)
         {
             try
             {
                 WebRequest webRequest = WebRequest.Create(address);
-
+                
                 HttpWebRequest httpRequest = webRequest as HttpWebRequest;
                 FileWebRequest fileRequest = webRequest as FileWebRequest;
-
+                
                 if (httpRequest != null)
                 {
                     httpRequest.Timeout = (timeout <= 0 ? DefaultTimeout : timeout);
@@ -1115,6 +1116,11 @@ namespace NewsComponents.Net
                     if (credentials != null)
                     {
                         httpRequest.Credentials = credentials;
+                    }
+
+                    if (cookies.Count > 0)
+                    {
+                        httpRequest.CookieContainer.Add(cookies); 
                     }
                 }
                 else if (fileRequest != null)
@@ -1265,7 +1271,25 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(address, out newAddress, credentials, userAgent, proxy, ref ifModifiedSince,
-                                      ref eTag, timeout, out result);
+                                      ref eTag, timeout, out result, new CookieCollection());
+        }
+
+        /// <summary>
+        /// Can be called syncronized to get a Http Web ResponseStream.
+        /// </summary>
+        /// <param name="address">Url to request</param>
+        /// <param name="credentials">Url credentials</param>
+        /// <param name="proxy">Proxy to use</param>
+        /// <param name="cookies">The HTTP cookies to send along with the request</param>
+        public static Stream GetSyncResponseStream(string address, ICredentials credentials,
+                                                   IWebProxy proxy, CookieCollection cookies)
+        {
+            string newAddress, eTag = null;
+            RequestResult result;
+            DateTime ifModifiedSince = MinValue;
+            return
+                GetSyncResponseStream(address, out newAddress, credentials, FullUserAgent(null), proxy, ref ifModifiedSince,
+                                      ref eTag, DefaultTimeout, out result, cookies);
         }
 
         /// <summary>
@@ -1285,7 +1309,7 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(address, out newAddress, credentials, userAgent, proxy, ref ifModifiedSince,
-                                      ref eTag, timeout, out result);
+                                      ref eTag, timeout, out result, new CookieCollection());
         }
 
         /// <summary>
@@ -1305,7 +1329,7 @@ namespace NewsComponents.Net
         public static Stream GetSyncResponseStream(string address, out string newAddress, ICredentials credentials,
                                                    string userAgent,
                                                    IWebProxy proxy, ref DateTime ifModifiedSince, ref string eTag,
-                                                   int timeout, out RequestResult responseResult)
+                                                   int timeout, out RequestResult responseResult, CookieCollection cookies)
         {
             bool useDefaultCred = false;
             int requestRetryCount = 0;
@@ -1320,7 +1344,7 @@ namespace NewsComponents.Net
                 credentials = CredentialCache.DefaultCredentials;
 
             WebResponse wr =
-                GetSyncResponse(address, credentials, userAgent, proxy, ifModifiedSince, eTag, timeout);
+                GetSyncResponse(address, credentials, userAgent, proxy, ifModifiedSince, eTag, timeout, cookies);
 
             HttpWebResponse response = wr as HttpWebResponse;
             FileWebResponse fileresponse = wr as FileWebResponse;

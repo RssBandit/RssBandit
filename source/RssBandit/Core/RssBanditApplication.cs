@@ -306,9 +306,18 @@ namespace RssBandit
            
 
             FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-#if TEST_WINRSS_PLATFORM
-			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
-			
+           
+#if TEST_GOOGLE_READER
+            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.Google, 
+                                                           new SubscriptionLocation(GetFeedListFileName(),
+                                                                new NetworkCredential(Environment.GetEnvironmentVariable("GOOGLE_READER_USERNAME"),
+                                                                                      Environment.GetEnvironmentVariable("GOOGLE_READER_PASSWORD")
+                                                                                      )
+                                                                                   )
+                                                           );
+ 
+#elif TEST_WINRSS_PLATFORM
+            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));			
 #else
 			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
 #endif

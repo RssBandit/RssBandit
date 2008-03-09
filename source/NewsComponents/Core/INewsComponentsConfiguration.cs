@@ -9,6 +9,7 @@
 
 using System;
 using System.IO;
+using System.Net;
 using log4net;
 using Microsoft.Win32;
 
@@ -78,7 +79,11 @@ namespace NewsComponents
 		/// <remarks>Required</remarks>
 		/// <value>The search index behavior.</value>
 		SearchIndexBehavior SearchIndexBehavior { get; }
-		
+
+        /// <summary>
+        /// Gets the web proxy
+        /// </summary>
+        IWebProxy Proxy { get; }
 	}
 
 	#endregion
@@ -254,6 +259,11 @@ namespace NewsComponents
 			get { return searchBehavior; }
 			set { searchBehavior = value; }
 		}
+
+        /// <summary>
+        /// Gets the Web proxy
+        /// </summary>
+        public virtual IWebProxy Proxy { get; set;}
 
 		#endregion
 		
