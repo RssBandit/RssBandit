@@ -147,7 +147,7 @@ namespace NewsComponents
 #if DEBUG 
     [CLSCompliant(false)]
 #endif
-    public abstract class FeedSource: ISharedProperty
+    public abstract class FeedSource: ISharedProperty, IDisposable 
     {
         #region ctor's
 
@@ -798,6 +798,23 @@ namespace NewsComponents
         }
 
         #endregion
+
+        #region IDisposable implementation 
+
+        /// <summary>
+        /// Dispose of ManualResetEvent object
+        /// </summary>
+        public void Dispose()
+        {
+            IDisposable disposable = this.eventX as IDisposable; 
+            
+            if(disposable != null)
+            {
+                disposable.Dispose(); 
+            }
+        }
+
+        #endregion 
 
         /// <summary>
         /// Returns the user path used to store the current feed and cached items.
