@@ -2745,20 +2745,56 @@ failed with error:
 	<data name="MenuTopStoriesCaption">
     <value>Top Stories</value>
   </data>
-	<data name="MenuTopStoriesDesc">
+	<data name="MenuTopStoriesDesc" >
     <value>View the most recently popular links in your subscriptions</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="ProcessTopStoriesEntertainmentWaitMessage">
+	<data name="ProcessTopStoriesEntertainmentWaitMessage" >
     <value>Determining Top Stories, please wait...</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="TopStoriesHtmlPageTitle">
+	<data name="TopStoriesHtmlPageTitle" >
     <value>{0} Top Stories: Most Linked Recent Stories</value>
     <comment>CHANGED.
  Parameters: 0 - appTitle (string) </comment>
   </data>
 	<data name="TopStoriesHtmlDiscussionSectionTitle">
     <value>Discussion:</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeCaption" >
+    <value>Text Size</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeDesc" >
+    <value>Select/Change the feed details text size...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallestCaption" >
+    <value>Smallest</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallestDesc" >
+    <value>Select/Change the feed details text to smallest size...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallerCaption" >
+    <value>Smaller</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeSmallerDesc" >
+    <value>Select/Change the feed details text to smaller size...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeMediumCaption" >
+    <value>Medium</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeMediumDesc" >
+    <value>Select/Change the feed details text to medium size...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargerCaption" >
+    <value>Larger</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargerDesc" >
+    <value>Select/Change the feed details text to larger size...</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargestCaption" >
+    <value>Largest</value>
+  </data>
+	<data name="MenuFeedDetailTextSizeLargestDesc" >
+    <value>Select/Change the feed details text to largest size...</value>
   </data>
 	</root>
