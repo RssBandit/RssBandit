@@ -11,11 +11,12 @@ namespace NewsComponents.Utils
     /// </summary>
     class CollectionChangedEventArgs : PropertyChangedEventArgs {
 
-        /// <summary>
-        /// Initializes the event arguments
-        /// </summary>
-        /// <param name="collectionName">The name of the property that is a collection</param>
-        /// <param name="value">The value that was added or removed from the collection</param>
+		/// <summary>
+		/// Initializes the event arguments
+		/// </summary>
+		/// <param name="collectionName">The name of the property that is a collection</param>
+		/// <param name="action">The action.</param>
+		/// <param name="value">The value that was added or removed from the collection</param>
         public CollectionChangedEventArgs(string collectionName, CollectionChangeAction action, object value)
             : base(collectionName) 
         {

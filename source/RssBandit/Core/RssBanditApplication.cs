@@ -335,7 +335,7 @@ namespace RssBandit
 
             this.commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, 
                                                             new SubscriptionLocation(GetCommentsFeedListFileName()) , 
-                                                            this.CreateCommentFeedHandlerConfiguration(FeedSource.DefaultConfiguration));
+                                                            CreateCommentFeedHandlerConfiguration(FeedSource.DefaultConfiguration));
             this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -447,7 +447,7 @@ namespace RssBandit
             return cfg;
         }
 
-private INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
+		private static INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
             INewsComponentsConfiguration configTemplate)
         {
             NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();

@@ -98,9 +98,9 @@ namespace NewsComponents.Feed {
         internal static bool event_caused_by_rssbandit = false;
 
         /// <summary>
-        /// Synchronization point for caused_by_rssbandit
+		/// Synchronization point for event_caused_by_rssbandit
         /// </summary>
-        /// <seealso cref="caused_by_rssbandit"/>
+		/// <seealso cref="event_caused_by_rssbandit"/>
         internal static Object event_caused_by_rssbandit_syncroot = new Object(); 
 
          private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssFeedSource));
@@ -110,61 +110,64 @@ namespace NewsComponents.Feed {
 
         #region private methods
 
-        /// <summary>
-        /// Attaches event handlers to the root IFeedFolder
-        /// </summary>
-        /// <param name="folder"></param>
+		 /// <summary>
+		 /// Attaches event handlers to the root IFeedFolder
+		 /// </summary>
         internal void AttachEventHandlers()
         {
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
-            fw = (IFeedFolderEvents_Event)folder.GetWatcher(
-                    FEEDS_EVENTS_SCOPE.FES_ALL,
-                    FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
-            fw.Error += new IFeedFolderEvents_ErrorEventHandler(Error);
-            fw.FeedAdded += new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
-            fw.FeedDeleted += new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
-            fw.FeedDownloadCompleted += new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
-            fw.FeedDownloading += new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
-            fw.FeedItemCountChanged += new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
-            fw.FeedMovedFrom += new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
-            fw.FeedMovedTo += new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
-            fw.FeedRenamed += new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
-            fw.FeedUrlChanged += new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
-            fw.FolderAdded += new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
-            fw.FolderDeleted += new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
-            fw.FolderItemCountChanged += new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
-            fw.FolderMovedFrom += new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
-            fw.FolderMovedTo += new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
-            fw.FolderRenamed += new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);                
+		 	if (folder != null) 
+			{
+		 		fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+		 		    FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+
+				fw.Error += Error;
+				fw.FeedAdded += FeedAdded;
+				fw.FeedDeleted += FeedDeleted;
+				fw.FeedDownloadCompleted += FeedDownloadCompleted;
+				fw.FeedDownloading += FeedDownloading;
+				fw.FeedItemCountChanged += FeedItemCountChanged;
+				fw.FeedMovedFrom += FeedMovedFrom;
+				fw.FeedMovedTo += FeedMovedTo;
+				fw.FeedRenamed += FeedRenamed;
+				fw.FeedUrlChanged += FeedUrlChanged;
+				fw.FolderAdded += FolderAdded;
+				fw.FolderDeleted += FolderDeleted;
+				fw.FolderItemCountChanged += FolderItemCountChanged;
+				fw.FolderMovedFrom += FolderMovedFrom;
+				fw.FolderMovedTo += FolderMovedTo;
+				fw.FolderRenamed += FolderRenamed;
+			}
         }
 
 
-        /// <summary>
-        /// Detaches event handlers from the root IFeedFolder
-        /// </summary>
-        /// <param name="folder"></param>
+		/// <summary>
+		/// Detaches event handlers from the root IFeedFolder
+		/// </summary>
         internal void DetachEventHandlers()
         {
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
-            fw = (IFeedFolderEvents_Event)folder.GetWatcher(
-                    FEEDS_EVENTS_SCOPE.FES_ALL,
-                    FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
-            fw.Error -= new IFeedFolderEvents_ErrorEventHandler(Error);
-            fw.FeedAdded -= new IFeedFolderEvents_FeedAddedEventHandler(FeedAdded);
-            fw.FeedDeleted -= new IFeedFolderEvents_FeedDeletedEventHandler(FeedDeleted);
-            fw.FeedDownloadCompleted -= new IFeedFolderEvents_FeedDownloadCompletedEventHandler(FeedDownloadCompleted);
-            fw.FeedDownloading -= new IFeedFolderEvents_FeedDownloadingEventHandler(FeedDownloading);
-            fw.FeedItemCountChanged -= new IFeedFolderEvents_FeedItemCountChangedEventHandler(FeedItemCountChanged);
-            fw.FeedMovedFrom -= new IFeedFolderEvents_FeedMovedFromEventHandler(FeedMovedFrom);
-            fw.FeedMovedTo -= new IFeedFolderEvents_FeedMovedToEventHandler(FeedMovedTo);
-            fw.FeedRenamed -= new IFeedFolderEvents_FeedRenamedEventHandler(FeedRenamed);
-            fw.FeedUrlChanged -= new IFeedFolderEvents_FeedUrlChangedEventHandler(FeedUrlChanged);
-            fw.FolderAdded -= new IFeedFolderEvents_FolderAddedEventHandler(FolderAdded);
-            fw.FolderDeleted -= new IFeedFolderEvents_FolderDeletedEventHandler(FolderDeleted);
-            fw.FolderItemCountChanged -= new IFeedFolderEvents_FolderItemCountChangedEventHandler(FolderItemCountChanged);
-            fw.FolderMovedFrom -= new IFeedFolderEvents_FolderMovedFromEventHandler(FolderMovedFrom);
-            fw.FolderMovedTo -= new IFeedFolderEvents_FolderMovedToEventHandler(FolderMovedTo);
-            fw.FolderRenamed -= new IFeedFolderEvents_FolderRenamedEventHandler(FolderRenamed);
+			if (folder != null) {
+				fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+					FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+
+				fw.Error -= Error;
+				fw.FeedAdded -= FeedAdded;
+				fw.FeedDeleted -= FeedDeleted;
+				fw.FeedDownloadCompleted -= FeedDownloadCompleted;
+				fw.FeedDownloading -= FeedDownloading;
+				fw.FeedItemCountChanged -= FeedItemCountChanged;
+				fw.FeedMovedFrom -= FeedMovedFrom;
+				fw.FeedMovedTo -= FeedMovedTo;
+				fw.FeedRenamed -= FeedRenamed;
+				fw.FeedUrlChanged -= FeedUrlChanged;
+				fw.FolderAdded -= FolderAdded;
+				fw.FolderDeleted -= FolderDeleted;
+				fw.FolderItemCountChanged -= FolderItemCountChanged;
+				fw.FolderMovedFrom -= FolderMovedFrom;
+				fw.FolderMovedTo -= FolderMovedTo;
+				fw.FolderRenamed -= FolderRenamed;
+			}
         }
         /// <summary>
         /// Add a folder to the Windows RSS common feed list
@@ -420,36 +423,36 @@ namespace NewsComponents.Feed {
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 
         /// </summary>
-        /// <param name="f">The NewsFeed object </param>
-        /// <param name="fi">The FeedInfo object</param>
-        public override INewsFeed AddFeed(INewsFeed f, FeedInfo fi)
+        /// <param name="feed">The NewsFeed object </param>
+        /// <param name="feedInfo">The FeedInfo object</param>
+        public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
         {
             lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
             {
 
-                if (f is WindowsRssNewsFeed)
+                if (feed is WindowsRssNewsFeed)
                 {
-                    if (!feedsTable.ContainsKey(f.link))
+                    if (!feedsTable.ContainsKey(feed.link))
                     {
-                        feedsTable.Add(f.link, f);
+                        feedsTable.Add(feed.link, feed);
                     }
                 }
                 else
                 {
-                    if (!feedManager.ExistsFolder(f.category))
+                    if (!feedManager.ExistsFolder(feed.category))
                     {
-                        this.AddCategory(f.category);
+                        this.AddCategory(feed.category);
                     }
 
-                    IFeedFolder folder = feedManager.GetFolder(f.category) as IFeedFolder;
-                    IFeed newFeed = folder.CreateFeed(f.title, f.link) as IFeed;
-                    f = new WindowsRssNewsFeed(newFeed, f, this);
-                    feedsTable.Add(f.link, f);
+                    IFeedFolder folder = feedManager.GetFolder(feed.category) as IFeedFolder;
+                    IFeed newFeed = folder.CreateFeed(feed.title, feed.link) as IFeed;
+                    feed = new WindowsRssNewsFeed(newFeed, feed, this);
+                    feedsTable.Add(feed.link, feed);
                 }
 
                 WindowsRssFeedSource.event_caused_by_rssbandit = true;
             }
-            return f;
+            return feed;
         }
 
         /// <summary>
@@ -630,7 +633,7 @@ namespace NewsComponents.Feed {
         /// the blog posts or articles to an arraylist of items. The http requests are async calls.
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to download</param>
-        /// <param name="force_download">Flag indicates whether cached feed items 
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
         /// can be returned or whether the application must fetch resources from 
         /// the web</param>
         /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
@@ -642,7 +645,7 @@ namespace NewsComponents.Feed {
         /// <returns>true, if the request really was queued up</returns>
         /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public override bool AsyncGetItemsForFeed(string feedUrl, bool force_download, bool manual)
+        public override bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
         {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");
@@ -1155,11 +1158,12 @@ namespace NewsComponents.Feed {
         /// </summary>
         private WindowsRssNewsItem() { ;}
 
-          /// <summary>
-        /// Initializes the class
-        /// </summary>
-        /// <param name="item">The IFeedItem instance that this object will wrap</param>
-        public WindowsRssNewsItem(IFeedItem item, WindowsRssNewsFeed owner)
+		/// <summary>
+		/// Initializes the class
+		/// </summary>
+		/// <param name="item">The IFeedItem instance that this object will wrap</param>
+		/// <param name="owner">The owner.</param>
+        internal WindowsRssNewsItem(IFeedItem item, WindowsRssNewsFeed owner)
         {
             if (item == null) throw new ArgumentNullException("item"); 
             this.myitem = item;
@@ -1634,7 +1638,7 @@ namespace NewsComponents.Feed {
                     break;
                 case NewsItemSerializationFormat.NntpMessage:
                     throw new NotSupportedException(format.ToString());
-                    break;
+        
                 default:
                     throw new NotSupportedException(format.ToString());
             }
@@ -2073,7 +2077,7 @@ namespace NewsComponents.Feed {
         /// Initializes the class
         /// </summary>
         /// <param name="enclosure">The IFeedEnclosure instance that this object will wrap</param>
-        public WindowsRssEnclosure(IFeedEnclosure enclosure)
+        internal WindowsRssEnclosure(IFeedEnclosure enclosure)
         {
             if (enclosure == null) throw new ArgumentNullException("enclosure");
             this.myenclosure = enclosure;
@@ -2164,12 +2168,12 @@ namespace NewsComponents.Feed {
             return Equals(obj as WindowsRssEnclosure);
         }
 
-        /// <summary>
-        /// Compares to see if two WindowsRssEnclosure are identical. Identity just checks to see if they have 
-        /// the same link, 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Compares to see if two WindowsRssEnclosure are identical. Identity just checks to see if they have
+		/// the same link,
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
         public bool Equals(IEnclosure item)
         {
             if (item == null)
@@ -2230,7 +2234,7 @@ namespace NewsComponents.Feed {
         /// Initializes the class
         /// </summary>
         /// <param name="feed">The IFeed instance that this object will wrap</param>
-        public WindowsRssNewsFeed(IFeed feed) {
+        internal WindowsRssNewsFeed(IFeed feed) {
             if (feed == null) throw new ArgumentNullException("feed"); 
             this.myfeed = feed;
             
@@ -2247,7 +2251,7 @@ namespace NewsComponents.Feed {
         /// <param name="feed">The IFeed instance that this object will wrap</param>
         /// <param name="banditfeed">The object that contains the settings that will be used to initialize this class</param>
         /// <param name="owner">This object's owner</param>
-        public WindowsRssNewsFeed(IFeed feed, INewsFeed banditfeed, object owner): this(feed)
+        internal WindowsRssNewsFeed(IFeed feed, INewsFeed banditfeed, object owner): this(feed)
         {
             if (banditfeed != null)
             {
@@ -2290,30 +2294,27 @@ namespace NewsComponents.Feed {
         /// </summary>
         public void Dispose()
         {
-
-            if (!disposed)
-            {
-                Dispose(true);
-            }
-
+            Dispose(true);
+			System.GC.SuppressFinalize(this);
         }
 
         /// <summary>
         /// Disposes of the class
         /// </summary>
         /// <param name="disposing"></param>
-        public void Dispose(bool disposing)
-        {
-            lock (this)
-            {                
-                if (myfeed != null)
-                {
-                    Marshal.ReleaseComObject(myfeed);
-                }
-                System.GC.SuppressFinalize(this);
-                disposed = true; 
-            }
-        }
+        protected virtual void Dispose(bool disposing)
+		{
+			if (!disposed)
+				lock (this)
+				{
+					if (!disposed && myfeed != null)
+					{
+						Marshal.ReleaseComObject(myfeed);
+					}
+
+					disposed = true;
+				}
+		}
 
         #endregion
 
@@ -3242,11 +3243,10 @@ namespace NewsComponents.Feed {
 
         #region destructor and IDisposable implementation 
 
-        /// <summary>
-        /// Releases the associated COM objects
-        /// </summary>
-        /// <seealso cref="myfeed"/>
-        ~WindowsRssNewsFeedCategory()
+		/// <summary>
+		/// Releases the associated COM objects
+		/// </summary>
+		~WindowsRssNewsFeedCategory()
         {
             Dispose(false);           
         }

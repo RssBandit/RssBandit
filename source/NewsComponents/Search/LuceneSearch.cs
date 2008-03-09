@@ -123,7 +123,6 @@ namespace NewsComponents.Search
 		/// Default constructor
 		/// </summary>
 		/// <param name="configuration">The configuration.</param>
-		/// <param name="newsHandler">The news handler.</param>
 		/// <exception cref="ArgumentNullException">if newsHandler or configuration are null</exception>
 		/// <exception cref="IOException">On indexPath directory creation failures</exception>
 		/// <exception cref="SecurityException">On indexPath directory creation failures</exception>
@@ -174,10 +173,11 @@ namespace NewsComponents.Search
 
 
 		/// <summary>
-		/// Executes a search. 
+		/// Executes a search.
 		/// </summary>
 		/// <param name="criteria">The criteria.</param>
 		/// <param name="scope">The scope.</param>
+		/// <param name="newsHandlers">The news handlers.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
 		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IList<FeedSource> newsHandlers, string cultureName) 

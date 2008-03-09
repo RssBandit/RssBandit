@@ -1,14 +1,17 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+
 using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 //
@@ -29,4 +32,7 @@ using System.Runtime.InteropServices;
 // http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&&url=/Design/MarkAssembliesWithClsCompliant.html
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
+// MSDN Magazine July 2002, p. 94: marks our bundled resources as
+// culture specific to save assembly resource resolve steps:
+[assembly: NeutralResourcesLanguage("en-US")]
 

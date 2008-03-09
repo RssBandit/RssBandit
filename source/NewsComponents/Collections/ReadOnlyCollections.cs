@@ -186,6 +186,15 @@ namespace NewsComponents.Collections
             return new ReadOnlyDictionary<TKey, TValue>(dictionaryToWrap);
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReadOnlyDictionary&lt;TKey, TValue&gt;"/> class.
+		/// </summary>
+		/// <param name="info">The info.</param>
+		/// <param name="context">The context.</param>
+		protected ReadOnlyDictionary(SerializationInfo info, StreamingContext context) {
+			// handled in OnDeserialization()
+		}
+
         /// <summary>
         /// Add does not change a read only Dictionary
         /// </summary>
@@ -262,11 +271,11 @@ namespace NewsComponents.Collections
             }
         }
 
-        /// <summary>
-        /// Gets the <see cref="TValue"/> with the specified key. Set
-        /// does not change a read only Dictionary
-        /// </summary>
-        /// <value></value>
+		/// <summary>
+		/// Gets the Value with the specified key. Set
+		/// does not change a read only Dictionary
+		/// </summary>
+		/// <value></value>
         public TValue this[TKey key]
         {
             get
@@ -537,7 +546,7 @@ namespace NewsComponents.Collections
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> to populate with data.</param>
         /// <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"></see>) for this serialization.</param>
         /// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             ISerializable serializable = dict as ISerializable;
             serializable.GetObjectData(info, context);

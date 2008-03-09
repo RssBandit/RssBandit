@@ -67,7 +67,7 @@ namespace NewsComponents.Net
         /// <summary>
         /// Event triggered, if a not yet accepted CertificateIssue is raised by a web request.
         /// </summary>
-        public static event CertificateIssueHandler OnCertificateIssue = null;
+		public static event EventHandler<CertificateIssueCancelEventArgs> OnCertificateIssue = null;
 
         /// <summary>
         /// Contains the url's as keys and the allowed (user interaction needed) 
@@ -1489,11 +1489,6 @@ namespace NewsComponents.Net
         CertWRONG_USAGE = 0x800B0110,
         CertUNTRUSTEDCA = 0x800B0112
     }
-
-    /// <summary>
-    /// Method signature to enable external handling of certificate issues.
-    /// </summary>
-    public delegate void CertificateIssueHandler(object sender, CertificateIssueCancelEventArgs e);
 
     /// <summary>
     /// Cancelable Event Argument class to handle certificate issues on web requests.

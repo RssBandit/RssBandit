@@ -35,46 +35,47 @@ namespace NewsComponents.Utils
 		/// deal with timezone offset since they are unsupported by the 
 		/// .NET Framework. 
 		/// </summary>
-		/// <param name="datetime">DateTime string</param>
+		/// <param name="dateTime">DateTime string</param>
 		/// <returns>DateTime instance</returns>
 		/// <exception cref="FormatException">On format errors parsing the datetime</exception>
 		/// <remarks>
 		/// See also W3C note at: http://www.w3.org/TR/NOTE-datetime
 		/// </remarks>
-		public static DateTime ToDateTime(string datetime){
+		public static DateTime ToDateTime(string dateTime){
 
 			//strip trailing 'Z' since we assume UTC
-			datetime = (datetime.EndsWith("Z") ? datetime.Substring(0, datetime.Length - 1) : datetime); 
+			dateTime = (dateTime.EndsWith("Z", StringComparison.Ordinal) ? dateTime.Substring(0, dateTime.Length - 1) : dateTime);
 
-			int timeIndex = datetime.IndexOf(":");    
+			int timeIndex = dateTime.IndexOf(":", StringComparison.Ordinal);    
 
 			if(timeIndex != -1){			
 
-				int tzoneIndex = datetime.IndexOf("-", timeIndex); 
+				int tzoneIndex = dateTime.IndexOf("-", timeIndex, StringComparison.Ordinal); 
 
-				if(tzoneIndex == -1){ 
+				if(tzoneIndex == -1){
 
-					tzoneIndex = datetime.IndexOf("+", timeIndex); 
+					tzoneIndex = dateTime.IndexOf("+", timeIndex, StringComparison.Ordinal); 
 
 					if(tzoneIndex != -1){ //timezone is ahead of UTC
 
-						return AddOffset("+", datetime, tzoneIndex); 	  
+						return AddOffset("+", dateTime, tzoneIndex); 	  
 
 					}
 
 				}else{ //timezone is behind UTC
 
-					return AddOffset("-", datetime, tzoneIndex); 
+					return AddOffset("-", dateTime, tzoneIndex); 
 				}
 
 			}
 
 
-			if(timeIndex == datetime.LastIndexOf(":")){ //check if seconds part is missing
-				datetime = datetime + ":00"; 
+			if (timeIndex == dateTime.LastIndexOf(":", StringComparison.Ordinal))
+			{ //check if seconds part is missing
+				dateTime = dateTime + ":00"; 
 			} 
 
-			return XmlConvert.ToDateTime(datetime);
+			return XmlConvert.ToDateTime(dateTime, XmlDateTimeSerializationMode.Utc);
 
 		}
 
@@ -105,9 +106,9 @@ namespace NewsComponents.Utils
 					int yy = Int32.Parse(m.Groups[3].Value); 
 					// following year completion is compliant with RFC 2822.
 					yy = (yy < 50 ? 2000 + yy: (yy < 1000 ? 1900 + yy: yy));
-					int hh = Int32.Parse(m.Groups[4].Value);
-					int mm = Int32.Parse(m.Groups[5].Value);
-					int ss = Int32.Parse("0" + m.Groups[6].Value);	// optional (may get lenght zero)
+					int hh = Int32.Parse(m.Groups[4].Value, CultureInfo.InvariantCulture);
+					int mm = Int32.Parse(m.Groups[5].Value, CultureInfo.InvariantCulture);
+					int ss = Int32.Parse("0" + m.Groups[6].Value, CultureInfo.InvariantCulture);	// optional (may get lenght zero)
 					string zone =  m.Groups[7].Value;
 
 					DateTime xd = new DateTime(yy, mth, dd, hh, mm, ss);
@@ -177,13 +178,13 @@ namespace NewsComponents.Utils
 			{
 				int fact = (zone.Substring(0,1) == "-"? -1: 1);
 				s = zone.Substring(1).TrimEnd();
-				double hh = Math.Min(23, Int32.Parse(s.Substring(0,2)));
-				double mm = Math.Min(59, Int32.Parse(s.Substring(2,2)))/60;
+				double hh = Math.Min(23, Int32.Parse(s.Substring(0, 2), CultureInfo.InvariantCulture));
+				double mm = Math.Min(59, Int32.Parse(s.Substring(2, 2), CultureInfo.InvariantCulture)) / 60;
 				return fact * (hh+mm);
 			} 
 			else
 			{ // named format
-				s = zone.ToUpper().Trim();
+				s = zone.ToUpper(CultureInfo.InvariantCulture).Trim();
 				for (int i = 0; i < timeZones; i++)
 					if (ZoneBias[i].Zone.Equals(s)) 
 					{
@@ -203,7 +204,7 @@ namespace NewsComponents.Utils
 				datetime = datetime + ":00"; 
 			} 
 
-			DateTime  toReturn = XmlConvert.ToDateTime(datetime); 
+			DateTime  toReturn = XmlConvert.ToDateTime(datetime, XmlDateTimeSerializationMode.Unspecified); 
 
 			// just fix a common issue of feed publishers: they specify the timezone
 			// as "-0300", not as defined by http://www.w3.org/TR/NOTE-datetime format 

@@ -60,6 +60,9 @@ namespace NewsComponents.RelationCosmos
 	#endregion
 
 	#region IRelationCosmos
+	/// <summary>
+	/// Interface for a relation cosmos implementor
+	/// </summary>
 	public interface IRelationCosmos
 	{
 		/// <summary>

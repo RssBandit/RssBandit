@@ -8,7 +8,7 @@
 #endregion
 
 using System;
-using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace RssBandit.Common.Logging {
 	
@@ -23,15 +23,17 @@ namespace RssBandit.Common.Logging {
 	///   // ... time consuming task here
 	///   Trace.WriteLine(ProfilerHelper.StopMeasureString(secs), "task perf.");
 	/// </remarks>
-	internal class ProfilerHelper {
+	internal static class ProfilerHelper {
 		
 		private static long seqFreq = 0;
 		
 		[System.Runtime.InteropServices.DllImport("KERNEL32")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool QueryPerformanceCounter(
 			ref long lpPerformanceCount);
 
 		[System.Runtime.InteropServices.DllImport("KERNEL32")]
+		[return:MarshalAs(UnmanagedType.Bool)]
 		private static extern bool QueryPerformanceFrequency(
 			ref long lpFrequency);
 

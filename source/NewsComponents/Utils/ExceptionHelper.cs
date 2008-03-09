@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NewsComponents.Utils
 {
-    public sealed class ExceptionHelper
+    public static class ExceptionHelper
     {
         /// <summary>
         /// Used to preserve stack traces on rethrow

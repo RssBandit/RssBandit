@@ -23,8 +23,11 @@ namespace NewsComponents.Feed
 	/// represents information about a particular rss feed. 
 	/// </summary>
 	public class FeedInfo : FeedDetailsInternal, ISizeInfo
-	{						 
+	{
 
+		/// <summary>
+		/// Gets the empty feed info instance.
+		/// </summary>
 		public static readonly FeedInfo Empty = new FeedInfo(String.Empty, String.Empty, new List<INewsItem>(), String.Empty,String.Empty,String.Empty, new Dictionary<XmlQualifiedName, string>(0), String.Empty);
 
 		
@@ -37,13 +40,21 @@ namespace NewsComponents.Feed
 		
 
 		internal string feedLocation; //location in the cache not on the WWW
+		/// <summary>
+		/// Gets or sets the feed location.
+		/// </summary>
+		/// <value>The feed location.</value>
 		public string FeedLocation {
 			get { return feedLocation; }
 			set { feedLocation = value; }
 		}
 
-		internal List<INewsItem> itemsList; 
+		internal List<INewsItem> itemsList;
 
+		/// <summary>
+		/// The list of news items belonging to the feed
+		/// </summary>
+		/// <value></value>
 		public List<INewsItem> ItemsList {
 			get { return itemsList; }
 			set { itemsList = value; }
@@ -69,7 +80,7 @@ namespace NewsComponents.Feed
 		/// <param name="id"></param>
 		/// <param name="feedLocation"></param>
 		/// <param name="itemsList"></param>
-		public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList){
+		public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList){
 			this.id = id;
 			this.feedLocation = feedLocation;  
             if(itemsList != null){
@@ -101,7 +112,7 @@ namespace NewsComponents.Feed
 		/// <param name="description"></param>
 		/// <param name="optionalElements"></param>
 		/// <param name="language"></param>
-        public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList, string title, string link, string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
+        public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList, string title, string link, string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
         {
 			this.id = id;
 			this.feedLocation = feedLocation; 
