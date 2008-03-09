@@ -13,7 +13,7 @@ namespace NewsComponents.Xml.Serialization
 	/// Helpers to create a normalized thumbprint
 	/// for XmlAttributeOverrides objects.
 	/// </summary>
-	public class XmlAttributeOverridesThumbprinter
+	public sealed class XmlAttributeOverridesThumbprinter
 	{
 		private XmlAttributeOverridesThumbprinter()
 		{

@@ -13,7 +13,7 @@ namespace NewsComponents.Xml.Serialization
 	/// to identify each instance of an XmlSerializer
 	/// in the cache.
 	/// </summary>
-	public class CacheKeyFactory
+	public sealed class CacheKeyFactory
 	{
 
 		private CacheKeyFactory()

@@ -497,7 +497,7 @@ namespace NewsComponents.Feed
             }
             finally
             {
-                if (offline || !anyRequestQueued)
+                if (isOffline || !anyRequestQueued)
                     RaiseOnAllAsyncRequestsCompleted();
             }
         }
@@ -600,7 +600,7 @@ namespace NewsComponents.Feed
             }
             finally
             {
-                if (offline || !anyRequestQueued)
+                if (isOffline || !anyRequestQueued)
                     RaiseOnAllAsyncRequestsCompleted();
             }
         }

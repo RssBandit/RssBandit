@@ -17,7 +17,7 @@ namespace NewsComponents.Xml.Serialization
 	/// Helper methods to create the signature for 
 	/// the XmlSerializer parameters.
 	/// </summary>
-	public class SignatureExtractor
+	public sealed class SignatureExtractor
 	{
 		private SignatureExtractor()
 		{

@@ -679,7 +679,7 @@ namespace NewsComponents.Utils
 		/// <param name="lpNewFileName">The file path.</param>
 		/// <param name="dwFlags">Move file flags.</param>
 		/// <returns>Whether the file was moved or not.</returns>
-		[DllImport("KERNEL32.DLL")]
+		[DllImport("KERNEL32.DLL", CharSet = CharSet.Unicode) ]
 		private static extern bool MoveFileEx( 
 			string lpExistingFileName, 
 			string lpNewFileName,

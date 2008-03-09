@@ -56,7 +56,6 @@ namespace NewsComponents
             this.mimeType = mimeType;
             this.url = url;
             this.description = description;
-            downloaded = false;
             Duration = TimeSpan.MinValue;
         }
 
@@ -153,12 +152,12 @@ namespace NewsComponents
             return Equals(other as Enclosure);
         }
 
-        /// <summary>
-        /// Compares to see if two Enclosures are identical. Identity just checks to see if they have 
-        /// the same link, 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Compares to see if two Enclosures are identical. Identity just checks to see if they have
+		/// the same link,
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
         public bool Equals(Enclosure item)
         {
             if (item == null)
@@ -171,7 +170,7 @@ namespace NewsComponents
                 return true;
             }
 
-            if (String.Compare(Url, item.Url) == 0)
+            if (String.Compare(Url, item.Url, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 return true;
             }
@@ -1090,7 +1089,7 @@ namespace NewsComponents
             if (commentCount != NoComments)
             {
                 writer.WriteStartElement("slash", "comments", "http://purl.org/rss/1.0/modules/slash/");
-                writer.WriteString(commentCount.ToString());
+                writer.WriteString(commentCount.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
             }
 
@@ -1132,7 +1131,7 @@ namespace NewsComponents
                     writer.WriteStartElement("enclosure");
                     writer.WriteAttributeString("url", enc.Url);
                     writer.WriteAttributeString("type", enc.MimeType);
-                    writer.WriteAttributeString("length", enc.Length.ToString());
+                    writer.WriteAttributeString("length", enc.Length.ToString(CultureInfo.InvariantCulture));
                     if (enc.Downloaded)
                     {
                         writer.WriteAttributeString("downloaded", "1");
@@ -1639,7 +1638,7 @@ namespace NewsComponents
     /// </summary>
     public class ExceptionalNewsItem : SearchHitNewsItem
     {
-        public ExceptionalNewsItem(NewsFeed feed, string title, string link, string summary, string author,
+        public ExceptionalNewsItem(INewsFeed feed, string title, string link, string summary, string author,
                                    DateTime date, string id)
             :
                 base(feed, title, link, summary, author, date, id)
