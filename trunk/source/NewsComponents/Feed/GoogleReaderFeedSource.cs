@@ -289,4 +289,56 @@ namespace NewsComponents.Feed
     }
 
     #endregion 
+
+    /// <summary>
+    /// Represents a news feed subscribed to in Google Reader. 
+    /// </summary>
+    internal class GoogleReaderNewsFeed : NewsFeed
+    {
+        #region constructors 
+
+        /// <summary>
+        /// We always want an associated GoogleReaderSubscription instance
+        /// </summary>
+        private GoogleReaderNewsFeed() { ;}
+
+        /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="subscription">The GoogleReaderSubscription instance that this object will wrap</param>
+        internal GoogleReaderNewsFeed(GoogleReaderSubscription subscription, object owner)
+        {
+            if (subscription == null) throw new ArgumentNullException("subscription");
+            this.mysubscription = subscription;
+
+            if (owner is GoogleReaderFeedSource)
+            {
+                this.owner = owner; 
+            }
+        }
+
+        #endregion 
+
+        #region private fields
+
+
+        /// <summary>
+        /// The subscription that this object wraps. 
+        /// </summary>
+        GoogleReaderSubscription mysubscription = null; 
+
+        #endregion 
+
+        #region INewsFeed implementation 
+
+        #region INewsFeed properties 
+
+        #endregion
+
+        #region INewsFeed methods
+
+        #endregion
+
+        #endregion
+    }
 }
