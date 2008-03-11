@@ -70,6 +70,7 @@ namespace NewsComponents.Feed {
 
             this.AttachEventHandlers();
             feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
+            
         }    
 
         #endregion 
@@ -104,11 +105,39 @@ namespace NewsComponents.Feed {
 
         #endregion 
 
-        #region private methods
+         #region public fields and properties 
 
-		 /// <summary>
-		 /// Attaches event handlers to the root IFeedFolder
-		 /// </summary>
+
+         /// <summary>
+         ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
+         ///  Setting this property resets the refresh rate for all feeds. Value is in milliseconds.
+         /// </summary>
+         /// <remarks>If set to a value less than 15 minutes then the old value remains. Setting the 
+         /// value to zero means feeds are no longer updated.</remarks>
+         public override int RefreshRate
+         {
+             set
+             {
+                 if (value >= 15 * 60000)
+                 {
+                     this.feedManager.DefaultInterval = value / 60000;
+                 }
+             }
+
+             get
+             {
+                 return feedManager.DefaultInterval * 60000; //convert to milliseconds
+             }
+         }
+
+         #endregion
+
+         #region private methods
+
+         /// <summary>
+        /// Attaches event handlers to the root IFeedFolder
+        /// </summary>
+        /// <param name="folder"></param>
         internal void AttachEventHandlers()
         {
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
