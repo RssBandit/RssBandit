@@ -853,9 +853,9 @@ namespace NewsComponents.Feed
 
         #region INewsFeed implementation
 
-        private string _title = null; 
+        protected string _title = null; 
         /// <remarks/>
-        public string title {
+        public virtual string title {
             get
             {
                 return _title;
@@ -871,10 +871,10 @@ namespace NewsComponents.Feed
             }
         }
 
-        private string _link = null; 
+        protected string _link = null; 
         /// <remarks/>
         [XmlElement(DataType = "anyURI")]
-        public string link
+        public virtual string link
         {
             get
             {
@@ -891,10 +891,10 @@ namespace NewsComponents.Feed
             }
         }
 
-        private string _id;
+        protected string _id;
         /// <remarks/>
         [XmlAttribute]
-        public string id
+        public virtual string id
         {
             get
             {
@@ -908,10 +908,10 @@ namespace NewsComponents.Feed
             }
         }
 
-        private int _refreshrate; 
+        protected int _refreshrate; 
         /// <remarks/>
         [XmlElement("refresh-rate")]
-        public int refreshrate
+        public virtual int refreshrate
         {
             get
             {
@@ -930,27 +930,27 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlIgnore]
-        public bool refreshrateSpecified { get; set; }
+        public virtual bool refreshrateSpecified { get; set; }
 
         /// <remarks/>
         [XmlElement("last-retrieved")]
-        public DateTime lastretrieved { get; set; }
+        public virtual DateTime lastretrieved { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool lastretrievedSpecified { get; set; }
+        public virtual bool lastretrievedSpecified { get; set; }
 
         /// <remarks/>
-        public string etag { get; set; }
+        public virtual string etag { get; set; }
 
         /// <remarks/>
         [XmlElement(DataType = "anyURI")]
-        public string cacheurl { get; set; }
+        public virtual string cacheurl { get; set; }
 
-        private string _maxitemage; 
+        protected string _maxitemage; 
         /// <remarks/>
         [XmlElement("max-item-age", DataType = "duration")]
-        public string maxitemage
+        public virtual string maxitemage
         {
             get
             {
@@ -967,11 +967,11 @@ namespace NewsComponents.Feed
             }
         }
 
-        private List<string> _storiesrecentlyviewed = new List<string>();
+        protected List<string> _storiesrecentlyviewed = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
-        public List<string> storiesrecentlyviewed 
+        public virtual List<string> storiesrecentlyviewed 
         { 
             get{
                 return _storiesrecentlyviewed;
@@ -982,11 +982,11 @@ namespace NewsComponents.Feed
             }        
         }
 
-        private List<string> _deletedstories = new List<string>();
+        protected List<string> _deletedstories = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
-        public List<string> deletedstories
+        public virtual List<string> deletedstories
         {
             get
             {
@@ -1001,27 +1001,27 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlElement("if-modified-since")]
-        public DateTime lastmodified { get; set; }
+        public virtual DateTime lastmodified { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool lastmodifiedSpecified { get; set; }
+        public virtual bool lastmodifiedSpecified { get; set; }
         
         /// <remarks/>
         [XmlElement("auth-user")]
-        public string authUser { get; set; }
+        public virtual string authUser { get; set; }
 
         /// <remarks/>
         [XmlElement("auth-password", DataType = "base64Binary")]
-        public Byte[] authPassword { get; set; }
+        public virtual Byte[] authPassword { get; set; }
 
         /// <remarks/>
         [XmlElement("listview-layout")]
-        public string listviewlayout { get; set; }
+        public virtual string listviewlayout { get; set; }
 
-        private string _favicon; 
+        protected string _favicon; 
         /// <remarks/>
-        public string favicon
+        public virtual string favicon
         {
             get
             {
@@ -1039,10 +1039,10 @@ namespace NewsComponents.Feed
         }
 
 
-        private bool _downloadenclosures; 
+        protected bool _downloadenclosures; 
         /// <remarks/>
         [XmlElement("download-enclosures")]
-        public bool downloadenclosures
+        public virtual bool downloadenclosures
         {
             get
             {
@@ -1061,12 +1061,12 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlIgnore]
-        public bool downloadenclosuresSpecified { get; set; }
+        public virtual bool downloadenclosuresSpecified { get; set; }
 
-        private string _enclosurefolder;
+        protected string _enclosurefolder;
         /// <remarks/>
         [XmlElement("enclosure-folder")]
-        public string enclosurefolder
+        public virtual string enclosurefolder
         {
             get
             {
@@ -1085,15 +1085,15 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlAttribute("replace-items-on-refresh")]
-        public bool replaceitemsonrefresh { get; set; }
+        public virtual bool replaceitemsonrefresh { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool replaceitemsonrefreshSpecified {get; set;}
+        public virtual bool replaceitemsonrefreshSpecified {get; set;}
 
-        private string _stylesheet; 
+        protected string _stylesheet; 
         /// <remarks/>
-        public string stylesheet
+        public virtual string stylesheet
         {
             get
             {
@@ -1112,52 +1112,52 @@ namespace NewsComponents.Feed
 
         /// <remarks>Reference the corresponding NntpServerDefinition</remarks>
         [XmlElement("news-account")]
-        public string newsaccount { get; set; }
+        public virtual string newsaccount { get; set; }
 
         /// <remarks/>
         [XmlElement("mark-items-read-on-exit")]
-        public bool markitemsreadonexit { get; set; }
+        public virtual bool markitemsreadonexit { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool markitemsreadonexitSpecified { get; set; }
+        public virtual bool markitemsreadonexitSpecified { get; set; }
 
         /// <remarks/>
         [XmlAnyElement]
-        public XmlElement[] Any { get; set; }
+        public virtual XmlElement[] Any { get; set; }
 
 
         /// <remarks/>
         [XmlAttribute("alert"), DefaultValue(false)]
-        public bool alertEnabled { get; set; }
+        public virtual bool alertEnabled { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool alertEnabledSpecified { get; set; }
+        public virtual bool alertEnabledSpecified { get; set; }
 
 
         /// <remarks/>
         [XmlAttribute("enclosure-alert"), DefaultValue(false)]
-        public bool enclosurealert { get; set; }
+        public virtual bool enclosurealert { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
-        public bool enclosurealertSpecified { get; set; }
+        public virtual bool enclosurealertSpecified { get; set; }
 
 
         //TODO: Make this a collection
         /// <remarks/>
         [XmlAttribute]
-        public string category { get; set; }
+        public virtual string category { get; set; }
 
         /// <remarks/>
         [XmlAnyAttribute]
-        public XmlAttribute[] AnyAttr { get; set; }
+        public virtual XmlAttribute[] AnyAttr { get; set; }
 
         /// <remarks>True, if the feed caused an exception on request to prevent sequenced
         /// error reports on every automatic download</remarks>
         [XmlIgnore]
-        public bool causedException
+        public virtual bool causedException
         {
             get
             {
@@ -1178,16 +1178,16 @@ namespace NewsComponents.Feed
 
         /// <remarks>Number of exceptions caused on requests</remarks>
         [XmlIgnore]
-        public int causedExceptionCount { get; set; }
+        public virtual int causedExceptionCount { get; set; }
 
         /// <remarks>Can be used to store any attached data</remarks>
         [XmlIgnore]
-        public object Tag { get; set; }
+        public virtual object Tag { get; set; }
 
-        private bool _containsNewMessages;
+        protected bool _containsNewMessages;
         /// <remarks/>
         [XmlIgnore]
-        public bool containsNewMessages
+        public virtual bool containsNewMessages
         {
             get
             {
@@ -1204,10 +1204,10 @@ namespace NewsComponents.Feed
             }
         }
 
-        private bool _containsNewComments;
+        protected bool _containsNewComments;
         /// <remarks/>
         [XmlIgnore]
-        public bool containsNewComments
+        public virtual bool containsNewComments
         {
             get
             {
@@ -1226,7 +1226,7 @@ namespace NewsComponents.Feed
 
         /// <remarks />                
         [XmlIgnore]
-        public object owner { get; set; }
+        public virtual object owner { get; set; }
 
 		/// <summary>
 		/// Gets the value of a particular wildcard element. If the element is not found then
@@ -1254,7 +1254,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to add</param>
-        public void AddViewedStory(string storyid) {
+        public virtual void AddViewedStory(string storyid) {
             if (!_storiesrecentlyviewed.Contains(storyid)) 
             {
                 _storiesrecentlyviewed.Add(storyid);
@@ -1270,7 +1270,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to remove</param>
-        public void RemoveViewedStory(string storyid)
+        public virtual void RemoveViewedStory(string storyid)
         {
             if (_storiesrecentlyviewed.Contains(storyid))
             {
@@ -1287,7 +1287,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to add</param>
-        public void AddDeletedStory(string storyid)
+        public virtual void AddDeletedStory(string storyid)
         {
             if (!_deletedstories.Contains(storyid))
             {
@@ -1304,7 +1304,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to remove</param>
-        public void RemoveDeletedStory(string storyid) {
+        public virtual void RemoveDeletedStory(string storyid) {
             if (_deletedstories.Contains(storyid))
             {
                 _deletedstories.Remove(storyid);
