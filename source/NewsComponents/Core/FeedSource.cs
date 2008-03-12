@@ -44,7 +44,6 @@ using NewsComponents.Threading;
 using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using RC = NewsComponents.RelationCosmos;
 using RssBandit.AppServices.Core;
 #endregion
 
