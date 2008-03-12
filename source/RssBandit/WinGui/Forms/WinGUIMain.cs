@@ -5453,7 +5453,7 @@ namespace RssBandit.WinGui.Forms
             if (!_timerRefreshFeeds.Enabled)
                 _timerRefreshFeeds.Start();
 #endif
-            if (!_faviconsDownloaded && owner.Preferences.UseFavicons && owner.FeedHandler.DownloadIntervalReached)
+            if (!_faviconsDownloaded && owner.Preferences.UseFavicons)
             {
                 try
                 {
