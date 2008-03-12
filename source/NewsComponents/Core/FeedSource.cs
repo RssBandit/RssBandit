@@ -2551,7 +2551,7 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>If set to a negative value then the old value remains. Setting the 
         /// value to zero means feeds are no longer updated.</remarks>
-        public int RefreshRate
+        public virtual int RefreshRate
         {
             set
             {
@@ -2725,7 +2725,7 @@ namespace NewsComponents
             weightedLinks = weightedLinks.GetRange(0, Math.Min(numStories, weightedLinks.Count));
 
             //fetch titles from HTML page
-            numTitlesToDownload = numStories;
+            numTitlesToDownload = Math.Min(numStories, weightedLinks.Count); //in number of weighted links less than numStories 
             this.eventX = new ManualResetEvent(false);
 
             foreach (RelationHRefEntry weightedLink in weightedLinks)
