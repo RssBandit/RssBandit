@@ -817,6 +817,7 @@ namespace NewsComponents.Feed
                 this.link = feedtoclone.link;
                 this.title = feedtoclone.title;
                 this.category = feedtoclone.category;
+                this.cacheurl = cacheurl;
                 this.storiesrecentlyviewed = new List<string>(feedtoclone.storiesrecentlyviewed);
                 this.deletedstories = new List<string>(feedtoclone.deletedstories);
                 this.id = feedtoclone.id;
