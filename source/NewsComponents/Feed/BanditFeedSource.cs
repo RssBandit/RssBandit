@@ -456,7 +456,7 @@ namespace NewsComponents.Feed
                         else
                         {
                             // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if (current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
+                            if ((!force_download) && current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
                             {
                                 // imported may have lastretrievedSpecified set to reduce the initial payload
                                 double timeSinceLastDownload =
