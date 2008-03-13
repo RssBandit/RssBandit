@@ -3249,7 +3249,10 @@ namespace NewsComponents
 
                     foreach (INewsFeed f in feeds.Values)
                     {
-                        feedlist.feed.Add(new NewsFeed(f));
+                        if (f is NewsFeed)
+                            feedlist.feed.Add((NewsFeed)f);
+                        else
+                            feedlist.feed.Add(new NewsFeed(f));
 
                         if (itemsTable.ContainsKey(f.link))
                         {
