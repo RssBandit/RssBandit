@@ -10683,6 +10683,7 @@ namespace RssBandit.WinGui.Forms
             {
                 _trayAni.Visible = false;
                 toastNotifier.Dispose();
+				_uiTasksTimer.Stop();
                 SaveUIConfiguration(true);
             }
         }

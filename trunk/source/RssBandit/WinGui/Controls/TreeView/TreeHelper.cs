@@ -947,13 +947,15 @@ namespace RssBandit.WinGui.Controls {
 				HybridDictionary nodes = new HybridDictionary(expandedNodes.Count);
 				for (int i=0; i < expandedNodes.Count; i++) {
 					string path = (string)expandedNodes[i];
-					nodes.Add(path, null);
+					if (!nodes.Contains(path)) 
+						nodes.Add(path, null);
 				}
 
 				HybridDictionary selNodes = new HybridDictionary(selectedNodes.Count);
 				for (int i=0; i < selectedNodes.Count; i++) {
 					string path = (string)selectedNodes[i];
-					selNodes.Add(path, null);
+					if (!selNodes.Contains(path))
+						selNodes.Add(path, null);
 				}
 
 				foreach (TreeFeedsNodeBase n in tree.Nodes) {
@@ -1004,13 +1006,15 @@ namespace RssBandit.WinGui.Controls {
 				HybridDictionary nodes = new HybridDictionary(expandedNodes.Count);
 				for (int i=0; i < expandedNodes.Count; i++) {
 					string path = (string)expandedNodes[i];
-					nodes.Add(path, null);
+					if (!nodes.Contains(path))
+						nodes.Add(path, null);
 				}
 
 				HybridDictionary selNodes = new HybridDictionary(selectedNodes.Count);
 				for (int i=0; i < selectedNodes.Count; i++) {
 					string path = (string)selectedNodes[i];
-					selNodes.Add(path, null);
+					if (!selNodes.Contains(path))
+						selNodes.Add(path, null);
 				}
 
 				foreach (TreeFeedsNodeBase n in node.Nodes) {
