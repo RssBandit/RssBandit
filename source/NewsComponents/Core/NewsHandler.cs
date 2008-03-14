@@ -775,36 +775,51 @@ namespace NewsComponents
         /// cache. This value is used for all feeds unless one is specified on 
         /// the particular feed or its category
         /// </summary>
-        public TimeSpan MaxItemAge
-        {
-            get
-            {
-                return this.maxitemage;
-            }
+		public TimeSpan MaxItemAge
+		{
+			get
+			{
+				return this.maxitemage;
+			}
+			set
+			{
+				this.maxitemage = value;
+			}
+		}
 
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.maxitemage = value;
+		/// <summary>
+		/// Clears all individual max-item-age settings on 
+		/// feeds and categories.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.Synchronized)]
+		public void ClearAllMaxItemAgeSettings()
+		{
+			string[] keys;
 
-                string[] keys;
+			// handle feeds:
+			lock (feedsTable)
+			{
+				keys = new string[feedsTable.Count];
+				if (feedsTable.Count > 0)
+					feedsTable.Keys.CopyTo(keys, 0);
+			}
 
-                lock (FeedsTable)
-                {
-                    keys = new string[FeedsTable.Count];
-                    if (FeedsTable.Count > 0)
-                        FeedsTable.Keys.CopyTo(keys, 0);
-                }
+			for (int i = 0, len = keys.Length; i < len; i++)
+			{
+				INewsFeed f;
+				if (feedsTable.TryGetValue(keys[i], out f))
+				{
+					f.maxitemage = null;
+				}
+			}
 
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    NewsFeed f = null;
-                    if (FeedsTable.TryGetValue(keys[i], out f)) {
-                        f.maxitemage = XmlConvert.ToString(value);
-                    }
-                }
-            }
-        }
+			// handle categories:
+			//DISCUSS: do we need to lock here? 
+			foreach (INewsFeedCategory c in this.categories.Values)
+			{
+				c.maxitemage = null;
+			}
+		}
 
         /// <summary>
         /// The stylesheet for displaying feeds.
