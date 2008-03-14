@@ -1708,7 +1708,7 @@ namespace RssBandit
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
+            //make static
             if (propertiesDialog.checkCustomFormatter.Checked)
             {
                 this.feedHandler.Stylesheet = Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
@@ -1734,6 +1734,7 @@ namespace RssBandit
 				}
 			}
 
+            //make static
         	if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
                 this.feedHandler.MarkItemsReadOnExit =
@@ -1878,25 +1879,25 @@ namespace RssBandit
             {
                 guiMain.ResetHtmlDetail();
             }
-
+            //make static
             if (!this.feedHandler.EnclosureFolder.Equals(propertiesDialog.textEnclosureDirectory.Text))
             {
                 this.feedHandler.EnclosureFolder = propertiesDialog.textEnclosureDirectory.Text;
                 this.feedlistModified = true;
             }
-
+            //move to config but leave as instance
             if (this.feedHandler.DownloadEnclosures != propertiesDialog.checkDownloadEnclosures.Checked)
             {
                 this.feedHandler.DownloadEnclosures = propertiesDialog.checkDownloadEnclosures.Checked;
                 this.feedlistModified = true;
             }
-
+            //move to config but leave as instance
             if (this.feedHandler.EnclosureAlert != propertiesDialog.checkEnableEnclosureAlerts.Checked)
             {
                 this.feedHandler.EnclosureAlert = propertiesDialog.checkEnableEnclosureAlerts.Checked;
                 this.feedlistModified = true;
             }
-
+            //make static
             if (this.feedHandler.CreateSubfoldersForEnclosures !=
                 propertiesDialog.checkDownloadCreateFolderPerFeed.Checked)
             {
@@ -1905,7 +1906,7 @@ namespace RssBandit
                 this.feedlistModified = true;
             }
 
-
+            //make static
             if ((this.feedHandler.NumEnclosuresToDownloadOnNewFeed == Int32.MaxValue) &&
                 propertiesDialog.checkOnlyDownloadLastXAttachments.Checked)
             {
@@ -1920,7 +1921,7 @@ namespace RssBandit
             {
                 this.feedHandler.NumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
             }
-
+            //make static
             if ((this.feedHandler.EnclosureCacheSize == Int32.MaxValue) &&
                 propertiesDialog.checkEnclosureSizeOnDiskLimited.Checked)
             {
