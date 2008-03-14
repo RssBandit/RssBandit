@@ -197,11 +197,13 @@ namespace NewsComponents.Feed
             throw new WebException("Could not authenticate user to Google Reader because no SID provided in response", WebExceptionStatus.UnknownError);
         }
 
-        /// <summary>
-        /// Returns a CookieCollection containing a cookie with the specified SID
-        /// </summary>
-        /// <param name="SID">a SID which identifies a Google user</param>
-        /// <returns>A cookie collection with the Google cookie created from the SID</returns>
+		/// <summary>
+		/// Returns a CookieCollection containing a cookie with the specified SID
+		/// </summary>
+		/// <param name="sid">The sid.</param>
+		/// <returns>
+		/// A cookie collection with the Google cookie created from the SID
+		/// </returns>
         private static CookieCollection MakeGoogleCookie(string sid)
         {
            Cookie cookie = new Cookie("SID", sid, "/", ".google.com");

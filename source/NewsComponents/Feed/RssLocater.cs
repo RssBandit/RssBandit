@@ -496,48 +496,27 @@ namespace NewsComponents.Feed {
 //			return a;
 //		}
 
-		private  bool OnSameServer(string url1, string url2){
+		private static bool OnSameServer(string url1, string url2){
 	    
-			Uri uri1 = new Uri(url1); 
-			Uri uri2 = new Uri(url2); 
+			Uri uri1, uri2;
 
-			if(uri1.Host.Equals(uri2.Host)){
-				return true; 
-			}else{ 
-				return false; 
-			}
+			return (Uri.TryCreate(url1, UriKind.Absolute, out uri1) &&
+			        Uri.TryCreate(url2, UriKind.Absolute, out uri2) &&
+			        uri1.Host.Equals(uri2.Host, StringComparison.OrdinalIgnoreCase));
 
 		}
 
-		private  string ConvertToAbsoluteUrl(string url, string baseurl)
+		private static string ConvertToAbsoluteUrl(string url, string baseurl)
 		{
-			try
-			{ 
-				Uri uri = new Uri(url); 
-				return uri.CanonicalizedUri(); 
-			}
-			catch(UriFormatException)
-			{
-				try{
-					Uri baseUri= new Uri(baseurl);
-					return (new Uri(baseUri,url).CanonicalizedUri()); 
-				}catch(UriFormatException){ /* This is a last resort so we don't bork processing chain*/
-					return "http://www.example.com";
-				}
-				/* 
-					string fullurl = String.Empty; 
+			Uri uri, baseUri;
+			if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+				return uri.CanonicalizedUri();
+			if (Uri.TryCreate(baseurl, UriKind.Absolute, out baseUri) &&
+				Uri.TryCreate(baseUri, url, out uri))
+				return uri.CanonicalizedUri();
 
-				  if(baseurl.EndsWith("/")){
-					fullurl = url.StartsWith("/") ? baseurl + url.Substring(1) : baseurl + url; 
-				  }else if(url.StartsWith("/")){
-					fullurl =  baseurl + url;
-				  }else{
-					fullurl = baseurl + "/" + url; 
-				  }
-
-				  return new Uri(fullurl).ToString(); */
-			}
-
+			//giving up:
+			return url;
 		}
 
 	  

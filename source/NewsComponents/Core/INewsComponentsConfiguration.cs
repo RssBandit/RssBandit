@@ -35,6 +35,12 @@ namespace NewsComponents
 		/// <remarks>Required</remarks>
 		/// <value>The application ID.</value>
 		string ApplicationID { get; }
+
+		/// <summary>
+		/// Gets the application version. E.g. used to assemble the user agent string.
+		/// </summary>
+		/// <value>The application version.</value>
+		Version ApplicationVersion { get; }
 		
 		/// <summary>
 		/// Gets the windows user application data path (roaming one).
@@ -80,10 +86,6 @@ namespace NewsComponents
 		/// <value>The search index behavior.</value>
 		SearchIndexBehavior SearchIndexBehavior { get; }
 
-        /// <summary>
-        /// Gets the web proxy
-        /// </summary>
-        IWebProxy Proxy { get; }
 	}
 
 	#endregion
@@ -174,6 +176,7 @@ namespace NewsComponents
 		const string defaultApplicationID = "NewsComponents";
 		
 		protected string appID = null;
+		protected Version appVersion = new Version(1, 0);
 		protected string applicationDataPath = null;
 		protected string applicationLocalDataPath = null;
 		protected string applicationDownloadPath = null;
@@ -192,6 +195,16 @@ namespace NewsComponents
 		public virtual string ApplicationID {
 			get { return appID; }
 			set { appID = value;}
+		}
+
+		/// <summary>
+		/// Gets the application version. E.g. used to assemble the user agent string.
+		/// </summary>
+		/// <value>The application version.</value>
+		public virtual Version ApplicationVersion
+		{
+			get { return appVersion; }
+			set { appVersion = value; }
 		}
 
 		/// <summary>
@@ -260,10 +273,6 @@ namespace NewsComponents
 			set { searchBehavior = value; }
 		}
 
-        /// <summary>
-        /// Gets the Web proxy
-        /// </summary>
-        public virtual IWebProxy Proxy { get; set;}
 
 		#endregion
 		

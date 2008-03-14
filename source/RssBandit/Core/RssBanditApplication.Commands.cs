@@ -868,7 +868,6 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdViewSourceOfFeed(ICommand sender)
         {
-            CmdTopStories(sender);
 
             if (guiMain.CurrentSelectedFeedsNode != null && guiMain.CurrentSelectedFeedsNode.DataKey != null)
             {
