@@ -253,7 +253,7 @@ namespace RssBandit
 
         internal static void StaticInit()
         {
-            // according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
+        	// according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
             //TR 30-Aug-2007: we do not make use of that fix. We assume,
             //the user will have installed the framework security hotfix
             //provided via windows update!
@@ -298,15 +298,29 @@ namespace RssBandit
 
         public void Init()
         {
+			//specify 'nntp' and 'news' URI handler
+			NntpWebRequest creator = new NntpWebRequest(new Uri("http://www.example.com"));
+			WebRequest.RegisterPrefix("nntp", creator);
+			WebRequest.RegisterPrefix("news", creator);
+
+			defaultCategory = SR.FeedDefaultCategory;
+
+			// first: load user preferences (proxy, maxitemage, etc.)
+			this.LoadPreferences();
             
-			this.sourceManager = new FeedSourceManager();
-            
+			// fix/workaround for topstories feature:
+        	this.Preferences.BuildRelationCosmos = true;
+
+			// may already use preference settings:
+			FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
+
 			LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
-           
-
-            FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
-           
+            
+			// init feed source manager and sources:
+			this.sourceManager = new FeedSourceManager();
+            //TODO: load feedsources from file/db and init
+			// for now:
 #if TEST_GOOGLE_READER
             this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.Google, 
                                                            new SubscriptionLocation(GetFeedListFileName(),
@@ -323,9 +337,8 @@ namespace RssBandit
 #endif
 			// just for test, add the one source
 			this.sourceManager.Add(feedHandler, "My Feeds");
-
-			this.feedHandler.UserAgent = UserAgent;
-            this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
+			
+			this.feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             
             this.feedHandler.BeforeDownloadFeedStarted += this.BeforeDownloadFeedStarted;
             this.feedHandler.UpdateFeedsStarted += this.OnUpdateFeedsStarted;
@@ -345,7 +358,6 @@ namespace RssBandit
             this.commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, 
                                                             new SubscriptionLocation(GetCommentsFeedListFileName()) , 
                                                             CreateCommentFeedHandlerConfiguration(FeedSource.DefaultConfiguration));
-            this.commentFeedsHandler.UserAgent = UserAgent;
             // not really needed here, but init:
             this.commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             this.commentFeedsHandler.OnAllAsyncRequestsCompleted += this.OnAllCommentFeedRequestsCompleted;
@@ -370,45 +382,19 @@ namespace RssBandit
             this.stateManager.NewsHandlerBeforeStateMove += OnRssParserBeforeStateChange;
             this.stateManager.NewsHandlerStateMoved += this.OnNewsHandlerStateChanged;
 
-            this.Preferences = DefaultPreferences;
+            
             this.NewsItemFormatter = new NewsItemFormatter();
             this.NewsItemFormatter.TransformError += this.OnNewsItemTransformationError;
             this.NewsItemFormatter.StylesheetError += this.OnNewsItemFormatterStylesheetError;
             this.NewsItemFormatter.StylesheetValidationError += this.OnNewsItemFormatterStylesheetValidationError;
 
-            this.LoadPreferences();
+			// init all common components with the current preferences. 
+			// also apply some settings to each feed source instance, so they have
+			// have to be loaded before calling:
             this.ApplyPreferences();
 
-            this.flaggedItemsFeed = new LocalFeedsFeed(
-                GetFlagItemsFileName(),
-                SR.FeedNodeFlaggedFeedsCaption,
-                SR.FeedNodeFlaggedFeedsDesc);
-
-            this.watchedItemsFeed = new LocalFeedsFeed(
-                GetWatchedItemsFileName(),
-                SR.FeedNodeWatchedItemsCaption,
-                SR.FeedNodeWatchedItemsDesc);
-
-            this.sentItemsFeed = new LocalFeedsFeed(
-                GetSentItemsFileName(),
-                SR.FeedNodeSentItemsCaption,
-                SR.FeedNodeSentItemsDesc);
-
-            this.deletedItemsFeed = new LocalFeedsFeed(
-                GetDeletedItemsFileName(),
-                SR.FeedNodeDeletedItemsCaption,
-                SR.FeedNodeDeletedItemsDesc);
-
-            this.unreadItemsFeed = new LocalFeedsFeed(
-                "virtualfeed://rssbandit.org/local/unreaditems",
-                SR.FeedNodeUnreadItemsCaption,
-                SR.FeedNodeUnreadItemsDesc,
-                false);
-
-            this.findersSearchRoot = this.LoadSearchFolders();
-
-            defaultCategory = SR.FeedDefaultCategory;
-
+        	this.InitLocalFeeds();
+        
             backgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
             backgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += this.OnBackgroundDiscoveredFeedsSubscribe;
 
@@ -422,21 +408,49 @@ namespace RssBandit
             // App Update Management
             RssBanditUpdateManager.OnUpdateAvailable += this.OnApplicationUpdateAvailable;
 
-            //specify 'nntp' and 'news' URI handler
-            NntpWebRequest creator = new NntpWebRequest(new Uri("http://www.example.com"));
-            WebRequest.RegisterPrefix("nntp", creator);
-            WebRequest.RegisterPrefix("news", creator);
-
             InitApplicationServices();
 
             // register build in channel processors:
             this.CoreServices.RegisterDisplayingNewsChannelProcessor(new DisplayingNewsChannelProcessor());
         }
 
+		private void InitLocalFeeds() 
+		{
+			this.flaggedItemsFeed = new LocalFeedsFeed(
+				GetFlagItemsFileName(),
+				SR.FeedNodeFlaggedFeedsCaption,
+				SR.FeedNodeFlaggedFeedsDesc);
+
+			this.watchedItemsFeed = new LocalFeedsFeed(
+				GetWatchedItemsFileName(),
+				SR.FeedNodeWatchedItemsCaption,
+				SR.FeedNodeWatchedItemsDesc);
+
+			this.sentItemsFeed = new LocalFeedsFeed(
+				GetSentItemsFileName(),
+				SR.FeedNodeSentItemsCaption,
+				SR.FeedNodeSentItemsDesc);
+
+			this.deletedItemsFeed = new LocalFeedsFeed(
+				GetDeletedItemsFileName(),
+				SR.FeedNodeDeletedItemsCaption,
+				SR.FeedNodeDeletedItemsDesc);
+
+			this.unreadItemsFeed = new LocalFeedsFeed(
+				"virtualfeed://rssbandit.org/local/unreaditems",
+				SR.FeedNodeUnreadItemsCaption,
+				SR.FeedNodeUnreadItemsDesc,
+				false);
+
+			this.findersSearchRoot = this.LoadSearchFolders();
+
+		}
+
         private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
         {
             NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();
             cfg.ApplicationID = Name;
+        	cfg.ApplicationVersion = Version;
             try
             {
                 cfg.SearchIndexBehavior =
@@ -461,6 +475,7 @@ namespace RssBandit
         {
             NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();
             cfg.ApplicationID = configTemplate.ApplicationID;
+			cfg.ApplicationVersion = configTemplate.ApplicationVersion;
             cfg.SearchIndexBehavior = SearchIndexBehavior.NoIndexing;
             cfg.UserApplicationDataPath = configTemplate.UserApplicationDataPath;
             cfg.UserLocalApplicationDataPath = configTemplate.UserLocalApplicationDataPath;
@@ -961,17 +976,29 @@ namespace RssBandit
         {
             get
             {
-                return this.feedHandler.Proxy;
+				return FeedSource.GlobalProxy;
             }
             set
             {
-                this.feedHandler.Proxy = value;
+				if (value == null)
+					FeedSource.UseDefaultProxy();
+				else
+					FeedSource.GlobalProxy = value;
             }
         }
 
-        public ArrayList FinderList
-        {
-            get
+		public void ApplyMaxItemAge(TimeSpan value)
+		{
+			this.sourceManager.ForEach(
+				delegate(FeedSource fs)
+				{
+					fs.MaxItemAge = value;
+				});
+		}
+
+		public ArrayList FinderList
+		{
+			get
             {
                 return findersSearchRoot.RssFinderNodes;
             }
@@ -1691,13 +1718,23 @@ namespace RssBandit
                 this.feedHandler.Stylesheet = Preferences.NewsItemStylesheetFile = String.Empty;
             }
 
+        	bool markedForDownloadCalled = false;
             if (Preferences.MaxItemAge != propertiesDialog.MaxItemAge)
             {
                 Preferences.MaxItemAge = propertiesDialog.MaxItemAge;
-                this.feedHandler.MarkForDownload(); // all
+				sourceManager.ForEach(delegate(FeedSource fs) { fs.MarkForDownload(); });
+            	markedForDownloadCalled = true;
             }
 
-            if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
+			if (propertiesDialog.checkClearFeedCategoryItemAgeSettings.Checked) {
+				sourceManager.ForEach(delegate(FeedSource fs) { fs.ClearAllMaxItemAgeSettings(); });
+				if (!markedForDownloadCalled) {
+					sourceManager.ForEach(delegate(FeedSource fs) { fs.MarkForDownload(); });
+					markedForDownloadCalled = true;
+				}
+			}
+
+        	if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
                 this.feedHandler.MarkItemsReadOnExit =
                     Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
@@ -1911,9 +1948,12 @@ namespace RssBandit
         // called, to apply preferences to the NewsComponents and Gui
         internal void ApplyPreferences()
         {
-            this.FeedHandler.MaxItemAge = Preferences.MaxItemAge;
-            this.Proxy = CreateProxyFrom(Preferences);
-            FeedSource.BuildRelationCosmos = Preferences.BuildRelationCosmos;
+			this.ApplyMaxItemAge(Preferences.MaxItemAge);
+			
+            // assigns the globally used proxy:
+			this.Proxy = CreateProxyFrom(Preferences);
+            
+			FeedSource.BuildRelationCosmos = Preferences.BuildRelationCosmos;
 
             try
             {
@@ -1931,6 +1971,20 @@ namespace RssBandit
             Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
         }
 
+		/// <summary>
+		/// Creates the proxy to be used from preferences.
+		/// </summary>
+		/// <param name="p">The preferences</param>
+		/// <remarks>
+		/// It works this way:
+		/// 1. If "Don't use a proxy" is set, we do nothing specific here
+		///    and use the by default the settings from machine/app.config
+		///    returning 
+		/// 2. If "take over settings from IE" is set, we call 
+		///    <see cref="WebRequest.GetSystemWebProxy">GetSystemWebProxy</see>
+		///	   to retrive return that specific proxy.
+		/// </remarks>
+		/// <returns></returns>
         private static IWebProxy CreateProxyFrom(IUserPreferences p)
         {
             if (p.UseProxy)
@@ -1952,28 +2006,23 @@ namespace RssBandit
                 {
                     if (!string.IsNullOrEmpty(p.ProxyUser))
                     {
-                        proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
-
-                        #region experimental
-
-                        //CredentialCache credCache = new CredentialCache();
-                        //credCache.Add(proxy.Address, "Basic", credentials);
-                        //credCache.Add(proxy.Address, "Digest", credentials);
-                        //proxy.Credentials = credCache;
-
-                        #endregion
+                        proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);                  
                     }
                 }
 
                 return proxy;
             } /* endif UseProxy */
 
-            // default proxy init:
+			if (p.UseIEProxySettings)
+				return WebRequest.GetSystemWebProxy();
+            
+			// default proxy init -
 
             // No need to do anything special for .NET 2.0:
             // http://msdn.microsoft.com/msdnmag/issues/05/08/AutomaticProxyDetection/default.aspx#S3
 
-            return WebRequest.DefaultWebProxy;
+			// force switch to system default proxy:
+			return null;
         }
 
         internal void LoadPreferences()
@@ -2011,11 +2060,13 @@ namespace RssBandit
                         // to provide backward compat.:
                         formatter.Binder = new RssBanditPreferences.DeserializationTypeBinder();
                         RssBanditPreferences p = (RssBanditPreferences) formatter.Deserialize(stream);
-                        Preferences = p;
+                        this.Preferences = p;
                     }
                     catch (Exception e)
                     {
                         _log.Error("Preferences DeserializationException", e);
+						this.Preferences = DefaultPreferences;
+                    	migrate = false;
                     }
                 }
 
@@ -2023,6 +2074,10 @@ namespace RssBandit
                 {
                     this.SavePreferences();
                 }
+            } 
+			else
+			{	// no preferences saved yet, use default:
+				this.Preferences = DefaultPreferences;
             }
         }
 
@@ -5170,32 +5225,30 @@ namespace RssBandit
             if (!this.SearchEngineHandler.EnginesLoaded || !this.SearchEngineHandler.EnginesOK)
                 this.LoadSearchEngines();
 
-            PreferencesDialog propertiesDialog =
-                new PreferencesDialog(this, refreshRate/60000, Preferences, this.searchEngines, this.IdentityManager);
-            propertiesDialog.OnApplyPreferences += this.OnApplyPreferences;
-            if (optionsChangedHandler != null)
-                propertiesDialog.OnApplyPreferences += optionsChangedHandler;
+            using (PreferencesDialog propertiesDialog =
+                new PreferencesDialog(this, refreshRate/60000, Preferences, this.searchEngines, this.IdentityManager)) 
+				{
+            	propertiesDialog.OnApplyPreferences += this.OnApplyPreferences;
+            	if (optionsChangedHandler != null)
+            		propertiesDialog.OnApplyPreferences += optionsChangedHandler;
 
-            // just to check..
-            //propertiesDialog.Disposed += new EventHandler(OnDialogDisposed);
+            	propertiesDialog.SelectedSection = selectedSection;
+            	propertiesDialog.ShowDialog(owner ?? guiMain);
 
-            propertiesDialog.SelectedSection = selectedSection;
-            propertiesDialog.ShowDialog(owner ?? guiMain);
+            	if (propertiesDialog.DialogResult == DialogResult.OK) 
+				{
+					this.OnApplyPreferences(propertiesDialog, new EventArgs());
+            		if (optionsChangedHandler != null)
+            			optionsChangedHandler(propertiesDialog, new EventArgs());
+            	}
 
-            if (propertiesDialog.DialogResult == DialogResult.OK)
-            {
-                this.OnApplyPreferences(propertiesDialog, new EventArgs());
-                if (optionsChangedHandler != null)
-                    optionsChangedHandler(propertiesDialog, new EventArgs());
+            	// detach event(s) to get the dialog garbage collected:
+            	propertiesDialog.OnApplyPreferences -= this.OnApplyPreferences;
+            	if (optionsChangedHandler != null)
+            		propertiesDialog.OnApplyPreferences -= optionsChangedHandler;
+
+            	//cleanup
             }
-
-            // detach event(s) to get the dialog garbage collected:
-            propertiesDialog.OnApplyPreferences -= this.OnApplyPreferences;
-            if (optionsChangedHandler != null)
-                propertiesDialog.OnApplyPreferences -= optionsChangedHandler;
-
-            //cleanup
-            propertiesDialog.Dispose();
         }
 
         /// <summary>
