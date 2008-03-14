@@ -359,6 +359,8 @@ namespace RssBandit
             this.NewsItemFormatter.StylesheetValidationError += this.OnNewsItemFormatterStylesheetValidationError;
 
             this.LoadPreferences();
+			// fix: switch always to true, or the topstories feature will not work:
+			this.Preferences.BuildRelationCosmos = true;
             this.ApplyPreferences();
 
             this.flaggedItemsFeed = new LocalFeedsFeed(
