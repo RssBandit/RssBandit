@@ -797,17 +797,17 @@ namespace NewsComponents
 			string[] keys;
 
 			// handle feeds:
-			lock (feedsTable)
+			lock (_feedsTable)
 			{
-				keys = new string[feedsTable.Count];
-				if (feedsTable.Count > 0)
-					feedsTable.Keys.CopyTo(keys, 0);
+				keys = new string[_feedsTable.Count];
+				if (_feedsTable.Count > 0)
+					_feedsTable.Keys.CopyTo(keys, 0);
 			}
 
 			for (int i = 0, len = keys.Length; i < len; i++)
 			{
-				INewsFeed f;
-				if (feedsTable.TryGetValue(keys[i], out f))
+				NewsFeed f;
+				if (_feedsTable.TryGetValue(keys[i], out f))
 				{
 					f.maxitemage = null;
 				}
@@ -815,7 +815,7 @@ namespace NewsComponents
 
 			// handle categories:
 			//DISCUSS: do we need to lock here? 
-			foreach (INewsFeedCategory c in this.categories.Values)
+			foreach (category c in this.categories.Values)
 			{
 				c.maxitemage = null;
 			}
