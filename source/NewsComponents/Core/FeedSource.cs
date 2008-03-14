@@ -4356,7 +4356,7 @@ namespace NewsComponents
 
                         if ((value != null) && !(value is string))
                         {
-							SetSharedPropertyValue(c, propertyName + "Specified", value);
+							SetSharedPropertyValue(c, propertyName + "Specified", true);
 							//c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
                         }
 
