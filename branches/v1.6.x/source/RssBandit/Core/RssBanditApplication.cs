@@ -1678,6 +1678,7 @@ namespace RssBandit
             {
                 Preferences.MaxItemAge = propertiesDialog.MaxItemAge;
                 this.feedHandler.MarkForDownload(); // all
+				this.feedHandler.ClearAllMaxItemAgeSettings(); // all on feed/category
             }
 
             if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
