@@ -148,7 +148,7 @@ namespace NewsComponents
 #if DEBUG 
     [CLSCompliant(false)]
 #endif
-    public abstract class FeedSource: ISharedProperty, IDisposable 
+    public abstract class FeedSource: ISharedProperty //, IDisposable 
     {
         #region ctor's
 
@@ -405,27 +405,79 @@ namespace NewsComponents
         /// </summary>
         private static readonly NewsChannelServices receivingNewsChannel = new NewsChannelServices();
 
-        /// <summary>
-        /// Proxy server information used for connections when fetching feeds. 
-        /// </summary>
-        private IWebProxy proxy = WebRequest.DefaultWebProxy;
+    	#region Proxy handling
 
-        /// <summary>
-        /// Proxy server information used for connections when fetching feeds. 
-        /// </summary>
-        public IWebProxy Proxy
-        {
-            set
-            {
-                proxy = value;
-                RssParser.GlobalProxy = value;
-            }
-            get
-            {
-                return proxy;
-            }
-        }
+    	#region ProxyWrapper class
 
+    	private class ProxyWrapper
+    	{
+    		private IWebProxy _proxy;
+
+    		public IWebProxy Proxy {
+    			get {
+    				if (_proxy == null)
+    					return WebRequest.DefaultWebProxy;
+    				return _proxy;
+    			}
+    			set { _proxy = value; }
+    		}
+
+    		public void ResetProxy() {
+    			_proxy = null; 
+    		}
+    	}
+
+    	#endregion
+
+    	private static readonly ProxyWrapper globalProxy = new ProxyWrapper();
+		
+    	/// <summary>
+    	/// Gets or sets the global proxy used by all FeedSource instances.
+    	/// </summary>
+    	/// <value>The global proxy.</value>
+    	/// <remarks>This property is thread safe.</remarks>
+    	public static IWebProxy GlobalProxy
+    	{
+    		get {
+    			lock (globalProxy)
+    				return globalProxy.Proxy;
+    		}
+    		set {
+    			lock (globalProxy)
+    				globalProxy.Proxy = value;
+    		}
+    	}
+
+    	/// <summary>
+    	/// Call to uses the default proxy. The default proxy is the value
+    	/// returned by WebRequest.DefaultWebProxy - so ensure to NOT
+    	/// modify that by calls to GlobalProxySelection.Select = new Proxy()
+    	/// or WebRequest.DefaultWebProxy = new Proxy() calls!
+    	/// Please use the <see cref="GlobalProxy"/> property to assign a
+    	/// user customized proxy or one that take over IE settings, then
+    	/// you are always able to switch back to use the default system proxy
+    	/// calling this method!
+    	/// </summary>
+    	/// <remarks>This method is thread safe.</remarks>
+    	public static void UseDefaultProxy()
+    	{
+    		lock (globalProxy)
+    			globalProxy.ResetProxy();
+    	}
+
+    	/// <summary>
+    	/// Proxy server information used for connections when fetching feeds. 
+    	/// </summary>
+    	/// <remarks>
+    	/// There are other components that use a instance reference/interface of
+    	/// FeedSource, so we provide the proxy also as a instance property here.
+    	/// </remarks>
+    	public IWebProxy Proxy
+    	{
+    		get { return GlobalProxy; }
+    	}
+
+    	#endregion
 
         /// <summary>
         /// Indicates whether the cookies from IE should be taken over for our own requests. 
@@ -803,35 +855,6 @@ namespace NewsComponents
 
         #endregion
 
-        #region IDisposable implementation 
-
-        /// <summary>
-        /// Dispose of ManualResetEvent object
-        /// </summary>
-        public void Dispose()
-        {
-            IDisposable disposable = this.eventX as IDisposable; 
-            
-            if(disposable != null)
-            {
-                disposable.Dispose(); 
-            }
-        }
-
-        #endregion 
-
-        /// <summary>
-        /// Returns the user path used to store the current feed and cached items.
-        /// </summary>
-        /// <param name="appname">The application name that uses the component.</param>
-        /// <returns></returns>
-        public static string GetUserPath(string appname)
-        {
-            string s = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appname);
-            if (!Directory.Exists(s)) Directory.CreateDirectory(s);
-            return s;
-        }
-
         /// <summary>
         /// Maximum item age. Default value is 3 months.
         /// </summary>
@@ -848,31 +871,45 @@ namespace NewsComponents
             {
                 return this.maxitemage;
             }
-
-            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 this.maxitemage = value;
-
-                string[] keys;
-
-                lock (feedsTable)
-                {
-                    keys = new string[feedsTable.Count];
-                    if (feedsTable.Count > 0)
-                        feedsTable.Keys.CopyTo(keys, 0);
-                }
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    INewsFeed f = null;
-                    if (feedsTable.TryGetValue(keys[i], out f))
-                    {
-                        f.maxitemage = XmlConvert.ToString(value);
-                    }
-                }
             }
         }
+
+		/// <summary>
+		/// Clears all individual max-item-age settings on 
+		/// feeds and categories.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.Synchronized)]
+		public void ClearAllMaxItemAgeSettings()
+		{
+			string[] keys;
+
+			// handle feeds:
+			lock (feedsTable)
+			{
+				keys = new string[feedsTable.Count];
+				if (feedsTable.Count > 0)
+					feedsTable.Keys.CopyTo(keys, 0);
+			}
+
+			for (int i = 0, len = keys.Length; i < len; i++)
+			{
+				INewsFeed f;
+				if (feedsTable.TryGetValue(keys[i], out f))
+				{
+					f.maxitemage = null;
+				}
+			}
+
+			// handle categories:
+			//DISCUSS: do we need to lock here? 
+			foreach (INewsFeedCategory c in this.categories.Values)
+			{
+				c.maxitemage = null;
+			}
+		}
 
         /// <summary>
         /// The stylesheet for displaying feeds.
@@ -1138,7 +1175,7 @@ namespace NewsComponents
         /// <summary>
         /// Our default short HTTP user agent string
         /// </summary>
-        public const string DefaultUserAgent = "RssBandit 2.x";
+        public const string DefaultUserAgent = "RssBandit/2.x";
 
         /// <summary>
         /// A template string to assamble a unified user agent string.
@@ -1183,7 +1220,7 @@ namespace NewsComponents
         /// The short HTTP user agent string used when requesting feeds
         /// and the property was not set via 
         /// </summary>
-        private string useragent = DefaultUserAgent;
+        private string useragent;
 
         /// <summary>
         /// The short HTTP user agent string used when requesting feeds. 
@@ -1192,6 +1229,15 @@ namespace NewsComponents
         {
             get
             {
+				if (String.IsNullOrEmpty(useragent)) {
+					if (Configuration != null) {
+						useragent = String.Format("{0}/{1}", Configuration.ApplicationID, Configuration.ApplicationVersion);
+						globalLongUserAgent = UserAgentString(useragent);
+					} else {
+						// wait for a valid configuration, but return a usable value:
+						return DefaultUserAgent;
+					}
+				}
                 return useragent;
             }
             set
@@ -1214,15 +1260,6 @@ namespace NewsComponents
 
         #endregion
 
-        /// <summary>
-        /// The number of HTML titles left to download by the GetTopStories() method
-        /// </summary>
-        private int numTitlesToDownload = 0;
-
-        /// <summary>
-        /// Used for background tasks by GetTopStories() method. 
-        /// </summary>
-        private ManualResetEvent eventX;
 
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
@@ -2724,58 +2761,58 @@ namespace NewsComponents
             weightedLinks = weightedLinks.GetRange(0, Math.Min(numStories, weightedLinks.Count));
 
             //fetch titles from HTML page
-            numTitlesToDownload = Math.Min(numStories, weightedLinks.Count); //in number of weighted links less than numStories 
-            this.eventX = new ManualResetEvent(false);
+			
+			// The number of HTML titles left to download by the anon. threaded delegate 	
+            int numTitlesToDownload = Math.Min(numStories, weightedLinks.Count); //in number of weighted links less than numStories 
 
-            foreach (RelationHRefEntry weightedLink in weightedLinks)
-            {
-                if (TopStoryTitles.ContainsKey(weightedLink.HRef))
-                {
-                    weightedLink.Text = TopStoryTitles[weightedLink.HRef].storyTitle;
-                    Interlocked.Decrement(ref numTitlesToDownload);
-                }
-                else
-                {
-                    PriorityThreadPool.QueueUserWorkItem(GetHtmlTitleHelper, weightedLink,
-                                                         (int) ThreadPriority.Normal);
-                }
-            }
+			ManualResetEvent eventX = new ManualResetEvent(false);
+			try 
+			{
+				foreach (RelationHRefEntry weightedLink in weightedLinks) {
+					if (TopStoryTitles.ContainsKey(weightedLink.HRef)) {
+						weightedLink.Text = TopStoryTitles[weightedLink.HRef].storyTitle;
+						Interlocked.Decrement(ref numTitlesToDownload);
+					} else {
+						PriorityThreadPool.QueueUserWorkItem(
+							delegate
+								{
+									try {
+										/* NOTE: Default link text is URL */
+										string title =
+											HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, this.Proxy,
+											                     CredentialCache.DefaultCredentials);
+										weightedLink.Text = title;
+										if (!title.Equals(weightedLink.HRef) && 
+											!TopStoryTitles.ContainsKey(weightedLink.HRef))
+										{
+											TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
+											topStoriesModified = true;
+										}
+									} finally {
+										Interlocked.Decrement(ref numTitlesToDownload);
+										if (numTitlesToDownload <= 0) {
+											if (eventX != null) 
+												eventX.Set();
+										}
+									}
+								},
+							weightedLink,
+							(int) ThreadPriority.Normal);
+					}
+				}
 
-            if (numTitlesToDownload > 0)
-            {
-                eventX.WaitOne(Timeout.Infinite, true);
-            }
-
-            return weightedLinks;
-        }
-
-        /// <summary>
-        /// Helper method that retrieves the value of the title element of an HTML page 
-        /// </summary>
-        private void GetHtmlTitleHelper(object obj)
-        {
-            try
-            {
-                RelationHRefEntry weightedLink = (RelationHRefEntry)obj;
-                /* NOTE: Default link text is URL */
-                string title =
-                    HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, this.proxy,
-                                         CredentialCache.DefaultCredentials);
-                weightedLink.Text = title;
-                if (!title.Equals(weightedLink.HRef))
-                {
-                    TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
-                    topStoriesModified = true;
-                }
-            }
-            finally
-            {
-                Interlocked.Decrement(ref numTitlesToDownload);
-                if (numTitlesToDownload <= 0)
-                {
-                    eventX.Set();
-                }
-            }
+				if (numTitlesToDownload > 0) {
+					eventX.WaitOne(Timeout.Infinite, true);
+				}
+				return weightedLinks;
+			} 
+			finally 
+			{
+				IDisposable disposable = eventX;
+				disposable.Dispose();
+				eventX = null;
+			}
+        	
         }
 
         /// <summary>
@@ -2820,11 +2857,11 @@ namespace NewsComponents
         /// determined the title of a top story. 
         /// </summary>
         /// <seealso cref="TopStoryTitles"/>
-        private static void LoadCachedTopStoryTitles()
+        private void LoadCachedTopStoryTitles()
         {
             try
             {
-                string topStories = Path.Combine(GetUserPath("RssBandit"), "top-stories.xml");
+				string topStories = Path.Combine(Configuration.UserApplicationDataPath, "top-stories.xml");
                 if (File.Exists(topStories))
                 {
                     XmlDocument doc = new XmlDocument();
@@ -2857,7 +2894,7 @@ namespace NewsComponents
 
             try
             {
-                XmlWriter writer = XmlWriter.Create(Path.Combine(GetUserPath("RssBandit"), "top-stories.xml"));
+				XmlWriter writer = XmlWriter.Create(Path.Combine(DefaultConfiguration.UserApplicationDataPath, "top-stories.xml"));
                 writer.WriteStartDocument();
                 writer.WriteStartElement("stories");
                 foreach (KeyValuePair<string, storyNdate> story in TopStoryTitles)
@@ -3942,8 +3979,6 @@ namespace NewsComponents
         /// <returns>true if it is set and false otherwise</returns>
         private static bool IsPropertyValueSet(object value, string propertyName, ISharedProperty owner)
         {
-            //TODO: Make this code more efficient
-
             if (value == null)
             {
                 return false;

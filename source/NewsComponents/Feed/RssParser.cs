@@ -57,28 +57,6 @@ namespace NewsComponents.Feed
         private static readonly ILog _log = Log.GetLogger(typeof (RssParser));
 
         /// <summary>
-        /// Proxy server information used for connections when fetching feeds. 
-        /// </summary>
-        private static IWebProxy global_proxy = WebRequest.DefaultWebProxy;
-
-        /// <summary>
-        /// Proxy server information used for connections when fetching feeds. 
-        /// </summary>
-        public static IWebProxy GlobalProxy
-        {
-            set
-            {
-                //HACK: If ever a situation occurs where multiple RssParsers 
-                //can use different proxy servers then things break down. 
-                global_proxy = value;
-            }
-            get
-            {
-                return global_proxy;
-            }
-        }
-
-        /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
         private bool offline = false;
@@ -1740,7 +1718,7 @@ namespace NewsComponents.Feed
             r.WhitespaceHandling = WhitespaceHandling.Significant;
             XmlBaseAwareXmlValidatingReader vr = new XmlBaseAwareXmlValidatingReader(f.link, r);
             vr.ValidationType = ValidationType.None;
-            vr.XmlResolver = new ProxyXmlUrlResolver(GlobalProxy);
+            vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
 
             return GetItemsForFeed(f, vr, cachedStream);
         }

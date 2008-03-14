@@ -98,11 +98,18 @@ namespace RssBandit
 		readonly Dictionary<Guid, FeedSourceID> _feedSources = new Dictionary<Guid, FeedSourceID>();
 
 		/// <summary>
-		/// Gets the feed sources.
+		/// Gets the ordered feed sources. Used
+		/// to build the initial tree root entries.
 		/// </summary>
-		/// <value>The feed sources.</value>
-		private Dictionary<Guid, FeedSourceID> FeedSources {
-			get { return _feedSources;  }
+		/// <returns></returns>
+		public IEnumerable<FeedSource> Sources
+		{
+			get {
+				foreach (FeedSourceID entry in _feedSources.Values)
+				{
+					yield return entry.Source;
+				}
+			}
 		}
 
 		/// <summary>
@@ -111,9 +118,20 @@ namespace RssBandit
 		/// </summary>
 		/// <returns></returns>
 		public List<FeedSourceID> GetOrderedFeedSources() {
-			List<FeedSourceID> sources = new List<FeedSourceID>(FeedSources.Values);
+			List<FeedSourceID> sources = new List<FeedSourceID>(_feedSources.Values);
 			sources.Sort(Comparer<FeedSourceID>.Default);
 			return sources;
+		}
+
+		/// <summary>
+		/// Can be used to call methods or set properties on each
+		/// FeedSource.
+		/// </summary>
+		public void ForEach(Action<FeedSource> action)
+		{
+			foreach (FeedSourceID entry in _feedSources.Values) {
+				action(entry.Source);
+			}
 		}
 
 		/// <summary>
@@ -124,8 +142,8 @@ namespace RssBandit
 		/// <returns></returns>
 		public FeedSourceID Add(FeedSource source, string name)
 		{
-			FeedSourceID fs = new FeedSourceID(source, name, FeedSources.Count);
-			FeedSources.Add(fs.ID, fs);
+			FeedSourceID fs = new FeedSourceID(source, name, _feedSources.Count);
+			_feedSources.Add(fs.ID, fs);
 			return fs;
 		}
 
@@ -135,8 +153,8 @@ namespace RssBandit
 		/// <param name="source">The source.</param>
 		public void Remove(FeedSourceID source)
 		{
-			if (FeedSources.ContainsKey(source.ID))
-				FeedSources.Remove(source.ID);
+			if (_feedSources.ContainsKey(source.ID))
+				_feedSources.Remove(source.ID);
 		}
 
 		/// <summary>
@@ -145,7 +163,7 @@ namespace RssBandit
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
 		public FeedSourceID GetSourceOf(ItemID item) {
-			return FeedSources[item.SourceID];
+			return _feedSources[item.SourceID];
 		}
 
 	}
