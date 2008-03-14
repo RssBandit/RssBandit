@@ -1952,7 +1952,10 @@ namespace RssBandit
                 return proxy;
             } /* endif UseProxy */
 
-            // default proxy init:
+			if (p.UseIEProxySettings)
+				return WebRequest.GetSystemWebProxy();
+            
+			// default proxy init:
 
             // No need to do anything special for .NET 2.0:
             // http://msdn.microsoft.com/msdnmag/issues/05/08/AutomaticProxyDetection/default.aspx#S3
