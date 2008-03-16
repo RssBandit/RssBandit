@@ -14,10 +14,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web;
 using System.Xml;
 
 using NewsComponents.Net;
 using NewsComponents.Search;
+
+using RssBandit.Common;
 
 namespace NewsComponents.Feed
 {
@@ -50,7 +53,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Authentication token which identifies the user. 
         /// </summary>
-        private string SID = String.Empty; 
+        private string SID = String.Empty;
+
+        /// <summary>
+        /// The Google User ID of the user. 
+        /// </summary>
+        private string GoogleUserId = String.Empty; 
 
         #endregion 
 
@@ -97,7 +105,7 @@ namespace NewsComponents.Feed
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
             Dictionary<string, NewsFeed> bootstrapFeeds = new Dictionary<string, NewsFeed>();
-            Dictionary<string, INewsFeedCategory> bootstrapCategories = new Dictionary<string, INewsFeedCategory>();
+            Dictionary<string, category> bootstrapCategories = new Dictionary<string, category>();
 
             foreach (NewsFeed f in feedlist.feed)
             {
@@ -109,13 +117,53 @@ namespace NewsComponents.Feed
                 bootstrapCategories.Add(c.Value, c);
             }
 
-            this.LoadFeedlistFromGoogleReader(); 
+            //matchup feeds from GoogleReader with 
+            IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
+
+            foreach (GoogleReaderSubscription gfeed in gReaderFeeds)
+            {
+                NewsFeed feed = null; 
+                this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+            }
+
+            IEnumerable<string> gReaderLabels = this.LoadTaglistFromGoogleReader();
+            
+            string labelPrefix = "user/" + this.GoogleUserId + "/label/";
+            foreach (string gLabel in gReaderLabels)
+            {
+                string label = gLabel.Replace("/", FeedSource.CategorySeparator);
+                category cat = null;
+                this.categories.Add(gLabel, new GoogleReaderCategory(label, (bootstrapCategories.TryGetValue(label, out cat) ? cat : null), this));
+  
+            }
         }
+
+         /// <summary>
+        /// Loads the user's category list from Google Reader. 
+        /// </summary>
+        private IEnumerable<string> LoadTaglistFromGoogleReader()
+        {
+            string taglistUrl = apiUrlPrefix + "tag/list";
+
+            //load tag list XML
+            XmlDocument doc = new XmlDocument();
+            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(taglistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+
+            string temp = doc.SelectSingleNode("/object/list/object/string[contains(string(.), 'state/com.google/starred')]").InnerText;
+            this.GoogleUserId = temp.Replace("/state/com.google/starred", "").Substring(5);
+
+            var taglist = from XmlNode node in doc.SelectNodes("/object/list[@name='tags']/object/string[@name='id']")
+                          where node.InnerText.IndexOf("/com.google/") == -1
+                          select node.InnerText.Replace("user/" + this.GoogleUserId + "/label/", ""); 
+
+            return taglist;          
+        }
+
 
         /// <summary>
         /// Loads the user's feed list from Google Reader. 
         /// </summary>
-        private void LoadFeedlistFromGoogleReader()
+        private IEnumerable<GoogleReaderSubscription> LoadFeedlistFromGoogleReader()
         {
             string feedlistUrl = apiUrlPrefix + "subscription/list";
 
@@ -128,7 +176,8 @@ namespace NewsComponents.Feed
 
             var feedlist = from XmlNode node in doc.SelectNodes("/object/list[@name='subscriptions']/object")
                            select MakeSubscription(node);
-               
+            
+            return feedlist; 
         }
 
 
@@ -144,7 +193,7 @@ namespace NewsComponents.Feed
             XmlNode title_node = node.SelectSingleNode("string[name='title']");
             string title = (title_node == null ? String.Empty : title_node.InnerText);
             XmlNode fim_node = node.SelectSingleNode("string[@name='firstitemmsec']");
-            long firstitemmsec = (id_node == null ? 0 : Int64.Parse(fim_node.InnerText));
+            long firstitemmsec = (fim_node == null ? 0 : Int64.Parse(fim_node.InnerText));
             List<GoogleReaderLabel> categories = MakeLabelList(node.SelectNodes("list[@name='categories']/object"));
 
             return new GoogleReaderSubscription(feedid, title, categories, firstitemmsec);         
@@ -262,6 +311,23 @@ namespace NewsComponents.Feed
         public string Title { get; set; }
         public List<GoogleReaderLabel> Categories { get; set; }
         public long FirstItemMSec { get; set; }
+        
+        public string FeedUrl
+        {
+            get
+            {
+                string url = Id.Substring("feed/".Length);
+                Uri uri = null;
+                if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+                {
+                    return uri.CanonicalizedUri(); 
+                }
+                else
+                {
+                    return url;
+                }
+            }
+        }
 
         internal GoogleReaderSubscription(string id, string title, List<GoogleReaderLabel> categories, long firstitemmsec)
         {
@@ -292,6 +358,8 @@ namespace NewsComponents.Feed
 
     #endregion 
 
+    #region GoogleReaderNewsFeed 
+
     /// <summary>
     /// Represents a news feed subscribed to in Google Reader. 
     /// </summary>
@@ -308,10 +376,30 @@ namespace NewsComponents.Feed
         /// Initializes the class
         /// </summary>
         /// <param name="subscription">The GoogleReaderSubscription instance that this object will wrap</param>
-        internal GoogleReaderNewsFeed(GoogleReaderSubscription subscription, object owner)
+        /// <param name="banditfeed">The object that contains the settings that will be used to initialize this class</param>
+        /// <param name="owner">This object's owner</param>       
+        internal GoogleReaderNewsFeed(GoogleReaderSubscription subscription, INewsFeed banditfeed, object owner)
         {
             if (subscription == null) throw new ArgumentNullException("subscription");
             this.mysubscription = subscription;
+
+            if (banditfeed != null)
+            {
+                this.refreshrate = banditfeed.refreshrate;
+                this.refreshrateSpecified = banditfeed.refreshrateSpecified;
+                this.maxitemage = banditfeed.maxitemage;
+                this.markitemsreadonexit = banditfeed.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = banditfeed.markitemsreadonexitSpecified;
+                this.listviewlayout = banditfeed.listviewlayout;
+                this.favicon = banditfeed.favicon;
+                this.stylesheet = banditfeed.stylesheet;
+                this.enclosurealert = banditfeed.enclosurealert;
+                this.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
+                this.alertEnabled = banditfeed.alertEnabled;
+                this.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
+                this.Any = banditfeed.Any;
+                this.AnyAttr = banditfeed.AnyAttr;
+            }
 
             if (owner is GoogleReaderFeedSource)
             {
@@ -343,4 +431,81 @@ namespace NewsComponents.Feed
 
         #endregion
     }
+
+    #endregion 
+
+    #region GoogleReaderCategory
+
+    /// <summary>
+    /// Holds the preferences for a label/category in Google Reader. 
+    /// </summary>
+    internal class GoogleReaderCategory : category
+    {
+
+        #region constructors 
+
+        // <summary>
+        /// A category must always have a name
+        /// </summary>
+        private GoogleReaderCategory() { ;} 
+
+         /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="label">The name of the category</param>
+        public GoogleReaderCategory(string label)
+        {
+            if (label == null) throw new ArgumentNullException("label");
+            this.Value = label; 
+        }
+       
+        
+        /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="label">The name of the category</param>
+        /// <param name="category">A category instance from which this object shall obtain the values for it's INewsFeedCategory properties</param>
+        public GoogleReaderCategory(string label, INewsFeedCategory category, GoogleReaderFeedSource owner)
+            : this(label)
+        {
+            if (category != null)
+            {
+                this.AnyAttr = category.AnyAttr;
+                this.downloadenclosures = category.downloadenclosures;
+                this.downloadenclosuresSpecified = category.downloadenclosuresSpecified;
+                this.enclosurealert = category.enclosurealert;
+                this.enclosurealertSpecified = category.enclosurealertSpecified;
+                this.listviewlayout = category.listviewlayout;
+                this.markitemsreadonexit = category.markitemsreadonexit;
+                this.markitemsreadonexitSpecified = category.markitemsreadonexitSpecified;
+                this.maxitemage = category.maxitemage;
+                this.refreshrate = category.refreshrate;
+                this.refreshrateSpecified = category.refreshrateSpecified;
+                this.stylesheet = category.stylesheet;
+            }
+
+            if (owner is GoogleReaderFeedSource)
+            {
+                this.owner = owner as GoogleReaderFeedSource;
+            }
+        }
+
+        #endregion 
+
+        #region private fields 
+
+        /// <summary>
+        /// The actual GoogleReaderLabel instance that this object is wrapping
+        /// </summary>
+        private GoogleReaderLabel mylabel = null;
+
+        /// <summary>
+        /// The GoogleReaderFeedSource instance used to make Web requests to manage this label
+        /// </summary>
+        private GoogleReaderFeedSource owner = null; 
+
+        #endregion 
+    }
+
+    #endregion 
 }

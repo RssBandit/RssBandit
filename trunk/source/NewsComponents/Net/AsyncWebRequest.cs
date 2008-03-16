@@ -1120,6 +1120,7 @@ namespace NewsComponents.Net
 
                     if (cookies.Count > 0)
                     {
+                        httpRequest.CookieContainer = new CookieContainer();
                         httpRequest.CookieContainer.Add(cookies); 
                     }
                 }

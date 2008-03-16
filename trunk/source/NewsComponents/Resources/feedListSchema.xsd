@@ -47,6 +47,13 @@
 							<xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
 							<xs:element name="news-account" type="xs:string" maxOccurs="1" minOccurs="0" />
 							<xs:element name="feed-url" type="xs:string" maxOccurs="1" minOccurs="0" />
+              <xs:element name="categories" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="category" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 						</xs:sequence>
 						<xs:attribute name="alert" type="xs:boolean" use="optional" />
 						<xs:attribute name="replace-items-on-refresh" type="xs:boolean" use="optional" />
