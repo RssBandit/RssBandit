@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Xml;
 
@@ -293,6 +294,111 @@ namespace NewsComponents.Feed
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(bool force_download)
         {
+            if (this.FeedsListOK == false)
+            {
+                //we don't have a feed list
+                return;
+            }
+
+            bool anyRequestQueued = false;
+
+            try
+            {
+                RaiseOnUpdateFeedsStarted(force_download);
+
+                string[] keys = GetFeedsTableKeys();
+
+                //foreach(string sKey in FeedsTable.Keys){
+                //  NewsFeed current = FeedsTable[sKey];	
+
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    INewsFeed current = feedsTable[keys[i]];
+
+                    try
+                    {
+                        // new: giving up after ten unsuccessfull requests
+                        if (!force_download && current.causedExceptionCount >= 10)
+                        {
+                            continue;
+                        }
+
+                        if (current.refreshrateSpecified && (current.refreshrate == 0))
+                        {
+                            continue;
+                        }
+
+                        if (itemsTable.ContainsKey(current.link))
+                        {
+                            //check if feed downloaded in the past
+
+                            //check if enough time has elapsed as to require a download attempt
+                            if ((!force_download) && current.lastretrievedSpecified)
+                            {
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            } //if(current.lastretrievedSpecified...) 
+
+
+                            if (this.AsyncGetItemsForFeed(current.link, true, false))
+                                anyRequestQueued = true;
+                        }
+                        else
+                        {
+                            // not yet loaded, so not loaded from cache, new subscribed or imported
+                            if ((!force_download) && current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
+                            {
+                                // imported may have lastretrievedSpecified set to reduce the initial payload
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            }
+
+                            if (!force_download)
+                            {
+                                // not in itemsTable, cacheurl set - but no cache file anymore?
+                                if (!string.IsNullOrEmpty(current.cacheurl) &&
+                                    !this.CacheHandler.FeedExists(current))
+                                    force_download = true;
+                            }
+
+                            if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                                anyRequestQueued = true;
+                        }
+
+                        Thread.Sleep(15); // force a context switches
+                    }
+                    catch (Exception e)
+                    {
+                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToString());
+                    }
+                } //for(i)
+            }
+            catch (InvalidOperationException ioe)
+            {
+                // New feeds added to FeedsTable from another thread  
+
+                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToString());
+            }
+            finally
+            {
+                if (isOffline || !anyRequestQueued)
+                    RaiseOnAllAsyncRequestsCompleted();
+            }
         }
 
         /// <summary>
@@ -306,7 +412,98 @@ namespace NewsComponents.Feed
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(string category, bool force_download)
         {
+            if (this.FeedsListOK == false)
+            {
+                //we don't have a feed list
+                return;
+            }
+
+            bool anyRequestQueued = false;
+
+            try
+            {
+                RaiseOnUpdateFeedsStarted(force_download);
+
+                string[] keys = GetFeedsTableKeys();
+
+                //foreach(string sKey in FeedsTable.Keys){
+                //  NewsFeed current = FeedsTable[sKey];	
+
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                        continue;
+
+                    INewsFeed current = feedsTable[keys[i]];
+
+                    try
+                    {
+                        // new: giving up after three unsuccessfull requests
+                        if (!force_download && current.causedExceptionCount >= 3)
+                        {
+                            continue;
+                        }
+
+                        if (current.refreshrateSpecified && (current.refreshrate == 0))
+                        {
+                            continue;
+                        }
+
+                        if (itemsTable.ContainsKey(current.link))
+                        {
+                            //check if feed downloaded in the past
+
+                            //check if enough time has elapsed as to require a download attempt
+                            if ((!force_download) && current.lastretrievedSpecified)
+                            {
+                                double timeSinceLastDownload =
+                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
+                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+
+                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+                                {
+                                    continue; //no need to download 
+                                }
+                            } //if(current.lastretrievedSpecified...) 
+
+
+                            if (current.category != null && IsChildOrSameCategory(category, current.category))
+                            {
+                                if (this.AsyncGetItemsForFeed(current.link, true, false))
+                                    anyRequestQueued = true;
+                            }
+                        }
+                        else
+                        {
+                            if (current.category != null && IsChildOrSameCategory(category, current.category))
+                            {
+                                if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                                    anyRequestQueued = true;
+                            }
+                        }
+
+                        Thread.Sleep(15); // force a context switches
+                    }
+                    catch (Exception e)
+                    {
+                        Trace("RefreshFeeds(string,bool) unexpected error processing feed '{0}': {1}", current.link,
+                              e.ToString());
+                    }
+                } //for(i)
+            }
+            catch (InvalidOperationException ioe)
+            {
+                // New feeds added to FeedsTable from another thread  
+
+                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToString());
+            }
+            finally
+            {
+                if (isOffline || !anyRequestQueued)
+                    RaiseOnAllAsyncRequestsCompleted();
+            }
         }
+
 
         #endregion
 
@@ -489,6 +686,7 @@ namespace NewsComponents.Feed
         #endregion
 
         #endregion
+
     }
 
     #endregion 

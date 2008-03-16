@@ -5087,7 +5087,7 @@ namespace NewsComponents
             RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
         }
 
-        private void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+        protected virtual void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
                                        RequestResult result, int priority)
         {
             Trace("AsyncRequest.OnRequestComplete: '{0}': {1}", requestUri.ToString(), result);
