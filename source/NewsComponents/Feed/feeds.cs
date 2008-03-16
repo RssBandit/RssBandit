@@ -1178,7 +1178,7 @@ namespace NewsComponents.Feed
             }
         }
 
-        private List<string> _categories = new List<string>(); 
+        protected List<string> _categories = new List<string>(); 
         /// <remarks/>
         [XmlArray(ElementName = "categories", IsNullable = false)]
         [XmlArrayItem("category", Type = typeof(String), IsNullable = false)]
