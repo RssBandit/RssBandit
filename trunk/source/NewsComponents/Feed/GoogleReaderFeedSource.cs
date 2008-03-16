@@ -399,6 +399,11 @@ namespace NewsComponents.Feed
             if (subscription == null) throw new ArgumentNullException("subscription");
             this.mysubscription = subscription;
 
+            foreach (GoogleReaderLabel label in subscription.Categories)
+            {
+                this._categories.Add(label.Label);
+            }
+
             if (banditfeed != null)
             {
                 this.refreshrate = banditfeed.refreshrate;
@@ -461,6 +466,19 @@ namespace NewsComponents.Feed
             set
             {
                 //TODO: Make this change the subscription title in Google Reader
+            }
+        }
+
+        
+        public override List<string> categories
+        {
+            get
+            {
+                return this._categories;
+            }
+            set
+            {
+                //TODO: Make this change the tags in Google Reader
             }
         }
 
