@@ -622,7 +622,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// A category must have a name
         /// </summary>
-        private category(){;}
+        protected category(){;}
 
         /// <summary>
         /// Creates a new category.
@@ -1146,10 +1146,50 @@ namespace NewsComponents.Feed
         public virtual bool enclosurealertSpecified { get; set; }
 
 
-        //TODO: Make this a collection
-        /// <remarks/>
+        
+        /// <summary>
+        /// Returns the first element in the categories collection. Setting it replaces all the items in the categories 
+        /// collection. 
+        /// </summary>
+        /// <seealso cref="categories"/>
         [XmlAttribute]
-        public virtual string category { get; set; }
+        public virtual string category {
+            
+            get
+            {
+                if (this.categories != null && this.categories.Count > 0)
+                {
+                    return categories[0]; 
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            set
+            {
+                this.categories.Clear(); 
+
+                if (!StringHelper.EmptyTrimOrNull(value))
+                {
+                    this.categories.Add(value); 
+                }
+            }
+        }
+
+        private List<string> _categories = new List<string>(); 
+        /// <remarks/>
+        [XmlArray(ElementName = "categories", IsNullable = false)]
+        [XmlArrayItem("category", Type = typeof(String), IsNullable = false)]
+        public virtual List<string> categories
+        {
+            get { return _categories; }
+            set
+            {
+                if (value != null) { categories = value; }
+            }
+        }
 
         /// <remarks/>
         [XmlAnyAttribute]
