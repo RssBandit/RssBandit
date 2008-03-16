@@ -79,6 +79,22 @@ namespace NewsComponents.Feed
 
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
+
+            this.rssParser = new RssParser(this);
+
+
+            // initialize (later on loaded from feedlist):
+            this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
+            this.EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
+
+            if (this.EnclosureFolder != null)
+            {
+                this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
+                this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
+            }
+
+            this.AsyncWebRequest = new AsyncWebRequest();
+            this.AsyncWebRequest.OnAllRequestsComplete += this.OnAllRequestsComplete;       
         }
                
 
@@ -190,7 +206,7 @@ namespace NewsComponents.Feed
         {
             XmlNode id_node = node.SelectSingleNode("string[@name='id']");
             string feedid = (id_node == null ? String.Empty : id_node.InnerText);
-            XmlNode title_node = node.SelectSingleNode("string[name='title']");
+            XmlNode title_node = node.SelectSingleNode("string[@name='title']");
             string title = (title_node == null ? String.Empty : title_node.InnerText);
             XmlNode fim_node = node.SelectSingleNode("string[@name='firstitemmsec']");
             long firstitemmsec = (fim_node == null ? 0 : Int64.Parse(fim_node.InnerText));
@@ -422,6 +438,31 @@ namespace NewsComponents.Feed
         #region INewsFeed implementation 
 
         #region INewsFeed properties 
+
+        public override string link
+        {
+            get
+            {
+                return mysubscription.FeedUrl;
+            }
+            set
+            {
+                /* cannot set this field */ 
+            }
+        }
+
+
+        public override string title
+        {
+            get
+            {
+                return mysubscription.Title;
+            }
+            set
+            {
+                //TODO: Make this change the subscription title in Google Reader
+            }
+        }
 
         #endregion
 
