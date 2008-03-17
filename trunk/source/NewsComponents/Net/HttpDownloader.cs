@@ -129,14 +129,14 @@ namespace NewsComponents.Net
         {
             currentTask = task;
 
-            WebResponse response = AsyncWebRequest.GetSyncResponse(task.DownloadItem.Enclosure.Url,
+            WebResponse response = AsyncWebRequest.GetSyncResponse(HttpMethod.GET, task.DownloadItem.Enclosure.Url,
                                                                    task.DownloadItem.Credentials,
                                                                    FeedSource.UserAgentString(String.Empty),
                                                                    task.DownloadItem.Proxy,
                                                                    DateTime.MinValue,
                                                                    null,
                                                                    Convert.ToInt32(maxWaitTime.TotalSeconds), 
-                                                                   new CookieCollection());
+                                                                   new CookieCollection(), null);
 
             OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null,
                               DateTime.MinValue, RequestResult.OK, 0);

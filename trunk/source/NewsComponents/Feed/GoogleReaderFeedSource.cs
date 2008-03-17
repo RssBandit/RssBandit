@@ -20,6 +20,7 @@ using System.Xml;
 
 using NewsComponents.Net;
 using NewsComponents.Search;
+using NewsComponents.Utils;
 
 using RssBandit.Common;
 
@@ -266,7 +267,7 @@ namespace NewsComponents.Feed
 		/// <summary>
 		/// Returns a CookieCollection containing a cookie with the specified SID
 		/// </summary>
-		/// <param name="sid">The sid.</param>
+		/// <param name="sid">The user's SID.</param>
 		/// <returns>
 		/// A cookie collection with the Google cookie created from the SID
 		/// </returns>
@@ -278,6 +279,23 @@ namespace NewsComponents.Feed
            collection.Add(cookie); 
 
            return collection; 
+        }
+
+        /// <summary>
+        /// Gets an edit token which is needed for any edit operations using the Google Reader API
+        /// </summary>
+        /// <param name="sid">The user's SID</param>
+        /// <returns>The edit token</returns>
+        private static string GetGoogleEditToken(string sid)
+        {
+            string tokenUrl = apiUrlPrefix + "token";
+            HttpWebRequest request = HttpWebRequest.Create(tokenUrl) as HttpWebRequest;
+
+            request.CookieContainer = new CookieContainer();
+            request.CookieContainer.Add(MakeGoogleCookie(sid));
+
+            StreamReader reader = new StreamReader(request.GetResponse().GetResponseStream());          
+            return reader.ReadToEnd();             
         }
 
         #endregion 
@@ -507,6 +525,43 @@ namespace NewsComponents.Feed
 
         #endregion
 
+        #region subscription editing methods 
+
+        /// <summary>
+        /// Changes the title of a subscribed feed in Google Reader
+        /// </summary>
+        /// <remarks>This method does nothing if the new title is empty or null</remarks>
+        /// <param name="url">The feed URL</param>
+        /// <param name="title">The new title</param>
+        public void RenameFeedInGoogleReader(string url, string title)
+        {            
+            if (StringHelper.EmptyTrimOrNull(title))
+            {
+                return; 
+            }
+
+            if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
+
+                GoogleReaderNewsFeed f = feedsTable[url] as GoogleReaderNewsFeed;
+
+                if (f != null)
+                {
+                    string apiUrl = apiUrlPrefix + "subscription/edit";
+                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + HttpUtility.HtmlEncode(title) + "&s=" + f.GoogleReaderFeedId;
+                    HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new WebException(response.StatusDescription); 
+                    }
+                }
+
+            }// if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
+
+        }
+
+        #endregion 
+
         #endregion
 
     }
@@ -576,7 +631,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents a news feed subscribed to in Google Reader. 
     /// </summary>
-    internal class GoogleReaderNewsFeed : NewsFeed
+    public class GoogleReaderNewsFeed : NewsFeed
     {
         #region constructors 
 
@@ -637,9 +692,21 @@ namespace NewsComponents.Feed
 
         #endregion 
 
-        #region INewsFeed implementation 
+        #region public properties 
 
-        #region INewsFeed properties 
+        /// <summary>
+        /// The feed's ID in Google Reader 
+        /// </summary>
+        public string GoogleReaderFeedId
+        {
+            get { return this.mysubscription.Id; }
+        }
+
+        #endregion 
+
+        #region INewsFeed implementation
+
+        #region INewsFeed properties
 
         public override string link
         {
@@ -662,7 +729,13 @@ namespace NewsComponents.Feed
             }
             set
             {
-                //TODO: Make this change the subscription title in Google Reader
+                GoogleReaderFeedSource myowner = owner as GoogleReaderFeedSource;
+                
+                if (myowner != null && !StringHelper.EmptyTrimOrNull(value))
+                {
+                    myowner.RenameFeedInGoogleReader(this.link, value);
+                    mysubscription.Title = value;
+                }
             }
         }
 
