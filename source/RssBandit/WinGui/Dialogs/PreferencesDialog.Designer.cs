@@ -82,6 +82,7 @@ namespace RssBandit.WinGui.Forms
 			this.label6 = new System.Windows.Forms.Label();
 			this.sectionPanelFeedsTimings = new RssBandit.WinGui.Controls.OptionSectionPanel();
 			this.checkClearFeedCategoryItemAgeSettings = new System.Windows.Forms.CheckBox();
+			this.checkResetIndividualRefreshRates = new System.Windows.Forms.CheckBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.comboRefreshRate = new System.Windows.Forms.ComboBox();
@@ -700,6 +701,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			resources.ApplyResources(this.sectionPanelFeedsTimings, "sectionPanelFeedsTimings");
 			this.sectionPanelFeedsTimings.Controls.Add(this.checkClearFeedCategoryItemAgeSettings);
+			this.sectionPanelFeedsTimings.Controls.Add(this.checkResetIndividualRefreshRates);
 			this.sectionPanelFeedsTimings.Controls.Add(this.label15);
 			this.sectionPanelFeedsTimings.Controls.Add(this.linkLabel1);
 			this.sectionPanelFeedsTimings.Controls.Add(this.comboRefreshRate);
@@ -716,6 +718,14 @@ namespace RssBandit.WinGui.Forms
 			resources.ApplyResources(this.checkClearFeedCategoryItemAgeSettings, "checkClearFeedCategoryItemAgeSettings");
 			this.checkClearFeedCategoryItemAgeSettings.Name = "checkClearFeedCategoryItemAgeSettings";
 			this.checkClearFeedCategoryItemAgeSettings.UseVisualStyleBackColor = true;
+			this.checkClearFeedCategoryItemAgeSettings.CheckedChanged += new System.EventHandler(this.OnAnyCheckedChanged);
+			// 
+			// checkResetIndividualRefreshRates
+			// 
+			resources.ApplyResources(this.checkResetIndividualRefreshRates, "checkResetIndividualRefreshRates");
+			this.checkResetIndividualRefreshRates.Name = "checkResetIndividualRefreshRates";
+			this.checkResetIndividualRefreshRates.UseVisualStyleBackColor = true;
+			this.checkResetIndividualRefreshRates.CheckedChanged += new System.EventHandler(this.OnAnyCheckedChanged);
 			// 
 			// label15
 			// 
@@ -1802,6 +1812,7 @@ namespace RssBandit.WinGui.Forms
 		internal System.Windows.Forms.CheckBox checkMarkItemsAsReadWhenViewed;
 		internal System.Windows.Forms.CheckBox checkMarkItemsReadOnExit;
 		internal CheckBox checkClearFeedCategoryItemAgeSettings;
+		internal CheckBox checkResetIndividualRefreshRates;
 
 	}
 }

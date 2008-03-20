@@ -398,7 +398,8 @@ namespace RssBandit
                     }
                     else if (ex.Number == ApplicationExceptions.FeedlistNA)
                     {
-                        this.refreshRate = feedHandler.RefreshRate;
+						if (this.Preferences.RefreshRate < 0)
+							this.Preferences.RefreshRate = FeedSource.DefaultRefreshRate;
                         this.SetGuiStateFeedbackText(SR.GUIStatusNoFeedlistFile);
                     }
                     else
@@ -426,9 +427,8 @@ namespace RssBandit
             }
             else if (args.Done)
             {
-                // done
-                this.refreshRate = feedHandler.RefreshRate; // loaded from feedlist
-
+				// done
+				
                 this.CheckAndMigrateSettingsAndPreferences(); // needs the feedlist to be loaded
                 this.CheckAndMigrateListViewLayouts();
 

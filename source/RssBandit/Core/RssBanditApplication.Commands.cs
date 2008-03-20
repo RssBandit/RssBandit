@@ -1160,7 +1160,7 @@ namespace RssBandit
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
 
                 INewsFeed f;
-                int refreshrate = refreshRate;
+				int refreshrate = Preferences.RefreshRate;
                 TimeSpan feedMaxItemAge = TimeSpan.Zero;
                 bool feedDisabled = false;
                 bool feedMarkItemsReadOnExit = false;
@@ -1187,7 +1187,7 @@ namespace RssBandit
                 }
 
                 FeedProperties propertiesDialog =
-                    new FeedProperties(f.title, f.link, refreshrate/60000, feedMaxItemAge,
+                    new FeedProperties(f.title, f.link, refreshrate/MilliSecsMultiplier, feedMaxItemAge,
                                        (f.category ?? defaultCategory), defaultCategory,
                                        feedHandler.GetCategories().Keys, feedHandler.GetStyleSheet(f.link));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
@@ -1417,7 +1417,7 @@ namespace RssBandit
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
 
                 string category = null, catPlusSep, categoryName;
-                int refreshrate = refreshRate;
+                int refreshrate = Preferences.RefreshRate;
                 TimeSpan feedMaxItemAge = TimeSpan.Zero;
                 bool feedMarkItemsReadOnExit = false;
 
@@ -1445,7 +1445,7 @@ namespace RssBandit
                 }
 
                 CategoryProperties propertiesDialog =
-                    new CategoryProperties(tn.Text, refreshrate/60000, feedMaxItemAge,
+                    new CategoryProperties(tn.Text, refreshrate/MilliSecsMultiplier, feedMaxItemAge,
                                            feedHandler.GetCategoryStyleSheet(category));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
                 propertiesDialog.checkMarkItemsReadOnExit.Checked = feedMarkItemsReadOnExit;

@@ -3736,7 +3736,7 @@
 </value>
   </data>
   <data name="sectionPanelFeedsCommentDefs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 206</value>
+    <value>15, 241</value>
   </data>
   <data name="sectionPanelFeedsCommentDefs.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 156</value>
@@ -3769,13 +3769,13 @@
     <value>System</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 149</value>
+    <value>59, 187</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 29</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>0</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
     <value>Clear all individual feed and category Item Age settings</value>
@@ -3792,17 +3792,50 @@
   <data name="&gt;&gt;checkClearFeedCategoryItemAgeSettings.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="checkResetIndividualRefreshRates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 122</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 29</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+  <data name="&gt;&gt;checkResetIndividualRefreshRates.Name" xml:space="preserve">
+    <value>checkResetIndividualRefreshRates</value>
+  </data>
+  <data name="&gt;&gt;checkResetIndividualRefreshRates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkResetIndividualRefreshRates.Parent" xml:space="preserve">
+    <value>sectionPanelFeedsTimings</value>
+  </data>
+  <data name="&gt;&gt;checkResetIndividualRefreshRates.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 125</value>
+    <value>40, 163</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 26</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>Remove Items Older &amp;Than:</value>
@@ -3820,7 +3853,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3835,7 +3868,7 @@
     <value>305, 16</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
@@ -3853,7 +3886,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="comboRefreshRate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -3913,7 +3946,7 @@
     <value>73, 21</value>
   </data>
   <data name="comboRefreshRate.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
     <value>Changes refresh rate setting for all feeds</value>
@@ -3928,7 +3961,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;comboRefreshRate.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -3943,7 +3976,7 @@
     <value>70, 20</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>minutes</value>
@@ -3961,7 +3994,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3973,7 +4006,7 @@
     <value>149, 26</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>&amp;Update feeds every</value>
@@ -3991,7 +4024,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="comboMaxItemAge.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -4054,13 +4087,13 @@
     <value>Unlimited</value>
   </data>
   <data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing">
-    <value>190, 125</value>
+    <value>190, 163</value>
   </data>
   <data name="comboMaxItemAge.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 21</value>
   </data>
   <data name="comboMaxItemAge.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
     <value>Changes default item age setting for all feeds</value>
@@ -4075,7 +4108,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;comboMaxItemAge.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -4090,7 +4123,7 @@
     <value>306, 56</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Specify the interval your subscribed feeds should be updated. Each feed with a refresh rate within this interval will be requested again (Conditional Get). See also</value>
@@ -4105,7 +4138,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="sectionPanelFeedsTimings.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4162,7 +4195,7 @@
     <value>15, 13</value>
   </data>
   <data name="sectionPanelFeedsTimings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 187</value>
+    <value>350, 222</value>
   </data>
   <data name="sectionPanelFeedsTimings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

@@ -882,7 +882,7 @@ namespace NewsComponents
 		/// feeds and categories.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.Synchronized)]
-		public void ClearAllMaxItemAgeSettings()
+		public void ResetAllMaxItemAgeSettings()
 		{
 			string[] keys;
 
@@ -2574,12 +2574,19 @@ namespace NewsComponents
             }
         }
 
-        /// <summary>
+		/// <summary>
+		/// Gets the default refresh rate in millisecs (1 hour).
+		/// Means: how often feeds are refreshed by default if no specific rate specified 
+		/// by the configuration.
+		/// </summary>
+    	public static int DefaultRefreshRate = 60*60*1000;
+        
+		/// <summary>
         /// How often feeds are refreshed by default if no specific rate specified by the feed. 
         /// The value is specified in milliseconds. 
         /// </summary>
         /// <remarks>By default this value is set to one hour. </remarks>
-        protected int refreshrate = 60*60*1000;
+		private int refreshrate4migration = DefaultRefreshRate;
 
         /// <summary>
         ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
@@ -2589,13 +2596,16 @@ namespace NewsComponents
         /// value to zero means feeds are no longer updated.</remarks>
         public virtual int RefreshRate
         {
-            set
-            {
-                if (value >= 0)
-                {
-                    this.refreshrate = value;
-                }
-
+			//set
+			//{
+			//    if (value >= 0)
+			//    {
+			//        this.refreshrate = value;
+			//    }
+				
+				/* 
+				 * moved to ResetAllRefreshRateSettings():
+				 * 
                 string[] keys;
 
                 lock (feedsTable)
@@ -2614,15 +2624,59 @@ namespace NewsComponents
                         f.refreshrateSpecified = true;
                     }
                 }
-            }
+				*/
+			//}
 
             get
             {
-                return refreshrate;
+                return p_configuration.RefreshRate;
             }
         }
 
-        ///<summary>
+		/// <summary>
+		/// Gets the refresh rate used by a previous version (before phoenix).
+		/// Used for migration.
+		/// </summary>
+		/// <value>The refresh rate from previous version.</value>
+    	public int RefreshRateFromPreviousVersion {
+			internal set { refreshrate4migration = value; }
+			get { return refreshrate4migration; }
+    	}
+
+		/// <summary>
+		/// Resets all refresh rate settings at feeds and categories.
+		/// </summary>
+		public void ResetAllRefreshRateSettings() 
+		{
+			string[] keys;
+
+			lock (feedsTable)
+			{
+				keys = new string[feedsTable.Count];
+				if (feedsTable.Count > 0)
+					feedsTable.Keys.CopyTo(keys, 0);
+			}
+
+			for (int i = 0, len = keys.Length; i < len; i++)
+			{
+				INewsFeed f = null;
+				if (feedsTable.TryGetValue(keys[i], out f))
+				{
+					f.refreshrate = 0;
+					f.refreshrateSpecified = false;
+				}
+			}
+			// handle categories:
+			//DISCUSS: do we need to lock here? 
+			foreach (INewsFeedCategory c in this.categories.Values)
+			{
+				c.refreshrate = 0;
+				c.refreshrateSpecified = false;
+			}
+		}
+
+
+    	///<summary>
         ///Internal flag used to track whether the XML in the feed list validated against the schema. 
         ///</summary>
         public static bool validationErrorOccured;
@@ -3257,9 +3311,10 @@ namespace NewsComponents
 
                 if (feeds != null)
                 {
+					/* not anymore required to store that in feedlist/now provided via config:
                     feedlist.refreshrate = this.refreshrate;
                     feedlist.refreshrateSpecified = true;
-
+					*/
                     feedlist.downloadenclosures = this.downloadenclosures;
                     feedlist.downloadenclosuresSpecified = true;
 
@@ -6989,7 +7044,7 @@ namespace NewsComponents
     	/// <value>The refreshrate.</value>
     	int ISharedProperty.refreshrate {
     		get { return this.RefreshRate; }
-			set { this.RefreshRate = value; }
+			set { /* ignore */ }
     	}
 
     	/// <summary>
