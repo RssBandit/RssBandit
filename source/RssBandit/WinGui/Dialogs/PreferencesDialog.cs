@@ -113,9 +113,9 @@ namespace RssBandit.WinGui.Forms {
 			}
 
 			this.textProxyCredentialUser.Text = prefs.ProxyUser;
-			this.textProxyCredentialPassword.Text = prefs.ProxyPassword; 
+			this.textProxyCredentialPassword.Text = prefs.ProxyPassword;
 
-			this.comboRefreshRate.Text = refreshRate.ToString() + ""; 
+			this.comboRefreshRate.Text = refreshRate.ToString(); 
 			this.comboRefreshRate.Refresh(); 
 			
 			// item formatters

@@ -251,11 +251,15 @@ namespace NewsComponents.Feed
                 }
             }
 
+			/* 
+			 * now set by configuration, but required for migration:
+			 */ 
                 //if refresh rate in imported feed then use that
             if (myFeeds.refreshrateSpecified)
             {
-                this.refreshrate = myFeeds.refreshrate;
+                this.RefreshRateFromPreviousVersion = myFeeds.refreshrate;
             }
+			
 
                 //if stylesheet specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.stylesheet))
@@ -441,7 +445,8 @@ namespace NewsComponents.Feed
                             {
                                 double timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+								//fix: now consider refreshrate inherited by categories:
+								int refreshRate = this.GetRefreshRate(current.link);
 
                                 if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
@@ -461,9 +466,10 @@ namespace NewsComponents.Feed
                                 // imported may have lastretrievedSpecified set to reduce the initial payload
                                 double timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
+								//fix: now consider refreshrate inherited by categories:
+								int refreshRate = this.GetRefreshRate(current.link);
+                                
+								if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
                                     continue; //no need to download 
                                 }
@@ -559,7 +565,8 @@ namespace NewsComponents.Feed
                             {
                                 double timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-                                int refreshRate = current.refreshrateSpecified ? current.refreshrate : this.RefreshRate;
+								//fix: now consider refreshrate inherited by categories:
+								int refreshRate = this.GetRefreshRate(current.link);
 
                                 if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
