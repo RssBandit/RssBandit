@@ -1,19 +1,22 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+
 using System;
+using System.ComponentModel;
 using System.IO;
-using System.Net;
 using log4net;
 using Microsoft.Win32;
 
 using NewsComponents.Storage;
+using NewsComponents.Utils;
 using Logger = RssBandit.Common.Logging;
 
 namespace NewsComponents
@@ -24,7 +27,7 @@ namespace NewsComponents
 	/// INewsComponentsConfiguration provides the relevant configuration
 	/// information required to run FeedSource.
 	/// </summary>
-	public interface INewsComponentsConfiguration
+	public interface INewsComponentsConfiguration : INotifyPropertyChanged
 	{
 		
 		/// <summary>
@@ -86,6 +89,11 @@ namespace NewsComponents
 		/// <value>The search index behavior.</value>
 		SearchIndexBehavior SearchIndexBehavior { get; }
 
+		/// <summary>
+		/// Gets the refresh rate in millisecs.
+		/// </summary>
+		/// <value>The refresh rate.</value>
+		int RefreshRate { get; }
 	}
 
 	#endregion
@@ -184,6 +192,8 @@ namespace NewsComponents
 		protected IPersistedSettings settings = null;
 		protected CacheManager p_cacheManager = null;
 
+		protected int p_refreshRate = -1;
+
 		#region INewsComponentsConfiguration Members
 
 		/// <summary>
@@ -194,7 +204,10 @@ namespace NewsComponents
 		/// <value>The application ID.</value>
 		public virtual string ApplicationID {
 			get { return appID; }
-			set { appID = value;}
+			set { 
+				appID = value;
+				this.OnPropertyChanged("ApplicationID");
+			}
 		}
 
 		/// <summary>
@@ -204,7 +217,10 @@ namespace NewsComponents
 		public virtual Version ApplicationVersion
 		{
 			get { return appVersion; }
-			set { appVersion = value; }
+			set {
+				appVersion = value;
+				this.OnPropertyChanged("ApplicationVersion");
+			}
 		}
 
 		/// <summary>
@@ -219,6 +235,7 @@ namespace NewsComponents
 			}
 			set {
 				applicationDataPath = value;
+				this.OnPropertyChanged("UserApplicationDataPath");
 			}
 		}
 
@@ -234,6 +251,7 @@ namespace NewsComponents
 			}
 			set {
 				applicationLocalDataPath = value;
+				this.OnPropertyChanged("UserLocalApplicationDataPath");
 			}
 		}
 
@@ -244,7 +262,10 @@ namespace NewsComponents
 		/// <value>The downloaded files data path.</value>
 		public virtual string DownloadedFilesDataPath {
 			get { return applicationDownloadPath; }
-			set { applicationDownloadPath = value; }
+			set {
+				applicationDownloadPath = value;
+				this.OnPropertyChanged("DownloadedFilesDataPath");
+			}
 		}
 
 		/// <summary>
@@ -253,7 +274,10 @@ namespace NewsComponents
 		/// <value>The persisted settings.</value>
 		public virtual IPersistedSettings PersistedSettings {
 			get { return settings; } 
-			set { settings = value;}
+			set {
+				settings = value;
+				this.OnPropertyChanged("PersistedSettings");
+			}
 		}
 
 		/// <summary>
@@ -262,7 +286,10 @@ namespace NewsComponents
 		/// <value>The cache manager.</value>
 		public virtual CacheManager CacheManager {
 			get { return p_cacheManager; }
-			set { p_cacheManager = value; }
+			set {
+				p_cacheManager = value;
+				this.OnPropertyChanged("CacheManager");
+			}
 		}
 		/// <summary>
 		/// Gets the search index behavior.
@@ -270,10 +297,27 @@ namespace NewsComponents
 		/// <value>The search index behavior.</value>
 		public virtual SearchIndexBehavior SearchIndexBehavior {
 			get { return searchBehavior; }
-			set { searchBehavior = value; }
+			set {
+				searchBehavior = value;
+				this.OnPropertyChanged("SearchIndexBehavior");
+			}
 		}
 
-
+		/// <summary>
+		/// Gets the refresh rate in millisecs.
+		/// </summary>
+		/// <value>The refresh rate.</value>
+		public int RefreshRate {
+			get {
+				if (p_refreshRate >= 0)
+					return p_refreshRate;
+				return FeedSource.DefaultRefreshRate;
+			}
+			set {
+				p_refreshRate = value;
+				this.OnPropertyChanged("RefreshRate");
+			}
+		}
 		#endregion
 		
 		/// <summary>
@@ -297,6 +341,7 @@ namespace NewsComponents
 			cfg.CacheManager = new FileCacheManager(path);
 			
 			cfg.PersistedSettings = new SettingStore(cfg.ApplicationID);
+
 			return cfg;
 		}
 		
@@ -352,16 +397,37 @@ namespace NewsComponents
 			#endregion
 		}
 		#endregion
+
+		#region INotifyPropertyChanged Members
+
+		///<summary>
+		///Occurs when a property value changes.
+		///</summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		/// <summary>
+		/// Fired whenever a property is changed. 
+		/// </summary>
+		/// <param name="propertyName"></param>
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			OnPropertyChanged(DataBindingHelper.GetPropertyChangedEventArgs(propertyName));
+		}
+
+		/// <summary>
+		/// Notifies listeners that a property has changed. 
+		/// </summary>
+		/// <param name="e">Details on the property change event</param>
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+		{
+			if (null != PropertyChanged)
+			{
+				PropertyChanged(this, e);
+			}
+		}
+
+		#endregion
 	}
 	#endregion
 }
-
-#region CVS Version Log
-/*
- * $Log: INewsComponentsConfiguration.cs,v $
- * Revision 1.1  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- */
-#endregion
 

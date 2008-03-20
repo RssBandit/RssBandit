@@ -173,11 +173,8 @@ namespace RssBandit
 
         //private INetState connectionState = INetState.Invalid;	// moved to GuiStateManager
 
-        private static readonly int MilliSecsMultiplier = 60*1000;
-        private static readonly int DefaultRefreshRate = 60*MilliSecsMultiplier;
-        // option stored within the feedlist.xml:
-        private int refreshRate = DefaultRefreshRate;
-
+        internal static readonly int MilliSecsMultiplier = 60*1000;
+        
         // other options:
         // TODO: include it in options dialog 
         private readonly bool interceptUrlNavigation = true;
@@ -467,7 +464,12 @@ namespace RssBandit
             cfg.DownloadedFilesDataPath = GetEnclosuresPath();
             cfg.CacheManager = new FileCacheManager(GetFeedFileCachePath());
             cfg.PersistedSettings = this.GuiSettings;
-            return cfg;
+
+			// once written a valid value:
+			if (this.Preferences.RefreshRate >= 0)
+				cfg.RefreshRate = this.Preferences.RefreshRate;
+			
+			return cfg;
         }
 
 		private static INewsComponentsConfiguration CreateCommentFeedHandlerConfiguration(
@@ -482,6 +484,7 @@ namespace RssBandit
             cfg.DownloadedFilesDataPath = null; // no background downloads
             cfg.CacheManager = new FileCacheManager(GetFeedFileCachePath());
             cfg.PersistedSettings = configTemplate.PersistedSettings;
+			cfg.RefreshRate = configTemplate.RefreshRate;
             return cfg;
         }
 
@@ -994,6 +997,26 @@ namespace RssBandit
 				{
 					fs.MaxItemAge = value;
 				});
+		}
+
+		public void ApplyRefreshRate(int value) 
+		{
+			// not yet a valid setting, keep the defaults:
+			if (value < 0)
+				return;
+
+			// apply setting to feed sources:
+			NewsComponentsConfiguration cfg;
+			this.sourceManager.ForEach(
+				delegate(FeedSource fs)
+				{
+					cfg = (NewsComponentsConfiguration)fs.Configuration;
+					cfg.RefreshRate = value;
+				});
+
+			// apply setting to comment feed handler:
+			cfg = (NewsComponentsConfiguration)commentFeedsHandler.Configuration;
+			cfg.RefreshRate = value;
 		}
 
 		public ArrayList FinderList
@@ -1659,10 +1682,13 @@ namespace RssBandit
             {
                 if (!string.IsNullOrEmpty(propertiesDialog.comboRefreshRate.Text))
                 {
-                    this.refreshRate = Int32.Parse(propertiesDialog.comboRefreshRate.Text)*MilliSecsMultiplier;
-                    feedHandler.RefreshRate = this.refreshRate;
-                    this.SubscriptionModified(NewsFeedProperty.FeedRefreshRate);
-                    //this.FeedlistModified = true;
+                    Preferences.RefreshRate = Int32.Parse(propertiesDialog.comboRefreshRate.Text) * MilliSecsMultiplier;
+
+					if (propertiesDialog.checkResetIndividualRefreshRates.Checked)
+					{
+						sourceManager.ForEach(delegate(FeedSource fs) { fs.ResetAllRefreshRateSettings(); });
+						feedlistModified = true;
+					}
                 }
             }
             catch (FormatException)
@@ -1727,7 +1753,8 @@ namespace RssBandit
             }
 
 			if (propertiesDialog.checkClearFeedCategoryItemAgeSettings.Checked) {
-				sourceManager.ForEach(delegate(FeedSource fs) { fs.ClearAllMaxItemAgeSettings(); });
+				sourceManager.ForEach(delegate(FeedSource fs) { fs.ResetAllMaxItemAgeSettings(); });
+				feedlistModified = true;
 				if (!markedForDownloadCalled) {
 					sourceManager.ForEach(delegate(FeedSource fs) { fs.MarkForDownload(); });
 					markedForDownloadCalled = true;
@@ -1950,8 +1977,9 @@ namespace RssBandit
         internal void ApplyPreferences()
         {
 			this.ApplyMaxItemAge(Preferences.MaxItemAge);
-			
-            // assigns the globally used proxy:
+			this.ApplyRefreshRate(Preferences.RefreshRate);
+            
+			// assigns the globally used proxy:
 			this.Proxy = CreateProxyFrom(Preferences);
             
 			FeedSource.BuildRelationCosmos = Preferences.BuildRelationCosmos;
@@ -2109,6 +2137,7 @@ namespace RssBandit
         private void CheckAndMigrateSettingsAndPreferences()
         {
             // check, if any migration task have to be applied:
+        	bool saveChanges = false;
 
             // v.1.2.x to 1.3.x:
             // The old (one) username, mail and referer 
@@ -2138,8 +2167,20 @@ namespace RssBandit
                 this.Preferences.UserName = String.Empty;
                 this.Preferences.UserMailAddress = String.Empty;
                 this.Preferences.Referer = String.Empty;
-                this.SavePreferences();
+				saveChanges = true;
             }
+
+			// did we ever wrote a valid value for refreshrate?
+			if (this.Preferences.RefreshRate < 0) {
+				// no: take over from previous version, as we stored that in feedlist_
+				this.Preferences.RefreshRate = feedHandler.RefreshRateFromPreviousVersion; // loaded from feedlist or default setting
+				ApplyRefreshRate(this.Preferences.RefreshRate);
+
+				saveChanges = true;
+			}
+
+			if (saveChanges)
+				this.SavePreferences();
         }
 
         #endregion
@@ -5227,7 +5268,7 @@ namespace RssBandit
                 this.LoadSearchEngines();
 
             using (PreferencesDialog propertiesDialog =
-                new PreferencesDialog(this, refreshRate/60000, Preferences, this.searchEngines, this.IdentityManager)) 
+                new PreferencesDialog(this, CurrentGlobalRefreshRateMinutes, Preferences, this.searchEngines, this.IdentityManager)) 
 				{
             	propertiesDialog.OnApplyPreferences += this.OnApplyPreferences;
             	if (optionsChangedHandler != null)
@@ -5296,15 +5337,43 @@ namespace RssBandit
                 this.FeedHandler.GetCategories().Keys.CopyTo(cats, 1);
             return cats;
         }
-       
 
-        public int CurrentGlobalRefreshRate
+		/// <summary>
+		/// Returns the default global Feed Refresh Rate in minutes.
+		/// </summary>
+    	public static int DefaultGlobalRefreshRateMinutes {
+			[DebuggerStepThrough]
+			get { return FeedSource.DefaultRefreshRate/MilliSecsMultiplier; }
+		}
+
+		/// <summary>
+		/// Returns the current global (specified via options)
+		/// Feed Refresh Rate in minutes.
+		/// </summary>
+		/// <value></value>
+    	int ICoreApplication.CurrentGlobalRefreshRate {
+			[DebuggerStepThrough]
+			get { return this.CurrentGlobalRefreshRateMinutes; }
+    	}
+
+		/// <summary>
+		/// Returns the current global (specified via options)
+		/// Feed Refresh Rate in minutes.
+		/// </summary>
+		/// <value></value>
+        public int CurrentGlobalRefreshRateMinutes
         {
             get
             {
-                return this.refreshRate/MilliSecsMultiplier;
+				if (this.Preferences.RefreshRate >= 0)
+					return this.Preferences.RefreshRate/MilliSecsMultiplier;
+				return DefaultGlobalRefreshRateMinutes;
             }
-        }
+			internal set {
+				this.Preferences.RefreshRate = value * MilliSecsMultiplier;
+				this.ApplyRefreshRate(this.Preferences.RefreshRate);
+			}
+		}
 
         public void AddCategory(string category)
         {
@@ -5454,13 +5523,10 @@ namespace RssBandit
            
             this.FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
-
-            /* DON'T NEED THIS, IT WILL INHERIT FROM FeedSource.RefreshRate
-				f.refreshrate = 60;	
-				int intIn = wiz.RefreshRate * MilliSecsMultiplier;
-				this.feedHandler.SetRefreshRate(f.link, intIn); 
-			*/
+            
             // set properties the backend requires the feed yet added
+			if (wiz.RefreshRate != CurrentGlobalRefreshRateMinutes)
+				this.feedHandler.SetRefreshRate(f.link, wiz.RefreshRate);
             this.feedHandler.SetMaxItemAge(f.link, wiz.MaxItemAge);
             this.feedHandler.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
 

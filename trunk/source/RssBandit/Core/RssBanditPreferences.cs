@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 #region usings
 using System;
@@ -16,7 +18,6 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using NewsComponents.Utils;
 using Logger = RssBandit.Common.Logging;
@@ -78,6 +79,7 @@ namespace RssBandit {
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditPreferences));
 		
         //new 2.0.x
+		private int refreshRate = -1;	// indicates we may have to migrate the value from subscription list
         private TextSize readingPaneTextSize = TextSize.Medium;
 
 		//new 1.5.x
@@ -135,13 +137,27 @@ namespace RssBandit {
 
 		#region public properties
 
+		/// <summary>
+		/// Gets or sets the refresh rate in millisecs.
+		/// </summary>
+		/// <value>The refresh rate.</value>
+		internal int RefreshRate {
+			[DebuggerStepThrough]
+			get { return refreshRate; }
+			set
+			{
+				refreshRate = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("RefreshRate"));
+			}
+		}
 
         /// <summary>
         /// Gets/Sets the size of the text in the reading pane
         /// </summary>
         public TextSize ReadingPaneTextSize
         {
-            [DebuggerStepThrough()]
+            [DebuggerStepThrough]
             get { return readingPaneTextSize; }
             set
             {
@@ -155,7 +171,7 @@ namespace RssBandit {
 		/// Gets/Sets the number of news items to display per page in the newspaper view
 		/// </summary>
 		public decimal NumNewsItemsPerPage{
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return numNewsItemsPerPage; }
 			set { 
 				numNewsItemsPerPage = value; 
@@ -169,7 +185,7 @@ namespace RssBandit {
 		/// Gets/Sets the Newsgator Online sync token.
 		/// </summary>
 		public string NgosSyncToken {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return ngosSyncToken; }
 			set { 
 				ngosSyncToken = value; 
@@ -182,7 +198,7 @@ namespace RssBandit {
 		/// Gets/Sets the user identity used to post feed comments.
 		/// </summary>
 		public string UserIdentityForComments {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return userIdentityForComments; }
 			set { 
 				userIdentityForComments = value; 
@@ -198,7 +214,7 @@ namespace RssBandit {
 		/// </summary>
 		public string Referer 
 		{
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return referer;		}
 			set {	referer = value;	}
 		}
@@ -208,7 +224,7 @@ namespace RssBandit {
 		/// Used only to migrate old values to the new structure UserIdentity.
 		/// </summary>
 		public string UserName {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return userName;	}
 			set {	userName = value;	}
 		}
@@ -218,7 +234,7 @@ namespace RssBandit {
 		/// Used only to migrate old values to the new structure UserIdentity.
 		/// </summary>
 		public string UserMailAddress {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return userMailAddress;		}
 			set {	userMailAddress = value;	}
 		}
@@ -230,7 +246,7 @@ namespace RssBandit {
 		/// </summary>
 		public bool FeedRefreshOnStartup 
 		{			
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.RefreshFeedsOnStartup); }
 			set {	
 				SetOption(OptionalFlags.RefreshFeedsOnStartup, value);		
@@ -244,7 +260,7 @@ namespace RssBandit {
 		/// request feeds.
 		/// </summary>
 		public bool UseProxy {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.CustomProxy);		}
 			set {	
 				SetOption(OptionalFlags.CustomProxy, value);		
@@ -259,7 +275,7 @@ namespace RssBandit {
 		/// (Including automatic proxy configuration).
 		/// </summary>
 		public bool UseIEProxySettings {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.TakeIEProxySettings);	}
 			set { 
 				SetOption(OptionalFlags.TakeIEProxySettings, value);	
@@ -273,7 +289,7 @@ namespace RssBandit {
 		/// for local (intranet) servers.
 		/// </summary>
 		public bool BypassProxyOnLocal {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.ByPassProxyOnLocal);		}
 			set {	
 				SetOption(OptionalFlags.ByPassProxyOnLocal, value);		
@@ -288,7 +304,7 @@ namespace RssBandit {
 		/// marked as read when viewed in the newspaper view
 		/// </summary>
 		public bool MarkItemsAsReadWhenViewed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return !GetOption(OptionalFlags.DisableAutoMarkItemsRead);		}
 			set {	
 				SetOption(OptionalFlags.DisableAutoMarkItemsRead, !value);		
@@ -302,7 +318,7 @@ namespace RssBandit {
 		/// should be displayed per page in the newspaper view. 
 		/// </summary>
 		public bool LimitNewsItemsPerPage {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return !GetOption(OptionalFlags.ShowAllNewsItemsPerPage);		}
 			set {	
 				SetOption(OptionalFlags.ShowAllNewsItemsPerPage, !value);		
@@ -316,7 +332,7 @@ namespace RssBandit {
 		/// </summary>
 		public string[] ProxyBypassList 
 		{
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return proxyBypassList;			}
 			set {	
 				proxyBypassList = value;		
@@ -329,7 +345,7 @@ namespace RssBandit {
 		/// Sets/Get the proxy address.
 		/// </summary>
 		public string ProxyAddress {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return proxyAddress;	}
 			set {	
 				proxyAddress = value;	
@@ -342,7 +358,7 @@ namespace RssBandit {
 		/// Sets/Get the proxy port number.
 		/// </summary>
 		public int ProxyPort {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return proxyPort;		}
 			set {	
 				proxyPort = value;	
@@ -356,7 +372,7 @@ namespace RssBandit {
 		/// custom credentials (proxy needs authentication).
 		/// </summary>
 		public bool ProxyCustomCredentials {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.ProxyCustomCredentials);		}
 			set {	
 				SetOption(OptionalFlags.ProxyCustomCredentials, value);		
@@ -369,7 +385,7 @@ namespace RssBandit {
 		/// Sets/Get the proxy custom credential user name.
 		/// </summary>
 		public string ProxyUser {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return proxyUser;		}
 			set {	
 				proxyUser = value;	
@@ -382,7 +398,7 @@ namespace RssBandit {
 		/// Sets/Get the proxy custom credential user password.
 		/// </summary>
 		public string ProxyPassword {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return proxyPassword;		}
 			set {	
 				proxyPassword = value;	
@@ -396,7 +412,7 @@ namespace RssBandit {
 		/// (filename exluding path name)
 		/// </summary>
 		public string NewsItemStylesheetFile {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return newsItemStylesheetFile;		}
 			set {	
 				newsItemStylesheetFile = value;	
@@ -411,7 +427,7 @@ namespace RssBandit {
 		/// contain all podcasts from RSS Bandit. 
 		/// </summary>
 		public string SinglePlaylistName {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return singlePlaylistName;		}
 			set {	
 				singlePlaylistName = value;	
@@ -426,7 +442,7 @@ namespace RssBandit {
 		/// be reused or not.
 		/// </summary>
 		public bool ReuseFirstBrowserTab {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.ReUseFirstBrowserTab);		}
 			set {	
 				SetOption(OptionalFlags.ReUseFirstBrowserTab, value);	
@@ -440,7 +456,7 @@ namespace RssBandit {
 		/// in the background.
 		/// </summary>
 		public bool OpenNewTabsInBackground {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.OpenNewTabsInBackground);		}
 			set {	
 				SetOption(OptionalFlags.OpenNewTabsInBackground, value);	
@@ -457,7 +473,7 @@ namespace RssBandit {
 		/// 	<c>true</c> if [allow app event sounds]; otherwise, <c>false</c>.
 		/// </value>
 		public bool AllowAppEventSounds {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.AllowAppEventSounds);		}
 			set {	
 				SetOption(OptionalFlags.AllowAppEventSounds, value);	
@@ -488,7 +504,7 @@ namespace RssBandit {
 		/// a playlist with the same name as the feed. 
 		/// </summary>
 		public bool SinglePodcastPlaylist {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.SinglePodcastPlaylist);		}
 			set {	
 				SetOption(OptionalFlags.SinglePodcastPlaylist, value);	
@@ -502,7 +518,7 @@ namespace RssBandit {
 		/// podcasts folder. 
 		/// </summary>
 		public bool AddPodcasts2Folder {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.AddPodcasts2Folder);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2Folder, value);	
@@ -516,7 +532,7 @@ namespace RssBandit {
 		/// created when an WMP-compatible podcast is successfully downloaded
 		/// </summary>
 		public bool AddPodcasts2WMP {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.AddPodcasts2WMP);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2WMP, value);	
@@ -530,7 +546,7 @@ namespace RssBandit {
 		/// created when an iTunes-compatible podcast is successfully downloaded
 		/// </summary>
 		public bool AddPodcasts2ITunes {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.AddPodcasts2ITunes);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2ITunes, value);	
@@ -544,7 +560,7 @@ namespace RssBandit {
 		/// in the tree view.
 		/// </summary>
 		public bool UseFavicons {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return !GetOption(OptionalFlags.DisableFavicons);		}
 			set {	
 				SetOption(OptionalFlags.DisableFavicons, !value);	
@@ -557,7 +573,7 @@ namespace RssBandit {
 		/// while leaving the feed through UI navigation (to another feed/category)
 		/// </summary>
 		public bool MarkItemsReadOnExit {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.MarkFeedItemsReadOnExit);	}
 			set { 
 				SetOption(OptionalFlags.MarkFeedItemsReadOnExit, value);	
@@ -571,7 +587,7 @@ namespace RssBandit {
 		/// should display the (web page) content of the link target instead (if true).
 		/// </summary>
 		public bool NewsItemOpenLinkInDetailWindow {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow);	}
 			set { 
 				SetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow, value);	
@@ -586,7 +602,7 @@ namespace RssBandit {
 		/// system tray area.
 		/// </summary>
 		public HideToTray HideToTrayAction {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return hideToTrayAction;		}
 			set {	
 				hideToTrayAction = value;		
@@ -600,7 +616,7 @@ namespace RssBandit {
 		/// the application should check for available updates (internet access required).
 		/// </summary>
 		public AutoUpdateMode AutoUpdateFrequency {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return autoUpdateFrequency;		}
 			set {	
 				autoUpdateFrequency = value;	
@@ -616,7 +632,7 @@ namespace RssBandit {
 		/// will be removed in Phoenix release!
 		/// Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead! 
 		/// </summary>
-		[Obsolete("Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!")]
+		[Obsolete("Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!")]
 		public DateTime LastAutoUpdateCheck {
 			get {
 				throw new NotSupportedException(
@@ -640,7 +656,7 @@ namespace RssBandit {
 		/// and feeds (treeview)
 		/// </summary>
 		public Font NormalFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return normalFont;		}
 			set {	
 				normalFont = value;		
@@ -654,7 +670,7 @@ namespace RssBandit {
 		/// and feeds (treeview)
 		/// </summary>
 		public Color NormalFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return normalFontColor;		}
 			set {
 				normalFontColor = value;
@@ -668,7 +684,7 @@ namespace RssBandit {
 		/// and feeds (treeview)
 		/// </summary>
 		public Font UnreadFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return unreadFont;		}
 			set {
 				unreadFont = value;
@@ -682,7 +698,7 @@ namespace RssBandit {
 		/// and feeds (treeview)
 		/// </summary>
 		public Color UnreadFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return unreadFontColor;		}
 			set {
 				unreadFontColor = value;
@@ -695,7 +711,7 @@ namespace RssBandit {
 		/// Font used to render flagged items (listview) 
 		/// </summary>
 		public Font FlagFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return flagFont;		}
 			set {
 				flagFont = value;
@@ -708,7 +724,7 @@ namespace RssBandit {
 		/// Color used to render flagged items (listview) 
 		/// </summary>
 		public Color FlagFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return flagFontColor;		}
 			set {
 				flagFontColor = value;
@@ -722,7 +738,7 @@ namespace RssBandit {
 		/// default identity (listview) 
 		/// </summary>
 		public Font RefererFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return refererFont;		}
 			set {
 				refererFont = value;
@@ -736,7 +752,7 @@ namespace RssBandit {
 		/// default identity (listview) 
 		/// </summary>
 		public Color RefererFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return refererFontColor;	}
 			set {
 				refererFontColor = value;
@@ -749,7 +765,7 @@ namespace RssBandit {
 		/// Font used to render items that display an error message (listview) 
 		/// </summary>
 		public Font ErrorFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return errorFont;		}
 			set {
 				errorFont = value;
@@ -762,7 +778,7 @@ namespace RssBandit {
 		/// Color used to render items that display an error message (listview) 
 		/// </summary>
 		public Color ErrorFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return errorFontColor;		}
 			set {
 				errorFontColor = value;
@@ -775,7 +791,7 @@ namespace RssBandit {
 		/// Font used to render items that received new comments (watched) 
 		/// </summary>
 		public Font NewCommentsFont {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return newCommentsFont;		}
 			set {
 				newCommentsFont = value;
@@ -788,7 +804,7 @@ namespace RssBandit {
 		/// Color used to render items that received new comments (watched) 
 		/// </summary>
 		public Color NewCommentsFontColor {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return newCommentsColor;		}
 			set {
 				newCommentsColor = value;
@@ -802,7 +818,7 @@ namespace RssBandit {
 		/// You have to use TimeSpan.MinValue for the unlimited item age.
 		/// </summary>
 		public TimeSpan MaxItemAge {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get {	return maxItemAge;	}
 			set {	
 				maxItemAge = value;	
@@ -816,7 +832,7 @@ namespace RssBandit {
 		/// for sync. states.
 		/// </summary>
 		public bool UseRemoteStorage {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.UseRemoteStorage); }
 			set {
 				SetOption(OptionalFlags.UseRemoteStorage, value);
@@ -831,7 +847,7 @@ namespace RssBandit {
 		/// the remote storage location.
 		/// </summary>
 		public string RemoteStorageUserName {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return remoteStorageUserName; }
 			set {
 				remoteStorageUserName = value;
@@ -845,7 +861,7 @@ namespace RssBandit {
 		/// storage location.
 		/// </summary>
 		public string RemoteStoragePassword {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return remoteStoragePassword; }
 			set {
 				remoteStoragePassword = value;
@@ -858,7 +874,7 @@ namespace RssBandit {
 		/// Sets/Get the type of remote storage to use. <see cref="RemoteStorageProtocolType"/>
 		/// </summary>
 		public RemoteStorageProtocolType RemoteStorageProtocol {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return remoteStorageProtocol; }
 			set {
 				remoteStorageProtocol = value;
@@ -872,7 +888,7 @@ namespace RssBandit {
 		/// the location type (ftp, share,...)
 		/// </summary>
 		public string RemoteStorageLocation {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return remoteStorageLocation; }
 			set {
 				remoteStorageLocation = value;
@@ -886,7 +902,7 @@ namespace RssBandit {
 		/// window(s) while browsing
 		/// </summary>
 		public BrowserBehaviorOnNewWindow BrowserOnNewWindow {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return browserBehaviorOnNewWindow; }
 			set {
 				browserBehaviorOnNewWindow = value;
@@ -900,7 +916,7 @@ namespace RssBandit {
 		/// browser requires to open a new window.
 		/// </summary>
 		public string BrowserCustomExecOnNewWindow  {
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return browserCustomExecOnNewWindow; }
 			set { 
 				if (value == null) 
@@ -916,7 +932,7 @@ namespace RssBandit {
 		/// Sets/Get if Javascript should be allowed to execute
 		/// </summary>
 		public bool BrowserJavascriptAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowJavascriptInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowJavascriptInBrowser, value);
@@ -929,7 +945,7 @@ namespace RssBandit {
 		/// Sets/Get if Java should be allowed to execute
 		/// </summary>
 		public bool BrowserJavaAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowJavaInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowJavaInBrowser, value);
@@ -942,7 +958,7 @@ namespace RssBandit {
 		/// Sets/Get if ActiveX controls should be allowed to execute
 		/// </summary>
 		public bool BrowserActiveXAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowActiveXInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowActiveXInBrowser, value);
@@ -955,7 +971,7 @@ namespace RssBandit {
 		/// Sets/Get if background sounds are allowed to be played
 		/// </summary>
 		public bool BrowserBGSoundAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowBGSoundInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowBGSoundInBrowser, value);
@@ -968,7 +984,7 @@ namespace RssBandit {
 		/// Sets/Get if video can be played
 		/// </summary>
 		public bool BrowserVideoAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowVideoInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowVideoInBrowser, value);
@@ -981,7 +997,7 @@ namespace RssBandit {
 		/// Sets/Get if images should be loaded
 		/// </summary>
 		public bool BrowserImagesAllowed { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowImagesInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowImagesInBrowser, value);
@@ -994,7 +1010,7 @@ namespace RssBandit {
 		/// Sets/Get the DisplayFeedAlertWindow enumeration value
 		/// </summary>
 		public DisplayFeedAlertWindow ShowAlertWindow { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return feedAlertWindow; }
 			set {
 				feedAlertWindow = value;
@@ -1008,7 +1024,7 @@ namespace RssBandit {
 		/// if new news items are received.
 		/// </summary>
 		public bool ShowNewItemsReceivedBalloon { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.ShowNewItemsReceivedBalloon); }
 			set {
 				SetOption(OptionalFlags.ShowNewItemsReceivedBalloon, value);
@@ -1021,7 +1037,7 @@ namespace RssBandit {
 		/// Sets/Get if we build the relation cosmos (interlinkage of news items).
 		/// </summary>
 		public bool BuildRelationCosmos { 
-			[DebuggerStepThrough()]
+			[DebuggerStepThrough]
 			get { return true; /* we always want to do this given performance and usability improvements */ }
 			set {
 				/* do nothing */ 
@@ -1061,7 +1077,7 @@ namespace RssBandit {
 			this.allOptionalFlags = DefaultOptionalFlags;
 		}
 
-		private OptionalFlags DefaultOptionalFlags {
+		private static OptionalFlags DefaultOptionalFlags {
 			get {
 				OptionalFlags f = OptionalFlags.AllOff;
 				f |= OptionalFlags.ByPassProxyOnLocal |
@@ -1268,6 +1284,8 @@ namespace RssBandit {
 			this.NumNewsItemsPerPage = reader.GetDecimal("NumNewsItemsPerPage", 10);
 
             this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
+
+			this.RefreshRate = reader.GetInt("RefreshRate", -1);
 		}
 
 		/// <summary>
@@ -1279,9 +1297,10 @@ namespace RssBandit {
 		/// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission.</exception>
 		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true),
 		 SecurityPermissionAttribute(SecurityAction.LinkDemand)]
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)	{
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)	
+		{
 		
-			info.AddValue("_PrefsVersion", 24);	// added setting for text size in reading pane
+			info.AddValue("_PrefsVersion", 25);	// added refresh rate
 			EncryptionHelper.CompatibilityMode = false;
 			info.AddValue("ProxyAddress", ProxyAddress);
 			info.AddValue("ProxyPort", ProxyPort);
@@ -1317,6 +1336,7 @@ namespace RssBandit {
 			info.AddValue("NgosSyncToken", this.NgosSyncToken); 
 			info.AddValue("NumNewsItemsPerPage", this.NumNewsItemsPerPage);
             info.AddValue("ReadingPaneTextSize", this.ReadingPaneTextSize);
+			info.AddValue("RefreshRate", this.RefreshRate);
 		}
 		#endregion
 
@@ -1450,7 +1470,7 @@ namespace RssBandit {
 			
 			//private static string assemblyRunning = Assembly.GetExecutingAssembly().FullName;
 			// here are the enums moved from RssBandit assembly to AppServices:
-            private static List<string> movedTypes = new List<string>(
+            private static readonly List<string> movedTypes = new List<string>(
 				new string[]{"RssBandit.HideToTray", 
 								"RssBandit.AutoUpdateMode", 
 								"RssBandit.RemoteStorageProtocolType", 

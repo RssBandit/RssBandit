@@ -67,6 +67,9 @@ namespace NewsComponents.Feed {
 
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
+			
+			this.Configuration.PropertyChanged += OnConfigurationPropertyChanged;
+         	ApplyRefreshRate(this.Configuration.RefreshRate);
 
             this.AttachEventHandlers();
             feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
@@ -107,6 +110,20 @@ namespace NewsComponents.Feed {
 
          #region public fields and properties 
 
+		 /// <summary>
+		 /// Applies the refresh rate to the WinRSS platform feedManager.
+		 /// </summary>
+		 /// <param name="value">The value.</param>
+		 internal void ApplyRefreshRate(int value)
+		 {
+			 //Dare: the code is copied from RefreshRate{set;}
+			 // Missing: handling the case with value == 0
+			 // Missing: initialize with a default 
+			 if (value >= 15 * 60000)
+			 {
+				 this.feedManager.DefaultInterval = value / 60000;
+			 }
+		 }
 
          /// <summary>
          ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
@@ -116,16 +133,17 @@ namespace NewsComponents.Feed {
          /// value to zero means feeds are no longer updated.</remarks>
          public override int RefreshRate
          {
-             set
-             {
-                 if (value >= 15 * 60000)
-                 {
-                     this.feedManager.DefaultInterval = value / 60000;
-                 }
-             }
+			 //set
+			 //{
+			 //    if (value >= 15 * 60000)
+			 //    {
+			 //        this.feedManager.DefaultInterval = value / 60000;
+			 //    }
+			 //}
 
              get
              {
+				 // base impl. gets the configuration refreshrate. 
                  return feedManager.DefaultInterval * 60000; //convert to milliseconds
              }
          }
@@ -134,13 +152,12 @@ namespace NewsComponents.Feed {
 
          #region private methods
 
-         /// <summary>
-        /// Attaches event handlers to the root IFeedFolder
-        /// </summary>
-        /// <param name="folder"></param>
+		 /// <summary>
+		 /// Attaches event handlers to the root IFeedFolder
+		 /// </summary>
         internal void AttachEventHandlers()
         {
-            IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
+			IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
 		 	if (folder != null) 
 			{
 		 		fw = (IFeedFolderEvents_Event)folder.GetWatcher(
@@ -164,6 +181,13 @@ namespace NewsComponents.Feed {
 				fw.FolderRenamed += FolderRenamed;
 			}
         }
+
+		void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "RefreshRate") {
+				ApplyRefreshRate(this.Configuration.RefreshRate);
+			}
+		}
 
 
 		/// <summary>

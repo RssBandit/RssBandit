@@ -172,13 +172,13 @@ namespace RssBandit.WinGui.Forms
 			windowSerializer.SaveOnlyLocation = true;
 			windowSerializer.SaveNoWindowState = true;
 
-			windowSerializer.LoadStateEvent += new WindowSerializer.WindowSerializerDelegate(OnWindowSerializerLoadStateEvent);
-			windowSerializer.SaveStateEvent += new WindowSerializer.WindowSerializerDelegate(OnWindowSerializerSaveStateEvent);
+			windowSerializer.LoadStateEvent += OnWindowSerializerLoadStateEvent;
+			windowSerializer.SaveStateEvent += OnWindowSerializerSaveStateEvent;
 
 			// to get notified, if the inet connection state changes:
 			internetService = (IInternetService)this.GetService(typeof(IInternetService));
 			if (internetService != null) {
-				internetService.InternetConnectionStateChange += new InternetConnectionStateChangeHandler(OnInternetServiceInternetConnectionStateChange);
+				internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
 				checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetService.InternetAccessAllowed;
 			}
 			// to checkout the defaults to be used for the new feed:
@@ -186,7 +186,7 @@ namespace RssBandit.WinGui.Forms
 			this.MaxItemAge = preferencesService.MaxItemAge;
 
 			coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));
-			this.cboUpdateFrequency.Text = "60";
+			this.cboUpdateFrequency.Text = String.Format("{0}", RssBanditApplication.DefaultGlobalRefreshRateMinutes);
 			if (coreApplication.CurrentGlobalRefreshRate > 0)	// if not disabled refreshing
 				this.cboUpdateFrequency.Text = String.Format("{0}", coreApplication.CurrentGlobalRefreshRate); 
 			
@@ -3209,7 +3209,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		/// <summary>
-		/// Gets the refresh rate.
+		/// Gets the refresh rate in minutes.
 		/// </summary>
 		/// <value>The refresh rate.</value>
 		public int RefreshRate {
@@ -3233,7 +3233,7 @@ namespace RssBandit.WinGui.Forms
 					if (coreApplication.CurrentGlobalRefreshRate > 0)
 						return coreApplication.CurrentGlobalRefreshRate;
 					else
-						return 60;
+						return RssBanditApplication.DefaultGlobalRefreshRateMinutes;
 				}
 				catch(OverflowException) {
 					return Int16.MaxValue;
