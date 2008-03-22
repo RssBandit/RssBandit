@@ -110,20 +110,30 @@ namespace NewsComponents.Feed {
 
          #region public fields and properties 
 
-		 /// <summary>
-		 /// Applies the refresh rate to the WinRSS platform feedManager.
-		 /// </summary>
-		 /// <param name="value">The value.</param>
-		 internal void ApplyRefreshRate(int value)
-		 {
-			 //Dare: the code is copied from RefreshRate{set;}
-			 // Missing: handling the case with value == 0
-			 // Missing: initialize with a default 
-			 if (value >= 15 * 60000)
-			 {
-				 this.feedManager.DefaultInterval = value / 60000;
-			 }
-		 }
+		/// <summary>
+		/// Enables or disables automatic polling of currently subscribed feeds
+		/// </summary>
+		/// <param name="enabled">Indicates whether automatic polling of feeds should be enabled or disabled</param>
+         internal void ToggleFeedPolling(bool enabled)
+         {
+             string[] keys = this.GetFeedsTableKeys();
+
+             foreach (string key in keys)
+             {
+                 INewsFeed f = null;
+                 feedsTable.TryGetValue(key, out f);
+                 WindowsRssNewsFeed feed = f as WindowsRssNewsFeed;
+
+                 if (feed != null)
+                 {
+                     if (enabled){
+                         feed.EnableFeedPolling();
+                     }else{
+                         feed.DisableFeedPolling();
+                     }
+                 }
+             }//foreach
+         }
 
          /// <summary>
          ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
@@ -144,13 +154,38 @@ namespace NewsComponents.Feed {
              get
              {
 				 // base impl. gets the configuration refreshrate. 
-                 return feedManager.DefaultInterval * 60000; //convert to milliseconds
+                 return  (feedManager.DefaultInterval == Int32.MaxValue ? 0 :
+                     feedManager.DefaultInterval * 60000 /* convert to milliseconds */ ); 
              }
          }
 
          #endregion
 
          #region private methods
+
+
+
+
+         /// <summary>
+         /// Applies the refresh rate to the WinRSS platform feedManager.
+         /// </summary>
+         /// <param name="value">The value.</param>
+         internal void ApplyRefreshRate(int value)
+         {
+             //Dare: the code is copied from RefreshRate{set;}
+             // Missing: handling the case with value == 0
+             // Missing: initialize with a default 
+             if (value >= 15 * 60000)
+             {
+                 this.feedManager.DefaultInterval = value / 60000;
+             }
+             else if (value == 0)
+             {
+                 this.feedManager.DefaultInterval = int.MaxValue;
+                 this.ToggleFeedPolling(false); 
+             }
+         }
+
 
 		 /// <summary>
 		 /// Attaches event handlers to the root IFeedFolder
@@ -497,6 +532,12 @@ namespace NewsComponents.Feed {
                     IFeed newFeed = folder.CreateFeed(feed.title, feed.link) as IFeed;
                     feed = new WindowsRssNewsFeed(newFeed, feed, this);
                     feedsTable.Add(feed.link, feed);
+                }
+
+                //handle case where refresh rate is 0 for all feeds
+                if (feedManager.DefaultInterval == Int32.MaxValue)
+                {
+                    ((WindowsRssNewsFeed)feed).DisableFeedPolling(); 
                 }
 
                 WindowsRssFeedSource.event_caused_by_rssbandit = true;
@@ -879,6 +920,12 @@ namespace NewsComponents.Feed {
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
             this.feedsTable.Add(ifeed.DownloadUrl, new WindowsRssNewsFeed(ifeed));
             this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
+
+            //handle case where refresh rate is 0 for all feeds
+            if (feedManager.DefaultInterval == Int32.MaxValue)
+            {
+                ifeed.SyncSetting = FEEDS_SYNC_SETTING.FSS_MANUAL;
+            }
 
             RaiseOnAddedFeed(new FeedChangedEventArgs(ifeed.DownloadUrl));
         }
@@ -2445,6 +2492,24 @@ namespace NewsComponents.Feed {
                 }                
             }
         }
+
+        /// <summary>
+        /// Disables automatically updating the feed. Feed will only be updated when RefreshFeed() is called. 
+        /// </summary>
+        public void DisableFeedPolling()
+        {
+            this.myfeed.SyncSetting = FEEDS_SYNC_SETTING.FSS_MANUAL; 
+        }
+
+
+        /// <summary>
+        /// Enables automatically updating the feed.  
+        /// </summary>
+        public void EnableFeedPolling()
+        {
+            this.myfeed.SyncSetting = FEEDS_SYNC_SETTING.FSS_INTERVAL;
+        }
+
 
         #endregion 
 
