@@ -796,6 +796,7 @@ namespace NewsComponents.Feed
 
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+    [XmlInclude(typeof(GoogleReaderNewsFeed))]
     public class NewsFeed : INewsFeed
     {
 

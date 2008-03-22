@@ -17,12 +17,16 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using System.Xml;
+using System.Xml.Serialization;
+
+using log4net;
 
 using NewsComponents.Net;
 using NewsComponents.Search;
 using NewsComponents.Utils;
 
 using RssBandit.Common;
+using RssBandit.Common.Logging;
 
 namespace NewsComponents.Feed
 {
@@ -36,6 +40,9 @@ namespace NewsComponents.Feed
     {
 
         #region private fields
+
+        // logging/tracing:
+        private static readonly ILog _log = Log.GetLogger(typeof(GoogleReaderFeedSource));
 
         /// <summary>
         /// The URL for authenticating a Google user.
@@ -51,6 +58,16 @@ namespace NewsComponents.Feed
         /// The first part of the URL to various Google Reader API end points
         /// </summary>
         private static readonly string apiUrlPrefix = @"http://www.google.com/reader/api/0/";
+
+        /// <summary>
+        /// The namespace URI for Google Reader's Atom extensions
+        /// </summary>
+        private static readonly string googleReaderNS = "http://www.google.com/schemas/reader/atom/";
+
+        /// <summary>
+        /// Qname for the google reader continuation token found in a Google Reader Atom feed. 
+        /// </summary>
+        private static readonly XmlQualifiedName continuationQName = new XmlQualifiedName("continuation", "http://www.google.com/schemas/reader/atom/");
 
         /// <summary>
         /// Authentication token which identifies the user. 
@@ -111,7 +128,14 @@ namespace NewsComponents.Feed
         ///</summary>
         public override void LoadFeedlist()
         {
-            this.BootstrapAndLoadFeedlist(new feeds());
+            //load Bandit subscriptions.xml document into memory
+            XmlReader reader = XmlReader.Create(this.location.Location);                        
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+            feeds myFeeds = (feeds)serializer.Deserialize(reader);
+            reader.Close();
+
+            //load feed list from Google Reader and use settings from subscriptions.xml
+            this.BootstrapAndLoadFeedlist(myFeeds);            
         }
 
         /// <summary>
@@ -302,229 +326,480 @@ namespace NewsComponents.Feed
 
         #region feed downloading methods
 
+
         /// <summary>
-        /// Downloads every feed that has either never been downloaded before or 
-        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// Returns the Google Reader URL from which to download the Atom feed for the GoogleReaderNewsFeed object. 
         /// </summary>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
-        /// or whether the cache can be used.</param>
-        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
-        /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(bool force_download)
+        /// <param name="feed">The target feed</param>
+        /// <param name="continuationToken">The token that indicates what "page" of the feed to return</param>
+        /// <returns></returns>
+        private static string CreateDownloadUrl(GoogleReaderNewsFeed feed, string continuationToken)
         {
-            if (this.FeedsListOK == false)
+            //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
+            TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
+            string feedUrl = feedUrlPrefix + feed.GoogleReaderFeedId + "?n=50&r=o&ot=" + maxItemAge.TotalSeconds.ToString();
+
+            if (!StringHelper.EmptyTrimOrNull(continuationToken))
             {
-                //we don't have a feed list
-                return;
+                feedUrl += "&c=" + continuationToken;
             }
 
-            bool anyRequestQueued = false;
-
-            try
-            {
-                RaiseOnUpdateFeedsStarted(force_download);
-
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
-
-                    INewsFeed current = feedsTable[keys[i]];
-
-                    try
-                    {
-                        // new: giving up after ten unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 10)
-                        {
-                            continue;
-                        }
-
-                        if (current.refreshrateSpecified && (current.refreshrate == 0))
-                        {
-                            continue;
-                        }
-
-                        if (itemsTable.ContainsKey(current.link))
-                        {
-                            //check if feed downloaded in the past
-
-                            //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
-                            {
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-								//fix: now consider refreshrate inherited by categories:
-								int refreshRate = this.GetRefreshRate(current.link);
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            } //if(current.lastretrievedSpecified...) 
+            return feedUrl; 
+        }
 
 
-                            if (this.AsyncGetItemsForFeed(current.link, true, false))
-                                anyRequestQueued = true;
-                        }
-                        else
-                        {
-                            // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if ((!force_download) && current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
-                            {
-                                // imported may have lastretrievedSpecified set to reduce the initial payload
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-								//fix: now consider refreshrate inherited by categories:
-								int refreshRate = this.GetRefreshRate(current.link);
 
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            }
+        /// <summary>
+        /// Helper function which converts the URL to the Google Reader Atom feed for a URL into the original feed URI 
+        /// </summary>
+        /// <param name="downloadUri">The URI to the Atom feed in Google Reader </param>
+        /// <returns>The feed URI</returns>
+        private static Uri CreateFeedUriFromDownloadUri(Uri downloadUri)
+        {
+            if(downloadUri == null)
+                throw new ArgumentNullException("downloadUrl");
 
-                            if (!force_download)
-                            {
-                                // not in itemsTable, cacheurl set - but no cache file anymore?
-                                if (!string.IsNullOrEmpty(current.cacheurl) &&
-                                    !this.CacheHandler.FeedExists(current))
-                                    force_download = true;
-                            }
+            string downloadUrl = downloadUri.AbsoluteUri;
+            int startIndex = feedUrlPrefix.Length + "feed/".Length;
+            int endIndex = downloadUrl.IndexOf("?n=50");
 
-                            if (this.AsyncGetItemsForFeed(current.link, force_download, false))
-                                anyRequestQueued = true;
-                        }
+            return new Uri(downloadUrl.Substring(startIndex, endIndex - startIndex)); 
+        }
 
-                        Thread.Sleep(15); // force a context switches
-                    }
-                    catch (Exception e)
-                    {
-                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToString());
-                    }
-                } //for(i)
-            }
-            catch (InvalidOperationException ioe)
-            {
-                // New feeds added to FeedsTable from another thread  
 
-                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToString());
-            }
-            finally
-            {
-                if (isOffline || !anyRequestQueued)
-                    RaiseOnAllAsyncRequestsCompleted();
-            }
+         /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public override bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
+        {
+           return this.AsyncGetItemsForFeed(feedUrl, forceDownload, manual, null); 
         }
 
         /// <summary>
-        /// Downloads every feed that has either never been downloaded before or 
-        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
         /// </summary>
-        /// <param name="category">Refresh all feeds, that are part of the category</param>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
-        /// or whether the cache can be used.</param>
-        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
-        /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(string category, bool force_download)
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>
+        /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        private bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken)
         {
-            if (this.FeedsListOK == false)
-            {
-                //we don't have a feed list
-                return;
-            }
+            if (feedUrl == null || feedUrl.Trim().Length == 0)
+                throw new ArgumentNullException("feedUrl");
 
-            bool anyRequestQueued = false;
+            string etag = null;
+            bool requestQueued = false;
+
+            int priority = 10;
+            if (forceDownload)
+                priority += 100;
+            if (manual)
+                priority += 1000;
+
+            Uri feedUri = new Uri(feedUrl);
 
             try
             {
-                RaiseOnUpdateFeedsStarted(force_download);
-
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
+                try
                 {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
-                        continue;
+                    if ((!forceDownload) || this.isOffline)
+                    {
+                        GetCachedItemsForFeed(feedUrl); //load feed into itemsTable
+                        RaiseOnUpdatedFeed(feedUri, null, RequestResult.NotModified, priority, false);
+                        return false;
+                    }
+                }
+                catch (XmlException xe)
+                {
+                    //cache file is corrupt
+                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToString());
+                }
 
-                    INewsFeed current = feedsTable[keys[i]];
+                //We need a reference to the feed so we can see if a cached object exists
+                GoogleReaderNewsFeed theFeed = null;
+                if (feedsTable.ContainsKey(feedUrl))
+                    theFeed = feedsTable[feedUrl] as GoogleReaderNewsFeed;
 
+                if (theFeed == null)
+                    return false;
+
+                Uri reqUri = new Uri(CreateDownloadUrl(theFeed, continuationToken));
+
+                // only if we "real" go over the wire for an update:
+                RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
+
+                //DateTime lastRetrieved = DateTime.MinValue; 
+                DateTime lastModified = DateTime.MinValue;
+
+                if (itemsTable.ContainsKey(feedUrl))
+                {
+                    etag = theFeed.etag;
+                    lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
+                }
+
+                ICredentials c = null;
+
+                RequestParameter reqParam =
+                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                // global cookie handling:
+                reqParam.SetCookies = false;
+                reqParam.Cookies = MakeGoogleCookie(this.SID); 
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                             null,
+                                             OnRequestStart,
+                                             OnRequestComplete,
+                                             OnRequestException, priority);
+
+                requestQueued = true;
+            }
+            catch (Exception e)
+            {
+                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToString());
+                RaiseOnUpdateFeedException(feedUrl, e, priority);
+            }
+
+            return requestQueued;
+        }
+
+
+        /// <summary>
+        /// Called when a network request has been made to start downloading a feed. 
+        /// </summary>
+        /// <param name="requestUri">The URL being requested</param>
+        /// <param name="cancel">Whether the request is to be cancelled</param>
+        protected virtual void OnRequestStart(Uri requestUri, ref bool cancel)
+        {
+            Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
+            this.RaiseBeforeDownloadFeedStarted(CreateFeedUriFromDownloadUri(requestUri), ref cancel);
+            if (!cancel)
+                cancel = this.Offline;
+        }
+
+
+        /// <summary>
+        /// Called on successful completion of a Web request for a feed
+        /// </summary>
+        /// <param name="requestUri">The request URI</param>
+        /// <param name="response">The Response as a stream</param>
+        /// <param name="newUri">The new URI of a 3xx HTTP response was originally received</param>
+        /// <param name="eTag">The etag</param>
+        /// <param name="lastModified">The last modified date of the result</param>
+        /// <param name="result">The HTTP result</param>
+        /// <param name="priority">The priority of the request</param>
+        protected override void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+                                    RequestResult result, int priority)
+        {
+            Trace("AsyncRequest.OnRequestComplete: '{0}': {1}", requestUri.ToString(), result);
+            if (newUri != null)
+                Trace("AsyncRequest.OnRequestComplete: perma redirect of '{0}' to '{1}'.", requestUri.ToString(),
+                      newUri.ToString());
+
+            IList<INewsItem> itemsForFeed;
+            
+            //BUGBUG: This value is now incorrectly returned if feed has more than 50 items 
+            bool firstSuccessfulDownload = false; 
+            
+            //we download feeds 50 items at a time, so it may take multiple requests to get all items
+            bool feedDownloadComplete = true;
+
+            Uri feedUri = CreateFeedUriFromDownloadUri(requestUri); 
+
+            //grab items from feed, then save stream to cache. 
+            try
+            {
+                //We need a reference to the feed so we can see if a cached object exists
+                INewsFeed theFeed = null;
+
+                if (!feedsTable.TryGetValue(feedUri.CanonicalizedUri(), out theFeed))
+                {
+                    Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
+                          requestUri.ToString());
+                    return;
+                }
+
+                string feedUrl = theFeed.link;
+                if (true)
+                {
+                    if (String.Compare(feedUrl, feedUri.CanonicalizedUri(), true) != 0)
+                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.CanonicalizedUri());
+                }
+
+                if (newUri != null)
+                {
+                    // Uri changed/moved permanently
+
+                    feedsTable.Remove(feedUrl);
+                    theFeed.link = newUri.CanonicalizedUri();
+                    this.feedsTable.Add(theFeed.link, theFeed);
+
+                    lock (itemsTable)
+                    {
+                        if (itemsTable.ContainsKey(feedUrl))
+                        {
+                            IFeedDetails FI = itemsTable[feedUrl];
+                            itemsTable.Remove(feedUrl);
+                            itemsTable.Remove(theFeed.link); //remove any old cached versions of redirected link
+                            itemsTable.Add(theFeed.link, FI);
+                        }
+                    }
+
+                    feedUrl = theFeed.link;
+                } // newUri
+
+                if (result == RequestResult.OK)
+                {
+                    //Update our recently read stories. This is very necessary for 
+                    //dynamically generated feeds which always return 200(OK) even if unchanged							
+
+                    FeedDetailsInternal fi = RssParser.GetItemsForFeed(theFeed, response, false);
+                    FeedDetailsInternal fiFromCache = null;
+
+                    // Sometimes we may not have loaded feed from cache. So ensure it is 
+                    // loaded into memory if cached. We don't lock here because loading from
+                    // disk is too long a time to hold a lock.  
                     try
                     {
-                        // new: giving up after three unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 3)
+                        if (!itemsTable.ContainsKey(feedUrl))
                         {
-                            continue;
+                            fiFromCache = this.GetFeed(theFeed);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToString());
+                        /* the cache file may be corrupt or an IO exception 
+						 * not much we can do so just ignore it 
+						 */
+                    }
+
+                    List<INewsItem> newReceivedItems = null;
+
+                    //Merge items list from cached copy of feed with this newly fetched feed. 
+                    //Thus if a feed removes old entries (such as a news site with daily updates) we 
+                    //don't lose them in the aggregator. 
+                    lock (itemsTable)
+                    {
+                        //TODO: resolve time consuming lock to hold only a short time!!!
+
+                        //if feed was in cache but not in itemsTable we load it into itemsTable
+                        if (!itemsTable.ContainsKey(feedUrl) && (fiFromCache != null))
+                        {
+                            itemsTable.Add(feedUrl, fiFromCache);
                         }
 
-                        if (current.refreshrateSpecified && (current.refreshrate == 0))
+                        if (itemsTable.ContainsKey(feedUrl))
                         {
-                            continue;
-                        }
+                            IFeedDetails fi2 = itemsTable[feedUrl];
 
-                        if (itemsTable.ContainsKey(current.link))
-                        {
-                            //check if feed downloaded in the past
-
-                            //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
+                            if (RssParser.CanProcessUrl(feedUrl))
                             {
-                                double timeSinceLastDownload =
-                                    DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
-								//fix: now consider refreshrate inherited by categories:
-								int refreshRate = this.GetRefreshRate(current.link);
-
-                                if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
-                                {
-                                    continue; //no need to download 
-                                }
-                            } //if(current.lastretrievedSpecified...) 
-
-
-                            if (current.category != null && IsChildOrSameCategory(category, current.category))
-                            {
-                                if (this.AsyncGetItemsForFeed(current.link, true, false))
-                                    anyRequestQueued = true;
+                                fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
+                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh);
                             }
+
+
+                            /*
+                             * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
+                             * that doesn't match the requestUri. We insert a test here to see if this has occured
+                             * and if so we return from this method.  
+                             * 
+                             * We are careful here to ensure we don't treat a case of the feed or website being moved 
+                             * as an instance of this bug. We do this by (1) test to see if website URL in feed just 
+                             * downloaded matches the site URL in the feed from the cache AND (2) if all the items in
+                             * the feed we just downloaded were never in the cache AND (3) the site URL is the same for
+                             * the site URL for another feed we have in the cache. 
+                             */
+                            if ((String.Compare(fi2.Link, fi.Link, true) != 0) &&
+                                (newReceivedItems.Count == fi.ItemsList.Count))
+                            {
+                                foreach (FeedDetailsInternal fdi in itemsTable.Values)
+                                {
+                                    if (String.Compare(fdi.Link, fi.Link, true) == 0)
+                                    {
+                                        RaiseOnUpdatedFeed(requestUri, null, RequestResult.NotModified, priority, false);
+                                        _log.Error(
+                                            String.Format(
+                                                "Feed mixup encountered when downloading {2} because fi2.link != fi.link: {0}!= {1}",
+                                                fi2.Link, fi.Link, requestUri.CanonicalizedUri()));
+                                        return;
+                                    }
+                                } //foreach
+                            }
+
+                            itemsTable.Remove(feedUrl);
                         }
                         else
                         {
-                            if (current.category != null && IsChildOrSameCategory(category, current.category))
-                            {
-                                if (this.AsyncGetItemsForFeed(current.link, force_download, false))
-                                    anyRequestQueued = true;
-                            }
+                            //if(itemsTable.ContainsKey(feedUrl)){ means this is a newly downloaded feed
+                            firstSuccessfulDownload = true;
+                            newReceivedItems = fi.ItemsList;
+                            RelationCosmosAddRange(newReceivedItems);
                         }
 
-                        Thread.Sleep(15); // force a context switches
-                    }
-                    catch (Exception e)
-                    {
-                        Trace("RefreshFeeds(string,bool) unexpected error processing feed '{0}': {1}", current.link,
-                              e.ToString());
-                    }
-                } //for(i)
-            }
-            catch (InvalidOperationException ioe)
-            {
-                // New feeds added to FeedsTable from another thread  
+                        itemsTable.Add(feedUrl, fi);
+                    } //lock(itemsTable)					    
 
-                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToString());
+                    //if(eTag != null){	// why we did not store the null?
+                    theFeed.etag = eTag;
+                    //}
+
+                    if (lastModified > theFeed.lastmodified)
+                    {
+                        theFeed.lastmodified = lastModified;
+                    }
+
+                    theFeed.cacheurl = this.SaveFeed(theFeed);
+                    SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+
+                    theFeed.causedException = false;
+                    itemsForFeed = fi.ItemsList;
+
+                    /* download podcasts from items we just received if downloadenclosures == true */
+                    if (this.GetDownloadEnclosures(theFeed.link))
+                    {
+                        int numDownloaded = 0;
+                        int maxDownloads = (firstSuccessfulDownload
+                                                ? this.NumEnclosuresToDownloadOnNewFeed
+                                                : Int32.MaxValue);
+
+                        if (newReceivedItems != null)
+                            foreach (NewsItem ni in newReceivedItems)
+                            {
+                                //ensure that we don't attempt to download these enclosures at a later date
+                                if (numDownloaded >= maxDownloads)
+                                {
+                                    MarkEnclosuresDownloaded(ni);
+                                    continue;
+                                }
+
+                                try
+                                {
+                                    numDownloaded += this.DownloadEnclosure(ni, maxDownloads - numDownloaded);
+                                }
+                                catch (DownloaderException de)
+                                {
+                                    _log.Error("Error occured when downloading enclosures in OnRequestComplete():", de);
+                                }
+                            }
+                    }
+
+                    /* Make sure read stories are accurately calculated */
+                    theFeed.containsNewMessages = false;
+                    theFeed.storiesrecentlyviewed.Clear();
+
+                    foreach (NewsItem ri in itemsForFeed)
+                    {
+                        if (ri.BeenRead)
+                        {
+                            theFeed.AddViewedStory(ri.Id);
+                        }
+
+                        if (ri.HasNewComments)
+                        {
+                            theFeed.containsNewComments = true;
+                        }
+                    }
+
+
+                    if (itemsForFeed.Count > theFeed.storiesrecentlyviewed.Count)
+                    {
+                        theFeed.containsNewMessages = true;
+                    }
+
+                    //see if there are still more items to download for the feed
+                    if (fi.OptionalElements.ContainsKey(continuationQName))
+                    {
+                        XmlNode continuationNode = RssHelper.GetOptionalElement(fi.OptionalElements, continuationQName.Name, continuationQName.Namespace);
+                        this.AsyncGetItemsForFeed(theFeed.link, true, true, continuationNode.InnerText);
+
+                        feedDownloadComplete = false;
+                    }
+                    else
+                    { //we're done downloading items from the feed
+                        theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
+                        theFeed.lastretrievedSpecified = true;
+                    }
+                }
+                else if (result == RequestResult.NotModified)
+                {
+                    // expected behavior: response == null, if not modified !!!
+                    theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
+                    theFeed.lastretrievedSpecified = true;
+                    theFeed.causedException = false;
+
+                    //FeedDetailsInternal feedInfo = itemsTable[feedUrl];
+                    //if (feedInfo != null)
+                    //    itemsForFeed = feedInfo.ItemsList;
+                    //else
+                    //    itemsForFeed = EmptyItemList;
+                    // itemsForFeed wasn't used anywhere else
+                }
+                else
+                {
+                    throw new NotImplementedException("Unhandled RequestResult: " + result);
+                }
+
+                //only alert UI when we have downloaded all items from Google Reader which may take multiple downloads of the
+                //Atom feed since we download 50 items at a time. 
+                if (feedDownloadComplete)
+                {
+                    RaiseOnUpdatedFeed(feedUri, newUri, result, priority, firstSuccessfulDownload);
+                }
+            }
+            catch (Exception e)
+            {
+                string key = requestUri.CanonicalizedUri();
+                if (feedsTable.ContainsKey(key))
+                {
+                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
+                    INewsFeed f = feedsTable[key];
+                    // now we set this within causedException prop.:
+                    //f.lastretrieved = DateTime.Now; 
+                    //f.lastretrievedSpecified = true; 
+                    f.causedException = true;
+                }
+                else
+                {
+                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception on feed not contained in FeedsTable: ",
+                          requestUri.ToString(), e.StackTrace);
+                }
+
+                RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
             }
             finally
             {
-                if (isOffline || !anyRequestQueued)
-                    RaiseOnAllAsyncRequestsCompleted();
+                if (response != null)
+                    response.Close();
             }
         }
 
+       
 
         #endregion
 
@@ -546,6 +821,11 @@ namespace NewsComponents.Feed
             if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
 
                 GoogleReaderNewsFeed f = feedsTable[url] as GoogleReaderNewsFeed;
+
+                if (f.title.Equals(title)) //happens on an accidental double click
+                {
+                    return; 
+                }
 
                 if (f != null)
                 {
@@ -634,6 +914,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents a news feed subscribed to in Google Reader. 
     /// </summary>
+    [XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
     public class GoogleReaderNewsFeed : NewsFeed
     {
         #region constructors 
@@ -669,6 +950,7 @@ namespace NewsComponents.Feed
                 this.listviewlayout = banditfeed.listviewlayout;
                 this.favicon = banditfeed.favicon;
                 this.stylesheet = banditfeed.stylesheet;
+                this.cacheurl = banditfeed.cacheurl;
                 this.enclosurealert = banditfeed.enclosurealert;
                 this.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
                 this.alertEnabled = banditfeed.alertEnabled;
@@ -711,15 +993,17 @@ namespace NewsComponents.Feed
 
         #region INewsFeed properties
 
+        [XmlElement(DataType = "anyURI")]
         public override string link
         {
             get
             {
-                return mysubscription.FeedUrl;
+
+                return (mysubscription == null ? this._link : mysubscription.FeedUrl);
             }
             set
             {
-                /* cannot set this field */ 
+                this._link = value; 
             }
         }
 
