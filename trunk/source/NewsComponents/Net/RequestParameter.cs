@@ -203,10 +203,14 @@ namespace NewsComponents.Net
 		/// <summary>
 		/// Gets/Set if cookies should be set on request (taken from IE)
 		/// </summary>
-		public bool SetCookies { 
-			get { return this.setCookies; }	
-			set { this.setCookies = value; }	
-		}
+        public bool SetCookies
+        {
+            get { return this.setCookies; }
+            set { this.setCookies = value; }
+        }
+
+        public CookieCollection Cookies { get; set; }
+		
 		#endregion
 	}
 }

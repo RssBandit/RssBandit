@@ -313,6 +313,12 @@ namespace NewsComponents.Net
                     HttpCookieManager.SetCookies(httpRequest);
                 }
 
+                if (requestParameter.Cookies != null)
+                {
+                    httpRequest.CookieContainer = new CookieContainer();
+                    httpRequest.CookieContainer.Add(requestParameter.Cookies); 
+                }
+
                 //this prevents the feed mixup issue that we've been facing. See 
                 //http://www.davelemen.com/archives/2006/04/rss_bandit_feeds_mix_up.html
                 //for a user complaint about the issue. 
