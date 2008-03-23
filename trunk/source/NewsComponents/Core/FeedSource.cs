@@ -5119,7 +5119,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="requestUri">The URL being requested</param>
         /// <param name="cancel">Whether the request is to be cancelled</param>
-        protected void OnRequestStart(Uri requestUri, ref bool cancel)
+        protected virtual void OnRequestStart(Uri requestUri, ref bool cancel)
         {
             Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
             this.RaiseBeforeDownloadFeedStarted(requestUri, ref cancel);
@@ -5127,7 +5127,13 @@ namespace NewsComponents
                 cancel = this.Offline;
         }
 
-        protected void OnRequestException(Uri requestUri, Exception e, int priority)
+        /// <summary>
+        /// Called when an exception occurs while downloading a feed.
+        /// </summary>
+        /// <param name="requestUri">The URI of the feed</param>
+        /// <param name="e">The exception</param>
+        /// <param name="priority">The priority of the request</param>
+        protected virtual void OnRequestException(Uri requestUri, Exception e, int priority)
         {
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
@@ -5690,7 +5696,14 @@ namespace NewsComponents
 			}
 		} */
 
-        protected void RaiseOnUpdateFeedException(string requestUri, Exception e, int priority)
+
+        /// <summary>
+        /// Inform the caller that an exception has occured while refreshing a feed
+        /// </summary>
+        /// <param name="requestUri">The URI of the feed</param>
+        /// <param name="e">The exception</param>
+        /// <param name="priority">The priority of the request</param>
+        protected virtual void RaiseOnUpdateFeedException(string requestUri, Exception e, int priority)
         {
             if (OnUpdateFeedException != null)
             {
