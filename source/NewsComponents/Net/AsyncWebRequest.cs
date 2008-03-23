@@ -764,7 +764,13 @@ namespace NewsComponents.Net
                     else
                     {
                         string statusCode = httpResponse.StatusCode.ToString();
-                        throw new WebException("Unexpected HTTP httpResponse: " + statusCode);
+                        
+                        string statusMessage = null;
+                        try { 
+                            statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd(); 
+                        }catch { }
+
+                        throw new WebException("Unexpected HTTP Response: " + statusCode + "<p>" + (statusMessage ?? String.Empty));
                     }
                 }
                 else if (fileResponse != null)

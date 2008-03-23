@@ -13,16 +13,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 
 using log4net;
 
 using NewsComponents.Net;
-using NewsComponents.Search;
 using NewsComponents.Utils;
 
 using RssBandit.Common;
@@ -337,7 +333,7 @@ namespace NewsComponents.Feed
         {
             //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
             TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
-            string feedUrl = feedUrlPrefix + feed.GoogleReaderFeedId + "?n=50&r=o&ot=" + maxItemAge.TotalSeconds.ToString();
+            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + maxItemAge.TotalSeconds.ToString();
 
             if (!StringHelper.EmptyTrimOrNull(continuationToken))
             {
@@ -350,7 +346,7 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-        /// Helper function which converts the URL to the Google Reader Atom feed for a URL into the original feed URI 
+        /// Helper function which converts the URI to the Google Reader Atom feed for a URL into the original feed URI 
         /// </summary>
         /// <param name="downloadUri">The URI to the Atom feed in Google Reader </param>
         /// <returns>The feed URI</returns>
@@ -363,8 +359,8 @@ namespace NewsComponents.Feed
             int startIndex = feedUrlPrefix.Length + "feed/".Length;
             int endIndex = downloadUrl.IndexOf("?n=50");
 
-            return new Uri(downloadUrl.Substring(startIndex, endIndex - startIndex)); 
-        }
+            return new Uri(Uri.UnescapeDataString(downloadUrl.Substring(startIndex, endIndex - startIndex))); 
+        }       
 
 
          /// <summary>
@@ -493,7 +489,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="requestUri">The URL being requested</param>
         /// <param name="cancel">Whether the request is to be cancelled</param>
-        protected virtual void OnRequestStart(Uri requestUri, ref bool cancel)
+        protected override void OnRequestStart(Uri requestUri, ref bool cancel)
         {
             Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
             this.RaiseBeforeDownloadFeedStarted(CreateFeedUriFromDownloadUri(requestUri), ref cancel);
@@ -501,6 +497,34 @@ namespace NewsComponents.Feed
                 cancel = this.Offline;
         }
 
+
+        /// <summary>
+        /// Called when an exception occurs while downloading a feed.
+        /// </summary>
+        /// <param name="requestUri">The URI of the feed</param>
+        /// <param name="e">The exception</param>
+        /// <param name="priority">The priority of the request</param>
+        protected virtual void OnRequestException(Uri requestUri, Exception e, int priority)
+        {
+            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
+
+            string key = CreateFeedUriFromDownloadUri(requestUri).CanonicalizedUri();
+            if (feedsTable.ContainsKey(key))
+            {
+                Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
+                INewsFeed f = feedsTable[key];
+                // now we set this within causedException prop.
+                //f.lastretrieved = DateTime.Now; 
+                //f.lastretrievedSpecified = true; 
+                f.causedException = true;
+            }
+            else
+            {
+                Trace("AsyncRequst.OnRequestException() '{0}' NOT found in feedsTable.", requestUri.ToString());
+            }
+
+            RaiseOnUpdateFeedException(key, e, priority);
+        }
 
         /// <summary>
         /// Called on successful completion of a Web request for a feed
@@ -830,7 +854,7 @@ namespace NewsComponents.Feed
                 if (f != null)
                 {
                     string apiUrl = apiUrlPrefix + "subscription/edit";
-                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + HttpUtility.HtmlEncode(title) + "&s=" + f.GoogleReaderFeedId;
+                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(title) + "&s=" + f.GoogleReaderFeedId;
                     HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -942,6 +966,14 @@ namespace NewsComponents.Feed
 
             if (banditfeed != null)
             {
+                this.lastretrievedSpecified = banditfeed.lastretrievedSpecified;
+                this.lastretrieved = banditfeed.lastretrieved;
+                this.lastmodifiedSpecified = banditfeed.lastmodifiedSpecified;
+                this.lastmodified = banditfeed.lastmodified;
+                this.id = banditfeed.id;
+                this.enclosurefolder = banditfeed.enclosurefolder;
+                this.deletedstories = banditfeed.deletedstories;
+                this.storiesrecentlyviewed = banditfeed.storiesrecentlyviewed;
                 this.refreshrate = banditfeed.refreshrate;
                 this.refreshrateSpecified = banditfeed.refreshrateSpecified;
                 this.maxitemage = banditfeed.maxitemage;
