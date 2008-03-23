@@ -136,7 +136,7 @@ namespace NewsComponents.Net
                                                                    DateTime.MinValue,
                                                                    null,
                                                                    Convert.ToInt32(maxWaitTime.TotalSeconds), 
-                                                                   new CookieCollection(), null);
+                                                                   null, null);
 
             OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null,
                               DateTime.MinValue, RequestResult.OK, 0);

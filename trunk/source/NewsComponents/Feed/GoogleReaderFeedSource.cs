@@ -291,14 +291,11 @@ namespace NewsComponents.Feed
 		/// <returns>
 		/// A cookie collection with the Google cookie created from the SID
 		/// </returns>
-        private static CookieCollection MakeGoogleCookie(string sid)
+        private static Cookie MakeGoogleCookie(string sid)
         {
            Cookie cookie = new Cookie("SID", sid, "/", ".google.com");
-           cookie.Expires = DateTime.Now + new TimeSpan(365,0,0,0); //set cookie to expire in 1 year
-           CookieCollection collection = new CookieCollection(); 
-           collection.Add(cookie); 
-
-           return collection; 
+           cookie.Expires = DateTime.Now + new TimeSpan(7,0,0,0);           
+           return cookie; 
         }
 
         /// <summary>
@@ -333,7 +330,7 @@ namespace NewsComponents.Feed
         {
             //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
             TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
-            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + maxItemAge.TotalSeconds.ToString();
+            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt32(maxItemAge.TotalSeconds);
 
             if (!StringHelper.EmptyTrimOrNull(continuationToken))
             {
@@ -464,7 +461,8 @@ namespace NewsComponents.Feed
                     RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = false;
-                reqParam.Cookies = MakeGoogleCookie(this.SID); 
+                reqParam.Cookies = new CookieCollection();
+                reqParam.Cookies.Add(MakeGoogleCookie(this.SID)); 
 
                 AsyncWebRequest.QueueRequest(reqParam,
                                              null,
@@ -738,7 +736,7 @@ namespace NewsComponents.Feed
                     theFeed.storiesrecentlyviewed.Clear();
 
                     foreach (NewsItem ri in itemsForFeed)
-                    {
+                    {                        
                         if (ri.BeenRead)
                         {
                             theFeed.AddViewedStory(ri.Id);
@@ -854,7 +852,7 @@ namespace NewsComponents.Feed
                 if (f != null)
                 {
                     string apiUrl = apiUrlPrefix + "subscription/edit";
-                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(title) + "&s=" + f.GoogleReaderFeedId;
+                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
                     HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                     if (response.StatusCode != HttpStatusCode.OK)
