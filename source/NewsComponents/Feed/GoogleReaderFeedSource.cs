@@ -956,7 +956,7 @@ namespace NewsComponents.Feed
                 this.alertEnabled = banditfeed.alertEnabled;
                 this.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
                 this.Any = banditfeed.Any;
-                this.AnyAttr = banditfeed.AnyAttr;
+                //this.AnyAttr = banditfeed.AnyAttr; don't copy over since it causes issues with xsi:type attribute
             }
 
             if (owner is GoogleReaderFeedSource)
