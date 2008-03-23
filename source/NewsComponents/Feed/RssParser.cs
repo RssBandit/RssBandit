@@ -1572,14 +1572,8 @@ namespace NewsComponents.Feed
                 f.maxitemage = maxItemAge;
             }
 
-            if (!cachedStream)
-            {
-                //update last retrieved date on feed only if the item was not cached.		
-                f.lastretrieved = new DateTime(DateTime.Now.Ticks);
-                f.lastretrievedSpecified = true;
-            }
-            else
-            {
+            if (cachedStream)
+            {              
                 //add to relationcosmos if loaded from disk
                 FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
                 FeedSource.RelationCosmosAddRange(items);
