@@ -784,6 +784,7 @@ namespace NewsComponents.Feed
             ArrayList subjects = new ArrayList();
             List<IEnclosure> enclosures = null;
             string itemNamespaceUri = reader.NamespaceURI;
+            bool beenRead = false;
 
 
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
@@ -1029,7 +1030,15 @@ namespace NewsComponents.Feed
                 else if (nodeNamespaceUriEqual2Item
                          && (localname == atomized_strings[nt_category]))
                 {
-                    if (reader["label"] != null)
+
+                    if (reader["scheme"]!= null && reader.GetAttribute("scheme").Equals("http://www.google.com/reader/"))
+                    {
+                        if (reader["label"] != null && reader.GetAttribute("label").Equals("read"))
+                        {
+                            beenRead = true;
+                        }
+                    }
+                    else if (reader["label"] != null)
                     {
                         subjects.Add(reader.GetAttribute("label"));
                     }
@@ -1263,6 +1272,7 @@ namespace NewsComponents.Feed
             newsItem.CommentStyle = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI);
             newsItem.Enclosures = (enclosures ?? GetList<IEnclosure>.Empty);
             newsItem.Language = reader.XmlLang;
+            newsItem.BeenRead = beenRead;
 
             return newsItem;
         }
