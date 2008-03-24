@@ -828,6 +828,68 @@ namespace NewsComponents.Feed
         #region subscription editing methods 
 
         /// <summary>
+        /// Adds a feed to the list of user's subscriptions in Google Reader
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <returns>A GoogleReaderSubscription that describes the newly added feed</returns>
+        private GoogleReaderSubscription AddFeedInGoogleReader(string feedUrl)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                INewsFeed f = feedsTable[feedUrl];
+
+                string subscribeUrl = apiUrlPrefix + "subscription/edit";
+                string feedId = "feed/" + f.link;
+                string labelParam = String.Empty;
+
+                List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>();
+
+                foreach (string category in f.categories)
+                {
+                    GoogleReaderLabel label = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
+                    labels.Add(label);
+
+                    labelParam = "&a=" + Uri.EscapeDataString(label.Id);
+                }
+
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=subscribe" + labelParam;
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+
+
+                return new GoogleReaderSubscription(feedId, f.title, labels, 0);
+            }
+            
+                
+            return null;             
+        }
+
+        /// <summary>
+        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
+        /// Any existing feed objects are replaced by the new objects. 
+        /// </summary>
+        /// <param name="feed">The NewsFeed object </param>
+        /// <param name="feedInfo">The FeedInfo object</param>
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
+        {
+            feed = base.AddFeed(feed, feedInfo);
+            GoogleReaderSubscription sub = this.AddFeedInGoogleReader(feed.link);
+
+            //Replace NewsFeed instance with GoogleReaderNewsFeed
+            feedsTable.Remove(feed.link);
+            feed = new GoogleReaderNewsFeed(sub, feed, this);
+            feedsTable.Add(feed.link, feed); 
+
+            return feed; 
+        }
+
+
+        /// <summary>
         /// Changes the title of a subscribed feed in Google Reader
         /// </summary>
         /// <remarks>This method does nothing if the new title is empty or null</remarks>
@@ -864,6 +926,67 @@ namespace NewsComponents.Feed
             }// if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
 
         }
+
+        #endregion 
+
+        #region news item manipulation methods
+
+        /// <summary>
+        /// Marks all items older than the the specified date as read in Google Reader
+        /// </summary>
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
+        private void MarkAllItemsAsReadInGoogleReader(string feedUrl, DateTime olderThan)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
+                DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                string markReadUrl = apiUrlPrefix + "mark-all-as-read";
+
+                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt32((olderThan.ToUniversalTime() - UnixEpoch).TotalSeconds) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Marks all items stored in the internal cache of RSS items and in Google Reader as read
+        /// for a particular feed.
+        /// </summary>        
+        /// <param name="feed">The RSS feed</param>
+        public override void MarkAllCachedItemsAsRead(INewsFeed feed)
+        {
+            DateTime newestItemAge = DateTime.MinValue;
+
+            if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
+            {
+                IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
+
+                if (fi != null)
+                {
+                    foreach (INewsItem ri in fi.ItemsList)
+                    {
+                        ri.BeenRead = true;
+                        newestItemAge = (ri.Date > newestItemAge ? ri.Date : newestItemAge);
+                    }
+                }
+
+                feed.containsNewMessages = false;
+            }
+
+            if (newestItemAge != DateTime.MinValue)
+            {
+                this.MarkAllItemsAsReadInGoogleReader(feed.link, newestItemAge); 
+            }
+        }
+
+    
 
         #endregion 
 

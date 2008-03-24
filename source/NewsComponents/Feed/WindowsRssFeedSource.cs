@@ -335,15 +335,16 @@ namespace NewsComponents.Feed {
         public override void MarkAllCachedItemsAsRead(INewsFeed feed)
         {
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed;
-            this.DetachEventHandlers(); 
+            this.DetachEventHandlers();
             if (f != null && !string.IsNullOrEmpty(f.link))
             {
-                f.MarkAllItemsAsRead(); 
+                f.MarkAllItemsAsRead();
             }
             //Thread.Sleep(1000); /* give events time to finish firing */ 
-            this.AttachEventHandlers(); 
-            
+            this.AttachEventHandlers();
+
         }
+                    
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
@@ -2836,8 +2837,7 @@ namespace NewsComponents.Feed {
         [XmlIgnore]
         public bool enclosurealertSpecified { get; set; }
 
-
-        //TODO: Make this a collection
+        
         /// <remarks/>
         [XmlAttribute]
         public string category {
@@ -2864,6 +2864,18 @@ namespace NewsComponents.Feed {
                 }
             }
         
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual List<string> categories
+        {
+            get { return new List<string>(new string[]{this.category}); }
+            set
+            {
+               /* Setting this value does nothing */ 
+            }
         }
 
         /// <remarks/>
@@ -3027,6 +3039,25 @@ namespace NewsComponents.Feed {
 
         }
 
+        /// <summary>
+        /// Adds a category to the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to add</param>
+        public virtual void AddCategory(string name)
+        {
+           //DareO: Not clear what this method should do here. 
+        }
+
+        /// <summary>
+        /// Removes a category from the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to remove</param>
+        public virtual void RemoveCategory(string name)
+        {
+            //DareO: Not clear what this method should do here. 
+        }
 
         #endregion 
 

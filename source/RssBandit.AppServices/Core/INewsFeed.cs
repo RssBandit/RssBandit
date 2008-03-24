@@ -97,9 +97,9 @@ namespace NewsComponents.Feed
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
         bool containsNewMessages { get; set; }
-
-        //TODO: Make this a collection
+        
         string category { get; set; }
+        List<string> categories { get; set; }
 
         /// <summary>
 		/// Adds an entry to the storiesrecentlyviewed collection
@@ -128,5 +128,19 @@ namespace NewsComponents.Feed
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to remove</param>
         void RemoveDeletedStory(string storyid);
+
+        /// <summary>
+        /// Adds a category to the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to add</param>
+        void AddCategory(string name);
+
+        /// <summary>
+        /// Removes a category from the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to remove</param>
+        void RemoveCategory(string name); 
     }
 }

@@ -1325,6 +1325,40 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
+        /// Adds a category to the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to add</param>
+        public virtual void AddCategory(string name)
+        {
+            if (!_categories.Contains(name))
+            {
+                _categories.Add(name);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("categories", CollectionChangeAction.Add, name));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a category from the categories collection
+        /// </summary>
+        /// <seealso cref="categories"/>
+        /// <param name="name">The category to remove</param>
+        public virtual void RemoveCategory(string name)
+        {
+            if (_categories.Contains(name))
+            {
+                _categories.Remove(name);
+                if (null != PropertyChanged)
+                {
+                    this.OnPropertyChanged(new CollectionChangedEventArgs("categories", CollectionChangeAction.Remove, name));
+                }
+            }
+        }
+
+        /// <summary>
         /// Removes an entry from the deletedstories collection
         /// </summary>
         /// <seealso cref="deletedstories"/>
