@@ -160,8 +160,8 @@ namespace RssBandit.SpecialFeeds
 			if(!string.IsNullOrEmpty(commentFeedUrl)){
 			
 				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
-					NewsItem ni = feedInfo.ItemsList[i] as NewsItem; 
-					if(ni.CommentRssUrl.Equals(commentFeedUrl)){
+					INewsItem ni = feedInfo.ItemsList[i] as INewsItem; 
+					if(!StringHelper.EmptyTrimOrNull(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
 						this.feedInfo.ItemsList.RemoveAt(i); 
 						break; 
 					}
