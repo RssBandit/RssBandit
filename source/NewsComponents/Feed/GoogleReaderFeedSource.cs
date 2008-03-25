@@ -839,6 +839,46 @@ namespace NewsComponents.Feed
 
         #region subscription editing methods 
 
+
+        /// <summary>
+        /// Deletes a feed from the list of user's subscriptions in Google Reader
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to delete</param>
+        private void DeleteFeedFromGoogleReader(string feedUrl)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
+
+                string subscribeUrl = apiUrlPrefix + "subscription/edit";
+                string feedId = "feed/" + f.link;               
+
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&t" + Uri.EscapeDataString(f.title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null";
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+
+
+                base.DeleteFeed(feedUrl);
+            }
+        }
+
+        /// <summary>
+        /// Removes all information related to a feed from the FeedSource.   
+        /// </summary>
+        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
+        /// <param name="feedUrl">The URL of the feed to delete. </param>
+        /// <exception cref="ApplicationException">If an error occured while 
+        /// attempting to delete the cached feed. Examine the InnerException property 
+        /// for details</exception>
+        public override void DeleteFeed(string feedUrl)
+        {
+            this.DeleteFeedFromGoogleReader(feedUrl); 
+        }
+
         /// <summary>
         /// Adds a feed to the list of user's subscriptions in Google Reader
         /// </summary>
