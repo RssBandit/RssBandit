@@ -386,13 +386,15 @@ namespace NewsComponents.Feed
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. The http requests are async calls.
         /// </summary>
-        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="feedUrl">The URL of the feed to download or the Google Reader URL of the feed (if the 
+        /// continuationToken parameter is set)</param>
         /// <param name="forceDownload">Flag indicates whether cached feed items 
         /// can be returned or whether the application must fetch resources from 
         /// the web</param>
         /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
         /// by automatic refresh timer (false)</param>
-        /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded</param>
+        /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded. If this
+        /// value is not null then the 'feedUrl' parameter is should actually be the download URL for the feed.</param>
         /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
         /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
@@ -415,6 +417,13 @@ namespace NewsComponents.Feed
                 priority += 1000;
 
             Uri feedUri = new Uri(feedUrl);
+            Uri reqUri = feedUri; 
+
+            //is this a follow on request to a feed download. 
+            if (continuationToken != null)
+            {
+                feedUri = CreateFeedUriFromDownloadUri(reqUri); 
+            }
 
             try
             {
@@ -441,7 +450,10 @@ namespace NewsComponents.Feed
                 if (theFeed == null)
                     return false;
 
-                Uri reqUri = new Uri(CreateDownloadUrl(theFeed, continuationToken));
+                if (continuationToken == null)
+                {
+                    reqUri = new Uri(CreateDownloadUrl(theFeed, continuationToken));
+                }
 
                 // only if we "real" go over the wire for an update:
                 RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
@@ -758,7 +770,7 @@ namespace NewsComponents.Feed
                     if (fi.OptionalElements.ContainsKey(continuationQName))
                     {
                         XmlNode continuationNode = RssHelper.GetOptionalElement(fi.OptionalElements, continuationQName.Name, continuationQName.Namespace);
-                        this.AsyncGetItemsForFeed(theFeed.link, true, true, continuationNode.InnerText);
+                        this.AsyncGetItemsForFeed(requestUri.CanonicalizedUri(), true, true, continuationNode.InnerText);
 
                         feedDownloadComplete = false;
                     }
