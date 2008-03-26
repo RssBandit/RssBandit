@@ -260,13 +260,14 @@ namespace NewsComponents.Feed
                 this.RefreshRateFromPreviousVersion = myFeeds.refreshrate;
             }
 			
-
+			/* not anymore required to store that in feedlist/now provided via config:
+                    
                 //if stylesheet specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.stylesheet))
             {
                 this.stylesheet = myFeeds.stylesheet;
             }
-
+			*/
                 //if download enclosures specified in imported feed then use that
             if (myFeeds.downloadenclosuresSpecified)
             {
