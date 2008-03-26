@@ -914,21 +914,21 @@ namespace NewsComponents
         /// <summary>
         /// The stylesheet for displaying feeds.
         /// </summary>
-        protected string stylesheet;
+        static string stylesheet;
 
         /// <summary>
         /// Gets or sets the stylesheet for displaying feeds
         /// </summary>
-        public string Stylesheet
+        public static string Stylesheet
         {
             get
             {
-                return this.stylesheet;
+                return stylesheet;
             }
 
             set
             {
-                this.stylesheet = value;
+                stylesheet = value;
             }
         }
 
@@ -3334,8 +3334,10 @@ namespace NewsComponents
 
                     feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
                     feedlist.listviewlayout = this.listviewlayout;
+                    /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
-                    feedlist.enclosurefolder = this.EnclosureFolder;
+                    */
+					feedlist.enclosurefolder = this.EnclosureFolder;
                     feedlist.podcastfolder = this.PodcastFolder;
                     feedlist.podcastfileexts = this.PodcastFileExtensionsAsString;
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
@@ -7349,8 +7351,8 @@ namespace NewsComponents
     	/// </summary>
     	/// <value>The stylesheet.</value>
     	string ISharedProperty.stylesheet {
-    		get { return this.Stylesheet; }
-			set { this.Stylesheet = value; }
+    		get { return Stylesheet; }
+			set { Stylesheet = value; }
     	}
 
     	/// <summary>

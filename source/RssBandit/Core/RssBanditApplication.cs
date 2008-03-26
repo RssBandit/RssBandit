@@ -975,6 +975,10 @@ namespace RssBandit
             }
         }
 
+    	public string Stylesheet {
+			get { return Preferences.NewsItemStylesheetFile; }
+    	}
+
         public IWebProxy Proxy
         {
             get
@@ -1737,11 +1741,11 @@ namespace RssBandit
             //make static
             if (propertiesDialog.checkCustomFormatter.Checked)
             {
-                this.feedHandler.Stylesheet = Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
+                FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
             }
             else
             {
-                this.feedHandler.Stylesheet = Preferences.NewsItemStylesheetFile = String.Empty;
+				FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile = String.Empty;
             }
 
         	bool markedForDownloadCalled = false;
@@ -1996,7 +2000,7 @@ namespace RssBandit
                 this.NewsItemFormatter.AddXslStyleSheet(Preferences.NewsItemStylesheetFile,
                                                         GetNewsItemFormatterTemplate());
             }
-            this.FeedHandler.Stylesheet = Preferences.NewsItemStylesheetFile;
+            FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
             Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
         }
 

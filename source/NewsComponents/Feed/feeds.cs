@@ -604,9 +604,6 @@ namespace NewsComponents.Feed
 		//bool downloadenclosuresSpecified { get; set; }
 		//string enclosurefolder { get; set; }
 		//string listviewlayout { get; set; }
-		//string stylesheet { get; set; }
-		//int refreshrate { get; set; }
-		//bool refreshrateSpecified { get; set; }
 		//string maxitemage { get; set; }
         string Value { get; set; }
         INewsFeedCategory parent { get; set; }
