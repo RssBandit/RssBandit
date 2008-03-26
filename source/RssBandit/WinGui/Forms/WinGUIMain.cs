@@ -11089,7 +11089,7 @@ namespace RssBandit.WinGui.Forms
                                 if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0)
                                 {
                                     FeedInfoList fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
-                                    BeginTransformFeedList(fiList, tn, owner.FeedHandler.Stylesheet);
+                                    BeginTransformFeedList(fiList, tn, owner.Stylesheet);
                                 }
                             }
                             catch (Exception ex)
@@ -13125,7 +13125,7 @@ namespace RssBandit.WinGui.Forms
                     if (!tn.Finder.ShowFullItemContent) // use summary stylesheet
                         BeginTransformFeedList(matchingFeeds, tn, NewsItemFormatter.SearchTemplateId);
                     else // use default stylesheet
-                        BeginTransformFeedList(matchingFeeds, tn, owner.FeedHandler.Stylesheet);
+                        BeginTransformFeedList(matchingFeeds, tn, owner.Stylesheet);
                 }
             }
         }
