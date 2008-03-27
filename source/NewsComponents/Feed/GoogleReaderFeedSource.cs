@@ -66,6 +66,11 @@ namespace NewsComponents.Feed
         private static readonly XmlQualifiedName continuationQName = new XmlQualifiedName("continuation", "http://www.google.com/schemas/reader/atom/");
 
         /// <summary>
+        /// This is the most recently retrieved edit token from the Google Reader service. 
+        /// </summary>
+        private static string MostRecentGoogleEditToken = null; 
+
+        /// <summary>
         /// Authentication token which identifies the user. 
         /// </summary>
         private string SID = String.Empty;
@@ -307,12 +312,23 @@ namespace NewsComponents.Feed
         {
             string tokenUrl = apiUrlPrefix + "token";
             HttpWebRequest request = HttpWebRequest.Create(tokenUrl) as HttpWebRequest;
+            request.Timeout        = 5 * 1000; //5 second time out
 
             request.CookieContainer = new CookieContainer();
             request.CookieContainer.Add(MakeGoogleCookie(sid));
 
-            StreamReader reader = new StreamReader(request.GetResponse().GetResponseStream());          
-            return reader.ReadToEnd();             
+            try
+            {
+                StreamReader reader = new StreamReader(request.GetResponse().GetResponseStream());
+                MostRecentGoogleEditToken = reader.ReadToEnd();
+            } catch (WebException we){
+                if (we.Status != WebExceptionStatus.Timeout)
+                {
+                    throw;
+                }
+            }
+
+            return MostRecentGoogleEditToken; 
         }
 
         #endregion 
