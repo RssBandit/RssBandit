@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -774,6 +775,9 @@ namespace NewsComponents.Feed
                         {
                             theFeed.containsNewComments = true;
                         }
+
+                        /* set event handler for handling read state changes */ 
+                        ri.PropertyChanged += this.OnNewsItemPropertyChanged; 
                     }
 
 
@@ -983,6 +987,7 @@ namespace NewsComponents.Feed
                 {
                     string apiUrl = apiUrlPrefix + "subscription/edit";
                     string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
+
                     HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -998,6 +1003,55 @@ namespace NewsComponents.Feed
         #endregion 
 
         #region news item manipulation methods
+
+        /// <summary>
+        /// Invoked when a NewsItem owned by this FeedSource changes in a way that 
+        /// needs to be communicated to Google Reader. 
+        /// </summary>
+        /// <param name="sender">the NewsItem</param>
+        /// <param name="e">information on the property that changed</param>
+        private void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NewsItem item = sender as NewsItem; 
+
+            if(item == null){ 
+                return; 
+            }
+
+            switch (e.PropertyName)
+            {
+                case "BeenRead":
+                    if (item.Feed != null)
+                    {
+                        GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
+                        this.ChangeItemReadStateInGoogleReader(f.GoogleReaderFeedId, item.Id,  item.BeenRead);
+                    }
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        /// Marks an item as read or unread in Google Reader
+        /// </summary>
+        /// <param name="feedId">The ID of the parent feed in Google Reader</param>
+        /// <param name="itemId">The atom:id of the news item</param>        
+        /// <param name="beenRead">Indicates whether the item was marked as read or unread</param>
+        private void ChangeItemReadStateInGoogleReader(string feedId, string itemId, bool beenRead)
+        {
+            string itemReadUrl = apiUrlPrefix + "edit-tag";
+            string op = (beenRead ? "&a=" : "&r="); //are we adding or removing read label?
+            string readLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/read");
+
+            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + readLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
+           
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new WebException(response.StatusDescription);
+            }
+        }
 
         /// <summary>
         /// Marks all items older than the the specified date as read in Google Reader
