@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -198,7 +199,7 @@ namespace NewsComponents
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
-    public class NewsItem : RelationBase<INewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>
+    public class NewsItem : RelationBase<INewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>,INotifyPropertyChanged
     {
         /// <summary>
         /// Gets the Feed Link (Source Url)
@@ -372,6 +373,7 @@ namespace NewsComponents
             set
             {
                 p_beenRead = value;
+                this.OnPropertyChanged("BeenRead");
             }
         }
 
@@ -1537,6 +1539,36 @@ namespace NewsComponents
         }
 
         #endregion
+
+        #region INotifyPropertyChanged implementation
+
+        /// <summary>
+        ///  Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Fired whenever a property is changed. 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(DataBindingHelper.GetPropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Notifies listeners that a property has changed. 
+        /// </summary>
+        /// <param name="e">Details on the property change event</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (null != PropertyChanged)
+            {
+                PropertyChanged(this, e);
+            }
+        }
+
+        #endregion 
     }
 
     /// <summary>

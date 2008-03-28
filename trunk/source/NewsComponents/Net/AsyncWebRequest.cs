@@ -1108,7 +1108,7 @@ namespace NewsComponents.Net
         /// <param name="eTag">Header tag</param>
         /// <param name="timeout">Request timeout. E.g. 60 * 1000, means one minute timeout. 
         /// If zero or less than zero, the default timeout of one minute will be used</param>
-        /// <param name="cookies">HTTP cookies to send along with the request</param>
+        /// <param name="cookie">HTTP cookie to send along with the request</param>
         /// <param name="body">The body of the request (if it is POST request)</param>
         /// <returns>WebResponse</returns>
         public static WebResponse GetSyncResponse(HttpMethod method, string address, ICredentials credentials, string userAgent,
@@ -1130,7 +1130,7 @@ namespace NewsComponents.Net
                     httpRequest.AllowAutoRedirect = false;
                     httpRequest.IfModifiedSince = ifModifiedSince;
                     httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
-                    httpRequest.Method = method.ToString();
+                    httpRequest.Method = method.ToString();              
 
                     if (cookie != null)
                     {
@@ -1255,6 +1255,7 @@ namespace NewsComponents.Net
 
         #region GetSyncResponseStream() 
 
+
         /// <summary>
         /// Can be called syncronized to get a Http Web Response.
         /// </summary>
@@ -1271,7 +1272,6 @@ namespace NewsComponents.Net
                 GetSyncResponse(HttpMethod.POST, address, credentials, null, proxy, ifModifiedSince,
                                       eTag, DefaultTimeout, cookie, body) as HttpWebResponse;
         }
-
 
         /// <summary>
         /// Can be called syncronized to get a Http Web ResponseStream.
