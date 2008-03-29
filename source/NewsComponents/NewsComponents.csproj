@@ -186,6 +186,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\GoogleReaderFeedSource.cs" />
+    <Compile Include="Feed\GoogleReaderModifier.cs" />
     <Compile Include="Feed\NewsGatorFeedSource.cs" />
     <Compile Include="Feed\RssLocater.cs">
       <SubType>Code</SubType>
