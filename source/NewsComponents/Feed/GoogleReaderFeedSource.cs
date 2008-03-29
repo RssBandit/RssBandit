@@ -76,10 +76,13 @@ namespace NewsComponents.Feed
         /// </summary>
         private string SID = String.Empty;
 
+      
+        private string _googleUserId = String.Empty;
+
         /// <summary>
-        /// The Google User ID of the user. 
+        /// Updates Google Reader in a background thread.
         /// </summary>
-        private string GoogleUserId = String.Empty; 
+        private static GoogleReaderModifier googleReaderUpdater;
 
         #endregion 
 
@@ -118,6 +121,39 @@ namespace NewsComponents.Feed
             this.AsyncWebRequest.OnAllRequestsComplete += this.OnAllRequestsComplete;       
         }
                
+
+        #endregion 
+
+        #region public properties 
+
+        /// <summary>
+        /// The Google User ID of the user. 
+        /// </summary>
+        public string GoogleUserId
+        {
+            get { return _googleUserId; }
+            private set { this._googleUserId = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Google Reader modifier
+        /// </summary>
+        /// <value>The GoogleReaderModifier instance used by all instances of this class.</value>
+        public GoogleReaderModifier GoogleReaderUpdater
+        {
+            get
+            {
+                if (googleReaderUpdater == null)
+                {
+                    googleReaderUpdater = new GoogleReaderModifier(this.Configuration.UserApplicationDataPath);
+                }
+                return googleReaderUpdater;
+            }
+            set
+            {
+                googleReaderUpdater = value;
+            }
+        }
 
         #endregion 
 
@@ -1092,10 +1128,13 @@ namespace NewsComponents.Feed
 
                 if (fi != null)
                 {
-                    foreach (INewsItem ri in fi.ItemsList)
+
+                    foreach (NewsItem ri in fi.ItemsList)
                     {
+                        ri.PropertyChanged -= this.OnNewsItemPropertyChanged;
                         ri.BeenRead = true;
                         newestItemAge = (ri.Date > newestItemAge ? ri.Date : newestItemAge);
+                        ri.PropertyChanged += this.OnNewsItemPropertyChanged;
                     }
                 }
 
