@@ -59,10 +59,12 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="action">The operation to perform on the index</param>
         /// <param name="parameters">The parameters to the operation</param>
-        public PendingGoogleReaderOperation(GoogleReaderOperation action, object[] parameters)
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>
+        public PendingGoogleReaderOperation(GoogleReaderOperation action, object[] parameters, string googleUserID)
         {
             this.Action = action;
             this.Parameters = parameters;
+            this.GoogleUserId = googleUserId;
         }
     }
 
