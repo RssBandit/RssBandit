@@ -854,7 +854,10 @@ namespace NewsComponents.Feed
                             theFeed.containsNewComments = true;
                         }
 
-                        /* set event handler for handling read state changes */ 
+                        /* Set event handler for handling read state changes. 
+                         * First unset it on old items so we don't add same event handler twice. 
+                         */
+                        ri.PropertyChanged -= this.OnNewsItemPropertyChanged;
                         ri.PropertyChanged += this.OnNewsItemPropertyChanged; 
                     }
 
