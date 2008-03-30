@@ -3138,7 +3138,7 @@ namespace NewsComponents
         /// the RSS Bandit feed file format as described in feeds.xsd
         /// </summary>
         /// <param name="feedStream">The stream to save the feed list to</param>
-        public void SaveFeedList(Stream feedStream)
+        public virtual void SaveFeedList(Stream feedStream)
         {
             this.SaveFeedList(feedStream, FeedListFormat.NewsHandler);
         }
@@ -3235,7 +3235,7 @@ namespace NewsComponents
         /// <param name="format">The format to save the stream as. </param>
         /// <exception cref="InvalidOperationException">If anything wrong goes on with XmlSerializer</exception>
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
-        public void SaveFeedList(Stream feedStream, FeedListFormat format)
+        public virtual void SaveFeedList(Stream feedStream, FeedListFormat format)
         {
             this.SaveFeedList(feedStream, format, this.feedsTable, true);
         }
@@ -3250,7 +3250,7 @@ namespace NewsComponents
         /// <param name="includeEmptyCategories">Set to true, if categories without a contained feed should be included</param>
         /// <exception cref="InvalidOperationException">If anything wrong goes on with XmlSerializer</exception>
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
-        public void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, INewsFeed> feeds,
+        public virtual void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, INewsFeed> feeds,
                                  bool includeEmptyCategories)
         {
             if (feedStream == null)

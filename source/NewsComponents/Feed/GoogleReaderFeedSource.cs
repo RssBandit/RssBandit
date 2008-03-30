@@ -101,6 +101,9 @@ namespace NewsComponents.Feed
 
             this.location = location;
 
+            //register with background thread for updating Google Reader
+            GoogleReaderUpdater.RegisterFeedSource(this);
+
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
 
@@ -126,6 +129,14 @@ namespace NewsComponents.Feed
         #region public properties 
 
         /// <summary>
+        /// Returns the Google username associated with this feed source
+        /// </summary>
+        public string GoogleUserName
+        {
+            get { return this.location.Credentials.UserName; }
+        }
+
+        /// <summary>
         /// The Google User ID of the user. 
         /// </summary>
         public string GoogleUserId
@@ -134,9 +145,6 @@ namespace NewsComponents.Feed
             private set
             {
                 this.googleUserId = value;
-
-                //register with background thread for updating Google Reader now that we have the tag list
-                GoogleReaderUpdater.RegisterFeedSource(this);
             }
         }
 
@@ -165,6 +173,18 @@ namespace NewsComponents.Feed
         #region public methods
 
         #region feed list methods
+
+
+        /// <summary>
+        /// Saves the feed list to the specified stream. The feed is written in 
+        /// the RSS Bandit feed file format as described in feeds.xsd
+        /// </summary>
+        /// <param name="feedStream">The stream to save the feed list to</param>
+        public override void SaveFeedList(Stream feedStream)
+        {
+            base.SaveFeedList(feedStream);
+            GoogleReaderUpdater.SavePendingOperations(); 
+        }
 
         /// <summary>
         /// Loads the feedlist from the FeedLocation. 
@@ -937,7 +957,7 @@ namespace NewsComponents.Feed
         /// for details</exception>
         public override void DeleteFeed(string feedUrl)
         {
-            GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserId, feedUrl);  
+            GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl);  
         }
 
         /// <summary>
@@ -1002,7 +1022,7 @@ namespace NewsComponents.Feed
             feed = new GoogleReaderNewsFeed(sub, feed, this);
             feedsTable.Add(feed.link, feed);
 
-            GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserId, feed.link); 
+            GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link); 
 
             return feed; 
         }
@@ -1024,11 +1044,6 @@ namespace NewsComponents.Feed
             if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
 
                 GoogleReaderNewsFeed f = feedsTable[url] as GoogleReaderNewsFeed;
-
-                if (f.title.Equals(title)) //happens on an accidental double click
-                {
-                    return; 
-                }
 
                 if (f != null)
                 {
@@ -1071,7 +1086,7 @@ namespace NewsComponents.Feed
                     if (item.Feed != null)
                     {
                         GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
-                        GoogleReaderUpdater.ChangeItemReadStateInGoogleReader(this.GoogleUserId, f.GoogleReaderFeedId, item.Id,  item.BeenRead);
+                        GoogleReaderUpdater.ChangeItemReadStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id,  item.BeenRead);
                     }
                     break;
             }
@@ -1154,7 +1169,7 @@ namespace NewsComponents.Feed
 
             if (newestItemAge != DateTime.MinValue)
             {
-                GoogleReaderUpdater.MarkAllItemsAsRead(this.GoogleUserId, feed.link, newestItemAge); 
+                GoogleReaderUpdater.MarkAllItemsAsRead(this.GoogleUserName, feed.link, newestItemAge); 
             }
         }
 
@@ -1342,10 +1357,10 @@ namespace NewsComponents.Feed
             set
             {
                 GoogleReaderFeedSource myowner = owner as GoogleReaderFeedSource;
-                
-                if (myowner != null && !StringHelper.EmptyTrimOrNull(value))
+
+                if (myowner != null && !StringHelper.EmptyTrimOrNull(value) && !mysubscription.Title.Equals(value))
                 {
-                    myowner.GoogleReaderUpdater.RenameFeed(myowner.GoogleUserId, this.link, value);
+                    myowner.GoogleReaderUpdater.RenameFeed(myowner.GoogleUserName, this.link, value);
                     mysubscription.Title = value;
                 }
             }
