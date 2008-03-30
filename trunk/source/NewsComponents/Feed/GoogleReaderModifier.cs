@@ -104,6 +104,21 @@ namespace NewsComponents.Feed
         /// </summary>
         private static readonly ILog _log = Log.GetLogger(typeof(GoogleReaderModifier));
 
+        /// <summary>
+        /// Indicates whether there is a network connection. Without one, no Google Reader operations are performed.
+        /// </summary>
+        private bool Offline
+        {
+            get
+            {
+                if (FeedSources.Count > 0)
+                {
+                    return FeedSources.Values.ElementAt(0).Offline;
+                }
+                return false; 
+            }
+        }
+
         #endregion
 
         #region constructor 
@@ -162,7 +177,7 @@ namespace NewsComponents.Feed
         {
             while (threadRunning)
             {
-                if (false == this.flushInprogress &&
+                if (false == this.Offline && false == this.flushInprogress &&
                     this.pendingGoogleReaderOperations.Count > 0)
                 {
                     // do not calc percentage on a few items:
