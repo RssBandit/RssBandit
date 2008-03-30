@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO; 
 using System.Linq;
 using System.Text;
@@ -64,7 +65,7 @@ namespace NewsComponents.Feed
         {
             this.Action = action;
             this.Parameters = parameters;
-            this.GoogleUserId = googleUserId;
+            this.GoogleUserId = googleUserID;
         }
     }
 
@@ -94,7 +95,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Queue of pending network operations to perform against Google Reader
         /// </summary>
-        private PriorityQueue pendingGoogleReaderOperations = new PriorityQueue();
+        private List<PendingGoogleReaderOperation> pendingGoogleReaderOperations = new List<PendingGoogleReaderOperation>();
 
         private readonly string pendingGoogleOperationsFile = "pending-googlereader-operations.xml"; 
 
@@ -134,8 +135,8 @@ namespace NewsComponents.Feed
         {
             if (File.Exists(this.pendingGoogleOperationsFile))
             {
-                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(PriorityQueue));
-                pendingGoogleReaderOperations = serializer.Deserialize(XmlReader.Create(this.pendingGoogleOperationsFile)) as PriorityQueue;
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingGoogleReaderOperation>));
+                pendingGoogleReaderOperations = serializer.Deserialize(XmlReader.Create(this.pendingGoogleOperationsFile)) as List<PendingGoogleReaderOperation>;
             }
         }
 
@@ -176,6 +177,54 @@ namespace NewsComponents.Feed
             }//while(true)
         }
 
+
+        /// <summary>
+        /// Performs the specified PendingGoogleReaderOperation.
+        /// </summary>
+        /// <param name="current">The operation to perform</param>
+        private void PerformOperation(PendingGoogleReaderOperation current)
+        {
+            GoogleReaderFeedSource source = null;
+            this.FeedSources.TryGetValue(current.GoogleUserId, out source);
+
+            if (source == null)
+            {
+                return; 
+            }
+
+            try
+            {
+                switch (current.Action)
+                {
+                    case GoogleReaderOperation.AddFeed:
+                        source.AddFeedInGoogleReader(current.Parameters[0] as string); 
+                        break;
+
+                    case GoogleReaderOperation.DeleteFeed:
+                        source.DeleteFeedFromGoogleReader(current.Parameters[0] as string); 
+                        break;
+
+                    case GoogleReaderOperation.MarkSingleItemRead:
+                        source.ChangeItemReadStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, (bool) current.Parameters[2]); 
+                        break;
+
+                    case GoogleReaderOperation.MarkAllItemsRead:
+                        source.MarkAllItemsAsReadInGoogleReader(current.Parameters[0] as string, (DateTime) current.Parameters[1]); 
+                        break;
+
+                    case GoogleReaderOperation.RenameFeed:
+                        source.RenameFeedInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string); 
+                        break;
+
+                    default:
+                        Debug.Assert(false, "Unknown Google Reader operation: " + current.Action);
+                        return;
+                }
+
+            }
+            catch (Exception e) { };
+        }
+
         /// <summary>
         /// Performs a set of pending network operations from the pendingGoogleReaderOperations queue on the 
         /// Google Reader service. 
@@ -189,26 +238,28 @@ namespace NewsComponents.Feed
 
                 do
                 {
-                   /* PendingIndexOperation pendingOp = null;
+                   PendingGoogleReaderOperation pendingOp = null;
 
+                    
                     //perform all queued operations on the index
-                    lock (this.pendingIndexOperations.SyncRoot)
+                    lock (this.pendingGoogleReaderOperations)
                     {
-                        if (this.pendingIndexOperations.Count > 0)
+                        if (this.pendingGoogleReaderOperations.Count > 0)
                         {
-                            pendingOp = this.pendingIndexOperations.Dequeue() as PendingIndexOperation;
+                            pendingOp = this.pendingGoogleReaderOperations[0];
                         }
                     } //lock 
 
                     //Optimizing the index is an expensive operation so we don't want to 
                     //call it if the queue is being flushed since it may delay application exit. 
-                    if ((pendingOp != null) && (pendingOp.Action != IndexOperation.OptimizeIndex))
+                    if (pendingOp != null)
                     {
                         this.PerformOperation(pendingOp);
+                        this.pendingGoogleReaderOperations.RemoveAt(0); 
                     }
 
                     batchedItemsAmount--;
-                    */ 
+                     
                     //potential race condition on this.pendingIndexOperations.Count but chances are very low
                 } while (this.pendingGoogleReaderOperations.Count > 0 && batchedItemsAmount >= 0);
 
@@ -248,6 +299,88 @@ namespace NewsComponents.Feed
         public void UnregisterFeedSource(GoogleReaderFeedSource source)
         {
             this.FeedSources.Remove(source.GoogleUserId); 
+        }
+
+        /// <summary>
+        /// Enqueues an event to change the title of a subscribed feed in Google Reader
+        /// </summary>
+        /// <remarks>This method does nothing if the new title is empty or null</remarks>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>     
+        /// <param name="url">The feed URL</param>
+        /// <param name="title">The new title</param>        
+        public void RenameFeed(string googleUserID, string url, string title)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.RenameFeed, new object[] { url, title }, googleUserID);
+            
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+        /// <summary>
+        /// Enqueues an event to mark all items older than the the specified date as read in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>     
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
+        public void MarkAllItemsAsRead(string googleUserID, string feedUrl, DateTime olderThan)
+        {
+             PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkAllItemsRead, new object[] { feedUrl, olderThan }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+         /// <summary>
+        /// Enqueues an event to mark an item as read or unread in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>            
+        /// <param name="feedId">The ID of the parent feed in Google Reader</param>
+        /// <param name="itemId">The atom:id of the news item</param>        
+        /// <param name="beenRead">Indicates whether the item was marked as read or unread</param>
+        public void ChangeItemReadStateInGoogleReader(string googleUserID, string feedId, string itemId, bool beenRead)
+        {
+           PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkSingleItemRead, new object[] { feedId, itemId, beenRead }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+
+         /// <summary>
+        /// Enqueues an event that adds a feed to the list of user's subscriptions in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                 
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <returns>A GoogleReaderSubscription that describes the newly added feed</returns>
+        public void AddFeedInGoogleReader(string googleUserID, string feedUrl)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.AddFeed, new object[] { feedUrl }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+        /// <summary>
+        /// Enqueues an event that deletes a feed from the list of user's subscriptions in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                         
+        /// <param name="feedUrl">The URL of the feed to delete</param>
+        public void DeleteFeedFromGoogleReader(string googleUserID, string feedUrl)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteFeed, new object[] { feedUrl }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
         }
 
         #endregion
