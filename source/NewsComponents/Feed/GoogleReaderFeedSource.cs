@@ -402,23 +402,39 @@ namespace NewsComponents.Feed
         /// Returns the Google Reader URL from which to download the Atom feed for the GoogleReaderNewsFeed object. 
         /// </summary>
         /// <param name="feed">The target feed</param>
-        /// <param name="continuationToken">The token that indicates what "page" of the feed to return</param>
+       
         /// <returns></returns>
-        private static string CreateDownloadUrl(GoogleReaderNewsFeed feed, string continuationToken)
+        private static string CreateDownloadUrl(GoogleReaderNewsFeed feed)
         {
             //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
             TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
-            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt32(maxItemAge.TotalSeconds);
-
-            if (!StringHelper.EmptyTrimOrNull(continuationToken))
-            {
-                feedUrl += "&c=" + continuationToken;
-            }
+            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt32(maxItemAge.TotalSeconds);          
 
             return feedUrl; 
         }
 
+        /// <summary>
+        /// Appends the continuation token to the Google Reader download URL for a particular feed
+        /// </summary>
+        /// <param name="requestUri">The URL to download a feed in Google Reader</param>
+        /// <param name="continuationToken">The token that indicates what "page" of the feed to return</param>
+        /// <returns></returns>
+        private static Uri CreateContinuedDownloadUrl(Uri requestUri, string continuationToken)
+        {
+            string feedUrl = requestUri.CanonicalizedUri();
+            int index = feedUrl.IndexOf("&c=");
 
+            if (index == -1)
+            {
+                feedUrl = feedUrl + "&c=" + continuationToken;
+            }
+            else
+            {
+                feedUrl = feedUrl.Substring(0, index) + "&c=" + continuationToken;
+            }
+
+            return new Uri(feedUrl); 
+        }
 
         /// <summary>
         /// Helper function which converts the URI to the Google Reader Atom feed for a URL into the original feed URI 
@@ -500,7 +516,8 @@ namespace NewsComponents.Feed
             //is this a follow on request to a feed download. 
             if (continuationToken != null)
             {
-                feedUri = CreateFeedUriFromDownloadUri(reqUri); 
+                feedUri = CreateFeedUriFromDownloadUri(reqUri);
+                reqUri = CreateContinuedDownloadUrl(reqUri, continuationToken); 
             }
 
             try
@@ -509,7 +526,7 @@ namespace NewsComponents.Feed
                 {
                     if ((!forceDownload) || this.isOffline)
                     {
-                        GetCachedItemsForFeed(feedUrl); //load feed into itemsTable
+                        GetCachedItemsForFeed(feedUri.CanonicalizedUri()); //load feed into itemsTable
                         RaiseOnUpdatedFeed(feedUri, null, RequestResult.NotModified, priority, false);
                         return false;
                     }
@@ -522,15 +539,15 @@ namespace NewsComponents.Feed
 
                 //We need a reference to the feed so we can see if a cached object exists
                 GoogleReaderNewsFeed theFeed = null;
-                if (feedsTable.ContainsKey(feedUrl))
-                    theFeed = feedsTable[feedUrl] as GoogleReaderNewsFeed;
+                if (feedsTable.ContainsKey(feedUri.CanonicalizedUri()))
+                    theFeed = feedsTable[feedUri.CanonicalizedUri()] as GoogleReaderNewsFeed;
 
                 if (theFeed == null)
                     return false;
 
                 if (continuationToken == null)
                 {
-                    reqUri = new Uri(CreateDownloadUrl(theFeed, continuationToken));
+                    reqUri = new Uri(CreateDownloadUrl(theFeed));
                 }
 
                 // only if we "real" go over the wire for an update:
