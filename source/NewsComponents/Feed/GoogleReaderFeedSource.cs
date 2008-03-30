@@ -77,7 +77,7 @@ namespace NewsComponents.Feed
         private string SID = String.Empty;
 
       
-        private string _googleUserId = String.Empty;
+        private string googleUserId = String.Empty;
 
         /// <summary>
         /// Updates Google Reader in a background thread.
@@ -106,7 +106,6 @@ namespace NewsComponents.Feed
 
             this.rssParser = new RssParser(this);
 
-
             // initialize (later on loaded from feedlist):
             this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
             this.EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
@@ -131,8 +130,14 @@ namespace NewsComponents.Feed
         /// </summary>
         public string GoogleUserId
         {
-            get { return _googleUserId; }
-            private set { this._googleUserId = value; }
+            get { return googleUserId; }
+            private set
+            {
+                this.googleUserId = value;
+
+                //register with background thread for updating Google Reader now that we have the tag list
+                GoogleReaderUpdater.RegisterFeedSource(this);
+            }
         }
 
         /// <summary>
@@ -900,7 +905,7 @@ namespace NewsComponents.Feed
         /// Deletes a feed from the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to delete</param>
-        private void DeleteFeedFromGoogleReader(string feedUrl)
+        internal void DeleteFeedFromGoogleReader(string feedUrl)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
@@ -932,15 +937,14 @@ namespace NewsComponents.Feed
         /// for details</exception>
         public override void DeleteFeed(string feedUrl)
         {
-            this.DeleteFeedFromGoogleReader(feedUrl); 
+            GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserId, feedUrl);  
         }
 
         /// <summary>
         /// Adds a feed to the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to add</param>
-        /// <returns>A GoogleReaderSubscription that describes the newly added feed</returns>
-        private GoogleReaderSubscription AddFeedInGoogleReader(string feedUrl)
+        internal void AddFeedInGoogleReader(string feedUrl)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
@@ -967,13 +971,8 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
-
-
-                return new GoogleReaderSubscription(feedId, f.title, labels, 0);
-            }
-            
-                
-            return null;             
+            }      
+        
         }
 
         /// <summary>
@@ -986,12 +985,24 @@ namespace NewsComponents.Feed
         public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
         {
             feed = base.AddFeed(feed, feedInfo);
-            GoogleReaderSubscription sub = this.AddFeedInGoogleReader(feed.link);
+
+            string feedId = "feed/" + feed.link;
+            List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>();
+
+            foreach (string category in feed.categories)
+            {
+                GoogleReaderLabel label = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
+                labels.Add(label);
+            }
+
+            GoogleReaderSubscription sub = new GoogleReaderSubscription(feedId, feed.title, labels, 0);
 
             //Replace NewsFeed instance with GoogleReaderNewsFeed
             feedsTable.Remove(feed.link);
             feed = new GoogleReaderNewsFeed(sub, feed, this);
-            feedsTable.Add(feed.link, feed); 
+            feedsTable.Add(feed.link, feed);
+
+            GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserId, feed.link); 
 
             return feed; 
         }
@@ -1003,7 +1014,7 @@ namespace NewsComponents.Feed
         /// <remarks>This method does nothing if the new title is empty or null</remarks>
         /// <param name="url">The feed URL</param>
         /// <param name="title">The new title</param>
-        public void RenameFeedInGoogleReader(string url, string title)
+        internal void RenameFeedInGoogleReader(string url, string title)
         {            
             if (StringHelper.EmptyTrimOrNull(title))
             {
@@ -1060,7 +1071,7 @@ namespace NewsComponents.Feed
                     if (item.Feed != null)
                     {
                         GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
-                        this.ChangeItemReadStateInGoogleReader(f.GoogleReaderFeedId, item.Id,  item.BeenRead);
+                        GoogleReaderUpdater.ChangeItemReadStateInGoogleReader(this.GoogleUserId, f.GoogleReaderFeedId, item.Id,  item.BeenRead);
                     }
                     break;
             }
@@ -1073,7 +1084,7 @@ namespace NewsComponents.Feed
         /// <param name="feedId">The ID of the parent feed in Google Reader</param>
         /// <param name="itemId">The atom:id of the news item</param>        
         /// <param name="beenRead">Indicates whether the item was marked as read or unread</param>
-        private void ChangeItemReadStateInGoogleReader(string feedId, string itemId, bool beenRead)
+        internal void ChangeItemReadStateInGoogleReader(string feedId, string itemId, bool beenRead)
         {
             string itemReadUrl = apiUrlPrefix + "edit-tag";
             string op = (beenRead ? "&a=" : "&r="); //are we adding or removing read label?
@@ -1094,7 +1105,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="feedUrl">The feed URL</param>
         /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
-        private void MarkAllItemsAsReadInGoogleReader(string feedUrl, DateTime olderThan)
+        internal void MarkAllItemsAsReadInGoogleReader(string feedUrl, DateTime olderThan)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
@@ -1143,7 +1154,7 @@ namespace NewsComponents.Feed
 
             if (newestItemAge != DateTime.MinValue)
             {
-                this.MarkAllItemsAsReadInGoogleReader(feed.link, newestItemAge); 
+                GoogleReaderUpdater.MarkAllItemsAsRead(this.GoogleUserId, feed.link, newestItemAge); 
             }
         }
 
@@ -1334,7 +1345,7 @@ namespace NewsComponents.Feed
                 
                 if (myowner != null && !StringHelper.EmptyTrimOrNull(value))
                 {
-                    myowner.RenameFeedInGoogleReader(this.link, value);
+                    myowner.GoogleReaderUpdater.RenameFeed(myowner.GoogleUserId, this.link, value);
                     mysubscription.Title = value;
                 }
             }
