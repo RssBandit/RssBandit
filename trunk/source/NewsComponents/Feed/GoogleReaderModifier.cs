@@ -23,7 +23,7 @@ namespace NewsComponents.Feed
     /// This is an enum that describes the set of operations that can be placed in the 
     /// queue of operations to perform on the search index by the index modifying thread. 
     /// </summary>
-    internal enum GoogleReaderOperation : byte
+    public enum GoogleReaderOperation : byte
     {
         AddFeed = 51, // == queue priority!
         AddLabel = 41,
@@ -44,10 +44,10 @@ namespace NewsComponents.Feed
     /// This is a class that is used to represent a pending operation on the index in 
     /// that is currently in the pending operation queue. 
     /// </summary>
-    internal class PendingGoogleReaderOperation
+    public class PendingGoogleReaderOperation
     {
         public GoogleReaderOperation Action;
-        public string GoogleUserId; 
+        public string GoogleUserName; 
         public object[] Parameters;
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace NewsComponents.Feed
         {
             this.Action = action;
             this.Parameters = parameters;
-            this.GoogleUserId = googleUserID;
+            this.GoogleUserName = googleUserID;
         }
     }
 
@@ -185,7 +185,7 @@ namespace NewsComponents.Feed
         private void PerformOperation(PendingGoogleReaderOperation current)
         {
             GoogleReaderFeedSource source = null;
-            this.FeedSources.TryGetValue(current.GoogleUserId, out source);
+            this.FeedSources.TryGetValue(current.GoogleUserName, out source);
 
             if (source == null)
             {
@@ -274,12 +274,27 @@ namespace NewsComponents.Feed
 
         #region public methods
 
+
+        /// <summary>
+        /// Stops the Google Reader thread and saves pending operations to disk. 
+        /// </summary>
+        public void StopBackgroundThread()
+        {
+            this.threadRunning = false; 
+
+            // wait for current running network operations to finish
+            while (this.flushInprogress)
+                Thread.Sleep(50);
+
+            this.SavePendingOperations();
+        }
+
         /// <summary>
         /// Saves pending operations to disk
         /// </summary>
         public void SavePendingOperations()
         {
-            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(PriorityQueue));
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingGoogleReaderOperation>));
             serializer.Serialize(XmlWriter.Create(this.pendingGoogleOperationsFile), this.pendingGoogleReaderOperations);            
         }
 
@@ -289,7 +304,7 @@ namespace NewsComponents.Feed
         /// <param name="source"></param>
         public void RegisterFeedSource(GoogleReaderFeedSource source)
         {
-            this.FeedSources.Add(source.GoogleUserId, source); 
+            this.FeedSources.Add(source.GoogleUserName, source); 
         }
 
         /// <summary>
@@ -298,7 +313,7 @@ namespace NewsComponents.Feed
         /// <param name="source"></param>
         public void UnregisterFeedSource(GoogleReaderFeedSource source)
         {
-            this.FeedSources.Remove(source.GoogleUserId); 
+            this.FeedSources.Remove(source.GoogleUserName); 
         }
 
         /// <summary>
