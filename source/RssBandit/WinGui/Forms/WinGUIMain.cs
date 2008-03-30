@@ -4979,7 +4979,7 @@ namespace RssBandit.WinGui.Forms
             hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
             hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
             hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
-            hc.SilentModeEnabled = false;
+            hc.SilentModeEnabled = true;
             hc.Border3d = true;
 
             hc.StatusTextChanged += OnWebStatusTextChanged;
