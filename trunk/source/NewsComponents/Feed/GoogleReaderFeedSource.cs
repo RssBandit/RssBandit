@@ -1199,6 +1199,20 @@ namespace NewsComponents.Feed
 
         #region category related methods 
 
+
+
+        /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public override void RenameCategory(string oldName, string newName)
+        {
+            base.RenameCategory(oldName, newName);
+            //TODO: Delete oldName tag from Google Reader. Keep race condition in mind since UI will be walking down renaming feeds
+            
+        }
+
         /// <summary>
         /// Changes the category of a feed in Google Reader
         /// </summary>
