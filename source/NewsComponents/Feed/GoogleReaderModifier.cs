@@ -227,6 +227,10 @@ namespace NewsComponents.Feed
                         source.MarkAllItemsAsReadInGoogleReader(current.Parameters[0] as string, (DateTime) current.Parameters[1]); 
                         break;
 
+                    case GoogleReaderOperation.MoveFeed:
+                        source.ChangeCategoryInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break;
+
                     case GoogleReaderOperation.RenameFeed:
                         source.RenameFeedInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string); 
                         break;
@@ -381,6 +385,22 @@ namespace NewsComponents.Feed
             }
         }
 
+
+          /// <summary>
+        /// Enqueues an event that changes the category of a feed in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                    
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="category">The new URL of the feed</param>
+        public void ChangeCategoryInGoogleReader(string googleUserID, string feedUrl, string category)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MoveFeed, new object[] { feedUrl, category }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
 
          /// <summary>
         /// Enqueues an event that adds a feed to the list of user's subscriptions in Google Reader
