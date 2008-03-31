@@ -1203,8 +1203,9 @@ namespace NewsComponents.Feed
         /// Changes the category of a feed in Google Reader
         /// </summary>
         /// <param name="feedUrl">The feed URL</param>
-        /// <param name="category">The new URL of the feed</param>
-        internal void ChangeCategoryInGoogleReader(string feedUrl, string category)
+        /// <param name="newCategory">The new category for the feed</param>
+        /// <param name="oldCategory">The old category of the feed.</param>
+        internal void ChangeCategoryInGoogleReader(string feedUrl, string newCategory, string oldCategory)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
@@ -1212,13 +1213,14 @@ namespace NewsComponents.Feed
                 string labelUrl = apiUrlPrefix + "subscription/edit";
                 string labelParams = String.Empty;
 
-                if (category == null)
+                if (oldCategory != null)
                 {
-                    labelParams = "&r=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(f.category); 
+                    labelParams = "&r=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(oldCategory); 
                 }
-                else
+
+                if (newCategory != null)
                 {
-                    labelParams = "&a=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(category); 
+                    labelParams += "&a=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(newCategory); 
                 }
 
                 string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(f.title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + labelParams;
@@ -1241,7 +1243,7 @@ namespace NewsComponents.Feed
         public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
         {
             base.ChangeCategory(feed, cat);
-        }
+        }        
 
         #endregion 
 
@@ -1448,7 +1450,7 @@ namespace NewsComponents.Feed
                 if (myowner != null && 
                     ((base.category == null && value != null) || !base.category.Equals(value)) )
                 {
-                    myowner.GoogleReaderUpdater.ChangeCategoryInGoogleReader(myowner.GoogleUserName, this.link, value);
+                    myowner.GoogleReaderUpdater.ChangeCategoryInGoogleReader(myowner.GoogleUserName, this.link, value, base.category);
                 }
                 base.category = value;                
             }
