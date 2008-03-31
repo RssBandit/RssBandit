@@ -1197,6 +1197,54 @@ namespace NewsComponents.Feed
 
         #endregion 
 
+        #region category related methods 
+
+        /// <summary>
+        /// Changes the category of a feed in Google Reader
+        /// </summary>
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="category">The new URL of the feed</param>
+        internal void ChangeCategoryInGoogleReader(string feedUrl, string category)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
+                string labelUrl = apiUrlPrefix + "subscription/edit";
+                string labelParams = String.Empty;
+
+                if (category == null)
+                {
+                    labelParams = "&r=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(f.category); 
+                }
+                else
+                {
+                    labelParams = "&a=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(category); 
+                }
+
+                string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(f.title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + labelParams;
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
+        {
+            base.ChangeCategory(feed, cat);
+        }
+
+        #endregion 
+
         #endregion
 
     }
@@ -1386,6 +1434,25 @@ namespace NewsComponents.Feed
             }
         }
 
+        [XmlAttribute]
+        public override string category
+        {
+            get
+            {
+                return base.category;
+            }
+            set
+            {
+                GoogleReaderFeedSource myowner = owner as GoogleReaderFeedSource;
+               
+                if (myowner != null && 
+                    ((base.category == null && value != null) || !base.category.Equals(value)) )
+                {
+                    myowner.GoogleReaderUpdater.ChangeCategoryInGoogleReader(myowner.GoogleUserName, this.link, value);
+                }
+                base.category = value;                
+            }
+        }
         
         public override List<string> categories
         {
