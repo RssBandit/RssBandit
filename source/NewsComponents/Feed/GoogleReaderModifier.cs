@@ -33,7 +33,6 @@ namespace NewsComponents.Feed
         MarkSingleItemRead = 60,
         MoveFeed  = 45,
         RenameFeed = 21,
-        RenameLabel = 20,
     }
 
     #endregion
@@ -228,7 +227,7 @@ namespace NewsComponents.Feed
                         break;
 
                     case GoogleReaderOperation.MoveFeed:
-                        source.ChangeCategoryInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string);
+                        source.ChangeCategoryInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, current.Parameters[2] as string);
                         break;
 
                     case GoogleReaderOperation.RenameFeed:
@@ -391,10 +390,11 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                    
         /// <param name="feedUrl">The feed URL</param>
-        /// <param name="category">The new URL of the feed</param>
-        public void ChangeCategoryInGoogleReader(string googleUserID, string feedUrl, string category)
+        /// <param name="newCategory">The new category for the feed</param>
+        /// <param name="oldCategory">The old category of the feed.</param>       
+        public void ChangeCategoryInGoogleReader(string googleUserID, string feedUrl, string newCategory, string oldCategory)
         {
-            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MoveFeed, new object[] { feedUrl, category }, googleUserID);
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MoveFeed, new object[] { feedUrl, newCategory, oldCategory }, googleUserID);
 
             lock (this.pendingGoogleReaderOperations)
             {
