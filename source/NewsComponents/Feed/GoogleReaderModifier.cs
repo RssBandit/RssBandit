@@ -234,13 +234,19 @@ namespace NewsComponents.Feed
                         source.RenameFeedInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string); 
                         break;
 
+                    case GoogleReaderOperation.DeleteLabel:
+                        source.DeleteCategoryInGoogleReader(current.Parameters[0] as string);
+                        break; 
+
                     default:
                         Debug.Assert(false, "Unknown Google Reader operation: " + current.Action);
                         return;
                 }
 
             }
-            catch (Exception e) { };
+            catch (Exception e) { //TODO: Rethrow to handle time outs and connections cancelled by host
+                _log.Error("Error in GoogleReaderModifier.PerformOperation:", e);            
+            };
         }
 
         /// <summary>
@@ -332,6 +338,21 @@ namespace NewsComponents.Feed
         public void UnregisterFeedSource(GoogleReaderFeedSource source)
         {
             this.FeedSources.Remove(source.GoogleUserName); 
+        }
+
+         /// <summary>
+        /// Enqueus an item that deletes the category in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>            
+        /// <param name="name">The name of the category to delete</param>
+        internal void DeleteCategoryInGoogleReader(string googleUserID, string name)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteLabel, new object[] { name }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
         }
 
         /// <summary>
