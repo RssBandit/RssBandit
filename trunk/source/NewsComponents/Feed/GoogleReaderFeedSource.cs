@@ -19,6 +19,7 @@ using System.Xml.Serialization;
 
 using log4net;
 
+using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.Utils;
 
@@ -1199,6 +1200,71 @@ namespace NewsComponents.Feed
 
         #region category related methods 
 
+         /// <summary>
+        /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
+        /// corresponding feeds. 
+        /// </summary>
+        /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
+        /// fix up the references to this category in its parent and child categories.</remarks>
+        /// <param name="cat"></param>
+        public override void DeleteCategory(string cat)
+        {
+            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            {
+                IList<string> categories2remove = this.GetChildCategories(cat);
+                categories2remove.Add(cat);
+
+                //remove category and all its subcategories
+                lock (this.categories)
+                {
+                    foreach (string c in categories2remove)
+                    {
+                        this.categories.Remove(c);
+                        GoogleReaderUpdater.DeleteCategoryInGoogleReader(this.GoogleUserName, c); 
+                    }
+                }
+
+                //remove feeds in deleted categories and subcategories
+                var feeds2delete =
+                   from f in this.feedsTable.Values
+                   where categories2remove.Contains(f.category)
+                   select f.link.ToString();
+
+                string[] feeds2remove = feeds2delete.ToArray<string>();
+
+                lock (this.feedsTable)
+                {
+                    foreach (var feedUrl in feeds2remove)
+                    {
+                        this.feedsTable.Remove(feedUrl);
+                        GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl); 
+                    }
+                }
+
+                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+            }// if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+        }
+
+        /// <summary>
+        /// Deletes the category in Google Reader
+        /// </summary>
+        /// <param name="name">The name of the category to delete</param>
+        internal void DeleteCategoryInGoogleReader(string name)
+        {
+            if (!StringHelper.EmptyTrimOrNull(name))
+            {
+                string labelUrl = apiUrlPrefix + "disable-tag";
+                string labelParams = "&s=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(name) + "&t=" + Uri.EscapeDataString(name);              
+
+                string body = "ac=disable-tags&i=null&T=" + GetGoogleEditToken(this.SID) + labelParams;
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+        }
 
 
         /// <summary>
@@ -1209,8 +1275,7 @@ namespace NewsComponents.Feed
         public override void RenameCategory(string oldName, string newName)
         {
             base.RenameCategory(oldName, newName);
-            //TODO: Delete oldName tag from Google Reader. Keep race condition in mind since UI will be walking down renaming feeds
-            
+            GoogleReaderUpdater.DeleteCategoryInGoogleReader(this.GoogleUserName, oldName);            
         }
 
         /// <summary>
