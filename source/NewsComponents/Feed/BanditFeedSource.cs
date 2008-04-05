@@ -60,9 +60,9 @@ namespace NewsComponents.Feed
 
             // initialize (later on loaded from feedlist):
             this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
-            this.EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
+            EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
 
-            if (this.EnclosureFolder != null)
+            if (!String.IsNullOrEmpty(EnclosureFolder))
             {
                 this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
                 this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
@@ -309,7 +309,7 @@ namespace NewsComponents.Feed
                 //if enclosure folder specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
             {
-                this.EnclosureFolder = myFeeds.enclosurefolder;
+                EnclosureFolder = myFeeds.enclosurefolder;
             }
 
                 //if podcast folder specified in imported feed then use that

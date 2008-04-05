@@ -935,21 +935,21 @@ namespace NewsComponents
         /// <summary>
         /// The folder for downloading enclosures.
         /// </summary>
-        protected string enclosurefolder = String.Empty;
+        static string enclosurefolder = String.Empty;
 
         /// <summary>
         /// Gets or sets the folder for downloading enclosures
         /// </summary>
-        public string EnclosureFolder
+        public static string EnclosureFolder
         {
             get
             {
-                return this.enclosurefolder;
+                return enclosurefolder;
             }
 
             set
             {
-                this.enclosurefolder = value;
+                enclosurefolder = value;
             }
         }
 
@@ -3336,8 +3336,8 @@ namespace NewsComponents
                     feedlist.listviewlayout = this.listviewlayout;
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
-                    */
 					feedlist.enclosurefolder = this.EnclosureFolder;
+					 */
                     feedlist.podcastfolder = this.PodcastFolder;
                     feedlist.podcastfileexts = this.PodcastFileExtensionsAsString;
                     /* not anymore required to store that in feedlist/now provided static:
@@ -4249,7 +4249,7 @@ namespace NewsComponents
         /// <returns>the enclosure folder</returns>
         public string GetEnclosureFolder(string feedUrl, string filename)
         {
-            string folderName = (IsPodcast(filename) ? this.PodcastFolder : this.EnclosureFolder);
+            string folderName = (IsPodcast(filename) ? this.PodcastFolder : EnclosureFolder);
 
             if (this.CreateSubfoldersForEnclosures && feedsTable.ContainsKey(feedUrl))
             {
@@ -7336,8 +7336,8 @@ namespace NewsComponents
     	/// </summary>
     	/// <value>The enclosure folder.</value>
     	string ISharedProperty.enclosurefolder {
-			get { return this.EnclosureFolder; }
-			set { this.EnclosureFolder = value; }
+			get { return EnclosureFolder; }
+			set { EnclosureFolder = value; }
     	}
 
     	/// <summary>

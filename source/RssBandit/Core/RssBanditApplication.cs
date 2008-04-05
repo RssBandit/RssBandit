@@ -461,8 +461,13 @@ namespace RssBandit
             }
             cfg.UserApplicationDataPath = ApplicationDataFolderFromEnv;
             cfg.UserLocalApplicationDataPath = ApplicationLocalDataFolderFromEnv;
-            cfg.DownloadedFilesDataPath = GetEnclosuresPath();
-            cfg.CacheManager = new FileCacheManager(GetFeedFileCachePath());
+			
+			if (String.IsNullOrEmpty(this.Preferences.EnclosureFolder))
+				cfg.DownloadedFilesDataPath = this.Preferences.EnclosureFolder;
+			else
+				cfg.DownloadedFilesDataPath = GetDefaultEnclosuresPath();
+            
+			cfg.CacheManager = new FileCacheManager(GetFeedFileCachePath());
             cfg.PersistedSettings = this.GuiSettings;
 
 			// once written a valid value:
@@ -1738,7 +1743,6 @@ namespace RssBandit
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            //make static
             if (propertiesDialog.checkCustomFormatter.Checked)
             {
                 FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
@@ -1765,8 +1769,7 @@ namespace RssBandit
 				}
 			}
 
-            //make static
-        	if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
+            if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
                 FeedSource.MarkItemsReadOnExit =
                     Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
@@ -1910,12 +1913,13 @@ namespace RssBandit
             {
                 guiMain.ResetHtmlDetail();
             }
-            //make static
-            if (!this.feedHandler.EnclosureFolder.Equals(propertiesDialog.textEnclosureDirectory.Text))
+
+			if (!String.Equals(Preferences.EnclosureFolder, propertiesDialog.textEnclosureDirectory.Text, StringComparison.OrdinalIgnoreCase))
             {
-                this.feedHandler.EnclosureFolder = propertiesDialog.textEnclosureDirectory.Text;
-                this.feedlistModified = true;
+				FeedSource.EnclosureFolder = propertiesDialog.textEnclosureDirectory.Text;
+				Preferences.EnclosureFolder = FeedSource.EnclosureFolder;
             }
+
             //move to config but leave as instance
             if (this.feedHandler.DownloadEnclosures != propertiesDialog.checkDownloadEnclosures.Checked)
             {
@@ -2183,7 +2187,14 @@ namespace RssBandit
 				saveChanges = true;
 			}
 
-			if (saveChanges)
+			// migrate EnclosureFolder saved previously at feedlist to preferences:
+			if (!String.IsNullOrEmpty(FeedSource.EnclosureFolder) &&
+				!String.Equals(FeedSource.EnclosureFolder, this.Preferences.EnclosureFolder, StringComparison.OrdinalIgnoreCase)) {
+				this.Preferences.EnclosureFolder = FeedSource.EnclosureFolder;
+				saveChanges = true;
+			}
+
+        	if (saveChanges)
 				this.SavePreferences();
         }
 
@@ -5228,7 +5239,7 @@ namespace RssBandit
                     }
                     else
                     {
-                        this.feedHandler.PodcastFolder = this.feedHandler.EnclosureFolder;
+						this.feedHandler.PodcastFolder = FeedSource.EnclosureFolder;
                     }
 
                     this.Preferences.AddPodcasts2Folder = optionDialog.chkCopyPodcastToFolder.Checked;

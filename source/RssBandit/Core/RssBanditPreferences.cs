@@ -104,6 +104,7 @@ namespace RssBandit {
 		private string remoteStoragePassword = String.Empty;
 		private RemoteStorageProtocolType remoteStorageProtocol = RemoteStorageProtocolType.UNC;
 		private string remoteStorageLocation = String.Empty;
+		private string enclosureFolder = String.Empty;
 
 		private string singlePlaylistName    = String.Empty;
 
@@ -898,6 +899,22 @@ namespace RssBandit {
 		}
 
 		/// <summary>
+		/// Gets or sets the enclosure download folder.
+		/// </summary>
+		/// <value>The enclosure folder.</value>
+		public string EnclosureFolder
+		{
+			[DebuggerStepThrough]
+			get { return enclosureFolder; }
+			set
+			{
+				enclosureFolder = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("EnclosureFolder"));
+			}
+		}
+
+		/// <summary>
 		/// Sets/Get the behavior how to handle requests to open new
 		/// window(s) while browsing
 		/// </summary>
@@ -1286,6 +1303,7 @@ namespace RssBandit {
             this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
 
 			this.RefreshRate = reader.GetInt("RefreshRate", -1);
+			this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
 		}
 
 		/// <summary>
@@ -1337,6 +1355,7 @@ namespace RssBandit {
 			info.AddValue("NumNewsItemsPerPage", this.NumNewsItemsPerPage);
             info.AddValue("ReadingPaneTextSize", this.ReadingPaneTextSize);
 			info.AddValue("RefreshRate", this.RefreshRate);
+			info.AddValue("EnclosureFolder", this.EnclosureFolder);
 		}
 		#endregion
 

@@ -112,9 +112,8 @@ namespace NewsComponents.Feed
 
             // initialize (later on loaded from feedlist):
             this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
-            this.EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
-
-            if (this.EnclosureFolder != null)
+            
+            if (String.IsNullOrEmpty(EnclosureFolder))
             {
                 this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
                 this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
@@ -445,7 +444,7 @@ namespace NewsComponents.Feed
         private static Uri CreateFeedUriFromDownloadUri(Uri downloadUri)
         {
             if(downloadUri == null)
-                throw new ArgumentNullException("downloadUrl");
+                throw new ArgumentNullException("downloadUri");
 
             string downloadUrl = downloadUri.AbsoluteUri;
             int startIndex = feedUrlPrefix.Length + "feed/".Length;
