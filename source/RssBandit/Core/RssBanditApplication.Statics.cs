@@ -422,7 +422,7 @@ namespace RssBandit
         }
 
 
-        public static string GetEnclosuresPath()
+        public static string GetDefaultEnclosuresPath()
         {
             string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string s = Path.Combine(mydocs, "RSS Bandit\\My Downloaded Files");

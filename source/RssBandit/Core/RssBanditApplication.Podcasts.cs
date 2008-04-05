@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using iTunesLib;
+using NewsComponents;
 using NewsComponents.Net;
 using WMPLib;
 
@@ -17,7 +18,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.EnclosureFolder;
+                return FeedSource.EnclosureFolder;
             }
         }
 
