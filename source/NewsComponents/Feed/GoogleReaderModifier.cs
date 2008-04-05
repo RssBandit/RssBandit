@@ -33,6 +33,7 @@ namespace NewsComponents.Feed
         MarkSingleItemRead = 60,
         MoveFeed  = 45,
         RenameFeed = 21,
+        RenameLabel = 20,
     }
 
     #endregion
@@ -214,8 +215,16 @@ namespace NewsComponents.Feed
                         source.AddFeedInGoogleReader(current.Parameters[0] as string); 
                         break;
 
+                    case GoogleReaderOperation.AddLabel:
+                        source.AddCategoryInGoogleReader(current.Parameters[0] as string);
+                        break;
+
                     case GoogleReaderOperation.DeleteFeed:
                         source.DeleteFeedFromGoogleReader(current.Parameters[0] as string); 
+                        break;
+
+                    case GoogleReaderOperation.DeleteLabel:
+                        source.DeleteCategoryInGoogleReader(current.Parameters[0] as string);
                         break;
 
                     case GoogleReaderOperation.MarkSingleItemRead:
@@ -234,9 +243,9 @@ namespace NewsComponents.Feed
                         source.RenameFeedInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string); 
                         break;
 
-                    case GoogleReaderOperation.DeleteLabel:
-                        source.DeleteCategoryInGoogleReader(current.Parameters[0] as string);
-                        break; 
+                    case GoogleReaderOperation.RenameLabel:
+                        source.RenameCategoryInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break;
 
                     default:
                         Debug.Assert(false, "Unknown Google Reader operation: " + current.Action);
@@ -345,9 +354,27 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>            
         /// <param name="name">The name of the category to delete</param>
-        internal void DeleteCategoryInGoogleReader(string googleUserID, string name)
+        public void DeleteCategoryInGoogleReader(string googleUserID, string name)
         {
             PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteLabel, new object[] { name }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+         /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                   
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public void RenameCategoryInGoogleReader(string googleUserID, string oldName, string newName)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.RenameLabel, new object[] { oldName, newName }, googleUserID);
 
             lock (this.pendingGoogleReaderOperations)
             {
@@ -432,6 +459,23 @@ namespace NewsComponents.Feed
         public void AddFeedInGoogleReader(string googleUserID, string feedUrl)
         {
             PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.AddFeed, new object[] { feedUrl }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
+
+
+        
+        /// <summary>
+        /// Adds the category in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                         
+        /// <param name="name">The name of the category to add</param>
+        internal void AddCategoryInGoogleReader(string googleUserID, string name)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.AddLabel, new object[] { name }, googleUserID);
 
             lock (this.pendingGoogleReaderOperations)
             {
