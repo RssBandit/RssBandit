@@ -1205,8 +1205,8 @@ namespace RssBandit.WinGui.Forms {
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void checkDownloadEnclosures_CheckedChanged(object sender, System.EventArgs e) {		
-			lblDownloadXAttachmentsPostfix.Enabled = numOnlyDownloadLastXAttachments.Enabled = checkOnlyDownloadLastXAttachments.Enabled = this.checkDownloadEnclosures.Checked;
+		private void checkDownloadEnclosures_CheckedChanged(object sender, System.EventArgs e) {
+            lblDownloadXAttachmentsPostfix.Enabled = numOnlyDownloadLastXAttachments.Enabled = checkOnlyDownloadLastXAttachments.Checked = checkOnlyDownloadLastXAttachments.Enabled = this.checkDownloadEnclosures.Checked;
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
