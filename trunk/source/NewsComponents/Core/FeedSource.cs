@@ -1018,22 +1018,22 @@ namespace NewsComponents
         /// Indicates whether items in the feed should be marked as read on exiting
         /// the feed in the UI.
         /// </summary>
-        protected bool markitemsreadonexit;
+        static bool markitemsreadonexit;
 
         /// <summary>
         /// Gets or sets whether items in the feed should be marked as read on exiting
         /// the feed in the UI
         /// </summary>
-        public bool MarkItemsReadOnExit
+        public static bool MarkItemsReadOnExit
         {
             get
             {
-                return this.markitemsreadonexit;
+                return markitemsreadonexit;
             }
 
             set
             {
-                this.markitemsreadonexit = value;
+                markitemsreadonexit = value;
             }
         }
 
@@ -3340,8 +3340,11 @@ namespace NewsComponents
 					feedlist.enclosurefolder = this.EnclosureFolder;
                     feedlist.podcastfolder = this.PodcastFolder;
                     feedlist.podcastfileexts = this.PodcastFileExtensionsAsString;
+                    /* not anymore required to store that in feedlist/now provided static:
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
                     feedlist.markitemsreadonexitSpecified = true;
+					*/
+					feedlist.markitemsreadonexitSpecified = false;
 
                     foreach (INewsFeed f in feeds.Values)
                     {
@@ -7360,8 +7363,8 @@ namespace NewsComponents
     	/// </summary>
     	/// <value><c>true</c> if markitemsreadonexit; otherwise, <c>false</c>.</value>
     	bool ISharedProperty.markitemsreadonexit {
-    		get { return this.MarkItemsReadOnExit; }
-			set { this.MarkItemsReadOnExit = value; }
+    		get { return MarkItemsReadOnExit; }
+			set { MarkItemsReadOnExit = value; }
     	}
 
     	/// <summary>

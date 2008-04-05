@@ -1768,7 +1768,7 @@ namespace RssBandit
             //make static
         	if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
-                this.feedHandler.MarkItemsReadOnExit =
+                FeedSource.MarkItemsReadOnExit =
                     Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
             }
 
