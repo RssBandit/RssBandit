@@ -298,13 +298,14 @@ namespace NewsComponents.Feed
                 this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
             }
 
-
+			/* not anymore required to store that in feedlist/now provided via config:
+            
                 //if marking items as read on exit specified in imported feed then use that
             if (myFeeds.markitemsreadonexitSpecified)
             {
                 this.markitemsreadonexit = myFeeds.markitemsreadonexit;
             }
-
+			*/
                 //if enclosure folder specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
             {
