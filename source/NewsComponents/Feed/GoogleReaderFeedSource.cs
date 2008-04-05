@@ -238,7 +238,8 @@ namespace NewsComponents.Feed
             {
                 string label = gLabel.Replace("/", FeedSource.CategorySeparator);
                 category cat = null;
-                this.categories.Add(gLabel, new GoogleReaderCategory(label, (bootstrapCategories.TryGetValue(label, out cat) ? cat : null), this));
+                bootstrapCategories.TryGetValue(label, out cat);
+                this.categories.Add(gLabel, cat ?? new category(label));
   
             }
         }
@@ -947,14 +948,12 @@ namespace NewsComponents.Feed
         /// <param name="feedUrl">The URL of the feed to delete</param>
         internal void DeleteFeedFromGoogleReader(string feedUrl)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!StringHelper.EmptyTrimOrNull(feedUrl))
             {
-                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
-
                 string subscribeUrl = apiUrlPrefix + "subscription/edit";
-                string feedId = "feed/" + f.link;               
+                string feedId = "feed/" + feedUrl;               
 
-                string body = "s=" + Uri.EscapeDataString(feedId) + "&t" + Uri.EscapeDataString(f.title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null";
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null" /* + "&t" + Uri.EscapeDataString(f.title) */ ; 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -980,28 +979,48 @@ namespace NewsComponents.Feed
             GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl);  
         }
 
-        /// <summary>
+
+         /// <summary>
         /// Adds a feed to the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to add</param>
         internal void AddFeedInGoogleReader(string feedUrl)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            this.AddFeedInGoogleReader(feedUrl, null); 
+        }
+
+        /// <summary>
+        /// Adds a feed to the list of user's subscriptions in Google Reader
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <param name="label">The label to apply to the feed. If no label is provided, then it is obtained from 
+        /// the INewsFeed object in the feeds table that has the same feed URL.</param>
+        private void AddFeedInGoogleReader(string feedUrl, string label)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && (feedsTable.ContainsKey(feedUrl) || label != null))
             {
-                INewsFeed f = feedsTable[feedUrl];
+                
+                INewsFeed f = null;
+
+                if (label == null)
+                {
+                    f = feedsTable[feedUrl];
+                }
 
                 string subscribeUrl = apiUrlPrefix + "subscription/edit";
-                string feedId = "feed/" + f.link;
+                string feedId = "feed/" + feedUrl;
                 string labelParam = String.Empty;
-
-                List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>();
-
-                foreach (string category in f.categories)
+              
+                if (label == null)
                 {
-                    GoogleReaderLabel label = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
-                    labels.Add(label);
+                    foreach (string category in f.categories)
+                    {
+                        GoogleReaderLabel grl = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);                      
+                        labelParam += "&a=" + Uri.EscapeDataString(grl.Id);
+                    }
 
-                    labelParam = "&a=" + Uri.EscapeDataString(label.Id);
+                }else{
+                    labelParam = "&a=" + Uri.EscapeDataString("user/" + this.GoogleUserId + "/label/" + label); 
                 }
 
                 string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=subscribe" + labelParam;
@@ -1199,6 +1218,73 @@ namespace NewsComponents.Feed
 
         #region category related methods 
 
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The category to add</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        /// <exception cref="NotSupportedException">If the category is a subcategory. Google Reader doesn't support 
+        /// nested categories</exception>
+        public override INewsFeedCategory AddCategory(INewsFeedCategory cat)
+        {
+            if (cat == null)
+                throw new ArgumentNullException("cat");
+
+            if (cat.Value.IndexOf(FeedSource.CategorySeparator) != -1)
+                throw new NotSupportedException("Google Reader does not support nested categories");
+
+            if (this.categories.ContainsKey(cat.Value))
+                return this.categories[cat.Value];
+
+            this.categories.Add(cat.Value, cat);
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
+            GoogleReaderUpdater.AddCategoryInGoogleReader(this.GoogleUserName, cat.Value);
+            return cat;  
+        }        
+
+
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        /// <exception cref="NotSupportedException">If the category is a subcategory. Google Reader doesn't support 
+        /// nested categories</exception>
+        public override INewsFeedCategory AddCategory(string cat)
+        {
+            if (StringHelper.EmptyTrimOrNull(cat))
+                return null;
+
+            if (cat.IndexOf(FeedSource.CategorySeparator)!= -1)
+                throw new NotSupportedException("Google Reader does not support nested categories"); 
+
+            if (this.categories.ContainsKey(cat))
+                return this.categories[cat];
+
+            category c = new category(cat);
+            this.categories.Add(cat, c);
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
+            GoogleReaderUpdater.AddCategoryInGoogleReader(this.GoogleUserName, cat); 
+            return c; 
+        }
+
+        /// <summary>
+        /// Adds the category in Google Reader
+        /// </summary>
+        /// <param name="name">The name of the category to add</param>
+        internal void AddCategoryInGoogleReader(string name)
+        {
+            /* 
+             * Since Google Reader doesn't support an explicit 'create folder' we will create a new subscription
+             * and place it in the new category then delete the subscription
+             */ 
+            string dummyFeed = "http://rss.netflix.com/QueueRSS?id=P2792793912689011005960561087208982";
+            this.AddFeedInGoogleReader(dummyFeed, name);
+            this.DeleteFeedFromGoogleReader(dummyFeed); 
+        }
+
          /// <summary>
         /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
         /// corresponding feeds. 
@@ -1266,15 +1352,42 @@ namespace NewsComponents.Feed
         }
 
 
+
+         /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public override void RenameCategoryInGoogleReader(string oldName, string newName)
+        {
+            //if no feed with category as label (e.g. newly created category), we need to create label in Google Reader 
+            if (!feedsTable.Any(x => x.Value.categories.Contains(oldName)))
+            {
+                this.AddCategoryInGoogleReader(newName);
+            }
+
+            this.DeleteCategoryInGoogleReader(oldName); 
+        }
+
         /// <summary>
         /// Renames the specified category
         /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
+            if(( StringHelper.EmptyTrimOrNull(oldName) || StringHelper.EmptyTrimOrNull(newName) )
+                || oldName.Equals(newName) ){
+                return; 
+            }
+
+            //rename object in category table
             base.RenameCategory(oldName, newName);
-            GoogleReaderUpdater.DeleteCategoryInGoogleReader(this.GoogleUserName, oldName);            
+            GoogleReaderUpdater.RenameCategoryInGoogleReader(this.GoogleUserName, oldName, newName);                       
         }
 
         /// <summary>
@@ -1558,78 +1671,4 @@ namespace NewsComponents.Feed
 
     #endregion 
 
-    #region GoogleReaderCategory
-
-    /// <summary>
-    /// Holds the preferences for a label/category in Google Reader. 
-    /// </summary>
-    internal class GoogleReaderCategory : category
-    {
-
-        #region constructors 
-
-        // <summary>
-        /// A category must always have a name
-        /// </summary>
-        private GoogleReaderCategory() { ;} 
-
-         /// <summary>
-        /// Initializes the class
-        /// </summary>
-        /// <param name="label">The name of the category</param>
-        public GoogleReaderCategory(string label)
-        {
-            if (label == null) throw new ArgumentNullException("label");
-            this.Value = label; 
-        }
-       
-        
-        /// <summary>
-        /// Initializes the class
-        /// </summary>
-        /// <param name="label">The name of the category</param>
-        /// <param name="category">A category instance from which this object shall obtain the values for it's INewsFeedCategory properties</param>
-        public GoogleReaderCategory(string label, INewsFeedCategory category, GoogleReaderFeedSource owner)
-            : this(label)
-        {
-            if (category != null)
-            {
-                this.AnyAttr = category.AnyAttr;
-                this.downloadenclosures = category.downloadenclosures;
-                this.downloadenclosuresSpecified = category.downloadenclosuresSpecified;
-                this.enclosurealert = category.enclosurealert;
-                this.enclosurealertSpecified = category.enclosurealertSpecified;
-                this.listviewlayout = category.listviewlayout;
-                this.markitemsreadonexit = category.markitemsreadonexit;
-                this.markitemsreadonexitSpecified = category.markitemsreadonexitSpecified;
-                this.maxitemage = category.maxitemage;
-                this.refreshrate = category.refreshrate;
-                this.refreshrateSpecified = category.refreshrateSpecified;
-                this.stylesheet = category.stylesheet;
-            }
-
-            if (owner is GoogleReaderFeedSource)
-            {
-                this.owner = owner as GoogleReaderFeedSource;
-            }
-        }
-
-        #endregion 
-
-        #region private fields 
-
-        /// <summary>
-        /// The actual GoogleReaderLabel instance that this object is wrapping
-        /// </summary>
-        private GoogleReaderLabel mylabel = null;
-
-        /// <summary>
-        /// The GoogleReaderFeedSource instance used to make Web requests to manage this label
-        /// </summary>
-        private GoogleReaderFeedSource owner = null; 
-
-        #endregion 
-    }
-
-    #endregion 
 }

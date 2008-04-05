@@ -3629,8 +3629,16 @@ namespace NewsComponents
         /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
         public virtual INewsFeedCategory AddCategory(INewsFeedCategory cat)
         {
-            this.categories.Add(cat.Value, cat);
-            return cat;
+
+            if (this.categories.ContainsKey(cat.Value))
+            {
+                return categories[cat.Value];
+            }
+            else
+            {
+                this.categories.Add(cat.Value, cat);
+                return cat;
+            }
         }
 
 
@@ -3726,6 +3734,8 @@ namespace NewsComponents
         /// <summary>
         /// Renames the specified category
         /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
         public virtual void RenameCategory(string oldName, string newName)
