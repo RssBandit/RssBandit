@@ -469,12 +469,12 @@ namespace NewsComponents
                 long limitInBytes = downloadInfoProvider.EnclosureCacheSize*1024*1024;
                 long filesize = GetFileSize(task);
 
-                DirectoryInfo targetDir = new DirectoryInfo(downloadInfoProvider.EnclosureFolder);
+                DirectoryInfo targetDir = new DirectoryInfo(FeedSource.EnclosureFolder);
                 long spaceUsed = FileHelper.GetSize(targetDir);
 
-                if (!downloadInfoProvider.EnclosureFolder.Equals(downloadInfoProvider.PodcastFolder))
+				if (!String.Equals(FeedSource.EnclosureFolder,downloadInfoProvider.PodcastFolder, StringComparison.OrdinalIgnoreCase))
                 {
-                    DirectoryInfo podcastDir = new DirectoryInfo(downloadInfoProvider.EnclosureFolder);
+					DirectoryInfo podcastDir = new DirectoryInfo(FeedSource.EnclosureFolder);
                     spaceUsed += FileHelper.GetSize(podcastDir);
                 }
 
