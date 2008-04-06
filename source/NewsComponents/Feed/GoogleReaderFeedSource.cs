@@ -211,6 +211,7 @@ namespace NewsComponents.Feed
         {
             Dictionary<string, NewsFeed> bootstrapFeeds = new Dictionary<string, NewsFeed>();
             Dictionary<string, category> bootstrapCategories = new Dictionary<string, category>();
+            
 
             foreach (NewsFeed f in feedlist.feed)
             {
@@ -242,6 +243,20 @@ namespace NewsComponents.Feed
                 this.categories.Add(gLabel, cat ?? new category(label));
   
             }
+
+            /* copy over list view layouts */
+            if (feedlist.listviewLayouts != null)
+            {
+                foreach (listviewLayout layout in feedlist.listviewLayouts)
+                {
+                    string layout_trimmed = layout.ID.Trim();
+                    if (!this.layouts.ContainsKey(layout_trimmed))
+                    {
+                        this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+                    }
+                }
+            }
+
         }
 
          /// <summary>
@@ -1360,7 +1375,7 @@ namespace NewsComponents.Feed
         /// of having this method do it automatically.</remarks>
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
-        public override void RenameCategoryInGoogleReader(string oldName, string newName)
+        internal void RenameCategoryInGoogleReader(string oldName, string newName)
         {
             //if no feed with category as label (e.g. newly created category), we need to create label in Google Reader 
             if (!feedsTable.Any(x => x.Value.categories.Contains(oldName)))
