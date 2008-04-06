@@ -714,8 +714,19 @@ namespace NewsComponents.Feed {
 
             IFeedFolder root = feedManager.RootFolder as IFeedFolder;
             LoadFolder(root, bootstrapFeeds, bootstrapCategories);
-                         
-            //feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
+
+            /* copy over list view layouts */
+            if (feedlist.listviewLayouts != null)
+            {
+                foreach (listviewLayout layout in feedlist.listviewLayouts)
+                {
+                    string layout_trimmed = layout.ID.Trim();
+                    if (!this.layouts.ContainsKey(layout_trimmed))
+                    {
+                        this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+                    }
+                }
+            }             
         }
 
 
