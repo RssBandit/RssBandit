@@ -2822,11 +2822,13 @@ namespace NewsComponents
 			ManualResetEvent eventX = new ManualResetEvent(false);
 			try 
 			{
-				foreach (RelationHRefEntry weightedLink in weightedLinks) {
-					if (TopStoryTitles.ContainsKey(weightedLink.HRef)) {
-						weightedLink.Text = TopStoryTitles[weightedLink.HRef].storyTitle;
+				foreach (RelationHRefEntry rhf in weightedLinks) {
+					if (TopStoryTitles.ContainsKey(rhf.HRef)) {
+						rhf.Text = TopStoryTitles[rhf.HRef].storyTitle;
 						Interlocked.Decrement(ref numTitlesToDownload);
 					} else {
+                        RelationHRefEntry weightedLink = rhf;
+
 						PriorityThreadPool.QueueUserWorkItem(
 							delegate
 								{

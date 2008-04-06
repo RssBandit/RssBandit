@@ -418,7 +418,7 @@ namespace NewsComponents.Utils
             request.AllowAutoRedirect = true;
             request.Proxy = proxy;
             request.Credentials = credentials; 
-            request.Timeout     = 4 * 1000 /* 4 second timeout */;
+            request.Timeout     = 5 * 1000 /* 5 second timeout */;
 
             if(FeedSource.SetCookies)
             {
