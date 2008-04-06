@@ -9561,9 +9561,11 @@ namespace RssBandit.WinGui.Forms
                 }
                 else
                 {
-                    AddListviewColumn(name[1], 120);
+                    AddListviewColumn(name[1], 120);                    
                     RePopulateListviewWithCurrentContent();
                 }
+
+                listFeedItems.CheckForLayoutModifications(); 
             }
         }
 
