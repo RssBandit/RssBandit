@@ -117,6 +117,8 @@ namespace RssBandit
         private CommandMediator cmdMediator;
     	private FeedSourceManager sourceManager;
 		private FeedSource feedHandler;
+		// BanditFeedSource: used to read/get old 1.6.x settings
+		private FeedSource feedHandler4Migration;
         private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
@@ -311,6 +313,10 @@ namespace RssBandit
 			// may already use preference settings:
 			FeedSource.DefaultConfiguration = this.CreateFeedHandlerConfiguration();
 
+			// set static properties:
+        	FeedSource.EnclosureFolder = Preferences.EnclosureFolder;
+			FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
+            
 			LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += this.OnRequestCertificateIssue;
             
@@ -330,7 +336,10 @@ namespace RssBandit
 #elif TEST_WINRSS_PLATFORM
             this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));			
 #else
-			this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+			// keep a instance for direct access used for migration of 1.6.x settings to phoenix:
+			this.feedHandler4Migration = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
+			//TODO: remove, if refactoring FeedSourceManager is finished:
+			this.feedHandler = this.feedHandler4Migration;
 #endif
 			// just for test, add the one source
 			this.sourceManager.Add(feedHandler, "My Feeds");
@@ -1026,6 +1035,22 @@ namespace RssBandit
 			// apply setting to comment feed handler:
 			cfg = (NewsComponentsConfiguration)commentFeedsHandler.Configuration;
 			cfg.RefreshRate = value;
+		}
+
+		public void ApplyDownloadEnclosures(bool value)
+		{
+			// apply setting to feed sources:
+			NewsComponentsConfiguration cfg;
+			this.sourceManager.ForEach(
+				delegate(FeedSource fs)
+				{
+					cfg = (NewsComponentsConfiguration)fs.Configuration;
+					cfg.DownloadEnclosures = value;
+				});
+
+			// apply setting to comment feed handler:
+			cfg = (NewsComponentsConfiguration)commentFeedsHandler.Configuration;
+			cfg.DownloadEnclosures = value;
 		}
 
 		public ArrayList FinderList
@@ -1762,7 +1787,6 @@ namespace RssBandit
 
 			if (propertiesDialog.checkClearFeedCategoryItemAgeSettings.Checked) {
 				sourceManager.ForEach(delegate(FeedSource fs) { fs.ResetAllMaxItemAgeSettings(); });
-				feedlistModified = true;
 				if (!markedForDownloadCalled) {
 					sourceManager.ForEach(delegate(FeedSource fs) { fs.MarkForDownload(); });
 					markedForDownloadCalled = true;
@@ -1916,22 +1940,21 @@ namespace RssBandit
 
 			if (!String.Equals(Preferences.EnclosureFolder, propertiesDialog.textEnclosureDirectory.Text, StringComparison.OrdinalIgnoreCase))
             {
-				FeedSource.EnclosureFolder = propertiesDialog.textEnclosureDirectory.Text;
-				Preferences.EnclosureFolder = FeedSource.EnclosureFolder;
+				FeedSource.EnclosureFolder = Preferences.EnclosureFolder = 
+					propertiesDialog.textEnclosureDirectory.Text;
+			}
+
+            if (Preferences.DownloadEnclosures != propertiesDialog.checkDownloadEnclosures.Checked)
+            {
+				Preferences.DownloadEnclosures = propertiesDialog.checkDownloadEnclosures.Checked;
+            }
+            
+			if (Preferences.EnclosureAlert != propertiesDialog.checkEnableEnclosureAlerts.Checked)
+            {
+				FeedSource.EnclosureAlert = Preferences.EnclosureAlert = 
+					propertiesDialog.checkEnableEnclosureAlerts.Checked;
             }
 
-            //move to config but leave as instance
-            if (this.feedHandler.DownloadEnclosures != propertiesDialog.checkDownloadEnclosures.Checked)
-            {
-                this.feedHandler.DownloadEnclosures = propertiesDialog.checkDownloadEnclosures.Checked;
-                this.feedlistModified = true;
-            }
-            //move to config but leave as instance
-            if (this.feedHandler.EnclosureAlert != propertiesDialog.checkEnableEnclosureAlerts.Checked)
-            {
-                this.feedHandler.EnclosureAlert = propertiesDialog.checkEnableEnclosureAlerts.Checked;
-                this.feedlistModified = true;
-            }
             //make static
             if (this.feedHandler.CreateSubfoldersForEnclosures !=
                 propertiesDialog.checkDownloadCreateFolderPerFeed.Checked)
@@ -1986,10 +2009,12 @@ namespace RssBandit
         {
 			this.ApplyMaxItemAge(Preferences.MaxItemAge);
 			this.ApplyRefreshRate(Preferences.RefreshRate);
-            
+            this.ApplyDownloadEnclosures(Preferences.DownloadEnclosures);
+
 			// assigns the globally used proxy:
 			this.Proxy = CreateProxyFrom(Preferences);
             
+			//TODO: same as in Init() ?
 			FeedSource.BuildRelationCosmos = Preferences.BuildRelationCosmos;
 
             try
@@ -2005,7 +2030,8 @@ namespace RssBandit
                                                         GetNewsItemFormatterTemplate());
             }
             FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
-            Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
+            
+			Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
         }
 
 		/// <summary>
@@ -2144,7 +2170,7 @@ namespace RssBandit
 
         private void CheckAndMigrateSettingsAndPreferences()
         {
-            // check, if any migration task have to be applied:
+            // check, if any migration task have been applied. If so, we have to:
         	bool saveChanges = false;
 
             // v.1.2.x to 1.3.x:
@@ -2152,17 +2178,19 @@ namespace RssBandit
             // have to be migrated from Preferences to the default UserIdentity
 
             // Obsolete() warnings can be ignored for that function.
+
             if (!string.IsNullOrEmpty(this.Preferences.UserName) &&
                 string.IsNullOrEmpty(this.Preferences.UserIdentityForComments))
             {
-                if (!this.feedHandler.UserIdentity.ContainsKey(this.Preferences.UserName))
+				if (feedHandler4Migration != null &&
+					!this.feedHandler4Migration.UserIdentity.ContainsKey(this.Preferences.UserName))
                 {
                     //create a UserIdentity from Prefs. properties
                     UserIdentity ui = new UserIdentity();
                     ui.Name = ui.RealName = this.Preferences.UserName;
                     ui.ResponseAddress = ui.MailAddress = this.Preferences.UserMailAddress;
                     ui.ReferrerUrl = this.Preferences.Referer;
-                    this.feedHandler.UserIdentity.Add(ui.Name, ui);
+					this.feedHandler4Migration.UserIdentity.Add(ui.Name, ui);
                     this.feedlistModified = true;
                 }
                 else
@@ -2178,19 +2206,81 @@ namespace RssBandit
 				saveChanges = true;
             }
 
-			// did we ever wrote a valid value for refreshrate?
-			if (this.Preferences.RefreshRate < 0) {
-				// no: take over from previous version, as we stored that in feedlist_
-				this.Preferences.RefreshRate = feedHandler.RefreshRateFromPreviousVersion; // loaded from feedlist or default setting
+			// 1.6.x migrations to phoenix (2.0):
+
+			// migrate refreshrate:
+			if (FeedSource.MigrationProperties.ContainsKey("Stylesheet") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["Stylesheet"]))
+			{
+				// take over from previous version, as we stored that in feedlist:
+				this.Preferences.NewsItemStylesheetFile = (string)FeedSource.MigrationProperties["Stylesheet"]; // loaded from feedlist or default setting
+				try
+				{
+					this.NewsItemFormatter.AddXslStyleSheet(Preferences.NewsItemStylesheetFile, GetNewsItemFormatterTemplate());
+				}
+				catch
+				{
+					Preferences.NewsItemStylesheetFile = String.Empty;
+					this.NewsItemFormatter.AddXslStyleSheet(Preferences.NewsItemStylesheetFile, GetNewsItemFormatterTemplate());
+				}
+				
+				FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
+				saveChanges = true;
+			}
+
+			// migrate refreshrate:
+			if (FeedSource.MigrationProperties.ContainsKey("RefreshRate") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["RefreshRate"]))
+			{
+				// take over from previous version, as we stored that in feedlist:
+				this.Preferences.RefreshRate = (int)FeedSource.MigrationProperties["RefreshRate"]; // loaded from feedlist or default setting
 				ApplyRefreshRate(this.Preferences.RefreshRate);
 
 				saveChanges = true;
 			}
 
+			// migrate maxitemage:
+			if (FeedSource.MigrationProperties.ContainsKey("MaxItemAge") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["MaxItemAge"]))
+			{
+				// take over from previous version, as we stored that in feedlist:
+				this.Preferences.MaxItemAge =XmlConvert.ToTimeSpan((string)FeedSource.MigrationProperties["RefreshRate"]); // loaded from feedlist or default setting
+				ApplyMaxItemAge(this.Preferences.MaxItemAge);
+
+				saveChanges = true;
+			}
+
 			// migrate EnclosureFolder saved previously at feedlist to preferences:
-			if (!String.IsNullOrEmpty(FeedSource.EnclosureFolder) &&
-				!String.Equals(FeedSource.EnclosureFolder, this.Preferences.EnclosureFolder, StringComparison.OrdinalIgnoreCase)) {
-				this.Preferences.EnclosureFolder = FeedSource.EnclosureFolder;
+			if (FeedSource.MigrationProperties.ContainsKey("EnclosureFolder") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["EnclosureFolder"]) ) 
+			{
+				this.Preferences.EnclosureFolder = (string)FeedSource.MigrationProperties["EnclosureFolder"];
+				FeedSource.EnclosureFolder = this.Preferences.EnclosureFolder;
+				saveChanges = true;
+			}
+
+			// migrate EnclosureFolder saved previously at feedlist to preferences:
+			if (FeedSource.MigrationProperties.ContainsKey("DownloadEnclosures") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["DownloadEnclosures"]))
+			{
+				this.Preferences.DownloadEnclosures = (bool)FeedSource.MigrationProperties["DownloadEnclosures"];
+				ApplyDownloadEnclosures(this.Preferences.DownloadEnclosures);
+				saveChanges = true;
+			}
+
+			if (FeedSource.MigrationProperties.ContainsKey("EnclosureAlert") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["EnclosureAlert"]))
+			{
+				this.Preferences.EnclosureAlert = (bool)FeedSource.MigrationProperties["EnclosureAlert"];
+				FeedSource.EnclosureAlert = this.Preferences.EnclosureAlert;
+				saveChanges = true;
+			}
+
+			if (FeedSource.MigrationProperties.ContainsKey("MarkItemsReadOnExit") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["MarkItemsReadOnExit"]))
+			{
+				this.Preferences.MarkItemsReadOnExit = (bool)FeedSource.MigrationProperties["MarkItemsReadOnExit"];
+				FeedSource.MarkItemsReadOnExit = this.Preferences.MarkItemsReadOnExit;
 				saveChanges = true;
 			}
 
