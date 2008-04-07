@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
+ * $Id: NewsGatorFeedSource.cs 359 2008-02-24 13:36:21Z carnage4life $
+ * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/NewsGatorFeedSource.cs $
+ * Last modified by $Author: carnage4life $
+ * Last modified at $Date: 2008-02-24 05:36:21 -0800 (Sun, 24 Feb 2008) $
+ * $Revision: 359 $
  */
 #endregion
 
@@ -214,3 +214,4 @@ namespace NewsComponents.Feed {
         #endregion
     }
 }
+

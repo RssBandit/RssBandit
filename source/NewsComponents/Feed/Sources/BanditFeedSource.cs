@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
+ * $Id: BanditFeedSource.cs 463 2008-04-07 13:09:49Z t_rendelmann $
+ * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/BanditFeedSource.cs $
+ * Last modified by $Author: t_rendelmann $
+ * Last modified at $Date: 2008-04-07 06:09:49 -0700 (Mon, 07 Apr 2008) $
+ * $Revision: 463 $
  */
 #endregion
 
