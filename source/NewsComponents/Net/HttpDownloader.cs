@@ -134,9 +134,9 @@ namespace NewsComponents.Net
                                                                    FeedSource.UserAgentString(String.Empty),
                                                                    task.DownloadItem.Proxy,
                                                                    DateTime.MinValue,
-                                                                   null,
+                                                                   null /* eTag */,
                                                                    Convert.ToInt32(maxWaitTime.TotalSeconds), 
-                                                                   null, null);
+                                                                   null /* cookie */, null /* body */, null /* newsGatorAPIToken */);
 
             OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null,
                               DateTime.MinValue, RequestResult.OK, 0);

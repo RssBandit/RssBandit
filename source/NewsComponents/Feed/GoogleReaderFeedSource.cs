@@ -58,11 +58,6 @@ namespace NewsComponents.Feed
         private static readonly string apiUrlPrefix = @"http://www.google.com/reader/api/0/";
 
         /// <summary>
-        /// The namespace URI for Google Reader's Atom extensions
-        /// </summary>
-        private static readonly string googleReaderNS = "http://www.google.com/schemas/reader/atom/";
-
-        /// <summary>
         /// Qname for the google reader continuation token found in a Google Reader Atom feed. 
         /// </summary>
         private static readonly XmlQualifiedName continuationQName = new XmlQualifiedName("continuation", "http://www.google.com/schemas/reader/atom/");
@@ -625,7 +620,7 @@ namespace NewsComponents.Feed
         /// <param name="requestUri">The URI of the feed</param>
         /// <param name="e">The exception</param>
         /// <param name="priority">The priority of the request</param>
-        protected virtual void OnRequestException(Uri requestUri, Exception e, int priority)
+        protected override void OnRequestException(Uri requestUri, Exception e, int priority)
         {
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
