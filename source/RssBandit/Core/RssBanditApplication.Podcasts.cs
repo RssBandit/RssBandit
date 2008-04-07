@@ -18,7 +18,7 @@ namespace RssBandit
         {
             get
             {
-                return FeedSource.EnclosureFolder;
+				return Preferences.EnclosureFolder;
             }
         }
 
@@ -87,7 +87,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.EnclosureAlert;
+                return Preferences.EnclosureAlert;
             }
         }
 
@@ -98,7 +98,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.DownloadEnclosures;
+                return Preferences.DownloadEnclosures;
             }
         }
 

@@ -19,6 +19,7 @@ using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Text;
 using System.Collections.Generic;
+using NewsComponents;
 using NewsComponents.Utils;
 using Logger = RssBandit.Common.Logging;
 using RssBandit.WinGui.Utility;
@@ -68,7 +69,9 @@ namespace RssBandit {
 			SinglePodcastPlaylist = 0x400000,
 			AllowAppEventSounds = 0x800000,
 			ShowAllNewsItemsPerPage = 0x1000000,
-			DisableAutoMarkItemsRead = 0x2000000
+			DisableAutoMarkItemsRead = 0x2000000,
+			DownloadEnclosures = 0x4000000,
+			EnclosureAlert = 0x8000000,
 		}
 
 		private OptionalFlags allOptionalFlags;
@@ -79,7 +82,7 @@ namespace RssBandit {
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditPreferences));
 		
         //new 2.0.x
-		private int refreshRate = -1;	// indicates we may have to migrate the value from subscription list
+		private int refreshRate = FeedSource.DefaultRefreshRate;	
         private TextSize readingPaneTextSize = TextSize.Medium;
 
 		//new 1.5.x
@@ -915,6 +918,35 @@ namespace RssBandit {
 		}
 
 		/// <summary>
+		/// Sets/Get a value that control if enclosures should be downloaded
+		/// </summary>
+		public bool DownloadEnclosures
+		{
+			[DebuggerStepThrough]
+			get { return GetOption(OptionalFlags.DownloadEnclosures); }
+			set
+			{
+				SetOption(OptionalFlags.DownloadEnclosures, value);
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("DownloadEnclosures"));
+			}
+		}
+		/// <summary>
+		/// Sets/Get a value that control if an alert should be displayed if enclosures are downloaded
+		/// </summary>
+		public bool EnclosureAlert
+		{
+			[DebuggerStepThrough]
+			get { return GetOption(OptionalFlags.EnclosureAlert); }
+			set
+			{
+				SetOption(OptionalFlags.EnclosureAlert, value);
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("EnclosureAlert"));
+			}
+		}
+
+		/// <summary>
 		/// Sets/Get the behavior how to handle requests to open new
 		/// window(s) while browsing
 		/// </summary>
@@ -1302,7 +1334,7 @@ namespace RssBandit {
 
             this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
 
-			this.RefreshRate = reader.GetInt("RefreshRate", -1);
+			this.RefreshRate = reader.GetInt("RefreshRate", FeedSource.DefaultRefreshRate);
 			this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
 		}
 
