@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
+ * $Id: GoogleReaderFeedSource.cs 462 2008-04-07 00:19:34Z Carnage4Life $
+ * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/GoogleReaderFeedSource.cs $
+ * Last modified by $Author: Carnage4Life $
+ * Last modified at $Date: 2008-04-06 17:19:34 -0700 (Sun, 06 Apr 2008) $
+ * $Revision: 462 $
  */
 #endregion
 
