@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
+ * $Id: WindowsRssFeedSource.cs 458 2008-04-06 01:27:08Z Carnage4Life $
+ * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/WindowsRssFeedSource.cs $
+ * Last modified by $Author: Carnage4Life $
+ * Last modified at $Date: 2008-04-05 18:27:08 -0700 (Sat, 05 Apr 2008) $
+ * $Revision: 458 $
  */
 #endregion
 
