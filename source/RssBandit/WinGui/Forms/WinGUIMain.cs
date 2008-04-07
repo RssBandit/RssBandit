@@ -11546,7 +11546,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTimerFeedsRefreshElapsed(object sender, ElapsedEventArgs e)
         {
-            if (owner.InternetAccessAllowed && owner.FeedHandler.RefreshRate > 0)
+			if (owner.InternetAccessAllowed && owner.CurrentGlobalRefreshRateMinutes > 0)
             {
                 UpdateAllFeeds(false);
             }
@@ -11554,7 +11554,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTimerCommentFeedsRefreshElapsed(object sender, ElapsedEventArgs e)
         {
-            if (owner.InternetAccessAllowed && owner.FeedHandler.RefreshRate > 0)
+			if (owner.InternetAccessAllowed && owner.CurrentGlobalRefreshRateMinutes > 0)
             {
                 UpdateAllCommentFeeds(true);
             }

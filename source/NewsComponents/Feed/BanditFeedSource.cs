@@ -60,7 +60,6 @@ namespace NewsComponents.Feed
 
             // initialize (later on loaded from feedlist):
             this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
-            EnclosureFolder = this.Configuration.DownloadedFilesDataPath;
 
             if (!String.IsNullOrEmpty(EnclosureFolder))
             {
@@ -142,7 +141,9 @@ namespace NewsComponents.Feed
             XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
             feeds myFeeds = (feeds)serializer.Deserialize(reader);
             reader.Close();
-           
+
+        	// reset migration properties dictionary:
+			FeedSource.MigrationProperties.Clear();
 
             //copy over category info if we are importing a new feed
             if (myFeeds.categories != null)
@@ -252,26 +253,25 @@ namespace NewsComponents.Feed
             }
 
 			/* 
-			 * now set by configuration, but required for migration:
+			 * props. set by configuration/static, but required for migration:
 			 */ 
                 //if refresh rate in imported feed then use that
             if (myFeeds.refreshrateSpecified)
             {
-                this.RefreshRateFromPreviousVersion = myFeeds.refreshrate;
+				FeedSource.MigrationProperties.Add("RefreshRate", myFeeds.refreshrate);
             }
 			
-			/* not anymore required to store that in feedlist/now provided via config:
-                    
-                //if stylesheet specified in imported feed then use that
+			//if stylesheet specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.stylesheet))
             {
-                this.stylesheet = myFeeds.stylesheet;
+				FeedSource.MigrationProperties.Add("Stylesheet", myFeeds.stylesheet);
+                //this.stylesheet = myFeeds.stylesheet;
             }
-			*/
+			
                 //if download enclosures specified in imported feed then use that
             if (myFeeds.downloadenclosuresSpecified)
             {
-                this.downloadenclosures = myFeeds.downloadenclosures;
+				FeedSource.MigrationProperties.Add("DownloadEnclosures", myFeeds.downloadenclosures);
             }
 
                 //if maximum enclosure cache size specified in imported feed then use that
@@ -289,7 +289,8 @@ namespace NewsComponents.Feed
                 //if cause alert on enclosures specified in imported feed then use that
             if (myFeeds.enclosurealertSpecified)
             {
-                this.enclosurealert = myFeeds.enclosurealert;
+            	FeedSource.MigrationProperties.Add("EnclosureAlert", myFeeds.enclosurealert);
+                //this.enclosurealert = myFeeds.enclosurealert;
             }
 
                 //if create subfolders for enclosures specified in imported feed then use that
@@ -298,18 +299,18 @@ namespace NewsComponents.Feed
                 this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
             }
 
-			/* not anymore required to store that in feedlist/now provided via config:
-            
+			
                 //if marking items as read on exit specified in imported feed then use that
             if (myFeeds.markitemsreadonexitSpecified)
             {
-                this.markitemsreadonexit = myFeeds.markitemsreadonexit;
+				FeedSource.MigrationProperties.Add("MarkItemsReadOnExit", myFeeds.markitemsreadonexit);
+                //this.markitemsreadonexit = myFeeds.markitemsreadonexit;
             }
-			*/
-                //if enclosure folder specified in imported feed then use that
+			
+			//if enclosure folder specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
             {
-                EnclosureFolder = myFeeds.enclosurefolder;
+				FeedSource.MigrationProperties.Add("EnclosureFolder", myFeeds.enclosurefolder);
             }
 
                 //if podcast folder specified in imported feed then use that
@@ -336,7 +337,8 @@ namespace NewsComponents.Feed
             {
                 if (!string.IsNullOrEmpty(myFeeds.maxitemage))
                 {
-                    this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
+					FeedSource.MigrationProperties.Add("MaxItemAge", myFeeds.maxitemage);
+                    //this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
                 }
             }
             catch (FormatException fe)

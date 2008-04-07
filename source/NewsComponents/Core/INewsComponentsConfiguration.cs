@@ -94,6 +94,13 @@ namespace NewsComponents
 		/// </summary>
 		/// <value>The refresh rate.</value>
 		int RefreshRate { get; }
+
+		/// <summary>
+		/// Gets a value that control if enclosures should be downloaded
+		/// </summary>
+		/// <value><c>true</c> if [download enclosures]; otherwise, <c>false</c>.</value>
+		bool DownloadEnclosures { get; }
+		
 	}
 
 	#endregion
@@ -193,7 +200,8 @@ namespace NewsComponents
 		protected CacheManager p_cacheManager = null;
 
 		protected int p_refreshRate = -1;
-
+		private bool downloadEnclosures;
+		
 		#region INewsComponentsConfiguration Members
 
 		/// <summary>
@@ -307,7 +315,7 @@ namespace NewsComponents
 		/// Gets the refresh rate in millisecs.
 		/// </summary>
 		/// <value>The refresh rate.</value>
-		public int RefreshRate {
+		public virtual int RefreshRate {
 			get {
 				if (p_refreshRate >= 0)
 					return p_refreshRate;
@@ -318,6 +326,19 @@ namespace NewsComponents
 				this.OnPropertyChanged("RefreshRate");
 			}
 		}
+
+		/// <summary>
+		/// Gets a value that control if enclosures should be downloaded
+		/// </summary>
+		/// <value><c>true</c> if [download enclosures]; otherwise, <c>false</c>.</value>
+		public virtual bool DownloadEnclosures {
+			get { return downloadEnclosures; }
+			set { 
+				downloadEnclosures = value;
+				this.OnPropertyChanged("DownloadEnclosures");
+			}
+		}
+
 		#endregion
 		
 		/// <summary>

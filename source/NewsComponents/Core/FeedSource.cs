@@ -234,8 +234,12 @@ namespace NewsComponents
 
         #region static properties 
 
-        private static INewsComponentsConfiguration defaultConfiguration; 
+        private static INewsComponentsConfiguration defaultConfiguration;
 
+		/// <summary>
+		/// Gets or sets the default NewsComponents configuration.
+		/// </summary>
+		/// <value>The default configuration.</value>
         public static INewsComponentsConfiguration DefaultConfiguration {
 
             get { return defaultConfiguration ?? NewsComponentsConfiguration.Default; }
@@ -284,7 +288,12 @@ namespace NewsComponents
                     "INewsComponentsConfiguration.UserLocalApplicationDataPath cannot be null or empty.");
         }
 
-        /// <summary>
+		/// <summary>
+		/// Gets the dictionary of (old) properties to migrate in a newer version
+		/// </summary>
+    	public static readonly Dictionary<string, object> MigrationProperties = new Dictionary<string, object>();
+        
+		/// <summary>
         /// Gets the cache manager.
         /// </summary>
         /// <value>The cache manager.</value>
@@ -1038,28 +1047,6 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Indicates whether enclosures should be downloaded in the background.
-        /// </summary>
-        protected bool downloadenclosures;
-
-        /// <summary>
-        /// Gets or sets whether enclosures should be downloaded in the background
-        /// </summary>
-        public bool DownloadEnclosures
-        {
-            get
-            {
-                return this.downloadenclosures;
-            }
-
-            set
-            {
-                this.downloadenclosures = value;
-            }
-        }
-
-
-        /// <summary>
         /// Indicates the maximum amount of space that enclosures and podcasts can use on disk.
         /// </summary>
         protected int enclosurecachesize = Int32.MaxValue;
@@ -1130,22 +1117,22 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether enclosures should be downloaded in the background.
         /// </summary>
-        protected bool enclosurealert;
+        private static bool enclosurealert;
 
         /// <summary>
         /// Gets or sets whether a toast windows should be displayed on a successful download
         /// of an enclosure.
         /// </summary>
-        public bool EnclosureAlert
+        public static bool EnclosureAlert
         {
             get
             {
-                return this.enclosurealert;
+                return enclosurealert;
             }
 
             set
             {
-                this.enclosurealert = value;
+                enclosurealert = value;
             }
         }
 
@@ -2581,13 +2568,6 @@ namespace NewsComponents
 		/// </summary>
     	public static int DefaultRefreshRate = 60*60*1000;
         
-		/// <summary>
-        /// How often feeds are refreshed by default if no specific rate specified by the feed. 
-        /// The value is specified in milliseconds. 
-        /// </summary>
-        /// <remarks>By default this value is set to one hour. </remarks>
-		private int refreshrate4migration = DefaultRefreshRate;
-
         /// <summary>
         ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
         ///  Setting this property resets the refresh rate for all feeds. 
@@ -2633,15 +2613,6 @@ namespace NewsComponents
             }
         }
 
-		/// <summary>
-		/// Gets the refresh rate used by a previous version (before phoenix).
-		/// Used for migration.
-		/// </summary>
-		/// <value>The refresh rate from previous version.</value>
-    	public int RefreshRateFromPreviousVersion {
-			internal set { refreshrate4migration = value; }
-			get { return refreshrate4migration; }
-    	}
 
 		/// <summary>
 		/// Resets all refresh rate settings at feeds and categories.
@@ -3315,16 +3286,17 @@ namespace NewsComponents
 
                 if (feeds != null)
                 {
-					/* not anymore required to store that in feedlist/now provided via config:
+					/* 
+					 * not anymore required to store that in feedlist.
+					 * now provided via config/static:
+					 * 
                     feedlist.refreshrate = this.refreshrate;
                     feedlist.refreshrateSpecified = true;
-					*/
                     feedlist.downloadenclosures = this.downloadenclosures;
                     feedlist.downloadenclosuresSpecified = true;
-
                     feedlist.enclosurealert = this.enclosurealert;
                     feedlist.enclosurealertSpecified = true;
-
+*/
                     feedlist.createsubfoldersforenclosures = this.createsubfoldersforenclosures;
                     feedlist.createsubfoldersforenclosuresSpecified = true;
 
@@ -3334,7 +3306,7 @@ namespace NewsComponents
                     feedlist.enclosurecachesize = this.enclosurecachesize;
                     feedlist.enclosurecachesizeSpecified = true;
 
-                    feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
+                    //feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
                     feedlist.listviewlayout = this.listviewlayout;
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
@@ -7291,7 +7263,7 @@ namespace NewsComponents
     	/// <value>The refreshrate.</value>
     	int ISharedProperty.refreshrate {
     		get { return this.RefreshRate; }
-			set { /* ignore */ }
+			set { /* ignored at top level */ }
     	}
 
     	/// <summary>
@@ -7300,7 +7272,7 @@ namespace NewsComponents
     	/// <value><c>true</c> if [refresh rate specified]; otherwise, <c>false</c>.</value>
     	bool ISharedProperty.refreshrateSpecified {
     		get { return true; }
-			set { /* ignore */ }
+			set { /* ignored */ }
     	}
 
     	/// <summary>
@@ -7308,8 +7280,8 @@ namespace NewsComponents
     	/// </summary>
     	/// <value><c>true</c> if download enclosures; otherwise, <c>false</c>.</value>
     	bool ISharedProperty.downloadenclosures {
-    		get { return this.DownloadEnclosures; }
-			set { this.DownloadEnclosures = value; }
+    		get { return p_configuration.DownloadEnclosures; }
+			set { /* ignored at top level */ }
     	}
 
     	/// <summary>
@@ -7328,8 +7300,8 @@ namespace NewsComponents
     	/// </summary>
     	/// <value><c>true</c> if enclosurealert; otherwise, <c>false</c>.</value>
     	bool ISharedProperty.enclosurealert {
-    		get { return this.EnclosureAlert; }
-			set { this.EnclosureAlert = value; }
+    		get { return EnclosureAlert; }
+			set {  /* ignore at top level */  }
     	}
 
     	/// <summary>
