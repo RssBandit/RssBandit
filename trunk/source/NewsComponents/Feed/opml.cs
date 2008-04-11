@@ -28,6 +28,8 @@
 
         private string titleField;
 
+        private string textField;
+
         private string idField;
 
         private string xmlUrlField;
@@ -78,6 +80,20 @@
             set
             {
                 this.outlineField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string text
+        {
+            get
+            {
+                return this.textField;
+            }
+            set
+            {
+                this.textField = value;
             }
         }
 
