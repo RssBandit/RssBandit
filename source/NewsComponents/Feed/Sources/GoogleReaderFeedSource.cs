@@ -363,11 +363,11 @@ namespace NewsComponents.Feed
         }
 
 		/// <summary>
-		/// Returns a CookieCollection containing a cookie with the specified SID
+		/// Returns a cookie with the specified SID
 		/// </summary>
 		/// <param name="sid">The user's SID.</param>
 		/// <returns>
-		/// A cookie collection with the Google cookie created from the SID
+		/// The Google cookie created from the SID
 		/// </returns>
         private static Cookie MakeGoogleCookie(string sid)
         {

@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO; 
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -17,6 +18,10 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
+using log4net;
+
+using RssBandit.Common.Logging;
 
 using NewsComponents.Net;
 using NewsComponents.Search;
@@ -31,6 +36,10 @@ namespace NewsComponents.Feed {
         #region private fields
 
 
+        // logging/tracing:
+        private static readonly ILog _log = Log.GetLogger(typeof(NewsGatorFeedSource));
+
+
         /// <summary>
 		/// The Newsgator Online sync token.
 		/// </summary>
@@ -40,6 +49,11 @@ namespace NewsComponents.Feed {
         /// The NewsGator API key for RSS Bandit
         /// </summary>
         private static readonly string NgosProductKey = "7AF62582A5334A9CADF967818E734558";
+
+        /// <summary>
+        /// HTTP header containing the NewsGator API key. Needed for every Web request to NewsGator Online. 
+        /// </summary>
+        private static readonly WebHeaderCollection NgosTokenHeader = new WebHeaderCollection(); 
 
         /// <summary>
         /// The name for this location. Used for identifying synchronization endpoints in the NewsGator Online UI
@@ -73,7 +87,15 @@ namespace NewsComponents.Feed {
 
         #endregion 
 
-        #region constructor
+        #region constructors
+
+        /// <summary>
+        /// Static constructor
+        /// </summary>
+       static NewsGatorFeedSource()
+       {
+           NgosTokenHeader.Add("X-NGAPIToken", NgosProductKey); 
+       }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeedSource"/> class.
@@ -131,11 +153,39 @@ namespace NewsComponents.Feed {
         #region feed list methods
 
         /// <summary>
+        /// Creates the location for this synchronization endpoint in NewsGator Online
+        /// </summary>
+        private void CreateLocation()
+        {
+            opml location = new opml();
+            location.body = new opmloutline[1];
+            opmloutline outline = new opmloutline();
+            outline.text = NgosLocationName;
+            location.body[0] = outline;
+
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
+            StringBuilder sb = new StringBuilder(); 
+            StringWriter sw  = new StringWriter(sb);
+            serializer.Serialize(sw, location); 
+
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(LocationApiUrl, sb.ToString(), this.location.Credentials , this.Proxy, NgosTokenHeader);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _log.Debug(String.Format("Error occured when creating location in NewsGator Online: {0}-{1}", response.StatusCode, response.StatusDescription));
+            }
+        }
+
+
+        /// <summary>
         /// Loads the user's feed list from NewsGator Online. In addition, sets the current NgosSyncToken property 
         /// </summary>
         /// <returns>The feed list from NewsGator Online</returns>
         private feeds LoadFeedlistFromNewsGatorOnline()
         {
+            //first step is to create Location, we do this in case this is first time syncing from here or it got deleted somehow
+            this.CreateLocation(); 
+
             /*
             string feedlistUrl = apiUrlPrefix + "subscription/list";
 
@@ -165,7 +215,7 @@ namespace NewsComponents.Feed {
             feeds myFeeds = (feeds)serializer.Deserialize(reader);
             reader.Close();
 
-            //load feed list from Google Reader and use settings from subscriptions.xml
+            //load feed list from NewsGator Online and use settings from subscriptions.xml
             this.BootstrapAndLoadFeedlist(myFeeds);
         }
 

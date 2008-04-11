@@ -1110,10 +1110,10 @@ namespace NewsComponents.Net
         /// If zero or less than zero, the default timeout of one minute will be used</param>
         /// <param name="cookie">HTTP cookie to send along with the request</param>
         /// <param name="body">The body of the request (if it is POST request)</param>
-        /// <param name="newsGatorAPIToken">This is used to specify the API key for the NewsGator API</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>
         /// <returns>WebResponse</returns>
         public static WebResponse GetSyncResponse(HttpMethod method, string address, ICredentials credentials, string userAgent,
-                                                  IWebProxy proxy, DateTime ifModifiedSince, string eTag, int timeout, Cookie cookie, string body, string newsGatorAPIToken)
+                                                  IWebProxy proxy, DateTime ifModifiedSince, string eTag, int timeout, Cookie cookie, string body, WebHeaderCollection additonalHeaders)
         {
             try
             {
@@ -1133,9 +1133,9 @@ namespace NewsComponents.Net
                     httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
                     httpRequest.Method = method.ToString();
 
-                    if (newsGatorAPIToken != null)
+                    if (additonalHeaders != null)
                     {
-                        httpRequest.Headers.Add("X-NGAPIToken", newsGatorAPIToken);
+                        httpRequest.Headers.Add(additonalHeaders);
                     }
 
                     if (cookie != null)
@@ -1276,7 +1276,25 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
-                                      null /* eTag */, DefaultTimeout, cookie, body, null /* newsGatorAPIToken */) as HttpWebResponse;
+                                      null /* eTag */, DefaultTimeout, cookie, body, null /* additonalHeaders */) as HttpWebResponse;
+        }
+
+        /// <summary>
+        /// Can be called syncronized to get a Http Web Response.
+        /// </summary>
+        /// <param name="address">Url to request</param>
+        /// <param name="body">The body of the request</param>
+        /// <param name="cookies">The cookies to send with the request</param>
+        /// <param name="credentials">Url credentials</param>
+        /// <param name="proxy">Proxy to use</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+        public static HttpWebResponse PostSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
+        {
+
+            DateTime ifModifiedSince = MinValue;
+            return
+                GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
+                                      null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
         }
 
         /// <summary>
@@ -1294,7 +1312,7 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(HttpMethod.POST, address, out newAddress, credentials, FullUserAgent(null), proxy, ref ifModifiedSince,
-                                      ref eTag, DefaultTimeout, out result, cookie, body, null /* newsGatorAPIToken */);
+                                      ref eTag, DefaultTimeout, out result, cookie, body, null /* additonalHeaders */);
         }
 
         /// <summary>
@@ -1350,7 +1368,7 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(HttpMethod.GET, address, out newAddress, credentials, userAgent, proxy, ref ifModifiedSince,
-                                      ref eTag, timeout, out result, null /* cookie */, null /* body */, null /* newsGatorAPIToken */ );
+                                      ref eTag, timeout, out result, null /* cookie */, null /* body */, null /* additonalHeaders */ );
         }
 
         /// <summary>
@@ -1368,7 +1386,7 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(HttpMethod.GET, address, out newAddress, credentials, FullUserAgent(null), proxy, ref ifModifiedSince,
-                                      ref eTag, DefaultTimeout, out result, cookie, null /* body */, null /* newsGatorAPIToken */);
+                                      ref eTag, DefaultTimeout, out result, cookie, null /* body */, null /* additonalHeaders */);
         }
 
         /// <summary>
@@ -1388,7 +1406,7 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponseStream(HttpMethod.GET, address, out newAddress, credentials, userAgent, proxy, ref ifModifiedSince,
-                                      ref eTag, timeout, out result, null /* cookie */, null /* body */, null /* newsGatorAPIToken */);
+                                      ref eTag, timeout, out result, null /* cookie */, null /* body */, null /* additonalHeaders */);
         }
 
         /// <summary>
@@ -1407,12 +1425,12 @@ namespace NewsComponents.Net
         /// <param name="responseResult">out. Result of the request</param>
         /// <param name="cookie">The cookie associated with the request</param>
         /// <param name="body">The body of the HTTP request (if it is a POST)</param>
-        /// <param name="newsGatorAPIToken">This is used to specify the API key for the NewsGator API</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>
         /// <returns>Stream</returns>
         public static Stream GetSyncResponseStream(HttpMethod method, string address, out string newAddress, ICredentials credentials,
                                                    string userAgent,
                                                    IWebProxy proxy, ref DateTime ifModifiedSince, ref string eTag,
-                                                   int timeout, out RequestResult responseResult, Cookie cookie, string body, string newsGatorAPIToken)
+                                                   int timeout, out RequestResult responseResult, Cookie cookie, string body, WebHeaderCollection additonalHeaders)
         {
             bool useDefaultCred = false;
             int requestRetryCount = 0;
@@ -1427,7 +1445,7 @@ namespace NewsComponents.Net
                 credentials = CredentialCache.DefaultCredentials;
 
             WebResponse wr =
-                GetSyncResponse(method, address, credentials, userAgent, proxy, ifModifiedSince, eTag, timeout, cookie, body, newsGatorAPIToken);
+                GetSyncResponse(method, address, credentials, userAgent, proxy, ifModifiedSince, eTag, timeout, cookie, body, additonalHeaders);
 
             HttpWebResponse response = wr as HttpWebResponse;
             FileWebResponse fileresponse = wr as FileWebResponse;
