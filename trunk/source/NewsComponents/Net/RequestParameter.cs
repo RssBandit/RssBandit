@@ -208,8 +208,16 @@ namespace NewsComponents.Net
             get { return this.setCookies; }
             set { this.setCookies = value; }
         }
-
+        
+        /// <summary>
+        /// Cookies to be used when sending the request
+        /// </summary>
         public CookieCollection Cookies { get; set; }
+
+        /// <summary>
+        /// Additional HTTP headers that should be sent. 
+        /// </summary>
+        public WebHeaderCollection Headers { get; set; }
 		
 		#endregion
 	}
