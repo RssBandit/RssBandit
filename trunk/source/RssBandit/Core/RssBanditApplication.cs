@@ -1955,13 +1955,11 @@ namespace RssBandit
 					propertiesDialog.checkEnableEnclosureAlerts.Checked;
             }
 
-            //make static
-            if (this.feedHandler.CreateSubfoldersForEnclosures !=
+            if (Preferences.CreateSubfoldersForEnclosures !=
                 propertiesDialog.checkDownloadCreateFolderPerFeed.Checked)
             {
-                this.feedHandler.CreateSubfoldersForEnclosures =
+                FeedSource.CreateSubfoldersForEnclosures = Preferences.CreateSubfoldersForEnclosures =
                     propertiesDialog.checkDownloadCreateFolderPerFeed.Checked;
-                this.feedlistModified = true;
             }
 
             //make static
@@ -2273,6 +2271,14 @@ namespace RssBandit
 			{
 				this.Preferences.EnclosureAlert = (bool)FeedSource.MigrationProperties["EnclosureAlert"];
 				FeedSource.EnclosureAlert = this.Preferences.EnclosureAlert;
+				saveChanges = true;
+			}
+
+			if (FeedSource.MigrationProperties.ContainsKey("CreateSubfoldersForEnclosures") &&
+				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["CreateSubfoldersForEnclosures"]))
+			{
+				this.Preferences.CreateSubfoldersForEnclosures = (bool)FeedSource.MigrationProperties["CreateSubfoldersForEnclosures"];
+				FeedSource.CreateSubfoldersForEnclosures = this.Preferences.CreateSubfoldersForEnclosures;
 				saveChanges = true;
 			}
 

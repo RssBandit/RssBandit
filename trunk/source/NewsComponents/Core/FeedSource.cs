@@ -1095,22 +1095,22 @@ namespace NewsComponents
         /// Indicates whether podcasts and enclosures should be downloaded to a folder 
         /// named after the feed. 
         /// </summary>
-        protected bool createsubfoldersforenclosures;
+        static bool createsubfoldersforenclosures;
 
         /// <summary>
         /// Gets or sets whether  podcasts and enclosures should be downloaded to a folder 
         /// named after the feed
         /// </summary>
-        public bool CreateSubfoldersForEnclosures
+        public static bool CreateSubfoldersForEnclosures
         {
             get
             {
-                return this.createsubfoldersforenclosures;
+                return createsubfoldersforenclosures;
             }
 
             set
             {
-                this.createsubfoldersforenclosures = value;
+                createsubfoldersforenclosures = value;
             }
         }
 
@@ -3296,10 +3296,10 @@ namespace NewsComponents
                     feedlist.downloadenclosuresSpecified = true;
                     feedlist.enclosurealert = this.enclosurealert;
                     feedlist.enclosurealertSpecified = true;
-*/
+
                     feedlist.createsubfoldersforenclosures = this.createsubfoldersforenclosures;
                     feedlist.createsubfoldersforenclosuresSpecified = true;
-
+*/
                     feedlist.numtodownloadonnewfeed = this.numtodownloadonnewfeed;
                     feedlist.numtodownloadonnewfeedSpecified = true;
 
@@ -3318,7 +3318,13 @@ namespace NewsComponents
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
                     feedlist.markitemsreadonexitSpecified = true;
 					*/
+
+					// refactored props that do not need anymore stored in feedlist:
 					feedlist.markitemsreadonexitSpecified = false;
+					feedlist.downloadenclosuresSpecified = false;
+					feedlist.enclosurealertSpecified = false;
+					feedlist.refreshrateSpecified = false;
+					feedlist.createsubfoldersforenclosuresSpecified = false;
 
                     foreach (INewsFeed f in feeds.Values)
                     {
@@ -4235,7 +4241,7 @@ namespace NewsComponents
         {
             string folderName = (IsPodcast(filename) ? this.PodcastFolder : EnclosureFolder);
 
-            if (this.CreateSubfoldersForEnclosures && feedsTable.ContainsKey(feedUrl))
+            if (CreateSubfoldersForEnclosures && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
                 folderName = Path.Combine(folderName, FileHelper.CreateValidFileName(f.title));

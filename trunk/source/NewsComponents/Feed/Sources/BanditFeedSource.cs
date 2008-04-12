@@ -296,7 +296,8 @@ namespace NewsComponents.Feed
                 //if create subfolders for enclosures specified in imported feed then use that
             if (myFeeds.createsubfoldersforenclosuresSpecified)
             {
-                this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
+				FeedSource.MigrationProperties.Add("CreateSubfoldersForEnclosures", myFeeds.createsubfoldersforenclosures);
+				//this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
             }
 
 			

@@ -41,7 +41,7 @@ namespace RssBandit {
 		/// we now use one store to track the bool states.
 		/// </summary>
 		[Flags,Serializable]
-		private enum OptionalFlags
+		private enum OptionalFlags:long
 		{
 			AllOff = 0,
 			CustomProxy = 0x1,
@@ -72,6 +72,7 @@ namespace RssBandit {
 			DisableAutoMarkItemsRead = 0x2000000,
 			DownloadEnclosures = 0x4000000,
 			EnclosureAlert = 0x8000000,
+			CreateSubfoldersForEnclosures = 0x100000000,
 		}
 
 		private OptionalFlags allOptionalFlags;
@@ -947,6 +948,25 @@ namespace RssBandit {
 		}
 
 		/// <summary>
+		/// Gets or sets whether  podcasts and enclosures should be downloaded to a folder 
+		/// named after the feed
+		/// </summary>
+		public bool CreateSubfoldersForEnclosures
+		{
+			get
+			{
+				return GetOption(OptionalFlags.CreateSubfoldersForEnclosures); 
+			}
+
+			set
+			{
+				SetOption(OptionalFlags.CreateSubfoldersForEnclosures, value);
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("CreateSubfoldersForEnclosures"));
+			}
+		}
+
+		/// <summary>
 		/// Sets/Get the behavior how to handle requests to open new
 		/// window(s) while browsing
 		/// </summary>
@@ -1137,7 +1157,8 @@ namespace RssBandit {
 					OptionalFlags.AllowAppEventSounds  | 
 					OptionalFlags.AllowJavascriptInBrowser |
                     OptionalFlags.AllowActiveXInBrowser | 
-                    OptionalFlags.BuildRelationCosmos;
+                    OptionalFlags.BuildRelationCosmos| 
+                    OptionalFlags.CreateSubfoldersForEnclosures;
 				return f;
 			}
 		}
