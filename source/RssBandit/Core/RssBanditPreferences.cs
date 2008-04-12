@@ -109,6 +109,8 @@ namespace RssBandit {
 		private RemoteStorageProtocolType remoteStorageProtocol = RemoteStorageProtocolType.UNC;
 		private string remoteStorageLocation = String.Empty;
 		private string enclosureFolder = String.Empty;
+		private int numEnclosuresToDownloadOnNewFeed;
+		private int enclosureCacheSize;
 
 		private string singlePlaylistName    = String.Empty;
 
@@ -917,6 +919,44 @@ namespace RssBandit {
 					new PropertyChangedEventArgs("EnclosureFolder"));
 			}
 		}
+		/// <summary>
+		/// Indicates the number of enclosures which should be 
+		/// downloaded automatically from a newly subscribed feed.
+		/// </summary>
+		public int NumEnclosuresToDownloadOnNewFeed
+		{
+			get
+			{
+				return this.numEnclosuresToDownloadOnNewFeed;
+			}
+
+			set
+			{
+				this.numEnclosuresToDownloadOnNewFeed = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("NumEnclosuresToDownloadOnNewFeed"));
+			}
+		}
+		/// <summary>
+		/// Indicates the maximum amount of space that enclosures and 
+		/// podcasts can use on disk.
+		/// </summary>
+		public int EnclosureCacheSize
+		{
+			get
+			{
+				return this.enclosureCacheSize;
+			}
+
+			set
+			{
+				this.enclosureCacheSize = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("EnclosureCacheSize"));
+			
+			}
+		}
+
 
 		/// <summary>
 		/// Sets/Get a value that control if enclosures should be downloaded
@@ -1142,6 +1182,9 @@ namespace RssBandit {
 			refererFont = FontColorHelper.DefaultReferenceFont;
 			newCommentsFont = FontColorHelper.DefaultNewCommentsFont;
 
+			numEnclosuresToDownloadOnNewFeed = FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed;
+			enclosureCacheSize = FeedSource.DefaultEnclosureCacheSize;
+
 			// init default options to true:
 			this.allOptionalFlags = DefaultOptionalFlags;
 		}
@@ -1357,6 +1400,8 @@ namespace RssBandit {
 
 			this.RefreshRate = reader.GetInt("RefreshRate", FeedSource.DefaultRefreshRate);
 			this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
+			this.NumEnclosuresToDownloadOnNewFeed = reader.GetInt("NumEnclosuresToDownloadOnNewFeed", FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
+			this.EnclosureCacheSize = reader.GetInt("EnclosureCacheSize", FeedSource.DefaultEnclosureCacheSize);
 		}
 
 		/// <summary>
@@ -1409,6 +1454,8 @@ namespace RssBandit {
             info.AddValue("ReadingPaneTextSize", this.ReadingPaneTextSize);
 			info.AddValue("RefreshRate", this.RefreshRate);
 			info.AddValue("EnclosureFolder", this.EnclosureFolder);
+			info.AddValue("NumEnclosuresToDownloadOnNewFeed", this.NumEnclosuresToDownloadOnNewFeed);
+			info.AddValue("EnclosureCacheSize", this.EnclosureCacheSize);
 		}
 		#endregion
 

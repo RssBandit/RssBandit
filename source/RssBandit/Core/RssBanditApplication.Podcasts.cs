@@ -40,7 +40,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.NumEnclosuresToDownloadOnNewFeed;
+                return Preferences.NumEnclosuresToDownloadOnNewFeed;
             }
         }
 
@@ -52,7 +52,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.EnclosureCacheSize;
+                return Preferences.EnclosureCacheSize;
             }
         }
 

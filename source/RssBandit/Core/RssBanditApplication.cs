@@ -1778,11 +1778,11 @@ namespace RssBandit
 
             if (propertiesDialog.checkCustomFormatter.Checked)
             {
-                FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
+                Preferences.NewsItemStylesheetFile = propertiesDialog.comboFormatters.Text;
             }
             else
             {
-				FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile = String.Empty;
+				Preferences.NewsItemStylesheetFile = String.Empty;
             }
 
         	bool markedForDownloadCalled = false;
@@ -1803,8 +1803,7 @@ namespace RssBandit
 
             if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
-                FeedSource.MarkItemsReadOnExit =
-                    Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
+                Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
             }
 
             if (Preferences.UseFavicons != propertiesDialog.checkUseFavicons.Checked)
@@ -1948,8 +1947,7 @@ namespace RssBandit
 
 			if (!String.Equals(Preferences.EnclosureFolder, propertiesDialog.textEnclosureDirectory.Text, StringComparison.OrdinalIgnoreCase))
             {
-				FeedSource.EnclosureFolder = Preferences.EnclosureFolder = 
-					propertiesDialog.textEnclosureDirectory.Text;
+				Preferences.EnclosureFolder = propertiesDialog.textEnclosureDirectory.Text;
 			}
 
             if (Preferences.DownloadEnclosures != propertiesDialog.checkDownloadEnclosures.Checked)
@@ -1959,45 +1957,37 @@ namespace RssBandit
             
 			if (Preferences.EnclosureAlert != propertiesDialog.checkEnableEnclosureAlerts.Checked)
             {
-				FeedSource.EnclosureAlert = Preferences.EnclosureAlert = 
-					propertiesDialog.checkEnableEnclosureAlerts.Checked;
+				Preferences.EnclosureAlert = propertiesDialog.checkEnableEnclosureAlerts.Checked;
             }
 
             if (Preferences.CreateSubfoldersForEnclosures !=
                 propertiesDialog.checkDownloadCreateFolderPerFeed.Checked)
             {
-                FeedSource.CreateSubfoldersForEnclosures = Preferences.CreateSubfoldersForEnclosures =
+                Preferences.CreateSubfoldersForEnclosures =
                     propertiesDialog.checkDownloadCreateFolderPerFeed.Checked;
             }
 
-            //make static
-            if ((this.feedHandler.NumEnclosuresToDownloadOnNewFeed == Int32.MaxValue) &&
-                propertiesDialog.checkOnlyDownloadLastXAttachments.Checked)
-            {
-                this.feedlistModified = true;
-            }
             if (propertiesDialog.checkOnlyDownloadLastXAttachments.Checked)
             {
-                this.feedHandler.NumEnclosuresToDownloadOnNewFeed =
+                Preferences.NumEnclosuresToDownloadOnNewFeed =
                     Convert.ToInt32(propertiesDialog.numOnlyDownloadLastXAttachments.Value);
             }
             else
             {
-                this.feedHandler.NumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
+                Preferences.NumEnclosuresToDownloadOnNewFeed =
+					 FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed;
             }
-            //make static
-            if ((this.feedHandler.EnclosureCacheSize == Int32.MaxValue) &&
-                propertiesDialog.checkEnclosureSizeOnDiskLimited.Checked)
-            {
-                this.feedlistModified = true;
-            }
+            
+			
             if (propertiesDialog.checkEnclosureSizeOnDiskLimited.Checked)
             {
-                this.feedHandler.EnclosureCacheSize = Convert.ToInt32(propertiesDialog.numEnclosureCacheSize.Value);
+				Preferences.EnclosureCacheSize = 
+					Convert.ToInt32(propertiesDialog.numEnclosureCacheSize.Value);
             }
             else
             {
-                this.feedHandler.EnclosureCacheSize = Int32.MaxValue;
+                Preferences.EnclosureCacheSize =
+					 FeedSource.DefaultEnclosureCacheSize;
             }
 
 
@@ -2035,8 +2025,15 @@ namespace RssBandit
                 this.NewsItemFormatter.AddXslStyleSheet(Preferences.NewsItemStylesheetFile,
                                                         GetNewsItemFormatterTemplate());
             }
-            FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
             
+			FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
+        	FeedSource.EnclosureFolder = Preferences.EnclosureFolder;
+        	FeedSource.EnclosureAlert = Preferences.EnclosureAlert;
+        	FeedSource.CreateSubfoldersForEnclosures = Preferences.CreateSubfoldersForEnclosures;
+        	FeedSource.NumEnclosuresToDownloadOnNewFeed = Preferences.NumEnclosuresToDownloadOnNewFeed;
+        	FeedSource.EnclosureCacheSize = Preferences.EnclosureCacheSize;
+        	FeedSource.MarkItemsReadOnExit =Preferences.MarkItemsReadOnExit;
+			
 			Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
         }
 
@@ -2215,8 +2212,7 @@ namespace RssBandit
 			// 1.6.x migrations to phoenix (2.0):
 
 			// migrate stylesheet:
-			if (FeedSource.MigrationProperties.ContainsKey("Stylesheet") &&
-				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["Stylesheet"]))
+			if (FeedSource.MigrationProperties.ContainsKey("Stylesheet"))
 			{
 				// take over from previous version, as we stored that in feedlist:
 				this.Preferences.NewsItemStylesheetFile = (string)FeedSource.MigrationProperties["Stylesheet"]; // loaded from feedlist or default setting
@@ -2245,8 +2241,7 @@ namespace RssBandit
 			}
 
 			// migrate maxitemage:
-            if (FeedSource.MigrationProperties.ContainsKey("MaxItemAge") &&
-                !String.IsNullOrEmpty((string)FeedSource.MigrationProperties["MaxItemAge"]))
+            if (FeedSource.MigrationProperties.ContainsKey("MaxItemAge"))
 			{
 				// take over from previous version, as we stored that in feedlist:
                 this.Preferences.MaxItemAge = XmlConvert.ToTimeSpan((string)FeedSource.MigrationProperties["MaxItemAge"]); // loaded from feedlist or default setting
@@ -2256,8 +2251,7 @@ namespace RssBandit
 			}
 
 			// migrate EnclosureFolder saved previously at feedlist to preferences:
-			if (FeedSource.MigrationProperties.ContainsKey("EnclosureFolder") &&
-				!String.IsNullOrEmpty((string)FeedSource.MigrationProperties["EnclosureFolder"]) ) 
+			if (FeedSource.MigrationProperties.ContainsKey("EnclosureFolder") ) 
 			{
 				this.Preferences.EnclosureFolder = (string)FeedSource.MigrationProperties["EnclosureFolder"];
 				FeedSource.EnclosureFolder = this.Preferences.EnclosureFolder;
@@ -2283,6 +2277,13 @@ namespace RssBandit
 			{
 				this.Preferences.MarkItemsReadOnExit = (bool)FeedSource.MigrationProperties["MarkItemsReadOnExit"];
 				FeedSource.MarkItemsReadOnExit = this.Preferences.MarkItemsReadOnExit;
+				saveChanges = true;
+			}
+
+			if (FeedSource.MigrationProperties.ContainsKey("NumEnclosuresToDownloadOnNewFeed"))
+			{
+				this.Preferences.NumEnclosuresToDownloadOnNewFeed = (int)FeedSource.MigrationProperties["NumEnclosuresToDownloadOnNewFeed"];
+				FeedSource.NumEnclosuresToDownloadOnNewFeed = this.Preferences.NumEnclosuresToDownloadOnNewFeed;
 				saveChanges = true;
 			}
 
