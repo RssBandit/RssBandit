@@ -10,7 +10,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO; 
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -21,10 +22,12 @@ using System.Xml.Serialization;
 
 using log4net;
 
+using RssBandit.Common;
 using RssBandit.Common.Logging;
 
 using NewsComponents.Net;
 using NewsComponents.Search;
+using NewsComponents.Utils;
 
 namespace NewsComponents.Feed {
 
@@ -48,6 +51,11 @@ namespace NewsComponents.Feed {
 		/// </summary>
         private string NgosSyncToken; 
      
+        /// <summary>
+        /// Place holder that is provided as RSS feed link when no URL found in NewsGator Online feed list for a feed 
+        /// </summary>
+        private static readonly string NoXmlUrlFoundInOpml = "http://www.example.com/no-url-for-rss-feed-provided-in-imported-opml";
+
         /// <summary>
         /// The NewsGator API key for RSS Bandit
         /// </summary>
@@ -185,9 +193,7 @@ namespace NewsComponents.Feed {
                 ngFeed.enclosurealert = banditfeed.enclosurealert;
                 ngFeed.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
                 ngFeed.alertEnabled = banditfeed.alertEnabled;
-                ngFeed.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
-                ngFeed.Any = banditfeed.Any;
-                ngFeed.AnyAttr = banditfeed.AnyAttr; 
+                ngFeed.alertEnabledSpecified = banditfeed.alertEnabledSpecified; 
             }
 
             return ngFeed;
@@ -289,9 +295,12 @@ namespace NewsComponents.Feed {
 
             foreach (NewsFeed ngFeed in ngFeeds.feed)
             {
-                NewsFeed feed = null;
-                bootstrapFeeds.TryGetValue(ngFeed.link, out feed); 
-                this.feedsTable.Add(ngFeed.link, TransferSettings(ngFeed,feed)); 
+                if (!ngFeed.link.Equals(NoXmlUrlFoundInOpml))
+                {
+                    NewsFeed feed = null;
+                    bootstrapFeeds.TryGetValue(ngFeed.link, out feed);
+                    this.feedsTable.Add(ngFeed.link, TransferSettings(ngFeed, feed));
+                }
             }
 
             foreach (category ngCategory in ngFeeds.categories)
@@ -321,28 +330,131 @@ namespace NewsComponents.Feed {
         #region feed downloading methods
 
         /// <summary>
-        /// Downloads every feed that has either never been downloaded before or 
-        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
         /// </summary>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
-        /// or whether the cache can be used.</param>
-        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
-        /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(bool force_download)
+        /// <param name="feedUrl">The URL of the feed to download or the Google Reader URL of the feed (if the 
+        /// continuationToken parameter is set)</param>
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public override bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
         {
+            if (feedUrl == null || feedUrl.Trim().Length == 0)
+                throw new ArgumentNullException("feedUrl");
+
+            string etag = null;
+            bool requestQueued = false;
+
+            int priority = 10;
+            if (forceDownload)
+                priority += 100;
+            if (manual)
+                priority += 1000;
+
+            Uri feedUri = new Uri(feedUrl);
+            Uri reqUri = feedUri;
+
+            //is this a follow on request to a feed download.            
+
+            try
+            {
+                try
+                {
+                    if ((!forceDownload) || this.isOffline)
+                    {
+                        GetCachedItemsForFeed(feedUri.CanonicalizedUri()); //load feed into itemsTable
+                        RaiseOnUpdatedFeed(feedUri, null, RequestResult.NotModified, priority, false);
+                        return false;
+                    }
+                }
+                catch (XmlException xe)
+                {
+                    //cache file is corrupt
+                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToString());
+                }
+
+                //We need a reference to the feed so we can see if a cached object exists
+                NewsFeed theFeed = null;
+                if (feedsTable.ContainsKey(feedUri.CanonicalizedUri()))
+                    theFeed = feedsTable[feedUri.CanonicalizedUri()] as NewsFeed;
+
+                if (theFeed == null)
+                    return false;
+
+                string requestUrl = theFeed.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText;
+                reqUri = new Uri(requestUrl); 
+
+                // only if we "real" go over the wire for an update:
+                RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
+
+                //DateTime lastRetrieved = DateTime.MinValue; 
+                DateTime lastModified = DateTime.MinValue;
+
+                if (itemsTable.ContainsKey(feedUrl))
+                {
+                    etag = theFeed.etag;
+                    lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
+                }
+
+                ICredentials c = location.Credentials;
+
+                RequestParameter reqParam =
+                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                // global cookie handling:
+                reqParam.SetCookies = false;
+                //set X-NGAPIToken header
+                reqParam.Headers = NgosTokenHeader; 
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                             null,
+                                             OnRequestStart,
+                                             OnRequestComplete,
+                                             OnRequestException, priority);
+
+                requestQueued = true;
+            }
+            catch (Exception e)
+            {
+                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToString());
+                RaiseOnUpdateFeedException(feedUrl, e, priority);
+            }
+
+            return requestQueued;
         }
 
-        /// <summary>
-        /// Downloads every feed that has either never been downloaded before or 
-        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+
+         /// <summary>
+        /// Called on successful completion of a Web request for a feed
         /// </summary>
-        /// <param name="category">Refresh all feeds, that are part of the category</param>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
-        /// or whether the cache can be used.</param>
-        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
-        /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(string category, bool force_download)
+        /// <param name="requestUri">The request URI</param>
+        /// <param name="response">The Response as a stream</param>
+        /// <param name="newUri">The new URI of a 3xx HTTP response was originally received</param>
+        /// <param name="eTag">The etag</param>
+        /// <param name="lastModified">The last modified date of the result</param>
+        /// <param name="result">The HTTP result</param>
+        /// <param name="priority">The priority of the request</param>
+        protected override void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+                                    RequestResult result, int priority)
         {
+            //find the feed that has the requestUri as it's syncXmlUrl
+            string feedUrl = feedsTable.First(kvp =>
+                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(requestUri.CanonicalizedUri())).Key;
+
+            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            {
+                Uri feedUri = new Uri(feedUrl);
+                base.OnRequestComplete(feedUri, response, newUri, eTag, lastModified, result, priority);
+            }
         }
 
         #endregion 
