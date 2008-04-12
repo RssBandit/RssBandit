@@ -285,7 +285,7 @@ namespace NewsComponents.Feed {
             }
 
             //matchup feeds from NewsGator Online with local feeds
-            feeds ngFeeds = this.LoadFeedlistFromNewsGatorOnline();
+            feeds ngFeeds = (this.Offline ? feedlist : this.LoadFeedlistFromNewsGatorOnline());
 
             foreach (NewsFeed ngFeed in ngFeeds.feed)
             {
