@@ -462,11 +462,11 @@ namespace NewsComponents
             IDownloader downloader = GetDownloader(task);
 
 
-            if (downloadInfoProvider.EnclosureCacheSize != Int32.MaxValue)
+			if (FeedSource.EnclosureCacheSize != FeedSource.DefaultEnclosureCacheSize)
             {
                 //BUGBUG: If we don't know the file size then we don't error because we treat it is -1 to 
                 //err on the side of allowing instead of disallowing. 
-                long limitInBytes = downloadInfoProvider.EnclosureCacheSize*1024*1024;
+				long limitInBytes = FeedSource.EnclosureCacheSize * 1024 * 1024;
                 long filesize = GetFileSize(task);
 
                 DirectoryInfo targetDir = new DirectoryInfo(FeedSource.EnclosureFolder);
@@ -483,7 +483,7 @@ namespace NewsComponents
                     DownloadRegistryManager.Current.UnRegisterTask(task);
 
                     string fileName = task.DownloadItem.File.LocalName;
-                    int limit = downloadInfoProvider.EnclosureCacheSize;
+					int limit = FeedSource.EnclosureCacheSize;
                     throw new DownloaderException(ComponentsText.ExceptionEnclosureCacheLimitReached(fileName, limit));
                 }
             }

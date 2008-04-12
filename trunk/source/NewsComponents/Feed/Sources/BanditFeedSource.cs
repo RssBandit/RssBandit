@@ -277,13 +277,15 @@ namespace NewsComponents.Feed
                 //if maximum enclosure cache size specified in imported feed then use that
             if (myFeeds.enclosurecachesizeSpecified)
             {
-                this.enclosurecachesize = myFeeds.enclosurecachesize;
+				FeedSource.MigrationProperties.Add("EnclosureCacheSize", myFeeds.enclosurecachesize);
+				//this.enclosurecachesize = myFeeds.enclosurecachesize;
             }
 
                 //if maximum number of enclosures to download on a new feed specified in imported feed then use that
             if (myFeeds.numtodownloadonnewfeedSpecified)
             {
-                this.numtodownloadonnewfeed = myFeeds.numtodownloadonnewfeed;
+				FeedSource.MigrationProperties.Add("NumEnclosuresToDownloadOnNewFeed", myFeeds.numtodownloadonnewfeed);
+				//this.numtodownloadonnewfeed = myFeeds.numtodownloadonnewfeed;
             }
 
                 //if cause alert on enclosures specified in imported feed then use that

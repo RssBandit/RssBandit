@@ -1048,48 +1048,62 @@ namespace NewsComponents
                 markitemsreadonexit = value;
             }
         }
+		
+		/// <summary>
+        /// Indicates the default maximum amount of space that enclosures and 
+        /// podcasts can use on disk. Currently this is Int32.MaxValue
+        /// </summary>
+    	public const int DefaultEnclosureCacheSize = Int32.MaxValue;
+        /// <summary>
+        /// Indicates the maximum amount of space that enclosures and 
+        /// podcasts can use on disk.
+        /// </summary>
+		static int enclosurecachesize = DefaultEnclosureCacheSize;
+
 
         /// <summary>
-        /// Indicates the maximum amount of space that enclosures and podcasts can use on disk.
+        /// Indicates the maximum amount of space that enclosures and 
+        /// podcasts can use on disk.
         /// </summary>
-        protected int enclosurecachesize = Int32.MaxValue;
-
-
-        /// <summary>
-        /// Indicates the maximum amount of space that enclosures and podcasts can use on disk.
-        /// </summary>
-        public int EnclosureCacheSize
+        public static int EnclosureCacheSize
         {
             get
             {
-                return this.enclosurecachesize;
+                return enclosurecachesize;
             }
 
             set
             {
-                this.enclosurecachesize = value;
+                enclosurecachesize = value;
             }
         }
 
+		/// <summary>
+		/// Indicates the default number of enclosures which should be downloaded 
+		/// automatically from a newly subscribed feed.
+		/// Currently this is Int32.MaxValue.
+		/// </summary>
+    	public const int DefaultNumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
+        
+		/// <summary>
+        /// Indicates the number of enclosures which should be downloaded 
+        /// automatically from a newly subscribed feed.
+        /// </summary>
+		static int numtodownloadonnewfeed = DefaultNumEnclosuresToDownloadOnNewFeed;
+
         /// <summary>
         /// Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
         /// </summary>
-        protected int numtodownloadonnewfeed = Int32.MaxValue;
-
-
-        /// <summary>
-        /// Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
-        /// </summary>
-        public int NumEnclosuresToDownloadOnNewFeed
+        public static int NumEnclosuresToDownloadOnNewFeed
         {
             get
             {
-                return this.numtodownloadonnewfeed;
+                return numtodownloadonnewfeed;
             }
 
             set
             {
-                this.numtodownloadonnewfeed = value;
+                numtodownloadonnewfeed = value;
             }
         }
 
@@ -3302,13 +3316,13 @@ namespace NewsComponents
 
                     feedlist.createsubfoldersforenclosures = this.createsubfoldersforenclosures;
                     feedlist.createsubfoldersforenclosuresSpecified = true;
-*/
+
                     feedlist.numtodownloadonnewfeed = this.numtodownloadonnewfeed;
                     feedlist.numtodownloadonnewfeedSpecified = true;
 
                     feedlist.enclosurecachesize = this.enclosurecachesize;
                     feedlist.enclosurecachesizeSpecified = true;
-
+*/
                     //feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
                     feedlist.listviewlayout = this.listviewlayout;
                     /* not anymore required to store that in feedlist/now provided static:
@@ -3328,6 +3342,8 @@ namespace NewsComponents
 					feedlist.enclosurealertSpecified = false;
 					feedlist.refreshrateSpecified = false;
 					feedlist.createsubfoldersforenclosuresSpecified = false;
+					feedlist.numtodownloadonnewfeedSpecified = false;
+					feedlist.enclosurecachesizeSpecified = false;
 
                     foreach (INewsFeed f in feeds.Values)
                     {
@@ -5343,8 +5359,8 @@ namespace NewsComponents
                     {
                         int numDownloaded = 0;
                         int maxDownloads = (firstSuccessfulDownload
-                                                ? this.NumEnclosuresToDownloadOnNewFeed
-                                                : Int32.MaxValue);
+                                                ? NumEnclosuresToDownloadOnNewFeed
+												: DefaultNumEnclosuresToDownloadOnNewFeed);
 
                         if (newReceivedItems != null)
                             foreach (NewsItem ni in newReceivedItems)
