@@ -223,25 +223,33 @@ namespace NewsComponents.Feed
                 bootstrapCategories.Add(c.Value, c);
             }
 
-            //matchup feeds from GoogleReader with 
-            IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
-
-            foreach (GoogleReaderSubscription gfeed in gReaderFeeds)
+            if (this.Offline)
             {
-                NewsFeed feed = null; 
-                this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+                foreach (NewsFeed ff in feedlist.feed) { this.feedsTable.Add(ff.link, ff); }
+                foreach (category cc in feedlist.categories) { this.categories.Add(cc.Value, cc); }
             }
-
-            IEnumerable<string> gReaderLabels = this.LoadTaglistFromGoogleReader();
-            
-            string labelPrefix = "user/" + this.GoogleUserId + "/label/";
-            foreach (string gLabel in gReaderLabels)
+            else
             {
-                string label = gLabel.Replace("/", FeedSource.CategorySeparator);
-                category cat = null;
-                bootstrapCategories.TryGetValue(label, out cat);
-                this.categories.Add(gLabel, cat ?? new category(label));
-  
+                //matchup feeds from GoogleReader with 
+                IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
+
+                foreach (GoogleReaderSubscription gfeed in gReaderFeeds)
+                {
+                    NewsFeed feed = null;
+                    this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+                }
+
+                IEnumerable<string> gReaderLabels = this.LoadTaglistFromGoogleReader();
+
+                string labelPrefix = "user/" + this.GoogleUserId + "/label/";
+                foreach (string gLabel in gReaderLabels)
+                {
+                    string label = gLabel.Replace("/", FeedSource.CategorySeparator);
+                    category cat = null;
+                    bootstrapCategories.TryGetValue(label, out cat);
+                    this.categories.Add(gLabel, cat ?? new category(label));
+
+                }
             }
 
             /* copy over list view layouts */
