@@ -838,8 +838,8 @@ namespace NewsComponents.Feed
                     {
                         int numDownloaded = 0;
                         int maxDownloads = (firstSuccessfulDownload
-                                                ? this.NumEnclosuresToDownloadOnNewFeed
-                                                : Int32.MaxValue);
+                                                ? NumEnclosuresToDownloadOnNewFeed
+												: DefaultNumEnclosuresToDownloadOnNewFeed);
 
                         if (newReceivedItems != null)
                             foreach (NewsItem ni in newReceivedItems)
