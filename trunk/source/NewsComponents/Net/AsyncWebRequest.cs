@@ -1371,6 +1371,26 @@ namespace NewsComponents.Net
                                       ref eTag, timeout, out result, null /* cookie */, null /* body */, null /* additonalHeaders */ );
         }
 
+
+        /// <summary>
+        /// Can be called syncronized to get a Http Web ResponseStream.
+        /// </summary>
+        /// <param name="address">Url to request</param>
+        /// <param name="credentials">Url credentials</param>
+        /// <param name="proxy">Proxy to use</param>
+        /// <param name="cookie">The HTTP cookie to send along with the request</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>    
+        public static Stream GetSyncResponseStream(string address, ICredentials credentials,
+                                                   IWebProxy proxy, WebHeaderCollection additionalHeaders)
+        {
+            string newAddress, eTag = null;
+            RequestResult result;
+            DateTime ifModifiedSince = MinValue;
+            return
+                GetSyncResponseStream(HttpMethod.GET, address, out newAddress, credentials, FullUserAgent(null), proxy, ref ifModifiedSince,
+                                      ref eTag, DefaultTimeout, out result, null /* cookie */, null /* body */, additionalHeaders );
+        }
+
         /// <summary>
         /// Can be called syncronized to get a Http Web ResponseStream.
         /// </summary>

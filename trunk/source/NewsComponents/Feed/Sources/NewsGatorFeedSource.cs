@@ -27,6 +27,9 @@ using NewsComponents.Net;
 using NewsComponents.Search;
 
 namespace NewsComponents.Feed {
+
+#region NewsGatorFeedSource
+
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
     /// </summary>
@@ -153,6 +156,44 @@ namespace NewsComponents.Feed {
         #region feed list methods
 
         /// <summary>
+        /// Transfers settings from a local RSS Bandit feed to the input NewsGator feed
+        /// </summary>
+        /// <param name="ngFeed">The NewsGator feed</param>
+        /// <param name="banditfeed">The RSS Bandit feed</param>
+        /// <returns>The modified NewsGator feed</returns>
+        private static NewsFeed TransferSettings(NewsFeed ngFeed, NewsFeed banditfeed)
+        {
+            if (banditfeed != null)
+            {
+                ngFeed.lastretrievedSpecified = banditfeed.lastretrievedSpecified;
+                ngFeed.lastretrieved = banditfeed.lastretrieved;
+                ngFeed.lastmodifiedSpecified = banditfeed.lastmodifiedSpecified;
+                ngFeed.lastmodified = banditfeed.lastmodified;
+                ngFeed.id = banditfeed.id;
+                ngFeed.enclosurefolder = banditfeed.enclosurefolder;
+                ngFeed.deletedstories = banditfeed.deletedstories;
+                ngFeed.storiesrecentlyviewed = banditfeed.storiesrecentlyviewed;
+                ngFeed.refreshrate = banditfeed.refreshrate;
+                ngFeed.refreshrateSpecified = banditfeed.refreshrateSpecified;
+                ngFeed.maxitemage = banditfeed.maxitemage;
+                ngFeed.markitemsreadonexit = banditfeed.markitemsreadonexit;
+                ngFeed.markitemsreadonexitSpecified = banditfeed.markitemsreadonexitSpecified;
+                ngFeed.listviewlayout = banditfeed.listviewlayout;
+                ngFeed.favicon = banditfeed.favicon;
+                ngFeed.stylesheet = banditfeed.stylesheet;
+                ngFeed.cacheurl = banditfeed.cacheurl;
+                ngFeed.enclosurealert = banditfeed.enclosurealert;
+                ngFeed.enclosurealertSpecified = banditfeed.enclosurealertSpecified;
+                ngFeed.alertEnabled = banditfeed.alertEnabled;
+                ngFeed.alertEnabledSpecified = banditfeed.alertEnabledSpecified;
+                ngFeed.Any = banditfeed.Any;
+                ngFeed.AnyAttr = banditfeed.AnyAttr; 
+            }
+
+            return ngFeed;
+        }
+
+        /// <summary>
         /// Creates the location for this synchronization endpoint in NewsGator Online
         /// </summary>
         private void CreateLocation()
@@ -184,24 +225,27 @@ namespace NewsComponents.Feed {
         private feeds LoadFeedlistFromNewsGatorOnline()
         {
             //first step is to create Location, we do this in case this is first time syncing from here or it got deleted somehow
-            this.CreateLocation(); 
+            this.CreateLocation();
 
-            /*
-            string feedlistUrl = apiUrlPrefix + "subscription/list";
-
-            //get the user's SID
-            this.AuthenticateUser();
+            string feedlistUrl = SubscriptionApiUrl + "/" + NgosLocationName;
 
             //load feed list XML
             XmlDocument doc = new XmlDocument();
-            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, this.location.Credentials, this.Proxy, NgosTokenHeader)));
 
-            var feedlist = from XmlNode node in doc.SelectNodes("/object/list[@name='subscriptions']/object")
-                           select MakeSubscription(node);
+            XmlNode tokenNode = doc.DocumentElement.Attributes.GetNamedItem("token", "http://newsgator.com/schema/opml");
+            if (tokenNode != null)
+            {
+                NgosSyncToken = tokenNode.Value;
+            }
 
-            return feedlist;
-             */
-            return null; 
+            /* convert OPML feeds list to RSS Bandit data structures */          
+            XmlNodeReader reader = new XmlNodeReader(this.ConvertFeedList(doc));
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+            feeds ngFeeds = (feeds)serializer.Deserialize(reader);
+            reader.Close();
+
+            return ngFeeds;
         }
 
         /// <summary>
@@ -227,6 +271,48 @@ namespace NewsComponents.Feed {
         /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
         public override void BootstrapAndLoadFeedlist(feeds feedlist)
         {
+            Dictionary<string, NewsFeed> bootstrapFeeds = new Dictionary<string, NewsFeed>();
+            Dictionary<string, category> bootstrapCategories = new Dictionary<string, category>();
+           
+            foreach (NewsFeed f in feedlist.feed)
+            {
+                bootstrapFeeds.Add(f.link, f);
+            }
+
+            foreach (category c in feedlist.categories)
+            {
+                bootstrapCategories.Add(c.Value, c);
+            }
+
+            //matchup feeds from NewsGator Online with local feeds
+            feeds ngFeeds = this.LoadFeedlistFromNewsGatorOnline();
+
+            foreach (NewsFeed ngFeed in ngFeeds.feed)
+            {
+                NewsFeed feed = null;
+                bootstrapFeeds.TryGetValue(ngFeed.link, out feed); 
+                this.feedsTable.Add(ngFeed.link, TransferSettings(ngFeed,feed)); 
+            }
+
+            foreach (category ngCategory in ngFeeds.categories)
+            {
+                category cat = null;
+                bootstrapCategories.TryGetValue(ngCategory.Value, out cat);
+                this.categories.Add(ngCategory.Value, cat ?? ngCategory);
+            }
+
+            // copy over list view layouts 
+            if (feedlist.listviewLayouts != null)
+            {
+                foreach (listviewLayout layout in feedlist.listviewLayouts)
+                {
+                    string layout_trimmed = layout.ID.Trim();
+                    if (!this.layouts.ContainsKey(layout_trimmed))
+                    {
+                        this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+                    }
+                }
+            }//if(feedlist.listviewLayouts != null)
 
         }
 
@@ -263,5 +349,9 @@ namespace NewsComponents.Feed {
 
         #endregion
     }
+
+#endregion
+
+
 }
 

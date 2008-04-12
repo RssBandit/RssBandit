@@ -2279,12 +2279,19 @@ namespace RssBandit
 				saveChanges = true;
 			}
 
-			if (FeedSource.MigrationProperties.ContainsKey("CreateSubfoldersForEnclosures") &&
+			if (FeedSource.MigrationProperties.ContainsKey("MarkItemsReadOnExit"))
 			{
 				this.Preferences.MarkItemsReadOnExit = (bool)FeedSource.MigrationProperties["MarkItemsReadOnExit"];
 				FeedSource.MarkItemsReadOnExit = this.Preferences.MarkItemsReadOnExit;
 				saveChanges = true;
 			}
+
+            if (FeedSource.MigrationProperties.ContainsKey("CreateSubfoldersForEnclosures"))
+            {
+                this.Preferences.CreateSubfoldersForEnclosures = (bool)FeedSource.MigrationProperties["CreateSubfoldersForEnclosures"];
+                FeedSource.CreateSubfoldersForEnclosures = this.Preferences.CreateSubfoldersForEnclosures;
+                saveChanges = true;
+            }
 
         	if (saveChanges)
 				this.SavePreferences();

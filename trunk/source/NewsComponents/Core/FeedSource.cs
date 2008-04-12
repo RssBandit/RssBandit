@@ -212,6 +212,9 @@ namespace NewsComponents
                 case FeedSourceType.Google:
                     handler = new GoogleReaderFeedSource(configuration, location);
                     break;
+                case FeedSourceType.NewsGator:
+                    handler = new NewsGatorFeedSource(configuration, location);
+                    break; 
                 default:
                     break;
 
@@ -1254,7 +1257,7 @@ namespace NewsComponents
         protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
 
         /// <summary>
-        /// This is the object that is returned when returning the list of categories in GetFeeds()
+        /// This is the object that is returned when returning the list of feeds in GetFeeds()
         /// </summary>
         /// <seealso cref="GetFeeds"/>
         protected ReadOnlyDictionary<string, INewsFeed> readonly_feedsTable = null;
