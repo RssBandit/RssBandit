@@ -1126,7 +1126,7 @@ namespace NewsComponents.Net
                 {
                     httpRequest.Timeout = (timeout <= 0 ? DefaultTimeout : timeout);
                         //two minute timeout, if lower than zero
-                    httpRequest.UserAgent = FullUserAgent(userAgent);
+                    httpRequest.UserAgent = userAgent ?? FullUserAgent(userAgent);
                     httpRequest.Proxy = proxy;
                     httpRequest.AllowAutoRedirect = false;
                     httpRequest.IfModifiedSince = ifModifiedSince;
