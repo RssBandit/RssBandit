@@ -84,6 +84,11 @@ namespace NewsComponents.Feed
 
           #region constructor
 
+        /// <summary>
+        /// Shouldn't be able to create one of these without specifying a location. 
+        /// </summary>
+        private GoogleReaderFeedSource() { ; }
+
            /// <summary>
         /// Initializes a new instance of the <see cref="FeedSource"/> class.
         /// </summary>
