@@ -267,6 +267,11 @@ namespace NewsComponents.Net
                 httpRequest.AllowAutoRedirect = false;
                 httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
 
+                if (requestParameter.Headers != null)
+                {
+                    httpRequest.Headers.Add(requestParameter.Headers);
+                }
+
                 // due to the reported bug 893620 some web server fail with a server error 500
                 // if we send DateTime.MinValue as IfModifiedSince. Smoe Unix derivates only know
                 // about valid lowest DateTime around 1970. So in the case we use the
