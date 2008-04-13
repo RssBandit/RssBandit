@@ -408,6 +408,7 @@ namespace NewsComponents
             set
             {
                 p_flagStatus = value;
+                this.OnPropertyChanged("FlagStatus");
             }
         }
 
