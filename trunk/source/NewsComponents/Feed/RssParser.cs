@@ -798,6 +798,7 @@ namespace NewsComponents.Feed
             List<IEnclosure> enclosures = null;
             string itemNamespaceUri = reader.NamespaceURI;
             bool beenRead = false;
+            Flagged flagStatus = Flagged.None;
 
 
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
@@ -1046,10 +1047,17 @@ namespace NewsComponents.Feed
 
                     if (reader["scheme"]!= null && reader.GetAttribute("scheme").Equals("http://www.google.com/reader/"))
                     {
-                        if (reader["label"] != null && reader.GetAttribute("label").Equals("read"))
+                        if (reader["label"] != null)  
                         {
-                            beenRead = true;
-                        }
+                            if (reader.GetAttribute("label").Equals("read"))
+                            {
+                                beenRead = true;
+                            }
+                            else if (reader.GetAttribute("label").Equals("starred"))
+                            {
+                                flagStatus = Flagged.Review;
+                            }
+                        } 
                     }
                     else if (reader["label"] != null)
                     {
@@ -1286,6 +1294,7 @@ namespace NewsComponents.Feed
             newsItem.Enclosures = (enclosures ?? GetList<IEnclosure>.Empty);
             newsItem.Language = reader.XmlLang;
             newsItem.BeenRead = beenRead;
+            newsItem.FlagStatus = flagStatus; 
 
             return newsItem;
         }

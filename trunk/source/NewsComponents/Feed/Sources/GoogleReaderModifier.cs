@@ -21,7 +21,7 @@ namespace NewsComponents.Feed
 
     /// <summary>
     /// This is an enum that describes the set of operations that can be placed in the 
-    /// queue of operations to perform on the search index by the index modifying thread. 
+    /// queue of network operations to perform on Google Reader. 
     /// </summary>
     public enum GoogleReaderOperation : byte
     {
@@ -31,6 +31,7 @@ namespace NewsComponents.Feed
         DeleteLabel = 40,
         MarkAllItemsRead = 61,
         MarkSingleItemRead = 60,
+        MarkSingleItemStarred = 59, 
         MoveFeed  = 45,
         RenameFeed = 21,
         RenameLabel = 20,
@@ -97,6 +98,9 @@ namespace NewsComponents.Feed
         /// </summary>
         private List<PendingGoogleReaderOperation> pendingGoogleReaderOperations = new List<PendingGoogleReaderOperation>();
 
+        /// <summary>
+        /// Name of the file where pending network operations are saved on shut down. 
+        /// </summary>
         private readonly string pendingGoogleOperationsFile = "pending-googlereader-operations.xml"; 
 
         /// <summary>
@@ -227,12 +231,16 @@ namespace NewsComponents.Feed
                         source.DeleteCategoryInGoogleReader(current.Parameters[0] as string);
                         break;
 
+                    case GoogleReaderOperation.MarkAllItemsRead:
+                        source.MarkAllItemsAsReadInGoogleReader(current.Parameters[0] as string, (DateTime)current.Parameters[1]);
+                        break;
+
                     case GoogleReaderOperation.MarkSingleItemRead:
                         source.ChangeItemReadStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, (bool) current.Parameters[2]); 
                         break;
 
-                    case GoogleReaderOperation.MarkAllItemsRead:
-                        source.MarkAllItemsAsReadInGoogleReader(current.Parameters[0] as string, (DateTime) current.Parameters[1]); 
+                    case GoogleReaderOperation.MarkSingleItemStarred:
+                        source.ChangeItemStarredStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, (bool)current.Parameters[2]);
                         break;
 
                     case GoogleReaderOperation.MoveFeed:
@@ -432,6 +440,22 @@ namespace NewsComponents.Feed
             }
         }
 
+        /// <summary>
+        /// Enqueues an event to star or unstar an item in Google Reader
+        /// </summary>
+        /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>            
+        /// <param name="feedId">The ID of the parent feed in Google Reader</param>
+        /// <param name="itemId">The atom:id of the news item</param>        
+        /// <param name="starred">Indicates whether the item was starred or unstarred</param>
+        public void ChangeItemStarredStateInGoogleReader(string googleUserID, string feedId, string itemId, bool starred)
+        {
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkSingleItemStarred, new object[] { feedId, itemId, starred }, googleUserID);
+
+            lock (this.pendingGoogleReaderOperations)
+            {
+                this.pendingGoogleReaderOperations.Add(op);
+            }
+        }
 
           /// <summary>
         /// Enqueues an event that changes the category of a feed in Google Reader

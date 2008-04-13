@@ -5291,7 +5291,8 @@ namespace NewsComponents
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
                                 fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
-                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh);
+                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh, 
+                                                                  true /* respectOldItemState */ );
                             }
 					 
 
@@ -6939,10 +6940,11 @@ namespace NewsComponents
         /// <param name="receivedNewItems">IList with the really new (received) items.</param>
         /// <param name="onlyKeepNewItems">Indicates that we only want the items from newItems to be kept. If this value is true 
         /// then this method merely copies over item state of any oldItems that are in newItems then returns newItems</param>
+        /// <param name="respectOldItemState">Indicates that read and flag status from the old items should be respected</param>
         /// <returns>IList merge/purge result</returns>
         public static List<INewsItem> MergeAndPurgeItems(List<INewsItem> oldItems, List<INewsItem> newItems,
                                                         ICollection<string> deletedItems, out List<INewsItem> receivedNewItems,
-                                                        bool onlyKeepNewItems)
+                                                        bool onlyKeepNewItems, bool respectOldItemState)
         {
             receivedNewItems = new List<INewsItem>();
             //ArrayList removedOldItems = new ArrayList(); 
@@ -6965,7 +6967,12 @@ namespace NewsComponents
                     else
                     {
                         INewsItem olditem = oldItems[index];
-                        newitem.BeenRead = olditem.BeenRead;
+
+                        if (respectOldItemState)
+                        {                            
+                            newitem.BeenRead = olditem.BeenRead;
+                        }
+
                         /*
 						COMMENTED OUT BECAUSE WE WON'T SAVE NEWLY DOWNLOADED TEXT IF THE 
 						FEED IS UPDATED WITH THE CODE BELOW. 
@@ -6978,7 +6985,11 @@ namespace NewsComponents
 							newitem.SetContent((string) null, newitem.ContentType); 
 						} */
                         newitem.Date = olditem.Date; //so the date is from when it was first fetched
-                        newitem.FlagStatus = olditem.FlagStatus;
+
+                        if (respectOldItemState)
+                        {
+                            newitem.FlagStatus = olditem.FlagStatus;
+                        }
 
                         if (olditem.WatchComments)
                         {

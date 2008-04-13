@@ -201,6 +201,7 @@
     <Compile Include="Feed\RssParser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Feed\Sources\NewsGatorModifier.cs" />
     <Compile Include="Feed\Sources\WindowsRssFeedSource.cs" />
     <Compile Include="Net\AsyncWebRequest.cs">
       <SubType>Code</SubType>
