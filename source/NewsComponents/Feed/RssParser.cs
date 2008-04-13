@@ -137,7 +137,9 @@ namespace NewsComponents.Feed
         private const int nt_ns_itunes = 56;
         private const int nt_created = 57;
         private const int nt_outgoinglinks = 58;
-        private const int nt_duration = 59;
+        private const int nt_ns_newsgator = 59;
+        private const int nt_read = 60;
+        private const int nt_duration = 61;
 
         private const int NT_SIZE = 1 + nt_duration; // last used + 1
 
@@ -254,6 +256,7 @@ namespace NewsComponents.Feed
             ArrayList subjects = new ArrayList();
             List<IEnclosure> enclosures = null;
             List<string> outgoingLinks = null;
+            bool beenRead = false;
             string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
@@ -598,6 +601,16 @@ namespace NewsComponents.Feed
                     if (!reader.IsEmptyElement)
                     {
                         commentUrl = ReadElementUrl(reader);
+                    }
+                    continue;
+                }
+
+                if ((localname == atomized_strings[nt_read])
+                    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
+                {
+                    if (!reader.IsEmptyElement)
+                    {
+                        beenRead = Boolean.Parse(ReadElementString(reader));
                     }
                     continue;
                 }
@@ -1658,6 +1671,7 @@ namespace NewsComponents.Feed
             atomized_names[nt_name] = nt.Add("name");
             atomized_names[nt_outgoinglinks] = nt.Add("outgoing-links");
             atomized_names[nt_pubdate] = nt.Add("pubDate");
+            atomized_names[nt_read] = nt.Add("read");
             atomized_names[nt_rdf] = nt.Add("RDF");
             atomized_names[nt_reference] = nt.Add("reference");
             atomized_names[nt_rel] = nt.Add("rel");
@@ -1679,6 +1693,7 @@ namespace NewsComponents.Feed
             atomized_names[nt_ns_wfw] = nt.Add("http://wellformedweb.org/CommentAPI/");
             atomized_names[nt_ns_fd] = nt.Add("http://www.bradsoft.com/feeddemon/xmlns/1.0/");
             atomized_names[nt_ns_thr] = nt.Add("http://purl.org/syndication/thread/1.0");
+            atomized_names[nt_ns_newsgator] = nt.Add("http://newsgator.com/schema/extensions"); 
             // changes required by Atom 1.0:
             atomized_names[nt_updated] = nt.Add("updated");
             atomized_names[nt_published] = nt.Add("published");

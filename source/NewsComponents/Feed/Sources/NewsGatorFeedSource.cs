@@ -392,7 +392,7 @@ namespace NewsComponents.Feed {
                     return false;
 
                 string requestUrl = theFeed.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText;
-                reqUri = new Uri(requestUrl); 
+                reqUri = new Uri(requestUrl + "?unread=False"); 
 
                 // only if we "real" go over the wire for an update:
                 RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
@@ -433,6 +433,45 @@ namespace NewsComponents.Feed {
         }
 
 
+        /// <summary>
+        /// Called when a network request has been made to start downloading a feed. 
+        /// </summary>
+        /// <param name="requestUri">The URL being requested</param>
+        /// <param name="cancel">Whether the request is to be cancelled</param>
+        protected override void OnRequestStart(Uri requestUri, ref bool cancel)
+        {
+            //find the feed that has the requestUri as it's syncXmlUrl
+            string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False"));
+            string feedUrl = feedsTable.First(kvp =>
+                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
+
+            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            {
+                Uri feedUri = new Uri(feedUrl);
+                base.OnRequestStart(feedUri, ref cancel);
+            }
+        }
+
+         /// <summary>
+        /// Called when an exception occurs while downloading a feed.
+        /// </summary>
+        /// <param name="requestUri">The URI of the feed</param>
+        /// <param name="e">The exception</param>
+        /// <param name="priority">The priority of the request</param>
+        protected override void OnRequestException(Uri requestUri, Exception e, int priority)
+        {
+            //find the feed that has the requestUri as it's syncXmlUrl
+            string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False"));
+            string feedUrl = feedsTable.First(kvp =>
+                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
+
+            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            {
+                Uri feedUri = new Uri(feedUrl);
+                base.OnRequestException(feedUri, e, priority);
+            }
+        }
+
          /// <summary>
         /// Called on successful completion of a Web request for a feed
         /// </summary>
@@ -447,8 +486,9 @@ namespace NewsComponents.Feed {
                                     RequestResult result, int priority)
         {
             //find the feed that has the requestUri as it's syncXmlUrl
+            string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False")); 
             string feedUrl = feedsTable.First(kvp =>
-                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(requestUri.CanonicalizedUri())).Key;
+                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
 
             if (!StringHelper.EmptyTrimOrNull(feedUrl))
             {
