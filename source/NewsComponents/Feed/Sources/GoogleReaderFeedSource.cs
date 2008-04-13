@@ -773,9 +773,9 @@ namespace NewsComponents.Feed
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
                                 fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
-                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh);
+                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh, 
+                                                                  false /* respectOldItemState */);
                             }
-
 
                             /*
                              * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
@@ -1151,9 +1151,39 @@ namespace NewsComponents.Feed
                         GoogleReaderUpdater.ChangeItemReadStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id,  item.BeenRead);
                     }
                     break;
+
+                case "FlagStatus":
+                    if (item.Feed != null)
+                    {
+                        GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
+                        GoogleReaderUpdater.ChangeItemStarredStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, item.FlagStatus != Flagged.None);
+                    }
+                    break;
             }
         }
 
+
+        /// <summary>
+        /// Marks an item as starred or unstarred in Google Reader
+        /// </summary>
+        /// <param name="feedId">The ID of the parent feed in Google Reader</param>
+        /// <param name="itemId">The atom:id of the news item</param>        
+        /// <param name="starred">Indicates whether the item was starred or unstarred</param>
+        internal void ChangeItemStarredStateInGoogleReader(string feedId, string itemId, bool starred)
+        {
+            string itemReadUrl = apiUrlPrefix + "edit-tag";
+            string op = (starred ? "&a=" : "&r="); //are we adding or removing read label?
+            string starredLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/starred");
+
+            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + starredLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
+
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new WebException(response.StatusDescription);
+            }
+        }
 
         /// <summary>
         /// Marks an item as read or unread in Google Reader
