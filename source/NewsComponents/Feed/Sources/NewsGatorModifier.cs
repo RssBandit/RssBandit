@@ -31,6 +31,7 @@ namespace NewsComponents.Feed
         DeleteFolder = 40,
         MarkAllItemsRead = 61,
         MarkSingleItemRead = 60,
+        MarkSingleItemStarred = 59,
         MoveFeed = 45,
         RenameFeed = 21,
         RenameFolder = 20,
