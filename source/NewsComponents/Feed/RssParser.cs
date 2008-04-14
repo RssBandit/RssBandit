@@ -139,7 +139,8 @@ namespace NewsComponents.Feed
         private const int nt_outgoinglinks = 58;
         private const int nt_ns_newsgator = 59;
         private const int nt_read = 60;
-        private const int nt_duration = 61;
+        private const int nt_clipped = 61;
+        private const int nt_duration = 62;
 
         private const int NT_SIZE = 1 + nt_duration; // last used + 1
 
@@ -445,6 +446,17 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
+                else if ((localname == atomized_strings[nt_clipped])
+                    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
+                {
+                    if (!reader.IsEmptyElement)
+                    {
+                        flagged = Boolean.Parse(ReadElementString(reader)) ? Flagged.Review : Flagged.None;
+                    }
+                    continue;
+                }
+
+
 
                 if ((localname == atomized_strings[nt_duration])
                     && (namespaceuri == atomized_strings[nt_ns_itunes]))
@@ -715,6 +727,7 @@ namespace NewsComponents.Feed
             newsItem.WatchComments = watchComments;
             newsItem.Language = reader.XmlLang;
             newsItem.HasNewComments = hasNewComments;
+            newsItem.BeenRead = beenRead;
             return newsItem;
         }
 
@@ -1648,6 +1661,7 @@ namespace NewsComponents.Feed
             atomized_names[nt_body] = nt.Add("body");
             atomized_names[nt_category] = nt.Add("category");
             atomized_names[nt_channel] = nt.Add("channel");
+            atomized_names[nt_clipped] = nt.Add("clipped");
             atomized_names[nt_comment] = nt.Add("comment");
             atomized_names[nt_commentRSS] = nt.Add("commentRSS");
             atomized_names[nt_commentRss] = nt.Add("commentRss");
