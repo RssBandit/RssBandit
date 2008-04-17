@@ -218,7 +218,10 @@ namespace NewsComponents.Feed
             {
                 switch (current.Action)
                 {
-                    
+                    case NewsGatorOperation.MarkAllItemsRead:
+                        source.MarkAllItemsAsReadInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break;
+
                     default:
                         Debug.Assert(false, "Unknown NewsGator Online operation: " + current.Action);
                         return;
@@ -273,6 +276,70 @@ namespace NewsComponents.Feed
             finally
             {
                 this.flushInprogress = false;
+            }
+        }
+
+        #endregion 
+
+
+        #region public methods 
+
+
+        /// <summary>
+        /// Stops the Google Reader thread and saves pending operations to disk. 
+        /// </summary>
+        public void StopBackgroundThread()
+        {
+            this.threadRunning = false;
+
+            // wait for current running network operations to finish
+            while (this.flushInprogress)
+                Thread.Sleep(50);
+
+            this.SavePendingOperations();
+        }
+
+        /// <summary>
+        /// Saves pending operations to disk
+        /// </summary>
+        public void SavePendingOperations()
+        {
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingNewsGatorOperation>));
+            serializer.Serialize(XmlWriter.Create(this.pendingNewsGatorOperationsFile), this.pendingNewsGatorOperations);
+        }
+
+        /// <summary>
+        /// Adds the feed source to the list of NewsGatorFeedSources being modified by this class 
+        /// </summary>
+        /// <param name="source"></param>
+        public void RegisterFeedSource(NewsGatorFeedSource source)
+        {
+            this.FeedSources.Add(source.NewsGatorUserName, source);
+        }
+
+        /// <summary>
+        /// Removes the feed source from the list of NewsGatorFeedSources being modified by this class. 
+        /// </summary>
+        /// <param name="source"></param>
+        public void UnregisterFeedSource(NewsGatorFeedSource source)
+        {
+            this.FeedSources.Remove(source.NewsGatorUserName);
+        }
+
+
+      /// <summary>
+        /// Marks all items older than the the specified date as read in NewsGatorOnline
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="syncToken">The synchronization token that identifies which items should be marked as read</param>
+        public void MarkAllItemsAsReadInNewsGatorOnline(string newsgatorUserID, string feedUrl, string syncToken)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MarkAllItemsRead, new object[] { feedUrl, syncToken }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
             }
         }
 
