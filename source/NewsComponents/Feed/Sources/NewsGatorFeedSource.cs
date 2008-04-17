@@ -95,7 +95,19 @@ namespace NewsComponents.Feed {
        /// <summary>
        /// Service end point for the NewsGator Folder REST API
        /// </summary>
-       private static readonly string FolderApiUrl = "http://services.newsgator.com/ngws/svc/Folder.aspx"; 
+       private static readonly string FolderApiUrl = "http://services.newsgator.com/ngws/svc/Folder.aspx";
+
+       /// <summary>
+       /// The XML namespace for NewsGator extensions
+       /// </summary>
+       private static readonly string NewsGatorNS = "http://newsgator.com/schema/extensions";
+
+
+       /// <summary>
+       /// Updates NewsGator Online in a background thread.
+       /// </summary>
+       private static NewsGatorModifier newsGatorUpdater;
+
 
         #endregion 
 
@@ -123,8 +135,7 @@ namespace NewsComponents.Feed {
             this.location = location;
 
             //register with background thread for updating Newsgator Online
-            /* GoogleReaderUpdater.RegisterFeedSource(this); */ 
-
+            NewsGatorUpdater.RegisterFeedSource(this);
            
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
@@ -156,6 +167,27 @@ namespace NewsComponents.Feed {
         public string NewsGatorUserName
         {
             get { return this.location.Credentials.UserName; }
+        }
+
+
+        /// <summary>
+        /// Gets or sets the NewsGator modifier modifier
+        /// </summary>
+        /// <value>The NewsGatorModifier instance used by all instances of this class.</value>
+        public NewsGatorModifier NewsGatorUpdater
+        {
+            get
+            {
+                if (newsGatorUpdater == null)
+                {
+                    newsGatorUpdater = new NewsGatorModifier(this.Configuration.UserApplicationDataPath);
+                }
+                return newsGatorUpdater;
+            }
+            set
+            {
+                newsGatorUpdater = value;
+            }
         }
 
         #endregion 
@@ -807,6 +839,74 @@ namespace NewsComponents.Feed {
                         NewsFeed f = item.Feed as NewsFeed;
                     }
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Marks all items older than the the specified date as read in NewsGatorOnline
+        /// </summary>
+        /// <param name="feedUrl">The feed URL</param>
+        /// <param name="syncToken">The synchronization token that identifies which items should be marked as read</param>
+        internal void MarkAllItemsAsReadInNewsGatorOnline(string feedUrl, string syncToken)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                NewsFeed f = feedsTable[feedUrl] as NewsFeed;
+                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText;
+            
+                string markReadUrl = FeedApiUrl + "/" + feedId;
+                string body = "tok=" + syncToken + "&read=true";
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }              
+            }
+
+        }
+
+        /// <summary>        
+        /// Marks all items stored in the internal cache of RSS items and in NewsGator Online as read
+        /// for a particular feed.
+        /// </summary>        
+        /// <param name="feed">The RSS feed</param>
+        public override void MarkAllCachedItemsAsRead(INewsFeed feed)
+        {
+            DateTime newestItemAge = DateTime.MinValue;
+            string syncToken = null; 
+
+            if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
+            {
+                IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
+
+                if (fi != null)
+                {
+                    //get sync token from last time feed was fetched
+                    XmlElement elem = RssHelper.GetOptionalElement(fi.OptionalElements, "token",NewsGatorNS);  
+                    
+                    if(elem != null){
+                        syncToken = elem.InnerText; 
+                    }
+
+                    //mark each cached NewsItem as read
+                    foreach (NewsItem ri in fi.ItemsList)
+                    {
+                        ri.PropertyChanged -= this.OnNewsItemPropertyChanged;
+                        ri.BeenRead = true;
+                        newestItemAge = (ri.Date > newestItemAge ? ri.Date : newestItemAge);
+                        ri.PropertyChanged += this.OnNewsItemPropertyChanged;
+                    }
+                }
+
+                feed.containsNewMessages = false;
+            }
+
+            if (newestItemAge != DateTime.MinValue)
+            {
+                
+                NewsGatorUpdater.MarkAllItemsAsReadInNewsGatorOnline(this.NewsGatorUserName, feed.link, syncToken);                 
             }
         }
 
