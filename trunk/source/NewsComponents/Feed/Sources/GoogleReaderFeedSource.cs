@@ -1261,7 +1261,7 @@ namespace NewsComponents.Feed
 
             if (newestItemAge != DateTime.MinValue)
             {
-                GoogleReaderUpdater.MarkAllItemsAsRead(this.GoogleUserName, feed.link, newestItemAge); 
+                GoogleReaderUpdater.MarkAllItemsAsReadInGoogleReader(this.GoogleUserName, feed.link, newestItemAge); 
             }
         }
 
