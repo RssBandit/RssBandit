@@ -3006,11 +3006,11 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Removes all information related to a feed from the FeedSource. 
+        /// Removes all information related to an item from the FeedSource. 
         /// </summary>
         /// <remarks>If the item doesn't exist in the FeedSource then nothing is done</remarks>
         /// <param name="item">the item to delete</param>
-        public void DeleteItem(INewsItem item)
+        public virtual void DeleteItem(INewsItem item)
         {
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link))
             {
