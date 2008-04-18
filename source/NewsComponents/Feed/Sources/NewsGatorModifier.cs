@@ -28,9 +28,9 @@ namespace NewsComponents.Feed
         AddFeed = 51, // == queue priority!
         AddFolder = 41,
         DeleteFeed = 50,
-        DeleteFolder = 40,
+        DeleteFolder = 40,     
         MarkAllItemsRead = 61,
-        MarkSingleItemRead = 60,
+        MarkSingleItemReadOrDeleted = 60,
         MarkSingleItemStarred = 59,
         MoveFeed = 45,
         RenameFeed = 21,
@@ -218,6 +218,9 @@ namespace NewsComponents.Feed
             {
                 switch (current.Action)
                 {
+                    case NewsGatorOperation.MarkSingleItemReadOrDeleted:
+                        source.ChangeItemStateInNewsGatorOnline(current.Parameters[0] as string, (NewsGatorItemState) current.Parameters[1]);
+                        break; 
                     case NewsGatorOperation.MarkAllItemsRead:
                         source.MarkAllItemsAsReadInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break;
@@ -326,6 +329,22 @@ namespace NewsComponents.Feed
             this.FeedSources.Remove(source.NewsGatorUserName);
         }
 
+
+         /// <summary>
+        /// Marks an item as read, unread or deleted in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>       
+        /// <param name="itemId">The NewsGator ID of the news item</param>        
+        /// <param name="state">Indicates whether the item was marked as read, unread or deleted</param>
+        public void ChangeItemStateInNewsGatorOnline(string newsgatorUserID, string itemId, NewsGatorItemState state)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MarkSingleItemReadOrDeleted, new object[] { itemId, state }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
 
       /// <summary>
         /// Marks all items older than the the specified date as read in NewsGatorOnline

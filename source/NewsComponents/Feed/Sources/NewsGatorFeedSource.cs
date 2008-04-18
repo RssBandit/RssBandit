@@ -34,6 +34,15 @@ namespace NewsComponents.Feed {
 
 #region NewsGatorFeedSource
 
+
+    /// <summary>
+    /// Indicates the state of a news item in NewsGator Online
+    /// </summary>
+    internal enum NewsGatorItemState
+    {
+        Read, Unread, Deleted
+    }
+
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
     /// </summary>
@@ -827,9 +836,11 @@ namespace NewsComponents.Feed {
             switch (e.PropertyName)
             {
                 case "BeenRead":
-                    if (item.Feed != null)
+                    XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS); 
+                    if (elem!= null)
                     {
-                        NewsFeed f = item.Feed as NewsFeed;
+                        NewsGatorUpdater.ChangeItemStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText,
+                            item.BeenRead ? NewsGatorItemState.Read : NewsGatorItemState.Unread); 
                     }
                     break;
 
@@ -839,6 +850,39 @@ namespace NewsComponents.Feed {
                         NewsFeed f = item.Feed as NewsFeed;
                     }
                     break;
+            }
+        }
+
+
+         /// <summary>
+        /// Marks an item as read, unread or deleted in NewsGator Online
+        /// </summary>
+        /// <param name="itemId">The NewsGator ID of the news item</param>        
+        /// <param name="state">Indicates whether the item was marked as read, unread or deleted</param>
+        internal void ChangeItemStateInNewsGatorOnline(string itemId, NewsGatorItemState state)
+        {
+            if(!StringHelper.EmptyTrimOrNull(itemId)){
+                string body = "loc=" + NgosLocationName + "&";
+
+                switch (state)
+                {
+                    case NewsGatorItemState.Deleted:
+                        body += "d=" + itemId;
+                        break;
+                    case NewsGatorItemState.Read:
+                        body += "r=" + itemId;
+                        break;
+                    case NewsGatorItemState.Unread:
+                        body += "u=" + itemId;
+                        break; 
+                }
+
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(PostItemApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+             if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                } 
             }
         }
 
