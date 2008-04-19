@@ -31,7 +31,7 @@ namespace NewsComponents.Feed
         DeleteFolder = 40,     
         MarkAllItemsRead = 61,
         MarkSingleItemReadOrDeleted = 60,
-        MarkSingleItemStarred = 59,
+        MarkSingleItemClipped = 59,
         MoveFeed = 45,
         RenameFeed = 21,
         RenameFolder = 20,
@@ -141,8 +141,7 @@ namespace NewsComponents.Feed
         public NewsGatorModifier(string applicationDataPath)
         {
             pendingNewsGatorOperationsFile = Path.Combine(applicationDataPath, pendingNewsGatorOperationsFile);
-            this.LoadPendingOperations(); 
-            this.CreateThread(); 
+            this.LoadPendingOperations();  
         }		
 
         #endregion 
@@ -157,7 +156,7 @@ namespace NewsComponents.Feed
         {
             if (File.Exists(this.pendingNewsGatorOperationsFile))
             {
-                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingGoogleReaderOperation>));
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingNewsGatorOperation>));
                 pendingNewsGatorOperations = serializer.Deserialize(XmlReader.Create(this.pendingNewsGatorOperationsFile)) as List<PendingNewsGatorOperation>;
             }
         }
@@ -218,6 +217,12 @@ namespace NewsComponents.Feed
             {
                 switch (current.Action)
                 {
+                    case NewsGatorOperation.DeleteFeed:
+                        source.DeleteFeedFromNewsGatorOnline(current.Parameters[0] as string);
+                        break; 
+                    case NewsGatorOperation.MarkSingleItemClipped:
+                        source.ChangeItemClippedStateInNewsGatorOnline(current.Parameters[0] as string, (bool)current.Parameters[1]);
+                        break; 
                     case NewsGatorOperation.MarkSingleItemReadOrDeleted:
                         source.ChangeItemStateInNewsGatorOnline(current.Parameters[0] as string, (NewsGatorItemState) current.Parameters[1]);
                         break; 
@@ -233,7 +238,7 @@ namespace NewsComponents.Feed
             }
             catch (Exception e)
             { //TODO: Rethrow to handle time outs and connections cancelled by host
-                _log.Error("Error in GoogleReaderModifier.PerformOperation:", e);
+                _log.Error("Error in NewsGatorModifier.PerformOperation:", e);
             };
         }
 
@@ -287,9 +292,19 @@ namespace NewsComponents.Feed
 
         #region public methods 
 
+        /// <summary>
+        /// Starts the NewsGator Online thread
+        /// </summary>
+        public void StartBackgroundThread()
+        {
+            if (!this.threadRunning)
+            {
+                this.CreateThread(); 
+            }
+        }
 
         /// <summary>
-        /// Stops the Google Reader thread and saves pending operations to disk. 
+        /// Stops the NewsGator Online thread and saves pending operations to disk. 
         /// </summary>
         public void StopBackgroundThread()
         {
@@ -308,7 +323,10 @@ namespace NewsComponents.Feed
         public void SavePendingOperations()
         {
             XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingNewsGatorOperation>));
-            serializer.Serialize(XmlWriter.Create(this.pendingNewsGatorOperationsFile), this.pendingNewsGatorOperations);
+            XmlWriterSettings settings = new XmlWriterSettings(); 
+            settings.Indent = true; 
+            settings.OmitXmlDeclaration = true; 
+            serializer.Serialize(XmlWriter.Create(this.pendingNewsGatorOperationsFile, settings), this.pendingNewsGatorOperations);
         }
 
         /// <summary>
@@ -331,7 +349,7 @@ namespace NewsComponents.Feed
 
 
          /// <summary>
-        /// Marks an item as read, unread or deleted in NewsGator Online
+        /// Enqueues a task to marks an item as read, unread or deleted in NewsGator Online
         /// </summary>
         /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>       
         /// <param name="itemId">The NewsGator ID of the news item</param>        
@@ -347,7 +365,7 @@ namespace NewsComponents.Feed
         }
 
       /// <summary>
-        /// Marks all items older than the the specified date as read in NewsGatorOnline
+        /// Enqueues a task to mark all items as read in NewsGatorOnline
         /// </summary>
         /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
         /// <param name="feedUrl">The feed URL</param>
@@ -361,6 +379,39 @@ namespace NewsComponents.Feed
                 this.pendingNewsGatorOperations.Add(op);
             }
         }
+
+         /// <summary>
+        /// Enqueues a task to clip or unclip a post in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="itemId">The ID of the news item to clip or unclip</param>
+        /// <param name="clipped">Indicates whether the item is being clipped or unclipped</param>
+        public void ChangeItemClippedStateInNewsGatorOnline(string newsgatorUserID, string itemId, bool clipped)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MarkSingleItemClipped, new object[] { itemId, clipped }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
+        /// <summary>
+        /// Enqueues a task that deletes a feed from the list of user's subscriptions in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+       /// <param name="feedUrl">The URL of the feed to delete. </param>
+        public void DeleteFeedFromNewsGatorOnline(string newsgatorUserID, string feedUrl)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.DeleteFeed, new object[] { feedUrl }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
+
 
         #endregion 
     }

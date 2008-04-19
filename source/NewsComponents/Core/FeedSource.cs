@@ -4806,6 +4806,18 @@ namespace NewsComponents
         }
 
         /// <summary>
+        /// Invoked when a NewsItem owned by this FeedSource changes in a way that 
+        /// needs to be communicated to the underlying feed source. 
+        /// </summary>
+        /// <param name="sender">the NewsItem</param>
+        /// <param name="e">information on the property that changed</param>
+        protected virtual void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //Does nothing by default
+        }
+        
+
+        /// <summary>
         /// Retrieves items from local cache. 
         /// </summary>
         /// <param name="feedUrl"></param>
@@ -6914,6 +6926,14 @@ namespace NewsComponents
                         else if (item.BeenRead)
                         {
                             readItems++;
+                        }
+
+                        //add read/flag state event handler. 
+                        INotifyPropertyChanged inpc = item as INotifyPropertyChanged;
+                        if (inpc != null)
+                        {
+                            inpc.PropertyChanged -= this.OnNewsItemPropertyChanged; //remove it first, in case we already have it attached
+                            inpc.PropertyChanged += this.OnNewsItemPropertyChanged;
                         }
                     }
                 }

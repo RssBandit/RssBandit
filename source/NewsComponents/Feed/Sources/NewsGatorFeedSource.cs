@@ -264,9 +264,12 @@ namespace NewsComponents.Feed {
             location.body[0] = outline;
 
             XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
-            StringBuilder sb = new StringBuilder(); 
-            StringWriter sw  = new StringWriter(sb);
-            serializer.Serialize(sw, location); 
+            StringBuilder sb = new StringBuilder();
+
+            XmlWriterSettings xws = new XmlWriterSettings();
+            xws.OmitXmlDeclaration = true;
+
+            serializer.Serialize(XmlWriter.Create(sb, xws), location); 
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(LocationApiUrl, sb.ToString(), this.location.Credentials , this.Proxy, NgosTokenHeader);
 
@@ -320,6 +323,7 @@ namespace NewsComponents.Feed {
 
             //load feed list from NewsGator Online and use settings from subscriptions.xml
             this.BootstrapAndLoadFeedlist(myFeeds);
+            NewsGatorUpdater.StartBackgroundThread(); 
         }
 
         /// <summary>
@@ -830,12 +834,38 @@ namespace NewsComponents.Feed {
         #region news item manipulation methods
 
         /// <summary>
+        /// Used to clip or unclip a post in NewsGator Online
+        /// </summary>
+        /// <param name="itemId">The ID of the news item to clip or unclip</param>
+        /// <param name="clipped">Indicates whether the item is being clipped or unclipped</param>
+        internal void ChangeItemClippedStateInNewsGatorOnline(string itemId, bool clipped)
+        {
+            if (!StringHelper.EmptyTrimOrNull(itemId))
+            {
+
+                string clipApiUrl = PostItemApiUrl + (clipped ? "/clipposts" : "/unclipposts");
+
+                string bodyTemplate = "<clippings> <item><postid>{0}</postid>{1}</item> </clippings>";
+                string clippingFolder = "<folderid>0</folderid>";
+                string body = String.Format(bodyTemplate, itemId, clipped ? clippingFolder : String.Empty);
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(clipApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Invoked when a NewsItem owned by this FeedSource changes in a way that 
         /// needs to be communicated to Google Reader. 
         /// </summary>
         /// <param name="sender">the NewsItem</param>
         /// <param name="e">information on the property that changed</param>
-        private void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             NewsItem item = sender as NewsItem;
 
@@ -844,23 +874,21 @@ namespace NewsComponents.Feed {
                 return;
             }
 
-            switch (e.PropertyName)
+            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS);
+            if (elem != null)
             {
-                case "BeenRead":
-                    XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS); 
-                    if (elem!= null)
-                    {
+                switch (e.PropertyName)
+                {
+                    case "BeenRead":
                         NewsGatorUpdater.ChangeItemStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText,
-                            item.BeenRead ? NewsGatorItemState.Read : NewsGatorItemState.Unread); 
-                    }
-                    break;
+                            item.BeenRead ? NewsGatorItemState.Read : NewsGatorItemState.Unread);
+                        break;
 
-                case "FlagStatus":
-                    if (item.Feed != null)
-                    {
-                        NewsFeed f = item.Feed as NewsFeed;
-                    }
-                    break;
+                    case "FlagStatus":
+                        NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, 
+                            item.FlagStatus != Flagged.None);
+                        break;
+                }
             }
         }
 
@@ -983,6 +1011,58 @@ namespace NewsComponents.Feed {
         }
 
         #endregion
+
+        #region feed manipulation methods 
+
+        /// <summary>
+        /// Removes all information related to a feed from the FeedSource.   
+        /// </summary>
+        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>       
+        /// <exception cref="ApplicationException">If an error occured while 
+        /// attempting to delete the cached feed. Examine the InnerException property 
+        /// for details</exception>
+        public override void DeleteFeed(string feedUrl)
+        {
+            NewsGatorUpdater.DeleteFeedFromNewsGatorOnline(this.NewsGatorUserName, feedUrl);
+        }
+
+        /// <summary>
+        /// Deletes a feed from the list of user's subscriptions in NewsGator Online
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to delete. </param>
+        internal void DeleteFeedFromNewsGatorOnline(string feedUrl)
+        {
+
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                INewsFeed f = feedsTable[feedUrl];
+                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+                opml location = new opml();
+                location.body = new opmloutline[1];
+                opmloutline outline = new opmloutline();
+                outline.id = feedId;
+                location.body[0] = outline;
+
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
+                StringBuilder sb = new StringBuilder();
+               
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.OmitXmlDeclaration = true;
+                               
+                serializer.Serialize(XmlWriter.Create(sb, xws), location); 
+
+                HttpWebResponse response = AsyncWebRequest.DeleteSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+
+                base.DeleteFeed(feedUrl); 
+            }
+        }
+
+        #endregion 
 
         #endregion
     }

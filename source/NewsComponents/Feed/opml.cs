@@ -1,4 +1,7 @@
-﻿namespace NewsComponents.Feed
+﻿using System.Xml; 
+using System.Xml.Serialization;
+
+namespace NewsComponents.Feed
 {
     /// <remarks/>
     public class opmlhead
@@ -364,6 +367,9 @@
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public class opml
     {
+
+        [System.Xml.Serialization.XmlNamespaceDeclarations]
+        public XmlSerializerNamespaces xmlns = new XmlSerializerNamespaces(new XmlQualifiedName[]{ new XmlQualifiedName("ng","http://newsgator.com/schema/opml") } ) ;
 
         private opmlhead headField;
 
