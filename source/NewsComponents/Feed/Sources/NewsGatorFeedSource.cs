@@ -911,6 +911,23 @@ namespace NewsComponents.Feed {
 
         }
 
+
+         /// <summary>
+        /// Removes all information related to an item from the FeedSource. 
+        /// </summary>
+        /// <remarks>If the item doesn't exist in the FeedSource then nothing is done</remarks>
+        /// <param name="item">the item to delete</param>
+        public override void DeleteItem(INewsItem item)
+        {
+            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS);
+            if (elem != null)
+            {
+                NewsGatorUpdater.ChangeItemStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, NewsGatorItemState.Deleted); 
+            }
+
+            base.DeleteItem(item); 
+        }
+
         /// <summary>        
         /// Marks all items stored in the internal cache of RSS items and in NewsGator Online as read
         /// for a particular feed.
