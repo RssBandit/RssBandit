@@ -53,6 +53,7 @@ namespace NewsComponents.Net
     /// </summary>
     public enum HttpMethod
     {
+        DELETE,
         GET, 
         POST
     }
@@ -1160,9 +1161,9 @@ namespace NewsComponents.Net
                         httpRequest.Credentials = credentials;
                     }
 
-                    if (method == HttpMethod.POST && !StringHelper.EmptyTrimOrNull(body))
+                    if (method != HttpMethod.GET && !StringHelper.EmptyTrimOrNull(body))
                     {
-                        ASCIIEncoding encoding = new ASCIIEncoding();
+                        UTF8Encoding encoding = new UTF8Encoding();
                         byte[] data = encoding.GetBytes(body);
                         httpRequest.ContentType = "application/x-www-form-urlencoded";
                         httpRequest.ContentLength = data.Length;
@@ -1285,7 +1286,7 @@ namespace NewsComponents.Net
         }
 
         /// <summary>
-        /// Can be called syncronized to get a Http Web Response.
+        /// Can be called syncronized to send a POST Http request.
         /// </summary>
         /// <param name="address">Url to request</param>
         /// <param name="body">The body of the request</param>
@@ -1299,6 +1300,24 @@ namespace NewsComponents.Net
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
+                                      null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
+        }
+
+        /// <summary>
+        /// Can be called syncronized to send a DELETE Http request
+        /// </summary>
+        /// <param name="address">Url to request</param>
+        /// <param name="body">The body of the request</param>
+        /// <param name="cookies">The cookies to send with the request</param>
+        /// <param name="credentials">Url credentials</param>
+        /// <param name="proxy">Proxy to use</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+        public static HttpWebResponse DeleteSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
+        {
+
+            DateTime ifModifiedSince = MinValue;
+            return
+                GetSyncResponse(HttpMethod.DELETE, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
                                       null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
         }
 

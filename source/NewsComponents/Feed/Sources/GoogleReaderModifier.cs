@@ -139,7 +139,6 @@ namespace NewsComponents.Feed
         {
             pendingGoogleOperationsFile = Path.Combine(applicationDataPath, pendingGoogleOperationsFile);
             this.LoadPendingOperations(); 
-            this.CreateThread(); 
         }
 		
 
@@ -315,6 +314,16 @@ namespace NewsComponents.Feed
 
         #region public methods
 
+        /// <summary>
+        /// Starts the Google Reader thread
+        /// </summary>
+        public void StartBackgroundThread()
+        {
+            if (!this.threadRunning)
+            {
+                this.CreateThread();
+            }
+        }
 
         /// <summary>
         /// Stops the Google Reader thread and saves pending operations to disk. 
@@ -336,7 +345,10 @@ namespace NewsComponents.Feed
         public void SavePendingOperations()
         {
             XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(List<PendingGoogleReaderOperation>));
-            serializer.Serialize(XmlWriter.Create(this.pendingGoogleOperationsFile), this.pendingGoogleReaderOperations);            
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.OmitXmlDeclaration = true; 
+            serializer.Serialize(XmlWriter.Create(this.pendingGoogleOperationsFile, settings), this.pendingGoogleReaderOperations);            
         }
 
         /// <summary>
