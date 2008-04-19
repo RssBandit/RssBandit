@@ -206,6 +206,17 @@ namespace NewsComponents.Feed {
         #region feed list methods
 
         /// <summary>
+        /// Saves the feed list to the specified stream. The feed is written in 
+        /// the RSS Bandit feed file format as described in feeds.xsd
+        /// </summary>
+        /// <param name="feedStream">The stream to save the feed list to</param>
+        public override void SaveFeedList(Stream feedStream)
+        {
+            base.SaveFeedList(feedStream);
+            NewsGatorUpdater.SavePendingOperations();
+        }
+
+        /// <summary>
         /// Transfers settings from a local RSS Bandit feed to the input NewsGator feed
         /// </summary>
         /// <param name="ngFeed">The NewsGator feed</param>
