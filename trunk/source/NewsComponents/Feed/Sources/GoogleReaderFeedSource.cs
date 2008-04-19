@@ -198,7 +198,8 @@ namespace NewsComponents.Feed
             reader.Close();
 
             //load feed list from Google Reader and use settings from subscriptions.xml
-            this.BootstrapAndLoadFeedlist(myFeeds);            
+            this.BootstrapAndLoadFeedlist(myFeeds);
+            GoogleReaderUpdater.StartBackgroundThread(); 
         }
 
         /// <summary>
@@ -1134,7 +1135,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="sender">the NewsItem</param>
         /// <param name="e">information on the property that changed</param>
-        private void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnNewsItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             NewsItem item = sender as NewsItem; 
 
