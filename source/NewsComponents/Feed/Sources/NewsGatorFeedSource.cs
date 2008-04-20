@@ -1025,6 +1025,39 @@ namespace NewsComponents.Feed {
 
         #region feed manipulation methods 
 
+        /// <summary>
+        /// Adds the specified feed in NewsGator Online
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <param name="cat">The name of the category</param>
+        internal void ChangeFolderInNewsGatorOnline(string feedUrl, string cat)
+        {
+
+        }
+
+         /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public override void ChangeCategory(INewsFeed feed, string cat)
+        {
+            base.ChangeCategory(feed, cat); 
+        }
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
+        {
+            base.ChangeCategory(feed, cat);
+        }
 
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 

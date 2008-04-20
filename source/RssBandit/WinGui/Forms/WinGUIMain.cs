@@ -7224,14 +7224,15 @@ namespace RssBandit.WinGui.Forms
                 if (userInitiated)
                 {
                     string category = target.CategoryStoreName;
-                    f.category = category;
-                    changes |= NewsFeedProperty.FeedCategory;
-                    //owner.FeedlistModified = true;
+                   //owner.FeedlistModified = true;
                     if (category != null && !owner.FeedHandler.HasCategory(category))
                     {
                         owner.FeedHandler.AddCategory(category);
                         changes |= NewsFeedProperty.FeedCategoryAdded;
                     }
+
+                    owner.FeedHandler.ChangeCategory(f, category);
+                    changes |= NewsFeedProperty.FeedCategory;                    
                 }
 
                 treeFeeds.BeginUpdate();
@@ -13488,11 +13489,11 @@ namespace RssBandit.WinGui.Forms
                                 f.refreshrate = 60;
                                 //f.storiesrecentlyviewed = new ArrayList(); 				
                                 //f.deletedstories = new ArrayList(); 				
-                                f.category = category;
-                                if (!owner.FeedHandler.HasCategory(f.category))
+                                if (!owner.FeedHandler.HasCategory(category))
                                 {
-                                    owner.FeedHandler.AddCategory(f.category);
+                                    owner.FeedHandler.AddCategory(category);
                                 }
+                                owner.FeedHandler.ChangeCategory(f, category);                               
 
                                 f.alertEnabled = false;
                                 f = owner.FeedHandler.AddFeed(f);
