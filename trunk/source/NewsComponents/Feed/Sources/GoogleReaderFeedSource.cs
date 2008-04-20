@@ -1476,19 +1476,7 @@ namespace NewsComponents.Feed
                     throw new WebException(response.StatusDescription);
                 }
             }
-        }
-
-        /// <summary>
-        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
-        /// the category property of the INewsFeed instance. 
-        /// </summary>
-        /// <param name="feed">The newsfeed whose category to change</param>
-        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
-        /// categorized</param>
-        public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
-        {
-            base.ChangeCategory(feed, cat);
-        }        
+        }           
 
         #endregion 
 
