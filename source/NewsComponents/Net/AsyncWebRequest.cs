@@ -55,7 +55,8 @@ namespace NewsComponents.Net
     {
         DELETE,
         GET, 
-        POST
+        POST, 
+        PUT
     }
     
 
@@ -1302,6 +1303,25 @@ namespace NewsComponents.Net
                 GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
                                       null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
         }
+
+        /// <summary>
+        /// Can be called syncronized to send a PUT Http request.
+        /// </summary>
+        /// <param name="address">Url to request</param>
+        /// <param name="body">The body of the request</param>
+        /// <param name="cookies">The cookies to send with the request</param>
+        /// <param name="credentials">Url credentials</param>
+        /// <param name="proxy">Proxy to use</param>
+        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+        public static HttpWebResponse PutSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
+        {
+
+            DateTime ifModifiedSince = MinValue;
+            return
+                GetSyncResponse(HttpMethod.PUT, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
+                                      null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
+        }
+
 
         /// <summary>
         /// Can be called syncronized to send a DELETE Http request
