@@ -1014,6 +1014,69 @@ namespace NewsComponents.Feed {
 
         #region feed manipulation methods 
 
+
+        /// <summary>
+        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
+        /// Any existing feed objects are replaced by the new objects. 
+        /// </summary>
+        /// <param name="feed">The NewsFeed object </param>
+        /// <param name="feedInfo">The FeedInfo object</param>
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
+        {
+            NewsGatorUpdater.AddFeedInNewsGatorOnline(this.NewsGatorUserName, feed.link);
+            return base.AddFeed(feed, feedInfo);
+        }
+
+        /// <summary>
+        /// Adds the specified feed in NewsGator Online
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        internal void AddFeedInNewsGatorOnline(string feedUrl)
+        {
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                INewsFeed f = feedsTable[feedUrl];
+               
+                opml location = new opml();
+                location.body = new opmloutline[1];
+                opmloutline outline = new opmloutline();
+                outline.xmlUrl = f.link;
+                outline.text = f.title;
+
+
+                if (!StringHelper.EmptyTrimOrNull(f.category))
+                {
+                    string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
+
+                    foreach (string cat in catHives.Reverse())
+                    {
+                        opmloutline folder = new opmloutline();
+                        folder.text = cat;
+                        folder.outline = new opmloutline[] { outline };
+                        outline = folder; 
+                    }
+                }
+
+                location.body[0] = outline;
+
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
+                StringBuilder sb = new StringBuilder();
+
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.OmitXmlDeclaration = true;
+
+                serializer.Serialize(XmlWriter.Create(sb, xws), location);
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+        }
+
         /// <summary>
         /// Removes all information related to a feed from the FeedSource.   
         /// </summary>
