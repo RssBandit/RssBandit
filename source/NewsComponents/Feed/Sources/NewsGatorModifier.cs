@@ -217,6 +217,9 @@ namespace NewsComponents.Feed
             {
                 switch (current.Action)
                 {
+                    case NewsGatorOperation.AddFeed:
+                        source.AddFeedInNewsGatorOnline(current.Parameters[0] as string);
+                        break; 
                     case NewsGatorOperation.DeleteFeed:
                         source.DeleteFeedFromNewsGatorOnline(current.Parameters[0] as string);
                         break; 
@@ -411,7 +414,21 @@ namespace NewsComponents.Feed
             }
         }
 
+        
+        /// <summary>
+        /// Enqueus a task that adds the specified feed in NewsGator Online
+        /// </summary>
+           /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+     /// <param name="feedUrl">The URL of the feed to add</param>
+        public void AddFeedInNewsGatorOnline(string newsgatorUserID, string feedUrl)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.AddFeed, new object[] { feedUrl }, newsgatorUserID);
 
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
 
         #endregion 
     }
