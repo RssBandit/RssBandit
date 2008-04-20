@@ -107,10 +107,14 @@ namespace NewsComponents.Feed {
        private static readonly string FolderApiUrl = "http://services.newsgator.com/ngws/svc/Folder.aspx";
 
        /// <summary>
-       /// The XML namespace for NewsGator extensions
+       /// The XML namespace for NewsGator RSS extensions
        /// </summary>
-       private static readonly string NewsGatorNS = "http://newsgator.com/schema/extensions";
+       private static readonly string NewsGatorRssNS = "http://newsgator.com/schema/extensions";
 
+       /// <summary>
+       /// The XML namespace for NewsGator OPML extensions
+       /// </summary>
+       private static readonly string NewsGatorOpmlNS = "http://newsgator.com/schema/opml"; 
 
        /// <summary>
        /// Updates NewsGator Online in a background thread.
@@ -445,10 +449,17 @@ namespace NewsComponents.Feed {
                 if (feedsTable.ContainsKey(feedUri.CanonicalizedUri()))
                     theFeed = feedsTable[feedUri.CanonicalizedUri()] as NewsFeed;
 
-                if (theFeed == null)
+                if (theFeed == null || theFeed.Any == null)
                     return false;
 
-                string requestUrl = theFeed.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText;
+                XmlElement syncXmlUrl = theFeed.Any.First(elem => elem.LocalName == "syncXmlUrl");
+
+                if (syncXmlUrl == null) //newly added feed? 
+                {
+                    return false;
+                }
+
+                string requestUrl = syncXmlUrl.InnerText;
                 reqUri = new Uri(requestUrl + "?unread=False"); 
 
                 // only if we "real" go over the wire for an update:
@@ -874,7 +885,7 @@ namespace NewsComponents.Feed {
                 return;
             }
 
-            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS);
+            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
             if (elem != null)
             {
                 switch (e.PropertyName)
@@ -958,7 +969,7 @@ namespace NewsComponents.Feed {
         /// <param name="item">the item to delete</param>
         public override void DeleteItem(INewsItem item)
         {
-            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorNS);
+            XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
             if (elem != null)
             {
                 NewsGatorUpdater.ChangeItemStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, NewsGatorItemState.Deleted); 
@@ -984,7 +995,7 @@ namespace NewsComponents.Feed {
                 if (fi != null)
                 {
                     //get sync token from last time feed was fetched
-                    XmlElement elem = RssHelper.GetOptionalElement(fi.OptionalElements, "token",NewsGatorNS);  
+                    XmlElement elem = RssHelper.GetOptionalElement(fi.OptionalElements, "token",NewsGatorRssNS);  
                     
                     if(elem != null){
                         syncToken = elem.InnerText; 
@@ -1037,44 +1048,95 @@ namespace NewsComponents.Feed {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    this.SaveFeedList(ms, FeedListFormat.OPML);
+                    ms.Seek(0, SeekOrigin.Begin); 
+                    string body = new StreamReader(ms).ReadToEnd();
+                    
+                    #region old code that doesn't work 
+                    /*
+                     POSTing OPML TO SUBSCRIPTION URL RESULTS IN HTTP 500 ERRORS. NEWSGATOR ONLINE PROBABLY HAS BUGS HERE. 
+                 
+                    INewsFeed f = feedsTable[feedUrl];
                
-                opml location = new opml();
-                location.body = new opmloutline[1];
-                opmloutline outline = new opmloutline();
-                outline.xmlUrl = f.link;
-                outline.text = f.title;
+                    opml location = new opml();
+                    location.body = new opmloutline[1];
+                    opmloutline outline = new opmloutline();
+                    outline.xmlUrl = f.link;
+                    outline.text = f.title;
 
 
-                if (!StringHelper.EmptyTrimOrNull(f.category))
-                {
-                    string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
-
-                    foreach (string cat in catHives.Reverse())
+                    if (!StringHelper.EmptyTrimOrNull(f.category))
                     {
-                        opmloutline folder = new opmloutline();
-                        folder.text = cat;
-                        folder.outline = new opmloutline[] { outline };
-                        outline = folder; 
+                        string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
+
+                        foreach (string cat in catHives.Reverse())
+                        {
+                            opmloutline folder = new opmloutline();
+                            folder.text = cat;
+                            folder.outline = new opmloutline[] { outline };
+                            outline = folder; 
+                        }
                     }
-                }
 
-                location.body[0] = outline;
+                    location.body[0] = outline;
 
-                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
-                StringBuilder sb = new StringBuilder();
+                    XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
+                    StringBuilder sb = new StringBuilder();
 
-                XmlWriterSettings xws = new XmlWriterSettings();
-                xws.OmitXmlDeclaration = true;
+                    XmlWriterSettings xws = new XmlWriterSettings();
+                    xws.OmitXmlDeclaration = true;
 
-                serializer.Serialize(XmlWriter.Create(sb, xws), location);
+                    serializer.Serialize(XmlWriter.Create(sb, xws), location);
+                
+                     */
+                    #endregion 
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                    HttpWebResponse response = AsyncWebRequest.PutSyncResponse(SubscriptionApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new WebException(response.StatusDescription);
-                }
-            }
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(response.GetResponseStream());
+
+                        XmlElement outline = doc.SelectSingleNode("//outline[@xmlUrl='" + f.link + "']") as XmlElement;
+                        
+                        if (outline != null)
+                        {
+                            f.Any = new XmlElement[2];
+
+                            string id = outline.GetAttribute("id", NewsGatorOpmlNS);
+                            if (!StringHelper.EmptyTrimOrNull(id))
+                            {
+                                XmlElement idNode = doc.CreateElement("ng", "id", NewsGatorRssNS);
+                                idNode.InnerText = id;
+                                f.Any[0] = idNode; 
+                            }
+
+                            string syncXmlUrl = outline.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
+                            if (!StringHelper.EmptyTrimOrNull(syncXmlUrl))
+                            {
+                                XmlElement syncXmlUrlNode = doc.CreateElement("ng", "syncXmlUrl", NewsGatorRssNS);
+                                syncXmlUrlNode.InnerText = syncXmlUrl;
+                                f.Any[1] = syncXmlUrlNode;
+                            }
+                        }
+                        
+                        //make sure INewsFeed is still in the feeds table in case user deleted it since method call started
+                        if (!feedsTable.ContainsKey(f.link))
+                        {
+                            feedsTable.Add(f.link, f); 
+                        }
+
+                    }else
+                    {
+                        throw new WebException(response.StatusDescription);
+                    }
+
+                }//using(MemoryStream ms...)
+            }//if(StringHelper...)
         }
 
         /// <summary>
