@@ -1166,7 +1166,7 @@ namespace NewsComponents.Net
                     {
                         UTF8Encoding encoding = new UTF8Encoding();
                         byte[] data = encoding.GetBytes(body);
-                        httpRequest.ContentType = "application/x-www-form-urlencoded";
+                        httpRequest.ContentType = (body.StartsWith("<") ? "application/xml" : "application/x-www-form-urlencoded");
                         httpRequest.ContentLength = data.Length;
                         Stream newStream = httpRequest.GetRequestStream();
                         newStream.Write(data, 0, data.Length);
