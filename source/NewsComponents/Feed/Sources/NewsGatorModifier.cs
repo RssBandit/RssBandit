@@ -219,7 +219,10 @@ namespace NewsComponents.Feed
                 {
                     case NewsGatorOperation.AddFeed:
                         source.AddFeedInNewsGatorOnline(current.Parameters[0] as string);
-                        break; 
+                        break;
+                    case NewsGatorOperation.AddFolder:
+                        source.AddFolderInNewsGatorOnline(current.Parameters[0] as string);
+                        break;
                     case NewsGatorOperation.DeleteFeed:
                         source.DeleteFeedFromNewsGatorOnline(current.Parameters[0] as string);
                         break; 
@@ -423,6 +426,21 @@ namespace NewsComponents.Feed
         public void AddFeedInNewsGatorOnline(string newsgatorUserID, string feedUrl)
         {
             PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.AddFeed, new object[] { feedUrl }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
+
+         /// Enqueues a task that adds the folder in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="name">The name of the folder to add</param>
+        public void AddFolderInNewsGatorOnline(string newsgatorUserID, string name)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.AddFolder, new object[] { name }, newsgatorUserID);
 
             lock (this.pendingNewsGatorOperations)
             {
