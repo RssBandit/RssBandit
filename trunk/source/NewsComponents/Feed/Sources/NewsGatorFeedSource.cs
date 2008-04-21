@@ -26,6 +26,7 @@ using log4net;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 
+using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.Search;
 using NewsComponents.Utils;
@@ -218,7 +219,7 @@ namespace NewsComponents.Feed {
         {
             base.SaveFeedList(feedStream);
             NewsGatorUpdater.SavePendingOperations();
-        }
+        }        
 
         /// <summary>
         /// Transfers settings from a local RSS Bandit feed to the input NewsGator feed
@@ -1023,7 +1024,100 @@ namespace NewsComponents.Feed {
 
         #endregion
 
-        #region feed manipulation methods 
+        #region category/folder manipulation methods 
+
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The category to add</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        public override INewsFeedCategory AddCategory(INewsFeedCategory cat)
+        {
+            if (cat == null)
+                throw new ArgumentNullException("cat");
+
+            if (this.categories.ContainsKey(cat.Value))
+                return this.categories[cat.Value];
+
+            this.categories.Add(cat.Value, cat);
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
+            NewsGatorUpdater.AddFolderInNewsGatorOnline(this.NewsGatorUserName, cat.Value);
+            return cat;   
+        }
+
+         /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        /// <exception cref="NotSupportedException">If the category is a subcategory. Google Reader doesn't support 
+        /// nested categories</exception>
+        public override INewsFeedCategory AddCategory(string cat)
+        {
+            if (StringHelper.EmptyTrimOrNull(cat))
+                return null;
+
+            return this.AddCategory(new category(cat)); 
+        }
+
+          /// Adds the folder in NewsGator Online
+        /// </summary>
+        /// <param name="name">The name of the folder to add</param>
+        internal void AddFolderInNewsGatorOnline(string name)
+        {
+            if (StringHelper.EmptyTrimOrNull(name))
+                return;
+
+            INewsFeedCategory cat = null;
+            this.categories.TryGetValue(name, out cat);
+
+            if (cat == null)  //this shouldn't happen 
+                this.categories.Add(name, new category(name)); 
+
+            //check if we already have the category in NewsGator Online
+            if (cat.AnyAttr != null && cat.AnyAttr.First( attr => attr.LocalName == "folderId" )!= null)
+                return; 
+
+            List<string> ancestors = category.GetAncestors(name);
+            
+            //create rest of category hierarchy if it doesn't exist in NewsGator Online
+            for (int i = ancestors.Count; i-- > 0; )
+            {
+                INewsFeedCategory c = null;
+                if (!this.categories.TryGetValue(ancestors[i], out c)) //this shouldn't happen
+                {
+                    c = new category(ancestors[i]);
+                    this.categories.Add(ancestors[i], c);
+                }
+
+                if (c.AnyAttr.First(attr => attr.LocalName == "folderId") == null)
+                {
+                    this.AddFolderInNewsGatorOnline(ancestors[i]);
+                    if (c.Value.Contains(FeedSource.CategorySeparator))
+                    {
+                        c.parent = this.categories[ancestors[i - 1]];
+                    }
+                }                
+            }//for
+            
+            //make sure the new category has its parent set
+            cat.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
+
+            string folderCreateUrl = FolderApiUrl + "/create";
+            string body = "parentid=" + cat.parent.AnyAttr.First(a => a.LocalName == "folderId").Value + "&name="
+                + Uri.EscapeDataString(cat.Value) + "&root=MYF"; 
+
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new WebException(response.StatusDescription);
+            }
+        }
+        #endregion 
+
+        #region feed manipulation methods
 
         /// <summary>
         /// Adds the specified feed in NewsGator Online
@@ -1082,18 +1176,6 @@ namespace NewsComponents.Feed {
             {
                 INewsFeed f = feedsTable[feedUrl];
 
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    this.SaveFeedList(ms, FeedListFormat.OPML);
-                    ms.Seek(0, SeekOrigin.Begin); 
-                    string body = new StreamReader(ms).ReadToEnd();
-                    
-                    #region old code that doesn't work 
-                    /*
-                     POSTing OPML TO SUBSCRIPTION URL RESULTS IN HTTP 500 ERRORS. NEWSGATOR ONLINE PROBABLY HAS BUGS HERE. 
-                 
-                    INewsFeed f = feedsTable[feedUrl];
-               
                     opml location = new opml();
                     location.body = new opmloutline[1];
                     opmloutline outline = new opmloutline();
@@ -1122,25 +1204,22 @@ namespace NewsComponents.Feed {
                     XmlWriterSettings xws = new XmlWriterSettings();
                     xws.OmitXmlDeclaration = true;
 
-                    serializer.Serialize(XmlWriter.Create(sb, xws), location);
-                
-                     */
-                    #endregion 
+                    serializer.Serialize(XmlWriter.Create(sb, xws), location);                
 
-                    HttpWebResponse response = AsyncWebRequest.PutSyncResponse(SubscriptionApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                    HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         XmlDocument doc = new XmlDocument();
                         doc.Load(response.GetResponseStream());
 
-                        XmlElement outline = doc.SelectSingleNode("//outline[@xmlUrl='" + f.link + "']") as XmlElement;
+                        XmlElement outlineElem = doc.SelectSingleNode("//outline[@xmlUrl='" + f.link + "']") as XmlElement;
                         
-                        if (outline != null)
+                        if (outlineElem != null)
                         {
                             f.Any = new XmlElement[2];
 
-                            string id = outline.GetAttribute("id", NewsGatorOpmlNS);
+                            string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
                             if (!StringHelper.EmptyTrimOrNull(id))
                             {
                                 XmlElement idNode = doc.CreateElement("ng", "id", NewsGatorRssNS);
@@ -1148,7 +1227,7 @@ namespace NewsComponents.Feed {
                                 f.Any[0] = idNode; 
                             }
 
-                            string syncXmlUrl = outline.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
+                            string syncXmlUrl = outlineElem.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
                             if (!StringHelper.EmptyTrimOrNull(syncXmlUrl))
                             {
                                 XmlElement syncXmlUrlNode = doc.CreateElement("ng", "syncXmlUrl", NewsGatorRssNS);
@@ -1167,8 +1246,7 @@ namespace NewsComponents.Feed {
                     {
                         throw new WebException(response.StatusDescription);
                     }
-
-                }//using(MemoryStream ms...)
+                
             }//if(StringHelper...)
         }
 
