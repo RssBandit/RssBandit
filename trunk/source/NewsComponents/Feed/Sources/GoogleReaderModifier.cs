@@ -68,6 +68,30 @@ namespace NewsComponents.Feed
             this.Parameters = parameters;
             this.GoogleUserName = googleUserID;
         }
+
+        /// <summary>
+        /// Compares two objects for equality
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            PendingGoogleReaderOperation pop = obj as PendingGoogleReaderOperation;
+
+            if (pop == null) return false;
+
+            if (pop.Action != this.Action) return false;
+
+            if (pop.Parameters.Length != this.Parameters.Length) return false;
+
+            for (int i = 0; i < pop.Parameters.Length; i++)
+            {
+                if (!pop.Parameters[i].Equals(this.Parameters[i]))
+                    return false;
+            }
+
+            return true;
+        }
     }
 
     #endregion 
@@ -393,12 +417,33 @@ namespace NewsComponents.Feed
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
         public void RenameCategoryInGoogleReader(string googleUserID, string oldName, string newName)
-        {
-            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.RenameLabel, new object[] { oldName, newName }, googleUserID);
-
+        {          
             lock (this.pendingGoogleReaderOperations)
             {
-                this.pendingGoogleReaderOperations.Add(op);
+                //don't bother adding a folder that was later renamed, simply add the final named folder
+                PendingGoogleReaderOperation addFolderOp = this.pendingGoogleReaderOperations.Find(oldOp => oldOp.Action == GoogleReaderOperation.AddLabel && oldName.Equals(oldOp.Parameters[0]));
+
+                if (addFolderOp == null)
+                {
+                    //also check if category was renamed then renamed again
+                    PendingGoogleReaderOperation renameOp = this.pendingGoogleReaderOperations.Find(oldOp => oldOp.Action == GoogleReaderOperation.RenameLabel && oldName.Equals(oldOp.Parameters[1]));
+
+                    if (renameOp == null)
+                    {
+                        PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.RenameLabel, new object[] { oldName, newName }, googleUserID);
+                        this.pendingGoogleReaderOperations.Add(op);
+                    }
+                    else
+                    {
+                        this.pendingGoogleReaderOperations.Remove(renameOp);
+                        this.pendingGoogleReaderOperations.Add(new PendingGoogleReaderOperation(GoogleReaderOperation.RenameLabel, new object[] { renameOp.Parameters[0], newName }, googleUserID));
+                    }
+                }
+                else
+                {                   
+                    this.pendingGoogleReaderOperations.Remove(addFolderOp);
+                    this.pendingGoogleReaderOperations.Add(new PendingGoogleReaderOperation(GoogleReaderOperation.AddLabel, new object[] { newName }, googleUserID));
+                }
             }
         }
 
@@ -516,7 +561,7 @@ namespace NewsComponents.Feed
             lock (this.pendingGoogleReaderOperations)
             {
                 this.pendingGoogleReaderOperations.Add(op);
-            }
+            }           
         }
 
         /// <summary>

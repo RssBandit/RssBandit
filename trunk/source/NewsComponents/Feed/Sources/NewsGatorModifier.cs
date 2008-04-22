@@ -68,6 +68,31 @@ namespace NewsComponents.Feed
             this.Parameters = parameters;
             this.NewsGatorUserName = ngUserID;
         }
+
+
+        /// <summary>
+        /// Compares two objects for equality
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            PendingNewsGatorOperation pop = obj as PendingNewsGatorOperation;
+
+            if (pop == null) return false;
+
+            if (pop.Action != this.Action) return false;
+
+            if (pop.Parameters.Length != this.Parameters.Length) return false;
+
+            for (int i = 0; i < pop.Parameters.Length; i++)
+            {
+                if (!pop.Parameters[i].Equals(this.Parameters[i]))
+                    return false; 
+            }
+
+            return true; 
+        }
     }
 
     #endregion 
@@ -445,6 +470,45 @@ namespace NewsComponents.Feed
             lock (this.pendingNewsGatorOperations)
             {
                 this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
+          /// <summary>
+        /// Enqueues a task to rename the specified category in NewsGator Online
+        /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+
+        public void RenameFolderInNewsGatorOnline(string newsgatorUserID, string oldName, string newName)
+        {           
+            lock (this.pendingNewsGatorOperations)
+            {
+                //don't bother adding a folder that was later renamed, simply add the final named folder
+                PendingNewsGatorOperation addFolderOp = this.pendingNewsGatorOperations.Find(oldOp => oldOp.Action == NewsGatorOperation.AddFolder && oldName.Equals(oldOp.Parameters[0]));
+
+                if (addFolderOp == null)
+                {
+                    //also check if category was renamed then renamed again
+                    PendingNewsGatorOperation renameOp = this.pendingNewsGatorOperations.Find(oldOp => oldOp.Action == NewsGatorOperation.RenameFolder && oldName.Equals(oldOp.Parameters[1]));
+
+                    if (renameOp == null)
+                    {
+                        PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.RenameFolder, new object[] { oldName, newName }, newsgatorUserID);
+                        this.pendingNewsGatorOperations.Add(op);
+                    }
+                    else
+                    {
+                        this.pendingNewsGatorOperations.Remove(renameOp);
+                        this.pendingNewsGatorOperations.Add(new PendingNewsGatorOperation(NewsGatorOperation.RenameFolder, new object[] { renameOp.Parameters[0], newName }, newsgatorUserID));
+                    }                   
+                }
+                else
+                {
+                    this.pendingNewsGatorOperations.Remove(addFolderOp);
+                    this.pendingNewsGatorOperations.Add(new PendingNewsGatorOperation(NewsGatorOperation.AddFolder, new object[] { newName }, newsgatorUserID)); 
+                }
             }
         }
 
