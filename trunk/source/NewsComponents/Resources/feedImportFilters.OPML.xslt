@@ -62,14 +62,37 @@
     </xsl:for-each>
   </xsl:variable>
   <xsl:variable name="categories">
+    <!-- 
     <xsl:for-each select="msxsl:node-set($feeds)//@category">
       <xsl:sort select="string(.)" />
-      <category>
-        <xsl:attribute name="folderId" namespace="http://newsgator.com/schema/opml">
-          <xsl:value-of select="./parent::*/*[local-name()='folderId']" />
-        </xsl:attribute>
-        <xsl:value-of select="." />
+      <category>    
+	<xsl:value-of select="." />     
       </category>
+    </xsl:for-each>
+-->
+    <xsl:for-each select="/opml/body//outline">
+      <xsl:if test="count(child::*)!=0">
+        <category>
+          <xsl:if test="@ng:id">
+            <xsl:attribute name="folderId" namespace="http://newsgator.com/schema/opml">
+              <xsl:value-of select="string(@ng:id)" />
+            </xsl:attribute>
+            <xsl:for-each select="ancestor-or-self::*[name()='outline']">
+              <xsl:if test="@title or @text">
+                <xsl:choose>
+                  <xsl:when test="@text">
+                    <xsl:value-of select="@text" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="@title" />
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="last() != position()">\</xsl:if>
+              </xsl:if>
+            </xsl:for-each>
+          </xsl:if>
+        </category>
+      </xsl:if>
     </xsl:for-each>
   </xsl:variable>
   <xsl:template match="/">
