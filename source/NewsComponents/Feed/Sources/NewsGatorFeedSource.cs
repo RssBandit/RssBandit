@@ -1027,6 +1027,52 @@ namespace NewsComponents.Feed {
         #region category/folder manipulation methods 
 
         /// <summary>
+        /// Renames the specified folder in NewsGator Online
+        /// </summary>
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        internal void RenameFolderInNewsGatorOnline(string oldName, string newName)
+        {
+            INewsFeedCategory cat = null;
+
+            if (this.categories.TryGetValue(oldName, out cat))
+            {
+                string folderRenameUrl = FolderApiUrl + "/rename";
+                string body = "fld=" + cat.AnyAttr.First(a => a.LocalName == "folderId").Value + "&name="
+                    + Uri.EscapeDataString(oldName);
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderRenameUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public override void RenameCategory(string oldName, string newName)
+        {
+            if ((StringHelper.EmptyTrimOrNull(oldName) || StringHelper.EmptyTrimOrNull(newName))
+                || oldName.Equals(newName))
+            {
+                return;
+            }
+
+            //rename object in category table
+            base.RenameCategory(oldName, newName);
+            NewsGatorUpdater.RenameFolderInNewsGatorOnline(this.NewsGatorUserName, oldName, newName);
+        }
+
+
+        /// <summary>
         /// Adds a category to the list of feed categories known by this feed handler
         /// </summary>
         /// <param name="cat">The category to add</param>
