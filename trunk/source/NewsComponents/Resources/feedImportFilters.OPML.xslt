@@ -98,18 +98,9 @@
   <xsl:template match="/">
     <feeds>
       <xsl:copy-of select="$feeds" />
-      <xsl:if test="count(msxsl:node-set($categories)/bndt:category) &gt; 0">
+      <xsl:if test="count(msxsl:node-set($categories)) &gt; 0">
         <categories>
-          <xsl:for-each select="msxsl:node-set($categories)/bndt:category">
-            <xsl:choose>
-              <xsl:when test="position() = 1">
-                <xsl:copy-of select="." />
-              </xsl:when>
-              <xsl:when test="not(string(preceding::bndt:category[1]) = string(.))">
-                <xsl:copy-of select="." />
-              </xsl:when>
-            </xsl:choose>
-          </xsl:for-each>
+          <xsl:copy-of select="$categories" />
         </categories>
       </xsl:if>
     </feeds>
