@@ -1149,14 +1149,37 @@ namespace NewsComponents.Feed {
             
             //make sure the new category has its parent set
             cat.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
+            int index = cat.Value.LastIndexOf(FeedSource.CategorySeparator); 
+            string folderName =  (index == -1 ? cat.Value : cat.Value.Substring(index + 1)); 
 
             string folderCreateUrl = FolderApiUrl + "/create";
             string body = "parentid=" + cat.parent.AnyAttr.First(a => a.LocalName == "folderId").Value + "&name="
-                + Uri.EscapeDataString(cat.Value) + "&root=MYF"; 
+                + Uri.EscapeDataString(folderName) + "&root=MYF"; 
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(response.GetResponseStream());
+
+                XmlElement outlineElem = doc.SelectSingleNode("//outline[@text=" + buildXPathString(folderName) + "]") as XmlElement;
+
+                if (outlineElem != null)
+                {
+                    cat.AnyAttr = new XmlAttribute[1]; 
+
+                    string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
+                    if (!StringHelper.EmptyTrimOrNull(id))
+                    {
+                        XmlAttribute idNode = doc.CreateAttribute("ng", "id", NewsGatorRssNS);
+                        idNode.Value = id;
+                        cat.AnyAttr[0] = idNode;
+                    }                  
+                }              
+
+            }
+            else
             {
                 throw new WebException(response.StatusDescription);
             }
