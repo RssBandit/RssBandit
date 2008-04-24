@@ -260,7 +260,9 @@ namespace NewsComponents.Feed
                     case NewsGatorOperation.MarkAllItemsRead:
                         source.MarkAllItemsAsReadInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break;
-
+                    case NewsGatorOperation.RenameFolder:
+                        source.RenameFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break; 
                     default:
                         Debug.Assert(false, "Unknown NewsGator Online operation: " + current.Action);
                         return;
