@@ -369,7 +369,9 @@ namespace NewsComponents.Feed {
             {
                 category cat = null;
                 bootstrapCategories.TryGetValue(ngCategory.Value, out cat);
-                this.categories.Add(ngCategory.Value, cat ?? ngCategory);
+                cat = cat ?? ngCategory;
+                cat.AnyAttr = ngCategory.AnyAttr; //make sure we get ng:folderId from NewsGator Online
+                this.categories.Add(ngCategory.Value, cat);
             }
 
             // copy over list view layouts 
@@ -1118,8 +1120,11 @@ namespace NewsComponents.Feed {
             INewsFeedCategory cat = null;
             this.categories.TryGetValue(name, out cat);
 
-            if (cat == null)  //this shouldn't happen 
-                this.categories.Add(name, new category(name)); 
+            if (cat == null) //this shouldn't happen unless app shutdown before category added in NewsGator
+            {
+                cat = new category(name);
+                this.categories.Add(name, cat);
+            }
 
             //check if we already have the category in NewsGator Online
             if (cat.AnyAttr != null && cat.AnyAttr.First( attr => attr.LocalName == "folderId" )!= null)
@@ -1137,7 +1142,7 @@ namespace NewsComponents.Feed {
                     this.categories.Add(ancestors[i], c);
                 }
 
-                if (c.AnyAttr.First(attr => attr.LocalName == "folderId") == null)
+                if (c.AnyAttr==null || c.AnyAttr.First(attr => attr.LocalName == "folderId") == null)
                 {
                     this.AddFolderInNewsGatorOnline(ancestors[i]);
                     if (c.Value.Contains(FeedSource.CategorySeparator))
