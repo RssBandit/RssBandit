@@ -71,7 +71,7 @@
     </xsl:for-each>
 -->
     <xsl:for-each select="/opml/body//outline">
-      <xsl:if test="count(child::*)!=0">
+      <xsl:if test="count(child::*)!=0 or (boolean(./@ng:syncXmlUrl)=false)">
         <category>
           <xsl:if test="@ng:id">
             <xsl:attribute name="folderId" namespace="http://newsgator.com/schema/opml">
