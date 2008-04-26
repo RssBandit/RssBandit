@@ -1158,8 +1158,8 @@ namespace NewsComponents.Feed {
             string folderName =  (index == -1 ? cat.Value : cat.Value.Substring(index + 1)); 
 
             string folderCreateUrl = FolderApiUrl + "/create";
-            string body = "parentid=" + cat.parent.AnyAttr.First(a => a.LocalName == "folderId").Value + "&name="
-                + Uri.EscapeDataString(folderName) + "&root=MYF"; 
+            string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.First(a => a.LocalName == "folderId").Value) 
+                + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF"; 
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
@@ -1177,7 +1177,7 @@ namespace NewsComponents.Feed {
                     string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
                     if (!StringHelper.EmptyTrimOrNull(id))
                     {
-                        XmlAttribute idNode = doc.CreateAttribute("ng", "id", NewsGatorRssNS);
+                        XmlAttribute idNode = doc.CreateAttribute("ng", "folderId", NewsGatorRssNS);
                         idNode.Value = id;
                         cat.AnyAttr[0] = idNode;
                     }                  
