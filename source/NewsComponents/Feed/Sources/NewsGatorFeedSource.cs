@@ -31,9 +31,28 @@ using NewsComponents.Net;
 using NewsComponents.Search;
 using NewsComponents.Utils;
 
-namespace NewsComponents.Feed {
+namespace NewsComponents.Feed
+{
 
-#region NewsGatorFeedSource
+    #region NewsGatorFlagStatus 
+
+    /// <summary>
+    /// Uses same values as PR_FLAG_ICON enumeration used by Outlook 
+    /// </summary>
+    public enum NewsGatorFlagStatus
+    {
+        None = 0, 
+        FollowUp = 6, //Red 
+        Forward = 5,   //Blue
+        Read = 3,   //Green
+        Review = 4, //Yellow
+        Reply = 1, //Purple
+        Complete = 1000
+    }
+
+    #endregion 
+
+    #region NewsGatorFeedSource
 
 
     /// <summary>
@@ -929,13 +948,63 @@ namespace NewsComponents.Feed {
                         break;
 
                     case "FlagStatus":
-                        NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, 
-                            item.FlagStatus != Flagged.None);
+                        NewsGatorUpdater.ChangeItemStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, 
+                            item.Feed.link, (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), item.FlagStatus.ToString())
+                            ); 
                         break;
 
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// Marks an item as flagged or unflagged in NewsGator Online
+        /// </summary>
+        /// <param name="itemId">The NewsGator ID of the news item</param>        
+        /// <param name="feedUrl">The URL of the feed the item belongs to</param>
+        /// <param name="state">Indicates the flag status of the item</param>
+        internal void ChangeItemStateInNewsGatorOnline(string itemId, string feedUrl, NewsGatorFlagStatus state)
+        {
+            if (!StringHelper.EmptyTrimOrNull(itemId) && !StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            {
+                INewsFeed f = feedsTable[feedUrl];
+                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+
+                string flagItemApiUrl = PostItemApiUrl + "/updatepostmetadata"; 
+
+                NewsGatorItemMetaData body = new NewsGatorItemMetaData();
+                body.updatepostmetadata = new bodyUpdatepostmetadata();
+                body.updatepostmetadata.location = NgosLocationName;
+                body.updatepostmetadata.synctoken = NgosSyncToken;
+                body.updatepostmetadata.newstates = new bodyUpdatepostmetadataNewstates();
+                body.updatepostmetadata.newstates.feedmetadata = new bodyUpdatepostmetadataNewstatesFeedmetadata();
+                body.updatepostmetadata.newstates.feedmetadata.feedid = feedId;
+                body.updatepostmetadata.newstates.feedmetadata.postmetadata = new bodyUpdatepostmetadataNewstatesFeedmetadataPostmetadata();
+                body.updatepostmetadata.newstates.feedmetadata.postmetadata.flagstate = (int) state;
+                body.updatepostmetadata.newstates.feedmetadata.postmetadata.flagstatespecified = true;
+                body.updatepostmetadata.newstates.feedmetadata.postmetadata.postid = itemId;
+                body.updatepostmetadata.newstates.feedmetadata.postmetadata.statespecified = false;
+
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(NewsGatorItemMetaData));
+                StringBuilder sb = new StringBuilder();
+
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.OmitXmlDeclaration = true;
+
+                serializer.Serialize(XmlWriter.Create(sb, xws), body);
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(flagItemApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }            
+
+        }
+
 
 
          /// <summary>
@@ -1494,6 +1563,221 @@ namespace NewsComponents.Feed {
 
 #endregion
 
+    #region NewsGator post metadata related classes
+
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlRoot(ElementName="body")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class NewsGatorItemMetaData
+    {
+
+        private bodyUpdatepostmetadata updatepostmetadataField;
+
+        /// <remarks/>
+        public bodyUpdatepostmetadata updatepostmetadata
+        {
+            get
+            {
+                return this.updatepostmetadataField;
+            }
+            set
+            {
+                this.updatepostmetadataField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class bodyUpdatepostmetadata
+    {
+
+        private string locationField;
+
+        private string synctokenField;
+
+        private bodyUpdatepostmetadataNewstates newstatesField;
+
+        /// <remarks/>
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string synctoken
+        {
+            get
+            {
+                return this.synctokenField;
+            }
+            set
+            {
+                this.synctokenField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bodyUpdatepostmetadataNewstates newstates
+        {
+            get
+            {
+                return this.newstatesField;
+            }
+            set
+            {
+                this.newstatesField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class bodyUpdatepostmetadataNewstates
+    {
+
+        private bodyUpdatepostmetadataNewstatesFeedmetadata feedmetadataField;
+
+        /// <remarks/>
+        public bodyUpdatepostmetadataNewstatesFeedmetadata feedmetadata
+        {
+            get
+            {
+                return this.feedmetadataField;
+            }
+            set
+            {
+                this.feedmetadataField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class bodyUpdatepostmetadataNewstatesFeedmetadata
+    {
+
+        private string feedidField;
+
+        private bodyUpdatepostmetadataNewstatesFeedmetadataPostmetadata postmetadataField;
+
+        /// <remarks/>
+        public string feedid
+        {
+            get
+            {
+                return this.feedidField;
+            }
+            set
+            {
+                this.feedidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bodyUpdatepostmetadataNewstatesFeedmetadataPostmetadata postmetadata
+        {
+            get
+            {
+                return this.postmetadataField;
+            }
+            set
+            {
+                this.postmetadataField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class bodyUpdatepostmetadataNewstatesFeedmetadataPostmetadata
+    {
+
+        private string postidField;
+
+        private int stateField;
+
+        private bool statespecifiedField;
+
+        private int flagstateField;
+
+        private bool flagstatespecifiedField;
+
+        /// <remarks/>
+        public string postid
+        {
+            get
+            {
+                return this.postidField;
+            }
+            set
+            {
+                this.postidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int state
+        {
+            get
+            {
+                return this.stateField;
+            }
+            set
+            {
+                this.stateField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bool statespecified
+        {
+            get
+            {
+                return this.statespecifiedField;
+            }
+            set
+            {
+                this.statespecifiedField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int flagstate
+        {
+            get
+            {
+                return this.flagstateField;
+            }
+            set
+            {
+                this.flagstateField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bool flagstatespecified
+        {
+            get
+            {
+                return this.flagstatespecifiedField;
+            }
+            set
+            {
+                this.flagstatespecifiedField = value;
+            }
+        }
+    }
+
+    #endregion 
 
 }
 
