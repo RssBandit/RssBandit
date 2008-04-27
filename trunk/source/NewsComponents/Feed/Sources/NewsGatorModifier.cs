@@ -264,6 +264,9 @@ namespace NewsComponents.Feed
                         break;
                     case NewsGatorOperation.MoveFeed:
                         source.ChangeFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break;
+                    case NewsGatorOperation.RenameFeed:
+                        source.RenameFeedInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break; 
                     case NewsGatorOperation.RenameFolder:
                         source.RenameFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
@@ -497,6 +500,24 @@ namespace NewsComponents.Feed
             }
         }
         
+
+         /// <summary>
+        /// Changes the title of a subscribed feed in NewsGator Online
+        /// </summary>
+        /// <remarks>This method does nothing if the new title is empty or null</remarks>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="url">The feed URL</param>
+        /// <param name="title">The new title</param>
+        public void RenameFeedInNewsGatorOnline(string newsgatorUserID, string url, string title)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.RenameFeed, new object[] { url, title }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
 
           /// <summary>
         /// Enqueues a task to rename the specified category in NewsGator Online

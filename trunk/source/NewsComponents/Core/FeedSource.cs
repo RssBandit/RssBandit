@@ -3836,6 +3836,17 @@ namespace NewsComponents
 
         #region Feed manipulation methods
 
+          /// <summary>
+        /// Invoked when a NewsFeed owned by this FeedSource changes in a way that 
+        /// needs to be communicated to NewsGator Online. 
+        /// </summary>
+        /// <param name="sender">the NewsFeed</param>
+        /// <param name="e">information on the property that changed</param>
+        protected virtual void OnNewsFeedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //DOES NOTHING BY DEFAULT
+        }
+
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
         /// Any existing feed objects are replaced by the new objects. 

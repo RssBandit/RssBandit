@@ -361,7 +361,11 @@ namespace NewsComponents.Feed {
                 {
                     NewsFeed feed = null;
                     bootstrapFeeds.TryGetValue(ngFeed.link, out feed);
-                    this.feedsTable.Add(ngFeed.link, TransferSettings(ngFeed, feed));
+                    feed = TransferSettings(ngFeed, feed);
+
+                    feed.PropertyChanged += this.OnNewsFeedPropertyChanged; 
+
+                    this.feedsTable.Add(ngFeed.link, feed);
                 }
             }
 
@@ -873,9 +877,35 @@ namespace NewsComponents.Feed {
 
         }
 
+
+         /// <summary>
+        /// Invoked when a NewsFeed owned by this FeedSource changes in a way that 
+        /// needs to be communicated to NewsGator Online. 
+        /// </summary>
+        /// <param name="sender">the NewsFeed</param>
+        /// <param name="e">information on the property that changed</param>
+        protected override void OnNewsFeedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NewsFeed feed = sender as NewsFeed;
+
+            if (feed == null)
+            {
+                return;
+            }
+
+
+            switch (e.PropertyName)
+            {
+                case "title":
+                    NewsGatorUpdater.RenameFeedInNewsGatorOnline(this.NewsGatorUserName, feed.link, feed.title);
+                    break;               
+            }
+
+        }
+
         /// <summary>
         /// Invoked when a NewsItem owned by this FeedSource changes in a way that 
-        /// needs to be communicated to Google Reader. 
+        /// needs to be communicated to NewsGator Online. 
         /// </summary>
         /// <param name="sender">the NewsItem</param>
         /// <param name="e">information on the property that changed</param>
@@ -902,6 +932,7 @@ namespace NewsComponents.Feed {
                         NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, 
                             item.FlagStatus != Flagged.None);
                         break;
+
                 }
             }
         }
@@ -1191,6 +1222,64 @@ namespace NewsComponents.Feed {
 
         #region feed manipulation methods
 
+         /// <summary>
+        /// Changes the title of a subscribed feed in NewsGator Online
+        /// </summary>
+        /// <remarks>This method does nothing if the new title is empty or null</remarks>
+        /// <param name="url">The feed URL</param>
+        /// <param name="title">The new title</param>
+        internal void RenameFeedInNewsGatorOnline(string url, string title)
+        {
+            if (StringHelper.EmptyTrimOrNull(title))
+            {
+                return;
+            }
+
+            if (!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url))
+            {
+                INewsFeed f = feedsTable[url];
+
+                opml location = new opml();
+                location.body = new opmloutline[1];
+                opmloutline outline = new opmloutline();
+                outline.xmlUrl = f.link;
+                outline.text = title;
+                outline.id = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+
+
+                if (!StringHelper.EmptyTrimOrNull(f.category))
+                {
+                    string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
+
+                    foreach (string cat in catHives.Reverse())
+                    {
+                        opmloutline folder = new opmloutline();
+                        folder.text = cat;
+                        folder.outline = new opmloutline[] { outline };
+                        outline = folder;
+                    }
+                }
+
+                location.body[0] = outline;
+
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(opml));
+                StringBuilder sb = new StringBuilder();
+
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.OmitXmlDeclaration = true;
+
+                serializer.Serialize(XmlWriter.Create(sb, xws), location);
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)               
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+
+        }
+
         /// <summary>
         /// Adds the specified feed in NewsGator Online
         /// </summary>
@@ -1259,8 +1348,11 @@ namespace NewsComponents.Feed {
         /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
         public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
         {
-            NewsGatorUpdater.AddFeedInNewsGatorOnline(this.NewsGatorUserName, feed.link);
-            return base.AddFeed(feed, feedInfo);
+            feed = base.AddFeed(feed, feedInfo);
+            NewsGatorUpdater.AddFeedInNewsGatorOnline(this.NewsGatorUserName, feed.link);         
+            feed.PropertyChanged += this.OnNewsFeedPropertyChanged;
+
+            return feed; 
         }
 
         /// <summary>
