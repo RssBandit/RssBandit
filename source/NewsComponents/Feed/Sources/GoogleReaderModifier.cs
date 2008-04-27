@@ -454,7 +454,7 @@ namespace NewsComponents.Feed
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>     
         /// <param name="url">The feed URL</param>
         /// <param name="title">The new title</param>        
-        public void RenameFeed(string googleUserID, string url, string title)
+        public void RenameFeedInGoogleReader(string googleUserID, string url, string title)
         {
             PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.RenameFeed, new object[] { url, title }, googleUserID);
             
