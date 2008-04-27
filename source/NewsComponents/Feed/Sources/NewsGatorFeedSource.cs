@@ -1037,11 +1037,11 @@ namespace NewsComponents.Feed {
         {
             INewsFeedCategory cat = null;
 
-            if (this.categories.TryGetValue(oldName, out cat))
+            if (this.categories.TryGetValue(newName, out cat))
             {
                 string folderRenameUrl = FolderApiUrl + "/rename";
-                string body = "fld=" + cat.AnyAttr.First(a => a.LocalName == "folderId").Value + "&name="
-                    + Uri.EscapeDataString(oldName);
+                string body = "fld=" + cat.AnyAttr.First(a => a.LocalName == "id").Value + "&name="
+                    + Uri.EscapeDataString(newName);
 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderRenameUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
