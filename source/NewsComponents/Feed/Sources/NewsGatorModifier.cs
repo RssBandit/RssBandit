@@ -252,7 +252,10 @@ namespace NewsComponents.Feed
                         break;
                     case NewsGatorOperation.DeleteFeed:
                         source.DeleteFeedFromNewsGatorOnline(current.Parameters[0] as string);
-                        break; 
+                        break;
+                    case NewsGatorOperation.MarkSingleItemFlagged:
+                        source.ChangeItemStateInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string, (NewsGatorFlagStatus)current.Parameters[2]);
+                        break;
                     case NewsGatorOperation.MarkSingleItemClipped:
                         source.ChangeItemClippedStateInNewsGatorOnline(current.Parameters[0] as string, (bool)current.Parameters[1]);
                         break; 
@@ -430,6 +433,23 @@ namespace NewsComponents.Feed
         public void ChangeItemClippedStateInNewsGatorOnline(string newsgatorUserID, string itemId, bool clipped)
         {
             PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MarkSingleItemClipped, new object[] { itemId, clipped }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
+
+        /// Marks an item as flagged or unflagged in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="itemId">The NewsGator ID of the news item</param>      
+        /// <param name="feedUrl">The URL of the feed the item belongs to</param>
+        /// <param name="state">Indicates the flag status of the item</param>
+        public void ChangeItemStateInNewsGatorOnline(string newsgatorUserID, string itemId, string feedUrl, NewsGatorFlagStatus state)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MarkSingleItemFlagged, new object[] { itemId, feedUrl, state }, newsgatorUserID);
 
             lock (this.pendingNewsGatorOperations)
             {
