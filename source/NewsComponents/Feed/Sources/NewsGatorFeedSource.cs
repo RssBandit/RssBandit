@@ -1174,11 +1174,9 @@ namespace NewsComponents.Feed {
                 {
                     cat.AnyAttr = new XmlAttribute[1]; 
 
-                    string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
-                    if (!StringHelper.EmptyTrimOrNull(id))
+                    XmlAttribute idNode = outlineElem.Attributes["id", NewsGatorOpmlNS];
+                    if (idNode != null)
                     {
-                        XmlAttribute idNode = doc.CreateAttribute("ng", "folderId", NewsGatorRssNS);
-                        idNode.Value = id;
                         cat.AnyAttr[0] = idNode;
                     }                  
                 }              
@@ -1201,6 +1199,29 @@ namespace NewsComponents.Feed {
         internal void ChangeFolderInNewsGatorOnline(string feedUrl, string cat)
         {
 
+            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl)
+                && !StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat) )
+            {
+                INewsFeed f = feedsTable[feedUrl];
+                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText;
+
+                INewsFeedCategory c = categories[cat];
+                string folderId = c.AnyAttr.First(attr => attr.LocalName == "id").Value;
+
+                string moveApiUrl = SubscriptionApiUrl + "/" + NgosLocationName + "/movesubscription/" + feedId;
+                string body = "tofolderid=" + folderId;
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(moveApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+
+                //update NewsGator folder ID of feed
+                XmlElement folderIdNode = f.Any.First(elem => elem.LocalName == "folderId");
+                folderIdNode.InnerText = folderId; 
+            }
         }
 
          /// <summary>
@@ -1212,7 +1233,8 @@ namespace NewsComponents.Feed {
         /// categorized</param>
         public override void ChangeCategory(INewsFeed feed, string cat)
         {
-            base.ChangeCategory(feed, cat); 
+            base.ChangeCategory(feed, cat);
+            NewsGatorUpdater.ChangeFolderInNewsGatorOnline(this.NewsGatorUserName, feed.link, cat); 
         }
 
         /// <summary>
@@ -1225,6 +1247,7 @@ namespace NewsComponents.Feed {
         public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
         {
             base.ChangeCategory(feed, cat);
+            NewsGatorUpdater.ChangeFolderInNewsGatorOnline(this.NewsGatorUserName, feed.link, cat.Value);
         }
 
         /// <summary>

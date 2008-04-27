@@ -62,22 +62,12 @@
     </xsl:for-each>
   </xsl:variable>
   <xsl:variable name="categories">
-    <!-- 
-    <xsl:for-each select="msxsl:node-set($feeds)//@category">
-      <xsl:sort select="string(.)" />
-      <category>    
-	<xsl:value-of select="." />     
-      </category>
-    </xsl:for-each>
--->
     <xsl:for-each select="/opml/body//outline">
       <xsl:if test="count(child::*)!=0 or (boolean(./@xmlUrl)=false and boolean(./@xmlurl)=false)">
         <category>
-          <xsl:if test="@ng:id">
-            <xsl:attribute name="folderId" namespace="http://newsgator.com/schema/opml">
-              <xsl:value-of select="string(@ng:id)" />
-            </xsl:attribute>
-          </xsl:if>
+          <xsl:for-each select="attribute::*[namespace-uri()='http://newsgator.com/schema/opml']">
+            <xsl:copy-of select="." />
+          </xsl:for-each>
           <xsl:for-each select="ancestor-or-self::*[name()='outline']">
             <xsl:if test="@title or @text">
               <xsl:choose>

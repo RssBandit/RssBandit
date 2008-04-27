@@ -30,9 +30,11 @@ namespace NewsComponents.Feed
         DeleteFeed = 50,
         DeleteFolder = 40,     
         MarkAllItemsRead = 61,
+        MarkSingleItemFlagged = 62,
         MarkSingleItemReadOrDeleted = 60,
         MarkSingleItemClipped = 59,
         MoveFeed = 45,
+        MoveFolder = 46,
         RenameFeed = 21,
         RenameFolder = 20,
     }
@@ -260,6 +262,9 @@ namespace NewsComponents.Feed
                     case NewsGatorOperation.MarkAllItemsRead:
                         source.MarkAllItemsAsReadInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break;
+                    case NewsGatorOperation.MoveFeed:
+                        source.ChangeFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break; 
                     case NewsGatorOperation.RenameFolder:
                         source.RenameFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break; 
@@ -474,6 +479,24 @@ namespace NewsComponents.Feed
                 this.pendingNewsGatorOperations.Add(op);
             }
         }
+
+
+          /// <summary>
+        /// Adds the specified feed in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+        /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <param name="cat">The name of the category</param>
+        public void ChangeFolderInNewsGatorOnline(string newsgatorUserID, string feedUrl, string cat)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MoveFeed, new object[] { feedUrl, cat }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+        
 
           /// <summary>
         /// Enqueues a task to rename the specified category in NewsGator Online
