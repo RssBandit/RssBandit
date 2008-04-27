@@ -1663,7 +1663,7 @@ namespace NewsComponents.Feed
 
                 if (myowner != null && !StringHelper.EmptyTrimOrNull(value) && !mysubscription.Title.Equals(value))
                 {
-                    myowner.GoogleReaderUpdater.RenameFeed(myowner.GoogleUserName, this.link, value);
+                    myowner.GoogleReaderUpdater.RenameFeedInGoogleReader(myowner.GoogleUserName, this.link, value);
                     mysubscription.Title = value;
                 }
             }
