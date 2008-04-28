@@ -422,7 +422,7 @@ namespace NewsComponents.Feed
 	/// <summary>
 	/// Represents a list of FeedInfo objects. This is primarily used for generating newspaper views of multiple feeds.
 	/// </summary>
-	public class FeedInfoList: IEnumerable<IFeedDetails>, ICollection<IFeedDetails>
+	public class FeedInfoList: ICollection<IFeedDetails>
 	{
 
 		#region Private Members

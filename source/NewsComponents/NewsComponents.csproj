@@ -354,6 +354,7 @@
     <Compile Include="Utils\ImportFilter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\ListExtension.cs" />
     <Compile Include="Utils\MimeType.cs">
       <SubType>Code</SubType>
     </Compile>
