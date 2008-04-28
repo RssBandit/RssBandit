@@ -253,6 +253,9 @@ namespace NewsComponents.Feed
                     case NewsGatorOperation.DeleteFeed:
                         source.DeleteFeedFromNewsGatorOnline(current.Parameters[0] as string);
                         break;
+                    case NewsGatorOperation.DeleteFolder:
+                        source.DeleteFolderFromNewsGatorOnline(current.Parameters[0] as string);
+                        break;
                     case NewsGatorOperation.MarkSingleItemFlagged:
                         source.ChangeItemStateInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string, (NewsGatorFlagStatus)current.Parameters[2]);
                         break;
@@ -538,6 +541,21 @@ namespace NewsComponents.Feed
             }
         }
 
+
+          /// <summary>
+        /// Deletes the folder in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>        
+        /// <param name="folderId">The ID of the folder to delete</param>
+        public void DeleteFolderFromNewsGatorOnline(string newsgatorUserID, string folderId)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.DeleteFolder, new object[] { folderId }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
 
           /// <summary>
         /// Enqueues a task to rename the specified category in NewsGator Online
