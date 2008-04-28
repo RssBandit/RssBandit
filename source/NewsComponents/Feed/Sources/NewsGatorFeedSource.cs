@@ -1129,6 +1129,50 @@ namespace NewsComponents.Feed
         #region category/folder manipulation methods 
 
         /// <summary>
+        /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
+        /// corresponding feeds. 
+        /// </summary>
+        /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
+        /// fix up the references to this category in its parent and child categories.</remarks>
+        /// <param name="cat"></param>
+        public override void DeleteCategory(string cat)
+        {
+            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            {
+                INewsFeedCategory c = categories[cat];
+                XmlAttribute idNode = c.AnyAttr.First(attr => attr.LocalName == "id");
+
+                if (idNode != null)
+                {
+                    string id = idNode.Value;
+                    NewsGatorUpdater.DeleteFolderFromNewsGatorOnline(this.NewsGatorUserName, id);
+                }
+                base.DeleteCategory(cat); 
+            }
+        }
+
+        /// <summary>
+        /// Deletes the folder in NewsGator Online
+        /// </summary>
+        /// <param name="folderId">The ID of the folder to delete</param>
+        internal void DeleteFolderFromNewsGatorOnline(string folderId)
+        {
+            if (!StringHelper.EmptyTrimOrNull(folderId))
+            {
+
+                string folderDeleteUrl = FolderApiUrl + "/delete"; 
+                string body = "fld=" + folderId;
+
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderDeleteUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new WebException(response.StatusDescription);
+                }
+            }
+        }
+
+        /// <summary>
         /// Renames the specified folder in NewsGator Online
         /// </summary>
         /// <param name="oldName">The old name of the category</param>
