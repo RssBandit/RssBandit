@@ -1271,7 +1271,7 @@ namespace NewsComponents.Feed
             }
 
             //check if we already have the category in NewsGator Online
-            if (cat.AnyAttr != null && cat.AnyAttr.First( attr => attr.LocalName == "folderId" )!= null)
+            if (cat.AnyAttr != null && cat.AnyAttr.First( attr => attr.LocalName == "id" )!= null)
                 return; 
 
             List<string> ancestors = category.GetAncestors(name);
@@ -1286,7 +1286,7 @@ namespace NewsComponents.Feed
                     this.categories.Add(ancestors[i], c);
                 }
 
-                if (c.AnyAttr==null || c.AnyAttr.First(attr => attr.LocalName == "folderId") == null)
+                if (c.AnyAttr==null || c.AnyAttr.First(attr => attr.LocalName == "id") == null)
                 {
                     this.AddFolderInNewsGatorOnline(ancestors[i]);
                     if (c.Value.Contains(FeedSource.CategorySeparator))
@@ -1302,7 +1302,7 @@ namespace NewsComponents.Feed
             string folderName =  (index == -1 ? cat.Value : cat.Value.Substring(index + 1)); 
 
             string folderCreateUrl = FolderApiUrl + "/create";
-            string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.First(a => a.LocalName == "folderId").Value) 
+            string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.First(a => a.LocalName == "id").Value) 
                 + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF"; 
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
