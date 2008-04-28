@@ -8,7 +8,6 @@
 #endregion
 
 using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
 using RssBandit.WinGui.Utility;
 using NewsComponents;
@@ -72,7 +71,7 @@ namespace RssBandit.WinGui.Interfaces
 		int NewCommentsCount            { get ; }
 		void MarkItemRead				(INewsItem item);
 		void MarkItemUnread				(INewsItem item);	
-		List<INewsItem> Items					{ get ; }
+		IList<INewsItem> Items					{ get ; }
 		void Add						(INewsItem item);
 		void Remove						(INewsItem item);
 		void UpdateReadStatus 			();

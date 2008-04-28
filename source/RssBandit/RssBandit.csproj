@@ -29,7 +29,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -94,7 +94,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLR_20;IG2007_1;TEST_NEWSGATOR_ONLINE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_20;</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
@@ -136,7 +136,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug-AltPath\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLR_20;IG2007_1;ALT_CONFIG_PATH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_20;ALT_CONFIG_PATH</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
@@ -206,6 +206,9 @@
       <Name>System</Name>
     </Reference>
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -2044,6 +2047,19 @@
     <Compile Include="WinGui\Forms\ControlHelpers\ToolbarHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Callbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Init.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Helpers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.OwnerInteraction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\Enums.cs" />
     <Compile Include="WinGui\Forms\NewsGroupsConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2054,6 +2070,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Forms\WinGUIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.UITaskTimer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Genghis\AniForm.cs">

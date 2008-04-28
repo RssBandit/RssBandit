@@ -1,4 +1,5 @@
 #region Version Info Header
+
 /*
  * $Id$
  * $HeadURL$
@@ -6,9 +7,11 @@
  * Last modified at $Date$
  * $Revision$
  */
+
 #endregion
 
 #region framework usings
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,11 +29,6 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Schema;
-using System.Xml.Serialization;
-using System.Xml.Xsl;
-#endregion
-
-#region project usings
 using log4net;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
@@ -42,9 +40,14 @@ using NewsComponents.Search;
 using NewsComponents.Storage;
 using NewsComponents.Threading;
 using NewsComponents.Utils;
+using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using RssBandit.AppServices.Core;
+
+#endregion
+
+#region project usings
+
 #endregion
 
 namespace NewsComponents
@@ -76,8 +79,8 @@ namespace NewsComponents
     /// Enumeration that describes the source of the feeds that are being processed
     /// by a particular FeedSource
     /// </summary>
-    public enum FeedSourceType { 
-    
+    public enum FeedSourceType
+    {
         /// <summary>
         /// The feeds are sourced from Google Reader.
         /// </summary>
@@ -103,10 +106,8 @@ namespace NewsComponents
     /// <summary>
     /// Provides the location of a subscription location.
     /// </summary>
-    public class SubscriptionLocation {
-
-        private SubscriptionLocation() { ; }
-
+    public class SubscriptionLocation
+    {
         /// <summary>
         /// Initializes the subscription location
         /// </summary>
@@ -114,25 +115,24 @@ namespace NewsComponents
         /// <param name="credentials">The credentials required to access the location if any</param>
         public SubscriptionLocation(string location, NetworkCredential credentials)
         {
-
-            this.Location = location;
-            this.Credentials = credentials;
+            Location = location;
+            Credentials = credentials;
         }
 
         /// <summary>
         /// Initializes the subscription location
         /// </summary>
         /// <param name="location">The path or identifier to the list of subscriptions</param>        
-        public SubscriptionLocation(string location) {
-            this.Location = location;
-            this.Credentials = CredentialCache.DefaultNetworkCredentials;
+        public SubscriptionLocation(string location)
+        {
+            Location = location;
+            Credentials = CredentialCache.DefaultNetworkCredentials;
         }
 
         /// <summary>
         /// The path or identifier to the list of subscriptions
         /// </summary>
         public string Location { get; set; }
-
 
 
         /// <summary>
@@ -145,10 +145,10 @@ namespace NewsComponents
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
     //TODO: just there to make it compile while refactoring. MUST BE REMOVED ON RELEASE
-#if DEBUG 
+#if DEBUG
     [CLSCompliant(false)]
 #endif
-    public abstract class FeedSource: ISharedProperty //, IDisposable 
+    public abstract class FeedSource : ISharedProperty //, IDisposable 
     {
         #region ctor's
 
@@ -157,7 +157,7 @@ namespace NewsComponents
         /// </summary>
         static FeedSource()
         {
-            StringBuilder sb = new StringBuilder(200);
+            var sb = new StringBuilder(200);
             sb.Append("{0}"); // userAgent filled in later
             sb.Append(" (.NET CLR ");
             sb.Append(Environment.Version);
@@ -169,8 +169,14 @@ namespace NewsComponents
             userAgentTemplate = sb.ToString();
             // TODO: REMOVE
             //LoadCachedTopStoryTitles();
+            EnclosureFolder = String.Empty;
+            NumEnclosuresToDownloadOnNewFeed = DefaultNumEnclosuresToDownloadOnNewFeed;
         }
 
+        protected FeedSource()
+        {
+            MaxItemAge = new TimeSpan(90, 0, 0, 0);
+        }
 
 
         /// <summary>
@@ -181,8 +187,9 @@ namespace NewsComponents
         /// <param name="handlerType">The type of FeedSource to create</param>
         /// <param name="location">The location of the subscriptions</param>
         /// <returns>A new FeedSource</returns>
-        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location) {
-            return CreateFeedSource(handlerType, location, DefaultConfiguration);        
+        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location)
+        {
+            return CreateFeedSource(handlerType, location, DefaultConfiguration);
         }
 
         /// <summary>
@@ -192,12 +199,13 @@ namespace NewsComponents
         /// <param name="location">The location of the subscriptions</param>
         /// <param name="configuration"></param>
         /// <returns>A new FeedSource</returns>
-        public static FeedSource CreateFeedSource(FeedSourceType handlerType,SubscriptionLocation location, INewsComponentsConfiguration configuration)
+        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location,
+                                                  INewsComponentsConfiguration configuration)
         {
-			if (location == null)
-				throw new ArgumentNullException("location"); 
+            if (location == null)
+                throw new ArgumentNullException("location");
             if (String.IsNullOrEmpty(location.Location))
-                throw new ArgumentNullException("location.Location"); 
+                throw new ArgumentNullException("location.Location");
 
             FeedSource handler = null;
 
@@ -214,10 +222,9 @@ namespace NewsComponents
                     break;
                 case FeedSourceType.NewsGator:
                     handler = new NewsGatorFeedSource(configuration, location);
-                    break; 
+                    break;
                 default:
                     break;
-
             }
 
             //Add the FeedSource to the list of NewsHandlers known by the SearchHandler
@@ -227,11 +234,8 @@ namespace NewsComponents
                 SearchHandler.AddNewsHandler(handler);
             }
 
-            return handler; 
+            return handler;
         }
-
-  
-
 
         #endregion
 
@@ -239,22 +243,1005 @@ namespace NewsComponents
 
         private static INewsComponentsConfiguration defaultConfiguration;
 
-		/// <summary>
-		/// Gets or sets the default NewsComponents configuration.
-		/// </summary>
-		/// <value>The default configuration.</value>
-        public static INewsComponentsConfiguration DefaultConfiguration {
-
+        /// <summary>
+        /// Gets or sets the default NewsComponents configuration.
+        /// </summary>
+        /// <value>The default configuration.</value>
+        public static INewsComponentsConfiguration DefaultConfiguration
+        {
             get { return defaultConfiguration ?? NewsComponentsConfiguration.Default; }
             set { defaultConfiguration = value; }
         }
 
-        #endregion 
+        #endregion
+
+        /// <summary>
+        /// Defines all cache relevant NewsFeed properties, 
+        /// that requires we have to (re-)write the cached file. 
+        /// </summary>
+        private const NewsFeedProperty cacheRelevantPropertyChanges =
+            NewsFeedProperty.FeedItemFlag |
+            NewsFeedProperty.FeedItemReadState |
+            NewsFeedProperty.FeedItemCommentCount |
+            NewsFeedProperty.FeedItemNewCommentsRead |
+            NewsFeedProperty.FeedItemWatchComments |
+            NewsFeedProperty.FeedCredentials;
+
+        /// <summary>
+        /// Indicates the default maximum amount of space that enclosures and 
+        /// podcasts can use on disk. Currently this is Int32.MaxValue
+        /// </summary>
+        public const int DefaultEnclosureCacheSize = Int32.MaxValue;
+
+        /// <summary>
+        /// Indicates the default number of enclosures which should be downloaded 
+        /// automatically from a newly subscribed feed.
+        /// Currently this is Int32.MaxValue.
+        /// </summary>
+        public const int DefaultNumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
+
+        private const int maxItemsPerSearchResult = 10;
+
+        /// <summary>
+        /// Defines all subscription relevant NewsFeed properties, 
+        /// that requires we have to (re-)write the subscription file. 
+        /// </summary>
+        private const NewsFeedProperty subscriptionRelevantPropertyChanges =
+            NewsFeedProperty.FeedLink |
+            NewsFeedProperty.FeedTitle |
+            NewsFeedProperty.FeedCategory |
+            NewsFeedProperty.FeedItemsDeleteUndelete |
+            NewsFeedProperty.FeedItemReadState |
+            NewsFeedProperty.FeedMaxItemAge |
+            NewsFeedProperty.FeedRefreshRate |
+            NewsFeedProperty.FeedCacheUrl |
+            NewsFeedProperty.FeedAdded |
+            NewsFeedProperty.FeedRemoved |
+            NewsFeedProperty.FeedCategoryAdded |
+            NewsFeedProperty.FeedCategoryRemoved |
+            NewsFeedProperty.FeedAlertOnNewItemsReceived |
+            NewsFeedProperty.FeedMarkItemsReadOnExit |
+            NewsFeedProperty.General;
+
+        private static readonly ILog _log = Log.GetLogger(typeof (FeedSource));
+
+        /// <summary>
+        /// Indicates when the application first started
+        /// </summary>
+        private static readonly DateTime ApplicationStartTime = DateTime.Now;
+
+        private static readonly byte[] bmp_magic = new byte[] {0x42, 0x4d};
+        private static readonly int bmp_magic_len = bmp_magic.Length;
+
+        /// <summary>
+        /// Gets a empty item list.
+        /// </summary>
+        public static readonly List<INewsItem> EmptyItemList = new List<INewsItem>(0);
+
+        private static readonly byte[] gif_magic = new byte[] {0x47, 0x49, 0x46};
+        private static readonly int gif_magic_len = gif_magic.Length;
+        private static readonly byte[] ico_magic = new byte[] {0, 0, 1, 0};
+        private static readonly int ico_magic_len = ico_magic.Length;
+        private static readonly byte[] jpg_magic = new byte[] {0xff, 0xd8};
+        private static readonly int jpg_magic_len = jpg_magic.Length;
+
+        /// <summary>
+        /// Gets the dictionary of (old) properties to migrate in a newer version
+        /// </summary>
+        public static readonly Dictionary<string, object> MigrationProperties = new Dictionary<string, object>();
+
+        private static readonly byte[] png_magic = new byte[] {0x89, 0x50, 0x4e, 0x47};
+        private static readonly int png_magic_len = png_magic.Length;
+
+        /// <summary>
+        /// Manage the channel processors working on received items and feeds
+        /// </summary>
+        private static readonly NewsChannelServices receivingNewsChannel = new NewsChannelServices();
+
+        /// <summary>
+        /// Manage the NewsItem relations
+        /// </summary>
+        private static readonly IRelationCosmos relationCosmos = RelationCosmosFactory.Create();
+
+        /// <summary>
+        /// Indicates whether the relationship cosmos should be built for incoming news items. 
+        /// </summary>
+        internal static bool buildRelationCosmos = true;
+
+        /// <summary>
+        /// The string used to build categories hierarchy
+        /// </summary>
+        public static string CategorySeparator = @"\";
+
+        /// <summary>
+        /// Gets the default refresh rate in millisecs (1 hour).
+        /// Means: how often feeds are refreshed by default if no specific rate specified 
+        /// by the configuration.
+        /// </summary>
+        public static int DefaultRefreshRate = 60*60*1000;
+
+        /// <summary>
+        /// Indicates the maximum amount of space that enclosures and 
+        /// podcasts can use on disk.
+        /// </summary>
+        private static int enclosurecachesize = DefaultEnclosureCacheSize;
+
+        /// <summary>
+        /// Manage the lucene search 
+        /// </summary>
+        protected static LuceneSearch p_searchHandler;
+
+        /// <summary>
+        /// Indicates whether the cookies from IE should be taken over for our own requests. 
+        /// Default is true.
+        /// </summary>
+        private static bool setCookies = true;
+
+        private static bool unconditionalCommentRss;
+
+        ///<summary>
+        ///Internal flag used to track whether the XML in the feed list validated against the schema. 
+        ///</summary>
+        public static bool validationErrorOccured;
+
+        /// <summary>
+        /// Hashtable representing downloaded feed items
+        /// </summary>
+        protected readonly Dictionary<string, IFeedDetails> itemsTable =
+            new Dictionary<string, IFeedDetails>();
+
+        /// <summary>
+        /// The file extensions of enclosures that should be treated as podcasts. 
+        /// </summary>
+        protected readonly ArrayList podcastfileextensions = new ArrayList();
+
+        /// <summary>
+        /// The Application Name or ID that uses the component. This will be used to 
+        /// initialize the user path to store the feeds file and cached items.
+        /// </summary>
+        internal string applicationName = "NewsComponents";
+
+        /// <summary>
+        /// Used for making asynchronous Web requests
+        /// </summary>
+        protected AsyncWebRequest AsyncWebRequest;
+
+        /// <summary>
+        /// Represents the list of available categories for feeds. 
+        /// </summary>
+        protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
+
+        /// <summary>
+        /// Downloads enclosures/podcasts in the background using BITS. 
+        /// </summary>
+        protected BackgroundDownloadManager enclosureDownloader;
+
+        /// <summary>
+        /// FeedsCollection representing subscribed feeds list
+        /// </summary>
+        protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+
+        /// <summary>
+        /// Collection contains UserIdentity objects.
+        /// Keys are the UserIdentity.Name's
+        /// </summary>
+        private IDictionary<string, UserIdentity> identities = new Dictionary<string, UserIdentity>();
+
+        /// <summary>
+        /// Indicates whether the application is offline or not. 
+        /// </summary>
+        protected bool isOffline;
+
+        /// <summary>
+        /// Represents the list of available feed column layouts for feeds. 
+        /// </summary>
+        protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
+
+        /// <summary>
+        /// Gets the location of the feed
+        /// </summary>
+        protected SubscriptionLocation location;
+
+        /// <summary>
+        /// Collection contains NntpServerDefinition objects.
+        /// Keys are the account name(s) - friendly names for the news server def.:
+        /// NntpServerDefinition.Name's
+        /// </summary>
+        private IDictionary<string, INntpServerDefinition> nntpServers = new Dictionary<string, INntpServerDefinition>();
 
         /// <summary>
         /// Configuration provider
         /// </summary>
-        protected INewsComponentsConfiguration p_configuration = null;
+        protected INewsComponentsConfiguration p_configuration;
+
+        /// <summary>
+        /// This is the object that is returned when returning the list of categories in GetCategories()
+        /// </summary>
+        /// <seealso cref="GetCategories"/>
+        protected ReadOnlyDictionary<string, INewsFeedCategory> readonly_categories;
+
+        /// <summary>
+        /// This is the object that is returned when returning the list of feeds in GetFeeds()
+        /// </summary>
+        /// <seealso cref="GetFeeds"/>
+        protected ReadOnlyDictionary<string, INewsFeed> readonly_feedsTable;
+
+        /// <summary>
+        /// Manages the FeedType.Rss 
+        /// </summary>
+        protected RssParser rssParser;
+
+        #region delegates/events/argument classes
+
+        #region Delegates
+
+        /// <summary>
+        /// Callback delegate used on event OnDeletedCategory.
+        /// </summary>
+        public delegate void AddedCategoryCallback(object sender, CategoryEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnAddedFeed.
+        /// </summary>
+        public delegate void AddedFeedCallback(object sender, FeedChangedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnDeletedCategory.
+        /// </summary>
+        public delegate void DeletedCategoryCallback(object sender, CategoryEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnDeletedFeed.
+        /// </summary>
+        public delegate void DeletedFeedCallback(object sender, FeedDeletedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnDownloadedEnclosure.
+        /// </summary>
+        public delegate void DownloadedEnclosureCallback(object sender, DownloadItemEventArgs e);
+
+        /// <summary>
+        /// The callback used within the BeforeDownloadFeedStarted event.
+        /// </summary>
+        public delegate void DownloadFeedStartedCallback(object sender, DownloadFeedCancelEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnMovedCategory.
+        /// </summary>
+        public delegate void MovedCategoryCallback(object sender, CategoryChangedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnMovedFeed.
+        /// </summary>
+        public delegate void MovedFeedCallback(object sender, FeedMovedEventArgs e);
+
+        /// <summary>Signature for <see cref="NewsItemSearchResult">NewsItemSearchResult</see>  event</summary>
+        public delegate void NewsItemSearchResultEventHandler(object sender, NewsItemSearchResultEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnRenamedCategory.
+        /// </summary>
+        public delegate void RenamedCategoryCallback(object sender, CategoryChangedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnRenamedFeed.
+        /// </summary>
+        public delegate void RenamedFeedCallback(object sender, FeedRenamedEventArgs e);
+
+        /// <summary>Signature for <see cref="SearchFinished">SearchFinished</see>  event</summary>
+        public delegate void SearchFinishedEventHandler(object sender, SearchFinishedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnUpdatedFavicon.
+        /// </summary>
+        public delegate void UpdatedFaviconCallback(object sender, UpdatedFaviconEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used on event OnUpdatedFeed.
+        /// </summary>
+        public delegate void UpdatedFeedCallback(object sender, UpdatedFeedEventArgs e);
+
+        /// <summary>
+        /// Callback delegate used for event OnUpdateFeedException
+        /// </summary>
+        public delegate void UpdateFeedExceptionCallback(object sender, UpdateFeedExceptionEventArgs e);
+
+        /// <summary>
+        /// Delegate used for UpdateFeedsStarted event.
+        /// </summary>
+        public delegate void UpdateFeedsStartedHandler(object sender, UpdateFeedsEventArgs e);
+
+        /// <summary>
+        /// Delegate used for UpdateFeedStarted event.
+        /// </summary>
+        public delegate void UpdateFeedStartedHandler(object sender, UpdateFeedEventArgs e);
+
+        #endregion
+
+        /// <summary>
+        /// The event that will be invoked on clients to notify them that 
+        /// when a feed starts to be downloaded (AsyncWebRequest). 
+        /// </summary>
+        public event DownloadFeedStartedCallback BeforeDownloadFeedStarted = null;
+
+        /// <summary>
+        /// Event called on every updated feed.
+        /// </summary>
+        public event UpdatedFeedCallback OnUpdatedFeed = null;
+
+
+        /// <summary>
+        /// Event called on every deleted category.
+        /// </summary>
+        public event DeletedCategoryCallback OnDeletedCategory = null;
+
+        /// <summary>
+        /// Event called on every deleted category.
+        /// </summary>
+        public event AddedCategoryCallback OnAddedCategory = null;
+
+        /// <summary>
+        /// Event called on every renamed category.
+        /// </summary>
+        public event RenamedCategoryCallback OnRenamedCategory = null;
+
+        /// <summary>
+        /// Event called on every moved category.
+        /// </summary>
+        public event MovedCategoryCallback OnMovedCategory = null;
+
+        /// <summary>
+        /// Event called on every added feed.
+        /// </summary>
+        public event AddedFeedCallback OnAddedFeed = null;
+
+        /// <summary>
+        /// Event called on every deleted feed.
+        /// </summary>
+        public event DeletedFeedCallback OnDeletedFeed = null;
+
+        /// <summary>
+        /// Event called on every renamed feed.
+        /// </summary>
+        public event RenamedFeedCallback OnRenamedFeed = null;
+
+        /// <summary>
+        /// Event called on every moved feed.
+        /// </summary>
+        public event MovedFeedCallback OnMovedFeed = null;
+
+        /// <summary>
+        /// Event called on every completed enclosure download. 
+        /// </summary>
+        public event DownloadedEnclosureCallback OnDownloadedEnclosure = null;
+
+        /// <summary>
+        /// Event called on every updated favicon.
+        /// </summary>
+        public event UpdatedFaviconCallback OnUpdatedFavicon = null;
+
+
+        /// <summary>
+        /// Event called, if the WebRequest fails with any exception.
+        /// </summary>
+        public event UpdateFeedExceptionCallback OnUpdateFeedException = null;
+
+        /// <summary>
+        /// Called if RefreshFeeds() was initiated (all feeds).
+        /// </summary>
+        public event UpdateFeedsStartedHandler UpdateFeedsStarted = null;
+
+        /// <summary>
+        /// Called as each individual feed start to refresh
+        /// </summary>
+        public event UpdateFeedStartedHandler UpdateFeedStarted = null;
+
+        /// <summary>
+        /// Called if all async. requests are done.
+        /// </summary>
+        public event EventHandler OnAllAsyncRequestsCompleted = null;
+
+        //Search	impl. 
+
+        /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
+        public event NewsItemSearchResultEventHandler NewsItemSearchResult;
+
+        /// <summary>Called on a search finished</summary>
+        public event SearchFinishedEventHandler SearchFinished;
+
+        #region Nested type: CategoryChangedEventArgs
+
+        /// <summary>
+        /// Category event argument class.
+        /// </summary>
+        public class CategoryChangedEventArgs : CategoryEventArgs
+        {
+            /// <summary>
+            /// Provides information on the category event
+            /// </summary>
+            /// <param name="categoryName">The name of the affected category</param>
+            /// <param name="newCategoryName">New name of the category.</param>
+            public CategoryChangedEventArgs(string categoryName, string newCategoryName)
+                : base(categoryName)
+            {
+                NewCategoryName = newCategoryName;
+            }
+
+            public string NewCategoryName { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: CategoryEventArgs
+
+        /// <summary>
+        /// Category event argument class.
+        /// </summary>
+        public class CategoryEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Provides information on the category event
+            /// </summary>
+            /// <param name="categoryName">The name of the affected category</param>
+            public CategoryEventArgs(string categoryName)
+            {
+                CategoryName = categoryName;
+            }
+
+            public string CategoryName { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: DownloadFeedCancelEventArgs
+
+        /// <summary>
+        /// BeforeDownloadFeedStarted event argument class.
+        /// </summary>
+        [ComVisible(false)]
+        public class DownloadFeedCancelEventArgs : CancelEventArgs
+        {
+            private readonly Uri feedUri;
+
+            /// <summary>
+            /// Class initializer.
+            /// </summary>
+            /// <param name="feed">feed Uri</param>
+            /// <param name="cancel">bool, set to true, if you want to cancel further processing</param>
+            public DownloadFeedCancelEventArgs(Uri feed, bool cancel) : base(cancel)
+            {
+                feedUri = feed;
+            }
+
+            /// <summary>
+            /// The related feed Uri.
+            /// </summary>
+            public Uri FeedUri
+            {
+                get { return feedUri; }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: FeedChangedEventArgs
+
+        public class FeedChangedEventArgs : EventArgs
+        {
+            public FeedChangedEventArgs(string feedUrl)
+            {
+                FeedUrl = feedUrl;
+            }
+
+            public string FeedUrl { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: FeedDeletedEventArgs
+
+        public class FeedDeletedEventArgs : FeedChangedEventArgs
+        {
+            public FeedDeletedEventArgs(string feedUrl, string title) : base(feedUrl)
+            {
+                Title = title;
+            }
+
+            public string Title { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: FeedMovedEventArgs
+
+        public class FeedMovedEventArgs : FeedChangedEventArgs
+        {
+            public FeedMovedEventArgs(string feedUrl, string newCategory) : base(feedUrl)
+            {
+                NewCategory = newCategory;
+            }
+
+            public string NewCategory { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: FeedRenamedEventArgs
+
+        public class FeedRenamedEventArgs : FeedChangedEventArgs
+        {
+            public FeedRenamedEventArgs(string feedUrl, string newName) : base(feedUrl)
+            {
+                NewName = newName;
+            }
+
+            public string NewName { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: FeedSearchResultEventArgs
+
+        /// <summary>
+        /// Contains the search result, if NewsFeed's are found. Used on FeedSearchResult event.
+        /// </summary>
+        [ComVisible(false)]
+        public class FeedSearchResultEventArgs : CancelEventArgs
+        {
+            /// <summary>
+            /// NewsFeed.
+            /// </summary>
+            public NewsFeed Feed;
+
+            /// <summary>
+            /// Object used by the caller only
+            /// </summary>
+            public object Tag;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="f">NewsFeed</param>
+            /// <param name="tag">object, used by the caller only</param>
+            /// <param name="cancel">true, if the search request should be cancelled</param>
+            public FeedSearchResultEventArgs(
+                NewsFeed f, object tag, bool cancel) : base(cancel)
+            {
+                Feed = f;
+                Tag = tag;
+            }
+        }
+
+        #endregion
+
+        #region Nested type: NewsItemSearchResultEventArgs
+
+        /// <summary>
+        /// Contains the search result, if NewsItem's are found. Used on NewsItemSearchResult event.
+        /// </summary>
+        [ComVisible(false)]
+        public class NewsItemSearchResultEventArgs : CancelEventArgs
+        {
+            /// <summary>
+            /// NewsItem list
+            /// </summary>
+            public List<INewsItem> NewsItems;
+
+            /// <summary>
+            /// Object used by caller
+            /// </summary>
+            public object Tag;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="items">ArrayList of NewsItems</param>
+            /// <param name="tag">Object used by caller</param>
+            /// <param name="cancel"></param>
+            public NewsItemSearchResultEventArgs(
+                List<INewsItem> items, object tag, bool cancel) : base(cancel)
+            {
+                NewsItems = items;
+                Tag = tag;
+            }
+        }
+
+        #endregion
+
+        #region Nested type: SearchFinishedEventArgs
+
+        /// <summary>
+        /// Provide informations about a finished search. Used on SearchFinished event.
+        /// </summary>
+        public class SearchFinishedEventArgs : EventArgs
+        {
+            /// <summary></summary>
+            public readonly FeedInfoList MatchingFeeds;
+
+            /// <summary></summary>
+            public readonly int MatchingFeedsCount;
+
+            /// <summary></summary>
+            public readonly List<INewsItem> MatchingItems;
+
+            /// <summary></summary>
+            public readonly int MatchingItemsCount;
+
+            /// <summary></summary>
+            public readonly object Tag;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <remarks>This modifies the input FeedInfoList by replacing its NewsItem contents 
+            /// with SearchHitNewsItems</remarks>
+            /// <param name="tag">Object used by caller</param>
+            /// <param name="matchingFeeds"></param>
+            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
+            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
+            public SearchFinishedEventArgs(
+                object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount) :
+                    this(tag, matchingFeeds, new List<INewsItem>(), matchingFeedsCount, matchingItemsCount)
+            {
+                var temp = new List<INewsItem>();
+
+                foreach (FeedInfo fi in matchingFeeds)
+                {
+                    foreach (var ni in fi.ItemsList)
+                    {
+                        if (ni is SearchHitNewsItem)
+                            temp.Add(ni);
+                        else
+                            temp.Add(new SearchHitNewsItem(ni));
+                    }
+                    fi.ItemsList.Clear();
+                    fi.ItemsList.AddRange(temp);
+                    MatchingItems.AddRange(temp);
+                    temp.Clear();
+                } //foreach
+            }
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="tag">Object used by caller</param>
+            /// <param name="matchingFeeds">The matching feeds.</param>
+            /// <param name="matchingNewsItems">The matching news items.</param>
+            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
+            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
+            public SearchFinishedEventArgs(
+                object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingNewsItems, int matchingFeedsCount,
+                int matchingItemsCount)
+            {
+                MatchingFeedsCount = matchingFeedsCount;
+                MatchingItemsCount = matchingItemsCount;
+                MatchingFeeds = matchingFeeds;
+                MatchingItems = new List<INewsItem>(matchingNewsItems);
+                Tag = tag;
+            }
+        }
+
+        #endregion
+
+        #region Nested type: UpdatedFaviconEventArgs
+
+        /// <summary>
+        /// OnUpdatedFavicon event argument class.
+        /// </summary>
+        public class UpdatedFaviconEventArgs : EventArgs
+        {
+            private readonly string favicon;
+
+            private readonly StringCollection feedUrls;
+
+            /// <summary>
+            /// Called on every updated favicon.
+            /// </summary>
+            /// <param name="favicon"> The name of the favicon file</param> 
+            /// <param name="feedUrls">The list of URLs that will utilize this favicon</param>		
+            public UpdatedFaviconEventArgs(string favicon, StringCollection feedUrls)
+            {
+                this.favicon = favicon;
+                this.feedUrls = feedUrls;
+            }
+
+            /// <summary>
+            /// The name of the favicon file. 
+            /// </summary>
+            public string Favicon
+            {
+                get { return favicon; }
+            }
+
+            /// <summary>
+            /// The URLs of the feeds that will utilize this favicon. 
+            /// </summary>
+            public StringCollection FeedUrls
+            {
+                get { return feedUrls; }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: UpdatedFeedEventArgs
+
+        /// <summary>
+        /// OnUpdatedFeed event argument class.
+        /// </summary>
+        public class UpdatedFeedEventArgs : EventArgs
+        {
+            private readonly bool firstSuccessfulDownload;
+            private readonly Uri newUri;
+            private readonly int priority;
+            private readonly Uri requestUri;
+            private readonly RequestResult result;
+
+            /// <summary>
+            /// Called on every updated feed.
+            /// </summary>
+            /// <param name="requestUri">Original requested Uri of the feed</param>
+            /// <param name="newUri">The (maybe) new feed location. This could be set on a redirect or other mechanism.
+            /// If the location was not changed, this parameter is left null</param>
+            /// <param name="result">If result is <c>NotModified</c>, the conditional GET succeeds and no items are returned.</param>
+            /// <param name="priority">Priority of the request</param>
+            /// <param name="firstSuccessfulDownload">Indicates whether this is the first time the feed has been successfully downloaded
+            /// to the cache</param>
+            public UpdatedFeedEventArgs(Uri requestUri, Uri newUri, RequestResult result, int priority,
+                                        bool firstSuccessfulDownload)
+            {
+                this.requestUri = requestUri;
+                this.newUri = newUri;
+                this.result = result;
+                this.priority = priority;
+                this.firstSuccessfulDownload = firstSuccessfulDownload;
+            }
+
+            /// <summary>
+            /// Uri of the feed, that was updated
+            /// </summary>
+            public Uri UpdatedFeedUri
+            {
+                get { return requestUri; }
+            } // should return Clone() ?
+            /// <summary>
+            /// Uri of the feed, if it was moved on the Web to a new location.
+            /// </summary>
+            public Uri NewFeedUri
+            {
+                get { return newUri; }
+            } // should return Clone() ?
+
+            /// <summary>
+            /// RequestResult: OK or NotModified
+            /// </summary>
+            public RequestResult UpdateState
+            {
+                get { return result; }
+            }
+
+            /// <summary>
+            /// Gets the queued priority
+            /// </summary>
+            public int Priority
+            {
+                get { return priority; }
+            }
+
+            /// <summary>
+            /// Indicates whether this is the first time the feed has been downloaded to 
+            /// the cache. 
+            /// </summary>
+            public bool FirstSuccessfulDownload
+            {
+                get { return firstSuccessfulDownload; }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: UpdateFeedEventArgs
+
+        /// <summary>
+        /// UpdateFeedStarted event argument class. Single feed update.
+        /// </summary>
+        public class UpdateFeedEventArgs : UpdateFeedsEventArgs
+        {
+            private readonly Uri feedUri;
+
+            private readonly int priority;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="feed">feed Uri</param>
+            /// <param name="forced">true, if it was a forced (manually initiated) request</param>
+            /// <param name="priority">Priority of the request</param>
+            public UpdateFeedEventArgs(Uri feed, bool forced, int priority) : base(forced)
+            {
+                feedUri = feed;
+                this.priority = priority;
+            }
+
+            /// <summary>
+            /// Feed Uri.
+            /// </summary>
+            public Uri FeedUri
+            {
+                get { return feedUri; }
+            }
+
+            /// <summary>
+            /// Gets the queued priority
+            /// </summary>
+            public int Priority
+            {
+                get { return priority; }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: UpdateFeedExceptionEventArgs
+
+        /// <summary>
+        /// Event argument class used in OnUpdateFeedException.
+        /// </summary>
+        public class UpdateFeedExceptionEventArgs : EventArgs
+        {
+            private readonly Exception exception;
+            private readonly int priority;
+            private readonly string requestUri;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="requestUri">feed Uri, that was requested</param>
+            /// <param name="e">Exception caused by the request</param>
+            /// <param name="priority">int</param>
+            public UpdateFeedExceptionEventArgs(string requestUri, Exception e, int priority)
+            {
+                this.requestUri = requestUri;
+                exception = e;
+                this.priority = priority;
+            }
+
+            /// <summary>
+            /// feed Uri.
+            /// </summary>
+            public string FeedUri
+            {
+                get { return requestUri; }
+            }
+
+            /// <summary>
+            /// caused exception
+            /// </summary>
+            public Exception ExceptionThrown
+            {
+                get { return exception; }
+            }
+
+            /// <summary>
+            /// Gets the queued priority
+            /// </summary>
+            public int Priority
+            {
+                get { return priority; }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: UpdateFeedsEventArgs
+
+        /// <summary>
+        /// UpdateFeedsStarted event argument class. Multiple feeds update.
+        /// </summary>
+        public class UpdateFeedsEventArgs : EventArgs
+        {
+            private readonly bool forced;
+
+            /// <summary>
+            /// Initializer
+            /// </summary>
+            /// <param name="forced">true, if it was a forced (manually initiated) request</param>
+            public UpdateFeedsEventArgs(bool forced)
+            {
+                this.forced = forced;
+            }
+
+            /// <summary>
+            /// True, if it was a manually forced request
+            /// </summary>
+            public bool ForcedRefresh
+            {
+                get { return forced; }
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Proxy handling
+
+        #region ProxyWrapper class
+
+        private class ProxyWrapper
+        {
+            private IWebProxy _proxy;
+
+            public IWebProxy Proxy
+            {
+                get
+                {
+                    if (_proxy == null)
+                        return WebRequest.DefaultWebProxy;
+                    return _proxy;
+                }
+                set { _proxy = value; }
+            }
+
+            public void ResetProxy()
+            {
+                _proxy = null;
+            }
+        }
+
+        #endregion
+
+        private static readonly ProxyWrapper globalProxy = new ProxyWrapper();
+
+        /// <summary>
+        /// Gets or sets the global proxy used by all FeedSource instances.
+        /// </summary>
+        /// <value>The global proxy.</value>
+        /// <remarks>This property is thread safe.</remarks>
+        public static IWebProxy GlobalProxy
+        {
+            get
+            {
+                lock (globalProxy)
+                    return globalProxy.Proxy;
+            }
+            set
+            {
+                lock (globalProxy)
+                    globalProxy.Proxy = value;
+            }
+        }
+
+        /// <summary>
+        /// Proxy server information used for connections when fetching feeds. 
+        /// </summary>
+        /// <remarks>
+        /// There are other components that use a instance reference/interface of
+        /// FeedSource, so we provide the proxy also as a instance property here.
+        /// </remarks>
+        public IWebProxy Proxy
+        {
+            get { return GlobalProxy; }
+        }
+
+        /// <summary>
+        /// Call to uses the default proxy. The default proxy is the value
+        /// returned by WebRequest.DefaultWebProxy - so ensure to NOT
+        /// modify that by calls to GlobalProxySelection.Select = new Proxy()
+        /// or WebRequest.DefaultWebProxy = new Proxy() calls!
+        /// Please use the <see cref="GlobalProxy"/> property to assign a
+        /// user customized proxy or one that take over IE settings, then
+        /// you are always able to switch back to use the default system proxy
+        /// calling this method!
+        /// </summary>
+        /// <remarks>This method is thread safe.</remarks>
+        public static void UseDefaultProxy()
+        {
+            lock (globalProxy)
+                globalProxy.ResetProxy();
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the NewsComponents configuration.
@@ -262,66 +1249,17 @@ namespace NewsComponents
         /// <value>The configuration.</value>
         public INewsComponentsConfiguration Configuration
         {
-            get
-            {
-                return this.p_configuration;
-            }
+            get { return p_configuration; }
         }
 
         /// <summary>
-        /// Validates the configuration and throw on errors (required settings).
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        protected static void ValidateAndThrow(INewsComponentsConfiguration configuration)
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-            if (string.IsNullOrEmpty(configuration.ApplicationID))
-                throw new InvalidOperationException(
-                    "INewsComponentsConfiguration.ApplicationID cannot be null or empty.");
-            if (configuration.CacheManager == null)
-                throw new InvalidOperationException("INewsComponentsConfiguration.CacheManager cannot be null.");
-            if (configuration.PersistedSettings == null)
-                throw new InvalidOperationException("INewsComponentsConfiguration.PersistedSettings cannot be null.");
-            if (string.IsNullOrEmpty(configuration.UserApplicationDataPath))
-                throw new InvalidOperationException(
-                    "INewsComponentsConfiguration.UserApplicationDataPath cannot be null or empty.");
-            if (string.IsNullOrEmpty(configuration.UserLocalApplicationDataPath))
-                throw new InvalidOperationException(
-                    "INewsComponentsConfiguration.UserLocalApplicationDataPath cannot be null or empty.");
-        }
-
-		/// <summary>
-		/// Gets the dictionary of (old) properties to migrate in a newer version
-		/// </summary>
-    	public static readonly Dictionary<string, object> MigrationProperties = new Dictionary<string, object>();
-        
-		/// <summary>
         /// Gets the cache manager.
         /// </summary>
         /// <value>The cache manager.</value>
         internal CacheManager CacheHandler
         {
-            get
-            {
-                return p_configuration.CacheManager;
-            }
+            get { return p_configuration.CacheManager; }
         }
-
-        /// <summary>
-        /// Gets the location of the feed
-        /// </summary>
-        protected SubscriptionLocation location = null; 
-
-        /// <summary>
-        /// Used for making asynchronous Web requests
-        /// </summary>
-        protected AsyncWebRequest AsyncWebRequest = null;
-
-        /// <summary>
-        /// Indicates when the application first started
-        /// </summary>
-        private static DateTime ApplicationStartTime = DateTime.Now;
 
         /// <summary>
         /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
@@ -329,16 +1267,8 @@ namespace NewsComponents
         /// </summary>
         public bool DownloadIntervalReached
         {
-            get
-            {
-                return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= this.RefreshRate;
-            }
+            get { return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= RefreshRate; }
         }
-
-        /// <summary>
-        /// Downloads enclosures/podcasts in the background using BITS. 
-        /// </summary>
-        protected BackgroundDownloadManager enclosureDownloader;
 
 //		/// <summary>
 //		/// Manages the cache. 
@@ -347,38 +1277,21 @@ namespace NewsComponents
 //		private CacheManager cacheHandler; 
 
 
-
         /// <summary>
         /// The location where feed items are cached.
         /// </summary>
         internal string CacheLocation
         {
-            get
-            {
-                return this.CacheHandler.CacheLocation;
-            }
+            get { return CacheHandler.CacheLocation; }
         }
-
-        /// <summary>
-        /// Manages the FeedType.Rss 
-        /// </summary>
-        protected RssParser rssParser;
 
         /// <summary>
         /// Provide access to the RssParser for Rss specific tasks
         /// </summary>
         internal RssParser RssParserInstance
         {
-            get
-            {
-                return this.rssParser;
-            }
+            get { return rssParser; }
         }
-
-        /// <summary>
-        /// Manage the lucene search 
-        /// </summary>
-        protected static LuceneSearch p_searchHandler;
 
         /// <summary>
         /// Gets or sets the search index handler.
@@ -389,113 +1302,12 @@ namespace NewsComponents
             get
             {
                 if (p_searchHandler == null)
-                    p_searchHandler = new LuceneSearch(FeedSource.DefaultConfiguration);
+                    p_searchHandler = new LuceneSearch(DefaultConfiguration);
 
                 return p_searchHandler;
-            }        
-            set
-            {
-                p_searchHandler = value;
             }
+            set { p_searchHandler = value; }
         }
-
-        /// <summary>
-        /// Gets a empty item list.
-        /// </summary>
-        public static readonly List<INewsItem> EmptyItemList = new List<INewsItem>(0);
-
-        // logging/tracing:
-        private static readonly ILog _log = Log.GetLogger(typeof (FeedSource));
-
-        /// <summary>
-        /// Manage the NewsItem relations
-        /// </summary>
-        private static readonly IRelationCosmos relationCosmos = RelationCosmosFactory.Create();
-
-        /// <summary>
-        /// Manage the channel processors working on received items and feeds
-        /// </summary>
-        private static readonly NewsChannelServices receivingNewsChannel = new NewsChannelServices();
-
-    	#region Proxy handling
-
-    	#region ProxyWrapper class
-
-    	private class ProxyWrapper
-    	{
-    		private IWebProxy _proxy;
-
-    		public IWebProxy Proxy {
-    			get {
-    				if (_proxy == null)
-    					return WebRequest.DefaultWebProxy;
-    				return _proxy;
-    			}
-    			set { _proxy = value; }
-    		}
-
-    		public void ResetProxy() {
-    			_proxy = null; 
-    		}
-    	}
-
-    	#endregion
-
-    	private static readonly ProxyWrapper globalProxy = new ProxyWrapper();
-		
-    	/// <summary>
-    	/// Gets or sets the global proxy used by all FeedSource instances.
-    	/// </summary>
-    	/// <value>The global proxy.</value>
-    	/// <remarks>This property is thread safe.</remarks>
-    	public static IWebProxy GlobalProxy
-    	{
-    		get {
-    			lock (globalProxy)
-    				return globalProxy.Proxy;
-    		}
-    		set {
-    			lock (globalProxy)
-    				globalProxy.Proxy = value;
-    		}
-    	}
-
-    	/// <summary>
-    	/// Call to uses the default proxy. The default proxy is the value
-    	/// returned by WebRequest.DefaultWebProxy - so ensure to NOT
-    	/// modify that by calls to GlobalProxySelection.Select = new Proxy()
-    	/// or WebRequest.DefaultWebProxy = new Proxy() calls!
-    	/// Please use the <see cref="GlobalProxy"/> property to assign a
-    	/// user customized proxy or one that take over IE settings, then
-    	/// you are always able to switch back to use the default system proxy
-    	/// calling this method!
-    	/// </summary>
-    	/// <remarks>This method is thread safe.</remarks>
-    	public static void UseDefaultProxy()
-    	{
-    		lock (globalProxy)
-    			globalProxy.ResetProxy();
-    	}
-
-    	/// <summary>
-    	/// Proxy server information used for connections when fetching feeds. 
-    	/// </summary>
-    	/// <remarks>
-    	/// There are other components that use a instance reference/interface of
-    	/// FeedSource, so we provide the proxy also as a instance property here.
-    	/// </remarks>
-    	public IWebProxy Proxy
-    	{
-    		get { return GlobalProxy; }
-    	}
-
-    	#endregion
-
-        /// <summary>
-        /// Indicates whether the cookies from IE should be taken over for our own requests. 
-        /// Default is true.
-        /// </summary>
-        private static bool setCookies = true;
 
         /// <summary>
         /// Indicates whether the cookies from IE should be taken over for our own requests. 
@@ -503,20 +1315,9 @@ namespace NewsComponents
         /// </summary>
         public static bool SetCookies
         {
-            set
-            {
-                setCookies = value;
-            }
-            get
-            {
-                return setCookies;
-            }
+            set { setCookies = value; }
+            get { return setCookies; }
         }
-
-        /// <summary>
-        /// Indicates whether the relationship cosmos should be built for incoming news items. 
-        /// </summary>
-        internal static bool buildRelationCosmos = true;
 
         /// <summary>
         /// Indicates whether the relationship cosmos should be built for incoming news items. 
@@ -529,17 +1330,9 @@ namespace NewsComponents
                 if (buildRelationCosmos == false)
                     relationCosmos.Clear();
             }
-            get
-            {
-                return buildRelationCosmos;
-            }
+            get { return buildRelationCosmos; }
         }
 
-
-        /// <summary>
-        /// Indicates whether the application is offline or not. 
-        /// </summary>
-        protected bool isOffline = false;
 
         /// <summary>
         /// Indicates whether the application is offline or not. 
@@ -549,47 +1342,11 @@ namespace NewsComponents
             set
             {
                 isOffline = value;
-				if (RssParserInstance != null)
-					RssParserInstance.Offline = value;
+                if (RssParserInstance != null)
+                    RssParserInstance.Offline = value;
             }
-            get
-            {
-                return isOffline;
-            }
+            get { return isOffline; }
         }
-
-
-      
-
-        #region Trace support
-
-        protected static bool p_traceMode = false;
-
-        /// <summary>
-        /// Boolean flag indicates whether errors should be written to a logfile 
-        ///	using Trace.Write(); 
-        /// </summary>
-        public static bool TraceMode
-        {
-            set
-            {
-                p_traceMode = value;
-            }
-            get
-            {
-                return p_traceMode;
-            }
-        }
-
-        protected static void Trace(string formatString, params object[] paramArray)
-        {
-            if (p_traceMode)
-                _log.Info(String.Format(formatString, paramArray));
-        }
-
-        #endregion
-
-        private static bool unconditionalCommentRss;
 
         /// <summary>
         /// Boolean flag indicates whether the commentCount should be considered
@@ -599,40 +1356,304 @@ namespace NewsComponents
         /// </summary>
         public static bool UnconditionalCommentRss
         {
+            set { unconditionalCommentRss = value; }
+            get { return unconditionalCommentRss; }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum amount of time an item should be kept in the 
+        /// cache. This value is used for all feeds unless one is specified on 
+        /// the particular feed or its category
+        /// </summary>
+        public TimeSpan MaxItemAge { get; set; }
+
+        /// <summary>
+        /// Gets or sets the stylesheet for displaying feeds
+        /// </summary>
+        public static string Stylesheet { get; set; }
+
+        /// <summary>
+        /// Gets or sets the folder for downloading enclosures
+        /// </summary>
+        public static string EnclosureFolder { get; set; }
+
+
+        /// <summary>
+        /// Gets the list of file extensions of enclosures that should be treated as podcasts
+        /// as a string. 
+        /// </summary>
+        public string PodcastFileExtensionsAsString
+        {
+            get
+            {
+                var toReturn = new StringBuilder();
+
+                foreach (string s in podcastfileextensions)
+                {
+                    if (!StringHelper.EmptyTrimOrNull(s))
+                    {
+                        toReturn.Append(s);
+                        toReturn.Append(";");
+                    }
+                }
+
+                return toReturn.ToString();
+            }
+
             set
             {
-                unconditionalCommentRss = value;
-            }
-            get
-            {
-                return unconditionalCommentRss;
+                var fileexts = value.Split(new[] {';', ' '});
+                podcastfileextensions.Clear();
+
+                foreach (var s in fileexts)
+                {
+                    podcastfileextensions.Add(s);
+                }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the folder for downloading podcasts
+        /// </summary>
+        public string PodcastFolder { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether items in the feed should be marked as read on exiting
+        /// the feed in the UI
+        /// </summary>
+        public static bool MarkItemsReadOnExit { get; set; }
+
+
+        /// <summary>
+        /// Indicates the maximum amount of space that enclosures and 
+        /// podcasts can use on disk.
+        /// </summary>
+        public static int EnclosureCacheSize
+        {
+            get { return enclosurecachesize; }
+
+            set { enclosurecachesize = value; }
+        }
+
+        /// <summary>
+        /// Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
+        /// </summary>
+        public static int NumEnclosuresToDownloadOnNewFeed { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets whether  podcasts and enclosures should be downloaded to a folder 
+        /// named after the feed
+        /// </summary>
+        public static bool CreateSubfoldersForEnclosures { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether a toast windows should be displayed on a successful download
+        /// of an enclosure.
+        /// </summary>
+        public static bool EnclosureAlert { get; set; }
+
+        /// <summary>
+        /// Gets or sets wwhich properties of a NewsItem should be made columns in the RSS Bandit listview
+        /// </summary>
+        public string FeedColumnLayout { get; set; }
+
+        /// <summary>
+        /// Accesses the list of user specified layouts (currently listview only) 
+        /// </summary>
+        public FeedColumnLayoutCollection ColumnLayouts
+        {
+            get
+            {
+                if (layouts == null)
+                {
+                    layouts = new FeedColumnLayoutCollection();
+                }
+
+                return layouts;
+            }
+        }
+
+        /// <summary>
+        /// Accesses the list of NntpServerDefinition objects 
+        /// Keys are the account name(s) - friendly names for the news server def.:
+        /// NewsServerDefinition.Name's
+        /// </summary>
+        public IDictionary<string, INntpServerDefinition> NntpServers
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                if (nntpServers == null)
+                {
+                    nntpServers = new Dictionary<string, INntpServerDefinition>();
+                }
+
+                return nntpServers;
+            }
+        }
+
+        /// <summary>
+        /// Accesses the list of UserIdentity objects.
+        /// Keys are the UserIdentity.Name's
+        /// </summary>
+        public IDictionary<string, UserIdentity> UserIdentity
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                if (identities == null)
+                {
+                    identities = new Dictionary<string, UserIdentity>();
+                }
+
+                return identities;
+            }
+        }
+
+        /// <summary>
+        ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
+        ///  Setting this property resets the refresh rate for all feeds. 
+        /// </summary>
+        /// <remarks>If set to a negative value then the old value remains. Setting the 
+        /// value to zero means feeds are no longer updated.</remarks>
+        public virtual int RefreshRate
+        {
+            //set
+            //{
+            //    if (value >= 0)
+            //    {
+            //        this.refreshrate = value;
+            //    }
+            /* 
+				 * moved to ResetAllRefreshRateSettings():
+				 * 
+                string[] keys;
+
+                lock (feedsTable)
+                {
+                    keys = new string[feedsTable.Count];
+                    if (feedsTable.Count > 0)
+                        feedsTable.Keys.CopyTo(keys, 0);
+                }
+
+                for (int i = 0, len = keys.Length; i < len; i++)
+                {
+                    INewsFeed f = null;
+                    if (feedsTable.TryGetValue(keys[i], out f))
+                    {
+                        f.refreshrate = this.refreshrate;
+                        f.refreshrateSpecified = true;
+                    }
+                }
+				*/
+            //}
+
+            get { return p_configuration.RefreshRate; }
+        }
+
+        /// <summary>
+        /// Boolean flag indicates whether the feeds list was loaded 
+        /// successfully during the last call to LoadFeedlist()
+        /// </summary>
+        public bool FeedsListOK
+        {
+            get { return !validationErrorOccured; }
+        }
+
+        #region HTTP UserAgent 
+
+        /// <summary>
+        /// Our default short HTTP user agent string
+        /// </summary>
+        public const string DefaultUserAgent = "RssBandit/2.x";
+
+        /// <summary>
+        /// A template string to assamble a unified user agent string.
+        /// </summary>
+        private static readonly string userAgentTemplate;
+
+        /// <summary>
+        /// global long HTTP user agent string
+        /// </summary>
+        private static string globalLongUserAgent;
+
+        /// <summary>
+        /// The short HTTP user agent string used when requesting feeds
+        /// and the property was not set via 
+        /// </summary>
+        private string useragent;
+
+        /// <summary>
+        /// Returns a global long HTTP user agent string build from the
+        /// instance setting. 
+        /// To be used by sub-components that do not have a instance variable 
+        /// of the FeedSource.
+        /// </summary>
+        public static string GlobalUserAgentString
+        {
+            get
+            {
+                if (null == globalLongUserAgent)
+                    globalLongUserAgent = UserAgentString(DefaultUserAgent);
+                return globalLongUserAgent;
+            }
+        }
+
+        /// <summary>
+        /// The short HTTP user agent string used when requesting feeds. 
+        /// </summary>
+        public string UserAgent
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(useragent))
+                {
+                    if (Configuration != null)
+                    {
+                        useragent = String.Format("{0}/{1}", Configuration.ApplicationID,
+                                                  Configuration.ApplicationVersion);
+                        globalLongUserAgent = UserAgentString(useragent);
+                    }
+                    else
+                    {
+                        // wait for a valid configuration, but return a usable value:
+                        return DefaultUserAgent;
+                    }
+                }
+                return useragent;
+            }
+            set
+            {
+                useragent = value;
+                globalLongUserAgent = UserAgentString(useragent);
+            }
+        }
+
+        /// <summary>
+        /// The long HTTP user agent string used when requesting feeds. 
+        /// </summary>
+        public string FullUserAgent
+        {
+            get { return UserAgentString(UserAgent); }
+        }
+
+        /// <summary>
+        /// Build a full user agent string incl. OS and .NET version 
+        /// from the provided userAgent
+        /// </summary>
+        /// <param name="userAgent">string</param>
+        /// <returns>The long HTTP user agent string</returns>
+        public static string UserAgentString(string userAgent)
+        {
+            if (string.IsNullOrEmpty(userAgent))
+                return GlobalUserAgentString;
+            return String.Format(userAgentTemplate, userAgent);
+        }
+
+        #endregion
 
         #region Top Stories related
-
-        private static bool topStoriesModified = false;
-
-        public static bool TopStoriesModified
-        {
-            get
-            {
-                return topStoriesModified;
-            }
-        }
-
-
-        private class storyNdate
-        {
-            public storyNdate(string title, DateTime date)
-            {
-                storyTitle = title;
-                firstSeen = date;
-            }
-
-            public readonly string storyTitle;
-            public readonly DateTime firstSeen;
-        }
 
         /// <summary>
         /// This is a table of mappings of URLs to story titles for the top stories that have been returned by 
@@ -640,6 +1661,26 @@ namespace NewsComponents
         /// </summary>
         /// <seealso cref="GetTopStories"/>
         private static readonly Dictionary<string, storyNdate> TopStoryTitles = new Dictionary<string, storyNdate>();
+
+        private static bool topStoriesModified;
+
+        public static bool TopStoriesModified
+        {
+            get { return topStoriesModified; }
+        }
+
+
+        private class storyNdate
+        {
+            public readonly DateTime firstSeen;
+            public readonly string storyTitle;
+
+            public storyNdate(string title, DateTime date)
+            {
+                storyTitle = title;
+                firstSeen = date;
+            }
+        }
 
         #endregion
 
@@ -674,14 +1715,16 @@ namespace NewsComponents
 
             if (!string.IsNullOrEmpty(domainUser))
             {
-                NetworkCredential credentials = CreateCredentialsFrom(domainUser, password);
+                var credentials = CreateCredentialsFrom(domainUser, password);
                 try
                 {
-                    Uri feedUri = new Uri(url);
-                    CredentialCache cc = new CredentialCache();
-                    cc.Add(feedUri, "Basic", credentials);
-                    cc.Add(feedUri, "Digest", credentials);
-                    cc.Add(feedUri, "NTLM", credentials);
+                    var feedUri = new Uri(url);
+                    var cc = new CredentialCache
+                                 {
+                                     {feedUri, "Basic", credentials},
+                                     {feedUri, "Digest", credentials},
+                                     {feedUri, "NTLM", credentials}
+                                 };
                     c = cc;
                 }
                 catch (UriFormatException)
@@ -704,7 +1747,7 @@ namespace NewsComponents
             if (domainUser != null)
             {
                 NetworkCredential credentials;
-                string[] aDomainUser = domainUser.Split(new char[] {'\\'});
+                var aDomainUser = domainUser.Split(new[] {'\\'});
                 if (aDomainUser.GetLength(0) > 1) // Domain specified: e.g. Domain\UserName
                     credentials = new NetworkCredential(aDomainUser[1], password, aDomainUser[0]);
                 else
@@ -784,7 +1827,7 @@ namespace NewsComponents
         /// <param name="pwd">password</param>
         public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd)
         {
-            NntpServerDefinition server = (NntpServerDefinition) sd;
+            var server = (NntpServerDefinition) sd;
             if (server == null) return;
             server.AuthPassword = CryptHelper.EncryptB(pwd);
             server.AuthUser = user;
@@ -798,7 +1841,7 @@ namespace NewsComponents
         /// <param name="pwd">String return parameter, containing the password</param>
         public static void GetNntpServerCredentials(INntpServerDefinition sd, ref string user, ref string pwd)
         {
-            NntpServerDefinition server = (NntpServerDefinition) sd;
+            var server = (NntpServerDefinition) sd;
             if (server == null) return;
             pwd = (server.AuthPassword != null ? CryptHelper.Decrypt(server.AuthPassword) : null);
             user = server.AuthUser;
@@ -830,20 +1873,19 @@ namespace NewsComponents
 
             try
             {
-                Uri feedUri = new Uri(f.link);
+                var feedUri = new Uri(f.link);
 
-                foreach (NntpServerDefinition nsd  in this.nntpServers.Values)
+                foreach (NntpServerDefinition nsd  in nntpServers.Values)
                 {
                     if (nsd.Server.Equals(feedUri.Authority))
                     {
-                        c = this.GetNntpServerCredentials(nsd.Name);
+                        c = GetNntpServerCredentials(nsd.Name);
                         break;
                     }
                 }
             }
             catch (UriFormatException)
             {
-                ;
             }
             return c;
         }
@@ -867,1146 +1909,246 @@ namespace NewsComponents
 
         #endregion
 
-        /// <summary>
-        /// Maximum item age. Default value is 3 months.
-        /// </summary>
-        protected TimeSpan maxitemage = new TimeSpan(90, 0, 0, 0);
+        #region Trace support
+
+        protected static bool p_traceMode;
 
         /// <summary>
-        /// Gets or sets the maximum amount of time an item should be kept in the 
-        /// cache. This value is used for all feeds unless one is specified on 
-        /// the particular feed or its category
+        /// Boolean flag indicates whether errors should be written to a logfile 
+        ///	using Trace.Write(); 
         /// </summary>
-        public TimeSpan MaxItemAge
+        public static bool TraceMode
         {
-            get
-            {
-                return this.maxitemage;
-            }
+            set { p_traceMode = value; }
+            get { return p_traceMode; }
+        }
+
+        protected static void Trace(string formatString, params object[] paramArray)
+        {
+            if (p_traceMode)
+                _log.Info(String.Format(formatString, paramArray));
+        }
+
+        #endregion
+
+        #region ISharedProperty Members
+
+        /// <summary>
+        /// Gets or sets the maximum item age.
+        /// </summary>
+        /// <value>The max. item age.</value>
+        string ISharedProperty.maxitemage
+        {
+            get { return XmlConvert.ToString(MaxItemAge); }
+            set { MaxItemAge = XmlConvert.ToTimeSpan(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the refresh rate.
+        /// </summary>
+        /// <value>The refreshrate.</value>
+        int ISharedProperty.refreshrate
+        {
+            get { return RefreshRate; }
             set
             {
-                this.maxitemage = value;
+                /* ignored at top level */
             }
         }
 
-		/// <summary>
-		/// Clears all individual max-item-age settings on 
-		/// feeds and categories.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.Synchronized)]
-		public void ResetAllMaxItemAgeSettings()
-		{
-			string[] keys;
-
-			// handle feeds:
-			lock (feedsTable)
-			{
-				keys = new string[feedsTable.Count];
-				if (feedsTable.Count > 0)
-					feedsTable.Keys.CopyTo(keys, 0);
-			}
-
-			for (int i = 0, len = keys.Length; i < len; i++)
-			{
-				INewsFeed f;
-				if (feedsTable.TryGetValue(keys[i], out f))
-				{
-					f.maxitemage = null;
-				}
-			}
-
-			// handle categories:
-			//DISCUSS: do we need to lock here? 
-			foreach (INewsFeedCategory c in this.categories.Values)
-			{
-				c.maxitemage = null;
-			}
-		}
-
         /// <summary>
-        /// The stylesheet for displaying feeds.
+        /// Gets or sets a value indicating whether [refresh rate is specified].
         /// </summary>
-        static string stylesheet;
-
-        /// <summary>
-        /// Gets or sets the stylesheet for displaying feeds
-        /// </summary>
-        public static string Stylesheet
+        /// <value><c>true</c> if [refresh rate specified]; otherwise, <c>false</c>.</value>
+        bool ISharedProperty.refreshrateSpecified
         {
-            get
-            {
-                return stylesheet;
-            }
-
+            get { return true; }
             set
             {
-                stylesheet = value;
+                /* ignored */
             }
         }
 
         /// <summary>
-        /// The folder for downloading enclosures.
+        /// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should download enclosures.
         /// </summary>
-        static string enclosurefolder = String.Empty;
-
-        /// <summary>
-        /// Gets or sets the folder for downloading enclosures
-        /// </summary>
-        public static string EnclosureFolder
+        /// <value><c>true</c> if download enclosures; otherwise, <c>false</c>.</value>
+        bool ISharedProperty.downloadenclosures
         {
-            get
-            {
-                return enclosurefolder;
-            }
-
+            get { return p_configuration.DownloadEnclosures; }
             set
             {
-                enclosurefolder = value;
+                /* ignored at top level */
             }
         }
 
-
         /// <summary>
-        /// The file extensions of enclosures that should be treated as podcasts. 
+        /// Gets or sets a value indicating whether [download enclosures is specified].
         /// </summary>
-        protected readonly ArrayList podcastfileextensions = new ArrayList();
-
-        /// <summary>
-        /// Gets the list of file extensions of enclosures that should be treated as podcasts
-        /// as a string. 
-        /// </summary>
-        public string PodcastFileExtensionsAsString
+        /// <value>
+        /// 	<c>true</c> if [download enclosures specified]; otherwise, <c>false</c>.
+        /// </value>
+        bool ISharedProperty.downloadenclosuresSpecified
         {
-            get
-            {
-                StringBuilder toReturn = new StringBuilder();
-
-                foreach (string s in this.podcastfileextensions)
-                {
-                    if (!StringHelper.EmptyTrimOrNull(s))
-                    {
-                        toReturn.Append(s);
-                        toReturn.Append(";");
-                    }
-                }
-
-                return toReturn.ToString();
-            }
-
+            get { return true; }
             set
             {
-                string[] fileexts = value.Split(new char[] {';', ' '});
-                this.podcastfileextensions.Clear();
-
-                foreach (string s in fileexts)
-                {
-                    this.podcastfileextensions.Add(s);
-                }
+                /* ignore */
             }
         }
 
         /// <summary>
-        /// The folder for downloading podcasts.
+        /// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should alert on enclosure downloads.
         /// </summary>
-        protected string podcastfolder;
-
-        /// <summary>
-        /// Gets or sets the folder for downloading podcasts
-        /// </summary>
-        public string PodcastFolder
+        /// <value><c>true</c> if enclosurealert; otherwise, <c>false</c>.</value>
+        bool ISharedProperty.enclosurealert
         {
-            get
-            {
-                return this.podcastfolder;
-            }
-
+            get { return EnclosureAlert; }
             set
             {
-                this.podcastfolder = value;
+                /* ignore at top level */
             }
         }
 
         /// <summary>
-        /// Indicates whether items in the feed should be marked as read on exiting
-        /// the feed in the UI.
+        /// Gets or sets a value indicating whether [enclosure alert specified].
         /// </summary>
-        static bool markitemsreadonexit;
-
-        /// <summary>
-        /// Gets or sets whether items in the feed should be marked as read on exiting
-        /// the feed in the UI
-        /// </summary>
-        public static bool MarkItemsReadOnExit
+        /// <value>
+        /// 	<c>true</c> if [enclosurealert specified]; otherwise, <c>false</c>.
+        /// </value>
+        bool ISharedProperty.enclosurealertSpecified
         {
-            get
-            {
-                return markitemsreadonexit;
-            }
-
+            get { return true; }
             set
             {
-                markitemsreadonexit = value;
+                /* ignore */
             }
         }
-		
-		/// <summary>
-        /// Indicates the default maximum amount of space that enclosures and 
-        /// podcasts can use on disk. Currently this is Int32.MaxValue
-        /// </summary>
-    	public const int DefaultEnclosureCacheSize = Int32.MaxValue;
-        /// <summary>
-        /// Indicates the maximum amount of space that enclosures and 
-        /// podcasts can use on disk.
-        /// </summary>
-		static int enclosurecachesize = DefaultEnclosureCacheSize;
-
 
         /// <summary>
-        /// Indicates the maximum amount of space that enclosures and 
-        /// podcasts can use on disk.
+        /// Gets or sets the enclosure folder.
         /// </summary>
-        public static int EnclosureCacheSize
+        /// <value>The enclosure folder.</value>
+        string ISharedProperty.enclosurefolder
         {
-            get
-            {
-                return enclosurecachesize;
-            }
+            get { return EnclosureFolder; }
+            set { EnclosureFolder = value; }
+        }
 
+        /// <summary>
+        /// Gets or sets the listview layout.
+        /// </summary>
+        /// <value>The listview layout.</value>
+        string ISharedProperty.listviewlayout
+        {
+            get { return FeedColumnLayout; }
+            set { FeedColumnLayout = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the stylesheet to render the feed/items.
+        /// </summary>
+        /// <value>The stylesheet.</value>
+        string ISharedProperty.stylesheet
+        {
+            get { return Stylesheet; }
+            set { Stylesheet = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should mark items read on exit.
+        /// </summary>
+        /// <value><c>true</c> if markitemsreadonexit; otherwise, <c>false</c>.</value>
+        bool ISharedProperty.markitemsreadonexit
+        {
+            get { return MarkItemsReadOnExit; }
+            set { MarkItemsReadOnExit = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [mark items read on exit specified].
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [mark items read on exit specified]; otherwise, <c>false</c>.
+        /// </value>
+        bool ISharedProperty.markitemsreadonexitSpecified
+        {
+            get { return true; }
             set
             {
-                enclosurecachesize = value;
-            }
-        }
-
-		/// <summary>
-		/// Indicates the default number of enclosures which should be downloaded 
-		/// automatically from a newly subscribed feed.
-		/// Currently this is Int32.MaxValue.
-		/// </summary>
-    	public const int DefaultNumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
-        
-		/// <summary>
-        /// Indicates the number of enclosures which should be downloaded 
-        /// automatically from a newly subscribed feed.
-        /// </summary>
-		static int numtodownloadonnewfeed = DefaultNumEnclosuresToDownloadOnNewFeed;
-
-        /// <summary>
-        /// Indicates the number of enclosures which should be downloaded automatically from a newly subscribed feed.
-        /// </summary>
-        public static int NumEnclosuresToDownloadOnNewFeed
-        {
-            get
-            {
-                return numtodownloadonnewfeed;
-            }
-
-            set
-            {
-                numtodownloadonnewfeed = value;
-            }
-        }
-
-
-        /// <summary>
-        /// Indicates whether podcasts and enclosures should be downloaded to a folder 
-        /// named after the feed. 
-        /// </summary>
-        static bool createsubfoldersforenclosures;
-
-        /// <summary>
-        /// Gets or sets whether  podcasts and enclosures should be downloaded to a folder 
-        /// named after the feed
-        /// </summary>
-        public static bool CreateSubfoldersForEnclosures
-        {
-            get
-            {
-                return createsubfoldersforenclosures;
-            }
-
-            set
-            {
-                createsubfoldersforenclosures = value;
-            }
-        }
-
-        /// <summary>
-        /// Indicates whether enclosures should be downloaded in the background.
-        /// </summary>
-        private static bool enclosurealert;
-
-        /// <summary>
-        /// Gets or sets whether a toast windows should be displayed on a successful download
-        /// of an enclosure.
-        /// </summary>
-        public static bool EnclosureAlert
-        {
-            get
-            {
-                return enclosurealert;
-            }
-
-            set
-            {
-                enclosurealert = value;
-            }
-        }
-
-        /// <summary>
-        /// Indicates which properties of a NewsItem should be made columns in the RSS Bandit listview
-        /// </summary>
-        protected string listviewlayout;
-
-        /// <summary>
-        /// Gets or sets wwhich properties of a NewsItem should be made columns in the RSS Bandit listview
-        /// </summary>
-        public string FeedColumnLayout
-        {
-            get
-            {
-                return this.listviewlayout;
-            }
-
-            set
-            {
-                this.listviewlayout = value;
-            }
-        }
-
-        #region HTTP UserAgent 
-
-        /// <summary>
-        /// Our default short HTTP user agent string
-        /// </summary>
-        public const string DefaultUserAgent = "RssBandit/2.x";
-
-        /// <summary>
-        /// A template string to assamble a unified user agent string.
-        /// </summary>
-        private static readonly string userAgentTemplate;
-
-        /// <summary>
-        /// global long HTTP user agent string
-        /// </summary>
-        private static string globalLongUserAgent;
-
-        /// <summary>
-        /// Build a full user agent string incl. OS and .NET version 
-        /// from the provided userAgent
-        /// </summary>
-        /// <param name="userAgent">string</param>
-        /// <returns>The long HTTP user agent string</returns>
-        public static string UserAgentString(string userAgent)
-        {
-            if (string.IsNullOrEmpty(userAgent))
-                return GlobalUserAgentString;
-            return String.Format(userAgentTemplate, userAgent);
-        }
-
-        /// <summary>
-        /// Returns a global long HTTP user agent string build from the
-        /// instance setting. 
-        /// To be used by sub-components that do not have a instance variable 
-        /// of the FeedSource.
-        /// </summary>
-        public static string GlobalUserAgentString
-        {
-            get
-            {
-                if (null == globalLongUserAgent)
-                    globalLongUserAgent = UserAgentString(DefaultUserAgent);
-                return globalLongUserAgent;
-            }
-        }
-
-        /// <summary>
-        /// The short HTTP user agent string used when requesting feeds
-        /// and the property was not set via 
-        /// </summary>
-        private string useragent;
-
-        /// <summary>
-        /// The short HTTP user agent string used when requesting feeds. 
-        /// </summary>
-        public string UserAgent
-        {
-            get
-            {
-				if (String.IsNullOrEmpty(useragent)) {
-					if (Configuration != null) {
-						useragent = String.Format("{0}/{1}", Configuration.ApplicationID, Configuration.ApplicationVersion);
-						globalLongUserAgent = UserAgentString(useragent);
-					} else {
-						// wait for a valid configuration, but return a usable value:
-						return DefaultUserAgent;
-					}
-				}
-                return useragent;
-            }
-            set
-            {
-                useragent = value;
-                globalLongUserAgent = UserAgentString(useragent);
-            }
-        }
-
-        /// <summary>
-        /// The long HTTP user agent string used when requesting feeds. 
-        /// </summary>
-        public string FullUserAgent
-        {
-            get
-            {
-                return UserAgentString(this.UserAgent);
+                /* ignore */
             }
         }
 
         #endregion
 
-
         /// <summary>
-        /// FeedsCollection representing subscribed feeds list
+        /// Validates the configuration and throw on errors (required settings).
         /// </summary>
-        protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
-
-        /// <summary>
-        /// This is the object that is returned when returning the list of feeds in GetFeeds()
-        /// </summary>
-        /// <seealso cref="GetFeeds"/>
-        protected ReadOnlyDictionary<string, INewsFeed> readonly_feedsTable = null;
-
-
-        /// <summary>
-        /// Represents the list of available categories for feeds. 
-        /// </summary>
-        protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
-
-        /// <summary>
-        /// This is the object that is returned when returning the list of categories in GetCategories()
-        /// </summary>
-        /// <seealso cref="GetCategories"/>
-        protected ReadOnlyDictionary<string, INewsFeedCategory> readonly_categories = null; 
-
-        /// <summary>
-        /// Represents the list of available feed column layouts for feeds. 
-        /// </summary>
-        protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
-
-
-        /// <summary>
-        /// Hashtable representing downloaded feed items
-        /// </summary>
-        protected readonly Dictionary<string, IFeedDetails> itemsTable =
-            new Dictionary<string, IFeedDetails>();
-
-        /// <summary>
-        /// Collection contains NntpServerDefinition objects.
-        /// Keys are the account name(s) - friendly names for the news server def.:
-        /// NntpServerDefinition.Name's
-        /// </summary>
-        private IDictionary<string, INntpServerDefinition> nntpServers = new Dictionary<string, INntpServerDefinition>();
-
-        /// <summary>
-        /// Collection contains UserIdentity objects.
-        /// Keys are the UserIdentity.Name's
-        /// </summary>
-        private IDictionary<string, UserIdentity> identities = new Dictionary<string, UserIdentity>();
-
-        #region delegates/events/argument classes
-
-        /// <summary>
-        /// The callback used within the BeforeDownloadFeedStarted event.
-        /// </summary>
-        public delegate void DownloadFeedStartedCallback(object sender, DownloadFeedCancelEventArgs e);
-
-        /// <summary>
-        /// The event that will be invoked on clients to notify them that 
-        /// when a feed starts to be downloaded (AsyncWebRequest). 
-        /// </summary>
-        public event DownloadFeedStartedCallback BeforeDownloadFeedStarted = null;
-
-        /// <summary>
-        /// BeforeDownloadFeedStarted event argument class.
-        /// </summary>
-        [ComVisible(false)]
-        public class DownloadFeedCancelEventArgs : CancelEventArgs
+        /// <param name="configuration">The configuration.</param>
+        protected static void ValidateAndThrow(INewsComponentsConfiguration configuration)
         {
-            /// <summary>
-            /// Class initializer.
-            /// </summary>
-            /// <param name="feed">feed Uri</param>
-            /// <param name="cancel">bool, set to true, if you want to cancel further processing</param>
-            public DownloadFeedCancelEventArgs(Uri feed, bool cancel) : base(cancel)
-            {
-                this.feedUri = feed;
-            }
-
-            private readonly Uri feedUri;
-
-            /// <summary>
-            /// The related feed Uri.
-            /// </summary>
-            public Uri FeedUri
-            {
-                get
-                {
-                    return feedUri;
-                }
-            }
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+            if (string.IsNullOrEmpty(configuration.ApplicationID))
+                throw new InvalidOperationException(
+                    "INewsComponentsConfiguration.ApplicationID cannot be null or empty.");
+            if (configuration.CacheManager == null)
+                throw new InvalidOperationException("INewsComponentsConfiguration.CacheManager cannot be null.");
+            if (configuration.PersistedSettings == null)
+                throw new InvalidOperationException("INewsComponentsConfiguration.PersistedSettings cannot be null.");
+            if (string.IsNullOrEmpty(configuration.UserApplicationDataPath))
+                throw new InvalidOperationException(
+                    "INewsComponentsConfiguration.UserApplicationDataPath cannot be null or empty.");
+            if (string.IsNullOrEmpty(configuration.UserLocalApplicationDataPath))
+                throw new InvalidOperationException(
+                    "INewsComponentsConfiguration.UserLocalApplicationDataPath cannot be null or empty.");
         }
 
         /// <summary>
-        /// Callback delegate used on event OnUpdatedFeed.
+        /// Clears all individual max-item-age settings on 
+        /// feeds and categories.
         /// </summary>
-        public delegate void UpdatedFeedCallback(object sender, UpdatedFeedEventArgs e);
-
-        /// <summary>
-        /// Event called on every updated feed.
-        /// </summary>
-        public event UpdatedFeedCallback OnUpdatedFeed = null;
-
-
-        /// <summary>
-        /// Callback delegate used on event OnDeletedCategory.
-        /// </summary>
-        public delegate void DeletedCategoryCallback(object sender, CategoryEventArgs e);
-
-        /// <summary>
-        /// Event called on every deleted category.
-        /// </summary>
-        public event DeletedCategoryCallback OnDeletedCategory = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnDeletedCategory.
-        /// </summary>
-        public delegate void AddedCategoryCallback(object sender, CategoryEventArgs e);
-
-        /// <summary>
-        /// Event called on every deleted category.
-        /// </summary>
-        public event AddedCategoryCallback OnAddedCategory = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnRenamedCategory.
-        /// </summary>
-        public delegate void RenamedCategoryCallback(object sender, CategoryChangedEventArgs e);
-
-        /// <summary>
-        /// Event called on every renamed category.
-        /// </summary>
-        public event RenamedCategoryCallback OnRenamedCategory = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnMovedCategory.
-        /// </summary>
-        public delegate void MovedCategoryCallback(object sender, CategoryChangedEventArgs e);
-
-        /// <summary>
-        /// Event called on every moved category.
-        /// </summary>
-        public event MovedCategoryCallback OnMovedCategory = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnAddedFeed.
-        /// </summary>
-        public delegate void AddedFeedCallback(object sender, FeedChangedEventArgs e);
-
-        /// <summary>
-        /// Event called on every added feed.
-        /// </summary>
-        public event AddedFeedCallback OnAddedFeed = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnDeletedFeed.
-        /// </summary>
-        public delegate void DeletedFeedCallback(object sender, FeedDeletedEventArgs e);
-
-        /// <summary>
-        /// Event called on every deleted feed.
-        /// </summary>
-        public event DeletedFeedCallback OnDeletedFeed = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnRenamedFeed.
-        /// </summary>
-        public delegate void RenamedFeedCallback(object sender, FeedRenamedEventArgs e);
-
-        /// <summary>
-        /// Event called on every renamed feed.
-        /// </summary>
-        public event RenamedFeedCallback OnRenamedFeed = null;       
-
-        /// <summary>
-        /// Callback delegate used on event OnMovedFeed.
-        /// </summary>
-        public delegate void MovedFeedCallback(object sender, FeedMovedEventArgs e);
-
-        /// <summary>
-        /// Event called on every moved feed.
-        /// </summary>
-        public event MovedFeedCallback OnMovedFeed = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnDownloadedEnclosure.
-        /// </summary>
-        public delegate void DownloadedEnclosureCallback(object sender, DownloadItemEventArgs e);
-
-        /// <summary>
-        /// Event called on every completed enclosure download. 
-        /// </summary>
-        public event DownloadedEnclosureCallback OnDownloadedEnclosure = null;
-
-        /// <summary>
-        /// Callback delegate used on event OnUpdatedFavicon.
-        /// </summary>
-        public delegate void UpdatedFaviconCallback(object sender, UpdatedFaviconEventArgs e);
-
-        /// <summary>
-        /// Event called on every updated favicon.
-        /// </summary>
-        public event UpdatedFaviconCallback OnUpdatedFavicon = null;
-
-
-        /// <summary>
-        /// OnUpdatedFavicon event argument class.
-        /// </summary>
-        public class UpdatedFaviconEventArgs : EventArgs
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ResetAllMaxItemAgeSettings()
         {
-            /// <summary>
-            /// Called on every updated favicon.
-            /// </summary>
-            /// <param name="favicon"> The name of the favicon file</param> 
-            /// <param name="feedUrls">The list of URLs that will utilize this favicon</param>		
-            public UpdatedFaviconEventArgs(string favicon, StringCollection feedUrls)
+            string[] keys;
+
+            // handle feeds:
+            lock (feedsTable)
             {
-                this.favicon = favicon;
-                this.feedUrls = feedUrls;
+                keys = new string[feedsTable.Count];
+                if (feedsTable.Count > 0)
+                    feedsTable.Keys.CopyTo(keys, 0);
             }
 
-            private readonly string favicon;
-
-            /// <summary>
-            /// The name of the favicon file. 
-            /// </summary>
-            public string Favicon
+            for (int i = 0, len = keys.Length; i < len; i++)
             {
-                get
+                INewsFeed f;
+                if (feedsTable.TryGetValue(keys[i], out f))
                 {
-                    return this.favicon;
+                    f.maxitemage = null;
                 }
             }
 
-            private readonly StringCollection feedUrls;
-
-            /// <summary>
-            /// The URLs of the feeds that will utilize this favicon. 
-            /// </summary>
-            public StringCollection FeedUrls
+            // handle categories:
+            //DISCUSS: do we need to lock here? 
+            foreach (var c in categories.Values)
             {
-                get
-                {
-                    return this.feedUrls;
-                }
+                c.maxitemage = null;
             }
         }
-
-        public class FeedChangedEventArgs : EventArgs
-        {            
-            public string FeedUrl { get; set; }
-
-            public FeedChangedEventArgs(string feedUrl)
-            {
-                this.FeedUrl = feedUrl;                
-            }
-        }
-
-        public class FeedDeletedEventArgs : FeedChangedEventArgs
-        {
-            public string Title    { get; set; }
-
-            public FeedDeletedEventArgs(string feedUrl, string title): base(feedUrl)
-            {                
-                this.Title = title; 
-            }
-        }
-
-        public class FeedMovedEventArgs : FeedChangedEventArgs
-        {
-            public string NewCategory { get; set; }
-
-            public FeedMovedEventArgs(string feedUrl, string newCategory): base(feedUrl)
-            {
-                this.NewCategory = newCategory;
-            }
-        }
-
-        public class FeedRenamedEventArgs : FeedChangedEventArgs
-        {
-            public string NewName { get; set; }
-
-            public FeedRenamedEventArgs(string feedUrl, string newName):base(feedUrl)
-            {
-                this.NewName = newName; 
-            }
-        }
-
-        /// <summary>
-        /// Category event argument class.
-        /// </summary>
-        public class CategoryEventArgs : EventArgs
-        {
-            public string CategoryName { get; set; }
-
-            /// <summary>
-            /// Provides information on the category event
-            /// </summary>
-            /// <param name="categoryName">The name of the affected category</param>
-            public CategoryEventArgs(string categoryName)
-            {
-                this.CategoryName = categoryName;
-            }
-        }
-
-
-        /// <summary>
-        /// Category event argument class.
-        /// </summary>
-        public class CategoryChangedEventArgs : CategoryEventArgs
-        {
-            public string NewCategoryName { get; set; }
-
-			/// <summary>
-			/// Provides information on the category event
-			/// </summary>
-			/// <param name="categoryName">The name of the affected category</param>
-			/// <param name="newCategoryName">New name of the category.</param>
-            public CategoryChangedEventArgs(string categoryName, string newCategoryName)
-                : base(categoryName)
-            {
-                this.NewCategoryName = newCategoryName;
-            }
-        }
-
-
-        /// <summary>
-        /// OnUpdatedFeed event argument class.
-        /// </summary>
-        public class UpdatedFeedEventArgs : EventArgs
-        {
-            /// <summary>
-            /// Called on every updated feed.
-            /// </summary>
-            /// <param name="requestUri">Original requested Uri of the feed</param>
-            /// <param name="newUri">The (maybe) new feed location. This could be set on a redirect or other mechanism.
-            /// If the location was not changed, this parameter is left null</param>
-            /// <param name="result">If result is <c>NotModified</c>, the conditional GET succeeds and no items are returned.</param>
-            /// <param name="priority">Priority of the request</param>
-            /// <param name="firstSuccessfulDownload">Indicates whether this is the first time the feed has been successfully downloaded
-            /// to the cache</param>
-            public UpdatedFeedEventArgs(Uri requestUri, Uri newUri, RequestResult result, int priority,
-                                        bool firstSuccessfulDownload)
-            {
-                this.requestUri = requestUri;
-                this.newUri = newUri;
-                this.result = result;
-                this.priority = priority;
-                this.firstSuccessfulDownload = firstSuccessfulDownload;
-            }
-
-            private readonly Uri requestUri;
-            private readonly Uri newUri;
-
-            /// <summary>
-            /// Uri of the feed, that was updated
-            /// </summary>
-            public Uri UpdatedFeedUri
-            {
-                get
-                {
-                    return requestUri;
-                }
-            } // should return Clone() ?
-            /// <summary>
-            /// Uri of the feed, if it was moved on the Web to a new location.
-            /// </summary>
-            public Uri NewFeedUri
-            {
-                get
-                {
-                    return newUri;
-                }
-            } // should return Clone() ?
-
-            private readonly RequestResult result;
-
-            /// <summary>
-            /// RequestResult: OK or NotModified
-            /// </summary>
-            public RequestResult UpdateState
-            {
-                get
-                {
-                    return result;
-                }
-            }
-
-            private readonly int priority;
-
-            /// <summary>
-            /// Gets the queued priority
-            /// </summary>
-            public int Priority
-            {
-                get
-                {
-                    return priority;
-                }
-            }
-
-            private readonly bool firstSuccessfulDownload;
-
-            /// <summary>
-            /// Indicates whether this is the first time the feed has been downloaded to 
-            /// the cache. 
-            /// </summary>
-            public bool FirstSuccessfulDownload
-            {
-                get
-                {
-                    return firstSuccessfulDownload;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Callback delegate used for event OnUpdateFeedException
-        /// </summary>
-        public delegate void UpdateFeedExceptionCallback(object sender, UpdateFeedExceptionEventArgs e);
-
-        /// <summary>
-        /// Event called, if the WebRequest fails with any exception.
-        /// </summary>
-        public event UpdateFeedExceptionCallback OnUpdateFeedException = null;
-
-        /// <summary>
-        /// Event argument class used in OnUpdateFeedException.
-        /// </summary>
-        public class UpdateFeedExceptionEventArgs : EventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="requestUri">feed Uri, that was requested</param>
-            /// <param name="e">Exception caused by the request</param>
-            /// <param name="priority">int</param>
-            public UpdateFeedExceptionEventArgs(string requestUri, Exception e, int priority)
-            {
-                this.requestUri = requestUri;
-                this.exception = e;
-                this.priority = priority;
-            }
-
-            private readonly string requestUri;
-
-            /// <summary>
-            /// feed Uri.
-            /// </summary>
-            public string FeedUri
-            {
-                get
-                {
-                    return requestUri;
-                }
-            }
-
-            private readonly Exception exception;
-
-            /// <summary>
-            /// caused exception
-            /// </summary>
-            public Exception ExceptionThrown
-            {
-                get
-                {
-                    return exception;
-                }
-            }
-
-            private readonly int priority;
-
-            /// <summary>
-            /// Gets the queued priority
-            /// </summary>
-            public int Priority
-            {
-                get
-                {
-                    return priority;
-                }
-            }
-        }
-
-        /// <summary>
-        /// UpdateFeedsStarted event argument class. Multiple feeds update.
-        /// </summary>
-        public class UpdateFeedsEventArgs : EventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="forced">true, if it was a forced (manually initiated) request</param>
-            public UpdateFeedsEventArgs(bool forced)
-            {
-                this.forced = forced;
-            }
-
-            private readonly bool forced;
-
-            /// <summary>
-            /// True, if it was a manually forced request
-            /// </summary>
-            public bool ForcedRefresh
-            {
-                get
-                {
-                    return forced;
-                }
-            }
-        }
-
-        /// <summary>
-        /// UpdateFeedStarted event argument class. Single feed update.
-        /// </summary>
-        public class UpdateFeedEventArgs : UpdateFeedsEventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="feed">feed Uri</param>
-            /// <param name="forced">true, if it was a forced (manually initiated) request</param>
-            /// <param name="priority">Priority of the request</param>
-            public UpdateFeedEventArgs(Uri feed, bool forced, int priority) : base(forced)
-            {
-                this.feedUri = feed;
-                this.priority = priority;
-            }
-
-            private readonly Uri feedUri;
-
-            /// <summary>
-            /// Feed Uri.
-            /// </summary>
-            public Uri FeedUri
-            {
-                get
-                {
-                    return feedUri;
-                }
-            }
-
-            private readonly int priority;
-
-            /// <summary>
-            /// Gets the queued priority
-            /// </summary>
-            public int Priority
-            {
-                get
-                {
-                    return priority;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delegate used for UpdateFeedsStarted event.
-        /// </summary>
-        public delegate void UpdateFeedsStartedHandler(object sender, UpdateFeedsEventArgs e);
-
-        /// <summary>
-        /// Called if RefreshFeeds() was initiated (all feeds).
-        /// </summary>
-        public event UpdateFeedsStartedHandler UpdateFeedsStarted = null;
-
-        /// <summary>
-        /// Delegate used for UpdateFeedStarted event.
-        /// </summary>
-        public delegate void UpdateFeedStartedHandler(object sender, UpdateFeedEventArgs e);
-
-        /// <summary>
-        /// Called as each individual feed start to refresh
-        /// </summary>
-        public event UpdateFeedStartedHandler UpdateFeedStarted = null;
-
-        /// <summary>
-        /// Called if all async. requests are done.
-        /// </summary>
-        public event EventHandler OnAllAsyncRequestsCompleted = null;
-
-        //Search	impl. 
-
-        /// <summary>Signature for <see cref="NewsItemSearchResult">NewsItemSearchResult</see>  event</summary>
-        public delegate void NewsItemSearchResultEventHandler(object sender, NewsItemSearchResultEventArgs e);
-
-		// not yet used:
-		///// <summary>Signature for <see cref="FeedSearchResult">FeedSearchResult</see>  event</summary>
-		//public delegate void FeedSearchResultEventHandler(object sender, FeedSearchResultEventArgs e);
-
-        /// <summary>Signature for <see cref="SearchFinished">SearchFinished</see>  event</summary>
-        public delegate void SearchFinishedEventHandler(object sender, SearchFinishedEventArgs e);
-
-        /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
-        public event NewsItemSearchResultEventHandler NewsItemSearchResult;
-
-        /// <summary>Called on a search finished</summary>
-        public event SearchFinishedEventHandler SearchFinished;
-
-        /// <summary>
-        /// Contains the search result, if NewsFeed's are found. Used on FeedSearchResult event.
-        /// </summary>
-        [ComVisible(false)]
-        public class FeedSearchResultEventArgs : CancelEventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="f">NewsFeed</param>
-            /// <param name="tag">object, used by the caller only</param>
-            /// <param name="cancel">true, if the search request should be cancelled</param>
-            public FeedSearchResultEventArgs(
-                NewsFeed f, object tag, bool cancel) : base(cancel)
-            {
-                this.Feed = f;
-                this.Tag = tag;
-            }
-
-            /// <summary>
-            /// NewsFeed.
-            /// </summary>
-            public NewsFeed Feed;
-
-            /// <summary>
-            /// Object used by the caller only
-            /// </summary>
-            public object Tag;
-        }
-
-        /// <summary>
-        /// Contains the search result, if NewsItem's are found. Used on NewsItemSearchResult event.
-        /// </summary>
-        [ComVisible(false)]
-        public class NewsItemSearchResultEventArgs : CancelEventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="items">ArrayList of NewsItems</param>
-            /// <param name="tag">Object used by caller</param>
-            /// <param name="cancel"></param>
-            public NewsItemSearchResultEventArgs(
-                List<INewsItem> items, object tag, bool cancel) : base(cancel)
-            {
-                this.NewsItems = items;
-                this.Tag = tag;
-            }
-
-            /// <summary>
-            /// NewsItem list
-            /// </summary>
-            public List<INewsItem> NewsItems;
-
-            /// <summary>
-            /// Object used by caller
-            /// </summary>
-            public object Tag;
-        }
-
-        /// <summary>
-        /// Provide informations about a finished search. Used on SearchFinished event.
-        /// </summary>
-        public class SearchFinishedEventArgs : EventArgs
-        {
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <remarks>This modifies the input FeedInfoList by replacing its NewsItem contents 
-            /// with SearchHitNewsItems</remarks>
-            /// <param name="tag">Object used by caller</param>
-            /// <param name="matchingFeeds"></param>
-            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
-            public SearchFinishedEventArgs(
-                object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount) :
-                    this(tag, matchingFeeds, new List<INewsItem>(), matchingFeedsCount, matchingItemsCount)
-            {
-                List<INewsItem> temp = new List<INewsItem>();
-
-                foreach (FeedInfo fi in matchingFeeds)
-                {
-                    foreach (INewsItem ni in fi.ItemsList)
-                    {
-                        if (ni is SearchHitNewsItem)
-                            temp.Add(ni);
-                        else
-                            temp.Add(new SearchHitNewsItem(ni));
-                    }
-                    fi.ItemsList.Clear();
-                    fi.ItemsList.AddRange(temp);
-                    this.MatchingItems.AddRange(temp);
-                    temp.Clear();
-                } //foreach
-            }
-
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="tag">Object used by caller</param>
-            /// <param name="matchingFeeds">The matching feeds.</param>
-            /// <param name="matchingNewsItems">The matching news items.</param>
-            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
-            public SearchFinishedEventArgs(
-                object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingNewsItems, int matchingFeedsCount,
-                int matchingItemsCount)
-            {
-                this.MatchingFeedsCount = matchingFeedsCount;
-                this.MatchingItemsCount = matchingItemsCount;
-                this.MatchingFeeds = matchingFeeds;
-                this.MatchingItems = new List<INewsItem>(matchingNewsItems);
-                this.Tag = tag;
-            }
-
-            /// <summary></summary>
-            public readonly int MatchingFeedsCount;
-
-            /// <summary></summary>
-            public readonly int MatchingItemsCount;
-
-            /// <summary></summary>
-            public readonly object Tag;
-
-            /// <summary></summary>
-            public readonly FeedInfoList MatchingFeeds;
-
-            /// <summary></summary>
-            public readonly List<INewsItem> MatchingItems;
-        }
-
-        #endregion
-
-        private const int maxItemsPerSearchResult = 10;
 
 
         private List<INewsItem> SearchNewsItemsHelper(IEnumerable<INewsItem> prevMatchItems,
-                                                     SearchCriteriaCollection criteria, FeedDetailsInternal fi,
-                                                     FeedDetailsInternal fiMatchedItems, ref int itemmatches,
-                                                     ref int feedmatches, object tag)
+                                                      SearchCriteriaCollection criteria, IFeedDetails fi,
+                                                      IFeedDetails fiMatchedItems, ref int itemmatches,
+                                                      ref int feedmatches, object tag)
         {
-            List<INewsItem> matchItems = new List<INewsItem>(maxItemsPerSearchResult);
+            var matchItems = new List<INewsItem>(maxItemsPerSearchResult);
             matchItems.AddRange(prevMatchItems);
-            bool cancel = false;
-            bool feedmatch = false;
+            var cancel = false;
+            var feedmatch = false;
 
             foreach (NewsItem item in fi.ItemsList)
             {
@@ -2044,19 +2186,19 @@ namespace NewsComponents
                                     bool returnFullItemText)
         {
             // if scope is an empty array: search all, else search only in spec. feeds
-            int feedmatches = 0;
-            int itemmatches = 0;
+            var feedmatches = 0;
+            var itemmatches = 0;
 
             IList<INewsItem> unreturnedMatchItems = new List<INewsItem>();
-            FeedInfoList fiList = new FeedInfoList(String.Empty);
+            var fiList = new FeedInfoList(String.Empty);
 
             Exception ex;
-            bool valid = SearchHandler.ValidateSearchCriteria(criteria, cultureName, out ex);
+            var valid = SearchHandler.ValidateSearchCriteria(criteria, cultureName, out ex);
 
             if (ex != null) // report always any error (warnings)
             {
                 // render the error in-line (search result):
-                fiList.Add((FeedInfo) CreateHelpNewsItemFromException(ex).FeedDetails);
+                fiList.Add(CreateHelpNewsItemFromException(ex).FeedDetails);
                 feedmatches = fiList.Count;
                 unreturnedMatchItems = fiList.GetAllNewsItems();
                 itemmatches = unreturnedMatchItems.Count;
@@ -2067,7 +2209,10 @@ namespace NewsComponents
                 try
                 {
                     // do the search (using lucene):
-                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, new List<FeedSource> { this }, cultureName);
+                    var r = SearchHandler.ExecuteSearch(criteria, scope, new List<FeedSource>
+                                                                             {
+                                                                                 this
+                                                                             }, cultureName);
 
                     // we iterate r.ItemsMatched to build a
                     // NewsItemIdentifier and ArrayList list with items, that
@@ -2086,13 +2231,10 @@ namespace NewsComponents
                     }
 
 
-                    ItemReadState readState = ItemReadState.Ignore;
+                    var readState = ItemReadState.Ignore;
                     if (criteriaProperty != null)
                     {
-                        if (criteriaProperty.BeenRead)
-                            readState = ItemReadState.BeenRead;
-                        else
-                            readState = ItemReadState.Unread;
+                        readState = criteriaProperty.BeenRead ? ItemReadState.BeenRead : ItemReadState.Unread;
                     }
 
 
@@ -2100,7 +2242,7 @@ namespace NewsComponents
                     {
                         // append results
 
-                        SearchHitNewsItem[] nids = new SearchHitNewsItem[r.ItemsMatched.Count];
+                        var nids = new SearchHitNewsItem[r.ItemsMatched.Count];
                         r.ItemsMatched.CopyTo(nids, 0);
                         fiList.AddRange(FindNewsItems(nids, readState, returnFullItemText));
                         feedmatches = fiList.Count;
@@ -2112,7 +2254,7 @@ namespace NewsComponents
                 catch (Exception searchEx)
                 {
                     // render the error in-line (search result):
-                    fiList.Add((FeedInfo) CreateHelpNewsItemFromException(searchEx).FeedDetails);
+                    fiList.Add(CreateHelpNewsItemFromException(searchEx).FeedDetails);
                     feedmatches = fiList.Count;
                     unreturnedMatchItems = fiList.GetAllNewsItems();
                     itemmatches = unreturnedMatchItems.Count;
@@ -2136,25 +2278,28 @@ namespace NewsComponents
             if (e == null)
                 throw new ArgumentNullException("e");
 
-            NewsFeed f = new NewsFeed();
-            f.link = "http://www.rssbandit.org/docs/"; //?? what to specify here?
-            f.title = ComponentsText.ExceptionHelpFeedTitle;
+            var f = new NewsFeed
+                        {
+                            link = "http://www.rssbandit.org/docs/",
+                            title = ComponentsText.ExceptionHelpFeedTitle
+                        };
 
-            ExceptionalNewsItem newsItem =
+            var newsItem =
                 new ExceptionalNewsItem(f, ComponentsText.ExceptionHelpFeedItemTitle(e.GetType().Name),
                                         (e.HelpLink ?? "http://www.rssbandit.org/docs/"),
-                                        e.Message, e.Source, DateTime.Now.ToUniversalTime(), Guid.NewGuid().ToString());
+                                        e.Message, e.Source, DateTime.Now.ToUniversalTime(), Guid.NewGuid().ToString())
+                    {
+                        Subject = e.GetType().Name,
+                        CommentStyle = SupportedCommentStyle.None,
+                        Enclosures = GetList<IEnclosure>.Empty,
+                        WatchComments = false,
+                        Language = CultureInfo.CurrentUICulture.Name,
+                        HasNewComments = false
+                    };
 
-            newsItem.Subject = e.GetType().Name;
-            newsItem.CommentStyle = SupportedCommentStyle.None;
-            newsItem.Enclosures = GetList<IEnclosure>.Empty;
-            newsItem.WatchComments = false;
-            newsItem.Language = CultureInfo.CurrentUICulture.Name;
-            newsItem.HasNewComments = false;
-
-            FeedInfo fi = new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(new NewsItem[] {newsItem}),
-                                       f.title, f.link, ComponentsText.ExceptionHelpFeedDesc,
-                                       new Dictionary<XmlQualifiedName, string>(1), newsItem.Language);
+            var fi = new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(new NewsItem[] {newsItem}),
+                                  f.title, f.link, ComponentsText.ExceptionHelpFeedDesc,
+                                  new Dictionary<XmlQualifiedName, string>(1), newsItem.Language);
             newsItem.FeedDetails = fi;
             return newsItem;
         }
@@ -2168,12 +2313,12 @@ namespace NewsComponents
         public void SearchNewsItems(SearchCriteriaCollection criteria, NewsFeed[] scope, object tag)
         {
             // if scope is an empty array: search all, else search only in spec. feeds
-            int feedmatches = 0;
-            int itemmatches = 0;
-            int feedcounter = 0;
+            var feedmatches = 0;
+            var itemmatches = 0;
+            var feedcounter = 0;
 
-            List<INewsItem> unreturnedMatchItems = new List<INewsItem>();
-            FeedInfoList fiList = new FeedInfoList(String.Empty);
+            var unreturnedMatchItems = new List<INewsItem>();
+            var fiList = new FeedInfoList(String.Empty);
 
             try
             {
@@ -2188,9 +2333,9 @@ namespace NewsComponents
                         feedInfos = new FeedInfo[itemsTable.Count];
                         itemsTable.Values.CopyTo(feedInfos, 0);
                     }
-                    foreach (FeedInfo fi in feedInfos)
+                    foreach (var fi in feedInfos)
                     {
-                        FeedInfo fiClone = fi.Clone(false);
+                        var fiClone = fi.Clone(false);
                         //fiClone.ItemsList.Clear(); 
 
                         unreturnedMatchItems =
@@ -2201,7 +2346,7 @@ namespace NewsComponents
                         if ((feedcounter%5) == 0)
                         {
                             // to shorten search if user want to cancel. Above modulo will only stop if it founds at least 100 matches...
-                            bool cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
+                            var cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
                             unreturnedMatchItems.Clear();
                             if (cancel)
                                 break;
@@ -2218,17 +2363,17 @@ namespace NewsComponents
                     lock (itemsTable)
                     {
                         feedInfos = new FeedInfo[scope.Length];
-                        for (int i = 0; i < scope.Length; i++)
+                        for (var i = 0; i < scope.Length; i++)
                         {
                             feedInfos[i] = (FeedInfo) itemsTable[scope[i].link];
                         }
                     }
 
-                    foreach (FeedInfo fi in feedInfos)
+                    foreach (var fi in feedInfos)
                     {
                         if (fi != null)
                         {
-                            FeedInfo fiClone = fi.Clone(false);
+                            var fiClone = fi.Clone(false);
                             //fiClone.ItemsList.Clear();
 
                             unreturnedMatchItems =
@@ -2239,7 +2384,7 @@ namespace NewsComponents
                             if ((feedcounter%5) == 0)
                             {
                                 // to shorten search if user want to cancel. Above modulo will only stop if it founds at least 100 matches...
-                                bool cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
+                                var cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
                                 unreturnedMatchItems.Clear();
                                 if (cancel)
                                     break;
@@ -2276,18 +2421,18 @@ namespace NewsComponents
         /// <param name="tag">optional, can be used by the caller</param>
         public void SearchRemoteFeed(string searchFeedUrl, object tag)
         {
-            int feedmatches;
-            int itemmatches;
-
-            List<INewsItem> unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
+            var unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
             RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
-            feedmatches = 1;
-            itemmatches = unreturnedMatchItems.Count;
-            FeedInfo fi =
+
+            var feedmatches = 1;
+            var itemmatches = unreturnedMatchItems.Count;
+            var fi =
                 new FeedInfo(String.Empty, String.Empty, unreturnedMatchItems, String.Empty, String.Empty, String.Empty,
                              new Dictionary<XmlQualifiedName, string>(), String.Empty);
-            FeedInfoList fil = new FeedInfoList(String.Empty);
-            fil.Add(fi);
+            var fil = new FeedInfoList(String.Empty)
+                          {
+                              fi
+                          };
             RaiseSearchFinishedEvent(tag, fil, feedmatches, itemmatches);
         }
 
@@ -2320,7 +2465,7 @@ namespace NewsComponents
             {
                 if (NewsItemSearchResult != null)
                 {
-                    NewsItemSearchResultEventArgs ea =
+                    var ea =
                         new NewsItemSearchResultEventArgs(new List<INewsItem>(matchItems), tag, false);
                     NewsItemSearchResult(this, ea);
                     return ea.Cancel;
@@ -2350,7 +2495,8 @@ namespace NewsComponents
             }
         }
 
-        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingItems,
+        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds,
+                                              IEnumerable<INewsItem> matchingItems,
                                               int matchingFeedsCount, int matchingItemsCount)
         {
             try
@@ -2377,13 +2523,13 @@ namespace NewsComponents
         {
             if (nid != null)
             {
-                FeedInfo fi = this.itemsTable[nid.FeedLink] as FeedInfo;
+                var fi = itemsTable[nid.FeedLink] as FeedInfo;
 
                 if (fi != null)
                 {
-                    List<INewsItem> items = new List<INewsItem>(fi.ItemsList);
+                    var items = new List<INewsItem>(fi.ItemsList);
 
-                    foreach (INewsItem ni in items)
+                    foreach (var ni in items)
                     {
                         if (ni.Id.Equals(nid.Id))
                         {
@@ -2405,7 +2551,7 @@ namespace NewsComponents
         /// <returns>The list of FeedInfo objects containing the NewsItems (content summaries)</returns>
         public FeedInfoList FindNewsItems(SearchHitNewsItem[] nids)
         {
-            return this.FindNewsItems(nids, ItemReadState.Ignore, false);
+            return FindNewsItems(nids, ItemReadState.Ignore, false);
         }
 
 
@@ -2420,15 +2566,15 @@ namespace NewsComponents
         /// </returns>
         public FeedInfoList FindNewsItems(SearchHitNewsItem[] nids, ItemReadState readState, bool returnFullItemText)
         {
-            FeedInfoList fiList = new FeedInfoList(String.Empty);
-            Dictionary<string, FeedInfo> matchedFeeds = new Dictionary<string, FeedInfo>();
-            Dictionary<string, List<INewsItem>> itemlists = new Dictionary<string, List<INewsItem>>();
+            var fiList = new FeedInfoList(String.Empty);
+            var matchedFeeds = new Dictionary<string, FeedInfo>();
+            var itemlists = new Dictionary<string, List<INewsItem>>();
 
-            foreach (SearchHitNewsItem nid in nids)
+            foreach (var nid in nids)
             {
                 IFeedDetails fdi;
                 FeedInfo fi, originalfi = null; // this.itemsTable[nid.FeedLink] as FeedInfo; 
-                if (this.itemsTable.TryGetValue(nid.FeedLink, out fdi))
+                if (itemsTable.TryGetValue(nid.FeedLink, out fdi))
                     originalfi = fdi as FeedInfo;
 
                 if (originalfi != null)
@@ -2447,7 +2593,7 @@ namespace NewsComponents
                         itemlists.Add(nid.FeedLink, items);
                     }
 
-                    bool beenRead = (readState == ItemReadState.BeenRead);
+                    var beenRead = (readState == ItemReadState.BeenRead);
                     foreach (NewsItem ni in items)
                     {
                         if (ni.Id.Equals(nid.Id))
@@ -2457,7 +2603,7 @@ namespace NewsComponents
                             {
                                 nid.BeenRead = ni.BeenRead; //copy over read state
                                 if (returnFullItemText && !nid.HasContent)
-                                    this.GetCachedContentForItem(nid);
+                                    GetCachedContentForItem(nid);
                                 fi.ItemsList.Add(nid);
                                 nid.FeedDetails = fi;
                             }
@@ -2467,7 +2613,7 @@ namespace NewsComponents
                 } //if(fi != null)
             }
 
-            foreach (FeedInfo f in matchedFeeds.Values)
+            foreach (var f in matchedFeeds.Values)
             {
                 //Ensure that we actually matched items from the feed before adding it. 
                 //This can happen if search index has items that are no longer in RSS 
@@ -2481,206 +2627,39 @@ namespace NewsComponents
             return fiList;
         }
 
-        /// <summary>
-        /// The Application Name or ID that uses the component. This will be used to 
-        /// initialize the user path to store the feeds file and cached items.
-        /// </summary>
-        internal string applicationName = "NewsComponents";
-
 
         /// <summary>
-        /// Accesses the list of user specified layouts (currently listview only) 
+        /// Resets all refresh rate settings at feeds and categories.
         /// </summary>
-        public FeedColumnLayoutCollection ColumnLayouts
+        public void ResetAllRefreshRateSettings()
         {
-            get
-            {
-                if (layouts == null)
-                {
-                    layouts = new FeedColumnLayoutCollection();
-                }
+            string[] keys;
 
-                return layouts;
+            lock (feedsTable)
+            {
+                keys = new string[feedsTable.Count];
+                if (feedsTable.Count > 0)
+                    feedsTable.Keys.CopyTo(keys, 0);
+            }
+
+            for (int i = 0, len = keys.Length; i < len; i++)
+            {
+                INewsFeed f;
+                if (feedsTable.TryGetValue(keys[i], out f))
+                {
+                    f.refreshrate = 0;
+                    f.refreshrateSpecified = false;
+                }
+            }
+            // handle categories:
+            //DISCUSS: do we need to lock here? 
+            foreach (var c in categories.Values)
+            {
+                c.refreshrate = 0;
+                c.refreshrateSpecified = false;
             }
         }
 
-        /// <summary>
-        /// The string used to build categories hierarchy
-        /// </summary>
-        public static string CategorySeparator = @"\";
- /*
-        /// <summary>
-        /// Accesses the list of user specified categories used for organizing 
-        /// feeds. 
-        /// </summary>
-        public ReadOnlyDictionary<string, INewsFeedCategory> Categories
-        {
-            get
-            { //TODO: Optimize this by caching the ReadOnlyDictionary and only creating new one of it has changed
-                if (categories == null)
-                {
-                    categories = new SortedDictionary<string, INewsFeedCategory>();
-                }
-
-                return new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
-            }
-        } */ 
-      /* 
-        /// <summary>
-        /// Accesses the table of RSS feed objects. 
-        /// </summary>
-        /// <exception cref="InvalidOperationException">If some error occurs on converting 
-        /// XML feed list to feed table</exception>
-  
-        public ReadOnlyDictionary<string, INewsFeed> FeedsTable
-        {
-            //		[MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {             
-                    return new ReadOnlyDictionary<string,INewsFeed>(feedsTable);             
-            }
-        }*/ 
-
-        /// <summary>
-        /// Accesses the list of NntpServerDefinition objects 
-        /// Keys are the account name(s) - friendly names for the news server def.:
-        /// NewsServerDefinition.Name's
-        /// </summary>
-        public IDictionary<string, INntpServerDefinition> NntpServers
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                if (this.nntpServers == null)
-                {
-                    this.nntpServers = new Dictionary<string, INntpServerDefinition>();
-                }
-
-                return this.nntpServers;
-            }
-        }
-
-        /// <summary>
-        /// Accesses the list of UserIdentity objects.
-        /// Keys are the UserIdentity.Name's
-        /// </summary>
-        public IDictionary<string, UserIdentity> UserIdentity
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                if (this.identities == null)
-                {
-                    this.identities = new Dictionary<string, UserIdentity>();
-                }
-
-                return this.identities;
-            }
-        }
-
-		/// <summary>
-		/// Gets the default refresh rate in millisecs (1 hour).
-		/// Means: how often feeds are refreshed by default if no specific rate specified 
-		/// by the configuration.
-		/// </summary>
-    	public static int DefaultRefreshRate = 60*60*1000;
-        
-        /// <summary>
-        ///  How often feeds are refreshed by default if no specific rate specified by the feed. 
-        ///  Setting this property resets the refresh rate for all feeds. 
-        /// </summary>
-        /// <remarks>If set to a negative value then the old value remains. Setting the 
-        /// value to zero means feeds are no longer updated.</remarks>
-        public virtual int RefreshRate
-        {
-			//set
-			//{
-			//    if (value >= 0)
-			//    {
-			//        this.refreshrate = value;
-			//    }
-				
-				/* 
-				 * moved to ResetAllRefreshRateSettings():
-				 * 
-                string[] keys;
-
-                lock (feedsTable)
-                {
-                    keys = new string[feedsTable.Count];
-                    if (feedsTable.Count > 0)
-                        feedsTable.Keys.CopyTo(keys, 0);
-                }
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    INewsFeed f = null;
-                    if (feedsTable.TryGetValue(keys[i], out f))
-                    {
-                        f.refreshrate = this.refreshrate;
-                        f.refreshrateSpecified = true;
-                    }
-                }
-				*/
-			//}
-
-            get
-            {
-                return p_configuration.RefreshRate;
-            }
-        }
-
-
-		/// <summary>
-		/// Resets all refresh rate settings at feeds and categories.
-		/// </summary>
-		public void ResetAllRefreshRateSettings() 
-		{
-			string[] keys;
-
-			lock (feedsTable)
-			{
-				keys = new string[feedsTable.Count];
-				if (feedsTable.Count > 0)
-					feedsTable.Keys.CopyTo(keys, 0);
-			}
-
-			for (int i = 0, len = keys.Length; i < len; i++)
-			{
-				INewsFeed f = null;
-				if (feedsTable.TryGetValue(keys[i], out f))
-				{
-					f.refreshrate = 0;
-					f.refreshrateSpecified = false;
-				}
-			}
-			// handle categories:
-			//DISCUSS: do we need to lock here? 
-			foreach (INewsFeedCategory c in this.categories.Values)
-			{
-				c.refreshrate = 0;
-				c.refreshrateSpecified = false;
-			}
-		}
-
-
-    	///<summary>
-        ///Internal flag used to track whether the XML in the feed list validated against the schema. 
-        ///</summary>
-        public static bool validationErrorOccured;
-
-
-        /// <summary>
-        /// Boolean flag indicates whether the feeds list was loaded 
-        /// successfully during the last call to LoadFeedlist()
-        /// </summary>
-        public bool FeedsListOK
-        {
-            get
-            {
-                return !validationErrorOccured;
-            }
-        }
 
         /// <summary>
         /// Helper method which retrieves the list of Keys in the FeedsTable object using the CopyTo method. 
@@ -2716,31 +2695,28 @@ namespace NewsComponents
         /// since parameter and ending with today.</returns>
         public IList<RelationHRefEntry> GetTopStories(TimeSpan since, int numStories)
         {
-            string[] keys = GetFeedsTableKeys();
-            Dictionary<RelationHRefEntry, List<RankedNewsItem>> allLinks =
+            var keys = GetFeedsTableKeys();
+            var allLinks =
                 new Dictionary<RelationHRefEntry, List<RankedNewsItem>>();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (var i = 0; i < keys.Length; i++)
             {
                 if (!itemsTable.ContainsKey(keys[i]))
                 {
                     continue;
                 }
 
-                FeedInfo fi = (FeedInfo) itemsTable[keys[i]];
+                var fi = (FeedInfo) itemsTable[keys[i]];
 
                 //get all news items that fall within the date range
-                List<INewsItem> items =
-                    fi.ItemsList.FindAll(delegate(INewsItem item)
-                                             {
-                                                 return (DateTime.Now - item.Date) < since;
-                                             });
+                var items =
+                    fi.ItemsList.FindAll(item => (DateTime.Now - item.Date) < since);
 
-                foreach (INewsItem item in items)
+                foreach (var item in items)
                 {
                     //create score and ranked news item that represents a weighted link to a URL
-                    float score = 1.0f - (DateTime.Now.Ticks - item.Date.Ticks)*1.0f/since.Ticks;
-                    RankedNewsItem rni = new RankedNewsItem(item, score);
+                    var score = 1.0f - (DateTime.Now.Ticks - item.Date.Ticks)*1.0f/since.Ticks;
+                    var rni = new RankedNewsItem(item, score);
 
                     /* 
                     //add a score for the permalink for the item 
@@ -2752,9 +2728,9 @@ namespace NewsComponents
                      */
 
                     //add vote to each URL linked from the item
-                    foreach (string url in item.OutGoingLinks)
+                    foreach (var url in item.OutGoingLinks)
                     {
-                        RelationHRefEntry href = new RelationHRefEntry(url, null, 0.0f);
+                        var href = new RelationHRefEntry(url, null, 0.0f);
                         if (!allLinks.ContainsKey(href))
                         {
                             allLinks[href] = new List<RankedNewsItem>();
@@ -2765,16 +2741,16 @@ namespace NewsComponents
             } //for(int i; i < keys.Length; i++){
 
             //tally the votes, only 1 vote counts per feed
-            List<RelationHRefEntry> weightedLinks = new List<RelationHRefEntry>();
+            var weightedLinks = new List<RelationHRefEntry>();
 
-            foreach (KeyValuePair<RelationHRefEntry, List<RankedNewsItem>> linkNvotes in allLinks)
+            foreach (var linkNvotes in allLinks)
             {
-                Dictionary<string, float> votesPerFeed = new Dictionary<string, float>();
+                var votesPerFeed = new Dictionary<string, float>();
 
                 //pick the lower vote if multiple links from a particular feed
-                foreach (RankedNewsItem voteItem in linkNvotes.Value)
+                foreach (var voteItem in linkNvotes.Value)
                 {
-                    string feedLink = voteItem.Item.FeedLink;
+                    var feedLink = voteItem.Item.FeedLink;
 
                     if (votesPerFeed.ContainsKey(feedLink))
                     {
@@ -2786,9 +2762,9 @@ namespace NewsComponents
                         linkNvotes.Key.References.Add(voteItem.Item);
                     }
                 }
-                float totalScore = 0.0f;
+                var totalScore = 0.0f;
 
-                foreach (float value in votesPerFeed.Values)
+                foreach (var value in votesPerFeed.Values)
                 {
                     totalScore += value;
                 }
@@ -2796,67 +2772,72 @@ namespace NewsComponents
                 weightedLinks.Add(linkNvotes.Key);
             }
 
-            weightedLinks.Sort(delegate(RelationHRefEntry x, RelationHRefEntry y)
-                                   {
-                                       return y.Score.CompareTo(x.Score);
-                                   });
+            weightedLinks.Sort((x, y) => y.Score.CompareTo(x.Score));
             weightedLinks = weightedLinks.GetRange(0, Math.Min(numStories, weightedLinks.Count));
 
             //fetch titles from HTML page
-			
-			// The number of HTML titles left to download by the anon. threaded delegate 	
-            int numTitlesToDownload = Math.Min(numStories, weightedLinks.Count); //in number of weighted links less than numStories 
 
-			ManualResetEvent eventX = new ManualResetEvent(false);
-			try 
-			{
-				foreach (RelationHRefEntry rhf in weightedLinks) {
-					if (TopStoryTitles.ContainsKey(rhf.HRef)) {
-						rhf.Text = TopStoryTitles[rhf.HRef].storyTitle;
-						Interlocked.Decrement(ref numTitlesToDownload);
-					} else {
-                        RelationHRefEntry weightedLink = rhf;
+            // The number of HTML titles left to download by the anon. threaded delegate 	
+            var numTitlesToDownload = Math.Min(numStories, weightedLinks.Count);
+            //in number of weighted links less than numStories 
 
-						PriorityThreadPool.QueueUserWorkItem(
-							delegate
-								{
-									try {
-										/* NOTE: Default link text is URL */
-										string title =
-											HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, this.Proxy,
-											                     CredentialCache.DefaultCredentials);
-										weightedLink.Text = title;
-										if (!title.Equals(weightedLink.HRef) && 
-											!TopStoryTitles.ContainsKey(weightedLink.HRef))
-										{
-											TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
-											topStoriesModified = true;
-										}
-									} finally {
-										Interlocked.Decrement(ref numTitlesToDownload);
-										if (numTitlesToDownload <= 0) {
-											if (eventX != null) 
-												eventX.Set();
-										}
-									}
-								},
-							weightedLink,
-							(int) ThreadPriority.Normal);
-					}
-				}
+            var eventX = new ManualResetEvent(false);
+            try
+            {
+                foreach (var rhf in weightedLinks)
+                {
+                    if (TopStoryTitles.ContainsKey(rhf.HRef))
+                    {
+                        rhf.Text = TopStoryTitles[rhf.HRef].storyTitle;
+                        Interlocked.Decrement(ref numTitlesToDownload);
+                    }
+                    else
+                    {
+                        var weightedLink = rhf;
 
-				if (numTitlesToDownload > 0) {
-					eventX.WaitOne(Timeout.Infinite, true);
-				}
-				return weightedLinks;
-			} 
-			finally 
-			{
-				IDisposable disposable = eventX;
-				disposable.Dispose();
-				eventX = null;
-			}
-        	
+                        PriorityThreadPool.QueueUserWorkItem(
+                            delegate
+                                {
+                                    try
+                                    {
+                                        /* NOTE: Default link text is URL */
+                                        var title =
+                                            HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, Proxy,
+                                                                 CredentialCache.DefaultCredentials);
+                                        weightedLink.Text = title;
+                                        if (!title.Equals(weightedLink.HRef) &&
+                                            !TopStoryTitles.ContainsKey(weightedLink.HRef))
+                                        {
+                                            TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
+                                            topStoriesModified = true;
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        Interlocked.Decrement(ref numTitlesToDownload);
+                                        if (numTitlesToDownload <= 0)
+                                        {
+                                            if (eventX != null)
+                                                eventX.Set();
+                                        }
+                                    }
+                                },
+                            weightedLink,
+                            (int) ThreadPriority.Normal);
+                    }
+                }
+
+                if (numTitlesToDownload > 0)
+                {
+                    eventX.WaitOne(Timeout.Infinite, true);
+                }
+                return weightedLinks;
+            }
+            finally
+            {
+                IDisposable disposable = eventX;
+                disposable.Dispose();
+            }
         }
 
         /// <summary>
@@ -2865,21 +2846,22 @@ namespace NewsComponents
         /// <returns>A feeds table with the non-internet feeds</returns>
         public IEnumerable<NewsFeed> GetNonInternetFeeds()
         {
-            List<NewsFeed> toReturn = new List<NewsFeed>();
+            var toReturn = new List<NewsFeed>();
 
-            if (this.feedsTable.Count == 0)
+            if (feedsTable.Count == 0)
                 return toReturn;
 
-            string[] keys = new string[this.feedsTable.Keys.Count];
-            this.feedsTable.Keys.CopyTo(keys, 0);
+            var keys = new string[feedsTable.Keys.Count];
+            feedsTable.Keys.CopyTo(keys, 0);
 
-            foreach (string url in keys)
+            foreach (var url in keys)
             {
                 try
                 {
-                    Uri uri = new Uri(url);
-                    if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains(".")) {
-                        INewsFeed f = null;
+                    var uri = new Uri(url);
+                    if (uri.IsFile || uri.IsUnc || !uri.Authority.Contains("."))
+                    {
+                        INewsFeed f;
                         if (feedsTable.TryGetValue(url, out f))
                         {
                             toReturn.Add(new NewsFeed(f));
@@ -2894,7 +2876,7 @@ namespace NewsComponents
 
             return toReturn;
         }
-      
+
 
         /// <summary>
         /// Loads the cache of {url:page_title} pairs so we don't have to go to the Web if we've previously 
@@ -2905,21 +2887,21 @@ namespace NewsComponents
         {
             try
             {
-				string topStories = Path.Combine(Configuration.UserApplicationDataPath, "top-stories.xml");
+                var topStories = Path.Combine(Configuration.UserApplicationDataPath, "top-stories.xml");
                 if (File.Exists(topStories))
                 {
-                    XmlDocument doc = new XmlDocument();
+                    var doc = new XmlDocument();
                     doc.Load(topStories);
 
                     foreach (XmlElement story in doc.SelectNodes("//story"))
                     {
                         TopStoryTitles.Add(story.Attributes["url"].Value,
                                            new storyNdate(story.Attributes["title"].Value,
-                                                          XmlConvert.ToDateTime(story.Attributes["firstSeen"].Value, XmlDateTimeSerializationMode.Utc))
+                                                          XmlConvert.ToDateTime(story.Attributes["firstSeen"].Value,
+                                                                                XmlDateTimeSerializationMode.Utc))
                             );
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -2933,15 +2915,16 @@ namespace NewsComponents
         /// <seealso cref="TopStoryTitles"/>
         public static void SaveCachedTopStoryTitles()
         {
-            DateTime TwoWeeksAgo = DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0));
+            var TwoWeeksAgo = DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0));
             topStoriesModified = false;
 
             try
             {
-				XmlWriter writer = XmlWriter.Create(Path.Combine(DefaultConfiguration.UserApplicationDataPath, "top-stories.xml"));
+                var writer =
+                    XmlWriter.Create(Path.Combine(DefaultConfiguration.UserApplicationDataPath, "top-stories.xml"));
                 writer.WriteStartDocument();
                 writer.WriteStartElement("stories");
-                foreach (KeyValuePair<string, storyNdate> story in TopStoryTitles)
+                foreach (var story in TopStoryTitles)
                 {
                     if (story.Value.firstSeen > TwoWeeksAgo)
                     {
@@ -2949,7 +2932,9 @@ namespace NewsComponents
                         writer.WriteStartElement("story");
                         writer.WriteAttributeString("url", story.Key);
                         writer.WriteAttributeString("title", story.Value.storyTitle);
-                        writer.WriteAttributeString("firstSeen", XmlConvert.ToString(story.Value.firstSeen, XmlDateTimeSerializationMode.Utc));
+                        writer.WriteAttributeString("firstSeen",
+                                                    XmlConvert.ToString(story.Value.firstSeen,
+                                                                        XmlDateTimeSerializationMode.Utc));
                         writer.WriteEndElement();
                     }
                 }
@@ -2962,28 +2947,6 @@ namespace NewsComponents
                 _log.Error("Error in SaveCachedTopStoryTitles()", e);
             }
         }
-
-        #region abstract methods 
-
-        /// <summary>
-        /// Loads the feedlist from the FeedLocation. 
-        ///</summary>
-        public abstract void LoadFeedlist();
-
-        /// <summary>
-        /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
-        /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
-        /// is on the Web). 
-        /// </summary>
-        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
-        public abstract void BootstrapAndLoadFeedlist(feeds feedlist);
-
-
-
-        #endregion 
-
-       
-
 
         /// <summary>
         /// Specifies that a feed should be ignored when RefreshFeeds() is called by 
@@ -2999,7 +2962,7 @@ namespace NewsComponents
                 return;
             }
 
-            INewsFeed f = feedsTable[feedUrl];
+            var f = feedsTable[feedUrl];
             f.refreshrate = 0;
             f.refreshrateSpecified = true;
         }
@@ -3019,7 +2982,7 @@ namespace NewsComponents
 				 * assumed that for this to be called the feed was already loaded
 				 * since we have an item from the feed */
 
-                FeedInfo fi = itemsTable[item.Feed.link] as FeedInfo;
+                var fi = itemsTable[item.Feed.link] as FeedInfo;
 
                 if (fi != null)
                 {
@@ -3040,19 +3003,19 @@ namespace NewsComponents
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && feedsTable.ContainsKey(feed.link))
             {
-                FeedInfo fi = itemsTable[feed.link] as FeedInfo;
+                var fi = itemsTable[feed.link] as FeedInfo;
 
                 //load feed from disk 
                 if (fi == null)
                 {
-                    fi = (FeedInfo) this.GetFeed(feed);
+                    fi = (FeedInfo) GetFeed(feed);
                 }
 
                 if (fi != null)
                 {
                     lock (fi.itemsList)
                     {
-                        foreach (NewsItem item in fi.itemsList)
+                        foreach (var item in fi.itemsList)
                         {
                             feed.AddDeletedStory(item.Id);
                         }
@@ -3072,7 +3035,7 @@ namespace NewsComponents
         {
             if (feedsTable.ContainsKey(feedUrl))
             {
-                this.DeleteAllItemsInFeed(feedsTable[feedUrl]);
+                DeleteAllItemsInFeed(feedsTable[feedUrl]);
             }
         }
 
@@ -3085,12 +3048,12 @@ namespace NewsComponents
         {
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && feedsTable.ContainsKey(item.Feed.link))
             {
-                FeedInfo fi = itemsTable[item.Feed.link] as FeedInfo;
+                var fi = itemsTable[item.Feed.link] as FeedInfo;
 
                 //load feed from disk 
                 if (fi == null)
                 {
-                    fi = (FeedInfo) this.GetFeed(item.Feed);
+                    fi = (FeedInfo) GetFeed(item.Feed);
                 }
 
                 if (fi != null)
@@ -3113,15 +3076,14 @@ namespace NewsComponents
         /// <param name="deletedItems">the list of items to restore</param>
         public void RestoreDeletedItem(IList<INewsItem> deletedItems)
         {
-            foreach (INewsItem item in deletedItems)
+            foreach (var item in deletedItems)
             {
-                this.RestoreDeletedItem(item);
+                RestoreDeletedItem(item);
             }
 
             SearchHandler.IndexAdd(deletedItems);
         }
 
-      
 
         /// <summary>
         /// Saves the feed list to the specified stream. The feed is written in 
@@ -3130,7 +3092,7 @@ namespace NewsComponents
         /// <param name="feedStream">The stream to save the feed list to</param>
         public virtual void SaveFeedList(Stream feedStream)
         {
-            this.SaveFeedList(feedStream, FeedListFormat.NewsHandler);
+            SaveFeedList(feedStream, FeedListFormat.NewsHandler);
         }
 
 
@@ -3144,17 +3106,17 @@ namespace NewsComponents
         /// <remarks>If one category in the path is not found, it will be created.</remarks>
         private static XmlElement CreateCategoryHive(XmlElement startNode, string category)
         {
-            if (category == null || category.Length == 0 || startNode == null) return startNode;
+            if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
 
-            string[] catHives = category.Split(CategorySeparator.ToCharArray());
+            var catHives = category.Split(CategorySeparator.ToCharArray());
             XmlElement n;
-            bool wasNew = false;
+            var wasNew = false;
 
-            foreach (string catHive in catHives)
+            foreach (var catHive in catHives)
             {
                 if (!wasNew)
                 {
-                    string xpath = "child::outline[@title=" + buildXPathString(catHive) + " and (count(@*)= 1)]";
+                    var xpath = "child::outline[@title=" + buildXPathString(catHive) + " and (count(@*)= 1)]";
                     n = (XmlElement) startNode.SelectSingleNode(xpath);
                 }
                 else
@@ -3186,7 +3148,7 @@ namespace NewsComponents
         /// <returns></returns>
         private static listviewLayout FindLayout(IEquatable<string> id, IEnumerable<listviewLayout> layouts)
         {
-            foreach (listviewLayout layout in layouts)
+            foreach (var layout in layouts)
             {
                 if (id.Equals(layout.ID))
                     return layout;
@@ -3202,10 +3164,10 @@ namespace NewsComponents
         /// <returns>broken up string</returns>
         public static string buildXPathString(string input)
         {
-            string[] components = input.Split(new char[] {'\''});
-            string result = "";
+            var components = input.Split(new[] {'\''});
+            var result = "";
             result += "concat(''";
-            for (int i = 0; i < components.Length; i++)
+            for (var i = 0; i < components.Length; i++)
             {
                 result += ", '" + components[i] + "'";
                 if (i < components.Length - 1)
@@ -3227,7 +3189,7 @@ namespace NewsComponents
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
         public virtual void SaveFeedList(Stream feedStream, FeedListFormat format)
         {
-            this.SaveFeedList(feedStream, format, this.feedsTable, true);
+            SaveFeedList(feedStream, format, feedsTable, true);
         }
 
         /// <summary>
@@ -3241,35 +3203,36 @@ namespace NewsComponents
         /// <exception cref="InvalidOperationException">If anything wrong goes on with XmlSerializer</exception>
         /// <exception cref="ArgumentNullException">If feedStream is null</exception>
         public virtual void SaveFeedList(Stream feedStream, FeedListFormat format, IDictionary<string, INewsFeed> feeds,
-                                 bool includeEmptyCategories)
+                                         bool includeEmptyCategories)
         {
             if (feedStream == null)
                 throw new ArgumentNullException("feedStream");
 
             if (format.Equals(FeedListFormat.OPML))
             {
-                XmlDocument opmlDoc = new XmlDocument();
+                var opmlDoc = new XmlDocument();
                 opmlDoc.LoadXml("<opml version='1.0'><head /><body /></opml>");
 
-                Dictionary<string, XmlElement> categoryTable = new Dictionary<string, XmlElement>(categories.Count);
+                var categoryTable = new Dictionary<string, XmlElement>(categories.Count);
 
                 foreach (NewsFeed f in feeds.Values)
                 {
-                    XmlElement outline = opmlDoc.CreateElement("outline");
+                    var outline = opmlDoc.CreateElement("outline");
                     outline.SetAttribute("title", f.title);
                     outline.SetAttribute("xmlUrl", f.link);
                     outline.SetAttribute("type", "rss");
                     outline.SetAttribute("text", f.title);
 
-                   IFeedDetails fi;
-                    bool success = itemsTable.TryGetValue(f.link, out fi); 
-			  
-					if(success){
-						outline.SetAttribute("htmlUrl", fi.Link); 
-						outline.SetAttribute("description", fi.Description); 
-					}
+                    IFeedDetails fi;
+                    var success = itemsTable.TryGetValue(f.link, out fi);
 
-                    string category = (f.category ?? String.Empty);
+                    if (success)
+                    {
+                        outline.SetAttribute("htmlUrl", fi.Link);
+                        outline.SetAttribute("description", fi.Description);
+                    }
+
+                    var category = (f.category ?? String.Empty);
 
                     XmlElement catnode;
                     if (categoryTable.ContainsKey(category))
@@ -3286,24 +3249,24 @@ namespace NewsComponents
                 if (includeEmptyCategories)
                 {
                     //add categories, we don't already have
-                    foreach (string category in this.categories.Keys)
+                    foreach (var category in categories.Keys)
                     {
                         CreateCategoryHive((XmlElement) opmlDoc.DocumentElement.ChildNodes[1], category);
                     }
                 }
 
-                XmlTextWriter opmlWriter = new XmlTextWriter(feedStream, Encoding.UTF8);
+                var opmlWriter = new XmlTextWriter(feedStream, Encoding.UTF8);
                 opmlWriter.Formatting = Formatting.Indented;
                 opmlDoc.Save(opmlWriter);
             }
             else if (format.Equals(FeedListFormat.NewsHandler) || format.Equals(FeedListFormat.NewsHandlerLite))
             {
-                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
-                feeds feedlist = new feeds();
+                var serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
+                var feedlist = new feeds();
 
                 if (feeds != null)
                 {
-					/* 
+                    /* 
 					 * not anymore required to store that in feedlist.
 					 * now provided via config/static:
 					 * 
@@ -3324,31 +3287,31 @@ namespace NewsComponents
                     feedlist.enclosurecachesizeSpecified = true;
 */
                     //feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
-                    feedlist.listviewlayout = this.listviewlayout;
+                    feedlist.listviewlayout = FeedColumnLayout;
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
 					feedlist.enclosurefolder = this.EnclosureFolder;
 					 */
-                    feedlist.podcastfolder = this.PodcastFolder;
-                    feedlist.podcastfileexts = this.PodcastFileExtensionsAsString;
+                    feedlist.podcastfolder = PodcastFolder;
+                    feedlist.podcastfileexts = PodcastFileExtensionsAsString;
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
                     feedlist.markitemsreadonexitSpecified = true;
 					*/
 
-					// refactored props that do not need anymore stored in feedlist:
-					feedlist.markitemsreadonexitSpecified = false;
-					feedlist.downloadenclosuresSpecified = false;
-					feedlist.enclosurealertSpecified = false;
-					feedlist.refreshrateSpecified = false;
-					feedlist.createsubfoldersforenclosuresSpecified = false;
-					feedlist.numtodownloadonnewfeedSpecified = false;
-					feedlist.enclosurecachesizeSpecified = false;
+                    // refactored props that do not need anymore stored in feedlist:
+                    feedlist.markitemsreadonexitSpecified = false;
+                    feedlist.downloadenclosuresSpecified = false;
+                    feedlist.enclosurealertSpecified = false;
+                    feedlist.refreshrateSpecified = false;
+                    feedlist.createsubfoldersforenclosuresSpecified = false;
+                    feedlist.numtodownloadonnewfeedSpecified = false;
+                    feedlist.enclosurecachesizeSpecified = false;
 
-                    foreach (INewsFeed f in feeds.Values)
+                    foreach (var f in feeds.Values)
                     {
                         if (f is NewsFeed)
-                            feedlist.feed.Add((NewsFeed)f);
+                            feedlist.feed.Add((NewsFeed) f);
                         else
                             feedlist.feed.Add(new NewsFeed(f));
 
@@ -3364,7 +3327,7 @@ namespace NewsComponents
 
                             if (!format.Equals(FeedListFormat.NewsHandlerLite))
                             {
-                                foreach (INewsItem ri in items)
+                                foreach (var ri in items)
                                 {
                                     if (ri.BeenRead && !f.storiesrecentlyviewed.Contains(ri.Id))
                                     {
@@ -3378,35 +3341,28 @@ namespace NewsComponents
                 } //if(feeds != null) 
 
 
-                List<category> c = new List<category>(this.categories.Count);
+                var c = new List<category>(categories.Count);
                 /* sometimes we get nulls in the arraylist */
-                foreach(INewsFeedCategory cat in this.categories.Values)
-                {                    
+                foreach (var cat in categories.Values)
+                {
                     if (!StringHelper.EmptyTrimOrNull(cat.Value))
-                    {                       
+                    {
                         c.Add(new category(cat));
                     }
                 }
 
                 //we don't want to write out empty <categories /> into the schema. 				
-                if (c.Count == 0)
-                {
-                    feedlist.categories = null;
-                }
-                else
-                {
-                    feedlist.categories = c;
-                }
+                feedlist.categories = c.Count == 0 ? null : c;
 
 
-                List<listviewLayout> lvl = new List<listviewLayout>(this.layouts.Count);
+                var lvl = new List<listviewLayout>(layouts.Count);
                 /* sometimes we get nulls in the arraylist, remove them */
-                for (int i = 0; i < this.layouts.Count; i++)
+                for (var i = 0; i < layouts.Count; i++)
                 {
-                    FeedColumnLayoutEntry s = this.layouts[i];
+                    var s = layouts[i];
                     if (s.Value == null)
                     {
-                        this.layouts.RemoveAt(i);
+                        layouts.RemoveAt(i);
                         i--;
                     }
                     else
@@ -3416,41 +3372,20 @@ namespace NewsComponents
                 }
 
                 //we don't want to write out empty <listview-layouts /> into the schema. 				
-                if (lvl.Count == 0)
-                {
-                    feedlist.listviewLayouts = null;
-                }
-                else
-                {
-                    feedlist.listviewLayouts = lvl;
-                }
+                feedlist.listviewLayouts = lvl.Count == 0 ? null : lvl;
 
 
-                List<NntpServerDefinition> nntps = new List<NntpServerDefinition>(nntpServers.Values.Count);
-                foreach (INntpServerDefinition val in nntpServers.Values)
-                    nntps.Add((NntpServerDefinition)val);
+                var nntps = new List<NntpServerDefinition>(nntpServers.Values.Count);
+                foreach (var val in nntpServers.Values)
+                    nntps.Add((NntpServerDefinition) val);
 
                 //we don't want to write out empty <nntp-servers /> into the schema. 				
-                if (nntps.Count == 0)
-                {
-                    feedlist.nntpservers = null;
-                }
-                else
-                {
-                    feedlist.nntpservers = nntps;
-                }
+                feedlist.nntpservers = nntps.Count == 0 ? null : nntps;
 
-                List<UserIdentity> ids = new List<UserIdentity>(this.identities.Values);
+                var ids = new List<UserIdentity>(identities.Values);
 
                 //we don't want to write out empty <user-identities /> into the schema. 				
-                if (ids.Count == 0)
-                {
-                    feedlist.identities = null;
-                }
-                else
-                {
-                    feedlist.identities = ids;
-                }
+                feedlist.identities = ids.Count == 0 ? null : ids;
 
 
                 TextWriter writer = new StreamWriter(feedStream);
@@ -3482,11 +3417,11 @@ namespace NewsComponents
         /// </summary>		
         public void MarkForDownload()
         {
-            if (this.FeedsListOK)
+            if (FeedsListOK)
             {
                 foreach (NewsFeed f in feedsTable.Values)
                 {
-                    this.MarkForDownload(f);
+                    MarkForDownload(f);
                 }
             }
         }
@@ -3496,8 +3431,8 @@ namespace NewsComponents
         /// </summary>
         public void ClearItemsCache()
         {
-            this.itemsTable.Clear();
-            this.CacheHandler.ClearCache();
+            itemsTable.Clear();
+            CacheHandler.ClearCache();
         }
 
 
@@ -3506,9 +3441,9 @@ namespace NewsComponents
         /// </summary>
         public void MarkAllCachedItemsAsRead()
         {
-            foreach (INewsFeed f in feedsTable.Values)
+            foreach (var f in feedsTable.Values)
             {
-                this.MarkAllCachedItemsAsRead(f);
+                MarkAllCachedItemsAsRead(f);
             }
         }
 
@@ -3522,13 +3457,13 @@ namespace NewsComponents
         {
             if (FeedsListOK)
             {
-                if (this.categories.ContainsKey(category))
+                if (categories.ContainsKey(category))
                 {
                     foreach (NewsFeed f in feedsTable.Values)
                     {
                         if ((f.category != null) && f.category.Equals(category))
                         {
-                            this.MarkAllCachedItemsAsRead(f);
+                            MarkAllCachedItemsAsRead(f);
                         }
                     }
                 }
@@ -3538,7 +3473,7 @@ namespace NewsComponents
                     {
                         if (f.category == null)
                         {
-                            this.MarkAllCachedItemsAsRead(f);
+                            MarkAllCachedItemsAsRead(f);
                         }
                     }
                 }
@@ -3554,10 +3489,10 @@ namespace NewsComponents
         {
             if (!string.IsNullOrEmpty(feedUrl))
             {
-                INewsFeed feed = null;
+                INewsFeed feed;
                 if (feedsTable.TryGetValue(feedUrl, out feed))
                 {
-                    this.MarkAllCachedItemsAsRead(feed);
+                    MarkAllCachedItemsAsRead(feed);
                 }
             }
         }
@@ -3571,11 +3506,11 @@ namespace NewsComponents
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
-                IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
+                var fi = itemsTable[feed.link];
 
                 if (fi != null)
                 {
-                    foreach (INewsItem ri in fi.ItemsList)
+                    foreach (var ri in fi.ItemsList)
                     {
                         ri.BeenRead = true;
                     }
@@ -3584,405 +3519,6 @@ namespace NewsComponents
                 feed.containsNewMessages = false;
             }
         }
-
-        #region category manipulation methods 
-
-        /// <summary>
-        /// Adds a category to the list of feed categories known by this feed handler
-        /// </summary>
-        /// <param name="cat">The name of the category</param>
-        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
-        public virtual INewsFeedCategory AddCategory(string cat)
-        {
-            if (StringHelper.EmptyTrimOrNull(cat))
-                return null; 
-
-               if( this.categories.ContainsKey(cat))
-                return this.categories[cat];            
-
-            List<string> ancestors = category.GetAncestors(cat);
-
-            //create rest of category hierarchy if it doesn't exist
-            for (int i = ancestors.Count; i-- > 0; ){          
-                INewsFeedCategory c = null;  
-
-                if (!this.categories.TryGetValue(ancestors[i], out c))
-                {
-                    this.categories.Add(ancestors[i], new category(ancestors[i]));
-                }
-            }
-
-            INewsFeedCategory newCategory = new category(cat);
-            newCategory.parent = (ancestors.Count == 0 ? null : this.categories[ancestors[ancestors.Count - 1]]);
-
-            this.categories.Add(cat, newCategory);
-            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
-
-            return newCategory;
-        }
-
-        /// <summary>
-        /// Adds a category to the list of feed categories known by this feed handler
-        /// </summary>
-        /// <param name="cat">The category to add</param>
-        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
-        public virtual INewsFeedCategory AddCategory(INewsFeedCategory cat)
-        {
-
-            if (this.categories.ContainsKey(cat.Value))
-            {
-                return categories[cat.Value];
-            }
-            else
-            {
-                this.categories.Add(cat.Value, cat);
-                return cat;
-            }
-        }
-
-
-        /// <summary>
-        /// Tests whether this category name exists in the FeedSource. 
-        /// </summary>
-        /// <param name="cat">The name of the category</param>
-        /// <returns>True if this category is used by the FeedSource</returns>
-        public virtual bool HasCategory(string cat) {
-
-            if (cat == null)
-            {
-                return false;
-            }
-
-            return this.categories.ContainsKey(cat); 
-        }
-
-
-        /// <summary>
-        /// Returns a ReadOnlyDictionary containing the list of categories used by the FeedSource
-        /// </summary>
-        /// <returns>A read-only dictionary of categories</returns>
-        public virtual ReadOnlyDictionary<string, INewsFeedCategory> GetCategories() {
-            readonly_categories = readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
-            return readonly_categories;
-        }
-
-        /// <summary>
-        /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
-        /// corresponding feeds. 
-        /// </summary>
-        /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
-        /// fix up the references to this category in its parent and child categories.</remarks>
-        /// <param name="cat"></param>
-        public virtual void DeleteCategory(string cat)
-        {
-            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
-            {
-                IList<string> categories2remove = this.GetChildCategories(cat);
-                categories2remove.Add(cat);
-                
-                //remove category and all its subcategories
-                lock (this.categories)
-                {
-                    foreach (string c in categories2remove)
-                    {
-                        this.categories.Remove(c);
-                    }
-                }
-
-                //remove feeds in deleted categories and subcategories
-                var feeds2delete =
-                   from f in this.feedsTable.Values
-                   where categories2remove.Contains(f.category)
-                   select f.link.ToString();
-
-                string[] feeds2remove = feeds2delete.ToArray<string>();
-
-                lock (this.feedsTable)
-                {
-                    foreach (var feedUrl in feeds2remove)
-                    {                    
-                        this.feedsTable.Remove(feedUrl); 
-                    }
-                }
-
-                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories); 
-            }// if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
-        }
-
-
-        /// <summary>
-        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
-        /// the category property of the INewsFeed instance. 
-        /// </summary>
-        /// <param name="feed">The newsfeed whose category to change</param>
-        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
-        /// categorized</param>
-        public virtual void ChangeCategory(INewsFeed feed, string cat)
-        {
-            if (feed == null)
-                throw new ArgumentNullException("feed");
-
-            feed.category = cat;
-        }
-
-
-        /// <summary>
-        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
-        /// the category property of the INewsFeed instance. 
-        /// </summary>
-        /// <param name="feed">The newsfeed whose category to change</param>
-        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
-        /// categorized</param>
-        public virtual void ChangeCategory(INewsFeed feed, INewsFeedCategory cat) { 
-            if(feed == null)
-                throw new ArgumentNullException("feed"); 
-
-            if(cat != null)
-            {
-                feed.category = cat.Value;
-            }else{
-                feed.category = null; 
-            }
-        }
-
-        /// <summary>
-        /// Renames the specified category
-        /// </summary>        
-        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
-        /// of having this method do it automatically.</remarks>
-        /// <param name="oldName">The old name of the category</param>
-        /// <param name="newName">The new name of the category</param>        
-        public virtual void RenameCategory(string oldName, string newName)
-        {
-            if (StringHelper.EmptyTrimOrNull(oldName)) 
-                throw new ArgumentNullException("oldName");
-
-            if (StringHelper.EmptyTrimOrNull(newName))
-                throw new ArgumentNullException("newName");
-
-            if (this.categories.ContainsKey(oldName))
-            {
-                INewsFeedCategory cat = this.categories[oldName];
-                this.categories.Remove(oldName);                
-
-                cat.Value = newName;
-                categories.Add(newName, cat);
-            }
-        }
-
-        /// <summary>
-        /// Helper function that gets the parent category object of the named category
-        /// </summary>
-        /// <param name="category">The name of the category</param>
-        /// <returns>The parent category of the specified category</returns>
-        private INewsFeedCategory GetParentCategory(string category)
-        {
-            int index = category.LastIndexOf(FeedSource.CategorySeparator);
-            INewsFeedCategory c = null;
-
-            if (index != -1)
-            {
-                string parentName = category.Substring(0, index);                
-                categories.TryGetValue(parentName, out c);
-            }
-
-            return c;
-        }
-
-        /// <summary>
-        /// Helper function that gets the child categories of the named category
-        /// </summary>
-        /// <param name="name">The name of the category</param>
-        /// <returns>The list of child categories</returns>
-        protected List<string> GetChildCategories(string name)
-        {
-
-            List<string> list = new List<string>();
-
-            foreach (INewsFeedCategory c in this.categories.Values)
-            {
-                if (c.Value.StartsWith(name + FeedSource.CategorySeparator))
-                {
-                    list.Add(c.Value);
-                }
-            }
-
-            return list;
-        }
-
-
-        /// <summary>
-        /// Helper function that gets the child categories of the named category
-        /// </summary>
-        /// <param name="parent">The parent category</param>
-        /// <returns>The list of child categories</returns>
-        protected List<INewsFeedCategory> GetChildCategories(INewsFeedCategory parent)
-        {
-
-            List<INewsFeedCategory> list = new List<INewsFeedCategory>();
-
-            foreach (INewsFeedCategory c in this.categories.Values)
-            {
-                if (c.Value.StartsWith(parent.Value + FeedSource.CategorySeparator))
-                {
-                    list.Add(c);
-                }
-            }
-
-            return list;
-        }
-
-        #endregion 
-
-        #region Feed manipulation methods
-
-          /// <summary>
-        /// Invoked when a NewsFeed owned by this FeedSource changes in a way that 
-        /// needs to be communicated to NewsGator Online. 
-        /// </summary>
-        /// <param name="sender">the NewsFeed</param>
-        /// <param name="e">information on the property that changed</param>
-        protected virtual void OnNewsFeedPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //DOES NOTHING BY DEFAULT
-        }
-
-        /// <summary>
-        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
-        /// Any existing feed objects are replaced by the new objects. 
-        /// </summary>
-        /// <param name="f">The NewsFeed object </param>
-        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
-        public virtual INewsFeed AddFeed(INewsFeed f)
-        {
-            return this.AddFeed(f, null); 
-        }
-
-        /// <summary>
-        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
-        /// Any existing feed objects are replaced by the new objects. 
-        /// </summary>
-        /// <param name="feed">The NewsFeed object </param>
-        /// <param name="feedInfo">The FeedInfo object</param>
-        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
-        public virtual INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
-        {
-            if (feed != null)
-            {
-                lock (feedsTable)
-                {
-                    if (feedsTable.ContainsKey(feed.link))
-                    {
-                        feedsTable.Remove(feed.link);
-                    }
-                    feed.owner = this;
-                    feedsTable.Add(feed.link, feed);
-                }
-            }
-
-            if (feedInfo != null && feed != null)
-            {
-                lock (this.itemsTable)
-                {
-                    if (itemsTable.ContainsKey(feed.link))
-                    {
-                        itemsTable.Remove(feed.link);
-                    }
-                    itemsTable.Add(feed.link, feedInfo);
-                }
-            }
-            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
-            return feed;
-        }
-
-        /// <summary>
-        /// Removes all information related to a feed from the FeedSource.   
-        /// </summary>
-        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
-        /// <param name="feedUrl">The URL of the feed to delete. </param>
-        /// <exception cref="ApplicationException">If an error occured while 
-        /// attempting to delete the cached feed. Examine the InnerException property 
-        /// for details</exception>
-        public virtual void DeleteFeed(string feedUrl)
-        {
-            if (!feedsTable.ContainsKey(feedUrl))
-            {
-                return;
-            }
-
-            INewsFeed f = feedsTable[feedUrl];
-            feedsTable.Remove(feedUrl);
-
-            if (itemsTable.ContainsKey(feedUrl))
-            {
-                itemsTable.Remove(feedUrl);
-            }
-
-            SearchHandler.IndexRemove(f.id);
-            if (this.enclosureDownloader != null)
-                this.enclosureDownloader.CancelPendingDownloads(feedUrl);
-
-            try
-            {
-                this.CacheHandler.RemoveFeed(f);
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.Message, e);
-            }
-            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
-        }
-
-        /// <summary>
-        /// Returns a read-only dictionary of feeds managed by this FeedSource
-        /// </summary>
-        /// <returns></returns>
-        public ReadOnlyDictionary<string, INewsFeed> GetFeeds()
-        {
-            readonly_feedsTable = readonly_feedsTable ?? new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
-            return readonly_feedsTable;
-        }
-
-        /// <summary>
-        /// Tests whether this feed is currently subscribed to. 
-        /// </summary>
-        /// <param name="feedUrl">The URL of the feed</param>
-        /// <returns>True if this feed is used by the FeedSource</returns>
-        public virtual bool IsSubscribed(string feedUrl)
-        {
-
-            if (StringHelper.EmptyTrimOrNull(feedUrl))
-            {
-                return false;
-            }
-
-            return feedsTable.ContainsKey(feedUrl);
-        }
-
-        /// <summary>
-        /// Deletes all subscribed feeds and categories 
-        /// </summary>
-        public virtual void DeleteAllFeedsAndCategories()
-        {
-            this.feedsTable.Clear();
-            this.categories.Clear();
-            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
-            this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
-        }
-
-#endregion
-
-        /// <summary>
-        /// Defines all cache relevant NewsFeed properties, 
-        /// that requires we have to (re-)write the cached file. 
-        /// </summary>
-        private const NewsFeedProperty cacheRelevantPropertyChanges =
-            NewsFeedProperty.FeedItemFlag |
-            NewsFeedProperty.FeedItemReadState |
-            NewsFeedProperty.FeedItemCommentCount |
-            NewsFeedProperty.FeedItemNewCommentsRead |
-            NewsFeedProperty.FeedItemWatchComments |
-            NewsFeedProperty.FeedCredentials;
 
         /// <summary>
         /// Determines whether the changed specified properties 
@@ -3996,27 +3532,6 @@ namespace NewsComponents
         {
             return (cacheRelevantPropertyChanges & changedProperty) != NewsFeedProperty.None;
         }
-
-        /// <summary>
-        /// Defines all subscription relevant NewsFeed properties, 
-        /// that requires we have to (re-)write the subscription file. 
-        /// </summary>
-        private const NewsFeedProperty subscriptionRelevantPropertyChanges =
-            NewsFeedProperty.FeedLink |
-            NewsFeedProperty.FeedTitle |
-            NewsFeedProperty.FeedCategory |
-            NewsFeedProperty.FeedItemsDeleteUndelete |
-            NewsFeedProperty.FeedItemReadState |
-            NewsFeedProperty.FeedMaxItemAge |
-            NewsFeedProperty.FeedRefreshRate |
-            NewsFeedProperty.FeedCacheUrl |
-            NewsFeedProperty.FeedAdded |
-            NewsFeedProperty.FeedRemoved |
-            NewsFeedProperty.FeedCategoryAdded |
-            NewsFeedProperty.FeedCategoryRemoved |
-            NewsFeedProperty.FeedAlertOnNewItemsReceived |
-            NewsFeedProperty.FeedMarkItemsReadOnExit |
-            NewsFeedProperty.General;
 
         /// <summary>
         /// Determines whether the changed specified properties 
@@ -4039,7 +3554,7 @@ namespace NewsComponents
         /// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
         public void ApplyFeedModifications(string feedUrl)
         {
-            if (feedUrl == null || feedUrl.Length == 0)
+            if (string.IsNullOrEmpty(feedUrl))
                 throw new ArgumentNullException("feedUrl");
 
             IFeedDetails fi = null;
@@ -4056,7 +3571,7 @@ namespace NewsComponents
             {
                 try
                 {
-                    f.cacheurl = this.SaveFeed(f);
+                    f.cacheurl = SaveFeed(f);
                 }
                 catch (Exception ex)
                 {
@@ -4080,9 +3595,10 @@ namespace NewsComponents
             {
                 return false;
             }
-            else if (value is string)
+
+            if (value is string)
             {
-                bool isSet = !string.IsNullOrEmpty((string) value);
+                var isSet = !string.IsNullOrEmpty((string) value);
 
                 if (propertyName.Equals("maxitemage") && isSet)
                 {
@@ -4091,11 +3607,10 @@ namespace NewsComponents
 
                 return isSet;
             }
-            else
-            {
-            	return (bool) GetSharedPropertyValue(owner, propertyName + "Specified");
-                //return (bool) owner.GetType().GetProperty(propertyName + "Specified").GetValue(owner, null);
-            }
+
+
+            return (bool) GetSharedPropertyValue(owner, propertyName + "Specified");
+            //return (bool) owner.GetType().GetProperty(propertyName + "Specified").GetValue(owner, null);
         }
 
 
@@ -4108,7 +3623,7 @@ namespace NewsComponents
         /// <returns>the value of the property</returns>
         private object GetFeedProperty(string feedUrl, string propertyName)
         {
-            return this.GetFeedProperty(feedUrl, propertyName, false);
+            return GetFeedProperty(feedUrl, propertyName, false);
         }
 
         /// <summary>
@@ -4120,16 +3635,18 @@ namespace NewsComponents
         /// <returns>the value of the property</returns>
         private object GetFeedProperty(string feedUrl, string propertyName, bool inheritCategory)
         {
-        	object value = GetSharedPropertyValue(this, propertyName);//this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
-			if (propertyName.Equals("maxitemage"))
-			{
-				value = XmlConvert.ToTimeSpan((string)value);
-			}
+            var value = GetSharedPropertyValue(this, propertyName);
+            //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+            if (propertyName.Equals("maxitemage"))
+            {
+                value = XmlConvert.ToTimeSpan((string) value);
+            }
 
             if (feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = feedsTable[feedUrl];
-				object f_value = GetSharedPropertyValue(f, propertyName);// f.GetType().GetProperty(propertyName).GetValue(f, null);
+                var f = feedsTable[feedUrl];
+                var f_value = GetSharedPropertyValue(f, propertyName);
+                // f.GetType().GetProperty(propertyName).GetValue(f, null);
 
                 if (IsPropertyValueSet(f_value, propertyName, f))
                 {
@@ -4143,11 +3660,12 @@ namespace NewsComponents
                 else if (inheritCategory && !string.IsNullOrEmpty(f.category))
                 {
                     INewsFeedCategory c;
-                    this.categories.TryGetValue(f.category, out c);
+                    categories.TryGetValue(f.category, out c);
 
                     while (c != null)
                     {
-						object c_value = GetSharedPropertyValue(c, propertyName);// c.GetType().GetProperty(propertyName).GetValue(c, null);
+                        var c_value = GetSharedPropertyValue(c, propertyName);
+                        // c.GetType().GetProperty(propertyName).GetValue(c, null);
 
                         if (IsPropertyValueSet(c_value, propertyName, c))
                         {
@@ -4182,17 +3700,19 @@ namespace NewsComponents
 
             if (feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = feedsTable[feedUrl];
+                var f = feedsTable[feedUrl];
 
                 if (value is TimeSpan)
                 {
                     value = XmlConvert.ToString((TimeSpan) value);
                 }
-				SetSharedPropertyValue(f, propertyName, value); //f.GetType().GetProperty(propertyName).SetValue(f, value, null);
+                SetSharedPropertyValue(f, propertyName, value);
+                //f.GetType().GetProperty(propertyName).SetValue(f, value, null);
 
                 if ((value != null) && !(value is string))
                 {
-					SetSharedPropertyValue(f, propertyName + "Specified", true); //f.GetType().GetProperty(propertyName + "Specified").SetValue(f, true, null);
+                    SetSharedPropertyValue(f, propertyName + "Specified", true);
+                    //f.GetType().GetProperty(propertyName + "Specified").SetValue(f, true, null);
                 }
             }
         }
@@ -4208,7 +3728,7 @@ namespace NewsComponents
         /// specified feed.</param>
         public void SetMaxItemAge(string feedUrl, TimeSpan age)
         {
-            this.SetFeedProperty(feedUrl, "maxitemage", age);
+            SetFeedProperty(feedUrl, "maxitemage", age);
         }
 
         /// <summary>
@@ -4219,7 +3739,7 @@ namespace NewsComponents
         /// <exception cref="FormatException">if an error occurs while converting the max item age value to a TimeSpan</exception>
         public TimeSpan GetMaxItemAge(string feedUrl)
         {
-            return (TimeSpan) this.GetFeedProperty(feedUrl, "maxitemage", true);
+            return (TimeSpan) GetFeedProperty(feedUrl, "maxitemage", true);
         }
 
 
@@ -4230,7 +3750,7 @@ namespace NewsComponents
         /// <param name="refreshRate">the new refresh rate</param>
         public void SetRefreshRate(string feedUrl, int refreshRate)
         {
-            this.SetFeedProperty(feedUrl, "refreshrate", refreshRate);
+            SetFeedProperty(feedUrl, "refreshrate", refreshRate);
         }
 
         /// <summary>
@@ -4240,7 +3760,7 @@ namespace NewsComponents
         /// <returns>the refresh rate</returns>
         public int GetRefreshRate(string feedUrl)
         {
-            return (int) this.GetFeedProperty(feedUrl, "refreshrate", true);
+            return (int) GetFeedProperty(feedUrl, "refreshrate", true);
         }
 
         /// <summary>
@@ -4250,7 +3770,7 @@ namespace NewsComponents
         /// <param name="style">the new stylesheet</param>
         public void SetStyleSheet(string feedUrl, string style)
         {
-            this.SetFeedProperty(feedUrl, "stylesheet", style);
+            SetFeedProperty(feedUrl, "stylesheet", style);
         }
 
         /// <summary>
@@ -4260,7 +3780,7 @@ namespace NewsComponents
         /// <returns>the stylesheet</returns>
         public string GetStyleSheet(string feedUrl)
         {
-            return (string) this.GetFeedProperty(feedUrl, "stylesheet");
+            return (string) GetFeedProperty(feedUrl, "stylesheet");
         }
 
 
@@ -4271,7 +3791,7 @@ namespace NewsComponents
         /// <param name="folder">the new enclosure folder </param>
         public void SetEnclosureFolder(string feedUrl, string folder)
         {
-            this.SetFeedProperty(feedUrl, "enclosurefolder", folder);
+            SetFeedProperty(feedUrl, "enclosurefolder", folder);
         }
 
         /// <summary>
@@ -4284,11 +3804,11 @@ namespace NewsComponents
         /// <returns>the enclosure folder</returns>
         public string GetEnclosureFolder(string feedUrl, string filename)
         {
-            string folderName = (IsPodcast(filename) ? this.PodcastFolder : EnclosureFolder);
+            var folderName = (IsPodcast(filename) ? PodcastFolder : EnclosureFolder);
 
             if (CreateSubfoldersForEnclosures && feedsTable.ContainsKey(feedUrl))
             {
-                INewsFeed f = feedsTable[feedUrl];
+                var f = feedsTable[feedUrl];
                 folderName = Path.Combine(folderName, FileHelper.CreateValidFileName(f.title));
             }
 
@@ -4303,7 +3823,7 @@ namespace NewsComponents
         /// <param name="layout">the new listview layout </param>
         public void SetFeedColumnLayout(string feedUrl, string layout)
         {
-            this.SetFeedProperty(feedUrl, "listviewlayout", layout);
+            SetFeedProperty(feedUrl, "listviewlayout", layout);
         }
 
         /// <summary>
@@ -4313,7 +3833,7 @@ namespace NewsComponents
         /// <returns>the listview layout</returns>
         public string GetFeedColumnLayout(string feedUrl)
         {
-            return (string) this.GetFeedProperty(feedUrl, "listviewlayout");
+            return (string) GetFeedProperty(feedUrl, "listviewlayout");
         }
 
 
@@ -4324,7 +3844,7 @@ namespace NewsComponents
         /// <param name="markitemsread">the new value for markitemsreadonexit</param>
         public void SetMarkItemsReadOnExit(string feedUrl, bool markitemsread)
         {
-            this.SetFeedProperty(feedUrl, "markitemsreadonexit", markitemsread);
+            SetFeedProperty(feedUrl, "markitemsreadonexit", markitemsread);
         }
 
         /// <summary>
@@ -4334,7 +3854,7 @@ namespace NewsComponents
         /// <returns>whether to mark items as read on exit</returns>
         public bool GetMarkItemsReadOnExit(string feedUrl)
         {
-            return (bool) this.GetFeedProperty(feedUrl, "markitemsreadonexit");
+            return (bool) GetFeedProperty(feedUrl, "markitemsreadonexit");
         }
 
         /// <summary>
@@ -4344,7 +3864,7 @@ namespace NewsComponents
         /// <param name="download">the new value for downloadenclosures</param>
         public void SetDownloadEnclosures(string feedUrl, bool download)
         {
-            this.SetFeedProperty(feedUrl, "downloadenclosures", download);
+            SetFeedProperty(feedUrl, "downloadenclosures", download);
         }
 
         /// <summary>
@@ -4354,7 +3874,7 @@ namespace NewsComponents
         /// <returns>hether to download enclosures for this feed</returns>
         public bool GetDownloadEnclosures(string feedUrl)
         {
-            return (bool) this.GetFeedProperty(feedUrl, "downloadenclosures");
+            return (bool) GetFeedProperty(feedUrl, "downloadenclosures");
         }
 
 
@@ -4366,7 +3886,7 @@ namespace NewsComponents
         /// <param name="alert">if set to <c>true</c> [enclosurealert].</param>
         public void SetEnclosureAlert(string feedUrl, bool alert)
         {
-            this.SetFeedProperty(feedUrl, "enclosurealert", alert);
+            SetFeedProperty(feedUrl, "enclosurealert", alert);
         }
 
         /// <summary>
@@ -4377,7 +3897,7 @@ namespace NewsComponents
         /// <returns>hether to download enclosures for this feed</returns>
         public bool GetEnclosureAlert(string feedUrl)
         {
-            return (bool) this.GetFeedProperty(feedUrl, "enclosurealert");
+            return (bool) GetFeedProperty(feedUrl, "enclosurealert");
         }
 
         /// <summary>
@@ -4388,36 +3908,38 @@ namespace NewsComponents
         /// <returns>the value of the property</returns>
         private object GetCategoryProperty(string category, string propertyName)
         {
-        	object value = GetSharedPropertyValue(this, propertyName); //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
-			if (propertyName.Equals("maxitemage"))
-			{
-				value = XmlConvert.ToTimeSpan((string)value);
-			}
+            var value = GetSharedPropertyValue(this, propertyName);
+            //this.GetType().GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
+            if (propertyName.Equals("maxitemage"))
+            {
+                value = XmlConvert.ToTimeSpan((string) value);
+            }
 
             if (!string.IsNullOrEmpty(category))
-			{
-				INewsFeedCategory c;
-				this.categories.TryGetValue(category, out c);
+            {
+                INewsFeedCategory c;
+                categories.TryGetValue(category, out c);
 
-				while (c != null)
-				{
-					object c_value = GetSharedPropertyValue(c, propertyName); //c.GetType().GetProperty(propertyName).GetValue(c, null);
+                while (c != null)
+                {
+                    var c_value = GetSharedPropertyValue(c, propertyName);
+                    //c.GetType().GetProperty(propertyName).GetValue(c, null);
 
-					if (IsPropertyValueSet(c_value, propertyName, c))
-					{
-						if (propertyName.Equals("maxitemage"))
-						{
-							c_value = XmlConvert.ToTimeSpan((string)c_value);
-						}
-						value = c_value;
-						break;
-					}
-					else
-					{
-						c = c.parent;
-					}
-				} //while
-			} //if(!string.IsNullOrEmpty(category))
+                    if (IsPropertyValueSet(c_value, propertyName, c))
+                    {
+                        if (propertyName.Equals("maxitemage"))
+                        {
+                            c_value = XmlConvert.ToTimeSpan((string) c_value);
+                        }
+                        value = c_value;
+                        break;
+                    }
+                    else
+                    {
+                        c = c.parent;
+                    }
+                } //while
+            } //if(!string.IsNullOrEmpty(category))
 
 
             return value;
@@ -4437,7 +3959,7 @@ namespace NewsComponents
             {
                 //category c = this.Categories.GetByKey(category);
 
-                foreach (category c in this.categories.Values)
+                foreach (category c in categories.Values)
                 {
                     //if(c!= null){			
 
@@ -4448,13 +3970,13 @@ namespace NewsComponents
                             value = XmlConvert.ToString((TimeSpan) value);
                         }
 
-						SetSharedPropertyValue(c, propertyName, value);
+                        SetSharedPropertyValue(c, propertyName, value);
                         //c.GetType().GetProperty(propertyName).SetValue(c, value, null);
 
                         if ((value != null) && !(value is string))
                         {
-							SetSharedPropertyValue(c, propertyName + "Specified", true);
-							//c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
+                            SetSharedPropertyValue(c, propertyName + "Specified", true);
+                            //c.GetType().GetProperty(propertyName + "Specified").SetValue(c, true, null);
                         }
 
                         break;
@@ -4475,7 +3997,7 @@ namespace NewsComponents
         /// specified feed.</param>
         public void SetCategoryMaxItemAge(string category, TimeSpan age)
         {
-            this.SetCategoryProperty(category, "maxitemage", age);
+            SetCategoryProperty(category, "maxitemage", age);
         }
 
         /// <summary>
@@ -4486,7 +4008,7 @@ namespace NewsComponents
         /// <exception cref="FormatException">if an error occurs while converting the max item age value to a TimeSpan</exception>
         public TimeSpan GetCategoryMaxItemAge(string category)
         {
-            return (TimeSpan) this.GetCategoryProperty(category, "maxitemage");
+            return (TimeSpan) GetCategoryProperty(category, "maxitemage");
         }
 
 
@@ -4497,7 +4019,7 @@ namespace NewsComponents
         /// <param name="refreshRate">the new refresh rate</param>
         public void SetCategoryRefreshRate(string category, int refreshRate)
         {
-            this.SetCategoryProperty(category, "refreshrate", refreshRate);
+            SetCategoryProperty(category, "refreshrate", refreshRate);
         }
 
         /// <summary>
@@ -4507,7 +4029,7 @@ namespace NewsComponents
         /// <returns>the refresh rate</returns>
         public int GetCategoryRefreshRate(string category)
         {
-            return (int) this.GetCategoryProperty(category, "refreshrate");
+            return (int) GetCategoryProperty(category, "refreshrate");
         }
 
         /// <summary>
@@ -4517,7 +4039,7 @@ namespace NewsComponents
         /// <param name="style">the new stylesheet</param>
         public void SetCategoryStyleSheet(string category, string style)
         {
-            this.SetCategoryProperty(category, "stylesheet", style);
+            SetCategoryProperty(category, "stylesheet", style);
         }
 
         /// <summary>
@@ -4527,7 +4049,7 @@ namespace NewsComponents
         /// <returns>the stylesheet</returns>
         public string GetCategoryStyleSheet(string category)
         {
-            return (string) this.GetCategoryProperty(category, "stylesheet");
+            return (string) GetCategoryProperty(category, "stylesheet");
         }
 
 
@@ -4538,7 +4060,7 @@ namespace NewsComponents
         /// <param name="folder">the new enclosure folder </param>
         public void SetCategoryEnclosureFolder(string category, string folder)
         {
-            this.SetCategoryProperty(category, "enclosurefolder", folder);
+            SetCategoryProperty(category, "enclosurefolder", folder);
         }
 
         /// <summary>
@@ -4548,7 +4070,7 @@ namespace NewsComponents
         /// <returns>the enclosure folder</returns>
         public string GetCategoryEnclosureFolder(string category)
         {
-            return (string) this.GetCategoryProperty(category, "enclosurefolder");
+            return (string) GetCategoryProperty(category, "enclosurefolder");
         }
 
 
@@ -4559,7 +4081,7 @@ namespace NewsComponents
         /// <param name="layout">the new listview layout </param>
         public void SetCategoryFeedColumnLayout(string category, string layout)
         {
-            this.SetCategoryProperty(category, "listviewlayout", layout);
+            SetCategoryProperty(category, "listviewlayout", layout);
         }
 
         /// <summary>
@@ -4569,7 +4091,7 @@ namespace NewsComponents
         /// <returns>the listview layout</returns>
         public string GetCategoryFeedColumnLayout(string category)
         {
-            return (string) this.GetCategoryProperty(category, "listviewlayout");
+            return (string) GetCategoryProperty(category, "listviewlayout");
         }
 
 
@@ -4580,7 +4102,7 @@ namespace NewsComponents
         /// <param name="markitemsread">the new value for markitemsreadonexit</param>
         public void SetCategoryMarkItemsReadOnExit(string category, bool markitemsread)
         {
-            this.SetCategoryProperty(category, "markitemsreadonexit", markitemsread);
+            SetCategoryProperty(category, "markitemsreadonexit", markitemsread);
         }
 
         /// <summary>
@@ -4590,7 +4112,7 @@ namespace NewsComponents
         /// <returns>whether to mark items as read on exit</returns>
         public bool GetCategoryMarkItemsReadOnExit(string category)
         {
-            return (bool) this.GetCategoryProperty(category, "markitemsreadonexit");
+            return (bool) GetCategoryProperty(category, "markitemsreadonexit");
         }
 
         /// <summary>
@@ -4600,7 +4122,7 @@ namespace NewsComponents
         /// <param name="download">the new value for downloadenclosures</param>
         public void SetCategoryDownloadEnclosures(string category, bool download)
         {
-            this.SetCategoryProperty(category, "downloadenclosures", download);
+            SetCategoryProperty(category, "downloadenclosures", download);
         }
 
         /// <summary>
@@ -4610,7 +4132,7 @@ namespace NewsComponents
         /// <returns>the refresh rate</returns>
         public bool GetCategoryDownloadEnclosures(string category)
         {
-            return (bool) this.GetCategoryProperty(category, "downloadenclosures");
+            return (bool) GetCategoryProperty(category, "downloadenclosures");
         }
 
 
@@ -4621,7 +4143,7 @@ namespace NewsComponents
         /// <param name="alert">if set to <c>true</c> [enclosurealert].</param>
         public void SetCategoryEnclosureAlert(string category, bool alert)
         {
-            this.SetCategoryProperty(category, "enclosurealert", alert);
+            SetCategoryProperty(category, "enclosurealert", alert);
         }
 
         /// <summary>
@@ -4631,7 +4153,7 @@ namespace NewsComponents
         /// <returns>the refresh rate</returns>
         public bool GetCategoryEnclosureAlert(string category)
         {
-            return (bool) this.GetCategoryProperty(category, "enclosurealert");
+            return (bool) GetCategoryProperty(category, "enclosurealert");
         }
 
         /// <summary>
@@ -4641,7 +4163,7 @@ namespace NewsComponents
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
         public virtual IFeedDetails GetFeedDetails(string feedUrl)
         {
-            return this.GetFeedInfo(feedUrl, null);
+            return GetFeedInfo(feedUrl, null);
         }
 
         /// <summary>
@@ -4659,18 +4181,20 @@ namespace NewsComponents
 
             if (!itemsTable.ContainsKey(feedUrl))
             {
-                INewsFeed theFeed = feedsTable[feedUrl];
+                var theFeed = feedsTable[feedUrl];
 
                 if (theFeed == null)
                 {
 //external feed?
 
                     using (
-                        Stream mem =
-                            AsyncWebRequest.GetSyncResponseStream(feedUrl, credentials, this.UserAgent, this.Proxy))
+                        var mem =
+                            AsyncWebRequest.GetSyncResponseStream(feedUrl, credentials, UserAgent, Proxy))
                     {
-                        NewsFeed f = new NewsFeed();
-                        f.link = feedUrl;
+                        var f = new NewsFeed
+                                    {
+                                        link = feedUrl
+                                    };
                         if (RssParser.CanProcessUrl(feedUrl))
                         {
                             fd = RssParser.GetItemsForFeed(f, mem, false);
@@ -4680,7 +4204,7 @@ namespace NewsComponents
                     return fd;
                 }
 
-                fd = this.GetFeed(theFeed);
+                fd = GetFeed(theFeed);
                 lock (itemsTable)
                 {
                     //if feed was in cache but not in itemsTable we load it into itemsTable
@@ -4698,9 +4222,6 @@ namespace NewsComponents
             return fd;
         }
 
-
-
-          
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
@@ -4721,9 +4242,9 @@ namespace NewsComponents
         public virtual IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
         {
             //REM gets called from Bandit
-            string url2Access = feedUrl;
+            var url2Access = feedUrl;
 
-            if (((!force_download) || this.isOffline) && itemsTable.ContainsKey(feedUrl))
+            if (((!force_download) || isOffline) && itemsTable.ContainsKey(feedUrl))
             {
                 return itemsTable[feedUrl].ItemsList;
             }
@@ -4738,9 +4259,9 @@ namespace NewsComponents
 
             try
             {
-                if (((!force_download) || this.isOffline) && (!itemsTable.ContainsKey(feedUrl)) &&
-                    ((theFeed.cacheurl != null) && (theFeed.cacheurl.Length > 0) &&
-                     (this.CacheHandler.FeedExists(theFeed))))
+                if (((!force_download) || isOffline) && (!itemsTable.ContainsKey(feedUrl)) &&
+                    (!string.IsNullOrEmpty(theFeed.cacheurl) &&
+                     (CacheHandler.FeedExists(theFeed))))
                 {
                     bool getFromCache;
                     lock (itemsTable)
@@ -4750,7 +4271,7 @@ namespace NewsComponents
                     if (getFromCache)
                     {
                         // do not call from within a lock:
-                        FeedDetailsInternal fi = this.GetFeed(theFeed);
+                        var fi = GetFeed(theFeed);
                         if (fi != null)
                         {
                             lock (itemsTable)
@@ -4770,7 +4291,7 @@ namespace NewsComponents
             }
 
 
-            if (this.isOffline)
+            if (isOffline)
             {
                 //we are in offline mode and don't have the feed cached. 
                 return EmptyItemList;
@@ -4787,7 +4308,7 @@ namespace NewsComponents
             }
 
 
-            this.AsyncGetItemsForFeed(feedUrl, true, true);
+            AsyncGetItemsForFeed(feedUrl, true, true);
             return EmptyItemList; //we just return this for now, the async call will return real results 
         }
 
@@ -4798,7 +4319,7 @@ namespace NewsComponents
         /// <returns></returns>
         public int AsyncRequestsPending()
         {
-            return this.AsyncWebRequest.PendingRequests;
+            return AsyncWebRequest.PendingRequests;
         }
 
 
@@ -4812,11 +4333,11 @@ namespace NewsComponents
         {
             //load item content from disk if not in memory, to get a full clone later on
             if (!item.HasContent)
-                this.GetCachedContentForItem(item);
+                GetCachedContentForItem(item);
 
             // now create a full copy (including item content)
-            NewsItem n = new NewsItem(f, item);
-            return n; 
+            var n = new NewsItem(f, item);
+            return n;
         }
 
         /// <summary>
@@ -4828,7 +4349,7 @@ namespace NewsComponents
         /// <param name="item"></param>
         public void GetCachedContentForItem(INewsItem item)
         {
-            this.CacheHandler.LoadItemContent(item);
+            CacheHandler.LoadItemContent(item);
         }
 
         /// <summary>
@@ -4841,7 +4362,7 @@ namespace NewsComponents
         {
             //Does nothing by default
         }
-        
+
 
         /// <summary>
         /// Retrieves items from local cache. 
@@ -4866,7 +4387,7 @@ namespace NewsComponents
                 if (feedsTable.TryGetValue(feedUrl, out theFeed))
                 {
                     if ((theFeed.cacheurl != null) && (theFeed.cacheurl.Trim().Length > 0) &&
-                        (this.CacheHandler.FeedExists(theFeed)))
+                        (CacheHandler.FeedExists(theFeed)))
                     {
                         bool getFromCache;
                         lock (itemsTable)
@@ -4875,7 +4396,7 @@ namespace NewsComponents
                         }
                         if (getFromCache)
                         {
-                            FeedDetailsInternal fi = this.GetFeed(theFeed);
+                            var fi = GetFeed(theFeed);
                             if (fi != null)
                             {
                                 lock (itemsTable)
@@ -4898,7 +4419,7 @@ namespace NewsComponents
             {
                 //cached file is not well-formed so we remove it from cache. 	
                 Trace("Xml Error retrieving feed '{0}' from cache: {1}", feedUrl, xe.ToString());
-                this.CacheHandler.RemoveFeed(theFeed);
+                CacheHandler.RemoveFeed(theFeed);
             }
             catch (Exception ex)
             {
@@ -4916,26 +4437,26 @@ namespace NewsComponents
             return EmptyItemList;
         }
 
-		/// <summary>
-		/// Retrieves the RSS feed for a particular subscription then converts
-		/// the blog posts or articles to an arraylist of items. The http requests are async calls.
-		/// </summary>
-		/// <param name="feedUrl">The URL of the feed to download</param>
-		/// <param name="forceDownload">if set to <c>true</c> [force download].</param>
-		/// <returns>
-		/// true, if the request really was queued up
-		/// </returns>
-		/// <exception cref="ApplicationException">If the RSS feed is not
-		/// version 0.91, 1.0 or 2.0</exception>
-		/// <exception cref="XmlException">If an error occured parsing the
-		/// RSS feed</exception>
-		/// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
-		/// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
-		/// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>
+        /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="forceDownload">if set to <c>true</c> [force download].</param>
+        /// <returns>
+        /// true, if the request really was queued up
+        /// </returns>
+        /// <exception cref="ApplicationException">If the RSS feed is not
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the
+        /// RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload)
         {
-            return this.AsyncGetItemsForFeed(feedUrl, forceDownload, false);
+            return AsyncGetItemsForFeed(feedUrl, forceDownload, false);
         }
 
         /// <summary>
@@ -4961,9 +4482,9 @@ namespace NewsComponents
                 throw new ArgumentNullException("feedUrl");
 
             string etag = null;
-            bool requestQueued = false;
+            var requestQueued = false;
 
-            int priority = 10;
+            var priority = 10;
             if (forceDownload)
                 priority += 100;
             if (manual)
@@ -4972,11 +4493,11 @@ namespace NewsComponents
 
             try
             {
-                Uri reqUri = new Uri(feedUrl);
+                var reqUri = new Uri(feedUrl);
 
                 try
                 {
-                    if ((!forceDownload) || this.isOffline)
+                    if ((!forceDownload) || isOffline)
                     {
                         GetCachedItemsForFeed(feedUrl); //load feed into itemsTable
                         RaiseOnUpdatedFeed(reqUri, null, RequestResult.NotModified, priority, false);
@@ -5002,7 +4523,7 @@ namespace NewsComponents
                 RaiseOnUpdateFeedStarted(reqUri, forceDownload, priority);
 
                 //DateTime lastRetrieved = DateTime.MinValue; 
-                DateTime lastModified = DateTime.MinValue;
+                var lastModified = DateTime.MinValue;
 
                 if (itemsTable.ContainsKey(feedUrl))
                 {
@@ -5011,25 +4532,16 @@ namespace NewsComponents
                 }
 
 
-                ICredentials c;
-
                 //get credentials from server definition if this is a newsgroup subscription
-                if (RssHelper.IsNntpUrl(theFeed.link))
-                {
-                    c = GetNntpServerCredentials(theFeed);
-                }
-                else
-                {
-                    c = CreateCredentialsFrom(theFeed);
-                }
+                var c = RssHelper.IsNntpUrl(theFeed.link) ? GetNntpServerCredentials(theFeed) : CreateCredentialsFrom(theFeed);
 
-                RequestParameter reqParam =
-                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                var reqParam =
+                    RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = SetCookies;
 
                 AsyncWebRequest.QueueRequest(reqParam,
-                                             null ,
+                                             null,
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);
@@ -5045,122 +4557,6 @@ namespace NewsComponents
             return requestQueued;
         }
 
-        #region GetFailureContext()
-
-        /// <summary>
-        /// Populates a hashtable with additional feed infos 
-        /// we need to provide useful error infos to a user.
-        /// It is only fully populated, if we have it allready read from cache.
-        /// </summary>
-        /// <remarks>
-        /// Currently we populate the following keys:
-        /// * TECH_CONTACT	(opt.; mail address from: 'webMaster' (RSS) or 'errorReportsTo' (Atom) )
-        /// * PUBLISHER			(opt.; mail address from: 'managingEditor' (RSS)
-        /// * PUBLISHER_HOMEPAGE	(opt.; additional info link)
-        /// * GENERATOR			(opt.; generator software)
-        /// * FULL_TITLE			(allways there; category and title as it is used in the UI)
-        /// * FAILURE_OBJECT 	(allways there; NewsFeed | nntpFeed)
-        /// </remarks>
-        /// <param name="feedUri">Uri</param>
-        /// <returns>Hashtable</returns>
-        public Hashtable GetFailureContext(Uri feedUri)
-        {
-            INewsFeed f = null;
-            if (feedUri == null || !feedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
-                return new Hashtable();
-            return this.GetFailureContext(f);
-        }
-
-
-        /// <summary>
-        /// Overloaded.
-        /// </summary>
-        /// <param name="feedUri">The feed URI.</param>
-        /// <returns></returns>
-        public Hashtable GetFailureContext(string feedUri)
-        {
-            if (feedUri == null)
-                return new Hashtable();
-            if (feedsTable.ContainsKey(feedUri))
-                return this.GetFailureContext(feedsTable[feedUri]);
-            else
-                return new Hashtable();
-        }
-
-        /// <summary>
-        /// Overloaded.
-        /// </summary>
-        /// <param name="f"></param>
-        /// <returns></returns>
-        public Hashtable GetFailureContext(INewsFeed f)
-        {
-            if (f == null)
-            {
-                // how about nntpFeeds? They are within the FeedsTable (with different class type)?
-                return new Hashtable();
-            }
-
-            FeedInfo fi = null;
-            lock (itemsTable)
-            {
-                if (itemsTable.ContainsKey(f.link))
-                {
-                    fi = itemsTable[f.link] as FeedInfo;
-                }
-            }
-
-            return GetFailureContext(f, fi);
-        }
-
-        /// <summary>
-        /// Overloaded.
-        /// </summary>
-        /// <param name="f"></param>
-        /// <param name="fi"></param>
-        /// <returns></returns>
-        public static Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
-        {
-            Hashtable context = new Hashtable();
-
-            if (f == null)
-            {
-                return context;
-            }
-
-            context.Add("FULL_TITLE", (f.category ?? String.Empty) + CategorySeparator + f.title);
-            context.Add("FAILURE_OBJECT", f);
-
-            if (fi == null)
-                return context;
-
-            context.Add("PUBLISHER_HOMEPAGE", fi.Link);
-
-            XmlElement xe = RssHelper.GetOptionalElement(fi.OptionalElements, "managingEditor", String.Empty);
-            if (xe != null)
-                context.Add("PUBLISHER", xe.InnerText);
-
-            xe = RssHelper.GetOptionalElement(fi.OptionalElements, "webMaster", String.Empty);
-            if (xe != null)
-            {
-                context.Add("TECH_CONTACT", xe.InnerText);
-            }
-            else
-            {
-                xe = RssHelper.GetOptionalElement(fi.OptionalElements, "errorReportsTo", "http://webns.net/mvcb/");
-                if (xe != null && xe.Attributes["resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"] != null)
-                    context.Add("TECH_CONTACT",
-                                xe.Attributes["resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"].InnerText);
-            }
-
-            xe = RssHelper.GetOptionalElement(fi.OptionalElements, "generator", String.Empty);
-            if (xe != null)
-                context.Add("GENERATOR", xe.InnerText);
-
-            return context;
-        }
-
-        #endregion
-
         //no really used,...:
         //		private void OnRequestQueued(Uri requestUri, int priority) {
         //			//Trace.WriteLineIf(TraceMode, "Queued: '"+ requestUri.ToString() + "', with Priority '" + priority.ToString()+ "'...", "AsyncRequest");
@@ -5174,9 +4570,9 @@ namespace NewsComponents
         protected virtual void OnRequestStart(Uri requestUri, ref bool cancel)
         {
             Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
-            this.RaiseBeforeDownloadFeedStarted(requestUri, ref cancel);
+            RaiseBeforeDownloadFeedStarted(requestUri, ref cancel);
             if (!cancel)
-                cancel = this.Offline;
+                cancel = Offline;
         }
 
         /// <summary>
@@ -5189,11 +4585,11 @@ namespace NewsComponents
         {
             Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
 
-            string key = requestUri.CanonicalizedUri();
+            var key = requestUri.CanonicalizedUri();
             if (feedsTable.ContainsKey(key))
             {
                 Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
-                INewsFeed f = feedsTable[key];
+                var f = feedsTable[key];
                 // now we set this within causedException prop.
                 //f.lastretrieved = DateTime.Now; 
                 //f.lastretrievedSpecified = true; 
@@ -5217,8 +4613,9 @@ namespace NewsComponents
         /// <param name="lastModified">The last modified date of the result</param>
         /// <param name="result">The HTTP result</param>
         /// <param name="priority">The priority of the request</param>
-        protected virtual void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
-                                       RequestResult result, int priority)
+        protected virtual void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag,
+                                                 DateTime lastModified,
+                                                 RequestResult result, int priority)
         {
             Trace("AsyncRequest.OnRequestComplete: '{0}': {1}", requestUri.ToString(), result);
             if (newUri != null)
@@ -5226,13 +4623,13 @@ namespace NewsComponents
                       newUri.ToString());
 
             IList<INewsItem> itemsForFeed;
-            bool firstSuccessfulDownload = false;
+            var firstSuccessfulDownload = false;
 
             //grab items from feed, then save stream to cache. 
             try
             {
                 //We need a reference to the feed so we can see if a cached object exists
-                INewsFeed theFeed = null;
+                INewsFeed theFeed;
 
                 if (!feedsTable.TryGetValue(requestUri.CanonicalizedUri(), out theFeed))
                 {
@@ -5241,7 +4638,7 @@ namespace NewsComponents
                     return;
                 }
 
-                string feedUrl = theFeed.link;
+                var feedUrl = theFeed.link;
                 if (true)
                 {
                     if (String.Compare(feedUrl, requestUri.CanonicalizedUri(), true) != 0)
@@ -5254,13 +4651,13 @@ namespace NewsComponents
 
                     feedsTable.Remove(feedUrl);
                     theFeed.link = newUri.CanonicalizedUri();
-                    this.feedsTable.Add(theFeed.link, theFeed);
+                    feedsTable.Add(theFeed.link, theFeed);
 
                     lock (itemsTable)
                     {
                         if (itemsTable.ContainsKey(feedUrl))
                         {
-                            IFeedDetails FI = itemsTable[feedUrl];
+                            var FI = itemsTable[feedUrl];
                             itemsTable.Remove(feedUrl);
                             itemsTable.Remove(theFeed.link); //remove any old cached versions of redirected link
                             itemsTable.Add(theFeed.link, FI);
@@ -5296,7 +4693,7 @@ namespace NewsComponents
                     {
                         if (!itemsTable.ContainsKey(feedUrl))
                         {
-                            fiFromCache = this.GetFeed(theFeed);
+                            fiFromCache = GetFeed(theFeed);
                         }
                     }
                     catch (Exception ex)
@@ -5324,15 +4721,15 @@ namespace NewsComponents
 
                         if (itemsTable.ContainsKey(feedUrl))
                         {
-                            IFeedDetails fi2 = itemsTable[feedUrl];
+                            var fi2 = itemsTable[feedUrl];
 
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
                                 fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
-                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh, 
-                                                                  true /* respectOldItemState */ );
+                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh,
+                                                                  true /* respectOldItemState */);
                             }
-					 
+
 
                             /*
 							 * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
@@ -5387,19 +4784,19 @@ namespace NewsComponents
                     theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
                     theFeed.lastretrievedSpecified = true;
 
-                    theFeed.cacheurl = this.SaveFeed(theFeed);
+                    theFeed.cacheurl = SaveFeed(theFeed);
                     SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
 
                     theFeed.causedException = false;
                     itemsForFeed = fi.ItemsList;
 
                     /* download podcasts from items we just received if downloadenclosures == true */
-                    if (this.GetDownloadEnclosures(theFeed.link))
+                    if (GetDownloadEnclosures(theFeed.link))
                     {
-                        int numDownloaded = 0;
-                        int maxDownloads = (firstSuccessfulDownload
+                        var numDownloaded = 0;
+                        var maxDownloads = (firstSuccessfulDownload
                                                 ? NumEnclosuresToDownloadOnNewFeed
-												: DefaultNumEnclosuresToDownloadOnNewFeed);
+                                                : DefaultNumEnclosuresToDownloadOnNewFeed);
 
                         if (newReceivedItems != null)
                             foreach (NewsItem ni in newReceivedItems)
@@ -5413,7 +4810,7 @@ namespace NewsComponents
 
                                 try
                                 {
-                                    numDownloaded += this.DownloadEnclosure(ni, maxDownloads - numDownloaded);
+                                    numDownloaded += DownloadEnclosure(ni, maxDownloads - numDownloaded);
                                 }
                                 catch (DownloaderException de)
                                 {
@@ -5468,11 +4865,11 @@ namespace NewsComponents
             }
             catch (Exception e)
             {
-                string key = requestUri.CanonicalizedUri();
+                var key = requestUri.CanonicalizedUri();
                 if (feedsTable.ContainsKey(key))
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
-                    INewsFeed f = feedsTable[key];
+                    var f = feedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
                     //f.lastretrievedSpecified = true; 
@@ -5501,11 +4898,11 @@ namespace NewsComponents
 
         protected void OnEnclosureDownloadComplete(object sender, DownloadItemEventArgs e)
         {
-            if (this.OnDownloadedEnclosure != null)
+            if (OnDownloadedEnclosure != null)
             {
                 try
                 {
-                    this.OnDownloadedEnclosure(sender, e);
+                    OnDownloadedEnclosure(sender, e);
                 }
                 catch
                 {
@@ -5515,16 +4912,6 @@ namespace NewsComponents
         }
 
         // see http://www.iana.org/assignments/media-types/image/vnd.microsoft.icon
-        private static readonly byte[] ico_magic = new byte[] {0, 0, 1, 0};
-        private static readonly int ico_magic_len = ico_magic.Length;
-        private static readonly byte[] png_magic = new byte[] {0x89, 0x50, 0x4e, 0x47};
-        private static readonly int png_magic_len = png_magic.Length;
-        private static readonly byte[] gif_magic = new byte[] {0x47, 0x49, 0x46};
-        private static readonly int gif_magic_len = gif_magic.Length;
-        private static readonly byte[] jpg_magic = new byte[] {0xff, 0xd8};
-        private static readonly int jpg_magic_len = jpg_magic.Length;
-        private static readonly byte[] bmp_magic = new byte[] {0x42, 0x4d};
-        private static readonly int bmp_magic_len = bmp_magic.Length;
 
 
         /// <summary>
@@ -5587,28 +4974,28 @@ namespace NewsComponents
 
             try
             {
-                StringCollection feedUrls = new StringCollection();
+                var feedUrls = new StringCollection();
                 string favicon = null;
 
                 if (result == RequestResult.OK)
                 {
                     //write favicon to feed cache location 
-                    BinaryReader br = new BinaryReader(response);
-                    byte[] bytes = new byte[response.Length];
+                    var br = new BinaryReader(response);
+                    var bytes = new byte[response.Length];
                     // don't write null length files:
                     if (bytes.Length > 0)
                     {
                         bytes = br.ReadBytes((int) response.Length);
                         // check for some known common image formats:
-                        string ext = GetExtensionForDetectedImage(bytes);
+                        var ext = GetExtensionForDetectedImage(bytes);
                         if (ext != null)
                         {
                             favicon = GenerateFaviconUrl(requestUri, ext);
-                            string filelocation = Path.Combine(this.CacheHandler.CacheLocation, favicon);
+                            var filelocation = Path.Combine(CacheHandler.CacheLocation, favicon);
 
-                            using (FileStream fs = FileHelper.OpenForWrite(filelocation))
+                            using (var fs = FileHelper.OpenForWrite(filelocation))
                             {
-                                BinaryWriter bw = new BinaryWriter(fs);
+                                var bw = new BinaryWriter(fs);
                                 bw.Write(bytes);
                                 bw.Flush();
                             }
@@ -5631,11 +5018,11 @@ namespace NewsComponents
                     }
 
                     //get all feeds that should use the returned favicon
-                    foreach (string feedUrl in keys)
+                    foreach (var feedUrl in keys)
                     {
                         if (itemsTable.ContainsKey(feedUrl))
                         {
-                            string websiteUrl = ((FeedInfo) itemsTable[feedUrl]).Link;
+                            var websiteUrl = ((FeedInfo) itemsTable[feedUrl]).Link;
 
                             Uri uri = null;
                             try
@@ -5644,13 +5031,12 @@ namespace NewsComponents
                             }
                             catch (Exception)
                             {
-                                ;
                             }
 
                             if ((uri != null) && uri.Authority.Equals(requestUri.Authority))
                             {
                                 feedUrls.Add(feedUrl);
-                                INewsFeed f = feedsTable[feedUrl];
+                                var f = feedsTable[feedUrl];
                                 f.favicon = favicon;
                             }
                         }
@@ -5680,7 +5066,7 @@ namespace NewsComponents
             {
                 try
                 {
-                    DownloadFeedCancelEventArgs ea = new DownloadFeedCancelEventArgs(requestUri, cancel);
+                    var ea = new DownloadFeedCancelEventArgs(requestUri, cancel);
                     BeforeDownloadFeedStarted(this, ea);
                     cancel = ea.Cancel;
                 }
@@ -5723,7 +5109,7 @@ namespace NewsComponents
 
 
         protected void RaiseOnUpdatedFeed(Uri requestUri, Uri newUri, RequestResult result, int priority,
-                                        bool firstSuccessfulDownload)
+                                          bool firstSuccessfulDownload)
         {
             if (OnUpdatedFeed != null)
             {
@@ -5763,7 +5149,7 @@ namespace NewsComponents
                 try
                 {
                     if (requestUri != null && RssParser.CanProcessUrl(requestUri))
-                        e = new FeedRequestException(e.Message, e, this.GetFailureContext(requestUri));
+                        e = new FeedRequestException(e.Message, e, GetFailureContext(requestUri));
                     OnUpdateFeedException(this, new UpdateFeedExceptionEventArgs(requestUri, e, priority));
                 }
                 catch
@@ -5948,13 +5334,13 @@ namespace NewsComponents
                 return false;
             }
 
-            string fileext = Path.GetExtension(filename);
+            var fileext = Path.GetExtension(filename);
 
             if (fileext.Length > 1)
             {
                 fileext = fileext.Substring(1);
 
-                foreach (string podcastExt in this.podcastfileextensions)
+                foreach (string podcastExt in podcastfileextensions)
                 {
                     if (fileext.ToLower().Equals(podcastExt.ToLower()))
                     {
@@ -5991,17 +5377,17 @@ namespace NewsComponents
         /// <returns>The number of downloaded enclosures</returns>
         protected int DownloadEnclosure(INewsItem item, int maxNumToDownload)
         {
-            int numDownloaded = 0;
+            var numDownloaded = 0;
 
             if ((maxNumToDownload > 0) && (item != null) && (item.Enclosures.Count > 0))
             {
                 foreach (Enclosure enc in item.Enclosures)
                 {
-                    DownloadItem di = new DownloadItem(item.Feed.link, item.Id, enc, this.enclosureDownloader);
+                    var di = new DownloadItem(item.Feed.link, item.Id, enc, enclosureDownloader);
 
                     if (!enc.Downloaded)
                     {
-                        this.enclosureDownloader.BeginDownload(di);
+                        enclosureDownloader.BeginDownload(di);
                         enc.Downloaded = true;
                         numDownloaded++;
                     }
@@ -6024,7 +5410,7 @@ namespace NewsComponents
         /// <param name="item">The newsitem whose enclosures are being downloaded</param>
         public void DownloadEnclosure(INewsItem item)
         {
-            this.DownloadEnclosure(item, Int32.MaxValue);
+            DownloadEnclosure(item, Int32.MaxValue);
         }
 
         /// <summary>
@@ -6042,8 +5428,8 @@ namespace NewsComponents
                 {
                     if (enc.Url.EndsWith(fileName))
                     {
-                        DownloadItem di = new DownloadItem(item.Feed.link, item.Id, enc, this.enclosureDownloader);
-                        this.enclosureDownloader.BeginDownload(di);
+                        var di = new DownloadItem(item.Feed.link, item.Id, enc, enclosureDownloader);
+                        enclosureDownloader.BeginDownload(di);
                         enc.Downloaded = true;
                         break;
                     }
@@ -6056,7 +5442,8 @@ namespace NewsComponents
         /// </summary>
         public virtual void ResumePendingDownloads()
         {
-            this.enclosureDownloader.ResumePendingDownloads();
+            if (enclosureDownloader != null)
+                enclosureDownloader.ResumePendingDownloads();
         }
 
         /// <summary>
@@ -6064,17 +5451,17 @@ namespace NewsComponents
         /// </summary>
         public void RefreshFavicons()
         {
-            if ((this.FeedsListOK == false) || this.isOffline)
+            if ((FeedsListOK == false) || isOffline)
             {
                 //we don't have a feed list
                 return;
             }
 
-            StringCollection websites = new StringCollection();
+            var websites = new StringCollection();
 
             try
             {
-                string[] keys = GetFeedsTableKeys();
+                var keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
                 //  NewsFeed current = FeedsTable[sKey];	
@@ -6086,7 +5473,7 @@ namespace NewsComponents
                         continue;
                     }
 
-                    FeedInfo fi = (FeedInfo) itemsTable[keys[i]];
+                    var fi = (FeedInfo) itemsTable[keys[i]];
 
                     Uri webSiteUrl = null;
                     try
@@ -6095,7 +5482,6 @@ namespace NewsComponents
                     }
                     catch (Exception)
                     {
-                        ;
                     }
 
                     if (webSiteUrl == null || !webSiteUrl.Scheme.ToLower().Equals("http"))
@@ -6105,8 +5491,10 @@ namespace NewsComponents
 
                     if (!websites.Contains(webSiteUrl.Authority))
                     {
-                        UriBuilder reqUri = new UriBuilder("http", webSiteUrl.Authority);
-                        reqUri.Path = "favicon.ico";
+                        var reqUri = new UriBuilder("http", webSiteUrl.Authority)
+                                         {
+                                             Path = "favicon.ico"
+                                         };
 
                         try
                         {
@@ -6120,10 +5508,10 @@ namespace NewsComponents
                             continue;
                         }
 
-                        RequestParameter reqParam = RequestParameter.Create(webSiteUrl, this.UserAgent, this.Proxy,
-                                                                            /* ICredentials */ null,
-                                                                            /* lastModified */ DateTime.MinValue,
-                                                                            /* etag */ null);
+                        var reqParam = RequestParameter.Create(webSiteUrl, UserAgent, Proxy,
+                                                               /* ICredentials */ null,
+                                                               /* lastModified */ DateTime.MinValue,
+                                                               /* etag */ null);
                         // global cookie handling:
                         reqParam.SetCookies = SetCookies;
 
@@ -6157,19 +5545,19 @@ namespace NewsComponents
         /// HTTP headers when downloading feeds.</remarks>	
         public virtual void RefreshFeeds(bool force_download)
         {
-            if (this.FeedsListOK == false)
+            if (FeedsListOK == false)
             {
                 //we don't have a feed list
                 return;
             }
 
-            bool anyRequestQueued = false;
+            var anyRequestQueued = false;
 
             try
             {
                 RaiseOnUpdateFeedsStarted(force_download);
 
-                string[] keys = GetFeedsTableKeys();
+                var keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
                 //  NewsFeed current = FeedsTable[sKey];	
@@ -6179,7 +5567,7 @@ namespace NewsComponents
                     if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    INewsFeed current = feedsTable[keys[i]];
+                    var current = feedsTable[keys[i]];
 
                     try
                     {
@@ -6201,10 +5589,10 @@ namespace NewsComponents
                             //check if enough time has elapsed as to require a download attempt
                             if ((!force_download) && current.lastretrievedSpecified)
                             {
-                                double timeSinceLastDownload =
+                                var timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 //fix: now consider refreshrate inherited by categories:
-                                int refreshRate = this.GetRefreshRate(current.link);
+                                var refreshRate = GetRefreshRate(current.link);
 
                                 if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
@@ -6213,19 +5601,20 @@ namespace NewsComponents
                             } //if(current.lastretrievedSpecified...) 
 
 
-                            if (this.AsyncGetItemsForFeed(current.link, true, false))
+                            if (AsyncGetItemsForFeed(current.link, true, false))
                                 anyRequestQueued = true;
                         }
                         else
                         {
                             // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if ((!force_download) && current.lastretrievedSpecified && string.IsNullOrEmpty(current.cacheurl))
+                            if ((!force_download) && current.lastretrievedSpecified &&
+                                string.IsNullOrEmpty(current.cacheurl))
                             {
                                 // imported may have lastretrievedSpecified set to reduce the initial payload
-                                double timeSinceLastDownload =
+                                var timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 //fix: now consider refreshrate inherited by categories:
-                                int refreshRate = this.GetRefreshRate(current.link);
+                                var refreshRate = GetRefreshRate(current.link);
 
                                 if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
@@ -6237,11 +5626,11 @@ namespace NewsComponents
                             {
                                 // not in itemsTable, cacheurl set - but no cache file anymore?
                                 if (!string.IsNullOrEmpty(current.cacheurl) &&
-                                    !this.CacheHandler.FeedExists(current))
+                                    !CacheHandler.FeedExists(current))
                                     force_download = true;
                             }
 
-                            if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                            if (AsyncGetItemsForFeed(current.link, force_download, false))
                                 anyRequestQueued = true;
                         }
 
@@ -6277,19 +5666,19 @@ namespace NewsComponents
         /// HTTP headers when downloading feeds.</remarks>	
         public virtual void RefreshFeeds(string category, bool force_download)
         {
-            if (this.FeedsListOK == false)
+            if (FeedsListOK == false)
             {
                 //we don't have a feed list
                 return;
             }
 
-            bool anyRequestQueued = false;
+            var anyRequestQueued = false;
 
             try
             {
                 RaiseOnUpdateFeedsStarted(force_download);
 
-                string[] keys = GetFeedsTableKeys();
+                var keys = GetFeedsTableKeys();
 
                 //foreach(string sKey in FeedsTable.Keys){
                 //  NewsFeed current = FeedsTable[sKey];	
@@ -6299,7 +5688,7 @@ namespace NewsComponents
                     if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
-                    INewsFeed current = feedsTable[keys[i]];
+                    var current = feedsTable[keys[i]];
 
                     try
                     {
@@ -6321,10 +5710,10 @@ namespace NewsComponents
                             //check if enough time has elapsed as to require a download attempt
                             if ((!force_download) && current.lastretrievedSpecified)
                             {
-                                double timeSinceLastDownload =
+                                var timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
                                 //fix: now consider refreshrate inherited by categories:
-                                int refreshRate = this.GetRefreshRate(current.link);
+                                var refreshRate = GetRefreshRate(current.link);
 
                                 if (!DownloadIntervalReached || (timeSinceLastDownload < refreshRate))
                                 {
@@ -6335,7 +5724,7 @@ namespace NewsComponents
 
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (this.AsyncGetItemsForFeed(current.link, true, false))
+                                if (AsyncGetItemsForFeed(current.link, true, false))
                                     anyRequestQueued = true;
                             }
                         }
@@ -6343,7 +5732,7 @@ namespace NewsComponents
                         {
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (this.AsyncGetItemsForFeed(current.link, force_download, false))
+                                if (AsyncGetItemsForFeed(current.link, force_download, false))
                                     anyRequestQueued = true;
                             }
                         }
@@ -6380,8 +5769,8 @@ namespace NewsComponents
         {
             if (testCategory.Equals(category) || testCategory.StartsWith(category + CategorySeparator))
                 return true;
-            else
-                return false;
+            
+            return false;
         }
 
         /// <summary>
@@ -6393,15 +5782,15 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">if the feed list format is unknown</exception>
         public XmlDocument ConvertFeedList(XmlDocument doc)
         {
-            ImportFilter importFilter = new ImportFilter(doc);
+            var importFilter = new ImportFilter(doc);
 
-            XslTransform transform = importFilter.GetImportXsl();
+            var transform = importFilter.GetImportXsl();
 
             if (transform != null)
             {
                 // We have a format other than Bandit
                 // Apply the import filter (transform)
-                XmlDocument temp = new XmlDocument();
+                var temp = new XmlDocument();
                 temp.Load(transform.Transform(doc, null));
                 doc = temp;
             }
@@ -6412,7 +5801,7 @@ namespace NewsComponents
                 {
                     // load and validate the Bandit feed file
                     //validate document 
-                    XmlParserContext context =
+                    var context =
                         new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
                     XmlReader vr = new RssBanditXmlReader(doc.OuterXml, XmlNodeType.Document, context);
                     doc.Load(vr);
@@ -6438,7 +5827,7 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">If the file is not a SIAM, OPML or RSS bandit feedlist</exception>		
         public void ReplaceFeedlist(Stream feedlist)
         {
-            this.ImportFeedlist(feedlist, String.Empty, true);
+            ImportFeedlist(feedlist, String.Empty, true);
         }
 
 
@@ -6453,20 +5842,20 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">If the file is not a SIAM, OPML or RSS bandit feedlist</exception>		
         public void ImportFeedlist(Stream feedlist, string category, bool replace)
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(feedlist);
 
             //convert feed list to RSS Bandit format
             doc = ConvertFeedList(doc);
 
             //load up 
-            XmlNodeReader reader = new XmlNodeReader(doc);
-            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
-            feeds myFeeds = (feeds) serializer.Deserialize(reader);
+            var reader = new XmlNodeReader(doc);
+            var serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
+            var myFeeds = (feeds) serializer.Deserialize(reader);
             reader.Close();
 
-            bool keepLocalSettings = true;
-            this.ImportFeedlist(myFeeds, category, replace, keepLocalSettings);
+            var keepLocalSettings = true;
+            ImportFeedlist(myFeeds, category, replace, keepLocalSettings);
         }
 
 
@@ -6487,7 +5876,7 @@ namespace NewsComponents
             /* TODO: Sync category settings */
 
             IDictionary<string, INewsFeedCategory> cats = new Dictionary<string, INewsFeedCategory>();
-            FeedColumnLayoutCollection colLayouts = new FeedColumnLayoutCollection();
+            var colLayouts = new FeedColumnLayoutCollection();
 
             IDictionary<string, INewsFeed> syncedfeeds = new SortedDictionary<string, INewsFeed>();
 
@@ -6496,14 +5885,14 @@ namespace NewsComponents
             // HTTP endpoints considering also/only the ETag header will influence 
             // if a 200 OK is returned onrequest or not.
             // HTTP endpoints not considering the Last Modified header will not be affected.
-            DateTime[] dta = RssHelper.InitialLastRetrievedSettings(myFeeds.feed.Count, this.RefreshRate);
+            var dta = RssHelper.InitialLastRetrievedSettings(myFeeds.feed.Count, RefreshRate);
             int dtaCount = dta.Length, count = 0;
 
             while (myFeeds.feed.Count != 0)
             {
                 INewsFeed f1 = myFeeds.feed[0];
 
-                bool isBadUri = false;
+                var isBadUri = false;
                 try
                 {
                     new Uri(f1.link);
@@ -6522,7 +5911,7 @@ namespace NewsComponents
                 if (replace && feedsTable.ContainsKey(f1.link))
                 {
                     //copy category information over
-                    INewsFeed f2 = feedsTable[f1.link];
+                    var f2 = feedsTable[f1.link];
 
                     if (!keepLocalSettings)
                     {
@@ -6536,7 +5925,7 @@ namespace NewsComponents
                         //copy listview layout information over
                         if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
                         {
-                            listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
+                            var layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
                             if (layout != null)
                                 colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
@@ -6573,7 +5962,7 @@ namespace NewsComponents
                     } //if(!keepLocalSettings)
 
                     //copy over deleted stories
-                    foreach (string story in f1.deletedstories)
+                    foreach (var story in f1.deletedstories)
                     {
                         if (!f2.deletedstories.Contains(story))
                         {
@@ -6582,7 +5971,7 @@ namespace NewsComponents
                     } //foreach
 
                     //copy over read stories
-                    foreach (string story in f1.storiesrecentlyviewed)
+                    foreach (var story in f1.storiesrecentlyviewed)
                     {
                         if (!f2.storiesrecentlyviewed.Contains(story))
                         {
@@ -6592,9 +5981,9 @@ namespace NewsComponents
 
                     if (itemsTable.ContainsKey(f2.link))
                     {
-                        List<INewsItem> items = ((FeedInfo) itemsTable[f2.link]).itemsList;
+                        var items = ((FeedInfo) itemsTable[f2.link]).itemsList;
 
-                        foreach (INewsItem item in items)
+                        foreach (var item in items)
                         {
                             if (f2.storiesrecentlyviewed.Contains(item.Id))
                             {
@@ -6617,7 +6006,7 @@ namespace NewsComponents
 
                         if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
                         {
-                            listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
+                            var layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
                             if (layout != null)
                                 colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
@@ -6655,34 +6044,34 @@ namespace NewsComponents
             IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>();
 
             /* copy over user identity information */
-            foreach (UserIdentity identity in myFeeds.identities)
+            foreach (var identity in myFeeds.identities)
             {
                 if (replace)
                 {
                     identityList.Add(identity.Name, identity);
                 }
-                else if (!this.identities.ContainsKey(identity.Name))
+                else if (!identities.ContainsKey(identity.Name))
                 {
-                    this.identities.Add(identity.Name, identity);
+                    identities.Add(identity.Name, identity);
                 }
             } //foreach
 
 
             /* copy over newsgroup information */
-            foreach (NntpServerDefinition server in myFeeds.nntpservers)
+            foreach (var server in myFeeds.nntpservers)
             {
                 if (replace)
                 {
                     serverList.Add(server.Name, server);
                 }
-                else if (!this.identities.ContainsKey(server.Name))
+                else if (!identities.ContainsKey(server.Name))
                 {
-                    this.nntpServers.Add(server.Name, server);
+                    nntpServers.Add(server.Name, server);
                 }
             }
 
             // copy over layout information 
-            foreach (listviewLayout layout in myFeeds.listviewLayouts)
+            foreach (var layout in myFeeds.listviewLayouts)
             {
                 if (replace)
                 {
@@ -6692,14 +6081,14 @@ namespace NewsComponents
                         layout.FeedColumnLayout.LayoutType == LayoutType.SpecialFeedsLayout)
                         colLayouts.Add(layout.ID, layout.FeedColumnLayout);
                 }
-                else if (!this.layouts.ContainsKey(layout.ID))
+                else if (!layouts.ContainsKey(layout.ID))
                 {
                     //don't replace layouts on import
                     if (layout.FeedColumnLayout.LayoutType != LayoutType.GlobalFeedLayout ||
                         layout.FeedColumnLayout.LayoutType != LayoutType.GlobalCategoryLayout ||
                         layout.FeedColumnLayout.LayoutType != LayoutType.SearchFolderLayout ||
                         layout.FeedColumnLayout.LayoutType != LayoutType.SpecialFeedsLayout)
-                        this.layouts.Add(layout.ID, layout.FeedColumnLayout);
+                        layouts.Add(layout.ID, layout.FeedColumnLayout);
                 }
             }
 
@@ -6707,35 +6096,35 @@ namespace NewsComponents
             if (replace)
             {
                 /* update feeds table */
-                this.feedsTable = syncedfeeds;
+                feedsTable = syncedfeeds;
                 /* update category information */
-                this.categories = cats;
+                categories = cats;
                 /* update identities */
-                this.identities = identityList;
+                identities = identityList;
                 /* update servers */
-                this.nntpServers = serverList;
+                nntpServers = serverList;
                 /* update layouts */
-                this.layouts = colLayouts;
+                layouts = colLayouts;
             }
             else
             {
                 if (myFeeds.categories.Count == 0)
                 {
                     //no new subcategories
-                    if (category.Length > 0 && this.categories.ContainsKey(category) == false)
+                    if (category.Length > 0 && categories.ContainsKey(category) == false)
                     {
-                        this.AddCategory(category);
+                        AddCategory(category);
                     }
                 }
                 else
                 {
-                    foreach (category cat in myFeeds.categories)
+                    foreach (var cat in myFeeds.categories)
                     {
-                        string cat2 = (category.Length == 0 ? cat.Value : category + CategorySeparator + cat.Value);
+                        var cat2 = (category.Length == 0 ? cat.Value : category + CategorySeparator + cat.Value);
 
-                        if (this.categories.ContainsKey(cat2) == false)
+                        if (categories.ContainsKey(cat2) == false)
                         {
-                            this.AddCategory(cat2);
+                            AddCategory(cat2);
                         }
                     }
                 }
@@ -6758,7 +6147,7 @@ namespace NewsComponents
         /// <exception cref="ApplicationException">If the file is neither an OPML file or RSS bandit feedlist</exception>		
         public void ImportFeedlist(Stream feedlist)
         {
-            this.ImportFeedlist(feedlist, String.Empty, false);
+            ImportFeedlist(feedlist, String.Empty, false);
         }
 
 
@@ -6774,7 +6163,7 @@ namespace NewsComponents
         {
             try
             {
-                this.ImportFeedlist(feedlist, category, false);
+                ImportFeedlist(feedlist, category, false);
 
                 /* XmlDocument doc = new XmlDocument(); 
 				//XmlDocument fl = new XmlDocument(); 
@@ -6849,13 +6238,13 @@ namespace NewsComponents
 				 * 
 				 * Also we sometimes corrupt subscriptions.xml by putting multiple entries for the same category.
 				 */
-                XmlSchemaException xse = args.Exception;
+                var xse = args.Exception;
                 if (xse != null)
                 {
-                    Type xseType = xse.GetType();
-                    FieldInfo resFieldInfo = xseType.GetField("res", BindingFlags.NonPublic | BindingFlags.Instance);
+                    var xseType = xse.GetType();
+                    var resFieldInfo = xseType.GetField("res", BindingFlags.NonPublic | BindingFlags.Instance);
 
-                    string errorType = (string) resFieldInfo.GetValue(xse);
+                    var errorType = (string) resFieldInfo.GetValue(xse);
 
                     if (!errorType.Equals("Sch_UnresolvedKeyref") && !errorType.Equals("Sch_DuplicateKey"))
                     {
@@ -6863,7 +6252,7 @@ namespace NewsComponents
                     }
                     else
                     {
-                      //  categoryMismatch = true;
+                        //  categoryMismatch = true;
                     }
                 } //if(xse != null) 
             } //if(args.Severity...)	
@@ -6879,8 +6268,8 @@ namespace NewsComponents
         /// <returns>An identifier for the saved feed. </returns>		
         protected string SaveFeed(INewsFeed feed)
         {
-            TimeSpan maxItemAge = this.GetMaxItemAge(feed.link);
-            FeedDetailsInternal fi = this.itemsTable[feed.link] as FeedDetailsInternal;
+            var maxItemAge = GetMaxItemAge(feed.link);
+            var fi = itemsTable[feed.link] as FeedDetailsInternal;
             IList<INewsItem> items = fi.ItemsList;
 
             /* remove items that have expired according to users cache requirements */
@@ -6892,7 +6281,7 @@ namespace NewsComponents
                 {
                     for (int i = 0, count = items.Count; i < count; i++)
                     {
-                        INewsItem item = items[i];
+                        var item = items[i];
 
                         if (feed.deletedstories.Contains(item.Id) || ((DateTime.Now - item.Date) >= maxItemAge))
                         {
@@ -6907,7 +6296,7 @@ namespace NewsComponents
             } //if(maxItemAge != TimeSpan.MinValue)						
 
 
-            return this.CacheHandler.SaveFeed(fi);
+            return CacheHandler.SaveFeed(fi);
         }
 
         /// <summary>
@@ -6917,20 +6306,20 @@ namespace NewsComponents
         /// <returns>The requested feed or null if it doesn't exist</returns>
         internal FeedDetailsInternal GetFeed(INewsFeed feed)
         {
-            FeedDetailsInternal fi = this.CacheHandler.GetFeed(feed);
+            var fi = CacheHandler.GetFeed(feed);
 
             if (fi != null)
             {
                 /* remove items that have expired according to users cache requirements */
-                TimeSpan maxItemAge = this.GetMaxItemAge(feed.link);
+                var maxItemAge = GetMaxItemAge(feed.link);
 
-                int readItems = 0;
+                var readItems = 0;
 
                 IList<INewsItem> items = fi.ItemsList;
                 lock (items)
                 {
                     /* check if feed set to never delete items */
-                    bool keepAll = (maxItemAge == TimeSpan.MinValue) && (feed.deletedstories.Count == 0);
+                    var keepAll = (maxItemAge == TimeSpan.MinValue) && (feed.deletedstories.Count == 0);
 
                     //since we are going to use this value for calculation we should change it 
                     //from TimeSpan.MinValue which is used to indicate 'keep indefinitely' to TimeSpan.MaxValue
@@ -6938,7 +6327,7 @@ namespace NewsComponents
 
                     for (int i = 0, count = items.Count; i < count; i++)
                     {
-                        INewsItem item = items[i];
+                        var item = items[i];
 
                         if ((!keepAll) && ((DateTime.Now - item.Date) >= maxItemAge) ||
                             feed.deletedstories.Contains(item.Id))
@@ -6955,11 +6344,12 @@ namespace NewsComponents
                         }
 
                         //add read/flag state event handler. 
-                        INotifyPropertyChanged inpc = item as INotifyPropertyChanged;
+                        var inpc = item as INotifyPropertyChanged;
                         if (inpc != null)
                         {
-                            inpc.PropertyChanged -= this.OnNewsItemPropertyChanged; //remove it first, in case we already have it attached
-                            inpc.PropertyChanged += this.OnNewsItemPropertyChanged;
+                            inpc.PropertyChanged -= OnNewsItemPropertyChanged;
+                            //remove it first, in case we already have it attached
+                            inpc.PropertyChanged += OnNewsItemPropertyChanged;
                         }
                     }
                 }
@@ -6989,8 +6379,9 @@ namespace NewsComponents
         /// <param name="respectOldItemState">Indicates that read and flag status from the old items should be respected</param>
         /// <returns>IList merge/purge result</returns>
         public static List<INewsItem> MergeAndPurgeItems(List<INewsItem> oldItems, List<INewsItem> newItems,
-                                                        ICollection<string> deletedItems, out List<INewsItem> receivedNewItems,
-                                                        bool onlyKeepNewItems, bool respectOldItemState)
+                                                         ICollection<string> deletedItems,
+                                                         out List<INewsItem> receivedNewItems,
+                                                         bool onlyKeepNewItems, bool respectOldItemState)
         {
             receivedNewItems = new List<INewsItem>();
             //ArrayList removedOldItems = new ArrayList(); 
@@ -6999,7 +6390,7 @@ namespace NewsComponents
             {
                 foreach (NewsItem newitem in newItems)
                 {
-                    int index = oldItems.IndexOf(newitem);
+                    var index = oldItems.IndexOf(newitem);
                     if (index == -1)
                     {
                         if (!deletedItems.Contains(newitem.Id))
@@ -7012,10 +6403,10 @@ namespace NewsComponents
                     }
                     else
                     {
-                        INewsItem olditem = oldItems[index];
+                        var olditem = oldItems[index];
 
                         if (respectOldItemState)
-                        {                            
+                        {
                             newitem.BeenRead = olditem.BeenRead;
                         }
 
@@ -7059,11 +6450,11 @@ namespace NewsComponents
                         {
                             foreach (Enclosure enc in olditem.Enclosures)
                             {
-                                int j = newitem.Enclosures.IndexOf(enc);
+                                var j = newitem.Enclosures.IndexOf(enc);
 
                                 if (j != -1)
                                 {
-                                    IEnclosure oldEnc = newitem.Enclosures[j];
+                                    var oldEnc = newitem.Enclosures[j];
                                     enc.Downloaded = oldEnc.Downloaded;
                                 }
                                 else
@@ -7093,10 +6484,8 @@ namespace NewsComponents
             {
                 return newItems;
             }
-            else
-            {
-                return oldItems;
-            }
+            
+            return oldItems;
         }
 
         /// <summary>
@@ -7111,8 +6500,8 @@ namespace NewsComponents
         {
             if (inReply2item.CommentStyle == SupportedCommentStyle.CommentAPI)
             {
-				this.RssParserInstance.PostCommentViaCommentAPI(url, item2post, inReply2item,
-                                                        GetFeedCredentials(inReply2item.Feed));
+                RssParserInstance.PostCommentViaCommentAPI(url, item2post, inReply2item,
+                                                           GetFeedCredentials(inReply2item.Feed));
             }
             else if (inReply2item.CommentStyle == SupportedCommentStyle.NNTP)
             {
@@ -7136,6 +6525,87 @@ namespace NewsComponents
             }
         }
 
+        private static object GetSharedPropertyValue(ISharedProperty instance, string propertyName)
+        {
+            switch (propertyName)
+            {
+                case "maxitemage":
+                    return instance.maxitemage;
+                case "downloadenclosures":
+                    return instance.downloadenclosures;
+                case "downloadenclosuresSpecified":
+                    return instance.downloadenclosuresSpecified;
+                case "enclosurealert":
+                    return instance.enclosurealert;
+                case "enclosurealertSpecified":
+                    return instance.enclosurealertSpecified;
+                case "enclosurefolder":
+                    return instance.enclosurefolder;
+                case "listviewlayout":
+                    return instance.listviewlayout;
+                case "markitemsreadonexit":
+                    return instance.markitemsreadonexit;
+                case "markitemsreadonexitSpecified":
+                    return instance.markitemsreadonexitSpecified;
+                case "refreshrate":
+                    return instance.refreshrate;
+                case "refreshrateSpecified":
+                    return instance.refreshrateSpecified;
+                case "stylesheet":
+                    return instance.stylesheet;
+                default:
+                    Debug.Assert(true, "unknown shared property name: " + propertyName);
+                    break;
+            }
+            return null;
+        }
+
+        private static void SetSharedPropertyValue(ISharedProperty instance, string propertyName, object value)
+        {
+            switch (propertyName)
+            {
+                case "maxitemage":
+                    instance.maxitemage = value as string;
+                    break;
+                case "downloadenclosures":
+                    instance.downloadenclosures = (bool) value;
+                    break;
+                case "downloadenclosuresSpecified":
+                    instance.downloadenclosuresSpecified = (bool) value;
+                    break;
+                case "enclosurealert":
+                    instance.enclosurealert = (bool) value;
+                    break;
+                case "enclosurealertSpecified":
+                    instance.enclosurealertSpecified = (bool) value;
+                    break;
+                case "enclosurefolder":
+                    instance.enclosurefolder = value as string;
+                    break;
+                case "listviewlayout":
+                    instance.listviewlayout = value as string;
+                    break;
+                case "markitemsreadonexit":
+                    instance.markitemsreadonexit = (bool) value;
+                    break;
+                case "markitemsreadonexitSpecified":
+                    instance.markitemsreadonexitSpecified = (bool) value;
+                    break;
+                case "refreshrate":
+                    instance.refreshrate = (int) value;
+                    break;
+                case "refreshrateSpecified":
+                    instance.refreshrateSpecified = (bool) value;
+                    break;
+                case "stylesheet":
+                    instance.stylesheet = value as string;
+                    break;
+                default:
+                    Debug.Assert(true, "unknown shared property name: " + propertyName);
+                    break;
+            }
+        }
+
         #region RelationCosmos management
 
         /// <summary>
@@ -7147,8 +6617,8 @@ namespace NewsComponents
         {
             if (buildRelationCosmos)
                 return relationCosmos.GetIncoming(item, excludeItemsList);
-            else
-                return new List<INewsItem>();
+            
+            return new List<INewsItem>();
         }
 
         /// <summary>
@@ -7163,8 +6633,8 @@ namespace NewsComponents
 
             if (buildRelationCosmos)
                 return relationCosmos.GetIncoming<INewsItem>(url, since);
-            else
-                return new List<INewsItem>();
+            
+            return new List<INewsItem>();
         }
 
         /// <summary>
@@ -7176,8 +6646,8 @@ namespace NewsComponents
         {
             if (buildRelationCosmos)
                 return relationCosmos.GetOutgoing(item, excludeItemsList);
-            else
-                return new List<INewsItem>();
+            
+            return new List<INewsItem>();
         }
 
         /// <summary>
@@ -7189,8 +6659,8 @@ namespace NewsComponents
         {
             if (buildRelationCosmos)
                 return relationCosmos.HasIncomingOrOutgoing(item, excludeItemsList);
-            else
-                return false;
+            
+            return false;
         }
 
         /// <summary>
@@ -7238,6 +6708,15 @@ namespace NewsComponents
         #region ReceivingNewsChannel Manangement		
 
         /// <summary>
+        /// Gets the receiving news channel.
+        /// </summary>
+        /// <value>The receiving news channel services.</value>
+        internal static NewsChannelServices ReceivingNewsChannelServices
+        {
+            get { return receivingNewsChannel; }
+        }
+
+        /// <summary>
         /// Register INewsChannel processing services 
         /// </summary>
         public void RegisterReceivingNewsChannel(INewsChannel channel)
@@ -7259,194 +6738,522 @@ namespace NewsComponents
             receivingNewsChannel.UnregisterNewsChannel(channel);
         }
 
+        #endregion
+
+        #region GetFailureContext()
+
         /// <summary>
-        /// Gets the receiving news channel.
+        /// Populates a hashtable with additional feed infos 
+        /// we need to provide useful error infos to a user.
+        /// It is only fully populated, if we have it allready read from cache.
         /// </summary>
-        /// <value>The receiving news channel services.</value>
-        internal static NewsChannelServices ReceivingNewsChannelServices
+        /// <remarks>
+        /// Currently we populate the following keys:
+        /// * TECH_CONTACT	(opt.; mail address from: 'webMaster' (RSS) or 'errorReportsTo' (Atom) )
+        /// * PUBLISHER			(opt.; mail address from: 'managingEditor' (RSS)
+        /// * PUBLISHER_HOMEPAGE	(opt.; additional info link)
+        /// * GENERATOR			(opt.; generator software)
+        /// * FULL_TITLE			(allways there; category and title as it is used in the UI)
+        /// * FAILURE_OBJECT 	(allways there; NewsFeed | nntpFeed)
+        /// </remarks>
+        /// <param name="feedUri">Uri</param>
+        /// <returns>Hashtable</returns>
+        public Hashtable GetFailureContext(Uri feedUri)
         {
-            get
+            INewsFeed f;
+            if (feedUri == null || !feedsTable.TryGetValue(feedUri.CanonicalizedUri(), out f))
+                return new Hashtable();
+            return GetFailureContext(f);
+        }
+
+
+        /// <summary>
+        /// Overloaded.
+        /// </summary>
+        /// <param name="feedUri">The feed URI.</param>
+        /// <returns></returns>
+        public Hashtable GetFailureContext(string feedUri)
+        {
+            if (feedUri == null)
+                return new Hashtable();
+            if (feedsTable.ContainsKey(feedUri))
+                return GetFailureContext(feedsTable[feedUri]);
+            
+            return new Hashtable();
+        }
+
+        /// <summary>
+        /// Overloaded.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public Hashtable GetFailureContext(INewsFeed f)
+        {
+            if (f == null)
             {
-                return receivingNewsChannel;
+                // how about nntpFeeds? They are within the FeedsTable (with different class type)?
+                return new Hashtable();
+            }
+
+            FeedInfo fi = null;
+            lock (itemsTable)
+            {
+                if (itemsTable.ContainsKey(f.link))
+                {
+                    fi = itemsTable[f.link] as FeedInfo;
+                }
+            }
+
+            return GetFailureContext(f, fi);
+        }
+
+        /// <summary>
+        /// Overloaded.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="fi"></param>
+        /// <returns></returns>
+        public static Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
+        {
+            var context = new Hashtable();
+
+            if (f == null)
+            {
+                return context;
+            }
+
+            context.Add("FULL_TITLE", (f.category ?? String.Empty) + CategorySeparator + f.title);
+            context.Add("FAILURE_OBJECT", f);
+
+            if (fi == null)
+                return context;
+
+            context.Add("PUBLISHER_HOMEPAGE", fi.Link);
+
+            var xe = RssHelper.GetOptionalElement(fi.OptionalElements, "managingEditor", String.Empty);
+            if (xe != null)
+                context.Add("PUBLISHER", xe.InnerText);
+
+            xe = RssHelper.GetOptionalElement(fi.OptionalElements, "webMaster", String.Empty);
+            if (xe != null)
+            {
+                context.Add("TECH_CONTACT", xe.InnerText);
+            }
+            else
+            {
+                xe = RssHelper.GetOptionalElement(fi.OptionalElements, "errorReportsTo", "http://webns.net/mvcb/");
+                if (xe != null && xe.Attributes["resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"] != null)
+                    context.Add("TECH_CONTACT",
+                                xe.Attributes["resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"].InnerText);
+            }
+
+            xe = RssHelper.GetOptionalElement(fi.OptionalElements, "generator", String.Empty);
+            if (xe != null)
+                context.Add("GENERATOR", xe.InnerText);
+
+            return context;
+        }
+
+        #endregion
+
+        #region category manipulation methods 
+
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        public virtual INewsFeedCategory AddCategory(string cat)
+        {
+            if (StringHelper.EmptyTrimOrNull(cat))
+                return null;
+
+            if (categories.ContainsKey(cat))
+                return categories[cat];
+
+            var ancestors = category.GetAncestors(cat);
+
+            //create rest of category hierarchy if it doesn't exist
+            for (var i = ancestors.Count; i-- > 0;)
+            {
+                INewsFeedCategory c;
+
+                if (!categories.TryGetValue(ancestors[i], out c))
+                {
+                    categories.Add(ancestors[i], new category(ancestors[i]));
+                }
+            }
+
+            INewsFeedCategory newCategory = new category(cat)
+                                                {
+                                                    parent = (ancestors.Count == 0 ? null : categories[ancestors[ancestors.Count - 1]])
+                                                };
+
+            categories.Add(cat, newCategory);
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+
+            return newCategory;
+        }
+
+        /// <summary>
+        /// Adds a category to the list of feed categories known by this feed handler
+        /// </summary>
+        /// <param name="cat">The category to add</param>
+        /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
+        public virtual INewsFeedCategory AddCategory(INewsFeedCategory cat)
+        {
+            if (categories.ContainsKey(cat.Value))
+            {
+                return categories[cat.Value];
+            }
+            
+            categories.Add(cat.Value, cat);
+            return cat;
+        }
+
+
+        /// <summary>
+        /// Tests whether this category name exists in the FeedSource. 
+        /// </summary>
+        /// <param name="cat">The name of the category</param>
+        /// <returns>True if this category is used by the FeedSource</returns>
+        public virtual bool HasCategory(string cat)
+        {
+            if (cat == null)
+            {
+                return false;
+            }
+
+            return categories.ContainsKey(cat);
+        }
+
+
+        /// <summary>
+        /// Returns a ReadOnlyDictionary containing the list of categories used by the FeedSource
+        /// </summary>
+        /// <returns>A read-only dictionary of categories</returns>
+        public virtual ReadOnlyDictionary<string, INewsFeedCategory> GetCategories()
+        {
+            readonly_categories = readonly_categories ?? new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            return readonly_categories;
+        }
+
+        /// <summary>
+        /// Deletes a category from the FeedSource. This process includes deleting all subcategories and the 
+        /// corresponding feeds. 
+        /// </summary>
+        /// <remarks>Note that this does not fix up the references to this category in the feed list nor does it 
+        /// fix up the references to this category in its parent and child categories.</remarks>
+        /// <param name="cat"></param>
+        public virtual void DeleteCategory(string cat)
+        {
+            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            {
+                IList<string> categories2remove = GetChildCategories(cat);
+                categories2remove.Add(cat);
+
+                //remove category and all its subcategories
+                lock (categories)
+                {
+                    foreach (var c in categories2remove)
+                    {
+                        categories.Remove(c);
+                    }
+                }
+
+                //remove feeds in deleted categories and subcategories
+                var feeds2delete =
+                    from f in feedsTable.Values
+                    where categories2remove.Contains(f.category)
+                    select f.link;
+
+                var feeds2remove = feeds2delete.ToArray();
+
+                lock (feedsTable)
+                {
+                    foreach (var feedUrl in feeds2remove)
+                    {
+                        feedsTable.Remove(feedUrl);
+                    }
+                }
+
+                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            } // if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+        }
+
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public virtual void ChangeCategory(INewsFeed feed, string cat)
+        {
+            if (feed == null)
+                throw new ArgumentNullException("feed");
+
+            feed.category = cat;
+        }
+
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeed. This method should be used instead of setting
+        /// the category property of the INewsFeed instance. 
+        /// </summary>
+        /// <param name="feed">The newsfeed whose category to change</param>
+        /// <param name="cat">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized</param>
+        public virtual void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
+        {
+            if (feed == null)
+                throw new ArgumentNullException("feed");
+
+            feed.category = cat != null ? cat.Value : null;
+        }
+
+        /// <summary>
+        /// Renames the specified category
+        /// </summary>        
+        /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
+        /// of having this method do it automatically.</remarks>
+        /// <param name="oldName">The old name of the category</param>
+        /// <param name="newName">The new name of the category</param>        
+        public virtual void RenameCategory(string oldName, string newName)
+        {
+            if (StringHelper.EmptyTrimOrNull(oldName))
+                throw new ArgumentNullException("oldName");
+
+            if (StringHelper.EmptyTrimOrNull(newName))
+                throw new ArgumentNullException("newName");
+
+            if (categories.ContainsKey(oldName))
+            {
+                var cat = categories[oldName];
+                categories.Remove(oldName);
+
+                cat.Value = newName;
+                categories.Add(newName, cat);
             }
         }
 
-    	#endregion
+        /// <summary>
+        /// Helper function that gets the parent category object of the named category
+        /// </summary>
+        /// <param name="category">The name of the category</param>
+        /// <returns>The parent category of the specified category</returns>
+        private INewsFeedCategory GetParentCategory(string category)
+        {
+            var index = category.LastIndexOf(CategorySeparator);
+            INewsFeedCategory c = null;
 
-   		#region ISharedProperty Members
+            if (index != -1)
+            {
+                var parentName = category.Substring(0, index);
+                categories.TryGetValue(parentName, out c);
+            }
 
-		private static object GetSharedPropertyValue(ISharedProperty instance, string propertyName) {
-			switch (propertyName)
-			{
-				case "maxitemage": return instance.maxitemage;
-				case "downloadenclosures": return instance.downloadenclosures;
-				case "downloadenclosuresSpecified": return instance.downloadenclosuresSpecified;
-				case "enclosurealert": return instance.enclosurealert;
-				case "enclosurealertSpecified": return instance.enclosurealertSpecified;
-				case "enclosurefolder": return instance.enclosurefolder;
-				case "listviewlayout": return instance.listviewlayout;
-				case "markitemsreadonexit": return instance.markitemsreadonexit;
-				case "markitemsreadonexitSpecified": return instance.markitemsreadonexitSpecified;
-				case "refreshrate": return instance.refreshrate;
-				case "refreshrateSpecified": return instance.refreshrateSpecified;
-				case "stylesheet": return instance.stylesheet;
-				default: Debug.Assert(true, "unknown shared property name: " + propertyName);
-					break;
-			}
-			return null;
-		}
+            return c;
+        }
 
-		private static void SetSharedPropertyValue(ISharedProperty instance, string propertyName, object value)
-		{
-			switch (propertyName)
-			{
-				case "maxitemage": instance.maxitemage = value as string;
-					break;
-				case "downloadenclosures": instance.downloadenclosures = (bool)value;
-					break;
-				case "downloadenclosuresSpecified": instance.downloadenclosuresSpecified = (bool)value;
-					break;
-				case "enclosurealert": instance.enclosurealert = (bool)value;
-					break;
-				case "enclosurealertSpecified": instance.enclosurealertSpecified = (bool)value;
-					break;
-				case "enclosurefolder": instance.enclosurefolder = value as string;
-					break;
-				case "listviewlayout": instance.listviewlayout = value as string;
-					break;
-				case "markitemsreadonexit": instance.markitemsreadonexit = (bool)value;
-					break;
-				case "markitemsreadonexitSpecified": instance.markitemsreadonexitSpecified = (bool)value;
-					break;
-				case "refreshrate": instance.refreshrate = (int)value;
-					break;
-				case "refreshrateSpecified": instance.refreshrateSpecified = (bool)value;
-					break;
-				case "stylesheet": instance.stylesheet = value as string;
-					break;
-				default: Debug.Assert(true, "unknown shared property name: " + propertyName);
-					break;
-			}
+        /// <summary>
+        /// Helper function that gets the child categories of the named category
+        /// </summary>
+        /// <param name="name">The name of the category</param>
+        /// <returns>The list of child categories</returns>
+        protected List<string> GetChildCategories(string name)
+        {
+            var list = new List<string>();
 
-		}
+            foreach (var c in categories.Values)
+            {
+                if (c.Value.StartsWith(name + CategorySeparator))
+                {
+                    list.Add(c.Value);
+                }
+            }
 
-    	/// <summary>
-    	/// Gets or sets the maximum item age.
-    	/// </summary>
-    	/// <value>The max. item age.</value>
-    	string ISharedProperty.maxitemage {
-    		get { return XmlConvert.ToString(this.MaxItemAge); }
-    		set { this.MaxItemAge = XmlConvert.ToTimeSpan(value); }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets the refresh rate.
-    	/// </summary>
-    	/// <value>The refreshrate.</value>
-    	int ISharedProperty.refreshrate {
-    		get { return this.RefreshRate; }
-			set { /* ignored at top level */ }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether [refresh rate is specified].
-    	/// </summary>
-    	/// <value><c>true</c> if [refresh rate specified]; otherwise, <c>false</c>.</value>
-    	bool ISharedProperty.refreshrateSpecified {
-    		get { return true; }
-			set { /* ignored */ }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should download enclosures.
-    	/// </summary>
-    	/// <value><c>true</c> if download enclosures; otherwise, <c>false</c>.</value>
-    	bool ISharedProperty.downloadenclosures {
-    		get { return p_configuration.DownloadEnclosures; }
-			set { /* ignored at top level */ }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether [download enclosures is specified].
-    	/// </summary>
-    	/// <value>
-    	/// 	<c>true</c> if [download enclosures specified]; otherwise, <c>false</c>.
-    	/// </value>
-    	bool ISharedProperty.downloadenclosuresSpecified {
-			get { return true; }
-			set { /* ignore */ }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should alert on enclosure downloads.
-    	/// </summary>
-    	/// <value><c>true</c> if enclosurealert; otherwise, <c>false</c>.</value>
-    	bool ISharedProperty.enclosurealert {
-    		get { return EnclosureAlert; }
-			set {  /* ignore at top level */  }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether [enclosure alert specified].
-    	/// </summary>
-    	/// <value>
-    	/// 	<c>true</c> if [enclosurealert specified]; otherwise, <c>false</c>.
-    	/// </value>
-    	bool ISharedProperty.enclosurealertSpecified {
-			get { return true; }
-			set { /* ignore */ }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets the enclosure folder.
-    	/// </summary>
-    	/// <value>The enclosure folder.</value>
-    	string ISharedProperty.enclosurefolder {
-			get { return EnclosureFolder; }
-			set { EnclosureFolder = value; }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets the listview layout.
-    	/// </summary>
-    	/// <value>The listview layout.</value>
-    	string ISharedProperty.listviewlayout {
-    		get { return this.listviewlayout; }
-			set { this.listviewlayout = value; }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets the stylesheet to render the feed/items.
-    	/// </summary>
-    	/// <value>The stylesheet.</value>
-    	string ISharedProperty.stylesheet {
-    		get { return Stylesheet; }
-			set { Stylesheet = value; }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether this <see cref="ISharedProperty"/> should mark items read on exit.
-    	/// </summary>
-    	/// <value><c>true</c> if markitemsreadonexit; otherwise, <c>false</c>.</value>
-    	bool ISharedProperty.markitemsreadonexit {
-    		get { return MarkItemsReadOnExit; }
-			set { MarkItemsReadOnExit = value; }
-    	}
-
-    	/// <summary>
-    	/// Gets or sets a value indicating whether [mark items read on exit specified].
-    	/// </summary>
-    	/// <value>
-    	/// 	<c>true</c> if [mark items read on exit specified]; otherwise, <c>false</c>.
-    	/// </value>
-    	bool ISharedProperty.markitemsreadonexitSpecified {
-			get { return true; }
-			set { /* ignore */ }
-    	}
-
-    	#endregion
+            return list;
+        }
 
 
+        /// <summary>
+        /// Helper function that gets the child categories of the named category
+        /// </summary>
+        /// <param name="parent">The parent category</param>
+        /// <returns>The list of child categories</returns>
+        protected List<INewsFeedCategory> GetChildCategories(INewsFeedCategory parent)
+        {
+            var list = new List<INewsFeedCategory>();
+
+            foreach (var c in categories.Values)
+            {
+                if (c.Value.StartsWith(parent.Value + CategorySeparator))
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list;
+        }
+
+        #endregion
+
+        #region Feed manipulation methods
+
+
+        /// <summary>
+        /// Invoked when a NewsFeed owned by this FeedSource changes in a way that 
+        /// needs to be communicated to NewsGator Online. 
+        /// </summary>
+        /// <param name="sender">the NewsFeed</param>
+        /// <param name="e">information on the property that changed</param>
+        protected virtual void OnNewsFeedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //DOES NOTHING BY DEFAULT
+        }
+
+        /// <summary>
+        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
+        /// Any existing feed objects are replaced by the new objects. 
+        /// </summary>
+        /// <param name="f">The NewsFeed object </param>
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public virtual INewsFeed AddFeed(INewsFeed f)
+        {
+            return AddFeed(f, null);
+        }
+
+        /// <summary>
+        /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 
+        /// Any existing feed objects are replaced by the new objects. 
+        /// </summary>
+        /// <param name="feed">The NewsFeed object </param>
+        /// <param name="feedInfo">The FeedInfo object</param>
+        /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
+        public virtual INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
+        {
+            if (feed != null)
+            {
+                lock (feedsTable)
+                {
+                    if (feedsTable.ContainsKey(feed.link))
+                    {
+                        feedsTable.Remove(feed.link);
+                    }
+                    feed.owner = this;
+                    feedsTable.Add(feed.link, feed);
+                }
+            }
+
+            if (feedInfo != null && feed != null)
+            {
+                lock (itemsTable)
+                {
+                    if (itemsTable.ContainsKey(feed.link))
+                    {
+                        itemsTable.Remove(feed.link);
+                    }
+                    itemsTable.Add(feed.link, feedInfo);
+                }
+            }
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+            return feed;
+        }
+
+        /// <summary>
+        /// Removes all information related to a feed from the FeedSource.   
+        /// </summary>
+        /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
+        /// <param name="feedUrl">The URL of the feed to delete. </param>
+        /// <exception cref="ApplicationException">If an error occured while 
+        /// attempting to delete the cached feed. Examine the InnerException property 
+        /// for details</exception>
+        public virtual void DeleteFeed(string feedUrl)
+        {
+            if (!feedsTable.ContainsKey(feedUrl))
+            {
+                return;
+            }
+
+            var f = feedsTable[feedUrl];
+            feedsTable.Remove(feedUrl);
+
+            if (itemsTable.ContainsKey(feedUrl))
+            {
+                itemsTable.Remove(feedUrl);
+            }
+
+            SearchHandler.IndexRemove(f.id);
+            if (enclosureDownloader != null)
+                enclosureDownloader.CancelPendingDownloads(feedUrl);
+
+            try
+            {
+                CacheHandler.RemoveFeed(f);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.Message, e);
+            }
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+        }
+
+        /// <summary>
+        /// Returns a read-only dictionary of feeds managed by this FeedSource
+        /// </summary>
+        /// <returns></returns>
+        public ReadOnlyDictionary<string, INewsFeed> GetFeeds()
+        {
+            readonly_feedsTable = readonly_feedsTable ?? new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+            return readonly_feedsTable;
+        }
+
+        /// <summary>
+        /// Tests whether this feed is currently subscribed to. 
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed</param>
+        /// <returns>True if this feed is used by the FeedSource</returns>
+        public virtual bool IsSubscribed(string feedUrl)
+        {
+            if (StringHelper.EmptyTrimOrNull(feedUrl))
+            {
+                return false;
+            }
+
+            return feedsTable.ContainsKey(feedUrl);
+        }
+
+        /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        public virtual void DeleteAllFeedsAndCategories()
+        {
+            feedsTable.Clear();
+            categories.Clear();
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+        }
+
+        #endregion
+
+        #region abstract methods 
+
+        /// <summary>
+        /// Loads the feedlist from the FeedLocation. 
+        ///</summary>
+        public abstract void LoadFeedlist();
+
+        /// <summary>
+        /// Loads the feedlist from the feedlocation and use the input feedlist to bootstrap the settings. The input feedlist
+        /// is also used as a fallback in case the FeedLocation is inaccessible (e.g. we are in offline mode and the feed location
+        /// is on the Web). 
+        /// </summary>
+        /// <param name="feedlist">The feed list to provide the settings for the feeds downloaded by this FeedSource</param>
+        public abstract void BootstrapAndLoadFeedlist(feeds feedlist);
+
+        #endregion
     }
 
     #region NewsFeedProperty enum
@@ -7548,15 +7355,16 @@ namespace NewsComponents
     /// </summary>
     public interface ISizeInfo
     {
-		/// <summary>
-		/// Gets the size.
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// Gets the size.
+        /// </summary>
+        /// <returns></returns>
         int GetSize();
-		/// <summary>
-		/// Gets the size details.
-		/// </summary>
-		/// <returns></returns>
+
+        /// <summary>
+        /// Gets the size details.
+        /// </summary>
+        /// <returns></returns>
         string GetSizeDetails();
     }
 
@@ -7604,15 +7412,13 @@ namespace NewsComponents
         {
             get
             {
-                if ((this.NodeType == XmlNodeType.Attribute) &&
+                if ((NodeType == XmlNodeType.Attribute) &&
                     (base.Value == NamespaceCore.Feeds_v2003))
                 {
                     return NamespaceCore.Feeds_vCurrent;
                 }
-                else
-                {
-                    return base.Value;
-                }
+
+                return base.Value;
             }
         }
     } //class 

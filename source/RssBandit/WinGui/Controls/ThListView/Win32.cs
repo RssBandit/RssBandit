@@ -16,7 +16,7 @@ namespace System.Windows.Forms.ThListView
 	/// <summary>
 	/// Win32.
 	/// </summary>
-	internal sealed class Win32
+	internal static class Win32
 	{
 		
 		#region ComInterop stuff
@@ -444,6 +444,7 @@ namespace System.Windows.Forms.ThListView
 		}
 
 		#region HeaderItem masks
+        [Flags]
 		public enum HeaderItemMask {
 			HDI_WIDTH               = 0x0001,
 			HDI_HEIGHT              = HDI_WIDTH,
@@ -498,6 +499,7 @@ namespace System.Windows.Forms.ThListView
 		#endregion
 
 		#region Header Control HitTest Flags
+        [Flags]
 		public enum HeaderControlHitTestFlags : uint {
 			HHT_NOWHERE             = 0x0001,
 			HHT_ONHEADER            = 0x0002,
@@ -557,6 +559,7 @@ namespace System.Windows.Forms.ThListView
 		/// <summary>
 		/// ListView extended style flags
 		/// </summary>
+		[Flags]
 		public enum LVS_EX {
 			LVS_EX_GRIDLINES        =0x00000001,
 			LVS_EX_SUBITEMIMAGES    =0x00000002,
@@ -581,6 +584,7 @@ namespace System.Windows.Forms.ThListView
 			LVS_EX_SIMPLESELECT     =0x00100000  
 		}
 
+        [Flags]
 		public enum ListViewItemFlags {
 			LVIF_TEXT               = 0x0001,
 			LVIF_IMAGE              = 0x0002,
@@ -1017,7 +1021,5 @@ namespace System.Windows.Forms.ThListView
 			private API(){	}
 		}
 		#endregion
-		
-		private Win32(){	}
 	}
 }

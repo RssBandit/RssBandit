@@ -8,7 +8,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms; 
 
@@ -17,7 +17,8 @@ namespace System.Windows.Forms.ThListView
 	/// <summary>
 	/// Summary description for ThreadedListViewItemCollection.
 	/// </summary>
-	public class ThreadedListViewItemCollection: System.Windows.Forms.ListView.ListViewItemCollection, IEnumerable<ThreadedListViewItem> {
+	public class ThreadedListViewItemCollection: ListView.ListViewItemCollection, IList<ThreadedListViewItem>
+    {
 		
 		public delegate void ItemAddedEventHandler(object sender, ListViewItemEventArgs e);
 		public delegate void ItemRemovedEventHandler(object sender, ListViewItemEventArgs e);
@@ -25,35 +26,34 @@ namespace System.Windows.Forms.ThListView
 		public event ItemRemovedEventHandler ItemRemoved; 
 
 		private readonly ThreadedListView owner;
-		public ThreadedListViewItemCollection(ThreadedListView owner) : base(((ListView)owner)) { 
+		public ThreadedListViewItemCollection(ThreadedListView owner) : base(owner) { 
 			this.owner = owner;
 		} 
 
-		protected ThreadedListView ListView { get { return this.owner; } }
+		protected ThreadedListView ListView { get { return owner; } }
 
 		#region Add()
-		public ThreadedListViewItem Add(ThreadedListViewItem item) { 
-			ThreadedListViewItem itm = ((ThreadedListViewItem)base.Add(item)); 
+		public void Add(ThreadedListViewItem item) { 
+			var itm = ((ThreadedListViewItem)base.Add(item)); 
 			if (ListView.ShowInGroups) {
 				Win32.API.AddItemToGroup(itm.ListView.Handle, itm.Index, itm.GroupIndex); 
 				if (ItemAdded != null) { 
 					ItemAdded(this, new ListViewItemEventArgs(itm)); 
 				} 
 			}
-			return itm; 
 		} 
 
-		public new ThreadedListViewItem Add(string text) { 
-			return this.Add(null, text); 
+		public new void Add(string text) { 
+			Add(null, text); 
 		} 
-		public ThreadedListViewItem Add(object key, string text) { 
-			ThreadedListViewItem itm = new ThreadedListViewItem(key, text); 
-			return Add(itm); 
+		public void Add(object key, string text) { 
+			var itm = new ThreadedListViewItem(key, text); 
+			Add(itm); 
 		} 
 
-		public ThreadedListViewItem Add(string text, int imageIndex, int groupindex) { 
-			ThreadedListViewItem itm = new ThreadedListViewItem(null, text, imageIndex, groupindex); 
-			return Add(itm); 
+		public void Add(string text, int imageIndex, int groupindex) { 
+			var itm = new ThreadedListViewItem(null, text, imageIndex, groupindex); 
+			Add(itm); 
 		} 
 
 		#endregion
@@ -78,8 +78,8 @@ namespace System.Windows.Forms.ThListView
 			return base.IndexOf(item); 
 		} 
 
-		public ThreadedListViewItem Insert(int index, ThreadedListViewItem item) { 
-			return ((ThreadedListViewItem)base.Insert(index, item)); 
+		public void Insert(int index, ThreadedListViewItem item) {
+		    base.Insert(index, item); 
 		} 
 
 		public new ThreadedListViewItem this[int displayIndex] { 
@@ -91,11 +91,18 @@ namespace System.Windows.Forms.ThListView
 			} 
 		} 
 
-		public void Remove(ThreadedListViewItem item) { 
+		public bool Remove(ThreadedListViewItem item) { 
 			if (ItemRemoved != null) { 
 				ItemRemoved(this, new ListViewItemEventArgs(item)); 
-			} 
-			base.Remove(item); 
+			}
+
+
+		    var removed = Contains(item);
+
+            if(removed)
+			    base.Remove(item);
+
+            return removed;
 		} 
 
 		public new void RemoveAt(int index) { 
@@ -109,92 +116,15 @@ namespace System.Windows.Forms.ThListView
 			base.CopyTo(array, index); 
 		}
 
-        #region Implementation (IEnumerable)
 
-        public new IEnumerator<ThreadedListViewItem> GetEnumerator() {
-            return new Enumerator(this);
-        }
-        #endregion
-
-        #region Nested enumerator class
-
-        private class Enumerator : IEnumerator<ThreadedListViewItem> {
-            #region Implementation (data)
-
-            private readonly ThreadedListViewItemCollection m_collection;
-            private int m_index;
-
-            #endregion
-
-            #region Construction
-
-            /// <summary>
-            ///		Initializes a new instance of the <c>Enumerator</c> class.
-            /// </summary>
-            /// <param name="tc"></param>
-            internal Enumerator(ThreadedListViewItemCollection tc) {
-                m_collection = tc;
-                m_index = -1;               
-            }
-
-            #endregion
-
-            #region Operations (type-safe IEnumerator)
-
-            /// <summary>
-            ///		Gets the current element in the collection.
-            /// </summary>
-            public ThreadedListViewItem Current {
-                get { return m_collection[m_index]; }
-            }
-
-            /// <summary>
-            ///		Advances the enumerator to the next element in the collection.
-            /// </summary>
-            /// <exception cref="InvalidOperationException">
-            ///		The collection was modified after the enumerator was created.
-            /// </exception>
-            /// <returns>
-            ///		<c>true</c> if the enumerator was successfully advanced to the next element; 
-            ///		<c>false</c> if the enumerator has passed the end of the collection.
-            /// </returns>
-            public bool MoveNext() {
-            /*     if (m_version != m_collection.m_version)
-                    throw new System.InvalidOperationException("Collection was modified; enumeration operation may not execute.");
-             */ 
-
-                ++m_index;
-                return (m_index < m_collection.Count) ? true : false;
-            }
-
-            /// <summary>
-            ///		Sets the enumerator to its initial position, before the first element in the collection.
-            /// </summary>
-            public void Reset() {
-                m_index = -1;
-            }
-            #endregion
-
-            #region Implementation (IEnumerator)
-
-            object IEnumerator.Current {
-                get { return this.Current; }
-            }
-
-            #endregion
-
-            #region (IDisposable)
-
-            void IDisposable.Dispose() {
-                return;
-            }
-
-            #endregion
+        public new IEnumerator<ThreadedListViewItem> GetEnumerator()
+        {
+            var en = base.GetEnumerator();
+            while(en.MoveNext())
+                yield return (ThreadedListViewItem)en.Current;
         }
 
-
-        #endregion 
-	}
+    }
 
 
 	public class ListViewItemEventArgs : EventArgs { 

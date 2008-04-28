@@ -45,7 +45,7 @@ namespace NewsComponents.Feed
     /// This is a class that is used to represent a pending operation on the index in 
     /// that is currently in the pending operation queue. 
     /// </summary>
-    public class PendingGoogleReaderOperation
+    public class PendingGoogleReaderOperation : IEquatable<PendingGoogleReaderOperation>
     {
         public GoogleReaderOperation Action;
         public string GoogleUserName; 
@@ -69,28 +69,35 @@ namespace NewsComponents.Feed
             this.GoogleUserName = googleUserID;
         }
 
-        /// <summary>
-        /// Compares two objects for equality
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public bool Equals(PendingGoogleReaderOperation pendingGoogleReaderOperation)
         {
-            PendingGoogleReaderOperation pop = obj as PendingGoogleReaderOperation;
+            if (pendingGoogleReaderOperation == null) return false;
 
-            if (pop == null) return false;
+            if (pendingGoogleReaderOperation.Action != Action) return false;
 
-            if (pop.Action != this.Action) return false;
+            if (pendingGoogleReaderOperation.Parameters.Length != Parameters.Length) return false;
 
-            if (pop.Parameters.Length != this.Parameters.Length) return false;
-
-            for (int i = 0; i < pop.Parameters.Length; i++)
+            for (var i = 0; i < pendingGoogleReaderOperation.Parameters.Length; i++)
             {
-                if (!pop.Parameters[i].Equals(this.Parameters[i]))
+                if (!pendingGoogleReaderOperation.Parameters[i].Equals(Parameters[i]))
                     return false;
             }
 
             return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals(obj as PendingGoogleReaderOperation);
+        }
+
+        public override int GetHashCode()
+        {
+            int result = Action.GetHashCode();
+            result = 29*result + (GoogleUserName != null ? GoogleUserName.GetHashCode() : 0);
+            result = 29*result + (Parameters != null ? Parameters.GetHashCode() : 0);
+            return result;
         }
     }
 
