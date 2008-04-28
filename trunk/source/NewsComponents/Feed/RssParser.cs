@@ -140,7 +140,8 @@ namespace NewsComponents.Feed
         private const int nt_ns_newsgator = 59;
         private const int nt_read = 60;
         private const int nt_clipped = 61;
-        private const int nt_duration = 62;
+        private const int nt_flagState = 62;
+        private const int nt_duration = 63;
 
         private const int NT_SIZE = 1 + nt_duration; // last used + 1
 
@@ -446,12 +447,13 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
-                else if ((localname == atomized_strings[nt_clipped])
+                else if ((localname == atomized_strings[nt_flagState])
                     && (namespaceuri == atomized_strings[nt_ns_newsgator]))
                 {
                     if (!reader.IsEmptyElement)
                     {
-                        flagged = Boolean.Parse(ReadElementString(reader)) ? Flagged.Review : Flagged.None;
+                        NewsGatorFlagStatus ngFlagState = (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), ReadElementString(reader));
+                        flagged = (Flagged)Enum.Parse(typeof(Flagged), ngFlagState.ToString()); 
                     }
                     continue;
                 }
@@ -1675,8 +1677,9 @@ namespace NewsComponents.Feed
             atomized_names[nt_enclosure] = nt.Add("enclosure");
             atomized_names[nt_encoded] = nt.Add("encoded");
             atomized_names[nt_entry] = nt.Add("entry");
-            atomized_names[nt_flagstatus] = nt.Add("flag-status");
             atomized_names[nt_feed] = nt.Add("feed");
+            atomized_names[nt_flagState] = nt.Add("flagState");
+            atomized_names[nt_flagstatus] = nt.Add("flag-status");
             atomized_names[nt_guid] = nt.Add("guid");
             atomized_names[nt_hasnewcomments] = nt.Add("has-new-comments");
             atomized_names[nt_href] = nt.Add("href");
