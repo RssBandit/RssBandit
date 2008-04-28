@@ -332,7 +332,7 @@ namespace NewsComponents.Feed
                 //if listview layout specified in imported feed then use that
             if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
             {
-                this.listviewlayout = myFeeds.listviewlayout;
+                this.FeedColumnLayout = myFeeds.listviewlayout;
             }
 
                 //if max item age in imported feed then use that

@@ -12,22 +12,19 @@
 #define NON_TRANSPARENT_SORTMARKERS
 
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
-using System.Threading;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using System.Windows.Forms.ThListView.Sorting;
-using THLV = System.Windows.Forms.ThListView;
 using NewsComponents.Feed;
-using RssBandit.Resources;
-using System.Collections.Generic;
 using RssBandit;
+using RssBandit.Resources;
+using THLV = System.Windows.Forms.ThListView;
+using System.Collections.Generic;
 
 namespace System.Windows.Forms.ThListView
 {
@@ -48,53 +45,40 @@ namespace System.Windows.Forms.ThListView
         private bool _isWinXP, _headerImageListLoaded;
         private ImageList _headerImageList;
         private ThreadedListViewSorter _sorter;
-        private ThreadedListViewColumnHeader _autoGroupCol = null;
+        private ThreadedListViewColumnHeader _autoGroupCol;
         private readonly List<string> _autoGroupList = new List<string>();
         private readonly ThreadedListViewItemCollection _items;
         private readonly ThreadedListViewColumnHeaderCollection _columns;
         private readonly ThreadedListViewGroupCollection _groups;
         private FeedColumnLayout _layout;
-        private bool _showInGroups = false;
-        private bool _autoGroup = false;
+        private bool _showInGroups;
+        private bool _autoGroup;
         private bool _threadedView = true;
         private string _emptyAutoGroupText = String.Empty;
         //private IntPtr _apiRetVal;
         private ThreadedListViewItem _noChildsPlaceHolder;
 
-        public delegate void OnBeforeListLayoutChangeCancelEventHandler(object sender, ListLayoutCancelEventArgs e);
 
-        public event OnBeforeListLayoutChangeCancelEventHandler BeforeListLayoutChange;
+        public event EventHandler<ListLayoutCancelEventArgs> BeforeListLayoutChange;
 
-        public delegate void OnListLayoutChangedEventHandler(object sender, ListLayoutEventArgs e);
 
-        public event OnListLayoutChangedEventHandler ListLayoutChanged;
+        public event EventHandler<ListLayoutEventArgs> ListLayoutChanged;
 
-        public delegate void OnListLayoutModifiedEventHandler(object sender, ListLayoutEventArgs e);
 
-        public event OnListLayoutModifiedEventHandler ListLayoutModified;
+        public event EventHandler<ListLayoutEventArgs> ListLayoutModified;
 
-        public delegate void OnBeforeExpandThreadCancelEventHandler(object sender, ThreadCancelEventArgs e);
+        public event EventHandler<ThreadCancelEventArgs> BeforeExpandThread;
 
-        public event OnBeforeExpandThreadCancelEventHandler BeforeExpandThread;
 
-        public delegate void OnBeforeCollapseThreadCancelEventHandler(object sender, ThreadCancelEventArgs e);
+        public event EventHandler<ThreadCancelEventArgs> BeforeCollapseThread;
 
-        public event OnBeforeCollapseThreadCancelEventHandler BeforeCollapseThread;
+        public event EventHandler<ThreadEventArgs> ExpandThread;
 
-        public delegate void OnExpandThreadEventHandler(object sender, ThreadEventArgs e);
 
-        public event OnExpandThreadEventHandler ExpandThread;
+        public event EventHandler<ThreadEventArgs> AfterExpandThread;
 
-        public delegate void OnAfterExpandThreadEventHandler(object sender, ThreadEventArgs e);
 
-        public event OnAfterExpandThreadEventHandler AfterExpandThread;
-
-        public delegate void OnCollapseThreadEventHandler(object sender, ThreadEventArgs e);
-
-        public event OnCollapseThreadEventHandler CollapseThread;
-
-        public delegate void InsertItemsForPlaceHolderHandler(
-            string placeHolderTicket, ThreadedListViewItem[] newChildItems, bool sortOnInsert);
+        public event EventHandler<ThreadEventArgs> CollapseThread;
 
         private IContainer components;
 
@@ -121,27 +105,15 @@ namespace System.Windows.Forms.ThListView
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Advanced)]
         public new bool CheckBoxes
         {
-            get
-            {
-                return base.CheckBoxes;
-            }
-            set
-            {
-                base.CheckBoxes = value;
-            }
+            get { return base.CheckBoxes; }
+            set { base.CheckBoxes = value; }
         }
 
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Advanced)]
         public new ImageList StateImageList
         {
-            get
-            {
-                return base.StateImageList;
-            }
-            set
-            {
-                base.StateImageList = value;
-            }
+            get { return base.StateImageList; }
+            set { base.StateImageList = value; }
         }
 
         private void InitListView()
@@ -185,7 +157,7 @@ namespace System.Windows.Forms.ThListView
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof (ThreadedListView));
+            var resources = new System.Resources.ResourceManager(typeof (ThreadedListView));
             this.imageListStates = new System.Windows.Forms.ImageList(this.components);
             // 
             // imageListStates
@@ -243,7 +215,7 @@ namespace System.Windows.Forms.ThListView
             if (e.Button != MouseButtons.Left) // expand only on left click
                 return;
 
-            ThreadedListViewItem lvi = GetItemAt(e.X, e.Y) as ThreadedListViewItem;
+            var lvi = GetItemAt(e.X, e.Y) as ThreadedListViewItem;
             if (lvi != null && lvi.StateImageHitTest(new Point(e.X, e.Y)))
             {
                 if (lvi.HasChilds)
@@ -279,10 +251,7 @@ namespace System.Windows.Forms.ThListView
          Category("Behavior")]
         public new ThreadedListViewItemCollection Items
         {
-            get
-            {
-                return _items;
-            }
+            get { return _items; }
         }
 
         //TODO designer support
@@ -292,10 +261,7 @@ namespace System.Windows.Forms.ThListView
          Category("Behavior")]
         public new ThreadedListViewColumnHeaderCollection Columns
         {
-            get
-            {
-                return _columns;
-            }
+            get { return _columns; }
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
@@ -308,10 +274,7 @@ namespace System.Windows.Forms.ThListView
 #else
 		public ThreadedListViewGroupCollection Groups{
 #endif
-            get
-            {
-                return _groups;
-            }
+            get { return _groups; }
         }
 
         [Category("Grouping"),
@@ -319,10 +282,7 @@ namespace System.Windows.Forms.ThListView
          DefaultValue(false)]
         public bool ShowInGroups
         {
-            get
-            {
-                return _showInGroups;
-            }
+            get { return _showInGroups; }
             set
             {
                 if (_showInGroups != value)
@@ -347,10 +307,7 @@ namespace System.Windows.Forms.ThListView
          DefaultValue(false)]
         public bool AutoGroupMode
         {
-            get
-            {
-                return _autoGroup;
-            }
+            get { return _autoGroup; }
             set
             {
                 _autoGroup = value;
@@ -369,10 +326,7 @@ namespace System.Windows.Forms.ThListView
          DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ThreadedListViewColumnHeader AutoGroupColumn
         {
-            get
-            {
-                return _autoGroupCol;
-            }
+            get { return _autoGroupCol; }
             set
             {
                 _autoGroupCol = value;
@@ -389,10 +343,7 @@ namespace System.Windows.Forms.ThListView
          DefaultValue("")]
         public string EmptyAutoGroupText
         {
-            get
-            {
-                return _emptyAutoGroupText;
-            }
+            get { return _emptyAutoGroupText; }
             set
             {
                 _emptyAutoGroupText = value;
@@ -409,10 +360,7 @@ namespace System.Windows.Forms.ThListView
          Category("Grouping")]
         public string[] Autogroups
         {
-            get
-            {
-                return _autoGroupList.ToArray();
-            }
+            get { return _autoGroupList.ToArray(); }
         }
 
         public bool AutoGroupByColumn(int columnID)
@@ -426,7 +374,7 @@ namespace System.Windows.Forms.ThListView
             {
                 _autoGroupList.Clear();
 
-                foreach (ThreadedListViewItem itm in Items)
+                foreach (var itm in Items)
                 {
                     if (
                         !_autoGroupList.Contains(itm.SubItems[columnID].Text == String.Empty
@@ -442,14 +390,14 @@ namespace System.Windows.Forms.ThListView
                 _autoGroupList.Sort();
 
                 Win32.API.ClearListViewGroup(Handle);
-                foreach (string text in _autoGroupList)
+                foreach (var text in _autoGroupList)
                 {
                     Win32.API.AddListViewGroup(Handle, text, _autoGroupList.IndexOf(text));
                 }
 
-                foreach (ThreadedListViewItem itm in Items)
+                foreach (var itm in Items)
                 {
-                    int index =
+                    var index =
                         _autoGroupList.IndexOf(itm.SubItems[columnID].Text == ""
                                                    ? _emptyAutoGroupText
                                                    : itm.SubItems[columnID].Text);
@@ -473,14 +421,8 @@ namespace System.Windows.Forms.ThListView
 
         public ThreadedListViewItem NoThreadChildsPlaceHolder
         {
-            get
-            {
-                return _noChildsPlaceHolder;
-            }
-            set
-            {
-                _noChildsPlaceHolder = value;
-            }
+            get { return _noChildsPlaceHolder; }
+            set { _noChildsPlaceHolder = value; }
         }
 
         public bool Regroup()
@@ -493,7 +435,7 @@ namespace System.Windows.Forms.ThListView
                     Win32.API.AddListViewGroup(Handle, grp.GroupText, grp.GroupIndex);
                 }
 
-                foreach (ThreadedListViewItem itm in Items)
+                foreach (var itm in Items)
                 {
                     Win32.API.AddItemToGroup(Handle, itm.Index, itm.GroupIndex);
                 }
@@ -518,24 +460,18 @@ namespace System.Windows.Forms.ThListView
 
         public ThreadedListViewSorter SortManager
         {
-            get
-            {
-                return _sorter;
-            }
+            get { return _sorter; }
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public FeedColumnLayout FeedColumnLayout
         {
-            get
-            {
-                return FeedColumnLayoutFromCurrentSettings();
-            }
+            get { return FeedColumnLayoutFromCurrentSettings(); }
             set
             {
                 if (value != null)
                 {
-                    FeedColumnLayout newLayout = value;
+                    var newLayout = value;
 
                     if (!RaiseBeforeFeedColumnLayoutChangeEventCancel(newLayout))
                     {
@@ -556,10 +492,7 @@ namespace System.Windows.Forms.ThListView
          DefaultValue(true)]
         public bool ShowAsThreads
         {
-            get
-            {
-                return _threadedView;
-            }
+            get { return _threadedView; }
             set
             {
                 _threadedView = value;
@@ -595,7 +528,7 @@ namespace System.Windows.Forms.ThListView
         {
             SuspendLayout();
 
-            foreach (ThreadedListViewItem itm in Items)
+            foreach (var itm in Items)
             {
                 if (itm.SubItems.Count > column)
                 {
@@ -625,7 +558,7 @@ namespace System.Windows.Forms.ThListView
         {
             SuspendLayout();
 
-            foreach (ThreadedListViewItem itm in Items)
+            foreach (var itm in Items)
             {
                 if (itm.SubItems.Count > column)
                 {
@@ -648,7 +581,7 @@ namespace System.Windows.Forms.ThListView
         {
             if (base.Items.Count == 0)
                 return;
-            foreach (ThreadedListViewItem lv in Items)
+            foreach (var lv in Items)
             {
                 if (lv.HasChilds)
                     lv.Expanded = !lv.Collapsed;
@@ -679,9 +612,9 @@ namespace System.Windows.Forms.ThListView
                 try
                 {
                     lvItem.SetThreadState(false);
-                    int paramItemIndex = lvItem.Index;
-                    int currentIndent = lvItem.IndentLevel;
-                    int nextIndex = paramItemIndex + 1;
+                    var paramItemIndex = lvItem.Index;
+                    var currentIndent = lvItem.IndentLevel;
+                    var nextIndex = paramItemIndex + 1;
 
                     lock (Items)
                     {
@@ -706,7 +639,7 @@ namespace System.Windows.Forms.ThListView
 
                 if (focusedItemIndex >= 0)
                 {
-                    ListViewItem lvi = base.Items[focusedItemIndex];
+                    var lvi = base.Items[focusedItemIndex];
                     lvi.Focused = true;
                     lvi.Selected = true;
                 }
@@ -720,9 +653,8 @@ namespace System.Windows.Forms.ThListView
         /// <param name="activate">true, if lvItem should be activated</param>
         internal void ExpandListViewItem(ThreadedListViewItem lvItem, bool activate)
         {
-
-            int selIdxsCount = SelectedIndices.Count;
-            int[] selIdxs = new int[selIdxsCount];
+            var selIdxsCount = SelectedIndices.Count;
+            var selIdxs = new int[selIdxsCount];
             SelectedIndices.CopyTo(selIdxs, 0);
 
             ThreadedListViewItem[] newItems;
@@ -735,8 +667,8 @@ namespace System.Windows.Forms.ThListView
                     return;
                 }
 
-                int paramItemIndex = lvItem.Index;
-                int currentIndent = lvItem.IndentLevel;
+                var paramItemIndex = lvItem.Index;
+                var currentIndent = lvItem.IndentLevel;
 
 //				if (base.SelectedItems.Count > 0 && activate)
 //					selectedItemIndex = paramItemIndex;
@@ -745,13 +677,15 @@ namespace System.Windows.Forms.ThListView
 
                 if (newItems == null)
                 {
-                    ThreadedListViewItem item = _noChildsPlaceHolder;
+                    var item = _noChildsPlaceHolder;
                     if (item == null)
                     {
-                        item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage);
-                        item.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
+                        item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage)
+                                   {
+                                       Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular)
+                                   };
                     }
-                    newItems = new ThreadedListViewItem[] {item};
+                    newItems = new[] {item};
                 }
 
                 if (newItems.Length > 1 && ListViewItemSorter != null)
@@ -770,7 +704,7 @@ namespace System.Windows.Forms.ThListView
 
                     lock (Items)
                     {
-                        foreach (ThreadedListViewItem newListItem in newItems)
+                        foreach (var newListItem in newItems)
                         {
                             // check, if we have  all subitems for correct grouping
                             while (newListItem.SubItems.Count < Columns.Count)
@@ -830,12 +764,12 @@ namespace System.Windows.Forms.ThListView
         /// </summary>
         public void CheckForLayoutModifications()
         {
-            FeedColumnLayout layout = _layout;
+            var layout = _layout;
             if (layout != null)
             {
                 GuiInvoker.InvokeAsync(this, delegate
                                                  {
-                                                     FeedColumnLayout current = FeedColumnLayoutFromCurrentSettings();
+                                                     var current = FeedColumnLayoutFromCurrentSettings();
 
                                                      if (!layout.Equals(current))
                                                      {
@@ -858,7 +792,7 @@ namespace System.Windows.Forms.ThListView
         {
             try
             {
-                FeedColumnLayout layout = new FeedColumnLayout();
+                var layout = new FeedColumnLayout();
                 lock (Columns)
                 {
                     if (_sorter.SortColumnIndex >= 0 && _sorter.SortColumnIndex < Columns.Count)
@@ -866,10 +800,10 @@ namespace System.Windows.Forms.ThListView
                         layout.SortByColumn = Columns[_sorter.SortColumnIndex].Key;
                         layout.SortOrder = ConvertSortOrder(_sorter.SortOrder);
                     }
-                    int[] colOrder = GetColumnOrderArray();
-                    List<string> aCols = new List<string>(Columns.Count);
-                    List<int> aColWidths = new List<int>(Columns.Count);
-                    for (int i = 0; i < Columns.Count; i++)
+                    var colOrder = GetColumnOrderArray();
+                    var aCols = new List<string>(Columns.Count);
+                    var aColWidths = new List<int>(Columns.Count);
+                    for (var i = 0; i < Columns.Count; i++)
                     {
                         aCols.Add(Columns[colOrder[i]].Key);
                         aColWidths.Add(Columns[colOrder[i]].Width);
@@ -888,10 +822,10 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeExpandEventCancel(ThreadedListViewItem tlv)
         {
-            bool cancel = false;
+            var cancel = false;
             if (BeforeExpandThread != null)
             {
-                ThreadCancelEventArgs e = new ThreadCancelEventArgs(tlv, cancel);
+                var e = new ThreadCancelEventArgs(tlv, cancel);
                 try
                 {
                     BeforeExpandThread(this, e);
@@ -908,7 +842,7 @@ namespace System.Windows.Forms.ThListView
         {
             if (ExpandThread != null)
             {
-                ThreadEventArgs tea = new ThreadEventArgs(tlv);
+                var tea = new ThreadEventArgs(tlv);
                 try
                 {
                     ExpandThread(this, tea);
@@ -928,8 +862,10 @@ namespace System.Windows.Forms.ThListView
         {
             if (AfterExpandThread != null)
             {
-                ThreadEventArgs tea = new ThreadEventArgs(parent);
-                tea.ChildItems = newItems;
+                var tea = new ThreadEventArgs(parent)
+                              {
+                                  ChildItems = newItems
+                              };
                 try
                 {
                     AfterExpandThread(this, tea);
@@ -942,10 +878,10 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeCollapseEventCancel(ThreadedListViewItem tlv)
         {
-            bool cancel = false;
+            var cancel = false;
             if (BeforeCollapseThread != null)
             {
-                ThreadCancelEventArgs e = new ThreadCancelEventArgs(tlv, cancel);
+                var e = new ThreadCancelEventArgs(tlv, cancel);
                 try
                 {
                     BeforeCollapseThread(this, e);
@@ -962,7 +898,7 @@ namespace System.Windows.Forms.ThListView
         {
             if (CollapseThread != null)
             {
-                ThreadEventArgs tea = new ThreadEventArgs(tlv);
+                var tea = new ThreadEventArgs(tlv);
                 //TODO: add the thread child elements to eventArgs
                 try
                 {
@@ -976,10 +912,10 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeFeedColumnLayoutChangeEventCancel(FeedColumnLayout newLayout)
         {
-            bool cancel = false;
+            var cancel = false;
             if (BeforeListLayoutChange != null)
             {
-                ListLayoutCancelEventArgs e = new ListLayoutCancelEventArgs(newLayout, cancel);
+                var e = new ListLayoutCancelEventArgs(newLayout, cancel);
                 try
                 {
                     BeforeListLayoutChange(this, e);
@@ -1022,7 +958,7 @@ namespace System.Windows.Forms.ThListView
 
         private void SetExtendedStyles()
         {
-            Win32.LVS_EX ex_styles =
+            var ex_styles =
                 (Win32.LVS_EX) Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, IntPtr.Zero);
             ex_styles |= Win32.LVS_EX.LVS_EX_DOUBLEBUFFER | Win32.LVS_EX.LVS_EX_INFOTIP |
                          Win32.LVS_EX.LVS_EX_SUBITEMIMAGES;
@@ -1041,16 +977,16 @@ namespace System.Windows.Forms.ThListView
         public void InsertItemsForPlaceHolder(string placeHolderTicket, ThreadedListViewItem[] newChildItems,
                                               bool sortOnInsert)
         {
-            if (placeHolderTicket == null || placeHolderTicket.Length == 0)
+            if (string.IsNullOrEmpty(placeHolderTicket))
                 throw new ArgumentNullException("placeHolderTicket");
 
             ThreadedListViewItemPlaceHolder placeHolder = null;
 
             lock (Items)
             {
-                for (int i = 0; i < Items.Count; i++)
+                for (var i = 0; i < Items.Count; i++)
                 {
-                    ThreadedListViewItemPlaceHolder p = Items[i] as ThreadedListViewItemPlaceHolder;
+                    var p = Items[i] as ThreadedListViewItemPlaceHolder;
                     if (p != null)
                     {
                         // found one; check ticket
@@ -1067,8 +1003,8 @@ namespace System.Windows.Forms.ThListView
                 if (placeHolder == null)
                     return;
 
-                int parentItemIndex = placeHolder.Index;
-                int parentIndentLevel = placeHolder.IndentLevel;
+                var parentItemIndex = placeHolder.Index;
+                var parentIndentLevel = placeHolder.IndentLevel;
 
                 try
                 {
@@ -1079,13 +1015,15 @@ namespace System.Windows.Forms.ThListView
 
                     if (newChildItems == null || newChildItems.Length == 0)
                     {
-                        ThreadedListViewItem item = _noChildsPlaceHolder;
+                        var item = _noChildsPlaceHolder;
                         if (item == null)
                         {
-                            item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage);
-                            item.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
+                            item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage)
+                                       {
+                                           Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular)
+                                       };
                         }
-                        newChildItems = new ThreadedListViewItem[] {item};
+                        newChildItems = new[] {item};
                     }
 
                     if (newChildItems.Length > 1 && _sorter.SortOrder != SortOrder.None && sortOnInsert)
@@ -1095,9 +1033,9 @@ namespace System.Windows.Forms.ThListView
                     }
 
                     // now insert the new items
-                    for (int i = 0; i < newChildItems.Length; i++)
+                    for (var i = 0; i < newChildItems.Length; i++)
                     {
-                        ThreadedListViewItem newListItem = newChildItems[i];
+                        var newListItem = newChildItems[i];
                         newListItem.Parent = placeHolder.Parent;
 
                         // check, if we have  all subitems for correct grouping
@@ -1118,7 +1056,7 @@ namespace System.Windows.Forms.ThListView
                         }
 
                         newListItem.IndentLevel = parentIndentLevel;
-                            // only valid after the item is part of the listview items collection!
+                        // only valid after the item is part of the listview items collection!
                         parentItemIndex++;
                     } //iterator.MoveNext
                 }
@@ -1133,8 +1071,8 @@ namespace System.Windows.Forms.ThListView
 
         private void APIEnableGrouping(bool value)
         {
-            IntPtr param = IntPtr.Zero;
-            int onOff = (value ? 1 : 0);
+            var param = IntPtr.Zero;
+            var onOff = (value ? 1 : 0);
             Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_ENABLEGROUPVIEW, onOff, ref param);
         }
 
@@ -1154,8 +1092,8 @@ namespace System.Windows.Forms.ThListView
             }
 
             // get the pointer to the header:
-            IntPtr hHeader = Win32.API.SendMessage(Handle,
-                                                   Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            var hHeader = Win32.API.SendMessage(Handle,
+                                                Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
 
             if (!hHeader.Equals(IntPtr.Zero))
             {
@@ -1168,23 +1106,24 @@ namespace System.Windows.Forms.ThListView
                 {
                     lock (Columns)
                     {
-                        for (int i = 0; i < Columns.Count; i++)
+                        for (var i = 0; i < Columns.Count; i++)
                         {
-                            Win32.HDITEM item = new Win32.HDITEM();
-                            item.cchTextMax = 255;
-                            item.mask =
-                                (int)
-                                (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT |
-                                 Win32.HeaderItemMask.HDI_BITMAP);
+                            var item = new Win32.HDITEM
+                                           {
+                                               cchTextMax = 255,
+                                               mask = ((int)
+                                                       (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT |
+                                                        Win32.HeaderItemMask.HDI_BITMAP))
+                                           };
 
-                            IntPtr result =
+                            var result =
                                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_GETITEM, new IntPtr(i),
                                                       item);
                             if (result.ToInt32() > 0)
                             {
                                 ColumnHeader colHdr = Columns[i];
-                                HorizontalAlignment align = colHdr.TextAlign;
-                                string txt = (colHdr.Text ?? String.Empty);
+                                var align = colHdr.TextAlign;
+                                var txt = (colHdr.Text ?? String.Empty);
                                 item.pszText = Marshal.StringToHGlobalAuto(txt);
                                 item.mask = (int) (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT);
                                 item.fmt = (int) (Win32.HeaderItemFlags.HDF_STRING);
@@ -1208,10 +1147,7 @@ namespace System.Windows.Forms.ThListView
                                     if (align != HorizontalAlignment.Right)
                                         item.fmt |= (int) (Win32.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
 
-                                    if (sortOrder == SortOrder.Ascending)
-                                        item.hbm = upBM.GetHbitmap();
-                                    else
-                                        item.hbm = downBM.GetHbitmap();
+                                    item.hbm = sortOrder == SortOrder.Ascending ? upBM.GetHbitmap() : downBM.GetHbitmap();
                                 }
 #endif
                                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETITEM, new IntPtr(i),
@@ -1239,8 +1175,8 @@ namespace System.Windows.Forms.ThListView
                 _headerImageList.Images.Add(GetBitmap(true)); // Add ascending arrow
                 _headerImageList.Images.Add(GetBitmap(false)); // Add descending arrow
 
-                IntPtr hHeader = Win32.API.SendMessage(Handle,
-                                                       Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+                var hHeader = Win32.API.SendMessage(Handle,
+                                                    Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETIMAGELIST, IntPtr.Zero,
                                       _headerImageList.Handle);
 
@@ -1253,10 +1189,10 @@ namespace System.Windows.Forms.ThListView
             if (_isWinXP)
             {
                 // draw the flat triangle
-                Bitmap bm = new Bitmap(9, 9);
-                Graphics gfx = Graphics.FromImage(bm);
+                var bm = new Bitmap(9, 9);
+                var gfx = Graphics.FromImage(bm);
 
-                Brush fillBrush = SystemBrushes.ControlDark;
+                var fillBrush = SystemBrushes.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
 				gfx.FillRectangle(Brushes.Magenta, 0, 0, 9, 9);
@@ -1266,7 +1202,7 @@ namespace System.Windows.Forms.ThListView
                 gfx.FillRectangle(backBrush /* SystemBrushes.ControlLight */, 0, 0, 9, 9);
                 backBrush.Dispose();
 #endif
-                GraphicsPath path = new GraphicsPath();
+                var path = new GraphicsPath();
 
                 if (ascending)
                 {
@@ -1292,11 +1228,11 @@ namespace System.Windows.Forms.ThListView
             }
             else
             {
-                Bitmap bm = new Bitmap(8, 8);
-                Graphics gfx = Graphics.FromImage(bm);
+                var bm = new Bitmap(8, 8);
+                var gfx = Graphics.FromImage(bm);
 
-                Pen lightPen = SystemPens.ControlLightLight;
-                Pen shadowPen = SystemPens.ControlDark;
+                var lightPen = SystemPens.ControlLightLight;
+                var shadowPen = SystemPens.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
 				gfx.FillRectangle(Brushes.Magenta, 0, 0, 8, 8);
@@ -1354,33 +1290,27 @@ namespace System.Windows.Forms.ThListView
 
         private static SortOrder ConvertSortOrder(NewsComponents.SortOrder sortOrder)
         {
-            if (sortOrder == NewsComponents.SortOrder.Ascending)
+            switch (sortOrder)
             {
-                return SortOrder.Ascending;
-            }
-            else if (sortOrder == NewsComponents.SortOrder.Descending)
-            {
-                return SortOrder.Descending;
-            }
-            else
-            {
-                return SortOrder.None;
+                case NewsComponents.SortOrder.Ascending:
+                    return SortOrder.Ascending;
+                case NewsComponents.SortOrder.Descending:
+                    return SortOrder.Descending;
+                default:
+                    return SortOrder.None;
             }
         }
 
         private static NewsComponents.SortOrder ConvertSortOrder(SortOrder sortOrder)
         {
-            if (sortOrder == SortOrder.Ascending)
+            switch (sortOrder)
             {
-                return NewsComponents.SortOrder.Ascending;
-            }
-            else if (sortOrder == SortOrder.Descending)
-            {
-                return NewsComponents.SortOrder.Descending;
-            }
-            else
-            {
-                return NewsComponents.SortOrder.None;
+                case SortOrder.Ascending:
+                    return NewsComponents.SortOrder.Ascending;
+                case SortOrder.Descending:
+                    return NewsComponents.SortOrder.Descending;
+                default:
+                    return NewsComponents.SortOrder.None;
             }
         }
     }

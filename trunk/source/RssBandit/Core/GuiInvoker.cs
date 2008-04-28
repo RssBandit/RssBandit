@@ -14,12 +14,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace System
-{
-    // TODO: Remove when switching to .NET 3.5
-    public delegate void Action();
-}
-
 namespace RssBandit
 {
     /// <summary>

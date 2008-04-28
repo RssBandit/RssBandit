@@ -21,28 +21,21 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using NewsComponents.Collections;
+using NewsComponents.Feed;
 using NewsComponents.News;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
-using NewsComponents.Feed;
 
 namespace NewsComponents
-{    
-
-
-   
-
+{
     /// <summary>
     /// Represents an RSS enclosure
     /// </summary>
-    public class Enclosure: IEnclosure
+    public class Enclosure : IEnclosure
     {
         private readonly string mimeType;
         private readonly long length;
-        private TimeSpan duration;
         private readonly string url;
-        private string description;
-        private bool downloaded;
 
         /// <summary>
         /// Constructor
@@ -56,7 +49,7 @@ namespace NewsComponents
             this.length = length;
             this.mimeType = mimeType;
             this.url = url;
-            this.description = description;
+            Description = description;
             Duration = TimeSpan.MinValue;
         }
 
@@ -65,10 +58,7 @@ namespace NewsComponents
         /// </summary>
         public string MimeType
         {
-            get
-            {
-                return mimeType;
-            }
+            get { return mimeType; }
         }
 
         /// <summary>
@@ -76,10 +66,7 @@ namespace NewsComponents
         /// </summary>
         public long Length
         {
-            get
-            {
-                return length;
-            }
+            get { return length; }
         }
 
         /// <summary>
@@ -87,119 +74,51 @@ namespace NewsComponents
         /// </summary>
         public string Url
         {
-            get
-            {
-                return url;
-            }
+            get { return url; }
         }
 
         /// <summary>
         /// The description associated with the item obtained via itunes:subtitle or media:title
         /// </summary>
-        public string Description
-        {
-            get
-            {
-                return description;
-            }
-            set
-            {
-                description = value;
-            }
-        }
+        public string Description { get; set; }
 
         /// <summary>
         /// Indicates whether this enclosure has already been downloaded or not.
         /// </summary>
-        public bool Downloaded
-        {
-            get
-            {
-                return downloaded;
-            }
-            set
-            {
-                downloaded = value;
-            }
-        }
+        public bool Downloaded { get; set; }
 
         /// <summary>
         /// Gets the playing time of the enclosure. 
         /// </summary>
-        public TimeSpan Duration
-        {
-            get
-            {
-                return duration;
-            }
-            set
-            {
-                duration = value;
-            }
-        }
-
-        /// <summary>
-        /// Compares to see if two Enclosures are identical. 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Enclosure);
-        }
+        public TimeSpan Duration { get; set; }
 
         public bool Equals(IEnclosure other)
         {
             return Equals(other as Enclosure);
         }
-
-		/// <summary>
-		/// Compares to see if two Enclosures are identical. Identity just checks to see if they have
-		/// the same link,
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
-        public bool Equals(Enclosure item)
+    
+        public bool Equals(Enclosure enclosure)
         {
-            if (item == null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, item))
-            {
-                return true;
-            }
-
-            if (String.Compare(Url, item.Url, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                return true;
-            }
-           
-            return false;
+            if (enclosure == null) return false;
+            return Equals(url, enclosure.url);
         }
 
-        /// <summary>
-        /// Get the hash code of the object
-        /// </summary>
-        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals(obj as Enclosure);
+        }
+
         public override int GetHashCode()
         {
-            if (string.IsNullOrEmpty(Url))
-            {
-                return String.Empty.GetHashCode();
-            }
-            else
-            {
-                return Url.GetHashCode();
-            }
+            return url != null ? url.GetHashCode() : 0;
         }
     }
 
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
-    public class NewsItem : RelationBase<INewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>,INotifyPropertyChanged
+    public class NewsItem : RelationBase<INewsItem>, INewsItem, ISizeInfo, IEquatable<NewsItem>, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets the Feed Link (Source Url)
@@ -221,10 +140,7 @@ namespace NewsComponents
         public string Link
         {
             [DebuggerStepThrough]
-            get
-            {
-                return HRef;
-            }
+            get { return HRef; }
         }
 
         /// <summary>
@@ -232,14 +148,8 @@ namespace NewsComponents
         /// </summary>
         public DateTime Date
         {
-            get
-            {
-                return aPointInTime;
-            }
-            set
-            {
-                base.PointInTime = value;
-            }
+            get { return aPointInTime; }
+            set { base.PointInTime = value; }
         }
 
 
@@ -256,10 +166,7 @@ namespace NewsComponents
         /// </summary>
         public INewsFeed Feed
         {
-            get
-            {
-                return p_feed;
-            }
+            get { return p_feed; }
         }
 
         private string p_title;
@@ -271,10 +178,7 @@ namespace NewsComponents
         /// </summary>
         public string ParentId
         {
-            get
-            {
-                return p_parentId;
-            }
+            get { return p_parentId; }
         }
 
         private string p_author;
@@ -287,10 +191,7 @@ namespace NewsComponents
         /// </summary>
         public string Content
         {
-            get
-            {
-                return p_content != null ? Encoding.UTF8.GetString(p_content) : null;
-            }
+            get { return p_content != null ? Encoding.UTF8.GetString(p_content) : null; }
         }
 
         void INewsItem.SetContent(string newContent, ContentType contentType)
@@ -335,10 +236,7 @@ namespace NewsComponents
         /// </remarks>
         public bool HasContent
         {
-            get
-            {
-                return (p_contentType != ContentType.None);
-            }
+            get { return (p_contentType != ContentType.None); }
         }
 
 
@@ -349,31 +247,22 @@ namespace NewsComponents
         /// </summary>
         public ContentType ContentType
         {
-            get
-            {
-                return p_contentType;
-            }
-            set
-            {
-                p_contentType = value;
-            }
+            get { return p_contentType; }
+            set { p_contentType = value; }
         }
 
-        protected bool p_beenRead = false;
+        protected bool p_beenRead;
 
         /// <summary>
         /// Indicates whether the story has been read or not. 
         /// </summary>
         public bool BeenRead
         {
-            get
-            {
-                return p_beenRead;
-            }
+            get { return p_beenRead; }
             set
             {
                 p_beenRead = value;
-                this.OnPropertyChanged("BeenRead");
+                OnPropertyChanged("BeenRead");
             }
         }
 
@@ -384,14 +273,8 @@ namespace NewsComponents
         /// </summary>
         public IFeedDetails FeedDetails
         {
-            get
-            {
-                return feedInfo;
-            }
-            set
-            {
-                feedInfo = value;
-            }
+            get { return feedInfo; }
+            set { feedInfo = value; }
         }
 
         protected Flagged p_flagStatus = Flagged.None;
@@ -401,14 +284,11 @@ namespace NewsComponents
         /// </summary>
         public Flagged FlagStatus
         {
-            get
-            {
-                return p_flagStatus;
-            }
+            get { return p_flagStatus; }
             set
             {
                 p_flagStatus = value;
-                this.OnPropertyChanged("FlagStatus");
+                OnPropertyChanged("FlagStatus");
             }
         }
 
@@ -419,14 +299,8 @@ namespace NewsComponents
         /// </summary>
         public bool HasNewComments
         {
-            get
-            {
-                return p_hasNewComments;
-            }
-            set
-            {
-                p_hasNewComments = value;
-            }
+            get { return p_hasNewComments; }
+            set { p_hasNewComments = value; }
         }
 
         protected bool p_watchComments;
@@ -436,14 +310,8 @@ namespace NewsComponents
         /// </summary>
         public bool WatchComments
         {
-            get
-            {
-                return p_watchComments;
-            }
-            set
-            {
-                p_watchComments = value;
-            }
+            get { return p_watchComments; }
+            set { p_watchComments = value; }
         }
 
         protected string p_language;
@@ -464,15 +332,9 @@ namespace NewsComponents
                 {
                     return feedInfo.Language;
                 }
-                else
-                {
-                    return p_language;
-                }
+                return p_language;
             }
-            set
-            {
-                p_language = value;
-            }
+            set { p_language = value; }
         }
 
 
@@ -481,7 +343,6 @@ namespace NewsComponents
         /// </summary>
         protected NewsItem()
         {
-            ;
         }
 
 
@@ -490,21 +351,21 @@ namespace NewsComponents
         /// input INewsFeed. 
         /// </summary>
         /// <returns>A copy of this NewsItem</returns>
-        public NewsItem (INewsFeed parent, INewsItem item)
+        public NewsItem(INewsFeed parent, INewsItem item)
             : this(parent, item.Title, item.Link, null, item.Date, item.Subject, item.Id, item.ParentId)
         {
-            this.OptionalElements = (Hashtable)OptionalElements.Clone();
-            this.p_beenRead = item.BeenRead;
-            this.p_author = item.Author;
-            this.p_flagStatus = item.FlagStatus;
-            this.SetContent(item.Content, item.ContentType); 
-            this.p_contentType = item.ContentType;
-            this.commentUrl = item.CommentUrl;
-            this.commentRssUrl = item.CommentRssUrl;
-            this.commentCount = item.CommentCount;
-            this.commentStyle = item.CommentStyle;
-            this.p_watchComments = item.WatchComments;
-            this.p_hasNewComments = item.HasNewComments;
+            OptionalElements = (Hashtable) OptionalElements.Clone();
+            p_beenRead = item.BeenRead;
+            p_author = item.Author;
+            p_flagStatus = item.FlagStatus;
+            SetContent(item.Content, item.ContentType);
+            p_contentType = item.ContentType;
+            commentUrl = item.CommentUrl;
+            commentRssUrl = item.CommentRssUrl;
+            commentCount = item.CommentCount;
+            commentStyle = item.CommentStyle;
+            p_watchComments = item.WatchComments;
+            p_hasNewComments = item.HasNewComments;
         }
 
         /// <summary>
@@ -663,7 +524,7 @@ namespace NewsComponents
             // now check for a valid identifier (needed to remember read stories)
             if (p_id == null)
             {
-                int hc = (p_title != null ? p_title.GetHashCode() : 0) +
+                var hc = (p_title != null ? p_title.GetHashCode() : 0) +
                          (HasContent ? Content.GetHashCode() : 0);
                 p_id = hc.ToString();
             }
@@ -683,20 +544,17 @@ namespace NewsComponents
                     ProcessOutGoingLinks(content);
                 }
 
-                bool idEqHref = ReferenceEquals(HRef, p_id);
+                var idEqHref = ReferenceEquals(HRef, p_id);
 
                 if (null != HRef)
                     HRef = RelationCosmos.RelationCosmos.UrlTable.Add(HRef);
 
-                if (idEqHref)
-                    p_id = HRef;
-                else
-                    p_id = RelationCosmos.RelationCosmos.UrlTable.Add(p_id);
+                p_id = idEqHref ? HRef : RelationCosmos.RelationCosmos.UrlTable.Add(p_id);
 
-                if (null != p_parentId && p_parentId.Length > 0)
+                if (!string.IsNullOrEmpty(p_parentId))
                 {
                     // dealing with the relationcosmos string comparer (references only!):
-                    string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
+                    var p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
                         NntpParser.CreateGoogleUrlFromID(p_parentId));
 
                     if (ReferenceEquals(outgoingRelationships, GetList<string>.Empty))
@@ -712,11 +570,11 @@ namespace NewsComponents
 
         private string subject;
         private SupportedCommentStyle commentStyle;
-        private string commentUrl = null;
-        private string commentRssUrl = null;
+        private string commentUrl;
+        private string commentRssUrl;
         private int commentCount = NoComments;
         private Hashtable optionalElements;
-        private List<IEnclosure> enclosures = null;
+        private List<IEnclosure> enclosures;
 
         ///<summary>
         ///numeric value that indicates that no comments exist for an item
@@ -771,7 +629,7 @@ namespace NewsComponents
                 {
                     // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                     // internally we use the unexpanded version to work with
-                    string t = HtmlHelper.StripAnyTags(p_author);
+                    var t = HtmlHelper.StripAnyTags(p_author);
                     if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                     {
                         //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -779,15 +637,10 @@ namespace NewsComponents
                     }
                     return t;
                 }
-                else
-                {
-                    return p_author;
-                }
+                
+                return p_author;
             }
-            set
-            {
-                p_author = value;
-            }
+            set { p_author = value; }
         }
 
 
@@ -800,7 +653,7 @@ namespace NewsComponents
             {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                string t = HtmlHelper.StripAnyTags(p_title);
+                var t = HtmlHelper.StripAnyTags(p_title);
                 if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                 {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -808,10 +661,7 @@ namespace NewsComponents
                 }
                 return t.Trim();
             }
-            set
-            {
-                p_title = (value ?? String.Empty);
-            }
+            set { p_title = (value ?? String.Empty); }
         }
 
         /// <summary>
@@ -823,7 +673,7 @@ namespace NewsComponents
             {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                string t = HtmlHelper.StripAnyTags(subject);
+                var t = HtmlHelper.StripAnyTags(subject);
                 if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                 {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -831,10 +681,7 @@ namespace NewsComponents
                 }
                 return t;
             }
-            set
-            {
-                subject = (value ?? String.Empty);
-            }
+            set { subject = (value ?? String.Empty); }
         }
 
         /// <summary>
@@ -842,14 +689,8 @@ namespace NewsComponents
         /// </summary>
         public SupportedCommentStyle CommentStyle
         {
-            get
-            {
-                return commentStyle;
-            }
-            set
-            {
-                commentStyle = value;
-            }
+            get { return commentStyle; }
+            set { commentStyle = value; }
         }
 
         /// <summary>
@@ -857,40 +698,22 @@ namespace NewsComponents
         /// </summary>
         public int CommentCount
         {
-            get
-            {
-                return commentCount;
-            }
-            set
-            {
-                commentCount = value;
-            }
+            get { return commentCount; }
+            set { commentCount = value; }
         }
 
         /// <summary>the URL to post comments to</summary>
         public string CommentUrl
         {
-            get
-            {
-                return commentUrl;
-            }
-            set
-            {
-                commentUrl = value;
-            }
+            get { return commentUrl; }
+            set { commentUrl = value; }
         }
 
         /// <summary>the URL to get an RSS feed of comments from</summary>
         public string CommentRssUrl
         {
-            get
-            {
-                return commentRssUrl;
-            }
-            set
-            {
-                commentRssUrl = value;
-            }
+            get { return commentRssUrl; }
+            set { commentRssUrl = value; }
         }
 
 
@@ -900,14 +723,8 @@ namespace NewsComponents
         /// </summary>
         public List<IEnclosure> Enclosures
         {
-            get
-            {
-                return enclosures;
-            }
-            set
-            {
-                enclosures = value;
-            }
+            get { return enclosures; }
+            set { enclosures = value; }
         }
 
         /// <summary>
@@ -942,14 +759,8 @@ namespace NewsComponents
         /// </summary>
         public List<string> OutGoingLinks
         {
-            get
-            {
-                return outgoingRelationships;
-            }
-            internal set
-            {
-                outgoingRelationships = value;
-            }
+            get { return outgoingRelationships; }
+            internal set { outgoingRelationships = value; }
         }
 
         /// <summary>
@@ -958,7 +769,7 @@ namespace NewsComponents
         /// <returns>A copy of this NewsItem</returns>
         public object Clone()
         {
-            NewsItem item = new NewsItem(p_feed, p_title, HRef, null, Date, subject, p_id, p_parentId);
+            var item = new NewsItem(p_feed, p_title, HRef, null, Date, subject, p_id, p_parentId);
             item.OptionalElements = (Hashtable) OptionalElements.Clone();
             item.p_beenRead = p_beenRead;
             item.p_author = p_author;
@@ -981,7 +792,7 @@ namespace NewsComponents
         /// <returns></returns>
         public INewsItem Clone(INewsFeed f)
         {
-            NewsItem newItem = (NewsItem) Clone();
+            var newItem = (NewsItem) Clone();
             newItem.p_feed = f;
             return newItem;
         }
@@ -999,19 +810,19 @@ namespace NewsComponents
             writer.WriteStartElement("item");
 
             // xml:lang attribute
-            if ((p_language != null) && (p_language.Length != 0))
+            if (!string.IsNullOrEmpty(p_language))
             {
                 writer.WriteAttributeString("xml", "lang", null, p_language);
             }
 
             // <title />
-            if ((p_title != null) && (p_title.Length != 0))
+            if (!string.IsNullOrEmpty(p_title))
             {
                 writer.WriteElementString("title", p_title);
             }
 
             // <link /> 
-            if ((HRef != null) && (HRef.Length != 0))
+            if (!string.IsNullOrEmpty(HRef))
             {
                 writer.WriteElementString("link", HRef);
             }
@@ -1027,13 +838,13 @@ namespace NewsComponents
             }
 
             // <category />
-            if ((subject != null) && (subject.Length != 0))
+            if (!string.IsNullOrEmpty(subject))
             {
                 writer.WriteElementString("category", subject);
             }
 
             //<guid>
-            if ((p_id != null) && (p_id.Length != 0) && (p_id.Equals(HRef) == false))
+            if (!string.IsNullOrEmpty(p_id) && (p_id.Equals(HRef) == false))
             {
                 writer.WriteStartElement("guid");
                 writer.WriteAttributeString("isPermaLink", "false");
@@ -1042,13 +853,13 @@ namespace NewsComponents
             }
 
             //<dc:creator>
-            if ((p_author != null) && (p_author.Length != 0))
+            if (!string.IsNullOrEmpty(p_author))
             {
                 writer.WriteElementString("creator", "http://purl.org/dc/elements/1.1/", p_author);
             }
 
             //<annotate:reference>
-            if ((p_parentId != null) && (p_parentId.Length != 0))
+            if (!string.IsNullOrEmpty(p_parentId))
             {
                 writer.WriteStartElement("annotate", "reference", "http://purl.org/rss/1.0/modules/annotate/");
                 writer.WriteAttributeString("rdf", "resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", p_parentId);
@@ -1070,7 +881,7 @@ namespace NewsComponents
             }
 
             //<wfw:comment />
-            if ((commentUrl != null) && (commentUrl.Length != 0))
+            if (!string.IsNullOrEmpty(commentUrl))
             {
                 if (commentStyle == SupportedCommentStyle.CommentAPI)
                 {
@@ -1081,7 +892,7 @@ namespace NewsComponents
             }
 
             //<wfw:commentRss />
-            if ((commentRssUrl != null) && (commentRssUrl.Length != 0))
+            if (!string.IsNullOrEmpty(commentRssUrl))
             {
                 writer.WriteStartElement("wfw", "commentRss", RssHelper.NsCommentAPI);
                 writer.WriteString(commentRssUrl);
@@ -1149,7 +960,7 @@ namespace NewsComponents
 
             //<rssbandit:outgoing-links />            
             writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
-            foreach (string outgoingLink in OutGoingLinks)
+            foreach (var outgoingLink in OutGoingLinks)
             {
                 writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
             }
@@ -1237,9 +1048,11 @@ namespace NewsComponents
         /// <returns>An RSS item or RSS feed</returns>
         public String ToRssFeedOrItem(NewsItemSerializationFormat format, bool useGMTDate, bool noDescriptions)
         {
-            StringBuilder sb = new StringBuilder("");
-            XmlTextWriter writer = new XmlTextWriter(new StringWriter(sb));
-            writer.Formatting = Formatting.Indented;
+            var sb = new StringBuilder("");
+            var writer = new XmlTextWriter(new StringWriter(sb))
+                             {
+                                 Formatting = Formatting.Indented
+                             };
 
             if (format == NewsItemSerializationFormat.RssFeed || format == NewsItemSerializationFormat.NewsPaper)
             {
@@ -1259,7 +1072,7 @@ namespace NewsComponents
                 writer.WriteElementString("link", FeedDetails.Link);
                 writer.WriteElementString("description", FeedDetails.Description);
 
-                foreach (string s in FeedDetails.OptionalElements.Values)
+                foreach (var s in FeedDetails.OptionalElements.Values)
                 {
                     writer.WriteRaw(s);
                 }
@@ -1323,7 +1136,7 @@ namespace NewsComponents
         private void ProcessTitle(string content)
         {
             //if no title provided then use first 8 words of description						
-            if ((p_title == null) || (p_title.Length == 0))
+            if (string.IsNullOrEmpty(p_title))
             {
                 p_title = GetFirstWords(HtmlHelper.StripAnyTags(content), 8);
             }
@@ -1410,10 +1223,10 @@ namespace NewsComponents
         /// <returns>An XPathNavigator</returns>
         public XPathNavigator CreateNavigator(bool standalone, bool useGMTDate)
         {
-            NewsItemSerializationFormat format = (standalone
-                                                      ? NewsItemSerializationFormat.RssItem
-                                                      : NewsItemSerializationFormat.RssFeed);
-            XPathDocument doc =
+            var format = (standalone
+                              ? NewsItemSerializationFormat.RssItem
+                              : NewsItemSerializationFormat.RssFeed);
+            var doc =
                 new XPathDocument(new XmlTextReader(new StringReader(ToString(format, useGMTDate))), XmlSpace.Preserve);
             return doc.CreateNavigator();
         }
@@ -1423,7 +1236,7 @@ namespace NewsComponents
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
-        {         
+        {
             return Id.GetHashCode();
         }
 
@@ -1457,7 +1270,7 @@ namespace NewsComponents
             {
                 return true;
             }
-           
+
             return false;
         }
 
@@ -1468,7 +1281,7 @@ namespace NewsComponents
         /// <returns>the NewsItem as an NNTP message string</returns>
         private string ToNntpMessage()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
 
             sb.Append("From: ");
@@ -1476,7 +1289,7 @@ namespace NewsComponents
 
             try
             {
-                Uri newsgroupUri = new Uri(FeedDetails.Link);
+                var newsgroupUri = new Uri(FeedDetails.Link);
                 sb.Append("\r\nNewsgroups: ");
                 sb.Append(newsgroupUri.AbsolutePath.Substring(1));
             }
@@ -1490,7 +1303,7 @@ namespace NewsComponents
             sb.Append("\r\nSubject: ");
             sb.Append(p_title);
 
-            if ((p_parentId != null) && (p_parentId.Length != 0))
+            if (!string.IsNullOrEmpty(p_parentId))
             {
                 sb.Append("\r\nReferences: ");
                 sb.Append(p_parentId);
@@ -1521,7 +1334,7 @@ namespace NewsComponents
         /// <returns></returns>
         public int GetSize()
         {
-            int l = StringHelper.SizeOfStr(p_id);
+            var l = StringHelper.SizeOfStr(p_id);
             l += StringHelper.SizeOfStr(Link);
             if (HasContent)
                 l += p_content.Length;
@@ -1569,7 +1382,7 @@ namespace NewsComponents
             }
         }
 
-        #endregion 
+        #endregion
     }
 
     /// <summary>
@@ -1622,17 +1435,14 @@ namespace NewsComponents
 
         #region Properties and Fields
 
-        private string summary = null;
+        private string summary;
 
         /// <summary>
         /// A text snippet from the actual content of the RSS item. 
         /// </summary>
         public string Summary
         {
-            get
-            {
-                return summary;
-            }
+            get { return summary; }
 
             set
             {
@@ -1643,11 +1453,11 @@ namespace NewsComponents
 
                 try
                 {
-                    XmlQualifiedName qname = new XmlQualifiedName("summary", "http://www.w3.org/2005/Atom");
+                    var qname = new XmlQualifiedName("summary", "http://www.w3.org/2005/Atom");
 
-                    using (StringWriter sw = new StringWriter())
+                    using (var sw = new StringWriter())
                     {
-                        XmlTextWriter xtw = new XmlTextWriter(sw);
+                        var xtw = new XmlTextWriter(sw);
                         xtw.WriteElementString(qname.Name, qname.Namespace, value);
                         xtw.Close();
 
@@ -1693,18 +1503,12 @@ namespace NewsComponents
 
         internal float Score
         {
-            get
-            {
-                return score;
-            }
+            get { return score; }
         }
 
         internal INewsItem Item
         {
-            get
-            {
-                return item;
-            }
+            get { return item; }
         }
     }
 }
