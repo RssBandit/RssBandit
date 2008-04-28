@@ -1163,7 +1163,7 @@ namespace NewsComponents.Feed
                 string folderDeleteUrl = FolderApiUrl + "/delete"; 
                 string body = "fld=" + folderId;
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderDeleteUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = AsyncWebRequest.DeleteSyncResponse(folderDeleteUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
