@@ -88,11 +88,8 @@ namespace System.Windows.Forms.ThListView
 			} 
 		} 
 
-#if CLR_20
 		public new ThreadedListViewColumnHeader this[string columnID] {
-#else
-		public ThreadedListViewColumnHeader this[string columnID] { 
-#endif
+
 			get { 
 				if (columnID == null)
 					throw new ArgumentNullException("columnID");

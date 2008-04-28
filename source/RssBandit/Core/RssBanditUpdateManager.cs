@@ -17,12 +17,9 @@ using Logger = RssBandit.Common.Logging;
 
 using RssBandit.WinGui.Forms;
 
-#if CLR_20
 using ClrMappedWebReference = RssBandit.CLR20.RssBandit.UpdateService;
 using System.ComponentModel;
-#else // CLR_11 
-using ClrMappedWebReference = RssBandit.UpdateService;
-#endif
+
 
 namespace RssBandit
 {
