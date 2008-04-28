@@ -160,9 +160,7 @@ namespace RssBandit.WinGui.Menus {
 		protected event ExecuteCommandHandler OnExecute;
 		protected string description = String.Empty;
 		protected int imageIndex;
-#if !CLR_20
-		private object tag = null;
-#endif
+
 		public AppContextMenuCommand()
 		{
 			
@@ -229,12 +227,6 @@ namespace RssBandit.WinGui.Menus {
 			}
 		}
 
-#if !CLR_20
-		public object Tag {
-			get { return tag; }
-			set { tag = value; }
-		}
-#endif
 
 		#region ICommandComponent implementation: abstract from the concrete Base class
 

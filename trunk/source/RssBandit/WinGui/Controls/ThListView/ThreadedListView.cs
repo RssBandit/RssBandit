@@ -268,12 +268,8 @@ namespace System.Windows.Forms.ThListView
          Description("collection of available groups (manually added)"),
          Editor(typeof (CollectionEditor), typeof (UITypeEditor)),
          Category("Grouping")]
-#if CLR_20
             public new ThreadedListViewGroupCollection Groups
         {
-#else
-		public ThreadedListViewGroupCollection Groups{
-#endif
             get { return _groups; }
         }
 

@@ -20,7 +20,6 @@ using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-#if CLR_20
 using log4net;
 using RssBandit.CLR20.com.newsgator.services;
 using RssBandit.CLR20.com.newsgator.services1;
@@ -35,14 +34,6 @@ using NgosFolder = RssBandit.CLR20.com.newsgator.services1;
 using NgosFeed = RssBandit.CLR20.com.newsgator.services2;
 using NgosSubscription = RssBandit.CLR20.com.newsgator.services3;
 using NgosPostItem = RssBandit.CLR20.com.newsgator.services4;
-#else // CLR_11 
-using ClrMappedWebReference = RssBandit.DasBlog;
-using NgosLocation = RssBandit.com.newsgator.services;
-using NgosFolder = RssBandit.com.newsgator.services1;
-using NgosFeed = RssBandit.com.newsgator.services2;
-using NgosSubscription = RssBandit.com.newsgator.services3;
-using NgosPostItem = RssBandit.com.newsgator.services4;
-#endif
 using ICSharpCode.SharpZipLib.Zip;
 using Logger = RssBandit.Common.Logging;
 using NewsComponents;
