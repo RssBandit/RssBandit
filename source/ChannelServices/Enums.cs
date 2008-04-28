@@ -2,7 +2,9 @@ using System;
 
 namespace NewsComponents
 {
-
+	/// <summary>
+	/// NewsItem description feed types.
+	/// </summary>
 	public enum FeedType {
 		/// <summary>
 		/// RSS Feed (RSS1/2.x, Atom). Handled by RssParser
