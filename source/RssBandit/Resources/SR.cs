@@ -4077,6 +4077,22 @@ namespace RssBandit.Resources
 				return Keys.GetString(Keys.XsltDefaultTemplate_ToggleWatchState);
 			}
 		}
+
+        public static string XsltDefaultTemplate_ToggleShareState
+        {
+            get
+            {
+                return Keys.GetString(Keys.XsltDefaultTemplate_ToggleShareState);
+            }
+        }
+
+        public static string XsltDefaultTemplate_ToggleClipState
+        {
+            get
+            {
+                return Keys.GetString(Keys.XsltDefaultTemplate_ToggleClipState);
+            }
+        }
 		
 		public static string URL_BugReport
 		{
@@ -6350,6 +6366,10 @@ namespace RssBandit.Resources
 			public const string XsltDefaultTemplate_ToggleFlagState = "XsltDefaultTemplate_ToggleFlagState";
 			
 			public const string XsltDefaultTemplate_ToggleWatchState = "XsltDefaultTemplate_ToggleWatchState";
+
+            public const string XsltDefaultTemplate_ToggleShareState = "XsltDefaultTemplate_ToggleShareState";
+
+            public const string XsltDefaultTemplate_ToggleClipState = "XsltDefaultTemplate_ToggleClipState";
 			
 			public const string URL_BugReport = "URL_BugReport";
 			

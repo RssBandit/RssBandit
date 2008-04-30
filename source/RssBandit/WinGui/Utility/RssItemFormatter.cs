@@ -337,6 +337,24 @@ namespace RssBandit.WinGui.Utility
 			public string ToggleWatchStateText() {
 				return SR.XsltDefaultTemplate_ToggleWatchState;
 			}
+
+            /// <summary>
+            /// Gets the localized text to indicate toggle of Google Reader shared state.
+            /// </summary>
+            /// <returns></returns>
+            public string ToggleShareStateText()
+            {
+                return SR.XsltDefaultTemplate_ToggleShareState;
+            }
+
+            /// <summary>
+            /// Gets the localized text to indicate toggle of NewsGator Online clipped state.
+            /// </summary>
+            /// <returns></returns>
+            public string ToggleClipStateText()
+            {
+                return SR.XsltDefaultTemplate_ToggleClipState;
+            }
 		}
 
 		#endregion

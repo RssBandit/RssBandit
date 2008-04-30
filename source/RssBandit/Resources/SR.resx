@@ -2123,6 +2123,12 @@ Do you want to continue?</value>
   <data name="XsltDefaultTemplate_ToggleWatchState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>Watch or stop watching comments</value>
   </data>
+  <data name="XsltDefaultTemplate_ToggleShareState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Share or unshare item in Google Reader</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleClipState" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>Add or remove item from clippings folder in NewsGator Online</value>
+  </data>
   <data name="URL_BugReport" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
     <comment> some urls as fallback if invalid or missing in .config</comment>

@@ -56,6 +56,24 @@ namespace NewsComponents.Feed
     {
         private static readonly ILog _log = Log.GetLogger(typeof (RssParser));
 
+
+        /// <summary>
+        /// Name of the element used to indicate whether a node has been shared in Google Reader
+        /// </summary>
+        private static readonly XmlQualifiedName GR_broadcastQName = new XmlQualifiedName("broadcast", "http://www.google.com/reader/");
+
+        /// <summary>
+        /// A node that indicates that an element has not been shared in Google Reader
+        /// </summary>
+        private static readonly string broadcastNodeFalse = "<broadcast xmlns='http://www.google.com/reader/'>0</broadcast>";
+
+
+        /// <summary>
+        /// A node that indicates that an element has been shared in Google Reader
+        /// </summary>
+        private static readonly string broadcastNodeTrue = "<broadcast xmlns='http://www.google.com/reader/'>1</broadcast>"; 
+
+
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
@@ -1062,6 +1080,11 @@ namespace NewsComponents.Feed
 
                     if (reader["scheme"]!= null && reader.GetAttribute("scheme").Equals("http://www.google.com/reader/"))
                     {
+                        //This is a google reader feed. Put broadcast marker in optional elements
+                        if(!optionalElements.ContainsKey(GR_broadcastQName)){
+                            optionalElements.Add(GR_broadcastQName, broadcastNodeFalse); 
+                        }
+
                         if (reader["label"] != null)  
                         {
                             if (reader.GetAttribute("label").Equals("read"))
@@ -1071,6 +1094,11 @@ namespace NewsComponents.Feed
                             else if (reader.GetAttribute("label").Equals("starred"))
                             {
                                 flagStatus = Flagged.Review;
+                            }
+                            else if (reader.GetAttribute("label").Equals("broadcast"))
+                            {
+                                optionalElements.Remove(GR_broadcastQName);
+                                optionalElements.Add(GR_broadcastQName, broadcastNodeTrue);
                             }
                         } 
                     }
