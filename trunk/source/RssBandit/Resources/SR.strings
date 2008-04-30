@@ -698,6 +698,8 @@ XsltDefaultTemplate_ItemEnclosure = Enclosure
 XsltDefaultTemplate_ToggleReadState = Mark read or unread
 XsltDefaultTemplate_ToggleFlagState = Set or clear flag
 XsltDefaultTemplate_ToggleWatchState = Watch or stop watching comments
+XsltDefaultTemplate_ToggleShareState = Share or unshare item in Google Reader
+XsltDefaultTemplate_ToggleClipState = Add or remove item from clippings folder in NewsGator Online
 
 ; some urls as fallback if invalid or missing in .config
 URL_BugReport = http://sourceforge.net/tracker/?atid=615248&group_id=96589&func=browse
