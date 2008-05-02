@@ -31,7 +31,7 @@ namespace NewsComponents.Feed
         DeleteLabel = 40,
         MarkAllItemsRead = 61,
         MarkSingleItemRead = 60,
-        MarkSingleItemStarred = 59, 
+        MarkSingleItemTagged = 59, 
         MoveFeed  = 45,
         RenameFeed = 21,
         RenameLabel = 20,
@@ -269,8 +269,8 @@ namespace NewsComponents.Feed
                         source.ChangeItemReadStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, (bool) current.Parameters[2]); 
                         break;
 
-                    case GoogleReaderOperation.MarkSingleItemStarred:
-                        source.ChangeItemStarredStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, (bool)current.Parameters[2]);
+                    case GoogleReaderOperation.MarkSingleItemTagged:
+                        source.ChangeItemTaggedStateInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string, current.Parameters[2] as string, (bool)current.Parameters[3]);
                         break;
 
                     case GoogleReaderOperation.MoveFeed:
@@ -505,15 +505,16 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Enqueues an event to star or unstar an item in Google Reader
+        /// Enqueues an event to tag or untag an item in Google Reader
         /// </summary>
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>            
         /// <param name="feedId">The ID of the parent feed in Google Reader</param>
         /// <param name="itemId">The atom:id of the news item</param>        
-        /// <param name="starred">Indicates whether the item was starred or unstarred</param>
-        public void ChangeItemStarredStateInGoogleReader(string googleUserID, string feedId, string itemId, bool starred)
+        /// <param name="tag">The tag that is being applied or removed</param>
+        /// <param name="tagged">Indicates whether the item was tagged or untagged</param>
+        public void ChangeItemTaggedStateInGoogleReader(string googleUserID, string feedId, string itemId, string tag, bool tagged)
         {
-            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkSingleItemStarred, new object[] { feedId, itemId, starred }, googleUserID);
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkSingleItemTagged, new object[] { feedId, itemId, tag, tagged }, googleUserID);
 
             lock (this.pendingGoogleReaderOperations)
             {
