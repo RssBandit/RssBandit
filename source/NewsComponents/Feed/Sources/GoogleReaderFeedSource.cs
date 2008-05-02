@@ -1157,7 +1157,7 @@ namespace NewsComponents.Feed
                     if (item.Feed != null)
                     {
                         GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
-                        GoogleReaderUpdater.ChangeItemStarredStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, item.FlagStatus != Flagged.None);
+                        GoogleReaderUpdater.ChangeItemTaggedStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, "starred", item.FlagStatus != Flagged.None);
                     }
                     break;
             }
@@ -1165,18 +1165,36 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-        /// Marks an item as starred or unstarred in Google Reader
+        /// Marks an item as shared or unshared in Google Reader
+        /// </summary>
+        ///<param name="item">The item to share. </param>
+        /// <param name="tagged">Indicates whether the item was shared or unshared</param>       
+        public void ShareNewsItem(INewsItem item, bool shared)
+        {
+            if (item != null)
+            {
+                GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
+                if (f != null)
+                {
+                    GoogleReaderUpdater.ChangeItemTaggedStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, "broadcast", shared);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks an item as tagged or unstarred in Google Reader
         /// </summary>
         /// <param name="feedId">The ID of the parent feed in Google Reader</param>
         /// <param name="itemId">The atom:id of the news item</param>        
-        /// <param name="starred">Indicates whether the item was starred or unstarred</param>
-        internal void ChangeItemStarredStateInGoogleReader(string feedId, string itemId, bool starred)
+        /// <param name="tag">The tag to apply or remove</param>
+        /// <param name="tagged">Indicates whether the item was tagged or untagged</param>
+        internal void ChangeItemTaggedStateInGoogleReader(string feedId, string itemId, string tag, bool tagged)
         {
             string itemReadUrl = apiUrlPrefix + "edit-tag";
-            string op = (starred ? "&a=" : "&r="); //are we adding or removing read label?
-            string starredLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/starred");
+            string op = (tagged ? "&a=" : "&r="); //are we adding or removing read label?
+            string tagLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/" + tag);
 
-            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + starredLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
+            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + tagLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
