@@ -463,9 +463,13 @@ namespace NewsComponents.Feed {
             if (f != null && feedsTable.ContainsKey(f.link))
             {
                 IFeedFolder folder = String.IsNullOrEmpty(f.category) ? feedManager.RootFolder as IFeedFolder 
-                                                                      : feedManager.GetFolder(f.category) as IFeedFolder;
-                IFeed ifeed        = folder.GetFeed(f.title) as IFeed;
-                ifeed.Move(cat.Value);                                 
+                                                                      : feedManager.GetFolder(f.category) as IFeedFolder;                
+                IFeed ifeed = folder.GetFeed(f.title) as IFeed;
+
+                if (!folder.Path.Equals(cat.Value ?? String.Empty))
+                {
+                    ifeed.Move(cat.Value);
+                }
             }
         }
 
