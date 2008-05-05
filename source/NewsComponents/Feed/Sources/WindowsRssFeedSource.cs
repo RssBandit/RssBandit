@@ -443,6 +443,55 @@ namespace NewsComponents.Feed {
         }
 
 
+
+        /// <summary>
+        /// Changes the category of a particular INewsFeedCategory. This method should be when moving a category. Also 
+        /// changes the category of call child feeds and categories.   
+        /// </summary>        
+        /// <param name="cat">The category whose parent category to change</param>
+        /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
+        public override void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent)
+        { 
+            
+            if (cat == null)
+                throw new ArgumentNullException("cat");
+
+            WindowsRssNewsFeedCategory c = cat as WindowsRssNewsFeedCategory;
+
+            if (c != null)
+            {
+                IFeedFolder folder2move = feedManager.GetFolder(c.Value) as IFeedFolder;
+                string parentPath = parent == null ? String.Empty : parent.Value;
+                string oldCategory = c.Value; 
+                folder2move.Move(parentPath);
+                c.SetIFeedFolder(folder2move); //not sure we need to do this. 
+
+                /* fix up all IFeed references */ 
+                List<INewsFeedCategory> movedcategories = this.GetDescendantCategories(c);
+                movedcategories.Add(c);
+
+                foreach (INewsFeedCategory infc in movedcategories)
+                {
+                    var feeds2update = from f in this.feedsTable.Values
+                                       where oldCategory.Equals(f.category)
+                                       select f;
+
+                    if (feeds2update.Count() > 0)
+                    {
+                        foreach (WindowsRssNewsFeed feed in feeds2update)
+                        {
+                            IFeed ifeed = feedManager.GetFeedByUrl(feed.link) as IFeed; 
+                            feed.SetIFeed(ifeed); 
+                        }//foreach(INewsFeed...)
+                    }//if(feeds2update...)
+
+                }
+            }
+        }
+
+          
+
         /// <summary>
         /// Changes the category of a particular INewsFeed. This method should be used instead of setting
         /// the category property of the INewsFeed instance. 
@@ -871,7 +920,7 @@ namespace NewsComponents.Feed {
         public void FolderMovedTo(string Path, string oldPath)
         {
             INewsFeedCategory cat = this.categories[oldPath];
-            List<INewsFeedCategory> childCategories = this.GetChildCategories(cat);
+            List<INewsFeedCategory> childCategories = this.GetDescendantCategories(cat);
 
             //remove category and subcategories
             base.DeleteCategory(oldPath); 
@@ -2490,6 +2539,7 @@ namespace NewsComponents.Feed {
                         Marshal.ReleaseComObject(myfeed);
                     }
                     myfeed = feed;
+                    this.LoadItemsList(); //fixup object references to news items 
                 }
             }        
         }
@@ -3443,7 +3493,30 @@ namespace NewsComponents.Feed {
 
         #endregion
 
-        #region INewsFeedCategory implementation 
+        #region public methods 
+
+        /// <summary>
+        /// Sets the IFeedFolder object represented by this object
+        /// </summary>
+        /// <param name="folder">The IFeedFolder instance</param>
+        internal void SetIFeedFolder(IFeedFolder folder)
+        {
+            if (folder != null)
+            {
+                lock (this)
+                {
+                    if (myfolder != null)
+                    {
+                        Marshal.ReleaseComObject(myfolder);
+                    }
+                    myfolder = folder;
+                }
+            }
+        }
+
+        #endregion 
+
+        #region INewsFeedCategory implementation
 
         /// <remarks/>
         [XmlAttribute("mark-items-read-on-exit")]

@@ -69,8 +69,7 @@ namespace NewsComponents.Feed
             this.Action = action;
             this.Parameters = parameters;
             this.NewsGatorUserName = ngUserID;
-        }
-
+        }       
 
         /// <summary>
         /// Compares two objects for equality

@@ -6982,6 +6982,57 @@ namespace NewsComponents
         }
 
 
+           /// <summary>
+        /// Changes the category of a particular INewsFeedCategory. This method should be when moving a category. Also 
+        /// changes the category of call child feeds and categories. 
+        /// </summary>        
+        /// <param name="cat">The category whose parent category to change</param>
+        /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
+        public virtual void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent)
+        {
+            if (cat == null)
+                throw new ArgumentNullException("cat");
+
+            if (this.categories.ContainsKey(cat.Value))
+            {
+                int index = cat.Value.Length + 1;
+                List<INewsFeedCategory> categories2move = this.GetDescendantCategories(cat);
+                categories2move.Add(cat);
+
+                foreach (INewsFeedCategory c in categories2move)
+                {
+                    var feeds2move = from f in this.feedsTable.Values
+                                     where c.Value.Equals(f.category)
+                                     select f;
+
+                    if (feeds2move.Count() > 0)
+                    {
+                        foreach (INewsFeed feed in feeds2move)
+                        {
+                            if (parent == null)
+                            {
+                                feed.category = null;
+                            }
+                            else
+                            {                                 
+                                feed.category = parent.Value + FeedSource.CategorySeparator + feed.category.Substring(index); 
+                            }
+
+                        }//foreach(INewsFeed...)
+                    }//if(feeds2move...)
+
+                    INewsFeedCategory infc = this.categories[c.Value];
+                    string parentPath = parent == null ? String.Empty : parent.Value + FeedSource.CategorySeparator;
+                    infc.Value = parentPath + infc.Value.Substring(index); 
+
+                    this.categories.Remove(c.Value);
+                    this.categories.Add(infc.Value, infc); 
+
+                }//foreach(string c...)
+            }//if (this.categories.ContainsKey(cat.Value))
+        }
+
         /// <summary>
         /// Changes the category of a particular INewsFeed. This method should be used instead of setting
         /// the category property of the INewsFeed instance. 
@@ -7079,11 +7130,11 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Helper function that gets the child categories of the named category
+        /// Helper function that gets the descendant categories of the named category
         /// </summary>
         /// <param name="parent">The parent category</param>
-        /// <returns>The list of child categories</returns>
-        protected List<INewsFeedCategory> GetChildCategories(INewsFeedCategory parent)
+        /// <returns>The list of descendant categories</returns>
+        protected List<INewsFeedCategory> GetDescendantCategories(INewsFeedCategory parent)
         {
             var list = new List<INewsFeedCategory>();
 
