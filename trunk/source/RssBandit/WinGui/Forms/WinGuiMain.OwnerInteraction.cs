@@ -3084,24 +3084,23 @@ namespace RssBandit.WinGui.Forms
 
                 if (userInitiated)
                 {
-                    // refresh category store
+                    INewsFeedCategory source = null, parent = null; 
+                    
+                    //get source category
                     if (sourceCategory != null && owner.FeedHandler.HasCategory(sourceCategory))
                     {
-                        owner.FeedHandler.DeleteCategory(sourceCategory);
-                        changes |= NewsFeedProperty.FeedCategoryRemoved;
+                        source = owner.FeedHandler.GetCategories()[sourceCategory];
+                        changes |= NewsFeedProperty.FeedCategoryRemoved; //will be removed by ChangeCategory
                     }
-                    // target is the root node:
-                    if (targetCategory == null && !owner.FeedHandler.HasCategory(theNode.Text))
+                   
+                    // get target category if it isn't the root
+                    if (targetCategory != null && owner.FeedHandler.HasCategory(targetCategory))
                     {
-                        owner.FeedHandler.AddCategory(theNode.Text);
-                        changes |= NewsFeedProperty.FeedCategoryAdded;
+                        parent = owner.FeedHandler.GetCategories()[targetCategory];
+                        changes |= NewsFeedProperty.FeedCategoryAdded; //will be added by ChangeCategory
                     }
-                    // target is another category node:
-                    if (targetCategory != null && !owner.FeedHandler.HasCategory(targetCategory))
-                    {
-                        owner.FeedHandler.AddCategory(targetCategory);
-                        changes |= NewsFeedProperty.FeedCategoryAdded;
-                    }
+                     
+                    owner.FeedHandler.ChangeCategory(source, parent); 
                 }
 
                 treeFeeds.BeginUpdate();
@@ -3114,7 +3113,7 @@ namespace RssBandit.WinGui.Forms
 
                 // reset category references on feeds - after moving node to 
                 // have the correct FullPath info within this call:
-                WalkdownThenRenameFeedCategory(theNode, targetCategory);
+                /* WalkdownThenRenameFeedCategory(theNode, targetCategory); */ 
                 owner.SubscriptionModified(changes);
                 //owner.FeedlistModified = true;
 
