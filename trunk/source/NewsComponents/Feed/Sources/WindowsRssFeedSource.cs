@@ -464,8 +464,20 @@ namespace NewsComponents.Feed {
         /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
         /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
         public override void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent)
-        { 
-            
+        {
+            this.ChangeCategory(cat, parent, true); 
+        }
+
+            /// <summary>
+        /// Changes the category of a particular INewsFeedCategory. This method should be when moving a category. Also 
+        /// changes the category of call child feeds and categories.   
+        /// </summary>        
+        /// <param name="cat">The category whose parent category to change</param>
+        /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
+        /// <param name="moveFolder">Indicates whether the underlying folder in the Windows RSS platform should be moved.</param>
+        private void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent, bool moveFolder)
+        {
             if (cat == null)
                 throw new ArgumentNullException("cat");
 
@@ -473,18 +485,21 @@ namespace NewsComponents.Feed {
 
             if (c != null)
             {
-                IFeedFolder folder2move = feedManager.GetFolder(c.Value) as IFeedFolder;
                 string parentPath = parent == null ? String.Empty : parent.Value;
                 string originalCategory = c.Value;
                 int index = originalCategory.LastIndexOf(FeedSource.CategorySeparator);
-                index = (index == -1 ? 0 : index + 1); 
+                index = (index == -1 ? 0 : index + 1);
 
                 List<string> oldCategories = new List<string>();
                 oldCategories.AddRange(from oc in this.GetDescendantCategories(c) select oc.Value);
 
-                folder2move.Move(parentPath);
-                WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit = true;
-                c.SetIFeedFolder(folder2move);
+                if (moveFolder)
+                {
+                    IFeedFolder folder2move = feedManager.GetFolder(c.Value) as IFeedFolder;
+                    folder2move.Move(parentPath);
+                    WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit = true;
+                    c.SetIFeedFolder(folder2move);
+                }
 
                 /* fix up IFeedFolder references */
                 foreach (string str in oldCategories)
@@ -513,8 +528,12 @@ namespace NewsComponents.Feed {
                     }//foreach(INewsFeed...)
                 }//if(feeds2update...)
 
+                this.categories.Remove(originalCategory);
+                this.categories.Add(c.Value, c);
+                this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
+
             }//if(c!= null)
-            
+
         }
 
           
@@ -958,23 +977,9 @@ namespace NewsComponents.Feed {
 
 
             INewsFeedCategory cat = this.categories[oldPath];
-            List<INewsFeedCategory> childCategories = this.GetDescendantCategories(cat);
-
-            //remove category and subcategories
-            base.DeleteCategory(oldPath); 
-
-            //add moved category 
-            this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder, cat));
-
-            //add moved subcategories
-            foreach (INewsFeedCategory c in childCategories)
-            {
-                string newPath = Path + FeedSource.CategorySeparator + c.Value.Substring(c.Value.LastIndexOf(FeedSource.CategorySeparator) + 1);
-                this.categories.Add(newPath, new WindowsRssNewsFeedCategory(feedManager.GetFolder(newPath) as IFeedFolder, cat));
-            }
-
-            this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
-
+            category c = new category(Path);
+            this.ChangeCategory(cat, c, false); 
+         
             RaiseOnMovedCategory(new CategoryChangedEventArgs(oldPath, Path));
         }
 
