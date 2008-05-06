@@ -91,7 +91,19 @@ namespace NewsComponents.Feed {
         /// </summary>
         private IFeedFolderEvents_Event fw;
 
-       
+
+        /// <summary>
+        /// Indicates whether a folder moved event received from the Windows RSS platform was caused by RSS Bandit
+        /// </summary>
+        internal static bool folder_moved_event_caused_by_rssbandit = false;
+
+        /// <summary>
+        /// Synchronization point for folder_moved_event_caused_by_rssbandit
+        /// </summary>
+        /// <seealso cref="event_caused_by_rssbandit"/>
+        internal static Object folder_moved_event_caused_by_rssbandit_syncroot = new Object(); 
+
+
         /// <summary>
         /// Indicates whether an event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
@@ -463,31 +475,46 @@ namespace NewsComponents.Feed {
             {
                 IFeedFolder folder2move = feedManager.GetFolder(c.Value) as IFeedFolder;
                 string parentPath = parent == null ? String.Empty : parent.Value;
-                string oldCategory = c.Value; 
+                string originalCategory = c.Value;
+                int index = originalCategory.LastIndexOf(FeedSource.CategorySeparator);
+                index = (index == -1 ? 0 : index + 1); 
+
+                List<string> oldCategories = new List<string>();
+                oldCategories.AddRange(from oc in this.GetDescendantCategories(c) select oc.Value);
+
                 folder2move.Move(parentPath);
-                c.SetIFeedFolder(folder2move); //not sure we need to do this. 
+                WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit = true;
+                c.SetIFeedFolder(folder2move);
 
-                /* fix up all IFeed references */ 
-                List<INewsFeedCategory> movedcategories = this.GetDescendantCategories(c);
-                movedcategories.Add(c);
-
-                foreach (INewsFeedCategory infc in movedcategories)
+                /* fix up IFeedFolder references */
+                foreach (string str in oldCategories)
                 {
-                    var feeds2update = from f in this.feedsTable.Values
-                                       where oldCategory.Equals(f.category)
-                                       select f;
-
-                    if (feeds2update.Count() > 0)
-                    {
-                        foreach (WindowsRssNewsFeed feed in feeds2update)
-                        {
-                            IFeed ifeed = feedManager.GetFeedByUrl(feed.link) as IFeed; 
-                            feed.SetIFeed(ifeed); 
-                        }//foreach(INewsFeed...)
-                    }//if(feeds2update...)
-
+                    WindowsRssNewsFeedCategory movedCat = this.categories[str] as WindowsRssNewsFeedCategory;
+                    string newName = parentPath + (parentPath.Equals(String.Empty) ? String.Empty : FeedSource.CategorySeparator)
+                                     + str.Substring(index);
+                    movedCat.SetIFeedFolder(feedManager.GetFolder(newName) as IFeedFolder);
+                    this.categories.Remove(str);
+                    this.categories.Add(newName, movedCat);
                 }
-            }
+
+                /* fix up all IFeed references */
+                oldCategories.Add(originalCategory);
+
+                var feeds2update = from f in this.feedsTable.Values
+                                   where oldCategories.Contains(f.category ?? String.Empty)
+                                   select f;
+
+                if (feeds2update.Count() > 0)
+                {
+                    foreach (WindowsRssNewsFeed feed in feeds2update)
+                    {
+                        IFeed ifeed = feedManager.GetFeedByUrl(feed.link) as IFeed;
+                        feed.SetIFeed(ifeed);
+                    }//foreach(INewsFeed...)
+                }//if(feeds2update...)
+
+            }//if(c!= null)
+            
         }
 
           
@@ -518,6 +545,7 @@ namespace NewsComponents.Feed {
                 if (!folder.Path.Equals(cat.Value ?? String.Empty))
                 {
                     ifeed.Move(cat.Value);
+                    WindowsRssFeedSource.event_caused_by_rssbandit = true;
                 }
             }
         }
@@ -919,6 +947,16 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FolderMovedTo(string Path, string oldPath)
         {
+            lock (WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.folder_moved_event_caused_by_rssbandit = false;
+                    return;
+                }
+            }
+
+
             INewsFeedCategory cat = this.categories[oldPath];
             List<INewsFeedCategory> childCategories = this.GetDescendantCategories(cat);
 
@@ -1548,9 +1586,10 @@ namespace NewsComponents.Feed {
                 {
                     return myitem.PubDate;
                 }
-                catch (Exception) /* thrown if Windows RSS platform can't parse the date */
+                catch (Exception e) /* thrown if Windows RSS platform can't parse the date */
                 {
-                    return myitem.LastDownloadTime; 
+                    _log.Error("Exception in WindowsRssNewsItem.Date on attempting to read IFeedItem.PubDate:", e); 
+                    return DateTime.Now;                    
                 }
             }
             set { /* can't set IFeedItem.PubDate */ }
