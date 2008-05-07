@@ -1299,14 +1299,15 @@ namespace RssBandit
                         category = propertiesDialog.comboBox2.Text.Trim();
                     }
 
-                    if (category != null && !category.Equals(f.category))
+                    if (!String.Equals(category, f.category))
                     {                       
                         changes |= NewsFeedProperty.FeedCategory;
-                        if (!feedHandler.HasCategory(category))
+                        if (category != null && !feedHandler.HasCategory(category))
                         {
                             feedHandler.AddCategory(category);
                         }
-                        feedHandler.ChangeCategory(f, feedHandler.GetCategories()[category]);
+                        INewsFeedCategory targetCategory = category == null ? category : feedHandler.GetCategories()[category]; 
+                        feedHandler.ChangeCategory(f, targetCategory);
                         // find/create the target node:
                         TreeFeedsNodeBase target =
                             guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);

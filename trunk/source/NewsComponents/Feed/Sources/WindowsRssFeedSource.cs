@@ -549,21 +549,19 @@ namespace NewsComponents.Feed {
         {
             if (feed == null)
                 throw new ArgumentNullException("feed");
-
-            if (cat == null)
-                throw new ArgumentNullException("cat");
-
+        
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
 
             if (f != null && feedsTable.ContainsKey(f.link))
             {
-                IFeedFolder folder = String.IsNullOrEmpty(f.category) ? feedManager.RootFolder as IFeedFolder 
-                                                                      : feedManager.GetFolder(f.category) as IFeedFolder;                
-                IFeed ifeed = folder.GetFeed(f.title) as IFeed;
+                IFeedFolder folder = cat == null ? feedManager.RootFolder as IFeedFolder 
+                                                                      : feedManager.GetFolder(cat.Value) as IFeedFolder;
+                IFeed ifeed = feedManager.GetFeedByUrl(f.link) as IFeed;
 
-                if (!folder.Path.Equals(cat.Value ?? String.Empty))
+                if (!folder.Path.Equals(((IFeedFolder)(ifeed.Parent)).Path) ) 
                 {
                     ifeed.Move(cat.Value);
+                    f.SetIFeed(ifeed); 
                     WindowsRssFeedSource.event_caused_by_rssbandit = true;
                 }
             }
