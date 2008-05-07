@@ -560,7 +560,7 @@ namespace NewsComponents.Feed {
 
                 if (!folder.Path.Equals(((IFeedFolder)(ifeed.Parent)).Path) ) 
                 {
-                    ifeed.Move(cat.Value);
+                    ifeed.Move(folder.Path);
                     f.SetIFeed(ifeed); 
                     WindowsRssFeedSource.event_caused_by_rssbandit = true;
                 }
