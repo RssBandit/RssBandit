@@ -65,7 +65,7 @@
   </feed>
    <feed category='Comics'>
      <title>Dilbert</title>
-     <link>http://dwlt.net/tapestry/dilbert.rdf</link>
+     <link>http://feeds.feedburner.com/DilbertDailyStrip</link>
    </feed>
     <feed category='Comics'>
      <title>Peanuts</title>
