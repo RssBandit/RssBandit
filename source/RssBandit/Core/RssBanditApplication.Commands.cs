@@ -1306,7 +1306,7 @@ namespace RssBandit
                         {
                             feedHandler.AddCategory(category);
                         }
-                        INewsFeedCategory targetCategory = category == null ? category : feedHandler.GetCategories()[category]; 
+                        INewsFeedCategory targetCategory = category == null ? null : feedHandler.GetCategories()[category]; 
                         feedHandler.ChangeCategory(f, targetCategory);
                         // find/create the target node:
                         TreeFeedsNodeBase target =
