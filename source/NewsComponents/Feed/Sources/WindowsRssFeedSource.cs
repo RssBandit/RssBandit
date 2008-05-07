@@ -93,6 +93,19 @@ namespace NewsComponents.Feed {
 
 
         /// <summary>
+        /// Indicates whether a folder renamed event received from the Windows RSS platform was caused by RSS Bandit
+        /// </summary>
+        internal static bool folder_renamed_event_caused_by_rssbandit = false;
+
+        /// <summary>
+        /// Synchronization point for folder_renamed_event_caused_by_rssbandit
+        /// </summary>
+        /// <seealso cref="event_caused_by_rssbandit"/>
+        internal static Object folder_renamed_event_caused_by_rssbandit_syncroot = new Object(); 
+
+
+
+        /// <summary>
         /// Indicates whether a folder moved event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
         internal static bool folder_moved_event_caused_by_rssbandit = false;
@@ -591,13 +604,15 @@ namespace NewsComponents.Feed {
                     IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
                     if (folder != null)
                     {
-                        folder.Rename(newName);
+                        int index = newName.LastIndexOf(FeedSource.CategorySeparator) == -1 ?
+                            0 : newName.LastIndexOf(FeedSource.CategorySeparator) + 1; 
+                        folder.Rename(newName.Substring(index));
                         this.categories.Remove(oldName);
                         categories.Add(newName, new WindowsRssNewsFeedCategory(folder, cat));
                     }
                 }
 
-                WindowsRssFeedSource.event_caused_by_rssbandit = true;
+                WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit = true;
             }
         }
       
@@ -989,6 +1004,14 @@ namespace NewsComponents.Feed {
         /// <param name="oldPath"></param>
         public void FolderRenamed(string Path, string oldPath)
         {
+            lock (WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit_syncroot)
+            {
+                if (WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit)
+                {
+                    WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit = false;
+                    return;
+                }
+            }
 
             INewsFeedCategory cat = this.categories[oldPath];
             this.categories.Remove(oldPath);
