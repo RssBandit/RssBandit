@@ -593,27 +593,59 @@ namespace NewsComponents.Feed {
             if (StringHelper.EmptyTrimOrNull(newName))
                 throw new ArgumentNullException("newName");
 
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            if (this.categories.ContainsKey(oldName))
             {
+                WindowsRssNewsFeedCategory c = this.categories[oldName] as WindowsRssNewsFeedCategory;
+                List<string> oldCategories = new List<string>();
+                oldCategories.AddRange(from oc in this.GetDescendantCategories(c) select oc.Value);
 
-                if (this.categories.ContainsKey(oldName))
+                int o_index = oldName.LastIndexOf(FeedSource.CategorySeparator);
+                o_index = (o_index == -1 ? 0 : o_index + 1);
+               
+                IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
+
+                if (folder != null)
                 {
-                    WindowsRssNewsFeedCategory cat = this.categories[oldName] as WindowsRssNewsFeedCategory;
+                    int n_index = newName.LastIndexOf(FeedSource.CategorySeparator) == -1 ?
+                        0 : newName.LastIndexOf(FeedSource.CategorySeparator) + 1;
+                    folder.Rename(newName.Substring(n_index));
+                    WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit = true;
+                    c.SetIFeedFolder(folder);
 
+                    this.categories.Remove(oldName);                     
+                    categories.Add(newName, c);
 
-                    IFeedFolder folder = feedManager.GetFolder(oldName) as IFeedFolder;
-                    if (folder != null)
+                    /* fix up IFeedFolder references */
+                    foreach (string str in oldCategories)
                     {
-                        int index = newName.LastIndexOf(FeedSource.CategorySeparator) == -1 ?
-                            0 : newName.LastIndexOf(FeedSource.CategorySeparator) + 1; 
-                        folder.Rename(newName.Substring(index));
-                        this.categories.Remove(oldName);
-                        categories.Add(newName, new WindowsRssNewsFeedCategory(folder, cat));
+                        WindowsRssNewsFeedCategory movedCat = this.categories[str] as WindowsRssNewsFeedCategory;
+                        string name = newName + FeedSource.CategorySeparator + str.Substring(oldName.Length + 1);
+                        movedCat.SetIFeedFolder(feedManager.GetFolder(name) as IFeedFolder);
+                        this.categories.Remove(str);
+                        this.categories.Add(name, movedCat);
                     }
-                }
 
-                WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit = true;
-            }
+                    /* fix up all IFeed references */
+                    oldCategories.Add(oldName);
+
+                    var feeds2update = from f in this.feedsTable.Values
+                                       where oldCategories.Contains(f.category ?? String.Empty)
+                                       select f;
+
+                    if (feeds2update.Count() > 0)
+                    {
+                        foreach (WindowsRssNewsFeed feed in feeds2update)
+                        {
+                            IFeed ifeed = feedManager.GetFeedByUrl(feed.link) as IFeed;
+                            feed.SetIFeed(ifeed);
+                        }//foreach(INewsFeed...)
+                    }//if(feeds2update...)
+
+                 
+                    this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);                    
+                }//if (folder != null)
+            }// if (this.categories.ContainsKey(oldName))         
+                         
         }
       
 

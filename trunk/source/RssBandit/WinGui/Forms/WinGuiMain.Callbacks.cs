@@ -2475,31 +2475,10 @@ namespace RssBandit.WinGui.Forms
 
                 if (GetRoot(editedNode) == RootFolderType.MyFeeds)
                 {
-                    var newFullname = editedNode.CategoryStoreName;
-
-                    IDictionary<string, INewsFeedCategory> categories = owner.FeedHandler.GetCategories();
-                    var catList = new string[categories.Count];
-                    categories.Keys.CopyTo(catList, 0);
-                    // iterate on a copied list, so we can change the old one without
-                    // side effects
-                    foreach (var catKey in catList)
-                    {
-                        if (catKey.Equals(oldFullname) || catKey.StartsWith(oldFullname + FeedSource.CategorySeparator))
-                        {
-                            var newCatKey = newFullname + (catKey.Length == oldFullname.Length
-                                                               ?
-                                                                   String.Empty
-                                                               : catKey.Substring(oldFullname.Length));
-                            owner.FeedHandler.RenameCategory(catKey, newCatKey);
-                        }
-                    }
-
-                    // funny recursive part:
-                    // change category in feed manager 
-                    // (also updates tree node in UI)
-                    WalkdownThenRenameFeedCategory(editedNode, newFullname);
-                    owner.SubscriptionModified(NewsFeedProperty.FeedCategory);
-                    //owner.FeedlistModified = true;
+                    string newFullname = editedNode.CategoryStoreName;
+                    owner.FeedHandler.RenameCategory(oldFullname, newFullname); 
+       
+                    owner.SubscriptionModified(NewsFeedProperty.FeedCategory);                    
                 }
             }
         }

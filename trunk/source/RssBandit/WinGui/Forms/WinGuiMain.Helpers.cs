@@ -2260,45 +2260,7 @@ namespace RssBandit.WinGui.Forms
                 owner.FeedHandler.MarkAllCachedItemsAsRead(startNode.DataKey);
             }
         }
-
-        /// <summary>
-        /// Helper. Work recursive on the startNode down to the leaves.
-        /// Then rename categories on any FeedNode within owner.GetFeeds().
-        /// </summary>
-        /// <param name="startNode">Node to start with. The startNode itself is 
-        /// not considered on renaming.</param>
-        /// <param name="newCategory">new full category name (long name, with all the '\').</param>
-        private void WalkdownThenRenameFeedCategory(TreeFeedsNodeBase startNode, string newCategory)
-        {
-            if (startNode == null) return;
-            INewsFeed f;
-
-            if (startNode.Type == FeedNodeType.Feed)
-            {
-                f = owner.GetFeed(startNode.DataKey);
-                if (f != null)
-                {
-                    f.category = newCategory; // may be null: then it is the default category "[Unassigned feeds]"
-                    owner.FeedWasModified(f, NewsFeedProperty.FeedCategory);
-                    //owner.FeedlistModified = true;
-                }
-                if (newCategory != null && !owner.FeedHandler.HasCategory(newCategory))
-                    owner.FeedHandler.AddCategory(newCategory);
-            }
-            else
-            {
-                // other
-                for (var child = startNode.FirstNode; child != null; child = child.NextNode)
-                {
-                    if (child.Type == FeedNodeType.Feed)
-                        WalkdownThenRenameFeedCategory(child, child.Parent.CategoryStoreName);
-                    else
-                        WalkdownThenRenameFeedCategory(child, null /* BuildCategoryStoreName(child) */);
-                    // catname will be recalculated on each CategoryNode
-                }
-            }
-        }
-
+       
         /// <summary>
         /// Helper. Work recursive on the startNode down to the leaves.
         /// Then delete all child categories and FeedNode refs in owner.FeedHandler.
