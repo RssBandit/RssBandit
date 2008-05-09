@@ -6983,7 +6983,7 @@ namespace NewsComponents
 
 
            /// <summary>
-        /// Changes the category of a particular INewsFeedCategory. This method should be when moving a category. Also 
+        /// Changes the category of a particular INewsFeedCategory. This method should be used when moving a category. Also 
         /// changes the category of call child feeds and categories. 
         /// </summary>        
         /// <param name="cat">The category whose parent category to change</param>
@@ -6996,7 +6996,10 @@ namespace NewsComponents
 
             if (this.categories.ContainsKey(cat.Value))
             {
-                int index = cat.Value.Length + 1;
+                string parentPath = parent == null ? String.Empty : parent.Value;
+                int index = cat.Value.LastIndexOf(FeedSource.CategorySeparator);
+                index = (index == -1 ? 0 : index + 1);
+
                 List<INewsFeedCategory> categories2move = this.GetDescendantCategories(cat);
                 categories2move.Add(cat);
 
@@ -7005,29 +7008,21 @@ namespace NewsComponents
                     var feeds2move = from f in this.feedsTable.Values
                                      where c.Value.Equals(f.category)
                                      select f;
+                    
+                    string newCategory = parentPath + (parentPath.Equals(String.Empty) ? String.Empty : FeedSource.CategorySeparator)
+                            + c.Value.Substring(index);
 
                     if (feeds2move.Count() > 0)
                     {
                         foreach (INewsFeed feed in feeds2move)
                         {
-                            if (parent == null)
-                            {
-                                feed.category = null;
-                            }
-                            else
-                            {                                 
-                                feed.category = parent.Value + FeedSource.CategorySeparator + feed.category.Substring(index); 
-                            }
+                            feed.category = newCategory;
+                        }
+                    }
 
-                        }//foreach(INewsFeed...)
-                    }//if(feeds2move...)
-
-                    INewsFeedCategory infc = this.categories[c.Value];
-                    string parentPath = parent == null ? String.Empty : parent.Value + FeedSource.CategorySeparator;
-                    infc.Value = parentPath + infc.Value.Substring(index); 
-
-                    this.categories.Remove(c.Value);
-                    this.categories.Add(infc.Value, infc); 
+                    this.categories.Remove(c.Value);                 
+                    c.Value = newCategory;                     
+                    this.categories.Add(c.Value, c); 
 
                 }//foreach(string c...)
             }//if (this.categories.ContainsKey(cat.Value))
@@ -7065,7 +7060,8 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Renames the specified category
+        /// Renames the specified category. This method also renames the subcategories and the categories on the 
+        /// INewsFeed instances that are in the hierarchy.
         /// </summary>        
         /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
         /// of having this method do it automatically.</remarks>
@@ -7079,14 +7075,33 @@ namespace NewsComponents
             if (StringHelper.EmptyTrimOrNull(newName))
                 throw new ArgumentNullException("newName");
 
-            if (categories.ContainsKey(oldName))
+            if (this.categories.ContainsKey(oldName))
             {
-                var cat = categories[oldName];
-                categories.Remove(oldName);
+                INewsFeedCategory cat = categories[oldName];
+                List<INewsFeedCategory> categories2rename = this.GetDescendantCategories(cat);
+                categories2rename.Add(cat);
 
-                cat.Value = newName;
-                categories.Add(newName, cat);
-            }
+                foreach (INewsFeedCategory c in categories2rename)
+                {
+                    var feeds2rename = from f in this.feedsTable.Values
+                                     where c.Value.Equals(f.category)
+                                     select f;
+
+                    if (feeds2rename.Count() > 0)
+                    {                        
+                        foreach (INewsFeed feed in feeds2rename)
+                        {
+                            feed.category = newName + (c.Value.Equals(oldName) ? String.Empty : 
+                                FeedSource.CategorySeparator + c.Value.Substring(oldName.Length + 1) ) ;                          
+                        }
+                    }
+
+                    this.categories.Remove(c.Value);
+                    c.Value = newName + (c.Value.Equals(oldName) ? String.Empty :
+                                FeedSource.CategorySeparator + c.Value.Substring(oldName.Length + 1));                   
+                    this.categories.Add(c.Value, c);
+                }//foreach(string c...)
+            }//if (this.categories.ContainsKey(oldName))
         }
 
         /// <summary>
