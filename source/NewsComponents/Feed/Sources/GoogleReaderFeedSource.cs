@@ -34,7 +34,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from Google Reader. 
     /// </summary>
-    class GoogleReaderFeedSource : FeedSource
+    public class GoogleReaderFeedSource : FeedSource
     {
 
         #region private fields
@@ -152,7 +152,7 @@ namespace NewsComponents.Feed
         /// Gets or sets the Google Reader modifier
         /// </summary>
         /// <value>The GoogleReaderModifier instance used by all instances of this class.</value>
-        public GoogleReaderModifier GoogleReaderUpdater
+        internal GoogleReaderModifier GoogleReaderUpdater
         {
             get
             {

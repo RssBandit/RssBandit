@@ -66,7 +66,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
     /// </summary>
-    class NewsGatorFeedSource : FeedSource
+    public class NewsGatorFeedSource : FeedSource
     {
 
         #region private fields
@@ -207,7 +207,7 @@ namespace NewsComponents.Feed
         /// Gets or sets the NewsGator modifier modifier
         /// </summary>
         /// <value>The NewsGatorModifier instance used by all instances of this class.</value>
-        public NewsGatorModifier NewsGatorUpdater
+        internal NewsGatorModifier NewsGatorUpdater
         {
             get
             {
@@ -869,6 +869,25 @@ namespace NewsComponents.Feed
         #endregion 
 
         #region news item manipulation methods
+
+
+        /// <summary>
+        /// Marks an item as clipped or unclipped in NewsGator Online
+        /// </summary>
+        ///<param name="item">The item to clip. </param>
+        /// <param name="tagged">Indicates whether the item was clipped or unclipped</param>       
+        public void ClipNewsItem(INewsItem item, bool clipped)
+        {
+            if (item != null)
+            {
+                XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
+                if (elem != null)
+                {
+                    NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, clipped);
+
+                }
+            }
+        }
 
         /// <summary>
         /// Used to clip or unclip a post in NewsGator Online
