@@ -2825,9 +2825,19 @@ namespace RssBandit.WinGui.Forms
                 INewsItem item = (INewsItem)lvItem.Key;
                 GoogleReaderFeedSource source = item.Feed.owner as GoogleReaderFeedSource;
                 if (source != null) { 
-                    bool share; 
-                    XmlElement elem = RssHelper.GetOptionalElement(item, new System.Xml.XmlQualifiedName("broadcast", "http://www.google.com/reader/")); 
-                    share = elem == null ? true : elem.InnerText != "1"; 
+                    bool share = true; 
+                    XmlQualifiedName qname =  new System.Xml.XmlQualifiedName("broadcast", "http://www.google.com/reader/"); 
+                    XmlElement elem = RssHelper.GetOptionalElement(item, qname);
+                    if (elem == null)
+                    {
+                        elem = RssHelper.CreateXmlElement("gr", qname.Name, qname.Namespace, "1");
+                        item.OptionalElements.Add(qname, elem); 
+                    }
+                    else
+                    {
+                        share = elem.InnerText != "1";
+                        elem.InnerText = elem.InnerText == "1" ? "0" : "1"; 
+                    }
                     source.ShareNewsItem(item, share); 
                 }
             }
@@ -2847,9 +2857,19 @@ namespace RssBandit.WinGui.Forms
                 NewsGatorFeedSource source = item.Feed.owner as NewsGatorFeedSource;
                 if (source != null)
                 {
-                    bool clip;
-                    XmlElement elem = RssHelper.GetOptionalElement(item, new System.Xml.XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions"));
-                    clip = elem == null ? true : elem.InnerText != "True";
+                    bool clip = true;
+                    XmlQualifiedName qname = new System.Xml.XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions"); 
+                    XmlElement elem = RssHelper.GetOptionalElement(item, qname);
+                    if (elem == null)
+                    {
+                        elem = RssHelper.CreateXmlElement("ng", qname.Name, qname.Namespace, "True");
+                        item.OptionalElements.Add(qname, elem);
+                    }
+                    else
+                    {
+                        clip = elem.InnerText != "True";
+                        elem.InnerText = elem.InnerText == "True" ? "False" : "True";
+                    }
                     source.ClipNewsItem(item, clip);
                 }
             }
