@@ -9,6 +9,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
+using System.Xml; 
 using IEControl;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
@@ -2810,6 +2811,49 @@ namespace RssBandit.WinGui.Forms
             ToggleItemReadState(id, false);
         }
 
+
+         /// <summary>
+        /// Toggle's the Google Reader shared state of the identified RSS item
+        /// </summary>
+        /// <param name="id">The ID of the RSS item</param>
+        public void ToggleItemShareState(string id)
+        {
+            ThreadedListViewItem lvItem = GetListViewItem(id);
+
+            if (lvItem != null)
+            {                
+                INewsItem item = (INewsItem)lvItem.Key;
+                GoogleReaderFeedSource source = item.Feed.owner as GoogleReaderFeedSource;
+                if (source != null) { 
+                    bool share; 
+                    XmlElement elem = RssHelper.GetOptionalElement(item, new System.Xml.XmlQualifiedName("broadcast", "http://www.google.com/reader/")); 
+                    share = elem == null ? true : elem.InnerText != "1"; 
+                    source.ShareNewsItem(item, share); 
+                }
+            }
+        }
+
+        /// <summary>
+        /// Toggle's the NewsGator Online clipped state of the identified RSS item
+        /// </summary>
+        /// <param name="id">The ID of the RSS item</param>
+        public void ToggleItemClipState(string id)
+        {
+            ThreadedListViewItem lvItem = GetListViewItem(id);
+
+            if (lvItem != null)
+            {
+                INewsItem item = (INewsItem)lvItem.Key;
+                NewsGatorFeedSource source = item.Feed.owner as NewsGatorFeedSource;
+                if (source != null)
+                {
+                    bool clip;
+                    XmlElement elem = RssHelper.GetOptionalElement(item, new System.Xml.XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions"));
+                    clip = elem == null ? true : elem.InnerText != "True";
+                    source.ClipNewsItem(item, clip);
+                }
+            }
+        }
 
         /// <summary>
         /// Toggles the identified item's watchd state. 
