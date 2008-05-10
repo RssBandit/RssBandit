@@ -270,6 +270,9 @@ namespace NewsComponents.Feed
                     case NewsGatorOperation.MoveFeed:
                         source.ChangeFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break;
+                    case NewsGatorOperation.MoveFolder:
+                        source.MoveFolderInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
+                        break;
                     case NewsGatorOperation.RenameFeed:
                         source.RenameFeedInNewsGatorOnline(current.Parameters[0] as string, current.Parameters[1] as string);
                         break; 
@@ -556,11 +559,28 @@ namespace NewsComponents.Feed
             }
         }
 
+        /// <summary>
+        /// Enqueues a task to move a folder in NewsGator Online
+        /// </summary>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>        
+        /// <param name="folderId">The ID of the folder to move</param>
+        /// <param name="parentId">The ID of the new parent folder</param>
+        public void MoveFolderInNewsGatorOnline(string newsgatorUserID, string folderId, string parentId)
+        {
+            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.MoveFolder, new object[] { folderId, parentId }, newsgatorUserID);
+
+            lock (this.pendingNewsGatorOperations)
+            {
+                this.pendingNewsGatorOperations.Add(op);
+            }
+        }
+
           /// <summary>
         /// Enqueues a task to rename the specified category in NewsGator Online
         /// </summary>        
         /// <remarks>This method assumes that the caller will rename categories on INewsFeed instances directly instead
         /// of having this method do it automatically.</remarks>
+        /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>        
         /// <param name="oldName">The old name of the category</param>
         /// <param name="newName">The new name of the category</param>        
 

@@ -1173,6 +1173,44 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
+        /// Moves a folder in NewsGator Online
+        /// </summary>
+        /// <param name="folderId">The ID of the folder to move</param>
+        /// <param name="parentId">The ID of the new parent folder</param>
+        internal void MoveFolderInNewsGatorOnline(string folderId, string parentId)
+        {
+            string folderMoveUrl = FolderApiUrl + "/move";
+            string body = "fld=" + folderId + "&parentId=" + parentId;
+
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderMoveUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new WebException(response.StatusDescription);
+            }
+
+        }
+
+          /// <summary>
+        /// Changes the category of a particular INewsFeedCategory. This method should be used when moving a category. Also 
+        /// changes the category of call child feeds and categories. 
+        /// </summary>        
+        /// <param name="cat">The category whose parent category to change</param>
+        /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
+        /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
+        public override void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent)
+        {
+            if (this.categories.ContainsKey(cat.Value))
+            {
+                string folderId  = cat.AnyAttr.First(a => a.LocalName == "id").Value;
+                string parentId  = parent == null ? "0" : parent.AnyAttr.First(a => a.LocalName == "id").Value; 
+                
+                base.ChangeCategory(cat, parent);
+                NewsGatorUpdater.MoveFolderInNewsGatorOnline(this.NewsGatorUserName, folderId, parentId); 
+            }
+        }
+
+        /// <summary>
         /// Renames the specified folder in NewsGator Online
         /// </summary>
         /// <param name="oldName">The old name of the category</param>
