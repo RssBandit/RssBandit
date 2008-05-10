@@ -4348,6 +4348,14 @@ namespace RssBandit
                     {
                         guiMain.ToggleItemFlagState(webUrl.Substring(idIndex));
                     }
+                    else if (webUrl.IndexOf("toggleshare") != -1)
+                    {
+                        guiMain.ToggleItemShareState(webUrl.Substring(idIndex));
+                    }
+                    else if (webUrl.IndexOf("toggleclip") != -1)
+                    {
+                        guiMain.ToggleItemClipState(webUrl.Substring(idIndex));
+                    }
                     else if (webUrl.IndexOf("togglewatch") != -1)
                     {
                         guiMain.ToggleItemWatchState(webUrl.Substring(idIndex));
