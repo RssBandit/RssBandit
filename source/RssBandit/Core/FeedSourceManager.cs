@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using NewsComponents;
+using NewsComponents.Feed;
 
 namespace RssBandit
 {
@@ -25,13 +26,22 @@ namespace RssBandit
 	{
 		public readonly Guid SourceID;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ItemID"/> class.
+		/// </summary>
+		/// <param name="sourceID">The source ID.</param>
+		/// <param name="itemID">The item ID (the feed.id or category.id).</param>
 		public ItemID(Guid sourceID, string itemID)
 		{
-			this.SourceID = sourceID;
-			this._itemID = itemID;
+			SourceID = sourceID;
+			_itemID = itemID;
 		}
 
-		public string FeedUrl
+		/// <summary>
+		/// Gets or sets the item ID.
+		/// </summary>
+		/// <value>The item ID.</value>
+		public string ID
 		{
 			get { return _itemID; }
 			set { _itemID = value; }
@@ -59,31 +69,29 @@ namespace RssBandit
 		public FeedSourceID(FeedSource source, string name, int ordinal)
 		{
 			ID = new Guid();
-			_name = name;
-			_ordinal = ordinal;
+			Name = name;
+			Ordinal = ordinal;
 			Source = source;
 		}
 
-		public string Name
-		{
-			get { return _name; }
-			set { _name = value; }
-		}
-		private string _name;
+		/// <summary>
+		/// Gets or sets the name of the source.
+		/// </summary>
+		/// <value>The name.</value>
+		public string Name { get; set; }
 
-		public int Ordinal
-		{
-			get { return _ordinal; }
-			set { _ordinal = value; }
-		}
-		private int _ordinal;
+		/// <summary>
+		/// Gets or sets the ordinal position.
+		/// </summary>
+		/// <value>The ordinal.</value>
+		public int Ordinal { get; set; }
 
 		#region IComparable<FeedSourceID> Members
 
 		int IComparable<FeedSourceID>.CompareTo(FeedSourceID other)
 		{
 			if (other == null) return 1;
-			if (Object.ReferenceEquals(other, this) ||
+			if (ReferenceEquals(other, this) ||
 				Ordinal == other.Ordinal) return 0;
 			if (Ordinal > other.Ordinal) return 1;
 			return -1;
@@ -166,5 +174,17 @@ namespace RssBandit
 			return _feedSources[item.SourceID];
 		}
 
+		/// <summary>
+		/// Gets the source of a newsfeed.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		public FeedSourceID GetSourceOf(INewsFeed item)
+		{
+			foreach (FeedSourceID id in _feedSources.Values)
+				if (id.Source == item.owner)
+					return id;
+			return null;
+		}
 	}
 }
