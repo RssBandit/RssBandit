@@ -5,6 +5,7 @@
  */ 
 #endregion
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace IEControl {
@@ -14,7 +15,8 @@ namespace IEControl {
 	/// <summary>
 	/// Summary description for IHTMLWindow2.
 	/// </summary>
-	[ComVisible(true), ComImport()]
+	[ComVisible(true), ComImport]
+	[CLSCompliant(false)]
 	[TypeLibType((short)4160)] //TypeLibTypeFlags.FDispatchable
 	[InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIDispatch)]
 	[Guid("332c4427-26cb-11d0-b483-00c04fd90119")]

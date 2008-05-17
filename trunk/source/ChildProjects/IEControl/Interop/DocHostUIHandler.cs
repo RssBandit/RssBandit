@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Permissions;
 using System.Windows.Forms;
 
 namespace IEControl
@@ -28,7 +30,7 @@ namespace IEControl
 	/// Summary description for DocHostUIHandler.
 	/// More infos: http://www.codeproject.com/books/0764549146_8.asp?print=true
 	/// </summary>
-	public class DocHostUIHandler: 
+	internal class DocHostUIHandler: 
 		Interop.IDocHostUIHandler, 
 		Interop.IOleClientSite, 
 		Interop.IOleContainer, 
@@ -37,8 +39,9 @@ namespace IEControl
 		//Interop.IServiceProvider
 		
 	{
-		private HtmlControl hostControl;
+		private readonly HtmlControl hostControl;
 
+		//[CLSCompliant(false)]
 		public DocHostUIHandler(HtmlControl hostControl)
 		{
 			if ((hostControl == null) || (hostControl.IsHandleCreated == false)) {
@@ -187,7 +190,7 @@ namespace IEControl
 		/// Crtl-F | Displays a Find dialog box for searching the HTML document.
 		/// F5, Ctrl-F5 | Refreshes the currently loaded HTML document.
  		/// </remarks>
-		public int TranslateAccelerator(Interop.COMMSG msg, ref System.Guid group, int nCmdID) {
+		public int TranslateAccelerator(Interop.COMMSG msg, ref Guid group, int nCmdID) {
 
 			const int WM_KEYDOWN = 0x0100;
 			const int VK_CONTROL = 0x11;
@@ -234,7 +237,9 @@ namespace IEControl
 			}
 		}
 
-		public int TranslateUrl(int dwTranslate, string strURLIn, out IntPtr pstrURLOut) {
+		[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+		public int TranslateUrl(int dwTranslate, string strURLIn, out IntPtr pstrURLOut)
+		{
 			pstrURLOut = IntPtr.Zero;
 			BrowserTranslateUrlEventArgs e = new BrowserTranslateUrlEventArgs(strURLIn);
 			try {
@@ -361,7 +366,7 @@ namespace IEControl
 			// TODO:  Add DocHostUIHandler.OnViewChange implementation
 		}
 
-		public void OnRename(UCOMIMoniker pmk) {
+		public void OnRename(IMoniker pmk) {
 			// TODO:  Add DocHostUIHandler.OnRename implementation
 		}
 

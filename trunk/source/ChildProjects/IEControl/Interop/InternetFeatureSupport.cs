@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Runtime.InteropServices;
-
+using System.Security.Permissions;
 
 namespace IEControl
 {
@@ -35,7 +35,7 @@ namespace IEControl
 	/// </remarks>
 	internal sealed class InternetFeature
 	{
-		private static PrivateInterop pi = new PrivateInterop();
+		private static NativeMethods pi = new NativeMethods();
 		
 		/// <summary>
 		/// Determines whether the specified feature is enabled.
@@ -45,7 +45,9 @@ namespace IEControl
 		/// <returns>
 		/// 	<c>true</c> if the specified feature is enabled; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public static bool IsEnabled(InternetFeatureList feature, GetFeatureFlag flags)
+		{
 			if (!OSHelper.IsOSAtLeastWindowsXPSP2 && !OSHelper.IsIE6) 
 				return false;
 			
@@ -58,7 +60,9 @@ namespace IEControl
 		/// <param name="feature">The feature.</param>
 		/// <param name="flags">The flags.</param>
 		/// <param name="enable">if set to <c>true</c> [enable].</param>
-		public static void SetEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public static void SetEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable)
+		{
 			if (OSHelper.IsOSAtLeastWindowsXPSP2 && OSHelper.IsIE6) {
 				pi.setEnabled(feature, flags, enable);
 			}
@@ -67,7 +71,7 @@ namespace IEControl
 		private InternetFeature() {}
 
 		#region Interop calles (keep separately, to prevent JIT compile failes in public functions!)
-		sealed class PrivateInterop {
+		sealed class NativeMethods {
 			
 			internal bool isEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
 				int HRESULT = CoInternetIsFeatureEnabled(feature, (int)flags);
@@ -101,7 +105,7 @@ namespace IEControl
 			private static extern int CoInternetSetFeatureEnabled(
 				InternetFeatureList FeatureEntry,
 				[MarshalAs(UnmanagedType.U4)] int dwFlags,
-				bool fEnable);
+				[MarshalAs(UnmanagedType.Bool)]bool fEnable);
 
 			#endregion
 		}
