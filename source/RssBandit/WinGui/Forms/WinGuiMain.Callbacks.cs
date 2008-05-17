@@ -26,7 +26,7 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Tools;
 using RssBandit.WinGui.Utility;
-using SHDocVw;
+using Interop.SHDocVw;
 using TD.SandDock;
 using TD.SandDock.Rendering;
 
@@ -1481,7 +1481,7 @@ namespace RssBandit.WinGui.Forms
                     if (_webUserNavigated)
                     {
                         // CONTROL-Click opens a new Tab
-                        _webForceNewTab = (Interop.GetAsyncKeyState(Interop.VK_CONTROL) < 0);
+						_webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
                     }
                 }
                 else if (m.Msg == (int)Win32.Message.WM_MOUSEMOVE)
