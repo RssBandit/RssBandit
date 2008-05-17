@@ -65,6 +65,5 @@ using System.Reflection;
 //       documentation for more information on this.
 //
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
 [assembly: CLSCompliant(true)]
