@@ -22,16 +22,88 @@ using System;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices.ComTypes;
+
 
 namespace IEControl {
 	/// <summary>
 	/// Implements various utility methods for COM interoperability.
 	/// </summary>
 	[System.Security.SuppressUnmanagedCodeSecurityAttribute()]
-	public sealed class Interop {
+	public static class Interop {
 
-		#region ctor
-		private Interop()	{}
+		#region Enums
+		/// <summary>
+		/// NewWindow3 dwFlags.
+		/// </summary>
+		/// <remarks>
+		/// See http://msdn.microsoft.com/en-us/library/bb762518(VS.85).aspx
+		/// or in the latest Windows SDK shobjidl.h
+		/// </remarks>
+		[Flags]
+		public enum NWMF
+		{
+			/// <summary>
+			/// The page is unloading. This flag is set in response to the onbeforeunload and onunload events. Some pages load pop-up windows when you leave them, not when you enter. This flag is used to identify those situations
+			/// </summary>
+			NWMF_UNLOADING = 0x0001,
+			/// <summary>
+			/// The call to INewWindowManager::EvaluateNewWindow is the result of a user-initiated action (a mouse click or key press). Use this flag in conjunction with the NWMF_FIRST_USERINITED flag to determine whether the call is a direct or indirect result of the user-initiated action.
+			/// </summary>
+			NWMF_USERINITED = 0x0002,
+			/// <summary>
+			/// When NWMF_USERINITED is present, this flag indicates that the call to INewWindowManager::EvaluateNewWindow is the first query that results from this user-initiated action. Always use this flag in conjunction with NWMF_USERINITED.
+			/// </summary>
+			NWMF_FIRST = 0x0004,
+			/// <summary>
+			/// The override key (ALT) was pressed. The override key is used to bypass the pop-up manager—allowing all pop-up windows to display—and must be held down at the time that INewWindowManager::EvaluateNewWindow is called. 
+			/// </summary>
+			/// <remarks>
+			/// When INewWindowManager::EvaluateNewWindow is implemented for a WebBrowser control host, the implementer can choose to ignore the override key.
+			/// </remarks>
+			NWMF_OVERRIDEKEY = 0x0008,
+			/// <summary>
+			/// The new window attempting to load is the result of a call to the showHelp method. Help is sometimes displayed in a separate window, and this flag is valuable in those cases
+			/// </summary>
+			NWMF_SHOWHELP = 0x0010,
+			/// <summary>
+			/// The new window is a dialog box that displays HTML content.
+			/// </summary>
+			NWMF_HTMLDIALOG = 0x0020,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_FROMDIALOGCHILD    = 0x40,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_USERREQUESTED      = 0x80,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_USERALLOWED        = 0x100,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_FORCEWINDOW = 0x10000,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_FORCETAB = 0x20000,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_SUGGESTWINDOW = 0x40000,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_SUGGESTTAB = 0x80000,
+			/// <summary>
+			/// 
+			/// </summary>
+			NWMF_INACTIVETAB = 0x100000
+		} 
+
 		#endregion
 
 		#region public properties
@@ -49,8 +121,8 @@ namespace IEControl {
 		///		Returns the assembly if found/created otherwise null.
 		/// </returns>
 		public static Assembly GetAssemblyForTypeLib( string typeLibraryName ) {
-			object typeLib = null;
-			LoadTypeLibEx( typeLibraryName, RegKind.RegKind_None, out typeLib ); 
+			object typeLib;
+			NativeMethods.LoadTypeLibEx( typeLibraryName, RegKind.RegKind_None, out typeLib ); 
       
 			if( typeLib == null )
 				return null;
@@ -62,19 +134,17 @@ namespace IEControl {
 			return asm;
 		}
 
-		[DllImport("User32.dll")]
-		public static extern short GetAsyncKeyState(int vKey);
+		/// <summary>
+		/// Gets the state of the async key.
+		/// </summary>
+		/// <param name="vKey">The v key.</param>
+		/// <returns></returns>
+		public static short GetAsyncKeyState(int vKey)
+		{
+			return NativeMethods.GetAsyncKeyState(vKey);
+		}
 
-		[DllImport("ole32.dll", ExactSpelling=true, CharSet=CharSet.Auto)]
-		public static extern int OleRun(
-			[In, MarshalAs(UnmanagedType.IUnknown)] object pUnknown
-			);
-		[DllImport("ole32.dll", ExactSpelling=true, CharSet=CharSet.Auto)]
-		public static extern int OleLockRunning(
-			[In, MarshalAs(UnmanagedType.IUnknown)] object pUnknown, 
-			[In, MarshalAs(UnmanagedType.Bool)] bool flock,
-			[In, MarshalAs(UnmanagedType.Bool)] bool fLastUnlockCloses
-			);
+		
 
 		#endregion
 
@@ -148,6 +218,7 @@ namespace IEControl {
 			S_OK = 0,
 			
 			OLEIVERB_UIACTIVATE = -4,
+			OLECMDID_OPTICAL_ZOOM = 63,
 
 			WM_CLOSE = 0x0010,
 			WM_KEYDOWN = 0x0100,
@@ -852,7 +923,8 @@ namespace IEControl {
 
 			[PreserveSig] int GetExternal([Out, MarshalAs(UnmanagedType.Interface)] out object ppDispatch);
 
-			[PreserveSig] int TranslateUrl(
+			[PreserveSig]
+			int TranslateUrl(
 				[In, MarshalAs(UnmanagedType.U4)]       int dwTranslate,
 				[In, MarshalAs(UnmanagedType.LPWStr)]   string strURLIn,
 				[Out] out IntPtr pstrURLOut);
@@ -926,9 +998,9 @@ namespace IEControl {
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
 			int CloseView([In, MarshalAs(UnmanagedType.I4)]int dwReserved);
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
-			int SaveViewState([In, MarshalAs(UnmanagedType.Interface)] UCOMIStream pstm);
+			int SaveViewState([In, MarshalAs(UnmanagedType.Interface)] IStream pstm);
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
-			int ApplyViewState([In, MarshalAs(UnmanagedType.Interface)] UCOMIStream
+			int ApplyViewState([In, MarshalAs(UnmanagedType.Interface)] IStream
 				pstm);
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
 			int Clone([In, MarshalAs(UnmanagedType.Interface)] IOleInPlaceSite
@@ -949,7 +1021,7 @@ namespace IEControl {
 				[In,MarshalAs(UnmanagedType.I4)] int lindex
 				);
 			void OnRename(
-				[In, MarshalAs(UnmanagedType.Interface)] UCOMIMoniker pmk 
+				[In, MarshalAs(UnmanagedType.Interface)] IMoniker pmk 
 				);
 			void OnSave();
 			void OnClose();
@@ -967,13 +1039,38 @@ namespace IEControl {
 			RegKind_Register = 1,
 			RegKind_None = 2
 		}
-		[ DllImport( "oleaut32.dll", CharSet = CharSet.Unicode, PreserveSig = false )]
-		private static extern void LoadTypeLibEx( String strTypeLibName, RegKind regKind, 
-			[ MarshalAs( UnmanagedType.Interface )] out Object typeLib );
+		
+		[ComImport, Guid("D30C1661-CDAF-11D0-8A3E-00C04FC9E26E"), 
+		InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+		public interface IWebBrowser2Application
+		{
+			object Application { [return: MarshalAs(UnmanagedType.IDispatch)][DispId(200)] get; }
+		}
 
 		#endregion
 
 		#region private classes/interfaces
+		
+		private static class NativeMethods
+		{
+			[DllImport("User32.dll")]
+			public static extern short GetAsyncKeyState(int vKey);
+			
+			[DllImport("oleaut32.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+			public static extern void LoadTypeLibEx(String strTypeLibName, RegKind regKind,
+				[MarshalAs(UnmanagedType.Interface)] out Object typeLib);
+
+			[DllImport("ole32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+			public static extern int OleRun(
+				[In, MarshalAs(UnmanagedType.IUnknown)] object pUnknown
+				);
+			[DllImport("ole32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+			public static extern int OleLockRunning(
+				[In, MarshalAs(UnmanagedType.IUnknown)] object pUnknown,
+				[In, MarshalAs(UnmanagedType.Bool)] bool flock,
+				[In, MarshalAs(UnmanagedType.Bool)] bool fLastUnlockCloses
+				);
+		}
 
 		#region ConversionEventHandler
 		/// <summary>

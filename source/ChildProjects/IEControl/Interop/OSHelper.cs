@@ -120,8 +120,8 @@ namespace IEControl
 	/// <summary>
 	/// Operating System Helper routines
 	/// </summary>
-	[SuppressUnmanagedCodeSecurity()]
-	internal sealed class OSHelper
+	[SuppressUnmanagedCodeSecurity]
+	internal static class OSHelper
 	{
 		
 		// General info fields
@@ -138,7 +138,7 @@ namespace IEControl
 		
 		public static readonly Version IEVersion;
 
-		private static OperatingSystem _os;
+		private static readonly OperatingSystem _os;
 
 		/// <summary>
 		/// Returns true, if the OS is at least Windows 2000 (or higher), else false.
@@ -166,14 +166,14 @@ namespace IEControl
 		/// Returns true, if the OS is Windows XP SP2 and higher, else false.
 		/// </summary>
 		public static bool IsOSAtLeastWindowsXPSP2 {
-			get { 
+			get
+			{
 				if (IsOSWindowsXP) {
 					int spMajor, spMinor;
 					GetWindowsServicePackInfo(out spMajor, out spMinor);
 					return spMajor <= 2;
-				} else {
-					return IsOSAtLeastWindowsXP;
 				}
+				return IsOSAtLeastWindowsXP;
 			}
 		}
 
@@ -239,7 +239,7 @@ namespace IEControl
 		public static void GetWindowsServicePackInfo(out int servicePackMajor, out int servicePackMinor) {
 			OSVERSIONINFOEX ifex = new OSVERSIONINFOEX();
 			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
-			if (!GetVersionEx(ref ifex)) {
+			if (!NativeMethods.GetVersionEx(ref ifex)) {
 				int err = Marshal.GetLastWin32Error();
 				throw new Exception("GetVersionEx() failed with error ("+ err.ToString() +").");
 			}
@@ -254,15 +254,15 @@ namespace IEControl
 		public static WindowsSuite GetWindowsSuiteInfo() {
 			OSVERSIONINFOEX ifex = new OSVERSIONINFOEX();
 			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
-			if (!GetVersionEx(ref ifex)) {
+			if (!NativeMethods.GetVersionEx(ref ifex)) {
 				int err = Marshal.GetLastWin32Error();
-				throw new Exception("GetVersionEx() failed with error ("+ err.ToString() +").");
+				throw new Exception(String.Format("GetVersionEx() failed with error '{0}'.", err));
 			}
 			return (WindowsSuite) ifex.wSuiteMask;
 		}
 
 		public static Version GetInternetExplorerVersion() {
-			RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\\Microsoft\\Internet Explorer", false);
+			RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\\Microsoft\\Internet Explorer", false);
 			string s = null;
 			if (key != null) {
 				s = key.GetValue("Version") as string;
@@ -285,8 +285,6 @@ namespace IEControl
 		
 		#region ctor's
 
-		private OSHelper(){	}
-		
 		[EnvironmentPermission(SecurityAction.Assert, Unrestricted=true)]
 		static OSHelper() {
 			_os = Environment.OSVersion;
@@ -324,39 +322,44 @@ namespace IEControl
 		#endregion
 
 		#region private Interop decl./helper classes
-		
-		// OSVERSIONINFO/EX are defined as a structs
-//		[ DllImport( "kernel32", SetLastError=true )]
-//		private static extern bool GetVersionEx(ref OSVERSIONINFO osvi );
-		[ DllImport( "kernel32", SetLastError=true )]
-		private static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi );
 
+		static class NativeMethods
+		{
+			// OSVERSIONINFO/EX are defined as a structs
+			//		[ DllImport( "kernel32", SetLastError=true )]
+			//		private static extern bool GetVersionEx(ref OSVERSIONINFO osvi );
+			[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api"), DllImport("kernel32", SetLastError = true)]
+			[SuppressUnmanagedCodeSecurity]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi);
+		}
 		// Use this when you want to pass it by-value even though the unmanaged API
 		// expects a pointer to a structure.  Being a class adds an extra level of indirection.
-//		[StructLayout(LayoutKind.Sequential)]  
-//		private struct OSVERSIONINFO {
-//			public int dwOSVersionInfoSize;  
-//			public int dwMajorVersion;  
-//			public int dwMinorVersion;  
-//			public int dwBuildNumber;  
-//			public int dwPlatformId;
-//			[MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)]
-//			public string szCSDVersion;
-//		}
+		//		[StructLayout(LayoutKind.Sequential)]  
+		//		private struct OSVERSIONINFO {
+		//			public int dwOSVersionInfoSize;  
+		//			public int dwMajorVersion;  
+		//			public int dwMinorVersion;  
+		//			public int dwBuildNumber;  
+		//			public int dwPlatformId;
+		//			[MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)]
+		//			public string szCSDVersion;
+		//		}
 
-		[StructLayout(LayoutKind.Sequential)]  
-		private struct OSVERSIONINFOEX {
-			public int dwOSVersionInfoSize;  
-			public int dwMajorVersion;  
-			public int dwMinorVersion;  
-			public int dwBuildNumber;  
+		[StructLayout(LayoutKind.Sequential)]
+		private struct OSVERSIONINFOEX
+		{
+			public int dwOSVersionInfoSize;
+			public int dwMajorVersion;
+			public int dwMinorVersion;
+			public int dwBuildNumber;
 			public int dwPlatformId;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)]
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 			public string szCSDVersion;
-			public UInt16 wServicePackMajor;  
-			public UInt16 wServicePackMinor;  
+			public UInt16 wServicePackMajor;
+			public UInt16 wServicePackMinor;
 			public UInt16 wSuiteMask;
-			public byte wProductType;  
+			public byte wProductType;
 			public byte wReserved;
 		}
 

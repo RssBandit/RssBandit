@@ -23,9 +23,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Windows.Forms;
 
-using SHDocVw;
+using Interop.SHDocVw;
 
 namespace IEControl
 {
@@ -33,7 +34,7 @@ namespace IEControl
 	/// ActiveX Wrapper for the web browser control.
 	/// </summary>
 	[
-	System.Windows.Forms.AxHost.ClsidAttribute("{8856f961-340a-11d0-a96b-00c04fd705a2}"),
+	ClsidAttribute("{8856f961-340a-11d0-a96b-00c04fd705a2}"),
 	DesignTimeVisible(true),
 	DefaultProperty("Name"),
 	ToolboxItem(true),
@@ -41,20 +42,26 @@ namespace IEControl
 	CLSCompliant(false),
 	ComVisible(false)
 	]
-	public class HtmlControl : System.Windows.Forms.AxHost {
+	public class HtmlControl : AxHost {
         
 		///<summary>
 		///</summary>
-		public static Assembly SHDocVwAssembly = null;
+		public static Assembly SHDocVwAssembly;
 
+		/// <summary>
+		/// Gets the current IE Version found on the system
+		/// </summary>
+		public static Version CurrentIEVersion = new Version(1,0);
+		
 		#region private members
-		private SHDocVw.IWebBrowser2 ocx = null;
-		private SHDocVw.WebBrowser_V1 ocx_v1 = null;
+		internal IWebBrowser2 ocx ;
+		private WebBrowser_V1 ocx_v1;
 		private AxWebBrowserEventMulticaster eventMulticaster;
-		private System.Windows.Forms.AxHost.ConnectionPointCookie cookie;
+		private ConnectionPointCookie cookie;
 		private ShellUIHelper shellHelper;
 		private DocHostUIHandler uiHandler;
-		//private IHTMLDocument2 document;
+		private Interop.IWebBrowser2Application iwb2app;
+		private bool ie7BuildInZoomEnabled;
         
 		string url = String.Empty;
 		string html = String.Empty;
@@ -87,7 +94,7 @@ namespace IEControl
 		/// <summary>
 		/// true, if we did not attach DocHostUIHandler (causes exception(s) on Win98/Me :(
 		/// </summary>
-		private static bool lowSecurity;
+		private static readonly bool lowSecurity;
 
 		/// <summary>
 		/// holds the external script reference.
@@ -193,6 +200,10 @@ namespace IEControl
 		///<summary>
 		///</summary>
 		public event BrowserNewWindow2EventHandler NewWindow2;
+
+		/// <summary>
+		/// </summary>
+		public event EventHandler<BrowserNewWindow3Event> NewWindow3;
         
 		///<summary>
 		///</summary>
@@ -212,11 +223,11 @@ namespace IEControl
         
 		///<summary>
 		///</summary>
-		public event System.EventHandler DownloadCompleted;
+		public event EventHandler DownloadCompleted;
         
 		///<summary>
 		///</summary>
-		public event System.EventHandler DownloadBegin;
+		public event EventHandler DownloadBegin;
         
 		///<summary>
 		///</summary>
@@ -247,7 +258,10 @@ namespace IEControl
 		///<summary>
 		///Summary of HtmlControl.
 		///</summary>
-		public HtmlControl() : base("8856f961-340a-11d0-a96b-00c04fd705a2") {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public HtmlControl()
+			: base("8856f961-340a-11d0-a96b-00c04fd705a2")
+		{
 			this.cbFlags = ControlBehaviorFlags.scrollBarsEnabled |
 				ControlBehaviorFlags.imagesDownloadEnabled |
 				ControlBehaviorFlags.scriptEnabled  |
@@ -258,9 +272,9 @@ namespace IEControl
 				ControlBehaviorFlags.frameDownloadEnabled |
 				ControlBehaviorFlags.clientPullEnabled;
 
-			HandleCreated += new EventHandler(SelfHandleCreated);
-			HandleDestroyed += new EventHandler(SelfHandleDestroyed);
-			NavigateComplete += new BrowserNavigateComplete2EventHandler(SelfNavigateComplete);
+			HandleCreated += SelfHandleCreated;
+			HandleDestroyed += SelfHandleDestroyed;
+			NavigateComplete += SelfNavigateComplete;
 
 		}
     
@@ -269,24 +283,25 @@ namespace IEControl
 		///</summary>
 		static HtmlControl() {
 			try {
-				_UseCurrentDll();
 				lowSecurity = (Environment.OSVersion.Platform != PlatformID.Win32NT);
+				CurrentIEVersion = OSHelper.GetInternetExplorerVersion();
+				_UseCurrentDll();
 				return;
 			}
 			catch{}
-			finally{}
 
 			try {
 				SHDocVwAssembly = Interop.GetAssemblyForTypeLib( "SHDocVw.DLL" );
-				AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler( RedirectSHDocAssembly );
+				AppDomain.CurrentDomain.AssemblyResolve += RedirectSHDocAssembly;
 			}
 			catch{}
 		}
+
 		///<summary>
 		///Summary of _UseCurrentDll.
 		///</summary>
 		private static void _UseCurrentDll() {
-			SHDocVwAssembly = typeof( SHDocVw.IWebBrowser2 ).Assembly;
+			SHDocVwAssembly = typeof( IWebBrowser2 ).Assembly;
 		}
 
 		///<summary>
@@ -296,14 +311,14 @@ namespace IEControl
 		///<param name="e"></param>
 		///<returns></returns>	
 		private static Assembly RedirectSHDocAssembly( object sender, ResolveEventArgs e ) {
-			if( e.Name != null && e.Name.StartsWith( "Interop.SHDocVw" ) )
+			if( e.Name != null && e.Name.StartsWith( "Interop.SHDocVw", StringComparison.OrdinalIgnoreCase ) )
 				return SHDocVwAssembly;
 			return null;
 		}
 
 		void SelfHandleCreated(object s, EventArgs e) {
 
-			HandleCreated -= new EventHandler(SelfHandleCreated);
+			HandleCreated -= SelfHandleCreated;
 			if (DesignMode)
 				return;
 
@@ -317,7 +332,7 @@ namespace IEControl
 			// attach to the Browser.V1 new window event
 			ocx_v1 = ocx as WebBrowser_V1;
 			if (ocx_v1 != null) {
-				ocx_v1.NewWindow += new DWebBrowserEvents_NewWindowEventHandler(this.RaiseOnNewBrowserWindow);
+				ocx_v1.NewWindow += this.RaiseOnNewBrowserWindow;
 			}
 
 			if (!lowSecurity) {
@@ -329,12 +344,13 @@ namespace IEControl
 					oleObj.SetClientSite(uiHandler);
 				}
 			}
+
 		}
 
 		// this can be called multiple times in the lifetime of the control!!!
 		void SelfHandleDestroyed(object s, EventArgs e) {
 			if (ocx_v1 != null) {
-				ocx_v1.NewWindow -=  new DWebBrowserEvents_NewWindowEventHandler(this.RaiseOnNewBrowserWindow);
+				ocx_v1.NewWindow -=  this.RaiseOnNewBrowserWindow;
 			}
 			ocx_v1 = null;
 			uiHandler = null;
@@ -358,9 +374,25 @@ namespace IEControl
 				RaiseOnDocumentComplete(this, new BrowserDocumentCompleteEvent(e.pDisp, e.url, e.IsRootPage));
 				this.body = String.Empty;
 			}
+
+			if (!ie7BuildInZoomEnabled && CurrentIEVersion.Major >= 7)
+			{
+				// re-enable build-in zoom.
+				// see also http://msdn.microsoft.com/en-us/library/aa770056(VS.85).aspx
+				object inval = 100;
+				object outval = 0;
+				ExecWB((OLECMDID)Interop.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref inval, ref outval);
+				ie7BuildInZoomEnabled = true;
+			}
 		}
 
-		protected override void Dispose(bool disposing) {
+		/// <summary>
+		/// </summary>
+		/// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase"), 
+		System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+		protected override void Dispose(bool disposing)
+		{
 			if( disposing ) {
 				// free own resources
 				if (shellHelper != null) {
@@ -378,7 +410,9 @@ namespace IEControl
 		/// Workaround/BugBug: handle OnQuit
 		/// </summary>
 		/// <param name="m"></param>
-		protected override void WndProc(ref Message m) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		protected override void WndProc(ref Message m)
+		{
 			if (m.Msg == Interop.WM_CLOSE) {
 				if (! this.RaiseOnQuit(this, EventArgs.Empty))
 					base.WndProc (ref m);
@@ -404,7 +438,7 @@ namespace IEControl
 		public string Html {
 			get { return this.html;	}
 			set { 
-				this.html = value;	if (this.html == null) this.html = String.Empty; 
+				this.html = value ?? String.Empty;
 				this.body = String.Empty;
 			}
 		}
@@ -417,7 +451,7 @@ namespace IEControl
 		public string Body {
 			get { return this.body;	}
 			set { 
-				this.body = value;	if (this.body == null) this.body = String.Empty; 
+				this.body = value ?? String.Empty;
 				this.html  = String.Empty;
 			}
 		}
@@ -594,12 +628,24 @@ namespace IEControl
 		}
 
 		/// <summary>
+		/// Gets the application object (as of IWebBrowser2.Application).
+		/// </summary>
+		/// <value>The application.</value>
+		/// <remarks>See http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=12559&SiteID=1</remarks>
+		public object Application
+		{
+			get { return iwb2app.Application; }
+		}
+
+		/// <summary>
 		/// Locks down the browser security for the current process.
 		/// It uses the new features introduced by Windows XP SP2 to
 		/// enhance browser security. See also
 		/// http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
 		/// </summary>
-		public void EnhanceBrowserSecurityForProcess() {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public void EnhanceBrowserSecurityForProcess()
+		{
 			SetFeatureFlag where = SetFeatureFlag.SET_FEATURE_ON_PROCESS;
 			GetFeatureFlag from = GetFeatureFlag.GET_FEATURE_FROM_PROCESS;
 			
@@ -649,7 +695,9 @@ namespace IEControl
 		/// <returns>
 		/// 	<c>true</c> if the specified feature is enabled; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsInternetFeatureEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public static bool IsInternetFeatureEnabled(InternetFeatureList feature, GetFeatureFlag flags)
+		{
 			try {
 				return InternetFeature.IsEnabled(feature, flags);
 			} catch (EntryPointNotFoundException) {
@@ -664,7 +712,9 @@ namespace IEControl
 		/// <param name="feature">The feature.</param>
 		/// <param name="flags">The flags.</param>
 		/// <param name="enable">if set to <c>true</c> [enable].</param>
-		public static void SetInternetFeatureEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public static void SetInternetFeatureEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable)
+		{
 			try {
 				InternetFeature.SetEnabled(feature, flags, enable);
 			} catch (EntryPointNotFoundException) {
@@ -732,13 +782,11 @@ namespace IEControl
 		///</summary>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		[System.Runtime.InteropServices.DispIdAttribute(203)]
+		[DispIdAttribute(203)]
 		public virtual object Document {
-			get {
-				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Document", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
-				}
-				return this.ocx.Document;
+			get
+			{
+				return (this.ocx == null) ? null : this.ocx.Document;
 			}
 		}
 
@@ -750,13 +798,15 @@ namespace IEControl
 		public virtual IHTMLDocument2 Document2 {
 			get { 
 				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Document", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
+					return null;
 				}
 				return this.ocx.Document as IHTMLDocument2;
 			}
 		}
 
-		protected void SetHtmlText(string text) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		protected void SetHtmlText(string text)
+		{
 
 			if (text == null) 
 				text = String.Empty;
@@ -786,7 +836,9 @@ namespace IEControl
 		}
 
 		// called from SelfNavigateComplete()
-		protected void SetBodyText(string text) {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		protected void SetBodyText(string text)
+		{
 			
 			if (text == null) 
 				text = String.Empty;
@@ -1010,13 +1062,11 @@ namespace IEControl
 		///</summary>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		[System.Runtime.InteropServices.DispIdAttribute(211)]
+		[DispIdAttribute(211)]
 		public virtual string LocationURL {
-			get {
-				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("LocationURL", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
-				}
-				return this.ocx.LocationURL;
+			get
+			{
+				return (this.ocx == null) ? null : this.ocx.LocationURL;
 			}
 		}
         
@@ -1025,13 +1075,11 @@ namespace IEControl
 		///</summary>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		[System.Runtime.InteropServices.DispIdAttribute(212)]
+		[DispIdAttribute(212)]
 		public virtual bool Busy {
-			get {
-				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Busy", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
-				}
-				return this.ocx.Busy;
+			get
+			{
+				return (this.ocx != null) && this.ocx.Busy;
 			}
 		}
         
@@ -1055,14 +1103,12 @@ namespace IEControl
 		///</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[System.Runtime.InteropServices.DispIdAttribute(-515)]
-		[System.Runtime.InteropServices.ComAliasNameAttribute("System.Int32")]
+		[DispIdAttribute(-515)]
+		[ComAliasNameAttribute("System.Int32")]
 		public virtual int HWND {
-			get {
-				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("HWND", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
-				}
-				return (this.ocx.HWND);
+			get
+			{
+				return (this.ocx == null) ? 0 : (this.ocx.HWND);
 			}
 		}
         
@@ -1222,14 +1268,12 @@ namespace IEControl
 		///</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[System.Runtime.InteropServices.DispIdAttribute(-525)]
-		[System.ComponentModel.Bindable(System.ComponentModel.BindableSupport.Yes)]
-		public virtual SHDocVw.tagREADYSTATE ReadyState {
-			get {
-				if ((this.ocx == null)) {
-					throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("ReadyState", System.Windows.Forms.AxHost.ActiveXInvokeKind.PropertyGet);
-				}
-				return this.ocx.ReadyState;
+		[DispIdAttribute(-525)]
+		[Bindable(BindableSupport.Yes)]
+		public virtual tagREADYSTATE ReadyState {
+			get
+			{
+				return (this.ocx == null) ? tagREADYSTATE.READYSTATE_UNINITIALIZED : this.ocx.ReadyState;
 			}
 		}
 
@@ -1394,9 +1438,9 @@ namespace IEControl
 		///<param name="cmdexecopt"></param>
 		///<param name="pvaIn"></param>
 		///<param name="pvaOut"></param>
-		public virtual void ExecWB(SHDocVw.OLECMDID cmdID, SHDocVw.OLECMDEXECOPT cmdexecopt, [System.Runtime.InteropServices.Optional()] ref object pvaIn, [System.Runtime.InteropServices.Optional()] ref object pvaOut) {
+		public virtual void ExecWB(OLECMDID cmdID, OLECMDEXECOPT cmdexecopt, [Optional] ref object pvaIn, [Optional] ref object pvaOut) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("ExecWB", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.ExecWB(cmdID, cmdexecopt, ref pvaIn, ref pvaOut);
 		}
@@ -1406,9 +1450,9 @@ namespace IEControl
 		///</summary>
 		///<param name="cmdID"></param>
 		///<returns></returns>	
-		public virtual SHDocVw.OLECMDF QueryStatusWB(SHDocVw.OLECMDID cmdID) {
+		public virtual OLECMDF QueryStatusWB(OLECMDID cmdID) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("QueryStatusWB", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				throw new InvalidActiveXStateException("QueryStatusWB", ActiveXInvokeKind.MethodInvoke);
 			}
 			return this.ocx.QueryStatusWB(cmdID);
 		}
@@ -1419,13 +1463,11 @@ namespace IEControl
 		///</summary>
 		///<param name="property"></param>
 		///<returns></returns>	
-		public virtual object GetProperty(string property) {
-			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("GetProperty", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
-			}
-			return this.ocx.GetProperty(property);
+		public virtual object GetProperty(string property)
+		{
+			return (this.ocx == null) ? null : this.ocx.GetProperty(property);
 		}
-		        
+
 		///<summary>
 		///Summary of PutProperty.
 		///</summary>
@@ -1433,7 +1475,7 @@ namespace IEControl
 		///<param name="vtValue"></param>
 		public virtual void PutProperty(string property, object vtValue) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("PutProperty", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.PutProperty(property, vtValue);
 		}
@@ -1445,7 +1487,7 @@ namespace IEControl
 		///<param name="pcy"></param>
 		public virtual void ClientToWindow(ref int pcx, ref int pcy) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("ClientToWindow", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.ClientToWindow(ref pcx, ref pcy);
 		}
@@ -1465,7 +1507,7 @@ namespace IEControl
 		///</summary>
 		public virtual void Stop() {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Stop", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.Stop();
 		}
@@ -1474,9 +1516,9 @@ namespace IEControl
 		///Summary of Refresh2.
 		///</summary>
 		///<param name="level"></param>
-		public virtual void Refresh2([System.Runtime.InteropServices.Optional()] ref object level) {
+		public virtual void Refresh2([Optional] ref object level) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Refresh2", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.Refresh2(ref level);
 		}
@@ -1518,9 +1560,9 @@ namespace IEControl
 		///<param name="targetFrameName"></param>
 		///<param name="postData"></param>
 		///<param name="headers"></param>
-		public virtual void Navigate(string uRL, [System.Runtime.InteropServices.Optional()] ref object flags, [System.Runtime.InteropServices.Optional()] ref object targetFrameName, [System.Runtime.InteropServices.Optional()] ref object postData, [System.Runtime.InteropServices.Optional()] ref object headers) {
+		public virtual void Navigate(string uRL, [Optional] ref object flags, [Optional] ref object targetFrameName, [Optional] ref object postData, [Optional] ref object headers) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Navigate", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			try {
 				this.ocx.Navigate(uRL, ref flags, ref targetFrameName, ref postData, ref headers);
@@ -1535,9 +1577,9 @@ namespace IEControl
 		///<param name="targetFrameName"></param>
 		///<param name="postData"></param>
 		///<param name="headers"></param>
-		public virtual void Navigate2(ref object uRL, [System.Runtime.InteropServices.Optional()] ref object flags, [System.Runtime.InteropServices.Optional()] ref object targetFrameName, [System.Runtime.InteropServices.Optional()] ref object postData, [System.Runtime.InteropServices.Optional()] ref object headers) {
+		public virtual void Navigate2(ref object uRL, [Optional] ref object flags, [Optional] ref object targetFrameName, [Optional] ref object postData, [Optional] ref object headers) {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("Navigate2", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			try {
 				this.ocx.Navigate2(ref uRL, ref flags, ref targetFrameName, ref postData, ref headers);
@@ -1570,7 +1612,7 @@ namespace IEControl
 		///</summary>
 		public virtual void GoForward() {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("GoForward", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.GoForward();
 		}
@@ -1580,7 +1622,7 @@ namespace IEControl
 		///</summary>
 		public virtual void GoBack() {
 			if ((this.ocx == null)) {
-				throw new System.Windows.Forms.AxHost.InvalidActiveXStateException("GoBack", System.Windows.Forms.AxHost.ActiveXInvokeKind.MethodInvoke);
+				return;
 			}
 			this.ocx.GoBack();
 		}
@@ -1589,19 +1631,19 @@ namespace IEControl
 		/// <summary>
 		/// Display the AddFavorite dialog
 		/// </summary>
-		/// <exception cref="UriFormatException">If url is a ivalid url</exception>
+		/// <exception cref="UriFormatException">If favUrl is a ivalid favUrl</exception>
 		/// <exception cref="ArgumentNullException">If any argument is null</exception>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public void ShowDialogAddFavorite(string url, string title) {
-			if (url == null)
-				throw new ArgumentNullException("url");
+		public void ShowDialogAddFavorite(string favUrl, string title) {
+			if (favUrl == null)
+				throw new ArgumentNullException("favUrl");
 			if (title == null)
 				throw new ArgumentNullException("title");
 			
-			if (url.IndexOf("://") == -1)
-				url = "http://" + url;
+			if (favUrl.IndexOf("://", StringComparison.Ordinal) == -1)
+				favUrl = "http://" + favUrl;
 
-			Uri uri = new Uri(url);
+			Uri uri = new Uri(favUrl);
 			object oTitle = title;
 
 			ShellUIHelperClass uih = new ShellUIHelperClass();
@@ -1611,7 +1653,7 @@ namespace IEControl
 				System.Diagnostics.Trace.WriteLine("IEControl::ShellUIHelperClass.AddFavorite() exception - " + ex.Message);
 			} 
 
-			uih = null;
+			
 		}
 		/// <summary>
 		/// Display the Print Preview dialog
@@ -1620,8 +1662,8 @@ namespace IEControl
 		public void ShowDialogPrintPreview() {
 			try {
 				object o = null;
-				this.ExecWB(SHDocVw.OLECMDID.OLECMDID_PRINTPREVIEW,
-					SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref o, ref o);
+				this.ExecWB(OLECMDID.OLECMDID_PRINTPREVIEW,
+					OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref o, ref o);
 			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::ExecWB(OLECMDID_PRINTPREVIEW) exception - " + ex.Message);
 			} 
@@ -1634,8 +1676,8 @@ namespace IEControl
 		public void ShowDialogPrint() {
 			try {
 				object o = null;
-				this.ExecWB(SHDocVw.OLECMDID.OLECMDID_PRINT,
-					SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref o, ref o);
+				this.ExecWB(OLECMDID.OLECMDID_PRINT,
+					OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref o, ref o);
 			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::ExecWB(OLECMDID_PRINT) exception - " + ex.Message);
 			} 
@@ -1648,8 +1690,8 @@ namespace IEControl
 		public void Print() {
 			try {
 				object o = null;
-				this.ExecWB(SHDocVw.OLECMDID.OLECMDID_PRINT,
-					SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref o, ref o);
+				this.ExecWB(OLECMDID.OLECMDID_PRINT,
+					OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref o, ref o);
 			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::ExecWB(OLECMDID_PRINT) exception - " + ex.Message);
 			} 
@@ -1657,7 +1699,9 @@ namespace IEControl
 
 		#endregion
 
-		public new bool Focus() {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		public new bool Focus()
+		{
 			DoVerb(Interop.OLEIVERB_UIACTIVATE);
 			if (ocx != null && ocx.Document != null) {
 				IHTMLDocument2 doc = ocx.Document as IHTMLDocument2;
@@ -1683,7 +1727,9 @@ namespace IEControl
 			}
 		}
 
-		private void CheckAndActivate() {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		private void CheckAndActivate()
+		{
 			if (this.IsFlagSet(ControlBehaviorFlags.activate)) {
 				DoVerb(Interop.OLEIVERB_UIACTIVATE);
 				this.SetFlag(ControlBehaviorFlags.activate, false);
@@ -1693,11 +1739,13 @@ namespace IEControl
 		///<summary>
 		///Summary of CreateSink.
 		///</summary>
-		protected override void CreateSink() {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		protected override void CreateSink()
+		{
 			try {
 				this.eventMulticaster = new AxWebBrowserEventMulticaster(this);
-				this.cookie = new System.Windows.Forms.AxHost.ConnectionPointCookie(this.ocx, this.eventMulticaster, typeof(SHDocVw.DWebBrowserEvents2));
-			}	catch (System.Exception ex) {
+				this.cookie = new ConnectionPointCookie(this.ocx, this.eventMulticaster, typeof(DWebBrowserEvents2));
+			}	catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::CreateSink() exception - " + ex.Message);
 			}
 		}
@@ -1705,10 +1753,12 @@ namespace IEControl
 		///<summary>
 		///Summary of DetachSink.
 		///</summary>
-		protected override void DetachSink() {
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		protected override void DetachSink()
+		{
 			try {
 				this.cookie.Disconnect();
-			}	catch (System.Exception ex) {
+			}	catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::DetachSink() exception - " + ex.Message);
 			}
 		}
@@ -1716,14 +1766,15 @@ namespace IEControl
 		///<summary>
 		///Summary of AttachInterfaces.
 		///</summary>
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
 		protected override void AttachInterfaces() {
 			try {
-				this.ocx = ((SHDocVw.IWebBrowser2)(base.GetOcx()));
-			} catch (System.Exception ex) {
+				this.ocx = ((IWebBrowser2)(GetOcx()));
+				this.iwb2app = (Interop.IWebBrowser2Application) this.ocx;
+			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::AttachInterfaces() exception - " + ex.Message);
 			}
 		}
-        
 
 		internal void RaiseOnNewBrowserWindow(string URL, int Flags, string TargetFrameName, ref object PostData, string Headers, ref bool Processed) {
 			Processed = false;
@@ -1962,7 +2013,7 @@ namespace IEControl
 		///</summary>
 		///<param name="sender"></param>
 		///<param name="e"></param>
-		internal bool RaiseOnQuit(object sender, System.EventArgs e) {
+		internal bool RaiseOnQuit(object sender, EventArgs e) {
 			if ((this.OnQuit != null)) {
 				this.OnQuit(sender, e);
 				return true;
@@ -2002,7 +2053,19 @@ namespace IEControl
 				this.NewWindow2(sender, e);
 			}
 		}
-        
+
+		///<summary>
+		///Summary of RaiseOnNewWindow3.
+		///</summary>
+		///<param name="sender"></param>
+		///<param name="e"></param>
+		internal void RaiseOnNewWindow3(object sender, BrowserNewWindow3Event e)
+		{
+			if ((this.NewWindow3 != null))
+			{
+				this.NewWindow3(sender, e);
+			}
+		}
 		///<summary>
 		///Summary of RaiseOnBeforeNavigate2.
 		///</summary>
@@ -2041,7 +2104,7 @@ namespace IEControl
 		///</summary>
 		///<param name="sender"></param>
 		///<param name="e"></param>
-		internal void RaiseOnDownloadComplete(object sender, System.EventArgs e) {
+		internal void RaiseOnDownloadComplete(object sender, EventArgs e) {
 			if ((this.DownloadCompleted != null)) {
 				this.DownloadCompleted(sender, e);
 			}
@@ -2052,7 +2115,7 @@ namespace IEControl
 		///</summary>
 		///<param name="sender"></param>
 		///<param name="e"></param>
-		internal void RaiseOnDownloadBegin(object sender, System.EventArgs e) {
+		internal void RaiseOnDownloadBegin(object sender, EventArgs e) {
 			if ((this.DownloadBegin != null)) {
 				this.DownloadBegin(sender, e);
 			}
@@ -2116,16 +2179,15 @@ namespace IEControl
 		}
 
 	}
-    
-    
+
 	///<summary>
 	///Summary of AxWebBrowserEventMulticaster
 	///</summary>
 	[CLSCompliant(false)]
 	[ComVisible(false)]
-	public class AxWebBrowserEventMulticaster : SHDocVw.DWebBrowserEvents2 {
+	public class AxWebBrowserEventMulticaster : DWebBrowserEvents2 {
         
-		private HtmlControl parent;
+		private readonly HtmlControl parent;
         
 		///<summary>
 		///Summary of AxWebBrowserEventMulticaster.
@@ -2143,7 +2205,7 @@ namespace IEControl
 			BrowserPrivacyImpactedStateChangeEvent privacyimpactedstatechangeEvent = new BrowserPrivacyImpactedStateChangeEvent(bImpacted);
 			this.parent.RaiseOnPrivacyImpactedStateChange(this.parent, privacyimpactedstatechangeEvent);
 		}
-        
+
 		///<summary>
 		///Summary of UpdatePageStatus.
 		///</summary>
@@ -2337,9 +2399,8 @@ namespace IEControl
 		///Summary of OnQuit.
 		///</summary>
 		public virtual void OnQuit() {
-			System.EventArgs onquitEvent = new System.EventArgs();
 			if (this.parent != null)
-				this.parent.RaiseOnQuit(this.parent, onquitEvent);
+				this.parent.RaiseOnQuit(this.parent, EventArgs.Empty);
 		}
         
 		///<summary>
@@ -2348,7 +2409,7 @@ namespace IEControl
 		///<param name="pDisp"></param>
 		///<param name="uRL"></param>
 		public virtual void DocumentComplete(object pDisp, ref object uRL) {
-			BrowserDocumentCompleteEvent documentcompleteEvent = new BrowserDocumentCompleteEvent(pDisp, uRL, pDisp == this.parent.GetOcx());
+			BrowserDocumentCompleteEvent documentcompleteEvent = new BrowserDocumentCompleteEvent(pDisp, uRL, pDisp == this.parent.ocx);
 			this.parent.RaiseOnDocumentComplete(this.parent, documentcompleteEvent);
 			uRL = documentcompleteEvent.url;
 		}
@@ -2359,7 +2420,7 @@ namespace IEControl
 		///<param name="pDisp"></param>
 		///<param name="uRL"></param>
 		public virtual void NavigateComplete2(object pDisp, ref object uRL) {
-			BrowserNavigateComplete2Event navigatecomplete2Event = new BrowserNavigateComplete2Event(pDisp, uRL, pDisp == this.parent.GetOcx());
+			BrowserNavigateComplete2Event navigatecomplete2Event = new BrowserNavigateComplete2Event(pDisp, uRL, pDisp == this.parent.ocx);
 			this.parent.RaiseOnNavigateComplete2(this.parent, navigatecomplete2Event);
 			uRL = navigatecomplete2Event.url;
 		}
@@ -2375,7 +2436,24 @@ namespace IEControl
 			ppDisp = newwindow2Event.ppDisp;
 			cancel = newwindow2Event.Cancel;
 		}
-        
+
+		/// <summary>
+		/// NewWindow3.
+		/// </summary>
+		/// <param name="ppDisp">The ppDisp.</param>
+		/// <param name="cancel">if set to <c>true</c> [cancel].</param>
+		/// <param name="dwFlags">The dw flags.</param>
+		/// <param name="bstrUrlContext">The BSTR URL context.</param>
+		/// <param name="bstrUrl">The BSTR URL.</param>
+		public void NewWindow3(
+			ref object ppDisp, ref bool cancel, uint dwFlags, string bstrUrlContext, string bstrUrl)
+		{
+			BrowserNewWindow3Event newwindow3Event = new BrowserNewWindow3Event(ppDisp, cancel, dwFlags, bstrUrlContext, bstrUrl);
+			this.parent.RaiseOnNewWindow3(this.parent, newwindow3Event);
+			ppDisp = newwindow3Event.ppDisp;
+			cancel = newwindow3Event.Cancel;
+		}
+
 		///<summary>
 		///Summary of BeforeNavigate2.
 		///</summary>
@@ -2387,7 +2465,7 @@ namespace IEControl
 		///<param name="headers"></param>
 		///<param name="cancel"></param>
 		public virtual void BeforeNavigate2(object pDisp, ref object uRL, ref object flags, ref object targetFrameName, ref object postData, ref object headers, ref bool cancel) {
-			BrowserBeforeNavigate2Event beforenavigate2Event = new BrowserBeforeNavigate2Event(pDisp, uRL, flags, targetFrameName, postData, headers, cancel, pDisp == this.parent.GetOcx());
+			BrowserBeforeNavigate2Event beforenavigate2Event = new BrowserBeforeNavigate2Event(pDisp, uRL, flags, targetFrameName, postData, headers, cancel, pDisp == this.parent.ocx);
 			this.parent.RaiseOnBeforeNavigate2(this.parent, beforenavigate2Event);
 			uRL = beforenavigate2Event.url;
 			flags = beforenavigate2Event.flags;
@@ -2419,16 +2497,14 @@ namespace IEControl
 		///Summary of DownloadComplete.
 		///</summary>
 		public virtual void DownloadComplete() {
-			System.EventArgs downloadcompleteEvent = new System.EventArgs();
-			this.parent.RaiseOnDownloadComplete(this.parent, downloadcompleteEvent);
+			this.parent.RaiseOnDownloadComplete(this.parent, EventArgs.Empty);
 		}
         
 		///<summary>
 		///Summary of DownloadBegin.
 		///</summary>
 		public virtual void DownloadBegin() {
-			System.EventArgs downloadbeginEvent = new System.EventArgs();
-			this.parent.RaiseOnDownloadBegin(this.parent, downloadbeginEvent);
+			this.parent.RaiseOnDownloadBegin(this.parent, EventArgs.Empty);
 		}
         
 		///<summary>

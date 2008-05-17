@@ -5,14 +5,13 @@
  */   
 #endregion 
 
-using System;
-using System.Runtime.InteropServices;
-
-namespace IEControl{
+namespace IEControl 
+{
 	/// <summary>
 	/// Summary description for HTMLDispIDs.
 	/// </summary>
-	internal class HTMLDispIDs{
+	internal static class HTMLDispIDs 
+	{
 
 		//    DISPIDs for event set HTMLWindowEvents2
 		public const int DISPID_XOBJ_MAX = -2147352577;
