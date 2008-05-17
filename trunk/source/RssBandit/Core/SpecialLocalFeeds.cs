@@ -414,8 +414,9 @@ namespace RssBandit.SpecialFeeds
 				_delegateTo.BeenRead = false;
 			}
 
-			private Hashtable CreateAdditionalElements(string errorCausingFeedUrl) {
-				Hashtable r = new Hashtable();
+            private Dictionary<XmlQualifiedName, string> CreateAdditionalElements(string errorCausingFeedUrl)
+            {
+                Dictionary<XmlQualifiedName, string> r = new Dictionary<XmlQualifiedName, string>();
 				// add a optional element to remember the original feed container (for later ref)
 				if (null != errorCausingFeedUrl) {
 					XmlElement originalFeed = RssHelper.CreateXmlElement(
