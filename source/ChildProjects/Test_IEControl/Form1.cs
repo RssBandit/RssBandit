@@ -30,7 +30,7 @@ namespace Test
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class Form1 : System.Windows.Forms.Form
+	public partial class Form1 : Form
 	{
 
 		private const string htmText = "<html><head><title>Test</title><script language='javascript'>function Button1_onclick() { external.MyCustomMethod('MyCustomMethod(Hello) called');	}</script></head>"+
@@ -38,18 +38,18 @@ namespace Test
 			"Click <a href=\"javascript:Button1_onclick()\">here</a> to call a custom method in the main application.<br />"+
 			"Click <a href=\"javascript:window.close()\">here</a> to close this window."+
 			"</body></html>";
-		private System.Windows.Forms.TextBox textUrl;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button buttonPrint;
-		private System.Windows.Forms.Panel htmlControlContainer;
-		private IEControl.HtmlControl htmlControl1;
-		private System.Windows.Forms.Button buttonFavorites;
-		private System.Windows.Forms.StatusBar statusBar1;
-		private System.Windows.Forms.StatusBarPanel statusBarPanel1;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button btnSetHTMLText;
+		private TextBox textUrl;
+		private Button button1;
+		private Button buttonPrint;
+		private Panel htmlControlContainer;
+		private HtmlControl htmlControl1;
+		private Button buttonFavorites;
+		private StatusBar statusBar1;
+		private StatusBarPanel statusBarPanel1;
+		private Button button2;
+		private Button btnSetHTMLText;
 
-		private System.ComponentModel.Container components = null;
+		private System.ComponentModel.Container components;
 
 		public Form1() {
 			//
@@ -107,163 +107,6 @@ namespace Test
 			base.Dispose( disposing );
 		}
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(Form1));
-			this.textUrl = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.buttonPrint = new System.Windows.Forms.Button();
-			this.htmlControlContainer = new System.Windows.Forms.Panel();
-			this.htmlControl1 = new IEControl.HtmlControl();
-			this.buttonFavorites = new System.Windows.Forms.Button();
-			this.statusBar1 = new System.Windows.Forms.StatusBar();
-			this.statusBarPanel1 = new System.Windows.Forms.StatusBarPanel();
-			this.button2 = new System.Windows.Forms.Button();
-			this.btnSetHTMLText = new System.Windows.Forms.Button();
-			this.htmlControlContainer.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// textUrl
-			// 
-			this.textUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.textUrl.Location = new System.Drawing.Point(16, 18);
-			this.textUrl.Name = "textUrl";
-			this.textUrl.Size = new System.Drawing.Size(445, 20);
-			this.textUrl.TabIndex = 0;
-			this.textUrl.Text = "http://www.adobe.com/";
-			// 
-			// button1
-			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.ImageIndex = 0;
-			this.button1.Location = new System.Drawing.Point(470, 15);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(40, 25);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "Go";
-			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// buttonPrint
-			// 
-			this.buttonPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonPrint.ImageIndex = 5;
-			this.buttonPrint.Location = new System.Drawing.Point(470, 51);
-			this.buttonPrint.Name = "buttonPrint";
-			this.buttonPrint.Size = new System.Drawing.Size(40, 25);
-			this.buttonPrint.TabIndex = 3;
-			this.buttonPrint.Text = "PPV";
-			this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-			// 
-			// htmlControlContainer
-			// 
-			this.htmlControlContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.htmlControlContainer.BackColor = System.Drawing.SystemColors.Desktop;
-			this.htmlControlContainer.Controls.Add(this.htmlControl1);
-			this.htmlControlContainer.Location = new System.Drawing.Point(16, 49);
-			this.htmlControlContainer.Name = "htmlControlContainer";
-			this.htmlControlContainer.Size = new System.Drawing.Size(446, 259);
-			this.htmlControlContainer.TabIndex = 4;
-			// 
-			// htmlControl1
-			// 
-			this.htmlControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.htmlControl1.ContainingControl = this;
-			this.htmlControl1.Enabled = true;
-			this.htmlControl1.Location = new System.Drawing.Point(9, 11);
-			this.htmlControl1.Name = "htmlControl1";
-			this.htmlControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlControl1.OcxState")));
-			this.htmlControl1.Size = new System.Drawing.Size(426, 239);
-			this.htmlControl1.TabIndex = 3;
-			this.htmlControl1.NewWindow += new IEControl.BrowserNewWindowEventHandler(this.htmlControl1_NewWindow);
-			this.htmlControl1.WindowClosing += new IEControl.BrowserWindowClosingEventHandler(this.htmlWindowClosing);
-			this.htmlControl1.CommandStateChanged += new IEControl.BrowserCommandStateChangeEventHandler(this.htmlCommandStateChanged);
-			this.htmlControl1.OnQuit += new System.EventHandler(this.htmlQuit);
-			this.htmlControl1.NavigateComplete += new IEControl.BrowserNavigateComplete2EventHandler(this.htmlNavigateComplete);
-			this.htmlControl1.StatusTextChanged += new IEControl.BrowserStatusTextChangeEventHandler(this.htmlStatusTextChanged);
-			this.htmlControl1.DocumentComplete += new IEControl.BrowserDocumentCompleteEventHandler(this.htmlDocumentComplete);
-			this.htmlControl1.BeforeNavigate += new IEControl.BrowserBeforeNavigate2EventHandler(this.htmlBeforeNavigate);
-			// 
-			// buttonFavorites
-			// 
-			this.buttonFavorites.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFavorites.ImageIndex = 6;
-			this.buttonFavorites.Location = new System.Drawing.Point(473, 150);
-			this.buttonFavorites.Name = "buttonFavorites";
-			this.buttonFavorites.Size = new System.Drawing.Size(40, 25);
-			this.buttonFavorites.TabIndex = 5;
-			this.buttonFavorites.Text = "Fav";
-			this.buttonFavorites.Click += new System.EventHandler(this.buttonFavorites_Click);
-			// 
-			// statusBar1
-			// 
-			this.statusBar1.Location = new System.Drawing.Point(0, 310);
-			this.statusBar1.Name = "statusBar1";
-			this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-																						  this.statusBarPanel1});
-			this.statusBar1.ShowPanels = true;
-			this.statusBar1.Size = new System.Drawing.Size(523, 21);
-			this.statusBar1.TabIndex = 6;
-			this.statusBar1.PanelClick += new System.Windows.Forms.StatusBarPanelClickEventHandler(this.statusBar1_PanelClick);
-			// 
-			// statusBarPanel1
-			// 
-			this.statusBarPanel1.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
-			this.statusBarPanel1.Width = 507;
-			// 
-			// button2
-			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.ImageIndex = 5;
-			this.button2.Location = new System.Drawing.Point(471, 87);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(40, 25);
-			this.button2.TabIndex = 7;
-			this.button2.Text = "Print";
-			this.button2.Click += new System.EventHandler(this.button2_Click);
-			// 
-			// btnSetHTMLText
-			// 
-			this.btnSetHTMLText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSetHTMLText.Location = new System.Drawing.Point(475, 187);
-			this.btnSetHTMLText.Name = "btnSetHTMLText";
-			this.btnSetHTMLText.Size = new System.Drawing.Size(38, 36);
-			this.btnSetHTMLText.TabIndex = 8;
-			this.btnSetHTMLText.Text = "Set HTM";
-			this.btnSetHTMLText.Click += new System.EventHandler(this.btnSetHTMLText_Click);
-			// 
-			// Form1
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(523, 331);
-			this.Controls.Add(this.btnSetHTMLText);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.statusBar1);
-			this.Controls.Add(this.buttonFavorites);
-			this.Controls.Add(this.htmlControlContainer);
-			this.Controls.Add(this.buttonPrint);
-			this.Controls.Add(this.button1);
-			this.Controls.Add(this.textUrl);
-			this.Name = "Form1";
-			this.Text = "Test IE Control";
-			this.htmlControlContainer.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).EndInit();
-			this.ResumeLayout(false);
-
-		}
-		#endregion
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -274,11 +117,11 @@ namespace Test
 			Application.Run(new Form1());
 		}
 
-		private void button1_Click(object sender, System.EventArgs e) {
+		private void button1_Click(object sender, EventArgs e) {
 			htmlControl1.Navigate(textUrl.Text);
 		}
 
-		private void buttonPrint_Click(object sender, System.EventArgs e) {
+		private void buttonPrint_Click(object sender, EventArgs e) {
 			htmlControl1.ShowDialogPrintPreview();
 		}
 
@@ -291,21 +134,22 @@ namespace Test
 			}
 		}
 
-		private void buttonFavorites_Click(object sender, System.EventArgs e) {
+		private void buttonFavorites_Click(object sender, EventArgs e) {
 			string title = "new entry";
 			string url = textUrl.Text;
 			htmlControl1.ShowDialogAddFavorite(url, title);
-			Trace.WriteLine("buttonFavorites(): " + (title != null ? title: "null"));
+			Trace.WriteLine("buttonFavorites(): called");
 		}
 
 		private void WindowLoad(IHTMLEventObj e){
-			Trace.WriteLine("onload(): " + e.SrcElement.toString());		
+			
+			Trace.WriteLine("onload(): " + e.Reason);		
 		}
 
 		private void WindowError(string description, string url, int line) {	
 			Console.WriteLine("{0} on line {1} while processing {2}", description, url, line);
 			IHTMLWindow2 window = (IHTMLWindow2) htmlControl1.Document2.GetParentWindow();			
-			IHTMLEventObj eventObj = (IHTMLEventObj)window.eventobj;
+			IHTMLEventObj eventObj = window.eventobj;
 			//eventObj.CancelBubble = true; 
 			eventObj.ReturnValue = true;
 		}
@@ -321,7 +165,7 @@ namespace Test
 			}
 
 			HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event) htmlControl1.Document2.GetParentWindow();
-			window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.WindowError);					
+			window.onerror += this.WindowError;					
 		}
 
 		private void htmlDocumentComplete(object sender, BrowserDocumentCompleteEvent e) {
@@ -335,8 +179,8 @@ namespace Test
 			}
 
 			HTMLWindowEvents2_Event window = (HTMLWindowEvents2_Event) htmlControl1.Document2.GetParentWindow();
-			window.onload  += new HTMLWindowEvents2_onloadEventHandler(this.WindowLoad);					
-			window.onerror += new HTMLWindowEvents2_onerrorEventHandler(this.WindowError);			
+			window.onload  += this.WindowLoad;					
+			window.onerror += this.WindowError;			
 		}
 
 		private void htmlWindowClosing(object sender, BrowserWindowClosingEvent e) {
@@ -344,12 +188,12 @@ namespace Test
 				e.Cancel = true;
 		}
 
-		private void htmlQuit(object sender, System.EventArgs e) {
+		private void htmlQuit(object sender, EventArgs e) {
 			MessageBox.Show("Exiting application...", "OnQuit Event", MessageBoxButtons.OK);
 			this.Close();
 		}
 
-		private void statusBar1_PanelClick(object sender, System.Windows.Forms.StatusBarPanelClickEventArgs e) {
+		private void statusBar1_PanelClick(object sender, StatusBarPanelClickEventArgs e) {
 			this.htmlControl1.Html = @"<html><head><title>Hällo World from SetHtmlText()</title></head><body><p>Hällo, World</p></body></html>";
 			this.htmlControl1.Navigate(null);
 		}
@@ -368,17 +212,42 @@ namespace Test
 			if (MessageBox.Show("You clicked '"+e.url+"', that try to open a new window." + Environment.NewLine + "Do you want to proceed?", "htmlNewWindow Event", MessageBoxButtons.YesNo) == DialogResult.No)
 				e.Cancel = true;
 		}
+		private void htmlControl1_NewWindow2(object sender, BrowserNewWindow2Event e)
+		{
+			object url = e.ppDisp;
+			Trace.WriteLine("htmlDocumentNewWindow2(): " + url);
+			if (MessageBox.Show("You clicked '" + url + "', that try to open a new window/tab." + Environment.NewLine + "Do you want to proceed?", "htmlNewWindow2 Event", MessageBoxButtons.YesNo) == DialogResult.No)
+				e.Cancel = true;
+		}
+		void htmlControl1_NewWindow3(object sender, BrowserNewWindow3Event e)
+		{
+			string url = e.bstrUrl;
+			string what = "window";
+			if (IEControl.Interop.NWMF.NWMF_FORCETAB == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCETAB))
+				what = "tab";
+			
+			Trace.WriteLine("htmlDocumentNewWindow3(): " + url);
+			if (MessageBox.Show("You clicked '" + url + "', that try to open a new " + what + Environment.NewLine + e.dwFlags.ToString() + Environment.NewLine + "Do you want to proceed?", "htmlNewWindow3 Event", MessageBoxButtons.YesNo) == DialogResult.No)
+				e.Cancel = true;
+		}
 
-		private void button2_Click(object sender, System.EventArgs e) {
+		private void button2_Click(object sender, EventArgs e) {
 			htmlControl1.ShowDialogPrint();
 		}
 
-		private void btnSetHTMLText_Click(object sender, System.EventArgs e) {
+		private void btnSetHTMLText_Click(object sender, EventArgs e) {
 			for (int i=0; i < 50; i++) {
 				htmlControl1.Html = htmText;
 				this.htmlControl1.Navigate(null);
 				if (i % 2 == 0) Application.DoEvents();
 			}
+		}
+
+		private void chkAllowTabs_CheckedChanged(object sender, EventArgs e)
+		{
+			HtmlControl.SetInternetFeatureEnabled(
+				InternetFeatureList.FEATURE_TABBED_BROWSING,
+				SetFeatureFlag.SET_FEATURE_ON_PROCESS, chkAllowTabs.Checked);
 		}
 	}
 	

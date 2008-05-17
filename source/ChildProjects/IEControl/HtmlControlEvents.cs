@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Drawing;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
+using Interop.SHDocVw;
 
 namespace IEControl
 {
@@ -143,7 +145,7 @@ namespace IEControl
 	///<summary>
 	///Summary of BrowserNavigateErrorEvent
 	///</summary>
-
+	[ComVisible(false)]
 	public class BrowserNavigateErrorEvent:CancelEventArgs {
         
 		///<summary>
@@ -188,7 +190,7 @@ namespace IEControl
 	///<summary>
 	///Summary of BrowserFileDownloadEvent
 	///</summary>
-
+	[ComVisible(false)]
 	public class BrowserFileDownloadEvent:CancelEventArgs {
         
 		///<summary>
@@ -212,14 +214,15 @@ namespace IEControl
         
 		///<summary>
 		///</summary>
-		public SHDocVw.SecureLockIconConstants secureLockIcon;
+		[CLSCompliant(false)]
+		public SecureLockIconConstants secureLockIcon;
         
 		///<summary>
 		///Summary of BrowserSetSecureLockIconEvent.
 		///</summary>
 		///<param name="secureLockIcon"></param>
 		public BrowserSetSecureLockIconEvent(int secureLockIcon) {
-			this.secureLockIcon = (SHDocVw.SecureLockIconConstants)secureLockIcon;
+			this.secureLockIcon = (SecureLockIconConstants)secureLockIcon;
 		}
 	}
     
@@ -263,7 +266,7 @@ namespace IEControl
 	///<summary>
 	///Summary of BrowserWindowClosingEvent
 	///</summary>
-
+	[ComVisible(false)]
 	public class BrowserWindowClosingEvent:CancelEventArgs {
         
 		///<summary>
@@ -635,8 +638,10 @@ namespace IEControl
 
 	/// <summary>
 	/// </summary>
-	public class BrowserNewWindowEvent : CancelEventArgs {
-		string _url;
+	[ComVisible(false)]
+	public class BrowserNewWindowEvent : CancelEventArgs
+	{
+		readonly string _url;
 		/// <summary>
 		/// Initialize a new instance of BrowserNewWindowEvent
 		/// </summary>
@@ -657,7 +662,9 @@ namespace IEControl
 	///<summary>
 	///Summary of BrowserNewWindow2Event
 	///</summary>
-	public class BrowserNewWindow2Event:CancelEventArgs {
+	[ComVisible(false)]
+	public class BrowserNewWindow2Event : CancelEventArgs
+	{
         
 		///<summary>
 		///</summary>
@@ -672,6 +679,43 @@ namespace IEControl
 			this.ppDisp = ppDisp;
 		}
 	}
+
+	///<summary>
+	///Summary of BrowserNewWindow2Event
+	///</summary>
+	[ComVisible(false)]
+	[CLSCompliant(false)]
+	public class BrowserNewWindow3Event : BrowserNewWindow2Event
+	{
+		/// <summary>
+		/// The flags from the NWMF enumeration that pertain to the new window
+		/// </summary>
+		public readonly Interop.NWMF dwFlags;
+		/// <summary>
+		/// The URL of the page that is opening the new window
+		/// </summary>
+		public readonly string bstrUrlContext;
+		/// <summary>
+		/// The URL that is opened in the new window
+		/// </summary>
+		public readonly string bstrUrl;
+
+		/// <summary>
+		/// Summary of BrowserNewWindow3Event.
+		/// </summary>
+		/// <param name="ppDisp">The pp disp.</param>
+		/// <param name="cancel">if set to <c>true</c> [cancel].</param>
+		/// <param name="dwFlags">The dw flags.</param>
+		/// <param name="bstrUrlContext">The BSTR URL context.</param>
+		/// <param name="bstrUrl">The BSTR URL.</param>
+		public BrowserNewWindow3Event(object ppDisp, bool cancel, uint dwFlags, string bstrUrlContext, string bstrUrl)
+			: base(ppDisp, cancel)
+		{
+			this.dwFlags = (Interop.NWMF) dwFlags;
+			this.bstrUrlContext = bstrUrlContext;
+			this.bstrUrl = bstrUrl;
+		}
+	}
     
 	///<summary>
 	///Summary of BrowserBeforeNavigate2EventHandler
@@ -682,6 +726,7 @@ namespace IEControl
 	///<summary>
 	///Summary of BrowserBeforeNavigate2Event
 	///</summary>
+	[ComVisible(false)]
 	public class BrowserBeforeNavigate2Event: CancelEventArgs {
         
 		/// <summary>
@@ -712,17 +757,18 @@ namespace IEControl
 		///<summary>
 		///</summary>
 		public object headers;
-        
-		///<summary>
-		///Summary of BrowserBeforeNavigate2Event.
-		///</summary>
-		///<param name="pDisp"></param>
-		///<param name="uRL"></param>
-		///<param name="flags"></param>
-		///<param name="targetFrameName"></param>
-		///<param name="postData"></param>
-		///<param name="headers"></param>
-		///<param name="cancel"></param>
+
+		/// <summary>
+		/// Summary of BrowserBeforeNavigate2Event.
+		/// </summary>
+		/// <param name="pDisp">The p disp.</param>
+		/// <param name="uRL">The u RL.</param>
+		/// <param name="flags">The flags.</param>
+		/// <param name="targetFrameName">Name of the target frame.</param>
+		/// <param name="postData">The post data.</param>
+		/// <param name="headers">The headers.</param>
+		/// <param name="cancel">if set to <c>true</c> [cancel].</param>
+		/// <param name="isRootPage">if set to <c>true</c> [is root page].</param>
 		public BrowserBeforeNavigate2Event(object pDisp, object uRL, object flags, object targetFrameName, object postData, object headers, bool cancel, bool isRootPage):base(cancel) {
 			this.pDisp = pDisp;
 			this.url = (String)uRL;
@@ -793,7 +839,8 @@ namespace IEControl
         
 		///<summary>
 		///</summary>
-		public SHDocVw.CommandStateChangeConstants command;
+		[CLSCompliant(false)]
+		public CommandStateChangeConstants command;
         
 		///<summary>
 		///</summary>
@@ -805,7 +852,7 @@ namespace IEControl
 		///<param name="command"></param>
 		///<param name="enable"></param>
 		public BrowserCommandStateChangeEvent(int command, bool enable) {
-			this.command = (SHDocVw.CommandStateChangeConstants)command;
+			this.command = (CommandStateChangeConstants)command;
 			this.enable = enable;
 		}
 	}
@@ -870,14 +917,16 @@ namespace IEControl
 
 	/// <summary>
 	/// </summary>
-	public class BrowserContextMenuCancelEventArgs : CancelEventArgs {
-		Point  location;
+	[ComVisible(false)]
+	public class BrowserContextMenuCancelEventArgs : CancelEventArgs
+	{
+		readonly Point location;
 		/// <summary>
 		/// Init a new instance of BrowserContextMenuCancelEventArgs
 		/// </summary>
-		/// <param name="loaction"></param>
-		/// <param name="cancel"></param>
-		public BrowserContextMenuCancelEventArgs(Point loaction, bool cancel)	: base(cancel)	{ this.location = location;	}
+		/// <param name="location">The location.</param>
+		/// <param name="cancel">if set to <c>true</c> [cancel].</param>
+		public BrowserContextMenuCancelEventArgs(Point location, bool cancel)	: base(cancel)	{ this.location = location;	}
 		/// <summary>
 		/// Get the position of the cursor to be used to display the context menu
 		/// </summary>
@@ -892,7 +941,7 @@ namespace IEControl
 	/// <summary>
 	/// </summary>
 	public class BrowserTranslateUrlEventArgs: EventArgs {
-		string url;
+		readonly string url;
 		string translatedUrl;
 
 		/// <summary>

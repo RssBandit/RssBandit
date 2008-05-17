@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Runtime.InteropServices;
 
@@ -97,12 +98,12 @@ namespace IEControl{
 	internal sealed class HTMLWindowEvents2_EventProvider : HTMLWindowEvents2_Event, IDisposable {
 		// Fields
 		private ArrayList m_aEventSinkHelpers;
-		private UCOMIConnectionPoint m_ConnectionPoint;
-		private UCOMIConnectionPointContainer m_ConnectionPointContainer;
+		private IConnectionPoint m_ConnectionPoint;
+		private readonly IConnectionPointContainer m_ConnectionPointContainer;
 
 		// Methods
 		public HTMLWindowEvents2_EventProvider(object obj1) {
-			this.m_ConnectionPointContainer = (UCOMIConnectionPointContainer) obj1;
+			this.m_ConnectionPointContainer = (IConnectionPointContainer) obj1;
 		}
 
 		public event HTMLWindowEvents2_onafterprintEventHandler onafterprint{
@@ -112,11 +113,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onafterprintDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -127,7 +128,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onafterprintDelegate != null) && (helper.m_onafterprintDelegate.Equals((object) value))) {
+							if ((helper.m_onafterprintDelegate != null) && (helper.m_onafterprintDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -152,11 +153,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onbeforeprintDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -167,7 +168,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onbeforeprintDelegate != null) && (helper.m_onbeforeprintDelegate.Equals((object) value))) {
+							if ((helper.m_onbeforeprintDelegate != null) && (helper.m_onbeforeprintDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -192,11 +193,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onbeforeunloadDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -207,7 +208,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onbeforeunloadDelegate != null) && (helper.m_onbeforeunloadDelegate.Equals((object) value))) {
+							if ((helper.m_onbeforeunloadDelegate != null) && (helper.m_onbeforeunloadDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -231,11 +232,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onblurDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -246,7 +247,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onblurDelegate != null) && (helper.m_onblurDelegate.Equals((object) value))) {
+							if ((helper.m_onblurDelegate != null) && (helper.m_onblurDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -270,11 +271,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onfocusDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -285,7 +286,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onfocusDelegate != null) && (helper.m_onfocusDelegate.Equals((object) value))) {
+							if ((helper.m_onfocusDelegate != null) && (helper.m_onfocusDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -310,11 +311,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onloadDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -325,7 +326,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onloadDelegate != null) && (helper.m_onloadDelegate.Equals((object) value))) {
+							if ((helper.m_onloadDelegate != null) && (helper.m_onloadDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -342,18 +343,19 @@ namespace IEControl{
 			}
 		}
 
-		
 
-		
-
-	
-
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
 		public void Dispose() {
-			this.Finalize();
+			this.Close();
 			GC.SuppressFinalize(this);
 		}
 
-		public void Finalize() {
+		/// <summary>
+		/// Closes this instance.
+		/// </summary>
+		public void Close() {
 			Monitor.Enter(this);
 			try {
 				if (this.m_ConnectionPoint != null) {
@@ -369,7 +371,8 @@ namespace IEControl{
 					}
 				}
 			}
-			catch (Exception) {
+			catch
+			{
 			}
 			finally {
 				Monitor.Exit(this);
@@ -377,7 +380,7 @@ namespace IEControl{
 		}
 
 		private void Init() {
-			UCOMIConnectionPoint ppCP = null;
+			IConnectionPoint ppCP;
 			byte[] b = new byte[] { 0x25, 0xf6, 80, 0x30, 0xb5, 0x98, 0xcf, 0x11, 0xbb, 130, 0, 170, 0, 0xbd, 0xce, 11 };
 			Guid riid = new Guid(b);
 			this.m_ConnectionPointContainer.FindConnectionPoint(ref riid, out ppCP);
@@ -397,11 +400,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onerrorDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -412,7 +415,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onerrorDelegate != null) && (helper.m_onerrorDelegate.Equals((object) value))) {
+							if ((helper.m_onerrorDelegate != null) && (helper.m_onerrorDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -436,11 +439,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onhelpDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -451,7 +454,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onhelpDelegate != null) && (helper.m_onhelpDelegate.Equals((object) value))) {
+							if ((helper.m_onhelpDelegate != null) && (helper.m_onhelpDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -475,11 +478,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onresizeDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -490,7 +493,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onresizeDelegate != null) && (helper.m_onresizeDelegate.Equals((object) value))) {
+							if ((helper.m_onresizeDelegate != null) && (helper.m_onresizeDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -514,11 +517,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onscrollDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -529,7 +532,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onscrollDelegate != null) && (helper.m_onscrollDelegate.Equals((object) value))) {
+							if ((helper.m_onscrollDelegate != null) && (helper.m_onscrollDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -553,11 +556,11 @@ namespace IEControl{
 						this.Init();
 					}
 					HTMLWindowEvents2_SinkHelper helper = new HTMLWindowEvents2_SinkHelper();
-					int pdwCookie = 0;
-					this.m_ConnectionPoint.Advise((object) helper, out pdwCookie);
+					int pdwCookie;
+					this.m_ConnectionPoint.Advise(helper, out pdwCookie);
 					helper.m_dwCookie = pdwCookie;
 					helper.m_onunloadDelegate = value;
-					this.m_aEventSinkHelpers.Add((object) helper);
+					this.m_aEventSinkHelpers.Add(helper);
 				}
 			}
 
@@ -568,7 +571,7 @@ namespace IEControl{
 					if (0 < count) {
 						do {
 							HTMLWindowEvents2_SinkHelper helper = (HTMLWindowEvents2_SinkHelper) this.m_aEventSinkHelpers[index];
-							if ((helper.m_onunloadDelegate != null) && (helper.m_onunloadDelegate.Equals((object) value))) {
+							if ((helper.m_onunloadDelegate != null) && (helper.m_onunloadDelegate.Equals(value))) {
 								this.m_aEventSinkHelpers.RemoveAt(index);
 								this.m_ConnectionPoint.Unadvise(helper.m_dwCookie);
 								if (count <= 1) {
@@ -589,22 +592,20 @@ namespace IEControl{
 	[ClassInterface(ClassInterfaceType.None)]
 	internal sealed class HTMLWindowEvents2_SinkHelper : HTMLWindowEvents2 {
 		// Fields
-		public int m_dwCookie = 0;
-		public HTMLWindowEvents2_onafterprintEventHandler m_onafterprintDelegate = null;
-		public HTMLWindowEvents2_onbeforeprintEventHandler m_onbeforeprintDelegate = null;
-		public HTMLWindowEvents2_onbeforeunloadEventHandler m_onbeforeunloadDelegate = null;
-		public HTMLWindowEvents2_onblurEventHandler m_onblurDelegate = null;
-		public HTMLWindowEvents2_onerrorEventHandler m_onerrorDelegate = null;
-		public HTMLWindowEvents2_onfocusEventHandler m_onfocusDelegate = null;
-		public HTMLWindowEvents2_onhelpEventHandler m_onhelpDelegate = null;
-		public HTMLWindowEvents2_onloadEventHandler m_onloadDelegate = null;
-		public HTMLWindowEvents2_onresizeEventHandler m_onresizeDelegate = null;
-		public HTMLWindowEvents2_onscrollEventHandler m_onscrollDelegate = null;
-		public HTMLWindowEvents2_onunloadEventHandler m_onunloadDelegate = null;
+		public int m_dwCookie;
+		public HTMLWindowEvents2_onafterprintEventHandler m_onafterprintDelegate;
+		public HTMLWindowEvents2_onbeforeprintEventHandler m_onbeforeprintDelegate;
+		public HTMLWindowEvents2_onbeforeunloadEventHandler m_onbeforeunloadDelegate;
+		public HTMLWindowEvents2_onblurEventHandler m_onblurDelegate;
+		public HTMLWindowEvents2_onerrorEventHandler m_onerrorDelegate;
+		public HTMLWindowEvents2_onfocusEventHandler m_onfocusDelegate;
+		public HTMLWindowEvents2_onhelpEventHandler m_onhelpDelegate;
+		public HTMLWindowEvents2_onloadEventHandler m_onloadDelegate;
+		public HTMLWindowEvents2_onresizeEventHandler m_onresizeDelegate;
+		public HTMLWindowEvents2_onscrollEventHandler m_onscrollDelegate;
+		public HTMLWindowEvents2_onunloadEventHandler m_onunloadDelegate;
 
 		// Methods
-		internal HTMLWindowEvents2_SinkHelper() {
-		}
 
 		public  void onafterprint(IHTMLEventObj obj1) {
 			if (this.m_onafterprintDelegate != null) {
