@@ -3620,7 +3620,7 @@ namespace RssBandit
                     new NewsItem(sentItemsFeed, replyItem.Title, inResponse2item.Link, replyItem.Content,
                                  replyItem.Date, inResponse2item.Feed.title)
                         {
-                            OptionalElements = ((Hashtable) replyItem.OptionalElements.Clone())
+                            OptionalElements = (new Dictionary<XmlQualifiedName, string>(replyItem.OptionalElements))
                         };
 
                 if (null ==
@@ -3657,7 +3657,7 @@ namespace RssBandit
                     new NewsItem(sentItemsFeed, replyItem.Title, Guid.NewGuid().ToString(), replyItem.Content,
                                  replyItem.Date, postTarget.title)
                         {
-                            OptionalElements = ((Hashtable) replyItem.OptionalElements.Clone()),
+                            OptionalElements = ( new Dictionary<XmlQualifiedName, string> (replyItem.OptionalElements)),
                             BeenRead = false
                         };
 
@@ -4938,7 +4938,7 @@ namespace RssBandit
                     comment = replyEventArgs.Comment.Replace("\r\n", "<br />");
                     item2post =
                         new NewsItem(sentItemsFeed, title, url, comment, DateTime.Now, null, ContentType.Html,
-                                     new Hashtable(), url, parentID);
+                                     new Dictionary<XmlQualifiedName, string>(), url, parentID);
                 }
                 else
                 {
@@ -4988,7 +4988,7 @@ namespace RssBandit
                     comment = replyEventArgs.Comment.Replace("\r\n", "<br />");
                     item2post =
                         new NewsItem(sentItemsFeed, title, url, comment, DateTime.Now, null, ContentType.Html,
-                                     new Hashtable(), url, null);
+                                     new Dictionary<XmlQualifiedName, string>(), url, null);
                 }
                 else
                 {

@@ -1802,7 +1802,7 @@ namespace NewsComponents.Feed {
             set { /* can't be set */ }
         }
 
-        private Hashtable _optionalElements = new Hashtable(); 
+        private Dictionary<XmlQualifiedName, string> _optionalElements = new Dictionary<XmlQualifiedName, string>(); 
         /// <summary>
         /// Container for all the optional RSS elements for an item. Also 
         /// holds information from RSS modules. The keys in the hashtable 
@@ -1812,7 +1812,7 @@ namespace NewsComponents.Feed {
         /// <remarks>Setting this field may have the side effect of setting certain read-only 
         /// properties such as CommentUrl and CommentStyle depending on whether CommentAPI 
         /// elements are contained in the table.</remarks>
-        public Hashtable OptionalElements {
+        public Dictionary<XmlQualifiedName, string> OptionalElements {
             get { return _optionalElements; }
             set { _optionalElements = null; }
         }

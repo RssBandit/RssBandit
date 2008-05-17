@@ -182,7 +182,7 @@ namespace NewsComponents
 		/// are instances of XmlQualifiedName while the values are instances 
 		/// of XmlNode. 
 		/// </summary>
-		Hashtable OptionalElements { get; set; }
+		Dictionary<XmlQualifiedName, string> OptionalElements { get; set; }
 
         /// <summary>
         /// Returns a collection of strings representing URIs to outgoing links in a feed. 
