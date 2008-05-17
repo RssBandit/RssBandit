@@ -354,7 +354,7 @@ namespace NewsComponents
         public NewsItem(INewsFeed parent, INewsItem item)
             : this(parent, item.Title, item.Link, null, item.Date, item.Subject, item.Id, item.ParentId)
         {
-            OptionalElements = (Hashtable) OptionalElements.Clone();
+            OptionalElements = new Dictionary<XmlQualifiedName, string>(OptionalElements);
             p_beenRead = item.BeenRead;
             p_author = item.Author;
             p_flagStatus = item.FlagStatus;
@@ -380,7 +380,7 @@ namespace NewsComponents
         /// <param name="subject">The topic of the article or blog entry.</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject)
             :
-                this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), link, null)
+                this(feed, title, link, content, date, subject, ContentType.Unknown, new Dictionary<XmlQualifiedName, string>(), link, null)
         {
         }
 
@@ -419,7 +419,7 @@ namespace NewsComponents
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         string id, string parentId)
             :
-                this(feed, title, link, content, date, subject, ContentType.Unknown, new Hashtable(), id, parentId)
+                this(feed, title, link, content, date, subject, ContentType.Unknown, new Dictionary<XmlQualifiedName, string>(), id, parentId)
         {
         }
 
@@ -438,7 +438,7 @@ namespace NewsComponents
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Hashtable otherElements, string id, string parentId)
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId)
             :
                 this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, link)
         {
@@ -460,7 +460,7 @@ namespace NewsComponents
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl) :
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId, string baseUrl) :
                             this(
                             feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null
                             )
@@ -484,7 +484,7 @@ namespace NewsComponents
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         /// <param name="outgoingLinks">Outgoing hyperlinks from the HTML content of this item</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Hashtable otherElements, string id, string parentId, string baseUrl,
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId, string baseUrl,
                         List<string> outgoingLinks)
         {
             OptionalElements = otherElements;
@@ -573,7 +573,7 @@ namespace NewsComponents
         private string commentUrl;
         private string commentRssUrl;
         private int commentCount = NoComments;
-        private Hashtable optionalElements;
+        private Dictionary<XmlQualifiedName, string> optionalElements;
         private List<IEnclosure> enclosures;
 
         ///<summary>
@@ -733,13 +733,13 @@ namespace NewsComponents
         /// are instances of XmlQualifiedName while the values are instances 
         /// of XmlNode. 
         /// </summary>
-        public Hashtable OptionalElements
+        public Dictionary<XmlQualifiedName, string> OptionalElements
         {
             get
             {
                 if (optionalElements == null)
                 {
-                    optionalElements = new Hashtable();
+                    optionalElements = new Dictionary<XmlQualifiedName, string>();
                 }
                 return optionalElements;
             }
@@ -770,7 +770,7 @@ namespace NewsComponents
         public object Clone()
         {
             var item = new NewsItem(p_feed, p_title, HRef, null, Date, subject, p_id, p_parentId);
-            item.OptionalElements = (Hashtable) OptionalElements.Clone();
+            item.OptionalElements = new Dictionary<XmlQualifiedName, string>(OptionalElements);
             item.p_beenRead = p_beenRead;
             item.p_author = p_author;
             item.p_flagStatus = p_flagStatus;

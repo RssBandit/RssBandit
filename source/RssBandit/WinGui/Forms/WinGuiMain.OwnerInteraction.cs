@@ -2831,7 +2831,7 @@ namespace RssBandit.WinGui.Forms
                     if (elem == null)
                     {
                         elem = RssHelper.CreateXmlElement("gr", qname.Name, qname.Namespace, "1");
-                        item.OptionalElements.Add(qname, elem); 
+                        item.OptionalElements.Add(qname, elem.OuterXml); 
                     }
                     else
                     {
@@ -2863,7 +2863,7 @@ namespace RssBandit.WinGui.Forms
                     if (elem == null)
                     {
                         elem = RssHelper.CreateXmlElement("ng", qname.Name, qname.Namespace, "True");
-                        item.OptionalElements.Add(qname, elem);
+                        item.OptionalElements.Add(qname, elem.OuterXml);
                     }
                     else
                     {

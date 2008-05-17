@@ -270,7 +270,7 @@ namespace NewsComponents.Feed
             int commentCount = NewsItem.NoComments;
             DateTime date = defaultItemDate;
             DateTime now = date;
-            Hashtable optionalElements = new Hashtable();
+            Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();
             Flagged flagged = Flagged.None;
             bool watchComments = false, hasNewComments = false;
             ArrayList subjects = new ArrayList();
@@ -713,7 +713,7 @@ namespace NewsComponents.Feed
                 nodeRead = true;
 
                 /* some elements occur multiple times in feeds, only the 1st is picked */
-                if (!optionalElements.Contains(qname))
+                if (!optionalElements.ContainsKey(qname))
                 {
                     optionalElements.Add(qname, optionalNode);
                 }
@@ -825,7 +825,7 @@ namespace NewsComponents.Feed
             int commentCount = NewsItem.NoComments;
             DateTime date = defaultItemDate;
             DateTime now = date;
-            Hashtable optionalElements = new Hashtable();
+            Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();
             Flagged flagged = Flagged.None;
             ArrayList subjects = new ArrayList();
             List<IEnclosure> enclosures = null;
@@ -1304,7 +1304,7 @@ namespace NewsComponents.Feed
                 string optionalNode = reader.ReadOuterXml();
                 nodeRead = true;
 
-                if (!optionalElements.Contains(qname))
+                if (!optionalElements.ContainsKey(qname))
                 {
                     optionalElements.Add(qname, optionalNode);
                 }
