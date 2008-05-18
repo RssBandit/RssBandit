@@ -1257,9 +1257,10 @@ namespace NewsComponents.Feed
         /// <param name="feed">The RSS feed</param>
         public override void MarkAllCachedItemsAsRead(INewsFeed feed)
         {
+           
             DateTime newestItemAge = DateTime.MinValue;
 
-            if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
+            if (feed != null && feed.containsNewMessages && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
                 IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
 
