@@ -7170,6 +7170,26 @@ namespace NewsComponents
 
 
         /// <summary>
+        /// Helper function that gets the descendant feeds of the named category
+        /// </summary>
+        /// <param name="cat">The category</param>
+        /// <returns>The list of descendant INewsFeed</returns>
+        public IEnumerable<INewsFeed> GetDescendantFeeds(INewsFeedCategory cat)
+        {
+            if (cat == null)
+            {
+                return new List<INewsFeed>();
+            }
+
+            var feeds2return = from f in feedsTable.Values
+                                   where f.category != null && (f.category.Equals(cat.Value) || f.category.StartsWith(cat.Value + FeedSource.CategorySeparator))
+                                   select f;
+            
+            return new List<INewsFeed>(feeds2return); 
+        }
+
+
+        /// <summary>
         /// Invoked when a NewsFeed owned by this FeedSource changes in a way that 
         /// needs to be communicated to NewsGator Online. 
         /// </summary>

@@ -2073,16 +2073,37 @@ namespace RssBandit.WinGui.Forms
             var selectedNode = startNode ?? CurrentSelectedFeedsNode;
 
             if (selectedNode == null) return;
-
-            INewsFeed f = null;
+            INewsFeed f = null; 
             if (selectedNode.Type == FeedNodeType.Feed)
+            {
                 f = owner.GetFeed(selectedNode.DataKey);
 
-            if (f != null)
-            {
-                UnreadItemsNodeRemoveItems(f); // BEFORE they get marked read by:
-                owner.FeedHandler.MarkAllCachedItemsAsRead(f);
-                owner.FeedWasModified(f, NewsFeedProperty.FeedItemReadState);
+                if (f != null)
+                {
+                    UnreadItemsNodeRemoveItems(f); // BEFORE they get marked read by:
+                    owner.FeedHandler.MarkAllCachedItemsAsRead(f);
+                    owner.FeedWasModified(f, NewsFeedProperty.FeedItemReadState);
+                    UpdateTreeNodeUnreadStatus(selectedNode, 0);
+                }
+
+            }else if (selectedNode.Type == FeedNodeType.Category){
+                INewsFeedCategory c = null;
+                owner.FeedHandler.GetCategories().TryGetValue(selectedNode.CategoryStoreName, out c);
+                if (c != null)
+                {
+                    foreach (INewsFeed feed in owner.FeedHandler.GetDescendantFeeds(c))
+                    {
+                        UnreadItemsNodeRemoveItems(feed); // BEFORE they get marked read by:
+                        owner.FeedHandler.MarkAllCachedItemsAsRead(feed);
+                        owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);                      
+                    }
+                    UpdateTreeNodeUnreadStatus(selectedNode, 0);
+                }
+               
+            }else if (selectedNode.Type == FeedNodeType.Root){
+                UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
+                owner.FeedHandler.MarkAllCachedItemsAsRead();
+                owner.SubscriptionModified(NewsFeedProperty.FeedMarkItemsReadOnExit); 
                 UpdateTreeNodeUnreadStatus(selectedNode, 0);
             }
 
