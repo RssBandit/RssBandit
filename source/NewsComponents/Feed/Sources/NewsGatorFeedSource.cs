@@ -1110,7 +1110,7 @@ namespace NewsComponents.Feed
             DateTime newestItemAge = DateTime.MinValue;
             string syncToken = null; 
 
-            if (feed != null && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
+            if (feed != null && feed.containsNewMessages && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
                 IFeedDetails fi = itemsTable[feed.link] as IFeedDetails;
 
