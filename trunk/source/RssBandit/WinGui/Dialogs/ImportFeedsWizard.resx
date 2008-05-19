@@ -121,8 +121,8 @@
   <data name="wizard.BannerImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAxCAYAAABznEEcAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
         Ihx6ryK9hC5dehMUkCq9KCAoiHQUhcNp+79zbyNPTEyMmDHePWPMwV6btTfzW/Ofc5WDDADef/2Hhfhv
         tzEDBAUFycTHx49jB6K2tlamsrJStqKiQoZtX758WaakpIS7LiwslGGNvc7NzZW5ePHihL8yeDVSTDD1
         uL7YMaRvc0Q+nn/42TFDFBQUjCfHJxDA+KqqKhZChiBky8rKxrEQD/+x/Px8mby8PJlfITjwJ7FmBi8c
@@ -234,242 +234,277 @@
   <data name="&gt;&gt;_btnImmediateFinish.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="linkLabelCanonicalUrl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>57, 63</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="comboBox1.Items" xml:space="preserve">
+    <value>Google Reader</value>
+  </data>
+  <data name="comboBox1.Items1" xml:space="preserve">
+    <value>NewsGator Online</value>
+  </data>
+  <data name="comboBox1.Items2" xml:space="preserve">
+    <value>Windows RSS platform</value>
+  </data>
+  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>103, 60</value>
+  </data>
+  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 21</value>
+  </data>
+  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
+    <value>comboBox1</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radioButton2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 37</value>
+  </data>
+  <data name="radioButton2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 17</value>
+  </data>
+  <data name="radioButton2.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="radioButton2.Text" xml:space="preserve">
+    <value>From other RSS reader</value>
+  </data>
+  <data name="&gt;&gt;radioButton2.Name" xml:space="preserve">
+    <value>radioButton2</value>
+  </data>
+  <data name="&gt;&gt;radioButton2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton2.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;radioButton2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 120</value>
+  </data>
+  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="radioButton1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="radioButton1.Text" xml:space="preserve">
+    <value>From OPML</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Name" xml:space="preserve">
+    <value>radioButton1</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="comboCategory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="linkLabelCanonicalUrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="comboCategory.ItemHeight" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
-  <data name="linkLabelCanonicalUrl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 117</value>
+  <data name="comboCategory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 186</value>
   </data>
-  <data name="linkLabelCanonicalUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>357, 27</value>
+  <data name="comboCategory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 21</value>
   </data>
-  <data name="linkLabelCanonicalUrl.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="comboCategory.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>330, 17</value>
   </metadata>
-  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
-    <value>The canonicalized URL we will use</value>
+  <data name="comboCategory.ToolTip" xml:space="preserve">
+    <value>Select a category, or provide a new one where the new feeds should be located within your subscriptions</value>
   </data>
-  <data name="&gt;&gt;linkLabelCanonicalUrl.Name" xml:space="preserve">
-    <value>linkLabelCanonicalUrl</value>
+  <data name="&gt;&gt;comboCategory.Name" xml:space="preserve">
+    <value>comboCategory</value>
   </data>
-  <data name="&gt;&gt;linkLabelCanonicalUrl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;comboCategory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;linkLabelCanonicalUrl.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
+  <data name="&gt;&gt;comboCategory.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
   </data>
-  <data name="&gt;&gt;linkLabelCanonicalUrl.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;comboCategory.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="pictureHelpAutodiscover.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
-        q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
-        93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
-        63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
-        327g0WxTdOZiXsyX/hpIZP2dw6IpRjmDarxDLj8jIMLBvScNfGI/hNVo0red1YEuyqUehmSWLNCSFYZE
-        2sKi7eH4ueEAkLm/LAYmK76oq8cPiSJBYt7dLDFIsgkpbqLuejgUux4ALt62ado7wr4vpOIEIyd+Z92k
-        Mwkjsk67jnrjKw7IVwNAbqSCqrtFd/eFUtwRkR3yARHZovABcspEqVxD9yktAIxNfYZhuWJAXBiJc4FF
-        V3JoLnTm4iO6CM1wMGws4NKt8QDAB5kZnMeS+5O6tgUk4rlw0BYrmoUPqy6OnVQxM1cNA8ana+jNTcNu
-        0lugLrJiiXvz4Dn/tlRbQ4ysDxTod20/69BTHntRwdkrE9Aev8fsQhUrNO16wxN35ra7qbP6m7jzDnZp
-        u3t/4Q1OnH+Iw/EbOHj0GmKnB5Hpf0a2w/+DvwL2Av91/gU3wdnW6R0aHQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="pictureHelpAutodiscover.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pictureHelpAutodiscover.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 201</value>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>31, 186</value>
   </data>
-  <data name="pictureHelpAutodiscover.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 18</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 26</value>
   </data>
-  <data name="pictureHelpAutodiscover.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="&gt;&gt;pictureHelpAutodiscover.Name" xml:space="preserve">
-    <value>pictureHelpAutodiscover</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>To &amp;Category</value>
   </data>
-  <data name="&gt;&gt;pictureHelpAutodiscover.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureHelpAutodiscover.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
-  </data>
-  <data name="&gt;&gt;pictureHelpAutodiscover.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblAutodiscoverHelp.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="lblAutodiscoverHelp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
-  <data name="lblAutodiscoverHelp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>0, 12</value>
-  </data>
-  <data name="lblAutodiscoverHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 198</value>
-  </data>
-  <data name="lblAutodiscoverHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 25</value>
-  </data>
-  <data name="lblAutodiscoverHelp.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
-    <value>Autodiscover</value>
-  </data>
-  <data name="lblAutodiscoverHelp.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;lblAutodiscoverHelp.Name" xml:space="preserve">
-    <value>lblAutodiscoverHelp</value>
-  </data>
-  <data name="&gt;&gt;lblAutodiscoverHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblAutodiscoverHelp.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
-  </data>
-  <data name="&gt;&gt;lblAutodiscoverHelp.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="checkNewByURLValidate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="checkNewByURLValidate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>System</value>
-  </data>
-  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="checkNewByURLValidate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 141</value>
-  </data>
-  <data name="checkNewByURLValidate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>326, 26</value>
-  </data>
-  <data name="checkNewByURLValidate.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="checkNewByURLValidate.Text" xml:space="preserve">
-    <value>Autodiscover and verify the feed</value>
-  </data>
-  <data name="&gt;&gt;checkNewByURLValidate.Name" xml:space="preserve">
-    <value>checkNewByURLValidate</value>
-  </data>
-  <data name="&gt;&gt;checkNewByURLValidate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkNewByURLValidate.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
-  </data>
-  <data name="&gt;&gt;checkNewByURLValidate.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblNewByURLIntro.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblNewByURLIntro.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>0, 0</value>
-  </data>
-  <data name="lblNewByURLIntro.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 3</value>
-  </data>
-  <data name="lblNewByURLIntro.Size" type="System.Drawing.Size, System.Drawing">
-    <value>403, 60</value>
-  </data>
-  <data name="lblNewByURLIntro.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblNewByURLIntro.Text" xml:space="preserve">
-    <value>If you are not sure about the web feed's URL, enter the web browser address of the web site or page and RSS Bandit will try to autodiscover the feed.</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURLIntro.Name" xml:space="preserve">
-    <value>lblNewByURLIntro</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURLIntro.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURLIntro.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURLIntro.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="txtNewByURL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtNewByURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 90</value>
-  </data>
-  <data name="txtNewByURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>357, 21</value>
-  </data>
-  <data name="txtNewByURL.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="txtNewByURL.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;txtNewByURL.Name" xml:space="preserve">
-    <value>txtNewByURL</value>
-  </data>
-  <data name="&gt;&gt;txtNewByURL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtNewByURL.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
-  </data>
-  <data name="&gt;&gt;txtNewByURL.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="lblNewByURL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblNewByURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 72</value>
-  </data>
-  <data name="lblNewByURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>326, 16</value>
-  </data>
-  <data name="lblNewByURL.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblNewByURL.Text" xml:space="preserve">
-    <value>URL:</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURL.Name" xml:space="preserve">
-    <value>lblNewByURL</value>
-  </data>
-  <data name="&gt;&gt;lblNewByURL.Type" xml:space="preserve">
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblNewByURL.Parent" xml:space="preserve">
-    <value>pageNewByURL</value>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
   </data>
-  <data name="&gt;&gt;lblNewByURL.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="textUrlOrFile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="textUrlOrFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 156</value>
+  </data>
+  <data name="textUrlOrFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 21</value>
+  </data>
+  <data name="textUrlOrFile.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="pageNewByURL.Description" xml:space="preserve">
-    <value>Adds a subscription whose web feed can be found at the specified location.</value>
+  <data name="textUrlOrFile.ToolTip" xml:space="preserve">
+    <value>Supported formats are e.g. OCS, OPML, Bandit feedlist...</value>
   </data>
-  <data name="pageNewByURL.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="&gt;&gt;textUrlOrFile.Name" xml:space="preserve">
+    <value>textUrlOrFile</value>
+  </data>
+  <data name="&gt;&gt;textUrlOrFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textUrlOrFile.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;textUrlOrFile.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="btnSelectFile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnSelectFile.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="btnSelectFile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSelectFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>336, 155</value>
+  </data>
+  <data name="btnSelectFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 25</value>
+  </data>
+  <data name="btnSelectFile.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btnSelectFile.Text" xml:space="preserve">
+    <value>Browse ...</value>
+  </data>
+  <data name="btnSelectFile.ToolTip" xml:space="preserve">
+    <value>Lookup for a file on the filesystem...</value>
+  </data>
+  <data name="&gt;&gt;btnSelectFile.Name" xml:space="preserve">
+    <value>btnSelectFile</value>
+  </data>
+  <data name="&gt;&gt;btnSelectFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSelectFile.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;btnSelectFile.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>31, 156</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 26</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>&amp;Url or File</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>pageStartImport</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="pageStartImport.Description" xml:space="preserve">
+    <value>Import feeds from an OPML file, the Windows RSS platform or from an online feed reader</value>
+  </data>
+  <data name="pageStartImport.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 73</value>
   </data>
   <data name="lblValidationTaskImage2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -1749,8 +1784,8 @@
   <data name="pictureHelpSyndic8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
         q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
         93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
         63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
@@ -2374,25 +2409,25 @@
   <data name="&gt;&gt;pageValidateUrl.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="pageNewByURL.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pageStartImport.Size" type="System.Drawing.Size, System.Drawing">
     <value>457, 225</value>
   </data>
-  <data name="pageNewByURL.TabIndex" type="System.Int32, mscorlib">
+  <data name="pageStartImport.TabIndex" type="System.Int32, mscorlib">
     <value>1009</value>
   </data>
-  <data name="pageNewByURL.Text" xml:space="preserve">
-    <value>New subscription by URL</value>
+  <data name="pageStartImport.Text" xml:space="preserve">
+    <value>Import Feeds</value>
   </data>
-  <data name="&gt;&gt;pageNewByURL.Name" xml:space="preserve">
-    <value>pageNewByURL</value>
+  <data name="&gt;&gt;pageStartImport.Name" xml:space="preserve">
+    <value>pageStartImport</value>
   </data>
-  <data name="&gt;&gt;pageNewByURL.Type" xml:space="preserve">
+  <data name="&gt;&gt;pageStartImport.Type" xml:space="preserve">
     <value>Divelements.WizardFramework.WizardPage, WizardFramework, Version=1.0.1.0, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3</value>
   </data>
-  <data name="&gt;&gt;pageNewByURL.Parent" xml:space="preserve">
+  <data name="&gt;&gt;pageStartImport.Parent" xml:space="preserve">
     <value>wizard</value>
   </data>
-  <data name="&gt;&gt;pageNewByURL.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;pageStartImport.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="lstNNTPGroups.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -2458,8 +2493,8 @@
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
         q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
         93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
         63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
@@ -2720,8 +2755,8 @@
   <data name="wizard.MarginImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAKQAAAE5CAYAAAAeOotoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
         WzJKBpmZmRI7cZg5mQzj7kxS7/equ09m9vNLcqf79OnTOqf76quqrqq6+9+mJkw1/inxb/9WosQPJazE
         z4wV/ccGsx+1yj//VuJH3vt/SvxMb7BWooT97N/Y13zdP/ez/1Pi3/U5tv3sZz9jf33s30r8u44QPlbi
         Rzb+TMf6Nz7Ffvqw9v03Xv/Ae3wL/tXn/SMlfuS7aPkPtv7sR3bWlwmHCwfkO+jvGfv9yHfV65+xXYdn
