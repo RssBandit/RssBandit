@@ -5383,7 +5383,7 @@ namespace RssBandit
             return false;
         }
 
-        private INewsFeed CreateFeedFromWizard(ImportFeedsWizard wiz, int index)
+        private INewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, int index)
         {
             INewsFeed f = new NewsFeed
                               {

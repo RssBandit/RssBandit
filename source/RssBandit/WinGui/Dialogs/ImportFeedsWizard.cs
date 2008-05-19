@@ -100,12 +100,8 @@ namespace RssBandit.WinGui.Forms
 		private Divelements.WizardFramework.WizardPage pageHowToSelection;
 		private System.Windows.Forms.RadioButton radioNewByTopicSearch;
 		private System.Windows.Forms.RadioButton radioNewByURL;
-		private Divelements.WizardFramework.WizardPage pageNewByURL;
-		private System.Windows.Forms.RadioButton radioNewByNNTPGroup;
-		private System.Windows.Forms.LinkLabel lblNewByURLIntro;
-		private System.Windows.Forms.CheckBox checkNewByURLValidate;
-		private System.Windows.Forms.Label lblNewByURL;
-		private System.Windows.Forms.TextBox txtNewByURL;
+		private Divelements.WizardFramework.WizardPage pageStartImport;
+        private System.Windows.Forms.RadioButton radioNewByNNTPGroup;
 		private Divelements.WizardFramework.WizardPage pageNewBySearchTopic;
 		private System.Windows.Forms.LinkLabel lblNewBySearchIntro;
 		private System.Windows.Forms.TextBox txtNewBySearchWords;
@@ -135,16 +131,22 @@ namespace RssBandit.WinGui.Forms
 		private System.Windows.Forms.TextBox textPassword;
 		private System.Windows.Forms.Label lblWaitStepIntro;
 		private System.Windows.Forms.LinkLabel lblNewByNNTPGroupIntro;
-		private System.Windows.Forms.LinkLabel lblReloadNntpListOfGroups;
-		private System.Windows.Forms.LinkLabel lblAutodiscoverHelp;
-		private System.Windows.Forms.PictureBox pictureHelpAutodiscover;
+        private System.Windows.Forms.LinkLabel lblReloadNntpListOfGroups;
 		private System.Windows.Forms.PictureBox pictureHelpSyndic8;
 		private System.Windows.Forms.LinkLabel lblSyndic8Help;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.LinkLabel lblUsenetHelp;
-		private System.Windows.Forms.Timer timerStartValidation;
-		private System.Windows.Forms.LinkLabel linkLabelCanonicalUrl;
+        private System.Windows.Forms.Timer timerStartValidation;
 		private System.Windows.Forms.ToolTip toolTip;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
+        private ComboBox comboCategory;
+        private Label label3;
+        private TextBox textUrlOrFile;
+        internal Button btnSelectFile;
+        private Label label2;
+        private Label label1;
+        private ComboBox comboBox1;
 		private System.ComponentModel.IContainer components;
 
 		#endregion
@@ -157,7 +159,6 @@ namespace RssBandit.WinGui.Forms
 			InitializeComponent();
 			// fix the link label(s) linkarea size to fit the whole text (in all translations):
 			this.lblReloadNntpListOfGroups.LinkArea = new LinkArea(0,this.lblReloadNntpListOfGroups.Text.Length );
-			this.lblAutodiscoverHelp.LinkArea = new LinkArea(0, this.lblAutodiscoverHelp.Text.Length);
 			this.lblSyndic8Help.LinkArea = new LinkArea(0, this.lblSyndic8Help.Text.Length);
 			this.lblUsenetHelp.LinkArea = new LinkArea(0, this.lblUsenetHelp.Text.Length);
 		}
@@ -179,8 +180,7 @@ namespace RssBandit.WinGui.Forms
 			internetService = (IInternetService)this.GetService(typeof(IInternetService));
 			if (internetService != null) {
 				internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
-				checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetService.InternetAccessAllowed;
-			}
+				}
 			// to checkout the defaults to be used for the new feed:
 			IUserPreferences preferencesService = (IUserPreferences)this.GetService(typeof(IUserPreferences));
 			this.MaxItemAge = preferencesService.MaxItemAge;
@@ -286,14 +286,7 @@ namespace RssBandit.WinGui.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportFeedsWizard));
             this.wizard = new Divelements.WizardFramework.Wizard();
             this._btnImmediateFinish = new System.Windows.Forms.Button();
-            this.pageNewByURL = new Divelements.WizardFramework.WizardPage();
-            this.linkLabelCanonicalUrl = new System.Windows.Forms.LinkLabel();
-            this.pictureHelpAutodiscover = new System.Windows.Forms.PictureBox();
-            this.lblAutodiscoverHelp = new System.Windows.Forms.LinkLabel();
-            this.checkNewByURLValidate = new System.Windows.Forms.CheckBox();
-            this.lblNewByURLIntro = new System.Windows.Forms.LinkLabel();
-            this.txtNewByURL = new System.Windows.Forms.TextBox();
-            this.lblNewByURL = new System.Windows.Forms.Label();
+            this.pageStartImport = new Divelements.WizardFramework.WizardPage();
             this.pageValidateUrl = new Divelements.WizardFramework.WizardPage();
             this.lblValidationTaskImage2 = new System.Windows.Forms.Label();
             this.lblValidationTask2 = new System.Windows.Forms.Label();
@@ -368,9 +361,17 @@ namespace RssBandit.WinGui.Forms
             this.timerIncreaseProgress = new System.Windows.Forms.Timer(this.components);
             this.timerStartValidation = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.comboCategory = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textUrlOrFile = new System.Windows.Forms.TextBox();
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.wizard.SuspendLayout();
-            this.pageNewByURL.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureHelpAutodiscover)).BeginInit();
+            this.pageStartImport.SuspendLayout();
             this.pageValidateUrl.SuspendLayout();
             this.pageFoundMultipleFeeds.SuspendLayout();
             this.pageTitleCategory.SuspendLayout();
@@ -391,7 +392,7 @@ namespace RssBandit.WinGui.Forms
             // 
             this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
             this.wizard.Controls.Add(this._btnImmediateFinish);
-            this.wizard.Controls.Add(this.pageNewByURL);
+            this.wizard.Controls.Add(this.pageStartImport);
             this.wizard.Controls.Add(this.pageNewBySearchTopic);
             this.wizard.Controls.Add(this.pageNewByNNTPGroup);
             this.wizard.Controls.Add(this.pageValidateUrl);
@@ -406,7 +407,7 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.wizard, "wizard");
             this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
             this.wizard.Name = "wizard";
-            this.wizard.SelectedPage = this.pageNewByURL;
+            this.wizard.SelectedPage = this.pageStartImport;
             this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
             this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
             // 
@@ -416,71 +417,22 @@ namespace RssBandit.WinGui.Forms
             this._btnImmediateFinish.Name = "_btnImmediateFinish";
             this._btnImmediateFinish.Click += new System.EventHandler(this.OnImmediateFinish_Click);
             // 
-            // pageNewByURL
+            // pageStartImport
             // 
-            this.pageNewByURL.Controls.Add(this.linkLabelCanonicalUrl);
-            this.pageNewByURL.Controls.Add(this.pictureHelpAutodiscover);
-            this.pageNewByURL.Controls.Add(this.lblAutodiscoverHelp);
-            this.pageNewByURL.Controls.Add(this.checkNewByURLValidate);
-            this.pageNewByURL.Controls.Add(this.lblNewByURLIntro);
-            this.pageNewByURL.Controls.Add(this.txtNewByURL);
-            this.pageNewByURL.Controls.Add(this.lblNewByURL);
-            resources.ApplyResources(this.pageNewByURL, "pageNewByURL");
-            this.pageNewByURL.Name = "pageNewByURL";
-            this.pageNewByURL.NextPage = this.pageValidateUrl;
-            this.pageNewByURL.PreviousPage = this.pageHowToSelection;
-            this.pageNewByURL.AfterDisplay += new System.EventHandler(this.OnPageNewURLAfterDisplay);
-            // 
-            // linkLabelCanonicalUrl
-            // 
-            resources.ApplyResources(this.linkLabelCanonicalUrl, "linkLabelCanonicalUrl");
-            this.linkLabelCanonicalUrl.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.linkLabelCanonicalUrl.Name = "linkLabelCanonicalUrl";
-            this.toolTip.SetToolTip(this.linkLabelCanonicalUrl, resources.GetString("linkLabelCanonicalUrl.ToolTip"));
-            this.linkLabelCanonicalUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnAnyLinkLabel_LinkClicked);
-            // 
-            // pictureHelpAutodiscover
-            // 
-            resources.ApplyResources(this.pictureHelpAutodiscover, "pictureHelpAutodiscover");
-            this.pictureHelpAutodiscover.Name = "pictureHelpAutodiscover";
-            this.pictureHelpAutodiscover.TabStop = false;
-            // 
-            // lblAutodiscoverHelp
-            // 
-            this.lblAutodiscoverHelp.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            resources.ApplyResources(this.lblAutodiscoverHelp, "lblAutodiscoverHelp");
-            this.lblAutodiscoverHelp.Name = "lblAutodiscoverHelp";
-            this.lblAutodiscoverHelp.TabStop = true;
-            this.lblAutodiscoverHelp.Tag = "http://diveintomark.org/archives/2002/08/15/ultraliberal_rss_locator";
-            this.lblAutodiscoverHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnAnyLinkLabel_LinkClicked);
-            // 
-            // checkNewByURLValidate
-            // 
-            resources.ApplyResources(this.checkNewByURLValidate, "checkNewByURLValidate");
-            this.checkNewByURLValidate.Checked = true;
-            this.checkNewByURLValidate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkNewByURLValidate.Name = "checkNewByURLValidate";
-            this.checkNewByURLValidate.CheckedChanged += new System.EventHandler(this.OnAutodiscoverVerifyCheckedChanged);
-            // 
-            // lblNewByURLIntro
-            // 
-            resources.ApplyResources(this.lblNewByURLIntro, "lblNewByURLIntro");
-            this.lblNewByURLIntro.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblNewByURLIntro.Name = "lblNewByURLIntro";
-            this.lblNewByURLIntro.Tag = "";
-            // 
-            // txtNewByURL
-            // 
-            resources.ApplyResources(this.txtNewByURL, "txtNewByURL");
-            this.txtNewByURL.Name = "txtNewByURL";
-            this.txtNewByURL.TextChanged += new System.EventHandler(this.OnNewFeedUrlTextChanged);
-            this.txtNewByURL.Validating += new System.ComponentModel.CancelEventHandler(this.OnTextNewByUrlValidating);
-            // 
-            // lblNewByURL
-            // 
-            resources.ApplyResources(this.lblNewByURL, "lblNewByURL");
-            this.lblNewByURL.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblNewByURL.Name = "lblNewByURL";
+            this.pageStartImport.Controls.Add(this.label1);
+            this.pageStartImport.Controls.Add(this.comboBox1);
+            this.pageStartImport.Controls.Add(this.radioButton2);
+            this.pageStartImport.Controls.Add(this.radioButton1);
+            this.pageStartImport.Controls.Add(this.comboCategory);
+            this.pageStartImport.Controls.Add(this.label3);
+            this.pageStartImport.Controls.Add(this.textUrlOrFile);
+            this.pageStartImport.Controls.Add(this.btnSelectFile);
+            this.pageStartImport.Controls.Add(this.label2);
+            resources.ApplyResources(this.pageStartImport, "pageStartImport");
+            this.pageStartImport.Name = "pageStartImport";
+            this.pageStartImport.NextPage = this.pageValidateUrl;
+            this.pageStartImport.PreviousPage = this.pageHowToSelection;
+            this.pageStartImport.AfterDisplay += new System.EventHandler(this.OnPageNewURLAfterDisplay);
             // 
             // pageValidateUrl
             // 
@@ -877,7 +829,7 @@ namespace RssBandit.WinGui.Forms
             this.pageHowToSelection.Controls.Add(this.radioNewByURL);
             resources.ApplyResources(this.pageHowToSelection, "pageHowToSelection");
             this.pageHowToSelection.Name = "pageHowToSelection";
-            this.pageHowToSelection.NextPage = this.pageNewByURL;
+            this.pageHowToSelection.NextPage = this.pageStartImport;
             this.pageHowToSelection.PreviousPage = this.pageWelcome;
             this.pageHowToSelection.AfterDisplay += new System.EventHandler(this.OnPageHowToSelectionAfterDisplay);
             // 
@@ -1030,6 +982,65 @@ namespace RssBandit.WinGui.Forms
             // 
             this.timerStartValidation.Tick += new System.EventHandler(this.OnTimerStartValidation);
             // 
+            // comboCategory
+            // 
+            resources.ApplyResources(this.comboCategory, "comboCategory");
+            this.comboCategory.Name = "comboCategory";
+            this.comboCategory.Sorted = true;
+            this.toolTip.SetToolTip(this.comboCategory, resources.GetString("comboCategory.ToolTip"));
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // textUrlOrFile
+            // 
+            this.textUrlOrFile.AllowDrop = true;
+            resources.ApplyResources(this.textUrlOrFile, "textUrlOrFile");
+            this.textUrlOrFile.Name = "textUrlOrFile";
+            this.toolTip.SetToolTip(this.textUrlOrFile, resources.GetString("textUrlOrFile.ToolTip"));
+            // 
+            // btnSelectFile
+            // 
+            resources.ApplyResources(this.btnSelectFile, "btnSelectFile");
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.toolTip.SetToolTip(this.btnSelectFile, resources.GetString("btnSelectFile.ToolTip"));
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // radioButton1
+            // 
+            resources.ApplyResources(this.radioButton1, "radioButton1");
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.TabStop = true;
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            resources.ApplyResources(this.radioButton2, "radioButton2");
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.TabStop = true;
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            resources.GetString("comboBox1.Items"),
+            resources.GetString("comboBox1.Items1"),
+            resources.GetString("comboBox1.Items2")});
+            resources.ApplyResources(this.comboBox1, "comboBox1");
+            this.comboBox1.Name = "comboBox1";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // ImportFeedsWizard
             // 
             resources.ApplyResources(this, "$this");
@@ -1039,9 +1050,8 @@ namespace RssBandit.WinGui.Forms
             this.MinimizeBox = false;
             this.Name = "ImportFeedsWizard";
             this.wizard.ResumeLayout(false);
-            this.pageNewByURL.ResumeLayout(false);
-            this.pageNewByURL.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureHelpAutodiscover)).EndInit();
+            this.pageStartImport.ResumeLayout(false);
+            this.pageStartImport.PerformLayout();
             this.pageValidateUrl.ResumeLayout(false);
             this.pageFoundMultipleFeeds.ResumeLayout(false);
             this.pageTitleCategory.ResumeLayout(false);
@@ -1074,12 +1084,12 @@ namespace RssBandit.WinGui.Forms
 					// nothing yet. Depends on user selection (pageHowToSelection)
 					break;
 				case WizardMode.SubscribeURL:
-					pageHowToSelection.NextPage = pageNewByURL;
+					pageHowToSelection.NextPage = pageStartImport;
 					break;
 				case WizardMode.SubscribeURLDirect:
-					pageWelcome.NextPage = pageNewByURL;
-					pageNewByURL.PreviousPage = pageWelcome;
-					pageTitleCategory.PreviousPage = pageNewByURL;
+					pageWelcome.NextPage = pageStartImport;
+					pageStartImport.PreviousPage = pageWelcome;
+					pageTitleCategory.PreviousPage = pageStartImport;
 					break;
 				case WizardMode.SubscribeNNTPGroup:
 					pageHowToSelection.NextPage = pageNewByNNTPGroup;
@@ -1114,15 +1124,15 @@ namespace RssBandit.WinGui.Forms
 			if (this.credentialsStepReWired == beforeDiscoverValidateUrl)
 				return;
 			if (beforeDiscoverValidateUrl) {
-				pageNewByURL.NextPage = pageFeedCredentials;
-				pageFeedCredentials.PreviousPage = pageNewByURL;
+				pageStartImport.NextPage = pageFeedCredentials;
+				pageFeedCredentials.PreviousPage = pageStartImport;
 				pageFeedCredentials.NextPage = pageValidateUrl;
 				pageValidateUrl.PreviousPage = pageFeedCredentials;
 			} else {
-				pageNewByURL.NextPage = pageValidateUrl;
+				pageStartImport.NextPage = pageValidateUrl;
 				pageFeedCredentials.PreviousPage = pageTitleCategory;
 				pageFeedCredentials.NextPage = pageFeedItemControl;
-				pageValidateUrl.PreviousPage = pageNewByURL;
+				pageValidateUrl.PreviousPage = pageStartImport;
 			}
 			this.credentialsStepReWired = beforeDiscoverValidateUrl;
 		}
@@ -1188,7 +1198,6 @@ namespace RssBandit.WinGui.Forms
 					autoDiscover.SearchTerms = this.txtNewBySearchWords.Text;
 					autoDiscover.OperationMessage = SR.GUIStatusWaitMessageDetectingFeedsWithKeywords(this.txtNewBySearchWords.Text);
 				} else {
-					autoDiscover.WebPageUrl = this.txtNewByURL.Text;
 					autoDiscover.OperationMessage = SR.GUIStatusWaitMessageDetectingFeeds(this.txtNewBySearchWords.Text);
 				}
 				
@@ -1271,8 +1280,7 @@ namespace RssBandit.WinGui.Forms
 				}
 
 				if(fetchHandler.DiscoveredDetails != null) {
-					this.feedInfo = fetchHandler.FeedInfo;
-					this.txtNewByURL.Text = url;
+					this.feedInfo = fetchHandler.FeedInfo;					
 					this.FeedTitle = fetchHandler.DiscoveredDetails.Title;
 				}
 
@@ -1595,8 +1603,8 @@ namespace RssBandit.WinGui.Forms
 		/// <value>The feed URL.</value>
 		public string FeedUrl
 		{
-			get { return this.txtNewByURL.Text.Trim(); } 
-			set { this.txtNewByURL.Text = value; }
+			get { return String.Empty; } 
+			set { ; }
 		} 
 
 		/// <summary>
@@ -1850,7 +1858,6 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnInternetServiceInternetConnectionStateChange(object sender, InternetConnectionStateChangeEventArgs e) {
 			bool internetConnected = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
-			checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetConnected;
 		}
 
 		private void OnImmediateFinish_Click(object sender, System.EventArgs e)
@@ -1894,14 +1901,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnAutodiscoverVerifyCheckedChanged(object sender, System.EventArgs e) {
-			if (this.checkNewByURLValidate.Checked) {
-				pageNewByURL.NextPage = pageValidateUrl;
-				pageTitleCategory.PreviousPage = pageNewByURL;
-				pageValidateUrl.NextPage = pageTitleCategory;
-			} else {
-				pageNewByURL.NextPage = pageTitleCategory;
-				pageTitleCategory.PreviousPage = pageNewByURL;
-			}
+			
 		}
 
 		private void OnMultipleFeedsBeforeMoveNext(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -1912,28 +1912,7 @@ namespace RssBandit.WinGui.Forms
 				this.FeedTitle = listFeeds.SelectedItems[0].SubItems[0].Text;
 		}
 
-		private void OnNewFeedUrlTextChanged(object sender, System.EventArgs e) {
-			Exception ex = null;
-			string validUrl = this.ValidateFeedUri(this.txtNewByURL.Text, out ex);
-			bool valid = ( validUrl != null && ex == null);
-			pageNewByURL.AllowMoveNext = valid;
-			if (valid) {
-				pageNewByURL.ProceedText = String.Empty;
-				lblAutodiscoverHelp.Visible = true;
-				pictureHelpAutodiscover.Visible = true;
-				if (this.txtNewByURL.Text != validUrl) {
-					linkLabelCanonicalUrl.Text = validUrl;
-					linkLabelCanonicalUrl.LinkArea = new LinkArea(0, validUrl.Length);
-				} else {
-					linkLabelCanonicalUrl.Text = null;
-				}
-			} else if (ex != null) {
-				pageNewByURL.ProceedText = ex.Message;
-				lblAutodiscoverHelp.Visible = false;
-				pictureHelpAutodiscover.Visible = false;
-				linkLabelCanonicalUrl.Text = null;
-			}
-		}
+	
 
 		private void OnPageTitleCategoryBeforeMoveBack(object sender, System.ComponentModel.CancelEventArgs e) {
 			this._btnImmediateFinish.Visible = false;
@@ -1980,11 +1959,10 @@ namespace RssBandit.WinGui.Forms
 			PopulateNntpServerDefinitions((IDictionary<string, INntpServerDefinition>) coreApplication.NntpServerDefinitions, null);
 		}
 
-		private void OnPageNewURLAfterDisplay(object sender, System.EventArgs e) {
-			this.feedInfo = null;
-			if (string.IsNullOrEmpty(this.txtNewByURL.Text))
-				pageNewByURL.AllowMoveNext = false;
-		}
+        private void OnPageNewURLAfterDisplay(object sender, System.EventArgs e)
+        {
+            this.feedInfo = null;
+        }
 
 		private void OnPageNewSearchAfterDisplay(object sender, System.EventArgs e) {
 			this.feedInfo = null;
@@ -2072,7 +2050,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnTextNewByUrlValidating(object sender, System.ComponentModel.CancelEventArgs e) {
-			ValidateFeedUri(pageNewByURL, this.txtNewByURL.Text);
+			
 		}
 
 		private void OnTimerStartValidation(object sender, System.EventArgs e) {
@@ -2081,12 +2059,11 @@ namespace RssBandit.WinGui.Forms
 			
 			if (this.wizardMode == WizardMode.SubscribeURL || this.wizardMode == WizardMode.SubscribeURLDirect) {
 				pageValidateUrl.NextPage = pageTitleCategory;
-				pageValidateUrl.PreviousPage = pageNewByURL;
+				pageValidateUrl.PreviousPage = pageStartImport;
 				SetWizardTaskInfo(0, WizardValidationTask.InProgress, SR.WizardValidationTask_VerifyingUrlMessage);
 				SetWizardTaskInfo(1, WizardValidationTask.Pending, SR.WizardValidationTask_GetWebFeedTitleMessage);
 				
 				// MUST BE YET VALIDATED:
-				this.txtNewByURL.Text = this.ValidateFeedUri(pageValidateUrl, this.txtNewByURL.Text);
 				pageValidateUrl.AllowMoveNext = false;
 
 				bool success = TaskBeginSearchFeedLocations(0, FeedLocationMethod.AutoDiscoverUrl);
@@ -2095,13 +2072,13 @@ namespace RssBandit.WinGui.Forms
 					
 					if (this.listFeeds.Items.Count > 1) {
 						pageValidateUrl.NextPage = pageFoundMultipleFeeds;
-						pageFoundMultipleFeeds.PreviousPage = pageNewByURL;
+						pageFoundMultipleFeeds.PreviousPage = pageStartImport;
 						pageTitleCategory.PreviousPage = pageFoundMultipleFeeds;
 						this.FeedTitle = String.Empty;
 					} else {
 						pageValidateUrl.NextPage = pageTitleCategory;
 						if (!this.credentialsStepReWired)
-							pageTitleCategory.PreviousPage = pageNewByURL;
+							pageTitleCategory.PreviousPage = pageStartImport;
 						this.FeedTitle = this.listFeeds.Items[0].SubItems[0].Text;
 					}
 
@@ -2123,7 +2100,6 @@ namespace RssBandit.WinGui.Forms
 					SetWizardTaskInfo(1, WizardValidationTask.Pending, SR.WizardValidationTask_GetWebFeedTitleMessage);
 				
 					// MUST BE YET VALIDATED:
-					this.txtNewByURL.Text = this.ValidateFeedUri(pageValidateUrl, this.GetSearchEngineSearchUrl(this.SearchTerms));
 					pageValidateUrl.AllowMoveNext = false;
 
 					bool success = TaskBeginSearchFeedLocations(0, FeedLocationMethod.AutoDiscoverUrl);
