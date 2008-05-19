@@ -583,7 +583,7 @@ namespace RssBandit
                 category = DefaultCategory;
             }
 
-            SubscribeToFeed(null, category.Trim(), null, null, WizardMode.SubscribeURLDirect);
+            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeURLDirect);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -603,7 +603,7 @@ namespace RssBandit
                 category = DefaultCategory;
             }
 
-            SubscribeToFeed(null, category.Trim(), null, null, WizardMode.Default);
+            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.Default);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -623,7 +623,7 @@ namespace RssBandit
                 category = DefaultCategory;
             }
 
-            SubscribeToFeed(null, category.Trim(), null, null, WizardMode.SubscribeNNTPDirect);
+            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeNNTPDirect);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
