@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+  <data name="lblMinutes.Text">
+    <value>minute</value>
+  </data>
+  <data name="pageValidateUrl.Text">
+    <value>Molim vas sačekajte...</value>
+  </data>
+  <data name="cboUpdateFrequency.Items8">
+    <value>120</value>
+  </data>
+  <data name="cboUpdateFrequency.Items3">
+    <value>45</value>
+  </data>
+  <data name="cboUpdateFrequency.Items5">
+    <value>75</value>
+  </data>
+  <data name="cboUpdateFrequency.Items6">
+    <value>90</value>
+  </data>
+  <data name="pageWelcome.Text">
+    <value>Dobro došli u Čarobnjaka za dodavanje potpisa!</value>
+  </data>
+  <data name="cboUpdateFrequency.Items">
+    <value>0</value>
+  </data>
+  <data name="lblNewByURL.Text">
+    <value>URL:</value>
+  </data>
+  <data name="lblPassword.Text">
+    <value>&amp;Lozinka:</value>
+  </data>
+  <data name="comboMaxItemAge.Items8">
+    <value>21 dan</value>
+  </data>
+  <data name="comboMaxItemAge.Items9">
+    <value>1 mesec</value>
+  </data>
+  <data name="comboMaxItemAge.Items4">
+    <value>5 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items6">
+    <value>7 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items7">
+    <value>14 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items1">
+    <value>2 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items3">
+    <value>4 dana</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Text">
+    <value>Pronađeno više izvora</value>
+  </data>
+  <data name="lblNewByNNTPGroupIntro.Text">
+    <value>Da bi se mogli potpisati za NNTP grupu vesti, morate definisati bar jedan NNTP server. Možete kliknuti "Upravljaj..." da napravite jedan ili da promenite parametre.</value>
+  </data>
+  <data name="lblFeedCategory.Text">
+    <value>Kategorija:</value>
+  </data>
+  <data name="pageNewByURL.Text">
+    <value>Novi potpis kroz URL</value>
+  </data>
+  <data name="pageFeedCredentials.Text">
+    <value>Akreditivi potpisa</value>
+  </data>
+  <data name="chkDisplayWelcome.Text">
+    <value>Uvek prikazuj stranicu dobrodošlice</value>
+  </data>
+  <data name="lblWaitStepIntro.Text">
+    <value>Ovaj korak primenjuje sledeće zadatke:</value>
+  </data>
+  <data name="lblCompletionMessage.Text">
+    <value>Upis je spreman za dodavanje vašoj listi upisa</value>
+  </data>
+  <data name="btnManageSearchEngines.Text">
+    <value>Upravljaj</value>
+  </data>
+  <data name="comboMaxItemAge.Items">
+    <value>1 dan</value>
+  </data>
+  <data name="lblWelcomeInfoBox.Text">
+    <value>Čarobnjak zahteva konekciju sa internetom na nekim delovima! Ako već niste konektovani konektujte se sad.</value>
+  </data>
+  <data name="pageFeedItemDisplay.Text">
+    <value>Izvor/Predmet prikazivanje</value>
+  </data>
+  <data name="lblFeedItemDisplayIntro.Text">
+    <value>Koristi osnovno formatiranje za izvor/predmet ili izaberi prilagođeni XSLT formator.</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint2.Text">
+    <value>Ako traženi izvor ne može biti pronađen u listi, molim vas kliknite Nazad da inicirate novu pretragu.</value>
+  </data>
+  <data name="lblUsername.Text">
+    <value>&amp;Korisničko ime:</value>
+  </data>
+  <data name="lblPageTitleCredentialsIntro.Text">
+    <value>Ovde možete navesti naslov za potpis i dodati ga novoj ili postojećoj kategoriji</value>
+  </data>
+  <data name="lblNewBySearchWords.Text">
+    <value>Ključne reči ili teme:</value>
+  </data>
+  <data name="pageNewBySearchTopic.Text">
+    <value>Novi potpisi preko Pretrage</value>
+  </data>
+  <data name="pageFeedItemControl.Text">
+    <value>Izvor/Predmet kontrola</value>
+  </data>
+  <data name="checkUseCustomFormatter.Text">
+    <value>Koristi &amp;prilagođeni formator</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Text">
+    <value>Novi potpis NNTP grupe</value>
+  </data>
+  <data name="lblNNTPServer.Text">
+    <value>NNTP server:</value>
+  </data>
+  <data name="pageHowToSelection.Text">
+    <value>Novi potpis</value>
+  </data>
+  <data name="btnManageNNTPServer.Text">
+    <value>Upravljaj...</value>
+  </data>
+  <data name="lblFeedCredentialsIntro.Text">
+    <value>Ovde možete navesti korisničko ime i lozinku za pristup listi (ako postoji)</value>
+  </data>
+  <data name="lblHowToSubscribeIntro.Text">
+    <value>Molim vas izaberite jednu od opcija ispod načina dodavanja novih potpiusa:</value>
+  </data>
+  <data name="lblValidationTask1.Text">
+    <value>U progresu</value>
+  </data>
+  <data name="lblNewBySearchEngines.Text">
+    <value>Pretraživač:</value>
+  </data>
+  <data name="comboMaxItemAge.Items15">
+    <value>Neograničeno</value>
+  </data>
+  <data name="comboMaxItemAge.Items14">
+    <value>1 godina</value>
+  </data>
+  <data name="comboMaxItemAge.Items11">
+    <value>1 kvarter</value>
+  </data>
+  <data name="comboMaxItemAge.Items10">
+    <value>2 meseca</value>
+  </data>
+  <data name="comboMaxItemAge.Items13">
+    <value>3 kvartera</value>
+  </data>
+  <data name="comboMaxItemAge.Items12">
+    <value>2 kvartera</value>
+  </data>
+  <data name="wizard.Text">
+    <value>čarobnjak</value>
+  </data>
+  <data name="checkEnableAlertOnNewItems.Text">
+    <value>&amp;Omogući prozor upozorenja za primljene predmete</value>
+  </data>
+  <data name="lblFeedItemControlIntro.Text">
+    <value>Ovde možete promeniti ponašanje aplikacije za "Primljene nove stavke" događaj, maksimalan vreme trajanja predmeta kako bi ste kontrolisali automatsko čišćenje predmeta i frekvenciju ažuriranja.</value>
+  </data>
+  <data name="lblNNTPGroups.Text">
+    <value>Grupe:</value>
+  </data>
+  <data name="lblNewByURLIntro.Text">
+    <value>Ako niste sigurni koji je URL izvora, unesite adresu sajta ili strane i RSS Bandit će pokušati da automatski oktrije izvor.</value>
+  </data>
+  <data name="cboUpdateFrequency.Items1">
+    <value>15</value>
+  </data>
+  <data name="cboUpdateFrequency.Items2">
+    <value>30</value>
+  </data>
+  <data name="cboUpdateFrequency.Items4">
+    <value>60</value>
+  </data>
+  <data name="cboUpdateFrequency.Items7">
+    <value>105</value>
+  </data>
+  <data name="lblWelcomeHelpMessage2.Text">
+    <value>• Provera izvora potpisa i upravljanje dodatnim parametrima je možda potrebno za uspešan zahtev (npr. akredativi).</value>
+  </data>
+  <data name="radioNewByURL.Text">
+    <value>Ja ću uneti URL izvora ili strane</value>
+  </data>
+  <data name="lblMultipleFeedsFound.Text">
+    <value>Pronađen izvor:</value>
+  </data>
+  <data name="finishPage.Text">
+    <value>Završeno!</value>
+  </data>
+  <data name="_btnImmediateFinish.Text">
+    <value>Završi</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.Text">
+    <value>Iz liste ispod, izaberite izvor, a zatim kliknite Dalje da navedete detalje novog potpisa.</value>
+  </data>
+  <data name="lblValidationTask2.Text">
+    <value>U obradi</value>
+  </data>
+  <data name="lblNewBySearchIntro.Text">
+    <value>Rezultat zavisi od korištenog pretraživača. Neki od su online servisi pretrage itvora koji mogu naći vezane izvore na koje se možete direktno potpisati (Syndic8). Drugi mogu jednostavno obezbediti rezultat pretrage kao izvor.</value>
+  </data>
+  <data name="lblFormatterStylesheet.Text">
+    <value>&amp;Stylesheet formatora:</value>
+  </data>
+  <data name="radioNewByNNTPGroup.Text">
+    <value>Želim da se potpišem za NNTP grupu vesti</value>
+  </data>
+  <data name="checkNewByURLValidate.Text">
+    <value>Autmoatski otkrij i verifikuj izvor</value>
+  </data>
+  <data name="lblUpdateFrequency.Text">
+    <value>Frekvencija ažuriranja:</value>
+  </data>
+  <data name="pageTitleCategory.Text">
+    <value>Naslov i kategorija</value>
+  </data>
+  <data name="lblWelcomeHelpMessage1.Text">
+    <value>• Istraćivanje HTML strane za moguće izvore ili pronalazak izvora po ključnoj reči.</value>
+  </data>
+  <data name="lblFeedTitle.Text">
+    <value>&amp;Naslov:</value>
+  </data>
+  <data name="lblRemoveItemsOlderThan.Text">
+    <value>Ukloni predmete starije od:</value>
+  </data>
+  <data name="radioNewByTopicSearch.Text">
+    <value>Želim da tražim potpise po ključnoj reči(ma)</value>
+  </data>
+  <data name="checkMarkItemsReadOnExiting.Text">
+    <value>&amp;Markiraj predmete pročitanim napuštanjem izvora</value>
+  </data>
+  <data name="comboMaxItemAge.Items5">
+    <value>6 dana</value>
+  </data>
+  <data name="comboMaxItemAge.Items2">
+    <value>3 dana</value>
+  </data>
+  <data name="$this.Text">
+    <value>Čarobnjak za dodavanje </value>
+  </data>
+  <data name="lblReloadNntpListOfGroups.Text">
+    <value>Ponovo učitaj listu grupa</value>
+  </data>
+<data name="pageFeedItemDisplay.Description">
+    <value>Dodatni parametri za kontrolu prikazivanja feed-a i njegovih stavki</value>
+  </data>
+	<data name="pageHowToSelection.Description">
+    <value>Potpisivanje na vesti sprema stavke vesti iz različitih izvora. Kako želite da dodate novi potpis?</value>
+  </data>
+	<data name="pageNewByNNTPGroup.Description">
+    <value>Izaberite NNTP server i jednu od ponuđenih grupa na koje želite da se potpišete.</value>
+  </data>
+	<data name="wizard.FinishText">
+    <value>Završi</value>
+  </data>
+	<data name="pageTitleCategory.Description">
+    <value>Molim vas proverite naslov i izaberite kategoriju</value>
+  </data>
+	<data name="lblUsenetHelp.Text">
+    <value>Usenet</value>
+  </data>
+	<data name="pageTitleCategory.ProceedText">
+    <value>Molim vas kliknite "Dalje" kako bi napravili sledeći korak ili "Završi" da dodate novi potpis</value>
+  </data>
+	<data name="finishPage.FinishText">
+    <value>Skoro ste završili novi potpis. Kliknite dugme "Završi" da dodate novi potpis.</value>
+  </data>
+	<data name="wizard.PreviousText">
+    <value>&lt; &amp;Nazad</value>
+  </data>
+	<data name="pageFeedCredentials.ProceedText">
+    <value>Molim vas kliknite "Dalje" da unesete ili izmenite kontrolne parametre Feed/Predmet-a...</value>
+  </data>
+	<data name="wizard.HelpText">
+    <value>&amp;Pomoć</value>
+  </data>
+	<data name="pageNewByURL.Description">
+    <value>Dodaje potpise čiji web feed-ovi mogu biti pronađeni na određenoj lokaciji.</value>
+  </data>
+	<data name="wizard.CancelText">
+    <value>Otkaži</value>
+  </data>
+	<data name="lblAutodiscoverHelp.Text">
+    <value>Oktrij automatski</value>
+  </data>
+	<data name="pageFoundMultipleFeeds.Description">
+    <value>Molim vas izaberite željeni feed za potpis</value>
+  </data>
+	<data name="finishPage.ProceedText">
+    <value>Da zatvorite čarobnjaka, kliknite Završi.</value>
+  </data>
+	<data name="pageWelcome.ProceedText">
+    <value>Da nastavite klikinte Dalje.</value>
+  </data>
+	<data name="pageFeedItemDisplay.ProceedText">
+    <value>Molim vas kliknite "Dalje" da nastavite sledeći korak ili "Završi" da dodate novi potpis</value>
+  </data>
+	<data name="pageNewBySearchTopic.Description">
+    <value>Navedite ključne reči ili teme da pronađede slične web feeds-ove ili rezultate pretrage.</value>
+  </data>
+	<data name="lblSyndic8Help.Text">
+    <value>Syndic8</value>
+  </data>
+	<data name="wizard.NextText">
+    <value>&amp;Dalje &gt;</value>
+  </data>
+	<data name="pageFeedCredentials.Description">
+    <value>Unesite akredativ ako je potrebno.</value>
+  </data>
+	<data name="pageWelcome.IntroductionText">
+    <value>Ovaj čarobnjak vam pomaže:</value>
+  </data>
+	<data name="pageFeedItemControl.ProceedText">
+    <value>Molim vas kliknite "Dalje" da nastavite ili kliknite "Završi"  da dodate novi potpis</value>
+  </data>
+	<data name="pageFeedItemControl.Description">
+    <value>Opcioni parametri potpisa vezani za feed i njegove stavke</value>
+  </data>
+	<data name="linkLabelCanonicalUrl.ToolTip">
+    <value>Za pravilan URL koristićemo</value>
+  </data>
+	</root>

@@ -150,7 +150,8 @@ namespace RssBandit.WinGui.Forms
 		#endregion
 
 		#region ctor's
-		private AddSubscriptionWizard() {
+        private AddSubscriptionWizard()
+        {
 			//
 			// Required for Windows Form Designer support
 			//
@@ -283,7 +284,7 @@ namespace RssBandit.WinGui.Forms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddSubscriptionWizard));
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ImportFeedsWizard));
 			this.wizard = new Divelements.WizardFramework.Wizard();
 			this._btnImmediateFinish = new System.Windows.Forms.Button();
 			this.pageNewBySearchTopic = new Divelements.WizardFramework.WizardPage();
