@@ -45,7 +45,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		internal NewsFeed Feed = null;
 
-		private WizardMode wizardMode; 
+		private AddSubscriptionWizardMode wizardMode; 
 		private IServiceProvider serviceProvider;
 		private WindowSerializer windowSerializer;
 		private IInternetService internetService;
@@ -61,92 +61,90 @@ namespace RssBandit.WinGui.Forms
 
 		#region Designer Form variables
 
-		private System.Windows.Forms.ProgressBar pbar;
-		private System.Windows.Forms.Timer timerIncreaseProgress;
-		private System.Windows.Forms.Panel pnlCompleting;
-		private System.Windows.Forms.Panel pnlCancelling;
-		private Divelements.WizardFramework.Wizard wizard;
-		private Divelements.WizardFramework.IntroductionPage pageWelcome;
-		private Divelements.WizardFramework.WizardPage pageValidateUrl;
-		private System.Windows.Forms.Label lblValidationTask1;
-		private System.Windows.Forms.Label lblValidationTaskImage1;
-		private System.Windows.Forms.Label lblValidationTaskImage2;
-		private System.Windows.Forms.Label lblValidationTask2;
-		private System.Windows.Forms.CheckBox chkDisplayWelcome;
-		private Divelements.WizardFramework.WizardPage pageFoundMultipleFeeds;
-		private Divelements.WizardFramework.FinishPage finishPage;
-		private System.Windows.Forms.Label lblFeedTitle;
-		private System.Windows.Forms.TextBox txtFeedTitle;
-		private System.Windows.Forms.Label lblPageTitleCredentialsIntro;
-		private System.Windows.Forms.Button _btnImmediateFinish;
-		private Divelements.WizardFramework.WizardPage pageFeedItemControl;
-		private System.Windows.Forms.Label lblFeedItemControlIntro;
-		private Divelements.WizardFramework.WizardPage pageFeedItemDisplay;
-		private System.Windows.Forms.Label lblFeedItemDisplayIntro;
-		private System.Windows.Forms.ComboBox comboMaxItemAge;
-		private System.Windows.Forms.Label lblFormatterStylesheet;
-		private System.Windows.Forms.ComboBox comboFormatters;
-		private System.Windows.Forms.ComboBox cboUpdateFrequency;
-		private System.Windows.Forms.Label lblCompletionMessage;
-		private System.Windows.Forms.Label lblRemoveItemsOlderThan;
-		private System.Windows.Forms.Label lblMinutes;
-		private System.Windows.Forms.Label lblUpdateFrequency;
-		private System.Windows.Forms.Label lblMultipleFeedsFoundHint1;
-		private System.Windows.Forms.Label lblMultipleFeedsFoundHint2;
-		private System.Windows.Forms.Label lblMultipleFeedsFound;
-		private Divelements.WizardFramework.InformationBox lblWelcomeInfoBox;
-		private System.Windows.Forms.Label lblWelcomeHelpMessage1;
-		private System.Windows.Forms.Label lblWelcomeHelpMessage2;
-		private Divelements.WizardFramework.WizardPage pageHowToSelection;
-		private System.Windows.Forms.RadioButton radioNewByTopicSearch;
-		private System.Windows.Forms.RadioButton radioNewByURL;
-		private Divelements.WizardFramework.WizardPage pageStartImport;
-        private System.Windows.Forms.RadioButton radioNewByNNTPGroup;
-		private Divelements.WizardFramework.WizardPage pageNewBySearchTopic;
-		private System.Windows.Forms.LinkLabel lblNewBySearchIntro;
-		private System.Windows.Forms.TextBox txtNewBySearchWords;
-		private System.Windows.Forms.Label lblNewBySearchWords;
-		private System.Windows.Forms.Label lblNewBySearchEngines;
-		private System.Windows.Forms.ComboBox cboNewBySearchEngines;
-		private Divelements.WizardFramework.WizardPage pageTitleCategory;
-		private System.Windows.Forms.Label lblFeedCategory;
-		private System.Windows.Forms.ComboBox cboFeedCategory;
-		private Divelements.WizardFramework.WizardPage pageFeedCredentials;
-		private System.Windows.Forms.Label lblFeedCredentialsIntro;
-		private System.Windows.Forms.Label lblPassword;
-		private System.Windows.Forms.Label lblUsername;
-		private Divelements.WizardFramework.WizardPage pageNewByNNTPGroup;
-		private System.Windows.Forms.Button btnManageSearchEngines;
-		private System.Windows.Forms.Button btnManageNNTPServer;
-		private System.Windows.Forms.ComboBox cboNNTPServer;
-		private System.Windows.Forms.ListBox lstNNTPGroups;
-		private System.Windows.Forms.Label lblNNTPGroups;
-		private System.Windows.Forms.Label lblNNTPServer;
-		private System.Windows.Forms.CheckBox checkMarkItemsReadOnExiting;
-		private System.Windows.Forms.CheckBox checkEnableAlertOnNewItems;
-		private System.Windows.Forms.CheckBox checkUseCustomFormatter;
-		private System.Windows.Forms.Label lblHowToSubscribeIntro;
-		private System.Windows.Forms.ListView listFeeds;
-		private System.Windows.Forms.TextBox textUser;
-		private System.Windows.Forms.TextBox textPassword;
-		private System.Windows.Forms.Label lblWaitStepIntro;
-		private System.Windows.Forms.LinkLabel lblNewByNNTPGroupIntro;
-        private System.Windows.Forms.LinkLabel lblReloadNntpListOfGroups;
-		private System.Windows.Forms.PictureBox pictureHelpSyndic8;
-		private System.Windows.Forms.LinkLabel lblSyndic8Help;
-		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.LinkLabel lblUsenetHelp;
+        private System.Windows.Forms.Timer timerIncreaseProgress;
         private System.Windows.Forms.Timer timerStartValidation;
-		private System.Windows.Forms.ToolTip toolTip;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
+        private System.Windows.Forms.ToolTip toolTip;
+        private WizardPage pageFeedCredentials;
+        private Label lblFeedCredentialsIntro;
+        private Label lblUsername;
+        private TextBox textUser;
+        private Label lblPassword;
+        private TextBox textPassword;
+        private WizardPage pageFeedItemControl;
+        private ComboBox comboMaxItemAge;
+        private ComboBox cboUpdateFrequency;
+        private Label lblRemoveItemsOlderThan;
+        private Label lblMinutes;
+        private Label lblUpdateFrequency;
+        private CheckBox checkMarkItemsReadOnExiting;
+        private Label lblFeedItemControlIntro;
+        private CheckBox checkEnableAlertOnNewItems;
+        private WizardPage pageFeedItemDisplay;
+        private ComboBox comboFormatters;
+        private Label lblFormatterStylesheet;
+        private CheckBox checkUseCustomFormatter;
+        private Label lblFeedItemDisplayIntro;
+        private FinishPage finishPage;
+        private Panel pnlCompleting;
+        private Label lblCompletionMessage;
+        private Panel pnlCancelling;
+        private WizardPage pageTitleCategory;
+        private Label lblFeedCategory;
+        private ComboBox cboFeedCategory;
+        private Label lblPageTitleCredentialsIntro;
+        private Label lblFeedTitle;
+        private TextBox txtFeedTitle;
+        private WizardPage pageFoundMultipleFeeds;
+        private ListView listFeeds;
+        private Label lblMultipleFeedsFoundHint1;
+        private Label lblMultipleFeedsFoundHint2;
+        private Label lblMultipleFeedsFound;
+        private WizardPage pageNewBySearchTopic;
+        private PictureBox pictureHelpSyndic8;
+        private LinkLabel lblSyndic8Help;
+        private Button btnManageSearchEngines;
+        private Label lblNewBySearchEngines;
+        private ComboBox cboNewBySearchEngines;
+        private LinkLabel lblNewBySearchIntro;
+        private TextBox txtNewBySearchWords;
+        private Label lblNewBySearchWords;
+        private WizardPage pageValidateUrl;
+        private Label lblValidationTaskImage2;
+        private Label lblValidationTask2;
+        private Label lblValidationTaskImage1;
+        private Label lblValidationTask1;
+        private ProgressBar pbar;
+        private Label lblWaitStepIntro;
+        private RadioButton radioNewByNNTPGroup;
+        private Label lblHowToSubscribeIntro;
+        private RadioButton radioNewByTopicSearch;
+        private RadioButton radioNewByURL;
+        private WizardPage pageStartImport;
+        private Label label1;
+        private ComboBox comboFeedSource;
+        private RadioButton radioImportFromFeedSource;
+        private RadioButton radioImportFromOpml;
         private ComboBox comboCategory;
         private Label label3;
         private TextBox textUrlOrFile;
         internal Button btnSelectFile;
         private Label label2;
-        private Label label1;
-        private ComboBox comboBox1;
+        private CheckBox chkDisplayWelcome;
+        private InformationBox lblWelcomeInfoBox;
+        private Label lblWelcomeHelpMessage1;
+        private Label lblWelcomeHelpMessage2;
+        private WizardPage pageNewByNNTPGroup;
+        private ListBox lstNNTPGroups;
+        private LinkLabel lblUsenetHelp;
+        private PictureBox pictureBox1;
+        private LinkLabel lblReloadNntpListOfGroups;
+        private Label lblNNTPGroups;
+        private Button btnManageNNTPServer;
+        private Label lblNNTPServer;
+        private ComboBox cboNNTPServer;
+        private LinkLabel lblNewByNNTPGroupIntro;
+        private Button _btnImmediateFinish;
+        private Wizard wizard;
 		private System.ComponentModel.IContainer components;
 
 		#endregion
@@ -163,45 +161,53 @@ namespace RssBandit.WinGui.Forms
 			this.lblUsenetHelp.LinkArea = new LinkArea(0, this.lblUsenetHelp.Text.Length);
 		}
 
-		public ImportFeedsWizard(IServiceProvider provider, WizardMode mode):this()
-		{
-			serviceProvider = provider;
-			wizardMode = mode;
+        public ImportFeedsWizard(IServiceProvider provider, AddSubscriptionWizardMode mode, string urlOrFile, string selectedCategory)
+            : this()
+        {
+            //initialize wizard state
+            serviceProvider = provider;
+            wizardMode = mode;
 
-			// form location management:
-			windowSerializer = new WindowSerializer(this);
-			windowSerializer.SaveOnlyLocation = true;
-			windowSerializer.SaveNoWindowState = true;
+            this.textUrlOrFile.Text = (urlOrFile != null ? urlOrFile : String.Empty);
 
-			windowSerializer.LoadStateEvent += OnWindowSerializerLoadStateEvent;
-			windowSerializer.SaveStateEvent += OnWindowSerializerSaveStateEvent;
+            // form location management:
+            windowSerializer = new WindowSerializer(this);
+            windowSerializer.SaveOnlyLocation = true;
+            windowSerializer.SaveNoWindowState = true;
 
-			// to get notified, if the inet connection state changes:
-			internetService = (IInternetService)this.GetService(typeof(IInternetService));
-			if (internetService != null) {
-				internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
-				}
-			// to checkout the defaults to be used for the new feed:
-			IUserPreferences preferencesService = (IUserPreferences)this.GetService(typeof(IUserPreferences));
-			this.MaxItemAge = preferencesService.MaxItemAge;
+            windowSerializer.LoadStateEvent += OnWindowSerializerLoadStateEvent;
+            windowSerializer.SaveStateEvent += OnWindowSerializerSaveStateEvent;
 
-			coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));
-			this.cboUpdateFrequency.Text = String.Format("{0}", RssBanditApplication.DefaultGlobalRefreshRateMinutes);
-			if (coreApplication.CurrentGlobalRefreshRate > 0)	// if not disabled refreshing
-				this.cboUpdateFrequency.Text = String.Format("{0}", coreApplication.CurrentGlobalRefreshRate); 
-			
-			//initialize category combo box			
-			foreach(string category in coreApplication.GetCategories())
-			{
-				if (!string.IsNullOrEmpty(category))
-					this.cboFeedCategory.Items.Add(category); 
-			}
+            // to get notified, if the inet connection state changes:
+            internetService = (IInternetService)this.GetService(typeof(IInternetService));
+            if (internetService != null)
+            {
+                internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
+            }
+            // to checkout the defaults to be used for the new feed:
+            IUserPreferences preferencesService = (IUserPreferences)this.GetService(typeof(IUserPreferences));
+            this.MaxItemAge = preferencesService.MaxItemAge;
 
-			this.FeedCategory = coreApplication.DefaultCategory; 
+            coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));
+            this.cboUpdateFrequency.Text = String.Format("{0}", RssBanditApplication.DefaultGlobalRefreshRateMinutes);
+            if (coreApplication.CurrentGlobalRefreshRate > 0)	// if not disabled refreshing
+                this.cboUpdateFrequency.Text = String.Format("{0}", coreApplication.CurrentGlobalRefreshRate);
 
-			this.WireStepsForMode(this.wizardMode);
-			this.wizard.SelectedPage = this.pageWelcome;
-		}
+            //initialize category combo box						
+            foreach (string category in coreApplication.GetCategories())
+            {
+                if (!string.IsNullOrEmpty(category))
+                    this.comboCategory.Items.Add(category);
+            }
+            this.comboCategory.Text = (selectedCategory != null ? selectedCategory : String.Empty);
+
+
+            this.FeedCategory = coreApplication.DefaultCategory;
+
+            this.WireStepsForMode(this.wizardMode);
+            this.wizard.SelectedPage = this.pageStartImport;
+        }
+        
 		#endregion
 
 		#region IWaitDialog Members
@@ -284,27 +290,12 @@ namespace RssBandit.WinGui.Forms
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportFeedsWizard));
-            this.wizard = new Divelements.WizardFramework.Wizard();
-            this._btnImmediateFinish = new System.Windows.Forms.Button();
-            this.pageStartImport = new Divelements.WizardFramework.WizardPage();
-            this.pageValidateUrl = new Divelements.WizardFramework.WizardPage();
-            this.lblValidationTaskImage2 = new System.Windows.Forms.Label();
-            this.lblValidationTask2 = new System.Windows.Forms.Label();
-            this.lblValidationTaskImage1 = new System.Windows.Forms.Label();
-            this.lblValidationTask1 = new System.Windows.Forms.Label();
-            this.pbar = new System.Windows.Forms.ProgressBar();
-            this.lblWaitStepIntro = new System.Windows.Forms.Label();
-            this.pageFoundMultipleFeeds = new Divelements.WizardFramework.WizardPage();
-            this.listFeeds = new System.Windows.Forms.ListView();
-            this.lblMultipleFeedsFoundHint1 = new System.Windows.Forms.Label();
-            this.lblMultipleFeedsFoundHint2 = new System.Windows.Forms.Label();
-            this.lblMultipleFeedsFound = new System.Windows.Forms.Label();
-            this.pageTitleCategory = new Divelements.WizardFramework.WizardPage();
-            this.lblFeedCategory = new System.Windows.Forms.Label();
-            this.cboFeedCategory = new System.Windows.Forms.ComboBox();
-            this.lblPageTitleCredentialsIntro = new System.Windows.Forms.Label();
-            this.lblFeedTitle = new System.Windows.Forms.Label();
-            this.txtFeedTitle = new System.Windows.Forms.TextBox();
+            this.timerIncreaseProgress = new System.Windows.Forms.Timer(this.components);
+            this.timerStartValidation = new System.Windows.Forms.Timer(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.textUrlOrFile = new System.Windows.Forms.TextBox();
+            this.comboCategory = new System.Windows.Forms.ComboBox();
             this.pageFeedCredentials = new Divelements.WizardFramework.WizardPage();
             this.lblFeedCredentialsIntro = new System.Windows.Forms.Label();
             this.lblUsername = new System.Windows.Forms.Label();
@@ -329,6 +320,17 @@ namespace RssBandit.WinGui.Forms
             this.pnlCompleting = new System.Windows.Forms.Panel();
             this.lblCompletionMessage = new System.Windows.Forms.Label();
             this.pnlCancelling = new System.Windows.Forms.Panel();
+            this.pageTitleCategory = new Divelements.WizardFramework.WizardPage();
+            this.lblFeedCategory = new System.Windows.Forms.Label();
+            this.cboFeedCategory = new System.Windows.Forms.ComboBox();
+            this.lblPageTitleCredentialsIntro = new System.Windows.Forms.Label();
+            this.lblFeedTitle = new System.Windows.Forms.Label();
+            this.txtFeedTitle = new System.Windows.Forms.TextBox();
+            this.pageFoundMultipleFeeds = new Divelements.WizardFramework.WizardPage();
+            this.listFeeds = new System.Windows.Forms.ListView();
+            this.lblMultipleFeedsFoundHint1 = new System.Windows.Forms.Label();
+            this.lblMultipleFeedsFoundHint2 = new System.Windows.Forms.Label();
+            this.lblMultipleFeedsFound = new System.Windows.Forms.Label();
             this.pageNewBySearchTopic = new Divelements.WizardFramework.WizardPage();
             this.pictureHelpSyndic8 = new System.Windows.Forms.PictureBox();
             this.lblSyndic8Help = new System.Windows.Forms.LinkLabel();
@@ -338,16 +340,28 @@ namespace RssBandit.WinGui.Forms
             this.lblNewBySearchIntro = new System.Windows.Forms.LinkLabel();
             this.txtNewBySearchWords = new System.Windows.Forms.TextBox();
             this.lblNewBySearchWords = new System.Windows.Forms.Label();
-            this.pageHowToSelection = new Divelements.WizardFramework.WizardPage();
+            this.pageValidateUrl = new Divelements.WizardFramework.WizardPage();
+            this.lblValidationTaskImage2 = new System.Windows.Forms.Label();
+            this.lblValidationTask2 = new System.Windows.Forms.Label();
+            this.lblValidationTaskImage1 = new System.Windows.Forms.Label();
+            this.lblValidationTask1 = new System.Windows.Forms.Label();
+            this.pbar = new System.Windows.Forms.ProgressBar();
+            this.lblWaitStepIntro = new System.Windows.Forms.Label();
             this.radioNewByNNTPGroup = new System.Windows.Forms.RadioButton();
             this.lblHowToSubscribeIntro = new System.Windows.Forms.Label();
             this.radioNewByTopicSearch = new System.Windows.Forms.RadioButton();
             this.radioNewByURL = new System.Windows.Forms.RadioButton();
-            this.pageWelcome = new Divelements.WizardFramework.IntroductionPage();
-            this.chkDisplayWelcome = new System.Windows.Forms.CheckBox();
-            this.lblWelcomeInfoBox = new Divelements.WizardFramework.InformationBox();
-            this.lblWelcomeHelpMessage1 = new System.Windows.Forms.Label();
+            this.pageStartImport = new Divelements.WizardFramework.WizardPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboFeedSource = new System.Windows.Forms.ComboBox();
+            this.radioImportFromFeedSource = new System.Windows.Forms.RadioButton();
+            this.radioImportFromOpml = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblWelcomeHelpMessage2 = new System.Windows.Forms.Label();
+            this.lblWelcomeHelpMessage1 = new System.Windows.Forms.Label();
+            this.lblWelcomeInfoBox = new Divelements.WizardFramework.InformationBox();
+            this.chkDisplayWelcome = new System.Windows.Forms.CheckBox();
             this.pageNewByNNTPGroup = new Divelements.WizardFramework.WizardPage();
             this.lstNNTPGroups = new System.Windows.Forms.ListBox();
             this.lblUsenetHelp = new System.Windows.Forms.LinkLabel();
@@ -358,214 +372,52 @@ namespace RssBandit.WinGui.Forms
             this.lblNNTPServer = new System.Windows.Forms.Label();
             this.cboNNTPServer = new System.Windows.Forms.ComboBox();
             this.lblNewByNNTPGroupIntro = new System.Windows.Forms.LinkLabel();
-            this.timerIncreaseProgress = new System.Windows.Forms.Timer(this.components);
-            this.timerStartValidation = new System.Windows.Forms.Timer(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.comboCategory = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textUrlOrFile = new System.Windows.Forms.TextBox();
-            this.btnSelectFile = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.wizard.SuspendLayout();
-            this.pageStartImport.SuspendLayout();
-            this.pageValidateUrl.SuspendLayout();
-            this.pageFoundMultipleFeeds.SuspendLayout();
-            this.pageTitleCategory.SuspendLayout();
+            this._btnImmediateFinish = new System.Windows.Forms.Button();
+            this.wizard = new Divelements.WizardFramework.Wizard();
             this.pageFeedCredentials.SuspendLayout();
             this.pageFeedItemControl.SuspendLayout();
             this.pageFeedItemDisplay.SuspendLayout();
             this.finishPage.SuspendLayout();
             this.pnlCompleting.SuspendLayout();
+            this.pageTitleCategory.SuspendLayout();
+            this.pageFoundMultipleFeeds.SuspendLayout();
             this.pageNewBySearchTopic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureHelpSyndic8)).BeginInit();
-            this.pageHowToSelection.SuspendLayout();
-            this.pageWelcome.SuspendLayout();
+            this.pageValidateUrl.SuspendLayout();
+            this.pageStartImport.SuspendLayout();
             this.pageNewByNNTPGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.wizard.SuspendLayout();
             this.SuspendLayout();
             // 
-            // wizard
+            // timerIncreaseProgress
             // 
-            this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
-            this.wizard.Controls.Add(this._btnImmediateFinish);
-            this.wizard.Controls.Add(this.pageStartImport);
-            this.wizard.Controls.Add(this.pageNewBySearchTopic);
-            this.wizard.Controls.Add(this.pageNewByNNTPGroup);
-            this.wizard.Controls.Add(this.pageValidateUrl);
-            this.wizard.Controls.Add(this.pageTitleCategory);
-            this.wizard.Controls.Add(this.pageWelcome);
-            this.wizard.Controls.Add(this.pageFoundMultipleFeeds);
-            this.wizard.Controls.Add(this.pageFeedItemControl);
-            this.wizard.Controls.Add(this.pageFeedItemDisplay);
-            this.wizard.Controls.Add(this.pageHowToSelection);
-            this.wizard.Controls.Add(this.finishPage);
-            this.wizard.Controls.Add(this.pageFeedCredentials);
-            resources.ApplyResources(this.wizard, "wizard");
-            this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
-            this.wizard.Name = "wizard";
-            this.wizard.SelectedPage = this.pageStartImport;
-            this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
-            this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
+            this.timerIncreaseProgress.Tick += new System.EventHandler(this.OnTimerIncreaseProgress_Tick);
             // 
-            // _btnImmediateFinish
+            // timerStartValidation
             // 
-            resources.ApplyResources(this._btnImmediateFinish, "_btnImmediateFinish");
-            this._btnImmediateFinish.Name = "_btnImmediateFinish";
-            this._btnImmediateFinish.Click += new System.EventHandler(this.OnImmediateFinish_Click);
+            this.timerStartValidation.Tick += new System.EventHandler(this.OnTimerStartValidation);
             // 
-            // pageStartImport
+            // btnSelectFile
             // 
-            this.pageStartImport.Controls.Add(this.label1);
-            this.pageStartImport.Controls.Add(this.comboBox1);
-            this.pageStartImport.Controls.Add(this.radioButton2);
-            this.pageStartImport.Controls.Add(this.radioButton1);
-            this.pageStartImport.Controls.Add(this.comboCategory);
-            this.pageStartImport.Controls.Add(this.label3);
-            this.pageStartImport.Controls.Add(this.textUrlOrFile);
-            this.pageStartImport.Controls.Add(this.btnSelectFile);
-            this.pageStartImport.Controls.Add(this.label2);
-            resources.ApplyResources(this.pageStartImport, "pageStartImport");
-            this.pageStartImport.Name = "pageStartImport";
-            this.pageStartImport.NextPage = this.pageValidateUrl;
-            this.pageStartImport.PreviousPage = this.pageHowToSelection;
-            this.pageStartImport.AfterDisplay += new System.EventHandler(this.OnPageNewURLAfterDisplay);
+            resources.ApplyResources(this.btnSelectFile, "btnSelectFile");
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.toolTip.SetToolTip(this.btnSelectFile, resources.GetString("btnSelectFile.ToolTip"));
+            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
             // 
-            // pageValidateUrl
+            // textUrlOrFile
             // 
-            this.pageValidateUrl.AllowCancel = false;
-            this.pageValidateUrl.AllowMoveNext = false;
-            this.pageValidateUrl.AllowMovePrevious = false;
-            this.pageValidateUrl.Controls.Add(this.lblValidationTaskImage2);
-            this.pageValidateUrl.Controls.Add(this.lblValidationTask2);
-            this.pageValidateUrl.Controls.Add(this.lblValidationTaskImage1);
-            this.pageValidateUrl.Controls.Add(this.lblValidationTask1);
-            this.pageValidateUrl.Controls.Add(this.pbar);
-            this.pageValidateUrl.Controls.Add(this.lblWaitStepIntro);
-            resources.ApplyResources(this.pageValidateUrl, "pageValidateUrl");
-            this.pageValidateUrl.Name = "pageValidateUrl";
-            this.pageValidateUrl.NextPage = this.pageFoundMultipleFeeds;
-            this.pageValidateUrl.PreviousPage = this.pageNewBySearchTopic;
-            this.pageValidateUrl.AfterDisplay += new System.EventHandler(this.OnPageValidation_AfterDisplay);
-            this.pageValidateUrl.BeforeDisplay += new System.EventHandler(this.OnPageValidation_BeforeDisplay);
+            this.textUrlOrFile.AllowDrop = true;
+            resources.ApplyResources(this.textUrlOrFile, "textUrlOrFile");
+            this.textUrlOrFile.Name = "textUrlOrFile";
+            this.toolTip.SetToolTip(this.textUrlOrFile, resources.GetString("textUrlOrFile.ToolTip"));
             // 
-            // lblValidationTaskImage2
+            // comboCategory
             // 
-            resources.ApplyResources(this.lblValidationTaskImage2, "lblValidationTaskImage2");
-            this.lblValidationTaskImage2.Name = "lblValidationTaskImage2";
-            // 
-            // lblValidationTask2
-            // 
-            resources.ApplyResources(this.lblValidationTask2, "lblValidationTask2");
-            this.lblValidationTask2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblValidationTask2.Name = "lblValidationTask2";
-            // 
-            // lblValidationTaskImage1
-            // 
-            resources.ApplyResources(this.lblValidationTaskImage1, "lblValidationTaskImage1");
-            this.lblValidationTaskImage1.Name = "lblValidationTaskImage1";
-            // 
-            // lblValidationTask1
-            // 
-            resources.ApplyResources(this.lblValidationTask1, "lblValidationTask1");
-            this.lblValidationTask1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblValidationTask1.Name = "lblValidationTask1";
-            // 
-            // pbar
-            // 
-            resources.ApplyResources(this.pbar, "pbar");
-            this.pbar.Name = "pbar";
-            this.pbar.Step = 2;
-            // 
-            // lblWaitStepIntro
-            // 
-            resources.ApplyResources(this.lblWaitStepIntro, "lblWaitStepIntro");
-            this.lblWaitStepIntro.Name = "lblWaitStepIntro";
-            // 
-            // pageFoundMultipleFeeds
-            // 
-            this.pageFoundMultipleFeeds.AllowMoveNext = false;
-            this.pageFoundMultipleFeeds.Controls.Add(this.listFeeds);
-            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFoundHint1);
-            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFoundHint2);
-            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFound);
-            resources.ApplyResources(this.pageFoundMultipleFeeds, "pageFoundMultipleFeeds");
-            this.pageFoundMultipleFeeds.Name = "pageFoundMultipleFeeds";
-            this.pageFoundMultipleFeeds.NextPage = this.pageTitleCategory;
-            this.pageFoundMultipleFeeds.PreviousPage = this.pageNewBySearchTopic;
-            this.pageFoundMultipleFeeds.BeforeMoveNext += new Divelements.WizardFramework.WizardPageEventHandler(this.OnMultipleFeedsBeforeMoveNext);
-            // 
-            // listFeeds
-            // 
-            resources.ApplyResources(this.listFeeds, "listFeeds");
-            this.listFeeds.FullRowSelect = true;
-            this.listFeeds.HideSelection = false;
-            this.listFeeds.Name = "listFeeds";
-            this.listFeeds.UseCompatibleStateImageBehavior = false;
-            this.listFeeds.View = System.Windows.Forms.View.Details;
-            this.listFeeds.SelectedIndexChanged += new System.EventHandler(this.OnFoundFeedsListSelectedIndexChanged);
-            this.listFeeds.DoubleClick += new System.EventHandler(this.OnListFoundFeeds_DoubleClick);
-            // 
-            // lblMultipleFeedsFoundHint1
-            // 
-            resources.ApplyResources(this.lblMultipleFeedsFoundHint1, "lblMultipleFeedsFoundHint1");
-            this.lblMultipleFeedsFoundHint1.Name = "lblMultipleFeedsFoundHint1";
-            // 
-            // lblMultipleFeedsFoundHint2
-            // 
-            resources.ApplyResources(this.lblMultipleFeedsFoundHint2, "lblMultipleFeedsFoundHint2");
-            this.lblMultipleFeedsFoundHint2.Name = "lblMultipleFeedsFoundHint2";
-            // 
-            // lblMultipleFeedsFound
-            // 
-            resources.ApplyResources(this.lblMultipleFeedsFound, "lblMultipleFeedsFound");
-            this.lblMultipleFeedsFound.Name = "lblMultipleFeedsFound";
-            // 
-            // pageTitleCategory
-            // 
-            this.pageTitleCategory.Controls.Add(this.lblFeedCategory);
-            this.pageTitleCategory.Controls.Add(this.cboFeedCategory);
-            this.pageTitleCategory.Controls.Add(this.lblPageTitleCredentialsIntro);
-            this.pageTitleCategory.Controls.Add(this.lblFeedTitle);
-            this.pageTitleCategory.Controls.Add(this.txtFeedTitle);
-            resources.ApplyResources(this.pageTitleCategory, "pageTitleCategory");
-            this.pageTitleCategory.Name = "pageTitleCategory";
-            this.pageTitleCategory.NextPage = this.pageFeedCredentials;
-            this.pageTitleCategory.PreviousPage = this.pageFoundMultipleFeeds;
-            this.pageTitleCategory.BeforeMoveBack += new Divelements.WizardFramework.WizardPageEventHandler(this.OnPageTitleCategoryBeforeMoveBack);
-            this.pageTitleCategory.BeforeDisplay += new System.EventHandler(this.OnPageTitleCategoryBeforeDisplay);
-            // 
-            // lblFeedCategory
-            // 
-            resources.ApplyResources(this.lblFeedCategory, "lblFeedCategory");
-            this.lblFeedCategory.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblFeedCategory.Name = "lblFeedCategory";
-            // 
-            // cboFeedCategory
-            // 
-            resources.ApplyResources(this.cboFeedCategory, "cboFeedCategory");
-            this.cboFeedCategory.Name = "cboFeedCategory";
-            this.cboFeedCategory.Sorted = true;
-            // 
-            // lblPageTitleCredentialsIntro
-            // 
-            resources.ApplyResources(this.lblPageTitleCredentialsIntro, "lblPageTitleCredentialsIntro");
-            this.lblPageTitleCredentialsIntro.Name = "lblPageTitleCredentialsIntro";
-            // 
-            // lblFeedTitle
-            // 
-            resources.ApplyResources(this.lblFeedTitle, "lblFeedTitle");
-            this.lblFeedTitle.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblFeedTitle.Name = "lblFeedTitle";
-            // 
-            // txtFeedTitle
-            // 
-            resources.ApplyResources(this.txtFeedTitle, "txtFeedTitle");
-            this.txtFeedTitle.Name = "txtFeedTitle";
-            this.txtFeedTitle.TextChanged += new System.EventHandler(this.OnNewFeedTitleTextChanged);
+            resources.ApplyResources(this.comboCategory, "comboCategory");
+            this.comboCategory.Name = "comboCategory";
+            this.comboCategory.Sorted = true;
+            this.toolTip.SetToolTip(this.comboCategory, resources.GetString("comboCategory.ToolTip"));
             // 
             // pageFeedCredentials
             // 
@@ -753,6 +605,88 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.pnlCancelling, "pnlCancelling");
             this.pnlCancelling.Name = "pnlCancelling";
             // 
+            // pageTitleCategory
+            // 
+            this.pageTitleCategory.Controls.Add(this.lblFeedCategory);
+            this.pageTitleCategory.Controls.Add(this.cboFeedCategory);
+            this.pageTitleCategory.Controls.Add(this.lblPageTitleCredentialsIntro);
+            this.pageTitleCategory.Controls.Add(this.lblFeedTitle);
+            this.pageTitleCategory.Controls.Add(this.txtFeedTitle);
+            resources.ApplyResources(this.pageTitleCategory, "pageTitleCategory");
+            this.pageTitleCategory.Name = "pageTitleCategory";
+            this.pageTitleCategory.NextPage = this.pageFeedCredentials;
+            this.pageTitleCategory.PreviousPage = this.pageFoundMultipleFeeds;
+            this.pageTitleCategory.BeforeMoveBack += new Divelements.WizardFramework.WizardPageEventHandler(this.OnPageTitleCategoryBeforeMoveBack);
+            this.pageTitleCategory.BeforeDisplay += new System.EventHandler(this.OnPageTitleCategoryBeforeDisplay);
+            // 
+            // lblFeedCategory
+            // 
+            resources.ApplyResources(this.lblFeedCategory, "lblFeedCategory");
+            this.lblFeedCategory.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblFeedCategory.Name = "lblFeedCategory";
+            // 
+            // cboFeedCategory
+            // 
+            resources.ApplyResources(this.cboFeedCategory, "cboFeedCategory");
+            this.cboFeedCategory.Name = "cboFeedCategory";
+            this.cboFeedCategory.Sorted = true;
+            // 
+            // lblPageTitleCredentialsIntro
+            // 
+            resources.ApplyResources(this.lblPageTitleCredentialsIntro, "lblPageTitleCredentialsIntro");
+            this.lblPageTitleCredentialsIntro.Name = "lblPageTitleCredentialsIntro";
+            // 
+            // lblFeedTitle
+            // 
+            resources.ApplyResources(this.lblFeedTitle, "lblFeedTitle");
+            this.lblFeedTitle.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblFeedTitle.Name = "lblFeedTitle";
+            // 
+            // txtFeedTitle
+            // 
+            resources.ApplyResources(this.txtFeedTitle, "txtFeedTitle");
+            this.txtFeedTitle.Name = "txtFeedTitle";
+            this.txtFeedTitle.TextChanged += new System.EventHandler(this.OnNewFeedTitleTextChanged);
+            // 
+            // pageFoundMultipleFeeds
+            // 
+            this.pageFoundMultipleFeeds.AllowMoveNext = false;
+            this.pageFoundMultipleFeeds.Controls.Add(this.listFeeds);
+            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFoundHint1);
+            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFoundHint2);
+            this.pageFoundMultipleFeeds.Controls.Add(this.lblMultipleFeedsFound);
+            resources.ApplyResources(this.pageFoundMultipleFeeds, "pageFoundMultipleFeeds");
+            this.pageFoundMultipleFeeds.Name = "pageFoundMultipleFeeds";
+            this.pageFoundMultipleFeeds.NextPage = this.pageTitleCategory;
+            this.pageFoundMultipleFeeds.PreviousPage = this.pageNewBySearchTopic;
+            this.pageFoundMultipleFeeds.BeforeMoveNext += new Divelements.WizardFramework.WizardPageEventHandler(this.OnMultipleFeedsBeforeMoveNext);
+            // 
+            // listFeeds
+            // 
+            resources.ApplyResources(this.listFeeds, "listFeeds");
+            this.listFeeds.FullRowSelect = true;
+            this.listFeeds.HideSelection = false;
+            this.listFeeds.Name = "listFeeds";
+            this.listFeeds.UseCompatibleStateImageBehavior = false;
+            this.listFeeds.View = System.Windows.Forms.View.Details;
+            this.listFeeds.SelectedIndexChanged += new System.EventHandler(this.OnFoundFeedsListSelectedIndexChanged);
+            this.listFeeds.DoubleClick += new System.EventHandler(this.OnListFoundFeeds_DoubleClick);
+            // 
+            // lblMultipleFeedsFoundHint1
+            // 
+            resources.ApplyResources(this.lblMultipleFeedsFoundHint1, "lblMultipleFeedsFoundHint1");
+            this.lblMultipleFeedsFoundHint1.Name = "lblMultipleFeedsFoundHint1";
+            // 
+            // lblMultipleFeedsFoundHint2
+            // 
+            resources.ApplyResources(this.lblMultipleFeedsFoundHint2, "lblMultipleFeedsFoundHint2");
+            this.lblMultipleFeedsFoundHint2.Name = "lblMultipleFeedsFoundHint2";
+            // 
+            // lblMultipleFeedsFound
+            // 
+            resources.ApplyResources(this.lblMultipleFeedsFound, "lblMultipleFeedsFound");
+            this.lblMultipleFeedsFound.Name = "lblMultipleFeedsFound";
+            // 
             // pageNewBySearchTopic
             // 
             this.pageNewBySearchTopic.Controls.Add(this.pictureHelpSyndic8);
@@ -766,7 +700,6 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.pageNewBySearchTopic, "pageNewBySearchTopic");
             this.pageNewBySearchTopic.Name = "pageNewBySearchTopic";
             this.pageNewBySearchTopic.NextPage = this.pageValidateUrl;
-            this.pageNewBySearchTopic.PreviousPage = this.pageHowToSelection;
             this.pageNewBySearchTopic.AfterDisplay += new System.EventHandler(this.OnPageNewSearchAfterDisplay);
             // 
             // pictureHelpSyndic8
@@ -821,17 +754,56 @@ namespace RssBandit.WinGui.Forms
             this.lblNewBySearchWords.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblNewBySearchWords.Name = "lblNewBySearchWords";
             // 
-            // pageHowToSelection
+            // pageValidateUrl
             // 
-            this.pageHowToSelection.Controls.Add(this.radioNewByNNTPGroup);
-            this.pageHowToSelection.Controls.Add(this.lblHowToSubscribeIntro);
-            this.pageHowToSelection.Controls.Add(this.radioNewByTopicSearch);
-            this.pageHowToSelection.Controls.Add(this.radioNewByURL);
-            resources.ApplyResources(this.pageHowToSelection, "pageHowToSelection");
-            this.pageHowToSelection.Name = "pageHowToSelection";
-            this.pageHowToSelection.NextPage = this.pageStartImport;
-            this.pageHowToSelection.PreviousPage = this.pageWelcome;
-            this.pageHowToSelection.AfterDisplay += new System.EventHandler(this.OnPageHowToSelectionAfterDisplay);
+            this.pageValidateUrl.AllowCancel = false;
+            this.pageValidateUrl.AllowMoveNext = false;
+            this.pageValidateUrl.AllowMovePrevious = false;
+            this.pageValidateUrl.Controls.Add(this.lblValidationTaskImage2);
+            this.pageValidateUrl.Controls.Add(this.lblValidationTask2);
+            this.pageValidateUrl.Controls.Add(this.lblValidationTaskImage1);
+            this.pageValidateUrl.Controls.Add(this.lblValidationTask1);
+            this.pageValidateUrl.Controls.Add(this.pbar);
+            this.pageValidateUrl.Controls.Add(this.lblWaitStepIntro);
+            resources.ApplyResources(this.pageValidateUrl, "pageValidateUrl");
+            this.pageValidateUrl.Name = "pageValidateUrl";
+            this.pageValidateUrl.NextPage = this.pageFoundMultipleFeeds;
+            this.pageValidateUrl.PreviousPage = this.pageNewBySearchTopic;
+            this.pageValidateUrl.AfterDisplay += new System.EventHandler(this.OnPageValidation_AfterDisplay);
+            this.pageValidateUrl.BeforeDisplay += new System.EventHandler(this.OnPageValidation_BeforeDisplay);
+            // 
+            // lblValidationTaskImage2
+            // 
+            resources.ApplyResources(this.lblValidationTaskImage2, "lblValidationTaskImage2");
+            this.lblValidationTaskImage2.Name = "lblValidationTaskImage2";
+            // 
+            // lblValidationTask2
+            // 
+            resources.ApplyResources(this.lblValidationTask2, "lblValidationTask2");
+            this.lblValidationTask2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblValidationTask2.Name = "lblValidationTask2";
+            // 
+            // lblValidationTaskImage1
+            // 
+            resources.ApplyResources(this.lblValidationTaskImage1, "lblValidationTaskImage1");
+            this.lblValidationTaskImage1.Name = "lblValidationTaskImage1";
+            // 
+            // lblValidationTask1
+            // 
+            resources.ApplyResources(this.lblValidationTask1, "lblValidationTask1");
+            this.lblValidationTask1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblValidationTask1.Name = "lblValidationTask1";
+            // 
+            // pbar
+            // 
+            resources.ApplyResources(this.pbar, "pbar");
+            this.pbar.Name = "pbar";
+            this.pbar.Step = 2;
+            // 
+            // lblWaitStepIntro
+            // 
+            resources.ApplyResources(this.lblWaitStepIntro, "lblWaitStepIntro");
+            this.lblWaitStepIntro.Name = "lblWaitStepIntro";
             // 
             // radioNewByNNTPGroup
             // 
@@ -858,23 +830,73 @@ namespace RssBandit.WinGui.Forms
             this.radioNewByURL.TabStop = true;
             this.radioNewByURL.CheckedChanged += new System.EventHandler(this.OnRadioHowToSubscribeCheckedChanged);
             // 
-            // pageWelcome
+            // pageStartImport
             // 
-            this.pageWelcome.Controls.Add(this.chkDisplayWelcome);
-            this.pageWelcome.Controls.Add(this.lblWelcomeInfoBox);
-            this.pageWelcome.Controls.Add(this.lblWelcomeHelpMessage1);
-            this.pageWelcome.Controls.Add(this.lblWelcomeHelpMessage2);
-            resources.ApplyResources(this.pageWelcome, "pageWelcome");
-            this.pageWelcome.Name = "pageWelcome";
-            this.pageWelcome.NextPage = this.pageHowToSelection;
-            this.pageWelcome.BeforeDisplay += new System.EventHandler(this.OnPageWelcome_BeforeDisplay);
+            this.pageStartImport.Controls.Add(this.label1);
+            this.pageStartImport.Controls.Add(this.comboFeedSource);
+            this.pageStartImport.Controls.Add(this.radioImportFromFeedSource);
+            this.pageStartImport.Controls.Add(this.radioImportFromOpml);
+            this.pageStartImport.Controls.Add(this.comboCategory);
+            this.pageStartImport.Controls.Add(this.label3);
+            this.pageStartImport.Controls.Add(this.textUrlOrFile);
+            this.pageStartImport.Controls.Add(this.btnSelectFile);
+            this.pageStartImport.Controls.Add(this.label2);
+            resources.ApplyResources(this.pageStartImport, "pageStartImport");
+            this.pageStartImport.Name = "pageStartImport";
+            this.pageStartImport.NextPage = this.pageValidateUrl;
+            this.pageStartImport.AfterDisplay += new System.EventHandler(this.OnPageNewURLAfterDisplay);
             // 
-            // chkDisplayWelcome
+            // label1
             // 
-            this.chkDisplayWelcome.Checked = true;
-            this.chkDisplayWelcome.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.chkDisplayWelcome, "chkDisplayWelcome");
-            this.chkDisplayWelcome.Name = "chkDisplayWelcome";
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // comboFeedSource
+            // 
+            this.comboFeedSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboFeedSource.FormattingEnabled = true;
+            this.comboFeedSource.Items.AddRange(new object[] {
+            resources.GetString("comboFeedSource.Items"),
+            resources.GetString("comboFeedSource.Items1"),
+            resources.GetString("comboFeedSource.Items2")});
+            resources.ApplyResources(this.comboFeedSource, "comboFeedSource");
+            this.comboFeedSource.Name = "comboFeedSource";
+            // 
+            // radioImportFromFeedSource
+            // 
+            resources.ApplyResources(this.radioImportFromFeedSource, "radioImportFromFeedSource");
+            this.radioImportFromFeedSource.Name = "radioImportFromFeedSource";
+            this.radioImportFromFeedSource.TabStop = true;
+            this.radioImportFromFeedSource.UseVisualStyleBackColor = true;
+            this.radioImportFromFeedSource.CheckedChanged += new System.EventHandler(this.radioImportFromFeedSource_CheckedChanged);
+            // 
+            // radioImportFromOpml
+            // 
+            resources.ApplyResources(this.radioImportFromOpml, "radioImportFromOpml");
+            this.radioImportFromOpml.Name = "radioImportFromOpml";
+            this.radioImportFromOpml.TabStop = true;
+            this.radioImportFromOpml.UseVisualStyleBackColor = true;
+            this.radioImportFromOpml.CheckedChanged += new System.EventHandler(this.radioImportFromOpml_CheckedChanged);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // lblWelcomeHelpMessage2
+            // 
+            resources.ApplyResources(this.lblWelcomeHelpMessage2, "lblWelcomeHelpMessage2");
+            this.lblWelcomeHelpMessage2.Name = "lblWelcomeHelpMessage2";
+            // 
+            // lblWelcomeHelpMessage1
+            // 
+            resources.ApplyResources(this.lblWelcomeHelpMessage1, "lblWelcomeHelpMessage1");
+            this.lblWelcomeHelpMessage1.Name = "lblWelcomeHelpMessage1";
             // 
             // lblWelcomeInfoBox
             // 
@@ -882,15 +904,12 @@ namespace RssBandit.WinGui.Forms
             this.lblWelcomeInfoBox.Icon = Divelements.WizardFramework.SystemIconType.Warning;
             this.lblWelcomeInfoBox.Name = "lblWelcomeInfoBox";
             // 
-            // lblWelcomeHelpMessage1
+            // chkDisplayWelcome
             // 
-            resources.ApplyResources(this.lblWelcomeHelpMessage1, "lblWelcomeHelpMessage1");
-            this.lblWelcomeHelpMessage1.Name = "lblWelcomeHelpMessage1";
-            // 
-            // lblWelcomeHelpMessage2
-            // 
-            resources.ApplyResources(this.lblWelcomeHelpMessage2, "lblWelcomeHelpMessage2");
-            this.lblWelcomeHelpMessage2.Name = "lblWelcomeHelpMessage2";
+            this.chkDisplayWelcome.Checked = true;
+            this.chkDisplayWelcome.CheckState = System.Windows.Forms.CheckState.Checked;
+            resources.ApplyResources(this.chkDisplayWelcome, "chkDisplayWelcome");
+            this.chkDisplayWelcome.Name = "chkDisplayWelcome";
             // 
             // pageNewByNNTPGroup
             // 
@@ -906,7 +925,6 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.pageNewByNNTPGroup, "pageNewByNNTPGroup");
             this.pageNewByNNTPGroup.Name = "pageNewByNNTPGroup";
             this.pageNewByNNTPGroup.NextPage = this.pageTitleCategory;
-            this.pageNewByNNTPGroup.PreviousPage = this.pageHowToSelection;
             this.pageNewByNNTPGroup.AfterDisplay += new System.EventHandler(this.OnPageNewNNTPGroupAfterDisplay);
             // 
             // lstNNTPGroups
@@ -974,72 +992,32 @@ namespace RssBandit.WinGui.Forms
             this.lblNewByNNTPGroupIntro.Name = "lblNewByNNTPGroupIntro";
             this.lblNewByNNTPGroupIntro.Tag = "";
             // 
-            // timerIncreaseProgress
+            // _btnImmediateFinish
             // 
-            this.timerIncreaseProgress.Tick += new System.EventHandler(this.OnTimerIncreaseProgress_Tick);
+            resources.ApplyResources(this._btnImmediateFinish, "_btnImmediateFinish");
+            this._btnImmediateFinish.Name = "_btnImmediateFinish";
+            this._btnImmediateFinish.Click += new System.EventHandler(this.OnImmediateFinish_Click);
             // 
-            // timerStartValidation
+            // wizard
             // 
-            this.timerStartValidation.Tick += new System.EventHandler(this.OnTimerStartValidation);
-            // 
-            // comboCategory
-            // 
-            resources.ApplyResources(this.comboCategory, "comboCategory");
-            this.comboCategory.Name = "comboCategory";
-            this.comboCategory.Sorted = true;
-            this.toolTip.SetToolTip(this.comboCategory, resources.GetString("comboCategory.ToolTip"));
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // textUrlOrFile
-            // 
-            this.textUrlOrFile.AllowDrop = true;
-            resources.ApplyResources(this.textUrlOrFile, "textUrlOrFile");
-            this.textUrlOrFile.Name = "textUrlOrFile";
-            this.toolTip.SetToolTip(this.textUrlOrFile, resources.GetString("textUrlOrFile.ToolTip"));
-            // 
-            // btnSelectFile
-            // 
-            resources.ApplyResources(this.btnSelectFile, "btnSelectFile");
-            this.btnSelectFile.Name = "btnSelectFile";
-            this.toolTip.SetToolTip(this.btnSelectFile, resources.GetString("btnSelectFile.ToolTip"));
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // radioButton1
-            // 
-            resources.ApplyResources(this.radioButton1, "radioButton1");
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.TabStop = true;
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            resources.ApplyResources(this.radioButton2, "radioButton2");
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.TabStop = true;
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            resources.GetString("comboBox1.Items"),
-            resources.GetString("comboBox1.Items1"),
-            resources.GetString("comboBox1.Items2")});
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
+            this.wizard.Controls.Add(this._btnImmediateFinish);
+            this.wizard.Controls.Add(this.pageStartImport);
+            this.wizard.Controls.Add(this.pageNewBySearchTopic);
+            this.wizard.Controls.Add(this.pageNewByNNTPGroup);
+            this.wizard.Controls.Add(this.pageValidateUrl);
+            this.wizard.Controls.Add(this.pageTitleCategory);
+            this.wizard.Controls.Add(this.pageFoundMultipleFeeds);
+            this.wizard.Controls.Add(this.pageFeedItemControl);
+            this.wizard.Controls.Add(this.pageFeedItemDisplay);
+            this.wizard.Controls.Add(this.finishPage);
+            this.wizard.Controls.Add(this.pageFeedCredentials);
+            resources.ApplyResources(this.wizard, "wizard");
+            this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
+            this.wizard.Name = "wizard";
+            this.wizard.SelectedPage = this.pageStartImport;
+            this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
+            this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
             // 
             // ImportFeedsWizard
             // 
@@ -1049,71 +1027,63 @@ namespace RssBandit.WinGui.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ImportFeedsWizard";
-            this.wizard.ResumeLayout(false);
-            this.pageStartImport.ResumeLayout(false);
-            this.pageStartImport.PerformLayout();
-            this.pageValidateUrl.ResumeLayout(false);
-            this.pageFoundMultipleFeeds.ResumeLayout(false);
-            this.pageTitleCategory.ResumeLayout(false);
-            this.pageTitleCategory.PerformLayout();
             this.pageFeedCredentials.ResumeLayout(false);
             this.pageFeedCredentials.PerformLayout();
             this.pageFeedItemControl.ResumeLayout(false);
             this.pageFeedItemDisplay.ResumeLayout(false);
             this.finishPage.ResumeLayout(false);
             this.pnlCompleting.ResumeLayout(false);
+            this.pageTitleCategory.ResumeLayout(false);
+            this.pageTitleCategory.PerformLayout();
+            this.pageFoundMultipleFeeds.ResumeLayout(false);
             this.pageNewBySearchTopic.ResumeLayout(false);
             this.pageNewBySearchTopic.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureHelpSyndic8)).EndInit();
-            this.pageHowToSelection.ResumeLayout(false);
-            this.pageWelcome.ResumeLayout(false);
+            this.pageValidateUrl.ResumeLayout(false);
+            this.pageStartImport.ResumeLayout(false);
+            this.pageStartImport.PerformLayout();
             this.pageNewByNNTPGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.wizard.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void WireStepsForMode(WizardMode m) 
+		private void WireStepsForMode(AddSubscriptionWizardMode m) 
 		{
 			// reset rewire credential steps:
 			this.ReWireCredentialsStep(false);
 			this.wizardMode = m;
 			switch (m) {
-				case WizardMode.Default:
+				case AddSubscriptionWizardMode.Default:
 					// nothing yet. Depends on user selection (pageHowToSelection)
 					break;
-				case WizardMode.SubscribeURL:
-					pageHowToSelection.NextPage = pageStartImport;
+				case AddSubscriptionWizardMode.SubscribeURL:
+					
 					break;
-				case WizardMode.SubscribeURLDirect:
-					pageWelcome.NextPage = pageStartImport;
-					pageStartImport.PreviousPage = pageWelcome;
+				case AddSubscriptionWizardMode.SubscribeURLDirect:				
 					pageTitleCategory.PreviousPage = pageStartImport;
 					break;
-				case WizardMode.SubscribeNNTPGroup:
-					pageHowToSelection.NextPage = pageNewByNNTPGroup;
+				case AddSubscriptionWizardMode.SubscribeNNTPGroup:
+				
 					pageTitleCategory.PreviousPage = pageNewByNNTPGroup;
 					break;
-				case WizardMode.SubscribeNNTPDirect:
-					pageWelcome.NextPage = pageNewByNNTPGroup;
-					pageNewByNNTPGroup.PreviousPage = pageWelcome;
+				case AddSubscriptionWizardMode.SubscribeNNTPDirect:				
 					pageTitleCategory.PreviousPage = pageNewByNNTPGroup;
 					break;
-				case WizardMode.SubscribeSearch:
-					pageHowToSelection.NextPage = pageNewBySearchTopic;
+				case AddSubscriptionWizardMode.SubscribeSearch:
+				
 					pageFoundMultipleFeeds.PreviousPage = pageNewBySearchTopic;
 					pageTitleCategory.PreviousPage = pageFoundMultipleFeeds;
 					break;
-				case WizardMode.SubscribeSearchDirect:
-					pageWelcome.NextPage = pageNewBySearchTopic;
-					pageNewBySearchTopic.PreviousPage = pageWelcome;
+				case AddSubscriptionWizardMode.SubscribeSearchDirect:
+
 					pageFoundMultipleFeeds.PreviousPage = pageNewBySearchTopic;
 					pageTitleCategory.PreviousPage = pageFoundMultipleFeeds;
 					break;
-				case WizardMode.SubscribeNNTPGroupDirect:
-					pageWelcome.NextPage = pageTitleCategory;
-					pageTitleCategory.PreviousPage = pageWelcome;
+				case AddSubscriptionWizardMode.SubscribeNNTPGroupDirect:
+				
 					break;
 				default:
 					throw new InvalidOperationException("WizardMode '" + m.ToString() + "' not supported");
@@ -1498,13 +1468,13 @@ namespace RssBandit.WinGui.Forms
 		/// </value>
 		public bool MultipleFeedsToSubscribe {
 			get { 
-				if ((this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) &&
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) &&
 					this.lstNNTPGroups.SelectedItems.Count > 1)
 					return true;
-				if ((this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ) &&
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) &&
 					this.listFeeds.SelectedItems.Count > 1)
 					return true;
 				return false;
@@ -1517,12 +1487,12 @@ namespace RssBandit.WinGui.Forms
 		/// <value>int</value>
 		public int MultipleFeedsToSubscribeCount {
 			get {
-				if ((this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroupDirect))
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect))
 					return this.lstNNTPGroups.SelectedItems.Count;
-				if ((this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ))
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ))
 					return this.listFeeds.SelectedItems.Count;
 				return 0;
 			}	
@@ -1535,9 +1505,9 @@ namespace RssBandit.WinGui.Forms
 		/// <returns></returns>
 		public string FeedUrls(int index) {
 			
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) {
 				
 				if (this.lstNNTPGroups.SelectedItems.Count > 0) {
 					string newsServer = String.Empty;
@@ -1552,8 +1522,8 @@ namespace RssBandit.WinGui.Forms
 					return this.FeedUrl;
 				}
 
-			} else if (this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
 				
 				if (this.listFeeds.SelectedItems.Count > 0)
 					return (string)this.listFeeds.SelectedItems[index].Tag;
@@ -1575,17 +1545,17 @@ namespace RssBandit.WinGui.Forms
 		/// <returns></returns>
 		public string FeedTitles(int index) {
 			
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) {
 				
 				if (this.lstNNTPGroups.SelectedItems.Count > 1)
 					return this.lstNNTPGroups.SelectedItems[index].ToString(); 
 				else
 					return this.FeedTitle;
 
-			} else if (this.wizardMode == WizardMode.SubscribeURL ||
-				this.wizardMode == WizardMode.SubscribeURLDirect ) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
 				
 				if (this.listFeeds.SelectedItems.Count > 1)
 					return this.listFeeds.SelectedItems[index].SubItems[0].Text;
@@ -1686,6 +1656,11 @@ namespace RssBandit.WinGui.Forms
 			get { return Utils.MaxItemAgeFromIndex(this.comboMaxItemAge.SelectedIndex); }
 			set { this.comboMaxItemAge.SelectedIndex = Utils.MaxItemAgeToIndex(value);	}
 		}
+
+        /// <summary>
+        /// Gets the path to the file or URL from which to import feeds when importing from OPML.
+        /// </summary>
+        public string FeedsUrlOrFile { get { return textUrlOrFile.Text; } }
 
 		/// <summary>
 		/// Gets a value indicating whether [alert enabled].
@@ -1861,8 +1836,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnImmediateFinish_Click(object sender, System.EventArgs e)
-		{
-			this.ProcessFeedUrl();
+		{			
 			this.DialogResult = DialogResult.OK;
 			Close();
 		}
@@ -1893,11 +1867,11 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnRadioHowToSubscribeCheckedChanged(object sender, System.EventArgs e) {
 			if (sender == radioNewByURL)
-				WireStepsForMode(WizardMode.SubscribeURL);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 			else if (sender == radioNewByTopicSearch)
-				WireStepsForMode(WizardMode.SubscribeSearch);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeSearch);
 			else if (sender == radioNewByNNTPGroup)
-				WireStepsForMode(WizardMode.SubscribeNNTPGroup);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeNNTPGroup);
 		}
 
 		private void OnAutodiscoverVerifyCheckedChanged(object sender, System.EventArgs e) {
@@ -1922,9 +1896,9 @@ namespace RssBandit.WinGui.Forms
 			this._btnImmediateFinish.Visible = true;
 			this.txtFeedTitle.Enabled = !this.MultipleFeedsToSubscribe;
 
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect ||
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect ||
 				this.credentialsStepReWired) 
 			{
 				if (this.credentialsStepReWired)
@@ -1950,7 +1924,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnPageHowToSelectionAfterDisplay(object sender, System.EventArgs e) {
-			this.WireStepsForMode(WizardMode.SubscribeURL);
+			this.WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 		}
 
 		private void OnPageNewNNTPGroupAfterDisplay(object sender, System.EventArgs e) {
@@ -2036,8 +2010,8 @@ namespace RssBandit.WinGui.Forms
 			Exception invalidUriException; 
 
 			if(radioNewByNNTPGroup.Checked || this.MultipleFeedsToSubscribe ||
-				(this.wizardMode == WizardMode.SubscribeNNTPDirect) ||
-				(this.wizardMode == WizardMode.SubscribeNNTPGroup) ){
+				(this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect) ||
+				(this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup) ){
 				
 				// take/set the first:
 				this.FeedUrl = this.FeedUrls(0);
@@ -2057,7 +2031,7 @@ namespace RssBandit.WinGui.Forms
 			
 			this.timerStartValidation.Enabled = false;
 			
-			if (this.wizardMode == WizardMode.SubscribeURL || this.wizardMode == WizardMode.SubscribeURLDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL || this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect) {
 				pageValidateUrl.NextPage = pageTitleCategory;
 				pageValidateUrl.PreviousPage = pageStartImport;
 				SetWizardTaskInfo(0, WizardValidationTask.InProgress, SR.WizardValidationTask_VerifyingUrlMessage);
@@ -2089,7 +2063,7 @@ namespace RssBandit.WinGui.Forms
 						wizard.GoNext();
 				}
 					
-			} else if (this.wizardMode == WizardMode.SubscribeSearch || this.wizardMode == WizardMode.SubscribeSearchDirect) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeSearch || this.wizardMode == AddSubscriptionWizardMode.SubscribeSearchDirect) {
 
 				if (this.SearchEngineReturnSingleFeed) {
 
@@ -2138,6 +2112,33 @@ namespace RssBandit.WinGui.Forms
 			}
 
 		}
+
+        private void btnSelectFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.Filter = "OPML files (*.opml)|*.opml|OCS files (*.ocs)|*.ocs|XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            ofd.FilterIndex = 4;
+            ofd.InitialDirectory = Environment.CurrentDirectory;
+            ofd.RestoreDirectory = true;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textUrlOrFile.Text = ofd.FileName;
+            }
+        }
+
+        private void radioImportFromOpml_CheckedChanged(object sender, EventArgs e)
+        {
+            this.comboFeedSource.Enabled = false;
+            this.textUrlOrFile.Enabled = this.comboCategory.Enabled = true;
+        }
+
+        private void radioImportFromFeedSource_CheckedChanged(object sender, EventArgs e)
+        {
+            this.textUrlOrFile.Enabled = this.comboCategory.Enabled = false;
+            this.comboFeedSource.Enabled = true; 
+        }
 
 	}
 

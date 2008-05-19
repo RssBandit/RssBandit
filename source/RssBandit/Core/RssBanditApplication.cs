@@ -3013,8 +3013,9 @@ namespace RssBandit
             {
                 dialog.ShowDialog(guiMain);
             }
-            catch
+            catch(Exception e)
             {
+                _log.Error("Error on opening Import Feeds Dialog:" + e); 
             }
 
             Application.DoEvents(); // give time to visualize dismiss the dialog andredraw the UI
@@ -5293,22 +5294,22 @@ namespace RssBandit
 
         public bool SearchForFeeds(string searchTerm)
         {
-            return SubscribeToFeed(null, null, null, searchTerm, WizardMode.SubscribeSearchDirect);
+            return SubscribeToFeed(null, null, null, searchTerm, AddSubscriptionWizardMode.SubscribeSearchDirect);
         }
 
         public bool SubscribeToFeed(string url, string category, string title)
         {
-            var mode = WizardMode.Default;
+            var mode = AddSubscriptionWizardMode.Default;
             if (! string.IsNullOrEmpty(url))
             {
-                mode = WizardMode.SubscribeURLDirect;
+                mode = AddSubscriptionWizardMode.SubscribeURLDirect;
                 if (RssHelper.IsNntpUrl(url))
-                    mode = WizardMode.SubscribeNNTPGroupDirect;
+                    mode = AddSubscriptionWizardMode.SubscribeNNTPGroupDirect;
             }
             return SubscribeToFeed(url, category, title, null, mode);
         }
 
-        public bool SubscribeToFeed(string url, string category, string title, string searchTerms, WizardMode mode)
+        public bool SubscribeToFeed(string url, string category, string title, string searchTerms, AddSubscriptionWizardMode mode)
         {
             var wiz = new AddSubscriptionWizard(this, mode)
                           {

@@ -45,7 +45,7 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		internal NewsFeed Feed = null;
 
-		private WizardMode wizardMode; 
+		private AddSubscriptionWizardMode wizardMode; 
 		private IServiceProvider serviceProvider;
 		private WindowSerializer windowSerializer;
 		private IInternetService internetService;
@@ -163,7 +163,7 @@ namespace RssBandit.WinGui.Forms
 			this.lblUsenetHelp.LinkArea = new LinkArea(0, this.lblUsenetHelp.Text.Length);
 		}
 
-		public AddSubscriptionWizard(IServiceProvider provider, WizardMode mode):this()
+		public AddSubscriptionWizard(IServiceProvider provider, AddSubscriptionWizardMode mode):this()
 		{
 			serviceProvider = provider;
 			wizardMode = mode;
@@ -284,7 +284,7 @@ namespace RssBandit.WinGui.Forms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ImportFeedsWizard));
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddSubscriptionWizard));
 			this.wizard = new Divelements.WizardFramework.Wizard();
 			this._btnImmediateFinish = new System.Windows.Forms.Button();
 			this.pageNewBySearchTopic = new Divelements.WizardFramework.WizardPage();
@@ -2577,44 +2577,44 @@ namespace RssBandit.WinGui.Forms
 		}
 		#endregion
 
-		private void WireStepsForMode(WizardMode m) 
+		private void WireStepsForMode(AddSubscriptionWizardMode m) 
 		{
 			// reset rewire credential steps:
 			this.ReWireCredentialsStep(false);
 			this.wizardMode = m;
 			switch (m) {
-				case WizardMode.Default:
+				case AddSubscriptionWizardMode.Default:
 					// nothing yet. Depends on user selection (pageHowToSelection)
 					break;
-				case WizardMode.SubscribeURL:
+				case AddSubscriptionWizardMode.SubscribeURL:
 					pageHowToSelection.NextPage = pageNewByURL;
 					break;
-				case WizardMode.SubscribeURLDirect:
+				case AddSubscriptionWizardMode.SubscribeURLDirect:
 					pageWelcome.NextPage = pageNewByURL;
 					pageNewByURL.PreviousPage = pageWelcome;
 					pageTitleCategory.PreviousPage = pageNewByURL;
 					break;
-				case WizardMode.SubscribeNNTPGroup:
+				case AddSubscriptionWizardMode.SubscribeNNTPGroup:
 					pageHowToSelection.NextPage = pageNewByNNTPGroup;
 					pageTitleCategory.PreviousPage = pageNewByNNTPGroup;
 					break;
-				case WizardMode.SubscribeNNTPDirect:
+				case AddSubscriptionWizardMode.SubscribeNNTPDirect:
 					pageWelcome.NextPage = pageNewByNNTPGroup;
 					pageNewByNNTPGroup.PreviousPage = pageWelcome;
 					pageTitleCategory.PreviousPage = pageNewByNNTPGroup;
 					break;
-				case WizardMode.SubscribeSearch:
+				case AddSubscriptionWizardMode.SubscribeSearch:
 					pageHowToSelection.NextPage = pageNewBySearchTopic;
 					pageFoundMultipleFeeds.PreviousPage = pageNewBySearchTopic;
 					pageTitleCategory.PreviousPage = pageFoundMultipleFeeds;
 					break;
-				case WizardMode.SubscribeSearchDirect:
+				case AddSubscriptionWizardMode.SubscribeSearchDirect:
 					pageWelcome.NextPage = pageNewBySearchTopic;
 					pageNewBySearchTopic.PreviousPage = pageWelcome;
 					pageFoundMultipleFeeds.PreviousPage = pageNewBySearchTopic;
 					pageTitleCategory.PreviousPage = pageFoundMultipleFeeds;
 					break;
-				case WizardMode.SubscribeNNTPGroupDirect:
+				case AddSubscriptionWizardMode.SubscribeNNTPGroupDirect:
 					pageWelcome.NextPage = pageTitleCategory;
 					pageTitleCategory.PreviousPage = pageWelcome;
 					break;
@@ -3003,13 +3003,13 @@ namespace RssBandit.WinGui.Forms
 		/// </value>
 		public bool MultipleFeedsToSubscribe {
 			get { 
-				if ((this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) &&
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) &&
 					this.lstNNTPGroups.SelectedItems.Count > 1)
 					return true;
-				if ((this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ) &&
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) &&
 					this.listFeeds.SelectedItems.Count > 1)
 					return true;
 				return false;
@@ -3022,12 +3022,12 @@ namespace RssBandit.WinGui.Forms
 		/// <value>int</value>
 		public int MultipleFeedsToSubscribeCount {
 			get {
-				if ((this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-					this.wizardMode == WizardMode.SubscribeNNTPGroupDirect))
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect))
 					return this.lstNNTPGroups.SelectedItems.Count;
-				if ((this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ))
+				if ((this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ))
 					return this.listFeeds.SelectedItems.Count;
 				return 0;
 			}	
@@ -3040,9 +3040,9 @@ namespace RssBandit.WinGui.Forms
 		/// <returns></returns>
 		public string FeedUrls(int index) {
 			
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) {
 				
 				if (this.lstNNTPGroups.SelectedItems.Count > 0) {
 					string newsServer = String.Empty;
@@ -3057,8 +3057,8 @@ namespace RssBandit.WinGui.Forms
 					return this.FeedUrl;
 				}
 
-			} else if (this.wizardMode == WizardMode.SubscribeURL ||
-					this.wizardMode == WizardMode.SubscribeURLDirect ) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
 				
 				if (this.listFeeds.SelectedItems.Count > 0)
 					return (string)this.listFeeds.SelectedItems[index].Tag;
@@ -3080,17 +3080,17 @@ namespace RssBandit.WinGui.Forms
 		/// <returns></returns>
 		public string FeedTitles(int index) {
 			
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) {
 				
 				if (this.lstNNTPGroups.SelectedItems.Count > 1)
 					return this.lstNNTPGroups.SelectedItems[index].ToString(); 
 				else
 					return this.FeedTitle;
 
-			} else if (this.wizardMode == WizardMode.SubscribeURL ||
-				this.wizardMode == WizardMode.SubscribeURLDirect ) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
 				
 				if (this.listFeeds.SelectedItems.Count > 1)
 					return this.listFeeds.SelectedItems[index].SubItems[0].Text;
@@ -3399,11 +3399,11 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnRadioHowToSubscribeCheckedChanged(object sender, System.EventArgs e) {
 			if (sender == radioNewByURL)
-				WireStepsForMode(WizardMode.SubscribeURL);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 			else if (sender == radioNewByTopicSearch)
-				WireStepsForMode(WizardMode.SubscribeSearch);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeSearch);
 			else if (sender == radioNewByNNTPGroup)
-				WireStepsForMode(WizardMode.SubscribeNNTPGroup);
+				WireStepsForMode(AddSubscriptionWizardMode.SubscribeNNTPGroup);
 		}
 
 		private void OnAutodiscoverVerifyCheckedChanged(object sender, System.EventArgs e) {
@@ -3456,9 +3456,9 @@ namespace RssBandit.WinGui.Forms
 			this._btnImmediateFinish.Visible = true;
 			this.txtFeedTitle.Enabled = !this.MultipleFeedsToSubscribe;
 
-			if (this.wizardMode == WizardMode.SubscribeNNTPDirect ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == WizardMode.SubscribeNNTPGroupDirect ||
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect ||
 				this.credentialsStepReWired) 
 			{
 				if (this.credentialsStepReWired)
@@ -3484,7 +3484,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private void OnPageHowToSelectionAfterDisplay(object sender, System.EventArgs e) {
-			this.WireStepsForMode(WizardMode.SubscribeURL);
+			this.WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 		}
 
 		private void OnPageNewNNTPGroupAfterDisplay(object sender, System.EventArgs e) {
@@ -3571,8 +3571,8 @@ namespace RssBandit.WinGui.Forms
 			Exception invalidUriException; 
 
 			if(radioNewByNNTPGroup.Checked || this.MultipleFeedsToSubscribe ||
-				(this.wizardMode == WizardMode.SubscribeNNTPDirect) ||
-				(this.wizardMode == WizardMode.SubscribeNNTPGroup) ){
+				(this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect) ||
+				(this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup) ){
 				
 				// take/set the first:
 				this.FeedUrl = this.FeedUrls(0);
@@ -3592,7 +3592,7 @@ namespace RssBandit.WinGui.Forms
 			
 			this.timerStartValidation.Enabled = false;
 			
-			if (this.wizardMode == WizardMode.SubscribeURL || this.wizardMode == WizardMode.SubscribeURLDirect) {
+			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL || this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect) {
 				pageValidateUrl.NextPage = pageTitleCategory;
 				pageValidateUrl.PreviousPage = pageNewByURL;
 				SetWizardTaskInfo(0, WizardValidationTask.InProgress, SR.WizardValidationTask_VerifyingUrlMessage);
@@ -3625,7 +3625,7 @@ namespace RssBandit.WinGui.Forms
 						wizard.GoNext();
 				}
 					
-			} else if (this.wizardMode == WizardMode.SubscribeSearch || this.wizardMode == WizardMode.SubscribeSearchDirect) {
+			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeSearch || this.wizardMode == AddSubscriptionWizardMode.SubscribeSearchDirect) {
 
 				if (this.SearchEngineReturnSingleFeed) {
 
@@ -3679,7 +3679,7 @@ namespace RssBandit.WinGui.Forms
 	}
 
 	#region WizardMode enum
-	internal enum WizardMode {
+	internal enum AddSubscriptionWizardMode {
 		/// <summary>
 		/// Show all steps
 		/// </summary>
