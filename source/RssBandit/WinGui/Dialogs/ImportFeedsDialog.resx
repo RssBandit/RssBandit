@@ -147,9 +147,6 @@
   <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="label2.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
   </data>
@@ -162,9 +159,6 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="textUrlOrFile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -186,11 +180,11 @@
   <data name="textUrlOrFile.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="textUrlOrFile.ToolTip" xml:space="preserve">
     <value>Supported formats are e.g. OCS, OPML, Bandit feedlist...</value>
-  </data>
-  <data name="textUrlOrFile.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="textUrlOrFile.WordWrap" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -234,14 +228,8 @@
   <data name="btnOk.Text" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="btnOk.ToolTip" xml:space="preserve">
     <value>Done. Now import...</value>
-  </data>
-  <data name="btnOk.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;btnOk.Name" xml:space="preserve">
     <value>btnOk</value>
@@ -281,9 +269,6 @@
   </data>
   <data name="btnCancel.Text" xml:space="preserve">
     <value>Cancel</value>
-  </data>
-  <data name="btnCancel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
     <value>btnCancel</value>
@@ -327,9 +312,6 @@
   <data name="btnSelectFile.ToolTip" xml:space="preserve">
     <value>Lookup for a file on the filesystem...</value>
   </data>
-  <data name="btnSelectFile.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;btnSelectFile.Name" xml:space="preserve">
     <value>btnSelectFile</value>
   </data>
@@ -369,9 +351,6 @@
   <data name="comboCategory.ToolTip" xml:space="preserve">
     <value>Select a category, or provide a new one where the new feeds should be located within your subscriptions</value>
   </data>
-  <data name="comboCategory.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;comboCategory.Name" xml:space="preserve">
     <value>comboCategory</value>
   </data>
@@ -410,9 +389,6 @@
   </data>
   <data name="comboFeedSource.ToolTip" xml:space="preserve">
     <value>Select a category, or provide a new one where the new feeds should be located within your subscriptions</value>
-  </data>
-  <data name="comboFeedSource.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;comboFeedSource.Name" xml:space="preserve">
     <value>comboFeedSource</value>
@@ -492,9 +468,6 @@
   <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="label3.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
   </data>
@@ -533,9 +506,6 @@
   </data>
   <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
-  </data>
-  <data name="label1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
