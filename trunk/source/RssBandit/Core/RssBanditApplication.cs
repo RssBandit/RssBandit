@@ -5310,7 +5310,7 @@ namespace RssBandit
 
         public bool SubscribeToFeed(string url, string category, string title, string searchTerms, WizardMode mode)
         {
-            var wiz = new ImportFeedsWizard(this, mode)
+            var wiz = new AddSubscriptionWizard(this, mode)
                           {
                               FeedUrl = (url ?? String.Empty),
                               FeedTitle = (title ?? String.Empty),
