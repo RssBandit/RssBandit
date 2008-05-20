@@ -397,6 +397,7 @@ namespace NewsComponents.Feed
                     NewsFeed feed = null;
                     bootstrapFeeds.TryGetValue(ngFeed.link, out feed);
                     feed = TransferSettings(ngFeed, feed);
+                    feed.owner = this; 
 
                     feed.PropertyChanged += this.OnNewsFeedPropertyChanged; 
 
@@ -1570,6 +1571,7 @@ namespace NewsComponents.Feed
         /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
         public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
         {
+            feed.owner = this; 
             feed = base.AddFeed(feed, feedInfo);
             NewsGatorUpdater.AddFeedInNewsGatorOnline(this.NewsGatorUserName, feed.link);         
             feed.PropertyChanged += this.OnNewsFeedPropertyChanged;
