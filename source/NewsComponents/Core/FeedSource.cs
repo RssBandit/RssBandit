@@ -6049,7 +6049,7 @@ namespace NewsComponents
                         {
                             f1.lastretrievedSpecified = true;
                             f1.lastretrieved = dta[count%dtaCount];
-                            feedsTable.Add(f1.link, f1);
+                            this.AddFeed(f1);
                         }
                     }
                 }
@@ -6182,57 +6182,7 @@ namespace NewsComponents
         {
             try
             {
-                ImportFeedlist(feedlist, category, false);
-
-                /* XmlDocument doc = new XmlDocument(); 
-				//XmlDocument fl = new XmlDocument(); 
-				doc.Load(feedlist); 
-
-				//convert feed list to RSS Bandit format
-				doc = ConvertFeedList(doc); 
-
-				//load up 
-				XmlNodeReader reader = new XmlNodeReader(doc);		
-				XmlSerializer serializer  = new XmlSerializer(typeof(feeds));
-				feeds myFeeds = (feeds)serializer.Deserialize(reader); 
-				reader.Close(); 
-
-				if(feedsTable == null){	
-					feedsTable = new FeedsCollection(); 
-				}
-		 
-			 
-
-				foreach(NewsFeed f in myFeeds.feed){
-		
-					//if the same feed seen twice, ignore second occurence 
-					if(feedsTable.ContainsKey(f.link) == false){
-						if(category != String.Empty){
-							f.category = (f.category == null ? category : category + FeedSource.CategorySeparator + f.category);
-						}
-						//f.category = (category  == String.Empty ? f.category : category + FeedSource.CategorySeparator + f.category); 
-						feedsTable.Add(f.link, f); 
-					}
-				}		
-	
-				if(myFeeds.categories.Count == 0){ //no new subcategories
-					if(category != String.Empty && this.categories.ContainsKey(category) == false){
-						this.categories.Add(category); 
-					}	  
-				}else {
-
-					foreach(string cat in myFeeds.categories){
-						string cat2 = (category == String.Empty ? cat : category + FeedSource.CategorySeparator + cat); 
-				
-						if(this.categories.ContainsKey(cat2) == false){
-							this.categories.Add(cat2); 
-						}
-					}
-				}
-				//if original feed list was invalid then reset error indication	
-				if(validationErrorOccured){
-					validationErrorOccured = false; 
-				}*/
+                ImportFeedlist(feedlist, category, false);               
             }
             catch (Exception e)
             {
