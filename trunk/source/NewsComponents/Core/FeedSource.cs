@@ -6040,7 +6040,7 @@ namespace NewsComponents
                     }
                     else
                     {
-                        if (category.Length > 0)
+                        if (!StringHelper.EmptyTrimOrNull(category))
                         {
                             f1.category = (f1.category == null ? category : category + CategorySeparator + f1.category);
                         }
@@ -6130,7 +6130,7 @@ namespace NewsComponents
                 if (myFeeds.categories.Count == 0)
                 {
                     //no new subcategories
-                    if (category.Length > 0 && categories.ContainsKey(category) == false)
+                    if (!StringHelper.EmptyTrimOrNull(category) && categories.ContainsKey(category) == false)
                     {
                         AddCategory(category);
                     }
@@ -6139,7 +6139,7 @@ namespace NewsComponents
                 {
                     foreach (var cat in myFeeds.categories)
                     {
-                        var cat2 = (category.Length == 0 ? cat.Value : category + CategorySeparator + cat.Value);
+                        var cat2 = (StringHelper.EmptyTrimOrNull(category) ? cat.Value : category + CategorySeparator + cat.Value);
 
                         if (categories.ContainsKey(cat2) == false)
                         {

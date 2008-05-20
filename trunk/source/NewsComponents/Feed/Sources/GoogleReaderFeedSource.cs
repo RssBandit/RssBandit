@@ -453,7 +453,7 @@ namespace NewsComponents.Feed
         {
             //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
             TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
-            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt32(maxItemAge.TotalSeconds);          
+            string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt64(maxItemAge.TotalSeconds);          
 
             return feedUrl; 
         }
@@ -1087,27 +1087,36 @@ namespace NewsComponents.Feed
         /// <returns>The actual INewsFeed instance that will be used to represent this feed subscription</returns>
         public override INewsFeed AddFeed(INewsFeed feed, FeedInfo feedInfo)
         {
-            feed = base.AddFeed(feed, feedInfo);
-
-            string feedId = "feed/" + feed.link;
-            List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>();
-
-            foreach (string category in feed.categories)
+            if (feed != null)
             {
-                GoogleReaderLabel label = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
-                labels.Add(label);
+                if (feed.category != null)
+                {
+                    if (feed.category.IndexOf(FeedSource.CategorySeparator) != -1)
+                        throw new NotSupportedException("Google Reader does not support nested categories");
+                }
+
+                feed = base.AddFeed(feed, feedInfo);
+
+                string feedId = "feed/" + feed.link;
+                List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>();
+
+                foreach (string category in feed.categories)
+                {
+                    GoogleReaderLabel label = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
+                    labels.Add(label);
+                }
+
+                GoogleReaderSubscription sub = new GoogleReaderSubscription(feedId, feed.title, labels, 0);
+
+                //Replace NewsFeed instance with GoogleReaderNewsFeed
+                feedsTable.Remove(feed.link);
+                feed = new GoogleReaderNewsFeed(sub, feed, this);
+                feedsTable.Add(feed.link, feed);
+
+                GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link);
+
             }
-
-            GoogleReaderSubscription sub = new GoogleReaderSubscription(feedId, feed.title, labels, 0);
-
-            //Replace NewsFeed instance with GoogleReaderNewsFeed
-            feedsTable.Remove(feed.link);
-            feed = new GoogleReaderNewsFeed(sub, feed, this);
-            feedsTable.Add(feed.link, feed);
-
-            GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link); 
-
-            return feed; 
+                return feed;            
         }
 
 
@@ -1426,16 +1435,7 @@ namespace NewsComponents.Feed
             {
                 IList<string> categories2remove = this.GetChildCategories(cat);
                 categories2remove.Add(cat);
-
-                //remove category and all its subcategories
-                lock (this.categories)
-                {
-                    foreach (string c in categories2remove)
-                    {
-                        this.categories.Remove(c);
-                        GoogleReaderUpdater.DeleteCategoryInGoogleReader(this.GoogleUserName, c); 
-                    }
-                }
+              
 
                 //remove feeds in deleted categories and subcategories
                 var feeds2delete =
@@ -1454,6 +1454,17 @@ namespace NewsComponents.Feed
                     }
                 }
 
+                //remove category and all its subcategories
+                lock (this.categories)
+                {
+                    foreach (string c in categories2remove)
+                    {
+                        this.categories.Remove(c);
+                        GoogleReaderUpdater.DeleteCategoryInGoogleReader(this.GoogleUserName, c);
+                    }
+                }
+
+                readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable); 
                 readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
             }// if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
         }

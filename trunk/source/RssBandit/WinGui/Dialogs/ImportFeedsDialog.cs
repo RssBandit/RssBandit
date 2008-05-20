@@ -226,7 +226,7 @@ namespace RssBandit.WinGui.Forms
 			OpenFileDialog ofd = new OpenFileDialog();
 
 			ofd.Filter = "OPML files (*.opml)|*.opml|OCS files (*.ocs)|*.ocs|XML files (*.xml)|*.xml|All files (*.*)|*.*" ;
-			ofd.FilterIndex = 4 ;
+			ofd.FilterIndex = 1 ;
 			ofd.InitialDirectory = Environment.CurrentDirectory;
 			ofd.RestoreDirectory = true ;
 
