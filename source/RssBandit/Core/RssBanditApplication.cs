@@ -765,6 +765,10 @@ namespace RssBandit
 
         #endregion
 
+		public FeedSourceManager FeedSourceManager
+		{
+			get { return sourceManager; }
+		}
         public FeedSource FeedHandler
         {
             get { return feedHandler; }

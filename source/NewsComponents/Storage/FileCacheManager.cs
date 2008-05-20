@@ -61,7 +61,7 @@ namespace NewsComponents.Storage {
 			if(Directory.Exists(cacheDirectory)){
 				this.cacheDirectory = cacheDirectory; 
 			}else{
-				throw new IOException(ComponentsText.ExceptionDirectoryNotExistsMessage(cacheDirectory)); 
+				throw new IOException(String.Format(ComponentsText.ExceptionDirectoryNotExistsMessage, cacheDirectory)); 
 			}
 		}				
 		

@@ -1,9 +1,18 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO; 
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Xml; 
 using System.Xml.Serialization;
@@ -12,7 +21,6 @@ using log4net;
 
 using RssBandit.Common.Logging;
 
-using NewsComponents.Collections;
 
 namespace NewsComponents.Feed
 {

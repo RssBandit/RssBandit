@@ -1,17 +1,16 @@
 ﻿#region Version Info Header
 /*
- * $Id: BanditFeedSource.cs 463 2008-04-07 13:09:49Z t_rendelmann $
- * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/BanditFeedSource.cs $
- * Last modified by $Author: t_rendelmann $
- * Last modified at $Date: 2008-04-07 06:09:49 -0700 (Mon, 07 Apr 2008) $
- * $Revision: 463 $
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Schema;
@@ -32,7 +31,7 @@ namespace NewsComponents.Feed
     /// A FeedSource that directly accesses RSS/Atom feeds via HTTP or HTTPS 
     /// and newsgroups via NNTP. 
     /// </summary>
-    class BanditFeedSource : FeedSource
+    internal class BanditFeedSource : FeedSource
     {
 
         #region constructor

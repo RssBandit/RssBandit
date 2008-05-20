@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id: NewsGatorFeedSource.cs 359 2008-02-24 13:36:21Z carnage4life $
- * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/NewsGatorFeedSource.cs $
- * Last modified by $Author: carnage4life $
- * Last modified at $Date: 2008-02-24 05:36:21 -0800 (Sun, 24 Feb 2008) $
- * $Revision: 359 $
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
@@ -14,9 +14,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.ServiceModel.Channels;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -28,11 +25,31 @@ using RssBandit.Common.Logging;
 
 using NewsComponents.Collections;
 using NewsComponents.Net;
-using NewsComponents.Search;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed
 {
+	#region INewsGatorFeedSource interface: public FeedSource extensions
+	/// <summary>
+	/// public FeedSource extension offered by NewsGator Feed Source
+	/// </summary>
+	public interface INewsGatorFeedSource
+	{
+		/// <summary>
+		/// Marks an item as clipped or unclipped in NewsGator Online
+		/// </summary>
+		///<param name="item">The item to clip. </param>
+		/// <param name="clipped">Indicates whether the item was clipped or unclipped</param>       
+		void ClipNewsItem(INewsItem item, bool clipped);
+
+		/// <summary>
+		/// Gets true, if the item is clipped, else false.
+		/// </summary>
+		/// <param name="item">The news item.</param>
+		/// <returns>bool</returns>
+		bool NewsItemClipped(INewsItem item);
+	}
+	#endregion
 
     #region NewsGatorFlagStatus 
 
@@ -66,7 +83,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
     /// </summary>
-    public class NewsGatorFeedSource : FeedSource
+	internal class NewsGatorFeedSource : FeedSource, INewsGatorFeedSource
     {
 
         #region private fields
@@ -875,11 +892,12 @@ namespace NewsComponents.Feed
         /// Marks an item as clipped or unclipped in NewsGator Online
         /// </summary>
         ///<param name="item">The item to clip. </param>
-        /// <param name="tagged">Indicates whether the item was clipped or unclipped</param>       
+		/// <param name="clipped">Indicates whether the item was clipped or unclipped</param>       
         public void ClipNewsItem(INewsItem item, bool clipped)
         {
             if (item != null)
             {
+				//DISCUSS: is postId correct here? Shouldn't that be "clipped" ?
                 XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
                 if (elem != null)
                 {
@@ -888,6 +906,17 @@ namespace NewsComponents.Feed
                 }
             }
         }
+
+		/// <summary>
+		/// Gets true, if the item is clipped, else false.
+		/// </summary>
+		/// <param name="item">The news item.</param>
+		/// <returns>bool</returns>
+		public bool NewsItemClipped(INewsItem item)
+		{
+			//TODO impl.
+			return false;
+		}
 
         /// <summary>
         /// Used to clip or unclip a post in NewsGator Online

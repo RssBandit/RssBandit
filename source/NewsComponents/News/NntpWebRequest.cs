@@ -278,7 +278,7 @@ namespace NewsComponents.News {
 				}
 				
 				if (!authOK)
-					throw new NntpWebException(ComponentsText.ExceptionNntpServerAuthenticationFailed(requestUri.Host));
+					throw new NntpWebException(String.Format(ComponentsText.ExceptionNntpServerAuthenticationFailed, requestUri.Host));
 			}
 
 			return client; 

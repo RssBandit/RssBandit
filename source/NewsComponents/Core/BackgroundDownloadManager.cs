@@ -65,7 +65,7 @@ namespace NewsComponents
         /// <summary>
         /// Used for making asynchronous Web requests by HttpDownloader instances
         /// </summary>
-        private static readonly AsyncWebRequest asyncWebRequest = null;
+        private static readonly AsyncWebRequest asyncWebRequest;
 
         /// <summary>
         /// The applicationID the updater instance is for.
@@ -76,7 +76,7 @@ namespace NewsComponents
         /// This is used to provide information about the files being downloaded 
         /// such as target directory and credentials. 
         /// </summary>
-        private readonly FeedSource downloadInfoProvider = null;
+        private readonly FeedSource downloadInfoProvider;
 
         /// <summary>
         /// Key in the task context.
@@ -319,21 +319,18 @@ namespace NewsComponents
         /// is available</returns>
         private static long GetFileSize(DownloadTask task)
         {
-            if (task.DownloadItem.File.FileSize > 0)
+        	if (task.DownloadItem.File.FileSize > 0)
             {
                 return task.DownloadItem.File.FileSize;
             }
-            else if (task.DownloadItem.Enclosure.Length > 0)
-            {
-                return task.DownloadItem.Enclosure.Length;
-            }
-            else
-            {
-                return -1;
-            }
+        	if (task.DownloadItem.Enclosure.Length > 0)
+        	{
+        		return task.DownloadItem.Enclosure.Length;
+        	}
+        	return -1;
         }
 
-        /// <summary>
+    	/// <summary>
         /// Updates the information about the download task based on performing an HTTP HEAD 
         /// request on the file to download. 
         /// </summary>
@@ -484,7 +481,7 @@ namespace NewsComponents
 
                     string fileName = task.DownloadItem.File.LocalName;
 					int limit = FeedSource.EnclosureCacheSize;
-                    throw new DownloaderException(ComponentsText.ExceptionEnclosureCacheLimitReached(fileName, limit));
+                    throw new DownloaderException(String.Format(ComponentsText.ExceptionEnclosureCacheLimitReached, fileName, limit));
                 }
             }
 
