@@ -3027,7 +3027,7 @@ namespace RssBandit
             if (dialog.DialogResult == DialogResult.OK)
             {
                 var s = dialog.FeedsUrlOrFile;
-                var cat = (dialog.FeedCategory ?? String.Empty);
+                var cat = (dialog.FeedCategory == RssBanditApplication.DefaultCategory ? null : dialog.FeedCategory);
                 if (!string.IsNullOrEmpty(s))
                 {
                     Stream myStream;
