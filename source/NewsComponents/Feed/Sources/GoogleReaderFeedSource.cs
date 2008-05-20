@@ -37,9 +37,8 @@ namespace NewsComponents.Feed
 		/// <summary>
 		/// Marks an item as shared or unshared in Google Reader
 		/// </summary>
-		///<param name="item">The item to share. </param>
-		/// <param name="shared">Indicates whether the item was shared or unshared</param>       
-		void ShareNewsItem(INewsItem item, bool shared);
+		///<param name="item">The item to share. </param>   
+		void ShareNewsItem(INewsItem item);
 
 		/// <summary>
 		/// Gets true, if the item is shared, else false.
@@ -1188,15 +1187,29 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Marks an item as shared or unshared in Google Reader
         /// </summary>
-        ///<param name="item">The item to share. </param>
+        ///<param name="item">The item to share or unshare. </param>
 		/// <param name="shared">Indicates whether the item was shared or unshared</param>       
         public void ShareNewsItem(INewsItem item, bool shared)
         {
             if (item != null)
-            {
+            {                
                 GoogleReaderNewsFeed f = item.Feed as GoogleReaderNewsFeed;
                 if (f != null)
                 {
+                    bool shared = true;
+                    XmlQualifiedName qname = new XmlQualifiedName("broadcast", "http://www.google.com/reader/");
+                    XmlElement elem = RssHelper.GetOptionalElement(item, qname);
+                    if (elem == null)
+                    {
+                        elem = RssHelper.CreateXmlElement("gr", qname.Name, qname.Namespace, "1");
+                        item.OptionalElements.Add(qname, elem.OuterXml);
+                    }
+                    else
+                    {
+                        share = elem.InnerText != "1";
+                        elem.InnerText = elem.InnerText == "1" ? "0" : "1";
+                    }
+
                     GoogleReaderUpdater.ChangeItemTaggedStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, "broadcast", shared);
                 }
             }
@@ -1209,8 +1222,19 @@ namespace NewsComponents.Feed
 		/// <returns></returns>
 		public bool NewsItemShared(INewsItem item)
 		{
-			//TODO impl.
-			return false;
+            bool shared = false;
+
+            if (item != null)
+            {
+                XmlQualifiedName qname = new XmlQualifiedName("broadcast", "http://www.google.com/reader/");
+                XmlElement elem = RssHelper.GetOptionalElement(item, qname);
+                if (elem != null)
+                {
+                    shared = elem.InnerText == "1";
+                }
+            }
+
+            return shared; 
 		}
 
         /// <summary>
