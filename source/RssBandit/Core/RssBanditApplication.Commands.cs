@@ -1049,13 +1049,19 @@ namespace RssBandit
         public void CmdImportFeeds(ICommand sender)
         {
             string category = String.Empty;
+            string feedSource = String.Empty;
+
             TreeFeedsNodeBase n = guiMain.CurrentSelectedFeedsNode;
             if (n != null)
             {
                 if (n.Type == FeedNodeType.Category || n.Type == FeedNodeType.Feed)
                     category = n.CategoryStoreName;
+
+                INewsFeed f = this.GetFeed(n.DataKey);
+                FeedSourceID fs = this.FeedSourceManager.SourceOf(f);
+                feedSource = fs.Name; 
             }
-            ImportFeeds(String.Empty, category);
+            ImportFeeds(String.Empty, category, feedSource);
         }
 
         /// <summary>
