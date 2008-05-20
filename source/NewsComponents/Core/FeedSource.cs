@@ -6148,6 +6148,9 @@ namespace NewsComponents
                     }
                 }
             }
+            
+            readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
 
             //if original feed list was invalid then reset error indication	
             if (validationErrorOccured)
