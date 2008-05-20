@@ -1188,8 +1188,7 @@ namespace NewsComponents.Feed
         /// Marks an item as shared or unshared in Google Reader
         /// </summary>
         ///<param name="item">The item to share or unshare. </param>
-		/// <param name="shared">Indicates whether the item was shared or unshared</param>       
-        public void ShareNewsItem(INewsItem item, bool shared)
+		 public void ShareNewsItem(INewsItem item)
         {
             if (item != null)
             {                
@@ -1206,7 +1205,7 @@ namespace NewsComponents.Feed
                     }
                     else
                     {
-                        share = elem.InnerText != "1";
+                        shared = elem.InnerText != "1";
                         elem.InnerText = elem.InnerText == "1" ? "0" : "1";
                     }
 
