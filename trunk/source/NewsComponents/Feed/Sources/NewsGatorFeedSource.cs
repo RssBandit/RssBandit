@@ -38,9 +38,8 @@ namespace NewsComponents.Feed
 		/// <summary>
 		/// Marks an item as clipped or unclipped in NewsGator Online
 		/// </summary>
-		///<param name="item">The item to clip. </param>
-		/// <param name="clipped">Indicates whether the item was clipped or unclipped</param>       
-		void ClipNewsItem(INewsItem item, bool clipped);
+		///<param name="item">The item to clip. </param>      
+		void ClipNewsItem(INewsItem item);
 
 		/// <summary>
 		/// Gets true, if the item is clipped, else false.
@@ -891,17 +890,30 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Marks an item as clipped or unclipped in NewsGator Online
         /// </summary>
-        ///<param name="item">The item to clip. </param>
-		/// <param name="clipped">Indicates whether the item was clipped or unclipped</param>       
-        public void ClipNewsItem(INewsItem item, bool clipped)
+        ///<param name="item">The item to clip or unclip</param>
+	   public void ClipNewsItem(INewsItem item)
         {
             if (item != null)
             {
-				//DISCUSS: is postId correct here? Shouldn't that be "clipped" ?
-                XmlElement elem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
-                if (elem != null)
+
+                bool clipped = true;
+                XmlQualifiedName qname = new XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions");
+                XmlElement clippedElem = RssHelper.GetOptionalElement(item, qname);
+                if (clippedElem == null)
                 {
-                    NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, elem.InnerText, clipped);
+                    clippedElem = RssHelper.CreateXmlElement("ng", qname.Name, qname.Namespace, "True");
+                    item.OptionalElements.Add(qname, clippedElem.OuterXml);
+                }
+                else
+                {
+                    clipped = clippedElem.InnerText != "True";
+                    clippedElem.InnerText = clippedElem.InnerText == "True" ? "False" : "True";
+                }
+
+                XmlElement idElem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
+                if (idElem != null)
+                {
+                    NewsGatorUpdater.ChangeItemClippedStateInNewsGatorOnline(this.NewsGatorUserName, idElem.InnerText, clipped);
 
                 }
             }
@@ -914,8 +926,19 @@ namespace NewsComponents.Feed
 		/// <returns>bool</returns>
 		public bool NewsItemClipped(INewsItem item)
 		{
-			//TODO impl.
-			return false;
+            bool clipped = false;
+
+            if (item != null)
+            {
+                XmlQualifiedName qname = new XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions");
+                XmlElement clippedElem = RssHelper.GetOptionalElement(item, qname);
+                if (clippedElem != null)
+                {
+                    clipped = clippedElem.InnerText == "True";
+                }
+            }
+
+            return clipped; 
 		}
 
         /// <summary>
