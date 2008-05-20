@@ -77,12 +77,42 @@ namespace NewsComponents.Feed
             this.GoogleUserName = googleUserID;
         }
 
+		/// <summary>
+		/// Implements the operator !=.
+		/// </summary>
+		/// <param name="p1">The p1.</param>
+		/// <param name="p2">The p2.</param>
+		/// <returns>The result of the operator.</returns>
+		public static bool operator !=(PendingGoogleReaderOperation p1, PendingGoogleReaderOperation p2)
+		{
+			return !Equals(p1, p2);
+		}
+
+		/// <summary>
+		/// Implements the operator ==.
+		/// </summary>
+		/// <param name="p1">The p1.</param>
+		/// <param name="p2">The p2.</param>
+		/// <returns>The result of the operator.</returns>
+		public static bool operator ==(PendingGoogleReaderOperation p1, PendingGoogleReaderOperation p2)
+		{
+			return Equals(p1, p2);
+		}
+
+		/// <summary>
+		/// Compares for equality of the instance and the specified pending google reader operation.
+		/// </summary>
+		/// <param name="pendingGoogleReaderOperation">The pending google reader operation.</param>
+		/// <returns></returns>
         public bool Equals(PendingGoogleReaderOperation pendingGoogleReaderOperation)
         {
-            if (pendingGoogleReaderOperation == null) return false;
+            if (pendingGoogleReaderOperation == null) 
+				return false;
 
-            if (pendingGoogleReaderOperation.Action != Action) return false;
-
+            if (pendingGoogleReaderOperation.Action != Action) 
+				return false;
+			if (!Equals(GoogleUserName, pendingGoogleReaderOperation.GoogleUserName))
+				return false;
             if (pendingGoogleReaderOperation.Parameters.Length != Parameters.Length) return false;
 
             for (var i = 0; i < pendingGoogleReaderOperation.Parameters.Length; i++)
@@ -94,12 +124,26 @@ namespace NewsComponents.Feed
             return true;
         }
 
+		/// <summary>
+		/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+		/// <returns>
+		/// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+		/// </returns>
+		/// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj)) return true;
             return Equals(obj as PendingGoogleReaderOperation);
         }
 
+		/// <summary>
+		/// Serves as a hash function for a particular type.
+		/// </summary>
+		/// <returns>
+		/// A hash code for the current <see cref="T:System.Object"/>.
+		/// </returns>
         public override int GetHashCode()
         {
             int result = Action.GetHashCode();
