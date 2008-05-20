@@ -86,6 +86,15 @@ namespace RssBandit
 		/// <value>The ordinal.</value>
 		public int Ordinal { get; set; }
 
+		/// <summary>
+		/// Gets the type of the feed source.
+		/// </summary>
+		/// <value>The type of the feed source.</value>
+		public FeedSourceType FeedSourceType
+		{
+			get { return Source.Type; }
+		}
+
 		#region IComparable<FeedSourceID> Members
 
 		int IComparable<FeedSourceID>.CompareTo(FeedSourceID other)
@@ -170,21 +179,52 @@ namespace RssBandit
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
-		public FeedSourceID GetSourceOf(ItemID item) {
+		public FeedSourceID SourceOf(ItemID item) {
 			return _feedSources[item.SourceID];
 		}
 
 		/// <summary>
 		/// Gets the source of a newsfeed.
 		/// </summary>
-		/// <param name="item">The item.</param>
+		/// <param name="newsFeed">The news feed.</param>
 		/// <returns></returns>
-		public FeedSourceID GetSourceOf(INewsFeed item)
+		public FeedSourceID SourceOf(INewsFeed newsFeed)
 		{
+			if (newsFeed == null)
+				return null;
 			foreach (FeedSourceID id in _feedSources.Values)
-				if (id.Source == item.owner)
+				if (id.Source == newsFeed.owner)
 					return id;
 			return null;
+		}
+
+		/// <summary>
+		/// Gets the source type of an item.
+		/// </summary>
+		/// <param name="newsFeed">The news feed.</param>
+		/// <returns></returns>
+		public FeedSourceType SourceTypeOf(INewsFeed newsFeed)
+		{
+			FeedSourceID sid = SourceOf(newsFeed);
+			return sid != null ? sid.Source.Type : FeedSourceType.Unknown;
+		}
+
+		/// <summary>
+		/// Gets the source extension.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="newsFeed">The news feed.</param>
+		/// <returns>Null, if newsFeed is null, else the requested extension instance</returns>
+		/// <exception cref="InvalidCastException">If extension is not implemented by the newsFeed source</exception>
+		public T GetSourceExtension<T>(INewsFeed newsFeed)
+		{
+			FeedSourceID sid = SourceOf(newsFeed);
+			if (sid != null)
+			{
+				object t = sid.Source;
+				return (T)t;
+			}
+			return default(T);
 		}
 	}
 }

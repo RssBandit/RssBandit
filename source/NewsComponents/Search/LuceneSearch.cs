@@ -264,22 +264,22 @@ namespace NewsComponents.Search
 				criteriaProperty = sc as SearchCriteriaString;
 				if (criteriaProperty != null) {
 					if (StringExpressionKind.RegularExpression == criteriaProperty.WhatKind) {
-						validationException = new SearchException(ComponentsText.ExceptionLuceneSearchKindNotSupported(criteriaProperty.WhatKind.ToString()));
+						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind.ToString()));
 						break;	// yet a warning
 					} else if (StringExpressionKind.XPathExpression == criteriaProperty.WhatKind) {
-						validationException = new SearchException(ComponentsText.ExceptionLuceneSearchKindNotSupported(criteriaProperty.WhatKind.ToString()));
+						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind.ToString()));
 						return false;	// error
 					}
 				}
 			}
 
 			try {
-				if (null == BuildLuceneQuery(criteria, null, LuceneSearch.GetAnalyzer(cultureName))) {
+				if (null == BuildLuceneQuery(criteria, null, GetAnalyzer(cultureName))) {
 					validationException = new SearchException(ComponentsText.ExceptionSearchQueryBuilder);
 					return false;
 				}
 			} catch (Exception ex) {
-				validationException = new SearchException(ComponentsText.ExceptionSearchQueryBuilderFatal(ex.Message), ex);
+				validationException = new SearchException(String.Format(ComponentsText.ExceptionSearchQueryBuilderFatal, ex.Message), ex);
 				return false;
 			}
 			
@@ -438,7 +438,7 @@ namespace NewsComponents.Search
 		
 		private static Query QueryFromStringExpression(SearchCriteriaString c, string field, Analyzer a) {
 			if (c.WhatKind == StringExpressionKind.RegularExpression) {
-				throw new NotSupportedException(ComponentsText.ExceptionLuceneSearchKindNotSupported(c.WhatKind.ToString()));
+				throw new NotSupportedException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, c.WhatKind.ToString()));
 			} else {
 				return QueryFromStringExpression(c.What, field, a);
 			}

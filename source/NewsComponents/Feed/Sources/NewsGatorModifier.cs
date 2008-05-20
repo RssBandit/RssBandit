@@ -1,9 +1,19 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -12,7 +22,6 @@ using log4net;
 
 using RssBandit.Common.Logging;
 
-using NewsComponents.Collections;
 
 namespace NewsComponents.Feed
 {
@@ -47,7 +56,7 @@ namespace NewsComponents.Feed
     /// This is a class that is used to represent a pending operation on the index in 
     /// that is currently in the pending operation queue. 
     /// </summary>
-    public class PendingNewsGatorOperation
+    public class PendingNewsGatorOperation : IEquatable<PendingNewsGatorOperation>
     {
         public NewsGatorOperation Action;
         public string NewsGatorUserName;
@@ -69,31 +78,114 @@ namespace NewsComponents.Feed
             this.Action = action;
             this.Parameters = parameters;
             this.NewsGatorUserName = ngUserID;
-        }       
-
-        /// <summary>
-        /// Compares two objects for equality
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            PendingNewsGatorOperation pop = obj as PendingNewsGatorOperation;
-
-            if (pop == null) return false;
-
-            if (pop.Action != this.Action) return false;
-
-            if (pop.Parameters.Length != this.Parameters.Length) return false;
-
-            for (int i = 0; i < pop.Parameters.Length; i++)
-            {
-                if (!pop.Parameters[i].Equals(this.Parameters[i]))
-                    return false; 
-            }
-
-            return true; 
         }
+
+		/// <summary>
+		/// Implements the operator !=.
+		/// </summary>
+		/// <param name="pendingNewsGatorOperation1">The pending news gator operation1.</param>
+		/// <param name="pendingNewsGatorOperation2">The pending news gator operation2.</param>
+		/// <returns>The result of the operator.</returns>
+    	public static bool operator !=(PendingNewsGatorOperation pendingNewsGatorOperation1, PendingNewsGatorOperation pendingNewsGatorOperation2)
+    	{
+    		return !Equals(pendingNewsGatorOperation1, pendingNewsGatorOperation2);
+    	}
+
+		/// <summary>
+		/// Implements the operator ==.
+		/// </summary>
+		/// <param name="pendingNewsGatorOperation1">The pending news gator operation1.</param>
+		/// <param name="pendingNewsGatorOperation2">The pending news gator operation2.</param>
+		/// <returns>The result of the operator.</returns>
+    	public static bool operator ==(PendingNewsGatorOperation pendingNewsGatorOperation1, PendingNewsGatorOperation pendingNewsGatorOperation2)
+    	{
+    		return Equals(pendingNewsGatorOperation1, pendingNewsGatorOperation2);
+    	}
+
+		/// <summary>
+		/// compares the instance with the specified PendingNewsGatorOperation.
+		/// </summary>
+		/// <param name="pop">The PendingNewsGatorOperation.</param>
+		/// <returns>True, if they are equal, else false</returns>
+		public bool Equals(PendingNewsGatorOperation pop)
+    	{
+			if (pop == null)
+    			return false;
+    		
+			if (!Equals(Action, pop.Action))
+    			return false;
+    	
+			if (!Equals(NewsGatorUserName, pop.NewsGatorUserName))
+    			return false;
+    		
+			if (Parameters.Length != pop.Parameters.Length) 
+				return false;
+
+			for (int i = 0; i < pop.Parameters.Length; i++)
+			{
+				if (!Parameters[i].Equals(pop.Parameters[i]))
+					return false;
+			}
+
+    		return true;
+    	}
+
+		/// <summary>
+		/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+		/// <returns>
+		/// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+		/// </returns>
+		/// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+    	public override bool Equals(object obj)
+    	{
+    		if (ReferenceEquals(this, obj))
+    		{
+    			return true;
+    		}
+    		return Equals(obj as PendingNewsGatorOperation);
+    	}
+
+		/// <summary>
+		/// Serves as a hash function for a particular type.
+		/// </summary>
+		/// <returns>
+		/// A hash code for the current <see cref="T:System.Object"/>.
+		/// </returns>
+    	public override int GetHashCode()
+    	{
+    		int result = Action.GetHashCode();
+    		result = 29 * result + (NewsGatorUserName != null ? NewsGatorUserName.GetHashCode() : 0);
+    		result = 29 * result + (Parameters != null ? Parameters.GetHashCode() : 0);
+    		return result;
+    	}
+
+		//TODO: Dare review: this version missed the NewsGatorUserName in compare
+
+		///// <summary>
+		///// Compares two objects for equality
+		///// </summary>
+		///// <param name="obj"></param>
+		///// <returns></returns>
+		//public override bool Equals(object obj)
+		//{
+		//    PendingNewsGatorOperation pop = obj as PendingNewsGatorOperation;
+
+		//    if (pop == null) return false;
+
+		//    if (pop.Action != this.Action) return false;
+
+		//    if (pop.Parameters.Length != this.Parameters.Length) return false;
+
+		//    for (int i = 0; i < pop.Parameters.Length; i++)
+		//    {
+		//        if (!pop.Parameters[i].Equals(this.Parameters[i]))
+		//            return false; 
+		//    }
+
+		//    return true; 
+		//}
     }
 
     #endregion 
@@ -110,7 +202,7 @@ namespace NewsComponents.Feed
         #region private fields
 
 
-        private Dictionary<string, NewsGatorFeedSource> FeedSources = new Dictionary<string, NewsGatorFeedSource>();
+        private readonly Dictionary<string, NewsGatorFeedSource> FeedSources = new Dictionary<string, NewsGatorFeedSource>();
 
         /// <summary>
         /// The thread in which class primarily runs
@@ -120,7 +212,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Indicates that the thread is currently running. 
         /// </summary>
-        private bool flushInprogress = false, threadRunning = false;
+        private bool flushInprogress, threadRunning;
 
         /// <summary>
         /// Queue of pending network operations to perform against NewsGator Online
@@ -231,7 +323,7 @@ namespace NewsComponents.Feed
         /// <param name="current">The operation to perform</param>
         private void PerformOperation(PendingNewsGatorOperation current)
         {
-            NewsGatorFeedSource source = null;
+            NewsGatorFeedSource source;
             this.FeedSources.TryGetValue(current.NewsGatorUserName, out source);
 
             if (source == null)

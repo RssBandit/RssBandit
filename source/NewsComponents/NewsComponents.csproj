@@ -269,10 +269,10 @@
     <Compile Include="RelationCosmos\RelationBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\ComponentsText.cs">
+    <Compile Include="Resources\ComponentsText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ComponentsText.strings</DependentUpon>
+      <DependentUpon>ComponentsText.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Resource.cs">
       <SubType>Code</SubType>
@@ -397,79 +397,76 @@
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>
-    <EmbeddedResource Include="Resources\ComponentsText.bg.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
+    <EmbeddedResource Include="Resources\ComponentsText.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ComponentsText.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ComponentsText.bg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.de.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.es.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.fr.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.hi.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.it.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.ja.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.nl-NL.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pl.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.pt-BR.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ComponentsText.resx">
-      <DependentUpon>ComponentsText.strings</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="Resources\ComponentsText.strings">
-      <Generator>StringResourceTool</Generator>
-      <LastGenOutput>ComponentsText.cs</LastGenOutput>
-    </None>
     <EmbeddedResource Include="Resources\ComponentsText.ru.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.sr-Cyrl-CS.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.sr-Latn-CS.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.tr.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHS.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.zh-CHT.resx">
-      <DependentUpon>ComponentsText.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
+   <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
     <EmbeddedResource Include="Resources\feedListSchema.xsd">

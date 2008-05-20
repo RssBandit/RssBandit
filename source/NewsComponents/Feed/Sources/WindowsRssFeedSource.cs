@@ -1,15 +1,14 @@
 ﻿#region Version Info Header
 /*
- * $Id: WindowsRssFeedSource.cs 458 2008-04-06 01:27:08Z Carnage4Life $
- * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/WindowsRssFeedSource.cs $
- * Last modified by $Author: Carnage4Life $
- * Last modified at $Date: 2008-04-05 18:27:08 -0700 (Sat, 05 Apr 2008) $
- * $Revision: 458 $
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -33,7 +32,6 @@ using log4net;
 using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.RelationCosmos;
-using NewsComponents.Search;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Feed {
@@ -84,7 +82,7 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// The Windows RSS platform feed manager
         /// </summary>
-        private IFeedsManager feedManager = new FeedsManagerClass();
+        private readonly IFeedsManager feedManager = new FeedsManagerClass();
 
         /// <summary>
         /// Needed for event handling support with Windows RSS platform
@@ -95,7 +93,7 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates whether a folder renamed event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
-        internal static bool folder_renamed_event_caused_by_rssbandit = false;
+        internal static bool folder_renamed_event_caused_by_rssbandit;
 
         /// <summary>
         /// Synchronization point for folder_renamed_event_caused_by_rssbandit
@@ -108,7 +106,7 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates whether a folder moved event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
-        internal static bool folder_moved_event_caused_by_rssbandit = false;
+        internal static bool folder_moved_event_caused_by_rssbandit;
 
         /// <summary>
         /// Synchronization point for folder_moved_event_caused_by_rssbandit
@@ -120,7 +118,7 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates whether an event received from the Windows RSS platform was caused by RSS Bandit
         /// </summary>
-        internal static bool event_caused_by_rssbandit = false;
+        internal static bool event_caused_by_rssbandit;
 
         /// <summary>
 		/// Synchronization point for event_caused_by_rssbandit
@@ -1713,7 +1711,7 @@ namespace NewsComponents.Feed {
             set { } 
         }
 
-        private bool _beenRead;
+        private readonly bool _beenRead;
         /// <summary>
         /// Indicates whether the story has been read or not. 
         /// </summary>
@@ -2478,7 +2476,7 @@ namespace NewsComponents.Feed {
     /// <summary>
     /// Represents a NewsFeed obtained from the Windows RSS platform
     /// </summary>
-    public class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
+    internal class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
     {
 
         #region constructors 
@@ -3486,7 +3484,7 @@ namespace NewsComponents.Feed {
 
     #region WindowsRssNewsFeedCategory
 
-    public class WindowsRssNewsFeedCategory : INewsFeedCategory, IDisposable 
+    internal class WindowsRssNewsFeedCategory : INewsFeedCategory, IDisposable 
     {
 
         #region constructor 
@@ -3539,12 +3537,12 @@ namespace NewsComponents.Feed {
         /// <summary>
         /// Indicates that the object has been disposed
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// The actual IFeedFolder instance that this object is wrapping
         /// </summary>
-        private IFeedFolder myfolder = null;
+        private IFeedFolder myfolder;
 
         #endregion
 
@@ -3583,7 +3581,7 @@ namespace NewsComponents.Feed {
                 {
                     Marshal.ReleaseComObject(myfolder);
                 }
-                System.GC.SuppressFinalize(this);
+                GC.SuppressFinalize(this);
                 disposed = true; 
             }
         }

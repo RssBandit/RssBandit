@@ -312,7 +312,7 @@ namespace NewsComponents.Feed
                 if ((description == null) || (localname == atomized_strings[nt_body]) ||
                     (localname == atomized_strings[nt_encoded]))
                 {
-                    //prefer to replace rss:description/dc:description with content:encoded
+                	//prefer to replace rss:description/dc:description with content:encoded
 
                     if ((namespaceuri == atomized_strings[nt_ns_xhtml])
                         && (localname == atomized_strings[nt_body]))
@@ -327,36 +327,38 @@ namespace NewsComponents.Feed
                         ctype = ContentType.Xhtml;
                         continue;
                     }
-                    else if ((namespaceuri == atomized_strings[nt_ns_content])
-                             && (localname == atomized_strings[nt_encoded]))
-                    {
-                        if (!reader.IsEmptyElement)
-                        {
-                            baseUrl = reader.BaseURI;
-                            description = ReadElementString(reader);
-                        }
-                        ctype = ContentType.Html;
-                        continue;
-                    }
-                    else if ((nodeNamespaceUriEqual2Item || nodeNamespaceUriEqual2DC)
-                             && (localname == atomized_strings[nt_description]))
-                    {
-                        if (!reader.IsEmptyElement)
-                        {
-                            baseUrl = reader.BaseURI;
-                            description = ReadElementString(reader);
-                        }
-                        ctype = ContentType.Text;
-                        continue;
-                    }
+                	
+					if ((namespaceuri == atomized_strings[nt_ns_content])
+                	    && (localname == atomized_strings[nt_encoded]))
+                	{
+                		if (!reader.IsEmptyElement)
+                		{
+                			baseUrl = reader.BaseURI;
+                			description = ReadElementString(reader);
+                		}
+                		ctype = ContentType.Html;
+                		continue;
+                	}
+                	
+					if ((nodeNamespaceUriEqual2Item || nodeNamespaceUriEqual2DC)
+                	    && (localname == atomized_strings[nt_description]))
+                	{
+                		if (!reader.IsEmptyElement)
+                		{
+                			baseUrl = reader.BaseURI;
+                			description = ReadElementString(reader);
+                		}
+                		ctype = ContentType.Text;
+                		continue;
+                	}
                 }
 
-                if (link != null && link.Trim().Length == 0)
+            	if (link != null && link.Trim().Length == 0)
                     link = null; // reset on empty elements
 
                 if ((link == null) || (localname == atomized_strings[nt_guid]))
                 {
-                    //favor rss:guid over rss:link
+                	//favor rss:guid over rss:link
 
                     if (nodeNamespaceUriEqual2Item
                         && (localname == atomized_strings[nt_guid]))
@@ -379,18 +381,18 @@ namespace NewsComponents.Feed
 
                         continue;
                     }
-                    else if (nodeNamespaceUriEqual2Item
-                             && (localname == atomized_strings[nt_link]))
-                    {
-                        if (!reader.IsEmptyElement)
-                        {
-                            link = ReadElementUrl(reader);
-                        }
-                        continue;
-                    }
+                	if (nodeNamespaceUriEqual2Item
+                	    && (localname == atomized_strings[nt_link]))
+                	{
+                		if (!reader.IsEmptyElement)
+                		{
+                			link = ReadElementUrl(reader);
+                		}
+                		continue;
+                	}
                 }
 
-                if (title == null)
+            	if (title == null)
                 {
                     if (nodeNamespaceUriEqual2Item
                         && (localname == atomized_strings[nt_title]))
@@ -406,7 +408,7 @@ namespace NewsComponents.Feed
 
                 if ((author == null) || (localname == atomized_strings[nt_creator]))
                 {
-                    //prefer dc:creator to <author>
+                	//prefer dc:creator to <author>
 
                     if (nodeNamespaceUriEqual2DC &&
                         (localname == atomized_strings[nt_creator] ||
@@ -418,17 +420,18 @@ namespace NewsComponents.Feed
                         }
                         continue;
                     }
-                    else if (nodeNamespaceUriEqual2Item && (localname == atomized_strings[nt_author]))
-                    {
-                        if (!reader.IsEmptyElement)
-                        {
-                            author = ReadElementString(reader);
-                        }
-                        continue;
-                    }
+                	
+					if (nodeNamespaceUriEqual2Item && (localname == atomized_strings[nt_author]))
+                	{
+                		if (!reader.IsEmptyElement)
+                		{
+                			author = ReadElementString(reader);
+                		}
+                		continue;
+                	}
                 }
 
-                if ((parentId == null) && (localname == atomized_strings[nt_reference]))
+            	if ((parentId == null) && (localname == atomized_strings[nt_reference]))
                 {
                     if (namespaceuri == atomized_strings[nt_ns_annotate])
                     {
@@ -445,18 +448,18 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
-                else if (nodeNamespaceUriEqual2Item
-                         && (localname == atomized_strings[nt_category]))
-                {
-                    if (!reader.IsEmptyElement)
-                    {
-                        subjects.Add(ReadElementString(reader));
-                    }
-                    continue;
-                }
+            	
+				if (nodeNamespaceUriEqual2Item
+            	    && (localname == atomized_strings[nt_category]))
+            	{
+            		if (!reader.IsEmptyElement)
+            		{
+            			subjects.Add(ReadElementString(reader));
+            		}
+            		continue;
+            	}
 
-
-                if ((localname == atomized_strings[nt_flagstatus])
+            	if ((localname == atomized_strings[nt_flagstatus])
                     && (namespaceuri == atomized_strings[nt_ns_bandit_2003]))
                 {
                     if (!reader.IsEmptyElement)
@@ -465,20 +468,19 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
-                else if ((localname == atomized_strings[nt_flagState])
-                    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
-                {
-                    if (!reader.IsEmptyElement)
-                    {
-                        NewsGatorFlagStatus ngFlagState = (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), ReadElementString(reader));
-                        flagged = (Flagged)Enum.Parse(typeof(Flagged), ngFlagState.ToString()); 
-                    }
-                    continue;
-                }
+            	
+				if ((localname == atomized_strings[nt_flagState])
+            	    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
+            	{
+            		if (!reader.IsEmptyElement)
+            		{
+            			NewsGatorFlagStatus ngFlagState = (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), ReadElementString(reader));
+            			flagged = (Flagged)Enum.Parse(typeof(Flagged), ngFlagState.ToString()); 
+            		}
+            		continue;
+            	}
 
-
-
-                if ((localname == atomized_strings[nt_duration])
+            	if ((localname == atomized_strings[nt_duration])
                     && (namespaceuri == atomized_strings[nt_ns_itunes]))
                 {
                     if (!reader.IsEmptyElement)
@@ -1783,7 +1785,7 @@ namespace NewsComponents.Feed
 
             if (!CanProcessUrl(f.link))
             {
-                throw new ApplicationException(ComponentsText.ExceptionNoProcessingHandlerMessage(f.link));     
+                throw new ApplicationException(String.Format(ComponentsText.ExceptionNoProcessingHandlerMessage, f.link));     
             }            
 
             //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)			
@@ -1870,23 +1872,13 @@ namespace NewsComponents.Feed
                 {
                     return ContentType.Xhtml;
                 }
-                else if (mimetype.IndexOf("html") != -1)
-                {
-                    return ContentType.Html;
-                }
-                else if (mimetype.IndexOf("text") != -1)
-                {
-                    return ContentType.Text;
-                }
-                else
-                {
-                    return ContentType.Unknown;
-                }
+            	if (mimetype.IndexOf("html") != -1)
+            	{
+            		return ContentType.Html;
+            	}
+            	return mimetype.IndexOf("text") != -1 ? ContentType.Text : ContentType.Unknown;
             }
-            else
-            {
-                return ContentType.Text;
-            }
+        	return ContentType.Text;
         }
 
 
@@ -2464,34 +2456,34 @@ namespace NewsComponents.Feed
             {
                 return Resource.Manager.GetStream("Resources.rss-0.91.dtd");
             }
-            else if (absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd") ||
-                     absoluteUri.AbsoluteUri.EndsWith("Strict/EN"))
-            {
-                return Resource.Manager.GetStream("Resources.xhtml1-strict.dtd");
-            }
-            else if (
-                absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") ||
-                absoluteUri.AbsoluteUri.EndsWith("Transitional/EN"))
-            {
-                return Resource.Manager.GetStream("Resources.xhtml1-transitional.dtd");
-            }
-            else if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-lat1.ent") ||
-                     absoluteUri.AbsoluteUri.IndexOf("Latin") == -1)
-            {
-                return Resource.Manager.GetStream("Resources.xhtml-lat1.ent");
-            }
-            else if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-special.ent") ||
-                     absoluteUri.AbsoluteUri.IndexOf("Special") == -1)
-            {
-                return Resource.Manager.GetStream("Resources.xhtml-special.ent");
-            }
-            else if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-symbol.ent") ||
-                     absoluteUri.AbsoluteUri.IndexOf("Symbol") == -1)
-            {
-                return Resource.Manager.GetStream("Resources.xhtml-symbol.ent");
-            }
+        	if (absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd") ||
+        	    absoluteUri.AbsoluteUri.EndsWith("Strict/EN"))
+        	{
+        		return Resource.Manager.GetStream("Resources.xhtml1-strict.dtd");
+        	}
+        	if (
+        		absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") ||
+        		absoluteUri.AbsoluteUri.EndsWith("Transitional/EN"))
+        	{
+        		return Resource.Manager.GetStream("Resources.xhtml1-transitional.dtd");
+        	}
+        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-lat1.ent") ||
+        	    absoluteUri.AbsoluteUri.IndexOf("Latin") == -1)
+        	{
+        		return Resource.Manager.GetStream("Resources.xhtml-lat1.ent");
+        	}
+        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-special.ent") ||
+        	    absoluteUri.AbsoluteUri.IndexOf("Special") == -1)
+        	{
+        		return Resource.Manager.GetStream("Resources.xhtml-special.ent");
+        	}
+        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-symbol.ent") ||
+        	    absoluteUri.AbsoluteUri.IndexOf("Symbol") == -1)
+        	{
+        		return Resource.Manager.GetStream("Resources.xhtml-symbol.ent");
+        	}
 
-            /* 
+        	/* 
 			 using(Stream xsdStream = ){
 				feedsSchema = XmlSchema.Read(xsdStream, null); 
 			}
