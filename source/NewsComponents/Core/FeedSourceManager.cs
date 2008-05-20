@@ -158,12 +158,15 @@ namespace NewsComponents
         /// <param name="value">out parameter for storing feed source</param>
         /// <returns>The requested feed source or null if not found</returns>
         public void TryGetValue(string name, out FeedSourceID value)
-        {
+        {            
             value = null;
-            FeedSourceID fsid = _feedSources.Values.First<FeedSourceID>(fs => fs.Name == name);
-            if (fsid != null)
+            if (!string.IsNullOrEmpty(name))
             {
-                value = fsid;
+                FeedSourceID fsid = _feedSources.Values.First<FeedSourceID>(fs => fs.Name == name);
+                if (fsid != null)
+                {
+                    value = fsid;
+                }
             }
         }
 
