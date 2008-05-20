@@ -13,55 +13,15 @@ using System.Collections.Generic;
 using NewsComponents;
 using NewsComponents.Feed;
 
-namespace RssBandit
+namespace NewsComponents
 {
-	#region ItemID
-	/// <summary>
-	/// Used to map a feed to a source, but also used
-	/// to map a category/tag to a source.
-	/// The kind of an item will be detected by the FeedNodeType
-	/// currently.
-	/// </summary>
-	internal class ItemID
-	{
-		public readonly Guid SourceID;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ItemID"/> class.
-		/// </summary>
-		/// <param name="sourceID">The source ID.</param>
-		/// <param name="itemID">The item ID (the feed.id or category.id).</param>
-		public ItemID(Guid sourceID, string itemID)
-		{
-			SourceID = sourceID;
-			_itemID = itemID;
-		}
-
-		/// <summary>
-		/// Gets or sets the item ID.
-		/// </summary>
-		/// <value>The item ID.</value>
-		public string ID
-		{
-			get { return _itemID; }
-			set { _itemID = value; }
-		}
-
-		private string _itemID;
-
-		public override string ToString()
-		{
-			return String.Format("{0} ({1})", _itemID, SourceID);
-		}
-	} 
-	#endregion
 
 	#region FeedSourceID
 	/// <summary>
 	/// Class used to store the values for visual representation:
 	/// name and position in the tree/sources list.
 	/// </summary>
-	internal class FeedSourceID : IComparable<FeedSourceID>
+	public class FeedSourceID : IComparable<FeedSourceID>
 	{
 		public readonly Guid ID;
 		public readonly FeedSource Source;
@@ -86,15 +46,6 @@ namespace RssBandit
 		/// <value>The ordinal.</value>
 		public int Ordinal { get; set; }
 
-		/// <summary>
-		/// Gets the type of the feed source.
-		/// </summary>
-		/// <value>The type of the feed source.</value>
-		public FeedSourceType FeedSourceType
-		{
-			get { return Source.Type; }
-		}
-
 		#region IComparable<FeedSourceID> Members
 
 		int IComparable<FeedSourceID>.CompareTo(FeedSourceID other)
@@ -110,7 +61,10 @@ namespace RssBandit
 	} 
 	#endregion
 
-	internal class FeedSourceManager
+	/// <summary>
+	/// Manages a list of feed sources
+	/// </summary>
+	public class FeedSourceManager
 	{
 		readonly Dictionary<Guid, FeedSourceID> _feedSources = new Dictionary<Guid, FeedSourceID>();
 
@@ -172,15 +126,6 @@ namespace RssBandit
 		{
 			if (_feedSources.ContainsKey(source.ID))
 				_feedSources.Remove(source.ID);
-		}
-
-		/// <summary>
-		/// Gets the source of a item.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
-		public FeedSourceID SourceOf(ItemID item) {
-			return _feedSources[item.SourceID];
 		}
 
 		/// <summary>

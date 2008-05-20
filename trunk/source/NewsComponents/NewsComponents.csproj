@@ -172,6 +172,7 @@
     <Compile Include="Core\BackgroundDownloadManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\FeedSourceManager.cs" />
     <Compile Include="Core\INewsComponentsConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -466,7 +467,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
-   <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
+    <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.SIAM.xslt" />
     <EmbeddedResource Include="Resources\feedListSchema.xsd">
