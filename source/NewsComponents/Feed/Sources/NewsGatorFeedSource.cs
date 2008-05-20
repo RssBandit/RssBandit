@@ -68,8 +68,8 @@ namespace NewsComponents.Feed
 
     #endregion 
 
-    #region NewsGatorFeedSource
-
+    
+    #region NewsGatorItemState
 
     /// <summary>
     /// Indicates the state of a news item in NewsGator Online
@@ -78,6 +78,10 @@ namespace NewsComponents.Feed
     {
         Read, Unread, Deleted
     }
+
+    #endregion 
+
+    #region NewsGatorFeedSource
 
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
