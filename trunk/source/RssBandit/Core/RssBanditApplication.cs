@@ -3006,13 +3006,13 @@ namespace RssBandit
 
         public void ImportFeeds(string fromFileOrUrl)
         {
-            ImportFeeds(fromFileOrUrl, String.Empty);
+            ImportFeeds(fromFileOrUrl, String.Empty, String.Empty);
         }
 
-        public void ImportFeeds(string fromFileOrUrl, string selectedCategory)
+        public void ImportFeeds(string fromFileOrUrl, string selectedCategory, string selectedFeedSource)
         {
             var dialog =
-                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, feedHandler.GetCategories().Keys);
+                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, selectedFeedSource, this.FeedSourceManager);
             try
             {
                 dialog.ShowDialog(guiMain);

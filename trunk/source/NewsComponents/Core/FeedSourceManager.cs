@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NewsComponents;
 using NewsComponents.Feed;
 
@@ -73,12 +74,12 @@ namespace NewsComponents
 		/// to build the initial tree root entries.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<FeedSource> Sources
+		public IEnumerable<FeedSourceID> Sources
 		{
 			get {
 				foreach (FeedSourceID entry in _feedSources.Values)
 				{
-					yield return entry.Source;
+					yield return entry;
 				}
 			}
 		}
@@ -117,6 +118,54 @@ namespace NewsComponents
 			_feedSources.Add(fs.ID, fs);
 			return fs;
 		}
+
+
+        /// <summary>
+        /// Determines whether there is a Feed Source with the specified name
+        /// </summary>
+        /// <param name="name">The name of the feed source</param>
+        /// <returns>True if a feed source has been provided with the specified name</returns>
+        public bool Contains(string name)
+        {
+            return _feedSources.Values.Any(fs => fs.Name == name); 
+        }
+
+        /// <summary>
+        /// Indexer which returns feed source keyed by name
+        /// </summary>
+        /// <param name="name">The name of the feed source</param>
+        /// <returns>The requested feed source</returns>
+        /// <exception cref="KeyNotFoundException">if the name is not found in the FeedSourceManager</exception>
+        public FeedSourceID this[string name]
+        {
+            get {
+                FeedSourceID fsid = _feedSources.Values.First(fs => fs.Name == name);
+                if (fsid != null)
+                {
+                    return fsid;
+                }
+                else
+                {
+                    throw new KeyNotFoundException(name); 
+                }
+            }          
+        }
+
+        /// <summary>
+        /// Returns feed source keyed by name
+        /// </summary>
+        /// <param name="name">The name of the feed source</param>
+        /// <param name="value">out parameter for storing feed source</param>
+        /// <returns>The requested feed source or null if not found</returns>
+        public void TryGetValue(string name, out FeedSourceID value)
+        {
+            value = null;
+            FeedSourceID fsid = _feedSources.Values.First<FeedSourceID>(fs => fs.Name == name);
+            if (fsid != null)
+            {
+                value = fsid;
+            }
+        }
 
 		/// <summary>
 		/// Removes the specified source.
