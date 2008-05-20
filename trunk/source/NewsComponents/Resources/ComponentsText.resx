@@ -1,133 +1,183 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.w3.org/XML/1998/namespace">
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ComponentsText_app1.xsd" />
-    <xs:element name="root" msdata:IsDataSet="true" msdata:Locale="en-US">
-      <xs:complexType>
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-          <xs:element name="metadata">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:string" use="required" />
-              <xs:attribute name="type" type="xs:string" />
-              <xs:attribute name="mimetype" type="xs:string" />
-              <xs:attribute ref="app1:space" />
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="assembly">
-            <xs:complexType>
-              <xs:attribute name="alias" type="xs:string" />
-              <xs:attribute name="name" type="xs:string" />
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="data">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
-                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:string" use="required" />
-              <xs:attribute name="type" type="xs:string" />
-              <xs:attribute name="mimetype" type="xs:string" />
-              <xs:attribute ref="app1:space" />
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="resheader">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:string" use="required" />
-            </xs:complexType>
-          </xs:element>
-        </xs:choice>
-      </xs:complexType>
-    </xs:element>
-  </xs:schema>
-  <data name="ExceptionUnsupportedAtomVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Unsupported ATOM version</value>
-  </data>
-  <data name="ExceptionUnknownXmlDialect" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>This XML document does not look like an RSS feed</value>
-  </data>
-  <data name="ExceptionDirectoryNotExistsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Non-Existent Directory: {0}</value>
-    <comment>.
- Parameters: 0 - directoryName (string) </comment>
-  </data>
-  <data name="ExceptionRFC2822ParseGroupsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.</value>
-    <comment>.
- Parameters: 0 - exceptionTypeName (string) </comment>
-  </data>
-  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Invalid Timezone Format: {0}.</value>
-    <comment>.
- Parameters: 0 - originalDateTimeString (string) </comment>
-  </data>
-  <data name="ExceptionNoProcessingHandlerMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Feed Url '{0}' cannot be processed. No handler implemented.</value>
-    <comment>.
- Parameters: 0 - url (string) </comment>
-  </data>
-  <data name="ExceptionEnclosureCacheLimitReached" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
-    <comment>.
- Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
-  </data>
-  <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>No search criteria specified</value>
-  </data>
-  <data name="ExceptionSearchQueryBuilder" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Query could not be build from search criterias</value>
-  </data>
-  <data name="ExceptionSearchQueryBuilderFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Query could not be build from search criterias. An error was caused: {0}</value>
-    <comment>.
- Parameters: 0 - error (string) </comment>
-  </data>
-  <data name="ExceptionLuceneSearchKindNotSupported" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>This kind of search is not anymore supported ('{0}').</value>
-    <comment>.
- Parameters: 0 - typeOfSearch (string) </comment>
-  </data>
-  <data name="ExceptionSearchFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Fatal search error</value>
-  </data>
-  <data name="ExceptionHelpFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Help on errors</value>
-  </data>
-  <data name="ExceptionHelpFeedItemTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Kind of error: {0}</value>
-    <comment>.
- Parameters: 0 - typeOfError (string) </comment>
-  </data>
-  <data name="ExceptionHelpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Provides help on errors</value>
-  </data>
-  <data name="ExceptionNntpServerAuthenticationFailed" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
-    <comment>.
- Parameters: 0 - nntpServer (string) </comment>
-  </data>
-  <data name="ExceptionResourceAuthorization" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
-  </data>
-  <data name="ExceptionResourceGone" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>The requested resource is not longer available (HTTP status 410)</value>
-  </data>
-  <resheader name="ResMimeType">
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
-  <resheader name="Version">
-    <value>1.0.0.0</value>
+  <resheader name="version">
+    <value>2.0</value>
   </resheader>
-  <resheader name="Reader">
-    <value>System.Resources.ResXResourceReader</value>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <resheader name="Writer">
-    <value>System.Resources.ResXResourceWriter</value>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionUnsupportedAtomVersion" xml:space="preserve">
+    <value>Unsupported ATOM version</value>
+  </data>
+  <data name="ExceptionUnknownXmlDialect" xml:space="preserve">
+    <value>This XML document does not look like an RSS feed</value>
+  </data>
+  <data name="ExceptionDirectoryNotExistsMessage" xml:space="preserve">
+    <value>Non-Existent Directory: {0}</value>
+    <comment>Parameters: 0 - directoryName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822ParseGroupsMessage" xml:space="preserve">
+    <value>RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.</value>
+    <comment>Parameters: 0 - exceptionTypeName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" xml:space="preserve">
+    <value>Invalid Timezone Format: {0}.</value>
+    <comment>Parameters: 0 - originalDateTimeString (string) </comment>
+  </data>
+  <data name="ExceptionNoProcessingHandlerMessage" xml:space="preserve">
+    <value>Feed Url '{0}' cannot be processed. No handler implemented.</value>
+    <comment>Parameters: 0 - url (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureCacheLimitReached" xml:space="preserve">
+    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
+    <comment>Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+  <data name="ExceptionSearchNoSearchCriteria" xml:space="preserve">
+    <value>No search criteria specified</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilder" xml:space="preserve">
+    <value>Query could not be build from search criterias</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilderFatal" xml:space="preserve">
+    <value>Query could not be build from search criterias. An error was caused: {0}</value>
+    <comment>Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLuceneSearchKindNotSupported" xml:space="preserve">
+    <value>This kind of search is not anymore supported ('{0}').</value>
+    <comment>Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+  <data name="ExceptionSearchFatal" xml:space="preserve">
+    <value>Fatal search error</value>
+  </data>
+  <data name="ExceptionHelpFeedTitle" xml:space="preserve">
+    <value>Help on errors</value>
+  </data>
+  <data name="ExceptionHelpFeedItemTitle" xml:space="preserve">
+    <value>Kind of error: {0}</value>
+    <comment>Parameters: 0 - typeOfError (string) </comment>
+  </data>
+  <data name="ExceptionHelpFeedDesc" xml:space="preserve">
+    <value>Provides help on errors</value>
+  </data>
+  <data name="ExceptionNntpServerAuthenticationFailed" xml:space="preserve">
+    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <comment>Parameters: 0 - nntpServer (string) </comment>
+  </data>
+  <data name="ExceptionResourceAuthorization" xml:space="preserve">
+    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+  </data>
+  <data name="ExceptionResourceGone" xml:space="preserve">
+    <value>The requested resource is not longer available (HTTP status 410)</value>
+  </data>
 </root>

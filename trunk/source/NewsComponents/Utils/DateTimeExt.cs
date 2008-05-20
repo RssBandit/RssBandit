@@ -19,7 +19,7 @@ namespace NewsComponents.Utils
 	/// <summary>
 	/// DateTimeExt is able to parse RFC2822/RFC822 formatted dates.
 	/// </summary>
-	public sealed class DateTimeExt
+	public static class DateTimeExt
 	{
 
 		//private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(DateTimeExt));
@@ -116,28 +116,21 @@ namespace NewsComponents.Utils
 				}
 				catch (Exception e)
 				{
-					throw new FormatException(ComponentsText.ExceptionRFC2822ParseGroupsMessage(e.GetType().Name), e);
+					throw new FormatException(String.Format(ComponentsText.ExceptionRFC2822ParseGroupsMessage, e.GetType().Name), e);
 				}
 			}
-			else
-			{
-				// fallback, if regex does not match:
+			
+			// fallback, if regex does not match:
 
-				//TR fix:Jan,14. 2006 - we have to return Universal Time,
-				// but DateTime.Parse(string) will use DateTimeStyles.None by default
-				// and return a DateTime in local machine time!
-				// old code was:
-				//return DateTime.Parse(dateTimeString);
-				return DateTime.Parse(dateTimeString, null, DateTimeStyles.AdjustToUniversal);
-
-			}
+			//TR fix:Jan,14. 2006 - we have to return Universal Time,
+			// but DateTime.Parse(string) will use DateTimeStyles.None by default
+			// and return a DateTime in local machine time!
+			// old code was:
+			//return DateTime.Parse(dateTimeString);
+			return DateTime.Parse(dateTimeString, null, DateTimeStyles.AdjustToUniversal);
 			// Unreachable code:
 			//return DateTime.Now.ToUniversalTime();
 		}
-
-
-		private DateTimeExt(){}
-
 
 		private struct TZB
 		{					
@@ -181,16 +174,14 @@ namespace NewsComponents.Utils
 				double hh = Math.Min(23, Int32.Parse(s.Substring(0, 2), CultureInfo.InvariantCulture));
 				double mm = Math.Min(59, Int32.Parse(s.Substring(2, 2), CultureInfo.InvariantCulture)) / 60;
 				return fact * (hh+mm);
-			} 
-			else
-			{ // named format
-				s = zone.ToUpper(CultureInfo.InvariantCulture).Trim();
-				for (int i = 0; i < timeZones; i++)
-					if (ZoneBias[i].Zone.Equals(s)) 
-					{
-						return ZoneBias[i].Bias / 60;
-					}
 			}
+			// named format
+			s = zone.ToUpper(CultureInfo.InvariantCulture).Trim();
+			for (int i = 0; i < timeZones; i++)
+				if (ZoneBias[i].Zone.Equals(s)) 
+				{
+					return ZoneBias[i].Bias / 60;
+				}
 			return 0.0;
 		}
 
@@ -235,7 +226,7 @@ namespace NewsComponents.Utils
 			
 			}catch(IndexOutOfRangeException){
 			  
-				throw new FormatException(ComponentsText.ExceptionRFC2822InvalidTimezoneFormatMessage(original));
+				throw new FormatException(String.Format(ComponentsText.ExceptionRFC2822InvalidTimezoneFormatMessage, original));
 			}
    
 		}

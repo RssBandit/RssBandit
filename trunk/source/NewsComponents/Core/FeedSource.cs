@@ -81,6 +81,10 @@ namespace NewsComponents
     /// </summary>
     public enum FeedSourceType
     {
+		/// <summary>
+		/// The default for unititialized instances: not a known source
+		/// </summary>
+		Unknown = 0, 
         /// <summary>
         /// The feeds are sourced from Google Reader.
         /// </summary>
@@ -205,7 +209,7 @@ namespace NewsComponents
             if (location == null)
                 throw new ArgumentNullException("location");
             if (String.IsNullOrEmpty(location.Location))
-                throw new ArgumentNullException("location.Location");
+				throw new ArgumentException("Parameter property location.Location cannot be null", "location");
 
             FeedSource handler = null;
 
@@ -227,12 +231,17 @@ namespace NewsComponents
                     break;
             }
 
-            //Add the FeedSource to the list of NewsHandlers known by the SearchHandler
-            if (handler != null && (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
-                && (handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior))
-            {
-                SearchHandler.AddNewsHandler(handler);
-            }
+			//Add the FeedSource to the list of NewsHandlers known by the SearchHandler
+			if (handler != null)
+			{
+				handler.sourceType = handlerType;
+
+				if (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing &&
+					handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior)
+				{
+					SearchHandler.AddNewsHandler(handler);
+				}
+			}
 
             return handler;
         }
@@ -1242,6 +1251,16 @@ namespace NewsComponents
         }
 
         #endregion
+
+    	private FeedSourceType sourceType;
+		/// <summary>
+		/// Gets the type of the source.
+		/// </summary>
+		/// <value>The type.</value>
+    	public FeedSourceType Type
+    	{
+			get { return sourceType; }
+    	}
 
         /// <summary>
         /// Gets the NewsComponents configuration.
@@ -2285,7 +2304,7 @@ namespace NewsComponents
                         };
 
             var newsItem =
-                new ExceptionalNewsItem(f, ComponentsText.ExceptionHelpFeedItemTitle(e.GetType().Name),
+                new ExceptionalNewsItem(f, String.Format(ComponentsText.ExceptionHelpFeedItemTitle, e.GetType().Name),
                                         (e.HelpLink ?? "http://www.rssbandit.org/docs/"),
                                         e.Message, e.Source, DateTime.Now.ToUniversalTime(), Guid.NewGuid().ToString())
                     {
@@ -2890,7 +2909,7 @@ namespace NewsComponents
                 var topStories = Path.Combine(Configuration.UserApplicationDataPath, "top-stories.xml");
                 if (File.Exists(topStories))
                 {
-                    var doc = new XmlDocument();
+					XmlDocument doc = new XmlDocument();
                     doc.Load(topStories);
 
                     foreach (XmlElement story in doc.SelectNodes("//story"))
@@ -2920,7 +2939,7 @@ namespace NewsComponents
 
             try
             {
-                var writer =
+				XmlWriter writer =
                     XmlWriter.Create(Path.Combine(DefaultConfiguration.UserApplicationDataPath, "top-stories.xml"));
                 writer.WriteStartDocument();
                 writer.WriteStartElement("stories");

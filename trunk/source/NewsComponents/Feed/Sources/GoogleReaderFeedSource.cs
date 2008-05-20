@@ -1,10 +1,10 @@
 ﻿#region Version Info Header
 /*
- * $Id: GoogleReaderFeedSource.cs 462 2008-04-07 00:19:34Z Carnage4Life $
- * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/NewsComponents/Feed/GoogleReaderFeedSource.cs $
- * Last modified by $Author: Carnage4Life $
- * Last modified at $Date: 2008-04-06 17:19:34 -0700 (Sun, 06 Apr 2008) $
- * $Revision: 462 $
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
  */
 #endregion
 
@@ -28,13 +28,34 @@ using RssBandit.Common.Logging;
 
 namespace NewsComponents.Feed
 {
+	#region IGoogleReaderFeedSource interface: public FeedSource extensions
+	/// <summary>
+	/// public FeedSource extension offered by Google Reader Feed Source
+	/// </summary>
+	public interface IGoogleReaderFeedSource
+	{
+		/// <summary>
+		/// Marks an item as shared or unshared in Google Reader
+		/// </summary>
+		///<param name="item">The item to share. </param>
+		/// <param name="shared">Indicates whether the item was shared or unshared</param>       
+		void ShareNewsItem(INewsItem item, bool shared);
 
-    #region GoogleReaderFeedSource
+		/// <summary>
+		/// Gets true, if the item is shared, else false.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		bool NewsItemShared(INewsItem item);
+	}
+	#endregion
 
-    /// <summary>
+	#region GoogleReaderFeedSource
+
+	/// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from Google Reader. 
     /// </summary>
-    public class GoogleReaderFeedSource : FeedSource
+	internal class GoogleReaderFeedSource : FeedSource, IGoogleReaderFeedSource
     {
 
         #region private fields
@@ -1168,7 +1189,7 @@ namespace NewsComponents.Feed
         /// Marks an item as shared or unshared in Google Reader
         /// </summary>
         ///<param name="item">The item to share. </param>
-        /// <param name="tagged">Indicates whether the item was shared or unshared</param>       
+		/// <param name="shared">Indicates whether the item was shared or unshared</param>       
         public void ShareNewsItem(INewsItem item, bool shared)
         {
             if (item != null)
@@ -1180,6 +1201,17 @@ namespace NewsComponents.Feed
                 }
             }
         }
+
+		/// <summary>
+		/// Gets true, if the item is shared, else false.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		public bool NewsItemShared(INewsItem item)
+		{
+			//TODO impl.
+			return false;
+		}
 
         /// <summary>
         /// Marks an item as tagged or unstarred in Google Reader

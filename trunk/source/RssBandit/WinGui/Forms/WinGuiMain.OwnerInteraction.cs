@@ -2844,10 +2844,13 @@ namespace RssBandit.WinGui.Forms
             if (lvItem != null)
             {                
                 INewsItem item = (INewsItem)lvItem.Key;
-                GoogleReaderFeedSource source = item.Feed.owner as GoogleReaderFeedSource;
-                if (source != null) { 
+				if (FeedSourceType.Google == owner.FeedSourceManager.SourceTypeOf(item.Feed) )
+				{
+					//TODO: that internal XmlElement stuff sould live in 
+					// the extension impl. . 
+					// Move code to NewsItemShared(item) and ShareNewsItem()
                     bool share = true; 
-                    XmlQualifiedName qname =  new System.Xml.XmlQualifiedName("broadcast", "http://www.google.com/reader/"); 
+                    XmlQualifiedName qname =  new XmlQualifiedName("broadcast", "http://www.google.com/reader/"); 
                     XmlElement elem = RssHelper.GetOptionalElement(item, qname);
                     if (elem == null)
                     {
@@ -2859,6 +2862,7 @@ namespace RssBandit.WinGui.Forms
                         share = elem.InnerText != "1";
                         elem.InnerText = elem.InnerText == "1" ? "0" : "1"; 
                     }
+                	IGoogleReaderFeedSource source = owner.FeedSourceManager.GetSourceExtension<IGoogleReaderFeedSource>(item.Feed);
                     source.ShareNewsItem(item, share); 
                 }
             }
@@ -2875,11 +2879,13 @@ namespace RssBandit.WinGui.Forms
             if (lvItem != null)
             {
                 INewsItem item = (INewsItem)lvItem.Key;
-                NewsGatorFeedSource source = item.Feed.owner as NewsGatorFeedSource;
-                if (source != null)
+                if (FeedSourceType.NewsGator == owner.FeedSourceManager.SourceTypeOf(item.Feed))
                 {
+					//TODO: that internal XmlElement stuff sould live in 
+					// the extension impl. . 
+					// Move code to NewsItemClipped(item) and ClipNewsItem()
                     bool clip = true;
-                    XmlQualifiedName qname = new System.Xml.XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions"); 
+                    XmlQualifiedName qname = new XmlQualifiedName("clipped", "http://newsgator.com/schema/extensions"); 
                     XmlElement elem = RssHelper.GetOptionalElement(item, qname);
                     if (elem == null)
                     {
@@ -2891,7 +2897,8 @@ namespace RssBandit.WinGui.Forms
                         clip = elem.InnerText != "True";
                         elem.InnerText = elem.InnerText == "True" ? "False" : "True";
                     }
-                    source.ClipNewsItem(item, clip);
+					INewsGatorFeedSource source = owner.FeedSourceManager.GetSourceExtension<INewsGatorFeedSource>(item.Feed);
+					source.ClipNewsItem(item, clip);
                 }
             }
         }
