@@ -2540,9 +2540,11 @@ namespace NewsComponents
         /// <returns>The NewsItem or null if it could not be found</returns>
         public INewsItem FindNewsItem(SearchHitNewsItem nid)
         {
-            if (nid != null)
+			if (nid != null && nid.FeedLink != null)
             {
-                var fi = itemsTable[nid.FeedLink] as FeedInfo;
+            	IFeedDetails fd; FeedInfo fi = null;
+				if (itemsTable.TryGetValue(nid.FeedLink, out fd))
+					fi = fd as FeedInfo;
 
                 if (fi != null)
                 {
