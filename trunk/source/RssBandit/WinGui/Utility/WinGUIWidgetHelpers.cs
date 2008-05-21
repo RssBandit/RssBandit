@@ -37,13 +37,17 @@ namespace RssBandit.WinGui.Utility {
 
 	#region UrlCompletionExtender
 
-	public class UrlCompletionExtender {
-		// used for Alt-Enter completion
-		private string[] urlTemplates = new string[] {
-														 "http://www.{0}.com/",
-														 "http://www.{0}.net/",
-														 "http://www.{0}.org/",
-														 "http://www.{0}.info/",
+	/// <summary>
+	/// Used for Ctrl-Enter completion, similar to IE url combobox
+	/// </summary>
+	public class UrlCompletionExtender 
+	{
+		
+		private string[] urlTemplates = new[] {
+												"http://www.{0}.com/",
+												"http://www.{0}.net/",
+												"http://www.{0}.org/",
+												"http://www.{0}.info/",
 		};
 		private readonly Form ownerForm;
 		private readonly IButtonControl ownerCancelButton;
@@ -57,12 +61,11 @@ namespace RssBandit.WinGui.Utility {
 			}
 		}
 		
-		public void Add(Control monitorControl) {
-			this.Add(monitorControl, false);
-		}		
-		public void Add(Control monitorControl, bool includeFileCompletion) {
-			if (monitorControl != null) {
-				Utils.ApplyUrlCompletionToControl(monitorControl, includeFileCompletion);
+			
+		public void Add(Control monitorControl) 
+		{
+			if (monitorControl != null) 
+			{
 				monitorControl.KeyDown += OnMonitorControlKeyDown;
 				if (ownerForm != null && ownerCancelButton != null) {
 					monitorControl.Enter += OnMonitorControlEnter;
@@ -1183,53 +1186,7 @@ namespace RssBandit.WinGui.Utility {
 
 		}
 
-		public static void ApplyUrlCompletionToControl(Control control) {
-			ApplyUrlCompletionToControl(control, false);
-		}
 		
-		public static void ApplyUrlCompletionToControl(Control control, bool includeFileCompletion) {
-			try {
-				ShellLib.ShellAutoComplete ac = new ShellLib.ShellAutoComplete();
-			
-				if (control is ComboBox) {
-					// set combo handle
-					ShellLib.ShellApi.ComboBoxInfo info = new ShellLib.ShellApi.ComboBoxInfo();
-					info.cbSize = Marshal.SizeOf(info);
-					if (ShellLib.ShellApi.GetComboBoxInfo(control.Handle, ref info)) {
-						if (info.hwndEdit != IntPtr.Zero)
-							ac.EditHandle = info.hwndEdit;
-						else {
-							_log.Debug("ApplyUrlCompletionToControl()::ComboBox must have the DropDown style!");
-							return;
-						}
-					} 
-				} else {
-					ac.EditHandle = control.Handle;
-				}
-				// set options
-				ac.ACOptions = ShellLib.ShellAutoComplete.AutoCompleteOptions.None;
-				ac.ACOptions |= ShellLib.ShellAutoComplete.AutoCompleteOptions.AutoSuggest;
-				ac.ACOptions |= ShellLib.ShellAutoComplete.AutoCompleteOptions.AutoAppend;
-				ac.ACOptions |= ShellLib.ShellAutoComplete.AutoCompleteOptions.FilterPreFixes;
-				ac.ACOptions |= (control.RightToLeft == RightToLeft.Yes ) ? ShellLib.ShellAutoComplete.AutoCompleteOptions.RtlReading : 0;
-
-				// set source
-				ShellLib.IObjMgr multi = (ShellLib.IObjMgr)ShellLib.ShellAutoComplete.GetACLMulti();
-				multi.Append(ShellLib.ShellAutoComplete.GetACLHistory());
-				multi.Append(ShellLib.ShellAutoComplete.GetACLMRU());
-				if (includeFileCompletion)
-					multi.Append(ShellLib.ShellAutoComplete.GetACListISF());
-				ac.ListSource = multi;
-			
-				// activate AutoComplete, but no CTRL-ENTER handling! 
-				// Seems there is an issue with it (expanding also yet expanded Urls)
-				ac.SetAutoComplete(true, null);
-
-			} catch (Exception ex) {
-				_log.Fatal("ApplyUrlCompletionToControl() failed on Control " + control.Name + ". No completion will be available there.", ex);
-			}
-		}
-
 		/// <summary>
 		/// Returns whether Windows XP Visual Styles are currently enabled
 		/// </summary>

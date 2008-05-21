@@ -113,7 +113,7 @@ namespace RssBandit
         private WinGuiMain guiMain;
         private PostReplyForm postReplyForm;
         private SearchEngineHandler searchEngines;
-        //private ThreadResultManager threadResultManager;
+        private ThreadResultManager threadResultManager;
         private IdentityNewsServerManager identityNewsServerManager;
         private IAddInManager addInManager;
 
@@ -560,7 +560,7 @@ namespace RssBandit
             GuiInvoker.Initialize();
 
             // thread results to UI serialization/sync.:
-            //threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
+            threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
             ThreadWorkerBase.SynchronizingObject = guiMain;
 
             enter_mainevent_loop:

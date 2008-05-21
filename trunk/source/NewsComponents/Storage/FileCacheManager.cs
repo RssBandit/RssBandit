@@ -248,7 +248,9 @@ namespace NewsComponents.Storage {
 			FileStream fs = null; 
 			BinaryReader reader = null;
 
-            if (item == null)
+			// item.Feed.cacheurl == null could happen on a search result item,
+			// e.g. returned by a websearch rss:
+			if (item == null || item.Feed.cacheurl == null)
             {
                 return;
             }

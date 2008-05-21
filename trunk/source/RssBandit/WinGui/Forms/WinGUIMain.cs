@@ -1839,8 +1839,10 @@ namespace RssBandit.WinGui.Forms
             }
             catch (Exception ex)
             {
+				_log.Error(String.Format("RSS Remote Search '{0}' caused exception", searchUrl), ex);
+				InvokeOnGuiSync(() =>
                 SetSearchStatusText("Search '" + StringHelper.ShortenByEllipsis(searchUrl, 30) + "' caused a problem: " +
-                                    ex.Message);
+                                    ex.Message));
             }
         }
 

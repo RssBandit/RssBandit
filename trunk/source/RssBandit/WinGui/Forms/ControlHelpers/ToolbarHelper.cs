@@ -782,6 +782,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			urlDropdownContainerTool.Control = navigateComboBox;
 			main.UrlComboBox = navigateComboBox;
 			main.Controls.Add(navigateComboBox);
+			navigateComboBox.AutoCompleteSource = AutoCompleteSource.AllUrl;
+			navigateComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 			main.urlExtender.Add(navigateComboBox);
 #endif
 

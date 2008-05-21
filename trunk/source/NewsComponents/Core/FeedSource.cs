@@ -2440,8 +2440,17 @@ namespace NewsComponents
         /// <param name="tag">optional, can be used by the caller</param>
         public void SearchRemoteFeed(string searchFeedUrl, object tag)
         {
-            var unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
-            RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
+            List<INewsItem> unreturnedMatchItems = new List<INewsItem>(1);
+			try
+			{
+				unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
+			}
+			catch (Exception remoteSearchException)
+			{
+				unreturnedMatchItems.Add(CreateHelpNewsItemFromException(remoteSearchException));
+			}
+        	
+			RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
 
             var feedmatches = 1;
             var itemmatches = unreturnedMatchItems.Count;
