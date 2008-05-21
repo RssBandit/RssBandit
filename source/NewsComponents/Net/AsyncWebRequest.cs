@@ -1569,7 +1569,7 @@ namespace NewsComponents.Net
                 {
                     string statusCode = response.StatusCode.ToString();
                     response.Close();
-                    throw new WebException("Unexpected HTTP response: " + statusCode);
+                    throw new WebException(String.Format("Request of '{0}' gets unexpected HTTP response: {1}" , requestUri, statusCode));
                 }
 
                 // unauthorized more than MaxRetries
@@ -1582,7 +1582,7 @@ namespace NewsComponents.Net
                 //we got a moved, redirect more than MaxRetries
                 string returnCode = response.StatusCode.ToString();
                 response.Close();
-                throw new WebException("Repeated HTTP response: " + returnCode);
+				throw new WebException(String.Format("Request of '{0}' gets repeated HTTP response: {1}", requestUri, returnCode));
             }
             else if (fileresponse != null)
             {
