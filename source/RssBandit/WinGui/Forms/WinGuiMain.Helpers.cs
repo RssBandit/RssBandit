@@ -323,11 +323,9 @@ namespace RssBandit.WinGui.Forms
 
                     if (containsUnread)
                     {
-                        var tnSelected = TreeSelectedFeedsNode;
-                        if (tnSelected == null)
-                            tnSelected = GetRoot(RootFolderType.MyFeeds);
+                        var tnSelected = TreeSelectedFeedsNode ?? GetRoot(RootFolderType.MyFeeds);
 
-                        if (tnSelected.Type == FeedNodeType.SmartFolder || tnSelected.Type == FeedNodeType.Finder ||
+                    	if (tnSelected.Type == FeedNodeType.SmartFolder || tnSelected.Type == FeedNodeType.Finder ||
                             tnSelected.Type == FeedNodeType.Root ||
                             (tnSelected != tn && tnSelected.Type == FeedNodeType.Feed) ||
                             (tnSelected.Type == FeedNodeType.Category && !NodeIsChildOf(tn, tnSelected)))
@@ -1000,71 +998,74 @@ namespace RssBandit.WinGui.Forms
 
                 lock (listFeedItems.Items)
                 {
-                    //since this is a multithreaded app there could have been a change since the last 
+                	//since this is a multithreaded app there could have been a change since the last 
                     //time we checked this at the beginning of the method due to context switching. 
                     if (TreeSelectedFeedsNode != initialFeedsNode)
                     {
                         return;
                     }
 
-                    if (initialFeedsNode.Type == FeedNodeType.Category)
-                    {
-                        if (NodeIsChildOf(associatedFeedsNode, initialFeedsNode))
-                        {
-                            if (forceReload)
-                            {
-                                EmptyListView();
-                                feedsCurrentlyPopulated.Clear();
-                            }
+                	if (initialFeedsNode != null)
+                	{
+                		if (initialFeedsNode.Type == FeedNodeType.Category)
+                		{
+                			if (NodeIsChildOf(associatedFeedsNode, initialFeedsNode))
+                			{
+                				if (forceReload)
+                				{
+                					EmptyListView();
+                					feedsCurrentlyPopulated.Clear();
+                				}
 
-                            var checkForDuplicates = feedsCurrentlyPopulated.ContainsKey(associatedFeedsNode.DataKey);
-                            unread = PopulateSmartListView(list, categorizedView, checkForDuplicates);
-                            if (!checkForDuplicates)
-                                feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
+                				var checkForDuplicates = feedsCurrentlyPopulated.ContainsKey(associatedFeedsNode.DataKey);
+                				unread = PopulateSmartListView(list, categorizedView, checkForDuplicates);
+                				if (!checkForDuplicates)
+                					feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
 
-                            if (unread.Count != associatedFeedsNode.UnreadCount)
-                                UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
-                        }
-                        else if (associatedFeedsNode == initialFeedsNode)
-                        {
-                            feedsCurrentlyPopulated.Clear();
-                            PopulateFullListView(list);
-                            if (associatedFeedsNode.DataKey != null)
-                                feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
-                        }
-                    }
-                    else if (TreeSelectedFeedsNode is UnreadItemsNode)
-                    {
-                        if (forceReload)
-                        {
-                            EmptyListView();
-                        }
+                				if (unread.Count != associatedFeedsNode.UnreadCount)
+                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
+                			}
+                			else if (associatedFeedsNode == initialFeedsNode)
+                			{
+                				feedsCurrentlyPopulated.Clear();
+                				PopulateFullListView(list);
+                				if (associatedFeedsNode.DataKey != null)
+                					feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
+                			}
+                		}
+                		else if (TreeSelectedFeedsNode is UnreadItemsNode)
+                		{
+                			if (forceReload)
+                			{
+                				EmptyListView();
+                			}
 
-                        PopulateSmartListView(list, categorizedView, true);
-                    }
-                    else if (TreeSelectedFeedsNode == associatedFeedsNode)
-                    {
-                        if (forceReload)
-                        {
-                            unread = PopulateFullListView(list);
-                            if (unread.Count != associatedFeedsNode.UnreadCount)
-                                UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
-                        }
-                        else
-                        {
-                            unread = PopulateSmartListView(list, categorizedView, true);
-                            if (unread.Count > 0)
-                            {
-                                var unreadItems = unread.Count;
-                                if (categorizedView) // e.g. AggregatedNodes
-                                    unreadItems += associatedFeedsNode.UnreadCount;
-                                UpdateTreeNodeUnreadStatus(associatedFeedsNode, unreadItems);
-                            }
-                        }
-                    }
+                			PopulateSmartListView(list, categorizedView, true);
+                		}
+                		else if (TreeSelectedFeedsNode == associatedFeedsNode)
+                		{
+                			if (forceReload)
+                			{
+                				unread = PopulateFullListView(list);
+                				if (unread.Count != associatedFeedsNode.UnreadCount)
+                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
+                			}
+                			else
+                			{
+                				unread = PopulateSmartListView(list, categorizedView, true);
+                				if (unread.Count > 0)
+                				{
+                					var unreadItems = unread.Count;
+                					if (categorizedView) // e.g. AggregatedNodes
+                						unreadItems += associatedFeedsNode.UnreadCount;
+                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unreadItems);
+                				}
+                			}
+                		}
+                	}
                 } //lock
 
-                SetGuiStateFeedback(SR.StatisticsItemsDisplayedMessage(listFeedItems.Items.Count));
+                SetGuiStateFeedback(String.Format(SR.StatisticsItemsDisplayedMessage,listFeedItems.Items.Count));
             }
             catch (Exception ex)
             {
@@ -1122,8 +1123,7 @@ namespace RssBandit.WinGui.Forms
                     if (!item.BeenRead)
                         unread.Add(item);
 
-                    bool hasRelations;
-                    hasRelations = NewsItemHasRelations(item); // here is the bottleneck :-(
+                	bool hasRelations = NewsItemHasRelations(item);
 
                     var newItem = CreateThreadedLVItem(item, hasRelations, Resource.NewsItemImage.DefaultRead, colIndex,
                                                        false);
@@ -1394,10 +1394,13 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 listFeedItems.InsertItemsForPlaceHolder(insertionPointTicket, newChildItems, false);
-                if (listFeedItemsO.Visible && newChildItems.Length > 0)
-                {
-                    listFeedItemsO.AddRangeComments(newChildItems[0].Parent, newChildItems);
-                }
+            	if (newChildItems != null)
+            	{
+            		if (listFeedItemsO.Visible && newChildItems.Length > 0)
+            		{
+            			listFeedItemsO.AddRangeComments(newChildItems[0].Parent, newChildItems);
+            		}
+            	}
             }
         }
 
@@ -1414,7 +1417,7 @@ namespace RssBandit.WinGui.Forms
                 _timerResetStatus.Stop();
                 if (handleNewReceived && unreadMessages > _lastUnreadFeedItemCountBeforeRefresh)
                 {
-                    var message = SR.GUIStatusNewFeedItemsReceivedMessage(unreadFeeds, unreadMessages);
+                    string message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage,unreadFeeds, unreadMessages);
                     if (Visible)
                     {
                         SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeeds);
@@ -1429,9 +1432,8 @@ namespace RssBandit.WinGui.Forms
                     {
                         if (_beSilentOnBalloonPopupCounter <= 0)
                         {
-                            message = SR.GUIStatusNewFeedItemsReceivedMessage(
-                                unreadFeeds,
-                                unreadMessages);
+                            message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage,
+                                unreadFeeds,unreadMessages);
                             _trayAni.ShowBalloon(NotifyIconAnimation.EBalloonIcon.Info, message,
                                                  RssBanditApplication.CaptionOnly + " - " +
                                                  SR.GUIStatusNewFeedItemsReceived);

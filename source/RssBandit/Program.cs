@@ -1,9 +1,17 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
 
@@ -78,9 +86,10 @@ namespace RssBandit
                         }
                         catch (Exception ex)
                         {
-                            appInstance.MessageError(
-                                SR.ExceptionProcessCommandlineCulture(appInstance.CommandLineArgs.LocalCulture,
-                                                                      ex.Message));
+                            appInstance.MessageError(String.Format(
+                                SR.ExceptionProcessCommandlineCulture, 
+								appInstance.CommandLineArgs.LocalCulture,
+                                ex.Message));
                         }
                     }
 
@@ -103,15 +112,9 @@ namespace RssBandit
 
                     return 0; // OK
                 }
-                else
-                {
-                    return 2; // CommandLine error
-                }
+            	return 2; // CommandLine error
             }
-            else
-            {
-                return 1; // other running instance
-            }
+        	return 1; // other running instance
         }
 
     }

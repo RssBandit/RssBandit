@@ -31,19 +31,19 @@ namespace RssBandit.WinGui.Forms {
 	/// PreferencesDialog provides the editing interface
 	/// for all major application options.
 	/// </summary>
-	public partial class PreferencesDialog : System.Windows.Forms.Form {
+	public partial class PreferencesDialog : Form {
 
 		public event EventHandler OnApplyPreferences;
 	
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PreferencesDialog));
 		
-		private static string NgosDefaultLocation = "NewsGator Web Edition"; 
+		private const string NgosDefaultLocation = "NewsGator Web Edition"; 
 
-		private IServiceProvider serviceProvider;
-		private Hashtable imageIndexMap = new Hashtable();
-		internal List<SearchEngine> searchEngines = null;
-		internal bool searchEnginesModified = false;
-		private IdentityNewsServerManager identityManager = null;
+		private readonly IServiceProvider serviceProvider;
+		private readonly Hashtable imageIndexMap = new Hashtable();
+		internal List<SearchEngine> searchEngines;
+		internal bool searchEnginesModified;
+		private readonly IdentityNewsServerManager identityManager;
 		internal Font[] itemStateFonts;
 		internal Color[] itemStateColors;
 
@@ -59,9 +59,9 @@ namespace RssBandit.WinGui.Forms {
 			// fix: if label has FlatStyle set to "System" (to get it rendered using the OS ClearType settings), 
 			// it's text is rendered at top. So we "move" it a little bit downwards:
 			this.lblFontSampleABC.Text = Environment.NewLine + this.lblFontSampleABC.Text;
-			this.Load += new EventHandler(this.OnPreferencesDialog_Load);
-			this.linkCommentAPI.LinkClicked += new LinkLabelLinkClickedEventHandler(OnAnyLinkLabel_LinkClicked);
-			this.linkLabel1.LinkClicked += new LinkLabelLinkClickedEventHandler(OnAnyLinkLabel_LinkClicked);
+			this.Load += this.OnPreferencesDialog_Load;
+			this.linkCommentAPI.LinkClicked += OnAnyLinkLabel_LinkClicked;
+			this.linkLabel1.LinkClicked += OnAnyLinkLabel_LinkClicked;
 		}
 
 		internal PreferencesDialog(IServiceProvider provider):this() {
@@ -137,8 +137,7 @@ namespace RssBandit.WinGui.Forms {
 					}
 				}
 			
-				if (prefs.NewsItemStylesheetFile != null && 
-					prefs.NewsItemStylesheetFile.Length > 0 &&
+				if (!string.IsNullOrEmpty(prefs.NewsItemStylesheetFile) &&
 					File.Exists(Path.Combine(tmplFolder, prefs.NewsItemStylesheetFile + ".fdxsl"))) {
 					this.comboFormatters.Text = prefs.NewsItemStylesheetFile; 
 					this.checkCustomFormatter.Checked = true;
@@ -463,7 +462,7 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void checkUseProxy_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkUseProxy_CheckedChanged(object sender, EventArgs e) {
 		
 			bool useProxy = checkUseProxy.Checked;
 
@@ -500,11 +499,11 @@ namespace RssBandit.WinGui.Forms {
 			
 		}
 
-		private void checkProxyBypassLocal_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkProxyBypassLocal_CheckedChanged(object sender, EventArgs e) {
 			labelProxyBypassList.Enabled = labelProxyBypassListHint.Enabled = textProxyBypassList.Enabled = checkProxyBypassLocal.Checked;
 		}
 		
-		private void checkProxyAuth_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkProxyAuth_CheckedChanged(object sender, EventArgs e) {
 			labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = checkProxyAuth.Checked; 
 			labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = checkProxyAuth.Checked;
 			if (checkProxyAuth.Checked) {
@@ -518,7 +517,7 @@ namespace RssBandit.WinGui.Forms {
 				this.OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void checkCustomFormatter_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkCustomFormatter_CheckedChanged(object sender, EventArgs e) {
 			if (checkCustomFormatter.Checked) {
 				labelFormatters.Enabled = comboFormatters.Enabled = true; 
 				checkMarkItemsAsReadWhenViewed.Enabled = checkLimitNewsItemsPerPage.Enabled = numNewsItemsPerPage.Enabled = false; 
@@ -533,7 +532,7 @@ namespace RssBandit.WinGui.Forms {
 			this.OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void OnOKClick(object sender, System.EventArgs e) {
+		private void OnOKClick(object sender, EventArgs e) {
 			if (checkProxyAuth.Checked) {
 				if (textProxyCredentialUser.Text.Trim().Length == 0 ||
 					textProxyCredentialPassword.Text.Trim().Length == 0)
@@ -564,7 +563,7 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void OnDefaultFontChangeClick(object sender, System.EventArgs e) {
+		private void OnDefaultFontChangeClick(object sender, EventArgs e) {
 			fontDialog1.Font = this.DefaultStateFont;
 			fontDialog1.Color = this.DefaultColor;
 
@@ -587,7 +586,7 @@ namespace RssBandit.WinGui.Forms {
 		/// <summary>
 		/// Enable or disable remote storage
 		/// </summary>
-		private void checkUseRemoteStorage_CheckedChanged(object sender, System.EventArgs e)
+		private void checkUseRemoteStorage_CheckedChanged(object sender, EventArgs e)
 		{
 			bool enabled = checkUseRemoteStorage.Checked;
 
@@ -622,7 +621,7 @@ namespace RssBandit.WinGui.Forms {
 				this.OnControlValidated(this, null);
 		}
 
-		private void comboRemoteStorageProtocol_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboRemoteStorageProtocol_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			bool showAuth = false;
 			textRemoteStorageLocation.Enabled = true;
@@ -673,7 +672,7 @@ namespace RssBandit.WinGui.Forms {
 			labelRemoteStoragePassword.Visible = textRemoteStoragePassword.Visible = showAuth;
 		}
 
-		private void optNewWindowCustomExec_CheckedChanged(object sender, System.EventArgs e) {
+		private void optNewWindowCustomExec_CheckedChanged(object sender, EventArgs e) {
 			labelBrowserStartExecutable.Enabled = txtBrowserStartExecutable.Enabled = btnSelectExecutable.Enabled = optNewWindowCustomExec.Checked;
 			if (optNewWindowCustomExec.Checked && txtBrowserStartExecutable.Text.Trim().Length == 0) {
 				//errorProvider1.SetError(txtBrowserStartExecutable, SR.ExceptionNoOnNewWindowExecutable"]);
@@ -710,9 +709,8 @@ namespace RssBandit.WinGui.Forms {
 					} else {
 						string p = Path.Combine(RssBanditApplication.GetSearchesPath(), engine.ImageName);
 						if (File.Exists(p)) {
-							Image img = null;
 							try {
-								img = Image.FromFile(p);
+								Image img = Image.FromFile(p);
 								this.imagesSearchEngines.Images.Add(img);
 								this.imageIndexMap.Add(engine.ImageName, i);
 								lv.ImageIndex = i;
@@ -734,27 +732,27 @@ namespace RssBandit.WinGui.Forms {
 			this.listSearchEngines.Columns[2].Width = -2;
 		}
 
-		private void OnSearchEngineItemActivate(object sender, System.EventArgs e) {
+		private void OnSearchEngineItemActivate(object sender, EventArgs e) {
 			bool on = (this.listSearchEngines.SelectedItems.Count > 0);
 			this.btnSEMoveUp.Enabled = (on && this.listSearchEngines.SelectedItems[0].Index > 0);
 			this.btnSEMoveDown.Enabled =  (on && this.listSearchEngines.SelectedItems[0].Index < (this.listSearchEngines.Items.Count - 1));
 			this.btnSEProperties.Enabled = this.btnSERemove.Enabled = on;
 		}
 
-		private void OnSearchEnginesListMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
+		private void OnSearchEnginesListMouseUp(object sender, MouseEventArgs e) {
 			this.OnSearchEngineItemActivate(sender, null);
 		}
 
-		private void btnSEProperties_Click(object sender, System.EventArgs e) {
+		private void btnSEProperties_Click(object sender, EventArgs e) {
 			SearchEngine engine = (SearchEngine)this.listSearchEngines.SelectedItems[0].Tag;
 			ShowAndHandleEngineProperties(engine);
 		}
 
-		private void btnSEAdd_Click(object sender, System.EventArgs e) {
+		private void btnSEAdd_Click(object sender, EventArgs e) {
 			ShowAndHandleEngineProperties(new SearchEngine());
 		}
 
-		private void btnSERemove_Click(object sender, System.EventArgs e) {
+		private void btnSERemove_Click(object sender, EventArgs e) {
 			ListViewItem lvi = this.listSearchEngines.SelectedItems[0];
 			if (lvi != null) {
 				int index = lvi.Index;
@@ -773,7 +771,7 @@ namespace RssBandit.WinGui.Forms {
 			} 
 		}
 
-		private void btnSEMoveUp_Click(object sender, System.EventArgs e) {
+		private void btnSEMoveUp_Click(object sender, EventArgs e) {
 			ListViewItem lvi = this.listSearchEngines.SelectedItems[0];
 			if (lvi != null && lvi.Index > 0) {
 				int index = lvi.Index;
@@ -789,7 +787,7 @@ namespace RssBandit.WinGui.Forms {
 			this.OnSearchEngineItemActivate(this, null);
 		}
 
-		private void btnSEMoveDown_Click(object sender, System.EventArgs e) {
+		private void btnSEMoveDown_Click(object sender, EventArgs e) {
 			ListViewItem lvi = this.listSearchEngines.SelectedItems[0];
 			if (lvi != null && lvi.Index < this.listSearchEngines.Items.Count - 1) {
 				int index = lvi.Index;
@@ -867,16 +865,15 @@ namespace RssBandit.WinGui.Forms {
 
 				} else {
 
-					string p = null;
+					string p;
 					if (imn.IndexOf(Path.DirectorySeparatorChar) > 0) 
 						p = imn;
 					else
 						p = Path.Combine(RssBanditApplication.GetSearchesPath(), imn);
 					
 					if (File.Exists(p)) {
-						Image img = null;
 						try {
-							img = Image.FromFile(p);
+							Image img = Image.FromFile(p);
 							this.imagesSearchEngines.Images.Add(img);
 							imageIndex = this.imagesSearchEngines.Images.Count - 1;
 							this.imageIndexMap.Add(imn, imageIndex);
@@ -902,7 +899,7 @@ namespace RssBandit.WinGui.Forms {
 				} else {
 					for (int i = 0; i < this.listSearchEngines.Items.Count; i++) {
 						lv = this.listSearchEngines.Items[i];
-						if (engine == (SearchEngine)lv.Tag) {
+						if (engine == lv.Tag) {
 							break;
 						}
 					}
@@ -984,7 +981,7 @@ namespace RssBandit.WinGui.Forms {
 				if (comboRefreshRate.Text.Length == 0)
 					comboRefreshRate.Text = "60";	
 				try {
-					if ( System.Int32.Parse(comboRefreshRate.Text) * 60 * 1000 < 0){
+					if ( Int32.Parse(comboRefreshRate.Text) * 60 * 1000 < 0){
 						errorProvider1.SetError(comboRefreshRate, SR.OverflowExceptionRefreshRate);
 						e.Cancel = true;
 					}
@@ -1070,18 +1067,18 @@ namespace RssBandit.WinGui.Forms {
 
 		}
 
-		private void OnControlValidated(object sender, System.EventArgs e) {
+		private void OnControlValidated(object sender, EventArgs e) {
 			this.btnApply.Enabled = true;
 		}
 
-		private void btnApply_Click(object sender, System.EventArgs e) {
+		private void btnApply_Click(object sender, EventArgs e) {
 			this.OnOKClick(this, e);	// may reset some invalid settings
 			if (OnApplyPreferences != null)
 				OnApplyPreferences(this, new EventArgs());
 			this.btnApply.Enabled = false;
 		}
 
-		private void optOnOpenNewWindowChecked(object sender, System.EventArgs e) {
+		private void optOnOpenNewWindowChecked(object sender, EventArgs e) {
 			if (e != null)	 {	// not caused by calling from another code location, enable Apply button
 				errorProvider1.SetError(txtBrowserStartExecutable, null);
 				this.OnControlValidated(this, null);
@@ -1091,7 +1088,7 @@ namespace RssBandit.WinGui.Forms {
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void OnSearchEngineItemChecked(object sender, System.Windows.Forms.ItemCheckEventArgs e) {
+		private void OnSearchEngineItemChecked(object sender, ItemCheckEventArgs e) {
 			ListViewItem lv = this.listSearchEngines.Items[e.Index];
 			if (lv!= null) {
 				SearchEngine engine = (SearchEngine)lv.Tag;
@@ -1101,34 +1098,34 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void btnMakeDefaultAggregator_Click(object sender, System.EventArgs e) {
+		private void btnMakeDefaultAggregator_Click(object sender, EventArgs e) {
 			try {
 				RssBanditApplication.MakeDefaultAggregator();
 				btnMakeDefaultAggregator.Enabled = false;	// disable on success
 				// on success, ask the next startup time, if we are not anymore the default handler:
 				RssBanditApplication.ShouldAskForDefaultAggregator = true;
 			} catch (System.Security.SecurityException) {
-				MessageBox.Show(this, SR.SecurityExceptionCausedByRegistryAccess("HKEY_CLASSES_ROOT\feed"),
+				MessageBox.Show(this, String.Format(SR.SecurityExceptionCausedByRegistryAccess,"HKEY_CLASSES_ROOT\feed"),
 					SR.GUIErrorMessageBoxCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			} catch (Exception ex) {
-				MessageBox.Show(this, SR.ExceptionSettingDefaultAggregator(ex.Message),
+				MessageBox.Show(this, String.Format(SR.ExceptionSettingDefaultAggregator,ex.Message),
 					SR.GUIErrorMessageBoxCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			RssBanditApplication.CheckAndRegisterIEMenuExtensions();
 		}
 	
-		private void btnSelectExecutable_Click(object sender, System.EventArgs e) {
+		private void btnSelectExecutable_Click(object sender, EventArgs e) {
 			if (DialogResult.OK == openExeFileDialog.ShowDialog(this)) {
 				txtBrowserStartExecutable.Text = openExeFileDialog.FileName;
 			}
 		}
 
-		private void btnManageIdentities_Click(object sender, System.EventArgs e) {
+		private void btnManageIdentities_Click(object sender, EventArgs e) {
 			this.identityManager.ShowIdentityDialog(this);
 			this.PopulateComboUserIdentityForComments(this.identityManager.CurrentIdentities, this.cboUserIdentityForComments.Text);
 		}
 
-		private void btnChangeColor_Click(object sender, System.EventArgs e) {
+		private void btnChangeColor_Click(object sender, EventArgs e) {
 			//TODO: open color picker
 			colorDialog1.Color = this.ActiveItemStateColor;
 			colorDialog1.AllowFullOpen = true;
@@ -1139,22 +1136,22 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void OnFontStyleChanged(object sender, System.EventArgs e) {
+		private void OnFontStyleChanged(object sender, EventArgs e) {
 			this.ActiveItemStateFont = new Font(this.DefaultStateFont, this.FontStyleFromCheckboxes());
 			this.RefreshFontSample();
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void OnItemStatesSelectedIndexChanged(object sender, System.EventArgs e) {
+		private void OnItemStatesSelectedIndexChanged(object sender, EventArgs e) {
 			this.FontStyleToCheckboxes(this.ActiveItemStateFont.Style);
 			this.RefreshFontSample();
 		}
 
-		private void OnAnyCheckedChanged(object sender, System.EventArgs e) {
+		private void OnAnyCheckedChanged(object sender, EventArgs e) {
 			OnControlValidated(this, EventArgs.Empty); 
 		}
 
-		private void OnAnyComboSelectionChangeCommitted(object sender, System.EventArgs e) {
+		private void OnAnyComboSelectionChangeCommitted(object sender, EventArgs e) {
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
@@ -1180,12 +1177,12 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void OnPodcastOptionsButtonClick(object sender, System.EventArgs e) {
+		private void OnPodcastOptionsButtonClick(object sender, EventArgs e) {
 			ICoreApplication coreApp = (ICoreApplication)serviceProvider.GetService(typeof(ICoreApplication));
 			coreApp.ShowPodcastOptionsDialog(this, null);
 		}
 
-		private void btnSelectEnclosureFolder2_Click(object sender, System.EventArgs e) {
+		private void btnSelectEnclosureFolder2_Click(object sender, EventArgs e) {
 			DirectoryBrowser folderDialog = new DirectoryBrowser(); 	 
 			folderDialog.Description = SR.BrowseForFolderEnclosureDownloadLocation; 	 
 			DialogResult result = folderDialog.ShowDialog(); 	 
@@ -1195,43 +1192,43 @@ namespace RssBandit.WinGui.Forms {
 			}
 		}
 
-		private void checkOnlyDownloadLastXAttachments_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkOnlyDownloadLastXAttachments_CheckedChanged(object sender, EventArgs e) {
 			lblDownloadXAttachmentsPostfix.Enabled = numOnlyDownloadLastXAttachments.Enabled = checkOnlyDownloadLastXAttachments.Checked;
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void checkEnclosureSizeOnDiskLimited_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkEnclosureSizeOnDiskLimited_CheckedChanged(object sender, EventArgs e) {
 			lblDownloadAttachmentsSmallerThanPostfix.Enabled = numEnclosureCacheSize.Enabled = checkEnclosureSizeOnDiskLimited.Checked;
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void checkDownloadEnclosures_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkDownloadEnclosures_CheckedChanged(object sender, EventArgs e) {
             lblDownloadXAttachmentsPostfix.Enabled = numOnlyDownloadLastXAttachments.Enabled = checkOnlyDownloadLastXAttachments.Checked = checkOnlyDownloadLastXAttachments.Enabled = this.checkDownloadEnclosures.Checked;
 			OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void OnEnableAppSoundsCheckedChanged(object sender, System.EventArgs e) {
+		private void OnEnableAppSoundsCheckedChanged(object sender, EventArgs e) {
 			this.OnAnyCheckedChanged(sender, e);
 			this.btnConfigureAppSounds.Enabled = (this.checkAllowAppEventSounds.Checked &&
 				!RssBanditApplication.PortableApplicationMode);
 		}
 
-		private void OnConfigureAppSoundsClick(object sender, System.EventArgs e) {
+		private void OnConfigureAppSoundsClick(object sender, EventArgs e) {
 			try {
 				Process.Start("rundll32.exe", "shell32.dll,Control_RunDLL mmsys.cpl,,1");
 			} catch (Exception ex) {
 				MessageBox.Show(this, RssBanditApplication.Caption,
-				    SR.WindowsSoundControlPanelDisplayFailed(ex.Message),
+				    String.Format(SR.WindowsSoundControlPanelDisplayFailed,ex.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
-		private void checkLimitNewsItemsPerPage_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkLimitNewsItemsPerPage_CheckedChanged(object sender, EventArgs e) {
 			this.OnAnyCheckedChanged(sender, e);
 			this.numNewsItemsPerPage.Enabled = checkLimitNewsItemsPerPage.Checked;
 		}
 
-		private void checkMarkItemsAsReadWhenViewed_CheckedChanged(object sender, System.EventArgs e) {
+		private void checkMarkItemsAsReadWhenViewed_CheckedChanged(object sender, EventArgs e) {
 			this.OnAnyCheckedChanged(sender, e);
 		}
 		

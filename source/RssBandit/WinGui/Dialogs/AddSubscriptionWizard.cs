@@ -207,7 +207,7 @@ namespace RssBandit.WinGui.Forms
 
 		#region IWaitDialog Members
 
-		public void Initialize(System.Threading.AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon) {
+		public void Initialize(AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon) {
 			this.waitHandle = waitHandle;
 			this.timeout = timeout;
 			this.timeCounter = 0;
@@ -216,7 +216,7 @@ namespace RssBandit.WinGui.Forms
 			this.operationResult = DialogResult.None;
 		}
 
-		public System.Windows.Forms.DialogResult StartWaiting(IWin32Window owner, string waitMessage, bool allowCancel) {
+		public DialogResult StartWaiting(IWin32Window owner, string waitMessage, bool allowCancel) {
 			// start animation
 			this.wizard.SelectedPage.AllowCancel = allowCancel;
 			this.timerIncreaseProgress.Enabled = true;
@@ -266,7 +266,7 @@ namespace RssBandit.WinGui.Forms
 					components.Dispose();
 				}
 				if (internetService != null) {
-					internetService.InternetConnectionStateChange -= new InternetConnectionStateChangeHandler(OnInternetServiceInternetConnectionStateChange);
+					internetService.InternetConnectionStateChange -= OnInternetServiceInternetConnectionStateChange;
 					internetService = null;
 				}
 
@@ -2647,7 +2647,7 @@ namespace RssBandit.WinGui.Forms
 				SetWizardTaskInfo(i, WizardValidationTask.None, String.Empty);
 		}
 
-		private Image GetWizardTaskImage(WizardValidationTask task) {
+		private static Image GetWizardTaskImage(WizardValidationTask task) {
 			if (task == WizardValidationTask.None)
 				return null;
 			return Resource.LoadBitmap("Resources.WizardTask." + task.ToString() + ".png");
@@ -2699,10 +2699,10 @@ namespace RssBandit.WinGui.Forms
 				autoDiscover.LocationMethod = method;
 				if (method == FeedLocationMethod.Syndic8Search) {
 					autoDiscover.SearchTerms = this.txtNewBySearchWords.Text;
-					autoDiscover.OperationMessage = SR.GUIStatusWaitMessageDetectingFeedsWithKeywords(this.txtNewBySearchWords.Text);
+					autoDiscover.OperationMessage = String.Format(SR.GUIStatusWaitMessageDetectingFeedsWithKeywords,this.txtNewBySearchWords.Text);
 				} else {
 					autoDiscover.WebPageUrl = this.txtNewByURL.Text;
-					autoDiscover.OperationMessage = SR.GUIStatusWaitMessageDetectingFeeds(this.txtNewBySearchWords.Text);
+					autoDiscover.OperationMessage = String.Format(SR.GUIStatusWaitMessageDetectingFeeds,this.txtNewBySearchWords.Text);
 				}
 				
 				if (this.textUser.Text.Trim().Length > 0) {
@@ -2738,7 +2738,7 @@ namespace RssBandit.WinGui.Forms
 					return false; 
 				}
 
-				SetWizardTaskInfo(taskIndex, WizardValidationTask.Success, SR.WizardValidationTask_Success_xFeedsFound_Message(feedUrls.Count));
+				SetWizardTaskInfo(taskIndex, WizardValidationTask.Success, String.Format(SR.WizardValidationTask_Success_xFeedsFound_Message,feedUrls.Count));
 				PopulateFoundFeeds(feedUrls);
 				
 				return true;
@@ -2766,7 +2766,7 @@ namespace RssBandit.WinGui.Forms
 				if (this.textUser.Text.Trim().Length > 0) {
 					fetchHandler.Credentials = FeedSource.CreateCredentialsFrom(this.textUser.Text.Trim(), this.textPassword.Text.Trim());
 				}
-				string message = SR.GUIStatusWaitMessagePrefetchFeed(url);
+				string message = String.Format(SR.GUIStatusWaitMessagePrefetchFeed,url);
 				SetWizardTaskInfo(taskIndex, WizardValidationTask.InProgress, message);
 				DialogResult result = fetchHandler.Start(this, message);
 
@@ -2801,7 +2801,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		private string StripAndDecode(string s) {
+		private static string StripAndDecode(string s) {
 			if (s == null)
 				return s;
 			string t = HtmlHelper.StripAnyTags(s);
@@ -2811,8 +2811,8 @@ namespace RssBandit.WinGui.Forms
 			return t.Trim();
 		}
 		
-		private void PopulateFoundFeeds(Hashtable rssFeeds) {
-			ListViewItem lv = null;
+		private void PopulateFoundFeeds(IDictionary rssFeeds) {
+			ListViewItem lv;
 			this.listFeeds.Items.Clear();
 
 			foreach(object feedUrl in rssFeeds.Keys) {
@@ -2931,7 +2931,7 @@ namespace RssBandit.WinGui.Forms
 		}
 
 		private string ValidateFeedUri(WizardPage page, string url) {
-			Exception ex = null;
+			Exception ex;
 			string validUrl = this.ValidateFeedUri(url, out ex);
 			bool valid = ( ! string.IsNullOrEmpty(validUrl) && ex == null);
 			page.AllowMoveNext = valid;
@@ -2987,7 +2987,7 @@ namespace RssBandit.WinGui.Forms
 				string category, title, link;
                 coreApplication.TryGetFeedDetails(newUrl, out category, out title, out link);
 				invalidUriException = new InvalidOperationException( 
-					SR.GUIFieldLinkRedundantInfo( 
+					String.Format(SR.GUIFieldLinkRedundantInfo, 
 					((category ?? String.Empty) + FeedSource.CategorySeparator) + title, link ));
 				return null; 
 			}
@@ -3046,7 +3046,7 @@ namespace RssBandit.WinGui.Forms
 				
 				if (this.lstNNTPGroups.SelectedItems.Count > 0) {
 					string newsServer = String.Empty;
-					INntpServerDefinition sd = (INntpServerDefinition) this.coreApplication.NntpServerDefinitions[cboNNTPServer.Text];
+					INntpServerDefinition sd = this.coreApplication.NntpServerDefinitions[cboNNTPServer.Text];
 
 					if(sd != null){
 						newsServer = sd.Server; 						
@@ -3082,22 +3082,20 @@ namespace RssBandit.WinGui.Forms
 			
 			if (this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPDirect ||
 				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroup ||
-				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect) {
-				
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeNNTPGroupDirect)
+			{
 				if (this.lstNNTPGroups.SelectedItems.Count > 1)
-					return this.lstNNTPGroups.SelectedItems[index].ToString(); 
-				else
-					return this.FeedTitle;
-
-			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
-				this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
-				
+					return this.lstNNTPGroups.SelectedItems[index].ToString();
+				return this.FeedTitle;
+			}
+			else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
+				this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect )
+			{
 				if (this.listFeeds.SelectedItems.Count > 1)
 					return this.listFeeds.SelectedItems[index].SubItems[0].Text;
-				else
-					return this.FeedTitle;
-
-			} else {
+				return this.FeedTitle;
+			}
+			else {
 				return this.FeedTitle;
 			}
 		}
@@ -3216,25 +3214,22 @@ namespace RssBandit.WinGui.Forms
 		public int RefreshRate {
 			get {
 				// should be yet validated. But for safety:
-				try { 
-
+				try
+				{
 					if((!string.IsNullOrEmpty(this.cboUpdateFrequency.Text.Trim()))) {
-						Int32 intIn = System.Int32.Parse(this.cboUpdateFrequency.Text.Trim());
+						Int32 intIn = Int32.Parse(this.cboUpdateFrequency.Text.Trim());
 						if (intIn <= 0) {
 							return 0;
-						} else {
-							return intIn;
 						}
-					} else {
-						return 0;
+						return intIn;
 					}
-
+					return 0;
 				}
-				catch(FormatException) {
+				catch(FormatException)
+				{
 					if (coreApplication.CurrentGlobalRefreshRate > 0)
 						return coreApplication.CurrentGlobalRefreshRate;
-					else
-						return RssBanditApplication.DefaultGlobalRefreshRateMinutes;
+					return RssBanditApplication.DefaultGlobalRefreshRateMinutes;
 				}
 				catch(OverflowException) {
 					return Int16.MaxValue;
@@ -3246,7 +3241,7 @@ namespace RssBandit.WinGui.Forms
 		// Events 
 		// -------------------------------------------------------------------
 		
-		private void OnTimerIncreaseProgress_Tick(object sender, System.EventArgs e)
+		private void OnTimerIncreaseProgress_Tick(object sender, EventArgs e)
 		{
 			
 			if ( waitHandle.WaitOne(0,false) ) {	// gets signal
@@ -3277,11 +3272,11 @@ namespace RssBandit.WinGui.Forms
 
 		}
 
-		private void OnPageValidation_BeforeDisplay(object sender, System.EventArgs e) {
+		private void OnPageValidation_BeforeDisplay(object sender, EventArgs e) {
 			ResetValidationPage();
 		}
 
-		private void OnPageValidation_AfterDisplay(object sender, System.EventArgs e)
+		private void OnPageValidation_AfterDisplay(object sender, EventArgs e)
 		{
 			pageValidateUrl.AllowCancel = true;
 			//pageValidateUrl.AllowMoveNext = false;
@@ -3289,7 +3284,7 @@ namespace RssBandit.WinGui.Forms
 
 		}
 
-		private void OnWizardCancel(object sender, System.EventArgs e) {
+		private void OnWizardCancel(object sender, EventArgs e) {
 			if (wizard.SelectedPage != pageValidateUrl) {
 				this.DialogResult = DialogResult.Cancel;
 				Close();
@@ -3302,7 +3297,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		private void OnWizardFinish(object sender, System.EventArgs e) {
+		private void OnWizardFinish(object sender, EventArgs e) {
 			
 			this.ProcessFeedUrl();
 			this.DialogResult = DialogResult.OK;
@@ -3311,18 +3306,18 @@ namespace RssBandit.WinGui.Forms
 
 		
 
-		private void OnFoundFeedsListSelectedIndexChanged(object sender, System.EventArgs e)
+		private void OnFoundFeedsListSelectedIndexChanged(object sender, EventArgs e)
 		{
 			pageFoundMultipleFeeds.AllowMoveNext = listFeeds.SelectedItems.Count > 0;
 		}
 
-		private void OnListFoundFeeds_DoubleClick(object sender, System.EventArgs e)
+		private void OnListFoundFeeds_DoubleClick(object sender, EventArgs e)
 		{
 			if (pageFoundMultipleFeeds.AllowMoveNext)
 				wizard.GoNext();
 		}
 
-		private void OnPageWelcome_BeforeDisplay(object sender, System.EventArgs e) {
+		private void OnPageWelcome_BeforeDisplay(object sender, EventArgs e) {
 			
 			this.radioNewByURL.Checked = true;
 
@@ -3366,14 +3361,14 @@ namespace RssBandit.WinGui.Forms
 			checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetConnected;
 		}
 
-		private void OnImmediateFinish_Click(object sender, System.EventArgs e)
+		private void OnImmediateFinish_Click(object sender, EventArgs e)
 		{
 			this.ProcessFeedUrl();
 			this.DialogResult = DialogResult.OK;
 			Close();
 		}
 
-		private void OnFinishPage_BeforeDisplay(object sender, System.EventArgs e)
+		private void OnFinishPage_BeforeDisplay(object sender, EventArgs e)
 		{
 			this._btnImmediateFinish.Visible = false;
 		}
@@ -3383,12 +3378,12 @@ namespace RssBandit.WinGui.Forms
 			this._btnImmediateFinish.Visible = true;
 		}
 
-		private void pageFeedCredentials_BeforeDisplay(object sender, System.EventArgs e) {
+		private void pageFeedCredentials_BeforeDisplay(object sender, EventArgs e) {
 			//
 		}
 
-		private void btnManageSearchEngines_Click(object sender, System.EventArgs e) {
-			coreApplication.ShowOptions(OptionDialogSection.WebSearch, this, new EventHandler(this.OnPreferenceDialogOptionChanged));
+		private void btnManageSearchEngines_Click(object sender, EventArgs e) {
+			coreApplication.ShowOptions(OptionDialogSection.WebSearch, this, this.OnPreferenceDialogOptionChanged);
 		}
 
 		private void OnPreferenceDialogOptionChanged(object sender, EventArgs e) {
@@ -3397,7 +3392,7 @@ namespace RssBandit.WinGui.Forms
 			this.PopulateSearchEngines(coreApplication.WebSearchEngines, cboNewBySearchEngines.Text);
 		}
 
-		private void OnRadioHowToSubscribeCheckedChanged(object sender, System.EventArgs e) {
+		private void OnRadioHowToSubscribeCheckedChanged(object sender, EventArgs e) {
 			if (sender == radioNewByURL)
 				WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 			else if (sender == radioNewByTopicSearch)
@@ -3406,7 +3401,7 @@ namespace RssBandit.WinGui.Forms
 				WireStepsForMode(AddSubscriptionWizardMode.SubscribeNNTPGroup);
 		}
 
-		private void OnAutodiscoverVerifyCheckedChanged(object sender, System.EventArgs e) {
+		private void OnAutodiscoverVerifyCheckedChanged(object sender, EventArgs e) {
 			if (this.checkNewByURLValidate.Checked) {
 				pageNewByURL.NextPage = pageValidateUrl;
 				pageTitleCategory.PreviousPage = pageNewByURL;
@@ -3425,8 +3420,8 @@ namespace RssBandit.WinGui.Forms
 				this.FeedTitle = listFeeds.SelectedItems[0].SubItems[0].Text;
 		}
 
-		private void OnNewFeedUrlTextChanged(object sender, System.EventArgs e) {
-			Exception ex = null;
+		private void OnNewFeedUrlTextChanged(object sender, EventArgs e) {
+			Exception ex;
 			string validUrl = this.ValidateFeedUri(this.txtNewByURL.Text, out ex);
 			bool valid = ( validUrl != null && ex == null);
 			pageNewByURL.AllowMoveNext = valid;
@@ -3452,7 +3447,7 @@ namespace RssBandit.WinGui.Forms
 			this._btnImmediateFinish.Visible = false;
 		}
 
-		private void OnPageTitleCategoryBeforeDisplay(object sender, System.EventArgs e) {
+		private void OnPageTitleCategoryBeforeDisplay(object sender, EventArgs e) {
 			this._btnImmediateFinish.Visible = true;
 			this.txtFeedTitle.Enabled = !this.MultipleFeedsToSubscribe;
 
@@ -3478,45 +3473,45 @@ namespace RssBandit.WinGui.Forms
 
 		}
 
-		private void OnNewFeedTitleTextChanged(object sender, System.EventArgs e) {
+		private void OnNewFeedTitleTextChanged(object sender, EventArgs e) {
 			this.pageTitleCategory.AllowMoveNext = this._btnImmediateFinish.Enabled = 
 				(txtFeedTitle.Text.Length > 0 || !txtFeedTitle.Enabled);
 		}
 
-		private void OnPageHowToSelectionAfterDisplay(object sender, System.EventArgs e) {
+		private void OnPageHowToSelectionAfterDisplay(object sender, EventArgs e) {
 			this.WireStepsForMode(AddSubscriptionWizardMode.SubscribeURL);
 		}
 
-		private void OnPageNewNNTPGroupAfterDisplay(object sender, System.EventArgs e) {
+		private void OnPageNewNNTPGroupAfterDisplay(object sender, EventArgs e) {
 			this.feedInfo = null;
 			pageNewByNNTPGroup.AllowMoveNext = false;
-			PopulateNntpServerDefinitions((IDictionary<string, INntpServerDefinition>) coreApplication.NntpServerDefinitions, null);
+			PopulateNntpServerDefinitions(coreApplication.NntpServerDefinitions, null);
 		}
 
-		private void OnPageNewURLAfterDisplay(object sender, System.EventArgs e) {
+		private void OnPageNewURLAfterDisplay(object sender, EventArgs e) {
 			this.feedInfo = null;
 			if (string.IsNullOrEmpty(this.txtNewByURL.Text))
 				pageNewByURL.AllowMoveNext = false;
 		}
 
-		private void OnPageNewSearchAfterDisplay(object sender, System.EventArgs e) {
+		private void OnPageNewSearchAfterDisplay(object sender, EventArgs e) {
 			this.feedInfo = null;
 			this.PopulateSearchEngines(coreApplication.WebSearchEngines, cboNewBySearchEngines.Text);
 		}
 
-		private void btnManageNNTPServer_Click(object sender, System.EventArgs e) {
-			coreApplication.ShowNntpServerManagementDialog(this, new EventHandler(this.OnManagedNNTPServersChange));
+		private void btnManageNNTPServer_Click(object sender, EventArgs e) {
+			coreApplication.ShowNntpServerManagementDialog(this, this.OnManagedNNTPServersChange);
 		}
 		
-		private void OnManagedNNTPServersChange(object sender, System.EventArgs e) {
+		private void OnManagedNNTPServersChange(object sender, EventArgs e) {
 			this.PopulateNntpServerDefinitions(coreApplication.NntpServerDefinitions, cboNNTPServer.Text);
 		}
 
-		private void OnNNTPServerSelectedValueChanged(object sender, System.EventArgs e) {
+		private void OnNNTPServerSelectedValueChanged(object sender, EventArgs e) {
 			this.PopulateNntpServerGroups(false);
 		}
 
-		private void OnNNTPGroupsListSelectedValueChanged(object sender, System.EventArgs e) {
+		private void OnNNTPGroupsListSelectedValueChanged(object sender, EventArgs e) {
 			pageNewByNNTPGroup.AllowMoveNext = lstNNTPGroups.SelectedItems.Count > 0;
 			if (lstNNTPGroups.SelectedItems.Count == 1) {
 				txtFeedTitle.Text = lstNNTPGroups.SelectedItems[0].ToString();
@@ -3525,7 +3520,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		private void OnNNTPGroupsDoubleClick(object sender, System.EventArgs e) {
+		private void OnNNTPGroupsDoubleClick(object sender, EventArgs e) {
 			if (lstNNTPGroups.SelectedItems.Count > 0) {
 				pageNewByNNTPGroup.AllowMoveNext = true;
 				if (lstNNTPGroups.SelectedItems.Count == 1) {
@@ -3537,7 +3532,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		private void OnPageFeedItemDisplayAfterDisplay(object sender, System.EventArgs e) {
+		private void OnPageFeedItemDisplayAfterDisplay(object sender, EventArgs e) {
 			PopulateStylesheets(coreApplication.GetItemFormatterStylesheets(), comboFormatters.Text );
 		}
 
@@ -3588,7 +3583,7 @@ namespace RssBandit.WinGui.Forms
 			ValidateFeedUri(pageNewByURL, this.txtNewByURL.Text);
 		}
 
-		private void OnTimerStartValidation(object sender, System.EventArgs e) {
+		private void OnTimerStartValidation(object sender, EventArgs e) {
 			
 			this.timerStartValidation.Enabled = false;
 			

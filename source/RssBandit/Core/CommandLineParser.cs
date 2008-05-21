@@ -1117,17 +1117,16 @@ namespace RssBandit.Utility {
 		/// </summary>
 		/// <value>The description of the argument.</value>
 		public string Description {
-			get { 
+			get
+			{
 				if (_descriptionIsResourceId) {
 
-                    string s = SR.Keys.GetString(_description);
-					if (s == null || s.Length == 0)
+                    string s = SR.ResourceManager.GetString(_description);
+					if (string.IsNullOrEmpty(s))
 						return _description;
-					else
-						return s;
-
-				} else
-					return _description; 
+					return s;
+				}
+				return _description;
 			}
 			set { _description = value; }
 		}

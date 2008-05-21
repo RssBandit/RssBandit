@@ -314,7 +314,7 @@ namespace RssBandit
                             "  * NetAdvantage for Windows Forms (c) 2006 by Infragistics, http://www.infragistics.com\n" +
                             "  * SandBar, SandDock (c) 2005 by Divelements Limited, http://www.divil.co.uk/net/\n" +
                             "  * Portions Copyright ©2002-2004 The Genghis Group (www.genghisgroup.com)\n" +
-                            "  * sourceforge.net team (Project hosting)", SR.WindowAboutCaption(CaptionOnly),
+                            "  * sourceforge.net team (Project hosting)", String.Format(SR.WindowAboutCaption,CaptionOnly),
                             MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -552,10 +552,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdShowMainGui(ICommand sender)
         {
-            InvokeOnGui(delegate
-                            {
-                                guiMain.DoShow();
-                            });
+            InvokeOnGui(() => guiMain.DoShow());
         }
 
         /// <summary>
@@ -576,14 +573,9 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdNewFeed(ICommand sender)
         {
-            string category = guiMain.CategoryOfSelectedNode();
+            string category = guiMain.CategoryOfSelectedNode() ?? DefaultCategory;
 
-            if (category == null)
-            {
-                category = DefaultCategory;
-            }
-
-            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeURLDirect);
+        	SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeURLDirect);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -596,14 +588,9 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdNewSubscription(ICommand sender)
         {
-            string category = guiMain.CategoryOfSelectedNode();
+            string category = guiMain.CategoryOfSelectedNode() ?? DefaultCategory;
 
-            if (category == null)
-            {
-                category = DefaultCategory;
-            }
-
-            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.Default);
+        	SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.Default);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -616,14 +603,9 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdNewNntpFeed(ICommand sender)
         {
-            string category = guiMain.CategoryOfSelectedNode();
+            string category = guiMain.CategoryOfSelectedNode() ?? DefaultCategory;
 
-            if (category == null)
-            {
-                category = DefaultCategory;
-            }
-
-            SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeNNTPDirect);
+        	SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeNNTPDirect);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -872,7 +854,7 @@ namespace RssBandit
             if (guiMain.CurrentSelectedFeedsNode != null && guiMain.CurrentSelectedFeedsNode.DataKey != null)
             {
                 string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
-                string title = SR.TabFeedSourceCaption(guiMain.CurrentSelectedFeedsNode.Text);
+                string title = String.Format(SR.TabFeedSourceCaption,guiMain.CurrentSelectedFeedsNode.Text);
 
                 using (
                     FeedSourceDialog dialog =
@@ -934,7 +916,7 @@ namespace RssBandit
 
                 if (feedInfo != null)
                 {
-                    NavigateToUrlAsUserPreferred(feedInfo.Link, SR.TabFeedHomeCaption(feedInfo.Title), true, true);
+                    NavigateToUrlAsUserPreferred(feedInfo.Link, String.Format(SR.TabFeedHomeCaption,feedInfo.Title), true, true);
                 }
             }
         }
@@ -962,7 +944,7 @@ namespace RssBandit
                 if (feedInfo != null)
                 {
                     NavigateToUrlAsUserPreferred(linkCosmosUrlBase + HttpUtility.UrlEncode(feedInfo.Link),
-                                                 SR.TabLinkCosmosCaption(feedInfo.Title), true, true);
+                                                 String.Format(SR.TabLinkCosmosCaption,feedInfo.Title), true, true);
                 }
             }
         }
@@ -980,7 +962,6 @@ namespace RssBandit
                                       guiMain.TreeImageList);
             if (DialogResult.OK == dialog.ShowDialog(guiMain))
             {
-                Stream myStream;
                 SaveFileDialog sfd = new SaveFileDialog();
 
                 ArrayList selections = dialog.GetSelectedFeedUrls();
@@ -1024,7 +1005,7 @@ namespace RssBandit
                 {
                     try
                     {
-                        if ((myStream = sfd.OpenFile()) != null)
+						using (Stream myStream = sfd.OpenFile())
                         {
                             feedHandler.SaveFeedList(myStream, format, fc, includeEmptyCategories);
                             myStream.Close();
@@ -1032,7 +1013,7 @@ namespace RssBandit
                     }
                     catch (Exception ex)
                     {
-                        MessageError(SR.ExceptionSaveFileMessage(sfd.FileName, ex.Message));
+                        MessageError(String.Format(SR.ExceptionSaveFileMessage,sfd.FileName, ex.Message));
                     }
                 }
             }
@@ -1095,7 +1076,7 @@ namespace RssBandit
                 Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
 
             DialogResult result =
-                rh.Start(guiMain, SR.GUIStatusWaitMessageUpLoadingFeedlist(Preferences.RemoteStorageProtocol.ToString()),
+                rh.Start(guiMain, String.Format(SR.GUIStatusWaitMessageUpLoadingFeedlist,Preferences.RemoteStorageProtocol),
                          false);
 
             if (result != DialogResult.OK)
@@ -1103,7 +1084,7 @@ namespace RssBandit
 
             if (!rh.OperationSucceeds)
             {
-                MessageError(SR.GUIFeedlistUploadExceptionMessage(rh.OperationException.Message));
+                MessageError(String.Format(SR.GUIFeedlistUploadExceptionMessage,rh.OperationException.Message));
             }
         }
 
@@ -1116,7 +1097,7 @@ namespace RssBandit
         {
             if (!Preferences.UseRemoteStorage)
             {
-                MessageInfo(SR.Keys.RemoteStorageFeature_Info);
+                MessageInfo(SR.RemoteStorageFeature_Info);
                 return;
             }
 
@@ -1131,8 +1112,8 @@ namespace RssBandit
                 Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
 
             DialogResult result =
-                rh.Start(guiMain,
-                         SR.GUIStatusWaitMessageDownLoadingFeedlist(Preferences.RemoteStorageProtocol.ToString()), false);
+                rh.Start(guiMain,String.Format(
+                         SR.GUIStatusWaitMessageDownLoadingFeedlist,Preferences.RemoteStorageProtocol), false);
 
             if (result != DialogResult.OK)
                 return;
@@ -1146,7 +1127,7 @@ namespace RssBandit
             }
             else
             {
-                MessageError(SR.GUIFeedlistDownloadExceptionMessage(rh.OperationException.Message));
+                MessageError(String.Format(SR.GUIFeedlistDownloadExceptionMessage,rh.OperationException.Message));
             }
         }
 
@@ -1193,7 +1174,7 @@ namespace RssBandit
                 }
                 catch (Exception e)
                 {
-                    MessageError(SR.GUIStatusErrorGeneralFeedMessage(tn.DataKey, e.Message));
+                    MessageError(String.Format(SR.GUIStatusErrorGeneralFeedMessage,tn.DataKey, e.Message));
                     return;
                 }
 
@@ -1452,7 +1433,7 @@ namespace RssBandit
                 }
                 catch (Exception e)
                 {
-                    MessageError(SR.GUIStatusErrorGeneralFeedMessage(category, e.Message));
+                    MessageError(String.Format(SR.GUIStatusErrorGeneralFeedMessage,category, e.Message));
                     return;
                 }
 
@@ -1672,7 +1653,7 @@ namespace RssBandit
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 
-            INewsFeed f = null;
+            INewsFeed f;
 
             if (FeedHandler.GetFeeds().TryGetValue(feedUrl, out f)) {
                 postReplyForm.PostToFeed = f;

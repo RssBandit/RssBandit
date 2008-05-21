@@ -26,21 +26,18 @@ namespace RssBandit
         /// <param name="e">CertificateIssueCancelEventArgs</param>
         private void OnRequestCertificateIssue(object sender, CertificateIssueCancelEventArgs e)
         {
-            InvokeOnGui(delegate
-                            {
-                                guiMain.OnRequestCertificateIssue(sender, e);
-                            });
+            InvokeOnGui(() => guiMain.OnRequestCertificateIssue(sender, e));
         }
 
         #endregion
 
         #region FeedSource events
 
-        /// <summary>
-        /// Called by FeedSource if feed moved from outside the application
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="?"></param>
+		/// <summary>
+		/// Called by FeedSource if feed moved from outside the application
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="NewsComponents.FeedSource.FeedMovedEventArgs"/> instance containing the event data.</param>
         private void OnMovedFeed(object sender, FeedSource.FeedMovedEventArgs e){
             InvokeOnGui(delegate
             {
@@ -95,7 +92,7 @@ namespace RssBandit
         {
             InvokeOnGui(delegate
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 this.FeedHandler.GetFeeds().TryGetValue(e.FeedUrl, out f);
 
                 if (f != null)
@@ -115,7 +112,7 @@ namespace RssBandit
         {
             InvokeOnGui(delegate
             {
-                TreeFeedsNodeBase parent = null, tn = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName);
+                TreeFeedsNodeBase parent, tn = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName);
                 int index = e.NewCategoryName.LastIndexOf(FeedSource.CategorySeparator); 
 
                 if(index == -1){
@@ -263,10 +260,7 @@ namespace RssBandit
         {
             if (e.UpdateState == RequestResult.OK)
             {
-                InvokeOnGui(delegate
-                                {
-                                    guiMain.UpdateCommentFeed(e.UpdatedFeedUri, e.NewFeedUri);
-                                });
+                InvokeOnGui(() => guiMain.UpdateCommentFeed(e.UpdatedFeedUri, e.NewFeedUri));
             }
         }
 
@@ -277,10 +271,7 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnUpdatedFavicon(object sender, FeedSource.UpdatedFaviconEventArgs e)
         {
-            InvokeOnGui(delegate
-                            {
-                                guiMain.UpdateFavicon(e.Favicon, e.FeedUrls);
-                            });
+            InvokeOnGui(() => guiMain.UpdateFavicon(e.Favicon, e.FeedUrls));
         }
 
         /// <summary>
@@ -388,12 +379,12 @@ namespace RssBandit
                     else if (ex.Number == ApplicationExceptions.FeedlistOnRead)
                     {
                         ExceptionManager.Publish(ex.InnerException);
-                        this.MessageError(SR.ExceptionReadingFeedlistFile(ex.InnerException.Message, GetLogFileName()));
+                        this.MessageError(String.Format(SR.ExceptionReadingFeedlistFile,ex.InnerException.Message, GetLogFileName()));
                         this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
                     }
                     else if (ex.Number == ApplicationExceptions.FeedlistOnProcessContent)
                     {
-                        this.MessageError(SR.InvalidFeedlistFileMessage(GetLogFileName()));
+                        this.MessageError(String.Format(SR.InvalidFeedlistFileMessage,GetLogFileName()));
                         this.SetGuiStateFeedbackText(SR.GUIStatusValidationErrorReadingFeedlistFile);
                     }
                     else if (ex.Number == ApplicationExceptions.FeedlistNA)

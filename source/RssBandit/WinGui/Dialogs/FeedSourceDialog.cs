@@ -17,22 +17,20 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using Genghis.Windows.Forms;
-using NewsComponents;
 using NewsComponents.Net;
-using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Dialogs
 {
-	internal class FeedSourceDialog : RssBandit.WinGui.Dialogs.DialogBase
+	internal class FeedSourceDialog : DialogBase
 	{
-		private string feedUrl;
-		private ICredentials feedCredentials;
-		private IWebProxy proxy;
+		private readonly string feedUrl;
+		private readonly ICredentials feedCredentials;
+		private readonly IWebProxy proxy;
 		
-		private System.Windows.Forms.RichTextBox txtSource;
+		private RichTextBox txtSource;
 		private System.Timers.Timer timer;
 		private System.ComponentModel.IContainer components = null;
 
@@ -45,12 +43,12 @@ namespace RssBandit.WinGui.Dialogs
 			// This call is required by the Windows Form Designer.
 			InitializeComponent();
 
-			this.Text = title;
+			base.Text = title;
 			this.txtSource.Text = SR.GUIStatusLoadingChildItems;
 			
-			base.horizontalEdge.Visible = false;
-			base.btnSubmit.Visible = false;
-			base.btnCancel.Visible = false;
+			horizontalEdge.Visible = false;
+			btnSubmit.Visible = false;
+			btnCancel.Visible = false;
 			this.KeyPreview = true;
 			
 		}
@@ -76,7 +74,7 @@ namespace RssBandit.WinGui.Dialogs
 					}
 				}
 			} catch (Exception ex) {
-				this.txtSource.Text = SR.ExceptionGeneral(ex.Message);
+				this.txtSource.Text = String.Format(SR.ExceptionGeneral,ex.Message);
 			} 
 		}
 		
@@ -85,7 +83,7 @@ namespace RssBandit.WinGui.Dialogs
 		/// </summary>
 		/// <param name="font"></param>
 		/// <returns></returns>
-		string FontToString(Font font) {
+		static string FontToString(Font font) {
 			FontConverter oFontConv = new FontConverter();
 			return oFontConv.ConvertToString(null,CultureInfo.InvariantCulture,font);
 		}
@@ -198,11 +196,11 @@ namespace RssBandit.WinGui.Dialogs
 			LoadAndFormatFeedSource();
 		}
 
-		private void OnFormLoad(object sender, System.EventArgs e) {
+		private void OnFormLoad(object sender, EventArgs e) {
 			this.timer.Enabled = true;
 		}
 
-		private void OnLinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e) {
+		private void OnLinkClicked(object sender, LinkClickedEventArgs e) {
 				
 			try {
 				if (!string.IsNullOrEmpty(e.LinkText)) {
@@ -215,10 +213,10 @@ namespace RssBandit.WinGui.Dialogs
 			}
 		}
 
-		private void OnTxtMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
-			if (Control.MouseButtons == MouseButtons.Left) {
+		private void OnTxtMouseDown(object sender, MouseEventArgs e) {
+			if (MouseButtons == MouseButtons.Left) {
 				try {
-					if (Control.ModifierKeys == Keys.Alt) {
+					if (ModifierKeys == Keys.Alt) {
 						using (FontDialog fntDialog = new FontDialog() ) {
 							fntDialog.Font = this.txtSource.Font;
 							if (DialogResult.OK == fntDialog.ShowDialog(this)) {
@@ -226,9 +224,9 @@ namespace RssBandit.WinGui.Dialogs
 							}
 						}
 					} else
-					if (Control.ModifierKeys == Keys.Control) {
+					if (ModifierKeys == Keys.Control) {
 						this.txtSource.ZoomFactor += 0.25f;
-					} else if (Control.ModifierKeys == (Keys.Control | Keys.Shift)) {
+					} else if (ModifierKeys == (Keys.Control | Keys.Shift)) {
 						this.txtSource.ZoomFactor -= 0.25f;
 					}
 				} catch (ArgumentException) {
@@ -246,7 +244,7 @@ namespace RssBandit.WinGui.Dialogs
 			preferences.SetProperty("zoom", this.txtSource.ZoomFactor);
 		}
 
-		private void OnTxtKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e) {
+		private void OnTxtKeyPress(object sender, KeyPressEventArgs e) {
 #if TRACE_WIN_MESSAGES	
 			Debug.WriteLine("OnTxtKeyPress(" + e.KeyChar +")");
 #endif

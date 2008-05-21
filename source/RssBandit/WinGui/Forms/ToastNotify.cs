@@ -620,38 +620,38 @@ namespace RssBandit.WinGui.Forms
 		}
 		#endregion
 
-		protected void labelCloseIcon_Click(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_Click(object sender, EventArgs e) {
 			this.RequestClose();
 		}
 
-		protected void labelCloseIcon_MouseEnter(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_MouseEnter(object sender, EventArgs e) {
 			if (labelCloseIcon.ImageIndex != 2)
 				labelCloseIcon.ImageIndex = 2;
 		}
 
-		protected void labelCloseIcon_MouseLeave(object sender, System.EventArgs e) {
+		protected void labelCloseIcon_MouseLeave(object sender, EventArgs e) {
 			if (labelCloseIcon.ImageIndex != 1)
 				labelCloseIcon.ImageIndex = 1;
 		}
 
-		protected void OnVisibleChanged(object sender, System.EventArgs e) {
-			if (!base.Visible) {
+		protected void OnVisibleChanged(object sender, EventArgs e) {
+			if (!Visible) {
 				// remove NewsItem refs:
 				this.linkLabel1.Tag = this.linkLabel2.Tag = this.linkLabel3.Tag = this.linkLabel4.Tag = null;
 			}
 		}
 
-		protected abstract void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);
+		protected abstract void linkFeedProperties_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e);
 
-		protected abstract void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);
+		protected abstract void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e);
 
-		protected abstract void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e);		
+		protected abstract void OnFeedLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e);		
 
-		protected void OnMouseEnter(object sender, System.EventArgs e) {
+		protected void OnMouseEnter(object sender, EventArgs e) {
 			this.Activate();
 		}
 
-		protected void OnMouseLeave(object sender, System.EventArgs e) {
+		protected void OnMouseLeave(object sender, EventArgs e) {
 			//
 		}
 	}
@@ -660,7 +660,8 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// Default constructor calls base
 		/// </summary>
-		public NewsItemToastNotify() : base(){;}
+		public NewsItemToastNotify()
+		{}
 
 		/// <summary>
 		/// Init the NewsItemToastNotify with the needed callbacks.
@@ -693,7 +694,7 @@ namespace RssBandit.WinGui.Forms
 		/// <exception cref="InvalidOperationException">If no new items was found</exception>
 		public override bool ItemsToDisplay(string feedName, int unreadItemsYetDisplayed, IList items) {
 			
-			int unreadCount = 0, currentIndex = 0, maxLabels = linkLabels.GetLength(0);
+			int unreadCount = 0, currentIndex, maxLabels = linkLabels.GetLength(0);
 
 			for (int i = 0; i < items.Count; i++) {
 				INewsItem item = (INewsItem)items[i];
@@ -731,14 +732,14 @@ namespace RssBandit.WinGui.Forms
 			this.labelFeedInfo.Text = feedName + " (" + unreadCount.ToString() + ")";
 			this.labelFeedInfo.LinkArea = new  LinkArea(0, feedName.Length);
 			unreadCount = unreadCount - unreadItemsYetDisplayed;	// recalc difference for display
-			this.labelNewItemsArrived.Text = SR.GUIStatusFeedJustReceivedItemsMessage(unreadCount);
+			this.labelNewItemsArrived.Text = String.Format(SR.GUIStatusFeedJustReceivedItemsMessage,unreadCount);
 
 			return true;
 		}
 
 		
 
-		protected override void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void linkFeedProperties_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed options dialog
 			if (displayFeedPropertiesCallback != null) {
 				try {
@@ -750,7 +751,7 @@ namespace RssBandit.WinGui.Forms
 			this.RequestClose();
 		}
 
-		protected override void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed item 
 			if (itemActivateCallback != null) {
 				try {
@@ -761,7 +762,7 @@ namespace RssBandit.WinGui.Forms
 			this.RequestClose();
 		}
 
-		protected override void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void OnFeedLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed item 
 			if (feedActivateCallback != null) {
 				try {
@@ -778,7 +779,8 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// Default constructor calls base
 		/// </summary>
-		public EnclosureToastNotify() : base(){;}
+		public EnclosureToastNotify()
+		{ }
 
 		/// <summary>
 		/// Init the NewsItemToastNotify with the needed callbacks.
@@ -848,7 +850,7 @@ namespace RssBandit.WinGui.Forms
 
 		
 
-		protected override void linkFeedProperties_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void linkFeedProperties_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed options dialog
 			if (displayFeedPropertiesCallback != null) {
 				try {
@@ -860,7 +862,7 @@ namespace RssBandit.WinGui.Forms
 			this.RequestClose();
 		}
 
-		protected override void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed item 
 			if (enclosureActivateCallback != null) {
 				try {
@@ -871,7 +873,7 @@ namespace RssBandit.WinGui.Forms
 			this.RequestClose();
 		}
 
-		protected override void OnFeedLabelLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		protected override void OnFeedLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			//navigate to feed item 
 			if (feedActivateCallback != null) {
 				try {

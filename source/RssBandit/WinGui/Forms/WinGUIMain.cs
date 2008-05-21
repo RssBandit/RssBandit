@@ -1694,7 +1694,7 @@ namespace RssBandit.WinGui.Forms
             }
             else
             {
-                searchPanel.SetControlStateTo(ItemSearchState.Finished, SR.RssSearchSuccessResultMessage(newsItemsCount));
+                searchPanel.SetControlStateTo(ItemSearchState.Finished, String.Format(SR.RssSearchSuccessResultMessage,newsItemsCount));
             }
 
             var finder = tag as RssFinder;
@@ -2001,7 +2001,7 @@ namespace RssBandit.WinGui.Forms
                     if (!multipleSubscriptions && owner.FeedHandler.IsSubscribed(feedUrl))
                     {
                         var f2 = owner.FeedHandler.GetFeeds()[feedUrl];
-                        owner.MessageInfo(SR.GUIFieldLinkRedundantInfo(
+                        owner.MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                               (f2.category == null
                                                    ? String.Empty
                                                    : f2.category + FeedSource.CategorySeparator) + f2.title, f2.link));
@@ -2012,7 +2012,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         var fetchHandler = new PrefetchFeedThreadHandler(feedUrl, owner.Proxy);
 
-                        var result = fetchHandler.Start(this, SR.GUIStatusWaitMessagePrefetchFeed(feedUrl));
+                        var result = fetchHandler.Start(this, String.Format(SR.GUIStatusWaitMessagePrefetchFeed,feedUrl));
 
                         if (result != DialogResult.OK)
                             return;
@@ -2510,8 +2510,7 @@ namespace RssBandit.WinGui.Forms
 
                         if (fi != null)
                         {
-                            IFeedDetails fi2;
-                            fi2 = (IFeedDetails) fi.Clone();
+                        	IFeedDetails fi2 = (IFeedDetails) fi.Clone();
                             fi2.ItemsList.Clear();
                             foreach (INewsItem ni in groupSelected)
                             {
@@ -2655,10 +2654,8 @@ namespace RssBandit.WinGui.Forms
 
         private void listFeedItemsO_AfterSortChange(object sender, AfterSortChangeEventArgs e)
         {
-            var n = listFeedItemsO.ActiveNode;
-            if (n == null)
-                n = listFeedItemsO.TopNode;
-            // update the view after sort:
+            var n = listFeedItemsO.ActiveNode ?? listFeedItemsO.TopNode;
+        	// update the view after sort:
             if (n != null)
                 n.BringIntoView(true);
         }

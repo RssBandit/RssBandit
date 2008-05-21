@@ -113,7 +113,7 @@ namespace RssBandit
         private WinGuiMain guiMain;
         private PostReplyForm postReplyForm;
         private SearchEngineHandler searchEngines;
-        private ThreadResultManager threadResultManager;
+        //private ThreadResultManager threadResultManager;
         private IdentityNewsServerManager identityNewsServerManager;
         private IAddInManager addInManager;
 
@@ -552,7 +552,7 @@ namespace RssBandit
             Application.ApplicationExit += OnApplicationExit;
             // Allow exceptions to be unhandled so they break in the debugger
 #if !DEBUG
-			Application.ThreadException += new ThreadExceptionEventHandler(this.OnThreadException);
+			Application.ThreadException += this.OnThreadException;
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
@@ -560,7 +560,7 @@ namespace RssBandit
             GuiInvoker.Initialize();
 
             // thread results to UI serialization/sync.:
-            threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
+            //threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
             ThreadWorkerBase.SynchronizingObject = guiMain;
 
             enter_mainevent_loop:
@@ -598,7 +598,7 @@ namespace RssBandit
                     }
                     catch (Exception ex)
                     {
-                        var error = SR.AddInGeneralFailure(ex.Message, addIn.Name);
+                        var error = String.Format(SR.AddInGeneralFailure,ex.Message, addIn.Name);
                         _log.Fatal(
                             "Failed to load IAddInPackage from AddIn: " + addIn.Name + " from '" + addIn.Location + "'",
                             ex);
@@ -626,7 +626,7 @@ namespace RssBandit
                     }
                     catch (Exception ex)
                     {
-                        var error = SR.AddInUnloadFailure(ex.Message, addIn.Name);
+                        var error = String.Format(SR.AddInUnloadFailure,ex.Message, addIn.Name);
                         _log.Fatal(
                             "Failed to unload IAddInPackage from AddIn: " + addIn.Name + " from '" + addIn.Location +
                             "'", ex);
@@ -1498,7 +1498,7 @@ namespace RssBandit
                     {
                         if (!validationErrorOccured)
                         {
-                            MessageError(SR.ExceptionLoadingSearchEnginesMessage(e.Message, errorLog));
+                            MessageError(String.Format(SR.ExceptionLoadingSearchEnginesMessage,e.Message, errorLog));
                         }
                     }
 
@@ -1508,7 +1508,7 @@ namespace RssBandit
                     }
                     else if (validationErrorOccured)
                     {
-                        MessageError(SR.ExceptionInvalidSearchEnginesMessage(errorLog));
+                        MessageError(String.Format(SR.ExceptionInvalidSearchEnginesMessage,errorLog));
                         validationErrorOccured = false;
                     }
                     else
@@ -1543,12 +1543,12 @@ namespace RssBandit
             catch (InvalidOperationException ioe)
             {
                 _log.Error("Unexpected Error on saving SearchEngineSettings.", ioe);
-                MessageError(SR.ExceptionWebSearchEnginesSave(ioe.InnerException.Message));
+                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave,ioe.InnerException.Message));
             }
             catch (Exception ex)
             {
                 _log.Error("Unexpected Error on saving SearchEngineSettings.", ex);
-                MessageError(SR.ExceptionWebSearchEnginesSave(ex.Message));
+                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave,ex.Message));
             }
         }
 
@@ -2924,7 +2924,7 @@ namespace RssBandit
 
             if (!File.Exists(p) && File.Exists(pOld))
             {
-                if (MessageQuestion(SR.UpgradeFeedlistInfoText(Caption)) == DialogResult.No)
+                if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText,Caption)) == DialogResult.No)
                 {
                     throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
                 }
@@ -3027,7 +3027,7 @@ namespace RssBandit
             if (dialog.DialogResult == DialogResult.OK)
             {
                 var s = dialog.FeedsUrlOrFile;
-                var cat = (dialog.FeedCategory == RssBanditApplication.DefaultCategory ? null : dialog.FeedCategory);
+                var cat = (dialog.FeedCategory == DefaultCategory ? null : dialog.FeedCategory);
                 if (!string.IsNullOrEmpty(s))
                 {
                     Stream myStream;
@@ -3042,7 +3042,7 @@ namespace RssBandit
                             }
                             catch (Exception ex)
                             {
-                                MessageError(SR.ExceptionImportFeedlist(s, ex.Message));
+                                MessageError(String.Format(SR.ExceptionImportFeedlist,s, ex.Message));
                                 return;
                             }
                             guiMain.SaveSubscriptionTreeState();
@@ -3065,14 +3065,14 @@ namespace RssBandit
                             var fileHandler =
                                 new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), feedHandler.Proxy);
                             var result =
-                                fileHandler.Start(guiMain, SR.GUIStatusWaitMessageRequestFile(uri.CanonicalizedUri()));
+                                fileHandler.Start(guiMain, String.Format(SR.GUIStatusWaitMessageRequestFile,uri.CanonicalizedUri()));
 
                             if (result != DialogResult.OK)
                                 return;
 
                             if (!fileHandler.OperationSucceeds)
                             {
-                                MessageError(SR.WebExceptionOnUrlAccess(
+                                MessageError(String.Format(SR.WebExceptionOnUrlAccess,
                                                  uri.CanonicalizedUri(), fileHandler.OperationException.Message));
                                 return;
                             }
@@ -3090,7 +3090,7 @@ namespace RssBandit
                                     }
                                     catch (Exception ex)
                                     {
-                                        MessageError(SR.ExceptionImportFeedlist(s, ex.Message));
+                                        MessageError(String.Format(SR.ExceptionImportFeedlist,s, ex.Message));
                                         return;
                                     }
                                     guiMain.SaveSubscriptionTreeState();
@@ -3892,12 +3892,9 @@ namespace RssBandit
             {
                 ExceptionManager.GetInstance().Add(e);
 
-                var goneex = e as ResourceGoneException;
+                var goneex = e as ResourceGoneException ?? e.InnerException as ResourceGoneException;
 
-                if (goneex == null)
-                    goneex = e.InnerException as ResourceGoneException;
-
-                if (goneex != null)
+            	if (goneex != null)
                 {
                     INewsFeed f;
                     if (feedHandler.GetFeeds().TryGetValue(resourceUri, out f))
@@ -4018,13 +4015,13 @@ namespace RssBandit
         private void OnNewsItemFormatterStylesheetError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetError() called", e.FailureException);
-            MessageError(SR.ExceptionNewsItemFormatterStylesheetMessage(e.ErrorMessage, e.FailureException.Message));
+            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage,e.ErrorMessage, e.FailureException.Message));
         }
 
         private void OnNewsItemFormatterStylesheetValidationError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetValidationError() called", e.FailureException);
-            MessageError(SR.ExceptionNewsItemFormatterStylesheetMessage(e.ErrorMessage, e.FailureException.Message));
+            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage,e.ErrorMessage, e.FailureException.Message));
         }
 
 
@@ -4436,11 +4433,11 @@ namespace RssBandit
                             }
                             catch (SecurityException)
                             {
-                                MessageInfo(SR.SecurityExceptionCausedByRegistryAccess("HKEY_CLASSES_ROOT\feed"));
+                                MessageInfo(String.Format(SR.SecurityExceptionCausedByRegistryAccess,"HKEY_CLASSES_ROOT\feed"));
                             }
                             catch (Exception ex)
                             {
-                                MessageError(SR.ExceptionSettingDefaultAggregator(ex.Message));
+                                MessageError(String.Format(SR.ExceptionSettingDefaultAggregator,ex.Message));
                             }
                         }
                         ShouldAskForDefaultAggregator = !dialog.checkBoxDoNotAskAnymore.Checked;
@@ -4971,7 +4968,7 @@ namespace RssBandit
 
                 if (!prth.OperationSucceeds)
                 {
-                    MessageError(SR.ExceptionPostReplyToNewsItem(
+                    MessageError(String.Format(SR.ExceptionPostReplyToNewsItem,
                                      (string.IsNullOrEmpty(item2reply.Title)
                                           ? item2reply.Link
                                           : item2reply.Title),
@@ -5024,7 +5021,7 @@ namespace RssBandit
 
                 if (!prth.OperationSucceeds)
                 {
-                    MessageError(SR.ExceptionPostNewFeedItem(
+                    MessageError(String.Format(SR.ExceptionPostNewFeedItem,
                                      (string.IsNullOrEmpty(item2post.Title) ? f.link : item2post.Title),
                                      prth.OperationException.Message));
                     return;
@@ -5066,13 +5063,13 @@ namespace RssBandit
             /// that is why we does not name it "StartInSystemTray" or such.
             /// </summary>
             [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "taskbar", ShortName = "t",
-                Description = SR.Keys.CmdLineStartInTaskbarDesc, DescriptionIsResourceId = true)]
+                Description = "CmdLineStartInTaskbarDesc", DescriptionIsResourceId = true)]
             public bool StartInTaskbarNotificationAreaOnly { get; set; }
 
             private StringCollection subscribeTo = new StringCollection();
 
             [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl",
-                Description = SR.Keys.CmdLineSubscribeToDesc, DescriptionIsResourceId = true)]
+                Description = "CmdLineSubscribeToDesc", DescriptionIsResourceId = true)]
             public StringCollection SubscribeTo
             {
                 get { return subscribeTo; }
@@ -5080,13 +5077,13 @@ namespace RssBandit
             }
 
             [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h",
-                Description = SR.Keys.CmdLineHelpDesc, DescriptionIsResourceId = true)]
+                Description = "CmdLineHelpDesc", DescriptionIsResourceId = true)]
             public bool ShowHelp { get; set; }
 
             private string localCulture = String.Empty;
 
             [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "culture", ShortName = "c",
-                Description = SR.Keys.CmdLineCultureDesc, DescriptionIsResourceId = true)]
+                Description = "CmdLineCultureDesc", DescriptionIsResourceId = true)]
             public string LocalCulture
             {
                 get { return localCulture; }
@@ -5101,7 +5098,7 @@ namespace RssBandit
             }
 
             [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "resetUI", ShortName = "r",
-                Description = SR.Keys.CmdLineResetUIDesc, DescriptionIsResourceId = true)]
+                Description = "CmdLineResetUIDesc", DescriptionIsResourceId = true)]
             public bool ResetUserInterface { get; set; }
         }
 
@@ -5398,7 +5395,7 @@ namespace RssBandit
             if (feedHandler.IsSubscribed(f.link))
             {
                 var f2 = feedHandler.GetFeeds()[f.link];
-                MessageInfo(SR.GUIFieldLinkRedundantInfo(
+                MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                 (f2.category == null ? String.Empty : f2.category + FeedSource.CategorySeparator) +
                                 f2.title, f2.link));
 
@@ -5623,7 +5620,7 @@ namespace RssBandit
             }
             catch (Exception  ex)
             {
-                if (MessageQuestion(SR.ExceptionStartDefaultBrowserMessage(ex.Message, url)) == DialogResult.Yes)
+                if (MessageQuestion(String.Format(SR.ExceptionStartDefaultBrowserMessage,ex.Message, url)) == DialogResult.Yes)
                 {
                     NavigateToUrl(url, "Web", true, true);
                 }
