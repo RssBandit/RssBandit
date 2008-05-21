@@ -267,9 +267,9 @@ namespace NewsComponents.Feed
                     this.pendingGoogleReaderOperations.Count > 0)
                 {
                     // do not calc percentage on a few items:
-                    FlushPendingOperations(Math.Max(25, this.pendingGoogleReaderOperations.Count / 5));
+                    FlushPendingOperations(Math.Max(5, this.pendingGoogleReaderOperations.Count));
                     if (threadRunning)
-                        Thread.Sleep(1000 * 5); //sleep  5 secs
+                        Thread.Sleep(1000 * 1); //sleep  1 second
                 }
                 else
                 {
