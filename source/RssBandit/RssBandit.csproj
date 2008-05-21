@@ -197,11 +197,6 @@
       <Name>SandDock</Name>
       <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
     </Reference>
-    <Reference Include="ShellBasics">
-      <Name>ShellBasics</Name>
-      <HintPath>..\Common\Libraries\ShellBasics.dll</HintPath>
-    </Reference>
-    <Reference Include="sysglobl" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
