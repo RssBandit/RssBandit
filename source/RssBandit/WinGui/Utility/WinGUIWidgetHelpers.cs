@@ -45,10 +45,10 @@ namespace RssBandit.WinGui.Utility {
 														 "http://www.{0}.org/",
 														 "http://www.{0}.info/",
 		};
-		private Form ownerForm;
-		private IButtonControl ownerCancelButton;
+		private readonly Form ownerForm;
+		private readonly IButtonControl ownerCancelButton;
 		private int lastExpIndex = -1;
-		private string toExpand = null;
+		private string toExpand;
 
 		public UrlCompletionExtender(Form f) {
 			if (f != null && f.CancelButton != null) {
@@ -63,10 +63,10 @@ namespace RssBandit.WinGui.Utility {
 		public void Add(Control monitorControl, bool includeFileCompletion) {
 			if (monitorControl != null) {
 				Utils.ApplyUrlCompletionToControl(monitorControl, includeFileCompletion);
-				monitorControl.KeyDown += new KeyEventHandler(OnMonitorControlKeyDown);
+				monitorControl.KeyDown += OnMonitorControlKeyDown;
 				if (ownerForm != null && ownerCancelButton != null) {
-					monitorControl.Enter += new EventHandler(OnMonitorControlEnter);
-					monitorControl.Leave += new EventHandler(OnMonitorControlLeave);
+					monitorControl.Enter += OnMonitorControlEnter;
+					monitorControl.Leave += OnMonitorControlLeave;
 				}
 			}
 		}
@@ -132,7 +132,7 @@ namespace RssBandit.WinGui.Utility {
 	///		// go on with the previous thread culture
 	/// </code>
 	/// </example>
-	public class CultureChanger: IDisposable {
+	public sealed class CultureChanger: IDisposable {
 		
 		/// <summary>
 		/// Gets the CultureChanger for the invariant culture.
@@ -142,7 +142,7 @@ namespace RssBandit.WinGui.Utility {
 			get { return new CultureChanger(String.Empty); }
 		}
 
-		private CultureInfo _oldCulture;
+		private readonly CultureInfo _oldCulture;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CultureChanger"/> class.
@@ -159,12 +159,11 @@ namespace RssBandit.WinGui.Utility {
 		/// <param name="culture">The culture.</param>
 		public CultureChanger(string culture):this(new CultureInfo(culture)) {}
 		
-		private CultureChanger(){}
-
 		#region IDisposable Members
 
 		public void Dispose() {
 			Thread.CurrentThread.CurrentCulture = _oldCulture;
+			GC.SuppressFinalize(this);
 		}
 
 		#endregion
@@ -181,13 +180,12 @@ namespace RssBandit.WinGui.Utility {
 		
 		#region IFormatProvider Members
 
-		public object GetFormat(Type formatType) {
+		public object GetFormat(Type formatType)
+		{
 			if (formatType == typeof (ICustomFormatter)) {
 				return this;
 			}
-			else {
-				return null;
-			}
+			return null;
 		}
 
 		#endregion
@@ -255,7 +253,7 @@ namespace RssBandit.WinGui.Utility {
 			Delegate[] delegates = del.GetInvocationList();
 			AsyncFire asyncFire;
 			foreach(Delegate sink in delegates) {
-				asyncFire = new AsyncFire(InvokeDelegate);
+				asyncFire = InvokeDelegate;
 				asyncFire.BeginInvoke(sink,args,null,null);
 			}
 		}
@@ -425,7 +423,7 @@ namespace RssBandit.WinGui.Utility {
 				writer.WriteStartElement("settings");
 
 				// Write properties.
-				foreach (System.Collections.DictionaryEntry entry in userStore) {
+				foreach (DictionaryEntry entry in userStore) {
 					writer.WriteStartElement("property");
 					writer.WriteAttributeString("name", (string) entry.Key);
 					writer.WriteString((string) entry.Value);
@@ -456,8 +454,8 @@ namespace RssBandit.WinGui.Utility {
 
 	public class SerializableWebTabState{
 		
-		[System.Xml.Serialization.XmlArrayAttribute("urls")]
-		[System.Xml.Serialization.XmlArrayItemAttribute("url", Type = typeof(System.String), IsNullable = false)]
+		[XmlArrayAttribute("urls")]
+		[XmlArrayItemAttribute("url", Type = typeof(String), IsNullable = false)]
 		public ArrayList Urls = new ArrayList();	
 		
 
@@ -486,8 +484,8 @@ namespace RssBandit.WinGui.Utility {
 	}
 
 	internal class TextImageItem: ITextImageItem {
-		private Image image;
-		private string text;
+		private readonly Image image;
+		private readonly string text;
 
 		public TextImageItem(string text, Image image) {
 			this.text = text;
@@ -873,7 +871,7 @@ namespace RssBandit.WinGui.Utility {
 		/// <summary>
 		/// Used to count internally to decide when we should make a forced INetState test
 		/// </summary>
-		private static int fullInternetStateTestCounter = 0;
+		private static int fullInternetStateTestCounter;
 
 		/// <summary>
 		/// Figures out, if we are connected to the Internet.
@@ -892,7 +890,6 @@ namespace RssBandit.WinGui.Utility {
 			int f = 0;
 			INetState state = INetState.Invalid;
 
-			bool offline = false;
 			bool connected = false;
 			
 			try {
@@ -956,11 +953,13 @@ namespace RssBandit.WinGui.Utility {
 			
 			state |= connected ? INetState.Connected: INetState.DisConnected;
 
-			if (connected) {	// also consider on-/offline state
-				offline = ((flags & InternetStates.INTERNET_CONNECTION_OFFLINE) == InternetStates.INTERNET_CONNECTION_OFFLINE);
+			if (connected)
+			{
+				// also consider on-/offline state
+				bool offline = ((flags & InternetStates.INTERNET_CONNECTION_OFFLINE) == InternetStates.INTERNET_CONNECTION_OFFLINE);
 				state |= offline ? INetState.Offline: INetState.Online;
 			}
-			
+
 			return state;
 		}
 		
@@ -1035,14 +1034,15 @@ namespace RssBandit.WinGui.Utility {
 
 		private static int[] dayIndexMap = new int[]{1,2,3,4,5,6,7,14,21,30,60,90,180,270,365};
 		
-		public static TimeSpan MaxItemAgeFromIndex(int index) {
+		public static TimeSpan MaxItemAgeFromIndex(int index)
+		{
 			if (index < 0) {
 				return TimeSpan.Zero;
-			} else if (index > dayIndexMap.Length-1) {
-				return TimeSpan.MinValue;	// unlimited
-			} else {
-				return TimeSpan.FromDays(dayIndexMap[index]); 
 			}
+			if (index > dayIndexMap.Length-1) {
+				return TimeSpan.MinValue;	// unlimited
+			}
+			return TimeSpan.FromDays(dayIndexMap[index]);
 		}
 
 		public static int MaxItemAgeToIndex(TimeSpan timespan) {
@@ -1053,56 +1053,65 @@ namespace RssBandit.WinGui.Utility {
 					return 0;
 				}
 				return  maxItemAgeDays - 1;
-			} else if (maxItemAgeDays > dayIndexMap[6] && maxItemAgeDays <= dayIndexMap[7]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[6] && maxItemAgeDays <= dayIndexMap[7]) {
 				return  7;	// 14 days
-			} else if (maxItemAgeDays > dayIndexMap[7] && maxItemAgeDays <= dayIndexMap[8]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[7] && maxItemAgeDays <= dayIndexMap[8]) {
 				return  8;	// 21 days
-			} else if (maxItemAgeDays > dayIndexMap[8] && maxItemAgeDays <= dayIndexMap[9]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[8] && maxItemAgeDays <= dayIndexMap[9]) {
 				return  9;	// 1 month
-			} else if (maxItemAgeDays > dayIndexMap[9] && maxItemAgeDays <= dayIndexMap[10]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[9] && maxItemAgeDays <= dayIndexMap[10]) {
 				return  10;	// 2 month
-			} else if (maxItemAgeDays > dayIndexMap[10] && maxItemAgeDays <= dayIndexMap[11]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[10] && maxItemAgeDays <= dayIndexMap[11]) {
 				return  11;	// 1 quarter
-			} else if (maxItemAgeDays > dayIndexMap[11] && maxItemAgeDays <= dayIndexMap[12]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[11] && maxItemAgeDays <= dayIndexMap[12]) {
 				return  12;	// 2 quarter
-			} else if (maxItemAgeDays > dayIndexMap[12] && maxItemAgeDays <= dayIndexMap[13]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[12] && maxItemAgeDays <= dayIndexMap[13]) {
 				return  13;	// 3 quarter
-			} else if (maxItemAgeDays > dayIndexMap[13] && maxItemAgeDays <= dayIndexMap[14]) {
+			}
+			if (maxItemAgeDays > dayIndexMap[13] && maxItemAgeDays <= dayIndexMap[14]) {
 				return  14;	// 1 year
-			} else if (maxItemAgeDays > dayIndexMap[14] || timespan.Equals(TimeSpan.MinValue)) {
+			}
+			if (maxItemAgeDays > dayIndexMap[14] || timespan.Equals(TimeSpan.MinValue)) {
 				return  15; // unlimited
-			} else
-				return   9;	// 30 days, one month
+			}
+			return   9;	// 30 days, one month
 		}
 
 		public static string MapRssSearchItemAgeString(int index) {
 			switch (index) {
 				case 0: return SR.SearchPanel_comboRssSearchItemAge_1_hour;
-				case 1: return SR.SearchPanel_comboRssSearchItemAge_x_hours(2);
-				case 2: return SR.SearchPanel_comboRssSearchItemAge_x_hours(3);
-				case 3: return SR.SearchPanel_comboRssSearchItemAge_x_hours(4);
-				case 4: return SR.SearchPanel_comboRssSearchItemAge_x_hours(5);
-				case 5: return SR.SearchPanel_comboRssSearchItemAge_x_hours(6);
-				case 6: return SR.SearchPanel_comboRssSearchItemAge_x_hours(12);
-				case 7: return SR.SearchPanel_comboRssSearchItemAge_x_hours(18);
+				case 1: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2);
+				case 2: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,3);
+				case 3: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,4);
+				case 4: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,5);
+				case 5: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,6);
+				case 6: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,12);
+				case 7: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,18);
 				case 8: return SR.SearchPanel_comboRssSearchItemAge_1_day;
-				case 9: return SR.SearchPanel_comboRssSearchItemAge_x_days(2);
-				case 10: return SR.SearchPanel_comboRssSearchItemAge_x_days(3);
-				case 11: return SR.SearchPanel_comboRssSearchItemAge_x_days(4);
-				case 12: return SR.SearchPanel_comboRssSearchItemAge_x_days(5);
-				case 13: return SR.SearchPanel_comboRssSearchItemAge_x_days(6);
-				case 14: return SR.SearchPanel_comboRssSearchItemAge_x_days(7);
-				case 15: return SR.SearchPanel_comboRssSearchItemAge_x_days(14);
-				case 16: return SR.SearchPanel_comboRssSearchItemAge_x_days(21);
+				case 9: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,2);
+				case 10: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,3);
+				case 11: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,4);
+				case 12: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,5);
+				case 13: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,6);
+				case 14: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,7);
+				case 15: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,14);
+				case 16: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,21);
 				case 17: return SR.SearchPanel_comboRssSearchItemAge_1_month;
-				case 18: return SR.SearchPanel_comboRssSearchItemAge_x_months(2);
+				case 18: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_months,2);
 				case 19: return SR.SearchPanel_comboRssSearchItemAge_1_quarter;
-				case 20: return SR.SearchPanel_comboRssSearchItemAge_x_quarters(2);
-				case 21: return SR.SearchPanel_comboRssSearchItemAge_x_quarters(3);
+				case 20: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,2);
+				case 21: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,3);
 				case 22: return SR.SearchPanel_comboRssSearchItemAge_1_year;
-				case 23: return SR.SearchPanel_comboRssSearchItemAge_x_years(2);
-				case 24: return SR.SearchPanel_comboRssSearchItemAge_x_years(3);
-				case 25: return SR.SearchPanel_comboRssSearchItemAge_x_years(5);
+				case 23: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,2);
+				case 24: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,3);
+				case 25: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,5);
 				default: return String.Empty;
 			}
 		}
@@ -1185,7 +1194,7 @@ namespace RssBandit.WinGui.Utility {
 				if (control is ComboBox) {
 					// set combo handle
 					ShellLib.ShellApi.ComboBoxInfo info = new ShellLib.ShellApi.ComboBoxInfo();
-					info.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(info);
+					info.cbSize = Marshal.SizeOf(info);
 					if (ShellLib.ShellApi.GetComboBoxInfo(control.Handle, ref info)) {
 						if (info.hwndEdit != IntPtr.Zero)
 							ac.EditHandle = info.hwndEdit;
@@ -1226,7 +1235,7 @@ namespace RssBandit.WinGui.Utility {
 		/// </summary>
 		public static bool VisualStylesEnabled {
 			get {
-				OperatingSystem os = System.Environment.OSVersion;
+				OperatingSystem os = Environment.OSVersion;
 
 				// check if the OS id XP or higher
 				if (os.Platform == PlatformID.Win32NT && ((os.Version.Major == 5 && os.Version.Minor >= 1) || os.Version.Major > 5)) {
@@ -1305,15 +1314,15 @@ namespace RssBandit.WinGui.Utility {
 		public delegate INewsFeed[] SearchScopeResolveCallback(ArrayList categoryPaths, ArrayList feedUrls);
 
 		#region private ivars
-		private SearchCriteriaCollection searchCriterias = null;
+		private SearchCriteriaCollection searchCriterias;
 		private INewsFeed[] searchScope = new INewsFeed[]{};
 		private ArrayList categoryPathScope, feedUrlScope;
 		private SearchScopeResolveCallback resolve;
 		private FinderNode container;
-		private bool doHighlight, dynamicItemContent = false, dynamicItemContentChecked = false, isInitialized = false;
+		private bool doHighlight, dynamicItemContent, dynamicItemContentChecked, isInitialized;
 		private string fullpathname;
-		private string externalSearchUrl = null, externalSearchPhrase = null;
-		private bool externalResultMergedWithLocal = false;
+		private string externalSearchUrl, externalSearchPhrase;
+		private bool externalResultMergedWithLocal;
 		#endregion
 
 		#region ctor's
@@ -1367,7 +1376,8 @@ namespace RssBandit.WinGui.Utility {
 		}
 
 		public string FullPath {
-			get {
+			get
+			{
 				if (container != null) {
 					string s = container.FullPath.Trim();
 					string[] a = s.Split(FeedSource.CategorySeparator.ToCharArray());
@@ -1375,9 +1385,8 @@ namespace RssBandit.WinGui.Utility {
 						return String.Join(FeedSource.CategorySeparator,a, 1, a.GetLength(0)-1);
 			
 					return s;	// name only
-				} else {
-					return fullpathname;
 				}
+				return fullpathname;
 			}
 			set {
 				fullpathname = value;
@@ -1395,18 +1404,18 @@ namespace RssBandit.WinGui.Utility {
 			}
 		}
 
-		[XmlArray("category-scopes"), XmlArrayItem("category", Type = typeof(System.String), IsNullable = false)]
+		[XmlArray("category-scopes"), XmlArrayItem("category", Type = typeof(String), IsNullable = false)]
 		public ArrayList CategoryPathScope {
 			get { return categoryPathScope;}
 			set { categoryPathScope = value; }
 		}
-		[XmlArray("feedurl-scopes"), XmlArrayItem("feedurl", Type = typeof(System.String), IsNullable = false)]
+		[XmlArray("feedurl-scopes"), XmlArrayItem("feedurl", Type = typeof(String), IsNullable = false)]
 		public ArrayList FeedUrlScope {
 			get { return feedUrlScope;}
 			set { feedUrlScope = value;  }
 		}
 
-		[XmlIgnore()]
+		[XmlIgnore]
 		public INewsFeed[] SearchScope {
 			get { 
 				RaiseScopeResolver();
@@ -1415,7 +1424,7 @@ namespace RssBandit.WinGui.Utility {
 			set { searchScope = value;  }
 		}
 
-		[XmlIgnore()]
+		[XmlIgnore]
 		public bool HasDynamicItemContent {
 			get { 
 				if (!dynamicItemContentChecked)
@@ -1430,12 +1439,12 @@ namespace RssBandit.WinGui.Utility {
 			set { doHighlight = value;  }
 		}
 
-		[XmlIgnore()]
+		[XmlIgnore]
 		public bool ExternalResultMerged {
 			get { return externalResultMergedWithLocal;	}
 			set { externalResultMergedWithLocal = value;  }
 		}
-		[XmlIgnore()]
+		[XmlIgnore]
 		public string ExternalSearchUrl {
 			get { return externalSearchUrl;	}
 			set { externalSearchUrl = value;  }
@@ -1446,13 +1455,13 @@ namespace RssBandit.WinGui.Utility {
 			set { externalSearchPhrase = value;  }
 		}
 
-		[XmlIgnore()]
+		[XmlIgnore]
 		public FinderNode Container {
 			get { return container;		}
 			set { container = value;	}
 		}
 
-		[XmlIgnore()]
+		[XmlIgnore]
 		public SearchScopeResolveCallback ScopeResolver {
 			get { return resolve;		}
 			set { resolve = value;	}
@@ -1462,12 +1471,12 @@ namespace RssBandit.WinGui.Utility {
 		public bool ShowFullItemContent;
 
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAnyAttributeAttribute()]
-		public System.Xml.XmlAttribute[] AnyAttr;
+		[XmlAnyAttributeAttribute]
+		public XmlAttribute[] AnyAttr;
 
-		public void SetSearchScope(ArrayList categoryPathScope, ArrayList feedUrlScope) {
-			this.categoryPathScope = categoryPathScope;
-			this.feedUrlScope = feedUrlScope;
+		public void SetSearchScope(ArrayList categoryPathScopeList, ArrayList feedUrlScopeList) {
+			this.categoryPathScope = categoryPathScopeList;
+			this.feedUrlScope = feedUrlScopeList;
 			this.isInitialized = false;
 		}
 

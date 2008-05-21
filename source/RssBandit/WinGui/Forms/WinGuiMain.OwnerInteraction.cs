@@ -179,8 +179,8 @@ namespace RssBandit.WinGui.Forms
             {
                 SetDefaultExpansionTreeNodeState();
                 //TR: inform user about file error
-                owner.MessageWarn(SR.GUILoadFileOperationExceptionMessage(fileName, ex.Message,
-                                                                          SR.GUIUserInfoAboutDefaultTreeState));
+                owner.MessageWarn(String.Format(SR.GUILoadFileOperationExceptionMessage,fileName, ex.Message,
+                                                SR.GUIUserInfoAboutDefaultTreeState));
                 //And log - recover may happen on save (delete the bad file)
                 _log.Error("Load " + fileName + " failed", ex);
                 return false;
@@ -570,7 +570,7 @@ namespace RssBandit.WinGui.Forms
                 var ex32 = ex as Win32Exception;
                 if ((ex32 == null) || (ex32.NativeErrorCode != 1223))
                 {
-                    owner.MessageError(SR.ExceptionProcessStartToPlayEnclosure(fileName, ex.Message));
+                    owner.MessageError(String.Format(SR.ExceptionProcessStartToPlayEnclosure,fileName, ex.Message));
                     RssBanditApplication.PublishException(ex);
                 }
             }
@@ -866,8 +866,8 @@ namespace RssBandit.WinGui.Forms
                 catch (Exception ex)
                 {
                     if (
-                        owner.MessageQuestion(
-                            SR.ExceptionStartBrowserCustomExecMessage(owner.Preferences.BrowserCustomExecOnNewWindow,
+                        owner.MessageQuestion(String.Format(
+                            SR.ExceptionStartBrowserCustomExecMessage, owner.Preferences.BrowserCustomExecOnNewWindow,
                                                                       ex.Message, url)) == DialogResult.Yes)
                     {
                         DetailTabNavigateToUrl(url, null, true, true);
@@ -2019,7 +2019,7 @@ namespace RssBandit.WinGui.Forms
                 // check for duplicate names:
                 while (TreeHelper.FindChildNode(curFeedsNode, s, FeedNodeType.Category) != null)
                 {
-                    s = SR.GeneralNewItemTextWithCounter(i++);
+                    s = String.Format(SR.GeneralNewItemTextWithCounter,i++);
                 }
 
                 TreeFeedsNodeBase newFeedsNode = new CategoryNode(s,
@@ -3303,11 +3303,11 @@ namespace RssBandit.WinGui.Forms
 
             if (owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
             {
-                issueCaption = SR.CertificateIssueOnFeedCaption(f.title);
+                issueCaption = String.Format(SR.CertificateIssueOnFeedCaption,f.title);
             }
             else
             {
-                issueCaption = SR.CertificateIssueOnSiteCaption(feedUrl);
+                issueCaption = String.Format(SR.CertificateIssueOnSiteCaption,feedUrl);
             }
 
             switch (e.CertificateIssue)
@@ -3316,7 +3316,7 @@ namespace RssBandit.WinGui.Forms
                     issueDesc = SR.CertificateIssue_CertCN_NO_MATCH;
                     break;
                 case CertificateIssue.CertEXPIRED:
-                    issueDesc = SR.CertificateIssue_CertEXPIRED(e.Certificate.GetExpirationDateString());
+                    issueDesc = String.Format(SR.CertificateIssue_CertEXPIRED,e.Certificate.GetExpirationDateString());
                     break;
                 case CertificateIssue.CertREVOKED:
                     issueDesc = SR.CertificateIssue_CertREVOKED;
@@ -3361,7 +3361,7 @@ namespace RssBandit.WinGui.Forms
                     issueDesc = SR.CertificateIssue_CertWRONG_USAGE;
                     break;
                 default:
-                    issueDesc = SR.CertificateIssue_Unknown(e.CertificateIssue.ToString());
+                    issueDesc = String.Format(SR.CertificateIssue_Unknown,e.CertificateIssue.ToString());
                     break;
             }
 

@@ -81,7 +81,7 @@ namespace RssBandit
             try
             {
                 StringBuilder errorMsg =
-                    new StringBuilder(SR.ExceptionGeneralCritical(RssBanditApplication.GetLogFileName()));
+                    new StringBuilder(String.Format(SR.ExceptionGeneralCritical, RssBanditApplication.GetLogFileName()));
                 errorMsg.Append("\n" + e.Message);
                 if (Application.MessageLoop && e.Source != null)
                     errorMsg.Append("\n@:" + e.Source);

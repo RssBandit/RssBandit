@@ -161,31 +161,6 @@ namespace NewsComponents.Feed
     		return result;
     	}
 
-		//TODO: Dare review: this version missed the NewsGatorUserName in compare
-
-		///// <summary>
-		///// Compares two objects for equality
-		///// </summary>
-		///// <param name="obj"></param>
-		///// <returns></returns>
-		//public override bool Equals(object obj)
-		//{
-		//    PendingNewsGatorOperation pop = obj as PendingNewsGatorOperation;
-
-		//    if (pop == null) return false;
-
-		//    if (pop.Action != this.Action) return false;
-
-		//    if (pop.Parameters.Length != this.Parameters.Length) return false;
-
-		//    for (int i = 0; i < pop.Parameters.Length; i++)
-		//    {
-		//        if (!pop.Parameters[i].Equals(this.Parameters[i]))
-		//            return false; 
-		//    }
-
-		//    return true; 
-		//}
     }
 
     #endregion 

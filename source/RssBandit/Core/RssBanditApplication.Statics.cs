@@ -357,8 +357,7 @@ namespace RssBandit
                     try
                     {
                         // once
-                        s =
-                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Name);
+                        s = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Name);
                     }
                     catch (SecurityException secEx)
                     {
@@ -471,10 +470,9 @@ namespace RssBandit
                     {
                         if (s.StartsWith(old_cache))
                         {
-                            _log.Error("GetFeedFileCachePath(): " + SR.CacheFolderInvalid_CannotBeMoved(s));
+                            _log.Error("GetFeedFileCachePath(): " + String.Format(SR.CacheFolderInvalid_CannotBeMoved,s));
                             Splash.Close();
-                            MessageBox.Show(
-                                SR.CacheFolderInvalid_CannotBeMoved(s),
+                            MessageBox.Show(String.Format(SR.CacheFolderInvalid_CannotBeMoved, s),
                                 Caption,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -509,8 +507,8 @@ namespace RssBandit
                             {
                                 _log.Error("GetFeedFileCachePath()error while moving cache folder.", ex);
                                 Splash.Close();
-                                MessageBox.Show(
-                                    SR.CacheFolderInvalid_CannotBeMovedException(s, ex.Message),
+                                MessageBox.Show(String.Format(
+                                    SR.CacheFolderInvalid_CannotBeMovedException, s, ex.Message),
                                     Caption,
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);

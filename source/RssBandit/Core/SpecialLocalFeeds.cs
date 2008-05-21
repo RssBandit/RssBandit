@@ -58,10 +58,10 @@ namespace RssBandit.SpecialFeeds
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
 
         
-		private string filePath = null;
-		protected FeedInfo feedInfo = null;
+		private string filePath;
+		protected FeedInfo feedInfo;
 		private string description = null;
-		private bool modified = false;
+		private bool modified;
 
 		public LocalFeedsFeed() {
 			base.refreshrate = 0;		
@@ -160,7 +160,7 @@ namespace RssBandit.SpecialFeeds
 			if(!string.IsNullOrEmpty(commentFeedUrl)){
 			
 				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
-					INewsItem ni = feedInfo.ItemsList[i] as INewsItem; 
+					INewsItem ni = feedInfo.ItemsList[i]; 
 					if(!StringHelper.EmptyTrimOrNull(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
 						this.feedInfo.ItemsList.RemoveAt(i); 
 						break; 
@@ -255,18 +255,18 @@ namespace RssBandit.SpecialFeeds
 		private ExceptionManager() {	}
 		public ExceptionManager(string feedUrl, string feedTitle, string feedDescription):base(feedUrl, feedTitle, feedDescription, false){ 
 			try {
-				base.Save();	// re-create a new file with no items
+				Save();	// re-create a new file with no items
 			} catch (Exception ex) {
 				Common.Logging.Log.Fatal("ExceptionManager.Save() failed", ex);
 			}
 		}
 
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-		public void Add(System.Exception e) {
+		public void Add(Exception e) {
 			FeedException fe = new FeedException(this, e);
-			base.Add(fe.NewsItemInstance);
+			Add(fe.NewsItemInstance);
 			try {
-				base.Save();
+				Save();
 			} catch (Exception ex) {
 				Common.Logging.Log.Fatal("ExceptionManager.Save() failed", ex);
 			}
@@ -278,12 +278,12 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="feedUrl">The feed URL.</param>
 		public void RemoveFeed(string feedUrl) {
 			
-			if (string.IsNullOrEmpty(feedUrl) || base.feedInfo.ItemsList.Count == 0)
+			if (string.IsNullOrEmpty(feedUrl) || feedInfo.ItemsList.Count == 0)
 				return;
 			
 			Stack removeAtIndex = new Stack();
-			for (int i = 0; i < base.feedInfo.ItemsList.Count; i++) {
-				NewsItem n = base.feedInfo.ItemsList[i] as NewsItem;
+			for (int i = 0; i < feedInfo.ItemsList.Count; i++) {
+				NewsItem n = feedInfo.ItemsList[i] as NewsItem;
 				if (n != null) {
 					XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalFeedElements.OriginalFeedOfErrorItem);
 					if (xe != null && xe.InnerText == feedUrl) {
@@ -295,7 +295,7 @@ namespace RssBandit.SpecialFeeds
 			}
 
 			while (removeAtIndex.Count > 0)
-				base.feedInfo.ItemsList.RemoveAt((int)removeAtIndex.Pop());
+				feedInfo.ItemsList.RemoveAt((int)removeAtIndex.Pop());
 		}
 
 		public new IList<INewsItem> Items {
@@ -325,12 +325,12 @@ namespace RssBandit.SpecialFeeds
 
 		public class FeedException {
 			
-			private static int idCounter = 0;
+			private static int idCounter;
 
-			private NewsItem _delegateTo = null;	// cannot inherit, so we use the old containment
+			private NewsItem _delegateTo;	// cannot inherit, so we use the old containment
 
 			// used to build up a informational error description
-			private string _ID;
+			private readonly string _ID;
 			private string _feedCategory = String.Empty;
 			private string _feedTitle = String.Empty;
 			private string _resourceUrl = String.Empty;
@@ -339,7 +339,7 @@ namespace RssBandit.SpecialFeeds
 			private string _publisher = String.Empty;
 			private string _techContact = String.Empty;
 			private string _generator = String.Empty;
-			private string _fullErrorInfoFile = String.Empty;
+			private readonly string _fullErrorInfoFile = String.Empty;
 
 			public FeedException(ExceptionManager ownerFeed, Exception e) {
 
@@ -449,7 +449,7 @@ namespace RssBandit.SpecialFeeds
 			/// </summary>
 			/// <param name="errorMessage">the string to test</param>
 			/// <returns>true if the string contains a character that is illegal in XML</returns>
-			private bool ContainsInvalidXmlCharacter(string errorMessage){
+			private static bool ContainsInvalidXmlCharacter(string errorMessage){
 			
 				foreach(char c in errorMessage){				
 					if(Char.IsControl(c) && !c.Equals('\t') && !c.Equals('\r') && !c.Equals('\n')){
@@ -477,7 +477,7 @@ namespace RssBandit.SpecialFeeds
 				}
 
 				writer.WriteStartElement("p");
-				writer.WriteRaw(SR.RefreshFeedExceptionReportStringPart(this._resourceUIText, msg));
+				writer.WriteRaw(String.Format(SR.RefreshFeedExceptionReportStringPart,this._resourceUIText, msg));
 				writer.WriteEndElement();	// </p>
 				
 				if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 ) 
@@ -524,7 +524,7 @@ namespace RssBandit.SpecialFeeds
 					}
 					writer.WriteEndElement();	// </ul>
 					if (this._generator .Length > 0) {
-						writer.WriteString(SR.RefreshFeedExceptionGeneratorStringPart(this._generator));
+						writer.WriteString(String.Format(SR.RefreshFeedExceptionGeneratorStringPart,this._generator));
 					}
 					writer.WriteEndElement();	// </p>
 					

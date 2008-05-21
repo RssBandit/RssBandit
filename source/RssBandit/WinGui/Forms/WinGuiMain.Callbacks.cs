@@ -360,16 +360,8 @@ namespace RssBandit.WinGui.Forms
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
                 var fd = owner.GetFeedDetails(feedsNode.DataKey);
-                string link;
 
-                if (fd != null)
-                {
-                    link = fd.Link;
-                }
-                else
-                {
-                    link = feedsNode.DataKey;
-                }
+            	string link = fd != null ? fd.Link : feedsNode.DataKey;
 
                 if (!string.IsNullOrEmpty(link))
                 {
@@ -1033,7 +1025,7 @@ namespace RssBandit.WinGui.Forms
                 catch (Exception e)
                 {
                     _log.Error("IBlogExtension configuration exception", e);
-                    owner.MessageError(SR.ExceptionIBlogExtensionFunctionCall("Configure()", e.Message));
+                    owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall,"Configure()", e.Message));
                 }
             }
             else
@@ -1048,7 +1040,7 @@ namespace RssBandit.WinGui.Forms
                     catch (Exception e)
                     {
                         _log.Error("IBlogExtension command exception", e);
-                        owner.MessageError(SR.ExceptionIBlogExtensionFunctionCall("BlogItem()", e.Message));
+                        owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall,"BlogItem()", e.Message));
                     }
                 }
             }
@@ -2079,10 +2071,7 @@ namespace RssBandit.WinGui.Forms
 
                     if (t != null)
                     {
-                        if (t.Type == FeedNodeType.Feed)
-                            CurrentDragHighlightNode = t.Parent;
-                        else
-                            CurrentDragHighlightNode = t;
+                        CurrentDragHighlightNode = t.Type == FeedNodeType.Feed ? t.Parent : t;
                     }
                 }
             }
@@ -2277,7 +2266,7 @@ namespace RssBandit.WinGui.Forms
                             catch (Exception ex)
                             {
                                 _log.Error("Unexpected Error on PopulateSmartFolder()", ex);
-                                owner.MessageError(SR.ExceptionGeneral(ex.Message));
+                                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
                             }
                             break;
 
@@ -2291,7 +2280,7 @@ namespace RssBandit.WinGui.Forms
                             catch (Exception ex)
                             {
                                 _log.Error("Unexpected Error on PopulateAggregatedFolder()", ex);
-                                owner.MessageError(SR.ExceptionGeneral(ex.Message));
+                                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
                             }
                             break;
 
@@ -2307,7 +2296,7 @@ namespace RssBandit.WinGui.Forms
 							*/
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
-                            SetGuiStateFeedback(SR.StatisticsAllFeedsCountMessage(owner.FeedHandler.GetFeeds().Count));
+                            SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,owner.FeedHandler.GetFeeds().Count));
                             break;
 
                         default:
@@ -2322,7 +2311,7 @@ namespace RssBandit.WinGui.Forms
             catch (Exception ex)
             {
                 _log.Error("Unexpected Error in OnTreeFeedAfterSelect()", ex);
-                owner.MessageError(SR.ExceptionGeneral(ex.Message));
+                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
             }
         }
 
@@ -2425,7 +2414,7 @@ namespace RssBandit.WinGui.Forms
                     TreeHelper.FindChildNode(editedNode.Parent, newLabel, FeedNodeType.Category);
                 if (existingNode != null && existingNode != editedNode)
                 {
-                    owner.MessageError(SR.ExceptionDuplicateCategoryName(newLabel));
+                    owner.MessageError(String.Format(SR.ExceptionDuplicateCategoryName,newLabel));
                     e.StayInEditMode = true;
                     return;
                 }
@@ -2900,12 +2889,15 @@ namespace RssBandit.WinGui.Forms
                                     // unread-state images always odd index numbers
                                     ApplyStyles(th, true);
                                     th.ImageIndex--;
-                                    if (!selfRef.BeenRead)
-                                    {
-                                        // object ref is unequal, but other criteria match the item to be equal...
-                                        selfRef.BeenRead = true;
-                                    }
-                                    if (th.IndentLevel == 0)
+                                	if (selfRef != null)
+                                	{
+                                		if (!selfRef.BeenRead)
+                                		{
+                                			// object ref is unequal, but other criteria match the item to be equal...
+                                			selfRef.BeenRead = true;
+                                		}
+                                	}
+                                	if (th.IndentLevel == 0)
                                     {
                                         isTopLevelItem = true;
                                         equalItemsRead++;
@@ -2979,7 +2971,7 @@ namespace RssBandit.WinGui.Forms
 
             if (currentNewsItem.OptionalElements.ContainsKey(AdditionalFeedElements.OriginalFeedOfWatchedItem))
             {
-                var str = (string)currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
+                var str = currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
 
                 if (
                     str.StartsWith("<" + AdditionalFeedElements.ElementPrefix + ":" +
