@@ -54,7 +54,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			
 			webBrowser.DockedColumn = 0;
 			webBrowser.DockedRow = 2;
-			webBrowser.FloatingSize = new System.Drawing.Size(100, 20);
+			webBrowser.FloatingSize = new Size(100, 20);
 			webBrowser.Text = SR.MainForm_MainWebToolbarCaption;
 			
 			mainMenu.DockedColumn = 0;
@@ -84,7 +84,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			this.shortcutHandler = null;
 		}
 
-		public void CreateToolbars(NewsgroupsConfiguration main) {
+		public void CreateToolbars(NewsgroupsConfiguration mainConfig) {
 			
 			UltraToolbar mainTools = new UltraToolbar(Resource.Toolbar.MainTools);
 			
@@ -305,8 +305,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 
 				AppStateButtonToolCommand subL4_subColumn = new AppStateButtonToolCommand(
 					"cmdListviewColumn." + colID, owner.Mediator, main.CmdToggleListviewColumn,
-                    SR.Keys.GetString("MenuColumnChooser" + colID + "Caption"),
-                    SR.Keys.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
+                    SR.ResourceManager.GetString("MenuColumnChooser" + colID + "Caption"),
+                    SR.ResourceManager.GetString("MenuColumnChooser" + colID + "Desc"), shortcutHandler);
 				
 				subL4_subColumn.SharedProps.Category = SR.MainForm_ToolCategoryView;
 				// must be added to the toolbar first:
@@ -734,7 +734,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuBrowserRefreshCaption, SR.MenuBrowserRefreshDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.Refresh);
 			
-			ControlContainerTool urlDropdownContainerTool = new Infragistics.Win.UltraWinToolbars.ControlContainerTool("cmdUrlDropdownContainer");
+			ControlContainerTool urlDropdownContainerTool = new ControlContainerTool("cmdUrlDropdownContainer");
 			urlDropdownContainerTool.SharedProps.Caption = SR.MenuBrowserNavigateComboBoxCaption;
 			urlDropdownContainerTool.SharedProps.StatusText = SR.MenuBrowserNavigateComboBoxDesc;
 			urlDropdownContainerTool.SharedProps.MinWidth = 330;
@@ -837,7 +837,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			//tb.Resize += new EventHandler(this.OnBarResize);
 			//navigateComboBox.SelectedIndexChanged += new EventHandler(NavigationSelectedIndexChanged);
 
-			ControlContainerTool searchDropdownContainerTool = new Infragistics.Win.UltraWinToolbars.ControlContainerTool("cmdSearchDropdownContainer");
+			ControlContainerTool searchDropdownContainerTool = new ControlContainerTool("cmdSearchDropdownContainer");
 			searchDropdownContainerTool.SharedProps.Caption = SR.MenuDoSearchComboBoxCaption;
 			searchDropdownContainerTool.SharedProps.StatusText = SR.MenuDoSearchComboBoxDesc;
 			searchDropdownContainerTool.SharedProps.MinWidth = 150;
@@ -873,7 +873,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			parent.Tools.Clear();
 			parent.Enabled = false;
 			foreach (SearchEngine engine in searchEngines) {
-				AppButtonToolCommand item = null;
+				AppButtonToolCommand item;
 				string engineKey = "cmdExecuteSearchEngine" + engine.Title;
 				if (manager.Tools.Exists(engineKey)) {
 					item = (AppButtonToolCommand)manager.Tools[engineKey];
@@ -902,7 +902,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				if (engine.ImageName != null && engine.ImageName.Trim().Length > 0) {
 					string p = Path.Combine(RssBanditApplication.GetSearchesPath(), engine.ImageName);
 					if (File.Exists(p)) {
-						Icon ico = null;
+						Icon ico;
 						Image img = null;
 						try {
 							if (Path.GetExtension(p).ToLower().EndsWith("ico")) {
@@ -955,9 +955,9 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
  
 			// A static reference to our private tool provider class.  An instance of this class is 
 			// created in our static constructor. 
-			private static readonly RssBanditToolbarManager.ToolFactory toolFactory = null; 
+			private static readonly ToolFactory toolFactory; 
 			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditToolbarManager));
-			private bool isRegistered = false;
+			private bool isRegistered;
 			#endregion Member Variables 
  
 			#region Constructor 
@@ -966,14 +966,14 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			/// Static constructor used to create a single instance of our private tool provider class. 
 			/// </summary> 
 			static RssBanditToolbarManager() { 
-				RssBanditToolbarManager.toolFactory = new RssBanditToolbarManager.ToolFactory(); 
+				toolFactory = new ToolFactory(); 
 			} 
  
 			/// <summary> 
 			/// Standard constructor. 
 			/// </summary> 
 			public RssBanditToolbarManager() { 
-				RssBanditToolbarManager.toolFactory.Register();
+				toolFactory.Register();
 				this.isRegistered = true;
 			} 
 			
@@ -982,7 +982,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			/// </summary>
 			/// <param name="container">The container.</param>
 			public RssBanditToolbarManager(IContainer container):base(container) {
-				RssBanditToolbarManager.toolFactory.Register();
+				toolFactory.Register();
 				this.isRegistered = true;
 			}
 			
@@ -1037,7 +1037,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			{ 
 				#region Member Variables
 
-				private int counter = 0;
+				private int counter;
 
 				#endregion //Member Variables
 				
@@ -1072,13 +1072,13 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				/// <param name="key">The key assigned to the tool.</param> 
 				/// <returns>A new instance of the specified tool.</returns> 
 				ToolBase IToolProvider.CreateToolInstance(Guid toolID, string key) { 
-					if (toolID == RssBanditToolbarManager.AppPopupMenuCommand_TOOLID) 
+					if (toolID == AppPopupMenuCommand_TOOLID) 
 						return new AppPopupMenuCommand(key); 
  
-					if (toolID == RssBanditToolbarManager.AppButtonToolCommand_TOOLID) 
+					if (toolID == AppButtonToolCommand_TOOLID) 
 						return new AppButtonToolCommand(key); 
  
-					if (toolID == RssBanditToolbarManager.AppStateButtonToolCommand_TOOLID) 
+					if (toolID == AppStateButtonToolCommand_TOOLID) 
 						return new AppStateButtonToolCommand(key); 
  
 					// The tool ID is unknown to us so return null. 
@@ -1092,17 +1092,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 					// Register some custom tool types with UltraToolbarsManager. 
 					try { 
 						// AppPopupMenuCommand class. 
-						bool result = UltraToolbarsManager.RegisterCustomToolType(this, RssBanditToolbarManager.AppPopupMenuCommand_TOOLID, "Application Popup Menu", "AppPopupMenuTool"); 
+						bool result = RegisterCustomToolType(this, AppPopupMenuCommand_TOOLID, "Application Popup Menu", "AppPopupMenuTool"); 
 						if (result == false) 
 							_log.Error("Error registering AppPopupMenuCommand class!"); 
  
 						// AppButtonToolCommand class. 
-						result = UltraToolbarsManager.RegisterCustomToolType(this, RssBanditToolbarManager.AppButtonToolCommand_TOOLID, "Application Button Tool", "AppButtonToolButton"); 
+						result = RegisterCustomToolType(this, AppButtonToolCommand_TOOLID, "Application Button Tool", "AppButtonToolButton"); 
 						if (result == false) 
 							_log.Error("Error registering AppButtonToolCommand class!"); 
 
 						// AppStateButtonToolCommand class. 
-						result = UltraToolbarsManager.RegisterCustomToolType(this, RssBanditToolbarManager.AppStateButtonToolCommand_TOOLID, "Application State Button Tool", "AppStateButtonToolButton"); 
+						result = RegisterCustomToolType(this, AppStateButtonToolCommand_TOOLID, "Application State Button Tool", "AppStateButtonToolButton"); 
 						if (result == false) 
 							_log.Error("Error registering AppStateButtonToolCommand class!"); 
  

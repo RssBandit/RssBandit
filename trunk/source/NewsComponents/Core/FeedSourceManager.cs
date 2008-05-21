@@ -144,10 +144,7 @@ namespace NewsComponents
                 {
                     return fsid;
                 }
-                else
-                {
-                    throw new KeyNotFoundException(name); 
-                }
+            	throw new KeyNotFoundException(name);
             }          
         }
 
@@ -162,7 +159,7 @@ namespace NewsComponents
             value = null;
             if (!string.IsNullOrEmpty(name))
             {
-                FeedSourceID fsid = _feedSources.Values.First<FeedSourceID>(fs => fs.Name == name);
+                FeedSourceID fsid = _feedSources.Values.First(fs => fs.Name == name);
                 if (fsid != null)
                 {
                     value = fsid;

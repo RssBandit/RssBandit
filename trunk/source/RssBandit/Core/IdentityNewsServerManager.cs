@@ -202,8 +202,8 @@ namespace RssBandit
                 return new List<string>(0);	// cancelled
                     
 			if (!threadHandler.OperationSucceeds) {
-				MessageBox.Show(
-					SR.ExceptionNntpLoadingGroupsFailed(sd.Server, threadHandler.OperationException.Message), 
+				MessageBox.Show(String.Format(
+					SR.ExceptionNntpLoadingGroupsFailed,sd.Server, threadHandler.OperationException.Message), 
 					SR.GUINntpLoadingGroupsFailedCaption, MessageBoxButtons.OK,MessageBoxIcon.Error);
 
                 return new List<string>(0);	// failed

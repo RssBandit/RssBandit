@@ -19,11 +19,11 @@ namespace RssBandit.WinGui.Dialogs
 	/// <summary>
 	/// ManageAddInDialog: as the name indicates
 	/// </summary>
-	public class ManageAddInDialog : System.Windows.Forms.Form
+	public class ManageAddInDialog : Form
 	{
 
-		private IAddInManager manager;
-		private IServiceProvider serviceProvider;
+		private readonly IAddInManager manager;
+		private readonly IServiceProvider serviceProvider;
 
 		private System.Windows.Forms.Label lblAddInListCaption;
 		private System.Windows.Forms.ListView lstLoadedAddIns;
@@ -85,7 +85,7 @@ namespace RssBandit.WinGui.Dialogs
 					}
 					
 				}catch (Exception ex) {
-					MessageBox.Show(this, SR.AddInGeneralFailure(ex.Message, selected.SubItems[0].Text));
+					MessageBox.Show(this, String.Format(SR.AddInGeneralFailure,ex.Message, selected.SubItems[0].Text));
 				}
 			}
 			return false;
@@ -328,11 +328,11 @@ namespace RssBandit.WinGui.Dialogs
 		#endregion
 
 		#region events
-		private void btnClose_Click(object sender, System.EventArgs e) {
+		private void btnClose_Click(object sender, EventArgs e) {
 			this.Close();
 		}
 
-		private void btnAdd_Click(object sender, System.EventArgs e) {
+		private void btnAdd_Click(object sender, EventArgs e) {
 			if (openFileDialog.ShowDialog() == DialogResult.OK) {
 				// add Add-in
 				try {
@@ -345,12 +345,12 @@ namespace RssBandit.WinGui.Dialogs
 						item.Tag = addIn;
 					}
 				} catch (Exception ex) {
-					MessageBox.Show(this, SR.AddInLoadFailure(ex.Message, openFileDialog.FileName));
+					MessageBox.Show(this, String.Format(SR.AddInLoadFailure,ex.Message, openFileDialog.FileName));
 				}
 			}
 		}
 
-		private void btnRemove_Click(object sender, System.EventArgs e) {
+		private void btnRemove_Click(object sender, EventArgs e) {
 			if (this.lstLoadedAddIns.SelectedItems.Count > 0) {
 				ListViewItem selected = this.lstLoadedAddIns.SelectedItems[0];
 				try {
@@ -360,13 +360,13 @@ namespace RssBandit.WinGui.Dialogs
 					}
 					manager.Unload(addIn);
 				}catch (Exception ex) {
-					MessageBox.Show(this, SR.AddInUnloadFailure(ex.Message, selected.SubItems[0].Text));
+					MessageBox.Show(this, String.Format(SR.AddInUnloadFailure,ex.Message, selected.SubItems[0].Text));
 				}
 				this.lstLoadedAddIns.Items.Remove(selected);
 			}
 		}
 		
-		private void btnConfigure_Click(object sender, System.EventArgs e) {
+		private void btnConfigure_Click(object sender, EventArgs e) {
 			if (this.lstLoadedAddIns.SelectedItems.Count > 0) {
 				ListViewItem selected = this.lstLoadedAddIns.SelectedItems[0];
 				try {
@@ -379,16 +379,16 @@ namespace RssBandit.WinGui.Dialogs
 					}
 					
 				}catch (Exception ex) {
-					MessageBox.Show(this, SR.AddInGeneralFailure(ex.Message, selected.SubItems[0].Text));
+					MessageBox.Show(this, String.Format(SR.AddInGeneralFailure,ex.Message, selected.SubItems[0].Text));
 				}
 			}
 		}
 
-		private void OnAddInListItemActivate(object sender, System.EventArgs e) {
+		private void OnAddInListItemActivate(object sender, EventArgs e) {
 			this.btnRemove.Enabled = this.lstLoadedAddIns.SelectedItems.Count > 0;
 			this.btnConfigure.Enabled = (this.btnRemove.Enabled && AddInHasConfigurationUI());
 		}
-		private void OnAddInListSelectedIndexChanged(object sender, System.EventArgs e) {
+		private void OnAddInListSelectedIndexChanged(object sender, EventArgs e) {
 			this.btnRemove.Enabled = this.lstLoadedAddIns.SelectedItems.Count > 0;		
 			this.btnConfigure.Enabled = (this.btnRemove.Enabled && AddInHasConfigurationUI());
 		}

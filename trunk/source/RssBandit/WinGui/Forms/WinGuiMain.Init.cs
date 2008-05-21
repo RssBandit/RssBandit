@@ -545,10 +545,10 @@ namespace RssBandit.WinGui.Forms
                                                                        owner.Mediator,
                                                                        new ExecuteCommandHandler(
                                                                            CmdToggleListviewColumn),
-                                                                       SR.Keys.GetString(
+                                                                       SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Caption"),
-                                                                       SR.Keys.GetString(
+																	   SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
@@ -683,10 +683,10 @@ namespace RssBandit.WinGui.Forms
                                                                        owner.Mediator,
                                                                        new ExecuteCommandHandler(
                                                                            CmdToggleListviewColumn),
-                                                                       SR.Keys.GetString(
+																	   SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Caption"),
-                                                                       SR.Keys.GetString(
+																	   SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
@@ -991,10 +991,10 @@ namespace RssBandit.WinGui.Forms
                                                                 owner.Mediator,
                                                                 new ExecuteCommandHandler(
                                                                     CmdToggleListviewColumn),
-                                                                SR.Keys.GetString(
+																SR.ResourceManager.GetString(
                                                                     "MenuColumnChooser" + colID +
                                                                     "Caption"),
-                                                                SR.Keys.GetString(
+																SR.ResourceManager.GetString(
                                                                     "MenuColumnChooser" + colID +
                                                                     "Desc"), _shortcutHandler);
 

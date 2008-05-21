@@ -19,28 +19,28 @@ namespace RssBandit.WinGui.Dialogs
 	/// <summary>
 	/// Summary description for SearchEngineProperties.
 	/// </summary>
-	public class SearchEngineProperties : System.Windows.Forms.Form
+	public class SearchEngineProperties : Form
 	{
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Button btnOk;
-		private System.Windows.Forms.Label label1;
-		internal System.Windows.Forms.TextBox textCaption;
-		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button btnSelectImage;
-		internal System.Windows.Forms.TextBox textUrl;
-		private System.Windows.Forms.Label label5;
-		internal System.Windows.Forms.TextBox textDesc;
-		internal System.Windows.Forms.TextBox textPicture;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
-		private System.Windows.Forms.GroupBox groupBox1;
-		internal System.Windows.Forms.PictureBox pictureEngine;
-		private System.Windows.Forms.Label label6;
-		internal System.Windows.Forms.CheckBox checkBoxResultsetIsRssFeed;
-		internal System.Windows.Forms.CheckBox checkBoxMergeRssResultset;
-		private System.Windows.Forms.ErrorProvider errorProvider1;
+		private Label label4;
+		private Button btnCancel;
+		private Button btnOk;
+		private Label label1;
+		internal TextBox textCaption;
+		private ToolTip toolTip1;
+		private Label label2;
+		private Label label3;
+		private Button btnSelectImage;
+		internal TextBox textUrl;
+		private Label label5;
+		internal TextBox textDesc;
+		internal TextBox textPicture;
+		private OpenFileDialog openFileDialog1;
+		private GroupBox groupBox1;
+		internal PictureBox pictureEngine;
+		private Label label6;
+		internal CheckBox checkBoxResultsetIsRssFeed;
+		internal CheckBox checkBoxMergeRssResultset;
+		private ErrorProvider errorProvider1;
 		private System.ComponentModel.IContainer components;
 
 		/// <summary>
@@ -670,13 +670,13 @@ namespace RssBandit.WinGui.Dialogs
 			set { _engine = value;}
 		}
 
-		private void btnSelectImage_Click(object sender, System.EventArgs e) {
+		private void btnSelectImage_Click(object sender, EventArgs e) {
 			if (this.openFileDialog1.ShowDialog(this) == DialogResult.OK) {
-				Bitmap bitmap = null;
+				Bitmap bitmap;
 				try {
 					bitmap = new Bitmap(this.openFileDialog1.OpenFile());
 				} catch (Exception ex) {
-					MessageBox.Show(this, SR.ExceptionOpenFileMessage(this.openFileDialog1.FileName, ex.Message), 
+					MessageBox.Show(this, String.Format(SR.ExceptionOpenFileMessage,this.openFileDialog1.FileName, ex.Message), 
 						SR.PreferencesExceptionMessageTitle);
 					return;
 				}
@@ -693,21 +693,21 @@ namespace RssBandit.WinGui.Dialogs
 			}
 		}
 
-		private void OnPictureTextChanged(object sender, System.EventArgs e) {
+		private void OnPictureTextChanged(object sender, EventArgs e) {
 			if (this.textPicture.Text.Length == 0)
 				this.pictureEngine.Image = null;
 		}
 
-		private void OnResultsetIsRssCheckedChanged(object sender, System.EventArgs e) {
+		private void OnResultsetIsRssCheckedChanged(object sender, EventArgs e) {
 			this.checkBoxMergeRssResultset.Enabled = this.checkBoxResultsetIsRssFeed.Checked;
 			OnWidgetValidated(this, EventArgs.Empty);
 		}
 
-		private void OnMergeRssResultsetCheckedChanged(object sender, System.EventArgs e) {
+		private void OnMergeRssResultsetCheckedChanged(object sender, EventArgs e) {
 			OnWidgetValidated(this, EventArgs.Empty);
 		}
 		
-		private void OnWidgetValidated(object sender, System.EventArgs e) {
+		private void OnWidgetValidated(object sender, EventArgs e) {
 			if (_engine != null) {
 				bool anyChange = (
 					this.textUrl.Text != _engine.SearchLink ||
@@ -739,7 +739,7 @@ namespace RssBandit.WinGui.Dialogs
 						if (new Uri(this.textUrl.Text) != null && 
 							this.textUrl.Text.IndexOf("{0}") < 0 && 
 							this.textUrl.Text.IndexOf("{0:") < 0) {
-							errorProvider1.SetError(textUrl, SR.SearchEnginePropertiesSearchUrlMissingParam("{0}"));
+							errorProvider1.SetError(textUrl, String.Format(SR.SearchEnginePropertiesSearchUrlMissingParam, "{0}"));
 							e.Cancel = true;
 						}
 					} catch (UriFormatException) {

@@ -1,11 +1,20 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Threading;
 using System.IO;
 using System.Xml;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using RssBandit.WinGui.Forms;
 using RssBandit.Resources;
 using NewsComponents.Collections;
 using NewsComponents;
@@ -20,17 +29,17 @@ namespace RssBandit.WinGui{
         /// <summary>
         /// The path to the file that will be the Top Stories HTML page. 
         /// </summary>
-        private string memeFile = null; 
+        private string memeFile; 
 
         /// <summary>
         /// The calling instance of RSS Bandit application
         /// </summary>
-        private RssBanditApplication rssBanditApp = null;     
+        private readonly RssBanditApplication rssBanditApp;     
 
         /// <summary>
         /// The list of top stories. 
         /// </summary>
-        private List<RelationHRefEntry> TopStories = null;
+        private List<RelationHRefEntry> TopStories;
 
         /// <summary>
         /// Default constructor cannot be called
@@ -75,7 +84,7 @@ namespace RssBandit.WinGui{
 
             writer.WriteStartElement("html");
             writer.WriteStartElement("head");
-            writer.WriteElementString("title", SR.TopStoriesHtmlPageTitle(RssBanditApplication.Name));
+            writer.WriteElementString("title", String.Format(SR.TopStoriesHtmlPageTitle, RssBanditApplication.Name));
             writer.WriteEndElement();
             writer.WriteStartElement("body");
             writer.WriteStartElement("ol");

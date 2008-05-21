@@ -497,7 +497,7 @@ namespace RssBandit.WinGui.Dialogs
 				this.replyToItem = value;
 				this.postToFeed = null;
 				if (this.replyToItem != null && !this.IsDisposed) {
-					this.Text = SR.PostReplyFormCaption(this.replyToItem.Feed.title);
+					this.Text = String.Format(SR.PostReplyFormCaption,this.replyToItem.Feed.title);
 					this.txtTitle.Text = GetPrefixedTitle(this.ReplyToItem.Title);
 				}
 			}
@@ -513,7 +513,7 @@ namespace RssBandit.WinGui.Dialogs
 				this.postToFeed = value;
 				this.replyToItem = null;
 				if (this.postToFeed != null && !this.IsDisposed) {
-					this.Text = SR.NewPostToFeedFormCaption(this.postToFeed.title);
+					this.Text = String.Format(SR.NewPostToFeedFormCaption,this.postToFeed.title);
 					this.txtTitle.Text = String.Empty;
 				}
 			}
@@ -524,12 +524,12 @@ namespace RssBandit.WinGui.Dialogs
 		}
 
 		public UserIdentity SelectedIdentity {
-			get { 
+			get
+			{
 				if (this.identityManager.CurrentIdentities.ContainsKey(SelectedIdentityName)) {
 					return this.identityManager.CurrentIdentities[SelectedIdentityName];
-				} else {
-					return IdentityNewsServerManager.AnonymousIdentity; 
 				}
+				return IdentityNewsServerManager.AnonymousIdentity;
 			}
 		}
 
@@ -548,7 +548,7 @@ namespace RssBandit.WinGui.Dialogs
 		}
 
 		public string PostTitle { 
-			get { return (string.IsNullOrEmpty(this.txtTitle.Text) ? SR.PostReplyTitlePrefix(this.ReplyToItem.Title):  this.txtTitle.Text); }
+			get { return (string.IsNullOrEmpty(this.txtTitle.Text) ? String.Format(SR.PostReplyTitlePrefix,this.ReplyToItem.Title):  this.txtTitle.Text); }
 		}
 
 		/// <summary>
@@ -566,8 +566,8 @@ namespace RssBandit.WinGui.Dialogs
 			
 			string prefixed = feedItemTitle;
 
-			if ( ! feedItemTitle.StartsWith(SR.PostReplyTitlePrefix(String.Empty)))
-				prefixed = SR.PostReplyTitlePrefix(feedItemTitle);
+			if ( ! feedItemTitle.StartsWith(String.Format(SR.PostReplyTitlePrefix,String.Empty)))
+				prefixed = String.Format(SR.PostReplyTitlePrefix,feedItemTitle);
 			
 			if (useEnglishReplyPrefix) 
 				RssBanditApplication.SharedUICulture = cSave;
@@ -575,7 +575,7 @@ namespace RssBandit.WinGui.Dialogs
 			return prefixed;
 		}
 
-		private void DoPostReplyClick(object sender, System.EventArgs e) {
+		private void DoPostReplyClick(object sender, EventArgs e) {
 			this.Hide();
 			try {
 				OnPostReply();
@@ -600,26 +600,26 @@ namespace RssBandit.WinGui.Dialogs
 			this.button1.Enabled = (txtTitle.Text.Length > 0 && richTextBox1.Text.Length > 0);
 		}
 
-		private void btnCancel_Click(object sender, System.EventArgs e) {
+		private void btnCancel_Click(object sender, EventArgs e) {
 			this.richTextBox1.Text = String.Empty;
 			this.Hide();
 		}
 
-		private void OnIdentitySelectionChangeCommitted(object sender, System.EventArgs e) {
+		private void OnIdentitySelectionChangeCommitted(object sender, EventArgs e) {
 			// fill sent informations textbox
-			this.txtSentInfos.Text = SR.PostReplySentIdentityInfoText(
+			this.txtSentInfos.Text = String.Format(SR.PostReplySentIdentityInfoText,
 				string.IsNullOrEmpty(this.UserName) ? NoInfo : this.UserName , 
 				string.IsNullOrEmpty(this.UserMailAddress) ? NoInfo : this.UserMailAddress, 
 				string.IsNullOrEmpty(this.UserReferrerUrl) ? NoInfo : this.UserReferrerUrl); 		
 		}
 
-		private void btnManageIdentities_Click(object sender, System.EventArgs e) {
+		private void btnManageIdentities_Click(object sender, EventArgs e) {
 			this.identityManager.ShowIdentityDialog(this);
 			this.RefreshUserIdentities(this.SelectedIdentityName);
 			this.OnIdentitySelectionChangeCommitted(this, EventArgs.Empty);
 		}
 
-		private void OnFormLoad(object sender, System.EventArgs e) {
+		private void OnFormLoad(object sender, EventArgs e) {
 			this.richTextBox1.Select(0,0);
 		}
 
@@ -654,8 +654,8 @@ namespace RssBandit.WinGui.Dialogs
 		public string Comment; 	
 		public bool Beautify;
 		public string Title; 	
-		public INewsItem ReplyToItem = null;
-		public INewsFeed PostToFeed = null;
+		public INewsItem ReplyToItem;
+		public INewsFeed PostToFeed;
 
 		/// <summary>
 		/// Designated initializer
