@@ -1154,6 +1154,27 @@ namespace NewsComponents.Feed
 
         }
 
+        /// <summary>
+        /// Changes the URL of the specified feed if it is contained in this feed source
+        /// </summary>
+        /// <param name="feed">The feed whose URL is being changed</param>
+        /// <param name="newUrl">The new URL for the feed</param>
+        /// <returns>The feed with the changed URL</returns>
+        public override INewsFeed ChangeFeedUrl(INewsFeed feed, string newUrl)
+        {
+            if (feed != null && this.feedsTable.ContainsKey(feed.link))
+            {
+                FeedInfo fi = this.GetFeedDetails(feed.link) as FeedInfo;
+                this.DeleteFeed(feed.link);
+
+                feed = new NewsFeed(feed); 
+                feed.link = newUrl;
+                feed = this.AddFeed(feed, fi);
+            }
+
+            return feed;
+        }
+
         #endregion 
 
         #region news item manipulation methods
@@ -1713,6 +1734,25 @@ namespace NewsComponents.Feed
         public string GoogleReaderFeedId
         {
             get { return this.mysubscription.Id; }
+        }
+
+        #endregion 
+
+        #region public methods 
+
+        /// <summary>
+        /// Sets the GoogleReaderSubscription object represented by this object
+        /// </summary>
+        /// <param name="sub">The GoogleReaderSubscription instance</param>
+        internal void SetSubscription(GoogleReaderSubscription sub)
+        {
+            if (sub != null)
+            {
+                lock (this)
+                {
+                    mysubscription = sub; 
+                }
+            }
         }
 
         #endregion 

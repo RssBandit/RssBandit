@@ -1215,8 +1215,7 @@ namespace RssBandit
                     {
                         if (!f.link.Equals(propertiesDialog.textBox2.Text.Trim()))
                         {
-                            // link was changed						   						  
-                            feedHandler.GetFeeds().Remove(f.link);
+                            // link was changed	
                             changes |= NewsFeedProperty.FeedLink;
 
                             string newLink = propertiesDialog.textBox2.Text.Trim();
@@ -1236,8 +1235,7 @@ namespace RssBandit
                                 }
                             }
 
-                            f.link = newLink;
-                            f = feedHandler.AddFeed(f);
+                            f = feedHandler.ChangeFeedUrl(f, newLink); 
                             tn.DataKey = f.link;
 
                             refreshThisFeed = true;
