@@ -645,7 +645,26 @@ namespace NewsComponents.Feed {
             }// if (this.categories.ContainsKey(oldName))         
                          
         }
-      
+
+        /// <summary>
+        /// Changes the URL of the specified feed if it is contained in this feed source
+        /// </summary>
+        /// <param name="feed">The feed whose URL is being changed</param>
+        /// <param name="newUrl">The new URL for the feed</param>
+        /// <returns>The feed with the changed URL</returns>
+        public override INewsFeed ChangeFeedUrl(INewsFeed feed, string newUrl)
+        {
+            if (feed != null && this.feedsTable.ContainsKey(feed.link))
+            {
+                this.DeleteFeed(feed.link);
+
+                feed = new NewsFeed(feed);
+                feed.link = newUrl;
+                feed = this.AddFeed(feed);
+            }
+
+            return feed;
+        }
 
         /// <summary>
         /// Adds a feed and associated FeedInfo object to the FeedsTable and itemsTable. 

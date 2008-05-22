@@ -4193,7 +4193,7 @@ namespace NewsComponents
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
         public virtual IFeedDetails GetFeedDetails(string feedUrl)
         {
-            return GetFeedInfo(feedUrl, null);
+            return GetFeedDetails(feedUrl, null);
         }
 
         /// <summary>
@@ -4202,7 +4202,7 @@ namespace NewsComponents
         /// <param name="feedUrl">string feed's Url</param>
         /// <param name="credentials">ICredentials, optional. Can be null</param>
         /// <returns>FeedInfo or null, if feed was removed or parameter is invalid</returns>
-        public IFeedDetails GetFeedInfo(string feedUrl, ICredentials credentials)
+        public IFeedDetails GetFeedDetails(string feedUrl, ICredentials credentials)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
@@ -7267,6 +7267,25 @@ namespace NewsComponents
                 throw new ApplicationException(e.Message, e);
             }
             readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+        }
+
+        /// <summary>
+        /// Changes the URL of the specified feed if it is contained in this feed source
+        /// </summary>
+        /// <param name="feed">The feed whose URL is being changed</param>
+        /// <param name="newUrl">The new URL for the feed</param>
+        /// <returns>The feed with the changed URL</returns>
+        public virtual INewsFeed ChangeFeedUrl(INewsFeed feed, string newUrl)
+        {
+            if (feed != null && this.feedsTable.ContainsKey(feed.link))
+            {
+                FeedInfo fi = this.GetFeedDetails(feed.link) as FeedInfo;
+                this.DeleteFeed(feed.link);
+                feed.link = newUrl; 
+                feed = this.AddFeed(feed, fi); 
+            }
+
+            return feed; 
         }
 
         /// <summary>
