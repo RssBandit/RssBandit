@@ -782,72 +782,72 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.bg.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.bg.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.de.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.de.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.es.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.es.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.fr.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.fr.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.hi.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.hi.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.it.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.it.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.ja.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ja.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.nl-NL.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.nl-NL.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.pl.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.pl.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.pt-BR.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.pt-BR.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.ru.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ru.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.sr-Cyrl-CS.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Cyrl-CS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.sr-Latn-CS.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Latn-CS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.tr.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.tr.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.zh-CHS.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsWizard.zh-CHT.resx">
-      <DependentUpon>ImportFeedsWizard.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHT.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DialogBase.resx">
@@ -2053,7 +2053,7 @@
     <Compile Include="WinGui\Dialogs\CategoryProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinGui\Dialogs\ImportFeedsWizard.cs">
+    <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Dialogs\DialogBase.cs">

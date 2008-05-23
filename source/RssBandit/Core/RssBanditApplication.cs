@@ -333,7 +333,17 @@ namespace RssBandit
 			this.feedHandler = this.feedHandler4Migration;
 #endif
             // just for test, add the one source
-            sourceManager.Add(feedHandler, "My Feeds");
+            string feedSourceName = SR.FeedNodeMyFeedsCaption;
+            if (feedHandler is IGoogleReaderFeedSource)
+            {
+                feedSourceName = SR.FeedNodeMyGoogleReaderFeedsCaption; 
+            }else if(feedHandler is INewsGatorFeedSource){
+                feedSourceName = SR.FeedNodeMyNewsGatorFeedsCaption;
+            }else if(feedHandler is IWindowsRssFeedSource){
+                feedSourceName = SR.FeedNodeMyWindowsRssFeedsCaption;
+            }
+
+            sourceManager.Add(feedHandler, feedSourceName);
 
             feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
 
@@ -3001,6 +3011,30 @@ namespace RssBandit
                     _log.Error("Exception on loading '" + p + "'.", e);
                 }
             }
+        }
+
+
+        public void SynchronizeFeeds()
+        {
+            SynchronizeFeedsWizard wiz = new SynchronizeFeedsWizard(this);
+
+            try
+            {
+                if (MainForm.IsHandleCreated)
+                    Win32.SetForegroundWindow(MainForm.Handle);
+                wiz.ShowDialog(guiMain);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("SynchronizeFeeds caused exception.", ex);
+                wiz.DialogResult = DialogResult.Cancel;
+            }
+
+            if (wiz.DialogResult == DialogResult.OK)
+            {
+
+            }
+
         }
 
 

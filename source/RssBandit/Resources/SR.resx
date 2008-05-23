@@ -535,10 +535,27 @@ Error:{1}.</value>
   </data>
   <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
     <value>My Feeds</value>
-    <comment> Root Node caption</comment>
-  </data>
+   </data>
   <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
-    <value>Container of subscribed feeds</value>
+    <value>Container of subscribed feeds in RSS Bandit</value>
+  </data>
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
+    <value>My Google Reader Feeds</value>
+  </data>
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
+    <value>Container of subscribed feeds in Google Reader</value>
+  </data>
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
+    <value>My NewsGator Feeds</value>
+  </data>
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
+    <value>Container of subscribed feeds in NewsGator</value>
+  </data>
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
+    <value>My Common Feed List Feeds</value>
+  </data>
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
+    <value>Container of subscribed feeds in Windows RSS platform</value>
   </data>
   <data name="FeedNodeSentItemsCaption" xml:space="preserve">
     <value>Sent Items</value>
@@ -2447,5 +2464,11 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   </data>
   <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
     <value>Removes the selected item</value>
+  </data>
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
+    <value>&amp;Synchronize Feeds...</value>
+  </data>
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
+    <value>Launches the Synchronize Feeds Wizard</value>
   </data>
 </root>
