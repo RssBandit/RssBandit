@@ -23,7 +23,7 @@ using RssBandit.Resources;
 namespace RssBandit.WinGui
 {
 	/// <summary>
-	/// Thread handler for AddSubscriptionWizard.
+    /// Thread handler for AddSubscriptionWizard.
 	/// </summary>
 	public class AutoDiscoverFeedsThreadHandler: EntertainmentThreadHandlerBase
 	{

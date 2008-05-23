@@ -34,7 +34,23 @@ using NewsComponents.Net;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
 
-namespace NewsComponents.Feed {
+namespace NewsComponents.Feed
+{
+
+    #region IWindowsRssFeedSource
+
+    /// <summary>
+	/// public FeedSource extension offered by NewsGator Feed Source
+	/// </summary>
+    public interface IWindowsRssFeedSource
+    {
+
+    }
+
+    #endregion 
+
+
+    #region WindowsRssPlatformException
 
     /// <summary>
     /// Indicates that an exception occured in the Windows RSS platform and the feed list must be reloaded. 
@@ -42,12 +58,16 @@ namespace NewsComponents.Feed {
     public class WindowsRssPlatformException : Exception {
 
         public WindowsRssPlatformException(string message) : base(message) { }
-    } 
+    }
+
+    #endregion 
+
+    #region WindowsRssFeedSource
 
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from the Windows RSS platform. 
     /// </summary>
-    class WindowsRssFeedSource : FeedSource, IFeedFolderEvents
+    class WindowsRssFeedSource : FeedSource, IFeedFolderEvents, IWindowsRssFeedSource
     {
 
 
@@ -1416,7 +1436,9 @@ namespace NewsComponents.Feed {
 
     }
 
-    #region WindowsRssNewsItem 
+    #endregion
+
+    #region WindowsRssNewsItem
 
 
     /// <summary>

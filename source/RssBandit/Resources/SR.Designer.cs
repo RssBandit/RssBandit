@@ -1097,11 +1097,65 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Container of subscribed feeds.
+        ///   Looks up a localized string similar to Container of subscribed feeds in RSS Bandit.
         /// </summary>
         internal static string FeedNodeMyFeedsDesc {
             get {
                 return ResourceManager.GetString("FeedNodeMyFeedsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Google Reader Feeds.
+        /// </summary>
+        internal static string FeedNodeMyGoogleReaderFeedsCaption {
+            get {
+                return ResourceManager.GetString("FeedNodeMyGoogleReaderFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container of subscribed feeds in Google Reader.
+        /// </summary>
+        internal static string FeedNodeMyGoogleReaderFeedsDesc {
+            get {
+                return ResourceManager.GetString("FeedNodeMyGoogleReaderFeedsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My NewsGator Feeds.
+        /// </summary>
+        internal static string FeedNodeMyNewsGatorFeedsCaption {
+            get {
+                return ResourceManager.GetString("FeedNodeMyNewsGatorFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container of subscribed feeds in NewsGator.
+        /// </summary>
+        internal static string FeedNodeMyNewsGatorFeedsDesc {
+            get {
+                return ResourceManager.GetString("FeedNodeMyNewsGatorFeedsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Common Feed List Feeds.
+        /// </summary>
+        internal static string FeedNodeMyWindowsRssFeedsCaption {
+            get {
+                return ResourceManager.GetString("FeedNodeMyWindowsRssFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container of subscribed feeds in Windows RSS platform.
+        /// </summary>
+        internal static string FeedNodeMyWindowsRssFeedsDesc {
+            get {
+                return ResourceManager.GetString("FeedNodeMyWindowsRssFeedsDesc", resourceCulture);
             }
         }
         
@@ -4471,6 +4525,24 @@ namespace RssBandit.Resources {
         internal static string MenuSubscribeToFinderResultDesc {
             get {
                 return ResourceManager.GetString("MenuSubscribeToFinderResultDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Synchronize Feeds....
+        /// </summary>
+        internal static string MenuSynchronizeFeedsCaption {
+            get {
+                return ResourceManager.GetString("MenuSynchronizeFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Launches the Synchronize Feeds Wizard.
+        /// </summary>
+        internal static string MenuSynchronizeFeedsDesc {
+            get {
+                return ResourceManager.GetString("MenuSynchronizeFeedsDesc", resourceCulture);
             }
         }
         
