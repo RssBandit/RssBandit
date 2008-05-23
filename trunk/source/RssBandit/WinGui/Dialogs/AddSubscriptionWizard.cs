@@ -23,7 +23,7 @@ namespace RssBandit.WinGui.Forms
 {
 
 	/// <summary>
-	/// AddSubscriptionWizard summerize and handles 
+	/// SynchronizeFeedsWizard summerize and handles 
 	/// all kind of subscriptions now:
 	///   By URL (direct, and autodiscovered)
 	///   By Search/Topic
@@ -163,7 +163,8 @@ namespace RssBandit.WinGui.Forms
 			this.lblUsenetHelp.LinkArea = new LinkArea(0, this.lblUsenetHelp.Text.Length);
 		}
 
-		public AddSubscriptionWizard(IServiceProvider provider, AddSubscriptionWizardMode mode):this()
+        public AddSubscriptionWizard(IServiceProvider provider, AddSubscriptionWizardMode mode)
+            : this()
 		{
 			serviceProvider = provider;
 			wizardMode = mode;
@@ -284,7 +285,7 @@ namespace RssBandit.WinGui.Forms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddSubscriptionWizard));
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SynchronizeFeedsWizard));
 			this.wizard = new Divelements.WizardFramework.Wizard();
 			this._btnImmediateFinish = new System.Windows.Forms.Button();
 			this.pageNewBySearchTopic = new Divelements.WizardFramework.WizardPage();
@@ -2532,7 +2533,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.timerStartValidation.Tick += new System.EventHandler(this.OnTimerStartValidation);
 			// 
-			// AddSubscriptionWizard
+            // AddSubscriptionWizard
 			// 
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
 			this.AccessibleName = resources.GetString("$this.AccessibleName");
@@ -3714,7 +3715,7 @@ namespace RssBandit.WinGui.Forms
 
 #region CVS Version Log
 /*
- * $Log: AddSubscriptionWizard.cs,v $
+ * $Log: SynchronizeFeedsWizard.cs,v $
  * Revision 1.42  2007/08/02 13:37:40  t_rendelmann
  * added support to NewsSubscriptionWizard for rewire the credential step on authentication exceptions
  *

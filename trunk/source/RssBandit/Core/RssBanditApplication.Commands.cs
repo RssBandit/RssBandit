@@ -1051,6 +1051,15 @@ namespace RssBandit
         }
 
         /// <summary>
+        /// Adds a new feed source
+        /// </summary>
+        /// <param name="sender">Object that initiates the call</param>
+        public void CmdSynchronizeFeeds(ICommand sender)
+        {
+            SynchronizeFeeds(); 
+        }
+
+        /// <summary>
         /// Sends the feed list to the location configured on the 
         /// Remote Storage tab of the Options dialog.
         /// </summary>

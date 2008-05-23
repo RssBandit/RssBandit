@@ -205,6 +205,11 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuNewSubscriptionByWizardCaption, SR.MenuNewSubscriptionByWizardDesc, 
 				Resource.ToolItemImage.NewSubscription, shortcutHandler);
 
+            AppButtonToolCommand syncFeeds = new AppButtonToolCommand(
+            "cmdSynchronizeFeeds", owner.Mediator, owner.CmdSynchronizeFeeds,
+            SR.MenuSynchronizeFeedsCaption, SR.MenuSynchronizeFeedsDesc, shortcutHandler);
+
+
 			AppButtonToolCommand importFeeds = new AppButtonToolCommand(
 				"cmdImportFeeds", owner.Mediator, owner.CmdImportFeeds,
 				SR.MenuImportFeedsCaption, SR.MenuImportFeedsDesc, shortcutHandler);
@@ -222,9 +227,9 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuAppInternetConnectionModeCaption, SR.MenuAppInternetConnectionModeDesc, shortcutHandler);
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {newSubscription,importFeeds,exportFeeds,toggleOffline,appExit});
+			this.manager.Tools.AddRange(new ToolBase[] {newSubscription,importFeeds,exportFeeds,syncFeeds, toggleOffline,appExit});
 			
-			mc.Tools.AddRange(new ToolBase[]{newSubscription,importFeeds,exportFeeds,toggleOffline,appExit});
+			mc.Tools.AddRange(new ToolBase[]{newSubscription,importFeeds,exportFeeds,syncFeeds, toggleOffline,appExit});
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryFile;
 			}
