@@ -1240,14 +1240,14 @@ namespace NewsComponents.Feed
                     if (elem == null)
                     {
                         elem = RssHelper.CreateXmlElement("gr", qname.Name, qname.Namespace, "1");
-                        item.OptionalElements.Add(qname, elem.OuterXml);
                     }
                     else
                     {
                         shared = elem.InnerText != "1";
                         elem.InnerText = elem.InnerText == "1" ? "0" : "1";
+                        item.OptionalElements.Remove(qname);
                     }
-
+                    item.OptionalElements.Add(qname, elem.OuterXml);                   
                     GoogleReaderUpdater.ChangeItemTaggedStateInGoogleReader(this.GoogleUserName, f.GoogleReaderFeedId, item.Id, "broadcast", shared);
                 }
             }
