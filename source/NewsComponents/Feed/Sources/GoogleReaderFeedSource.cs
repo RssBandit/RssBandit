@@ -579,7 +579,7 @@ namespace NewsComponents.Feed
                 catch (XmlException xe)
                 {
                     //cache file is corrupt
-                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToString());
+                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToDescriptiveString());
                 }
 
                 //We need a reference to the feed so we can see if a cached object exists
@@ -626,7 +626,7 @@ namespace NewsComponents.Feed
             }
             catch (Exception e)
             {
-                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToString());
+                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToDescriptiveString());
                 RaiseOnUpdateFeedException(feedUrl, e, priority);
             }
 
@@ -656,7 +656,7 @@ namespace NewsComponents.Feed
         /// <param name="priority">The priority of the request</param>
         protected override void OnRequestException(Uri requestUri, Exception e, int priority)
         {
-            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
+            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToDescriptiveString());
 
             string key = CreateFeedUriFromDownloadUri(requestUri).CanonicalizedUri();
             if (feedsTable.ContainsKey(key))
@@ -769,7 +769,7 @@ namespace NewsComponents.Feed
                     }
                     catch (Exception ex)
                     {
-                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToString());
+                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
                         /* the cache file may be corrupt or an IO exception 
 						 * not much we can do so just ignore it 
 						 */

@@ -43,9 +43,16 @@ namespace RssBandit
 			{
 				if (ConfigSettings["fileName"] != null &&  
 					ConfigSettings["fileName"].Length > 0)
-				{  
-					m_LogName = Environment.ExpandEnvironmentVariables(ConfigSettings["fileName"]);
-				}
+                {
+#if ALT_CONFIG_PATH
+
+                    m_LogName = Environment.ExpandEnvironmentVariables(ConfigSettings["fileName"]);
+                    m_LogName = m_LogName.Replace(@"RssBandit\error.log", @"RssBandit\Debug\error.log");
+#else
+                    m_LogName = Environment.ExpandEnvironmentVariables(ConfigSettings["fileName"]);
+#endif
+
+                }
 				if (ConfigSettings["operatorMail"] !=null && 
 					ConfigSettings["operatorMail"].Length > 0)
 				{
@@ -75,7 +82,7 @@ namespace RssBandit
 			}
 			// Append the exception text
 			if (exception != null) {
-				strInfo.AppendFormat("{0}{0}Exception Information{0}{1}", Environment.NewLine, exception.ToString());
+                strInfo.AppendFormat("{0}{0}Exception Information{0}{1}", Environment.NewLine, exception.ToDescriptiveString());
 				// how about exception.InnerException ?
 			} else {
 				strInfo.AppendFormat("{0}{0}No Exception.{0}", Environment.NewLine);

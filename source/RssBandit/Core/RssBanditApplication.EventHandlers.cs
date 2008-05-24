@@ -6,6 +6,7 @@ using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Net;
+using NewsComponents.Utils;
 using RssBandit.Resources;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Controls;
@@ -372,13 +373,15 @@ namespace RssBandit
                 BanditApplicationException ex = args.Exception as BanditApplicationException;
                 if (ex != null)
                 {
+                    ex.PreserveExceptionStackTrace();
+
                     if (ex.Number == ApplicationExceptions.FeedlistOldFormat)
                     {
                         Application.Exit();
                     }
                     else if (ex.Number == ApplicationExceptions.FeedlistOnRead)
                     {
-                        ExceptionManager.Publish(ex.InnerException);
+                        ExceptionManager.Publish(ex);
                         this.MessageError(String.Format(SR.ExceptionReadingFeedlistFile,ex.InnerException.Message, GetLogFileName()));
                         this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
                     }
@@ -439,6 +442,7 @@ namespace RssBandit
                 }
                 catch (Exception ex)
                 {
+                    ex.PreserveExceptionStackTrace();
                     PublishException(ex);
                 }
 
