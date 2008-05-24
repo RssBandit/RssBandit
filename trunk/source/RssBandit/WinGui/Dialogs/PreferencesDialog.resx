@@ -4550,7 +4550,7 @@
     <value>0</value>
   </data>
   <data name="label19.Text" xml:space="preserve">
-    <value>If you modified any security setting, the setting will be active immediately only on new Browser Tabs, or on any Browser Tab after you restart the application! The settings do not have any effect on the reading pane!</value>
+    <value>If you modified any security setting, the setting will be active immediately only on new Browser Tabs, or on any Browser Tab after you restart the application! Disabling Javascript will disable the automatic marking of items as read!</value>
   </data>
   <data name="&gt;&gt;label19.Name" xml:space="preserve">
     <value>label19</value>
