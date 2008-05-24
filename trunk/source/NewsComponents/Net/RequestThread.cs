@@ -14,6 +14,7 @@ using System.Configuration;
 using System.Diagnostics;
 
 using NewsComponents.Collections;
+using NewsComponents.Utils;
 
 namespace NewsComponents.Net
 {
@@ -342,7 +343,7 @@ waitOrNextRequest:
 					}
 				}
 				catch (Exception e) {
-					Trace.WriteLine("Error during dispatch of OnRequestStart() callback", e.ToString());
+                    Trace.WriteLine("Error during dispatch of OnRequestStart() callback", e.ToDescriptiveString());
 				}
 					
 				try {
@@ -367,7 +368,7 @@ waitOrNextRequest:
 
 			}
 			catch (Exception ex) {
-				Trace.WriteLine("Critical exception caught in RequestThread.Run():" + ex.ToString());
+                Trace.WriteLine("Critical exception caught in RequestThread.Run():" + ex.ToDescriptiveString());
 			}
  
 

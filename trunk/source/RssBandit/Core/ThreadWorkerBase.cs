@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Threading;
 using System.ComponentModel;
+using NewsComponents.Utils;
 
 namespace RssBandit {
 
@@ -106,6 +107,7 @@ namespace RssBandit {
 
 			} catch (ThreadAbortException) { /* ignore */ 
 			} catch (Exception ex) {
+                ex.PreserveExceptionStackTrace();
 				RaiseBackgroundTaskFinished(this.task, 1, 1, ex, null);
 				return ex;
 			}
@@ -544,7 +546,10 @@ namespace RssBandit {
 			// get them out of the tasksInfos lists
 			if (taskResultInfos.Count > 0) {
 				TaskResultInfo t = (TaskResultInfo)taskResultInfos.Dequeue();
-				DispatchInvocationToGuiThread(new MethodInvocation(t.Task.ProgressHandler, new object[]{t.Task, t.Args}));
+				//DispatchInvocationToGuiThread(new MethodInvocation(t.Task.ProgressHandler, new object[]{t.Task, t.Args}));
+
+                GuiInvoker.Invoke(null,
+                    () => t.Task.ProgressHandler(t.Task, t.Args));
 				//t.Task.ProgressHandler(t.Task, t.Args);
 			}
 			
@@ -562,26 +567,6 @@ namespace RssBandit {
 				
 				}
 			}
-		}
-		/// <summary>
-		/// Dispatches the invocation to the GUI thread.
-		/// </summary>
-		/// <param name="methodInvocationAsObject">The invocation.</param>
-		public static void DispatchInvocationToGuiThread(object methodInvocationAsObject) {
-			// dispatch to GUI thread if necessary
-			if (synchronizingObject != null && synchronizingObject.InvokeRequired) {
-				try {
-					synchronizingObject.Invoke(new WaitCallback(ThreadWorkerBase.DispatchInvocationToGuiThread),
-					                           new object[] {methodInvocationAsObject});
-				} catch (ObjectDisposedException) {
-					// can happen on closing the mainform by user
-				}
-				return ;
-			}
-
-			// invoke it here
-			MethodInvocation methodInvocation = (MethodInvocation) methodInvocationAsObject;
-			methodInvocation.Invoke();
 		}
 
 		#endregion
@@ -633,40 +618,6 @@ namespace RssBandit {
 		}
 		#endregion
 
-		#region MethodInvocation class
-		/// <summary>
-		/// Represents an invocation of method.
-		/// </summary>
-		public class MethodInvocation {
-		
-			/// <summary>
-			/// Constructs an instance of the MethodInvocation class.
-			/// </summary>
-			/// <param name="d">The delegate pointing to the method being executed.</param>
-			/// <param name="args">Parameters of the invocation.</param>
-			public MethodInvocation(Delegate d, object[] args) {
-				this.Delegate = d;
-				this.Args = args;
-			}
-
-			/// <summary>
-			/// The delegate pointing to the method being executed.
-			/// </summary>
-			public Delegate Delegate;
-
-			/// <summary>
-			/// Parameters of the invocation.
-			/// </summary>
-			public object[] Args;
-
-			/// <summary>
-			/// Invokes the target method.
-			/// </summary>
-			public void Invoke() {
-				this.Delegate.DynamicInvoke(this.Args);
-			}
-		}
-		#endregion
 	}
 	#endregion
 

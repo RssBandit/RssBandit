@@ -20,6 +20,7 @@ using NewsComponents.Net;
 using NewsComponents.News;
 // required to make it compile with the Uri extension methods.
 // DO NOT REMOVE IT, also if Resharper complains about (not used!?)...
+using NewsComponents.Utils;
 using RssBandit.Common;
 
 namespace NewsComponents.Feed
@@ -345,7 +346,7 @@ namespace NewsComponents.Feed
             }
             catch (FormatException fe)
             {
-                Trace("Error occured while parsing maximum item age from feed list: {0}", fe.ToString());
+                Trace("Error occured while parsing maximum item age from feed list: {0}", fe.ToDescriptiveString());
             }
             
         }
