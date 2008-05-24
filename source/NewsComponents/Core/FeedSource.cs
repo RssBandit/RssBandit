@@ -4679,9 +4679,12 @@ namespace NewsComponents
                 {
                     // Uri changed/moved permanently
 
-                    feedsTable.Remove(feedUrl);
-                    theFeed.link = newUri.CanonicalizedUri();
-                    feedsTable.Add(theFeed.link, theFeed);
+                    lock (feedsTable)
+                    {
+                        feedsTable.Remove(feedUrl);
+                        theFeed.link = newUri.CanonicalizedUri();
+                        feedsTable.Add(theFeed.link, theFeed);
+                    }
 
                     lock (itemsTable)
                     {
@@ -7247,7 +7250,10 @@ namespace NewsComponents
             }
 
             var f = feedsTable[feedUrl];
-            feedsTable.Remove(feedUrl);
+            lock (feedsTable)
+            {
+                feedsTable.Remove(feedUrl);
+            }
 
             if (itemsTable.ContainsKey(feedUrl))
             {

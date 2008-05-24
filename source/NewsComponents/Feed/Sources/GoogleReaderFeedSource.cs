@@ -728,9 +728,12 @@ namespace NewsComponents.Feed
                 {
                     // Uri changed/moved permanently
 
-                    feedsTable.Remove(feedUrl);
-                    theFeed.link = newUri.CanonicalizedUri();
-                    this.feedsTable.Add(theFeed.link, theFeed);
+                    lock (feedsTable)
+                    {
+                        feedsTable.Remove(feedUrl);
+                        theFeed.link = newUri.CanonicalizedUri();
+                        this.feedsTable.Add(theFeed.link, theFeed);
+                    }
 
                     lock (itemsTable)
                     {
@@ -1109,14 +1112,16 @@ namespace NewsComponents.Feed
                 GoogleReaderSubscription sub = new GoogleReaderSubscription(feedId, feed.title, labels, 0);
 
                 //Replace NewsFeed instance with GoogleReaderNewsFeed
-                feedsTable.Remove(feed.link);
-                feed = new GoogleReaderNewsFeed(sub, feed, this);
-                feedsTable.Add(feed.link, feed);
-
+                lock (feedsTable)
+                {
+                    feedsTable.Remove(feed.link);
+                    feed = new GoogleReaderNewsFeed(sub, feed, this);
+                    feedsTable.Add(feed.link, feed);
+                }
                 GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link);
-
             }
-                return feed;            
+                return feed;          
+  
         }
 
 
