@@ -39,18 +39,18 @@ namespace NewsComponents.Utils
             if (ex.InnerException != null)
             {
                 infoBuilder.Append(ex.InnerException.ToDescriptiveString());
-                infoBuilder.Append("\n\n- Nested Exception --------------------------------------\n\n");
+                infoBuilder.Append(Environment.NewLine + Environment.NewLine + "- Nested Exception --------------------------------------" + Environment.NewLine + Environment.NewLine);
             }
 
-            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Exception:     {0}\n", ex.GetType());
-            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Message:       {0}\n", ex.Message);
-            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Source:        {0}\n{1}", ex.Source, ex.StackTrace);
+            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Exception:     {0}" + Environment.NewLine, ex.GetType());
+            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Message:       {0}" + Environment.NewLine, ex.Message);
+            infoBuilder.AppendFormat(CultureInfo.InvariantCulture, "Source:        {0}" + Environment.NewLine + "{1}", ex.Source, ex.StackTrace);
 
             if (ex is ReflectionTypeLoadException)
             {
                 foreach (var ex1 in (ex as ReflectionTypeLoadException).LoaderExceptions)
                 {
-                    infoBuilder.Append("\n\n- Loader Exception --------------------------------------\n\n");
+                    infoBuilder.Append(Environment.NewLine + Environment.NewLine + "- Loader Exception --------------------------------------" + Environment.NewLine + Environment.NewLine);
                     infoBuilder.Append(ex1.ToDescriptiveString());
                 }
             }
