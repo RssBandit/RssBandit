@@ -645,9 +645,12 @@ namespace NewsComponents.Feed
                 {
                     // Uri changed/moved permanently
 
-                    feedsTable.Remove(feedUrl);
-                    theFeed.link = newUri.CanonicalizedUri();
-                    this.feedsTable.Add(theFeed.link, theFeed);
+                    lock (feedsTable)
+                    {
+                        feedsTable.Remove(feedUrl);
+                        theFeed.link = newUri.CanonicalizedUri();
+                        this.feedsTable.Add(theFeed.link, theFeed);
+                    }
 
                     lock (itemsTable)
                     {
@@ -1651,13 +1654,7 @@ namespace NewsComponents.Feed
                                 syncXmlUrlNode.InnerText = syncXmlUrl;
                                 f.Any[1] = syncXmlUrlNode;
                             }
-                        }
-                        
-                        //make sure INewsFeed is still in the feeds table in case user deleted it since method call started
-                        if (!feedsTable.ContainsKey(f.link))
-                        {
-                            feedsTable.Add(f.link, f); 
-                        }
+                        }                                              
 
                     }else
                     {
