@@ -92,6 +92,10 @@ namespace NewsComponents.Feed
         /// </summary>
         private string SID = String.Empty;
 
+        /// <summary>
+        /// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
+        /// </summary>
+        private static DateTime unixEpoch = new DateTime(1970, 1, 1); 
       
         private string googleUserId = String.Empty;
 
@@ -451,8 +455,8 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         private static string CreateDownloadUrl(GoogleReaderNewsFeed feed)
         {
-            //either download all items since last retrieved or last 3 months of stuff if never fetched items from feed
-            TimeSpan maxItemAge = (feed.lastretrievedSpecified ? DateTime.Now - feed.lastretrieved : new TimeSpan(90, 0, 0, 0));
+            //either download all items since last retrieved or last 1 month of stuff (default if value to low) if never fetched items from feed
+            TimeSpan maxItemAge = (feed.lastretrievedSpecified ? feed.lastretrieved - unixEpoch : new TimeSpan(0,0,1));
             string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt64(maxItemAge.TotalSeconds);          
 
             return feedUrl; 
