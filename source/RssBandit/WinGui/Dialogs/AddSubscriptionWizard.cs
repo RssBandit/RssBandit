@@ -285,7 +285,7 @@ namespace RssBandit.WinGui.Forms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SynchronizeFeedsWizard));
+            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddSubscriptionWizard));
 			this.wizard = new Divelements.WizardFramework.Wizard();
 			this._btnImmediateFinish = new System.Windows.Forms.Button();
 			this.pageNewBySearchTopic = new Divelements.WizardFramework.WizardPage();
@@ -388,48 +388,48 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// wizard
 			// 
-			this.wizard.AccessibleDescription = resources.GetString("wizard.AccessibleDescription");
-			this.wizard.AccessibleName = resources.GetString("wizard.AccessibleName");
-			this.wizard.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("wizard.Anchor")));
-			this.wizard.AutoScroll = ((bool)(resources.GetObject("wizard.AutoScroll")));
-			this.wizard.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("wizard.AutoScrollMargin")));
-			this.wizard.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("wizard.AutoScrollMinSize")));
-			this.wizard.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("wizard.BackgroundImage")));
-			this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
-			this.wizard.CancelText = resources.GetString("wizard.CancelText");
-			this.wizard.Controls.Add(this._btnImmediateFinish);
-			this.wizard.Controls.Add(this.pageNewByURL);
-			this.wizard.Controls.Add(this.pageNewBySearchTopic);
-			this.wizard.Controls.Add(this.pageNewByNNTPGroup);
-			this.wizard.Controls.Add(this.pageValidateUrl);
-			this.wizard.Controls.Add(this.pageTitleCategory);
-			this.wizard.Controls.Add(this.pageWelcome);
-			this.wizard.Controls.Add(this.pageFoundMultipleFeeds);
-			this.wizard.Controls.Add(this.pageFeedItemControl);
-			this.wizard.Controls.Add(this.pageFeedItemDisplay);
-			this.wizard.Controls.Add(this.pageHowToSelection);
-			this.wizard.Controls.Add(this.finishPage);
-			this.wizard.Controls.Add(this.pageFeedCredentials);
-			this.wizard.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("wizard.Dock")));
-			this.wizard.Enabled = ((bool)(resources.GetObject("wizard.Enabled")));
-			this.wizard.FinishText = resources.GetString("wizard.FinishText");
-			this.wizard.Font = ((System.Drawing.Font)(resources.GetObject("wizard.Font")));
-			this.wizard.HelpText = resources.GetString("wizard.HelpText");
-			this.wizard.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("wizard.ImeMode")));
-			this.wizard.Location = ((System.Drawing.Point)(resources.GetObject("wizard.Location")));
-			this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
-			this.wizard.Name = "wizard";
-			this.wizard.NextText = resources.GetString("wizard.NextText");
-			this.wizard.PreviousText = resources.GetString("wizard.PreviousText");
-			this.wizard.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("wizard.RightToLeft")));
-			this.wizard.SelectedPage = this.pageNewByURL;
-			this.wizard.Size = ((System.Drawing.Size)(resources.GetObject("wizard.Size")));
-			this.wizard.TabIndex = ((int)(resources.GetObject("wizard.TabIndex")));
-			this.wizard.Text = resources.GetString("wizard.Text");
-			this.toolTip.SetToolTip(this.wizard, resources.GetString("wizard.ToolTip"));
-			this.wizard.Visible = ((bool)(resources.GetObject("wizard.Visible")));
-			this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
-			this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
+            this.wizard.AccessibleDescription = resources.GetString("wizard.AccessibleDescription");
+            this.wizard.AccessibleName = resources.GetString("wizard.AccessibleName");
+            this.wizard.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("wizard.Anchor")));
+            this.wizard.AutoScroll = ((bool)(resources.GetObject("wizard.AutoScroll")));
+            this.wizard.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("wizard.AutoScrollMargin")));
+            this.wizard.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("wizard.AutoScrollMinSize")));
+            this.wizard.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("wizard.BackgroundImage")));
+            this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
+            this.wizard.CancelText = resources.GetString("wizard.CancelText");
+            this.wizard.Controls.Add(this._btnImmediateFinish);
+            this.wizard.Controls.Add(this.pageNewByURL);
+            this.wizard.Controls.Add(this.pageNewBySearchTopic);
+            this.wizard.Controls.Add(this.pageNewByNNTPGroup);
+            this.wizard.Controls.Add(this.pageValidateUrl);
+            this.wizard.Controls.Add(this.pageTitleCategory);
+            this.wizard.Controls.Add(this.pageWelcome);
+            this.wizard.Controls.Add(this.pageFoundMultipleFeeds);
+            this.wizard.Controls.Add(this.pageFeedItemControl);
+            this.wizard.Controls.Add(this.pageFeedItemDisplay);
+            this.wizard.Controls.Add(this.pageHowToSelection);
+            this.wizard.Controls.Add(this.finishPage);
+            this.wizard.Controls.Add(this.pageFeedCredentials);
+            this.wizard.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("wizard.Dock")));
+            this.wizard.Enabled = ((bool)(resources.GetObject("wizard.Enabled")));
+            this.wizard.FinishText = resources.GetString("wizard.FinishText");
+            this.wizard.Font = ((System.Drawing.Font)(resources.GetObject("wizard.Font")));
+            this.wizard.HelpText = resources.GetString("wizard.HelpText");
+            this.wizard.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("wizard.ImeMode")));
+            this.wizard.Location = ((System.Drawing.Point)(resources.GetObject("wizard.Location")));
+            this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
+            this.wizard.Name = "wizard";
+            this.wizard.NextText = resources.GetString("wizard.NextText");
+            this.wizard.PreviousText = resources.GetString("wizard.PreviousText");
+            this.wizard.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("wizard.RightToLeft")));
+            this.wizard.SelectedPage = this.pageNewByURL;
+            this.wizard.Size = ((System.Drawing.Size)(resources.GetObject("wizard.Size")));
+            this.wizard.TabIndex = ((int)(resources.GetObject("wizard.TabIndex")));
+            this.wizard.Text = resources.GetString("wizard.Text");
+            this.toolTip.SetToolTip(this.wizard, resources.GetString("wizard.ToolTip"));
+            this.wizard.Visible = ((bool)(resources.GetObject("wizard.Visible")));
+            this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
+            this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
 			// 
 			// _btnImmediateFinish
 			// 
