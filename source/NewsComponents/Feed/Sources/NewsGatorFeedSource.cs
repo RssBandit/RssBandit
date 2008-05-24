@@ -910,14 +910,15 @@ namespace NewsComponents.Feed
                 if (clippedElem == null)
                 {
                     clippedElem = RssHelper.CreateXmlElement("ng", qname.Name, qname.Namespace, "True");
-                    item.OptionalElements.Add(qname, clippedElem.OuterXml);
                 }
                 else
                 {
                     clipped = clippedElem.InnerText != "True";
                     clippedElem.InnerText = clippedElem.InnerText == "True" ? "False" : "True";
+                    item.OptionalElements.Remove(qname); 
                 }
 
+                item.OptionalElements.Add(qname, clippedElem.OuterXml);               
                 XmlElement idElem = RssHelper.GetOptionalElement(item, "postId", NewsGatorRssNS);
                 if (idElem != null)
                 {
