@@ -173,8 +173,9 @@ namespace NewsComponents.Threading {
 					Interlocked.Increment(ref _inUseThreads);
 					callback.Callback(callback.State);
 				} 
-				catch (System.Exception e){ e.ToString();
-					// Ignore any errors; not our problem.
+				catch (System.Exception)
+                { 
+                    // Ignore any errors; not our problem.
 				}
 				finally {
 					Interlocked.Decrement(ref _inUseThreads);

@@ -9,6 +9,7 @@
 
 using System;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
+using NewsComponents.Utils;
 
 namespace RssBandit
 {
@@ -31,7 +32,7 @@ namespace RssBandit
 		/// <param name="additionalInfo">Additional Information</param>
 		/// <param name="configSettings">Parameters</param>
 		public void Publish(Exception exception, System.Collections.Specialized.NameValueCollection additionalInfo, System.Collections.Specialized.NameValueCollection configSettings) {
-			Common.Logging.Log.Error(exception.ToString() ,exception);
+            Common.Logging.Log.Error(exception.ToDescriptiveString(), exception);
 		}
 
 		#endregion

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
+using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 
@@ -48,6 +49,7 @@ namespace RssBandit
             try
             {
                 Exception ex = (Exception) e.ExceptionObject;
+                ex.PreserveExceptionStackTrace();
                 result = ShowExceptionDialog(ex);
             }
             catch (Exception fatal)

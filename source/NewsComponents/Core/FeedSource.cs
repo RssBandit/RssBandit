@@ -4317,7 +4317,7 @@ namespace NewsComponents
             }
             catch (Exception ex)
             {
-                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToString());
+                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToDescriptiveString());
             }
 
 
@@ -4448,12 +4448,12 @@ namespace NewsComponents
             catch (XmlException xe)
             {
                 //cached file is not well-formed so we remove it from cache. 	
-                Trace("Xml Error retrieving feed '{0}' from cache: {1}", feedUrl, xe.ToString());
+                Trace("Xml Error retrieving feed '{0}' from cache: {1}", feedUrl, xe.ToDescriptiveString());
                 CacheHandler.RemoveFeed(theFeed);
             }
             catch (Exception ex)
             {
-                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToString());
+                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToDescriptiveString());
                 if (theFeed != null && !theFeed.causedException)
                 {
                     theFeed.causedException = true;
@@ -4537,7 +4537,7 @@ namespace NewsComponents
                 catch (XmlException xe)
                 {
                     //cache file is corrupt
-                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToString());
+                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToDescriptiveString());
                 }
 
                 //We need a reference to the feed so we can see if a cached object exists
@@ -4580,7 +4580,7 @@ namespace NewsComponents
             }
             catch (Exception e)
             {
-                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToString());
+                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToDescriptiveString());
                 RaiseOnUpdateFeedException(feedUrl, e, priority);
             }
 
@@ -4613,7 +4613,7 @@ namespace NewsComponents
         /// <param name="priority">The priority of the request</param>
         protected virtual void OnRequestException(Uri requestUri, Exception e, int priority)
         {
-            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToString());
+            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToDescriptiveString());
 
             var key = requestUri.CanonicalizedUri();
             if (feedsTable.ContainsKey(key))
@@ -4731,7 +4731,7 @@ namespace NewsComponents
                     }
                     catch (Exception ex)
                     {
-                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToString());
+                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
                         /* the cache file may be corrupt or an IO exception 
 						 * not much we can do so just ignore it 
 						 */
@@ -5563,7 +5563,7 @@ namespace NewsComponents
             {
 // New feeds added to FeedsTable from another thread  
 
-                Trace("RefreshFavicons() InvalidOperationException: {0}", ioe.ToString());
+                Trace("RefreshFavicons() InvalidOperationException: {0}", ioe.ToDescriptiveString());
             }
         }
 
@@ -5671,7 +5671,7 @@ namespace NewsComponents
                     }
                     catch (Exception e)
                     {
-                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToString());
+                        Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i], e.ToDescriptiveString());
                     }
                 } //for(i)
             }
@@ -5679,7 +5679,7 @@ namespace NewsComponents
             {
                 // New feeds added to FeedsTable from another thread  
 
-                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToString());
+                Trace("RefreshFeeds(bool) InvalidOperationException: {0}", ioe.ToDescriptiveString());
             }
             finally
             {
@@ -5775,7 +5775,7 @@ namespace NewsComponents
                     catch (Exception e)
                     {
                         Trace("RefreshFeeds(string,bool) unexpected error processing feed '{0}': {1}", current.link,
-                              e.ToString());
+                              e.ToDescriptiveString());
                     }
                 } //for(i)
             }
@@ -5783,7 +5783,7 @@ namespace NewsComponents
             {
                 // New feeds added to FeedsTable from another thread  
 
-                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToString());
+                Trace("RefreshFeeds(string,bool) InvalidOperationException: {0}", ioe.ToDescriptiveString());
             }
             finally
             {

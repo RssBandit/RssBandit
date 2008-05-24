@@ -428,7 +428,7 @@ namespace NewsComponents.Feed
             }
             catch (Exception ex)
             {
-                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToString());
+                Trace("Error retrieving feed '{0}' from cache: {1}", feedUrl, ex.ToDescriptiveString());
             }
 
             return EmptyItemList; 

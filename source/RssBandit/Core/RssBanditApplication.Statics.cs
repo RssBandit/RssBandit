@@ -14,6 +14,7 @@ using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Net;
+using NewsComponents.Utils;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
 
@@ -740,6 +741,7 @@ namespace RssBandit
                 validationErrorOccured = true;
 
                 _log.Error(GetFeedListFileName() + " validation error: " + args.Message);
+                args.Exception.PreserveExceptionStackTrace();
                 ExceptionManager.Publish(args.Exception);
             }
         }

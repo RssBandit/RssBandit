@@ -1,18 +1,9 @@
-﻿#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
+using NewsComponents.Utils;
 
 namespace RssBandit
 {
@@ -67,7 +58,7 @@ namespace RssBandit
 
         private static void SafeInvoke(object state)
         {
-            InvokeControl d = (InvokeControl)state;
+            var d = (InvokeControl)state;
 
             // Check these from the UI thread to prevent a race condition
             if (d.Disposing || d.IsDisposed)
@@ -75,13 +66,21 @@ namespace RssBandit
                 return;
             }
 
-            d.Action();
-        }
-
-        private static void ActionInvoke(object state)
-        {
-            Action a = (Action)state;
-            a();
+            // for sync code, we catch the exception and rethrow ourselves,
+            // after preserving the stack trace
+            if (d.IsSync)
+            {
+                try
+                {
+                    d.Action();
+                }
+                catch (Exception e)
+                {
+                    d.Exception = e;
+                }
+            }
+            else
+                d.Action();
         }
 
         private static void EnsureInitialized()
@@ -98,62 +97,40 @@ namespace RssBandit
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            //try
-            //{
-            if (control != null)
+
+            if (control == null)
+                control = context;
+
+
+            var invokeControl = new InvokeControl(control, action, synchronous);
+
+            if (synchronous)
             {
-                InvokeControl invokeControl = new InvokeControl(control, action);
-
-                if (synchronous)
+                // if we're already on the right thread, just execute
+                if (control.IsHandleCreated && !control.InvokeRequired)
                 {
-                    // if we're already on the right thread, just execute
-                    if (control.IsHandleCreated && !control.InvokeRequired)
+                    SafeInvoke(invokeControl);
+                    if (invokeControl.Exception != null)
                     {
-                        SafeInvoke(invokeControl);
-                        return;
+                        invokeControl.Exception.PreserveExceptionStackTrace();
+                        throw invokeControl.Exception;
                     }
+                    return;
                 }
+            }
 
-                if (synchronous)
-                    context.Invoke((WaitCallback)SafeInvoke, invokeControl);
-                else
-                    context.BeginInvoke((WaitCallback)SafeInvoke, invokeControl);
+            if (synchronous)
+            {
+                context.Invoke((WaitCallback)SafeInvoke, invokeControl);
+
+                if (invokeControl.Exception != null)
+                {
+                    invokeControl.Exception.PreserveExceptionStackTrace();
+                    throw invokeControl.Exception;
+                }
             }
             else
-            {
-                if (synchronous)
-                    context.Invoke((WaitCallback)ActionInvoke, action);
-                else
-                    context.BeginInvoke((WaitCallback)ActionInvoke, action);
-            }
-            //}
-            //catch (InvalidAsynchronousStateException)
-            //{
-            //    // This can happen on shutdown
-            //}
-            //catch(InvalidOperationException)
-            //{
-            //    // This can happen on shutdown
-            //}
-            //catch (NullReferenceException)
-            //{
-            //    // can happen on shutdown
-            //}
-            //catch (TargetInvocationException e)
-            //{
-
-            //    if (e.InnerException != null)
-            //    {
-            //        ExceptionHelper.PreserveExceptionStackTrace(e.InnerException);
-
-            //        // Throw the new exception
-            //        throw e.InnerException;
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
+                context.BeginInvoke((WaitCallback)SafeInvoke, invokeControl);
         }
 
 
@@ -163,46 +140,46 @@ namespace RssBandit
         /// <returns></returns>
         private static Control GetMarshalingControl()
         {
-            /*
-             * We use this code instead of the SynchronizationContext to workaround
-             * a defect in the way WinForms interacts with the context.
-             * 
-             * The issue is that Windows Forms doesn't support the correct 
-             * delegate type in its internal marshaling machinery.  The 
-             * SynchronizationContext uses a SendOrPostCallback delegate and 
-             * that gets sent over to the marshaling control as either an Invoke 
-             * or BeginInvoke.  In the implementation of Control.Invoke/BeginInvoke, 
-             * they check for a few well-known delegate types for early binding.  
-             * They check for EventHandler, MethodInvoker and WaitCallback.  
-             * If the supplied delegate is one of those types, they cast to it
-             * and early-bind/invoke it.  Otherwise, they do a late-bound dynamic 
-             * invoke on the delegate type.  
-             * 
-             * There are two side-effects of this behavior:
-             * 1) Late-bind calls are an order of magnitude slower than early-bound 
-             *    ones.  Now it's still very fast, but it adds up
-             * 2) Any exception in a late-bound call is caught, wrapped in a 
-             *    TargetInvocationException and rethrown. This makes it impossible 
-             *    for VS to get to the point of the exception when it's unhandled.  
-             *    (First-chance still works.)
-             * 
-             * The WPF synchronization context does not suffer from this issue as the
-             * Dispatcher's marshalling mechanism does check for the SendOrPostCallback 
-             * delegate type and early-binds.  This was an error of omission by the 
-             * Windows Forms 2.0 team.  By using the same internal control and using 
-             * one of the "supported" delegate types, we get the desired behavior.
-             * 
-            */
+          /*
+           * We use this code instead of the SynchronizationContext to workaround
+           * a defect in the way WinForms interacts with the context.
+           * 
+           * The issue is that Windows Forms doesn't support the correct 
+           * delegate type in its internal marshaling machinery.  The 
+           * SynchronizationContext uses a SendOrPostCallback delegate and 
+           * that gets sent over to the marshaling control as either an Invoke 
+           * or BeginInvoke.  In the implementation of Control.Invoke/BeginInvoke, 
+           * they check for a few well-known delegate types for early binding.  
+           * They check for EventHandler, MethodInvoker and WaitCallback.  
+           * If the supplied delegate is one of those types, they cast to it
+           * and early-bind/invoke it.  Otherwise, they do a late-bound dynamic 
+           * invoke on the delegate type.  
+           * 
+           * There are two side-effects of this behavior:
+           * 1) Late-bind calls are an order of magnitude slower than early-bound 
+           *    ones.  Now it's still very fast, but it adds up
+           * 2) Any exception in a late-bound call is caught, wrapped in a 
+           *    TargetInvocationException and rethrown. This makes it impossible 
+           *    for VS to get to the point of the exception when it's unhandled.  
+           *    (First-chance still works.)
+           * 
+           * The WPF synchronization context does not suffer from this issue as the
+           * Dispatcher's marshalling mechanism does check for the SendOrPostCallback 
+           * delegate type and early-binds.  This was an error of omission by the 
+           * Windows Forms 2.0 team.  By using the same internal control and using 
+           * one of the "supported" delegate types, we get the desired behavior.
+           * 
+          */
 
-            Type context = Type.GetType("System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+            var context = Type.GetType("System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
 
-            MethodInfo current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
+            var current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
 
-            PropertyInfo prop = context.GetProperty("MarshalingControl", BindingFlags.Instance | BindingFlags.NonPublic);
+            var prop = context.GetProperty("MarshalingControl", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            object thread = current.Invoke(null, null);
+            var thread = current.Invoke(null, null);
 
-            Control control = (Control)prop.GetValue(thread, null);
+            var control = (Control)prop.GetValue(thread, null);
 
             return control;
         }
@@ -217,9 +194,9 @@ namespace RssBandit
         private class InvokeControl
         {
             private readonly Control control;
-            private readonly Action action;
 
-            public InvokeControl(Control targetObject, Action action)
+
+            public InvokeControl(Control targetObject, Action action, bool isSync)
             {
                 if (targetObject == null)
                     throw new ArgumentNullException("targetObject");
@@ -227,7 +204,14 @@ namespace RssBandit
                     throw new ArgumentNullException("action");
 
                 control = targetObject;
-                this.action = action;
+                Action = action;
+                IsSync = isSync;
+            }
+
+            public bool IsSync
+            {
+                get;
+                private set;
             }
 
             public bool Disposing
@@ -246,13 +230,15 @@ namespace RssBandit
                 }
             }
 
-            public Action Action
+            public Action Action { get; private set; }
+
+            public Exception Exception
             {
-                get { return action; }
+                get;
+                set;
             }
 
         }
-
 
         #endregion Private Class
 
