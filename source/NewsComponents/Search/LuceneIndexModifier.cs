@@ -571,30 +571,45 @@ namespace NewsComponents.Search
 			{
 				AssureOpen();
 				CreateIndexWriter();
-				try{
-					if (!string.IsNullOrEmpty(culture))
-						indexWriter.AddDocument(doc, LuceneSearch.GetAnalyzer(culture));
-					else
-						indexWriter.AddDocument(doc);
-				}catch(IOException ioe){
-					_log.Error("IOException adding document to the index", ioe); 
+                try
+                {
+                    if (!string.IsNullOrEmpty(culture))
+                        indexWriter.AddDocument(doc, LuceneSearch.GetAnalyzer(culture));
+                    else
+                        indexWriter.AddDocument(doc);
+                }
+                catch (IOException ioe)
+                {
+                    _log.Error("IOException adding document to the index", ioe);
 
-                /* see  http://issues.apache.org/jira/browse/LUCENE-665 */ 
-					if(ioe.Message.IndexOf("segments.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
-					}else if(ioe.Message.IndexOf("deleteable.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
-					}
-				}catch(UnauthorizedAccessException uae){
-					_log.Error("Access denied error while adding document to the index", uae); 
+                    /* see  http://issues.apache.org/jira/browse/LUCENE-665 */
+                    if (ioe.Message.IndexOf("segments.new") != -1)
+                    {
+                        FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
+                    }
+                    else if (ioe.Message.IndexOf("deleteable.new") != -1)
+                    {
+                        FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
+                    }
+                }
+                catch (UnauthorizedAccessException uae)
+                {
+                    _log.Error("Access denied error while adding document to the index", uae);
 
-					/* see  http://issues.apache.org/jira/browse/LUCENE-665 */ 
-					if(uae.Message.IndexOf("segments.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
-					}else if(uae.Message.IndexOf("deleteable.new") != -1){
-						FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
-					}
-				}
+                    /* see  http://issues.apache.org/jira/browse/LUCENE-665 */
+                    if (uae.Message.IndexOf("segments.new") != -1)
+                    {
+                        FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "segments.new"), Path.Combine(this.settings.IndexPath, "segments"), MoveFileFlag.ReplaceExisting);
+                    }
+                    else if (uae.Message.IndexOf("deleteable.new") != -1)
+                    {
+                        FileHelper.MoveFile(Path.Combine(this.settings.IndexPath, "deleteable.new"), Path.Combine(this.settings.IndexPath, "deleteable"), MoveFileFlag.ReplaceExisting);
+                    }
+                }
+                catch (SystemException se) //indicates "docs out of order" when trying to merge docs in index
+                {
+                    _log.Error("Non-fatal error occured while adding document to index", se); 
+                }
 
 			}
 
