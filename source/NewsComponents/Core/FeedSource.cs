@@ -5594,7 +5594,7 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                    if (keys[i] == null || !feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
                     var current = feedsTable[keys[i]];
@@ -5715,7 +5715,7 @@ namespace NewsComponents
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
-                    if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
+                     if (keys[i] == null || !feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                         continue;
 
                     var current = feedsTable[keys[i]];
