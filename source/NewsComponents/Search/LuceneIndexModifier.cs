@@ -198,8 +198,15 @@ namespace NewsComponents.Search
 		public virtual void Flush()
 		{
 			// force flush all:
-			FlushPendingOperations(Int32.MaxValue);
-			FlushIndex();
+            try
+            {
+                FlushPendingOperations(Int32.MaxValue);
+                FlushIndex();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Error on flushing index and pending operations", e); 
+            }
 		}
 
 		/// <summary>
