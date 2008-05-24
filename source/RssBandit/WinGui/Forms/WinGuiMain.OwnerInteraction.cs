@@ -1886,7 +1886,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     SetSubscriptionNodeState(feed, tn, FeedProcessingState.Normal);
 
-                    if (modified)
+                    if (modified || feed.containsNewMessages)
                         // if (feed.containsNewMessages) No longer applies due to syncing state from Google Reader & NewsGator Online
                     {
                         // if (modified)
