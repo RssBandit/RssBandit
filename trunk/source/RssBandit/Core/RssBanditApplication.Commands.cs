@@ -1043,7 +1043,7 @@ namespace RssBandit
                 if (n.Type == FeedNodeType.Feed)
                 {
                     INewsFeed f = this.GetFeed(n.DataKey);
-                    FeedSourceID fs = this.FeedSourceManager.SourceOf(f);
+                    FeedSourceEntry fs = this.FeedSourceManager.SourceOf(f);
                     feedSource = fs.Name;
                 }
             }

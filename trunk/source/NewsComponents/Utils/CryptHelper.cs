@@ -16,6 +16,7 @@ namespace NewsComponents.Utils
 {
 	internal class CryptHelper {
 		//FxCop CA1810
+		// this algorithm is FIPS compliant:
 		private static readonly TripleDESCryptoServiceProvider _des = new TripleDESCryptoServiceProvider();
 
 		private CryptHelper(){}
@@ -143,6 +144,7 @@ namespace NewsComponents.Utils
 				i++;
 			}
 
+			//TODO: this hash algorithm is NOT FIPS compliant: replace by a comliant impl.
 			MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
 			return csp.ComputeHash(res);
 		}
