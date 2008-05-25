@@ -459,7 +459,7 @@ namespace IEControl {
 				IEnumFORMATETC[] ppenum);
 		}
 
-		[ComVisible(true), ComImport(), Guid("00000104-0000-0000-C000-000000000046"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+		[ComVisible(true), ComImport, Guid("00000104-0000-0000-C000-000000000046"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
 			public interface IEnumOLEVERB {
 
 			[return: MarshalAs(UnmanagedType.I4)]
@@ -477,7 +477,7 @@ namespace IEControl {
 			void Clone(out IEnumOLEVERB ppenum);
 		}
 
-		[ComVisible(true), Guid("00000118-0000-0000-C000-000000000046"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+		[ComVisible(true), ComImport, Guid("00000118-0000-0000-C000-000000000046"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
 			public interface IOleClientSite {
 
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
@@ -501,6 +501,59 @@ namespace IEControl {
 			[return: MarshalAs(UnmanagedType.I4)][PreserveSig]
 			int RequestNewObjectLayout();
 		}
+
+		#region IOleControl Interface
+		
+		
+		//MIDL_INTERFACE("B196B288-BAB4-101A-B69C-00AA00341D07")
+		//IOleControl : public IUnknown
+		//{
+		//public:
+		//    virtual HRESULT STDMETHODCALLTYPE GetControlInfo( 
+		//        /* [out] */ CONTROLINFO *pCI) = 0;
+		//    virtual HRESULT STDMETHODCALLTYPE OnMnemonic( 
+		//        /* [in] */ MSG *pMsg) = 0;
+		//    virtual HRESULT STDMETHODCALLTYPE OnAmbientPropertyChange( 
+		//        /* [in] */ DISPID dispID) = 0;
+		//    virtual HRESULT STDMETHODCALLTYPE FreezeEvents( 
+		//        /* [in] */ BOOL bFreeze) = 0;
+		//}
+		[ComImport, ComVisible(true)]
+		[Guid("B196B288-BAB4-101A-B69C-00AA00341D07")]
+		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+		public interface IOleControl
+		{
+			//struct tagCONTROLINFO
+			//{
+			//    ULONG cb; uint32
+			//    HACCEL hAccel; intptr
+			//    USHORT cAccel; ushort
+			//    DWORD dwFlags; uint32
+			//}
+			void GetControlInfo(out object pCI);
+			void OnMnemonic([In, MarshalAs(UnmanagedType.Struct)]ref tagMSG pMsg);
+			void OnAmbientPropertyChange([In] int dispID);
+			void FreezeEvents([In, MarshalAs(UnmanagedType.Bool)] bool bFreeze);
+		}
+
+		[ComVisible(true), StructLayout(LayoutKind.Sequential)]
+		public struct tagMSG
+		{
+			public IntPtr hwnd;
+			[MarshalAs(UnmanagedType.I4)]
+			public int message;
+			public IntPtr wParam;
+			public IntPtr lParam;
+			[MarshalAs(UnmanagedType.I4)]
+			public int time;
+			// pt was a by-value POINT structure
+			[MarshalAs(UnmanagedType.I4)]
+			public int pt_x;
+			[MarshalAs(UnmanagedType.I4)]
+			public int pt_y;
+			//public tagPOINT pt;
+		}
+		#endregion
 
 		[ComVisible(true), Guid("0000011B-0000-0000-C000-000000000046"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
 			public interface IOleContainer {
@@ -882,7 +935,7 @@ namespace IEControl {
 		/// <summary>
 		/// http://msdn.microsoft.com/workshop/browser/hosting/reference/ifaces/idochostuihandler/idochostuihandler.asp
 		/// </summary>
-		[ComVisible(true), ComImport(), Guid("BD3F23C0-D43E-11CF-893B-00AA00BDCE1A"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+		[ComVisible(true), ComImport, Guid("BD3F23C0-D43E-11CF-893B-00AA00BDCE1A"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
 			public interface IDocHostUIHandler {
 
 			[PreserveSig] int ShowContextMenu([In, MarshalAs(UnmanagedType.U4)] int dwID,
