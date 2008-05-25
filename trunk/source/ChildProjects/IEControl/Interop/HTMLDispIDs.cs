@@ -51,6 +51,8 @@ namespace IEControl
 		public const int STDDISPID_XOBJ_ONCELLCHANGE = (DISPID_XOBJ_BASE + 34);
 		public const int STDPROPID_XOBJ_DISABLED = (DISPID_XOBJ_BASE + 0x4C); //+76
 
+		public const int DISPID_AMBIENT_DLCONTROL = -5512;
+
 		public const int DISPID_NORMAL_FIRST = 1000;
 
 		public const int DISPID_ONABORT = (DISPID_NORMAL_FIRST);

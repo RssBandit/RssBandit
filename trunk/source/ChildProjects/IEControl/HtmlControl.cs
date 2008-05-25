@@ -344,8 +344,14 @@ namespace IEControl
 					oleObj.SetClientSite(uiHandler);
 				}
 			}
+			
+			Interop.IOleControl oleCtrl = ocx as Interop.IOleControl;
+			if (oleCtrl != null)
+				oleCtrl.OnAmbientPropertyChange(HTMLDispIDs.DISPID_AMBIENT_DLCONTROL);
 
 		}
+
+		
 
 		// this can be called multiple times in the lifetime of the control!!!
 		void SelfHandleDestroyed(object s, EventArgs e) {
@@ -470,7 +476,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AllowInPlaceNavigation {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.allowInPlaceNavigation); }
-			set {	this.SetFlag(ControlBehaviorFlags.allowInPlaceNavigation, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.allowInPlaceNavigation, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -480,7 +490,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Border3d {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.border3d); }
-			set {	this.SetFlag(ControlBehaviorFlags.border3d, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.border3d, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -490,7 +504,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool FlatScrollBars {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.flatScrollBars); }
-			set {	this.SetFlag(ControlBehaviorFlags.flatScrollBars, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.flatScrollBars, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -500,7 +518,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ScriptEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.scriptEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.scriptEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.scriptEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -510,7 +532,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ActiveXEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.activeXEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.activeXEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.activeXEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 	
 		/// <summary>
@@ -520,7 +546,10 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool SilentModeEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.silentModeEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.silentModeEnabled, value);	}
+			set {	
+				this.SetFlag(ControlBehaviorFlags.silentModeEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -530,7 +559,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool JavaEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.javaEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.javaEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.javaEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -540,7 +573,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool BackroundSoundEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.bgSoundEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.bgSoundEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.bgSoundEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -550,7 +587,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ImagesDownloadEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.imagesDownloadEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.imagesDownloadEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.imagesDownloadEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -560,7 +601,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool VideoEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.videoEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.videoEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.videoEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -570,7 +615,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ScrollBarsEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.scrollBarsEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.scrollBarsEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.scrollBarsEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -580,7 +629,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ClientPullEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.clientPullEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.clientPullEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.clientPullEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -590,7 +643,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool BehaviorsExecuteEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.behaviorsExecuteEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.behaviorsExecuteEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.behaviorsExecuteEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -603,7 +660,11 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool FrameDownloadEnabled {
 			get {	return this.IsFlagSet(ControlBehaviorFlags.frameDownloadEnabled); }
-			set {	this.SetFlag(ControlBehaviorFlags.frameDownloadEnabled, value);	}
+			set
+			{
+				this.SetFlag(ControlBehaviorFlags.frameDownloadEnabled, value);
+				SynchAmbientPropertyChange();
+			}
 		}
 
 		/// <summary>
@@ -1773,6 +1834,24 @@ namespace IEControl
 				this.iwb2app = (Interop.IWebBrowser2Application) this.ocx;
 			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::AttachInterfaces() exception - " + ex.Message);
+			}
+		}
+
+		private void SynchAmbientPropertyChange()
+		{
+			try
+			{
+				//Signal change of ambient properties
+				//so MSHTML call our Invoke method through Dispatch
+				//Otherwise refreshing the page will have no effect
+				//MSHTML does not know of new flags set by us
+				//QI for IOleControl
+				Interop.IOleControl oleCtrl = ocx as Interop.IOleControl;
+				if (oleCtrl != null)
+					oleCtrl.OnAmbientPropertyChange(HTMLDispIDs.DISPID_AMBIENT_DLCONTROL);
+			}
+			finally
+			{
 			}
 		}
 

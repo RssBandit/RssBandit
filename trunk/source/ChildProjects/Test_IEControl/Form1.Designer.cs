@@ -15,16 +15,17 @@ namespace Test
 			this.button1 = new System.Windows.Forms.Button();
 			this.buttonPrint = new System.Windows.Forms.Button();
 			this.htmlControlContainer = new System.Windows.Forms.Panel();
-			this.htmlControl1 = new IEControl.HtmlControl();
 			this.buttonFavorites = new System.Windows.Forms.Button();
 			this.statusBar1 = new System.Windows.Forms.StatusBar();
 			this.statusBarPanel1 = new System.Windows.Forms.StatusBarPanel();
 			this.button2 = new System.Windows.Forms.Button();
 			this.btnSetHTMLText = new System.Windows.Forms.Button();
 			this.chkAllowTabs = new System.Windows.Forms.CheckBox();
+			this.htmlControl1 = new IEControl.HtmlControl();
+			this.chkAllowActiveX = new System.Windows.Forms.CheckBox();
 			this.htmlControlContainer.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// textUrl
@@ -70,28 +71,6 @@ namespace Test
 			this.htmlControlContainer.Name = "htmlControlContainer";
 			this.htmlControlContainer.Size = new System.Drawing.Size(499, 293);
 			this.htmlControlContainer.TabIndex = 4;
-			// 
-			// htmlControl1
-			// 
-			this.htmlControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.htmlControl1.Enabled = true;
-			this.htmlControl1.Location = new System.Drawing.Point(9, 11);
-			this.htmlControl1.Name = "htmlControl1";
-			this.htmlControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlControl1.OcxState")));
-			this.htmlControl1.Size = new System.Drawing.Size(479, 273);
-			this.htmlControl1.TabIndex = 3;
-			this.htmlControl1.NavigateComplete += new IEControl.BrowserNavigateComplete2EventHandler(this.htmlNavigateComplete);
-			this.htmlControl1.CommandStateChanged += new IEControl.BrowserCommandStateChangeEventHandler(this.htmlCommandStateChanged);
-			this.htmlControl1.OnQuit += new System.EventHandler(this.htmlQuit);
-			this.htmlControl1.DocumentComplete += new IEControl.BrowserDocumentCompleteEventHandler(this.htmlDocumentComplete);
-			this.htmlControl1.StatusTextChanged += new IEControl.BrowserStatusTextChangeEventHandler(this.htmlStatusTextChanged);
-			this.htmlControl1.WindowClosing += new IEControl.BrowserWindowClosingEventHandler(this.htmlWindowClosing);
-			this.htmlControl1.BeforeNavigate += new IEControl.BrowserBeforeNavigate2EventHandler(this.htmlBeforeNavigate);
-			this.htmlControl1.NewWindow += new IEControl.BrowserNewWindowEventHandler(this.htmlControl1_NewWindow);
-			this.htmlControl1.NewWindow2 += new IEControl.BrowserNewWindow2EventHandler(this.htmlControl1_NewWindow2);
-			this.htmlControl1.NewWindow3 += new System.EventHandler<IEControl.BrowserNewWindow3Event>(this.htmlControl1_NewWindow3);
 			// 
 			// buttonFavorites
 			// 
@@ -155,10 +134,46 @@ namespace Test
 			this.chkAllowTabs.UseVisualStyleBackColor = true;
 			this.chkAllowTabs.CheckedChanged += new System.EventHandler(this.chkAllowTabs_CheckedChanged);
 			// 
+			// htmlControl1
+			// 
+			this.htmlControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.htmlControl1.Enabled = true;
+			this.htmlControl1.Location = new System.Drawing.Point(9, 11);
+			this.htmlControl1.Name = "htmlControl1";
+			this.htmlControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlControl1.OcxState")));
+			this.htmlControl1.Size = new System.Drawing.Size(479, 273);
+			this.htmlControl1.TabIndex = 3;
+			this.htmlControl1.NavigateComplete += new IEControl.BrowserNavigateComplete2EventHandler(this.htmlNavigateComplete);
+			this.htmlControl1.CommandStateChanged += new IEControl.BrowserCommandStateChangeEventHandler(this.htmlCommandStateChanged);
+			this.htmlControl1.OnQuit += new System.EventHandler(this.htmlQuit);
+			this.htmlControl1.DocumentComplete += new IEControl.BrowserDocumentCompleteEventHandler(this.htmlDocumentComplete);
+			this.htmlControl1.StatusTextChanged += new IEControl.BrowserStatusTextChangeEventHandler(this.htmlStatusTextChanged);
+			this.htmlControl1.WindowClosing += new IEControl.BrowserWindowClosingEventHandler(this.htmlWindowClosing);
+			this.htmlControl1.BeforeNavigate += new IEControl.BrowserBeforeNavigate2EventHandler(this.htmlBeforeNavigate);
+			this.htmlControl1.NewWindow2 += new IEControl.BrowserNewWindow2EventHandler(this.htmlControl1_NewWindow2);
+			this.htmlControl1.NewWindow3 += new System.EventHandler<IEControl.BrowserNewWindow3Event>(this.htmlControl1_NewWindow3);
+			this.htmlControl1.NewWindow += new IEControl.BrowserNewWindowEventHandler(this.htmlControl1_NewWindow);
+			// 
+			// chkAllowActiveX
+			// 
+			this.chkAllowActiveX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.chkAllowActiveX.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.chkAllowActiveX.Location = new System.Drawing.Point(529, 263);
+			this.chkAllowActiveX.Name = "chkAllowActiveX";
+			this.chkAllowActiveX.Size = new System.Drawing.Size(47, 18);
+			this.chkAllowActiveX.TabIndex = 10;
+			this.chkAllowActiveX.Text = "ActX";
+			this.chkAllowActiveX.UseVisualStyleBackColor = true;
+			this.chkAllowActiveX.CheckedChanged += new System.EventHandler(this.chkAllowActiveX_CheckedChanged);
+			// 
 			// Form1
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(576, 365);
+			this.Controls.Add(this.chkAllowActiveX);
 			this.Controls.Add(this.chkAllowTabs);
 			this.Controls.Add(this.btnSetHTMLText);
 			this.Controls.Add(this.button2);
@@ -171,8 +186,8 @@ namespace Test
 			this.Name = "Form1";
 			this.Text = "Test IE Control";
 			this.htmlControlContainer.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.htmlControl1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -181,6 +196,7 @@ namespace Test
 		#endregion
 
 		private System.Windows.Forms.CheckBox chkAllowTabs;
+		private System.Windows.Forms.CheckBox chkAllowActiveX;
 
 	}
 }

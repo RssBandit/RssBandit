@@ -90,6 +90,8 @@ namespace Test
 			htmlControl1.ScriptObject = new HTMLBrowserExternalCallImplementation();
 			htmlControl1.Html = htmText;
 
+			chkAllowActiveX.Checked = htmlControl1.ActiveXEnabled;
+
 		}
 
 		/// <summary>
@@ -248,6 +250,11 @@ namespace Test
 			HtmlControl.SetInternetFeatureEnabled(
 				InternetFeatureList.FEATURE_TABBED_BROWSING,
 				SetFeatureFlag.SET_FEATURE_ON_PROCESS, chkAllowTabs.Checked);
+		}
+
+		private void chkAllowActiveX_CheckedChanged(object sender, EventArgs e)
+		{
+			htmlControl1.ActiveXEnabled = chkAllowActiveX.Checked;
 		}
 	}
 	
