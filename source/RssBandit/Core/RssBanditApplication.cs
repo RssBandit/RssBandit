@@ -275,7 +275,12 @@ namespace RssBandit
             InvokeOnGui = a => GuiInvoker.InvokeAsync(guiMain, a);
         }
 
-        public void Init()
+		/// <summary>
+		/// Inits this instance. Returns false, if an issue happened and/or the user
+		/// do not like to continue startup.
+		/// </summary>
+		/// <returns></returns>
+        public bool Init()
         {
             //specify 'nntp' and 'news' URI handler
             var creator = new NntpWebRequest(new Uri("http://www.example.com"));
@@ -302,8 +307,20 @@ namespace RssBandit
 
             // init feed source manager and sources:
             sourceManager = new FeedSourceManager();
-            //TODO: load feedsources from file/db and init
-            // for now:
+#if TEST_PERSISTED_FEEDSOURCES
+			try
+			{
+				// load feedsources from file/db and init
+				sourceManager.LoadFeedSources(GetFeedSourcesFileName());
+			} 
+			catch (Exception loadEx)
+			{
+				_log.Error(String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(), loadEx.Message), loadEx);
+				if (DialogResult.No == MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}", Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
+					return false;
+			}
+#endif
+        	// for now:
 #if TEST_GOOGLE_READER
             this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.Google, 
                                                            new SubscriptionLocation(GetFeedListFileName(),
@@ -327,7 +344,7 @@ namespace RssBandit
 #elif TEST_WINRSS_PLATFORM
             this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
 #else
-    // keep a instance for direct access used for migration of 1.6.x settings to phoenix:
+			// keep a instance for direct access used for migration of 1.6.x settings to phoenix:
 			this.feedHandler4Migration = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
 			//TODO: remove, if refactoring FeedSourceManager is finished:
 			this.feedHandler = this.feedHandler4Migration;
@@ -344,6 +361,9 @@ namespace RssBandit
             }
 
             sourceManager.Add(feedHandler, feedSourceName);
+
+			// just a test:
+			sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
             feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
 
@@ -420,6 +440,9 @@ namespace RssBandit
 
             // register build in channel processors:
             CoreServices.RegisterDisplayingNewsChannelProcessor(new DisplayingNewsChannelProcessor());
+			
+			// indicates OK:
+			return true;
         }
 
         private void InitLocalFeeds()
