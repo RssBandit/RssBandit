@@ -2294,6 +2294,8 @@ namespace RssBandit.WinGui.Forms
 							if (this.GetRoot(RootFolderType.MyFeeds).Equals(tn)) 
 								AggregateSubFeeds(tn);	// it is slow on startup, nothing is loaded in memory...
 							*/
+                            htmlDetail.Html = String.Empty;
+                            htmlDetail.Navigate(null);
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
                             SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,owner.FeedHandler.GetFeeds().Count));
