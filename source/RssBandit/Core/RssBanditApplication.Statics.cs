@@ -614,6 +614,15 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), ".settings" + clr + ".xml");
         }
 
+		/// <summary>
+		/// Gets the name of the feed sources file.
+		/// </summary>
+		/// <returns></returns>
+		public static string GetFeedSourcesFileName()
+		{
+			return Path.Combine(GetUserPath(), "feedsources.xml");
+		}
+
         /// <summary>
         /// Gets the name of the feed list file.
         /// </summary>

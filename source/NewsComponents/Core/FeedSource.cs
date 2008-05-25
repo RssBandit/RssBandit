@@ -79,7 +79,8 @@ namespace NewsComponents
     /// Enumeration that describes the source of the feeds that are being processed
     /// by a particular FeedSource
     /// </summary>
-    public enum FeedSourceType
+	[Serializable]
+	public enum FeedSourceType
     {
 		/// <summary>
 		/// The default for unititialized instances: not a known source
@@ -450,6 +451,10 @@ namespace NewsComponents
         /// Gets the location of the feed
         /// </summary>
         protected SubscriptionLocation location;
+    	public SubscriptionLocation SubscriptionLocation
+    	{
+			get { return location; }
+    	}
 
         /// <summary>
         /// Collection contains NntpServerDefinition objects.

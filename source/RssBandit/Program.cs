@@ -106,11 +106,16 @@ namespace RssBandit
                         Splash.Status = SR.AppLoadStateLoading;
                     }
 
-                    appInstance.Init();
-                    appInstance.StartMainGui(initialStartupState);
-                    Splash.Close();
+					if (appInstance.Init())
+					{
+						// does also run the windows event loop:
+						appInstance.StartMainGui(initialStartupState);
+						Splash.Close();
+					}
+					else
+						return 3;	// init error
 
-                    return 0; // OK
+                	return 0; // OK
                 }
             	return 2; // CommandLine error
             }

@@ -67,7 +67,7 @@ namespace RssBandit.WinGui.Forms
 			this.textUrlOrFile.Text = (urlOrFile ?? String.Empty);
 			
             //select the initial feed source used for populating combo boxes
-            FeedSourceID fs = null; 
+            FeedSourceEntry fs = null; 
             feedSources.TryGetValue(selectedFeedSource, out fs); 
             fs = fs ?? feedSources.Sources.First();
 
@@ -80,7 +80,7 @@ namespace RssBandit.WinGui.Forms
 			this.comboCategory.Items.Add(defaultCategory);
 			this.comboCategory.Text = (selectedCategory ?? String.Empty);
 
-            foreach (FeedSourceID fsid in feedSources.GetOrderedFeedSources())
+            foreach (FeedSourceEntry fsid in feedSources.GetOrderedFeedSources())
             {
                 this.comboFeedSource.Items.Add(fsid.Name); 
             }

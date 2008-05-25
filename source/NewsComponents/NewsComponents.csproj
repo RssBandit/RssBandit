@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="Collections\ReadOnlyCollections.cs" />
     <Compile Include="Collections\RelationHRefEntry.cs" />
+    <Compile Include="Collections\XmlSerializableHashtable.cs" />
     <Compile Include="Core\BackgroundDownloadManager.cs">
       <SubType>Code</SubType>
     </Compile>
