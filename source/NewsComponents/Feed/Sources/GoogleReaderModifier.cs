@@ -298,7 +298,7 @@ namespace NewsComponents.Feed
                 switch (current.Action)
                 {
                     case GoogleReaderOperation.AddFeed:
-                        source.AddFeedInGoogleReader(current.Parameters[0] as string); 
+                        source.AddFeedInGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string); 
                         break;
 
                     case GoogleReaderOperation.AddLabel:
@@ -596,10 +596,11 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                 
         /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <param name="title">The title of the new subscription</param>      
         /// <returns>A GoogleReaderSubscription that describes the newly added feed</returns>
-        public void AddFeedInGoogleReader(string googleUserID, string feedUrl)
+        public void AddFeedInGoogleReader(string googleUserID, string feedUrl, string title)
         {
-            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.AddFeed, new object[] { feedUrl }, googleUserID);
+            PendingGoogleReaderOperation op = new PendingGoogleReaderOperation(GoogleReaderOperation.AddFeed, new object[] { feedUrl, title }, googleUserID);
 
             lock (this.pendingGoogleReaderOperations)
             {
