@@ -30,7 +30,9 @@ namespace IEControl
 	/// Summary description for DocHostUIHandler.
 	/// More infos: http://www.codeproject.com/books/0764549146_8.asp?print=true
 	/// </summary>
-	internal class DocHostUIHandler: 
+	/// <remarks>MUST be public, or the public int setFlags() method
+	/// will not be called from hosted IE!</remarks>
+	public class DocHostUIHandler : 
 		Interop.IDocHostUIHandler, 
 		Interop.IOleClientSite, 
 		Interop.IOleContainer, 
@@ -41,8 +43,7 @@ namespace IEControl
 	{
 		private readonly HtmlControl hostControl;
 
-		//[CLSCompliant(false)]
-		public DocHostUIHandler(HtmlControl hostControl)
+		internal DocHostUIHandler(HtmlControl hostControl)
 		{
 			if ((hostControl == null) || (hostControl.IsHandleCreated == false)) {
 				throw new ArgumentNullException("hostControl");
@@ -52,7 +53,7 @@ namespace IEControl
 		}
 
 
-		[DispId(-5512)]
+		[DispId(HTMLDispIDs.DISPID_AMBIENT_DLCONTROL)]
 		public int setFlags() {
 			//This determines which features are enabled in the control
 			int flags = 0;
@@ -268,7 +269,7 @@ namespace IEControl
 		}
 
 		public int GetContainer(out Interop.IOleContainer ppContainer) {
-			ppContainer = this;
+			ppContainer = null;
 			return Interop.S_OK;
 		}
 
