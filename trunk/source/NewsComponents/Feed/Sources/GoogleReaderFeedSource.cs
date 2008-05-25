@@ -1035,18 +1035,20 @@ namespace NewsComponents.Feed
         /// Adds a feed to the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to add</param>
-        internal void AddFeedInGoogleReader(string feedUrl)
+        /// <param name="title">The title of the new subscription</param>
+        internal void AddFeedInGoogleReader(string feedUrl,string title)
         {
-            this.AddFeedInGoogleReader(feedUrl, null); 
+            this.AddFeedInGoogleReader(feedUrl, title, null); 
         }
 
         /// <summary>
         /// Adds a feed to the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to add</param>
+        /// <param name="title">The title of the new subscription</param>
         /// <param name="label">The label to apply to the feed. If no label is provided, then it is obtained from 
         /// the INewsFeed object in the feeds table that has the same feed URL.</param>
-        private void AddFeedInGoogleReader(string feedUrl, string label)
+        private void AddFeedInGoogleReader(string feedUrl, string title, string label)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && (feedsTable.ContainsKey(feedUrl) || label != null))
             {
@@ -1074,7 +1076,7 @@ namespace NewsComponents.Feed
                     labelParam = "&a=" + Uri.EscapeDataString("user/" + this.GoogleUserId + "/label/" + label); 
                 }
 
-                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=subscribe" + labelParam;
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&t=" + Uri.EscapeDataString(title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=subscribe" + labelParam;
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -1122,7 +1124,7 @@ namespace NewsComponents.Feed
                     feed = new GoogleReaderNewsFeed(sub, feed, this);
                     feedsTable.Add(feed.link, feed);
                 }
-                GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link);
+                GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link, feed.title);
             }
                 return feed;          
   
