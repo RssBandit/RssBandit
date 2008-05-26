@@ -944,11 +944,11 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         public void RefreshListviewContextMenu()
         {
-            NewsItem item = null;
+            INewsItem item = null;
             var selectedItems = GetSelectedLVItems();
 
             if (selectedItems.Count > 0)
-                item = (selectedItems[0]).Key as NewsItem;
+                item = (selectedItems[0]).Key as INewsItem;
             if ((selectedItems.Count == 1) && (item != null))
             {
                 RefreshListviewContextMenu(item);
@@ -962,7 +962,7 @@ namespace RssBandit.WinGui.Forms
         /// <summary>
         /// Renders the context menu and determines which options are enabled/visible. 
         /// </summary>
-        public void RefreshListviewContextMenu(NewsItem item)
+        public void RefreshListviewContextMenu(INewsItem item)
         {
             if (item != null)
             {
