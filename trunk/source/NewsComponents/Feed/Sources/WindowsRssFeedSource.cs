@@ -89,6 +89,8 @@ namespace NewsComponents.Feed
 			this.Configuration.PropertyChanged += OnConfigurationPropertyChanged;
          	ApplyRefreshRate(this.Configuration.RefreshRate);
 
+            this.location = new SubscriptionLocation(String.Empty, null); 
+
             this.AttachEventHandlers();
             feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
             
