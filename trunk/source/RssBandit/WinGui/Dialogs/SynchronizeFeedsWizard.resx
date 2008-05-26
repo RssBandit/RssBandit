@@ -501,8 +501,8 @@
   <data name="wizard.BannerImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAxCAYAAABznEEcAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALAQAA
-        CwEBNnBPWwAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/wAA
+        Cv8BNGKaggAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
         Ihx6ryK9hC5dehMUkCq9KCAoiHQUhcNp+79zbyNPTEyMmDHePWPMwV6btTfzW/Ofc5WDDADef/2Hhfhv
         tzEDBAUFycTHx49jB6K2tlamsrJStqKiQoZtX758WaakpIS7LiwslGGNvc7NzZW5ePHihL8yeDVSTDD1
         uL7YMaRvc0Q+nn/42TFDFBQUjCfHJxDA+KqqKhZChiBky8rKxrEQD/+x/Px8mby8PJlfITjwJ7FmBi8c
@@ -588,8 +588,8 @@
   <data name="wizard.MarginImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAKQAAAE5CAYAAAAeOotoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALAQAA
-        CwEBNnBPWwAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/wAA
+        Cv8BNGKaggAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
         WzJKBpmZmRI7cZg5mQzj7kxS7/equ09m9vNLcqf79OnTOqf76quqrqq6+9+mJkw1/inxb/9WosQPJazE
         z4wV/ccGsx+1yj//VuJH3vt/SvxMb7BWooT97N/Y13zdP/ez/1Pi3/U5tv3sZz9jf33s30r8u44QPlbi
         Rzb+TMf6Nz7Ffvqw9v03Xv/Ae3wL/tXn/SMlfuS7aPkPtv7sR3bWlwmHCwfkO+jvGfv9yHfV65+xXYdn
