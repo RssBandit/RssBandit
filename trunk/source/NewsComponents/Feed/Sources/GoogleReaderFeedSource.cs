@@ -698,15 +698,17 @@ namespace NewsComponents.Feed
                 Trace("AsyncRequest.OnRequestComplete: perma redirect of '{0}' to '{1}'.", requestUri.ToString(),
                       newUri.ToString());
 
-            IList<INewsItem> itemsForFeed;
-            
-            //BUGBUG: This value is now incorrectly returned if feed has more than 50 items 
-            bool firstSuccessfulDownload = false; 
-            
+            IList<INewsItem> itemsForFeed;            
+            Uri feedUri = CreateFeedUriFromDownloadUri(requestUri);
+                       
             //we download feeds 50 items at a time, so it may take multiple requests to get all items
             bool feedDownloadComplete = true;
 
-            Uri feedUri = CreateFeedUriFromDownloadUri(requestUri); 
+             //we download feed immediately after added in UI so it would not have been added to Google Reader yet
+            bool notInGoogleReaderYet = GoogleReaderUpdater.IsPendingSubscription(feedUri.CanonicalizedUri());
+
+            //is this the first time we've downloaded the feed on this machine? 
+            bool firstSuccessfulDownload = notInGoogleReaderYet; 
 
             //grab items from feed, then save stream to cache. 
             try
@@ -895,8 +897,12 @@ namespace NewsComponents.Feed
                     theFeed.storiesrecentlyviewed.Clear();
 
                     foreach (NewsItem ri in itemsForFeed)
-                    {                        
-                        if (ri.BeenRead)
+                    {
+                        if (notInGoogleReaderYet) //news items will come marked as read if not in our subscriptions
+                        {
+                            ri.BeenRead = false;
+                        }
+                        else if (ri.BeenRead)
                         {
                             theFeed.AddViewedStory(ri.Id);
                         }

@@ -452,6 +452,19 @@ namespace NewsComponents.Feed
             this.FeedSources.Remove(source.GoogleUserName); 
         }
 
+
+        /// <summary>
+        /// Checks whether the specified URL is in the pending operations queue as a new URL subscription to 
+        /// Google Reader.
+        /// </summary>
+        /// <param name="url">The feed URL</param>
+        /// <returns>True if there is a pending GoogleReaderOperation.AddFeed for the target URL in the pending operation
+        /// queue</returns>
+        internal bool IsPendingSubscription(string feedUrl)
+        {
+            return pendingGoogleReaderOperations.Any(p => p.Action == GoogleReaderOperation.AddFeed && p.Parameters[0].Equals(feedUrl)); 
+        }
+
          /// <summary>
         /// Enqueus an item that deletes the category in Google Reader
         /// </summary>
