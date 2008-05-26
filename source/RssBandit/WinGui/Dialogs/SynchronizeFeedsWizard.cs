@@ -229,7 +229,6 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.pageFeedCredentials, "pageFeedCredentials");
             this.pageFeedCredentials.Name = "pageFeedCredentials";
             this.pageFeedCredentials.PreviousPage = this.pageStartImport;
-            this.pageFeedCredentials.BeforeDisplay += new System.EventHandler(this.pageFeedCredentials_BeforeDisplay);
             // 
             // lblFeedCredentialsIntro
             // 
@@ -278,25 +277,23 @@ namespace RssBandit.WinGui.Forms
             // radioNewsGator
             // 
             resources.ApplyResources(this.radioNewsGator, "radioNewsGator");
-            this.radioNewsGator.Checked = true;
             this.radioNewsGator.Name = "radioNewsGator";
-            this.radioNewsGator.TabStop = true;
             this.radioNewsGator.UseVisualStyleBackColor = true;
             this.radioNewsGator.CheckedChanged += new System.EventHandler(this.radioNewsGator_CheckedChanged);
             // 
             // radioGoogleReader
             // 
             resources.ApplyResources(this.radioGoogleReader, "radioGoogleReader");
+            this.radioGoogleReader.Checked = true;
             this.radioGoogleReader.Name = "radioGoogleReader";
+            this.radioGoogleReader.TabStop = true;
             this.radioGoogleReader.UseVisualStyleBackColor = true;
             this.radioGoogleReader.CheckedChanged += new System.EventHandler(this.radioGoogleReader_CheckedChanged);
             // 
             // radioCommonFeedlist
             // 
             resources.ApplyResources(this.radioCommonFeedlist, "radioCommonFeedlist");
-            this.radioCommonFeedlist.Checked = true;
             this.radioCommonFeedlist.Name = "radioCommonFeedlist";
-            this.radioCommonFeedlist.TabStop = true;
             this.radioCommonFeedlist.UseVisualStyleBackColor = true;
             this.radioCommonFeedlist.CheckedChanged += new System.EventHandler(this.radioCommonFeedlist_CheckedChanged);
             // 
@@ -429,21 +426,17 @@ namespace RssBandit.WinGui.Forms
         private void OnFinishPage_BeforeMoveBack(object sender, System.ComponentModel.CancelEventArgs e)
         {
             this._btnImmediateFinish.Visible = true;
-        }
-
-        private void pageFeedCredentials_BeforeDisplay(object sender, EventArgs e)
-        {
-            //
-        }  
+        }       
 
         private void radioNewsGator_CheckedChanged(object sender, EventArgs e)
         {
-
+            this.pageStartImport.NextPage = pageFeedCredentials; 
         }
 
         private void radioCommonFeedlist_CheckedChanged(object sender, EventArgs e)
         {
-
+            this.pageStartImport.NextPage = null; 
+            
         }
 
         private void textUser_TextChanged(object sender, EventArgs e)
@@ -458,7 +451,7 @@ namespace RssBandit.WinGui.Forms
 
         private void radioGoogleReader_CheckedChanged(object sender, EventArgs e)
         {
-
+            this.pageStartImport.NextPage = pageFeedCredentials; 
         }
 
      
