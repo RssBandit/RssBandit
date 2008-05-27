@@ -1119,7 +1119,8 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.listFeedItems, "listFeedItems");
             this.listFeedItems.FullRowSelect = true;
             this.listFeedItems.HideSelection = false;
-            this.listFeedItems.Name = "listFeedItems";
+        	this.listFeedItems.MultiSelect = true;
+			this.listFeedItems.Name = "listFeedItems";
             this.listFeedItems.NoThreadChildsPlaceHolder = null;
             this.helpProvider1.SetShowHelp(this.listFeedItems, ((bool) (resources.GetObject("listFeedItems.ShowHelp"))));
             this.listFeedItems.UseCompatibleStateImageBehavior = false;

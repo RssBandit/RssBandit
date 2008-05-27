@@ -949,25 +949,22 @@ namespace RssBandit.WinGui.Forms
 
             if (selectedItems.Count > 0)
                 item = (selectedItems[0]).Key as INewsItem;
-            if ((selectedItems.Count == 1) && (item != null))
-            {
-                RefreshListviewContextMenu(item);
-            }
-            else
-            {
-                RefreshListviewContextMenu(null);
-            }
+        	RefreshListviewContextMenu(item, selectedItems.Count > 1);
         }
 
-        /// <summary>
-        /// Renders the context menu and determines which options are enabled/visible. 
-        /// </summary>
-        public void RefreshListviewContextMenu(INewsItem item)
+		/// <summary>
+		/// Renders the context menu and determines which options are enabled/visible.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <param name="multipleSelection">if set to <c>true</c> multiple items are selected.</param>
+        public void RefreshListviewContextMenu(INewsItem item, bool multipleSelection)
         {
             if (item != null)
             {
-                owner.Mediator.SetVisible("+cmdWatchItemComments", "+cmdFeedItemPostReply");
-                owner.Mediator.SetEnabled("+cmdCopyNewsItem");
+				if (!multipleSelection)
+					owner.Mediator.SetVisible("+cmdWatchItemComments", "+cmdFeedItemPostReply");
+
+				owner.Mediator.SetEnabled("+cmdCopyNewsItem", "+cmdFlagNewsItem", "+cmdDeleteSelectedNewsItems");
 
                 if (listFeedItems.Visible)
                 {
@@ -978,19 +975,20 @@ namespace RssBandit.WinGui.Forms
                     owner.Mediator.SetVisible("-cmdColumnChooserMain");
                 }
 
-                if (item.BeenRead)
-                {
-                    owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread", "-cmdMarkSelectedFeedItemsRead");
-                }
-                else
-                {
-                    owner.Mediator.SetVisible("-cmdMarkSelectedFeedItemsUnread", "+cmdMarkSelectedFeedItemsRead");
-                }
-
-                _listContextMenuDownloadAttachmentsSeparator.Visible = false;
+				if (!multipleSelection)
+				{
+					if (item.BeenRead)
+						owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread", "-cmdMarkSelectedFeedItemsRead");
+					else
+						owner.Mediator.SetVisible("-cmdMarkSelectedFeedItemsUnread", "+cmdMarkSelectedFeedItemsRead");
+				}
+				else
+					owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread", "+cmdMarkSelectedFeedItemsRead");
+				
+				_listContextMenuDownloadAttachmentsSeparator.Visible = false;
                 owner.Mediator.SetVisible("-cmdDownloadAttachment");
 
-                if (item.Enclosures != null && item.Enclosures.Count > 0)
+				if (!multipleSelection && item.Enclosures != null && item.Enclosures.Count > 0)
                 {
                     _listContextMenuDownloadAttachmentsSeparator.Visible = true;
                     owner.Mediator.SetVisible("+cmdDownloadAttachment");
@@ -1020,29 +1018,29 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 owner.Mediator.SetChecked("-cmdWatchItemComments");
+				owner.Mediator.SetEnabled("-cmdWatchItemComments");
 
-                if (string.IsNullOrEmpty(item.CommentRssUrl) && (item.CommentCount == NewsItem.NoComments))
-                {
-                    owner.Mediator.SetEnabled("-cmdWatchItemComments");
-                }
-                else
-                {
-                    owner.Mediator.SetEnabled("+cmdWatchItemComments");
+				if (!multipleSelection)
+				{
+					if (!string.IsNullOrEmpty(item.CommentRssUrl) && (item.CommentCount != NewsItem.NoComments))
+					{
+						owner.Mediator.SetEnabled("+cmdWatchItemComments");
 
-                    if (item.WatchComments)
-                    {
-                        owner.Mediator.SetChecked("+cmdWatchItemComments");
-                    }
-                }
+						if (item.WatchComments)
+						{
+							owner.Mediator.SetChecked("+cmdWatchItemComments");
+						}
+					}
+				}
             }
             else
             {
                 _listContextMenuDownloadAttachmentsSeparator.Visible = false;
 
-                owner.Mediator.SetVisible("+cmdMarkSelectedFeedItemsUnread", "+cmdMarkSelectedFeedItemsRead");
+                owner.Mediator.SetVisible("-cmdMarkSelectedFeedItemsUnread", "-cmdMarkSelectedFeedItemsRead");
                 owner.Mediator.SetVisible("-cmdWatchItemComments", "-cmdColumnChooserMain", "-cmdFeedItemPostReply",
                                           "-cmdDownloadAttachment");
-                owner.Mediator.SetEnabled("-cmdCopyNewsItem");
+				owner.Mediator.SetEnabled("-cmdCopyNewsItem", "-cmdFlagNewsItem", "-cmdDeleteSelectedNewsItems");
             }
 
             if (CurrentSelectedFeedsNode is WasteBasketNode)
