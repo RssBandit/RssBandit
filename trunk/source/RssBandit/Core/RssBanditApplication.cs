@@ -13,6 +13,8 @@
 //#undef USEAUTOUPDATE
 #define USEAUTOUPDATE
 
+//#define TEST_WINRSS_PLATFORM
+
 // Uncomment the next line to enable specific UI lang. tests.
 // Then modify the returned culture ISO code within I18NTestCulture struct.
 // Alternativly you can also add a commandline param '-culture:"ru-RU" to

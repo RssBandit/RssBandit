@@ -2182,6 +2182,7 @@
     <Compile Include="WinGui\TrayStateManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Utility\ClipboardHelper.cs" />
     <Compile Include="WinGui\Utility\ColorEx.cs">
       <SubType>Code</SubType>
     </Compile>

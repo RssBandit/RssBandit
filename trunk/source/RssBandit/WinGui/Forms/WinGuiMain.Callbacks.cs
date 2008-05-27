@@ -347,7 +347,7 @@ namespace RssBandit.WinGui.Forms
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed && feedsNode.DataKey != null)
             {
                 if (owner.FeedHandler.IsSubscribed(feedsNode.DataKey))
-                    Clipboard.SetDataObject(feedsNode.DataKey);
+                    ClipboardHelper.SetString(feedsNode.DataKey, true);
             }
 
             if (sender is AppContextMenuCommand) // needed at the treeview
@@ -365,7 +365,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(link))
                 {
-                    Clipboard.SetDataObject(link);
+					ClipboardHelper.SetString(link, true);
                 }
             }
 
@@ -394,8 +394,8 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(link))
                 {
-                    Clipboard.SetDataObject(
-                        String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, feedsNode.Text));
+					ClipboardHelper.SetStringAndHtml(link,
+                        String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, feedsNode.Text), true);
                 }
             }
             if (sender is AppContextMenuCommand) // needed at the treeview
@@ -428,7 +428,7 @@ namespace RssBandit.WinGui.Forms
             }
 
             if (data.Length > 0)
-                Clipboard.SetDataObject(data.ToString());
+                ClipboardHelper.SetString(data.ToString(), true);
         }
 
         private void CmdCopyNewsItemTitleLinkToClipboard(ICommand sender)
@@ -437,6 +437,7 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             var data = new StringBuilder();
+        	var links = new StringBuilder();
             for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
                 var item = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[i]).Key;
@@ -459,11 +460,12 @@ namespace RssBandit.WinGui.Forms
                                               (i > 0 ? "<br />" + Environment.NewLine : String.Empty), link, link);
                         }
                     }
+                	links.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty), link);
                 }
             }
 
             if (data.Length > 0)
-                Clipboard.SetDataObject(data.ToString());
+                ClipboardHelper.SetStringAndHtml(links.ToString(), data.ToString(), true);
         }
 
         private void CmdCopyNewsItemContentToClipboard(ICommand sender)
@@ -479,32 +481,40 @@ namespace RssBandit.WinGui.Forms
                 if (item != null)
                 {
                     var link = item.Link;
-                    var content = item.Content;
-                    if (!string.IsNullOrEmpty(content))
+					if (string.IsNullOrEmpty(link))
+						link = item.Feed.link;
+					var content = item.Content;
+                	string itemUrl = String.Empty;
+					
+					if (!string.IsNullOrEmpty(link))
+					{
+						var title = item.Title;
+						if (string.IsNullOrEmpty(title))
+							title = link;
+						itemUrl = String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>",
+											  link, item.Feed.title, title);
+					}
+
+					if (i > 0) 
+						data.Append("<hr />");
+                	
+					data.Append("<div>");
+					if (!string.IsNullOrEmpty(content))
                     {
-                        data.AppendFormat("{0}{1}", (i > 0 ? "<br />" + Environment.NewLine : String.Empty), link);
-                    }
-                    else if (!string.IsNullOrEmpty(link))
-                    {
-                        var title = item.Title;
-                        if (!string.IsNullOrEmpty(title))
-                        {
-                            data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>",
-                                              (i > 0 ? "<br />" + Environment.NewLine : String.Empty), link,
-                                              item.Feed.title, title);
-                        }
-                        else
-                        {
-                            data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>",
-                                              (i > 0 ? "<br />" + Environment.NewLine : String.Empty), link,
-                                              item.Feed.title, link);
-                        }
-                    }
+						data.AppendFormat("{0}<br />[{1}]", content, itemUrl);
+                    } 
+					else
+					{
+						data.AppendFormat("{0} -> {1}", item.Feed.title, itemUrl);
+                    
+					}
+					data.Append("</div>");
+                    
                 }
             }
 
             if (data.Length > 0)
-                Clipboard.SetDataObject(data.ToString());
+                ClipboardHelper.SetHtml(data.ToString(), true);
         }
 
         #endregion
@@ -3285,6 +3295,9 @@ namespace RssBandit.WinGui.Forms
                 {
                 }
 
+				if (lvi == null)
+					RefreshListviewContextMenu(null, false);
+
                 if (e.Button == MouseButtons.Right)
                 {
                     // behavior similar to Windows Explorer Listview:					
@@ -3320,8 +3333,8 @@ namespace RssBandit.WinGui.Forms
                 else
                 {
                     // !MouseButtons.Right
-
-                    if (lv.Items.Count <= 0)
+					
+					if (lv.Items.Count <= 0)
                         return;
 
                     if (lvi != null && e.Clicks > 1)
