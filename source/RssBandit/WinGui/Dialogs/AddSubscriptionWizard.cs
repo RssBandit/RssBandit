@@ -2965,24 +2965,26 @@ namespace RssBandit.WinGui.Forms
 			newUrl = newUrl.Replace(Environment.NewLine, String.Empty); 
 			
 			//handle the common case of feed URI not beginning with HTTP 
-			try{ 
-				Uri reqUri = new Uri(newUrl);
-				newUrl     = reqUri.CanonicalizedUri();
-			}catch(UriFormatException){
-
-				if(!url.ToLower().StartsWith("http://")){
-					try {		
-						Uri reqUri = new Uri("http://" + newUrl); 
-						newUrl     = reqUri.CanonicalizedUri();
-					} catch (UriFormatException ex) {
+			Uri reqUri;
+			if (Uri.TryCreate(newUrl, UriKind.Absolute, out reqUri))
+				newUrl = reqUri.CanonicalizedUri();
+			else
+			{
+				if(!newUrl.ToLower().StartsWith("http://"))
+				{
+					try
+					{
+						reqUri = new Uri("http://" + newUrl);
+						newUrl = reqUri.CanonicalizedUri();
+					}
+					catch (UriFormatException ex)
+					{
 						invalidUriException = ex;
 						return null;
 					}
 				}
-				
 			}
-
-    
+			
             if (coreApplication.ContainsFeed(newUrl))
             {
 				string category, title, link;
