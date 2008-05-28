@@ -7532,6 +7532,32 @@ namespace NewsComponents
                 return base.Value;
             }
         }
+
+
+        public override string NamespaceURI
+        {
+            get
+            {
+                if (base.NamespaceURI == NamespaceCore.Feeds_v2003)
+                {
+                    return NamespaceCore.Feeds_vCurrent;
+                }
+
+                return base.NamespaceURI;
+            }
+        }
+
+        public virtual string ReadContentAsString()
+        {
+            string content = base.ReadContentAsString();
+
+            if ((NodeType == XmlNodeType.Attribute) &&
+                   (content == NamespaceCore.Feeds_v2003))
+            {
+                 content = NamespaceCore.Feeds_vCurrent;
+            }         
+            return content;
+        }
     } //class 
 
     #endregion
