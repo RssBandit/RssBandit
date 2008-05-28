@@ -33,7 +33,7 @@ namespace RssBandit
 		/// Our tasks to work on in background
 		/// </summary>
 		public enum Task {
-			LoadFeedlist,
+			LoadFeedlists,
 			LoadSpecialFeeds,
 			RefreshFeeds,
 			RefreshCategoryFeeds,
@@ -59,8 +59,8 @@ namespace RssBandit
 
 			switch ((Task)task.TaskID) {
 
-				case Task.LoadFeedlist:
-					app.LoadFeedList();
+				case Task.LoadFeedlists:
+					app.LoadFeedLists();
 					break;
 			
 				case Task.LoadSpecialFeeds:
