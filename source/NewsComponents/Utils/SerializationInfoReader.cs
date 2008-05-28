@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Globalization;
@@ -23,6 +24,7 @@ namespace NewsComponents.Utils
 	public class SerializationInfoReader {
 		private readonly SerializationInfo moInfo;
 		private readonly StringCollection keys;
+		private readonly StreamingContext context;
 
 		/// <summary>
 		/// Gets access to the keys.
@@ -44,18 +46,48 @@ namespace NewsComponents.Utils
 			}
 		}
 
-		
 		/// <summary>
-		/// Initializes a new instance of the 
-		/// <see cref="SerializationInfoReader"/> class.
+		/// Gets the context.
+		/// </summary>
+		/// <value>The context.</value>
+		public StreamingContext Context
+		{
+			get { return context; }
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SerializationInfoReader"/> class.
+		/// </summary>
+		/// <param name="moInfo">The mo info.</param>
+		/// <param name="keys">The keys.</param>
+		public SerializationInfoReader(SerializationInfo moInfo, StringCollection keys)
+		{
+			this.moInfo = moInfo;
+			this.keys = keys;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SerializationInfoReader"/> class.
 		/// </summary>
 		/// <param name="info">The info.</param>
-		public SerializationInfoReader(SerializationInfo info) {
+		/// <param name="context">The context.</param>
+		public SerializationInfoReader(SerializationInfo info, StreamingContext context)
+		{
+			this.context = context;
 			moInfo = info;
-			keys = new StringCollection();
-			if (moInfo!=null) {
-				foreach (SerializationEntry entry in moInfo) {
-					keys.Add(entry.Name);
+			if (context.Context is StringCollection)
+			{
+				keys = (StringCollection)context.Context;
+			}
+			else
+			{
+				keys = new StringCollection();
+				if (moInfo != null)
+				{
+					foreach (SerializationEntry entry in moInfo)
+					{
+						keys.Add(entry.Name);
+					}
 				}
 			}
 		}
@@ -78,13 +110,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue">the default value.</param>
 		/// <returns></returns>
 		public bool GetBoolean(string name, bool defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetBoolean(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -98,13 +129,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public byte GetByte(string name, byte defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetByte(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -118,13 +148,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public char GetChar(string name, char defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetChar(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -138,14 +167,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public DateTime GetDateTime(string name, DateTime defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetDateTime(name);
 				}
-				else {
-					return defaultValue;
-				}
-
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -159,13 +186,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public decimal GetDecimal(string name, decimal defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetDecimal(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -179,7 +205,8 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public double GetDouble(string name, double defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					// avoid exception
 					string number = moInfo.GetString(name);
@@ -190,9 +217,7 @@ namespace NewsComponents.Utils
 							return Convert.ToDouble(number,CultureInfo.InvariantCulture);
 					}
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -206,13 +231,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public short GetShort(string name, short defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetInt16(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -226,13 +250,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public int GetInt(string name, int defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetInt32(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -246,13 +269,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public long GetLong(string name, long defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetInt64(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -266,13 +288,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public float GetSingle(string name, float defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetSingle(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -286,13 +307,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public string GetString(string name, string defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetString(name);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -307,13 +327,12 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public object GetValue(string name, Type type, object defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					return moInfo.GetValue(name, type);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -328,15 +347,14 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		public Font GetFont(string name, Font defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					FontConverter oFontConv = new FontConverter();
 					string sFont = moInfo.GetString(name);
 					return oFontConv.ConvertFromString(null, CultureInfo.InvariantCulture, sFont) as Font;
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
@@ -350,20 +368,290 @@ namespace NewsComponents.Utils
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
 		public Image GetImage(string name, Image defaultValue) {
-			try {
+			try
+			{
 				if (keys.Contains(name)) {
 					byte[] sImage = (byte[])moInfo.GetValue(name,typeof(byte[]));
 					return ConvertBytesToImage(sImage);
 				}
-				else {
-					return defaultValue;
-				}
+				return defaultValue;
 			}
 			catch {
 				return defaultValue;
 			}
 		}
 
+		/// <summary>
+		/// Gets the generic dictionary.
+		/// </summary>
+		/// <typeparam name="Key">The type of the key.</typeparam>
+		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <param name="name">The name.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public Dictionary<Key, Value> GetGenericDictionary<Key, Value>(string name, Dictionary<Key, Value> defaultValue)
+		{
+			try
+			{
+				return GetGenericDictionary(context, this, name, defaultValue);
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+
+		/// <summary>
+		/// Gets the generic dictionary.
+		/// </summary>
+		/// <typeparam name="Key">The type of the key.</typeparam>
+		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <param name="name">The name.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public SortedList<Key, Value> GetGenericDictionary<Key, Value>(string name, SortedList<Key, Value> defaultValue)
+		{
+			try
+			{
+				return GetGenericDictionary(context, this, name, defaultValue);
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+		/// <summary>
+		/// Gets the generic list.
+		/// </summary>
+		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <param name="name">The name.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public List<Value> GetGenericList<Value>(string name, List<Value> defaultValue)
+		{
+			try
+			{
+				return GetGenericList(context, this, name, defaultValue);
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+
+		/// <summary>
+		/// Adds the generic list.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="info">The info.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="list">The list.</param>
+		public static void AddGenericList<Value>(StreamingContext context, SerializationInfo info, string key, List<Value> list)
+		{
+			// Persitence is soap so don't save generic 
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Value[] values;
+				if (list != null)
+				{
+					values = new Value[list.Count];
+					int pos = 0;
+					foreach (Value value in list)
+					{
+						values[pos] = value;
+						pos++;
+					}
+				}
+				else
+				{
+					values = null;
+				}
+				info.AddValue(key, values, typeof(Value[]));
+			}
+			else
+			{
+				info.AddValue(key, list, typeof(List<Value>));
+			}
+		}
+
+		/// <summary>
+		/// Gets the generic list.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="reader">The reader.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public static List<Value> GetGenericList<Value>(StreamingContext context, SerializationInfoReader reader, string key, List<Value> defaultValue)
+		{
+			List<Value> list;
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Value[] values = (Value[])reader.GetValue(key, typeof(Value[]), null);
+				if (values == null)
+				{
+					return defaultValue;
+				}
+
+				list = new List<Value>(values);
+			}
+			else
+			{
+				list = (List<Value>)reader.GetValue(key, typeof(List<Value>), defaultValue);
+			}
+			return list;
+		}
+
+		/// <summary>
+		/// Adds the generic dictionary.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="info">The info.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="dictionary">The dictionary.</param>
+		public static void AddGenericDictionary<Key, Value>(StreamingContext context, SerializationInfo info, string key, Dictionary<Key, Value> dictionary)
+		{
+			// Persitence is soap so don't save generic 
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Key[] keys;
+				Value[] values;
+				if (dictionary != null)
+				{
+					keys = new Key[dictionary.Count];
+					values = new Value[dictionary.Count];
+					int pos = 0;
+					foreach (KeyValuePair<Key, Value> entry in dictionary)
+					{
+						keys[pos] = entry.Key;
+						values[pos] = entry.Value;
+						pos++;
+					}
+				}
+				else
+				{
+					keys = null;
+					values = null;
+				}
+
+				info.AddValue(key + "_" + "value", values, typeof(Value[]));
+				info.AddValue(key + "_" + "key", keys, typeof(Key[]));
+			}
+			else
+			{
+				info.AddValue(key, dictionary, typeof(Dictionary<Key, Value>));
+			}
+		}
+
+
+		/// <summary>
+		/// Gets the generic dictionary.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="reader">The reader.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public static Dictionary<Key, Value> GetGenericDictionary<Key, Value>(StreamingContext context, SerializationInfoReader reader, string key, Dictionary<Key, Value> defaultValue)
+		{
+			Dictionary<Key, Value> dictionary;
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Key[] keys = (Key[])reader.GetValue(key + "_" + "key", typeof(Key[]), null);
+				if (keys == null)
+				{
+					return defaultValue;
+				}
+				Value[] values = (Value[])reader.GetValue(key + "_" + "value", typeof(Value[]), null);
+				dictionary = new Dictionary<Key, Value>(keys.Length);
+				for (int iPos = 0; iPos < keys.Length; iPos++)
+				{
+					Key link = keys[iPos];
+					Value objectLink = values[iPos];
+					dictionary.Add(link, objectLink);
+				}
+			}
+			else
+			{
+				dictionary = (Dictionary<Key, Value>)reader.GetValue(key, typeof(Dictionary<Key, Value>), defaultValue);
+			}
+			return dictionary;
+		}
+
+		/// <summary>
+		/// Adds the generic dictionary.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="info">The info.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="dictionary">The dictionary.</param>
+		public static void AddGenericDictionary<Key, Value>(StreamingContext context, SerializationInfo info, string key, SortedList<Key, Value> dictionary)
+		{
+			// Persitence is soap so don't save generic 
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Key[] keys;
+				Value[] values;
+				if (dictionary != null)
+				{
+					keys = new Key[dictionary.Count];
+					values = new Value[dictionary.Count];
+					int pos = 0;
+					foreach (KeyValuePair<Key, Value> entry in dictionary)
+					{
+						keys[pos] = entry.Key;
+						values[pos] = entry.Value;
+						pos++;
+					}
+				}
+				else
+				{
+					keys = null;
+					values = null;
+				}
+
+				info.AddValue(key + "_" + "value", values, typeof(Value[]));
+				info.AddValue(key + "_" + "key", keys, typeof(Key[]));
+			}
+			else
+			{
+				info.AddValue(key, dictionary, typeof(SortedList<Key, Value>));
+			}
+		}
+
+		/// <summary>
+		/// Gets the generic dictionary.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="reader">The reader.</param>
+		/// <param name="key">The key.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public static SortedList<Key, Value> GetGenericDictionary<Key, Value>(StreamingContext context, SerializationInfoReader reader, string key, SortedList<Key, Value> defaultValue)
+		{
+			SortedList<Key, Value> dictionary;
+			if (context.State == StreamingContextStates.Persistence)
+			{
+				Key[] keys = (Key[])reader.GetValue(key + "_" + "key", typeof(Key[]), null);
+				if (keys == null)
+				{
+					return defaultValue;
+				}
+				Value[] values = (Value[])reader.GetValue(key + "_" + "value", typeof(Value[]), null);
+				dictionary = new SortedList<Key, Value>(keys.Length);
+				for (int iPos = 0; iPos < keys.Length; iPos++)
+				{
+					Key link = keys[iPos];
+					Value objectLink = values[iPos];
+					dictionary.Add(link, objectLink);
+				}
+			}
+			else
+			{
+				dictionary = (SortedList<Key, Value>)reader.GetValue(key, typeof(SortedList<Key, Value>), defaultValue);
+			}
+			return dictionary;
+		}
 		public void AddValue(string name, object value,Type type) {
 			if (!keys.Contains(name)) {
 				keys.Add(name);

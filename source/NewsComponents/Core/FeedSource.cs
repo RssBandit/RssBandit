@@ -3119,6 +3119,18 @@ namespace NewsComponents
             SearchHandler.IndexAdd(deletedItems);
         }
 
+		/// <summary>
+		/// Saves the feed list to the SubscriptionLocation.Location. The feed is written in
+		/// the RSS Bandit feed file format as described in feeds.xsd
+		/// </summary>
+		public virtual void SaveFeedList()
+		{
+			using (var stream = new MemoryStream())
+			{
+				SaveFeedList(stream, FeedListFormat.NewsHandler);
+				FileHelper.WriteStreamWithBackup(SubscriptionLocation.Location, stream);
+			}
+		}
 
         /// <summary>
         /// Saves the feed list to the specified stream. The feed is written in 

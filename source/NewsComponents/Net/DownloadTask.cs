@@ -174,7 +174,7 @@ namespace NewsComponents.Net
 		/// <param name="context">The serialization context.</param>
 		[System.Security.Permissions.SecurityPermission(SecurityAction.LinkDemand)]
 		protected DownloadTask(SerializationInfo info, StreamingContext context) {
-			SerializationInfoReader reader = new SerializationInfoReader(info);
+			SerializationInfoReader reader = new SerializationInfoReader(info, context);
 			item = (DownloadItem)reader.GetValue( "_manifest", typeof( DownloadItem), null );
 			state = (DownloadTaskState)reader.GetValue( "_state",typeof( DownloadTaskState), DownloadTaskState.None );
 			id = (Guid)reader.GetValue( "_id", typeof( Guid ), Guid.Empty );

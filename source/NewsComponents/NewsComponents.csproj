@@ -167,6 +167,7 @@
     <Compile Include="Collections\FeedsCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Collections\KeyItemCollection.cs" />
     <Compile Include="Collections\ReadOnlyCollections.cs" />
     <Compile Include="Collections\RelationHRefEntry.cs" />
     <Compile Include="Collections\XmlSerializableHashtable.cs" />

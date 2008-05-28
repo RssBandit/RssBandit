@@ -741,6 +741,7 @@ namespace RssBandit
         public static void FeedListValidationCallback(object sender,
                                                       ValidationEventArgs args)
         {
+			//Note: seems to be not called anymore...
             if (args.Severity == XmlSeverityType.Warning)
             {
                 _log.Info(GetFeedListFileName() + " validation warning: " + args.Message);

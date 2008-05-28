@@ -13,7 +13,8 @@
 //#undef USEAUTOUPDATE
 #define USEAUTOUPDATE
 
-//#define TEST_WINRSS_PLATFORM
+#define TEST_PERSISTED_FEEDSOURCES
+//#define TEST_NEWSGATOR_ONLINE
 
 // Uncomment the next line to enable specific UI lang. tests.
 // Then modify the returned culture ISO code within I18NTestCulture struct.
@@ -324,47 +325,41 @@ namespace RssBandit
 #endif
         	// for now:
 #if TEST_GOOGLE_READER
-            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.Google, 
-                                                           new SubscriptionLocation(GetFeedListFileName(),
-                                                                new NetworkCredential(Environment.GetEnvironmentVariable("GOOGLE_READER_USERNAME"),
-                                                                                      Environment.GetEnvironmentVariable("GOOGLE_READER_PASSWORD")
-                                                                                      )
-                                                                                   )
-                                                           );
+
+            if (!sourceManager.Contains(SR.FeedNodeMyGoogleReaderFeedsCaption)) {
+				HashTable props = new HashTable();
+				props.Add(FeedSourceManager.PropertyKey.UserName, Environment.GetEnvironmentVariable("GOOGLE_READER_USERNAME"));
+				props.Add(FeedSourceManager.PropertyKey.Password, Environment.GetEnvironmentVariable("GOOGLE_READER_PASSWORD"));
+				sourceManager.Add(SR.FeedNodeMyGoogleReaderFeedsCaption, FeedSourceType.Google, props);
+			}
+
+			feedHandler = sourceManager[SR.FeedNodeMyGoogleReaderFeedsCaption].Source;
 
 #elif TEST_NEWSGATOR_ONLINE
-            feedHandler = FeedSource.CreateFeedSource(FeedSourceType.NewsGator,
-                                                      new SubscriptionLocation(GetFeedListFileName(),
-                                                                               new NetworkCredential(
-                                                                                   Environment.GetEnvironmentVariable(
-                                                                                       "NEWSGATOR_USERNAME"),
-                                                                                   Environment.GetEnvironmentVariable(
-                                                                                       "NEWSGATOR_PASSWORD")
-                                                                                   )
-                                                          )
-                );
+
+			if (!sourceManager.Contains(SR.FeedNodeMyNewsGatorFeedsCaption))
+			{
+				HashTable props = new HashTable();
+				props.Add(FeedSourceManager.PropertyKey.UserName, Environment.GetEnvironmentVariable("NEWSGATOR_USERNAME"));
+				props.Add(FeedSourceManager.PropertyKey.Password, Environment.GetEnvironmentVariable("NEWSGATOR_PASSWORD"));
+				sourceManager.Add(SR.FeedNodeMyNewsGatorFeedsCaption, FeedSourceType.NewsGator, props);
+			}
+
+			feedHandler = sourceManager[SR.FeedNodeMyNewsGatorFeedsCaption].Source;
+
 #elif TEST_WINRSS_PLATFORM
-            this.feedHandler = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(GetFeedListFileName()));
+			if (!sourceManager.Contains(SR.FeedNodeMyWindowsRssFeedsCaption))
+				sourceManager.Add(SR.FeedNodeMyWindowsRssFeedsCaption, FeedSourceType.WindowsRSS, null);
+
+			feedHandler = sourceManager[SR.FeedNodeMyWindowsRssFeedsCaption].Source;
 #else
-			// keep a instance for direct access used for migration of 1.6.x settings to phoenix:
-			this.feedHandler4Migration = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess, new SubscriptionLocation(GetFeedListFileName()));
-			//TODO: remove, if refactoring FeedSourceManager is finished:
-			this.feedHandler = this.feedHandler4Migration;
+			if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
+				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);	
+			
+			feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
 #endif
-            // just for test, add the one source
-            string feedSourceName = SR.FeedNodeMyFeedsCaption;
-            if (feedHandler is IGoogleReaderFeedSource)
-            {
-                feedSourceName = SR.FeedNodeMyGoogleReaderFeedsCaption; 
-            }else if(feedHandler is INewsGatorFeedSource){
-                feedSourceName = SR.FeedNodeMyNewsGatorFeedsCaption;
-            }else if(feedHandler is IWindowsRssFeedSource){
-                feedSourceName = SR.FeedNodeMyWindowsRssFeedsCaption;
-            }
-
-            sourceManager.Add(feedHandler, feedSourceName);
-
-			// just a test:
+			
+			// save the test enviroment:
 			sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
             feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
@@ -718,9 +713,9 @@ namespace RssBandit
             ThreadWorkerBase.QueueTask(task, duplicate);
         }
 
-        public void BeginLoadingFeedlist()
+        public void BeginLoadingFeedlists()
         {
-            MakeAndQueueTask(ThreadWorker.Task.LoadFeedlist, OnLoadingFeedlistProgress);
+            MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
         }
 
         public void BeginLoadingSpecialFeeds()
@@ -1418,12 +1413,19 @@ namespace RssBandit
         /// use the main form as the parent</remarks>
         public DialogResult MessageQuestion(string text, string captionPostfix)
         {
-            if (MainForm != null && MainForm.IsHandleCreated)
-                Win32.SetForegroundWindow(MainForm.Handle);
-            return MessageBox.Show(MainForm, text,
-                                   CaptionOnly + captionPostfix,
-                                   MessageBoxButtons.YesNo,
-                                   MessageBoxIcon.Question);
+        	DialogResult res = DialogResult.Cancel;
+			GuiInvoker.Invoke(MainForm,
+				delegate
+				{
+					if (MainForm != null && MainForm.IsHandleCreated)
+						Win32.SetForegroundWindow(MainForm.Handle);
+					res = MessageBox.Show(
+						MainForm, text,
+						CaptionOnly + captionPostfix,
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question);
+				});
+			return res;
         }
 
         /// <summary>
@@ -2931,113 +2933,150 @@ namespace RssBandit
         /// </summary>
         /// <remarks>This code used to be in the custom action for the installer but was moved once we got rid 
         /// of custom actions due to Vista install issues</remarks>
-        private static void InstallDefaultFeedList()
+        private static void InstallDefaultFeedList(string currentFeedListFileName)
         {
-            var oldSubslist = GetOldFeedListFileName();
-            var subslist = GetFeedListFileName();
-
-            if (!File.Exists(oldSubslist) && !File.Exists(subslist))
+            if (!File.Exists(currentFeedListFileName))
             {
                 using (var s = Resource.GetStream("Resources.default-feedlist.xml"))
                 {
-                    FileHelper.WriteStreamWithRename(subslist, s);
+					FileHelper.WriteStreamWithRename(currentFeedListFileName, s);
                 } //using
             }
         }
 
+		internal void LoadFeedLists()
+		{
+			foreach (FeedSourceEntry fs in sourceManager.Sources)
+			{
+				if (fs.SourceType == FeedSourceType.DirectAccess)
+				{
+					// migrate old subscriptions or install a default:
+					MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+				}
 
-        /// <summary>
-        /// Load the feedlist. To have exception handling and UI feedback,
-        /// please call StartLoadingFeedlist().
-        /// </summary>
-        /// <exception cref="BanditApplicationException">On any failure</exception>
-        internal void LoadFeedList()
+				// for now we only load the one feedsource we like to test:
+				if (feedHandler == fs.Source)
+				{
+					LoadFeedSourceSubscription(fs.Source);
+				}
+			}
+
+			LoadWatchedCommentsFeedlist();
+		}
+
+		/// <summary>
+		/// Migrates old used feedlists to DirectAccess.
+		/// </summary>
+		/// <param name="currentFeedListFileName">Name of the current feed list file.</param>
+		/// <exception cref="BanditApplicationException">On any failure</exception>
+        internal void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
         {
-            //Load new feed file if exists 
-            var p = GetFeedListFileName();
-            var pOld = GetOldFeedListFileName();
+			if (File.Exists(currentFeedListFileName))
+				return;
 
-            if (!File.Exists(p) && File.Exists(pOld))
-            {
-                if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText,Caption)) == DialogResult.No)
-                {
-                    throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
-                }
-                File.Copy(pOld, p); // copy to be used to load from
-            }
-            else
-            {
-                //create default feed list 			
-                InstallDefaultFeedList();
-            }
+            //checks if new feed file exists and if we can migrate some older:
+			var oldSubscriptionFile = GetFeedListFileName();
+            var veryOldSubscriptionFile = GetOldFeedListFileName();
 
-            if (File.Exists(p))
-            {
-                try
-                {
-                    feedHandler.LoadFeedlist();
-                }
-                catch (Exception e)
-                {
-                    if (!FeedSource.validationErrorOccured)
-                    {
-                        // set by validation callback handler
-                        _log.Error("Exception on loading '" + p + "'.", e);
-                        throw new BanditApplicationException(ApplicationExceptions.FeedlistOnRead, e);
-                    }
-                }
+			if (!File.Exists(currentFeedListFileName))
+			{
+				if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
+				{
+					if ( MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
+					{
+						throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
+					}
+					File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+				}
+				else if (File.Exists(oldSubscriptionFile) )
+				{
+					if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
+					{
+						throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
+					}
+					File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+				}
+				else
+				{
+					//create default feed list 			
+					InstallDefaultFeedList(currentFeedListFileName);
+				}
+			}
 
-                if (feedHandler.FeedsListOK && guiMain != null)
-                {
-                    /* All right here... 	*/
-                }
-                else if (FeedSource.validationErrorOccured)
-                {
-                    FeedSource.validationErrorOccured = false;
-                    throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
-                }
-                else
-                {
-                    throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
-                }
-            }
-            else
+			// now we should have that file:
+			if (!File.Exists(currentFeedListFileName))
             {
                 // no feedlist file exists:
                 throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
             }
 
-            /* Also load feedlist for watched comments */
-
-            p = GetCommentsFeedListFileName();
-
-            if (File.Exists(p))
-            {
-                try
-                {
-                    commentFeedsHandler.LoadFeedlist();
-
-                    foreach (var f in commentFeedsHandler.GetFeeds().Values)
-                    {
-                        if ((f.Any != null) && (f.Any.Length > 0))
-                        {
-                            var origin = f.Any[0];
-                            var sourceFeedUrl = origin.InnerText;
-                            INewsFeed sourceFeed;
-                            if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
-                            {
-                                f.Tag = sourceFeed;
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Exception on loading '" + p + "'.", e);
-                }
-            }
         }
 
+		internal void LoadFeedSourceSubscription(FeedSource feedSource)
+		{
+			if (feedSource == null)
+				return;
+
+			try
+			{
+				feedSource.LoadFeedlist();
+			}
+			catch (Exception e)
+			{
+				if (!FeedSource.validationErrorOccured)
+				{
+					// set by validation callback handler
+					_log.Error("Exception on loading '" + feedSource.SubscriptionLocation.Location + "'.", e);
+					throw new BanditApplicationException(ApplicationExceptions.FeedlistOnRead, e);
+				}
+			}
+
+			if (feedHandler.FeedsListOK && guiMain != null)
+			{
+				/* All right here... 	*/
+			}
+			else if (FeedSource.validationErrorOccured)
+			{
+				FeedSource.validationErrorOccured = false;
+				throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
+			}
+			else
+			{
+				throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
+			}
+
+		}
+
+		internal void LoadWatchedCommentsFeedlist()
+		{
+			var p = GetCommentsFeedListFileName();
+
+			if (File.Exists(p))
+			{
+				try
+				{
+					commentFeedsHandler.LoadFeedlist();
+
+					foreach (var f in commentFeedsHandler.GetFeeds().Values)
+					{
+						if ((f.Any != null) && (f.Any.Length > 0))
+						{
+							var origin = f.Any[0];
+							var sourceFeedUrl = origin.InnerText;
+							INewsFeed sourceFeed;
+							if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
+							{
+								f.Tag = sourceFeed;
+							}
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					_log.Error("Exception on loading '" + p + "'.", e);
+				}
+			}
+		}
 
         public void SynchronizeFeeds()
         {
@@ -4239,25 +4278,19 @@ namespace RssBandit
 			 * */
             try
             {
-                if (feedlistModified && feedHandler != null && feedHandler.GetFeeds() != null &&
-                    feedHandler.FeedsListOK)
-                {
-                    using (var stream = new MemoryStream())
-                    {
-                        try
-                        {
-                            feedHandler.SaveFeedList(stream);
-                            if (FileHelper.WriteStreamWithBackup(GetFeedListFileName(), stream))
-                            {
-                                feedlistModified = false; // reset state flag
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Error("feedHandler::SaveFeedList() failed.", ex);
-                        }
-                    }
-                }
+				if (feedlistModified && feedHandler != null && feedHandler.GetFeeds() != null &&
+					feedHandler.FeedsListOK)
+				{
+					try
+					{
+						feedHandler.SaveFeedList();
+						feedlistModified = false; // reset state flag
+					}
+					catch (Exception ex)
+					{
+						_log.Error("feedHandler::SaveFeedList() failed.", ex);
+					}
+				}
 
                 if (flaggedItemsFeed.Modified)
                     flaggedItemsFeed.Save();
