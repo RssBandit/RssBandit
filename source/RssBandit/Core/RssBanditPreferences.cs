@@ -1218,7 +1218,7 @@ namespace RssBandit {
 			
 			InitDefaults();
 			
-			SerializationInfoReader reader = new SerializationInfoReader(info);
+			SerializationInfoReader reader = new SerializationInfoReader(info, context);
 
 			int version = reader.GetInt("_PrefsVersion", 0);
 			// new encryption key with version 21 and higher:

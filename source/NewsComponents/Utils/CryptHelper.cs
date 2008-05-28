@@ -123,6 +123,29 @@ namespace NewsComponents.Utils
 			return ret;
 		}
 
+		public static string GenerateKey(int length)
+		{
+			RandomNumberGenerator generator = RandomNumberGenerator.Create();
+			byte[] data = new byte[length];
+			generator.GetNonZeroBytes(data);
+			return Convert.ToBase64String(data);
+		}
+		
+		public static uint GenerateIntKey()
+		{
+			RandomNumberGenerator generator = RandomNumberGenerator.Create();
+			byte[] data = new byte[4];
+			generator.GetNonZeroBytes(data);
+			return BitConverter.ToUInt32(data, 0);
+		}
+		public static ushort GenerateShortKey()
+		{
+			RandomNumberGenerator generator = RandomNumberGenerator.Create();
+			byte[] data = new byte[2];
+			generator.GetNonZeroBytes(data);
+			return BitConverter.ToUInt16(data, 0);
+		}
+
 		private static byte[] _calcHash() {
 			string salt = "NewsComponents.4711";
 			byte[] b = Encoding.Unicode.GetBytes(salt);

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using NewsComponents;
@@ -32,26 +33,21 @@ namespace NewsComponents
 	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
 	public class FeedSourceEntry : IComparable<FeedSourceEntry>
 	{
+		/// <summary>
+		/// Gets or (internal) sets the source.
+		/// </summary>
+		/// <value>The source.</value>
 		[XmlIgnore]
-		public Guid ID { get { return _id; } }
-		private Guid _id;
-
-		FeedSource _source;
-		[XmlIgnore]
-		public FeedSource Source
-		{
-			get { return _source; }
-			internal set { _source = value; }
-		}
+		public FeedSource Source { get; internal set; }
 
 		public FeedSourceEntry() { }
 
-		public FeedSourceEntry(FeedSource source, string name, int ordinal)
+		public FeedSourceEntry(int id, FeedSource source, string name, int ordinal)
 		{
-			_id = Guid.NewGuid();
+			ID = id;
 			Name = name;
 			Ordinal = ordinal;
-			_source = source;
+			Source = source;
 		}
 
 		/// <summary>
@@ -69,14 +65,7 @@ namespace NewsComponents
 		public int Ordinal { get; set; }
 
 		[XmlAttribute("id")]
-		public string SerializableID
-		{
-			get { return ID.ToString(); }
-			set { 
-				if (value != null) 
-					_id = new Guid(value);
-			}
-		}
+		public int ID { get; set; }
 
 		private FeedSourceType _serializedSourceType = FeedSourceType.Unknown;
 		[XmlAttribute("type")]
@@ -91,9 +80,9 @@ namespace NewsComponents
 			set { _serializedSourceType = value; }
 		}
 
-		private XmlSerializableHashtable _serializedSourceProperties = new XmlSerializableHashtable();
+		private StringProperties _serializedSourceProperties = new StringProperties();
 		[XmlElement("properties")]
-		public XmlSerializableHashtable Properties
+		public StringProperties Properties
 		{
 			get
 			{
@@ -121,9 +110,12 @@ namespace NewsComponents
 	}
 
 	[Serializable]
-	public class StringPropertiesBag : XmlSerializableHashtable
+	public class StringProperties: KeyItemCollection<string, string>
 	{
-		
+		public StringProperties() {}
+		public StringProperties(int capacity): base(capacity) {}
+		protected StringProperties(SerializationInfo info, StreamingContext context) : 
+			base(info, context) { }
 	}
 
 	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
@@ -143,7 +135,17 @@ namespace NewsComponents
 	/// </summary>
 	public class FeedSourceManager
 	{
-		readonly Dictionary<Guid, FeedSourceEntry> _feedSources = new Dictionary<Guid, FeedSourceEntry>();
+		/// <summary>
+		/// Gets the keys of the common FeedSource properties dictionary
+		/// </summary>
+		public static class PropertyKey
+		{
+			public const string Domain = "domain";
+			public const string UserName = "user";
+			public const string Password = "pwd";
+		}
+
+		readonly Dictionary<int, FeedSourceEntry> _feedSources = new Dictionary<int, FeedSourceEntry>();
 
 		/// <summary>
 		/// Gets the ordered feed sources. Used
@@ -190,11 +192,45 @@ namespace NewsComponents
 		/// <returns></returns>
 		public FeedSourceEntry Add(FeedSource source, string name)
 		{
-			FeedSourceEntry fs = new FeedSourceEntry(source, name, _feedSources.Count);
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+			if (Contains(name))
+				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
+
+			FeedSourceEntry fs = new FeedSourceEntry(UniqueKey, source, name, _feedSources.Count);
 			_feedSources.Add(fs.ID, fs);
 			return fs;
 		}
 
+		/// <summary>
+		/// Adds a new source with the specified name and properties.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="type">The type.</param>
+		/// <param name="properties">The properties.</param>
+		/// <returns></returns>
+		public FeedSourceEntry Add(string name, FeedSourceType type, IDictionary properties)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+			if (Contains(name))
+				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
+			
+			int id = UniqueKey;
+			FeedSource source = FeedSource.CreateFeedSource(type, CreateSubscriptionLocation(id, type, properties));
+			FeedSourceEntry fse = new FeedSourceEntry(id, source, name, _feedSources.Count);
+			//fse.Properties =
+			_feedSources.Add(fse.ID, fse);
+			return fse;
+		}
+
+		/// <summary>
+		/// Clears this instance (removing all feedsources).
+		/// </summary>
+		public void Clear()
+		{
+			_feedSources.Clear();
+		}
 
         /// <summary>
         /// Determines whether there is a Feed Source with the specified name
@@ -205,6 +241,15 @@ namespace NewsComponents
         {
             return _feedSources.Values.Any(fs => fs.Name == name); 
         }
+
+		/// <summary>
+		/// Gets the count.
+		/// </summary>
+		/// <value>The count.</value>
+		public int Count
+		{
+			get { return _feedSources.Count; }
+		}
 
         /// <summary>
         /// Indexer which returns feed source keyed by name
@@ -322,52 +367,75 @@ namespace NewsComponents
 				foreach (FeedSourceEntry fs in mySources.List)
 				{
 					_feedSources.Add(fs.ID, fs);
-					fs.Source = FeedSource.CreateFeedSource(fs.SourceType, CreateSubscriptionLocation(fs.Name, fs.SourceType, fs.Properties.InnerHashtable));
+					fs.Source = FeedSource.CreateFeedSource(fs.SourceType, CreateSubscriptionLocation(fs.ID, fs.SourceType, fs.Properties));
 				}
 			}
 		}
 
-		static SubscriptionLocation CreateSubscriptionLocation(string name, FeedSourceType type, IDictionary properties)
+		private int UniqueKey
+		{
+			get
+			{
+				int id = CryptHelper.GenerateShortKey();
+				while (_feedSources.ContainsKey(id))
+					id = CryptHelper.GenerateShortKey();
+				return id;
+			}
+		}
+
+		static SubscriptionLocation CreateSubscriptionLocation(int id, FeedSourceType type, IDictionary properties)
 		{
 			switch (type)
 			{
 				case FeedSourceType.DirectAccess:
-					return new SubscriptionLocation(BuildSubscriptionName(name));
+					return new SubscriptionLocation(BuildSubscriptionName(id, type));
 				case FeedSourceType.Google:
-					return new SubscriptionLocation(BuildSubscriptionName(name),
+					return new SubscriptionLocation(BuildSubscriptionName(id, type),
 						BuildCredentials(properties));
 						
 				case FeedSourceType.NewsGator:
-					return new SubscriptionLocation(BuildSubscriptionName(name),
+					return new SubscriptionLocation(BuildSubscriptionName(id, type),
 						BuildCredentials(properties));
 				case FeedSourceType.WindowsRSS:
-					return new SubscriptionLocation(BuildSubscriptionName(name));
+					return new SubscriptionLocation(BuildSubscriptionName(id, type));
 				default:
 					throw new InvalidOperationException("FeedSourceType not supported:" + type);
 			}
 
 		}
 
-		static string BuildSubscriptionName(string name)
+		static string BuildSubscriptionName(int id, FeedSourceType type)
 		{
 			//TODO: check name for invalid file name chars
 			string path = FeedSource.DefaultConfiguration.UserApplicationDataPath;
-			return Path.Combine(path, String.Format("subscriptions.{0}.xml", name));
+			return Path.Combine(path, String.Format("{0}.{1}.subscription", type, id));
 		}
 
 		static NetworkCredential BuildCredentials(IDictionary properties)
 		{
-			return new NetworkCredential((string)properties["user"],
-				CryptHelper.Decrypt((string)properties["pwd"]));
+			if (properties == null)
+				return null;
+			string u = null, d = null, p = null;
+			if (properties.Contains(PropertyKey.UserName))
+				u =  Convert.ToString(properties[PropertyKey.UserName]);
+			if (properties.Contains(PropertyKey.Domain))
+				d = Convert.ToString(properties[PropertyKey.Domain]);
+			if (properties.Contains(PropertyKey.Password))
+				p = Convert.ToString(properties[PropertyKey.Password]);
+			if (!String.IsNullOrEmpty(p))
+				p = CryptHelper.Decrypt(p);
+			return new NetworkCredential(u,p,d);
 		}
 
-		static Hashtable BuildProperties(FeedSourceEntry f)
+		static StringProperties BuildProperties(FeedSourceEntry f)
 		{
-			Hashtable h = new Hashtable();
-			if (f.Source.SubscriptionLocation.Credentials != null)
+			StringProperties h = new StringProperties();
+			if (f.Source.SubscriptionLocation.Credentials != null &&
+				!String.IsNullOrEmpty(f.Source.SubscriptionLocation.Credentials.UserName))
 			{
-				h.Add("user", f.Source.SubscriptionLocation.Credentials.UserName);
-				h.Add("pwd", CryptHelper.Encrypt(f.Source.SubscriptionLocation.Credentials.Password));
+				h.Add(PropertyKey.Domain, f.Source.SubscriptionLocation.Credentials.Domain);
+				h.Add(PropertyKey.UserName, f.Source.SubscriptionLocation.Credentials.UserName);
+				h.Add(PropertyKey.Password, CryptHelper.Encrypt(f.Source.SubscriptionLocation.Credentials.Password));
 			}
 			return h;
 		}
@@ -382,7 +450,7 @@ namespace NewsComponents
 				foreach (var f in _feedSources.Values)
 				{
 					sources.List.Add(f);
-					f.Properties.InnerHashtable = BuildProperties(f);
+					f.Properties = BuildProperties(f);
 				}
 				using (TextWriter writer = new StreamWriter(FileHelper.OpenForWrite(feedSourcesUrl)))
 				{
