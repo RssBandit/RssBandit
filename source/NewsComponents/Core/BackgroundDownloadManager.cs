@@ -16,9 +16,15 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+
+using log4net;
+
 using NewsComponents.Net;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
+
+using RssBandit.Common;
+using RssBandit.Common.Logging;
 
 namespace NewsComponents
 {
@@ -183,6 +189,12 @@ namespace NewsComponents
         #endregion
 
         #region Static Members
+
+        /// <summary>
+        /// Used for logging information about download progress.
+        /// </summary>
+        private static readonly ILog _log = Log.GetLogger(typeof(BackgroundDownloadManager));
+
 
         /// <summary>
         /// Used for making asynchronous web requests
@@ -631,6 +643,7 @@ namespace NewsComponents
         public void BeginDownload(DownloadItem item)
         {
             DownloadTask task = new DownloadTask(item, this);
+            _log.InfoFormat("Starting to download enclosure '{0}' from item '{1}' in feed '{2}' to {3}", item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId, item.TargetFolder);
 
             if (!DownloadRegistryManager.Current.TaskAlreadyExists(task))
             {
@@ -650,6 +663,9 @@ namespace NewsComponents
         public void CancelDownload(DownloadItem item)
         {
             DownloadTask task = DownloadRegistryManager.Current.GetByItemID(item.ItemId);
+            _log.InfoFormat("Cancelling download of enclosure '{0}' from item '{1}' in feed '{2}'", item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId);
+
+
             if (task != null)
             {
                 switch (task.State)
@@ -693,6 +709,9 @@ namespace NewsComponents
         {
             string fileLocation = Path.Combine(e.Task.DownloadFilesBase, e.Task.DownloadItem.File.LocalName);
             string finalLocation = Path.Combine(e.Task.DownloadItem.TargetFolder, e.Task.DownloadItem.File.LocalName);
+
+            _log.InfoFormat("Finished downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}", e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId, e.Task.DownloadItem.OwnerFeedId, finalLocation);
+
 
             /*
 				e.Task.State = DownloadTaskState.Downloaded;	
@@ -764,6 +783,7 @@ namespace NewsComponents
 				e.Task.State = DownloadTaskState.DownloadError;					
 				DownloadRegistryManager.Current.UpdateTask( e.Task );
 			*/
+            _log.InfoFormat("Error downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}", e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId, e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
 
             //TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
             DownloadRegistryManager.Current.UnRegisterTask(e.Task);
