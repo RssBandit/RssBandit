@@ -11,7 +11,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -96,7 +95,7 @@ namespace NewsComponents
         {
             return Equals(other as Enclosure);
         }
-    
+
         public bool Equals(Enclosure enclosure)
         {
             if (enclosure == null) return false;
@@ -380,7 +379,9 @@ namespace NewsComponents
         /// <param name="subject">The topic of the article or blog entry.</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject)
             :
-                this(feed, title, link, content, date, subject, ContentType.Unknown, new Dictionary<XmlQualifiedName, string>(), link, null)
+                this(
+                feed, title, link, content, date, subject, ContentType.Unknown,
+                new Dictionary<XmlQualifiedName, string>(), link, null)
         {
         }
 
@@ -419,7 +420,9 @@ namespace NewsComponents
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         string id, string parentId)
             :
-                this(feed, title, link, content, date, subject, ContentType.Unknown, new Dictionary<XmlQualifiedName, string>(), id, parentId)
+                this(
+                feed, title, link, content, date, subject, ContentType.Unknown,
+                new Dictionary<XmlQualifiedName, string>(), id, parentId)
         {
         }
 
@@ -438,7 +441,8 @@ namespace NewsComponents
         /// <param name="id">The unique identifier for the item</param>
         /// <param name="parentId">The unique identifier of the parent of this item</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId)
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id,
+                        string parentId)
             :
                 this(feed, title, link, content, date, subject, ctype, otherElements, id, parentId, link)
         {
@@ -460,7 +464,8 @@ namespace NewsComponents
         /// <param name="parentId">The unique identifier of the parent of this item</param>		
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId, string baseUrl) :
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id,
+                        string parentId, string baseUrl) :
                             this(
                             feed, title, link, content, date, subject, ctype, otherElements, id, parentId, baseUrl, null
                             )
@@ -484,7 +489,8 @@ namespace NewsComponents
         /// <param name="baseUrl">The base URL used for resolving relative links in the content of the NewsItem</param>
         /// <param name="outgoingLinks">Outgoing hyperlinks from the HTML content of this item</param>
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
-                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id, string parentId, string baseUrl,
+                        ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id,
+                        string parentId, string baseUrl,
                         List<string> outgoingLinks)
         {
             OptionalElements = otherElements;
@@ -524,7 +530,7 @@ namespace NewsComponents
             // now check for a valid identifier (needed to remember read stories)
             if (p_id == null)
             {
-                var hc = (p_title != null ? p_title.GetHashCode() : 0) +
+                int hc = (p_title != null ? p_title.GetHashCode() : 0) +
                          (HasContent ? Content.GetHashCode() : 0);
                 p_id = hc.ToString();
             }
@@ -544,7 +550,7 @@ namespace NewsComponents
                     ProcessOutGoingLinks(content);
                 }
 
-                var idEqHref = ReferenceEquals(HRef, p_id);
+                bool idEqHref = ReferenceEquals(HRef, p_id);
 
                 if (null != HRef)
                     HRef = RelationCosmos.RelationCosmos.UrlTable.Add(HRef);
@@ -554,7 +560,7 @@ namespace NewsComponents
                 if (!string.IsNullOrEmpty(p_parentId))
                 {
                     // dealing with the relationcosmos string comparer (references only!):
-                    var p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
+                    string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
                         NntpParser.CreateGoogleUrlFromID(p_parentId));
 
                     if (ReferenceEquals(outgoingRelationships, GetList<string>.Empty))
@@ -629,7 +635,7 @@ namespace NewsComponents
                 {
                     // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                     // internally we use the unexpanded version to work with
-                    var t = HtmlHelper.StripAnyTags(p_author);
+                    string t = HtmlHelper.StripAnyTags(p_author);
                     if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                     {
                         //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -637,7 +643,7 @@ namespace NewsComponents
                     }
                     return t;
                 }
-                
+
                 return p_author;
             }
             set { p_author = value; }
@@ -653,7 +659,7 @@ namespace NewsComponents
             {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                var t = HtmlHelper.StripAnyTags(p_title);
+                string t = HtmlHelper.StripAnyTags(p_title);
                 if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                 {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -673,7 +679,7 @@ namespace NewsComponents
             {
                 // TorstenR: expand HTML entities in title (property is accessed by the GUI)
                 // internally we use the unexpanded version to work with
-                var t = HtmlHelper.StripAnyTags(subject);
+                string t = HtmlHelper.StripAnyTags(subject);
                 if (t.IndexOf("&") >= 0 && t.IndexOf(";") >= 0)
                 {
                     //t = System.Web.HttpUtility.HtmlDecode(t);
@@ -967,7 +973,7 @@ namespace NewsComponents
             writer.WriteEndElement();
 
             /* everything else */
-            foreach (string s in OptionalElements.Values)
+            foreach (var s in OptionalElements.Values)
             {
                 writer.WriteRaw(s);
             }
@@ -1223,9 +1229,9 @@ namespace NewsComponents
         /// <returns>An XPathNavigator</returns>
         public XPathNavigator CreateNavigator(bool standalone, bool useGMTDate)
         {
-            var format = (standalone
-                              ? NewsItemSerializationFormat.RssItem
-                              : NewsItemSerializationFormat.RssFeed);
+            NewsItemSerializationFormat format = (standalone
+                                                      ? NewsItemSerializationFormat.RssItem
+                                                      : NewsItemSerializationFormat.RssFeed);
             var doc =
                 new XPathDocument(new XmlTextReader(new StringReader(ToString(format, useGMTDate))), XmlSpace.Preserve);
             return doc.CreateNavigator();
@@ -1334,7 +1340,7 @@ namespace NewsComponents
         /// <returns></returns>
         public int GetSize()
         {
-            var l = StringHelper.SizeOfStr(p_id);
+            int l = StringHelper.SizeOfStr(p_id);
             l += StringHelper.SizeOfStr(Link);
             if (HasContent)
                 l += p_content.Length;

@@ -268,7 +268,7 @@ namespace System.Windows.Forms.ThListView
          Description("collection of available groups (manually added)"),
          Editor(typeof (CollectionEditor), typeof (UITypeEditor)),
          Category("Grouping")]
-            public new ThreadedListViewGroupCollection Groups
+        public new ThreadedListViewGroupCollection Groups
         {
             get { return _groups; }
         }
@@ -393,7 +393,7 @@ namespace System.Windows.Forms.ThListView
 
                 foreach (var itm in Items)
                 {
-                    var index =
+                    int index =
                         _autoGroupList.IndexOf(itm.SubItems[columnID].Text == ""
                                                    ? _emptyAutoGroupText
                                                    : itm.SubItems[columnID].Text);
@@ -467,7 +467,7 @@ namespace System.Windows.Forms.ThListView
             {
                 if (value != null)
                 {
-                    var newLayout = value;
+                    FeedColumnLayout newLayout = value;
 
                     if (!RaiseBeforeFeedColumnLayoutChangeEventCancel(newLayout))
                     {
@@ -608,9 +608,9 @@ namespace System.Windows.Forms.ThListView
                 try
                 {
                     lvItem.SetThreadState(false);
-                    var paramItemIndex = lvItem.Index;
-                    var currentIndent = lvItem.IndentLevel;
-                    var nextIndex = paramItemIndex + 1;
+                    int paramItemIndex = lvItem.Index;
+                    int currentIndent = lvItem.IndentLevel;
+                    int nextIndex = paramItemIndex + 1;
 
                     lock (Items)
                     {
@@ -635,7 +635,7 @@ namespace System.Windows.Forms.ThListView
 
                 if (focusedItemIndex >= 0)
                 {
-                    var lvi = base.Items[focusedItemIndex];
+                    ListViewItem lvi = base.Items[focusedItemIndex];
                     lvi.Focused = true;
                     lvi.Selected = true;
                 }
@@ -649,7 +649,7 @@ namespace System.Windows.Forms.ThListView
         /// <param name="activate">true, if lvItem should be activated</param>
         internal void ExpandListViewItem(ThreadedListViewItem lvItem, bool activate)
         {
-            var selIdxsCount = SelectedIndices.Count;
+            int selIdxsCount = SelectedIndices.Count;
             var selIdxs = new int[selIdxsCount];
             SelectedIndices.CopyTo(selIdxs, 0);
 
@@ -663,8 +663,8 @@ namespace System.Windows.Forms.ThListView
                     return;
                 }
 
-                var paramItemIndex = lvItem.Index;
-                var currentIndent = lvItem.IndentLevel;
+                int paramItemIndex = lvItem.Index;
+                int currentIndent = lvItem.IndentLevel;
 
 //				if (base.SelectedItems.Count > 0 && activate)
 //					selectedItemIndex = paramItemIndex;
@@ -673,7 +673,7 @@ namespace System.Windows.Forms.ThListView
 
                 if (newItems == null)
                 {
-                    var item = _noChildsPlaceHolder;
+                    ThreadedListViewItem item = _noChildsPlaceHolder;
                     if (item == null)
                     {
                         item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage)
@@ -760,12 +760,12 @@ namespace System.Windows.Forms.ThListView
         /// </summary>
         public void CheckForLayoutModifications()
         {
-            var layout = _layout;
+            FeedColumnLayout layout = _layout;
             if (layout != null)
             {
                 GuiInvoker.InvokeAsync(this, delegate
                                                  {
-                                                     var current = FeedColumnLayoutFromCurrentSettings();
+                                                     FeedColumnLayout current = FeedColumnLayoutFromCurrentSettings();
 
                                                      if (!layout.Equals(current))
                                                      {
@@ -796,10 +796,10 @@ namespace System.Windows.Forms.ThListView
                         layout.SortByColumn = Columns[_sorter.SortColumnIndex].Key;
                         layout.SortOrder = ConvertSortOrder(_sorter.SortOrder);
                     }
-                    var colOrder = GetColumnOrderArray();
+                    int[] colOrder = GetColumnOrderArray();
                     var aCols = new List<string>(Columns.Count);
                     var aColWidths = new List<int>(Columns.Count);
-                    for (var i = 0; i < Columns.Count; i++)
+                    for (int i = 0; i < Columns.Count; i++)
                     {
                         aCols.Add(Columns[colOrder[i]].Key);
                         aColWidths.Add(Columns[colOrder[i]].Width);
@@ -818,7 +818,7 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeExpandEventCancel(ThreadedListViewItem tlv)
         {
-            var cancel = false;
+            bool cancel = false;
             if (BeforeExpandThread != null)
             {
                 var e = new ThreadCancelEventArgs(tlv, cancel);
@@ -874,7 +874,7 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeCollapseEventCancel(ThreadedListViewItem tlv)
         {
-            var cancel = false;
+            bool cancel = false;
             if (BeforeCollapseThread != null)
             {
                 var e = new ThreadCancelEventArgs(tlv, cancel);
@@ -908,7 +908,7 @@ namespace System.Windows.Forms.ThListView
 
         private bool RaiseBeforeFeedColumnLayoutChangeEventCancel(FeedColumnLayout newLayout)
         {
-            var cancel = false;
+            bool cancel = false;
             if (BeforeListLayoutChange != null)
             {
                 var e = new ListLayoutCancelEventArgs(newLayout, cancel);
@@ -980,7 +980,7 @@ namespace System.Windows.Forms.ThListView
 
             lock (Items)
             {
-                for (var i = 0; i < Items.Count; i++)
+                for (int i = 0; i < Items.Count; i++)
                 {
                     var p = Items[i] as ThreadedListViewItemPlaceHolder;
                     if (p != null)
@@ -999,8 +999,8 @@ namespace System.Windows.Forms.ThListView
                 if (placeHolder == null)
                     return;
 
-                var parentItemIndex = placeHolder.Index;
-                var parentIndentLevel = placeHolder.IndentLevel;
+                int parentItemIndex = placeHolder.Index;
+                int parentIndentLevel = placeHolder.IndentLevel;
 
                 try
                 {
@@ -1011,7 +1011,7 @@ namespace System.Windows.Forms.ThListView
 
                     if (newChildItems == null || newChildItems.Length == 0)
                     {
-                        var item = _noChildsPlaceHolder;
+                        ThreadedListViewItem item = _noChildsPlaceHolder;
                         if (item == null)
                         {
                             item = new ThreadedListViewItemPlaceHolder(SR.FeedListNoChildsMessage)
@@ -1029,9 +1029,9 @@ namespace System.Windows.Forms.ThListView
                     }
 
                     // now insert the new items
-                    for (var i = 0; i < newChildItems.Length; i++)
+                    for (int i = 0; i < newChildItems.Length; i++)
                     {
-                        var newListItem = newChildItems[i];
+                        ThreadedListViewItem newListItem = newChildItems[i];
                         newListItem.Parent = placeHolder.Parent;
 
                         // check, if we have  all subitems for correct grouping
@@ -1067,8 +1067,8 @@ namespace System.Windows.Forms.ThListView
 
         private void APIEnableGrouping(bool value)
         {
-            var param = IntPtr.Zero;
-            var onOff = (value ? 1 : 0);
+            IntPtr param = IntPtr.Zero;
+            int onOff = (value ? 1 : 0);
             Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_ENABLEGROUPVIEW, onOff, ref param);
         }
 
@@ -1088,8 +1088,8 @@ namespace System.Windows.Forms.ThListView
             }
 
             // get the pointer to the header:
-            var hHeader = Win32.API.SendMessage(Handle,
-                                                Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            IntPtr hHeader = Win32.API.SendMessage(Handle,
+                                                   Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
 
             if (!hHeader.Equals(IntPtr.Zero))
             {
@@ -1102,7 +1102,7 @@ namespace System.Windows.Forms.ThListView
                 {
                     lock (Columns)
                     {
-                        for (var i = 0; i < Columns.Count; i++)
+                        for (int i = 0; i < Columns.Count; i++)
                         {
                             var item = new Win32.HDITEM
                                            {
@@ -1112,14 +1112,14 @@ namespace System.Windows.Forms.ThListView
                                                         Win32.HeaderItemMask.HDI_BITMAP))
                                            };
 
-                            var result =
+                            IntPtr result =
                                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_GETITEM, new IntPtr(i),
                                                       item);
                             if (result.ToInt32() > 0)
                             {
                                 ColumnHeader colHdr = Columns[i];
-                                var align = colHdr.TextAlign;
-                                var txt = (colHdr.Text ?? String.Empty);
+                                HorizontalAlignment align = colHdr.TextAlign;
+                                string txt = (colHdr.Text ?? String.Empty);
                                 item.pszText = Marshal.StringToHGlobalAuto(txt);
                                 item.mask = (int) (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT);
                                 item.fmt = (int) (Win32.HeaderItemFlags.HDF_STRING);
@@ -1143,7 +1143,9 @@ namespace System.Windows.Forms.ThListView
                                     if (align != HorizontalAlignment.Right)
                                         item.fmt |= (int) (Win32.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
 
-                                    item.hbm = sortOrder == SortOrder.Ascending ? upBM.GetHbitmap() : downBM.GetHbitmap();
+                                    item.hbm = sortOrder == SortOrder.Ascending
+                                                   ? upBM.GetHbitmap()
+                                                   : downBM.GetHbitmap();
                                 }
 #endif
                                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETITEM, new IntPtr(i),
@@ -1171,8 +1173,8 @@ namespace System.Windows.Forms.ThListView
                 _headerImageList.Images.Add(GetBitmap(true)); // Add ascending arrow
                 _headerImageList.Images.Add(GetBitmap(false)); // Add descending arrow
 
-                var hHeader = Win32.API.SendMessage(Handle,
-                                                    Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+                IntPtr hHeader = Win32.API.SendMessage(Handle,
+                                                       Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
                 Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETIMAGELIST, IntPtr.Zero,
                                       _headerImageList.Handle);
 
@@ -1186,9 +1188,9 @@ namespace System.Windows.Forms.ThListView
             {
                 // draw the flat triangle
                 var bm = new Bitmap(9, 9);
-                var gfx = Graphics.FromImage(bm);
+                Graphics gfx = Graphics.FromImage(bm);
 
-                var fillBrush = SystemBrushes.ControlDark;
+                Brush fillBrush = SystemBrushes.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
 				gfx.FillRectangle(Brushes.Magenta, 0, 0, 9, 9);
@@ -1225,10 +1227,10 @@ namespace System.Windows.Forms.ThListView
             else
             {
                 var bm = new Bitmap(8, 8);
-                var gfx = Graphics.FromImage(bm);
+                Graphics gfx = Graphics.FromImage(bm);
 
-                var lightPen = SystemPens.ControlLightLight;
-                var shadowPen = SystemPens.ControlDark;
+                Pen lightPen = SystemPens.ControlLightLight;
+                Pen shadowPen = SystemPens.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
 				gfx.FillRectangle(Brushes.Magenta, 0, 0, 8, 8);

@@ -70,8 +70,8 @@ namespace RssBandit.WinGui.Controls
         {
             if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
 
-            var catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
-            var wasNew = false;
+            string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
+            bool wasNew = false;
             int nodeImageIndex, expandedNodeImageIndex;
 
             switch (categoryNodeType)
@@ -88,7 +88,7 @@ namespace RssBandit.WinGui.Controls
 
             foreach (var catHive in catHives)
             {
-                var n = !wasNew ? FindChildNode(startNode, catHive, categoryNodeType) : null;
+                TreeFeedsNodeBase n = !wasNew ? FindChildNode(startNode, catHive, categoryNodeType) : null;
 
                 if (n == null)
                 {
@@ -126,7 +126,7 @@ namespace RssBandit.WinGui.Controls
             if (n == null || text == null) return null;
             text = text.Trim();
 
-            for (var t = n.FirstNode; t != null; t = t.NextNode)
+            for (TreeFeedsNodeBase t = n.FirstNode; t != null; t = t.NextNode)
             {
                 if (t.Type == nType && String.Compare(t.Text, text, false, CultureInfo.CurrentUICulture) == 0)
                     // node names are usually english or client locale
@@ -145,7 +145,7 @@ namespace RssBandit.WinGui.Controls
         {
             if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
 
-            var catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
+            string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
 
             foreach (var catHive in catHives)
             {
@@ -276,7 +276,7 @@ namespace RssBandit.WinGui.Controls
                     newActive = sibling;
                     break;
                 }
-                
+
                 n = sibling;
             }
 
@@ -292,7 +292,7 @@ namespace RssBandit.WinGui.Controls
                         newActive = sibling;
                         break;
                     }
-                    
+
                     n = sibling;
                 }
             }
@@ -318,7 +318,7 @@ namespace RssBandit.WinGui.Controls
         {
             if (value)
                 return DefaultableBoolean.True;
-            
+
             return DefaultableBoolean.False;
         }
 
@@ -380,7 +380,7 @@ namespace RssBandit.WinGui.Controls
                 }
 
                 var tn = new TreeNode(n.Text, imgIdx, selImgIdx);
-                var i = destinationTree.Nodes.Add(tn);
+                int i = destinationTree.Nodes.Add(tn);
                 destinationTree.Nodes[i].Tag = n.DataKey;
                 destinationTree.Nodes[i].Checked = isChecked;
                 if (n.Nodes.Count > 0)
@@ -419,7 +419,7 @@ namespace RssBandit.WinGui.Controls
             }
 
             var tn = new TreeNode(node.Text, imgIdx, selImgIdx);
-            var i = destinationTree.Nodes.Add(tn);
+            int i = destinationTree.Nodes.Add(tn);
             destinationTree.Nodes[i].Tag = node.DataKey;
             destinationTree.Nodes[i].Checked = isChecked;
             if (node.Nodes.Count > 0)
@@ -429,7 +429,7 @@ namespace RssBandit.WinGui.Controls
 
         private static void CopyNodes(TreeNodesCollection nodes, TreeNode parent, bool isChecked)
         {
-            var destinationTree = parent.TreeView;
+            TreeView destinationTree = parent.TreeView;
 
             foreach (TreeFeedsNodeBase n in nodes)
             {
@@ -450,7 +450,7 @@ namespace RssBandit.WinGui.Controls
                 }
 
                 var tn = new TreeNode(n.Text, imgIdx, selImgIdx);
-                var i = parent.Nodes.Add(tn);
+                int i = parent.Nodes.Add(tn);
                 parent.Nodes[i].Tag = n.DataKey;
                 parent.Nodes[i].Checked = isChecked;
                 if (n.Nodes.Count > 0)
@@ -480,7 +480,7 @@ namespace RssBandit.WinGui.Controls
                     folders.Add(startNode);
                     return; // all childs are checked. They will be resolved later dynamically
                 }
-                
+
                 leaveNodes.Add(startNode);
             }
 
@@ -528,7 +528,7 @@ namespace RssBandit.WinGui.Controls
 
             if (startNode.Tag == null)
             {
-                var catName = BuildCategoryStoreName(startNode);
+                string catName = BuildCategoryStoreName(startNode);
                 if (catName != null && folders != null)
                 {
                     foreach (string folder in folders)
@@ -593,8 +593,8 @@ namespace RssBandit.WinGui.Controls
             if (string.IsNullOrEmpty(fullPathName))
                 return null;
 
-            var s = fullPathName.Trim();
-            var a = s.Split(FeedSource.CategorySeparator.ToCharArray());
+            string s = fullPathName.Trim();
+            string[] a = s.Split(FeedSource.CategorySeparator.ToCharArray());
 
             if (a.GetLength(0) > 1)
                 return String.Join(FeedSource.CategorySeparator, a, 1, a.GetLength(0) - 1);
@@ -621,7 +621,7 @@ namespace RssBandit.WinGui.Controls
             if (string.IsNullOrEmpty(fullPathName))
                 return new string[] {};
 
-            var s = fullPathName.Trim();
+            string s = fullPathName.Trim();
             var a = new ArrayList(s.Split(FeedSource.CategorySeparator.ToCharArray()));
 
             if (ignoreLeaveNode)
@@ -702,7 +702,7 @@ namespace RssBandit.WinGui.Controls
             {
                 if (!InvokeAllVisibleNodesAreInView(tree) && (InvokeCanScrollDown(tree) || delta >= 0))
                 {
-                    var visTopIndex = InvokeGetVisibleIndex(tree.TopNode);
+                    int visTopIndex = InvokeGetVisibleIndex(tree.TopNode);
                     int num1;
                     // this calc is make wheel scrolling work also for the topmost nodes:
                     if (visTopIndex <= 3)
@@ -711,8 +711,8 @@ namespace RssBandit.WinGui.Controls
                         // makes scrolling a little bit faster:
                         num1 = delta/30;
 
-                    var num2 = visTopIndex - num1;
-                    var type = (num1 < 0) ? ScrollEventType.SmallIncrement : ScrollEventType.SmallIncrement;
+                    int num2 = visTopIndex - num1;
+                    ScrollEventType type = (num1 < 0) ? ScrollEventType.SmallIncrement : ScrollEventType.SmallIncrement;
                     var args = new ScrollEventArgs(type, num2);
                     // now we call tree.ScrollbarControl.OnVerticalScroll(null, args):
                     var scrollCtrl = (ScrollbarControl) TreeType.InvokeMember("ScrollbarControl",
@@ -903,7 +903,7 @@ namespace RssBandit.WinGui.Controls
                 {
                     // we measure for a bigger sized text, because we need a fixed global right images size
                     // for all right images
-                    var sz = cachedGraphics.MeasureString("(99999)", FontColorHelper.UnreadFont);
+                    SizeF sz = cachedGraphics.MeasureString("(99999)", FontColorHelper.UnreadFont);
 
                     // extend the node's selectable area right by adding the measured width
                     uiElement.Rect = new Rectangle(uiElement.Rect.X, uiElement.Rect.Y,
@@ -1054,7 +1054,7 @@ namespace RssBandit.WinGui.Controls
                 tree.BeginUpdate();
 
                 var nodes = new HybridDictionary(expandedNodes.Count);
-                for (var i = 0; i < expandedNodes.Count; i++)
+                for (int i = 0; i < expandedNodes.Count; i++)
                 {
                     var path = (string) expandedNodes[i];
                     if (!nodes.Contains(path))
@@ -1062,7 +1062,7 @@ namespace RssBandit.WinGui.Controls
                 }
 
                 var selNodes = new HybridDictionary(selectedNodes.Count);
-                for (var i = 0; i < selectedNodes.Count; i++)
+                for (int i = 0; i < selectedNodes.Count; i++)
                 {
                     var path = (string) selectedNodes[i];
                     if (!selNodes.Contains(path))
@@ -1125,7 +1125,7 @@ namespace RssBandit.WinGui.Controls
                 node.Control.BeginUpdate();
 
                 var nodes = new HybridDictionary(expandedNodes.Count);
-                for (var i = 0; i < expandedNodes.Count; i++)
+                for (int i = 0; i < expandedNodes.Count; i++)
                 {
                     var path = (string) expandedNodes[i];
                     if (!nodes.Contains(path))
@@ -1133,7 +1133,7 @@ namespace RssBandit.WinGui.Controls
                 }
 
                 var selNodes = new HybridDictionary(selectedNodes.Count);
-                for (var i = 0; i < selectedNodes.Count; i++)
+                for (int i = 0; i < selectedNodes.Count; i++)
                 {
                     var path = (string) selectedNodes[i];
                     if (!selNodes.Contains(path))
@@ -1171,7 +1171,7 @@ namespace RssBandit.WinGui.Controls
         public static void Save(Stream stream, UltraTree tree)
         {
             var m = new UltraTreeNodeExpansionMemento(tree);
-            var serializer = XmlHelper.SerializerCache.GetSerializer(
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
                 typeof (UltraTreeNodeExpansionMemento), RssBanditNamespace.TreeState);
             serializer.Serialize(stream, m);
         }
@@ -1183,7 +1183,7 @@ namespace RssBandit.WinGui.Controls
         /// <returns></returns>
         public static UltraTreeNodeExpansionMemento Load(Stream stream)
         {
-            var serializer = XmlHelper.SerializerCache.GetSerializer(
+            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(
                 typeof (UltraTreeNodeExpansionMemento), RssBanditNamespace.TreeState);
             return (UltraTreeNodeExpansionMemento) serializer.Deserialize(stream);
         }
@@ -1296,10 +1296,10 @@ namespace RssBandit.WinGui.Controls
 
             if (node.UnreadCount > 0)
             {
-                var st = String.Format("({0})", node.UnreadCount);
+                string st = String.Format("({0})", node.UnreadCount);
                 // we measure for a bigger sized text, because we need a fixed global right images size
                 // for all right images
-                var sz = cachedGraphics.MeasureString("(99999)", FontColorHelper.UnreadFont);
+                SizeF sz = cachedGraphics.MeasureString("(99999)", FontColorHelper.UnreadFont);
                 var gz = new Size((int) sz.Width, (int) sz.Height);
 
                 // adjust global sizes
@@ -1307,7 +1307,7 @@ namespace RssBandit.WinGui.Controls
                     node.Control.RightImagesSize = gz;
 
                 var bmp = new Bitmap(gz.Width, gz.Height);
-                using (var painter = Graphics.FromImage(bmp))
+                using (Graphics painter = Graphics.FromImage(bmp))
                 {
                     painter.SmoothingMode = SmoothingMode.AntiAlias;
                     if (Win32.IsOSAtLeastWindowsXP)

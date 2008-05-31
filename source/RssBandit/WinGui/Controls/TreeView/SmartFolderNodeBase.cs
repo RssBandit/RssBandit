@@ -101,10 +101,10 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var count = 0;
-                for (var i = 0; i < itemsFeed.Items.Count; i++)
+                int count = 0;
+                for (int i = 0; i < itemsFeed.Items.Count; i++)
                 {
-                    var ri = itemsFeed.Items[i];
+                    INewsItem ri = itemsFeed.Items[i];
                     if (!ri.BeenRead) count++;
                 }
                 return count;
@@ -128,10 +128,10 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var count = 0;
-                for (var i = 0; i < itemsFeed.Items.Count; i++)
+                int count = 0;
+                for (int i = 0; i < itemsFeed.Items.Count; i++)
                 {
-                    var ri = itemsFeed.Items[i];
+                    INewsItem ri = itemsFeed.Items[i];
                     if (ri.HasNewComments) count++;
                 }
                 return count;
@@ -141,10 +141,10 @@ namespace RssBandit.WinGui.Controls
         public virtual void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
-            var index = itemsFeed.Items.IndexOf(item);
+            int index = itemsFeed.Items.IndexOf(item);
             if (index >= 0)
             {
-                var ri = itemsFeed.Items[index];
+                INewsItem ri = itemsFeed.Items[index];
                 ri.BeenRead = true;
                 UpdateReadStatus(this, -1);
             }
@@ -153,10 +153,10 @@ namespace RssBandit.WinGui.Controls
         public virtual void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
-            var index = itemsFeed.Items.IndexOf(item);
+            int index = itemsFeed.Items.IndexOf(item);
             if (index >= 0)
             {
-                var ri = itemsFeed.Items[index];
+                INewsItem ri = itemsFeed.Items[index];
                 ri.BeenRead = false;
             }
         }

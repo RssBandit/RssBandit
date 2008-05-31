@@ -325,7 +325,7 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var i = 0;
+                int i = 0;
                 foreach (NewsItem ri in ExceptionManager.GetInstance().Items)
                 {
                     if (!ri.BeenRead) i++;
@@ -427,7 +427,7 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var i = 0;
+                int i = 0;
                 foreach (var ri in itemsFeed.Items)
                 {
                     if (!ri.BeenRead && ri.FlagStatus == flagsFiltered) i++;
@@ -507,7 +507,7 @@ namespace RssBandit.WinGui.Controls
         public override void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
-            var idx = itemsFeed.Items.IndexOf(item);
+            int idx = itemsFeed.Items.IndexOf(item);
             if (idx >= 0)
             {
                 itemsFeed.Items.RemoveAt(idx);
@@ -518,7 +518,7 @@ namespace RssBandit.WinGui.Controls
         public override void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
-            var idx = itemsFeed.Items.IndexOf(item);
+            int idx = itemsFeed.Items.IndexOf(item);
             if (idx < 0)
             {
                 itemsFeed.Items.Add(item);
@@ -565,9 +565,9 @@ namespace RssBandit.WinGui.Controls
                 {
                     // one with category
 
-                    var a = finder.FullPath.Split(FeedSource.CategorySeparator.ToCharArray());
-                    var aLen = a.GetLength(0);
-                    var sCat = String.Join(FeedSource.CategorySeparator, a, 0, aLen - 1);
+                    string[] a = finder.FullPath.Split(FeedSource.CategorySeparator.ToCharArray());
+                    int aLen = a.GetLength(0);
+                    string sCat = String.Join(FeedSource.CategorySeparator, a, 0, aLen - 1);
 
                     if (categories.ContainsKey(sCat))
                     {
@@ -579,7 +579,7 @@ namespace RssBandit.WinGui.Controls
 
                         var sb = new StringBuilder();
                         sb.Append(a[0]);
-                        for (var i = 0; i <= aLen - 2; i++)
+                        for (int i = 0; i <= aLen - 2; i++)
                         {
                             sCat = sb.ToString();
                             if (categories.ContainsKey(sCat))
@@ -775,7 +775,7 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var i = 0;
+                int i = 0;
                 foreach (var ri in items)
                 {
                     if (!ri.BeenRead) i++;
@@ -801,7 +801,7 @@ namespace RssBandit.WinGui.Controls
         {
             get
             {
-                var count = 0;
+                int count = 0;
                 foreach (var ri in items)
                 {
                     if (ri.HasNewComments) count++;
@@ -813,10 +813,10 @@ namespace RssBandit.WinGui.Controls
         public void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
-            var index = items.IndexOf(item);
+            int index = items.IndexOf(item);
             if (index != -1)
             {
-                var ri = items[index];
+                INewsItem ri = items[index];
                 if (!ri.BeenRead)
                 {
                     ri.BeenRead = true;
@@ -828,10 +828,10 @@ namespace RssBandit.WinGui.Controls
         public void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
-            var index = items.IndexOf(item);
+            int index = items.IndexOf(item);
             if (index != -1)
             {
-                var ri = items[index];
+                INewsItem ri = items[index];
                 if (ri.BeenRead)
                 {
                     ri.BeenRead = false;
@@ -855,7 +855,7 @@ namespace RssBandit.WinGui.Controls
         public void AddRange(IList<INewsItem> newItems)
         {
             if (newItems == null) return;
-            for (var i = 0; i < newItems.Count; i++)
+            for (int i = 0; i < newItems.Count; i++)
             {
                 var item = newItems[i] as NewsItem;
                 if (item != null && !items.Contains(item))
