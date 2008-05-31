@@ -335,6 +335,12 @@ namespace NewsComponents
         private static readonly byte[] jpg_magic = new byte[] {0xff, 0xd8};
         private static readonly int jpg_magic_len = jpg_magic.Length;
 
+
+        /// <summary>
+        /// Indicates whether properties from older subscriptions.xml file should be migrated. 
+        /// </summary>
+        public static bool MigrateProperties = true; 
+
         /// <summary>
         /// Gets the dictionary of (old) properties to migrate in a newer version
         /// </summary>

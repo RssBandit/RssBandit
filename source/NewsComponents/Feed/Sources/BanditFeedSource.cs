@@ -254,100 +254,106 @@ namespace NewsComponents.Feed
 
 			/* 
 			 * props. set by configuration/static, but required for migration:
-			 */ 
+			 */
+
+            if (FeedSource.MigrateProperties)
+            {
+
                 //if refresh rate in imported feed then use that
-            if (myFeeds.refreshrateSpecified)
-            {
-				FeedSource.MigrationProperties.Add("RefreshRate", myFeeds.refreshrate);
-            }
-			
-			//if stylesheet specified in imported feed then use that
-            if (!string.IsNullOrEmpty(myFeeds.stylesheet))
-            {
-				FeedSource.MigrationProperties.Add("Stylesheet", myFeeds.stylesheet);
-                //this.stylesheet = myFeeds.stylesheet;
-            }
-			
+                if (myFeeds.refreshrateSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("RefreshRate", myFeeds.refreshrate);
+                }
+
+                //if stylesheet specified in imported feed then use that
+                if (!string.IsNullOrEmpty(myFeeds.stylesheet))
+                {
+                    FeedSource.MigrationProperties.Add("Stylesheet", myFeeds.stylesheet);
+                    //this.stylesheet = myFeeds.stylesheet;
+                }
+
                 //if download enclosures specified in imported feed then use that
-            if (myFeeds.downloadenclosuresSpecified)
-            {
-				FeedSource.MigrationProperties.Add("DownloadEnclosures", myFeeds.downloadenclosures);
-            }
+                if (myFeeds.downloadenclosuresSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("DownloadEnclosures", myFeeds.downloadenclosures);
+                }
 
                 //if maximum enclosure cache size specified in imported feed then use that
-            if (myFeeds.enclosurecachesizeSpecified)
-            {
-				FeedSource.MigrationProperties.Add("EnclosureCacheSize", myFeeds.enclosurecachesize);
-				//this.enclosurecachesize = myFeeds.enclosurecachesize;
-            }
+                if (myFeeds.enclosurecachesizeSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("EnclosureCacheSize", myFeeds.enclosurecachesize);
+                    //this.enclosurecachesize = myFeeds.enclosurecachesize;
+                }
 
                 //if maximum number of enclosures to download on a new feed specified in imported feed then use that
-            if (myFeeds.numtodownloadonnewfeedSpecified)
-            {
-				FeedSource.MigrationProperties.Add("NumEnclosuresToDownloadOnNewFeed", myFeeds.numtodownloadonnewfeed);
-				//this.numtodownloadonnewfeed = myFeeds.numtodownloadonnewfeed;
-            }
+                if (myFeeds.numtodownloadonnewfeedSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("NumEnclosuresToDownloadOnNewFeed", myFeeds.numtodownloadonnewfeed);
+                    //this.numtodownloadonnewfeed = myFeeds.numtodownloadonnewfeed;
+                }
 
                 //if cause alert on enclosures specified in imported feed then use that
-            if (myFeeds.enclosurealertSpecified)
-            {
-            	FeedSource.MigrationProperties.Add("EnclosureAlert", myFeeds.enclosurealert);
-                //this.enclosurealert = myFeeds.enclosurealert;
-            }
+                if (myFeeds.enclosurealertSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("EnclosureAlert", myFeeds.enclosurealert);
+                    //this.enclosurealert = myFeeds.enclosurealert;
+                }
 
                 //if create subfolders for enclosures specified in imported feed then use that
-            if (myFeeds.createsubfoldersforenclosuresSpecified)
-            {
-				FeedSource.MigrationProperties.Add("CreateSubfoldersForEnclosures", myFeeds.createsubfoldersforenclosures);
-				//this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
-            }
+                if (myFeeds.createsubfoldersforenclosuresSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("CreateSubfoldersForEnclosures", myFeeds.createsubfoldersforenclosures);
+                    //this.createsubfoldersforenclosures = myFeeds.createsubfoldersforenclosures;
+                }
 
-			
+
                 //if marking items as read on exit specified in imported feed then use that
-            if (myFeeds.markitemsreadonexitSpecified)
-            {
-				FeedSource.MigrationProperties.Add("MarkItemsReadOnExit", myFeeds.markitemsreadonexit);
-                //this.markitemsreadonexit = myFeeds.markitemsreadonexit;
-            }
-			
-			//if enclosure folder specified in imported feed then use that
-            if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
-            {
-				FeedSource.MigrationProperties.Add("EnclosureFolder", myFeeds.enclosurefolder);
-            }
+                if (myFeeds.markitemsreadonexitSpecified)
+                {
+                    FeedSource.MigrationProperties.Add("MarkItemsReadOnExit", myFeeds.markitemsreadonexit);
+                    //this.markitemsreadonexit = myFeeds.markitemsreadonexit;
+                }
+
+                //if enclosure folder specified in imported feed then use that
+                if (!string.IsNullOrEmpty(myFeeds.enclosurefolder))
+                {
+                    FeedSource.MigrationProperties.Add("EnclosureFolder", myFeeds.enclosurefolder);
+                }
 
                 //if podcast folder specified in imported feed then use that
-            if (!string.IsNullOrEmpty(myFeeds.podcastfolder))
-            {
-                this.PodcastFolder = myFeeds.podcastfolder;
-            }
+                if (!string.IsNullOrEmpty(myFeeds.podcastfolder))
+                {
+                    this.PodcastFolder = myFeeds.podcastfolder;
+                }
 
                 //if podcast file extensions specified in imported feed then use that
-            if (!string.IsNullOrEmpty(myFeeds.podcastfileexts))
-            {
-                this.PodcastFileExtensionsAsString = myFeeds.podcastfileexts;
-            }
+                if (!string.IsNullOrEmpty(myFeeds.podcastfileexts))
+                {
+                    this.PodcastFileExtensionsAsString = myFeeds.podcastfileexts;
+                }
 
 
                 //if listview layout specified in imported feed then use that
-            if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
-            {
-                this.FeedColumnLayout = myFeeds.listviewlayout;
-            }
+                if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
+                {
+                    this.FeedColumnLayout = myFeeds.listviewlayout;
+                }
 
                 //if max item age in imported feed then use that
-            try
-            {
-                if (!string.IsNullOrEmpty(myFeeds.maxitemage))
+                try
                 {
-					FeedSource.MigrationProperties.Add("MaxItemAge", myFeeds.maxitemage);
-                    //this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
+                    if (!string.IsNullOrEmpty(myFeeds.maxitemage))
+                    {
+                        FeedSource.MigrationProperties.Add("MaxItemAge", myFeeds.maxitemage);
+                        //this.maxitemage = XmlConvert.ToTimeSpan(myFeeds.maxitemage);
+                    }
                 }
-            }
-            catch (FormatException fe)
-            {
-                Trace("Error occured while parsing maximum item age from feed list: {0}", fe.ToDescriptiveString());
-            }
+                catch (FormatException fe)
+                {
+                    Trace("Error occured while parsing maximum item age from feed list: {0}", fe.ToDescriptiveString());
+                }
+
+            }//if(FeedSource.MigrateProperties){
             
         }
 
