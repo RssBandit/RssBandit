@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
 using System.Windows.Forms.ThListView.Sorting;
@@ -26,10 +26,8 @@ using SortOrder=System.Windows.Forms.SortOrder;
 
 namespace RssBandit.WinGui.Forms
 {
-    partial class WinGuiMain
+    internal partial class WinGuiMain
     {
-
-
         private static string CurrentToolbarsVersion
         {
             get
@@ -129,7 +127,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (treeFeeds.Nodes.Count > 0)
             {
-                return _roots[(int)rootFolder];
+                return _roots[(int) rootFolder];
             }
             return null;
         }
@@ -141,10 +139,10 @@ namespace RssBandit.WinGui.Forms
 
             if (feedsNode.Type == FeedNodeType.Root || feedsNode.Parent == null)
             {
-                for (var i = 0; i < _roots.GetLength(0); i++)
+                for (int i = 0; i < _roots.GetLength(0); i++)
                 {
                     if (feedsNode == _roots[i])
-                        return (RootFolderType)i;
+                        return (RootFolderType) i;
                 }
             }
             else if (feedsNode.Parent != null)
@@ -301,19 +299,19 @@ namespace RssBandit.WinGui.Forms
             if (tn.Type == FeedNodeType.Feed)
                 f = owner.GetFeed(tn.DataKey);
 
-            var containsUnread = ((f != null && f.containsNewMessages) ||
-                                  (tn == TreeSelectedFeedsNode && tn.UnreadCount > 0));
+            bool containsUnread = ((f != null && f.containsNewMessages) ||
+                                   (tn == TreeSelectedFeedsNode && tn.UnreadCount > 0));
 
             if (containsUnread)
             {
                 if (tn != TreeSelectedFeedsNode && f != null)
                 {
                     containsUnread = false;
-                    var items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+                    IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
 
-                    for (var i = 0; i < items.Count; i++)
+                    for (int i = 0; i < items.Count; i++)
                     {
-                        var item = items[i];
+                        INewsItem item = items[i];
                         if (!item.BeenRead)
                         {
                             containsUnread = true;
@@ -323,9 +321,9 @@ namespace RssBandit.WinGui.Forms
 
                     if (containsUnread)
                     {
-                        var tnSelected = TreeSelectedFeedsNode ?? GetRoot(RootFolderType.MyFeeds);
+                        TreeFeedsNodeBase tnSelected = TreeSelectedFeedsNode ?? GetRoot(RootFolderType.MyFeeds);
 
-                    	if (tnSelected.Type == FeedNodeType.SmartFolder || tnSelected.Type == FeedNodeType.Finder ||
+                        if (tnSelected.Type == FeedNodeType.SmartFolder || tnSelected.Type == FeedNodeType.Finder ||
                             tnSelected.Type == FeedNodeType.Root ||
                             (tnSelected != tn && tnSelected.Type == FeedNodeType.Feed) ||
                             (tnSelected.Type == FeedNodeType.Category && !NodeIsChildOf(tn, tnSelected)))
@@ -353,9 +351,9 @@ namespace RssBandit.WinGui.Forms
                 }
             } //if(f.containsNewMessages)
 
-            for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
+            for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                var tlvi = (ThreadedListViewItem)listFeedItems.SelectedItems[i];
+                var tlvi = (ThreadedListViewItem) listFeedItems.SelectedItems[i];
                 if ((tlvi != null) && (tlvi.IndentLevel != 0))
                 {
                     isTopLevel = false;
@@ -409,11 +407,11 @@ namespace RssBandit.WinGui.Forms
 
         private ThreadedListViewItem FindUnreadListViewItem()
         {
-            var inComments = false;
+            bool inComments = false;
 
-            for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
+            for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                var tlvi = (ThreadedListViewItem)listFeedItems.SelectedItems[i];
+                var tlvi = (ThreadedListViewItem) listFeedItems.SelectedItems[i];
                 if ((tlvi != null) && (tlvi.IsComment))
                 {
                     inComments = true;
@@ -440,7 +438,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // in correct range
 
-                var lvi = listFeedItems.Items[pos];
+                ThreadedListViewItem lvi = listFeedItems.Items[pos];
                 var item = lvi.Key as NewsItem;
 
                 // find the oldest unread item
@@ -498,7 +496,7 @@ namespace RssBandit.WinGui.Forms
             }
 
             // walk childs, go down
-            for (var sibling = startNode.FirstNode;
+            for (TreeFeedsNodeBase sibling = startNode.FirstNode;
                  sibling != null && found == null;
                  sibling = sibling.NextNode)
             {
@@ -509,7 +507,7 @@ namespace RssBandit.WinGui.Forms
             if (found != null) return found;
 
             // walk next siblings. If they have childs, go down
-            for (var sibling = (ignoreStartNode ? startNode.NextNode : startNode.FirstNode);
+            for (TreeFeedsNodeBase sibling = (ignoreStartNode ? startNode.NextNode : startNode.FirstNode);
                  sibling != null && found == null;
                  sibling = sibling.NextNode)
             {
@@ -531,7 +529,7 @@ namespace RssBandit.WinGui.Forms
             if (startNode == null) return null;
 
             // no walk next parent siblings. 
-            for (var parentSibling = startNode.NextNode;
+            for (TreeFeedsNodeBase parentSibling = startNode.NextNode;
                  parentSibling != null && found == null;
                  parentSibling = parentSibling.NextNode)
             {
@@ -551,7 +549,7 @@ namespace RssBandit.WinGui.Forms
         public void MoveToNextUnreadItem()
         {
             TreeFeedsNodeBase startNode = null, foundFeedsNode, rootNode = GetRoot(RootFolderType.MyFeeds);
-            var unreadFound = false;
+            bool unreadFound = false;
 
             if (listFeedItems.Items.Count > 0)
             {
@@ -639,8 +637,8 @@ namespace RssBandit.WinGui.Forms
 
         private static Rectangle StringToBounds(string b)
         {
-            var ba = b.Split(new[] { ';' });
-            var r = Rectangle.Empty;
+            string[] ba = b.Split(new[] {';'});
+            Rectangle r = Rectangle.Empty;
             if (ba.GetLength(0) == 4)
             {
                 try
@@ -668,7 +666,7 @@ namespace RssBandit.WinGui.Forms
             if (isFolder == null)
                 return;
 
-            var items = isFolder.Items;
+            IList<INewsItem> items = isFolder.Items;
 
             //Ensure we update the UI in the correct thread. Since this method is likely 
             //to have been called from a thread that is not the UI thread we should ensure 
@@ -679,7 +677,7 @@ namespace RssBandit.WinGui.Forms
             {
                 INewsItem itemSelected = null;
                 if (listFeedItems.SelectedItems.Count > 0)
-                    itemSelected = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key;
+                    itemSelected = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                 // call them sync., because we want to re-set the previous selected item
                 InvokeOnGuiSync(() => PopulateListView(feedNode, items, true, false, feedNode));
@@ -717,7 +715,7 @@ namespace RssBandit.WinGui.Forms
             {
                 INewsItem itemSelected = null;
                 if (listFeedItems.SelectedItems.Count > 0)
-                    itemSelected = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[0]).Key;
+                    itemSelected = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[0]).Key;
 
                 // now the FinderNode handle refresh of the read state only, so we need to initiate a new search again...:
                 node.AnyUnread = false;
@@ -761,7 +759,7 @@ namespace RssBandit.WinGui.Forms
             foreach (string colKey in colIndex.Keys)
             {
                 lvItems[colIndex[colKey]] = String.Empty; // init
-                switch ((NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colKey, true))
+                switch ((NewsItemSortField) Enum.Parse(typeof (NewsItemSortField), colKey, true))
                 {
                     case NewsItemSortField.Title:
                         lvItems[colIndex[colKey]] = StringHelper.ShortenByEllipsis(newsItem.Title, MaxHeadlineWidth);
@@ -777,9 +775,9 @@ namespace RssBandit.WinGui.Forms
                         }
                         break;
                     case NewsItemSortField.FeedTitle:
-                        var f = newsItem.Feed;
+                        INewsFeed f = newsItem.Feed;
                         //if we are in a Smart Folder then use the original title of the feed 
-                        var feedUrl = GetOriginalFeedUrl(newsItem);
+                        string feedUrl = GetOriginalFeedUrl(newsItem);
                         if ((feedUrl != null) && owner.FeedHandler.IsSubscribed(feedUrl))
                         {
                             f = owner.FeedHandler.GetFeeds()[feedUrl];
@@ -831,10 +829,10 @@ namespace RssBandit.WinGui.Forms
         /// <param name="items"></param>
         private void ApplyNewsItemPropertyImages(IEnumerable<ThreadedListViewItem> items)
         {
-            var indexMap = listFeedItems.Columns.GetColumnIndexMap();
+            ColumnKeyIndexMap indexMap = listFeedItems.Columns.GetColumnIndexMap();
 
-            var applyFlags = indexMap.ContainsKey(NewsItemSortField.Flag.ToString());
-            var applyAttachments = indexMap.ContainsKey(NewsItemSortField.Enclosure.ToString());
+            bool applyFlags = indexMap.ContainsKey(NewsItemSortField.Flag.ToString());
+            bool applyAttachments = indexMap.ContainsKey(NewsItemSortField.Enclosure.ToString());
 
             if (!applyFlags && !applyAttachments)
                 return;
@@ -860,11 +858,11 @@ namespace RssBandit.WinGui.Forms
             if (lvi == null || lvi.ListView == null)
                 return;
 
-            var key = NewsItemSortField.Enclosure.ToString();
+            string key = NewsItemSortField.Enclosure.ToString();
             if (!indexMap.ContainsKey(key))
                 return;
 
-            var text = (attachemtCount > 0 ? attachemtCount.ToString() : String.Empty);
+            string text = (attachemtCount > 0 ? attachemtCount.ToString() : String.Empty);
 
             if (indexMap[key] > 0)
             {
@@ -888,13 +886,13 @@ namespace RssBandit.WinGui.Forms
             if (lvi == null || lvi.ListView == null)
                 return;
 
-            var key = NewsItemSortField.Flag.ToString();
+            string key = NewsItemSortField.Flag.ToString();
             if (!indexMap.ContainsKey(key))
                 return;
 
-            var imgIndex = -1;
-            var bkColor = lvi.BackColor;
-            var text = flagStatus.ToString(); //TODO: localize!!!
+            int imgIndex = -1;
+            Color bkColor = lvi.BackColor;
+            string text = flagStatus.ToString(); //TODO: localize!!!
             switch (flagStatus)
             {
                 case Flagged.Complete:
@@ -998,74 +996,75 @@ namespace RssBandit.WinGui.Forms
 
                 lock (listFeedItems.Items)
                 {
-                	//since this is a multithreaded app there could have been a change since the last 
+                    //since this is a multithreaded app there could have been a change since the last 
                     //time we checked this at the beginning of the method due to context switching. 
                     if (TreeSelectedFeedsNode != initialFeedsNode)
                     {
                         return;
                     }
 
-                	if (initialFeedsNode != null)
-                	{
-                		if (initialFeedsNode.Type == FeedNodeType.Category)
-                		{
-                			if (NodeIsChildOf(associatedFeedsNode, initialFeedsNode))
-                			{
-                				if (forceReload)
-                				{
-                					EmptyListView();
-                					feedsCurrentlyPopulated.Clear();
-                				}
+                    if (initialFeedsNode != null)
+                    {
+                        if (initialFeedsNode.Type == FeedNodeType.Category)
+                        {
+                            if (NodeIsChildOf(associatedFeedsNode, initialFeedsNode))
+                            {
+                                if (forceReload)
+                                {
+                                    EmptyListView();
+                                    feedsCurrentlyPopulated.Clear();
+                                }
 
-                				var checkForDuplicates = feedsCurrentlyPopulated.ContainsKey(associatedFeedsNode.DataKey);
-                				unread = PopulateSmartListView(list, categorizedView, checkForDuplicates);
-                				if (!checkForDuplicates)
-                					feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
+                                bool checkForDuplicates =
+                                    feedsCurrentlyPopulated.ContainsKey(associatedFeedsNode.DataKey);
+                                unread = PopulateSmartListView(list, categorizedView, checkForDuplicates);
+                                if (!checkForDuplicates)
+                                    feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
 
-                				if (unread.Count != associatedFeedsNode.UnreadCount)
-                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
-                			}
-                			else if (associatedFeedsNode == initialFeedsNode)
-                			{
-                				feedsCurrentlyPopulated.Clear();
-                				PopulateFullListView(list);
-                				if (associatedFeedsNode.DataKey != null)
-                					feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
-                			}
-                		}
-                		else if (TreeSelectedFeedsNode is UnreadItemsNode)
-                		{
-                			if (forceReload)
-                			{
-                				EmptyListView();
-                			}
+                                if (unread.Count != associatedFeedsNode.UnreadCount)
+                                    UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
+                            }
+                            else if (associatedFeedsNode == initialFeedsNode)
+                            {
+                                feedsCurrentlyPopulated.Clear();
+                                PopulateFullListView(list);
+                                if (associatedFeedsNode.DataKey != null)
+                                    feedsCurrentlyPopulated.Add(associatedFeedsNode.DataKey, null);
+                            }
+                        }
+                        else if (TreeSelectedFeedsNode is UnreadItemsNode)
+                        {
+                            if (forceReload)
+                            {
+                                EmptyListView();
+                            }
 
-                			PopulateSmartListView(list, categorizedView, true);
-                		}
-                		else if (TreeSelectedFeedsNode == associatedFeedsNode)
-                		{
-                			if (forceReload)
-                			{
-                				unread = PopulateFullListView(list);
-                				if (unread.Count != associatedFeedsNode.UnreadCount)
-                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
-                			}
-                			else
-                			{
-                				unread = PopulateSmartListView(list, categorizedView, true);
-                				if (unread.Count > 0)
-                				{
-                					var unreadItems = unread.Count;
-                					if (categorizedView) // e.g. AggregatedNodes
-                						unreadItems += associatedFeedsNode.UnreadCount;
-                					UpdateTreeNodeUnreadStatus(associatedFeedsNode, unreadItems);
-                				}
-                			}
-                		}
-                	}
+                            PopulateSmartListView(list, categorizedView, true);
+                        }
+                        else if (TreeSelectedFeedsNode == associatedFeedsNode)
+                        {
+                            if (forceReload)
+                            {
+                                unread = PopulateFullListView(list);
+                                if (unread.Count != associatedFeedsNode.UnreadCount)
+                                    UpdateTreeNodeUnreadStatus(associatedFeedsNode, unread.Count);
+                            }
+                            else
+                            {
+                                unread = PopulateSmartListView(list, categorizedView, true);
+                                if (unread.Count > 0)
+                                {
+                                    int unreadItems = unread.Count;
+                                    if (categorizedView) // e.g. AggregatedNodes
+                                        unreadItems += associatedFeedsNode.UnreadCount;
+                                    UpdateTreeNodeUnreadStatus(associatedFeedsNode, unreadItems);
+                                }
+                            }
+                        }
+                    }
                 } //lock
 
-                SetGuiStateFeedback(String.Format(SR.StatisticsItemsDisplayedMessage,listFeedItems.Items.Count));
+                SetGuiStateFeedback(String.Format(SR.StatisticsItemsDisplayedMessage, listFeedItems.Items.Count));
             }
             catch (Exception ex)
             {
@@ -1100,7 +1099,7 @@ namespace RssBandit.WinGui.Forms
 
             var unread = new List<INewsItem>(list.Count);
 
-            var colIndex = listFeedItems.Columns.GetColumnIndexMap();
+            ColumnKeyIndexMap colIndex = listFeedItems.Columns.GetColumnIndexMap();
             INewsItemFilter flagFilter = null;
 
             if (CurrentSelectedFeedsNode is FlaggedItemsNode)
@@ -1116,17 +1115,18 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
-                for (var i = 0; i < list.Count; i++)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    var item = list[i];
+                    INewsItem item = list[i];
 
                     if (!item.BeenRead)
                         unread.Add(item);
 
-                	bool hasRelations = NewsItemHasRelations(item);
+                    bool hasRelations = NewsItemHasRelations(item);
 
-                    var newItem = CreateThreadedLVItem(item, hasRelations, Resource.NewsItemImage.DefaultRead, colIndex,
-                                                       false);
+                    ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
+                                                                        Resource.NewsItemImage.DefaultRead, colIndex,
+                                                                        false);
                     _filterManager.Apply(newItem);
 
                     aNew[i] = newItem;
@@ -1184,22 +1184,22 @@ namespace RssBandit.WinGui.Forms
             }
 
             // column index map
-            var colIndexes = listFeedItems.Columns.GetColumnIndexMap();
+            ColumnKeyIndexMap colIndexes = listFeedItems.Columns.GetColumnIndexMap();
 
             try
             {
-                for (var i = 0; i < list.Count; i++)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    var item = list[i];
-                    var hasRelations = NewsItemHasRelations(item);
-                    var isDuplicate = false;
+                    INewsItem item = list[i];
+                    bool hasRelations = NewsItemHasRelations(item);
+                    bool isDuplicate = false;
                     ThreadedListViewItem tlvi = null;
 
                     if (checkDuplicates)
                     {
                         //lock(listFeedItems.Items) {
                         // look, if it is already there
-                        for (var j = 0; j < items.Count; j++)
+                        for (int j = 0; j < items.Count; j++)
                         {
                             tlvi = items[j];
                             if (item.Equals(tlvi.Key) && tlvi.IndentLevel == 0)
@@ -1221,9 +1221,10 @@ namespace RssBandit.WinGui.Forms
                     }
                     else
                     {
-                        var newItem = CreateThreadedLVItem(item, hasRelations, Resource.NewsItemImage.DefaultRead,
-                                                           colIndexes,
-                                                           false);
+                        ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
+                                                                            Resource.NewsItemImage.DefaultRead,
+                                                                            colIndexes,
+                                                                            false);
 
                         _filterManager.Apply(newItem);
                         newItems.Add(newItem);
@@ -1255,7 +1256,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 listFeedItems.EnsureVisible(listFeedItems.SelectedItems[0].Index);
                                 if (listFeedItemsO.Visible)
-                                    listFeedItemsO.GetFromLVI((ThreadedListViewItem)listFeedItems.SelectedItems[0]).
+                                    listFeedItemsO.GetFromLVI((ThreadedListViewItem) listFeedItems.SelectedItems[0]).
                                         BringIntoView();
                             }
                         }
@@ -1299,12 +1300,12 @@ namespace RssBandit.WinGui.Forms
 
         private bool NewsItemHasRelations(INewsItem item)
         {
-            return NewsItemHasRelations(item, new INewsItem[] { });
+            return NewsItemHasRelations(item, new INewsItem[] {});
         }
 
         private bool NewsItemHasRelations(INewsItem item, IList<INewsItem> itemKeyPath)
         {
-            var hasRelations = false;
+            bool hasRelations = false;
             if (item.Feed != null & owner.FeedHandler.IsSubscribed(item.Feed.link))
             {
                 hasRelations = owner.FeedHandler.HasItemAnyRelations(item, itemKeyPath);
@@ -1327,10 +1328,10 @@ namespace RssBandit.WinGui.Forms
                 // failure(s)
                 args.Cancel = true;
                 ExceptionManager.Publish(args.Exception);
-                var results = (object[])args.Result;
-                var insertionPointTicket = (string)results[2];
+                var results = (object[]) args.Result;
+                var insertionPointTicket = (string) results[2];
                 var newChildItems =
-                    new[] { CreateThreadedLVItemInfo(args.Exception.Message, true) };
+                    new[] {CreateThreadedLVItemInfo(args.Exception.Message, true)};
                 listFeedItems.InsertItemsForPlaceHolder(insertionPointTicket, newChildItems, false);
                 if (listFeedItemsO.Visible && newChildItems.Length > 0)
                 {
@@ -1345,11 +1346,11 @@ namespace RssBandit.WinGui.Forms
             else if (args.Done)
             {
                 // done
-                var results = (object[])args.Result;
-                var commentItems = (List<INewsItem>)results[0];
-                var item = (INewsItem)results[1];
-                var insertionPointTicket = (string)results[2];
-                var itemKeyPath = (IList<INewsItem>)results[3];
+                var results = (object[]) args.Result;
+                var commentItems = (List<INewsItem>) results[0];
+                var item = (INewsItem) results[1];
+                var insertionPointTicket = (string) results[2];
+                var itemKeyPath = (IList<INewsItem>) results[3];
 
 
                 if (item.CommentCount != commentItems.Count)
@@ -1368,19 +1369,19 @@ namespace RssBandit.WinGui.Forms
                     var newChildItemsArray = new ArrayList(commentItems.Count);
 
                     // column index map
-                    var colIndex = listFeedItems.Columns.GetColumnIndexMap();
+                    ColumnKeyIndexMap colIndex = listFeedItems.Columns.GetColumnIndexMap();
 
-                    for (var i = 0; i < commentItems.Count; i++)
+                    for (int i = 0; i < commentItems.Count; i++)
                     {
-                        var o = commentItems[i];
+                        INewsItem o = commentItems[i];
                         if (itemKeyPath != null && itemKeyPath.Contains(o))
                             continue;
 
 
-                        var hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
 
                         o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
-                        var newListItem =
+                        ThreadedListViewItem newListItem =
                             CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.CommentRead, colIndex, true);
                         _filterManager.Apply(newListItem);
                         newChildItemsArray.Add(newListItem);
@@ -1394,13 +1395,13 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 listFeedItems.InsertItemsForPlaceHolder(insertionPointTicket, newChildItems, false);
-            	if (newChildItems != null)
-            	{
-            		if (listFeedItemsO.Visible && newChildItems.Length > 0)
-            		{
-            			listFeedItemsO.AddRangeComments(newChildItems[0].Parent, newChildItems);
-            		}
-            	}
+                if (newChildItems != null)
+                {
+                    if (listFeedItemsO.Visible && newChildItems.Length > 0)
+                    {
+                        listFeedItemsO.AddRangeComments(newChildItems[0].Parent, newChildItems);
+                    }
+                }
             }
         }
 
@@ -1417,7 +1418,7 @@ namespace RssBandit.WinGui.Forms
                 _timerResetStatus.Stop();
                 if (handleNewReceived && unreadMessages > _lastUnreadFeedItemCountBeforeRefresh)
                 {
-                    string message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage,unreadFeeds, unreadMessages);
+                    string message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage, unreadFeeds, unreadMessages);
                     if (Visible)
                     {
                         SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeeds);
@@ -1433,7 +1434,7 @@ namespace RssBandit.WinGui.Forms
                         if (_beSilentOnBalloonPopupCounter <= 0)
                         {
                             message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage,
-                                unreadFeeds,unreadMessages);
+                                                    unreadFeeds, unreadMessages);
                             _trayAni.ShowBalloon(NotifyIconAnimation.EBalloonIcon.Info, message,
                                                  RssBanditApplication.CaptionOnly + " - " +
                                                  SR.GUIStatusNewFeedItemsReceived);
@@ -1464,7 +1465,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="f">The feed associated with the tree node</param>
         private void UpdateCommentStatus(TreeFeedsNodeBase tn, INewsFeed f)
         {
-            var itemsWithNewComments = GetFeedItemsWithNewComments(f);
+            IList<INewsItem> itemsWithNewComments = GetFeedItemsWithNewComments(f);
             tn.UpdateCommentStatus(tn, itemsWithNewComments.Count);
             owner.UpdateWatchedItems(itemsWithNewComments);
             WatchedItemsNode.UpdateCommentStatus();
@@ -1479,17 +1480,17 @@ namespace RssBandit.WinGui.Forms
         /// <param name="commentsRead">Indicates that these are new comments or whether the comments were just read</param>
         private void UpdateCommentStatus(TreeFeedsNodeBase tn, IList<INewsItem> items, bool commentsRead)
         {
-            var multiplier = (commentsRead ? -1 : 1);
+            int multiplier = (commentsRead ? -1 : 1);
 
             if (commentsRead)
             {
-                tn.UpdateCommentStatus(tn, items.Count * multiplier);
+                tn.UpdateCommentStatus(tn, items.Count*multiplier);
                 owner.UpdateWatchedItems(items);
             }
             else
             {
-                var itemsWithNewComments = GetFeedItemsWithNewComments(items);
-                tn.UpdateCommentStatus(tn, itemsWithNewComments.Count * multiplier);
+                IList<INewsItem> itemsWithNewComments = GetFeedItemsWithNewComments(items);
+                tn.UpdateCommentStatus(tn, itemsWithNewComments.Count*multiplier);
                 owner.UpdateWatchedItems(itemsWithNewComments);
             }
             WatchedItemsNode.UpdateCommentStatus();
@@ -1507,9 +1508,9 @@ namespace RssBandit.WinGui.Forms
             if (items == null) return itemsWithNewComments;
             if (items.Count == 0) return itemsWithNewComments;
 
-            for (var i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                var item = items[i];
+                INewsItem item = items[i];
                 if (item.HasNewComments) itemsWithNewComments.Add(item);
             }
 
@@ -1525,7 +1526,7 @@ namespace RssBandit.WinGui.Forms
             if (string.IsNullOrEmpty(feedLink) ||
                 !owner.FeedHandler.IsSubscribed(feedLink))
                 return;
-            var items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
+            IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
             UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(items));
         }
 
@@ -1548,7 +1549,7 @@ namespace RssBandit.WinGui.Forms
         private void UnreadItemsNodeRemoveItems(IList<INewsItem> unread)
         {
             if (unread == null) return;
-            for (var i = 0; i < unread.Count; i++)
+            for (int i = 0; i < unread.Count; i++)
                 UnreadItemsNode.Remove(unread[i]);
             UnreadItemsNode.UpdateReadStatus();
         }
@@ -1601,9 +1602,9 @@ namespace RssBandit.WinGui.Forms
             if (items == null || items.Count == 0)
                 return result;
 
-            for (var i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                var item = items[i];
+                INewsItem item = items[i];
                 if (!item.BeenRead)
                     result.Add(item);
             }
@@ -1648,9 +1649,9 @@ namespace RssBandit.WinGui.Forms
                 }
                 if (items == null) return itemsWithNewComments;
 
-                for (var i = 0; i < items.Count; i++)
+                for (int i = 0; i < items.Count; i++)
                 {
-                    var item = items[i];
+                    INewsItem item = items[i];
                     if (item.HasNewComments) itemsWithNewComments.Add(item);
                 }
             }
@@ -1677,7 +1678,7 @@ namespace RssBandit.WinGui.Forms
                 if (f.containsNewMessages)
                 {
                     unreadFeeds++;
-                    var urm = CountUnreadFeedItems(f);
+                    int urm = CountUnreadFeedItems(f);
                     unreadMessages += urm;
                 }
             }
@@ -1697,7 +1698,7 @@ namespace RssBandit.WinGui.Forms
                 // separator
                 _listContextMenu.MenuItems.Add(new MenuItem("-"));
 
-                for (var i = 0; i < blogExtensions.Count; i++)
+                for (int i = 0; i < blogExtensions.Count; i++)
                 {
                     ibe = blogExtensions[i];
                     var m = new AppContextMenuCommand("cmdIBlogExt." + i,
@@ -1748,9 +1749,9 @@ namespace RssBandit.WinGui.Forms
             else if (args.Done)
             {
                 // done
-                var results = (object[])args.Result;
-                var node = (UltraTreeNode)results[0];
-                var html = (string)results[1];
+                var results = (object[]) args.Result;
+                var node = (UltraTreeNode) results[0];
+                var html = (string) results[1];
                 if ((listFeedItems.SelectedItems.Count == 0) && treeFeeds.SelectedNodes.Count > 0 &&
                     ReferenceEquals(treeFeeds.SelectedNodes[0], node))
                 {
@@ -1771,7 +1772,7 @@ namespace RssBandit.WinGui.Forms
             /* display alert window on new download available */
             if (owner.FeedHandler.IsSubscribed(e.DownloadItem.OwnerFeedId))
             {
-                var f = owner.FeedHandler.GetFeeds()[e.DownloadItem.OwnerFeedId];
+                INewsFeed f = owner.FeedHandler.GetFeeds()[e.DownloadItem.OwnerFeedId];
 
                 if (owner.FeedHandler.GetEnclosureAlert(f.link))
                 {
@@ -1818,18 +1819,18 @@ namespace RssBandit.WinGui.Forms
                 return null;
             }
 
-            var itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
 
-            var validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
+            bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
 
             if (owner.Preferences.LimitNewsItemsPerPage && validPageNum)
             {
                 var fil = new FeedInfoList(_currentCategoryNewsItems.Title);
 
-                var endindex = pageNum * itemsPerPage;
-                var startindex = endindex - itemsPerPage;
-                var counter = 0;
-                var numLeft = itemsPerPage;
+                int endindex = pageNum*itemsPerPage;
+                int startindex = endindex - itemsPerPage;
+                int counter = 0;
+                int numLeft = itemsPerPage;
 
                 foreach (FeedInfo fi in _currentCategoryNewsItems)
                 {
@@ -1838,18 +1839,18 @@ namespace RssBandit.WinGui.Forms
                         break;
                     }
 
-                    var ficlone = fi.Clone(false);
+                    FeedInfo ficlone = fi.Clone(false);
 
                     if ((fi.ItemsList.Count + counter) > startindex)
                     {
                         //is this feed on the page?
-                        var actualstart = startindex - counter;
-                        var actualend = actualstart + numLeft;
+                        int actualstart = startindex - counter;
+                        int actualend = actualstart + numLeft;
 
                         if (actualend > fi.ItemsList.Count)
                         {
                             //handle case where this feed isn't the last one on the page							
-                            var numAdded = fi.ItemsList.Count - actualstart;
+                            int numAdded = fi.ItemsList.Count - actualstart;
                             ficlone.ItemsList.AddRange(fi.ItemsList.GetRange(actualstart, numAdded));
                             numLeft -= numAdded;
                             startindex += numAdded;
@@ -1867,7 +1868,7 @@ namespace RssBandit.WinGui.Forms
 
                 return fil;
             }
-            
+
             return _currentCategoryNewsItems;
         }
 
@@ -1886,17 +1887,17 @@ namespace RssBandit.WinGui.Forms
                 return null;
             }
 
-            var itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
-            var numItems = _currentFeedNewsItems.ItemsList.Count;
+            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+            int numItems = _currentFeedNewsItems.ItemsList.Count;
 
-            var validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
+            bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
 
             if (owner.Preferences.LimitNewsItemsPerPage && validPageNum)
             {
-                var fi = _currentFeedNewsItems.Clone(false);
+                FeedInfo fi = _currentFeedNewsItems.Clone(false);
 
-                var endindex = pageNum * itemsPerPage;
-                var startindex = endindex - itemsPerPage;
+                int endindex = pageNum*itemsPerPage;
+                int startindex = endindex - itemsPerPage;
 
                 if (endindex > numItems)
                 {
@@ -1910,7 +1911,7 @@ namespace RssBandit.WinGui.Forms
 
                 return fi;
             }
-            
+
             return _currentFeedNewsItems;
         }
 
@@ -1928,7 +1929,7 @@ namespace RssBandit.WinGui.Forms
             if (!tn.Selected || tn.Type != FeedNodeType.Feed)
                 return;
 
-            var f = owner.GetFeed(tn.DataKey);
+            INewsFeed f = owner.GetFeed(tn.DataKey);
 
             if (f != null)
             {
@@ -1939,8 +1940,8 @@ namespace RssBandit.WinGui.Forms
                     // Old: call may initiate a web request, if eTag/last retrived is too old:
                     //ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
                     // this will just get the items from cache:
-                    var items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
-                    var unread = FilterUnreadFeedItems(items, true);
+                    IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
+                    IList<INewsItem> unread = FilterUnreadFeedItems(items, true);
 
                     if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow ||
                          (DisplayFeedAlertWindow.AsConfiguredPerFeed == owner.Preferences.ShowAlertWindow &&
@@ -1966,7 +1967,7 @@ namespace RssBandit.WinGui.Forms
                         PopulateListView(tn, items, true, false, tn);
                     }
 
-                    var fi = owner.GetFeedDetails(tn.DataKey);
+                    IFeedDetails fi = owner.GetFeedDetails(tn.DataKey);
 
                     if (fi != null)
                     {
@@ -1981,12 +1982,12 @@ namespace RssBandit.WinGui.Forms
 
                         //sort news items
                         //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
-                        var colHeader =
+                        ThreadedListViewColumnHeader colHeader =
                             listFeedItems.Columns[listFeedItems.SortManager.SortColumnIndex];
-                        var newsItemSorter =
+                        IComparer<INewsItem> newsItemSorter =
                             RssHelper.GetComparer(listFeedItems.SortManager.SortOrder == SortOrder.Descending,
                                                   (NewsItemSortField)
-                                                  Enum.Parse(typeof(NewsItemSortField), colHeader.Key));
+                                                  Enum.Parse(typeof (NewsItemSortField), colHeader.Key));
 
                         fi2.ItemsList.Sort(newsItemSorter);
 
@@ -1995,13 +1996,13 @@ namespace RssBandit.WinGui.Forms
                         _currentFeedNewsItems = fi2;
                         _currentCategoryNewsItems = null;
                         _currentPageNumber = _lastPageNumber = 1;
-                        var numItems = _currentFeedNewsItems.ItemsList.Count;
-                        var stylesheet = owner.FeedHandler.GetStyleSheet(tn.DataKey);
+                        int numItems = _currentFeedNewsItems.ItemsList.Count;
+                        string stylesheet = owner.FeedHandler.GetStyleSheet(tn.DataKey);
 
                         if (numItems > 0)
                         {
-                            var itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
-                            _lastPageNumber = (numItems / itemsPerPage) + (numItems % itemsPerPage == 0 ? 0 : 1);
+                            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+                            _lastPageNumber = (numItems/itemsPerPage) + (numItems%itemsPerPage == 0 ? 0 : 1);
 
                             //default stylesheet: get first page of items
                             if (string.IsNullOrEmpty(stylesheet))
@@ -2034,7 +2035,7 @@ namespace RssBandit.WinGui.Forms
         private void RefreshCategoryDisplay(TreeFeedsNodeBase tn)
         {
             listFeedItems.BeginUpdate();
-            var category = tn.CategoryStoreName;
+            string category = tn.CategoryStoreName;
             var unreadItems = new FeedInfoList(category);
 
             PopulateListView(tn, new List<INewsItem>(), true);
@@ -2046,10 +2047,10 @@ namespace RssBandit.WinGui.Forms
 
             //sort news items
             //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
-            var colHeader = listFeedItems.Columns[listFeedItems.SortManager.SortColumnIndex];
-            var newsItemSorter =
+            ThreadedListViewColumnHeader colHeader = listFeedItems.Columns[listFeedItems.SortManager.SortColumnIndex];
+            IComparer<INewsItem> newsItemSorter =
                 RssHelper.GetComparer(listFeedItems.SortManager.SortOrder == SortOrder.Descending,
-                                      (NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key));
+                                      (NewsItemSortField) Enum.Parse(typeof (NewsItemSortField), colHeader.Key));
 
             foreach (FeedInfo f in unreadItems)
             {
@@ -2060,15 +2061,15 @@ namespace RssBandit.WinGui.Forms
             //store list of unread items then only send one page of results 
             //to newspaper view. 						
             _currentFeedNewsItems = null;
-            var fil2 = _currentCategoryNewsItems = unreadItems;
+            FeedInfoList fil2 = _currentCategoryNewsItems = unreadItems;
             _currentPageNumber = _lastPageNumber = 1;
-            var numItems = _currentCategoryNewsItems.NewsItemCount;
-            var stylesheet = owner.FeedHandler.GetCategoryStyleSheet(category);
+            int numItems = _currentCategoryNewsItems.NewsItemCount;
+            string stylesheet = owner.FeedHandler.GetCategoryStyleSheet(category);
 
             if (numItems > 0)
             {
-                var itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
-                _lastPageNumber = (numItems / itemsPerPage) + (numItems % itemsPerPage == 0 ? 0 : 1);
+                int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+                _lastPageNumber = (numItems/itemsPerPage) + (numItems%itemsPerPage == 0 ? 0 : 1);
 
                 //default stylesheet: get first page of items
                 if (string.IsNullOrEmpty(stylesheet))
@@ -2097,7 +2098,7 @@ namespace RssBandit.WinGui.Forms
             // if there are feed items displayed, we may have to delete the content
             // if rss items are of a feed with the category to delete
             if (listFeedItems.Items.Count > 0)
-                cnf = TreeHelper.FindNode(categoryFeedsNode, (INewsItem)(listFeedItems.Items[0]).Key);
+                cnf = TreeHelper.FindNode(categoryFeedsNode, (INewsItem) (listFeedItems.Items[0]).Key);
             if (cnf != null)
             {
                 EmptyListView();
@@ -2112,7 +2113,7 @@ namespace RssBandit.WinGui.Forms
             }
 
             WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode);
-            var catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);
+            string catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);
             owner.FeedHandler.DeleteCategory(catName);
             UpdateTreeNodeUnreadStatus(categoryFeedsNode, 0);
 
@@ -2146,7 +2147,7 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
-                for (var child = startNode.FirstNode; child != null; child = child.NextNode)
+                for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
                     if (Disposing)
                         return;
@@ -2159,7 +2160,7 @@ namespace RssBandit.WinGui.Forms
                     }
                     else
                     {
-                        var feedUrl = child.DataKey;
+                        string feedUrl = child.DataKey;
 
                         if (feedUrl == null || !owner.FeedHandler.IsSubscribed(feedUrl))
                             continue;
@@ -2173,13 +2174,13 @@ namespace RssBandit.WinGui.Forms
                             }
                             else if (categorized)
                             {
-                                var items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
-                                var f = owner.GetFeed(feedUrl);
+                                IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
+                                INewsFeed f = owner.GetFeed(feedUrl);
                                 FeedInfo fi;
 
                                 if (f != null)
                                 {
-                                    var ifd = owner.GetFeedDetails(f.link);
+                                    IFeedDetails ifd = owner.GetFeedDetails(f.link);
 
                                     if (ifd == null) // with with an error, and the like: ignore
                                         continue;
@@ -2243,7 +2244,7 @@ namespace RssBandit.WinGui.Forms
 
             if (startNode.Type == FeedNodeType.Category)
             {
-                for (var child = startNode.FirstNode; child != null; child = child.NextNode)
+                for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
                     if (child.Type == FeedNodeType.Category)
                         WalkdownAndCatchupCategory(child);
@@ -2262,7 +2263,7 @@ namespace RssBandit.WinGui.Forms
                 owner.FeedHandler.MarkAllCachedItemsAsRead(startNode.DataKey);
             }
         }
-       
+
         /// <summary>
         /// Helper. Work recursive on the startNode down to the leaves.
         /// Then delete all child categories and FeedNode refs in owner.FeedHandler.
@@ -2276,7 +2277,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (owner.FeedHandler.IsSubscribed(startNode.DataKey))
                 {
-                    var f = owner.GetFeed(startNode.DataKey);
+                    INewsFeed f = owner.GetFeed(startNode.DataKey);
                     if (f != null)
                     {
                         UnreadItemsNodeRemoveItems(f);
@@ -2288,7 +2289,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // other
 
-                for (var child = startNode.FirstNode; child != null; child = child.NextNode)
+                for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
                     WalkdownThenDeleteFeedsOrCategories(child);
                 }
@@ -2329,7 +2330,7 @@ namespace RssBandit.WinGui.Forms
             if (startNode == null)
                 return listFeedItems.FeedColumnLayout;
 
-            var layout = listFeedItems.FeedColumnLayout;
+            FeedColumnLayout layout = listFeedItems.FeedColumnLayout;
             if (startNode.Type == FeedNodeType.Feed)
             {
                 layout = owner.GetFeedColumnLayout(startNode.DataKey) ?? owner.GlobalFeedColumnLayout;
@@ -2412,9 +2413,9 @@ namespace RssBandit.WinGui.Forms
         public ThreadedListViewItem GetListViewItem(NewsItem item)
         {
             ThreadedListViewItem theItem = null;
-            for (var i = 0; i < listFeedItems.Items.Count; i++)
+            for (int i = 0; i < listFeedItems.Items.Count; i++)
             {
-                var currentItem = listFeedItems.Items[i];
+                ThreadedListViewItem currentItem = listFeedItems.Items[i];
                 if (item.Equals(currentItem.Key))
                 {
                     theItem = currentItem;
@@ -2434,12 +2435,12 @@ namespace RssBandit.WinGui.Forms
         public ThreadedListViewItem GetListViewItem(string id)
         {
             //TR: fix (2007/05/03) provided id can be Url Encoded:
-            var normalizedId = HtmlHelper.UrlDecode(id);
+            string normalizedId = HtmlHelper.UrlDecode(id);
             ThreadedListViewItem theItem = null;
-            for (var i = 0; i < listFeedItems.Items.Count; i++)
+            for (int i = 0; i < listFeedItems.Items.Count; i++)
             {
-                var currentItem = listFeedItems.Items[i];
-                var item = (INewsItem)currentItem.Key;
+                ThreadedListViewItem currentItem = listFeedItems.Items[i];
+                var item = (INewsItem) currentItem.Key;
 
                 if (item.Id.Equals(id) || item.Id.Equals(normalizedId))
                 {
@@ -2470,7 +2471,5 @@ namespace RssBandit.WinGui.Forms
                 CurrentSelectedFeedsNode.BeginEdit();
             }
         }
-
-
     }
 }

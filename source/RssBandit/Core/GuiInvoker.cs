@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using System.Diagnostics;
 using NewsComponents.Utils;
 
 namespace RssBandit
@@ -58,7 +58,7 @@ namespace RssBandit
 
         private static void SafeInvoke(object state)
         {
-            var d = (InvokeControl)state;
+            var d = (InvokeControl) state;
 
             // Check these from the UI thread to prevent a race condition
             if (d.Disposing || d.IsDisposed)
@@ -121,7 +121,7 @@ namespace RssBandit
 
             if (synchronous)
             {
-                context.Invoke((WaitCallback)SafeInvoke, invokeControl);
+                context.Invoke((WaitCallback) SafeInvoke, invokeControl);
 
                 if (invokeControl.Exception != null)
                 {
@@ -130,7 +130,7 @@ namespace RssBandit
                 }
             }
             else
-                context.BeginInvoke((WaitCallback)SafeInvoke, invokeControl);
+                context.BeginInvoke((WaitCallback) SafeInvoke, invokeControl);
         }
 
 
@@ -140,7 +140,7 @@ namespace RssBandit
         /// <returns></returns>
         private static Control GetMarshalingControl()
         {
-          /*
+            /*
            * We use this code instead of the SynchronizationContext to workaround
            * a defect in the way WinForms interacts with the context.
            * 
@@ -171,15 +171,17 @@ namespace RssBandit
            * 
           */
 
-            var context = Type.GetType("System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+            Type context =
+                Type.GetType(
+                    "System.Windows.Forms.Application+ThreadContext, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
 
-            var current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo current = context.GetMethod("FromCurrent", BindingFlags.NonPublic | BindingFlags.Static);
 
-            var prop = context.GetProperty("MarshalingControl", BindingFlags.Instance | BindingFlags.NonPublic);
+            PropertyInfo prop = context.GetProperty("MarshalingControl", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var thread = current.Invoke(null, null);
+            object thread = current.Invoke(null, null);
 
-            var control = (Control)prop.GetValue(thread, null);
+            var control = (Control) prop.GetValue(thread, null);
 
             return control;
         }
@@ -208,36 +210,21 @@ namespace RssBandit
                 IsSync = isSync;
             }
 
-            public bool IsSync
-            {
-                get;
-                private set;
-            }
+            public bool IsSync { get; private set; }
 
             public bool Disposing
             {
-                get
-                {
-                    return control.Disposing;
-                }
+                get { return control.Disposing; }
             }
 
             public bool IsDisposed
             {
-                get
-                {
-                    return control.IsDisposed;
-                }
+                get { return control.IsDisposed; }
             }
 
             public Action Action { get; private set; }
 
-            public Exception Exception
-            {
-                get;
-                set;
-            }
-
+            public Exception Exception { get; set; }
         }
 
         #endregion Private Class
@@ -248,5 +235,4 @@ namespace RssBandit
 
         #endregion Private Fields
     }
-
 }
