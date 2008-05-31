@@ -3055,6 +3055,9 @@ namespace RssBandit
 			{
 				try
 				{
+                    //we don't want properties from comment feed handler to override our actual settings
+                    FeedSource.MigrateProperties = false; 
+
 					commentFeedsHandler.LoadFeedlist();
 
 					foreach (var f in commentFeedsHandler.GetFeeds().Values)

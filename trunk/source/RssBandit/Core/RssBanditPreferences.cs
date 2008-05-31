@@ -1399,7 +1399,7 @@ namespace RssBandit {
             this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
 
 			this.RefreshRate = reader.GetInt("RefreshRate", FeedSource.DefaultRefreshRate);
-			this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
+            this.EnclosureFolder = reader.GetString("EnclosureFolder", RssBanditApplication.GetDefaultEnclosuresPath());
 			this.NumEnclosuresToDownloadOnNewFeed = reader.GetInt("NumEnclosuresToDownloadOnNewFeed", FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
 			this.EnclosureCacheSize = reader.GetInt("EnclosureCacheSize", FeedSource.DefaultEnclosureCacheSize);
 		}
