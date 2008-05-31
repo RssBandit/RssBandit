@@ -535,7 +535,7 @@ Error:{1}.</value>
   </data>
   <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
     <value>My Feeds</value>
-   </data>
+  </data>
   <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in RSS Bandit</value>
   </data>
@@ -2470,5 +2470,8 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   </data>
   <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
     <value>Launches the Synchronize Feeds Wizard</value>
+  </data>
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
+    <value>Please specify a valid playlist name</value>
   </data>
 </root>
