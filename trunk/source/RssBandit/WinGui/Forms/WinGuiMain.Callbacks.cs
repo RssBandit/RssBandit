@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
 using System.Text;
@@ -14,6 +14,7 @@ using System.Windows.Forms.ThListView;
 using IEControl;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
+using Interop.SHDocVw;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.RelationCosmos;
@@ -26,13 +27,13 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Tools;
 using RssBandit.WinGui.Utility;
-using Interop.SHDocVw;
+using Syndication.Extensibility;
 using TD.SandDock;
 using TD.SandDock.Rendering;
 
 namespace RssBandit.WinGui.Forms
 {
-    partial class WinGuiMain
+    internal partial class WinGuiMain
     {
         #region Callback and event handler routines
 
@@ -48,21 +49,21 @@ namespace RssBandit.WinGui.Forms
 
         internal void CmdToggleMainTBViewState(ICommand sender)
         {
-            var enable = owner.Mediator.IsChecked(sender);
+            bool enable = owner.Mediator.IsChecked(sender);
             owner.Mediator.SetChecked(enable, "cmdToggleMainTBViewState");
             toolbarHelper.SetToolbarVisible(Resource.Toolbar.MainTools, enable);
         }
 
         internal void CmdToggleWebTBViewState(ICommand sender)
         {
-            var enable = owner.Mediator.IsChecked(sender);
+            bool enable = owner.Mediator.IsChecked(sender);
             owner.Mediator.SetChecked(enable, "cmdToggleWebTBViewState");
             toolbarHelper.SetToolbarVisible(Resource.Toolbar.WebTools, enable);
         }
 
         internal void CmdToggleWebSearchTBViewState(ICommand sender)
         {
-            var enable = owner.Mediator.IsChecked(sender);
+            bool enable = owner.Mediator.IsChecked(sender);
             owner.Mediator.SetChecked(enable, "cmdToggleWebSearchTBViewState");
             toolbarHelper.SetToolbarVisible(Resource.Toolbar.SearchTools, enable);
         }
@@ -141,12 +142,12 @@ namespace RssBandit.WinGui.Forms
         // Gets called, if a user want to close the selected doc tab.
         private void CmdDocTabCloseSelected(ICommand sender)
         {
-            var pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
+            Point pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
             var underMouse =
                 _docContainer.GetLayoutSystemAt(_docContainer.PointToClient(pos)) as ControlLayoutSystem;
             if (underMouse != null)
             {
-                var docUnderMouse = underMouse.GetControlAt(_docContainer.PointToClient(pos));
+                DockControl docUnderMouse = underMouse.GetControlAt(_docContainer.PointToClient(pos));
                 if (docUnderMouse != null)
                 {
                     RemoveDocTab(docUnderMouse);
@@ -161,7 +162,7 @@ namespace RssBandit.WinGui.Forms
         // Gets called, if a user want to close all doc tabs on the current strip.
         private void CmdDocTabCloseAllOnStrip(ICommand sender)
         {
-            var pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
+            Point pos = (_contextMenuCalledAt != Point.Empty ? _contextMenuCalledAt : Cursor.Position);
             var underMouse =
                 _docContainer.GetLayoutSystemAt(_docContainer.PointToClient(pos)) as ControlLayoutSystem;
             if (underMouse == null)
@@ -171,7 +172,7 @@ namespace RssBandit.WinGui.Forms
             underMouse.Controls.CopyTo(docs, 0); // prevent InvalidOpException on Collections
             foreach (var doc in docs)
             {
-                var state = (ITabState)doc.Tag;
+                var state = (ITabState) doc.Tag;
                 if (state.CanClose)
                     _docContainer.RemoveDocument(doc);
             }
@@ -185,7 +186,7 @@ namespace RssBandit.WinGui.Forms
             _docContainer.Documents.CopyTo(docs, 0); // prevent InvalidOpException on Collections
             foreach (var doc in docs)
             {
-                var state = (ITabState)doc.Tag;
+                var state = (ITabState) doc.Tag;
                 if (state.CanClose)
                     _docContainer.RemoveDocument(doc);
             }
@@ -212,7 +213,7 @@ namespace RssBandit.WinGui.Forms
             if (sender != null)
             {
                 // check the real command (sender) for current unified state:
-                var enable = owner.Mediator.IsChecked(sender);
+                bool enable = owner.Mediator.IsChecked(sender);
                 owner.Mediator.SetChecked(enable, "cmdViewOutlookReadingPane");
                 ShowOutlookReadingPane(enable);
             }
@@ -224,7 +225,7 @@ namespace RssBandit.WinGui.Forms
             {
                 //Prepare ListView Contents
                 var items = new ThreadedListViewItem[listFeedItems.Items.Count];
-                var ind = 0;
+                int ind = 0;
                 foreach (var lvi in listFeedItems.Items)
                 {
                     items[ind++] = lvi;
@@ -343,7 +344,7 @@ namespace RssBandit.WinGui.Forms
 
         private void CmdCopyFeedLinkToClipboard(ICommand sender)
         {
-            var feedsNode = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed && feedsNode.DataKey != null)
             {
                 if (owner.FeedHandler.IsSubscribed(feedsNode.DataKey))
@@ -356,16 +357,16 @@ namespace RssBandit.WinGui.Forms
 
         private void CmdCopyFeedHomeLinkToClipboard(ICommand sender)
         {
-            var feedsNode = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                var fd = owner.GetFeedDetails(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
 
-            	string link = fd != null ? fd.Link : feedsNode.DataKey;
+                string link = fd != null ? fd.Link : feedsNode.DataKey;
 
                 if (!string.IsNullOrEmpty(link))
                 {
-					ClipboardHelper.SetString(link, true);
+                    ClipboardHelper.SetString(link, true);
                 }
             }
 
@@ -375,10 +376,10 @@ namespace RssBandit.WinGui.Forms
 
         private void CmdCopyFeedHomeTitleLinkToClipboard(ICommand sender)
         {
-            var feedsNode = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                var fd = owner.GetFeedDetails(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
                 string link, title;
 
                 if (fd != null)
@@ -394,8 +395,9 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(link))
                 {
-					ClipboardHelper.SetStringAndHtml(link,
-                        String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title, feedsNode.Text), true);
+                    ClipboardHelper.SetStringAndHtml(link,
+                                                     String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title,
+                                                                   feedsNode.Text), true);
                 }
             }
             if (sender is AppContextMenuCommand) // needed at the treeview
@@ -413,13 +415,13 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             var data = new StringBuilder();
-            for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
+            for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                var item = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[i]).Key;
+                var item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
-                    var link = item.Link;
+                    string link = item.Link;
                     if (!string.IsNullOrEmpty(link))
                     {
                         data.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty), link);
@@ -437,17 +439,17 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             var data = new StringBuilder();
-        	var links = new StringBuilder();
-            for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
+            var links = new StringBuilder();
+            for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                var item = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[i]).Key;
+                var item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
-                    var link = item.Link;
+                    string link = item.Link;
                     if (!string.IsNullOrEmpty(link))
                     {
-                        var title = item.Title;
+                        string title = item.Title;
                         if (!string.IsNullOrEmpty(title))
                         {
                             data.AppendFormat("{0}<a href=\"{1}\" title=\"{2}\">{3}</a>",
@@ -460,7 +462,7 @@ namespace RssBandit.WinGui.Forms
                                               (i > 0 ? "<br />" + Environment.NewLine : String.Empty), link, link);
                         }
                     }
-                	links.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty), link);
+                    links.AppendFormat("{0}{1}", (i > 0 ? Environment.NewLine : String.Empty), link);
                 }
             }
 
@@ -474,42 +476,40 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             var data = new StringBuilder();
-            for (var i = 0; i < listFeedItems.SelectedItems.Count; i++)
+            for (int i = 0; i < listFeedItems.SelectedItems.Count; i++)
             {
-                var item = (INewsItem)((ThreadedListViewItem)listFeedItems.SelectedItems[i]).Key;
+                var item = (INewsItem) ((ThreadedListViewItem) listFeedItems.SelectedItems[i]).Key;
 
                 if (item != null)
                 {
-                    var link = item.Link;
-					if (string.IsNullOrEmpty(link))
-						link = item.Feed.link;
-					var content = item.Content;
-                	string itemUrl = String.Empty;
-					
-					if (!string.IsNullOrEmpty(link))
-					{
-						var title = item.Title;
-						if (string.IsNullOrEmpty(title))
-							title = link;
-						itemUrl = String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>",
-											  link, item.Feed.title, title);
-					}
+                    string link = item.Link;
+                    if (string.IsNullOrEmpty(link))
+                        link = item.Feed.link;
+                    string content = item.Content;
+                    string itemUrl = String.Empty;
 
-					if (i > 0) 
-						data.Append("<hr />");
-                	
-					data.Append("<div>");
-					if (!string.IsNullOrEmpty(content))
+                    if (!string.IsNullOrEmpty(link))
                     {
-						data.AppendFormat("{0}<br />[{1}]", content, itemUrl);
-                    } 
-					else
-					{
-						data.AppendFormat("{0} -> {1}", item.Feed.title, itemUrl);
-                    
-					}
-					data.Append("</div>");
-                    
+                        string title = item.Title;
+                        if (string.IsNullOrEmpty(title))
+                            title = link;
+                        itemUrl = String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>",
+                                                link, item.Feed.title, title);
+                    }
+
+                    if (i > 0)
+                        data.Append("<hr />");
+
+                    data.Append("<div>");
+                    if (!string.IsNullOrEmpty(content))
+                    {
+                        data.AppendFormat("{0}<br />[{1}]", content, itemUrl);
+                    }
+                    else
+                    {
+                        data.AppendFormat("{0} -> {1}", item.Feed.title, itemUrl);
+                    }
+                    data.Append("</div>");
                 }
             }
 
@@ -589,7 +589,7 @@ namespace RssBandit.WinGui.Forms
                 if (NodeEditingActive)
                     return;
 
-                var feedsNode = CurrentSelectedFeedsNode;
+                TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
                 WalkdownThenDeleteFinders(feedsNode);
                 UpdateTreeNodeUnreadStatus(feedsNode, 0);
 
@@ -608,10 +608,10 @@ namespace RssBandit.WinGui.Forms
 
         private void CmdFinderToggleExcerptsFullItemText(ICommand sender)
         {
-            var feedsNode = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode is FinderNode)
             {
-                var fn = (FinderNode)feedsNode;
+                var fn = (FinderNode) feedsNode;
                 fn.Finder.ShowFullItemContent = !fn.Finder.ShowFullItemContent;
                 fn.Clear();
                 UpdateTreeNodeUnreadStatus(fn, 0);
@@ -641,7 +641,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // other
-                for (var child = startNode.FirstNode; child != null; child = child.NextNode)
+                for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
                     WalkdownThenDeleteFinders(child);
                 }
@@ -714,15 +714,15 @@ namespace RssBandit.WinGui.Forms
         {
             SetFeedHandlerFeedColumnLayout(CurrentSelectedFeedsNode, null);
             listFeedItems.ApplyLayoutModifications(); // do not save temp. changes to the node
-            var items = NewsItemListFrom(listFeedItems.Items);
+            IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items);
             listFeedItems.FeedColumnLayout = GetFeedColumnLayout(CurrentSelectedFeedsNode); // also clear's the listview
             RePopulateListviewWithContent(items);
         }
 
         private void CmdDownloadAttachment(ICommand sender)
         {
-            var fileName = sender.CommandID.Split(new[] { '<' })[1];
-            var item = CurrentSelectedFeedItem;
+            string fileName = sender.CommandID.Split(new[] {'<'})[1];
+            INewsItem item = CurrentSelectedFeedItem;
 
             try
             {
@@ -743,9 +743,9 @@ namespace RssBandit.WinGui.Forms
             if (listFeedItems.Columns.Count > 1)
             {
                 // show at least one column
-                var name = sender.CommandID.Split(new[] { '.' });
+                string[] name = sender.CommandID.Split(new[] {'.'});
 
-                var enable = owner.Mediator.IsChecked(sender);
+                bool enable = owner.Mediator.IsChecked(sender);
                 owner.Mediator.SetChecked(enable, sender.CommandID);
 
                 if (!enable)
@@ -764,16 +764,16 @@ namespace RssBandit.WinGui.Forms
 
         private void RefreshListviewColumnContextMenu()
         {
-            var map = listFeedItems.Columns.GetColumnIndexMap();
+            ColumnKeyIndexMap map = listFeedItems.Columns.GetColumnIndexMap();
 
-            foreach (var colID in Enum.GetNames(typeof(NewsItemSortField)))
+            foreach (var colID in Enum.GetNames(typeof (NewsItemSortField)))
             {
                 owner.Mediator.SetChecked(map.ContainsKey(colID), "cmdListviewColumn." + colID);
             }
 
-            var enableIndividual = (CurrentSelectedFeedsNode != null &&
-                                    (CurrentSelectedFeedsNode.Type == FeedNodeType.Feed ||
-                                     CurrentSelectedFeedsNode.Type == FeedNodeType.Category));
+            bool enableIndividual = (CurrentSelectedFeedsNode != null &&
+                                     (CurrentSelectedFeedsNode.Type == FeedNodeType.Feed ||
+                                      CurrentSelectedFeedsNode.Type == FeedNodeType.Category));
             owner.Mediator.SetEnabled(enableIndividual, "cmdColumnChooserResetToDefault");
         }
 
@@ -782,36 +782,36 @@ namespace RssBandit.WinGui.Forms
             switch (colID)
             {
                 case "Title":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionHeadline, typeof(string), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionHeadline, typeof (string), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "Subject":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionTopic, typeof(string), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionTopic, typeof (string), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "Date":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionDate, typeof(DateTime), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionDate, typeof (DateTime), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "FeedTitle":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFeedTitle, typeof(string), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFeedTitle, typeof (string), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "Author":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCreator, typeof(string), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCreator, typeof (string), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "CommentCount":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCommentCount, typeof(int), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionCommentCount, typeof (int), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "Enclosure":
                     //TODO: should have a paperclip picture, int type may change to a specific state (string)
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionEnclosure, typeof(int), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionEnclosure, typeof (int), width,
                                               HorizontalAlignment.Left);
                     break;
                 case "Flag":
-                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFlagStatus, typeof(string), width,
+                    listFeedItems.Columns.Add(colID, SR.ListviewColumnCaptionFlagStatus, typeof (string), width,
                                               HorizontalAlignment.Left);
                     break;
                 default:
@@ -859,7 +859,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var z = (int)owner.Preferences.ReadingPaneTextSize;
+                var z = (int) owner.Preferences.ReadingPaneTextSize;
 
                 switch (size)
                 {
@@ -904,13 +904,13 @@ namespace RssBandit.WinGui.Forms
             {
                 detailsPaneSplitter.Dock = style; // allowed styles
                 detailsPaneSplitter.Cursor = Cursors.VSplit;
-                panelFeedItems.Width = panelFeedDetails.Width / 3;
+                panelFeedItems.Width = panelFeedDetails.Width/3;
             }
             else if (style == DockStyle.Bottom || style == DockStyle.Top)
             {
                 detailsPaneSplitter.Dock = style; // allowed styles
                 detailsPaneSplitter.Cursor = Cursors.HSplit;
-                panelFeedItems.Height = panelFeedDetails.Height / 2;
+                panelFeedItems.Height = panelFeedDetails.Height/2;
             }
             // TR - just for test with dockstyle.none:
             //panelWebDetail.Visible = detailsPaneSplitter.Visible = (style != DockStyle.None);
@@ -923,7 +923,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="sender">Object that initiates the call</param>
         public void CmdSelectAllNewsItems(ICommand sender)
         {
-            for (var i = 0; i < listFeedItems.Items.Count; i++)
+            for (int i = 0; i < listFeedItems.Items.Count; i++)
             {
                 listFeedItems.Items[i].Selected = true;
             }
@@ -957,7 +957,7 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             // right-click selected:
-            var tn = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
             if (tn == null) return;
             if (tn.Type != FeedNodeType.Feed) return;
 
@@ -983,7 +983,7 @@ namespace RssBandit.WinGui.Forms
 
         private ITabState FeedDetailTabState
         {
-            get { return (ITabState)_docFeedDetails.Tag; }
+            get { return (ITabState) _docFeedDetails.Tag; }
         }
 
         private bool RemoveDocTab(DockControl doc)
@@ -1025,7 +1025,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="hasConfig">true, if we have to call config dialog</param>
         public void OnGenericListviewCommand(int index, bool hasConfig)
         {
-            var ibe = blogExtensions[index];
+            IBlogExtension ibe = blogExtensions[index];
             if (hasConfig)
             {
                 try
@@ -1035,7 +1035,7 @@ namespace RssBandit.WinGui.Forms
                 catch (Exception e)
                 {
                     _log.Error("IBlogExtension configuration exception", e);
-                    owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall,"Configure()", e.Message));
+                    owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall, "Configure()", e.Message));
                 }
             }
             else
@@ -1050,7 +1050,7 @@ namespace RssBandit.WinGui.Forms
                     catch (Exception e)
                     {
                         _log.Error("IBlogExtension command exception", e);
-                        owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall,"BlogItem()", e.Message));
+                        owner.MessageError(String.Format(SR.ExceptionIBlogExtensionFunctionCall, "BlogItem()", e.Message));
                     }
                 }
             }
@@ -1179,14 +1179,14 @@ namespace RssBandit.WinGui.Forms
         /// <returns></returns>
         public virtual bool PreFilterMessage(ref Message m)
         {
-            var processed = false;
+            bool processed = false;
 
             try
             {
-                if (m.Msg == (int)Win32.Message.WM_KEYDOWN ||
-                    m.Msg == (int)Win32.Message.WM_SYSKEYDOWN)
+                if (m.Msg == (int) Win32.Message.WM_KEYDOWN ||
+                    m.Msg == (int) Win32.Message.WM_SYSKEYDOWN)
                 {
-                    var msgKey = ((Keys)(int)m.WParam & Keys.KeyCode);
+                    Keys msgKey = ((Keys) (int) m.WParam & Keys.KeyCode);
 #if DEBUG
                     if (msgKey == Keys.F12)
                     {
@@ -1232,7 +1232,7 @@ namespace RssBandit.WinGui.Forms
                                         else if (_docContainer.ActiveDocument != _docFeedDetails)
                                         {
                                             // a tabbed browser should get focus
-                                            SetFocus2WebBrowser((HtmlControl)_docContainer.ActiveDocument.Controls[0]);
+                                            SetFocus2WebBrowser((HtmlControl) _docContainer.ActiveDocument.Controls[0]);
                                             processed = true;
                                         }
                                     }
@@ -1282,7 +1282,7 @@ namespace RssBandit.WinGui.Forms
                                         else if (_docContainer.ActiveDocument != _docFeedDetails)
                                         {
                                             // a tabbed browser should get focus
-                                            SetFocus2WebBrowser((HtmlControl)_docContainer.ActiveDocument.Controls[0]);
+                                            SetFocus2WebBrowser((HtmlControl) _docContainer.ActiveDocument.Controls[0]);
                                             processed = true;
                                         }
                                     }
@@ -1321,7 +1321,7 @@ namespace RssBandit.WinGui.Forms
                             // "+" on ListView opens the thread
                             if (listFeedItems.Visible && listFeedItems.SelectedItems.Count > 0)
                             {
-                                var lvi = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+                                var lvi = (ThreadedListViewItem) listFeedItems.SelectedItems[0];
                                 if (lvi.HasChilds && lvi.Collapsed)
                                 {
                                     lvi.Expanded = true;
@@ -1335,7 +1335,7 @@ namespace RssBandit.WinGui.Forms
                             // "-" on ListView close the thread
                             if (listFeedItems.Visible && listFeedItems.SelectedItems.Count > 0)
                             {
-                                var lvi = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+                                var lvi = (ThreadedListViewItem) listFeedItems.SelectedItems[0];
                                 if (lvi.HasChilds && lvi.Expanded)
                                 {
                                     lvi.Collapsed = true;
@@ -1389,15 +1389,15 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // browser detail pane has focus
                                 //Trace.WriteLine("htmlDetail.Focused:"+htmlDetail.Focused);
-                                var htdoc = htmlDetail.Document2;
+                                IHTMLDocument2 htdoc = htmlDetail.Document2;
                                 if (htdoc != null)
                                 {
-                                    var htbody = htdoc.GetBody();
+                                    IHTMLElement2 htbody = htdoc.GetBody();
                                     if (htbody != null)
                                     {
-                                        var num1 = htbody.getScrollTop();
+                                        int num1 = htbody.getScrollTop();
                                         htbody.setScrollTop(num1 + 20);
-                                        var num2 = htbody.getScrollTop();
+                                        int num2 = htbody.getScrollTop();
                                         if (num1 == num2)
                                         {
                                             MoveToNextUnreadItem();
@@ -1448,8 +1448,8 @@ namespace RssBandit.WinGui.Forms
                             if (treeFeeds.Focused && TreeSelectedFeedsNode != null &&
                                 !TreeSelectedFeedsNode.IsEditing)
                             {
-                                var root = GetRoot(RootFolderType.MyFeeds);
-                                var current = CurrentSelectedFeedsNode;
+                                TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
+                                TreeFeedsNodeBase current = CurrentSelectedFeedsNode;
                                 if (NodeIsChildOf(current, root))
                                 {
                                     if (current.Type == FeedNodeType.Category)
@@ -1466,27 +1466,27 @@ namespace RssBandit.WinGui.Forms
                             }
                         }
                 }
-                else if (m.Msg == (int)Win32.Message.WM_LBUTTONDBLCLK ||
-                         m.Msg == (int)Win32.Message.WM_RBUTTONDBLCLK ||
-                         m.Msg == (int)Win32.Message.WM_MBUTTONDBLCLK ||
-                         m.Msg == (int)Win32.Message.WM_LBUTTONUP ||
-                         m.Msg == (int)Win32.Message.WM_MBUTTONUP ||
-                         m.Msg == (int)Win32.Message.WM_RBUTTONUP ||
-                         m.Msg == (int)Win32.Message.WM_XBUTTONDBLCLK ||
-                         m.Msg == (int)Win32.Message.WM_XBUTTONUP)
+                else if (m.Msg == (int) Win32.Message.WM_LBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.Message.WM_RBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.Message.WM_MBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.Message.WM_LBUTTONUP ||
+                         m.Msg == (int) Win32.Message.WM_MBUTTONUP ||
+                         m.Msg == (int) Win32.Message.WM_RBUTTONUP ||
+                         m.Msg == (int) Win32.Message.WM_XBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.Message.WM_XBUTTONUP)
                 {
                     _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
-                    var mouseControl = wheelSupport.GetTopmostChild(this, MousePosition);
+                    Control mouseControl = wheelSupport.GetTopmostChild(this, MousePosition);
                     _webUserNavigated = (mouseControl is HtmlControl); // set
                     _webForceNewTab = false;
                     if (_webUserNavigated)
                     {
                         // CONTROL-Click opens a new Tab
-						_webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
+                        _webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
                     }
                 }
-                else if (m.Msg == (int)Win32.Message.WM_MOUSEMOVE)
+                else if (m.Msg == (int) Win32.Message.WM_MOUSEMOVE)
                 {
                     var p = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
                     if (Math.Abs(p.X - _lastMousePosition.X) > 5 ||
@@ -1521,9 +1521,9 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                if (m.Msg == (int)Win32.Message.WM_SIZE)
+                if (m.Msg == (int) Win32.Message.WM_SIZE)
                 {
-                    if (((int)m.WParam) == 1 /*SIZE_MINIMIZED*/&& OnMinimize != null)
+                    if (((int) m.WParam) == 1 /*SIZE_MINIMIZED*/&& OnMinimize != null)
                     {
                         OnMinimize(this, EventArgs.Empty);
                     }
@@ -1533,8 +1533,8 @@ namespace RssBandit.WinGui.Forms
                     //					ctrl.Focus();
                     //				}
                 }
-                else if ( /* m.Msg == (int)WM_CLOSE || */ m.Msg == (int)Win32.Message.WM_QUERYENDSESSION ||
-                                                          m.Msg == (int)Win32.Message.WM_ENDSESSION)
+                else if ( /* m.Msg == (int)WM_CLOSE || */ m.Msg == (int) Win32.Message.WM_QUERYENDSESSION ||
+                                                          m.Msg == (int) Win32.Message.WM_ENDSESSION)
                 {
                     // This is here to deal with dealing with system shutdown issues
                     // Read http://www.kuro5hin.org/story/2003/4/17/22853/6087#banditshutdown for details
@@ -1546,7 +1546,7 @@ namespace RssBandit.WinGui.Forms
                     //this.SaveUIConfiguration(true);
                     owner.SaveApplicationState(true);
                 }
-                else if (m.Msg == (int)Win32.Message.WM_CLOSE &&
+                else if (m.Msg == (int) Win32.Message.WM_CLOSE &&
                          owner.Preferences.HideToTrayAction != HideToTray.OnClose)
                 {
                     _forceShutdown = true; // the closing handler ask for that now
@@ -1618,11 +1618,11 @@ namespace RssBandit.WinGui.Forms
 
         private void OnDocContainerDoubleClick(object sender, EventArgs e)
         {
-            var p = _docContainer.PointToClient(MousePosition);
-            var lb = (DocumentLayoutSystem)_docContainer.GetLayoutSystemAt(p);
+            Point p = _docContainer.PointToClient(MousePosition);
+            var lb = (DocumentLayoutSystem) _docContainer.GetLayoutSystemAt(p);
             if (lb != null)
             {
-                var doc = lb.GetControlAt(p);
+                DockControl doc = lb.GetControlAt(p);
                 if (doc != null)
                     RemoveDocTab(doc);
             }
@@ -1647,7 +1647,7 @@ namespace RssBandit.WinGui.Forms
                 writer.SetProperty("version", 4);
 
                 writer.SetProperty(Name + "/Bounds", BoundsToString(_formRestoreBounds));
-                writer.SetProperty(Name + "/WindowState", (int)WindowState);
+                writer.SetProperty(Name + "/WindowState", (int) WindowState);
 
                 // splitter position Listview/Detail Pane: 
                 writer.SetProperty(Name + "/panelFeedItems.Height", panelFeedItems.Height);
@@ -1656,7 +1656,7 @@ namespace RssBandit.WinGui.Forms
                 // splitter position Navigator/Feed Details Pane: 
                 writer.SetProperty(Name + "/Navigator.Width", Navigator.Width);
 
-                writer.SetProperty(Name + "/docManager.WindowAlignment", (int)_docContainer.LayoutSystem.SplitMode);
+                writer.SetProperty(Name + "/docManager.WindowAlignment", (int) _docContainer.LayoutSystem.SplitMode);
 
                 var sdRenderer = sandDockManager.Renderer as Office2003Renderer;
                 writer.SetProperty(Name + "/dockManager.LayoutStyle.Office2003", (sdRenderer != null));
@@ -1683,7 +1683,7 @@ namespace RssBandit.WinGui.Forms
                                    owner.Mediator.IsChecked("cmdToggleRssSearchTabState")
                     );
 
-                writer.SetProperty(Name + "/feedDetail.LayoutInfo.Position", (int)detailsPaneSplitter.Dock);
+                writer.SetProperty(Name + "/feedDetail.LayoutInfo.Position", (int) detailsPaneSplitter.Dock);
                 writer.SetProperty(Name + "/outlookView.Visible",
                                    owner.Mediator.IsChecked("cmdViewOutlookReadingPane")
                     );
@@ -1715,7 +1715,7 @@ namespace RssBandit.WinGui.Forms
                 // read BEFORE set the WindowState or Bounds (that causes events, where we reset this setting to false)
                 //_initialStartupTrayVisibleOnly = reader.GetBoolean(Name+"/TrayOnly.Visible", false);
 
-                var r = StringToBounds(reader.GetString(Name + "/Bounds", BoundsToString(Bounds)));
+                Rectangle r = StringToBounds(reader.GetString(Name + "/Bounds", BoundsToString(Bounds)));
                 if (r != Rectangle.Empty)
                 {
                     if (Screen.AllScreens.Length < 2)
@@ -1732,8 +1732,8 @@ namespace RssBandit.WinGui.Forms
                     SetBounds(r.X, r.Y, r.Width, r.Height, BoundsSpecified.All);
                 }
 
-                var windowState = (FormWindowState)reader.GetInt32(Name + "/WindowState",
-                                                                    (int)WindowState);
+                var windowState = (FormWindowState) reader.GetInt32(Name + "/WindowState",
+                                                                    (int) WindowState);
 
                 if (InitialStartupState != FormWindowState.Normal &&
                     WindowState != InitialStartupState)
@@ -1746,22 +1746,22 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 var feedDetailLayout =
-                    (DockStyle)reader.GetInt32(Name + "/feedDetail.LayoutInfo.Position", (int)DockStyle.Top);
+                    (DockStyle) reader.GetInt32(Name + "/feedDetail.LayoutInfo.Position", (int) DockStyle.Top);
                 if (feedDetailLayout != DockStyle.Top && feedDetailLayout != DockStyle.Left &&
                     feedDetailLayout != DockStyle.Right && feedDetailLayout != DockStyle.Bottom)
                     feedDetailLayout = DockStyle.Top;
                 SetFeedDetailLayout(feedDetailLayout); // load before restore panelFeedItems dimensions!
 
                 // splitter position Listview/Detail Pane: 
-                panelFeedItems.Height = reader.GetInt32(Name + "/panelFeedItems.Height", (panelFeedDetails.Height / 2));
-                panelFeedItems.Width = reader.GetInt32(Name + "/panelFeedItems.Width", (panelFeedDetails.Width / 2));
+                panelFeedItems.Height = reader.GetInt32(Name + "/panelFeedItems.Height", (panelFeedDetails.Height/2));
+                panelFeedItems.Width = reader.GetInt32(Name + "/panelFeedItems.Width", (panelFeedDetails.Width/2));
 
                 // splitter position Navigator/Feed Details Pane: 
                 Navigator.Width = reader.GetInt32(Name + "/Navigator.Width", Navigator.Width);
 
                 _docContainer.LayoutSystem.SplitMode =
                     (Orientation)
-                    reader.GetInt32(Name + "/docManager.WindowAlignment", (int)_docContainer.LayoutSystem.SplitMode);
+                    reader.GetInt32(Name + "/docManager.WindowAlignment", (int) _docContainer.LayoutSystem.SplitMode);
                 owner.Mediator.SetChecked((_docContainer.LayoutSystem.SplitMode == Orientation.Horizontal),
                                           "cmdDocTabLayoutHorizontal");
 
@@ -1772,7 +1772,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     //TR: SF bug 1532164
 
-                    var fallbackSDM = sandDockManager.GetLayout();
+                    string fallbackSDM = sandDockManager.GetLayout();
 
                     try
                     {
@@ -1785,7 +1785,7 @@ namespace RssBandit.WinGui.Forms
                     }
                 }
 
-                var office2003 = reader.GetBoolean(Name + "/dockManager.LayoutStyle.Office2003", true);
+                bool office2003 = reader.GetBoolean(Name + "/dockManager.LayoutStyle.Office2003", true);
                 if (office2003)
                 {
                     var sdRenderer = new Office2003Renderer();
@@ -1830,11 +1830,11 @@ namespace RssBandit.WinGui.Forms
 
                     // restore the other dynamic menu handlers:
                     historyMenuManager.SetControls(
-                        (AppPopupMenuCommand)ultraToolbarsManager.Tools["cmdBrowserGoBack"],
-                        (AppPopupMenuCommand)ultraToolbarsManager.Tools["cmdBrowserGoForward"]);
+                        (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdBrowserGoBack"],
+                        (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdBrowserGoForward"]);
                     owner.BackgroundDiscoverFeedsHandler.SetControls(
-                        (AppPopupMenuCommand)ultraToolbarsManager.Tools["cmdDiscoveredFeedsDropDown"],
-                        (AppButtonToolCommand)ultraToolbarsManager.Tools["cmdDiscoveredFeedsListClear"]);
+                        (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdDiscoveredFeedsDropDown"],
+                        (AppButtonToolCommand) ultraToolbarsManager.Tools["cmdDiscoveredFeedsListClear"]);
                     InitSearchEngines();
                 }
 
@@ -1844,7 +1844,7 @@ namespace RssBandit.WinGui.Forms
 				}
 #endif
                 //View Outlook View Reading Pane
-                var outlookView = reader.GetBoolean(Name + "/outlookView.Visible", false);
+                bool outlookView = reader.GetBoolean(Name + "/outlookView.Visible", false);
                 owner.Mediator.SetChecked(outlookView, "cmdViewOutlookReadingPane");
                 ShowOutlookReadingPane(outlookView);
 
@@ -1965,7 +1965,7 @@ namespace RssBandit.WinGui.Forms
             if (feedsTable == null) return;
             if (feedsTable.Count == 0) return;
 
-            var root = GetRoot(rootFolder);
+            TreeFeedsNodeBase root = GetRoot(rootFolder);
 
             if (root == null) // no root nodes
                 return;
@@ -1974,7 +1974,7 @@ namespace RssBandit.WinGui.Forms
             // new messages should be smaller than the tree nodes count.
             foreach (NewsFeed f in feedsTable.Values)
             {
-                var tn = TreeHelper.FindNode(root, f);
+                TreeFeedsNodeBase tn = TreeHelper.FindNode(root, f);
                 if (f.containsNewMessages)
                 {
                     UpdateTreeNodeUnreadStatus(tn, CountUnreadFeedItems(f));
@@ -1995,8 +1995,8 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var tv = (UltraTree)sender;
-                var selectedNode = (TreeFeedsNodeBase)tv.GetNodeFromPoint(e.X, e.Y);
+                var tv = (UltraTree) sender;
+                var selectedNode = (TreeFeedsNodeBase) tv.GetNodeFromPoint(e.X, e.Y);
 
                 if (e.Button == MouseButtons.Right)
                 {
@@ -2031,7 +2031,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if a feed was selected in the treeview, we display the feed homepage,
                                 // not the feed url in the Url dropdown box:
-                                var fi = owner.GetFeedDetails(selectedNode.DataKey);
+                                IFeedDetails fi = owner.GetFeedDetails(selectedNode.DataKey);
                                 if (fi != null && fi.Link == FeedDetailTabState.Url)
                                     return; // no user navigation happened in listview/detail pane
                             }
@@ -2066,7 +2066,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var t = (TreeFeedsNodeBase)treeFeeds.GetNodeFromPoint(e.X, e.Y);
+                var t = (TreeFeedsNodeBase) treeFeeds.GetNodeFromPoint(e.X, e.Y);
                 //TR: perf. impact:
                 //				if (t == null) 
                 //					treeFeeds.Cursor = Cursors.Default;
@@ -2099,8 +2099,8 @@ namespace RssBandit.WinGui.Forms
 
                 if (e.Button == MouseButtons.Left)
                 {
-                    var tv = (UltraTree)sender;
-                    var selectedNode = (TreeFeedsNodeBase)tv.GetNodeFromPoint(e.X, e.Y);
+                    var tv = (UltraTree) sender;
+                    var selectedNode = (TreeFeedsNodeBase) tv.GetNodeFromPoint(e.X, e.Y);
 
                     if (selectedNode != null && TreeSelectedFeedsNode == selectedNode)
                     {
@@ -2137,13 +2137,13 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var point = treeFeeds.PointToClient(MousePosition);
-                var feedsNode = (TreeFeedsNodeBase)treeFeeds.GetNodeFromPoint(point);
+                Point point = treeFeeds.PointToClient(MousePosition);
+                var feedsNode = (TreeFeedsNodeBase) treeFeeds.GetNodeFromPoint(point);
 
                 if (feedsNode != null)
                 {
                     CurrentSelectedFeedsNode = feedsNode;
-                    owner.CmdNavigateFeedHome((ICommand)null);
+                    owner.CmdNavigateFeedHome((ICommand) null);
                     CurrentSelectedFeedsNode = null;
                 }
             }
@@ -2169,14 +2169,14 @@ namespace RssBandit.WinGui.Forms
             if (TreeSelectedFeedsNode != null)
             {
                 listFeedItems.CheckForLayoutModifications();
-                var tn = TreeSelectedFeedsNode;
+                TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
 
                 if (tn.Type == FeedNodeType.Category)
                 {
-                    var category = tn.CategoryStoreName;
+                    string category = tn.CategoryStoreName;
 
                     if (owner.FeedHandler.GetCategoryMarkItemsReadOnExit(category) &&
-                        !TreeHelper.IsChildNode(tn, (TreeFeedsNodeBase)e.NewSelections[0]))
+                        !TreeHelper.IsChildNode(tn, (TreeFeedsNodeBase) e.NewSelections[0]))
                     {
                         MarkSelectedNodeRead(tn);
                         owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
@@ -2185,8 +2185,8 @@ namespace RssBandit.WinGui.Forms
                 }
                 else if (tn.Type == FeedNodeType.Feed)
                 {
-                    var feedUrl = tn.DataKey;
-                    var f = owner.GetFeed(feedUrl);
+                    string feedUrl = tn.DataKey;
+                    INewsFeed f = owner.GetFeed(feedUrl);
 
                     if (f != null && feedUrl != null && owner.FeedHandler.GetMarkItemsReadOnExit(feedUrl) &&
                         f.containsNewMessages)
@@ -2206,7 +2206,7 @@ namespace RssBandit.WinGui.Forms
             {
                 return;
             }
-            var tn = (TreeFeedsNodeBase)e.NewSelections[0];
+            var tn = (TreeFeedsNodeBase) e.NewSelections[0];
             OnTreeFeedAfterSelectManually(tn);
         }
 
@@ -2214,7 +2214,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var tn = (TreeFeedsNodeBase)node;
+                var tn = (TreeFeedsNodeBase) node;
 
                 if (tn.Type != FeedNodeType.Root)
                 {
@@ -2231,7 +2231,7 @@ namespace RssBandit.WinGui.Forms
                     }
                     else
                     {
-                        var feedUrl = tn.DataKey;
+                        string feedUrl = tn.DataKey;
                         if (feedUrl != null && owner.FeedHandler.IsSubscribed(feedUrl))
                         {
                             owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
@@ -2269,14 +2269,14 @@ namespace RssBandit.WinGui.Forms
 
                                 if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0)
                                 {
-                                    var fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
+                                    FeedInfoList fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
                                     BeginTransformFeedList(fiList, tn, owner.Stylesheet);
                                 }
                             }
                             catch (Exception ex)
                             {
                                 _log.Error("Unexpected Error on PopulateSmartFolder()", ex);
-                                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
+                                owner.MessageError(String.Format(SR.ExceptionGeneral, ex.Message));
                             }
                             break;
 
@@ -2285,12 +2285,12 @@ namespace RssBandit.WinGui.Forms
                             {
                                 FeedDetailTabState.Url = String.Empty;
                                 AddHistoryEntry(tn, null);
-                                PopulateFinderNode((FinderNode)tn, true);
+                                PopulateFinderNode((FinderNode) tn, true);
                             }
                             catch (Exception ex)
                             {
                                 _log.Error("Unexpected Error on PopulateAggregatedFolder()", ex);
-                                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
+                                owner.MessageError(String.Format(SR.ExceptionGeneral, ex.Message));
                             }
                             break;
 
@@ -2308,7 +2308,8 @@ namespace RssBandit.WinGui.Forms
                             htmlDetail.Navigate(null);
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
-                            SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,owner.FeedHandler.GetFeeds().Count));
+                            SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,
+                                                              owner.FeedHandler.GetFeeds().Count));
                             break;
 
                         default:
@@ -2323,7 +2324,7 @@ namespace RssBandit.WinGui.Forms
             catch (Exception ex)
             {
                 _log.Error("Unexpected Error in OnTreeFeedAfterSelect()", ex);
-                owner.MessageError(String.Format(SR.ExceptionGeneral,ex.Message));
+                owner.MessageError(String.Format(SR.ExceptionGeneral, ex.Message));
             }
         }
 
@@ -2342,13 +2343,13 @@ namespace RssBandit.WinGui.Forms
 
             var fiCache = new Hashtable();
 
-            for (var i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                var item = items[i];
+                INewsItem item = items[i];
                 if (item == null || item.Feed == null)
                     continue;
 
-                var feedUrl = item.Feed.link;
+                string feedUrl = item.Feed.link;
 
                 if (feedUrl == null || !owner.FeedHandler.IsSubscribed(feedUrl))
                     continue;
@@ -2360,7 +2361,7 @@ namespace RssBandit.WinGui.Forms
                         fi = fiCache[feedUrl] as FeedInfo;
                     else
                     {
-                        fi = (FeedInfo)owner.GetFeedDetails(feedUrl);
+                        fi = (FeedInfo) owner.GetFeedDetails(feedUrl);
                         if (fi != null)
                         {
                             fi = fi.Clone(false);
@@ -2397,7 +2398,7 @@ namespace RssBandit.WinGui.Forms
 
         private static void OnTreeFeedBeforeLabelEdit(object sender, CancelableNodeEventArgs e)
         {
-            var editedNode = (TreeFeedsNodeBase)e.TreeNode;
+            var editedNode = (TreeFeedsNodeBase) e.TreeNode;
             e.Cancel = !editedNode.Editable;
             if (!e.Cancel)
             {
@@ -2407,26 +2408,26 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTreeFeedsValidateLabelEdit(object sender, ValidateLabelEditEventArgs e)
         {
-            var newText = e.LabelEditText;
+            string newText = e.LabelEditText;
             if (string.IsNullOrEmpty(newText))
             {
                 e.StayInEditMode = true;
                 return;
             }
 
-            var editedNode = (TreeFeedsNodeBase)e.Node;
-            var newLabel = newText.Trim();
+            var editedNode = (TreeFeedsNodeBase) e.Node;
+            string newLabel = newText.Trim();
 
             if (editedNode.Type != FeedNodeType.Feed &&
                 editedNode.Type != FeedNodeType.Finder)
             {
                 //category node 
 
-                var existingNode =
+                TreeFeedsNodeBase existingNode =
                     TreeHelper.FindChildNode(editedNode.Parent, newLabel, FeedNodeType.Category);
                 if (existingNode != null && existingNode != editedNode)
                 {
-                    owner.MessageError(String.Format(SR.ExceptionDuplicateCategoryName,newLabel));
+                    owner.MessageError(String.Format(SR.ExceptionDuplicateCategoryName, newLabel));
                     e.StayInEditMode = true;
                     return;
                 }
@@ -2435,9 +2436,9 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTreeFeedAfterLabelEdit(object sender, NodeEventArgs e)
         {
-            var editedNode = (TreeFeedsNodeBase)e.TreeNode;
-            var newLabel = e.TreeNode.Text.Trim();
-            var oldLabel = editedNode.TextBeforeEditing;
+            var editedNode = (TreeFeedsNodeBase) e.TreeNode;
+            string newLabel = e.TreeNode.Text.Trim();
+            string oldLabel = editedNode.TextBeforeEditing;
             editedNode.TextBeforeEditing = null; // reset for safety (only used in editing mode)
 
             //handle the case where right-click was used to rename a tree node even though another 
@@ -2448,7 +2449,7 @@ namespace RssBandit.WinGui.Forms
             {
                 //feed node 
 
-                var f = owner.GetFeed(editedNode.DataKey);
+                INewsFeed f = owner.GetFeed(editedNode.DataKey);
                 if (f != null)
                 {
                     f.title = newLabel;
@@ -2464,8 +2465,8 @@ namespace RssBandit.WinGui.Forms
             {
                 //category node 
 
-                var oldFullname = oldLabel;
-                var catArray = TreeFeedsNodeBase.BuildCategoryStoreNameArray(editedNode);
+                string oldFullname = oldLabel;
+                string[] catArray = TreeFeedsNodeBase.BuildCategoryStoreNameArray(editedNode);
                 if (catArray.Length > 0)
                 {
                     // build old category store name by replace the new label returned
@@ -2477,9 +2478,9 @@ namespace RssBandit.WinGui.Forms
                 if (GetRoot(editedNode) == RootFolderType.MyFeeds)
                 {
                     string newFullname = editedNode.CategoryStoreName;
-                    owner.FeedHandler.RenameCategory(oldFullname, newFullname); 
-       
-                    owner.SubscriptionModified(NewsFeedProperty.FeedCategory);                    
+                    owner.FeedHandler.RenameCategory(oldFullname, newFullname);
+
+                    owner.SubscriptionModified(NewsFeedProperty.FeedCategory);
                 }
             }
         }
@@ -2487,7 +2488,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTreeFeedSelectionDragStart(object sender, EventArgs e)
         {
-            var tn = TreeSelectedFeedsNode;
+            TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
             if (tn != null && (tn.Type == FeedNodeType.Feed || tn.Type == FeedNodeType.Category))
             {
                 CurrentDragNode = tn;
@@ -2551,7 +2552,7 @@ namespace RssBandit.WinGui.Forms
                 }
 
                 var p = new Point(e.X, e.Y);
-                var t = (TreeFeedsNodeBase)treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
+                var t = (TreeFeedsNodeBase) treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
 
                 if (t == null)
                 {
@@ -2615,8 +2616,8 @@ namespace RssBandit.WinGui.Forms
                     return;
                 }
 
-                var p = treeFeeds.PointToClient(new Point(e.X, e.Y));
-                var t = (TreeFeedsNodeBase)treeFeeds.GetNodeFromPoint(p);
+                Point p = treeFeeds.PointToClient(new Point(e.X, e.Y));
+                var t = (TreeFeedsNodeBase) treeFeeds.GetNodeFromPoint(p);
 
                 if (t == null)
                 {
@@ -2660,12 +2661,12 @@ namespace RssBandit.WinGui.Forms
 
             //get node where feed was dropped 
             var p = new Point(e.X, e.Y);
-            var target = (TreeFeedsNodeBase)treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
+            var target = (TreeFeedsNodeBase) treeFeeds.GetNodeFromPoint(treeFeeds.PointToClient(p));
 
             //move node if dropped on a category node (or below)
             if (target != null)
             {
-                var node2move = CurrentDragNode;
+                TreeFeedsNodeBase node2move = CurrentDragNode;
 
                 if (target.Type == FeedNodeType.Feed)
                 {
@@ -2688,8 +2689,8 @@ namespace RssBandit.WinGui.Forms
                     // which is confusing.
                     Win32.SetForegroundWindow(Handle);
 
-                    var sData = (string)e.Data.GetData(DataFormats.Text);
-                    DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[] { target, sData });
+                    var sData = (string) e.Data.GetData(DataFormats.Text);
+                    DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[] {target, sData});
                 }
             }
 
@@ -2759,7 +2760,7 @@ namespace RssBandit.WinGui.Forms
             if ((MouseButtons & MouseButtons.Right) == MouseButtons.Right)
                 return;
 
-            var selectedItem = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+            var selectedItem = (ThreadedListViewItem) listFeedItems.SelectedItems[0];
             OnFeedListItemActivateManually(selectedItem);
         }
 
@@ -2768,8 +2769,8 @@ namespace RssBandit.WinGui.Forms
             try
             {
                 // get the current item/feedNode
-                var item = CurrentSelectedFeedItem = (INewsItem)selectedItem.Key;
-                var tn = TreeSelectedFeedsNode;
+                INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
+                TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
                 string stylesheet;
 
                 //load item content from disk if not in memory
@@ -2795,7 +2796,7 @@ namespace RssBandit.WinGui.Forms
 
 
                 //mark the item as read
-                var itemJustRead = false;
+                bool itemJustRead = false;
 
                 if (item != null && !item.BeenRead)
                 {
@@ -2804,7 +2805,7 @@ namespace RssBandit.WinGui.Forms
                     if (item is SearchHitNewsItem)
                     {
                         var sItem = item as SearchHitNewsItem;
-                        var realItem = owner.FeedHandler.FindNewsItem(sItem);
+                        INewsItem realItem = owner.FeedHandler.FindNewsItem(sItem);
 
                         if (realItem != null)
                         {
@@ -2887,29 +2888,29 @@ namespace RssBandit.WinGui.Forms
 
                         if (selectedItem.ImageIndex > 0) selectedItem.ImageIndex--;
 
-                        var isTopLevelItem = (selectedItem.IndentLevel == 0);
-                        var equalItemsRead = (isTopLevelItem ? 1 : 0);
+                        bool isTopLevelItem = (selectedItem.IndentLevel == 0);
+                        int equalItemsRead = (isTopLevelItem ? 1 : 0);
                         lock (listFeedItems.Items)
                         {
-                            for (var j = 0; j < listFeedItems.Items.Count; j++)
+                            for (int j = 0; j < listFeedItems.Items.Count; j++)
                             {
                                 // if there is a self-reference thread, we also have to switch the Gui state for them
-                                var th = listFeedItems.Items[j];
+                                ThreadedListViewItem th = listFeedItems.Items[j];
                                 var selfRef = th.Key as NewsItem;
-                                if (item.Equals(selfRef) && (th.ImageIndex % 2) != 0)
+                                if (item.Equals(selfRef) && (th.ImageIndex%2) != 0)
                                 {
                                     // unread-state images always odd index numbers
                                     ApplyStyles(th, true);
                                     th.ImageIndex--;
-                                	if (selfRef != null)
-                                	{
-                                		if (!selfRef.BeenRead)
-                                		{
-                                			// object ref is unequal, but other criteria match the item to be equal...
-                                			selfRef.BeenRead = true;
-                                		}
-                                	}
-                                	if (th.IndentLevel == 0)
+                                    if (selfRef != null)
+                                    {
+                                        if (!selfRef.BeenRead)
+                                        {
+                                            // object ref is unequal, but other criteria match the item to be equal...
+                                            selfRef.BeenRead = true;
+                                        }
+                                    }
+                                    if (th.IndentLevel == 0)
                                     {
                                         isTopLevelItem = true;
                                         equalItemsRead++;
@@ -2926,7 +2927,7 @@ namespace RssBandit.WinGui.Forms
                             //this.DelayTask(DelayedTasks.RefreshTreeUnreadStatus, new object[]{tn,-equalItemsRead});											
                         }
 
-                        var root = GetRoot(RootFolderType.MyFeeds);
+                        TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
 
                         if (item.Feed.link == tn.DataKey)
                         {
@@ -2943,17 +2944,17 @@ namespace RssBandit.WinGui.Forms
                                 UnreadItemsNode.MarkItemRead(item);
 
                             // lookup corresponding TreeNode:
-                            var refNode = TreeHelper.FindNode(root, item.Feed);
+                            TreeFeedsNodeBase refNode = TreeHelper.FindNode(root, item.Feed);
                             if (refNode != null)
                             {
                                 //refNode.UpdateReadStatus(refNode , -1);
-                                DelayTask(DelayedTasks.RefreshTreeUnreadStatus, new object[] { refNode, -1 });
+                                DelayTask(DelayedTasks.RefreshTreeUnreadStatus, new object[] {refNode, -1});
                                 item.Feed.containsNewMessages = (refNode.UnreadCount != 0);
                             }
                             else
                             {
                                 // temp feed item, e.g. from commentRss
-                                var hash = RssHelper.GetHashCode(item);
+                                string hash = RssHelper.GetHashCode(item);
                                 if (!tempFeedItemsRead.ContainsKey(hash))
                                     tempFeedItemsRead.Add(hash, null /* item ???*/);
                             }
@@ -2983,7 +2984,7 @@ namespace RssBandit.WinGui.Forms
 
             if (currentNewsItem.OptionalElements.ContainsKey(AdditionalFeedElements.OriginalFeedOfWatchedItem))
             {
-                var str = currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
+                string str = currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
 
                 if (
                     str.StartsWith("<" + AdditionalFeedElements.ElementPrefix + ":" +
@@ -2991,8 +2992,8 @@ namespace RssBandit.WinGui.Forms
                     str.StartsWith("<" + AdditionalFeedElements.OldElementPrefix + ":" +
                                    AdditionalFeedElements.OriginalFeedOfWatchedItem.Name))
                 {
-                    var startIndex = str.IndexOf(">") + 1;
-                    var endIndex = str.LastIndexOf("<");
+                    int startIndex = str.IndexOf(">") + 1;
+                    int endIndex = str.LastIndexOf("<");
                     feedUrl = str.Substring(startIndex, endIndex - startIndex);
                 }
             }
@@ -3008,8 +3009,8 @@ namespace RssBandit.WinGui.Forms
         /// <param name="currentNewsItem">The item whose comments have been read</param>
         private void MarkCommentsAsViewed(TreeFeedsNodeBase tn, INewsItem currentNewsItem)
         {
-            var feed = currentNewsItem.Feed;
-            var commentsJustRead = currentNewsItem.HasNewComments;
+            INewsFeed feed = currentNewsItem.Feed;
+            bool commentsJustRead = currentNewsItem.HasNewComments;
             currentNewsItem.HasNewComments = false;
 
             if (commentsJustRead && (CurrentSelectedFeedsNode != null))
@@ -3018,7 +3019,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (tn.Type == FeedNodeType.Feed)
                 {
-                    UpdateCommentStatus(tn, new List<INewsItem>(new[] { currentNewsItem }), true);
+                    UpdateCommentStatus(tn, new List<INewsItem>(new[] {currentNewsItem}), true);
                 }
                 else
                 {
@@ -3026,7 +3027,7 @@ namespace RssBandit.WinGui.Forms
                     if (tn.Type == FeedNodeType.Category || tn.Type == FeedNodeType.Finder)
                     {
                         refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), currentNewsItem.Feed);
-                        UpdateCommentStatus(refNode, new List<INewsItem>(new[] { currentNewsItem }), true);
+                        UpdateCommentStatus(refNode, new List<INewsItem>(new[] {currentNewsItem}), true);
 
                         //we don't need to do this for a Category node because this should be done when we call this.UpdateCommentStatus()
                         if (tn.Type == FeedNodeType.Finder)
@@ -3037,7 +3038,7 @@ namespace RssBandit.WinGui.Forms
                         //things are more complicated if we are on a smart folder such as the 'Watched Items' folder
 
                         /* first get the feed URL */
-                        var feedUrl = GetOriginalFeedUrl(currentNewsItem);
+                        string feedUrl = GetOriginalFeedUrl(currentNewsItem);
 
                         /* 
 						 * now, locate NewsItem in actual feed and mark comments as viewed 
@@ -3045,7 +3046,7 @@ namespace RssBandit.WinGui.Forms
 						 */
                         if (feedUrl != null && owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out feed))
                         {
-                            var newsItems = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
+                            IList<INewsItem> newsItems = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
 
                             foreach (var ni in newsItems)
                             {
@@ -3056,7 +3057,7 @@ namespace RssBandit.WinGui.Forms
                             }
 
                             refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
-                            UpdateCommentStatus(refNode, new List<INewsItem>(new[] { currentNewsItem }), true);
+                            UpdateCommentStatus(refNode, new List<INewsItem>(new[] {currentNewsItem}), true);
                         } //if(feedUrl != null) 
                     }
 
@@ -3083,17 +3084,17 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var currentNewsItem = (INewsItem)e.Item.Key;
+                var currentNewsItem = (INewsItem) e.Item.Key;
                 var ikp = new INewsItem[e.Item.KeyPath.Length];
                 e.Item.KeyPath.CopyTo(ikp, 0);
                 IList<INewsItem> itemKeyPath = ikp;
 
                 // column index map
-                var colIndex = listFeedItems.Columns.GetColumnIndexMap();
+                ColumnKeyIndexMap colIndex = listFeedItems.Columns.GetColumnIndexMap();
 
-                var outGoingItems =
+                ICollection<INewsItem> outGoingItems =
                     owner.FeedHandler.GetItemsFromOutGoingLinks(currentNewsItem, itemKeyPath);
-                var inComingItems =
+                ICollection<INewsItem> inComingItems =
                     owner.FeedHandler.GetItemsWithIncomingLinks(currentNewsItem, itemKeyPath);
 
                 var childs = new ArrayList(outGoingItems.Count + inComingItems.Count + 1);
@@ -3103,7 +3104,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     foreach (NewsItem o in outGoingItems)
                     {
-                        var hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
                         newListItem =
                             CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.OutgoingRead, colIndex, false);
 
@@ -3122,7 +3123,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     foreach (NewsItem o in inComingItems)
                     {
-                        var hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
                         newListItem =
                             CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.IncomingRead, colIndex, false);
 
@@ -3171,7 +3172,7 @@ namespace RssBandit.WinGui.Forms
 
                         foreach (INewsItem o in currentNewsItem.GetExternalRelations())
                         {
-                            var hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                            bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
 
                             o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
                             newListItem =
@@ -3211,8 +3212,8 @@ namespace RssBandit.WinGui.Forms
                 lock (listFeedItems.Columns)
                 {
                     listFeedItems.Columns.Clear();
-                    var i = 0;
-                    var colW = e.Layout.ColumnWidths;
+                    int i = 0;
+                    IList<int> colW = e.Layout.ColumnWidths;
                     foreach (var colID in e.Layout.Columns)
                     {
                         AddListviewColumn(colID, colW[i++]);
@@ -3236,15 +3237,15 @@ namespace RssBandit.WinGui.Forms
             if (listFeedItems.SelectedItems.Count > 0)
                 return;
 
-            var feedsNode = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode == null)
                 return;
 
-            var unreadOnly = true;
+            bool unreadOnly = true;
             if (feedsNode.Type == FeedNodeType.Finder)
                 unreadOnly = false;
 
-            var items = NewsItemListFrom(listFeedItems.Items, unreadOnly);
+            IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items, unreadOnly);
             if (items == null || items.Count <= 1) // no need to re-sort on no or just one item
                 return;
 
@@ -3256,18 +3257,18 @@ namespace RssBandit.WinGui.Forms
                 FeedInfo fi;
                 if (temp.ContainsKey(item.Feed.link))
                 {
-                    fi = (FeedInfo)temp[item.Feed.link];
+                    fi = (FeedInfo) temp[item.Feed.link];
                 }
                 else
                 {
-                    fi = (FeedInfo)item.FeedDetails.Clone();
+                    fi = (FeedInfo) item.FeedDetails.Clone();
                     fi.ItemsList.Clear();
                     temp.Add(item.Feed.link, fi);
                 }
                 fi.ItemsList.Add(item);
             }
 
-            var category = feedsNode.CategoryStoreName;
+            string category = feedsNode.CategoryStoreName;
             var redispItems = new FeedInfoList(category);
 
             foreach (FeedInfo fi in temp.Values)
@@ -3284,19 +3285,19 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var lv = (ListView)sender;
+                var lv = (ListView) sender;
                 ThreadedListViewItem lvi = null;
 
                 try
                 {
-                    lvi = (ThreadedListViewItem)lv.GetItemAt(e.X, e.Y);
+                    lvi = (ThreadedListViewItem) lv.GetItemAt(e.X, e.Y);
                 }
                 catch
                 {
                 }
 
-				if (lvi == null)
-					RefreshListviewContextMenu(null, false);
+                if (lvi == null)
+                    RefreshListviewContextMenu(null, false);
 
                 if (e.Button == MouseButtons.Right)
                 {
@@ -3333,15 +3334,15 @@ namespace RssBandit.WinGui.Forms
                 else
                 {
                     // !MouseButtons.Right
-					
-					if (lv.Items.Count <= 0)
+
+                    if (lv.Items.Count <= 0)
                         return;
 
                     if (lvi != null && e.Clicks > 1)
                     {
                         //DblClick
 
-                        var item = CurrentSelectedFeedItem = (INewsItem)lvi.Key;
+                        INewsItem item = CurrentSelectedFeedItem = (INewsItem) lvi.Key;
 
                         lv.SelectedItems.Clear();
                         lvi.Selected = true;
@@ -3390,16 +3391,16 @@ namespace RssBandit.WinGui.Forms
 
             ThreadedListViewItem lvLastSelected = null;
             if (listFeedItems.SelectedItems.Count > 0)
-                lvLastSelected = (ThreadedListViewItem)listFeedItems.SelectedItems[0];
+                lvLastSelected = (ThreadedListViewItem) listFeedItems.SelectedItems[0];
 
-            var categorizedView = (CurrentSelectedFeedsNode.Type == FeedNodeType.Category) ||
-                                  (CurrentSelectedFeedsNode.Type == FeedNodeType.Finder);
+            bool categorizedView = (CurrentSelectedFeedsNode.Type == FeedNodeType.Category) ||
+                                   (CurrentSelectedFeedsNode.Type == FeedNodeType.Finder);
             PopulateListView(CurrentSelectedFeedsNode, newsItemList, true, categorizedView, CurrentSelectedFeedsNode);
 
             // reselect the last selected
             if (lvLastSelected != null && lvLastSelected.IndentLevel == 0)
             {
-                ReSelectListViewItem((INewsItem)lvLastSelected.Key);
+                ReSelectListViewItem((INewsItem) lvLastSelected.Key);
             }
         }
 
@@ -3407,13 +3408,13 @@ namespace RssBandit.WinGui.Forms
         {
             if (item == null) return;
 
-            var selItemId = item.Id;
+            string selItemId = item.Id;
             if (selItemId != null)
             {
-                for (var i = 0; i < listFeedItems.Items.Count; i++)
+                for (int i = 0; i < listFeedItems.Items.Count; i++)
                 {
-                    var theItem = listFeedItems.Items[i];
-                    var thisItemId = ((INewsItem)theItem.Key).Id;
+                    ThreadedListViewItem theItem = listFeedItems.Items[i];
+                    string thisItemId = ((INewsItem) theItem.Key).Id;
                     if (selItemId.CompareTo(thisItemId) == 0)
                     {
                         listFeedItems.Items[i].Selected = true;
@@ -3432,12 +3433,12 @@ namespace RssBandit.WinGui.Forms
         private static IList<INewsItem> NewsItemListFrom(ThreadedListViewItemCollection list, bool unreadOnly)
         {
             var items = new List<INewsItem>(list.Count);
-            for (var i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                var tlvi = list[i];
+                ThreadedListViewItem tlvi = list[i];
                 if (tlvi.IndentLevel == 0)
                 {
-                    var item = (INewsItem)tlvi.Key;
+                    var item = (INewsItem) tlvi.Key;
 
                     if (unreadOnly && item != null && item.BeenRead)
                         item = null;
@@ -3453,8 +3454,8 @@ namespace RssBandit.WinGui.Forms
         {
             if (e.Button == MouseButtons.Left)
             {
-                var item = (ThreadedListViewItem)e.Item;
-                var r = (INewsItem)item.Key;
+                var item = (ThreadedListViewItem) e.Item;
+                var r = (INewsItem) item.Key;
                 if (r.Link != null)
                 {
                     treeFeeds.AllowDrop = false; // do not drag to tree
@@ -3503,7 +3504,7 @@ namespace RssBandit.WinGui.Forms
                             listFeedItems.BeginUpdate();
                             lock (listFeedItems.Items)
                             {
-                                for (var i = 0; i < listFeedItems.Items.Count; i++)
+                                for (int i = 0; i < listFeedItems.Items.Count; i++)
                                 {
                                     listFeedItems.Items[i].Selected = true;
                                 }
@@ -3583,7 +3584,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                var sData = (string)e.Data.GetData(typeof(string));
+                var sData = (string) e.Data.GetData(typeof (string));
                 try
                 {
                     // accept uri only
@@ -3638,7 +3639,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                var sData = (string)e.Data.GetData(typeof(string));
+                var sData = (string) e.Data.GetData(typeof (string));
                 WebSearchText = sData;
             }
         }
@@ -3650,12 +3651,12 @@ namespace RssBandit.WinGui.Forms
         private void OnHtmlWindowError(string description, string url, int line)
         {
             /* don't show script error dialog and don't disable script due to a single script error */
-            var hc = (HtmlControl)_docContainer.ActiveDocument.Controls[0];
+            var hc = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
 
             if (hc != null)
             {
-                var window = (IHTMLWindow2)hc.Document2.GetParentWindow();
-                var eventObj = window.eventobj;
+                var window = (IHTMLWindow2) hc.Document2.GetParentWindow();
+                IHTMLEventObj eventObj = window.eventobj;
                 eventObj.ReturnValue = true;
             }
         }
@@ -3668,10 +3669,10 @@ namespace RssBandit.WinGui.Forms
 
         private void OnWebBeforeNavigate(object sender, BrowserBeforeNavigate2Event e)
         {
-            var userNavigates = _webUserNavigated;
-            var forceNewTab = _webForceNewTab;
+            bool userNavigates = _webUserNavigated;
+            bool forceNewTab = _webForceNewTab;
 
-            var url = e.url;
+            string url = e.url;
 
             if (!url.ToLower().StartsWith("javascript:"))
             {
@@ -3692,9 +3693,9 @@ namespace RssBandit.WinGui.Forms
                     return;
                 }
 
-                var framesAllowed = false;
-                var forceSetFocus = true;
-                var tabCanClose = true;
+                bool framesAllowed = false;
+                bool forceSetFocus = true;
+                bool tabCanClose = true;
                 // if Ctrl-Click is true, Tab opens in background:
                 if ((ModifierKeys & Keys.Control) == Keys.Control)
                     forceSetFocus = false;
@@ -3702,8 +3703,8 @@ namespace RssBandit.WinGui.Forms
                 var hc = sender as HtmlControl;
                 if (hc != null)
                 {
-                    var dc = (DockControl)hc.Tag;
-                    var ts = (ITabState)dc.Tag;
+                    var dc = (DockControl) hc.Tag;
+                    var ts = (ITabState) dc.Tag;
                     tabCanClose = ts.CanClose;
                     framesAllowed = hc.FrameDownloadEnabled;
                 }
@@ -3726,7 +3727,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     e.Cancel = true;
                     // Delay gives time to the sender control to cancel request
-                    DelayTask(DelayedTasks.NavigateToWebUrl, new object[] { url, null, forceNewTab, forceSetFocus });
+                    DelayTask(DelayedTasks.NavigateToWebUrl, new object[] {url, null, forceNewTab, forceSetFocus});
                 }
             }
         }
@@ -3738,18 +3739,18 @@ namespace RssBandit.WinGui.Forms
             // so in general we do the same things here as in OnWebDocumentComplete()
             try
             {
-                var hc = (HtmlControl)sender;
+                var hc = (HtmlControl) sender;
 
                 //handle script errors on page
-                var window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
+                var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
                 window.onerror += OnHtmlWindowError;
 
                 if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
                 {
                     AddUrlToHistory(e.url);
 
-                    var doc = (DockControl)hc.Tag;
-                    var state = (ITabState)doc.Tag;
+                    var doc = (DockControl) hc.Tag;
+                    var state = (ITabState) doc.Tag;
                     state.Url = e.url;
                     RefreshDocumentState(doc);
                     // we should only discover once per browse action (in OnWebDocumentComplete()):
@@ -3769,18 +3770,18 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var hc = (HtmlControl)sender;
+                var hc = (HtmlControl) sender;
 
                 //handle script errors on page
-                var window = (HTMLWindowEvents2_Event)hc.Document2.GetParentWindow();
+                var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
                 window.onerror += OnHtmlWindowError;
 
                 if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
                 {
                     AddUrlToHistory(e.url);
 
-                    var doc = (DockControl)hc.Tag;
-                    var state = (ITabState)doc.Tag;
+                    var doc = (DockControl) hc.Tag;
+                    var state = (ITabState) doc.Tag;
                     state.Url = e.url;
                     RefreshDocumentState(doc);
                     owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentInnerHTML, state.Url,
@@ -3797,11 +3798,11 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var hc = (HtmlControl)sender;
+                var hc = (HtmlControl) sender;
                 if (hc == null) return;
-                var doc = (DockControl)hc.Tag;
+                var doc = (DockControl) hc.Tag;
                 if (doc == null) return;
-                var state = (ITabState)doc.Tag;
+                var state = (ITabState) doc.Tag;
                 if (state == null) return;
 
                 state.Title = e.text;
@@ -3817,7 +3818,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var state = GetTabStateFor(sender as HtmlControl);
+                ITabState state = GetTabStateFor(sender as HtmlControl);
                 if (state == null) return;
 
                 if (e.command == CommandStateChangeConstants.CSC_NAVIGATEBACK)
@@ -3839,17 +3840,17 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var userNavigates = _webUserNavigated;
-                var forceNewTab = _webForceNewTab;
+                bool userNavigates = _webUserNavigated;
+                bool forceNewTab = _webForceNewTab;
 
                 _webForceNewTab = _webUserNavigated = false; // reset
 
                 e.Cancel = true;
 
-                var url = e.url;
+                string url = e.url;
                 _log.Debug("OnWebNewWindow(): '" + url + "'");
 
-                var forceSetFocus = true;
+                bool forceSetFocus = true;
                 // Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
 
                 if (UrlRequestHandledExternally(url, forceNewTab))
@@ -3860,7 +3861,7 @@ namespace RssBandit.WinGui.Forms
                 if (userNavigates)
                 {
                     // Delay gives time to the sender control to cancel request
-                    DelayTask(DelayedTasks.NavigateToWebUrl, new object[] { url, null, true, forceSetFocus });
+                    DelayTask(DelayedTasks.NavigateToWebUrl, new object[] {url, null, true, forceSetFocus});
                 }
             }
             catch (Exception ex)
@@ -3887,14 +3888,14 @@ namespace RssBandit.WinGui.Forms
             try
             {
                 // we use Control.ModifierKeys, because e.Shift etc. is not always set!
-                var shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
-                var ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
-                var alt = (ModifierKeys & Keys.Alt) == Keys.Alt;
-                var noModifier = (!shift && !ctrl && !alt);
+                bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
+                bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
+                bool alt = (ModifierKeys & Keys.Alt) == Keys.Alt;
+                bool noModifier = (!shift && !ctrl && !alt);
 
-                var shiftOnly = (shift && !ctrl && !alt);
-                var ctrlOnly = (ctrl && !shift && !alt);
-                var ctrlShift = (ctrl && shift && !alt);
+                bool shiftOnly = (shift && !ctrl && !alt);
+                bool ctrlOnly = (ctrl && !shift && !alt);
+                bool ctrlShift = (ctrl && shift && !alt);
 
                 if (_shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData))
                 {
@@ -3990,14 +3991,14 @@ namespace RssBandit.WinGui.Forms
         {
             if (c != null)
             {
-                var cType = c.GetType();
+                Type cType = c.GetType();
                 try
                 {
                     // just a dummy message:
-                    var m = Message.Create(Handle, (int)Win32.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
+                    Message m = Message.Create(Handle, (int) Win32.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
                     cType.InvokeMember("ProcessCmdKey",
                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-                                       null, c, new object[] { m, keyData });
+                                       null, c, new object[] {m, keyData});
                 }
                 catch (Exception ex)
                 {

@@ -21,9 +21,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
 using IEControl;
@@ -52,10 +52,7 @@ using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using TD.SandDock;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
-
 using K = RssBandit.Utility.Keyboard;
-using Timer=System.Windows.Forms.Timer;
-using ToolTip=System.Windows.Forms.ToolTip;
 
 
 namespace RssBandit.WinGui.Forms
@@ -65,12 +62,10 @@ namespace RssBandit.WinGui.Forms
     /// </summary>
     //[CLSCompliant(true)]
     internal partial class WinGuiMain : Form,
-                                ITabState, IMessageFilter, ICommandBarImplementationSupport
+                                        ITabState, IMessageFilter, ICommandBarImplementationSupport
     {
-  
         // there is really no such thing on the native form interface :-(
         public event EventHandler OnMinimize;
-
 
         #region private variables
 
@@ -319,7 +314,6 @@ namespace RssBandit.WinGui.Forms
             statusBarRssParser.ToolTipText = SR.MainForm_StatusBarRssParser_ToolTipText;
         }
 
-
         #endregion
 
         #region public properties/accessor routines
@@ -366,7 +360,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (UrlComboBox.Text.Trim().Length > 0)
                     return UrlComboBox.Text.Trim();
-                
+
                 return _urlText;
             }
             set
@@ -392,7 +386,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (SearchComboBox.Text.Trim().Length > 0)
                     return SearchComboBox.Text.Trim();
-                
+
                 return _webSearchText;
             }
             set
@@ -527,9 +521,9 @@ namespace RssBandit.WinGui.Forms
 
                 // we measure for a bigger sized text, because we need a fixed global right images size
                 // for all right images to extend the clickable area
-                using (var g = CreateGraphics())
+                using (Graphics g = CreateGraphics())
                 {
-                    var sz = g.MeasureString("(99999)", FontColorHelper.UnreadFont);
+                    SizeF sz = g.MeasureString("(99999)", FontColorHelper.UnreadFont);
                     var gz = new Size((int) sz.Width, (int) sz.Height);
 
                     // adjust global sizes
@@ -542,9 +536,9 @@ namespace RssBandit.WinGui.Forms
                 // now iterate and update the single nodes
                 if (treeFeeds.Nodes.Count > 0)
                 {
-                    for (var i = 0; i < _roots.Length; i++)
+                    for (int i = 0; i < _roots.Length; i++)
                     {
-                        var startNode = _roots[i];
+                        TreeFeedsNodeBase startNode = _roots[i];
                         if (null != startNode)
                             WalkdownThenRefreshFontColor(startNode);
                     }
@@ -588,7 +582,7 @@ namespace RssBandit.WinGui.Forms
                 startNode.ForeColor = FontColorHelper.NormalColor;
             }
 
-            for (var child = startNode.FirstNode; child != null; child = child.NextNode)
+            for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
             {
                 WalkdownThenRefreshFontColor(child);
             }
@@ -602,9 +596,9 @@ namespace RssBandit.WinGui.Forms
             listFeedItems.ForeColor = FontColorHelper.NormalColor;
 
             // now iterate and update the single items
-            for (var i = 0; i < listFeedItems.Items.Count; i++)
+            for (int i = 0; i < listFeedItems.Items.Count; i++)
             {
-                var lvi = listFeedItems.Items[i];
+                ThreadedListViewItem lvi = listFeedItems.Items[i];
                 // apply leading fonts/colors
                 ApplyStyles(lvi);
             }
@@ -617,7 +611,7 @@ namespace RssBandit.WinGui.Forms
 
             listFeedItemsO.Font = FontColorHelper.NormalFont;
             var hh = (int) listFeedItemsO.CreateGraphics().MeasureString("W", listFeedItemsO.Font).Height;
-            var hh2 = 2 + hh + 3 + hh + 2;
+            int hh2 = 2 + hh + 3 + hh + 2;
             listFeedItemsO.Override.ItemHeight = hh2%2 == 0 ? hh2 + 1 : hh2;
             //BUGBUG: if the height is an even number, it uses a bad rectangle
             listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].LayoutInfo.PreferredCellSize =
@@ -629,16 +623,16 @@ namespace RssBandit.WinGui.Forms
 
             // now iterate and update the single items
             //Root DateTime Nodes
-            for (var i = 0; i < listFeedItemsO.Nodes.Count; i++)
+            for (int i = 0; i < listFeedItemsO.Nodes.Count; i++)
             {
                 listFeedItemsO.Nodes[i].Override.ItemHeight = UltraTreeExtended.DATETIME_GROUP_HEIGHT;
                 //NewsItem Nodes
-                for (var j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
+                for (int j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
                 {
                     //Already done
 
                     //Comments
-                    for (var k = 0; k < listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count; k++)
+                    for (int k = 0; k < listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count; k++)
                     {
                         //Comments
                         listFeedItemsO.Nodes[i].Nodes[j].Nodes[k].Override.ItemHeight = UltraTreeExtended.COMMENT_HEIGHT;
@@ -670,7 +664,7 @@ namespace RssBandit.WinGui.Forms
         /// active engines are started.</param>
         public void StartSearch(SearchEngine thisEngine)
         {
-            var phrase = WebSearchText;
+            string phrase = WebSearchText;
 
             if (phrase.Length > 0)
             {
@@ -679,7 +673,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (thisEngine != null)
                 {
-                    var s = thisEngine.SearchLink;
+                    string s = thisEngine.SearchLink;
                     if (!string.IsNullOrEmpty(s))
                     {
                         try
@@ -706,14 +700,14 @@ namespace RssBandit.WinGui.Forms
                 else
                 {
                     // all
-                    var isFirstItem = true;
-                    var engineCount = 0;
+                    bool isFirstItem = true;
+                    int engineCount = 0;
                     foreach (var engine in owner.SearchEngineHandler.Engines)
                     {
                         if (engine.IsActive)
                         {
                             engineCount++;
-                            var s = engine.SearchLink;
+                            string s = engine.SearchLink;
                             if (!string.IsNullOrEmpty(s))
                             {
                                 try
@@ -786,7 +780,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (treeFeeds.SelectedNodes.Count == 0)
                     return null;
-                
+
                 return (TreeFeedsNodeBase) treeFeeds.SelectedNodes[0];
             }
             set
@@ -1119,19 +1113,19 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.listFeedItems, "listFeedItems");
             this.listFeedItems.FullRowSelect = true;
             this.listFeedItems.HideSelection = false;
-        	this.listFeedItems.MultiSelect = true;
-			this.listFeedItems.Name = "listFeedItems";
+            this.listFeedItems.MultiSelect = true;
+            this.listFeedItems.Name = "listFeedItems";
             this.listFeedItems.NoThreadChildsPlaceHolder = null;
             this.helpProvider1.SetShowHelp(this.listFeedItems, ((bool) (resources.GetObject("listFeedItems.ShowHelp"))));
             this.listFeedItems.UseCompatibleStateImageBehavior = false;
             this.listFeedItems.View = System.Windows.Forms.View.Details;
-            this.listFeedItems.ListLayoutModified +=this.OnFeedListLayoutModified;
+            this.listFeedItems.ListLayoutModified += this.OnFeedListLayoutModified;
             this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
-            this.listFeedItems.ExpandThread +=this.OnFeedListExpandThread;
-            this.listFeedItems.ListLayoutChanged +=this.OnFeedListLayoutChanged;
+            this.listFeedItems.ExpandThread += this.OnFeedListExpandThread;
+            this.listFeedItems.ListLayoutChanged += this.OnFeedListLayoutChanged;
             this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
             this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
-            this.listFeedItems.AfterExpandThread +=this.OnFeedListAfterExpandThread;
+            this.listFeedItems.AfterExpandThread += this.OnFeedListAfterExpandThread;
             this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
             // 
             // colHeadline
@@ -1459,8 +1453,6 @@ namespace RssBandit.WinGui.Forms
 
         #endregion
 
-
-
         #region Statusbar/Docking routines
 
         private void InitStatusBar()
@@ -1513,7 +1505,7 @@ namespace RssBandit.WinGui.Forms
             {
                 if (CurrentSelectedFeedsNode != null)
                     return CurrentSelectedFeedsNode.Text;
-                
+
                 return String.Empty;
             }
             set
@@ -1582,7 +1574,8 @@ namespace RssBandit.WinGui.Forms
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    _log.Error("AsyncCall 'StartNewsSearchDelegate' caused this exception", ex);
+                                                    _log.Error(
+                                                        "AsyncCall 'StartNewsSearchDelegate' caused this exception", ex);
                                                 }
                                             }
                                         }, null);
@@ -1615,14 +1608,14 @@ namespace RssBandit.WinGui.Forms
             // return a result container:
             FinderNode resultContainer;
 
-            var newName = e.ResultContainerName;
+            string newName = e.ResultContainerName;
             if (!string.IsNullOrEmpty(newName))
             {
-                var parent = GetRoot(RootFolderType.Finder);
+                TreeFeedsNodeBase parent = GetRoot(RootFolderType.Finder);
 
                 if (newName.IndexOf(FeedSource.CategorySeparator) > 0)
                 {
-                    var a = newName.Split(FeedSource.CategorySeparator.ToCharArray());
+                    string[] a = newName.Split(FeedSource.CategorySeparator.ToCharArray());
                     parent = TreeHelper.CreateCategoryHive(parent,
                                                            String.Join(FeedSource.CategorySeparator, a, 0, a.Length - 1),
                                                            _treeSearchFolderContextMenu,
@@ -1631,7 +1624,7 @@ namespace RssBandit.WinGui.Forms
                     newName = a[a.Length - 1].Trim();
                 }
 
-                var feedsNode = TreeHelper.FindChildNode(parent, newName, FeedNodeType.Finder);
+                TreeFeedsNodeBase feedsNode = TreeHelper.FindChildNode(parent, newName, FeedNodeType.Finder);
                 if (feedsNode != null)
                 {
                     resultContainer = (FinderNode) feedsNode;
@@ -1695,11 +1688,12 @@ namespace RssBandit.WinGui.Forms
             }
             else
             {
-                searchPanel.SetControlStateTo(ItemSearchState.Finished, String.Format(SR.RssSearchSuccessResultMessage,newsItemsCount));
+                searchPanel.SetControlStateTo(ItemSearchState.Finished,
+                                              String.Format(SR.RssSearchSuccessResultMessage, newsItemsCount));
             }
 
             var finder = tag as RssFinder;
-            var tn = (finder != null ? finder.Container : null);
+            FinderNode tn = (finder != null ? finder.Container : null);
 
             if (tn != null)
             {
@@ -1724,7 +1718,7 @@ namespace RssBandit.WinGui.Forms
 
             if (categories != null)
             {
-                var sep = FeedSource.CategorySeparator;
+                string sep = FeedSource.CategorySeparator;
                 foreach (var f in owner.FeedHandler.GetFeeds().Values)
                 {
                     foreach (string category in categories)
@@ -1821,7 +1815,9 @@ namespace RssBandit.WinGui.Forms
                                                                     }
                                                                     catch (Exception ex)
                                                                     {
-                                                                        _log.Error("AsyncCall 'StartRssRemoteSearch' caused this exception", ex);
+                                                                        _log.Error(
+                                                                            "AsyncCall 'StartRssRemoteSearch' caused this exception",
+                                                                            ex);
                                                                     }
                                                                 }, null);
 
@@ -1840,10 +1836,11 @@ namespace RssBandit.WinGui.Forms
             }
             catch (Exception ex)
             {
-				_log.Error(String.Format("RSS Remote Search '{0}' caused exception", searchUrl), ex);
-				InvokeOnGuiSync(() =>
-                SetSearchStatusText("Search '" + StringHelper.ShortenByEllipsis(searchUrl, 30) + "' caused a problem: " +
-                                    ex.Message));
+                _log.Error(String.Format("RSS Remote Search '{0}' caused exception", searchUrl), ex);
+                InvokeOnGuiSync(() =>
+                                SetSearchStatusText("Search '" + StringHelper.ShortenByEllipsis(searchUrl, 30) +
+                                                    "' caused a problem: " +
+                                                    ex.Message));
             }
         }
 
@@ -1867,7 +1864,7 @@ namespace RssBandit.WinGui.Forms
 
         private void DisplayFeedProperties(INewsFeed f)
         {
-            var tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
+            TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
             if (tn != null)
             {
                 CurrentSelectedFeedsNode = tn;
@@ -1897,9 +1894,9 @@ namespace RssBandit.WinGui.Forms
                 {
                     ThreadedListViewItem foundLVItem = null;
 
-                    for (var i = 0; i < listFeedItems.Items.Count; i++)
+                    for (int i = 0; i < listFeedItems.Items.Count; i++)
                     {
-                        var lvi = listFeedItems.Items[i];
+                        ThreadedListViewItem lvi = listFeedItems.Items[i];
                         var ti = (INewsItem) lvi.Key;
                         if (item.Equals(ti))
                         {
@@ -1976,12 +1973,12 @@ namespace RssBandit.WinGui.Forms
                 parent = GetRoot(RootFolderType.MyFeeds);
 
             string feedTitle = null;
-            var category = parent.CategoryStoreName;
+            string category = parent.CategoryStoreName;
 
-            var urls = feedUrl.Split(Environment.NewLine.ToCharArray());
-            var multipleSubscriptions = (urls.Length > 1);
+            string[] urls = feedUrl.Split(Environment.NewLine.ToCharArray());
+            bool multipleSubscriptions = (urls.Length > 1);
 
-            for (var i = 0; i < urls.Length; i++)
+            for (int i = 0; i < urls.Length; i++)
             {
                 feedUrl = owner.HandleUrlFeedProtocol(urls[i]);
 
@@ -2003,11 +2000,12 @@ namespace RssBandit.WinGui.Forms
 
                     if (!multipleSubscriptions && owner.FeedHandler.IsSubscribed(feedUrl))
                     {
-                        var f2 = owner.FeedHandler.GetFeeds()[feedUrl];
+                        INewsFeed f2 = owner.FeedHandler.GetFeeds()[feedUrl];
                         owner.MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
-                                              (f2.category == null
-                                                   ? String.Empty
-                                                   : f2.category + FeedSource.CategorySeparator) + f2.title, f2.link));
+                                                        (f2.category == null
+                                                             ? String.Empty
+                                                             : f2.category + FeedSource.CategorySeparator) + f2.title,
+                                                        f2.link));
                         return;
                     }
 
@@ -2015,7 +2013,9 @@ namespace RssBandit.WinGui.Forms
                     {
                         var fetchHandler = new PrefetchFeedThreadHandler(feedUrl, owner.Proxy);
 
-                        var result = fetchHandler.Start(this, String.Format(SR.GUIStatusWaitMessagePrefetchFeed,feedUrl));
+                        DialogResult result = fetchHandler.Start(this,
+                                                                 String.Format(SR.GUIStatusWaitMessagePrefetchFeed,
+                                                                               feedUrl));
 
                         if (result != DialogResult.OK)
                             return;
@@ -2162,7 +2162,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnFeedDeleted(object sender, FeedDeletedEventArgs e)
         {
-            var tn = CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
 
             ExceptionNode.UpdateReadStatus();
             PopulateSmartFolder((TreeFeedsNodeBase) ExceptionNode, false);
@@ -2345,7 +2345,6 @@ namespace RssBandit.WinGui.Forms
             _uiTasksTimer.StopTask(task);
         }
 
-
         #region ICommandBarImplementationSupport
 
         public CommandBar GetToolBarInstance(string id)
@@ -2424,14 +2423,14 @@ namespace RssBandit.WinGui.Forms
             ArrayList groupSelected = null;
             //Select same nodes in listFeedItems ListView
             listFeedItems.SelectedItems.Clear();
-            for (var i = 0; i < listFeedItemsO.Nodes.Count; i++)
+            for (int i = 0; i < listFeedItemsO.Nodes.Count; i++)
             {
                 if (listFeedItemsO.Nodes[i].Selected)
                 {
                     if (groupSelected == null)
                         groupSelected = new ArrayList();
                     //Select all child nodes
-                    for (var j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
+                    for (int j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
                     {
                         var node = (UltraTreeNodeExtended) listFeedItemsO.Nodes[i].Nodes[j];
                         //node.NodeOwner.Selected = true;
@@ -2441,7 +2440,7 @@ namespace RssBandit.WinGui.Forms
                         }
                     }
                 }
-                for (var j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
+                for (int j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
                 {
                     if (listFeedItemsO.Nodes[i].Nodes[j].Selected)
                     {
@@ -2450,7 +2449,7 @@ namespace RssBandit.WinGui.Forms
                             node.NodeOwner.Selected = true;
                     }
                     //Comments
-                    for (var k = 0; k < listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count; k++)
+                    for (int k = 0; k < listFeedItemsO.Nodes[i].Nodes[j].Nodes.Count; k++)
                     {
                         if (listFeedItemsO.Nodes[i].Nodes[j].Nodes[k].Selected)
                         {
@@ -2472,12 +2471,12 @@ namespace RssBandit.WinGui.Forms
             }
             else
             {
-                var tn = TreeSelectedFeedsNode;
+                TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
                 if (tn != null)
                 {
                     if (tn.Type == FeedNodeType.Category)
                     {
-                        var category = tn.CategoryStoreName;
+                        string category = tn.CategoryStoreName;
                         var temp = new Hashtable();
 
                         foreach (INewsItem item in groupSelected)
@@ -2508,12 +2507,12 @@ namespace RssBandit.WinGui.Forms
                     }
                     else
                     {
-                        var feedUrl = tn.DataKey;
-                        var fi = owner.FeedHandler.GetFeedDetails(feedUrl);
+                        string feedUrl = tn.DataKey;
+                        IFeedDetails fi = owner.FeedHandler.GetFeedDetails(feedUrl);
 
                         if (fi != null)
                         {
-                        	IFeedDetails fi2 = (IFeedDetails) fi.Clone();
+                            var fi2 = (IFeedDetails) fi.Clone();
                             fi2.ItemsList.Clear();
                             foreach (INewsItem ni in groupSelected)
                             {
@@ -2536,11 +2535,11 @@ namespace RssBandit.WinGui.Forms
                 listFeedItemsO.IsUpdatingSelection = true;
                 //
                 listFeedItemsO.SelectedNodes.Clear();
-                for (var i = 0; i < listFeedItems.Items.Count; i++)
+                for (int i = 0; i < listFeedItems.Items.Count; i++)
                 {
                     if (listFeedItems.Items[i].Selected)
                     {
-                        var n = listFeedItemsO.GetFromLVI(listFeedItems.Items[i]);
+                        UltraTreeNodeExtended n = listFeedItemsO.GetFromLVI(listFeedItems.Items[i]);
                         if (n != null)
                         {
                             n.Selected = true;
@@ -2575,7 +2574,7 @@ namespace RssBandit.WinGui.Forms
                 if (n.NewsItem != null && n.NewsItem.CommentCount > 0)
                 {
                     //Expand Comments Nodes
-                    var lvi = n.NodeOwner;
+                    ThreadedListViewItem lvi = n.NodeOwner;
                     lvi.Expanded = true;
                     //
                     listFeedItemsO.AddCommentUpdating(lvi);
@@ -2631,7 +2630,7 @@ namespace RssBandit.WinGui.Forms
                 if (n != null && e.Clicks > 1)
                 {
                     //DblClick
-                    var item = CurrentSelectedFeedItem = n.NewsItem;
+                    INewsItem item = CurrentSelectedFeedItem = n.NewsItem;
                     n.Selected = true;
 
                     if (item != null && !string.IsNullOrEmpty(item.Link))
@@ -2657,8 +2656,8 @@ namespace RssBandit.WinGui.Forms
 
         private void listFeedItemsO_AfterSortChange(object sender, AfterSortChangeEventArgs e)
         {
-            var n = listFeedItemsO.ActiveNode ?? listFeedItemsO.TopNode;
-        	// update the view after sort:
+            UltraTreeNode n = listFeedItemsO.ActiveNode ?? listFeedItemsO.TopNode;
+            // update the view after sort:
             if (n != null)
                 n.BringIntoView(true);
         }

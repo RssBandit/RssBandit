@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
@@ -22,9 +23,8 @@ using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui.Forms
 {
-    partial class WinGuiMain
+    internal partial class WinGuiMain
     {
-
         protected void Init()
         {
             OnMinimize += OnFormMinimize;
@@ -297,7 +297,7 @@ namespace RssBandit.WinGui.Forms
                              Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
             treeFeeds.Nodes.Add(root);
             root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
-            _roots[(int)RootFolderType.MyFeeds] = root;
+            _roots[(int) RootFolderType.MyFeeds] = root;
 
             // add the root as the first history entry:
             AddHistoryEntry(root, null);
@@ -308,7 +308,7 @@ namespace RssBandit.WinGui.Forms
                                    Resource.SubscriptionTreeImage.AllFinderFoldersExpanded,
                                    _treeSearchFolderRootContextMenu);
             treeFeeds.Nodes.Add(root);
-            _roots[(int)RootFolderType.Finder] = root;
+            _roots[(int) RootFolderType.Finder] = root;
             if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
                 root.Visible = false;
 
@@ -317,7 +317,7 @@ namespace RssBandit.WinGui.Forms
                 new SpecialRootNode(SR.FeedNodeSpecialFeedsCaption, Resource.SubscriptionTreeImage.AllSmartFolders,
                                     Resource.SubscriptionTreeImage.AllSmartFoldersExpanded, null);
             treeFeeds.Nodes.Add(root);
-            _roots[(int)RootFolderType.SmartFolders] = root;
+            _roots[(int) RootFolderType.SmartFolders] = root;
 
             treeFeeds.DrawFilter = new TreeFeedsDrawFilter();
 
@@ -358,7 +358,7 @@ namespace RssBandit.WinGui.Forms
             _Main_Toolbars_Dock_Area_Right = new UltraToolbarsDockArea();
             _Main_Toolbars_Dock_Area_Top = new UltraToolbarsDockArea();
             _Main_Toolbars_Dock_Area_Bottom = new UltraToolbarsDockArea();
-            ((ISupportInitialize)(ultraToolbarsManager)).BeginInit();
+            ((ISupportInitialize) (ultraToolbarsManager)).BeginInit();
             // 
             // ultraToolbarsManager
             // 
@@ -419,7 +419,7 @@ namespace RssBandit.WinGui.Forms
             Controls.Add(_Main_Toolbars_Dock_Area_Bottom);
 
             toolbarHelper.CreateToolbars(this, owner, _shortcutHandler);
-            ((ISupportInitialize)(ultraToolbarsManager)).EndInit();
+            ((ISupportInitialize) (ultraToolbarsManager)).EndInit();
 
             ultraToolbarsManager.ToolClick += OnAnyToolbarToolClick;
             ultraToolbarsManager.BeforeToolDropdown += OnToolbarBeforeToolDropdown;
@@ -488,7 +488,7 @@ namespace RssBandit.WinGui.Forms
 
             // append items
             _treeRootContextMenu.MenuItems.AddRange(
-                new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subR4 });
+                new[] {sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subR4});
 
             #endregion
 
@@ -539,7 +539,7 @@ namespace RssBandit.WinGui.Forms
                                                                 SR.MenuColumnChooserDesc,
                                                                 _shortcutHandler);
 
-            foreach (var colID in Enum.GetNames(typeof(NewsItemSortField)))
+            foreach (var colID in Enum.GetNames(typeof (NewsItemSortField)))
             {
                 var subCL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
                                                                        owner.Mediator,
@@ -548,11 +548,11 @@ namespace RssBandit.WinGui.Forms
                                                                        SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Caption"),
-																	   SR.ResourceManager.GetString(
+                                                                       SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
-                subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] { subCL4_layoutSubColumn });
+                subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] {subCL4_layoutSubColumn});
             }
 
             var subCL_subUseCatLayout =
@@ -655,7 +655,7 @@ namespace RssBandit.WinGui.Forms
                                           SR.MenuCopyFeedFeedHomeTitleLinkToClipboardCaption,
                                           SR.MenuCopyFeedFeedHomeTitleLinkToClipboardDesc, 1, _shortcutHandler);
 
-            subFeedCopy.MenuItems.AddRange(new MenuItem[] { subFeedCopy_sub1, subFeedCopy_sub2, subFeedCopy_sub3 });
+            subFeedCopy.MenuItems.AddRange(new MenuItem[] {subFeedCopy_sub1, subFeedCopy_sub2, subFeedCopy_sub3});
 
 
             _feedInfoContextMenu = new MenuItem(SR.MenuAdvancedFeedInfoCaption);
@@ -677,20 +677,20 @@ namespace RssBandit.WinGui.Forms
                                                                 SR.MenuColumnChooserDesc,
                                                                 _shortcutHandler);
 
-            foreach (var colID in Enum.GetNames(typeof(NewsItemSortField)))
+            foreach (var colID in Enum.GetNames(typeof (NewsItemSortField)))
             {
                 var subFL4_layoutSubColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
                                                                        owner.Mediator,
                                                                        new ExecuteCommandHandler(
                                                                            CmdToggleListviewColumn),
-																	   SR.ResourceManager.GetString(
+                                                                       SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Caption"),
-																	   SR.ResourceManager.GetString(
+                                                                       SR.ResourceManager.GetString(
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
-                subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] { subFL4_layoutSubColumn });
+                subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] {subFL4_layoutSubColumn});
             }
 
             var subFL_subUseCatLayout =
@@ -766,7 +766,7 @@ namespace RssBandit.WinGui.Forms
                                                             SR.MenuValidateFeedDesc, _shortcutHandler);
 
             _feedInfoContextMenu.MenuItems.AddRange(
-                new MenuItem[] { subInfoHome, subInfoCosmos, subInfoSource, subInfoValidate });
+                new MenuItem[] {subInfoHome, subInfoCosmos, subInfoSource, subInfoValidate});
 
             #endregion
 
@@ -782,7 +782,7 @@ namespace RssBandit.WinGui.Forms
                                               SR.MenuFinderDeleteAllCaption, SR.MenuFinderDeleteAllDesc,
                                               _shortcutHandler);
 
-            _treeSearchFolderRootContextMenu.MenuItems.AddRange(new[] { subF1, sep.CloneMenu(), subF2 });
+            _treeSearchFolderRootContextMenu.MenuItems.AddRange(new[] {subF1, sep.CloneMenu(), subF2});
 
             #endregion
 
@@ -976,7 +976,7 @@ namespace RssBandit.WinGui.Forms
                                                         SR.MenuCopyFeedItemContentToClipboardDesc, 1,
                                                         _shortcutHandler);
 
-            subL10.MenuItems.AddRange(new MenuItem[] { subL10_sub1, subL10_sub2, subL10_sub3 });
+            subL10.MenuItems.AddRange(new MenuItem[] {subL10_sub1, subL10_sub2, subL10_sub3});
 
 
             var subL4 = new AppContextMenuCommand("cmdColumnChooserMain",
@@ -985,20 +985,20 @@ namespace RssBandit.WinGui.Forms
                                                   SR.MenuColumnChooserDesc, _shortcutHandler);
             //subL3.ImageList                  = _listImages;
 
-            foreach (var colID in Enum.GetNames(typeof(NewsItemSortField)))
+            foreach (var colID in Enum.GetNames(typeof (NewsItemSortField)))
             {
                 var subL4_subColumn = new AppContextMenuCommand("cmdListviewColumn." + colID,
                                                                 owner.Mediator,
                                                                 new ExecuteCommandHandler(
                                                                     CmdToggleListviewColumn),
-																SR.ResourceManager.GetString(
+                                                                SR.ResourceManager.GetString(
                                                                     "MenuColumnChooser" + colID +
                                                                     "Caption"),
-																SR.ResourceManager.GetString(
+                                                                SR.ResourceManager.GetString(
                                                                     "MenuColumnChooser" + colID +
                                                                     "Desc"), _shortcutHandler);
 
-                subL4.MenuItems.AddRange(new MenuItem[] { subL4_subColumn });
+                subL4.MenuItems.AddRange(new MenuItem[] {subL4_subColumn});
             }
 
             var subL4_subUseCatLayout =
@@ -1104,7 +1104,7 @@ namespace RssBandit.WinGui.Forms
                                                    SR.MenuDeleteAllFeedItemsDesc, 1, _shortcutHandler);
             //subTL1.ImageList           = _listImages;
 
-            _treeLocalFeedContextMenu.MenuItems.AddRange(new MenuItem[] { subTL1 });
+            _treeLocalFeedContextMenu.MenuItems.AddRange(new MenuItem[] {subTL1});
 
             #endregion
 
@@ -1184,11 +1184,11 @@ namespace RssBandit.WinGui.Forms
                                                     _shortcutHandler);
 
 
-            subDT5.MenuItems.AddRange(new MenuItem[] { subSub1, subSub2, subSub3, subSub4 });
+            subDT5.MenuItems.AddRange(new MenuItem[] {subSub1, subSub2, subSub3, subSub4});
 
 
             _docTabContextMenu.MenuItems.AddRange(
-                new[] { subDT1, subDT2, subDT3, sep.CloneMenu(), subDT4, sep.CloneMenu(), subDT5 });
+                new[] {subDT1, subDT2, subDT3, sep.CloneMenu(), subDT4, sep.CloneMenu(), subDT5});
 
             #endregion
 
@@ -1257,7 +1257,7 @@ namespace RssBandit.WinGui.Forms
                                   Checked = (owner.Preferences.ShowAlertWindow == DisplayFeedAlertWindow.All)
                               };
 
-            subT5.MenuItems.AddRange(new MenuItem[] { subT5_1, subT5_2, subT5_3 });
+            subT5.MenuItems.AddRange(new MenuItem[] {subT5_1, subT5_2, subT5_3});
 
             #endregion
 
@@ -1290,7 +1290,6 @@ namespace RssBandit.WinGui.Forms
 
         #endregion
 
-
         /// <summary>
         /// Creates and loads an instance of the SettingsHandler with 
         /// the user's keyboard shortcuts.
@@ -1298,7 +1297,7 @@ namespace RssBandit.WinGui.Forms
         protected void InitShortcutManager()
         {
             _shortcutHandler = new ShortcutHandler();
-            var settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
+            string settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
             try
             {
                 _shortcutHandler.Load(settingsPath);
@@ -1306,7 +1305,7 @@ namespace RssBandit.WinGui.Forms
             catch (InvalidShortcutSettingsFileException e)
             {
                 _log.Warn("The user defined shortcut settings file is invalid. Using the default instead.", e);
-                using (var settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
+                using (Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
                 {
                     _shortcutHandler.Load(settingsStream);
                 }
@@ -1326,7 +1325,6 @@ namespace RssBandit.WinGui.Forms
             _listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
             _allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.png", new Size(16, 16));
         }
-
 
         #region Init DocManager
 
@@ -1353,8 +1351,6 @@ namespace RssBandit.WinGui.Forms
         }
 
         #endregion
-
-
 
         #region DockHost init routines
 

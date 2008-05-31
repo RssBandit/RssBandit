@@ -6,9 +6,8 @@ using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Forms
 {
-    partial class WinGuiMain
+    internal partial class WinGuiMain
     {
-
         private class UITaskTimer : Timer
         {
             private readonly object SynRoot = new object();

@@ -64,10 +64,10 @@ namespace RssBandit.WinGui.Utility
             if (cmd != null && registeredCommands.ContainsKey(cmd.CommandID))
             {
                 var al = (ArrayList) registeredCommands[cmd.CommandID];
-                var toRegisterType = cmd.GetType();
-                for (var i = 0; al != null && i < al.Count; i++)
+                Type toRegisterType = cmd.GetType();
+                for (int i = 0; al != null && i < al.Count; i++)
                 {
-                    var registeredCommand = al[i];
+                    object registeredCommand = al[i];
                     if (registeredCommand.GetType().Equals(toRegisterType))
                     {
                         if (registeredCommand is AppPopupMenuCommand)
@@ -175,8 +175,8 @@ namespace RssBandit.WinGui.Utility
             RaiseBeforeCommandStateChanged();
             foreach (var cmdParam in args)
             {
-                var b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
-                var cmdId = cmdParam.Substring(1);
+                bool b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
+                string cmdId = cmdParam.Substring(1);
                 SetCommandComponentEnabled(cmdId, b);
             }
             RaiseAfterCommandStateChanged();
@@ -197,8 +197,8 @@ namespace RssBandit.WinGui.Utility
             RaiseBeforeCommandStateChanged();
             foreach (var cmdParam in args)
             {
-                var b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
-                var cmdId = cmdParam.Substring(1);
+                bool b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
+                string cmdId = cmdParam.Substring(1);
                 SetCommandComponentChecked(cmdId, b);
             }
             RaiseAfterCommandStateChanged();
@@ -219,8 +219,8 @@ namespace RssBandit.WinGui.Utility
             RaiseBeforeCommandStateChanged();
             foreach (var cmdParam in args)
             {
-                var b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
-                var cmdId = cmdParam.Substring(1);
+                bool b = String.Compare(cmdParam.Substring(0, 1), "+") == 0;
+                string cmdId = cmdParam.Substring(1);
                 SetCommandComponentVisible(cmdId, b);
             }
             RaiseAfterCommandStateChanged();
@@ -261,7 +261,7 @@ namespace RssBandit.WinGui.Utility
         /// <returns></returns>
         public bool IsChecked(ICommand command)
         {
-            var _checked = false;
+            bool _checked = false;
 
             var cmd = command as ICommandComponent;
             if (cmd != null)

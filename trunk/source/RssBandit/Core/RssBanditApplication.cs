@@ -278,11 +278,11 @@ namespace RssBandit
             InvokeOnGui = a => GuiInvoker.InvokeAsync(guiMain, a);
         }
 
-		/// <summary>
-		/// Inits this instance. Returns false, if an issue happened and/or the user
-		/// do not like to continue startup.
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// Inits this instance. Returns false, if an issue happened and/or the user
+        /// do not like to continue startup.
+        /// </summary>
+        /// <returns></returns>
         public bool Init()
         {
             //specify 'nntp' and 'news' URI handler
@@ -311,19 +311,23 @@ namespace RssBandit
             // init feed source manager and sources:
             sourceManager = new FeedSourceManager();
 #if TEST_PERSISTED_FEEDSOURCES
-			try
-			{
-				// load feedsources from file/db and init
-				sourceManager.LoadFeedSources(GetFeedSourcesFileName());
-			} 
-			catch (Exception loadEx)
-			{
-				_log.Error(String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(), loadEx.Message), loadEx);
-				if (DialogResult.No == MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}", Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
-					return false;
-			}
+            try
+            {
+                // load feedsources from file/db and init
+                sourceManager.LoadFeedSources(GetFeedSourcesFileName());
+            }
+            catch (Exception loadEx)
+            {
+                _log.Error(
+                    String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(),
+                                  loadEx.Message), loadEx);
+                if (DialogResult.No ==
+                    MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}",
+                                                  Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
+                    return false;
+            }
 #endif
-        	// for now:
+            // for now:
 #if TEST_GOOGLE_READER
 
             if (!sourceManager.Contains(SR.FeedNodeMyGoogleReaderFeedsCaption)) {
@@ -353,14 +357,14 @@ namespace RssBandit
 
 			feedHandler = sourceManager[SR.FeedNodeMyWindowsRssFeedsCaption].Source;
 #else
-			if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
-				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);	
-			
-			feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
+            if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
+                sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
+
+            feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
 #endif
-			
-			// save the test enviroment:
-			sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+
+            // save the test enviroment:
+            sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
             feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
 
@@ -437,9 +441,9 @@ namespace RssBandit
 
             // register build in channel processors:
             CoreServices.RegisterDisplayingNewsChannelProcessor(new DisplayingNewsChannelProcessor());
-			
-			// indicates OK:
-			return true;
+
+            // indicates OK:
+            return true;
         }
 
         private void InitLocalFeeds()
@@ -554,7 +558,7 @@ namespace RssBandit
         /// </returns>
         public object GetService(Type serviceType)
         {
-            var o = Services.GetService(serviceType);
+            object o = Services.GetService(serviceType);
             if (o != null) return o;
 
             if (serviceType == typeof (IServiceContainer))
@@ -612,7 +616,7 @@ namespace RssBandit
 
         internal void CheckAndLoadAddIns()
         {
-            var addIns = addInManager.AddIns;
+            IEnumerable<IAddIn> addIns = addInManager.AddIns;
 
             if (addIns == null)
                 return;
@@ -628,7 +632,7 @@ namespace RssBandit
                     }
                     catch (Exception ex)
                     {
-                        var error = String.Format(SR.AddInGeneralFailure,ex.Message, addIn.Name);
+                        string error = String.Format(SR.AddInGeneralFailure, ex.Message, addIn.Name);
                         _log.Fatal(
                             "Failed to load IAddInPackage from AddIn: " + addIn.Name + " from '" + addIn.Location + "'",
                             ex);
@@ -643,7 +647,7 @@ namespace RssBandit
         /// </summary>
         internal void UnloadAddIns()
         {
-            var addIns = addInManager.AddIns;
+            IEnumerable<IAddIn> addIns = addInManager.AddIns;
             if (addIns == null)
                 return;
             foreach (var addIn in addIns)
@@ -656,7 +660,7 @@ namespace RssBandit
                     }
                     catch (Exception ex)
                     {
-                        var error = String.Format(SR.AddInUnloadFailure,ex.Message, addIn.Name);
+                        string error = String.Format(SR.AddInUnloadFailure, ex.Message, addIn.Name);
                         _log.Fatal(
                             "Failed to unload IAddInPackage from AddIn: " + addIn.Name + " from '" + addIn.Location +
                             "'", ex);
@@ -795,10 +799,11 @@ namespace RssBandit
 
         #endregion
 
-		public FeedSourceManager FeedSourceManager
-		{
-			get { return sourceManager; }
-		}
+        public FeedSourceManager FeedSourceManager
+        {
+            get { return sourceManager; }
+        }
+
         public FeedSource FeedHandler
         {
             get { return feedHandler; }
@@ -1130,7 +1135,7 @@ namespace RssBandit
 
                         if (!fc.Equals(DefaultFeedColumnLayout, true))
                         {
-                            var found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
@@ -1167,7 +1172,7 @@ namespace RssBandit
 
                         if (!fc.Equals(DefaultCategoryColumnLayout, true))
                         {
-                            var found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
@@ -1207,7 +1212,7 @@ namespace RssBandit
 
                         if (!fc.Equals(DefaultCategoryColumnLayout, true))
                         {
-                            var found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
@@ -1261,7 +1266,7 @@ namespace RssBandit
             {
                 if (!string.IsNullOrEmpty(xmlString))
                 {
-                    var formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+                    XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
                     var reader = new StringReader(xmlString);
                     return (ListViewLayout) formatter.Deserialize(reader);
                 }
@@ -1274,7 +1279,7 @@ namespace RssBandit
                     return null;
                 try
                 {
-                    var formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+                    XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
                     var writer = new StringWriter();
                     formatter.Serialize(writer, layout);
                     return writer.ToString();
@@ -1304,20 +1309,14 @@ namespace RssBandit
             public IList<string> Columns
             {
                 get { return _columns; }
-                set
-                {
-                    _columns = value != null ? new List<string>(value) : new List<string>();
-                }
+                set { _columns = value != null ? new List<string>(value) : new List<string>(); }
             }
 
             [XmlIgnore]
             public IList<int> ColumnWidths
             {
                 get { return _columnWidths; }
-                set
-                {
-                    _columnWidths = value != null ? new List<int>(value) : new List<int>();
-                }
+                set { _columnWidths = value != null ? new List<int>(value) : new List<int>(); }
             }
 
             [XmlIgnore]
@@ -1329,20 +1328,14 @@ namespace RssBandit
             public List<string> ColumnList
             {
                 get { return _columns; }
-                set
-                {
-                    _columns = value ?? new List<string>();
-                }
+                set { _columns = value ?? new List<string>(); }
             }
 
             [XmlArrayItem(typeof (int))]
             public List<int> ColumnWidthList
             {
                 get { return _columnWidths; }
-                set
-                {
-                    _columnWidths = value ?? new List<int>();
-                }
+                set { _columnWidths = value ?? new List<int>(); }
             }
 
             public override bool Equals(object obj)
@@ -1362,7 +1355,7 @@ namespace RssBandit
                     return false;
                 if (_columns.Count != o._columns.Count)
                     return false;
-                for (var i = 0; i < _columns.Count; i++)
+                for (int i = 0; i < _columns.Count; i++)
                 {
                     if (String.Compare(_columns[i], o._columns[i]) != 0 ||
                         _columnWidths[i] != o._columnWidths[i])
@@ -1413,19 +1406,19 @@ namespace RssBandit
         /// use the main form as the parent</remarks>
         public DialogResult MessageQuestion(string text, string captionPostfix)
         {
-        	DialogResult res = DialogResult.Cancel;
-			GuiInvoker.Invoke(MainForm,
-				delegate
-				{
-					if (MainForm != null && MainForm.IsHandleCreated)
-						Win32.SetForegroundWindow(MainForm.Handle);
-					res = MessageBox.Show(
-						MainForm, text,
-						CaptionOnly + captionPostfix,
-						MessageBoxButtons.YesNo,
-						MessageBoxIcon.Question);
-				});
-			return res;
+            DialogResult res = DialogResult.Cancel;
+            GuiInvoker.Invoke(MainForm,
+                              delegate
+                                  {
+                                      if (MainForm != null && MainForm.IsHandleCreated)
+                                          Win32.SetForegroundWindow(MainForm.Handle);
+                                      res = MessageBox.Show(
+                                          MainForm, text,
+                                          CaptionOnly + captionPostfix,
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Question);
+                                  });
+            return res;
         }
 
         /// <summary>
@@ -1515,11 +1508,11 @@ namespace RssBandit
         [MethodImpl(MethodImplOptions.Synchronized)]
         internal void LoadSearchEngines()
         {
-            var p = Path.Combine(GetSearchesPath(), @"config.xml");
+            string p = Path.Combine(GetSearchesPath(), @"config.xml");
             if (File.Exists(p))
             {
-                var errorLog = GetLogFileName();
-                using (var myFile = FileHelper.OpenForWriteAppend(errorLog))
+                string errorLog = GetLogFileName();
+                using (FileStream myFile = FileHelper.OpenForWriteAppend(errorLog))
                 {
                     /* Create a new text writer using the output stream, and add it to
 					 * the trace listeners. */
@@ -1535,7 +1528,7 @@ namespace RssBandit
                     {
                         if (!validationErrorOccured)
                         {
-                            MessageError(String.Format(SR.ExceptionLoadingSearchEnginesMessage,e.Message, errorLog));
+                            MessageError(String.Format(SR.ExceptionLoadingSearchEnginesMessage, e.Message, errorLog));
                         }
                     }
 
@@ -1545,7 +1538,7 @@ namespace RssBandit
                     }
                     else if (validationErrorOccured)
                     {
-                        MessageError(String.Format(SR.ExceptionInvalidSearchEnginesMessage,errorLog));
+                        MessageError(String.Format(SR.ExceptionInvalidSearchEnginesMessage, errorLog));
                         validationErrorOccured = false;
                     }
                     else
@@ -1573,19 +1566,19 @@ namespace RssBandit
                 if (SearchEngineHandler != null && SearchEngineHandler.Engines != null &&
                     SearchEngineHandler.EnginesOK && SearchEngineHandler.Engines.Count > 0)
                 {
-                    var p = Path.Combine(GetSearchesPath(), @"config.xml");
+                    string p = Path.Combine(GetSearchesPath(), @"config.xml");
                     SearchEngineHandler.SaveEngines(new FileStream(p, FileMode.Create));
                 }
             }
             catch (InvalidOperationException ioe)
             {
                 _log.Error("Unexpected Error on saving SearchEngineSettings.", ioe);
-                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave,ioe.InnerException.Message));
+                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave, ioe.InnerException.Message));
             }
             catch (Exception ex)
             {
                 _log.Error("Unexpected Error on saving SearchEngineSettings.", ex);
-                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave,ex.Message));
+                MessageError(String.Format(SR.ExceptionWebSearchEnginesSave, ex.Message));
             }
         }
 
@@ -1683,7 +1676,7 @@ namespace RssBandit
                 Preferences.NewsItemStylesheetFile = String.Empty;
             }
 
-            var markedForDownloadCalled = false;
+            bool markedForDownloadCalled = false;
             if (Preferences.MaxItemAge != propertiesDialog.MaxItemAge)
             {
                 Preferences.MaxItemAge = propertiesDialog.MaxItemAge;
@@ -1820,7 +1813,7 @@ namespace RssBandit
                 guiMain.InitSearchEngines(); // rebuild menu(s)/toolbar entries
             }
 
-            var browserPrefsChanged = false;
+            bool browserPrefsChanged = false;
 
             if (Preferences.BrowserJavascriptAllowed != propertiesDialog.checkBrowserJavascriptAllowed.Checked ||
                 Preferences.BrowserJavaAllowed != propertiesDialog.checkBrowserJavaAllowed.Checked ||
@@ -1995,15 +1988,15 @@ namespace RssBandit
 
         internal void LoadPreferences()
         {
-            var pName = GetPreferencesFileName();
-            var migrate = false;
+            string pName = GetPreferencesFileName();
+            bool migrate = false;
             IFormatter formatter = new SoapFormatter();
 
             if (! File.Exists(pName))
             {
                 // migrate from binary to XML
-                var pOldName = GetPreferencesFileNameOldBinary();
-                var pTempNew = pOldName + ".v13"; // in between temp prefs
+                string pOldName = GetPreferencesFileNameOldBinary();
+                string pTempNew = pOldName + ".v13"; // in between temp prefs
 
                 if (File.Exists(pTempNew))
                 {
@@ -2058,7 +2051,7 @@ namespace RssBandit
                 try
                 {
                     formatter.Serialize(stream, Preferences);
-                    var pName = GetPreferencesFileName();
+                    string pName = GetPreferencesFileName();
                     if (FileHelper.WriteStreamWithBackup(pName, stream))
                     {
                         // on success, raise event:
@@ -2077,7 +2070,7 @@ namespace RssBandit
         private void CheckAndMigrateSettingsAndPreferences()
         {
             // check, if any migration task have been applied. If so, we have to:
-            var saveChanges = false;
+            bool saveChanges = false;
 
             // v.1.2.x to 1.3.x:
             // The old (one) username, mail and referer 
@@ -2119,7 +2112,7 @@ namespace RssBandit
             {
                 // take over from previous version, as we stored that in feedlist:
                 Preferences.NewsItemStylesheetFile = (string) FeedSource.MigrationProperties["Stylesheet"];
-                    // loaded from feedlist or default setting
+                // loaded from feedlist or default setting
                 try
                 {
                     NewsItemFormatter.AddXslStyleSheet(Preferences.NewsItemStylesheetFile,
@@ -2141,7 +2134,7 @@ namespace RssBandit
             {
                 // take over from previous version, as we stored that in feedlist:
                 Preferences.RefreshRate = (int) FeedSource.MigrationProperties["RefreshRate"];
-                    // loaded from feedlist or default setting
+                // loaded from feedlist or default setting
                 ApplyRefreshRate(Preferences.RefreshRate);
 
                 saveChanges = true;
@@ -2152,7 +2145,7 @@ namespace RssBandit
             {
                 // take over from previous version, as we stored that in feedlist:
                 Preferences.MaxItemAge = XmlConvert.ToTimeSpan((string) FeedSource.MigrationProperties["MaxItemAge"]);
-                    // loaded from feedlist or default setting
+                // loaded from feedlist or default setting
                 ApplyMaxItemAge(Preferences.MaxItemAge);
 
                 saveChanges = true;
@@ -2225,7 +2218,7 @@ namespace RssBandit
         /// of custom actions due to Vista install issues</remarks>
         private static void RemoveUnreadItemsSearchFolders()
         {
-            var searchfolders = GetSearchFolderFileName();
+            string searchfolders = GetSearchFolderFileName();
 
             try
             {
@@ -2269,9 +2262,9 @@ namespace RssBandit
             RemoveUnreadItemsSearchFolders();
 
             FinderSearchNodes fsn = null;
-            var needs2saveNew = false;
+            bool needs2saveNew = false;
 
-            var s = GuiSettings.GetString("FinderNodes", null);
+            string s = GuiSettings.GetString("FinderNodes", null);
 
             if (s == null)
             {
@@ -2283,7 +2276,7 @@ namespace RssBandit
                     {
                         try
                         {
-                            var ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
+                            XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
                             fsn = (FinderSearchNodes) ser.Deserialize(stream);
                         }
                         catch (Exception ex)
@@ -2297,7 +2290,7 @@ namespace RssBandit
             {
                 try
                 {
-                    var ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
+                    XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
                     fsn = (FinderSearchNodes) ser.Deserialize(new StringReader(s));
                     needs2saveNew = true;
                 }
@@ -2329,7 +2322,7 @@ namespace RssBandit
             {
                 try
                 {
-                    var ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
+                    XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
                     ser.Serialize(stream, findersSearchRoot);
                     if (FileHelper.WriteStreamWithBackup(GetSearchFolderFileName(), stream))
                     {
@@ -2381,15 +2374,15 @@ namespace RssBandit
                 using (Stream stream = FileHelper.OpenForRead(GetTrustedCertIssuesFileName()))
                 {
                     var doc = new XPathDocument(stream);
-                    var nav = doc.CreateNavigator();
+                    XPathNavigator nav = doc.CreateNavigator();
 
                     try
                     {
-                        var siteIssues = nav.Select("descendant::issues");
+                        XPathNodeIterator siteIssues = nav.Select("descendant::issues");
 
                         while (siteIssues.MoveNext())
                         {
-                            var url = siteIssues.Current.GetAttribute("site", String.Empty);
+                            string url = siteIssues.Current.GetAttribute("site", String.Empty);
                             if (url == null)
                             {
                                 continue;
@@ -2397,14 +2390,14 @@ namespace RssBandit
 
                             var issues = new List<CertificateIssue>();
 
-                            var theIssues = siteIssues.Current.Select("issue");
+                            XPathNodeIterator theIssues = siteIssues.Current.Select("issue");
                             while (theIssues.MoveNext())
                             {
                                 if (theIssues.Current.IsEmptyElement)
                                 {
                                     continue;
                                 }
-                                var issue = theIssues.Current.Value;
+                                string issue = theIssues.Current.Value;
                                 try
                                 {
                                     var ci =
@@ -2607,7 +2600,7 @@ namespace RssBandit
         private void RemoveSimilarColumnLayouts(FeedColumnLayout layout)
         {
             if (layout == null) return;
-            for (var i = 0; i < feedHandler.ColumnLayouts.Count; i++)
+            for (int i = 0; i < feedHandler.ColumnLayouts.Count; i++)
             {
                 if (feedHandler.ColumnLayouts[i].Value.LayoutType == LayoutType.IndividualLayout)
                 {
@@ -2632,7 +2625,7 @@ namespace RssBandit
                 ValidateGlobalFeedColumnLayout();
                 if (value == null) return;
                 value.LayoutType = LayoutType.GlobalFeedLayout;
-                var index = feedHandler.ColumnLayouts.IndexOfKey(defaultFeedColumnLayoutKey);
+                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultFeedColumnLayoutKey);
                 if ((index == -1) || (!feedHandler.ColumnLayouts[index].Value.Equals(value)))
                 {
                     feedHandler.ColumnLayouts[index] = new FeedColumnLayoutEntry(defaultFeedColumnLayoutKey, value);
@@ -2654,7 +2647,7 @@ namespace RssBandit
                 ValidateGlobalCategoryColumnLayout();
                 if (value == null) return;
                 value.LayoutType = LayoutType.GlobalCategoryLayout;
-                var index = feedHandler.ColumnLayouts.IndexOfKey(defaultCategoryColumnLayoutKey);
+                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultCategoryColumnLayoutKey);
                 if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
                 {
                     feedHandler.ColumnLayouts[index] = new FeedColumnLayoutEntry(defaultCategoryColumnLayoutKey, value);
@@ -2676,7 +2669,7 @@ namespace RssBandit
                 ValidateGlobalSearchFolderColumnLayout();
                 if (value == null) return;
                 value.LayoutType = LayoutType.SearchFolderLayout;
-                var index = feedHandler.ColumnLayouts.IndexOfKey(defaultSearchFolderColumnLayoutKey);
+                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultSearchFolderColumnLayoutKey);
                 if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
                 {
                     feedHandler.ColumnLayouts[index] =
@@ -2698,7 +2691,7 @@ namespace RssBandit
                 ValidateGlobalSpecialFolderColumnLayout();
                 if (value == null) return;
                 value.LayoutType = LayoutType.SpecialFeedsLayout;
-                var index = feedHandler.ColumnLayouts.IndexOfKey(defaultSpecialFolderColumnLayoutKey);
+                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultSpecialFolderColumnLayoutKey);
                 if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
                 {
                     feedHandler.ColumnLayouts[index] =
@@ -2719,7 +2712,7 @@ namespace RssBandit
             if (feedUrl == null)
                 return null;
 
-            var layout = feedHandler.GetFeedColumnLayout(feedUrl);
+            string layout = feedHandler.GetFeedColumnLayout(feedUrl);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalFeedColumnLayout;
@@ -2749,14 +2742,14 @@ namespace RssBandit
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalFeedLayout)
                 return; // not a layout format we have to store for a feed
 
-            var key = feedHandler.GetFeedColumnLayout(feedUrl);
-            var global = GlobalFeedColumnLayout;
+            string key = feedHandler.GetFeedColumnLayout(feedUrl);
+            FeedColumnLayout global = GlobalFeedColumnLayout;
 
             if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
-                    var known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                    int known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
                     if (known >= 0)
                     {
                         feedHandler.SetFeedColumnLayout(feedUrl, feedHandler.ColumnLayouts.GetKey(known));
@@ -2777,7 +2770,7 @@ namespace RssBandit
             }
             else
             {
-                var known = feedHandler.ColumnLayouts.IndexOfKey(key);
+                int known = feedHandler.ColumnLayouts.IndexOfKey(key);
                 if (!feedHandler.ColumnLayouts[known].Value.Equals(layout))
                 {
                     // check if layout modified
@@ -2788,7 +2781,7 @@ namespace RssBandit
                         if (!layout.Equals(global, true))
                         {
                             //check if new layout is equivalent to current default
-                            var otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                            int otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
 
                             if (otherKnownSimilar >= 0)
                             {
@@ -2831,13 +2824,13 @@ namespace RssBandit
         /// <returns></returns>
         public FeedColumnLayout GetCategoryColumnLayout(string category)
         {
-            var layout = feedHandler.GetCategoryFeedColumnLayout(category);
+            string layout = feedHandler.GetCategoryFeedColumnLayout(category);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalCategoryColumnLayout;
             if (feedHandler.ColumnLayouts.ContainsKey(layout))
                 return feedHandler.ColumnLayouts.GetByKey(layout);
-            
+
             // invalid key: cleanup
             feedHandler.SetCategoryFeedColumnLayout(category, null);
             feedlistModified = true;
@@ -2860,14 +2853,14 @@ namespace RssBandit
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalCategoryLayout)
                 return; // not a layout format we have to store for a category
 
-            var key = feedHandler.GetCategoryFeedColumnLayout(category);
-            var global = GlobalCategoryColumnLayout;
+            string key = feedHandler.GetCategoryFeedColumnLayout(category);
+            FeedColumnLayout global = GlobalCategoryColumnLayout;
 
             if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
-                    var known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                    int known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
                     if (known >= 0)
                     {
                         feedHandler.SetCategoryFeedColumnLayout(category, feedHandler.ColumnLayouts.GetKey(known));
@@ -2887,7 +2880,7 @@ namespace RssBandit
             }
             else
             {
-                var known = feedHandler.ColumnLayouts.IndexOfKey(key);
+                int known = feedHandler.ColumnLayouts.IndexOfKey(key);
                 if (!feedHandler.ColumnLayouts[known].Value.Equals(layout))
                 {
                     // modified
@@ -2898,7 +2891,7 @@ namespace RssBandit
                         feedHandler.ColumnLayouts.RemoveAt(known);
                         if (!layout.Equals(global, true))
                         {
-                            var otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                            int otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
                             if (otherKnownSimilar >= 0)
                             {
                                 feedHandler.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);
@@ -2937,153 +2930,151 @@ namespace RssBandit
         {
             if (!File.Exists(currentFeedListFileName))
             {
-                using (var s = Resource.GetStream("Resources.default-feedlist.xml"))
+                using (Stream s = Resource.GetStream("Resources.default-feedlist.xml"))
                 {
-					FileHelper.WriteStreamWithRename(currentFeedListFileName, s);
+                    FileHelper.WriteStreamWithRename(currentFeedListFileName, s);
                 } //using
             }
         }
 
-		internal void LoadFeedLists()
-		{
-			foreach (FeedSourceEntry fs in sourceManager.Sources)
-			{
-				if (fs.SourceType == FeedSourceType.DirectAccess)
-				{
-					// migrate old subscriptions or install a default:
-					MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
-				}
+        internal void LoadFeedLists()
+        {
+            foreach (var fs in sourceManager.Sources)
+            {
+                if (fs.SourceType == FeedSourceType.DirectAccess)
+                {
+                    // migrate old subscriptions or install a default:
+                    MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+                }
 
-				// for now we only load the one feedsource we like to test:
-				if (feedHandler == fs.Source)
-				{
-					LoadFeedSourceSubscription(fs.Source);
-				}
-			}
+                // for now we only load the one feedsource we like to test:
+                if (feedHandler == fs.Source)
+                {
+                    LoadFeedSourceSubscription(fs.Source);
+                }
+            }
 
-			LoadWatchedCommentsFeedlist();
-		}
+            LoadWatchedCommentsFeedlist();
+        }
 
-		/// <summary>
-		/// Migrates old used feedlists to DirectAccess.
-		/// </summary>
-		/// <param name="currentFeedListFileName">Name of the current feed list file.</param>
-		/// <exception cref="BanditApplicationException">On any failure</exception>
+        /// <summary>
+        /// Migrates old used feedlists to DirectAccess.
+        /// </summary>
+        /// <param name="currentFeedListFileName">Name of the current feed list file.</param>
+        /// <exception cref="BanditApplicationException">On any failure</exception>
         internal void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
         {
-			if (File.Exists(currentFeedListFileName))
-				return;
+            if (File.Exists(currentFeedListFileName))
+                return;
 
             //checks if new feed file exists and if we can migrate some older:
-			var oldSubscriptionFile = GetFeedListFileName();
-            var veryOldSubscriptionFile = GetOldFeedListFileName();
+            string oldSubscriptionFile = GetFeedListFileName();
+            string veryOldSubscriptionFile = GetOldFeedListFileName();
 
-			if (!File.Exists(currentFeedListFileName))
-			{
-				if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
-				{
-					if ( MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
-					{
-						throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
-					}
-					File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
-				}
-				else if (File.Exists(oldSubscriptionFile) )
-				{
-					if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
-					{
-						throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
-					}
-					File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
-				}
-				else
-				{
-					//create default feed list 			
-					InstallDefaultFeedList(currentFeedListFileName);
-				}
-			}
+            if (!File.Exists(currentFeedListFileName))
+            {
+                if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
+                {
+                    if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
+                    {
+                        throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
+                    }
+                    File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+                }
+                else if (File.Exists(oldSubscriptionFile))
+                {
+                    if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
+                    {
+                        throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
+                    }
+                    File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+                }
+                else
+                {
+                    //create default feed list 			
+                    InstallDefaultFeedList(currentFeedListFileName);
+                }
+            }
 
-			// now we should have that file:
-			if (!File.Exists(currentFeedListFileName))
+            // now we should have that file:
+            if (!File.Exists(currentFeedListFileName))
             {
                 // no feedlist file exists:
                 throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
             }
-
         }
 
-		internal void LoadFeedSourceSubscription(FeedSource feedSource)
-		{
-			if (feedSource == null)
-				return;
+        internal void LoadFeedSourceSubscription(FeedSource feedSource)
+        {
+            if (feedSource == null)
+                return;
 
-			try
-			{
-				feedSource.LoadFeedlist();
-			}
-			catch (Exception e)
-			{
-				if (!FeedSource.validationErrorOccured)
-				{
-					// set by validation callback handler
-					_log.Error("Exception on loading '" + feedSource.SubscriptionLocation.Location + "'.", e);
-					throw new BanditApplicationException(ApplicationExceptions.FeedlistOnRead, e);
-				}
-			}
+            try
+            {
+                feedSource.LoadFeedlist();
+            }
+            catch (Exception e)
+            {
+                if (!FeedSource.validationErrorOccured)
+                {
+                    // set by validation callback handler
+                    _log.Error("Exception on loading '" + feedSource.SubscriptionLocation.Location + "'.", e);
+                    throw new BanditApplicationException(ApplicationExceptions.FeedlistOnRead, e);
+                }
+            }
 
-			if (feedHandler.FeedsListOK && guiMain != null)
-			{
-				/* All right here... 	*/
-			}
-			else if (FeedSource.validationErrorOccured)
-			{
-				FeedSource.validationErrorOccured = false;
-				throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
-			}
-			else
-			{
-				throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
-			}
+            if (feedHandler.FeedsListOK && guiMain != null)
+            {
+                /* All right here... 	*/
+            }
+            else if (FeedSource.validationErrorOccured)
+            {
+                FeedSource.validationErrorOccured = false;
+                throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
+            }
+            else
+            {
+                throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
+            }
+        }
 
-		}
+        internal void LoadWatchedCommentsFeedlist()
+        {
+            string p = GetCommentsFeedListFileName();
 
-		internal void LoadWatchedCommentsFeedlist()
-		{
-			var p = GetCommentsFeedListFileName();
-
-			if (File.Exists(p))
-			{
-				try
-				{
+            if (File.Exists(p))
+            {
+                try
+                {
                     //we don't want properties from comment feed handler to override our actual settings
-                    FeedSource.MigrateProperties = false; 
+                    FeedSource.MigrateProperties = false;
 
-					commentFeedsHandler.LoadFeedlist();
+                    commentFeedsHandler.LoadFeedlist();
 
-					foreach (var f in commentFeedsHandler.GetFeeds().Values)
-					{
-						if ((f.Any != null) && (f.Any.Length > 0))
-						{
-							var origin = f.Any[0];
-							var sourceFeedUrl = origin.InnerText;
-							INewsFeed sourceFeed;
-							if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
-							{
-								f.Tag = sourceFeed;
-							}
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					_log.Error("Exception on loading '" + p + "'.", e);
-				}
-			}
-		}
+                    foreach (var f in commentFeedsHandler.GetFeeds().Values)
+                    {
+                        if ((f.Any != null) && (f.Any.Length > 0))
+                        {
+                            XmlElement origin = f.Any[0];
+                            string sourceFeedUrl = origin.InnerText;
+                            INewsFeed sourceFeed;
+                            if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
+                            {
+                                f.Tag = sourceFeed;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Exception on loading '" + p + "'.", e);
+                }
+            }
+        }
 
         public void SynchronizeFeeds()
         {
-            SynchronizeFeedsWizard wiz = new SynchronizeFeedsWizard(this);
+            var wiz = new SynchronizeFeedsWizard(this);
 
             try
             {
@@ -3099,9 +3090,7 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
-
             }
-
         }
 
 
@@ -3113,22 +3102,23 @@ namespace RssBandit
         public void ImportFeeds(string fromFileOrUrl, string selectedCategory, string selectedFeedSource)
         {
             var dialog =
-                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, selectedFeedSource, this.FeedSourceManager);
+                new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, selectedFeedSource,
+                                      FeedSourceManager);
             try
             {
                 dialog.ShowDialog(guiMain);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _log.Error("Error on opening Import Feeds Dialog:" + e); 
+                _log.Error("Error on opening Import Feeds Dialog:" + e);
             }
 
             Application.DoEvents(); // give time to visualize dismiss the dialog andredraw the UI
 
             if (dialog.DialogResult == DialogResult.OK)
             {
-                var s = dialog.FeedsUrlOrFile;
-                var cat = (dialog.FeedCategory == DefaultCategory ? null : dialog.FeedCategory);
+                string s = dialog.FeedsUrlOrFile;
+                string cat = (dialog.FeedCategory == DefaultCategory ? null : dialog.FeedCategory);
                 if (!string.IsNullOrEmpty(s))
                 {
                     Stream myStream;
@@ -3143,7 +3133,7 @@ namespace RssBandit
                             }
                             catch (Exception ex)
                             {
-                                MessageError(String.Format(SR.ExceptionImportFeedlist,s, ex.Message));
+                                MessageError(String.Format(SR.ExceptionImportFeedlist, s, ex.Message));
                                 return;
                             }
                             guiMain.SaveSubscriptionTreeState();
@@ -3165,8 +3155,10 @@ namespace RssBandit
                         {
                             var fileHandler =
                                 new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), feedHandler.Proxy);
-                            var result =
-                                fileHandler.Start(guiMain, String.Format(SR.GUIStatusWaitMessageRequestFile,uri.CanonicalizedUri()));
+                            DialogResult result =
+                                fileHandler.Start(guiMain,
+                                                  String.Format(SR.GUIStatusWaitMessageRequestFile,
+                                                                uri.CanonicalizedUri()));
 
                             if (result != DialogResult.OK)
                                 return;
@@ -3174,7 +3166,8 @@ namespace RssBandit
                             if (!fileHandler.OperationSucceeds)
                             {
                                 MessageError(String.Format(SR.WebExceptionOnUrlAccess,
-                                                 uri.CanonicalizedUri(), fileHandler.OperationException.Message));
+                                                           uri.CanonicalizedUri(),
+                                                           fileHandler.OperationException.Message));
                                 return;
                             }
 
@@ -3191,7 +3184,7 @@ namespace RssBandit
                                     }
                                     catch (Exception ex)
                                     {
-                                        MessageError(String.Format(SR.ExceptionImportFeedlist,s, ex.Message));
+                                        MessageError(String.Format(SR.ExceptionImportFeedlist, s, ex.Message));
                                         return;
                                     }
                                     guiMain.SaveSubscriptionTreeState();
@@ -3213,7 +3206,7 @@ namespace RssBandit
             // was possibly an error causing feed:
             ExceptionManager.GetInstance().RemoveFeed(url);
 
-            var f = GetFeed(url);
+            INewsFeed f = GetFeed(url);
             if (f != null)
             {
                 RaiseFeedDeleted(url, f.title);
@@ -3310,7 +3303,7 @@ namespace RssBandit
             {
                 try
                 {
-                    var key =
+                    XmlQualifiedName key =
                         RssHelper.GetOptionalElementKey(ri.OptionalElements,
                                                         AdditionalFeedElements.OriginalFeedOfFlaggedItem);
 
@@ -3321,23 +3314,23 @@ namespace RssBandit
 
                     if (elem != null)
                     {
-                        var feedUrl = elem.InnerText;
+                        string feedUrl = elem.InnerText;
 
                         if (feedHandler.IsSubscribed(feedUrl))
                         {
                             //check if feed exists 
 
-                            var itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+                            IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
 
                             //find this item 
-                            var itemIndex = itemsForFeed.IndexOf(ri);
+                            int itemIndex = itemsForFeed.IndexOf(ri);
 
 
                             if (itemIndex != -1)
                             {
                                 //check if item still exists 
 
-                                var item = itemsForFeed[itemIndex];
+                                INewsItem item = itemsForFeed[itemIndex];
                                 item.FlagStatus = Flagged.None;
                                 item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfFlaggedItem);
                                 break;
@@ -3368,7 +3361,7 @@ namespace RssBandit
 
             try
             {
-                var elem =
+                XmlElement elem =
                     RssHelper.GetOptionalElement(theItem, AdditionalFeedElements.OriginalFeedOfFlaggedItem);
                 if (elem != null)
                 {
@@ -3390,13 +3383,13 @@ namespace RssBandit
             else
             {
                 //find this item 
-                var itemIndex = flaggedItemsFeed.Items.IndexOf(theItem);
+                int itemIndex = flaggedItemsFeed.Items.IndexOf(theItem);
 
                 if (itemIndex != -1)
                 {
                     //check if item exists 
 
-                    var item = flaggedItemsFeed.Items[itemIndex];
+                    INewsItem item = flaggedItemsFeed.Items[itemIndex];
                     item.FlagStatus = theItem.FlagStatus;
                 }
             }
@@ -3405,16 +3398,16 @@ namespace RssBandit
             {
                 //check if feed exists 
 
-                var itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
-                var itemIndex = itemsForFeed.IndexOf(theItem);
+                int itemIndex = itemsForFeed.IndexOf(theItem);
 
                 if (itemIndex != -1)
                 {
                     //check if item still exists 
 
-                    var item = itemsForFeed[itemIndex];
+                    INewsItem item = itemsForFeed[itemIndex];
                     item.FlagStatus = theItem.FlagStatus;
 
                     FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag);
@@ -3439,7 +3432,7 @@ namespace RssBandit
 
             try
             {
-                var elem =
+                XmlElement elem =
                     RssHelper.GetOptionalElement(theItem, AdditionalFeedElements.OriginalFeedOfWatchedItem);
                 if (elem != null)
                 {
@@ -3452,13 +3445,13 @@ namespace RssBandit
 
 
             //find this item in watched feeds and set watched state
-            var index = watchedItemsFeed.Items.IndexOf(theItem);
+            int index = watchedItemsFeed.Items.IndexOf(theItem);
 
             if (index != -1)
             {
                 //check if item exists 
 
-                var item = watchedItemsFeed.Items[index];
+                INewsItem item = watchedItemsFeed.Items[index];
                 item.WatchComments = theItem.WatchComments;
             }
 
@@ -3468,16 +3461,16 @@ namespace RssBandit
             {
                 //check if feed exists 
 
-                var itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
-                var itemIndex = itemsForFeed.IndexOf(theItem);
+                int itemIndex = itemsForFeed.IndexOf(theItem);
 
                 if (itemIndex != -1)
                 {
                     //check if item still exists 
 
-                    var item = itemsForFeed[itemIndex];
+                    INewsItem item = itemsForFeed[itemIndex];
                     item.WatchComments = theItem.WatchComments;
 
                     FeedWasModified(feedUrl, NewsFeedProperty.FeedItemWatchComments);
@@ -3509,7 +3502,7 @@ namespace RssBandit
                 if (!flaggedItemsFeed.Items.Contains(theItem))
                 {
                     // now create a full copy (including item content)
-                    var flagItem = feedHandler.CopyNewsItemTo(theItem, flaggedItemsFeed);
+                    INewsItem flagItem = feedHandler.CopyNewsItemTo(theItem, flaggedItemsFeed);
 
                     //take over flag status
                     flagItem.FlagStatus = theItem.FlagStatus;
@@ -3518,7 +3511,7 @@ namespace RssBandit
                         RssHelper.GetOptionalElementKey(flagItem.OptionalElements,
                                                         AdditionalFeedElements.OriginalFeedOfFlaggedItem))
                     {
-                        var originalFeed = RssHelper.CreateXmlElement(
+                        XmlElement originalFeed = RssHelper.CreateXmlElement(
                             AdditionalFeedElements.ElementPrefix,
                             AdditionalFeedElements.OriginalFeedOfFlaggedItem.Name,
                             AdditionalFeedElements.OriginalFeedOfFlaggedItem.Namespace,
@@ -3534,11 +3527,11 @@ namespace RssBandit
                 {
                     // re-flag:
                     //find this item 
-                    var itemIndex = flaggedItemsFeed.Items.IndexOf(theItem);
+                    int itemIndex = flaggedItemsFeed.Items.IndexOf(theItem);
                     if (itemIndex != -1)
                     {
                         //check if item still exists 
-                        var flagItem = flaggedItemsFeed.Items[itemIndex];
+                        INewsItem flagItem = flaggedItemsFeed.Items[itemIndex];
                         flagItem.FlagStatus = theItem.FlagStatus;
                     }
                 }
@@ -3583,13 +3576,13 @@ namespace RssBandit
                 {
                     watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
 
-                    var originalFeed = RssHelper.CreateXmlElement(
+                    XmlElement originalFeed = RssHelper.CreateXmlElement(
                         AdditionalFeedElements.ElementPrefix,
                         AdditionalFeedElements.OriginalFeedOfWatchedItem.Name,
                         AdditionalFeedElements.OriginalFeedOfWatchedItem.Namespace,
                         ni.Feed.link);
 
-                    var watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
+                    INewsItem watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
 
                     if (null ==
                         RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
@@ -3630,7 +3623,7 @@ namespace RssBandit
             }
             else
             {
-                var originalFeed = RssHelper.CreateXmlElement(
+                XmlElement originalFeed = RssHelper.CreateXmlElement(
                     AdditionalFeedElements.ElementPrefix,
                     AdditionalFeedElements.OriginalFeedOfWatchedItem.Name,
                     AdditionalFeedElements.OriginalFeedOfWatchedItem.Namespace,
@@ -3638,7 +3631,7 @@ namespace RssBandit
 
                 if (!watchedItemsFeed.Items.Contains(theItem))
                 {
-                    var watchedItem = feedHandler.CopyNewsItemTo(theItem, watchedItemsFeed);
+                    INewsItem watchedItem = feedHandler.CopyNewsItemTo(theItem, watchedItemsFeed);
 
                     if (null ==
                         RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
@@ -3685,7 +3678,7 @@ namespace RssBandit
                     f = commentFeedsHandler.AddFeed(f);
 
                     // set properties the backend requires the feed just added
-                    var intIn = feedHandler.GetRefreshRate(theItem.Feed.link)/2*MilliSecsMultiplier;
+                    int intIn = feedHandler.GetRefreshRate(theItem.Feed.link)/2*MilliSecsMultiplier;
                     //fetch comments twice as often as feed
                     commentFeedsHandler.SetRefreshRate(f.link, intIn);
                     commentFeedsHandler.SetMaxItemAge(f.link, new TimeSpan(365, 0, 0, 0));
@@ -3733,12 +3726,12 @@ namespace RssBandit
                     RssHelper.GetOptionalElementKey(newItem.OptionalElements,
                                                     AdditionalFeedElements.OriginalFeedOfFlaggedItem))
                 {
-                    var originalFeed = RssHelper.CreateXmlElement(AdditionalFeedElements.ElementPrefix,
-                                                                  AdditionalFeedElements.
-                                                                      OriginalFeedOfFlaggedItem.Name,
-                                                                  AdditionalFeedElements.
-                                                                      OriginalFeedOfFlaggedItem.Namespace,
-                                                                  inResponse2item.Feed.link);
+                    XmlElement originalFeed = RssHelper.CreateXmlElement(AdditionalFeedElements.ElementPrefix,
+                                                                         AdditionalFeedElements.
+                                                                             OriginalFeedOfFlaggedItem.Name,
+                                                                         AdditionalFeedElements.
+                                                                             OriginalFeedOfFlaggedItem.Namespace,
+                                                                         inResponse2item.Feed.link);
                     newItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfFlaggedItem, originalFeed.OuterXml);
                 }
 
@@ -3763,7 +3756,7 @@ namespace RssBandit
                     new NewsItem(sentItemsFeed, replyItem.Title, Guid.NewGuid().ToString(), replyItem.Content,
                                  replyItem.Date, postTarget.title)
                         {
-                            OptionalElements = ( new Dictionary<XmlQualifiedName, string> (replyItem.OptionalElements)),
+                            OptionalElements = (new Dictionary<XmlQualifiedName, string>(replyItem.OptionalElements)),
                             BeenRead = false
                         };
 
@@ -3804,7 +3797,7 @@ namespace RssBandit
                 RssHelper.GetOptionalElementKey(theItem.OptionalElements,
                                                 AdditionalFeedElements.OriginalFeedOfDeletedItem))
             {
-                var originalFeed = RssHelper.CreateXmlElement(
+                XmlElement originalFeed = RssHelper.CreateXmlElement(
                     AdditionalFeedElements.ElementPrefix,
                     AdditionalFeedElements.OriginalFeedOfDeletedItem.Name,
                     AdditionalFeedElements.OriginalFeedOfDeletedItem.Namespace,
@@ -3812,7 +3805,7 @@ namespace RssBandit
                 theItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfDeletedItem, originalFeed.OuterXml);
             }
 
-            var yetDeleted = false;
+            bool yetDeleted = false;
             if (!deletedItemsFeed.Items.Contains(theItem))
             {
                 // add new deleted item
@@ -3846,7 +3839,7 @@ namespace RssBandit
                 return null;
 
             string containerFeedUrl = null;
-            var elem = RssHelper.GetOptionalElement(item, AdditionalFeedElements.OriginalFeedOfDeletedItem);
+            XmlElement elem = RssHelper.GetOptionalElement(item, AdditionalFeedElements.OriginalFeedOfDeletedItem);
             if (null != elem)
             {
                 containerFeedUrl = elem.InnerText;
@@ -3864,7 +3857,7 @@ namespace RssBandit
                 return null;
             }
 
-            var foundAndRestored = false;
+            bool foundAndRestored = false;
             TreeFeedsNodeBase feedsNode = null;
 
 
@@ -3912,7 +3905,7 @@ namespace RssBandit
         {
             try
             {
-                var loProcess = Process.GetCurrentProcess();
+                Process loProcess = Process.GetCurrentProcess();
                 loProcess.MaxWorkingSet = new IntPtr(0x400000);
                 loProcess.MinWorkingSet = new IntPtr(0x100000);
                 //long lnValue = loProcess.WorkingSet; // see what the actual value 
@@ -3976,7 +3969,7 @@ namespace RssBandit
                 }
                 return new FeedRequestException(e.Message, e, feedHandler.GetFailureContext(uri));
             }
-            
+
             return new FeedRequestException(e.Message, e, new Hashtable());
         }
 
@@ -3993,9 +3986,9 @@ namespace RssBandit
             {
                 ExceptionManager.GetInstance().Add(e);
 
-                var goneex = e as ResourceGoneException ?? e.InnerException as ResourceGoneException;
+                ResourceGoneException goneex = e as ResourceGoneException ?? e.InnerException as ResourceGoneException;
 
-            	if (goneex != null)
+                if (goneex != null)
                 {
                     INewsFeed f;
                     if (feedHandler.GetFeeds().TryGetValue(resourceUri, out f))
@@ -4018,7 +4011,7 @@ namespace RssBandit
         {
             // as long the FlagStatus of NewsItem's wasn't persisted all the time, 
             // we have to re-init the feed item's FlagStatus from the flagged items collection:
-            var runSelfHealingFlagStatus = GuiSettings.GetBoolean("RunSelfHealing.FlagStatus", true);
+            bool runSelfHealingFlagStatus = GuiSettings.GetBoolean("RunSelfHealing.FlagStatus", true);
 
             foreach (NewsItem ri in flaggedItemsFeed.Items)
             {
@@ -4040,7 +4033,7 @@ namespace RssBandit
 
                 try
                 {
-                    var e = RssHelper.GetOptionalElement(ri, AdditionalFeedElements.OriginalFeedOfFlaggedItem);
+                    XmlElement e = RssHelper.GetOptionalElement(ri, AdditionalFeedElements.OriginalFeedOfFlaggedItem);
                     if (e != null)
                     {
                         feedUrl = e.InnerText;
@@ -4054,17 +4047,17 @@ namespace RssBandit
                 {
                     //check if feed exists 
 
-                    var itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+                    IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
 
                     //find this item 
-                    var itemIndex = itemsForFeed.IndexOf(ri);
+                    int itemIndex = itemsForFeed.IndexOf(ri);
 
 
                     if (itemIndex != -1)
                     {
                         //check if item still exists 
 
-                        var item = itemsForFeed[itemIndex];
+                        INewsItem item = itemsForFeed[itemIndex];
                         if (item.FlagStatus != ri.FlagStatus)
                         {
 // correction: older Bandit versions are not able to store flagStatus
@@ -4116,21 +4109,23 @@ namespace RssBandit
         private void OnNewsItemFormatterStylesheetError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetError() called", e.FailureException);
-            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage,e.ErrorMessage, e.FailureException.Message));
+            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+                                       e.FailureException.Message));
         }
 
         private void OnNewsItemFormatterStylesheetValidationError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetValidationError() called", e.FailureException);
-            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage,e.ErrorMessage, e.FailureException.Message));
+            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+                                       e.FailureException.Message));
         }
 
 
         private void OnInternetConnectionStateChanged(INetState oldState, INetState newState)
         {
-            var offline = ((newState & INetState.Offline) > 0);
-            var connected = ((newState & INetState.Connected) > 0);
-            var internet_allowed = connected && (newState & INetState.Online) > 0;
+            bool offline = ((newState & INetState.Offline) > 0);
+            bool connected = ((newState & INetState.Connected) > 0);
+            bool internet_allowed = connected && (newState & INetState.Online) > 0;
 
             feedHandler.Offline = !internet_allowed;
 
@@ -4251,7 +4246,7 @@ namespace RssBandit
 
         public void UpdateInternetConnectionState(bool forceFullTest)
         {
-            var state = Utils.CurrentINetState(Proxy, forceFullTest);
+            INetState state = Utils.CurrentINetState(Proxy, forceFullTest);
             stateManager.MoveInternetConnectionStateTo(state); // raises OnInternetConnectionStateChanged() event
             //this.feedHandler.Offline = !stateManager.InternetAccessAllowed;		// reset feedHandler
         }
@@ -4281,19 +4276,19 @@ namespace RssBandit
 			 * */
             try
             {
-				if (feedlistModified && feedHandler != null && feedHandler.GetFeeds() != null &&
-					feedHandler.FeedsListOK)
-				{
-					try
-					{
-						feedHandler.SaveFeedList();
-						feedlistModified = false; // reset state flag
-					}
-					catch (Exception ex)
-					{
-						_log.Error("feedHandler::SaveFeedList() failed.", ex);
-					}
-				}
+                if (feedlistModified && feedHandler != null && feedHandler.GetFeeds() != null &&
+                    feedHandler.FeedsListOK)
+                {
+                    try
+                    {
+                        feedHandler.SaveFeedList();
+                        feedlistModified = false; // reset state flag
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error("feedHandler::SaveFeedList() failed.", ex);
+                    }
+                }
 
                 if (flaggedItemsFeed.Modified)
                     flaggedItemsFeed.Save();
@@ -4401,8 +4396,8 @@ namespace RssBandit
             // first look for localhost
             if (url.IsLoopback)
             {
-                var captured = false;
-                var feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
+                bool captured = false;
+                ArrayList feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
 
                 foreach (string feedurl in feedurls)
                 {
@@ -4432,10 +4427,10 @@ namespace RssBandit
 				 * 4. Swap out value of src attribute. 
 				 */
 
-                    var idIndex = webUrl.IndexOf("postid=") + 7;
-                    var feedIdIndex = webUrl.IndexOf("feedid=") + 7;
-                    var typeIndex = webUrl.IndexOf("pagetype=") + 9;
-                    var storyIdIndex = webUrl.IndexOf("storyid=") + 8;
+                    int idIndex = webUrl.IndexOf("postid=") + 7;
+                    int feedIdIndex = webUrl.IndexOf("feedid=") + 7;
+                    int typeIndex = webUrl.IndexOf("pagetype=") + 9;
+                    int storyIdIndex = webUrl.IndexOf("storyid=") + 8;
 
                     if (webUrl.IndexOf("toggleread") != -1)
                     {
@@ -4475,27 +4470,27 @@ namespace RssBandit
                     }
                     else if (webUrl.IndexOf("navigatetofeed") != -1)
                     {
-                        var normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                        var f = GetFeed(normalizedUrl);
+                        string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
+                        INewsFeed f = GetFeed(normalizedUrl);
                         if (f != null)
                             guiMain.NavigateToFeed(f);
                     }
                     else if (webUrl.IndexOf("unsubscribefeed") != -1)
                     {
-                        var normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                        var f = GetFeed(normalizedUrl);
+                        string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
+                        INewsFeed f = GetFeed(normalizedUrl);
                         if (f != null)
                             UnsubscribeFeed(f, false);
                     }
                     return true;
                 }
-            
+
                 if (url.Scheme.Equals("feed"))
                 {
                     CmdNewFeed(defaultCategory, RssLocater.UrlFromFeedProtocolUrl(url.ToString()), null);
                     return true;
                 }
-                
+
                 if (url.ToString().EndsWith(".opml"))
                 {
                     ImportFeeds(url.ToString());
@@ -4528,11 +4523,12 @@ namespace RssBandit
                             }
                             catch (SecurityException)
                             {
-                                MessageInfo(String.Format(SR.SecurityExceptionCausedByRegistryAccess,"HKEY_CLASSES_ROOT\feed"));
+                                MessageInfo(String.Format(SR.SecurityExceptionCausedByRegistryAccess,
+                                                          "HKEY_CLASSES_ROOT\feed"));
                             }
                             catch (Exception ex)
                             {
-                                MessageError(String.Format(SR.ExceptionSettingDefaultAggregator,ex.Message));
+                                MessageError(String.Format(SR.ExceptionSettingDefaultAggregator, ex.Message));
                             }
                         }
                         ShouldAskForDefaultAggregator = !dialog.checkBoxDoNotAskAnymore.Checked;
@@ -4659,9 +4655,9 @@ namespace RssBandit
             {
                 return NewsItemFormatter.ToHtml(stylesheet, item, PrepareXsltArgs());
             }
-            
+
             var criterias = new List<SearchCriteriaString>();
-            for (var i = 0; i < toHighlight.Count; i++)
+            for (int i = 0; i < toHighlight.Count; i++)
             {
                 // only String matches are interesting for highlighting
                 var scs = toHighlight[i] as SearchCriteriaString;
@@ -4683,17 +4679,17 @@ namespace RssBandit
                                 };
                 return NewsItemFormatter.ToHtml(stylesheet, clone, PrepareXsltArgs());
             }
-                
+
             return NewsItemFormatter.ToHtml(stylesheet, item, PrepareXsltArgs());
         }
 
 
         private static string ApplyHighlightingTo(string xhtml, IList<SearchCriteriaString> searchCriteriaStrings)
         {
-            for (var i = 0; i < searchCriteriaStrings.Count; i++)
+            for (int i = 0; i < searchCriteriaStrings.Count; i++)
             {
                 // only String matches are interesting for highlighting here
-                var scs = searchCriteriaStrings[i];
+                SearchCriteriaString scs = searchCriteriaStrings[i];
 
                 if (scs != null)
                 {
@@ -4702,21 +4698,21 @@ namespace RssBandit
                         case StringExpressionKind.Text:
 
                             //match html tags
-                            var m = SearchCriteriaString.htmlRegex.Match(xhtml);
+                            Match m = SearchCriteriaString.htmlRegex.Match(xhtml);
 
                             //strip markup 
-                            var strippedxhtml = SearchCriteriaString.htmlRegex.Replace(xhtml, "$!$");
+                            string strippedxhtml = SearchCriteriaString.htmlRegex.Replace(xhtml, "$!$");
 
                             //replace search words     							
                             var replaceRegex =
                                 new Regex("(" + EscapeRegexSpecialChars(scs.What) + ")", RegexOptions.IgnoreCase);
-                            var highlightedxhtml =
+                            string highlightedxhtml =
                                 replaceRegex.Replace(strippedxhtml,
                                                      "<span style='color:highlighttext;background:highlight'>$1</span>");
 
                             //Reinsert HTML
                             var sb = new StringBuilder();
-                            var splitxhtml = SearchCriteriaString.placeholderRegex.Split(highlightedxhtml);
+                            string[] splitxhtml = SearchCriteriaString.placeholderRegex.Split(highlightedxhtml);
 
                             foreach (var s in splitxhtml)
                             {
@@ -4734,21 +4730,21 @@ namespace RssBandit
                         case StringExpressionKind.RegularExpression:
 
                             //match html tags
-                            var m2 = SearchCriteriaString.htmlRegex.Match(xhtml);
+                            Match m2 = SearchCriteriaString.htmlRegex.Match(xhtml);
 
                             //strip markup 
-                            var strippedxhtml2 = SearchCriteriaString.htmlRegex.Replace(xhtml, "$!$");
+                            string strippedxhtml2 = SearchCriteriaString.htmlRegex.Replace(xhtml, "$!$");
 
                             //replace search words     
                             var replaceRegex2 = new Regex("(" + scs.What + ")");
-                            var highlightedxhtml2 =
+                            string highlightedxhtml2 =
                                 replaceRegex2.Replace(strippedxhtml2,
                                                       "<span style='color:highlighttext;background:highlight'>$1</span>");
 
 
                             //Reinsert HTML
                             var sb2 = new StringBuilder();
-                            var splitxhtml2 = SearchCriteriaString.placeholderRegex.Split(highlightedxhtml2);
+                            string[] splitxhtml2 = SearchCriteriaString.placeholderRegex.Split(highlightedxhtml2);
 
                             foreach (var s in splitxhtml2)
                             {
@@ -4860,15 +4856,15 @@ namespace RssBandit
         /// <returns>The XSLT stylesheet</returns>
         protected string GetNewsItemFormatterTemplate(string stylesheet)
         {
-            var s = GetTemplatesPath();
-            var t = NewsItemFormatter.DefaultNewsItemTemplate;
+            string s = GetTemplatesPath();
+            string t = NewsItemFormatter.DefaultNewsItemTemplate;
 
             if (string.IsNullOrEmpty(stylesheet))
                 return t;
 
             if (Directory.Exists(s))
             {
-                var filename = Path.Combine(s, stylesheet + ".fdxsl");
+                string filename = Path.Combine(s, stylesheet + ".fdxsl");
                 if (File.Exists(filename))
                 {
                     try
@@ -4941,7 +4937,7 @@ namespace RssBandit
         /// <returns>True, if all is OK, False if further processing should stop.</returns>
         public bool HandleCommandLineArgs(string[] args)
         {
-            var retVal = true;
+            bool retVal = true;
             var commandLineParser = new CommandLineParser(typeof (CommandLineOptions));
             try
             {
@@ -5011,12 +5007,12 @@ namespace RssBandit
         /// <param name="replyEventArgs"></param>
         private void OnPostReplyFormPostReply(object sender, PostReplyEventArgs replyEventArgs)
         {
-            var success = false;
+            bool success = false;
 
-            var title = replyEventArgs.Title;
-            var name = replyEventArgs.FromName;
-            var url = replyEventArgs.FromUrl;
-            var email = replyEventArgs.FromEMail;
+            string title = replyEventArgs.Title;
+            string name = replyEventArgs.FromName;
+            string url = replyEventArgs.FromUrl;
+            string email = replyEventArgs.FromEMail;
             string comment;
 
             INewsItem item2post, item2reply;
@@ -5025,7 +5021,7 @@ namespace RssBandit
             if (replyEventArgs.ReplyToItem != null)
             {
                 item2reply = replyEventArgs.ReplyToItem;
-                var parentID = item2reply.Id;
+                string parentID = item2reply.Id;
 
                 var tempDoc = new XmlDocument();
 
@@ -5044,19 +5040,19 @@ namespace RssBandit
                         new NewsItem(sentItemsFeed, title, url, comment, DateTime.Now, null, null, parentID);
                 }
 
-                var commentUrl = item2reply.CommentUrl;
+                string commentUrl = item2reply.CommentUrl;
                 item2post.FeedDetails = item2reply.FeedDetails;
                 item2post.Author = (email == null) || (email.Trim().Length == 0) ? name : email + " (" + name + ")";
 
                 /* redundancy here, because Joe Gregorio changed spec now must support both <author> and <dc:creator> */
-                var emailNode = tempDoc.CreateElement("author");
+                XmlElement emailNode = tempDoc.CreateElement("author");
                 emailNode.InnerText = item2post.Author;
 
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
 
                 prth = new PostReplyThreadHandler(feedHandler, commentUrl, item2post, item2reply);
-                var result = prth.Start(postReplyForm, SR.GUIStatusPostReplyToItem);
+                DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostReplyToItem);
 
                 if (result != DialogResult.OK)
                     return;
@@ -5064,10 +5060,10 @@ namespace RssBandit
                 if (!prth.OperationSucceeds)
                 {
                     MessageError(String.Format(SR.ExceptionPostReplyToNewsItem,
-                                     (string.IsNullOrEmpty(item2reply.Title)
-                                          ? item2reply.Link
-                                          : item2reply.Title),
-                                     prth.OperationException.Message));
+                                               (string.IsNullOrEmpty(item2reply.Title)
+                                                    ? item2reply.Link
+                                                    : item2reply.Title),
+                                               prth.OperationException.Message));
                     return;
                 }
 
@@ -5076,7 +5072,7 @@ namespace RssBandit
             }
             else if (replyEventArgs.PostToFeed != null)
             {
-                var f = replyEventArgs.PostToFeed;
+                INewsFeed f = replyEventArgs.PostToFeed;
                 var tempDoc = new XmlDocument();
 
                 if (replyEventArgs.Beautify)
@@ -5102,14 +5098,14 @@ namespace RssBandit
                 item2post.Author = (email == null) || (email.Trim().Length == 0) ? name : email + " (" + name + ")";
 
                 /* redundancy here, because Joe Gregorio changed spec now must support both <author> and <dc:creator> */
-                var emailNode = tempDoc.CreateElement("author");
+                XmlElement emailNode = tempDoc.CreateElement("author");
                 emailNode.InnerText = item2post.Author;
 
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
 
                 prth = new PostReplyThreadHandler(feedHandler, item2post, f);
-                var result = prth.Start(postReplyForm, SR.GUIStatusPostNewFeedItem);
+                DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostNewFeedItem);
 
                 if (result != DialogResult.OK)
                     return;
@@ -5117,8 +5113,8 @@ namespace RssBandit
                 if (!prth.OperationSucceeds)
                 {
                     MessageError(String.Format(SR.ExceptionPostNewFeedItem,
-                                     (string.IsNullOrEmpty(item2post.Title) ? f.link : item2post.Title),
-                                     prth.OperationException.Message));
+                                               (string.IsNullOrEmpty(item2post.Title) ? f.link : item2post.Title),
+                                               prth.OperationException.Message));
                     return;
                 }
 
@@ -5395,7 +5391,7 @@ namespace RssBandit
 
         public bool SubscribeToFeed(string url, string category, string title)
         {
-            var mode = AddSubscriptionWizardMode.Default;
+            AddSubscriptionWizardMode mode = AddSubscriptionWizardMode.Default;
             if (! string.IsNullOrEmpty(url))
             {
                 mode = AddSubscriptionWizardMode.SubscribeURLDirect;
@@ -5405,7 +5401,8 @@ namespace RssBandit
             return SubscribeToFeed(url, category, title, null, mode);
         }
 
-        public bool SubscribeToFeed(string url, string category, string title, string searchTerms, AddSubscriptionWizardMode mode)
+        public bool SubscribeToFeed(string url, string category, string title, string searchTerms,
+                                    AddSubscriptionWizardMode mode)
         {
             var wiz = new AddSubscriptionWizard(this, mode)
                           {
@@ -5435,9 +5432,9 @@ namespace RssBandit
 
                 if (wiz.MultipleFeedsToSubscribe)
                 {
-                    var anySubscription = false;
+                    bool anySubscription = false;
 
-                    for (var i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
+                    for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
                     {
                         f = CreateFeedFromWizard(wiz, i);
                         if (f == null)
@@ -5457,7 +5454,7 @@ namespace RssBandit
                     wiz.Dispose();
                     return anySubscription;
                 }
-                
+
                 f = CreateFeedFromWizard(wiz, 0);
 
                 if (f == null)
@@ -5489,10 +5486,12 @@ namespace RssBandit
 
             if (feedHandler.IsSubscribed(f.link))
             {
-                var f2 = feedHandler.GetFeeds()[f.link];
+                INewsFeed f2 = feedHandler.GetFeeds()[f.link];
                 MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
-                                (f2.category == null ? String.Empty : f2.category + FeedSource.CategorySeparator) +
-                                f2.title, f2.link));
+                                          (f2.category == null
+                                               ? String.Empty
+                                               : f2.category + FeedSource.CategorySeparator) +
+                                          f2.title, f2.link));
 
                 return null;
             }
@@ -5531,7 +5530,7 @@ namespace RssBandit
             feedHandler.SetMaxItemAge(f.link, wiz.MaxItemAge);
             feedHandler.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
 
-            var stylesheet = wiz.FeedStylesheet;
+            string stylesheet = wiz.FeedStylesheet;
 
             if (stylesheet != null && !stylesheet.Equals(feedHandler.GetStyleSheet(f.link)))
             {
@@ -5620,7 +5619,7 @@ namespace RssBandit
             if (! string.IsNullOrEmpty(nntpServerName) &&
                 NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName))
             {
-                var sd = NntpServerManager.CurrentNntpServers[nntpServerName];
+                INntpServerDefinition sd = NntpServerManager.CurrentNntpServers[nntpServerName];
                 if (sd != null)
                     return (IList) NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
             }
@@ -5633,11 +5632,11 @@ namespace RssBandit
         /// <returns></returns>
         public IList GetItemFormatterStylesheets()
         {
-            var tmplFolder = GetTemplatesPath();
+            string tmplFolder = GetTemplatesPath();
 
             if (Directory.Exists(tmplFolder))
             {
-                var tmplFiles = Directory.GetFiles(tmplFolder, "*.fdxsl");
+                string[] tmplFiles = Directory.GetFiles(tmplFolder, "*.fdxsl");
                 var formatters = new List<string>(tmplFiles.GetLength(0));
                 foreach (var filename in tmplFiles)
                 {
@@ -5645,7 +5644,7 @@ namespace RssBandit
                 }
                 return formatters;
             }
-            
+
             return new List<string>(0);
         }
 
@@ -5715,7 +5714,8 @@ namespace RssBandit
             }
             catch (Exception  ex)
             {
-                if (MessageQuestion(String.Format(SR.ExceptionStartDefaultBrowserMessage,ex.Message, url)) == DialogResult.Yes)
+                if (MessageQuestion(String.Format(SR.ExceptionStartDefaultBrowserMessage, ex.Message, url)) ==
+                    DialogResult.Yes)
                 {
                     NavigateToUrl(url, "Web", true, true);
                 }
@@ -5735,7 +5735,7 @@ namespace RssBandit
             if (channelProcessor == null)
                 return;
 
-            var channels = channelProcessor.GetChannels();
+            INewsChannel[] channels = channelProcessor.GetChannels();
             if (channels == null || channels.Length == 0)
                 return;
             foreach (var channel in channels)
@@ -5754,7 +5754,7 @@ namespace RssBandit
             if (channelProcessor == null)
                 return;
 
-            var channels = channelProcessor.GetChannels();
+            INewsChannel[] channels = channelProcessor.GetChannels();
             if (channels == null || channels.Length == 0)
                 return;
             foreach (var channel in channels)
@@ -5775,7 +5775,7 @@ namespace RssBandit
             if (channelProcessor == null)
                 return;
 
-            var channels = channelProcessor.GetChannels();
+            INewsChannel[] channels = channelProcessor.GetChannels();
             if (channels == null || channels.Length == 0)
                 return;
             foreach (var channel in channels)
@@ -5794,7 +5794,7 @@ namespace RssBandit
             if (channelProcessor == null)
                 return;
 
-            var channels = channelProcessor.GetChannels();
+            INewsChannel[] channels = channelProcessor.GetChannels();
             if (channels == null || channels.Length == 0)
                 return;
             foreach (var channel in channels)
