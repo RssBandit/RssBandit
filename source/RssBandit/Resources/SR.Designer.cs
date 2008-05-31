@@ -594,6 +594,15 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please specify a valid playlist name.
+        /// </summary>
+        internal static string ExceptionInvalidPlaylistName {
+            get {
+                return ResourceManager.GetString("ExceptionInvalidPlaylistName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Validation error while loading search configuration.
         ///Please have a look to the file at &apos;{0}&apos; for details about the error..
         /// </summary>
