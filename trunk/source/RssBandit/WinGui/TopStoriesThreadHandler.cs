@@ -87,52 +87,65 @@ namespace RssBandit.WinGui{
             writer.WriteElementString("title", String.Format(SR.TopStoriesHtmlPageTitle, RssBanditApplication.Name));
             writer.WriteEndElement();
             writer.WriteStartElement("body");
-            writer.WriteStartElement("ol");
 
-            for(int i = 0; i < TopStories.Count; i++) {
-                RelationHRefEntry topStory = TopStories[i];
-                writer.WriteStartElement("li");
-                writer.WriteStartElement("p");
-                writer.WriteStartElement("a");
-                writer.WriteAttributeString("href", topStory.HRef);
-                writer.WriteString(topStory.Text);
-                writer.WriteEndElement(); //a 
-                //writer.WriteString(" (" + topStory.Score + ")"); 
+            if (TopStories.Count == 0)
+            {
+                writer.WriteString(SR.NoTopStoriesMessage);
+            }
+            else
+            {
+                writer.WriteElementString("h1", SR.TopStoriesHtmlPageTitle.Replace("{0}",String.Empty));
+                writer.WriteElementString("p", SR.TopStoriesDescription); 
+                writer.WriteStartElement("ol");
 
-                writer.WriteStartElement("map");
-                writer.WriteAttributeString("name", "discussion" + i);                
-                writer.WriteStartElement("area");
-                writer.WriteAttributeString("shape", "rect");
-                writer.WriteAttributeString("coords", "0,0,16,16");
-                writer.WriteAttributeString("alt", SR.MenuCatchUpOnAllCaption);
-                writer.WriteAttributeString("href", "fdaction:?action=markdiscussionread&storyid=" + topStory.HRef);
-                writer.WriteEndElement(); //area                
-                writer.WriteEndElement(); //map
-                
-                writer.WriteStartElement("p");
-                writer.WriteString(SR.TopStoriesHtmlDiscussionSectionTitle);
-                writer.WriteStartElement("img");
-                writer.WriteAttributeString("border", "0"); 
-                writer.WriteAttributeString("usemap", "#discussion" + i);
-                writer.WriteAttributeString("src", Path.Combine(Application.StartupPath,@"templates\images\read.gif"));
-                writer.WriteEndElement(); //img
-                writer.WriteEndElement(); //p
-               
-                
-                writer.WriteStartElement("ul");
-                foreach (NewsItem item in topStory.References) {
+                for (int i = 0; i < TopStories.Count; i++)
+                {
+                    RelationHRefEntry topStory = TopStories[i];
                     writer.WriteStartElement("li");
-                    writer.WriteString(item.FeedDetails.Title + ": ");
+                    writer.WriteStartElement("p");
                     writer.WriteStartElement("a");
-                    writer.WriteAttributeString("href", item.Link);
-                    writer.WriteString(item.Title);
+                    writer.WriteAttributeString("href", topStory.HRef);
+                    writer.WriteString(topStory.Text);
                     writer.WriteEndElement(); //a 
+                    //writer.WriteString(" (" + topStory.Score + ")"); 
+
+                    writer.WriteStartElement("map");
+                    writer.WriteAttributeString("name", "discussion" + i);
+                    writer.WriteStartElement("area");
+                    writer.WriteAttributeString("shape", "rect");
+                    writer.WriteAttributeString("coords", "0,0,16,16");
+                    writer.WriteAttributeString("alt", SR.MenuCatchUpOnAllCaption);
+                    writer.WriteAttributeString("href", "fdaction:?action=markdiscussionread&storyid=" + topStory.HRef);
+                    writer.WriteEndElement(); //area                
+                    writer.WriteEndElement(); //map
+
+                    writer.WriteStartElement("p");
+                    writer.WriteString(SR.TopStoriesHtmlDiscussionSectionTitle);
+                    writer.WriteStartElement("img");
+                    writer.WriteAttributeString("border", "0");
+                    writer.WriteAttributeString("usemap", "#discussion" + i);
+                    writer.WriteAttributeString("src", Path.Combine(Application.StartupPath, @"templates\images\read.gif"));
+                    writer.WriteEndElement(); //img
+                    writer.WriteEndElement(); //p
+
+
+                    writer.WriteStartElement("ul");
+                    foreach (NewsItem item in topStory.References)
+                    {
+                        writer.WriteStartElement("li");
+                        writer.WriteString(item.FeedDetails.Title + ": ");
+                        writer.WriteStartElement("a");
+                        writer.WriteAttributeString("href", item.Link);
+                        writer.WriteString(item.Title);
+                        writer.WriteEndElement(); //a 
+                        writer.WriteEndElement(); //li
+                    }
+                    writer.WriteEndElement(); //ul
+                    writer.WriteEndElement(); //p//
                     writer.WriteEndElement(); //li
-                }
-                writer.WriteEndElement(); //ul
-                writer.WriteEndElement(); //p//
-                writer.WriteEndElement(); //li
-            }//foreach
+                }//foreach
+
+            }//else
 
             writer.WriteEndDocument();
             writer.Close(); 
