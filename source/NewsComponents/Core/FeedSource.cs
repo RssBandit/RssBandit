@@ -4861,11 +4861,17 @@ namespace NewsComponents
                                                 ? NumEnclosuresToDownloadOnNewFeed
                                                 : DefaultNumEnclosuresToDownloadOnNewFeed);
 
+
+                        //since we are going to use this value for calculation we should change it 
+                        //from TimeSpan.MinValue which is used to indicate 'keep indefinitely' to TimeSpan.MaxValue                    
+                        TimeSpan maxItemAge = GetMaxItemAge(theFeed.link);
+                        maxItemAge = (maxItemAge == TimeSpan.MinValue ? TimeSpan.MaxValue : maxItemAge);
+
                         if (newReceivedItems != null)
                             foreach (NewsItem ni in newReceivedItems)
                             {
                                 //ensure that we don't attempt to download these enclosures at a later date
-                                if (numDownloaded >= maxDownloads)
+                                if (numDownloaded >= maxDownloads || (DateTime.Now - ni.Date > maxItemAge))
                                 {
                                     MarkEnclosuresDownloaded(ni);
                                     continue;
