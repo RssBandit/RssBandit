@@ -5033,6 +5033,15 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No stories found that have been linked from your subscriptions in the past week..
+        /// </summary>
+        internal static string NoTopStoriesMessage {
+            get {
+                return ResourceManager.GetString("NoTopStoriesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, but this feature is not yet implemented..
         /// </summary>
         internal static string NotYetImplementedFeature_Info {
@@ -5918,6 +5927,15 @@ namespace RssBandit.Resources {
         internal static string ToolbarOptionsCaption {
             get {
                 return ResourceManager.GetString("ToolbarOptionsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Below is the list of the most popular links from your subscriptions over the past week. .
+        /// </summary>
+        internal static string TopStoriesDescription {
+            get {
+                return ResourceManager.GetString("TopStoriesDescription", resourceCulture);
             }
         }
         

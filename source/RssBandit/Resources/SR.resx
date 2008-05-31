@@ -2474,4 +2474,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
     <value>Please specify a valid playlist name</value>
   </data>
+  <data name="NoTopStoriesMessage" xml:space="preserve">
+    <value>No stories found that have been linked from your subscriptions in the past week.</value>
+  </data>
+  <data name="TopStoriesDescription" xml:space="preserve">
+    <value>Below is the list of the most popular links from your subscriptions over the past week. </value>
+  </data>
 </root>
