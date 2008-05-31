@@ -6475,8 +6475,8 @@ namespace NewsComponents
 
                                 if (j != -1)
                                 {
-                                    IEnclosure oldEnc = newitem.Enclosures[j];
-                                    enc.Downloaded = oldEnc.Downloaded;
+                                    IEnclosure newEnc = newitem.Enclosures[j];
+                                    newEnc.Downloaded = enc.Downloaded;
                                 }
                                 else
                                 {
