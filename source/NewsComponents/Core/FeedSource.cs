@@ -1336,7 +1336,23 @@ namespace NewsComponents
             get
             {
                 if (p_searchHandler == null)
-                    p_searchHandler = new LuceneSearch(DefaultConfiguration);
+                {
+                    try
+                    {
+                        /*  We need to handle issues with FIPS security policy on Vista as reported at 
+                         *  http://sourceforge.net/tracker/index.php?func=detail&aid=1960767&group_id=96589&atid=615248
+                         * 
+                         * TODO: Find a way to notify the user that search is disabled. 
+                         */
+                        p_searchHandler = new LuceneSearch(DefaultConfiguration);
+                    }
+                    catch (TypeInitializationException tie)
+                    {
+                        NewsComponentsConfiguration noIndexingConfig = new NewsComponentsConfiguration();
+                        noIndexingConfig.SearchIndexBehavior =  SearchIndexBehavior.NoIndexing;
+                        p_searchHandler = new LuceneSearch(noIndexingConfig); 
+                    }
+                }
 
                 return p_searchHandler;
             }
