@@ -708,12 +708,13 @@ namespace NewsComponents.Feed
                 }
                 else
                 {
-                    if (!feedManager.ExistsFolder(feed.category))
+                    if (!String.IsNullOrEmpty(feed.category) && !feedManager.ExistsFolder(feed.category))
                     {
                         this.AddCategory(feed.category);
                     }
 
-                    IFeedFolder folder = feedManager.GetFolder(feed.category) as IFeedFolder;
+                    IFeedFolder folder = String.IsNullOrEmpty(feed.category) ? feedManager.RootFolder as IFeedFolder:
+                        feedManager.GetFolder(feed.category) as IFeedFolder;
                     IFeed newFeed = folder.CreateFeed(feed.title, feed.link) as IFeed;
                     feed = new WindowsRssNewsFeed(newFeed, feed, this);
                     feedsTable.Add(feed.link, feed);
