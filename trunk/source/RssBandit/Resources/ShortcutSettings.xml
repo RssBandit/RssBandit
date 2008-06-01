@@ -372,7 +372,7 @@
 		<shortcut>
 			<command>UpdateFeed</command>
 			<keyCombination>F5</keyCombination>
-		</shortcut>
+		</shortcut>  
 		<shortcut>
 			<command>GiveFocusToUrlTextBox</command>
 			<keyCombination>F11</keyCombination>
