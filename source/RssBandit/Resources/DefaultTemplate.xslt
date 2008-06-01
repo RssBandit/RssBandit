@@ -378,7 +378,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 </head>
   <body>
   <div class="PostItemContent" id="item1">
-	<table height="100%" width="100%" >
+	<table height="90%" width="100%" >
 	  <tr>
 	<td class="PostFrame" height="100%" width="100%" valign="top">
 	  <xsl:if test="//channel/image">
