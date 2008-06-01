@@ -75,7 +75,7 @@
 		</shortcut>
 		<shortcut display="true">
 			<command>cmdUpdateCategory</command>
-			<shortcutEnumValue>ShiftF5</shortcutEnumValue>
+	    <shortcutEnumValue>F6</shortcutEnumValue>
 		</shortcut>
 		<shortcut>
 			<command>cmdDeleteAll</command>
