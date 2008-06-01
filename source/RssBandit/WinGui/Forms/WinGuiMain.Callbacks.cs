@@ -1426,7 +1426,7 @@ namespace RssBandit.WinGui.Forms
                             CurrentSelectedFeedsNode = null;
                             owner.CmdUpdateFeed(null);
                             processed = true;
-                        }
+                        }                     
                         else if (_shortcutHandler.IsCommandInvoked("GiveFocusToUrlTextBox", m.WParam))
                         {
                             // Alt+F4 or F11: move focus to Url textbox
