@@ -256,6 +256,34 @@ namespace RssBandit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap search_folder_16 {
+            get {
+                object obj = ResourceManager.GetObject("search_folder_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap search_folder_32 {
+            get {
+                object obj = ResourceManager.GetObject("search_folder_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap subscriptions_folder_16 {
+            get {
+                object obj = ResourceManager.GetObject("subscriptions_folder_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap subscriptions_folder_32 {
+            get {
+                object obj = ResourceManager.GetObject("subscriptions_folder_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Icon UnreadFeedItems {
             get {
                 object obj = ResourceManager.GetObject("UnreadFeedItems", resourceCulture);

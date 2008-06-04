@@ -799,11 +799,12 @@ namespace RssBandit
 
         #endregion
 
-        public FeedSourceManager FeedSourceManager
+        public FeedSourceManager FeedSources
         {
             get { return sourceManager; }
         }
 
+		[Obsolete("Please call FeedSources property")]
         public FeedSource FeedHandler
         {
             get { return feedHandler; }
@@ -921,14 +922,30 @@ namespace RssBandit
         /// </summary>
         /// <param name="feedUrl">The feed URL (can be null).</param>
         /// <returns>NewsFeed if found, else null</returns>
-        public INewsFeed GetFeed(string feedUrl)
+		[Obsolete("Please call GetFeed(FeedSourceEntry, string)")]
+		public INewsFeed GetFeed(string feedUrl)
         {
-            if (string.IsNullOrEmpty(feedUrl))
+			if (string.IsNullOrEmpty(feedUrl))
                 return null;
             if (feedHandler.IsSubscribed(feedUrl))
                 return feedHandler.GetFeeds()[feedUrl];
             return null;
         }
+
+		/// <summary>
+		/// Gets the NewsFeed from FeedHandler.
+		/// </summary>
+		/// <param name="entry">The feed source entry.</param>
+		/// <param name="feedUrl">The feed URL (can be null).</param>
+		/// <returns>NewsFeed if found, else null</returns>
+		public INewsFeed GetFeed(FeedSourceEntry entry, string feedUrl)
+		{
+			if (entry == null || string.IsNullOrEmpty(feedUrl))
+				return null;
+			if (entry.Source.IsSubscribed(feedUrl))
+				return entry.Source.GetFeeds()[feedUrl];
+			return null;
+		}
 
         /// <summary>
         /// Gets the feed info (IFeedDetails).
@@ -2939,20 +2956,31 @@ namespace RssBandit
 
         internal void LoadFeedLists()
         {
-            foreach (var fs in sourceManager.Sources)
+            foreach (FeedSourceEntry fs in sourceManager.Sources)
             {
                 if (fs.SourceType == FeedSourceType.DirectAccess)
                 {
-                    // migrate old subscriptions or install a default:
+                    // migrate old subscriptions or install a default one:
                     MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+					LoadFeedSourceSubscriptions(fs);
+					// needs the feedlist to be loaded:
+					CheckAndMigrateSettingsAndPreferences(); 
+					CheckAndMigrateListViewLayouts();
+
+                } else {
+                    LoadFeedSourceSubscriptions(fs);
                 }
 
-                // for now we only load the one feedsource we like to test:
-                if (feedHandler == fs.Source)
-                {
-                    LoadFeedSourceSubscription(fs.Source);
-                }
+				//resume pending enclosure downloads
+				fs.Source.ResumePendingDownloads();
+				
+				// user may have stopped loading:
+				if (!IsFormAvailable(guiMain))
+					return;
             }
+			
+			if (FeedlistLoaded != null)
+				FeedlistLoaded(this, EventArgs.Empty);
 
             LoadWatchedCommentsFeedlist();
         }
@@ -3004,23 +3032,56 @@ namespace RssBandit
             }
         }
 
-        internal void LoadFeedSourceSubscription(FeedSource feedSource)
+        internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
         {
-            if (feedSource == null)
+			if (sourceEntry == null)
                 return;
 
             try
             {
-                feedSource.LoadFeedlist();
+				sourceEntry.Source.LoadFeedlist();
             }
             catch (Exception e)
             {
-                if (!FeedSource.validationErrorOccured)
-                {
-                    // set by validation callback handler
-                    _log.Error("Exception on loading '" + feedSource.SubscriptionLocation.Location + "'.", e);
-                    throw new BanditApplicationException(ApplicationExceptions.FeedlistOnRead, e);
-                }
+				//TODO: change/add error messages to include source name/file!
+				e.PreserveExceptionStackTrace();
+				BanditApplicationException ex = e as BanditApplicationException;
+				if (ex != null)
+				{
+					if (ex.Number == ApplicationExceptions.FeedlistOldFormat)
+					{
+						Application.Exit();
+					}
+					else if (ex.Number == ApplicationExceptions.FeedlistOnRead)
+					{
+						PublishException(ex);
+						this.MessageError(String.Format(SR.ExceptionReadingFeedlistFile, ex.InnerException.Message, GetLogFileName()));
+						this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+					}
+					else if (ex.Number == ApplicationExceptions.FeedlistOnProcessContent)
+					{
+						this.MessageError(String.Format(SR.InvalidFeedlistFileMessage, GetLogFileName()));
+						this.SetGuiStateFeedbackText(SR.GUIStatusValidationErrorReadingFeedlistFile);
+					}
+					else if (ex.Number == ApplicationExceptions.FeedlistNA)
+					{
+						if (this.Preferences.RefreshRate < 0)
+							this.Preferences.RefreshRate = FeedSource.DefaultRefreshRate;
+						this.SetGuiStateFeedbackText(SR.GUIStatusNoFeedlistFile);
+					}
+					else
+					{
+						PublishException(ex);
+						this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+					}
+				}
+				else
+				{
+					// unhandled
+					PublishException(e);
+					this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+				}
+                
             }
 
             if (feedHandler.FeedsListOK && guiMain != null)
@@ -3103,7 +3164,7 @@ namespace RssBandit
         {
             var dialog =
                 new ImportFeedsDialog(fromFileOrUrl, selectedCategory, defaultCategory, selectedFeedSource,
-                                      FeedSourceManager);
+                                      FeedSources);
             try
             {
                 dialog.ShowDialog(guiMain);

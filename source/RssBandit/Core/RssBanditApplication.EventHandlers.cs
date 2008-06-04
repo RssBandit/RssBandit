@@ -437,8 +437,8 @@ namespace RssBandit
 
                 try
                 {
-                    this.guiMain.PopulateFeedSubscriptions(feedHandler.GetCategories().Values, feedHandler.GetFeeds(),
-                                                           DefaultCategory);
+                    //this.guiMain.PopulateFeedSubscriptions(feedHandler.GetCategories().Values, feedHandler.GetFeeds(),
+                     //                                      DefaultCategory);
                 }
                 catch (Exception ex)
                 {
