@@ -201,36 +201,92 @@ namespace RssBandit.WinGui.Forms
 
         public void InitiatePopulateTreeFeeds()
         {
-            if (owner == null)
+        	
+			//Ensure we update the UI in the correct thread. Since this method is likely 
+			//to have been called from a thread that is not the UI thread we should ensure 
+			//that calls to UI components are actually made from the UI thread or marshalled
+			//accordingly. 
+            if (this.InvokeRequired)
+				Debug.Assert(false, "Ensure, this gets called on the UI thread!");
+			
+			if (owner == null)
             {
                 //Probably should log an error here
                 SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
                 return;
             }
-            if (owner.FeedHandler.FeedsListOK == false)
-            {
-                SetGuiStateFeedback(SR.GUIStatusNoFeedlistFile, ApplicationTrayState.NormalIdle);
-                return;
-            }
 
-            //Ensure we update the UI in the correct thread. Since this method is likely 
-            //to have been called from a thread that is not the UI thread we should ensure 
-            //that calls to UI components are actually made from the UI thread or marshalled
-            //accordingly. 
-            InvokeOnGui(delegate
-                            {
-                                PopulateFeedSubscriptions(owner.FeedHandler.GetCategories().Values,
-                                                          owner.FeedHandler.GetFeeds(),
-                                                          RssBanditApplication.DefaultCategory);
-                                PopulateTreeSpecialFeeds();
-                            });
+			// contains unread folder (required immediately, if a feed yet gets updated):
+			PopulateTreeSpecialFeeds();
+
+        	List<FeedSourceEntry> visibleSources = new List<FeedSourceEntry>(owner.FeedSources.Count);
+			List<FeedSourceEntry> remainingSources = new List<FeedSourceEntry>(owner.FeedSources.Count);
+
+			// for better user experience we populate the visible sources first:
+			foreach (SubscriptionRootNode n in GetVisibleSubscriptionRootNodes())
+				visibleSources.Add(owner.FeedSources[n.SourceID]);
+			
+			foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
+			{
+				if (entry.Source.FeedsListOK)
+				{
+					if (visibleSources.Contains(entry))
+					{
+						PopulateFeedSubscriptions(entry, //.Source.GetCategories().Values,
+												  //entry.Source.GetFeeds(),
+												  RssBanditApplication.DefaultCategory);
+                                
+					} else
+					{
+						remainingSources.Add(entry);
+					}
+				} 
+				else
+				{
+					_log.Error("Feed source reported list was not OK: " + entry.Name);
+				}
+			}
+
+			// now the remaining sources:
+			foreach (FeedSourceEntry entry in remainingSources)
+			{
+				if (entry.Source.FeedsListOK)
+				{
+					PopulateFeedSubscriptions(entry, //.Source.GetCategories().Values,
+											  //entry.Source.GetFeeds(),
+											  RssBanditApplication.DefaultCategory);
+				}
+				else
+				{
+					_log.Error("Feed source reported list was not OK: " + entry.Name);
+				}
+			}
+
+			//if (owner.FeedHandler.FeedsListOK == false)
+			//{
+			//    SetGuiStateFeedback(SR.GUIStatusNoFeedlistFile, ApplicationTrayState.NormalIdle);
+			//    return;
+			//}
+        	
+
+			////Ensure we update the UI in the correct thread. Since this method is likely 
+			////to have been called from a thread that is not the UI thread we should ensure 
+			////that calls to UI components are actually made from the UI thread or marshalled
+			////accordingly. 
+			//InvokeOnGui(delegate
+			//                {
+			//                    PopulateFeedSubscriptions(owner.FeedHandler.GetCategories().Values,
+			//                                              owner.FeedHandler.GetFeeds(),
+			//                                              RssBanditApplication.DefaultCategory);
+			//                    PopulateTreeSpecialFeeds();
+			//                });
         }
 
         private void CheckForFlaggedNodeAndCreate(INewsItem ri)
         {
             ISmartFolder isf;
             TreeFeedsNodeBase tn = null;
-            TreeFeedsNodeBase root = _flaggedFeedsNodeRoot; //this.GetRoot(RootFolderType.SmartFolders);
+            TreeFeedsNodeBase root = _flaggedFeedsNodeRoot; //this.GetRootType(RootFolderType.SmartFolders);
 
             if (ri.FlagStatus == Flagged.FollowUp && _flaggedFeedsNodeFollowUp == null)
             {
@@ -416,12 +472,15 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
-        public void PopulateFeedSubscriptions(ICollection<INewsFeedCategory> categories,
-                                              IDictionary<string, INewsFeed> feedsTable,
+        public void PopulateFeedSubscriptions(FeedSourceEntry entry,
                                               string defaultCategory)
         {
             EmptyListView();
-            TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
+
+        	ICollection<INewsFeedCategory> categories = entry.Source.GetCategories().Values;
+        	IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
+
+            TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
             try
             {
                 treeFeeds.BeginUpdate();
@@ -431,7 +490,7 @@ namespace RssBandit.WinGui.Forms
                 root.Nodes.Clear();
                 UpdateTreeNodeUnreadStatus(root, 0);
 
-                UnreadItemsNode.Items.Clear();
+                //UnreadItemsNode.Items.Clear();
 
                 var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
                 var categoryList = new List<INewsFeedCategory>(categories);
@@ -536,8 +595,10 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         internal void SetDefaultExpansionTreeNodeState()
         {
-            foreach (var node in _roots)
-                node.Expanded = true;
+			foreach (TreeFeedsNodeBase node in treeFeeds.Nodes)
+				node.Expanded = true;
+			//foreach (var node in _roots)
+			//    node.Expanded = true;
         }
 
         /// <summary>
@@ -1266,12 +1327,14 @@ namespace RssBandit.WinGui.Forms
         /// <param name="force_download"></param>
         public void UpdateAllFeeds(bool force_download)
         {
-            if (_timerRefreshFeeds.Enabled)
-                _timerRefreshFeeds.Stop();
-
             TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
-            _lastUnreadFeedItemCountBeforeRefresh = root.UnreadCount;
-            owner.BeginRefreshFeeds(force_download);
+			if (root != null)
+			{
+				if (_timerRefreshFeeds.Enabled)
+					_timerRefreshFeeds.Stop();
+				_lastUnreadFeedItemCountBeforeRefresh = root.UnreadCount;
+				owner.BeginRefreshFeeds(force_download);
+			}
         }
 
         public void OnAllAsyncUpdateCommentFeedsFinished()
@@ -1342,7 +1405,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     case FeedNodeType.Feed:
                         {
-                            INewsFeed f = owner.GetFeed(tn.DataKey);
+							INewsFeed f = owner.GetFeed(FeedSourceOf(tn), tn.DataKey);
                             if (f != null)
                             {
                                 return f.category;
@@ -1449,7 +1512,7 @@ namespace RssBandit.WinGui.Forms
         //			{ // not just right-clicked elsewhere on a node:
         //				this.EmptyListView();					
         //				this.htmlDetail.Clear();
-        //				//TreeSelectedNode = this.GetRoot(RootFolderType.MyFeeds);
+        //				//TreeSelectedNode = this.GetRootType(RootFolderType.MyFeeds);
         //			}
         //			
         //			try 
@@ -1879,7 +1942,7 @@ namespace RssBandit.WinGui.Forms
                     else
                         feedUrl = newFeedUri.CanonicalizedUri();
                     tn.DataKey = feedUrl;
-                    feed = owner.GetFeed(feedUrl);
+					feed = owner.GetFeed(FeedSourceOf(tn), feedUrl);
                     if (feed != null)
                         feed.Tag = tn;
                 }
@@ -2078,7 +2141,7 @@ namespace RssBandit.WinGui.Forms
             INewsFeed f = null;
             if (selectedNode.Type == FeedNodeType.Feed)
             {
-                f = owner.GetFeed(selectedNode.DataKey);
+				f = owner.GetFeed(FeedSourceOf(selectedNode), selectedNode.DataKey);
 
                 if (f != null)
                 {
@@ -2848,9 +2911,9 @@ namespace RssBandit.WinGui.Forms
             if (lvItem != null)
             {
                 var item = (INewsItem) lvItem.Key;
-                if (FeedSourceType.Google == owner.FeedSourceManager.SourceTypeOf(item.Feed))
+                if (FeedSourceType.Google == owner.FeedSources.SourceTypeOf(item.Feed))
                 {
-                    var source = owner.FeedSourceManager.GetSourceExtension<IGoogleReaderFeedSource>(item.Feed);
+                    var source = owner.FeedSources.GetSourceExtension<IGoogleReaderFeedSource>(item.Feed);
                     source.ShareNewsItem(item);
                 }
             }
@@ -2867,9 +2930,9 @@ namespace RssBandit.WinGui.Forms
             if (lvItem != null)
             {
                 var item = (INewsItem) lvItem.Key;
-                if (FeedSourceType.NewsGator == owner.FeedSourceManager.SourceTypeOf(item.Feed))
+                if (FeedSourceType.NewsGator == owner.FeedSources.SourceTypeOf(item.Feed))
                 {
-                    var source = owner.FeedSourceManager.GetSourceExtension<INewsGatorFeedSource>(item.Feed);
+                    var source = owner.FeedSources.GetSourceExtension<INewsGatorFeedSource>(item.Feed);
                     source.ClipNewsItem(item);
                 }
             }
@@ -3106,7 +3169,7 @@ namespace RssBandit.WinGui.Forms
 
             if (theNode.Type == FeedNodeType.Feed)
             {
-                INewsFeed f = owner.GetFeed(theNode.DataKey);
+				INewsFeed f = owner.GetFeed(FeedSourceOf(theNode), theNode.DataKey);
                 if (f == null)
                     return;
 

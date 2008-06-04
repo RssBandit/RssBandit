@@ -1042,9 +1042,12 @@ namespace RssBandit
 
                 if (n.Type == FeedNodeType.Feed)
                 {
-                    INewsFeed f = this.GetFeed(n.DataKey);
-                    FeedSourceEntry fs = this.FeedSourceManager.SourceOf(f);
-                    feedSource = fs.Name;
+                	SubscriptionRootNode root = TreeHelper.ParentRootNode(n) as SubscriptionRootNode;
+                    if (root != null)
+                    {
+                    	FeedSourceEntry fs = this.FeedSources[root.SourceID];
+						feedSource = fs.Name;
+                    }
                 }
             }
             ImportFeeds(String.Empty, category, feedSource);

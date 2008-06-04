@@ -13,20 +13,21 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Forms
 {
 	/// <summary>
 	/// Summary description for SplashScreen.
 	/// </summary>
-	public class SplashScreen : System.Windows.Forms.Form
+	public class SplashScreen : Form
 	{
 		private string statusInfo = String.Empty;
 		private string versionInfo = String.Empty;
 
 		private RectangleF rectStatus, rectVersion = RectangleF.Empty; 
 		private readonly Font statusFont = new Font("Tahoma", 8, FontStyle.Regular);
-		private System.Windows.Forms.Label labelSlogan;
+		private Label labelSlogan;
 		private readonly Font versionFont = new Font("Tahoma", 8, FontStyle.Bold);
 		
 		public string StatusInfo {
@@ -66,6 +67,7 @@ namespace RssBandit.WinGui.Forms
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			base.Text = SR.MainForm_DetailHeaderCaption_AtStartup;
 			InitDrawingRectangles();
 
 		}
@@ -92,60 +94,37 @@ namespace RssBandit.WinGui.Forms
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SplashScreen));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen));
 			this.labelSlogan = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// labelSlogan
 			// 
-			this.labelSlogan.AccessibleDescription = resources.GetString("labelSlogan.AccessibleDescription");
-			this.labelSlogan.AccessibleName = resources.GetString("labelSlogan.AccessibleName");
-			this.labelSlogan.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelSlogan.Anchor")));
-			this.labelSlogan.AutoSize = ((bool)(resources.GetObject("labelSlogan.AutoSize")));
 			this.labelSlogan.BackColor = System.Drawing.Color.Transparent;
-			this.labelSlogan.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelSlogan.Dock")));
-			this.labelSlogan.Enabled = ((bool)(resources.GetObject("labelSlogan.Enabled")));
-			this.labelSlogan.Font = ((System.Drawing.Font)(resources.GetObject("labelSlogan.Font")));
+			this.labelSlogan.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
 			this.labelSlogan.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.labelSlogan.Image = ((System.Drawing.Image)(resources.GetObject("labelSlogan.Image")));
-			this.labelSlogan.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelSlogan.ImageAlign")));
-			this.labelSlogan.ImageIndex = ((int)(resources.GetObject("labelSlogan.ImageIndex")));
-			this.labelSlogan.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelSlogan.ImeMode")));
-			this.labelSlogan.Location = ((System.Drawing.Point)(resources.GetObject("labelSlogan.Location")));
+			this.labelSlogan.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.labelSlogan.Location = new System.Drawing.Point(0, 240);
 			this.labelSlogan.Name = "labelSlogan";
-			this.labelSlogan.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelSlogan.RightToLeft")));
-			this.labelSlogan.Size = ((System.Drawing.Size)(resources.GetObject("labelSlogan.Size")));
-			this.labelSlogan.TabIndex = ((int)(resources.GetObject("labelSlogan.TabIndex")));
-			this.labelSlogan.Text = resources.GetString("labelSlogan.Text");
-			this.labelSlogan.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelSlogan.TextAlign")));
+			this.labelSlogan.Size = new System.Drawing.Size(365, 27);
+			this.labelSlogan.TabIndex = 0;
+			this.labelSlogan.Text = "Your desktop news aggregator";
+			this.labelSlogan.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelSlogan.UseMnemonic = false;
-			this.labelSlogan.Visible = ((bool)(resources.GetObject("labelSlogan.Visible")));
 			// 
 			// SplashScreen
 			// 
-			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
-			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
-			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
-			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
-			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			this.ClientSize = new System.Drawing.Size(365, 270);
 			this.Controls.Add(this.labelSlogan);
-			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
-			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
-			this.Location = ((System.Drawing.Point)(resources.GetObject("$this.Location")));
-			this.MaximumSize = ((System.Drawing.Size)(resources.GetObject("$this.MaximumSize")));
-			this.MinimumSize = ((System.Drawing.Size)(resources.GetObject("$this.MinimumSize")));
 			this.Name = "SplashScreen";
-			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.ShowInTaskbar = false;
-			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
-			this.Text = resources.GetString("$this.Text");
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Welcome!";
 			this.TransparencyKey = System.Drawing.Color.Magenta;
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnFormPaint);
 			this.ResumeLayout(false);
@@ -185,8 +164,8 @@ namespace RssBandit.WinGui.Forms
 	}
 
 	public class Splash {
-		static SplashScreen MySplashForm = null;
-		static Thread MySplashThread = null;
+		static SplashScreen MySplashForm;
+		static Thread MySplashThread;
 
 		//	internally used as a thread function - showing the form and
 		//	starting the messageloop for it
@@ -200,7 +179,7 @@ namespace RssBandit.WinGui.Forms
 			if (MySplashThread != null)
 				return;
 
-			MySplashThread = new Thread(Splash.ShowThread);
+			MySplashThread = new Thread(ShowThread);
 			// take over the culture settings from main/default thread 
 			// (if not, Splash will not care about a change of the culture in the main thread)
 			MySplashThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;

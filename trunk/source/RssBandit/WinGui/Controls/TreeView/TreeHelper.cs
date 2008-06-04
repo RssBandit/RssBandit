@@ -114,6 +114,22 @@ namespace RssBandit.WinGui.Controls
 
         #endregion
 
+		/// <summary>
+		/// Gets the topmost of Parents of the node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns></returns>
+		public static TreeFeedsNodeBase ParentRootNode(TreeFeedsNodeBase node)
+		{
+			if (node == null)
+				return null;
+
+			while (node.Parent != null)
+				node = node.Parent;
+
+			return node;
+		}
+
         /// <summary>
         /// Find a direct child node.
         /// </summary>
