@@ -322,7 +322,7 @@ namespace RssBandit
                     String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(),
                                   loadEx.Message), loadEx);
                 if (DialogResult.No ==
-                    MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}",
+					MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?",
                                                   Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
@@ -1421,22 +1421,18 @@ namespace RssBandit
         /// <returns></returns>
         /// <remarks>Ensures, it gets displayed in foreground and
         /// use the main form as the parent</remarks>
-        public DialogResult MessageQuestion(string text, string captionPostfix)
-        {
-            DialogResult res = DialogResult.Cancel;
-            GuiInvoker.Invoke(MainForm,
-                              delegate
-                                  {
-                                      if (MainForm != null && MainForm.IsHandleCreated)
-                                          Win32.SetForegroundWindow(MainForm.Handle);
-                                      res = MessageBox.Show(
-                                          MainForm, text,
-                                          CaptionOnly + captionPostfix,
-                                          MessageBoxButtons.YesNo,
-                                          MessageBoxIcon.Question);
-                                  });
-            return res;
-        }
+		public DialogResult MessageQuestion(string text, string captionPostfix)
+		{
+			if (MainForm != null && MainForm.IsHandleCreated)
+				Win32.SetForegroundWindow(MainForm.Handle);
+			DialogResult res = MessageBox.Show(
+				MainForm, text,
+				CaptionOnly + captionPostfix,
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question);
+
+			return res;
+		}
 
         /// <summary>
         /// Displays a informational Message box.
