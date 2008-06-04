@@ -126,6 +126,15 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>85</value>
   </metadata>
+  <data name="htmlDetail.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="htmlDetail.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="htmlDetail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
   <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
@@ -137,7 +146,31 @@
         HIegQmkQouoIACswMJ0iAGGAAAAAAGEAYgBvAHUAdAA6AGIAbABhAG4AawAAAAAAAAAAAAAACw==
 </value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="htmlDetail.RightToLeft" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="htmlDetail.ShowHelp" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="htmlDetail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 162</value>
+  </data>
+  <data name="htmlDetail.TabIndex" type="System.Int32, mscorlib">
+    <value>170</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Name" xml:space="preserve">
+    <value>htmlDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Type" xml:space="preserve">
+    <value>IEControl.HtmlControl, IEControl, Version=1.1.113.6327, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.Parent" xml:space="preserve">
+    <value>panelWebDetail</value>
+  </data>
+  <data name="&gt;&gt;htmlDetail.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+    <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
