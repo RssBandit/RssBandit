@@ -101,9 +101,11 @@ namespace RssBandit.WinGui.Forms
             navigatorHeaderHelper = new NavigatorHeaderHelper(Navigator, Properties.Resources.Arrows_Left_16);
             navigatorHeaderHelper.ImageClick += OnNavigatorCollapseClick;
             Navigator.GroupClick += OnNavigatorGroupClick;
-            if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
+            Navigator.SelectedGroupChanging += OnNavigatorSelectedGroupChanging;
+			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;
+			if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
             {
-                ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+                //ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
                 owner.Mediator.SetDisabled("cmdToggleRssSearchTabState");
                 Navigator.Groups[Resource.NavigatorGroup.RssSearch].Enabled = false;
             }
@@ -291,24 +293,24 @@ namespace RssBandit.WinGui.Forms
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
 
-            // create RootFolderType.MyFeeds:
-            TreeFeedsNodeBase root =
-                new RootNode(SR.FeedNodeMyFeedsCaption, Resource.SubscriptionTreeImage.AllSubscriptions,
-                             Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
-            treeFeeds.Nodes.Add(root);
-            root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
-            _roots[(int) RootFolderType.MyFeeds] = root;
+			//// create RootFolderType.MyFeeds:
+			//TreeFeedsNodeBase root =
+			//    new SubscriptionRootNode(SR.FeedNodeMyFeedsCaption, Resource.SubscriptionTreeImage.AllSubscriptions,
+			//                 Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
+			//treeFeeds.Nodes.Add(root);
+			//root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
+            //_roots[(int) RootFolderType.MyFeeds] = root;
 
             // add the root as the first history entry:
-            AddHistoryEntry(root, null);
+            //AddHistoryEntry(root, null);
 
             // create RootFolderType.Finder:
-            root =
+			TreeFeedsNodeBase root =
                 new FinderRootNode(SR.FeedNodeFinderRootCaption, Resource.SubscriptionTreeImage.AllFinderFolders,
                                    Resource.SubscriptionTreeImage.AllFinderFoldersExpanded,
                                    _treeSearchFolderRootContextMenu);
             treeFeeds.Nodes.Add(root);
-            _roots[(int) RootFolderType.Finder] = root;
+            //_roots[(int) RootFolderType.Finder] = root;
             if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
                 root.Visible = false;
 
@@ -317,7 +319,7 @@ namespace RssBandit.WinGui.Forms
                 new SpecialRootNode(SR.FeedNodeSpecialFeedsCaption, Resource.SubscriptionTreeImage.AllSmartFolders,
                                     Resource.SubscriptionTreeImage.AllSmartFoldersExpanded, null);
             treeFeeds.Nodes.Add(root);
-            _roots[(int) RootFolderType.SmartFolders] = root;
+            //_roots[(int) RootFolderType.SmartFolders] = root;
 
             treeFeeds.DrawFilter = new TreeFeedsDrawFilter();
 

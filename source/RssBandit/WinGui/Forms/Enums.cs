@@ -26,7 +26,7 @@ namespace RssBandit.WinGui.Forms
 
     internal enum NavigationPaneView
     {
-        Subscriptions,
+        LastVisibleSubscription,
         RssSearch,
     }
 

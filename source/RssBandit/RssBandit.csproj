@@ -322,6 +322,10 @@
     <EmbeddedResource Include="Resources\AllToolImages.png" />
     <EmbeddedResource Include="Resources\ListImages.png" />
     <EmbeddedResource Include="Resources\TreeImagesXP.png" />
+    <None Include="Resources\search_folder_16.png" />
+    <None Include="Resources\search_folder_32.png" />
+    <None Include="Resources\subscriptions_folder_16.png" />
+    <None Include="Resources\subscriptions_folder_32.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1615,71 +1619,7 @@
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.bg.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.de.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.es.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.fr.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.hi.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.it.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.ja.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.nl-NL.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.pl.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.pt-BR.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.ru.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-Cyrl-CS.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.sr-Latn-CS.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.tr.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHS.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\SplashScreen.zh-CHT.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1751,63 +1691,7 @@
       <DependentUpon>ToastNotify.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.de.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.es.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.fr.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.hi.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.it.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.ja.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.pl.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.pt-BR.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\WinGUIMain.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.ru.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.sr-Cyrl-CS.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.sr-Latn-CS.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.tr.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.zh-CHS.resx">
-      <DependentUpon>WinGUIMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.zh-CHT.resx">
       <DependentUpon>WinGUIMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

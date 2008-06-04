@@ -268,6 +268,19 @@ namespace NewsComponents
             	throw new KeyNotFoundException(name);
             }          
         }
+		/// <summary>
+		/// Indexer which returns feed source keyed by name
+		/// </summary>
+		/// <param name="id">The id of the feed source</param>
+		/// <returns>The requested feed source</returns>
+		/// <exception cref="KeyNotFoundException">if the name is not found in the FeedSourceManager</exception>
+		public FeedSourceEntry this[int id]
+		{
+			get
+			{
+				return _feedSources[id];
+			}
+		}
 
 		/// <summary>
 		/// Returns feed source keyed by name

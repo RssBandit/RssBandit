@@ -12,6 +12,7 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
 using IEControl;
+using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
 using Interop.SHDocVw;
@@ -113,14 +114,33 @@ namespace RssBandit.WinGui.Forms
             if (pane == NavigationPaneView.RssSearch)
             {
                 Navigator.SelectedGroup = Navigator.Groups[Resource.NavigatorGroup.RssSearch];
-                owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
-                owner.Mediator.SetChecked("-cmdToggleTreeViewState");
+				//owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
+				//owner.Mediator.SetChecked("-cmdToggleTreeViewState");
             }
-            else
+            else if (pane == NavigationPaneView.LastVisibleSubscription)
             {
-                Navigator.SelectedGroup = Navigator.Groups[Resource.NavigatorGroup.Subscriptions];
-                owner.Mediator.SetChecked("-cmdToggleRssSearchTabState");
-                owner.Mediator.SetChecked("+cmdToggleTreeViewState");
+				if (_lastVisualFeedSource != null &&
+					owner.FeedSources.Contains(_lastVisualFeedSource))
+				{
+					string id = owner.FeedSources[_lastVisualFeedSource].ID.ToString();
+					if (Navigator.Groups.Exists(id))
+					{
+						Navigator.SelectedGroup = Navigator.Groups[id];
+						return;
+					}
+				}
+
+				foreach (var o in Navigator.Groups)
+				{
+					if (o.Key == Resource.NavigatorGroup.RssSearch)
+						continue;
+					// select first non-rss-search pane:
+					Navigator.SelectedGroup = Navigator.Groups[o.Key];
+					break;
+				}
+                //Navigator.SelectedGroup = Navigator.Groups[Resource.NavigatorGroup.Subscriptions];
+				//owner.Mediator.SetChecked("-cmdToggleRssSearchTabState");
+				//owner.Mediator.SetChecked("+cmdToggleTreeViewState");
             }
         }
 
@@ -128,7 +148,7 @@ namespace RssBandit.WinGui.Forms
         // Gets called, if a user want to view the feed subscriptions docked panel.
         internal void CmdDockShowSubscriptions(ICommand sender)
         {
-            ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+			ToggleNavigationPaneView(NavigationPaneView.LastVisibleSubscription);
         }
 
         // not needed to be handled by RssBanditApplication.
@@ -1116,10 +1136,24 @@ namespace RssBandit.WinGui.Forms
             owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
 
             RssBanditApplication.CheckAndInitSoundEvents();
-            owner.BeginLoadingFeedlists();
-            owner.BeginLoadingSpecialFeeds();
 
-            Splash.Close();
+			Splash.Close();
+			// feedsources list was yet loaded, now make it visible:
+        	VisualizeFeedSources(owner.FeedSources.GetOrderedFeedSources());
+			ToggleNavigationPaneView(NavigationPaneView.LastVisibleSubscription);
+
+			// load the subscriptions of each feedsource:
+			owner.LoadFeedLists();
+			
+			// display the subscriptions per feedsource:
+			InitiatePopulateTreeFeeds();
+
+			SetGuiStateFeedback(SR.GUIStatusDone);
+			
+			//owner.BeginLoadingFeedlists();
+			//owner.BeginLoadingSpecialFeeds();
+
+            //Splash.Close();
             owner.AskAndCheckForDefaultAggregator();
 
             //Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
@@ -1130,7 +1164,59 @@ namespace RssBandit.WinGui.Forms
 #endif
         }
 
-        private void OnFormMove(object sender, EventArgs e)
+		void VisualizeFeedSources(IEnumerable<FeedSourceEntry> sources)
+		{
+			foreach (FeedSourceEntry source in sources)
+			{
+				CreateFeedSourceView(source);
+				AddToSubscriptionTree(source);
+			}
+		}
+
+		void CreateFeedSourceView (FeedSourceEntry entry)
+		{
+			UltraExplorerBarContainerControl view = new UltraExplorerBarContainerControl();
+			view.SuspendLayout();
+			// this will be dynamically managed:
+			//view.Controls.Add(this.treeFeeds);
+			
+			view.Location = new Point(1, 26);
+			view.Name = "FeedSubscriptions." + entry.Name;
+			this.helpProvider1.SetShowHelp(view, false);
+			view.Size = new Size(228, 376);
+			view.TabIndex = 0;
+
+			this.Navigator.Controls.Add(view);
+
+			UltraExplorerBarGroup group = new UltraExplorerBarGroup();
+			group.Container = view;
+			group.Key = entry.ID.ToString();
+			group.Text = entry.Name;
+
+			Infragistics.Win.Appearance small = new Infragistics.Win.Appearance();
+			small.Image = Properties.Resources.subscriptions_folder_16;
+			group.Settings.AppearancesSmall.HeaderAppearance = small;
+			Infragistics.Win.Appearance large = new Infragistics.Win.Appearance();
+			large.Image = Properties.Resources.subscriptions_folder_32;
+			group.Settings.AppearancesLarge.HeaderAppearance = large;
+
+			// add ordered, but before the default "search" group:
+			this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);
+			view.ResumeLayout(false);
+		}
+
+		void AddToSubscriptionTree(FeedSourceEntry entry)
+		{
+			// create RootFolderType.MyFeeds:
+			//TODO: Add feedsource specific context menu's?
+			TreeFeedsNodeBase root = new SubscriptionRootNode(entry.ID, entry.Name, Resource.SubscriptionTreeImage.AllSubscriptions,
+							 Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
+			treeFeeds.Nodes.Insert(0, root);
+			root.Visible = false;
+			root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
+		}
+
+    	private void OnFormMove(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Normal)
             {
@@ -1656,6 +1742,8 @@ namespace RssBandit.WinGui.Forms
                 // splitter position Navigator/Feed Details Pane: 
                 writer.SetProperty(Name + "/Navigator.Width", Navigator.Width);
 
+				writer.SetProperty(Name + "/RecentFeedSource/Visible", _lastVisualFeedSource);
+
                 writer.SetProperty(Name + "/docManager.WindowAlignment", (int) _docContainer.LayoutSystem.SplitMode);
 
                 var sdRenderer = sandDockManager.Renderer as Office2003Renderer;
@@ -1813,9 +1901,11 @@ namespace RssBandit.WinGui.Forms
                 {
                     OnNavigatorCollapseClick(this, EventArgs.Empty);
                 }
-                // remembering/startup with search panel is not a good app start UI state: 
-                if (Navigator.Visible)
-                    ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
+                
+				// remembering/startup with search panel is not a good app start UI state: 
+            	_lastVisualFeedSource = reader.GetString(Name + "/RecentFeedSource/Visible", null);
+				//if (Navigator.Visible)
+				//    ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
 
                 if (reader.GetString(Name + "/ToolbarsVersion", "0") == CurrentToolbarsVersion)
                 {
@@ -2186,7 +2276,7 @@ namespace RssBandit.WinGui.Forms
                 else if (tn.Type == FeedNodeType.Feed)
                 {
                     string feedUrl = tn.DataKey;
-                    INewsFeed f = owner.GetFeed(feedUrl);
+                    INewsFeed f = owner.GetFeed(FeedSourceOf(tn), feedUrl);
 
                     if (f != null && feedUrl != null && owner.FeedHandler.GetMarkItemsReadOnExit(feedUrl) &&
                         f.containsNewMessages)
@@ -2301,7 +2391,7 @@ namespace RssBandit.WinGui.Forms
 
                         case FeedNodeType.Root:
                             /* 
-							if (this.GetRoot(RootFolderType.MyFeeds).Equals(tn)) 
+							if (this.GetRootType(RootFolderType.MyFeeds).Equals(tn)) 
 								AggregateSubFeeds(tn);	// it is slow on startup, nothing is loaded in memory...
 							*/
                             htmlDetail.Html = String.Empty;
@@ -2449,7 +2539,7 @@ namespace RssBandit.WinGui.Forms
             {
                 //feed node 
 
-                INewsFeed f = owner.GetFeed(editedNode.DataKey);
+                INewsFeed f = owner.GetFeed(FeedSourceOf(editedNode), editedNode.DataKey);
                 if (f != null)
                 {
                     f.title = newLabel;
@@ -2475,7 +2565,7 @@ namespace RssBandit.WinGui.Forms
                     oldFullname = String.Join(FeedSource.CategorySeparator, catArray);
                 }
 
-                if (GetRoot(editedNode) == RootFolderType.MyFeeds)
+                if (GetRootType(editedNode) == RootFolderType.MyFeeds)
                 {
                     string newFullname = editedNode.CategoryStoreName;
                     owner.FeedHandler.RenameCategory(oldFullname, newFullname);
@@ -4058,5 +4148,7 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #endregion
+
+    	
     }
 }

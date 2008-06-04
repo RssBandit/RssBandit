@@ -24,22 +24,25 @@ using RssBandit.WinGui.Utility;
 namespace RssBandit.WinGui.Controls
 {
 
-    #region RootNode
+    #region SubscriptionRootNode
 
-    internal class RootNode : TreeFeedsNodeBase
+    internal class SubscriptionRootNode : TreeFeedsNodeBase
     {
         private static ContextMenu _popup; // share one context menu
 
-        public RootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
+    	public int SourceID;
+
+        public SubscriptionRootNode(int sourceID, string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
             : base(text, FeedNodeType.Root, false, imageIndex, selectedImageIndex)
         {
+        	SourceID = sourceID;
             _popup = menu;
             base.Editable = false;
         }
 
         public override object Clone()
         {
-            return new RootNode(Text, (int) Override.NodeAppearance.Image, (int) Override.SelectedNodeAppearance.Image,
+            return new SubscriptionRootNode(SourceID, Text, (int) Override.NodeAppearance.Image, (int) Override.SelectedNodeAppearance.Image,
                                 _popup);
         }
 

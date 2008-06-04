@@ -117,9 +117,9 @@ namespace RssBandit.WinGui.Forms
         private ToolbarHelper toolbarHelper;
         internal HistoryMenuManager historyMenuManager;
 
-        private readonly TreeFeedsNodeBase[] _roots = new TreeFeedsNodeBase[3];
-        // store refs to root folders (they order within the treeview may be resorted depending on the languages)
-
+        //private readonly List<TreeFeedsNodeBase> _roots = new List<TreeFeedsNodeBase>(3);
+		
+		// store refs to root folders (they order within the treeview may be resorted depending on the languages)
         private TreeFeedsNodeBase _unreadItemsFeedsNode;
         private TreeFeedsNodeBase _feedExceptionsFeedsNode;
         private TreeFeedsNodeBase _sentItemsFeedsNode;
@@ -168,6 +168,8 @@ namespace RssBandit.WinGui.Forms
         private FeedInfoList _currentCategoryNewsItems;
         private int _currentPageNumber = 1;
         private int _lastPageNumber = 1;
+
+    	private string _lastVisualFeedSource;
 
         // used to save last used window size to be restored after System Tray Mode:
         private Rectangle _formRestoreBounds = Rectangle.Empty;
@@ -256,12 +258,10 @@ namespace RssBandit.WinGui.Forms
         private ThreadedListViewColumnHeader colDate;
         private ThreadedListViewColumnHeader colTopic;
         private CollapsibleSplitter detailsPaneSplitter;
-        private Timer _timerDispatchResultsToUI;
-        private UltraTree treeFeeds;
+		private Timer _timerDispatchResultsToUI;
         private UltraToolTipManager ultraToolTipManager;
         private UltraTreeExtended listFeedItemsO;
-        private UltraExplorerBar Navigator;
-        private UltraExplorerBarContainerControl NavigatorFeedSubscriptions;
+		private UltraExplorerBar Navigator;
         private UltraExplorerBarContainerControl NavigatorSearch;
         private Panel panelFeedItems;
         private Splitter splitterNavigator;
@@ -269,7 +269,8 @@ namespace RssBandit.WinGui.Forms
         private Panel panelClientAreaContainer;
         private Panel panelFeedDetailsContainer;
         private UltraLabel detailHeaderCaption;
-        private VerticalHeaderLabel navigatorHiddenCaption;
+		private VerticalHeaderLabel navigatorHiddenCaption;
+		private UltraTree treeFeeds;
 
 
         private IContainer components;
@@ -305,7 +306,7 @@ namespace RssBandit.WinGui.Forms
             Text = RssBanditApplication.CaptionOnly; // dynamically changed!
             detailHeaderCaption.Text = SR.MainForm_DetailHeaderCaption_AtStartup; // dynamically changed!
             navigatorHiddenCaption.Text = SR.MainForm_SubscriptionNavigatorCaption;
-            Navigator.Groups[Resource.NavigatorGroup.Subscriptions].Text = SR.MainForm_SubscriptionNavigatorCaption;
+            //Navigator.Groups[Resource.NavigatorGroup.Subscriptions].Text = SR.MainForm_SubscriptionNavigatorCaption;
             Navigator.Groups[Resource.NavigatorGroup.RssSearch].Text = SR.MainForm_SearchNavigatorCaption;
             _docFeedDetails.Text = SR.FeedDetailDocumentTabCaption;
             statusBarBrowser.ToolTipText = SR.MainForm_StatusBarBrowser_ToolTipText;
@@ -536,12 +537,14 @@ namespace RssBandit.WinGui.Forms
                 // now iterate and update the single nodes
                 if (treeFeeds.Nodes.Count > 0)
                 {
-                    for (int i = 0; i < _roots.Length; i++)
-                    {
-                        TreeFeedsNodeBase startNode = _roots[i];
-                        if (null != startNode)
-                            WalkdownThenRefreshFontColor(startNode);
-                    }
+					foreach (TreeFeedsNodeBase startNode in treeFeeds.Nodes)
+						WalkdownThenRefreshFontColor(startNode);
+					//for (int i = 0; i < _roots.Count; i++)
+					//{
+					//    TreeFeedsNodeBase startNode = _roots[i];
+					//    if (null != startNode)
+					//        WalkdownThenRefreshFontColor(startNode);
+					//}
                 }
 
                 //	PopulateTreeRssSearchScope();	causes threading issues since not on UI thread
@@ -894,561 +897,581 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            var resources = new System.ComponentModel.ComponentResourceManager(typeof (WinGuiMain));
-            var _override1 = new Infragistics.Win.UltraWinTree.Override();
-            var ultraTreeColumnSet1 = new Infragistics.Win.UltraWinTree.UltraTreeColumnSet();
-            var ultraTreeNodeColumn1 = new Infragistics.Win.UltraWinTree.UltraTreeNodeColumn();
-            var _override2 = new Infragistics.Win.UltraWinTree.Override();
-            var appearance7 = new Infragistics.Win.Appearance();
-            var ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
-            var appearance2 = new Infragistics.Win.Appearance();
-            var appearance3 = new Infragistics.Win.Appearance();
-            var ultraExplorerBarGroup2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
-            var appearance4 = new Infragistics.Win.Appearance();
-            var appearance5 = new Infragistics.Win.Appearance();
-            var appearance8 = new Infragistics.Win.Appearance();
-            this.NavigatorFeedSubscriptions =
-                new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
-            this.treeFeeds = new Infragistics.Win.UltraWinTree.UltraTree();
-            this.NavigatorSearch = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
-            this.panelRssSearch = new System.Windows.Forms.Panel();
-            this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
-            this.panelFeedDetails = new System.Windows.Forms.Panel();
-            this.panelWebDetail = new System.Windows.Forms.Panel();
-            this.htmlDetail = new IEControl.HtmlControl();
-            this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
-            this.panelFeedItems = new System.Windows.Forms.Panel();
-            this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
-            this.listFeedItems = new System.Windows.Forms.ThListView.ThreadedListView();
-            this.colHeadline = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
-            this.colDate = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
-            this.colTopic = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this._status = new System.Windows.Forms.StatusBar();
-            this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
-            this.statusBarBrowserProgress = new System.Windows.Forms.StatusBarPanel();
-            this.statusBarConnectionState = new System.Windows.Forms.StatusBarPanel();
-            this.statusBarRssParser = new System.Windows.Forms.StatusBarPanel();
-            this.progressBrowser = new System.Windows.Forms.ProgressBar();
-            this.rightSandDock = new TD.SandDock.DockContainer();
-            this.sandDockManager = new TD.SandDock.SandDockManager();
-            this.bottomSandDock = new TD.SandDock.DockContainer();
-            this.topSandDock = new TD.SandDock.DockContainer();
-            this._docContainer = new TD.SandDock.DocumentContainer();
-            this._docFeedDetails = new TD.SandDock.DockControl();
-            this.panelClientAreaContainer = new System.Windows.Forms.Panel();
-            this.panelFeedDetailsContainer = new System.Windows.Forms.Panel();
-            this.detailHeaderCaption = new Infragistics.Win.Misc.UltraLabel();
-            this.splitterNavigator = new System.Windows.Forms.Splitter();
-            this.Navigator = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar();
-            this.pNavigatorCollapsed = new System.Windows.Forms.Panel();
-            this.navigatorHiddenCaption = new RssBandit.WinGui.Controls.VerticalHeaderLabel();
-            this._startupTimer = new System.Windows.Forms.Timer(this.components);
-            this._timerTreeNodeExpand = new System.Timers.Timer();
-            this._timerRefreshFeeds = new System.Timers.Timer();
-            this._timerRefreshCommentFeeds = new System.Timers.Timer();
-            this._timerResetStatus = new System.Windows.Forms.Timer(this.components);
-            this._uiTasksTimer = new RssBandit.WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-            this._timerDispatchResultsToUI = new System.Windows.Forms.Timer(this.components);
-            this.NavigatorFeedSubscriptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.treeFeeds)).BeginInit();
-            this.NavigatorSearch.SuspendLayout();
-            this.panelFeedDetails.SuspendLayout();
-            this.panelWebDetail.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.htmlDetail)).BeginInit();
-            this.panelFeedItems.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.listFeedItemsO)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarBrowser)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarBrowserProgress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarConnectionState)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarRssParser)).BeginInit();
-            this._docContainer.SuspendLayout();
-            this._docFeedDetails.SuspendLayout();
-            this.panelClientAreaContainer.SuspendLayout();
-            this.panelFeedDetailsContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.Navigator)).BeginInit();
-            this.Navigator.SuspendLayout();
-            this.pNavigatorCollapsed.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this._timerTreeNodeExpand)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this._timerRefreshFeeds)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this._timerRefreshCommentFeeds)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // NavigatorFeedSubscriptions
-            // 
-            this.NavigatorFeedSubscriptions.Controls.Add(this.treeFeeds);
-            resources.ApplyResources(this.NavigatorFeedSubscriptions, "NavigatorFeedSubscriptions");
-            this.NavigatorFeedSubscriptions.Name = "NavigatorFeedSubscriptions";
-            this.helpProvider1.SetShowHelp(this.NavigatorFeedSubscriptions,
-                                           ((bool) (resources.GetObject("NavigatorFeedSubscriptions.ShowHelp"))));
-            // 
-            // treeFeeds
-            // 
-            this.treeFeeds.AllowDrop = true;
-            this.treeFeeds.BorderStyle = Infragistics.Win.UIElementBorderStyle.None;
-            resources.ApplyResources(this.treeFeeds, "treeFeeds");
-            this.treeFeeds.HideSelection = false;
-            this.treeFeeds.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.treeFeeds.Name = "treeFeeds";
-            this.treeFeeds.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
-            _override1.LabelEdit = Infragistics.Win.DefaultableBoolean.True;
-            _override1.Sort = Infragistics.Win.UltraWinTree.SortType.Ascending;
-            this.treeFeeds.Override = _override1;
-            this.treeFeeds.SettingsKey = "WinGuiMain.treeFeeds";
-            this.helpProvider1.SetShowHelp(this.treeFeeds, ((bool) (resources.GetObject("treeFeeds.ShowHelp"))));
-            // 
-            // NavigatorSearch
-            // 
-            this.NavigatorSearch.Controls.Add(this.panelRssSearch);
-            resources.ApplyResources(this.NavigatorSearch, "NavigatorSearch");
-            this.NavigatorSearch.Name = "NavigatorSearch";
-            this.helpProvider1.SetShowHelp(this.NavigatorSearch,
-                                           ((bool) (resources.GetObject("NavigatorSearch.ShowHelp"))));
-            // 
-            // panelRssSearch
-            // 
-            this.panelRssSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            resources.ApplyResources(this.panelRssSearch, "panelRssSearch");
-            this.panelRssSearch.Name = "panelRssSearch";
-            this.helpProvider1.SetShowHelp(this.panelRssSearch,
-                                           ((bool) (resources.GetObject("panelRssSearch.ShowHelp"))));
-            // 
-            // ultraToolTipManager
-            // 
-            this.ultraToolTipManager.ContainingControl = this;
-            this.ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
-            // 
-            // panelFeedDetails
-            // 
-            this.panelFeedDetails.Controls.Add(this.panelWebDetail);
-            this.panelFeedDetails.Controls.Add(this.detailsPaneSplitter);
-            this.panelFeedDetails.Controls.Add(this.panelFeedItems);
-            resources.ApplyResources(this.panelFeedDetails, "panelFeedDetails");
-            this.panelFeedDetails.Name = "panelFeedDetails";
-            this.helpProvider1.SetShowHelp(this.panelFeedDetails,
-                                           ((bool) (resources.GetObject("panelFeedDetails.ShowHelp"))));
-            // 
-            // panelWebDetail
-            // 
-            this.panelWebDetail.Controls.Add(this.htmlDetail);
-            resources.ApplyResources(this.panelWebDetail, "panelWebDetail");
-            this.panelWebDetail.Name = "panelWebDetail";
-            this.helpProvider1.SetShowHelp(this.panelWebDetail,
-                                           ((bool) (resources.GetObject("panelWebDetail.ShowHelp"))));
-            // 
-            // htmlDetail
-            // 
-            this.htmlDetail.AllowDrop = true;
-            resources.ApplyResources(this.htmlDetail, "htmlDetail");
-            this.htmlDetail.Name = "htmlDetail";
-            this.htmlDetail.OcxState =
-                ((System.Windows.Forms.AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
-            this.helpProvider1.SetShowHelp(this.htmlDetail, ((bool) (resources.GetObject("htmlDetail.ShowHelp"))));
-            // 
-            // detailsPaneSplitter
-            // 
-            this.detailsPaneSplitter.AnimationDelay = 20;
-            this.detailsPaneSplitter.AnimationStep = 20;
-            this.detailsPaneSplitter.BackColor = System.Drawing.SystemColors.Control;
-            this.detailsPaneSplitter.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.detailsPaneSplitter.ControlToHide = this.panelFeedItems;
-            this.detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-            resources.ApplyResources(this.detailsPaneSplitter, "detailsPaneSplitter");
-            this.detailsPaneSplitter.ExpandParentForm = false;
-            this.detailsPaneSplitter.Name = "detailsPaneSplitter";
-            this.helpProvider1.SetShowHelp(this.detailsPaneSplitter,
-                                           ((bool) (resources.GetObject("detailsPaneSplitter.ShowHelp"))));
-            this.detailsPaneSplitter.TabStop = false;
-            this.detailsPaneSplitter.UseAnimations = false;
-            this.detailsPaneSplitter.VisualStyle = RssBandit.WinGui.Controls.VisualStyles.XP;
-            // 
-            // panelFeedItems
-            // 
-            this.panelFeedItems.Controls.Add(this.listFeedItemsO);
-            this.panelFeedItems.Controls.Add(this.listFeedItems);
-            resources.ApplyResources(this.panelFeedItems, "panelFeedItems");
-            this.panelFeedItems.Name = "panelFeedItems";
-            this.helpProvider1.SetShowHelp(this.panelFeedItems,
-                                           ((bool) (resources.GetObject("panelFeedItems.ShowHelp"))));
-            // 
-            // listFeedItemsO
-            // 
-            this.listFeedItemsO.ColumnSettings.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
-            this.listFeedItemsO.ColumnSettings.AutoFitColumns =
-                Infragistics.Win.UltraWinTree.AutoFitColumns.ResizeAllColumns;
-            ultraTreeColumnSet1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
-            ultraTreeNodeColumn1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
-            ultraTreeNodeColumn1.Key = "Arranged by: Date";
-            ultraTreeColumnSet1.Columns.Add(ultraTreeNodeColumn1);
-            ultraTreeColumnSet1.Key = "csOutlook";
-            this.listFeedItemsO.ColumnSettings.ColumnSets.Add(ultraTreeColumnSet1);
-            this.listFeedItemsO.ColumnSettings.HeaderStyle = Infragistics.Win.HeaderStyle.XPThemed;
-            resources.ApplyResources(this.listFeedItemsO, "listFeedItemsO");
-            this.listFeedItemsO.FullRowSelect = true;
-            this.listFeedItemsO.HideSelection = false;
-            this.listFeedItemsO.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.listFeedItemsO.IsUpdatingSelection = false;
-            this.listFeedItemsO.Name = "listFeedItemsO";
-            this.listFeedItemsO.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
-            _override2.ColumnSetIndex = 0;
-            _override2.ItemHeight = 35;
-            _override2.SelectionType = Infragistics.Win.UltraWinTree.SelectType.Extended;
-            this.listFeedItemsO.Override = _override2;
-            this.listFeedItemsO.SettingsKey = "WinGuiMain.listFeedItemsO";
-            this.helpProvider1.SetShowHelp(this.listFeedItemsO,
-                                           ((bool) (resources.GetObject("listFeedItemsO.ShowHelp"))));
-            // 
-            // listFeedItems
-            // 
-            this.listFeedItems.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listFeedItems.AllowColumnReorder = true;
-            this.listFeedItems.Columns.AddRange(new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader[]
-                                                    {
-                                                        this.colHeadline,
-                                                        this.colDate,
-                                                        this.colTopic
-                                                    });
-            resources.ApplyResources(this.listFeedItems, "listFeedItems");
-            this.listFeedItems.FullRowSelect = true;
-            this.listFeedItems.HideSelection = false;
-            this.listFeedItems.MultiSelect = true;
-            this.listFeedItems.Name = "listFeedItems";
-            this.listFeedItems.NoThreadChildsPlaceHolder = null;
-            this.helpProvider1.SetShowHelp(this.listFeedItems, ((bool) (resources.GetObject("listFeedItems.ShowHelp"))));
-            this.listFeedItems.UseCompatibleStateImageBehavior = false;
-            this.listFeedItems.View = System.Windows.Forms.View.Details;
-            this.listFeedItems.ListLayoutModified += this.OnFeedListLayoutModified;
-            this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
-            this.listFeedItems.ExpandThread += this.OnFeedListExpandThread;
-            this.listFeedItems.ListLayoutChanged += this.OnFeedListLayoutChanged;
-            this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
-            this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
-            this.listFeedItems.AfterExpandThread += this.OnFeedListAfterExpandThread;
-            this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
-            // 
-            // colHeadline
-            // 
-            this.colHeadline.ColumnValueType = typeof (string);
-            this.colHeadline.Key = "Title";
-            resources.ApplyResources(this.colHeadline, "colHeadline");
-            // 
-            // colDate
-            // 
-            this.colDate.ColumnValueType = typeof (System.DateTime);
-            this.colDate.Key = "Date";
-            resources.ApplyResources(this.colDate, "colDate");
-            // 
-            // colTopic
-            // 
-            this.colTopic.ColumnValueType = typeof (string);
-            this.colTopic.Key = "Subject";
-            resources.ApplyResources(this.colTopic, "colTopic");
-            // 
-            // _status
-            // 
-            resources.ApplyResources(this._status, "_status");
-            this._status.Name = "_status";
-            this._status.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[]
-                                             {
-                                                 this.statusBarBrowser,
-                                                 this.statusBarBrowserProgress,
-                                                 this.statusBarConnectionState,
-                                                 this.statusBarRssParser
-                                             });
-            this.helpProvider1.SetShowHelp(this._status, ((bool) (resources.GetObject("_status.ShowHelp"))));
-            this._status.ShowPanels = true;
-            // 
-            // statusBarBrowser
-            // 
-            this.statusBarBrowser.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
-            resources.ApplyResources(this.statusBarBrowser, "statusBarBrowser");
-            // 
-            // statusBarBrowserProgress
-            // 
-            resources.ApplyResources(this.statusBarBrowserProgress, "statusBarBrowserProgress");
-            // 
-            // statusBarConnectionState
-            // 
-            resources.ApplyResources(this.statusBarConnectionState, "statusBarConnectionState");
-            // 
-            // statusBarRssParser
-            // 
-            resources.ApplyResources(this.statusBarRssParser, "statusBarRssParser");
-            // 
-            // progressBrowser
-            // 
-            resources.ApplyResources(this.progressBrowser, "progressBrowser");
-            this.progressBrowser.Name = "progressBrowser";
-            this.helpProvider1.SetShowHelp(this.progressBrowser,
-                                           ((bool) (resources.GetObject("progressBrowser.ShowHelp"))));
-            // 
-            // rightSandDock
-            // 
-            resources.ApplyResources(this.rightSandDock, "rightSandDock");
-            this.rightSandDock.Guid = new System.Guid("c6e4c477-596c-4e8c-9d35-840718d4c40d");
-            this.rightSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-            this.rightSandDock.Manager = this.sandDockManager;
-            this.rightSandDock.Name = "rightSandDock";
-            this.helpProvider1.SetShowHelp(this.rightSandDock, ((bool) (resources.GetObject("rightSandDock.ShowHelp"))));
-            // 
-            // sandDockManager
-            // 
-            this.sandDockManager.DockingManager = TD.SandDock.DockingManager.Whidbey;
-            this.sandDockManager.OwnerForm = this;
-            this.sandDockManager.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
-            // 
-            // bottomSandDock
-            // 
-            resources.ApplyResources(this.bottomSandDock, "bottomSandDock");
-            this.bottomSandDock.Guid = new System.Guid("9ffc7b96-a550-4e79-a533-8eee52ac0da1");
-            this.bottomSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-            this.bottomSandDock.Manager = this.sandDockManager;
-            this.bottomSandDock.Name = "bottomSandDock";
-            this.helpProvider1.SetShowHelp(this.bottomSandDock,
-                                           ((bool) (resources.GetObject("bottomSandDock.ShowHelp"))));
-            // 
-            // topSandDock
-            // 
-            resources.ApplyResources(this.topSandDock, "topSandDock");
-            this.topSandDock.Guid = new System.Guid("e1c62abd-0e7a-4bb6-aded-a74f27027165");
-            this.topSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
-            this.topSandDock.Manager = this.sandDockManager;
-            this.topSandDock.Name = "topSandDock";
-            this.helpProvider1.SetShowHelp(this.topSandDock, ((bool) (resources.GetObject("topSandDock.ShowHelp"))));
-            // 
-            // _docContainer
-            // 
-            this._docContainer.Controls.Add(this._docFeedDetails);
-            this._docContainer.Cursor = System.Windows.Forms.Cursors.Default;
-            this._docContainer.DockingManager = TD.SandDock.DockingManager.Whidbey;
-            this._docContainer.Guid = new System.Guid("f032a648-4262-4312-ab2b-abe5094272bd");
-            this._docContainer.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400,
-                                                                                System.Windows.Forms.Orientation.
-                                                                                    Horizontal,
-                                                                                new TD.SandDock.LayoutSystemBase[]
-                                                                                    {
-                                                                                        ((TD.SandDock.LayoutSystemBase)
-                                                                                         (new TD.SandDock.
-                                                                                             DocumentLayoutSystem(392,
-                                                                                                                  414,
-                                                                                                                  new TD
-                                                                                                                      .
-                                                                                                                      SandDock
-                                                                                                                      .
-                                                                                                                      DockControl
-                                                                                                                      []
-                                                                                                                      {
-                                                                                                                          this
-                                                                                                                              .
-                                                                                                                              _docFeedDetails
-                                                                                                                      },
-                                                                                                                  this.
-                                                                                                                      _docFeedDetails)))
-                                                                                    });
-            resources.ApplyResources(this._docContainer, "_docContainer");
-            this._docContainer.Manager = null;
-            this._docContainer.Name = "_docContainer";
-            this._docContainer.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
-            this.helpProvider1.SetShowHelp(this._docContainer, ((bool) (resources.GetObject("_docContainer.ShowHelp"))));
-            // 
-            // _docFeedDetails
-            // 
-            this._docFeedDetails.Closable = false;
-            this._docFeedDetails.Controls.Add(this.panelFeedDetails);
-            this._docFeedDetails.Guid = new System.Guid("9c7b7643-2ed3-402c-9e86-3c958341c81f");
-            resources.ApplyResources(this._docFeedDetails, "_docFeedDetails");
-            this._docFeedDetails.Name = "_docFeedDetails";
-            this.helpProvider1.SetShowHelp(this._docFeedDetails,
-                                           ((bool) (resources.GetObject("_docFeedDetails.ShowHelp"))));
-            // 
-            // panelClientAreaContainer
-            // 
-            this.panelClientAreaContainer.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (243)))),
-                                                                                    ((int) (((byte) (243)))),
-                                                                                    ((int) (((byte) (247)))));
-            this.panelClientAreaContainer.Controls.Add(this.panelFeedDetailsContainer);
-            this.panelClientAreaContainer.Controls.Add(this.splitterNavigator);
-            this.panelClientAreaContainer.Controls.Add(this.Navigator);
-            this.panelClientAreaContainer.Controls.Add(this.pNavigatorCollapsed);
-            resources.ApplyResources(this.panelClientAreaContainer, "panelClientAreaContainer");
-            this.panelClientAreaContainer.Name = "panelClientAreaContainer";
-            this.helpProvider1.SetShowHelp(this.panelClientAreaContainer,
-                                           ((bool) (resources.GetObject("panelClientAreaContainer.ShowHelp"))));
-            // 
-            // panelFeedDetailsContainer
-            // 
-            this.panelFeedDetailsContainer.Controls.Add(this._docContainer);
-            this.panelFeedDetailsContainer.Controls.Add(this.detailHeaderCaption);
-            resources.ApplyResources(this.panelFeedDetailsContainer, "panelFeedDetailsContainer");
-            this.panelFeedDetailsContainer.Name = "panelFeedDetailsContainer";
-            this.helpProvider1.SetShowHelp(this.panelFeedDetailsContainer,
-                                           ((bool) (resources.GetObject("panelFeedDetailsContainer.ShowHelp"))));
-            // 
-            // detailHeaderCaption
-            // 
-            appearance7.BackColor = System.Drawing.Color.CornflowerBlue;
-            appearance7.BackColor2 = System.Drawing.Color.MidnightBlue;
-            appearance7.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
-            appearance7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            appearance7.ImageHAlign = Infragistics.Win.HAlign.Right;
-            appearance7.ImageVAlign = Infragistics.Win.VAlign.Middle;
-            resources.ApplyResources(appearance7, "appearance7");
-            appearance7.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-            this.detailHeaderCaption.Appearance = appearance7;
-            resources.ApplyResources(this.detailHeaderCaption, "detailHeaderCaption");
-            this.detailHeaderCaption.Name = "detailHeaderCaption";
-            this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
-            this.helpProvider1.SetShowHelp(this.detailHeaderCaption,
-                                           ((bool) (resources.GetObject("detailHeaderCaption.ShowHelp"))));
-            this.detailHeaderCaption.WrapText = false;
-            // 
-            // splitterNavigator
-            // 
-            resources.ApplyResources(this.splitterNavigator, "splitterNavigator");
-            this.splitterNavigator.Name = "splitterNavigator";
-            this.helpProvider1.SetShowHelp(this.splitterNavigator,
-                                           ((bool) (resources.GetObject("splitterNavigator.ShowHelp"))));
-            this.splitterNavigator.TabStop = false;
-            // 
-            // Navigator
-            // 
-            this.Navigator.Controls.Add(this.NavigatorFeedSubscriptions);
-            this.Navigator.Controls.Add(this.NavigatorSearch);
-            resources.ApplyResources(this.Navigator, "Navigator");
-            ultraExplorerBarGroup1.Container = this.NavigatorFeedSubscriptions;
-            ultraExplorerBarGroup1.Key = "groupFeedsTree";
-            appearance2.Image = ((object) (resources.GetObject("appearance2.Image")));
-            ultraExplorerBarGroup1.Settings.AppearancesLarge.HeaderAppearance = appearance2;
-            appearance3.Image = ((object) (resources.GetObject("appearance3.Image")));
-            ultraExplorerBarGroup1.Settings.AppearancesSmall.HeaderAppearance = appearance3;
-            resources.ApplyResources(ultraExplorerBarGroup1, "ultraExplorerBarGroup1");
-            ultraExplorerBarGroup2.Container = this.NavigatorSearch;
-            ultraExplorerBarGroup2.Key = "groupFeedsSearch";
-            appearance4.Image = ((object) (resources.GetObject("appearance4.Image")));
-            ultraExplorerBarGroup2.Settings.AppearancesLarge.HeaderAppearance = appearance4;
-            appearance5.Image = ((object) (resources.GetObject("appearance5.Image")));
-            ultraExplorerBarGroup2.Settings.AppearancesSmall.HeaderAppearance = appearance5;
-            resources.ApplyResources(ultraExplorerBarGroup2, "ultraExplorerBarGroup2");
-            this.Navigator.Groups.AddRange(new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup[]
-                                               {
-                                                   ultraExplorerBarGroup1,
-                                                   ultraExplorerBarGroup2
-                                               });
-            this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
-            this.Navigator.Name = "Navigator";
-            this.Navigator.NavigationMaxGroupHeaders = 0;
-            this.helpProvider1.SetShowHelp(this.Navigator, ((bool) (resources.GetObject("Navigator.ShowHelp"))));
-            this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
-            // 
-            // pNavigatorCollapsed
-            // 
-            this.pNavigatorCollapsed.BackColor = System.Drawing.Color.Transparent;
-            this.pNavigatorCollapsed.Controls.Add(this.navigatorHiddenCaption);
-            resources.ApplyResources(this.pNavigatorCollapsed, "pNavigatorCollapsed");
-            this.pNavigatorCollapsed.Name = "pNavigatorCollapsed";
-            this.helpProvider1.SetShowHelp(this.pNavigatorCollapsed,
-                                           ((bool) (resources.GetObject("pNavigatorCollapsed.ShowHelp"))));
-            // 
-            // navigatorHiddenCaption
-            // 
-            appearance8.BackColor = System.Drawing.Color.CornflowerBlue;
-            appearance8.BackColor2 = System.Drawing.Color.MidnightBlue;
-            appearance8.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
-            appearance8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            appearance8.Image = ((object) (resources.GetObject("appearance8.Image")));
-            appearance8.ImageHAlign = Infragistics.Win.HAlign.Center;
-            appearance8.ImageVAlign = Infragistics.Win.VAlign.Top;
-            resources.ApplyResources(appearance8, "appearance8");
-            appearance8.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
-            this.navigatorHiddenCaption.Appearance = appearance8;
-            resources.ApplyResources(this.navigatorHiddenCaption, "navigatorHiddenCaption");
-            this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
-            this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
-            this.helpProvider1.SetShowHelp(this.navigatorHiddenCaption,
-                                           ((bool) (resources.GetObject("navigatorHiddenCaption.ShowHelp"))));
-            this.navigatorHiddenCaption.WrapText = false;
-            // 
-            // _startupTimer
-            // 
-            this._startupTimer.Interval = 45000;
-            this._startupTimer.Tick += new System.EventHandler(this.OnTimerStartupTick);
-            // 
-            // _timerTreeNodeExpand
-            // 
-            this._timerTreeNodeExpand.Interval = 1000;
-            this._timerTreeNodeExpand.SynchronizingObject = this;
-            this._timerTreeNodeExpand.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerTreeNodeExpandElapsed);
-            // 
-            // _timerRefreshFeeds
-            // 
-            this._timerRefreshFeeds.Interval = 600000;
-            this._timerRefreshFeeds.SynchronizingObject = this;
-            this._timerRefreshFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerFeedsRefreshElapsed);
-            // 
-            // _timerRefreshCommentFeeds
-            // 
-            this._timerRefreshCommentFeeds.Interval = 600000;
-            this._timerRefreshCommentFeeds.SynchronizingObject = this;
-            this._timerRefreshCommentFeeds.Elapsed +=
-                new System.Timers.ElapsedEventHandler(this.OnTimerCommentFeedsRefreshElapsed);
-            // 
-            // _timerResetStatus
-            // 
-            this._timerResetStatus.Interval = 5000;
-            this._timerResetStatus.Tick += new System.EventHandler(this.OnTimerResetStatusTick);
-            // 
-            // _uiTasksTimer
-            // 
-            this._uiTasksTimer.Enabled = true;
-            // 
-            // helpProvider1
-            // 
-            resources.ApplyResources(this.helpProvider1, "helpProvider1");
-            // 
-            // _timerDispatchResultsToUI
-            // 
-            this._timerDispatchResultsToUI.Interval = 250;
-            // 
-            // WinGuiMain
-            // 
-            resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.panelClientAreaContainer);
-            this.Controls.Add(this.rightSandDock);
-            this.Controls.Add(this.bottomSandDock);
-            this.Controls.Add(this.topSandDock);
-            this.Controls.Add(this.progressBrowser);
-            this.Controls.Add(this._status);
-            this.helpProvider1.SetHelpNavigator(this,
-                                                ((System.Windows.Forms.HelpNavigator)
-                                                 (resources.GetObject("$this.HelpNavigator"))));
-            this.KeyPreview = true;
-            this.Name = "WinGuiMain";
-            this.helpProvider1.SetShowHelp(this, ((bool) (resources.GetObject("$this.ShowHelp"))));
-            this.NavigatorFeedSubscriptions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.treeFeeds)).EndInit();
-            this.NavigatorSearch.ResumeLayout(false);
-            this.panelFeedDetails.ResumeLayout(false);
-            this.panelWebDetail.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.htmlDetail)).EndInit();
-            this.panelFeedItems.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.listFeedItemsO)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarBrowser)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarBrowserProgress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarConnectionState)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.statusBarRssParser)).EndInit();
-            this._docContainer.ResumeLayout(false);
-            this._docFeedDetails.ResumeLayout(false);
-            this.panelClientAreaContainer.ResumeLayout(false);
-            this.panelFeedDetailsContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.Navigator)).EndInit();
-            this.Navigator.ResumeLayout(false);
-            this.pNavigatorCollapsed.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this._timerTreeNodeExpand)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this._timerRefreshFeeds)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this._timerRefreshCommentFeeds)).EndInit();
-            this.ResumeLayout(false);
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinGuiMain));
+			Infragistics.Win.UltraWinTree.UltraTreeColumnSet ultraTreeColumnSet1 = new Infragistics.Win.UltraWinTree.UltraTreeColumnSet();
+			Infragistics.Win.UltraWinTree.UltraTreeNodeColumn ultraTreeNodeColumn1 = new Infragistics.Win.UltraWinTree.UltraTreeNodeColumn();
+			Infragistics.Win.UltraWinTree.Override _override1 = new Infragistics.Win.UltraWinTree.Override();
+			Infragistics.Win.Appearance appearance7 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
+			Infragistics.Win.Appearance appearance4 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance5 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance8 = new Infragistics.Win.Appearance();
+			this.NavigatorSearch = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
+			this.panelRssSearch = new System.Windows.Forms.Panel();
+			this.treeFeeds = new Infragistics.Win.UltraWinTree.UltraTree();
+			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
+			this.panelFeedDetails = new System.Windows.Forms.Panel();
+			this.panelWebDetail = new System.Windows.Forms.Panel();
+			this.htmlDetail = new IEControl.HtmlControl();
+			this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
+			this.panelFeedItems = new System.Windows.Forms.Panel();
+			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
+			this.listFeedItems = new System.Windows.Forms.ThListView.ThreadedListView();
+			this.colHeadline = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
+			this.colDate = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
+			this.colTopic = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this._status = new System.Windows.Forms.StatusBar();
+			this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
+			this.statusBarBrowserProgress = new System.Windows.Forms.StatusBarPanel();
+			this.statusBarConnectionState = new System.Windows.Forms.StatusBarPanel();
+			this.statusBarRssParser = new System.Windows.Forms.StatusBarPanel();
+			this.progressBrowser = new System.Windows.Forms.ProgressBar();
+			this.rightSandDock = new TD.SandDock.DockContainer();
+			this.sandDockManager = new TD.SandDock.SandDockManager();
+			this.bottomSandDock = new TD.SandDock.DockContainer();
+			this.topSandDock = new TD.SandDock.DockContainer();
+			this._docContainer = new TD.SandDock.DocumentContainer();
+			this._docFeedDetails = new TD.SandDock.DockControl();
+			this.panelClientAreaContainer = new System.Windows.Forms.Panel();
+			this.panelFeedDetailsContainer = new System.Windows.Forms.Panel();
+			this.detailHeaderCaption = new Infragistics.Win.Misc.UltraLabel();
+			this.splitterNavigator = new System.Windows.Forms.Splitter();
+			this.Navigator = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar();
+			this.pNavigatorCollapsed = new System.Windows.Forms.Panel();
+			this.navigatorHiddenCaption = new RssBandit.WinGui.Controls.VerticalHeaderLabel();
+			this._startupTimer = new System.Windows.Forms.Timer(this.components);
+			this._timerTreeNodeExpand = new System.Timers.Timer();
+			this._timerRefreshFeeds = new System.Timers.Timer();
+			this._timerRefreshCommentFeeds = new System.Timers.Timer();
+			this._timerResetStatus = new System.Windows.Forms.Timer(this.components);
+			this._uiTasksTimer = new RssBandit.WinGui.Forms.WinGuiMain.UITaskTimer(this.components);
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+			this._timerDispatchResultsToUI = new System.Windows.Forms.Timer(this.components);
+			this.NavigatorSearch.SuspendLayout();
+			this.panelRssSearch.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).BeginInit();
+			this.panelFeedDetails.SuspendLayout();
+			this.panelWebDetail.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).BeginInit();
+			this.panelFeedItems.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).BeginInit();
+			this._docContainer.SuspendLayout();
+			this._docFeedDetails.SuspendLayout();
+			this.panelClientAreaContainer.SuspendLayout();
+			this.panelFeedDetailsContainer.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Navigator)).BeginInit();
+			this.Navigator.SuspendLayout();
+			this.pNavigatorCollapsed.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._timerTreeNodeExpand)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshFeeds)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshCommentFeeds)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// NavigatorSearch
+			// 
+			this.NavigatorSearch.Controls.Add(this.panelRssSearch);
+			this.NavigatorSearch.Location = new System.Drawing.Point(1, 26);
+			this.NavigatorSearch.Name = "NavigatorSearch";
+			this.helpProvider1.SetShowHelp(this.NavigatorSearch, false);
+			this.NavigatorSearch.Size = new System.Drawing.Size(228, 376);
+			this.NavigatorSearch.TabIndex = 1;
+			// 
+			// panelRssSearch
+			// 
+			this.panelRssSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.panelRssSearch.Controls.Add(this.treeFeeds);
+			this.panelRssSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelRssSearch.Location = new System.Drawing.Point(0, 0);
+			this.panelRssSearch.Name = "panelRssSearch";
+			this.helpProvider1.SetShowHelp(this.panelRssSearch, false);
+			this.panelRssSearch.Size = new System.Drawing.Size(228, 376);
+			this.panelRssSearch.TabIndex = 0;
+			// 
+			// treeFeeds
+			// 
+			this.treeFeeds.Location = new System.Drawing.Point(17, 32);
+			this.treeFeeds.Name = "treeFeeds";
+			this.treeFeeds.Size = new System.Drawing.Size(121, 97);
+			this.treeFeeds.TabIndex = 0;
+			this.treeFeeds.Visible = false;
+			// 
+			// ultraToolTipManager
+			// 
+			this.ultraToolTipManager.ContainingControl = this;
+			this.ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
+			// 
+			// panelFeedDetails
+			// 
+			this.panelFeedDetails.Controls.Add(this.panelWebDetail);
+			this.panelFeedDetails.Controls.Add(this.detailsPaneSplitter);
+			this.panelFeedDetails.Controls.Add(this.panelFeedItems);
+			this.panelFeedDetails.Location = new System.Drawing.Point(35, 20);
+			this.panelFeedDetails.Name = "panelFeedDetails";
+			this.helpProvider1.SetShowHelp(this.panelFeedDetails, false);
+			this.panelFeedDetails.Size = new System.Drawing.Size(287, 270);
+			this.panelFeedDetails.TabIndex = 998;
+			// 
+			// panelWebDetail
+			// 
+			this.panelWebDetail.Controls.Add(this.htmlDetail);
+			this.panelWebDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelWebDetail.Location = new System.Drawing.Point(0, 108);
+			this.panelWebDetail.Name = "panelWebDetail";
+			this.helpProvider1.SetShowHelp(this.panelWebDetail, false);
+			this.panelWebDetail.Size = new System.Drawing.Size(287, 162);
+			this.panelWebDetail.TabIndex = 997;
+			// 
+			// htmlDetail
+			// 
+			this.htmlDetail.AllowDrop = true;
+			this.htmlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.htmlDetail.Enabled = true;
+			this.htmlDetail.Location = new System.Drawing.Point(0, 0);
+			this.htmlDetail.Name = "htmlDetail";
+			this.htmlDetail.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
+			this.htmlDetail.RightToLeft = false;
+			this.helpProvider1.SetShowHelp(this.htmlDetail, false);
+			this.htmlDetail.Size = new System.Drawing.Size(287, 162);
+			this.htmlDetail.TabIndex = 170;
+			// 
+			// detailsPaneSplitter
+			// 
+			this.detailsPaneSplitter.AnimationDelay = 20;
+			this.detailsPaneSplitter.AnimationStep = 20;
+			this.detailsPaneSplitter.BackColor = System.Drawing.SystemColors.Control;
+			this.detailsPaneSplitter.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+			this.detailsPaneSplitter.ControlToHide = this.panelFeedItems;
+			this.detailsPaneSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
+			this.detailsPaneSplitter.Dock = System.Windows.Forms.DockStyle.Top;
+			this.detailsPaneSplitter.ExpandParentForm = false;
+			this.detailsPaneSplitter.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.detailsPaneSplitter.Location = new System.Drawing.Point(0, 100);
+			this.detailsPaneSplitter.Name = "detailsPaneSplitter";
+			this.helpProvider1.SetShowHelp(this.detailsPaneSplitter, false);
+			this.detailsPaneSplitter.TabIndex = 2;
+			this.detailsPaneSplitter.TabStop = false;
+			this.detailsPaneSplitter.UseAnimations = false;
+			this.detailsPaneSplitter.VisualStyle = RssBandit.WinGui.Controls.VisualStyles.XP;
+			// 
+			// panelFeedItems
+			// 
+			this.panelFeedItems.Controls.Add(this.listFeedItemsO);
+			this.panelFeedItems.Controls.Add(this.listFeedItems);
+			this.panelFeedItems.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panelFeedItems.Location = new System.Drawing.Point(0, 0);
+			this.panelFeedItems.Name = "panelFeedItems";
+			this.helpProvider1.SetShowHelp(this.panelFeedItems, false);
+			this.panelFeedItems.Size = new System.Drawing.Size(287, 100);
+			this.panelFeedItems.TabIndex = 1000;
+			// 
+			// listFeedItemsO
+			// 
+			this.listFeedItemsO.ColumnSettings.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			this.listFeedItemsO.ColumnSettings.AutoFitColumns = Infragistics.Win.UltraWinTree.AutoFitColumns.ResizeAllColumns;
+			ultraTreeColumnSet1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			ultraTreeNodeColumn1.AllowCellEdit = Infragistics.Win.UltraWinTree.AllowCellEdit.Disabled;
+			ultraTreeNodeColumn1.Key = "Arranged by: Date";
+			ultraTreeColumnSet1.Columns.Add(ultraTreeNodeColumn1);
+			ultraTreeColumnSet1.Key = "csOutlook";
+			this.listFeedItemsO.ColumnSettings.ColumnSets.Add(ultraTreeColumnSet1);
+			this.listFeedItemsO.ColumnSettings.HeaderStyle = Infragistics.Win.HeaderStyle.XPThemed;
+			this.listFeedItemsO.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listFeedItemsO.FullRowSelect = true;
+			this.listFeedItemsO.HideSelection = false;
+			this.listFeedItemsO.ImageTransparentColor = System.Drawing.Color.Transparent;
+			this.listFeedItemsO.IsUpdatingSelection = false;
+			this.listFeedItemsO.Location = new System.Drawing.Point(0, 0);
+			this.listFeedItemsO.Name = "listFeedItemsO";
+			this.listFeedItemsO.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
+			_override1.ColumnSetIndex = 0;
+			_override1.ItemHeight = 35;
+			_override1.SelectionType = Infragistics.Win.UltraWinTree.SelectType.Extended;
+			this.listFeedItemsO.Override = _override1;
+			this.listFeedItemsO.SettingsKey = "WinGuiMain.listFeedItemsO";
+			this.helpProvider1.SetShowHelp(this.listFeedItemsO, false);
+			this.listFeedItemsO.Size = new System.Drawing.Size(287, 100);
+			this.listFeedItemsO.TabIndex = 1;
+			this.listFeedItemsO.Visible = false;
+			// 
+			// listFeedItems
+			// 
+			this.listFeedItems.Activation = System.Windows.Forms.ItemActivation.OneClick;
+			this.listFeedItems.AllowColumnReorder = true;
+			this.listFeedItems.Columns.AddRange(new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader[] {
+            this.colHeadline,
+            this.colDate,
+            this.colTopic});
+			this.listFeedItems.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listFeedItems.FullRowSelect = true;
+			this.listFeedItems.HideSelection = false;
+			this.listFeedItems.Location = new System.Drawing.Point(0, 0);
+			this.listFeedItems.Name = "listFeedItems";
+			this.listFeedItems.NoThreadChildsPlaceHolder = null;
+			this.helpProvider1.SetShowHelp(this.listFeedItems, false);
+			this.listFeedItems.Size = new System.Drawing.Size(287, 100);
+			this.listFeedItems.TabIndex = 0;
+			this.listFeedItems.UseCompatibleStateImageBehavior = false;
+			this.listFeedItems.View = System.Windows.Forms.View.Details;
+			this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
+			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
+			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
+			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
+			// 
+			// colHeadline
+			// 
+			this.colHeadline.ColumnValueType = typeof(string);
+			this.colHeadline.Key = "Title";
+			this.colHeadline.Text = "Headline";
+			this.colHeadline.Width = 150;
+			// 
+			// colDate
+			// 
+			this.colDate.ColumnValueType = typeof(System.DateTime);
+			this.colDate.Key = "Date";
+			this.colDate.Text = "Date";
+			this.colDate.Width = 80;
+			// 
+			// colTopic
+			// 
+			this.colTopic.ColumnValueType = typeof(string);
+			this.colTopic.Key = "Subject";
+			this.colTopic.Text = "Topic";
+			this.colTopic.Width = 80;
+			// 
+			// _status
+			// 
+			this._status.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this._status.Location = new System.Drawing.Point(0, 451);
+			this._status.Name = "_status";
+			this._status.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.statusBarBrowser,
+            this.statusBarBrowserProgress,
+            this.statusBarConnectionState,
+            this.statusBarRssParser});
+			this.helpProvider1.SetShowHelp(this._status, false);
+			this._status.ShowPanels = true;
+			this._status.Size = new System.Drawing.Size(671, 25);
+			this._status.TabIndex = 1003;
+			// 
+			// statusBarBrowser
+			// 
+			this.statusBarBrowser.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
+			this.statusBarBrowser.MinWidth = 100;
+			this.statusBarBrowser.Name = "statusBarBrowser";
+			this.statusBarBrowser.Text = "Browser";
+			this.statusBarBrowser.ToolTipText = "Web Browser status...";
+			this.statusBarBrowser.Width = 260;
+			// 
+			// statusBarBrowserProgress
+			// 
+			this.statusBarBrowserProgress.MinWidth = 0;
+			this.statusBarBrowserProgress.Name = "statusBarBrowserProgress";
+			this.statusBarBrowserProgress.ToolTipText = "Request page progress...";
+			this.statusBarBrowserProgress.Width = 120;
+			// 
+			// statusBarConnectionState
+			// 
+			this.statusBarConnectionState.MinWidth = 24;
+			this.statusBarConnectionState.Name = "statusBarConnectionState";
+			this.statusBarConnectionState.ToolTipText = "Network connection state...";
+			this.statusBarConnectionState.Width = 24;
+			// 
+			// statusBarRssParser
+			// 
+			this.statusBarRssParser.MinWidth = 250;
+			this.statusBarRssParser.Name = "statusBarRssParser";
+			this.statusBarRssParser.ToolTipText = "RSS Engine state...";
+			this.statusBarRssParser.Width = 250;
+			// 
+			// progressBrowser
+			// 
+			this.progressBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.progressBrowser.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.progressBrowser.Location = new System.Drawing.Point(270, 457);
+			this.progressBrowser.Name = "progressBrowser";
+			this.helpProvider1.SetShowHelp(this.progressBrowser, false);
+			this.progressBrowser.Size = new System.Drawing.Size(105, 15);
+			this.progressBrowser.TabIndex = 1010;
+			this.progressBrowser.Visible = false;
+			// 
+			// rightSandDock
+			// 
+			this.rightSandDock.Dock = System.Windows.Forms.DockStyle.Right;
+			this.rightSandDock.Guid = new System.Guid("c6e4c477-596c-4e8c-9d35-840718d4c40d");
+			this.rightSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
+			this.rightSandDock.Location = new System.Drawing.Point(671, 0);
+			this.rightSandDock.Manager = this.sandDockManager;
+			this.rightSandDock.Name = "rightSandDock";
+			this.helpProvider1.SetShowHelp(this.rightSandDock, false);
+			this.rightSandDock.Size = new System.Drawing.Size(0, 451);
+			this.rightSandDock.TabIndex = 1012;
+			// 
+			// sandDockManager
+			// 
+			this.sandDockManager.DockingManager = TD.SandDock.DockingManager.Whidbey;
+			this.sandDockManager.OwnerForm = this;
+			this.sandDockManager.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
+			// 
+			// bottomSandDock
+			// 
+			this.bottomSandDock.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.bottomSandDock.Guid = new System.Guid("9ffc7b96-a550-4e79-a533-8eee52ac0da1");
+			this.bottomSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
+			this.bottomSandDock.Location = new System.Drawing.Point(0, 451);
+			this.bottomSandDock.Manager = this.sandDockManager;
+			this.bottomSandDock.Name = "bottomSandDock";
+			this.helpProvider1.SetShowHelp(this.bottomSandDock, false);
+			this.bottomSandDock.Size = new System.Drawing.Size(671, 0);
+			this.bottomSandDock.TabIndex = 1013;
+			// 
+			// topSandDock
+			// 
+			this.topSandDock.Dock = System.Windows.Forms.DockStyle.Top;
+			this.topSandDock.Guid = new System.Guid("e1c62abd-0e7a-4bb6-aded-a74f27027165");
+			this.topSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400);
+			this.topSandDock.Location = new System.Drawing.Point(0, 0);
+			this.topSandDock.Manager = this.sandDockManager;
+			this.topSandDock.Name = "topSandDock";
+			this.helpProvider1.SetShowHelp(this.topSandDock, false);
+			this.topSandDock.Size = new System.Drawing.Size(671, 0);
+			this.topSandDock.TabIndex = 1014;
+			// 
+			// _docContainer
+			// 
+			this._docContainer.Controls.Add(this._docFeedDetails);
+			this._docContainer.Cursor = System.Windows.Forms.Cursors.Default;
+			this._docContainer.DockingManager = TD.SandDock.DockingManager.Whidbey;
+			this._docContainer.Guid = new System.Guid("f032a648-4262-4312-ab2b-abe5094272bd");
+			this._docContainer.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
+            ((TD.SandDock.LayoutSystemBase)(new TD.SandDock.DocumentLayoutSystem(392, 414, new TD.SandDock.DockControl[] {
+                        this._docFeedDetails}, this._docFeedDetails)))});
+			this._docContainer.Location = new System.Drawing.Point(0, 25);
+			this._docContainer.Manager = null;
+			this._docContainer.Name = "_docContainer";
+			this._docContainer.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
+			this.helpProvider1.SetShowHelp(this._docContainer, false);
+			this._docContainer.Size = new System.Drawing.Size(394, 416);
+			this._docContainer.TabIndex = 100;
+			// 
+			// _docFeedDetails
+			// 
+			this._docFeedDetails.Closable = false;
+			this._docFeedDetails.Controls.Add(this.panelFeedDetails);
+			this._docFeedDetails.Guid = new System.Guid("9c7b7643-2ed3-402c-9e86-3c958341c81f");
+			this._docFeedDetails.Location = new System.Drawing.Point(5, 33);
+			this._docFeedDetails.Name = "_docFeedDetails";
+			this.helpProvider1.SetShowHelp(this._docFeedDetails, false);
+			this._docFeedDetails.Size = new System.Drawing.Size(384, 378);
+			this._docFeedDetails.TabIndex = 150;
+			this._docFeedDetails.Text = "Feed Details";
+			// 
+			// panelClientAreaContainer
+			// 
+			this.panelClientAreaContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(247)))));
+			this.panelClientAreaContainer.Controls.Add(this.panelFeedDetailsContainer);
+			this.panelClientAreaContainer.Controls.Add(this.splitterNavigator);
+			this.panelClientAreaContainer.Controls.Add(this.Navigator);
+			this.panelClientAreaContainer.Controls.Add(this.pNavigatorCollapsed);
+			this.panelClientAreaContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelClientAreaContainer.Location = new System.Drawing.Point(0, 0);
+			this.panelClientAreaContainer.Name = "panelClientAreaContainer";
+			this.panelClientAreaContainer.Padding = new System.Windows.Forms.Padding(5);
+			this.helpProvider1.SetShowHelp(this.panelClientAreaContainer, false);
+			this.panelClientAreaContainer.Size = new System.Drawing.Size(671, 451);
+			this.panelClientAreaContainer.TabIndex = 1015;
+			// 
+			// panelFeedDetailsContainer
+			// 
+			this.panelFeedDetailsContainer.Controls.Add(this._docContainer);
+			this.panelFeedDetailsContainer.Controls.Add(this.detailHeaderCaption);
+			this.panelFeedDetailsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelFeedDetailsContainer.Location = new System.Drawing.Point(272, 5);
+			this.panelFeedDetailsContainer.Name = "panelFeedDetailsContainer";
+			this.helpProvider1.SetShowHelp(this.panelFeedDetailsContainer, false);
+			this.panelFeedDetailsContainer.Size = new System.Drawing.Size(394, 441);
+			this.panelFeedDetailsContainer.TabIndex = 106;
+			// 
+			// detailHeaderCaption
+			// 
+			appearance7.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance7.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance7.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical;
+			appearance7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance7.ImageHAlign = Infragistics.Win.HAlign.Right;
+			appearance7.ImageVAlign = Infragistics.Win.VAlign.Middle;
+			appearance7.TextHAlignAsString = "Left";
+			appearance7.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			appearance7.TextVAlignAsString = "Middle";
+			this.detailHeaderCaption.Appearance = appearance7;
+			this.detailHeaderCaption.Dock = System.Windows.Forms.DockStyle.Top;
+			this.detailHeaderCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+			this.detailHeaderCaption.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.detailHeaderCaption.Location = new System.Drawing.Point(0, 0);
+			this.detailHeaderCaption.Name = "detailHeaderCaption";
+			this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
+			this.helpProvider1.SetShowHelp(this.detailHeaderCaption, false);
+			this.detailHeaderCaption.Size = new System.Drawing.Size(394, 25);
+			this.detailHeaderCaption.TabIndex = 0;
+			this.detailHeaderCaption.Text = "Welcome!";
+			this.detailHeaderCaption.WrapText = false;
+			// 
+			// splitterNavigator
+			// 
+			this.splitterNavigator.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.splitterNavigator.Location = new System.Drawing.Point(267, 5);
+			this.splitterNavigator.Name = "splitterNavigator";
+			this.helpProvider1.SetShowHelp(this.splitterNavigator, false);
+			this.splitterNavigator.Size = new System.Drawing.Size(5, 441);
+			this.splitterNavigator.TabIndex = 1;
+			this.splitterNavigator.TabStop = false;
+			// 
+			// Navigator
+			// 
+			this.Navigator.Controls.Add(this.NavigatorSearch);
+			this.Navigator.Dock = System.Windows.Forms.DockStyle.Left;
+			ultraExplorerBarGroup1.Container = this.NavigatorSearch;
+			ultraExplorerBarGroup1.Key = "groupFeedsSearch";
+			appearance4.Image = ((object)(resources.GetObject("appearance4.Image")));
+			ultraExplorerBarGroup1.Settings.AppearancesLarge.HeaderAppearance = appearance4;
+			appearance5.Image = ((object)(resources.GetObject("appearance5.Image")));
+			ultraExplorerBarGroup1.Settings.AppearancesSmall.HeaderAppearance = appearance5;
+			ultraExplorerBarGroup1.Text = "Search";
+			this.Navigator.Groups.AddRange(new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup[] {
+            ultraExplorerBarGroup1});
+			this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
+			this.Navigator.Location = new System.Drawing.Point(37, 5);
+			this.Navigator.Name = "Navigator";
+			this.Navigator.NavigationMaxGroupHeaders = 0;
+			this.helpProvider1.SetShowHelp(this.Navigator, false);
+			this.Navigator.Size = new System.Drawing.Size(230, 441);
+			this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
+			this.Navigator.TabIndex = 0;
+			// 
+			// pNavigatorCollapsed
+			// 
+			this.pNavigatorCollapsed.BackColor = System.Drawing.Color.Transparent;
+			this.pNavigatorCollapsed.Controls.Add(this.navigatorHiddenCaption);
+			this.pNavigatorCollapsed.Dock = System.Windows.Forms.DockStyle.Left;
+			this.pNavigatorCollapsed.Location = new System.Drawing.Point(5, 5);
+			this.pNavigatorCollapsed.Name = "pNavigatorCollapsed";
+			this.helpProvider1.SetShowHelp(this.pNavigatorCollapsed, false);
+			this.pNavigatorCollapsed.Size = new System.Drawing.Size(32, 441);
+			this.pNavigatorCollapsed.TabIndex = 104;
+			this.pNavigatorCollapsed.Visible = false;
+			// 
+			// navigatorHiddenCaption
+			// 
+			appearance8.BackColor = System.Drawing.Color.CornflowerBlue;
+			appearance8.BackColor2 = System.Drawing.Color.MidnightBlue;
+			appearance8.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal;
+			appearance8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			appearance8.Image = ((object)(resources.GetObject("appearance8.Image")));
+			appearance8.ImageHAlign = Infragistics.Win.HAlign.Center;
+			appearance8.ImageVAlign = Infragistics.Win.VAlign.Top;
+			appearance8.TextHAlignAsString = "Left";
+			appearance8.TextTrimming = Infragistics.Win.TextTrimming.EllipsisWord;
+			appearance8.TextVAlignAsString = "Top";
+			this.navigatorHiddenCaption.Appearance = appearance8;
+			this.navigatorHiddenCaption.Dock = System.Windows.Forms.DockStyle.Left;
+			this.navigatorHiddenCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+			this.navigatorHiddenCaption.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.navigatorHiddenCaption.Location = new System.Drawing.Point(0, 0);
+			this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
+			this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
+			this.helpProvider1.SetShowHelp(this.navigatorHiddenCaption, false);
+			this.navigatorHiddenCaption.Size = new System.Drawing.Size(25, 441);
+			this.navigatorHiddenCaption.TabIndex = 105;
+			this.navigatorHiddenCaption.Text = "Feed Subscriptions";
+			this.navigatorHiddenCaption.WrapText = false;
+			// 
+			// _startupTimer
+			// 
+			this._startupTimer.Interval = 45000;
+			this._startupTimer.Tick += new System.EventHandler(this.OnTimerStartupTick);
+			// 
+			// _timerTreeNodeExpand
+			// 
+			this._timerTreeNodeExpand.Interval = 1000;
+			this._timerTreeNodeExpand.SynchronizingObject = this;
+			this._timerTreeNodeExpand.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerTreeNodeExpandElapsed);
+			// 
+			// _timerRefreshFeeds
+			// 
+			this._timerRefreshFeeds.Interval = 600000;
+			this._timerRefreshFeeds.SynchronizingObject = this;
+			this._timerRefreshFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerFeedsRefreshElapsed);
+			// 
+			// _timerRefreshCommentFeeds
+			// 
+			this._timerRefreshCommentFeeds.Interval = 600000;
+			this._timerRefreshCommentFeeds.SynchronizingObject = this;
+			this._timerRefreshCommentFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerCommentFeedsRefreshElapsed);
+			// 
+			// _timerResetStatus
+			// 
+			this._timerResetStatus.Interval = 5000;
+			this._timerResetStatus.Tick += new System.EventHandler(this.OnTimerResetStatusTick);
+			// 
+			// _uiTasksTimer
+			// 
+			this._uiTasksTimer.Enabled = true;
+			// 
+			// helpProvider1
+			// 
+			this.helpProvider1.HelpNamespace = "BanditHelp.chm";
+			// 
+			// _timerDispatchResultsToUI
+			// 
+			this._timerDispatchResultsToUI.Interval = 250;
+			// 
+			// WinGuiMain
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
+			this.ClientSize = new System.Drawing.Size(671, 476);
+			this.Controls.Add(this.panelClientAreaContainer);
+			this.Controls.Add(this.rightSandDock);
+			this.Controls.Add(this.bottomSandDock);
+			this.Controls.Add(this.topSandDock);
+			this.Controls.Add(this.progressBrowser);
+			this.Controls.Add(this._status);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.helpProvider1.SetHelpNavigator(this, System.Windows.Forms.HelpNavigator.TableOfContents);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
+			this.MinimumSize = new System.Drawing.Size(350, 250);
+			this.Name = "WinGuiMain";
+			this.helpProvider1.SetShowHelp(this, true);
+			this.Text = "RSS Bandit";
+			this.NavigatorSearch.ResumeLayout(false);
+			this.panelRssSearch.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.treeFeeds)).EndInit();
+			this.panelFeedDetails.ResumeLayout(false);
+			this.panelWebDetail.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).EndInit();
+			this.panelFeedItems.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).EndInit();
+			this._docContainer.ResumeLayout(false);
+			this._docFeedDetails.ResumeLayout(false);
+			this.panelClientAreaContainer.ResumeLayout(false);
+			this.panelFeedDetailsContainer.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.Navigator)).EndInit();
+			this.Navigator.ResumeLayout(false);
+			this.pNavigatorCollapsed.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._timerTreeNodeExpand)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshFeeds)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._timerRefreshCommentFeeds)).EndInit();
+			this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -2081,7 +2104,8 @@ namespace RssBandit.WinGui.Forms
         private void OnOwnerFeedlistLoaded(object sender, EventArgs e)
         {
             listFeedItems.FeedColumnLayout = owner.GlobalFeedColumnLayout;
-            LoadAndRestoreSubscriptionTreeState();
+            //TODO: set remembered Navigator group (subscriptions)
+			LoadAndRestoreSubscriptionTreeState();
             if (Visible)
             {
                 LoadAndRestoreBrowserTabState();
@@ -2396,10 +2420,42 @@ namespace RssBandit.WinGui.Forms
             OnNavigatorGroupClick(null, null);
         }
 
+		private void OnNavigatorSelectedGroupChanging(object sender, CancelableGroupEventArgs e)
+		{
+			if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
+				return;
+
+			TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
+			if (myRoot != null)
+			{
+				ShowSubscriptionRootNodes(false);
+				myRoot.Visible = true;
+				_lastVisualFeedSource = myRoot.Text;
+				treeFeeds.Parent.Controls.Remove(treeFeeds);
+				e.Group.Container.Controls.Add(treeFeeds);
+				if (!treeFeeds.Visible)
+				{
+					treeFeeds.Dock = DockStyle.Fill;
+					treeFeeds.Visible = true;
+				}
+			}
+		}
+
+		private void OnNavigatorSelectedGroupChanged(object sender, GroupEventArgs e)
+		{
+			//TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
+			//if (myRoot != null)
+			//{
+			//    ShowSubscriptionRootNodes(false);
+			//    myRoot.Visible = true;
+			//}
+		}
+
         private void OnNavigatorGroupClick(object sender, GroupEventArgs e)
         {
             if (Navigator.Visible)
             {
+            	
                 // also raised by OnNavigatorCollapseClick (via GroupHeaderClick)!
                 if (Navigator.SelectedGroup.Key == Resource.NavigatorGroup.Subscriptions)
                 {
@@ -2671,5 +2727,7 @@ namespace RssBandit.WinGui.Forms
         {
             ultraToolbarsManager.EventManager.AllEventsEnabled = true;
         }
+
+    	
     } // end class WinGuiMain
 }
