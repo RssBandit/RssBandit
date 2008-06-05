@@ -310,7 +310,7 @@ namespace RssBandit
 
             // init feed source manager and sources:
             sourceManager = new FeedSourceManager();
-#if TEST_PERSISTED_FEEDSOURCES
+
             try
             {
                 // load feedsources from file/db and init
@@ -326,7 +326,7 @@ namespace RssBandit
                                                   Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
-#endif
+
             // for now:
 #if TEST_GOOGLE_READER
 
@@ -3147,6 +3147,39 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
+                FeedSourceEntry source = null;
+                FeedSource fs = null; 
+                Hashtable props = new Hashtable(); 
+
+                if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
+                {
+                    fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(String.Empty, null));
+                    source = sourceManager.Add(fs, SR.FeedNodeMyWindowsRssFeedsCaption);
+                }
+                else if (wiz.SelectedFeedSource == FeedSourceType.Google)
+                {
+                    SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google), new NetworkCredential(wiz.UserName, wiz.Password));
+                    fs = FeedSource.CreateFeedSource(FeedSourceType.Google, loc); 
+                    source = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
+
+                }
+                else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
+                {
+
+                    SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
+                    fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
+                    source = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
+                }
+
+                if (source != null)
+                {
+                    this.guiMain.CreateFeedSourceView(source);
+                    this.guiMain.AddToSubscriptionTree(source);
+                    this.guiMain.SelectFeedSource(source);
+                    this.LoadFeedSourceSubscriptions(source);
+                    this.guiMain.PopulateFeedSubscriptions(source, RssBanditApplication.DefaultCategory);
+                    sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+                }
             }
         }
 

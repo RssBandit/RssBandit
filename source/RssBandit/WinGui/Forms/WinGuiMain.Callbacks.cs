@@ -1173,7 +1173,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-		void CreateFeedSourceView (FeedSourceEntry entry)
+        public void CreateFeedSourceView(FeedSourceEntry entry)
 		{
 			UltraExplorerBarContainerControl view = new UltraExplorerBarContainerControl();
 			view.SuspendLayout();
@@ -1202,10 +1202,20 @@ namespace RssBandit.WinGui.Forms
 
 			// add ordered, but before the default "search" group:
 			this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);
-			view.ResumeLayout(false);
+			view.ResumeLayout(false); 
 		}
 
-		void AddToSubscriptionTree(FeedSourceEntry entry)
+
+        public void SelectFeedSource(FeedSourceEntry entry)
+        {
+            var group = from g in this.Navigator.Groups.Cast<UltraExplorerBarGroup>()
+                        where g.Key == entry.ID.ToString()
+                        select g; 
+
+            this.Navigator.SelectedGroup = group.First(); 
+        }
+
+		public void AddToSubscriptionTree(FeedSourceEntry entry)
 		{
 			// create RootFolderType.MyFeeds:
 			//TODO: Add feedsource specific context menu's?
