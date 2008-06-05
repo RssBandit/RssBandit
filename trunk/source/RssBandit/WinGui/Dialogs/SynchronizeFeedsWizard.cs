@@ -74,6 +74,40 @@ namespace RssBandit.WinGui.Forms
         private RadioButton radioNewsGator;
         private System.ComponentModel.IContainer components;
 
+        public FeedSourceType SelectedFeedSource
+        {
+            get
+            {
+                if (radioCommonFeedlist.Checked)
+                {
+                    return FeedSourceType.WindowsRSS;
+                }
+                else if (radioGoogleReader.Checked)
+                {
+                    return FeedSourceType.Google;
+                }
+                else if (radioNewsGator.Checked)
+                {
+                    return FeedSourceType.NewsGator;
+                }
+                else
+                {
+                    return FeedSourceType.Unknown;
+                }
+
+            }
+        }
+
+        public string UserName
+        {
+            get { return textUser.Text; }
+        }
+
+        public string Password
+        {
+            get { return textPassword.Text; }
+        }
+
         #endregion
 
         #region ctor's

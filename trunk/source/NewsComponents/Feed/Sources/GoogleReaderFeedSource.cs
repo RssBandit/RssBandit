@@ -215,11 +215,19 @@ namespace NewsComponents.Feed
         ///</summary>
         public override void LoadFeedlist()
         {
-            //load Bandit subscriptions.xml document into memory
-            XmlReader reader = XmlReader.Create(this.location.Location);                        
-            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
-            feeds myFeeds = (feeds)serializer.Deserialize(reader);
-            reader.Close();
+            feeds myFeeds = null;
+            if (File.Exists(this.location.Location))
+            {
+                //load Bandit subscriptions.xml document into memory
+                XmlReader reader = XmlReader.Create(this.location.Location);
+                XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+                myFeeds = (feeds)serializer.Deserialize(reader);
+                reader.Close();
+            }
+            else
+            {
+                myFeeds = new feeds();
+            }
 
             //load feed list from Google Reader and use settings from subscriptions.xml
             this.BootstrapAndLoadFeedlist(myFeeds);

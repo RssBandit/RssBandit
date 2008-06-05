@@ -385,7 +385,7 @@ namespace NewsComponents
 			}
 		}
 
-		private int UniqueKey
+		public int UniqueKey
 		{
 			get
 			{
@@ -417,7 +417,7 @@ namespace NewsComponents
 
 		}
 
-		static string BuildSubscriptionName(int id, FeedSourceType type)
+		public static string BuildSubscriptionName(int id, FeedSourceType type)
 		{
 			//TODO: check name for invalid file name chars
 			string path = FeedSource.DefaultConfiguration.UserApplicationDataPath;

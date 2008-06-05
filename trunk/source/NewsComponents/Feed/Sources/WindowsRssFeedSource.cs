@@ -92,7 +92,11 @@ namespace NewsComponents.Feed
             this.location = new SubscriptionLocation(String.Empty, null); 
 
             this.AttachEventHandlers();
-            feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE); 
+            try
+            {
+                feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE);
+            }
+            catch (ArgumentException) { /* weird error */ }
             
         }    
 
