@@ -3168,7 +3168,7 @@ namespace RssBandit
 
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
                     fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
-                    source = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
+                    source = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
                 }
 
                 if (source != null)
