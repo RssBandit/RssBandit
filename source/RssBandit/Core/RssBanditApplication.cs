@@ -2998,19 +2998,11 @@ namespace RssBandit
             if (!File.Exists(currentFeedListFileName))
             {
                 if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
-                {
-                    if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
-                    {
-                        throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
-                    }
+                {                   
                     File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
                 }
                 else if (File.Exists(oldSubscriptionFile))
-                {
-                    if (MessageQuestion(String.Format(SR.UpgradeFeedlistInfoText, Caption)) == DialogResult.No)
-                    {
-                        throw new BanditApplicationException(ApplicationExceptions.FeedlistOldFormat);
-                    }
+                {                 
                     File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
                 }
                 else
@@ -3147,6 +3139,9 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
+<<<<<<< .mine
+                
+=======
                 FeedSourceEntry source = null;
                 FeedSource fs = null; 
                 Hashtable props = new Hashtable(); 
@@ -3180,6 +3175,7 @@ namespace RssBandit
                     this.guiMain.PopulateFeedSubscriptions(source, RssBanditApplication.DefaultCategory);
                     sourceManager.SaveFeedSources(GetFeedSourcesFileName());
                 }
+>>>>>>> .r590
             }
         }
 
