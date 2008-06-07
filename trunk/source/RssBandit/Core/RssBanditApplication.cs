@@ -3163,7 +3163,7 @@ namespace RssBandit
                 
                 if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
                 {
-                    fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(String.Empty, null));
+                    fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS), null));
                     entry = sourceManager.Add(fs, SR.FeedNodeMyWindowsRssFeedsCaption);
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.Google)
