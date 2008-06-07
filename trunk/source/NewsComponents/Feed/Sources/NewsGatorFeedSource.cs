@@ -507,7 +507,7 @@ namespace NewsComponents.Feed
                 if (theFeed == null || theFeed.Any == null)
                     return false;
 
-                XmlElement syncXmlUrl = theFeed.Any.First(elem => elem.LocalName == "syncXmlUrl");
+                XmlElement syncXmlUrl = theFeed.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl");
 
                 if (syncXmlUrl == null) //newly added feed? 
                 {
@@ -565,8 +565,8 @@ namespace NewsComponents.Feed
         {
             //find the feed that has the requestUri as it's syncXmlUrl
             string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False"));
-            string feedUrl = feedsTable.First(kvp =>
-                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
+            string feedUrl = feedsTable.FirstOrDefault(kvp =>
+                                kvp.Value.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
 
             if (!StringHelper.EmptyTrimOrNull(feedUrl))
             {
@@ -585,8 +585,8 @@ namespace NewsComponents.Feed
         {
             //find the feed that has the requestUri as it's syncXmlUrl
             string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False"));
-            string feedUrl = feedsTable.First(kvp =>
-                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
+            string feedUrl = feedsTable.FirstOrDefault(kvp =>
+                                kvp.Value.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
 
             if (!StringHelper.EmptyTrimOrNull(feedUrl))
             {
@@ -610,8 +610,8 @@ namespace NewsComponents.Feed
         {
             //find the feed that has the requestUri as it's syncXmlUrl
             string syncUrl = requestUri.CanonicalizedUri().Substring(0, requestUri.CanonicalizedUri().LastIndexOf("?unread=False")); 
-            string feedUrl = feedsTable.First(kvp =>
-                                kvp.Value.Any.First(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
+            string feedUrl = feedsTable.FirstOrDefault(kvp =>
+                                kvp.Value.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
             Uri feedUri = new Uri(feedUrl);
 
           
@@ -1058,7 +1058,7 @@ namespace NewsComponents.Feed
             if (!StringHelper.EmptyTrimOrNull(itemId) && !StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
-                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+                string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 
 
                 string flagItemApiUrl = PostItemApiUrl + "/updatepostmetadata"; 
 
@@ -1137,7 +1137,7 @@ namespace NewsComponents.Feed
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 NewsFeed f = feedsTable[feedUrl] as NewsFeed;
-                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText;
+                string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText;
             
                 string markReadUrl = FeedApiUrl + "/" + feedId;
                 string body = "tok=" + syncToken + "&read=true";
@@ -1228,7 +1228,7 @@ namespace NewsComponents.Feed
             if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
             {
                 INewsFeedCategory c = categories[cat];
-                XmlAttribute idNode = c.AnyAttr.First(attr => attr.LocalName == "id");
+                XmlAttribute idNode = c.AnyAttr.FirstOrDefault(attr => attr.LocalName == "id");
 
                 if (idNode != null)
                 {
@@ -1290,8 +1290,8 @@ namespace NewsComponents.Feed
         {
             if (this.categories.ContainsKey(cat.Value))
             {
-                string folderId  = cat.AnyAttr.First(a => a.LocalName == "id").Value;
-                string parentId  = parent == null ? "0" : parent.AnyAttr.First(a => a.LocalName == "id").Value; 
+                string folderId  = cat.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value;
+                string parentId  = parent == null ? "0" : parent.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value; 
                 
                 base.ChangeCategory(cat, parent);
                 NewsGatorUpdater.MoveFolderInNewsGatorOnline(this.NewsGatorUserName, folderId, parentId); 
@@ -1310,7 +1310,7 @@ namespace NewsComponents.Feed
             if (this.categories.TryGetValue(newName, out cat))
             {
                 string folderRenameUrl = FolderApiUrl + "/rename";
-                string body = "fld=" + cat.AnyAttr.First(a => a.LocalName == "id").Value + "&name="
+                string body = "fld=" + cat.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value + "&name="
                     + Uri.EscapeDataString(newName);
 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderRenameUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
@@ -1397,7 +1397,7 @@ namespace NewsComponents.Feed
             }
 
             //check if we already have the category in NewsGator Online
-            if (cat.AnyAttr != null && cat.AnyAttr.First( attr => attr.LocalName == "id" )!= null)
+            if (cat.AnyAttr != null && cat.AnyAttr.FirstOrDefault( attr => attr.LocalName == "id" )!= null)
                 return; 
 
             List<string> ancestors = category.GetAncestors(name);
@@ -1412,7 +1412,7 @@ namespace NewsComponents.Feed
                     this.categories.Add(ancestors[i], c);
                 }
 
-                if (c.AnyAttr==null || c.AnyAttr.First(attr => attr.LocalName == "id") == null)
+                if (c.AnyAttr==null || c.AnyAttr.FirstOrDefault(attr => attr.LocalName == "id") == null)
                 {
                     this.AddFolderInNewsGatorOnline(ancestors[i]);
                     if (c.Value.Contains(FeedSource.CategorySeparator))
@@ -1428,7 +1428,7 @@ namespace NewsComponents.Feed
             string folderName =  (index == -1 ? cat.Value : cat.Value.Substring(index + 1)); 
 
             string folderCreateUrl = FolderApiUrl + "/create";
-            string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.First(a => a.LocalName == "id").Value) 
+            string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value) 
                 + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF"; 
 
             HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
@@ -1483,7 +1483,7 @@ namespace NewsComponents.Feed
                 opmloutline outline = new opmloutline();
                 outline.xmlUrl = f.link;
                 outline.text = title;
-                outline.id = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+                outline.id = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 
 
 
                 if (!StringHelper.EmptyTrimOrNull(f.category))
@@ -1531,10 +1531,10 @@ namespace NewsComponents.Feed
                 && !StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat) )
             {
                 INewsFeed f = feedsTable[feedUrl];
-                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText;
+                string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText;
 
                 INewsFeedCategory c = categories[cat];
-                string folderId = c.AnyAttr.First(attr => attr.LocalName == "id").Value;
+                string folderId = c.AnyAttr.FirstOrDefault(attr => attr.LocalName == "id").Value;
 
                 string moveApiUrl = SubscriptionApiUrl + "/" + NgosLocationName + "/movesubscription/" + feedId;
                 string body = "tofolderid=" + folderId;
@@ -1547,7 +1547,7 @@ namespace NewsComponents.Feed
                 }
 
                 //update NewsGator folder ID of feed
-                XmlElement folderIdNode = f.Any.First(elem => elem.LocalName == "folderId");
+                XmlElement folderIdNode = f.Any.FirstOrDefault(elem => elem.LocalName == "folderId");
                 folderIdNode.InnerText = folderId; 
             }
         }
@@ -1695,7 +1695,7 @@ namespace NewsComponents.Feed
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
-                string feedId = f.Any.First(elem => elem.LocalName == "id").InnerText; 
+                string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 
                 opml location = new opml();
                 location.body = new opmloutline[1];
                 opmloutline outline = new opmloutline();
