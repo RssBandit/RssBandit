@@ -807,6 +807,12 @@ namespace RssBandit
             get { return sourceManager; }
         }
 
+
+        public FeedSourceManager SourceManager
+        {
+            get { return sourceManager; }
+        }
+
 		[Obsolete("Please call FeedSources property")]
         public FeedSource FeedHandler
         {
@@ -3181,6 +3187,7 @@ namespace RssBandit
                     this.LoadFeedSourceSubscriptions(entry);
                     this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
                 	ConnectFeedSourceEvents(entry.Source);
+                    threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
 					sourceManager.SaveFeedSources(GetFeedSourcesFileName());
                 }
             }
@@ -4405,19 +4412,25 @@ namespace RssBandit
 			 * */
             try
             {
-                if (feedlistModified && feedHandler != null && feedHandler.GetFeeds() != null &&
-                    feedHandler.FeedsListOK)
+                foreach (FeedSourceEntry fse in sourceManager.Sources)
                 {
-                    try
+                    FeedSource source = fse.Source; 
+
+                    if (feedlistModified && source != null && source.GetFeeds() != null &&
+                        source.FeedsListOK)
                     {
-                        feedHandler.SaveFeedList();
-                        feedlistModified = false; // reset state flag
+                        try
+                        {
+                            source.SaveFeedList();                          
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Error("source::SaveFeedList() failed.", ex);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        _log.Error("feedHandler::SaveFeedList() failed.", ex);
-                    }
-                }
+                }//foreach
+
+                feedlistModified = false; // reset state flag
 
                 if (flaggedItemsFeed.Modified)
                     flaggedItemsFeed.Save();
