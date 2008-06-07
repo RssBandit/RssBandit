@@ -316,7 +316,22 @@ namespace NewsComponents
 		}
 
 		/// <summary>
-		/// Gets the source of a newsfeed.
+		/// Gets the source entry of a <paramref name="sourceInstance"/>.
+		/// </summary>
+		/// <param name="sourceInstance">The feed source instance.</param>
+		/// <returns></returns>
+		public FeedSourceEntry SourceOf(FeedSource sourceInstance)
+		{
+			if (sourceInstance == null)
+				return null;
+			foreach (FeedSourceEntry id in _feedSources.Values)
+				if (ReferenceEquals(id.Source, sourceInstance))
+					return id;
+			return null;
+		}
+
+		/// <summary>
+		/// Gets the source of a <paramref name="newsFeed"/>.
 		/// </summary>
 		/// <param name="newsFeed">The news feed.</param>
 		/// <returns></returns>
@@ -325,7 +340,7 @@ namespace NewsComponents
 			if (newsFeed == null)
 				return null;
 			foreach (FeedSourceEntry id in _feedSources.Values)
-				if (id.Source == newsFeed.owner)
+				if (ReferenceEquals(id.Source, newsFeed.owner))
 					return id;
 			return null;
 		}
