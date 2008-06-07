@@ -40,14 +40,16 @@ namespace RssBandit
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="NewsComponents.FeedSource.FeedMovedEventArgs"/> instance containing the event data.</param>
         private void OnMovedFeed(object sender, FeedSource.FeedMovedEventArgs e){
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
-                TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
-                TreeFeedsNodeBase parent = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.NewCategory);
+            	TreeFeedsNodeBase start = guiMain.GetSubscriptionRootNode(entry);
+                TreeFeedsNodeBase tn = TreeHelper.FindNode(start, e.FeedUrl);
+                TreeFeedsNodeBase parent = TreeHelper.FindCategoryNode(start, e.NewCategory);
                 if (tn != null && parent!= null)
                 {
                     guiMain.MoveNode(tn, parent, false); 
-                    SubscriptionModified(NewsFeedProperty.FeedAdded);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedAdded);
                 }
             });
         }
@@ -59,13 +61,14 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnRenamedFeed(object sender, FeedSource.FeedRenamedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
-                TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
+                TreeFeedsNodeBase tn = TreeHelper.FindNode(guiMain.GetSubscriptionRootNode(entry), e.FeedUrl);
                 if (tn != null)
                 {
                     guiMain.RenameTreeNode(tn, e.NewName);
-                    SubscriptionModified(NewsFeedProperty.FeedTitle);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedTitle);
                 }
             });
         }
@@ -77,55 +80,58 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnDeletedFeed(object sender, FeedSource.FeedDeletedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
-                RaiseFeedDeleted(e.FeedUrl, e.Title);
-                SubscriptionModified(NewsFeedProperty.FeedRemoved); 
+                RaiseFeedDeleted(entry, e.FeedUrl, e.Title);
+                SubscriptionModified(entry, NewsFeedProperty.FeedRemoved); 
             });
         }
 
         /// <summary>
-        /// Called by FeedSource if a feed is added from outside the application
+        /// Called by <see cref="FeedSource"/> if a feed is added from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnAddedFeed(object sender, FeedSource.FeedChangedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
                 INewsFeed f;
-                this.FeedHandler.GetFeeds().TryGetValue(e.FeedUrl, out f);
+                entry.Source.GetFeeds().TryGetValue(e.FeedUrl, out f);
 
                 if (f != null)
                 {
                     guiMain.AddNewFeedNode(f.category, f);
-                    SubscriptionModified(NewsFeedProperty.FeedAdded);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedAdded);
                 }
             });
         }
 
         /// <summary>
-        /// Called by FeedSource if a category is moved from outside the application
+        /// Called by <see cref="FeedSource"/> if a category is moved from outside the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnMovedCategory(object sender, FeedSource.CategoryChangedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
-                TreeFeedsNodeBase parent, tn = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName);
+                TreeFeedsNodeBase parent, tn = TreeHelper.FindCategoryNode(guiMain.GetSubscriptionRootNode(entry), e.CategoryName);
                 int index = e.NewCategoryName.LastIndexOf(FeedSource.CategorySeparator); 
 
                 if(index == -1){
-                    parent = guiMain.GetRoot(RootFolderType.MyFeeds); 
-                }else{ 
-                    parent = TreeHelper.FindCategoryNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.NewCategoryName.Substring(0, index));
+					parent = guiMain.GetSubscriptionRootNode(entry); 
+                }else{
+					parent = TreeHelper.FindCategoryNode(guiMain.GetSubscriptionRootNode(entry), e.NewCategoryName.Substring(0, index));
                 }
                                                                     
                 if (tn != null && parent != null)
                 {
                     guiMain.MoveNode(tn, parent, false);
-                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedCategoryAdded);
                 }
             });
 
@@ -139,13 +145,14 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnRenamedCategory(object sender, FeedSource.CategoryChangedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
-                TreeFeedsNodeBase tn = TreeHelper.FindChildNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName, FeedNodeType.Category);
+				TreeFeedsNodeBase tn = TreeHelper.FindChildNode(guiMain.GetSubscriptionRootNode(entry), e.CategoryName, FeedNodeType.Category);
                 if (tn != null)
                 {
                     guiMain.RenameTreeNode(tn, e.NewCategoryName);
-                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedCategoryAdded);
                 }
             });
 
@@ -159,10 +166,11 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnAddedCategory(object sender, FeedSource.CategoryEventArgs e)
         {
-                InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
                 {
-                    this.AddCategory(e.CategoryName);
-                    SubscriptionModified(NewsFeedProperty.FeedCategoryAdded); 
+                    this.AddCategory(entry, e.CategoryName);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedCategoryAdded); 
                 });
             
         }
@@ -174,13 +182,14 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnDeletedCategory(object sender, FeedSource.CategoryEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
             {
                 TreeFeedsNodeBase tn = TreeHelper.FindChildNode(guiMain.GetRoot(RootFolderType.MyFeeds), e.CategoryName, FeedNodeType.Category);
                 if (tn != null)
                 {
                     guiMain.DeleteCategory(tn);
-                    SubscriptionModified(NewsFeedProperty.FeedCategoryRemoved);
+                    SubscriptionModified(entry, NewsFeedProperty.FeedCategoryRemoved);
                 }
             });
 
@@ -209,11 +218,12 @@ namespace RssBandit
         /// <param name="e"></param>
         private void BeforeDownloadFeedStarted(object sender, FeedSource.DownloadFeedCancelEventArgs e)
         {
-            InvokeOnGui(
+        	FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+        	InvokeOnGui(
                 delegate
                     {
                         bool cancel = e.Cancel;
-                        guiMain.OnFeedUpdateStart(e.FeedUri, ref cancel);
+						guiMain.OnFeedUpdateStart(entry, e.FeedUri, ref cancel);
                         e.Cancel = cancel;
                     });
         }
@@ -232,20 +242,21 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by FeedSource, after a feed was updated.
+        /// Called by <see cref="FeedSource"/>, after a feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         internal void OnUpdatedFeed(object sender, FeedSource.UpdatedFeedEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
                             {
-                                guiMain.UpdateFeed(e.UpdatedFeedUri, e.NewFeedUri, e.UpdateState == RequestResult.OK);
+                                guiMain.UpdateFeed(entry, e.UpdatedFeedUri, e.NewFeedUri, e.UpdateState == RequestResult.OK);
 
                                 if (e.FirstSuccessfulDownload)
                                 {
                                     //new <cacheurl> entry in subscriptions.xml 
-                                    SubscriptionModified(NewsFeedProperty.FeedCacheUrl);
+                                    SubscriptionModified(entry, NewsFeedProperty.FeedCacheUrl);
                                     //this.FeedlistModified = true; 
                                 }
                                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
@@ -253,7 +264,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by FeedSource, after a comment feed was updated.
+        /// Called by <see cref="FeedSource"/>, after a comment feed was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -266,13 +277,14 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Called by FeedSource, after a favicon was updated.
+        /// Called by <see cref="FeedSource"/>, after a favicon was updated.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         internal void OnUpdatedFavicon(object sender, FeedSource.UpdatedFaviconEventArgs e)
         {
-            InvokeOnGui(() => guiMain.UpdateFavicon(e.Favicon, e.FeedUrls));
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(() => guiMain.UpdateFavicon(entry, e.Favicon, e.FeedUrls));
         }
 
         /// <summary>
@@ -282,7 +294,9 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnDownloadedEnclosure(object sender, DownloadItemEventArgs e)
         {
-            /* create playlists in media players if that option is selected */
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			
+			/* create playlists in media players if that option is selected */
             if (Preferences.AddPodcasts2WMP)
             {
                 AddPodcastToWMP(e.DownloadItem);
@@ -296,18 +310,19 @@ namespace RssBandit
             /* update GUI if needed */
             InvokeOnGui(delegate
                             {
-                                guiMain.OnEnclosureReceived(sender, e);
+                                guiMain.OnEnclosureReceived(entry, e);
                             });
         }
 
         /// <summary>
-        /// Called by FeedSource, if update of a feed caused an exception
+        /// Called by <see cref="FeedSource"/>, if update of a feed caused an exception
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         internal void OnUpdateFeedException(object sender, FeedSource.UpdateFeedExceptionEventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
                             {
                                 WebException webex = e.ExceptionThrown as WebException;
                                 if (webex != null)
@@ -320,7 +335,7 @@ namespace RssBandit
                                         UpdateInternetConnectionState(true); // update connect state
                                         if (!InternetAccessAllowed)
                                         {
-                                            guiMain.UpdateFeed(e.FeedUri, null, false);
+                                            guiMain.UpdateFeed(entry, e.FeedUri, null, false);
                                             stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
                                             return;
                                         }
@@ -353,11 +368,12 @@ namespace RssBandit
         /// <param name="e"></param>
         private void OnAllRequestsCompleted(object sender, EventArgs e)
         {
-            InvokeOnGui(delegate
+			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			InvokeOnGui(delegate
                             {
                                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllDone);
                                 guiMain.TriggerGUIStateOnNewFeeds(true);
-                                guiMain.OnAllAsyncUpdateFeedsFinished();
+                                guiMain.OnAllAsyncUpdateFeedsFinished(entry);
                                 // GC.Collect();
                             });
         }
