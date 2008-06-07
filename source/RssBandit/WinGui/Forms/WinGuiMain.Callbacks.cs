@@ -380,7 +380,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
 
                 string link = fd != null ? fd.Link : feedsNode.DataKey;
 
@@ -399,7 +399,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedDetails(feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
                 string link, title;
 
                 if (fd != null)
@@ -1213,7 +1213,7 @@ namespace RssBandit.WinGui.Forms
                         where g.Key == entry.ID.ToString()
                         select g; 
 
-            this.Navigator.SelectedGroup = group.First(); 
+            this.Navigator.SelectedGroup = group.FirstOrDefault(); 
         }
 
 		public void AddToSubscriptionTree(FeedSourceEntry entry)
@@ -2132,7 +2132,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if a feed was selected in the treeview, we display the feed homepage,
                                 // not the feed url in the Url dropdown box:
-                                IFeedDetails fi = owner.GetFeedDetails(selectedNode.DataKey);
+                                IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(selectedNode), selectedNode.DataKey);
                                 if (fi != null && fi.Link == FeedDetailTabState.Url)
                                     return; // no user navigation happened in listview/detail pane
                             }
@@ -2333,7 +2333,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         string feedUrl = tn.DataKey;
-                        if (feedUrl != null && owner.FeedHandler.IsSubscribed(feedUrl))
+                        if (feedUrl != null && owner.FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(feedUrl)) != null)
                         {
                             owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
                         }
@@ -2370,7 +2370,7 @@ namespace RssBandit.WinGui.Forms
 
                                 if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0)
                                 {
-                                    FeedInfoList fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
+                                    FeedInfoList fiList = CreateFeedInfoList(FeedSourceOf(tn), tn.Text, UnreadItemsNode.Items);
                                     BeginTransformFeedList(fiList, tn, owner.Stylesheet);
                                 }
                             }
@@ -2433,10 +2433,11 @@ namespace RssBandit.WinGui.Forms
         /// Creates the feed info list. It takes the items and groups the
         /// unread items by feed for display.
         /// </summary>
+        /// <param name="entry">The feed source</param>
         /// <param name="title">The title.</param>
         /// <param name="items">The items.</param>
         /// <returns></returns>
-        private FeedInfoList CreateFeedInfoList(string title, IList<INewsItem> items)
+        private FeedInfoList CreateFeedInfoList(FeedSourceEntry entry, string title, IList<INewsItem> items)
         {
             var result = new FeedInfoList(title);
             if (items == null || items.Count == 0)
@@ -2452,7 +2453,7 @@ namespace RssBandit.WinGui.Forms
 
                 string feedUrl = item.Feed.link;
 
-                if (feedUrl == null || !owner.FeedHandler.IsSubscribed(feedUrl))
+                if (feedUrl == null || !entry.Source.IsSubscribed(feedUrl))
                     continue;
 
                 try
@@ -2462,7 +2463,7 @@ namespace RssBandit.WinGui.Forms
                         fi = fiCache[feedUrl] as FeedInfo;
                     else
                     {
-                        fi = (FeedInfo) owner.GetFeedDetails(feedUrl);
+                        fi = (FeedInfo) owner.GetFeedDetails(entry, feedUrl);
                         if (fi != null)
                         {
                             fi = fi.Clone(false);
@@ -2603,7 +2604,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     IFeedDetails fd = null;
                     if (CurrentDragNode.Type == FeedNodeType.Feed)
-                        fd = owner.GetFeedDetails(CurrentDragNode.DataKey);
+                        fd = owner.GetFeedDetails(FeedSourceOf(CurrentDragNode), CurrentDragNode.DataKey);
                     if (fd != null)
                     {
                         dragObject = fd.Link;
@@ -3140,14 +3141,14 @@ namespace RssBandit.WinGui.Forms
 
                         /* first get the feed URL */
                         string feedUrl = GetOriginalFeedUrl(currentNewsItem);
-
+                        FeedSource source = FeedSourceOf(tn).Source; 
                         /* 
 						 * now, locate NewsItem in actual feed and mark comments as viewed 
 						 * then update tree node comment status. 							 
 						 */
-                        if (feedUrl != null && owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out feed))
+                        if (feedUrl != null && source.GetFeeds().TryGetValue(feedUrl, out feed))
                         {
-                            IList<INewsItem> newsItems = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
+                            IList<INewsItem> newsItems = source.GetCachedItemsForFeed(feedUrl);
 
                             foreach (var ni in newsItems)
                             {

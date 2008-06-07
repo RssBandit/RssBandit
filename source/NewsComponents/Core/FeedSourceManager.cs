@@ -260,7 +260,7 @@ namespace NewsComponents
         public FeedSourceEntry this[string name]
         {
             get {
-                FeedSourceEntry fsid = _feedSources.Values.First(fs => fs.Name == name);
+                FeedSourceEntry fsid = _feedSources.Values.FirstOrDefault(fs => fs.Name == name);
                 if (fsid != null)
                 {
                     return fsid;
@@ -295,7 +295,7 @@ namespace NewsComponents
             value = null;
             if (!string.IsNullOrEmpty(name))
             {
-                FeedSourceEntry fsid = _feedSources.Values.First(fs => fs.Name == name);
+                FeedSourceEntry fsid = _feedSources.Values.FirstOrDefault(fs => fs.Name == name);
                 if (fsid != null)
                 {
                     value = fsid;

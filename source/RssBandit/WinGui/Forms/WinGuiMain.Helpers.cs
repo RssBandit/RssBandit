@@ -178,6 +178,15 @@ namespace RssBandit.WinGui.Forms
 			return null;
 		}
 
+        public FeedSourceEntry FeedSourceOf(string feedUrl)
+        {
+            if (StringHelper.EmptyTrimOrNull(feedUrl))
+                return null;
+
+            return owner.FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(feedUrl)); 
+        }
+
+
 		public FeedSourceEntry FeedSourceOf(TreeFeedsNodeBase node)
 		{
 			if (node == null)
@@ -409,7 +418,8 @@ namespace RssBandit.WinGui.Forms
                 if (tn != TreeSelectedFeedsNode && f != null)
                 {
                     containsUnread = false;
-                    IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+                    FeedSource source = FeedSourceOf(tn).Source;
+                    IList<INewsItem> items = source.GetCachedItemsForFeed(f.link);
 
                     for (int i = 0; i < items.Count; i++)
                     {
@@ -1620,16 +1630,24 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Remove unread items of the feed f from the unread item tree node container.
+        /// Remove unread items of the feed from the unread item tree node container.
         /// </summary>
         /// <param name="feedLink">The feed link.</param>
         private void UnreadItemsNodeRemoveItems(string feedLink)
         {
-            if (string.IsNullOrEmpty(feedLink) ||
-                !owner.FeedHandler.IsSubscribed(feedLink))
-                return;
-            IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedLink);
-            UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(items));
+            
+           //BUGBUG: This doesn't handle being subscribed to the same feed from multiple feed sources
+
+            if (string.IsNullOrEmpty(feedLink)){
+                return; 
+            }
+                
+            FeedSourceEntry fse = FeedSourceOf(feedLink);
+            if (fse != null)
+            {
+                IList<INewsItem> items = fse.Source.GetCachedItemsForFeed(feedLink);
+                UnreadItemsNodeRemoveItems(FilterUnreadFeedItems(items));
+            }
         }
 
         /// <summary>
@@ -1673,7 +1691,7 @@ namespace RssBandit.WinGui.Forms
                 IList<INewsItem> items = null;
                 try
                 {
-                    items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+                    items = FeedSourceOf(f.link).Source.GetCachedItemsForFeed(f.link);
                 }
                 catch
                 {
@@ -1743,7 +1761,7 @@ namespace RssBandit.WinGui.Forms
                 IList<INewsItem> items = null;
                 try
                 {
-                    items = owner.FeedHandler.GetCachedItemsForFeed(f.link);
+                    items = FeedSourceOf(f.link).Source.GetCachedItemsForFeed(f.link);
                 }
                 catch
                 {
@@ -2042,7 +2060,7 @@ namespace RssBandit.WinGui.Forms
                     // Old: call may initiate a web request, if eTag/last retrived is too old:
                     //ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
                     // this will just get the items from cache:
-                    IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(tn.DataKey);
+                    IList<INewsItem> items = FeedSourceOf(tn).Source.GetCachedItemsForFeed(tn.DataKey);
                     IList<INewsItem> unread = FilterUnreadFeedItems(items, true);
 
                     if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow ||
@@ -2069,7 +2087,7 @@ namespace RssBandit.WinGui.Forms
                         PopulateListView(tn, items, true, false, tn);
                     }
 
-                    IFeedDetails fi = owner.GetFeedDetails(tn.DataKey);
+                    IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(tn), tn.DataKey);
 
                     if (fi != null)
                     {
@@ -2278,13 +2296,13 @@ namespace RssBandit.WinGui.Forms
                             }
                             else if (categorized)
                             {
-                                IList<INewsItem> items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
+                                IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(feedUrl);
                                 INewsFeed f = owner.GetFeed(entry, feedUrl);
                                 FeedInfo fi;
 
                                 if (f != null)
                                 {
-                                    IFeedDetails ifd = owner.GetFeedDetails(f.link);
+                                    IFeedDetails ifd = owner.GetFeedDetails(entry, f.link);
 
                                     if (ifd == null) // with with an error, and the like: ignore
                                         continue;
