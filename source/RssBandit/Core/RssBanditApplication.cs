@@ -967,14 +967,16 @@ namespace RssBandit
         /// <summary>
         /// Gets the feed info (IFeedDetails).
         /// </summary>
+        /// <param name="entry">The feed source entry.</param>
         /// <param name="feedUrl">The feed URL (can be null).</param>
         /// <returns>IFeedDetails if found, else null</returns>
-        public IFeedDetails GetFeedDetails(string feedUrl)
+        public IFeedDetails GetFeedDetails(FeedSourceEntry entry, string feedUrl)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return null;
-            if (feedHandler.IsSubscribed(feedUrl))
-                return feedHandler.GetFeedDetails(feedUrl);
+
+            if (entry.Source.IsSubscribed(feedUrl))
+                return entry.Source.GetFeedDetails(feedUrl);
             return null;
         }
 

@@ -69,7 +69,7 @@ namespace RssBandit.WinGui.Forms
             //select the initial feed source used for populating combo boxes
             FeedSourceEntry fs = null; 
             feedSources.TryGetValue(selectedFeedSource, out fs); 
-            fs = fs ?? feedSources.Sources.First();
+            fs = fs ?? feedSources.Sources.FirstOrDefault();
 
             //initialize combo boxes	
             foreach (string category in fs.Source.GetCategories().Keys)
