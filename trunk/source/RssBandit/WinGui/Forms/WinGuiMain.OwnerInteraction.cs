@@ -1346,7 +1346,7 @@ namespace RssBandit.WinGui.Forms
 #endif
         }
 
-        public void OnAllAsyncUpdateFeedsFinished()
+        public void OnAllAsyncUpdateFeedsFinished(FeedSourceEntry entry)
         {
 #if !NOAUTO_REFRESH
             // restart the feeds auto-refresh timer:
@@ -1357,7 +1357,7 @@ namespace RssBandit.WinGui.Forms
             {
                 try
                 {
-                    owner.FeedHandler.RefreshFavicons();
+                    enrty.Source.RefreshFavicons();
                 }
                 finally
                 {
@@ -1549,12 +1549,13 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Called on each finished successful favicon request.
-        /// </summary>
-        /// <param name="favicon"> The name of the favicon file</param> 
-        /// <param name="feedUrls">The list of URLs that will utilize this favicon</param>		
-        public void UpdateFavicon(string favicon, StringCollection feedUrls)
+		/// <summary>
+		/// Called on each finished successful favicon request.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="favicon">The name of the favicon file</param>
+		/// <param name="feedUrls">The list of URLs that will utilize this favicon</param>
+        public void UpdateFavicon(FeedSourceEntry entry, string favicon, StringCollection feedUrls)
         {
             Image icon = null;
             if (!string.IsNullOrEmpty(favicon))
@@ -1610,7 +1611,7 @@ namespace RssBandit.WinGui.Forms
             {
                 foreach (var feedUrl in feedUrls)
                 {
-                    TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
+                    TreeFeedsNodeBase tn = TreeHelper.FindNode(GetSubscriptionRootNode(entry), feedUrl);
                     if (tn == null)
                     {
                         _log.Debug("TreeHelper.FindNode() could not find matching tree node for " + feedUrl);
@@ -1630,7 +1631,7 @@ namespace RssBandit.WinGui.Forms
                         _favicons.Add(favicon, icon);
                 }
                 //<favicon> entries added to subscriptions.xml
-                owner.SubscriptionModified(NewsFeedProperty.General);
+                owner.SubscriptionModified(entry, NewsFeedProperty.General);
                 //this.owner.FeedlistModified = true; 
             }
         }
@@ -1868,33 +1869,30 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Called on each finished successful feed refresh.
-        /// </summary>
-        /// <param name="feedUrl">The original feed Uri</param>
-        /// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
-        /// <param name="modified">Really new items received</param>
-        public void UpdateFeed(string feedUrl, Uri newFeedUri, bool modified)
+		/// <summary>
+		/// Called on each finished successful feed refresh.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feedUrl">The original feed Uri</param>
+		/// <param name="newFeedUri">The new feed Uri (if permanently moved)</param>
+		/// <param name="modified">Really new items received</param>
+		public void UpdateFeed(FeedSourceEntry entry, string feedUrl, Uri newFeedUri, bool modified)
         {
-            Uri feedUri = null;
-            try
-            {
-                feedUri = new Uri(feedUrl);
-            }
-            catch (Exception)
-            {
-            }
-
-            UpdateFeed(feedUri, newFeedUri, modified);
+			Uri feedUri;
+			if (Uri.TryCreate(feedUrl, UriKind.Absolute, out feedUri))
+				UpdateFeed(entry, feedUri, newFeedUri, modified); 
+            else
+				UpdateFeed(entry, feedUri, newFeedUri, modified);
         }
 
-        /// <summary>
-        /// Called on each finished successful feed refresh.
-        /// </summary>
-        /// <param name="feedUri">The original feed Uri</param>
-        /// <param name="newFeedUri">The new feed Uri (if permamently moved)</param>
-        /// <param name="modified">Really new items received</param>
-        public void UpdateFeed(Uri feedUri, Uri newFeedUri, bool modified)
+		/// <summary>
+		/// Called on each finished successful feed refresh.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feedUri">The original feed Uri</param>
+		/// <param name="newFeedUri">The new feed Uri (if permanently moved)</param>
+		/// <param name="modified">Really new items received</param>
+        public void UpdateFeed(FeedSourceEntry entry,Uri feedUri, Uri newFeedUri, bool modified)
         {
             if (feedUri == null)
                 return;
@@ -1904,17 +1902,18 @@ namespace RssBandit.WinGui.Forms
 
             string feedUrl = feedUri.CanonicalizedUri();
             TreeFeedsNodeBase tn;
+			FeedSource source = entry.Source;
 
             if (newFeedUri != null)
             {
-                items = owner.FeedHandler.GetCachedItemsForFeed(newFeedUri.CanonicalizedUri());
+				items = source.GetCachedItemsForFeed(newFeedUri.CanonicalizedUri());
             }
             else
             {
-                items = owner.FeedHandler.GetCachedItemsForFeed(feedUrl);
+				items = source.GetCachedItemsForFeed(feedUrl);
             }
 
-            if (!owner.FeedHandler.IsSubscribed(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
+			if (!source.IsSubscribed(feedUrl) && (feedUri.IsFile || feedUri.IsUnc))
             {
                 feedUrl = feedUri.LocalPath;
             }
@@ -1923,13 +1922,13 @@ namespace RssBandit.WinGui.Forms
             //feed = owner.FeedHandler.GetFeeds()[feedUrl];
             INewsFeed feed;
 
-            if (owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out feed) && feed != null)
+			if (source.GetFeeds().TryGetValue(feedUrl, out feed) && feed != null)
             {
-                tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feed);
+                tn = TreeHelper.FindNode(GetSubscriptionRootNode(entry), feed);
             }
             else
             {
-                tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
+				tn = TreeHelper.FindNode(GetSubscriptionRootNode(entry), feedUrl);
             }
 
             if (tn != null)
@@ -1942,7 +1941,7 @@ namespace RssBandit.WinGui.Forms
                     else
                         feedUrl = newFeedUri.CanonicalizedUri();
                     tn.DataKey = feedUrl;
-					feed = owner.GetFeed(FeedSourceOf(tn), feedUrl);
+					feed = owner.GetFeed(entry, feedUrl);
                     if (feed != null)
                         feed.Tag = tn;
                 }
@@ -3305,7 +3304,7 @@ namespace RssBandit.WinGui.Forms
                             });
         }
 
-        public void OnFeedUpdateStart(Uri feedUri, ref bool cancel)
+        public void OnFeedUpdateStart(FeedSourceEntry entry, Uri feedUri, ref bool cancel)
         {
             string feedUrl;
             TreeFeedsNodeBase feedsNode;
@@ -3316,13 +3315,13 @@ namespace RssBandit.WinGui.Forms
                 feedUrl = feedUri.CanonicalizedUri();
 
             INewsFeed f;
-            if (owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
+            if (entry.Source.GetFeeds().TryGetValue(feedUrl, out f))
             {
-                feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
+                feedsNode = TreeHelper.FindNode(GetSubscriptionRootNode(entry), f);
             }
             else
             {
-                feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
+				feedsNode = TreeHelper.FindNode(GetSubscriptionRootNode(entry), feedUrl);
             }
             if (feedsNode != null)
             {

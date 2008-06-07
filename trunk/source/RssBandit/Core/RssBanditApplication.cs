@@ -366,22 +366,25 @@ namespace RssBandit
             // save the test enviroment:
             sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
+			//TODO: move to preferences/static prop. at FeedSource
             feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
 
-            feedHandler.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
-            feedHandler.UpdateFeedsStarted += OnUpdateFeedsStarted;
-            feedHandler.OnUpdatedFavicon += OnUpdatedFavicon;
-            feedHandler.OnDownloadedEnclosure += OnDownloadedEnclosure;
+			sourceManager.ForEach(delegate (FeedSource f) { ConnectFeedSourceEvents(f);});
+			
+			//feedHandler.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
+			//feedHandler.UpdateFeedsStarted += OnUpdateFeedsStarted;
+			//feedHandler.OnUpdatedFavicon += OnUpdatedFavicon;
+			//feedHandler.OnDownloadedEnclosure += OnDownloadedEnclosure;
 
-            feedHandler.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
-            feedHandler.OnAddedCategory += OnAddedCategory;
-            feedHandler.OnDeletedCategory += OnDeletedCategory;
-            feedHandler.OnMovedCategory += OnMovedCategory;
-            feedHandler.OnRenamedCategory += OnRenamedCategory;
-            feedHandler.OnAddedFeed += OnAddedFeed;
-            feedHandler.OnDeletedFeed += OnDeletedFeed;
-            feedHandler.OnRenamedFeed += OnRenamedFeed;
-            feedHandler.OnMovedFeed += OnMovedFeed;
+			//feedHandler.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
+			//feedHandler.OnAddedCategory += OnAddedCategory;
+			//feedHandler.OnDeletedCategory += OnDeletedCategory;
+			//feedHandler.OnMovedCategory += OnMovedCategory;
+			//feedHandler.OnRenamedCategory += OnRenamedCategory;
+			//feedHandler.OnAddedFeed += OnAddedFeed;
+			//feedHandler.OnDeletedFeed += OnDeletedFeed;
+			//feedHandler.OnRenamedFeed += OnRenamedFeed;
+			//feedHandler.OnMovedFeed += OnMovedFeed;
 
             commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
@@ -828,12 +831,19 @@ namespace RssBandit
             get { return identityNewsServerManager; }
         }
 
-        /// <summary>
-        /// Notification method about a setting that was modified,
-        /// relevant to the subscriptions.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        public void SubscriptionModified(NewsFeedProperty property)
+		/// <summary>
+		/// Notification method about a setting that was modified,
+		/// relevant to the subscriptions.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="property">The property.</param>
+		public void SubscriptionModified(FeedSourceEntry entry, NewsFeedProperty property)
+		{
+			HandleSubscriptionRelevantChange(property);
+		}
+
+		[Obsolete("call SubscriptionModified(FeedSourceEntry, NewsFeedProperty)")]
+		public void SubscriptionModified(NewsFeedProperty property)
         {
             HandleSubscriptionRelevantChange(property);
         }
@@ -872,6 +882,7 @@ namespace RssBandit
 
         private void HandleSubscriptionRelevantChange(NewsFeedProperty property)
         {
+			//TODO: move save state handling to FeedSourceManager
             if (feedHandler.IsSubscriptionRelevantChange(property))
                 feedlistModified = true;
         }
@@ -3139,20 +3150,19 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
-                FeedSourceEntry source = null;
-                FeedSource fs = null; 
-                Hashtable props = new Hashtable(); 
-
+                FeedSourceEntry entry = null;
+                FeedSource fs; 
+                
                 if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
                 {
                     fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(String.Empty, null));
-                    source = sourceManager.Add(fs, SR.FeedNodeMyWindowsRssFeedsCaption);
+                    entry = sourceManager.Add(fs, SR.FeedNodeMyWindowsRssFeedsCaption);
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.Google)
                 {
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google), new NetworkCredential(wiz.UserName, wiz.Password));
                     fs = FeedSource.CreateFeedSource(FeedSourceType.Google, loc); 
-                    source = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
+                    entry = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
 
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
@@ -3160,21 +3170,58 @@ namespace RssBandit
 
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
                     fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
-                    source = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
+                    entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
                 }
 
-                if (source != null)
+                if (entry != null)
                 {
-                    this.guiMain.CreateFeedSourceView(source);
-                    this.guiMain.AddToSubscriptionTree(source);
-                    this.guiMain.SelectFeedSource(source);
-                    this.LoadFeedSourceSubscriptions(source);
-                    this.guiMain.PopulateFeedSubscriptions(source, RssBanditApplication.DefaultCategory);
-                    sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+                    this.guiMain.CreateFeedSourceView(entry);
+                    this.guiMain.AddToSubscriptionTree(entry);
+                    this.guiMain.SelectFeedSource(entry);
+                    this.LoadFeedSourceSubscriptions(entry);
+                    this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
+                	ConnectFeedSourceEvents(entry.Source);
+					sourceManager.SaveFeedSources(GetFeedSourcesFileName());
                 }
             }
         }
 
+		private void ConnectFeedSourceEvents(FeedSource source)
+		{
+			source.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
+			source.UpdateFeedsStarted += OnUpdateFeedsStarted;
+			source.OnUpdatedFavicon += OnUpdatedFavicon;
+			source.OnDownloadedEnclosure += OnDownloadedEnclosure;
+
+			source.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
+			source.OnAddedCategory += OnAddedCategory;
+			source.OnDeletedCategory += OnDeletedCategory;
+			source.OnMovedCategory += OnMovedCategory;
+			source.OnRenamedCategory += OnRenamedCategory;
+			source.OnAddedFeed += OnAddedFeed;
+			source.OnDeletedFeed += OnDeletedFeed;
+			source.OnRenamedFeed += OnRenamedFeed;
+			source.OnMovedFeed += OnMovedFeed;
+		}
+
+		// to be called on a manual remove of the user!
+		private void DisconnectFeedSourceEvents(FeedSource source)
+		{
+			source.BeforeDownloadFeedStarted -= BeforeDownloadFeedStarted;
+			source.UpdateFeedsStarted -= OnUpdateFeedsStarted;
+			source.OnUpdatedFavicon -= OnUpdatedFavicon;
+			source.OnDownloadedEnclosure -= OnDownloadedEnclosure;
+
+			source.OnAllAsyncRequestsCompleted -= OnAllRequestsCompleted;
+			source.OnAddedCategory -= OnAddedCategory;
+			source.OnDeletedCategory -= OnDeletedCategory;
+			source.OnMovedCategory -= OnMovedCategory;
+			source.OnRenamedCategory -= OnRenamedCategory;
+			source.OnAddedFeed -= OnAddedFeed;
+			source.OnDeletedFeed -= OnDeletedFeed;
+			source.OnRenamedFeed -= OnRenamedFeed;
+			source.OnMovedFeed -= OnMovedFeed;
+		}
 
         public void ImportFeeds(string fromFileOrUrl)
         {
@@ -3280,7 +3327,7 @@ namespace RssBandit
             }
         }
 
-        internal void DeleteFeed(string url)
+        internal void DeleteFeed(FeedSourceEntry entry, string url)
         {
             if (string.IsNullOrEmpty(url))
                 return;
@@ -3288,14 +3335,14 @@ namespace RssBandit
             // was possibly an error causing feed:
             ExceptionManager.GetInstance().RemoveFeed(url);
 
-            INewsFeed f = GetFeed(url);
+            INewsFeed f = GetFeed(entry, url);
             if (f != null)
             {
-                RaiseFeedDeleted(url, f.title);
+                RaiseFeedDeleted(entry, url, f.title);
                 f.Tag = null;
                 try
                 {
-                    FeedHandler.DeleteFeed(url);
+                    entry.Source.DeleteFeed(url);
                 }
                 catch (ApplicationException ex)
                 {
@@ -3306,13 +3353,13 @@ namespace RssBandit
             }
         }
 
-        private void RaiseFeedDeleted(string feedUrl, string feedTitle)
+        private void RaiseFeedDeleted(FeedSourceEntry entry, string feedUrl, string feedTitle)
         {
             if (FeedDeleted != null)
             {
                 try
                 {
-                    FeedDeleted(this, new FeedDeletedEventArgs(feedUrl, feedTitle));
+                    FeedDeleted(this, new FeedDeletedEventArgs(entry, feedUrl, feedTitle));
                 }
                 catch (Exception ex)
                 {
@@ -5452,16 +5499,21 @@ namespace RssBandit
             }
         }
 
-        public void AddCategory(string category)
+		void ICoreApplication.AddCategory(string category)
+		{
+			//TODO: change interface or map to a "current source" ?
+		}
+
+        public void AddCategory(FeedSourceEntry entry, string category)
         {
             if (category != null)
             {
                 category = category.Trim();
-                if (category.Length > 0 && ! FeedHandler.HasCategory(category))
+                if (category.Length > 0 && ! entry.Source.HasCategory(category))
                 {
                     var c = new category(category);
-                    FeedHandler.AddCategory(c);
-                    guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);
+					entry.Source.AddCategory(c);
+                    guiMain.CreateSubscriptionsCategoryHive(guiMain.GetSubscriptionRootNode(entry), category);
                 }
             }
         }
@@ -5658,7 +5710,7 @@ namespace RssBandit
                 else
                 {
                     guiMain.CurrentSelectedFeedsNode = tn;
-                    DeleteFeed(feed.link);
+                    DeleteFeed(this.sourceManager.SourceOf(feed), feed.link);
                     guiMain.CurrentSelectedFeedsNode = null;
                 }
             }
