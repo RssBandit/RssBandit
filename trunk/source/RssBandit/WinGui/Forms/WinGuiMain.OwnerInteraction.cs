@@ -1357,7 +1357,7 @@ namespace RssBandit.WinGui.Forms
             {
                 try
                 {
-                    enrty.Source.RefreshFavicons();
+                    entry.Source.RefreshFavicons();
                 }
                 finally
                 {
