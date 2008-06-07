@@ -3139,9 +3139,6 @@ namespace RssBandit
 
             if (wiz.DialogResult == DialogResult.OK)
             {
-<<<<<<< .mine
-                
-=======
                 FeedSourceEntry source = null;
                 FeedSource fs = null; 
                 Hashtable props = new Hashtable(); 
@@ -3175,7 +3172,6 @@ namespace RssBandit
                     this.guiMain.PopulateFeedSubscriptions(source, RssBanditApplication.DefaultCategory);
                     sourceManager.SaveFeedSources(GetFeedSourcesFileName());
                 }
->>>>>>> .r590
             }
         }
 
