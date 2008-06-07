@@ -69,7 +69,7 @@ namespace RssBandit
 
 				case Task.RefreshFeeds:
 					force = (bool)task.Arguments[0];
-					app.FeedHandler.RefreshFeeds(force);
+                    app.FeedSources.ForEach(s => s.RefreshFeeds(force)); 
 					break;
 
 				case Task.RefreshCommentFeeds:
@@ -206,12 +206,9 @@ namespace RssBandit
 			this.owner = owner;
 			this.processResult = uiDispatcher;
 			resultInfos = PriorityQueue.Synchronize(new PriorityQueue());
-			
-			// what we catch on:
-			this.owner.FeedHandler.UpdateFeedStarted += new FeedSource.UpdateFeedStartedHandler(this.OnUpdateFeedStarted);
-			this.owner.FeedHandler.OnUpdatedFeed += new FeedSource.UpdatedFeedCallback(this.OnUpdatedFeed);
-			this.owner.FeedHandler.OnUpdateFeedException += new FeedSource.UpdateFeedExceptionCallback(this.OnUpdateFeedException);
 
+            this.owner.SourceManager.ForEach(delegate(FeedSource f) { ConnectFeedSourceEvents(f); });
+									
 			//processResult = new System.Timers.Timer(250);
 			processResult.Tick += new EventHandler(OnProcessResultTick); //new System.Timers.ElapsedEventHandler(OnProcessResultElapsed);
 			processResult.Interval = 250;
@@ -282,7 +279,18 @@ namespace RssBandit
 
 		#endregion
 
-	}
+        #region private methods 
+
+        internal void ConnectFeedSourceEvents(FeedSource source)
+        {
+            source.UpdateFeedStarted += new FeedSource.UpdateFeedStartedHandler(this.OnUpdateFeedStarted);
+            source.OnUpdatedFeed += new FeedSource.UpdatedFeedCallback(this.OnUpdatedFeed);
+            source.OnUpdateFeedException += new FeedSource.UpdateFeedExceptionCallback(this.OnUpdateFeedException);
+        }
+
+        #endregion 
+
+    }
 	#endregion
 
 }
