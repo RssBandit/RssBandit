@@ -3359,7 +3359,7 @@ namespace RssBandit
             {
                 try
                 {
-                    FeedDeleted(this, new FeedDeletedEventArgs(entry, feedUrl, feedTitle));
+                    FeedDeleted(this, new FeedDeletedEventArgs(feedUrl, feedTitle));
                 }
                 catch (Exception ex)
                 {
