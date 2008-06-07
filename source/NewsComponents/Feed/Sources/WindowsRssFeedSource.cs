@@ -1539,6 +1539,7 @@ namespace NewsComponents.Feed
                 if (myitem != null)
                 {
                     Marshal.ReleaseComObject(myitem);
+                	myitem = null;
                 }
                 System.GC.SuppressFinalize(this);
                 disposed = true; 
