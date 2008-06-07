@@ -986,7 +986,8 @@ namespace RssBandit.WinGui.Forms
                                         String.Format(" - {0} ({1})", SR.MenuDeleteThisFeedCaption, tn.Text)))
             {
                 // raise the OnFeedDeleted event (where we really remove the node):
-                owner.DeleteFeed(tn.DataKey);
+				SubscriptionRootNode root = (SubscriptionRootNode)TreeHelper.ParentRootNode(tn);
+				owner.DeleteFeed(owner.FeedSources[root.SourceID], tn.DataKey);
 
                 if (sender is AppContextMenuCommand)
                     CurrentSelectedFeedsNode = null;
