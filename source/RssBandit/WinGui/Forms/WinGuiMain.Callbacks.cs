@@ -367,8 +367,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed && feedsNode.DataKey != null)
             {
-                if (owner.FeedHandler.IsSubscribed(feedsNode.DataKey))
-                    ClipboardHelper.SetString(feedsNode.DataKey, true);
+                ClipboardHelper.SetString(feedsNode.DataKey, true);
             }
 
             if (sender is AppContextMenuCommand) // needed at the treeview
@@ -399,8 +398,9 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
-                string link, title;
+
+				IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
+				string link, title;
 
                 if (fd != null)
                 {
@@ -2132,7 +2132,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if a feed was selected in the treeview, we display the feed homepage,
                                 // not the feed url in the Url dropdown box:
-                                IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(selectedNode), selectedNode.DataKey);
+								IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(selectedNode), selectedNode.DataKey);
                                 if (fi != null && fi.Link == FeedDetailTabState.Url)
                                     return; // no user navigation happened in listview/detail pane
                             }
@@ -2271,29 +2271,30 @@ namespace RssBandit.WinGui.Forms
             {
                 listFeedItems.CheckForLayoutModifications();
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-
+				FeedSourceEntry entry = FeedSourceOf(tn);
+                    
                 if (tn.Type == FeedNodeType.Category)
                 {
                     string category = tn.CategoryStoreName;
 
-                    if (owner.FeedHandler.GetCategoryMarkItemsReadOnExit(category) &&
+					if (entry.Source.GetCategoryMarkItemsReadOnExit(category) &&
                         !TreeHelper.IsChildNode(tn, (TreeFeedsNodeBase) e.NewSelections[0]))
                     {
                         MarkSelectedNodeRead(tn);
-                        owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+                        owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
                         //owner.FeedlistModified = true;
                     }
                 }
                 else if (tn.Type == FeedNodeType.Feed)
                 {
                     string feedUrl = tn.DataKey;
-                    INewsFeed f = owner.GetFeed(FeedSourceOf(tn), feedUrl);
+                	INewsFeed f = owner.GetFeed(entry, feedUrl);
 
-                    if (f != null && feedUrl != null && owner.FeedHandler.GetMarkItemsReadOnExit(feedUrl) &&
+                    if (f != null && feedUrl != null && entry.Source.GetMarkItemsReadOnExit(feedUrl) &&
                         f.containsNewMessages)
                     {
                         MarkSelectedNodeRead(tn);
-                        owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
+                        owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
                         //owner.FeedlistModified = true;
                         //this.UpdateTreeStatus(owner.FeedHandler.GetFeeds());					 
                     }
@@ -2333,7 +2334,9 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         string feedUrl = tn.DataKey;
-                        if (feedUrl != null && owner.FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(feedUrl)) != null)
+                    	FeedSourceEntry entry = FeedSourceOf(tn);
+						if (feedUrl != null && entry != null && 
+							entry.Source.IsSubscribed(feedUrl))
                         {
                             owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
                         }
@@ -2409,8 +2412,10 @@ namespace RssBandit.WinGui.Forms
                             htmlDetail.Navigate(null);
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
-                            SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,
-                                                              owner.FeedHandler.GetFeeds().Count));
+							FeedSourceEntry entry = FeedSourceOf(tn);
+							if (entry != null)
+								SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,
+                                                    entry.Source.GetFeeds().Count));
                             break;
 
                         default:
@@ -2604,7 +2609,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     IFeedDetails fd = null;
                     if (CurrentDragNode.Type == FeedNodeType.Feed)
-                        fd = owner.GetFeedDetails(FeedSourceOf(CurrentDragNode), CurrentDragNode.DataKey);
+						fd = owner.GetFeedDetails(FeedSourceOf(CurrentDragNode), CurrentDragNode.DataKey);
                     if (fd != null)
                     {
                         dragObject = fd.Link;
