@@ -720,10 +720,10 @@ namespace RssBandit
             ThreadWorkerBase.QueueTask(task, duplicate);
         }
 
-        public void BeginLoadingFeedlists()
-        {
-            MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
-        }
+		//public void BeginLoadingFeedlists()
+		//{
+		//    MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
+		//}
 
         public void BeginLoadingSpecialFeeds()
         {
@@ -771,12 +771,12 @@ namespace RssBandit
             //}
         }
 
-        public void BeginRefreshCategoryFeeds(string category, bool forceDownload)
+        public void BeginRefreshCategoryFeeds(FeedSourceEntry entry, string category, bool forceDownload)
         {
             //if (this.InternetAccessAllowed) {
             // handled via NewsHander.Offline flag
             StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshCategory);
-            MakeAndQueueTask(ThreadWorker.Task.RefreshCategoryFeeds, OnRefreshFeedsProgress, category,
+            MakeAndQueueTask(ThreadWorker.Task.RefreshCategoryFeeds, OnRefreshFeedsProgress, entry, category,
                              forceDownload);
             //}
         }
@@ -965,18 +965,17 @@ namespace RssBandit
 		}
 
         /// <summary>
-        /// Gets the feed info (IFeedDetails).
+        /// Gets the feed info (<see cref="IFeedDetails"/>).
         /// </summary>
         /// <param name="entry">The feed source entry.</param>
         /// <param name="feedUrl">The feed URL (can be null).</param>
         /// <returns>IFeedDetails if found, else null</returns>
-        public IFeedDetails GetFeedDetails(FeedSourceEntry entry, string feedUrl)
+		public IFeedDetails GetFeedDetails(FeedSourceEntry entry, string feedUrl)
         {
-            if (string.IsNullOrEmpty(feedUrl))
+			if (entry == null || string.IsNullOrEmpty(feedUrl))
                 return null;
-
-            if (entry.Source.IsSubscribed(feedUrl))
-                return entry.Source.GetFeedDetails(feedUrl);
+			if (entry.Source.IsSubscribed(feedUrl))
+				return entry.Source.GetFeedDetails(feedUrl);
             return null;
         }
 
