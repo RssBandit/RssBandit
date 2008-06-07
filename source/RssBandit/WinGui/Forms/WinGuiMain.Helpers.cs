@@ -161,6 +161,23 @@ namespace RssBandit.WinGui.Forms
 			return null;
 		}
 
+		internal SubscriptionRootNode GetSubscriptionRootNode(FeedSourceEntry entry)
+		{
+			if (entry == null)
+				return null;
+
+			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+			{
+				SubscriptionRootNode root = n as SubscriptionRootNode;
+				if (root != null && root.SourceID == entry.ID)
+				{
+					return root;
+				}
+			}
+
+			return null;
+		}
+
 		internal FeedSourceEntry FeedSourceOf(TreeFeedsNodeBase node)
 		{
 			if (node == null)
@@ -1835,19 +1852,19 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        internal void OnEnclosureReceived(object sender, DownloadItemEventArgs e)
+		/// <summary>
+		/// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="e">The <see cref="NewsComponents.Net.DownloadItemEventArgs"/> instance containing the event data.</param>
+		internal void OnEnclosureReceived(FeedSourceEntry entry, DownloadItemEventArgs e)
         {
             /* display alert window on new download available */
-            if (owner.FeedHandler.IsSubscribed(e.DownloadItem.OwnerFeedId))
+            if (entry.Source.IsSubscribed(e.DownloadItem.OwnerFeedId))
             {
-                INewsFeed f = owner.FeedHandler.GetFeeds()[e.DownloadItem.OwnerFeedId];
+				INewsFeed f = entry.Source.GetFeeds()[e.DownloadItem.OwnerFeedId];
 
-                if (owner.FeedHandler.GetEnclosureAlert(f.link))
+				if (entry.Source.GetEnclosureAlert(f.link))
                 {
                     e.DownloadItem.OwnerFeed = f;
                     var items = new List<DownloadItem>
