@@ -2296,7 +2296,7 @@ namespace RssBandit.WinGui.Forms
                             }
                             else if (categorized)
                             {
-                                IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(feedUrl);
+								IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(feedUrl);
                                 INewsFeed f = owner.GetFeed(entry, feedUrl);
                                 FeedInfo fi;
 

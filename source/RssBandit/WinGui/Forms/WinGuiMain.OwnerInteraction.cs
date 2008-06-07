@@ -1305,7 +1305,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase selectedNode = CurrentSelectedFeedsNode;
             if (selectedNode == null) return;
 
-            owner.BeginRefreshCategoryFeeds(selectedNode.CategoryStoreName, forceRefresh);
+			owner.BeginRefreshCategoryFeeds(FeedSourceOf(selectedNode), selectedNode.CategoryStoreName, forceRefresh);
         }
 
 
