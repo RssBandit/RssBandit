@@ -1327,12 +1327,12 @@ namespace RssBandit.WinGui.Forms
         /// <param name="force_download"></param>
         public void UpdateAllFeeds(bool force_download)
         {
-            TreeFeedsNodeBase root = GetRoot(RootFolderType.MyFeeds);
-			if (root != null)
+            List<SubscriptionRootNode> rootNodes = this.GetAllSubscriptionRootNodes();
+			if (rootNodes != null)
 			{
 				if (_timerRefreshFeeds.Enabled)
 					_timerRefreshFeeds.Stop();
-				_lastUnreadFeedItemCountBeforeRefresh = root.UnreadCount;
+				_lastUnreadFeedItemCountBeforeRefresh = rootNodes.Sum(n => n.UnreadCount);
 				owner.BeginRefreshFeeds(force_download);
 			}
         }
@@ -3219,7 +3219,7 @@ namespace RssBandit.WinGui.Forms
                         changes |= NewsFeedProperty.FeedCategoryRemoved; //will be removed by ChangeCategory
                     }
 
-                    // get target category if it isn't the root
+                    // get target category if it isn't the rootNodes
                     if (targetCategory != null && owner.FeedHandler.HasCategory(targetCategory))
                     {
                         parent = owner.FeedHandler.GetCategories()[targetCategory];

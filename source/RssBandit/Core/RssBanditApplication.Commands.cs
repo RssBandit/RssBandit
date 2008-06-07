@@ -822,9 +822,11 @@ namespace RssBandit
         public void CmdUpdateFeed(ICommand sender)
         {
             string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
+            FeedSource source = guiMain.FeedSourceOf(guiMain.CurrentSelectedFeedsNode).Source; 
+
             if (!string.IsNullOrEmpty(feedUrl))
             {
-                feedHandler.AsyncGetItemsForFeed(feedUrl, true, true);
+                source.AsyncGetItemsForFeed(feedUrl, true, true);
             }
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;

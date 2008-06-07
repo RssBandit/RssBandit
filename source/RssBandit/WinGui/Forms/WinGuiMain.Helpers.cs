@@ -178,7 +178,7 @@ namespace RssBandit.WinGui.Forms
 			return null;
 		}
 
-		internal FeedSourceEntry FeedSourceOf(TreeFeedsNodeBase node)
+		public FeedSourceEntry FeedSourceOf(TreeFeedsNodeBase node)
 		{
 			if (node == null)
 				return null;
@@ -200,6 +200,18 @@ namespace RssBandit.WinGui.Forms
 
 			return list;
 		}
+
+        internal List<SubscriptionRootNode> GetAllSubscriptionRootNodes()
+        {
+            List<SubscriptionRootNode> list = new List<SubscriptionRootNode>();
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                if (n is SubscriptionRootNode)
+                    list.Add((SubscriptionRootNode)n);
+            }
+
+            return list;
+        }
 
 		internal void ShowSubscriptionRootNodes(bool value)
 		{
