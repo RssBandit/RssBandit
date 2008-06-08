@@ -700,11 +700,29 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide a name for this subscription list.
+        /// </summary>
+        internal static string ExceptionNoFeedSourceName {
+            get {
+                return ResourceManager.GetString("ExceptionNoFeedSourceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provide the executable file path and name, please..
         /// </summary>
         internal static string ExceptionNoOnNewWindowExecutable {
             get {
                 return ResourceManager.GetString("ExceptionNoOnNewWindowExecutable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid password.
+        /// </summary>
+        internal static string ExceptionNoPassword {
+            get {
+                return ResourceManager.GetString("ExceptionNoPassword", resourceCulture);
             }
         }
         
@@ -741,6 +759,15 @@ namespace RssBandit.Resources {
         internal static string ExceptionNoRemoteStorageLocation {
             get {
                 return ResourceManager.GetString("ExceptionNoRemoteStorageLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid username.
+        /// </summary>
+        internal static string ExceptionNoUserName {
+            get {
+                return ResourceManager.GetString("ExceptionNoUserName", resourceCulture);
             }
         }
         

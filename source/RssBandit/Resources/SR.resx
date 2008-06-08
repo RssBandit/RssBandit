@@ -2480,4 +2480,13 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   <data name="TopStoriesDescription" xml:space="preserve">
     <value>Below is the list of the most popular links from your subscriptions over the past week. </value>
   </data>
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
+    <value>Please provide a name for this subscription list</value>
+  </data>
+  <data name="ExceptionNoPassword" xml:space="preserve">
+    <value>Please provide a valid password</value>
+  </data>
+  <data name="ExceptionNoUserName" xml:space="preserve">
+    <value>Please provide a valid username</value>
+  </data>
 </root>

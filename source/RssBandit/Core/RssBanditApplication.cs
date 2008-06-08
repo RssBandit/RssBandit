@@ -3164,13 +3164,13 @@ namespace RssBandit
                 if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
                 {
                     fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS), null));
-                    entry = sourceManager.Add(fs, SR.FeedNodeMyWindowsRssFeedsCaption);
+                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.Google)
                 {
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google), new NetworkCredential(wiz.UserName, wiz.Password));
                     fs = FeedSource.CreateFeedSource(FeedSourceType.Google, loc); 
-                    entry = sourceManager.Add(fs, SR.FeedNodeMyGoogleReaderFeedsCaption);
+                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
 
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
@@ -3178,7 +3178,7 @@ namespace RssBandit
 
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
                     fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
-                    entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
+                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
                 }
 
                 if (entry != null)
