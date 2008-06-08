@@ -200,7 +200,7 @@ namespace RssBandit.WinGui.Forms
 
             listFeedItems.SmallImageList = _listImages;
             listFeedItemsO.ImageList = _listImages;
-            owner.FeedlistLoaded += OnOwnerFeedlistLoaded;
+            // owner.FeedlistLoaded += OnFeedlistsLoaded; NO LONGER AN EVENT 
             listFeedItems.ColumnClick += OnFeedListItemsColumnClick;
             listFeedItems.SelectedIndexChanged += listFeedItems_SelectedIndexChanged;
 
