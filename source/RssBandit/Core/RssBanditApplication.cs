@@ -5563,7 +5563,12 @@ namespace RssBandit
             if (category != null) // does remember the last category:
                 wiz.FeedCategory = category;
 
-            try
+
+        	List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
+			if (visibleRoots.Count > 0)
+				wiz.FeedSourceName = guiMain.FeedSourceOf(visibleRoots[0]).Name;
+
+			try
             {
                 if (MainForm.IsHandleCreated)
                     Win32.SetForegroundWindow(MainForm.Handle);
@@ -5578,6 +5583,7 @@ namespace RssBandit
             if (wiz.DialogResult == DialogResult.OK)
             {
                 INewsFeed f;
+				FeedSourceEntry entry = sourceManager[wiz.FeedSourceName];
 
                 if (wiz.MultipleFeedsToSubscribe)
                 {
@@ -5585,14 +5591,14 @@ namespace RssBandit
 
                     for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
                     {
-                        f = CreateFeedFromWizard(wiz, i);
+                        f = CreateFeedFromWizard(wiz, entry, i);
                         if (f == null)
                         {
                             continue;
                         }
 
                         // add feed visually
-                        guiMain.AddNewFeedNode(f.category, f);
+                        guiMain.AddNewFeedNode(entry, f.category, f);
 
                         if (wiz.FeedInfo == null)
                             guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
@@ -5604,7 +5610,7 @@ namespace RssBandit
                     return anySubscription;
                 }
 
-                f = CreateFeedFromWizard(wiz, 0);
+                f = CreateFeedFromWizard(wiz, entry, 0);
 
                 if (f == null)
                 {
@@ -5613,7 +5619,7 @@ namespace RssBandit
                 }
 
                 // add feed visually
-                guiMain.AddNewFeedNode(f.category, f);
+                guiMain.AddNewFeedNode(entry, f.category, f);
 
                 if (wiz.FeedInfo == null)
                     guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
@@ -5626,16 +5632,17 @@ namespace RssBandit
             return false;
         }
 
-        private INewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, int index)
+        private INewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, FeedSourceEntry entry, int index)
         {
             INewsFeed f = new NewsFeed
                               {
                                   link = wiz.FeedUrls(index)
                               };
 
-            if (feedHandler.IsSubscribed(f.link))
+        	
+			if (entry.Source.IsSubscribed(f.link))
             {
-                INewsFeed f2 = feedHandler.GetFeeds()[f.link];
+				INewsFeed f2 = entry.Source.GetFeeds()[f.link];
                 MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                           (f2.category == null
                                                ? String.Empty
@@ -5647,9 +5654,9 @@ namespace RssBandit
 
             f.title = wiz.FeedTitles(index);
             f.category = wiz.FeedCategory;
-            if ((f.category != null) && (!feedHandler.HasCategory(f.category)))
+			if ((f.category != null) && (!entry.Source.HasCategory(f.category)))
             {
-                feedHandler.AddCategory(f.category);
+				entry.Source.AddCategory(f.category);
             }
 
             if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))
@@ -5668,22 +5675,22 @@ namespace RssBandit
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
 
             // add feed to backend
-            feedHandler.AddFeed(f, wiz.FeedInfo);
+			entry.Source.AddFeed(f, wiz.FeedInfo);
 
             FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
 
             // set properties the backend requires the feed yet added
             if (wiz.RefreshRate != CurrentGlobalRefreshRateMinutes)
-                feedHandler.SetRefreshRate(f.link, wiz.RefreshRate);
-            feedHandler.SetMaxItemAge(f.link, wiz.MaxItemAge);
-            feedHandler.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
+				entry.Source.SetRefreshRate(f.link, wiz.RefreshRate);
+			entry.Source.SetMaxItemAge(f.link, wiz.MaxItemAge);
+			entry.Source.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
 
             string stylesheet = wiz.FeedStylesheet;
 
-            if (stylesheet != null && !stylesheet.Equals(feedHandler.GetStyleSheet(f.link)))
+			if (stylesheet != null && !stylesheet.Equals(entry.Source.GetStyleSheet(f.link)))
             {
-                feedHandler.SetStyleSheet(f.link, stylesheet);
+				entry.Source.SetStyleSheet(f.link, stylesheet);
 
                 if (!NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
                 {
