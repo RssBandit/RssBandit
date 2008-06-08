@@ -2994,7 +2994,8 @@ namespace RssBandit
             }
 			
 			if (FeedlistLoaded != null)
-				FeedlistLoaded(this, EventArgs.Empty);
+                FeedlistLoaded(this, EventArgs.Empty);
+				
 
             LoadWatchedCommentsFeedlist();
         }

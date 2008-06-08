@@ -2101,7 +2101,7 @@ namespace RssBandit.WinGui.Forms
                 owner.CmdNewFeed(category, feedUrl, feedTitle);
         }
 
-        private void OnOwnerFeedlistLoaded(object sender, EventArgs e)
+        private void OnFeedlistsLoaded()
         {
             listFeedItems.FeedColumnLayout = owner.GlobalFeedColumnLayout;
             //TODO: set remembered Navigator group (subscriptions)
