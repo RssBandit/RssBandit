@@ -1145,9 +1145,12 @@ namespace RssBandit.WinGui.Forms
 
 			// load the subscriptions of each feedsource:
 			owner.LoadFeedLists();
-			
+		    
 			// display the subscriptions per feedsource:
 			InitiatePopulateTreeFeeds();
+
+            //remember subscription tree state
+            OnFeedlistsLoaded();
 
 			SetGuiStateFeedback(SR.GUIStatusDone);
 			
