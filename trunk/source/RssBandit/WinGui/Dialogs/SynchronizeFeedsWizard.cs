@@ -72,6 +72,10 @@ namespace RssBandit.WinGui.Forms
         private Wizard wizard;
         private Label label1;
         private RadioButton radioNewsGator;
+        private WizardPage pageSourceName;
+        private TextBox textFeedSourceName;
+        private Label label2;
+        private ErrorProvider errorProvider1;
         private System.ComponentModel.IContainer components;
 
         public FeedSourceType SelectedFeedSource
@@ -106,6 +110,11 @@ namespace RssBandit.WinGui.Forms
         public string Password
         {
             get { return textPassword.Text; }
+        }
+
+        public string FeedSourceName
+        {
+            get { return textFeedSourceName.Text; }
         }
 
         #endregion
@@ -226,6 +235,7 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SynchronizeFeedsWizard));
             this.chkDisplayWelcome = new System.Windows.Forms.CheckBox();
             this.pageFeedCredentials = new Divelements.WizardFramework.WizardPage();
@@ -234,6 +244,9 @@ namespace RssBandit.WinGui.Forms
             this.textUser = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.textPassword = new System.Windows.Forms.TextBox();
+            this.pageSourceName = new Divelements.WizardFramework.WizardPage();
+            this.textFeedSourceName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.pageStartImport = new Divelements.WizardFramework.WizardPage();
             this.label1 = new System.Windows.Forms.Label();
             this.radioNewsGator = new System.Windows.Forms.RadioButton();
@@ -241,9 +254,12 @@ namespace RssBandit.WinGui.Forms
             this.radioCommonFeedlist = new System.Windows.Forms.RadioButton();
             this._btnImmediateFinish = new System.Windows.Forms.Button();
             this.wizard = new Divelements.WizardFramework.Wizard();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.pageFeedCredentials.SuspendLayout();
+            this.pageSourceName.SuspendLayout();
             this.pageStartImport.SuspendLayout();
             this.wizard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // chkDisplayWelcome
@@ -262,7 +278,10 @@ namespace RssBandit.WinGui.Forms
             this.pageFeedCredentials.Controls.Add(this.textPassword);
             resources.ApplyResources(this.pageFeedCredentials, "pageFeedCredentials");
             this.pageFeedCredentials.Name = "pageFeedCredentials";
+            this.pageFeedCredentials.NextPage = this.pageSourceName;
             this.pageFeedCredentials.PreviousPage = this.pageStartImport;
+            this.pageFeedCredentials.BeforeMoveNext += new WizardPageEventHandler(this.OnPageFeedCredentials_BeforeMoveNext);
+            this.pageFeedCredentials.BeforeDisplay += new EventHandler(OnPageFeedCredentials_BeforeDisplay);
             // 
             // lblFeedCredentialsIntro
             // 
@@ -292,6 +311,28 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(this.textPassword, "textPassword");
             this.textPassword.Name = "textPassword";
             this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
+            // 
+            // pageSourceName
+            // 
+            this.pageSourceName.Controls.Add(this.textFeedSourceName);
+            this.pageSourceName.Controls.Add(this.label2);
+            resources.ApplyResources(this.pageSourceName, "pageSourceName");
+            this.pageSourceName.Name = "pageSourceName";
+            this.pageSourceName.PreviousPage = this.pageFeedCredentials;
+            this.pageSourceName.BeforeDisplay += new System.EventHandler(this.OnPageSourceName_BeforeDisplay);
+            // 
+            // textFeedSourceName
+            // 
+            resources.ApplyResources(this.textFeedSourceName, "textFeedSourceName");
+            this.textFeedSourceName.Name = "textFeedSourceName";
+            this.textFeedSourceName.TextChanged += new System.EventHandler(this.textFeedSourceName_TextChanged);
+            this.textFeedSourceName.Validated += new System.EventHandler(this.OnControlValidated);
+            this.textFeedSourceName.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
             // pageStartImport
             // 
@@ -341,14 +382,19 @@ namespace RssBandit.WinGui.Forms
             // 
             this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
             this.wizard.Controls.Add(this._btnImmediateFinish);
-            this.wizard.Controls.Add(this.pageFeedCredentials);
+            this.wizard.Controls.Add(this.pageSourceName);
             this.wizard.Controls.Add(this.pageStartImport);
+            this.wizard.Controls.Add(this.pageFeedCredentials);
             resources.ApplyResources(this.wizard, "wizard");
             this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
             this.wizard.Name = "wizard";
-            this.wizard.SelectedPage = this.pageStartImport;
+            this.wizard.SelectedPage = this.pageSourceName;
             this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
             this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // SynchronizeFeedsWizard
             // 
@@ -360,20 +406,18 @@ namespace RssBandit.WinGui.Forms
             this.Name = "SynchronizeFeedsWizard";
             this.pageFeedCredentials.ResumeLayout(false);
             this.pageFeedCredentials.PerformLayout();
+            this.pageSourceName.ResumeLayout(false);
+            this.pageSourceName.PerformLayout();
             this.pageStartImport.ResumeLayout(false);
             this.pageStartImport.PerformLayout();
             this.wizard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
         #endregion
 
    
-
-        internal void ReWireCredentialsStep(bool beforeDiscoverValidateUrl)
-        {
-           
-        }   
 
         private Image GetWizardTaskImage(WizardValidationTask task)
         {
@@ -469,18 +513,20 @@ namespace RssBandit.WinGui.Forms
 
         private void radioCommonFeedlist_CheckedChanged(object sender, EventArgs e)
         {
-            this.pageStartImport.NextPage = null; 
+            this.pageStartImport.NextPage = this.pageSourceName; 
             
         }
 
         private void textUser_TextChanged(object sender, EventArgs e)
         {
-
+            this.pageFeedCredentials.AllowMoveNext = false;                
+            this.OnControlValidating(sender, new System.ComponentModel.CancelEventArgs()); 
         }
 
         private void textPassword_TextChanged(object sender, EventArgs e)
         {
-
+            this.pageFeedCredentials.AllowMoveNext = false;                
+            this.OnControlValidating(sender, new System.ComponentModel.CancelEventArgs()); 
         }
 
         private void radioGoogleReader_CheckedChanged(object sender, EventArgs e)
@@ -488,7 +534,102 @@ namespace RssBandit.WinGui.Forms
             this.pageStartImport.NextPage = pageFeedCredentials; 
         }
 
-     
+
+        private void OnPageFeedCredentials_BeforeMoveNext(object sender, EventArgs e)
+        {
+            this.OnControlValidating(this.textUser, new System.ComponentModel.CancelEventArgs());
+            this.OnControlValidating(this.textPassword, new System.ComponentModel.CancelEventArgs()); 
+        }
+
+        private void OnPageFeedCredentials_BeforeDisplay(object sender, EventArgs e)
+        {
+            this.pageFeedCredentials.AllowMoveNext = false; 
+        }
+
+        private void OnPageSourceName_BeforeDisplay(object sender, EventArgs e)
+        {
+            this._btnImmediateFinish.Visible = false;
+            switch (this.SelectedFeedSource)
+            {
+                case FeedSourceType.WindowsRSS:
+                    this.textFeedSourceName.Text = SR.FeedNodeMyWindowsRssFeedsCaption;
+                    this.pageSourceName.PreviousPage = this.pageStartImport;
+                    break; 
+                case FeedSourceType.NewsGator:
+                    this.textFeedSourceName.Text = SR.FeedNodeMyNewsGatorFeedsCaption;
+                    this.pageSourceName.PreviousPage = this.pageFeedCredentials;
+                    break; 
+                case FeedSourceType.Google:
+                    this.textFeedSourceName.Text = SR.FeedNodeMyGoogleReaderFeedsCaption;
+                    this.pageSourceName.PreviousPage = this.pageFeedCredentials;
+                    break; 
+            }
+        }
+
+        private void OnControlValidated(object sender, EventArgs e)
+        {
+            wizard.SelectedPage.AllowMoveNext = true; 
+        }
+
+        /// <summary>
+        /// called on every control
+        /// </summary>
+        /// <param name="sender">Which control is validated?</param>
+        /// <param name="e">EventArgs with cancel parameter</param>
+        private void OnControlValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            if (ReferenceEquals(wizard.SelectedPage, pageSourceName) && sender == textFeedSourceName)
+            {
+                textFeedSourceName.Text = textFeedSourceName.Text.Trim();
+                if (textFeedSourceName.Text.Length == 0)
+                {
+                    errorProvider1.SetError(textFeedSourceName, SR.ExceptionNoFeedSourceName);
+                    this.pageSourceName.AllowMoveNext = false;
+                    this.pageSourceName.AllowCancel = true;
+                    e.Cancel = true;
+                }
+            }
+            else if (ReferenceEquals(wizard.SelectedPage, pageFeedCredentials) && sender == textUser)
+            {
+                textUser.Text = textUser.Text.Trim();
+                if (textUser.Text.Length == 0)
+                {
+                    errorProvider1.SetError(textUser, SR.ExceptionNoUserName);
+                    e.Cancel = true;
+                }
+            }
+            else if (ReferenceEquals(wizard.SelectedPage, pageFeedCredentials) && sender == textPassword)
+            {
+                textPassword.Text = textPassword.Text.Trim();
+                if (textPassword.Text.Length == 0)
+                {
+                    errorProvider1.SetError(textPassword, SR.ExceptionNoPassword);
+                    e.Cancel = true;
+                }
+            }
+
+            if (!e.Cancel)
+            {
+                errorProvider1.SetError((Control)sender, null);
+                
+                if (sender == textFeedSourceName)
+                {
+                    this.pageSourceName.AllowMoveNext = true;
+                }
+
+                if (textUser.Text.Length > 0 && textPassword.Text.Length > 0)
+                {
+                    this.pageFeedCredentials.AllowMoveNext = true;
+                }
+            }
+
+        }
+
+        private void textFeedSourceName_TextChanged(object sender, EventArgs e)
+        {
+            this.OnControlValidating(sender, new System.ComponentModel.CancelEventArgs()); 
+        }
 
     }
 
