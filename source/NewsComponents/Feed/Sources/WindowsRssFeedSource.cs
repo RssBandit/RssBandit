@@ -73,11 +73,12 @@ namespace NewsComponents.Feed
 
         #region constructor
 
-         /// <summary>
-        /// Initializes a new instance of the <see cref="FeedSource"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public WindowsRssFeedSource(INewsComponentsConfiguration configuration)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSource"/> class.
+		/// </summary>
+		/// <param name="configuration">The configuration.</param>
+		/// <param name="location">The location infos.</param>
+		public WindowsRssFeedSource(INewsComponentsConfiguration configuration, SubscriptionLocation location)
         {
             this.p_configuration = configuration;
             if (this.p_configuration == null)
@@ -89,7 +90,7 @@ namespace NewsComponents.Feed
 			this.Configuration.PropertyChanged += OnConfigurationPropertyChanged;
          	ApplyRefreshRate(this.Configuration.RefreshRate);
 
-            this.location = new SubscriptionLocation(String.Empty, null); 
+            this.location = location; 
 
             this.AttachEventHandlers();
             try
