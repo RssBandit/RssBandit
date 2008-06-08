@@ -136,12 +136,21 @@ namespace NewsComponents
 	public class FeedSourceManager
 	{
 		/// <summary>
-		/// Gets the keys of the common FeedSource properties dictionary
+		/// Gets the keys of the common <see cref="FeedSource"/> properties dictionary
 		/// </summary>
 		public static class PropertyKey
 		{
+			/// <summary>
+			/// Property key for the domain part of credentials
+			/// </summary>
 			public const string Domain = "domain";
+			/// <summary>
+			/// Property key for the user name part of credentials
+			/// </summary>
 			public const string UserName = "user";
+			/// <summary>
+			/// Property key for the password part of credentials
+			/// </summary>
 			public const string Password = "pwd";
 		}
 
@@ -175,7 +184,7 @@ namespace NewsComponents
 
 		/// <summary>
 		/// Can be used to call methods or set properties on each
-		/// FeedSource.
+		/// <see cref="FeedSource"/>.
 		/// </summary>
 		public void ForEach(Action<FeedSource> action)
 		{
@@ -432,6 +441,12 @@ namespace NewsComponents
 
 		}
 
+		/// <summary>
+		/// Builds the name of the subscription (file name).
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
 		public static string BuildSubscriptionName(int id, FeedSourceType type)
 		{
 			//TODO: check name for invalid file name chars
@@ -467,7 +482,11 @@ namespace NewsComponents
 			}
 			return h;
 		}
-		
+
+		/// <summary>
+		/// Saves the feed sources.
+		/// </summary>
+		/// <param name="feedSourcesUrl">The feed sources URL.</param>
 		public void SaveFeedSources(string feedSourcesUrl)
 		{
 			var serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SerializableFeedSources));

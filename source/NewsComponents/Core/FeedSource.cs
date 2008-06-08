@@ -222,7 +222,7 @@ namespace NewsComponents
                     handler = new BanditFeedSource(configuration, location);
                     break;
                 case FeedSourceType.WindowsRSS:
-                    handler = new WindowsRssFeedSource(configuration);
+                    handler = new WindowsRssFeedSource(configuration, location);
                     break;
                 case FeedSourceType.Google:
                     handler = new GoogleReaderFeedSource(configuration, location);
