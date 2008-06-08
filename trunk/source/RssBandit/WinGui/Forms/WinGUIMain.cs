@@ -1995,6 +1995,7 @@ namespace RssBandit.WinGui.Forms
             if (parent == null)
                 parent = GetRoot(RootFolderType.MyFeeds);
 
+        	FeedSourceEntry entry = FeedSourceOf(parent);
             string feedTitle = null;
             string category = parent.CategoryStoreName;
 
@@ -2021,9 +2022,9 @@ namespace RssBandit.WinGui.Forms
                         }
                     }
 
-                    if (!multipleSubscriptions && owner.FeedHandler.IsSubscribed(feedUrl))
+					if (!multipleSubscriptions && entry.Source.IsSubscribed(feedUrl))
                     {
-                        INewsFeed f2 = owner.FeedHandler.GetFeeds()[feedUrl];
+						INewsFeed f2 = entry.Source.GetFeeds()[feedUrl];
                         owner.MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                                         (f2.category == null
                                                              ? String.Empty
@@ -2061,22 +2062,22 @@ namespace RssBandit.WinGui.Forms
                                 f.refreshrate = 60;
                                 //f.storiesrecentlyviewed = new ArrayList(); 				
                                 //f.deletedstories = new ArrayList(); 				
-                                if (!owner.FeedHandler.HasCategory(category))
+								if (!entry.Source.HasCategory(category))
                                 {
-                                    owner.FeedHandler.AddCategory(category);
+									entry.Source.AddCategory(category);
                                 }
-                                owner.FeedHandler.ChangeCategory(f, category);
+								entry.Source.ChangeCategory(f, category);
 
                                 f.alertEnabled = false;
-                                f = owner.FeedHandler.AddFeed(f);
+								f = entry.Source.AddFeed(f);
                                 owner.FeedWasModified(f, NewsFeedProperty.FeedAdded);
                                 //owner.FeedlistModified = true;
 
-                                AddNewFeedNode(f.category, f);
+                                AddNewFeedNode(entry, f.category, f);
 
                                 try
                                 {
-                                    owner.FeedHandler.AsyncGetItemsForFeed(f.link, true, true);
+									entry.Source.AsyncGetItemsForFeed(f.link, true, true);
                                 }
                                 catch (Exception e)
                                 {
