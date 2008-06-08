@@ -2231,10 +2231,15 @@ namespace RssBandit.WinGui.Forms
                 TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(categoryFeedsNode);
                 RefreshFeedDisplay(TreeSelectedFeedsNode, true);
             }
-
+           
             WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode);
             string catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);
-            owner.FeedHandler.DeleteCategory(catName);
+            FeedSourceEntry entry = FeedSourceOf(categoryFeedsNode);
+            if (entry != null)
+            {
+                entry.Source.DeleteCategory(catName);
+            }
+
             UpdateTreeNodeUnreadStatus(categoryFeedsNode, 0);
 
             try
