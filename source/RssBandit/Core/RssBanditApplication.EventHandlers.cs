@@ -103,7 +103,7 @@ namespace RssBandit
 
                 if (f != null)
                 {
-                    guiMain.AddNewFeedNode(f.category, f);
+                    guiMain.AddNewFeedNode(entry, f.category, f);
                     SubscriptionModified(entry, NewsFeedProperty.FeedAdded);
                 }
             });

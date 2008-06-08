@@ -1425,12 +1425,13 @@ namespace RssBandit.WinGui.Forms
                 return RssBanditApplication.DefaultCategory;
         }
 
-        /// <summary>
-        /// Add a new feed to the GUI tree view
-        /// </summary>
-        /// <param name="category">Feed Category</param>
-        /// <param name="f">Feed</param>
-        public void AddNewFeedNode(string category, INewsFeed f)
+		/// <summary>
+		/// Add a new feed to the GUI tree view
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="category">Feed Category</param>
+		/// <param name="f">Feed</param>
+        public void AddNewFeedNode(FeedSourceEntry entry, string category, INewsFeed f)
         {
             TreeFeedsNodeBase tn;
 
@@ -1454,8 +1455,9 @@ namespace RssBandit.WinGui.Forms
 
             SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
 
+			SubscriptionRootNode root = GetSubscriptionRootNode(entry);
             category = (f.category == RssBanditApplication.DefaultCategory ? null : f.category);
-            TreeFeedsNodeBase catnode = TreeHelper.CreateCategoryHive(GetRoot(RootFolderType.MyFeeds), category,
+            TreeFeedsNodeBase catnode = TreeHelper.CreateCategoryHive(root, category,
                                                                       _treeCategoryContextMenu);
 
             if (catnode == null)
@@ -1484,7 +1486,8 @@ namespace RssBandit.WinGui.Forms
                 UpdateCommentStatus(tn, f);
             }
 
-            tn.BringIntoView();
+			if (root.Visible)
+				tn.BringIntoView();
 
             DelayTask(DelayedTasks.SyncRssSearchTree);
         }
