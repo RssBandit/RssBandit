@@ -2275,7 +2275,8 @@ namespace RssBandit.WinGui.Forms
             {
                 _uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
                 var feedUrl = (string) _uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
-                owner.FeedHandler.AsyncGetItemsForFeed(feedUrl, true, true);
+                FeedSource source = FeedSourceOf(feedUrl); 
+                source.AsyncGetItemsForFeed(feedUrl, true, true);
             }
 
             if (_uiTasksTimer[DelayedTasks.SaveUIConfiguration])
@@ -2529,6 +2530,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
+                FeedSource source = FeedSourceOf(tn); 
                 if (tn != null)
                 {
                     if (tn.Type == FeedNodeType.Category)
@@ -2559,13 +2561,13 @@ namespace RssBandit.WinGui.Forms
                             if (fi.ItemsList.Count > 0)
                                 redispItems.Add(fi);
                         }
-
-                        BeginTransformFeedList(redispItems, tn, owner.FeedHandler.GetCategoryStyleSheet(category));
+                        
+                        BeginTransformFeedList(redispItems, tn, source.GetCategoryStyleSheet(category));
                     }
                     else
                     {
                         string feedUrl = tn.DataKey;
-                        IFeedDetails fi = owner.FeedHandler.GetFeedDetails(feedUrl);
+                        IFeedDetails fi = source.GetFeedDetails(feedUrl);
 
                         if (fi != null)
                         {
@@ -2575,7 +2577,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 fi2.ItemsList.Add(ni);
                             }
-                            BeginTransformFeed(fi2, tn, owner.FeedHandler.GetStyleSheet(tn.DataKey));
+                            BeginTransformFeed(fi2, tn, source.GetStyleSheet(tn.DataKey));
                         }
                     }
                 }
