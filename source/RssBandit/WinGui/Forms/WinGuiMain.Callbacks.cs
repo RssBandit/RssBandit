@@ -743,12 +743,13 @@ namespace RssBandit.WinGui.Forms
         {
             string fileName = sender.CommandID.Split(new[] {'<'})[1];
             INewsItem item = CurrentSelectedFeedItem;
+            FeedSource source = FeedSourceOf(CurrentSelectedFeedsNode).Source; 
 
             try
             {
                 if (item != null)
-                {
-                    owner.FeedHandler.DownloadEnclosure(item, fileName);
+                {                    
+                    source.DownloadEnclosure(item, fileName);
                 }
             }
             catch (DownloaderException de)
@@ -2588,7 +2589,8 @@ namespace RssBandit.WinGui.Forms
                 if (GetRootType(editedNode) == RootFolderType.MyFeeds)
                 {
                     string newFullname = editedNode.CategoryStoreName;
-                    owner.FeedHandler.RenameCategory(oldFullname, newFullname);
+                    FeedSource source = FeedSourceOf(editedNode).Source; 
+                    source.RenameCategory(oldFullname, newFullname);
 
                     owner.SubscriptionModified(NewsFeedProperty.FeedCategory);
                 }
@@ -2881,12 +2883,13 @@ namespace RssBandit.WinGui.Forms
                 // get the current item/feedNode
                 INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
+                FeedSource source = FeedSourceOf(tn).Source; 
                 string stylesheet;
 
                 //load item content from disk if not in memory
                 if (item != null && !item.HasContent)
-                {
-                    owner.FeedHandler.GetCachedContentForItem(item);
+                {                    
+                    source.GetCachedContentForItem(item);
                 }
 
                 // refresh context menu items
@@ -2915,7 +2918,7 @@ namespace RssBandit.WinGui.Forms
                     if (item is SearchHitNewsItem)
                     {
                         var sItem = item as SearchHitNewsItem;
-                        INewsItem realItem = owner.FeedHandler.FindNewsItem(sItem);
+                        INewsItem realItem = source.FindNewsItem(sItem);
 
                         if (realItem != null)
                         {
@@ -2946,7 +2949,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         // not allowed: just display the Read On... 
-                        stylesheet = (item.Feed != null ? owner.FeedHandler.GetStyleSheet(item.Feed.link) : String.Empty);
+                        stylesheet = (item.Feed != null ? source.GetStyleSheet(item.Feed.link) : String.Empty);
                         htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
                         htmlDetail.Navigate(null);
                     }
@@ -2963,7 +2966,7 @@ namespace RssBandit.WinGui.Forms
                 }
                 else
                 {
-                    stylesheet = (item.Feed != null ? owner.FeedHandler.GetStyleSheet(item.Feed.link) : String.Empty);
+                    stylesheet = (item.Feed != null ? source.GetStyleSheet(item.Feed.link) : String.Empty);
                     htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
                     htmlDetail.Navigate(null);
 
@@ -3194,6 +3197,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
+                FeedSource source = FeedSourceOf(CurrentSelectedFeedsNode).Source; 
                 var currentNewsItem = (INewsItem) e.Item.Key;
                 var ikp = new INewsItem[e.Item.KeyPath.Length];
                 e.Item.KeyPath.CopyTo(ikp, 0);
@@ -3203,9 +3207,9 @@ namespace RssBandit.WinGui.Forms
                 ColumnKeyIndexMap colIndex = listFeedItems.Columns.GetColumnIndexMap();
 
                 ICollection<INewsItem> outGoingItems =
-                    owner.FeedHandler.GetItemsFromOutGoingLinks(currentNewsItem, itemKeyPath);
+                    source.GetItemsFromOutGoingLinks(currentNewsItem, itemKeyPath);
                 ICollection<INewsItem> inComingItems =
-                    owner.FeedHandler.GetItemsWithIncomingLinks(currentNewsItem, itemKeyPath);
+                    source.GetItemsWithIncomingLinks(currentNewsItem, itemKeyPath);
 
                 var childs = new ArrayList(outGoingItems.Count + inComingItems.Count + 1);
                 ThreadedListViewItem newListItem;
@@ -3386,9 +3390,9 @@ namespace RssBandit.WinGui.Forms
                 if (fi.ItemsList.Count > 0)
                     redispItems.Add(fi);
             }
-
+            FeedSource source = FeedSourceOf(feedsNode).Source; 
             BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode,
-                                   owner.FeedHandler.GetCategoryStyleSheet(category));
+                                   source.GetCategoryStyleSheet(category));
         }
 
         private void OnFeedListMouseDown(object sender, MouseEventArgs e)
