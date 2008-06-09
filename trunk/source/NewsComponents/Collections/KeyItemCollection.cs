@@ -575,23 +575,29 @@ namespace NewsComponents.Collections
 			string itemTypeName = r.GetAttribute("itemType");
 			string keyTypeName = r.GetAttribute("keyType");
 
-			if (itemTypeName == null || keyTypeName == null)
+			if (String.IsNullOrEmpty(keyTypeName) ||
+				String.IsNullOrEmpty(itemTypeName))
+			{
+				r.Read(); // consume container start tag
 				return;
+			}
 
 			Type itemType = Type.GetType(itemTypeName);
 			Type keyType = Type.GetType(keyTypeName);
 			XmlSerializer itemSerializer = xmlSerializerCache.CreateSerializer(itemType);
 			XmlSerializer keySerializer = xmlSerializerCache.CreateSerializer(keyType);
 
-			r.Read(); // consume container start tag
-
 			List<Key> keysRead = new List<Key>();
 			List<Object> itemsRead = new List<Object>();
-				
-			while (!r.EOF && r.NodeType != XmlNodeType.EndElement)
-			{
 
+			int myLevel = r.Depth;
+
+			while (!r.EOF && r.Read() && myLevel < r.Depth)
+			{
 				r.MoveToContent();
+				if (r.NodeType == XmlNodeType.EndElement)
+					continue;
+
 				if (r.NodeType == XmlNodeType.Element) 
 				{
 					string itemName = r.Name;
@@ -614,8 +620,9 @@ namespace NewsComponents.Collections
 							XmlSerializer usedSerializer = itemSerializer;
 							string subItemTypeName = r.GetAttribute("itemType");
 							if (!String.IsNullOrEmpty(subItemTypeName)) {
-								Type subItemType = Type.GetType(subItemTypeName);
-								usedSerializer = xmlSerializerCache.CreateSerializer(subItemType);
+								Type subType = Type.GetType(subItemTypeName);
+								usedSerializer = xmlSerializerCache.CreateSerializer(subType);
+								
 							}
 							itemsRead.Insert(Convert.ToInt32(index), (Object)GetXmlChild(r, usedSerializer));
 						}
@@ -630,8 +637,8 @@ namespace NewsComponents.Collections
 				}
 			}
 
-			if (keysRead.Count == itemsRead.Count) {
-				this.Clear();
+			if (keysRead.Count == itemsRead.Count) 
+			{
 				for (int i = 0; i < keysRead.Count; i++) {
 					positions.Add(keysRead[i], i);
 					items.Insert(i, itemsRead[i]);
@@ -641,13 +648,12 @@ namespace NewsComponents.Collections
 			}
 		}
 
-		private static object GetXmlChild(XmlReader r, XmlSerializer s) {
+		private static object GetXmlChild(XmlReader r, XmlSerializer s) 
+		{
+			// move to child, content:
 			r.Read();
-			object v = s.Deserialize(r);
 			r.MoveToContent();
-			r.Read(); // consume end tag
-			r.MoveToContent();
-			return v;
+			return s.Deserialize(r);
 		}
 
 		void IXmlSerializable.WriteXml(XmlWriter w)
