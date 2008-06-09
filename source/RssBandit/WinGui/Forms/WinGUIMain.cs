@@ -2275,7 +2275,7 @@ namespace RssBandit.WinGui.Forms
             {
                 _uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
                 var feedUrl = (string) _uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
-                FeedSource source = FeedSourceOf(feedUrl); 
+                FeedSource source = FeedSourceOf(feedUrl).Source; 
                 source.AsyncGetItemsForFeed(feedUrl, true, true);
             }
 
@@ -2530,7 +2530,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-                FeedSource source = FeedSourceOf(tn); 
+                FeedSource source = FeedSourceOf(tn).Source; 
                 if (tn != null)
                 {
                     if (tn.Type == FeedNodeType.Category)
