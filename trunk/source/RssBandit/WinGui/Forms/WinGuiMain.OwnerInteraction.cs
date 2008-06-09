@@ -2140,6 +2140,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase selectedNode = startNode ?? CurrentSelectedFeedsNode;
 
             if (selectedNode == null) return;
+            FeedSource source = FeedSourceOf(selectedNode).Source; 
             INewsFeed f = null;
             if (selectedNode.Type == FeedNodeType.Feed)
             {
@@ -2148,7 +2149,7 @@ namespace RssBandit.WinGui.Forms
                 if (f != null)
                 {
                     UnreadItemsNodeRemoveItems(f); // BEFORE they get marked read by:
-                    owner.FeedHandler.MarkAllCachedItemsAsRead(f);
+                    source.MarkAllCachedItemsAsRead(f);
                     owner.FeedWasModified(f, NewsFeedProperty.FeedItemReadState);
                     UpdateTreeNodeUnreadStatus(selectedNode, 0);
                 }
@@ -2156,13 +2157,13 @@ namespace RssBandit.WinGui.Forms
             else if (selectedNode.Type == FeedNodeType.Category)
             {
                 INewsFeedCategory c = null;
-                owner.FeedHandler.GetCategories().TryGetValue(selectedNode.CategoryStoreName, out c);
+                source.GetCategories().TryGetValue(selectedNode.CategoryStoreName, out c);
                 if (c != null)
                 {
-                    foreach (var feed in owner.FeedHandler.GetDescendantFeeds(c))
+                    foreach (var feed in source.GetDescendantFeeds(c))
                     {
                         UnreadItemsNodeRemoveItems(feed); // BEFORE they get marked read by:
-                        owner.FeedHandler.MarkAllCachedItemsAsRead(feed);
+                        source.MarkAllCachedItemsAsRead(feed);
                         owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
                     }
                     UpdateTreeNodeUnreadStatus(selectedNode, 0);
@@ -2171,7 +2172,7 @@ namespace RssBandit.WinGui.Forms
             else if (selectedNode.Type == FeedNodeType.Root)
             {
                 UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
-                owner.FeedHandler.MarkAllCachedItemsAsRead();
+                source.MarkAllCachedItemsAsRead();
                 owner.SubscriptionModified(NewsFeedProperty.FeedMarkItemsReadOnExit);
                 UpdateTreeNodeUnreadStatus(selectedNode, 0);
             }
