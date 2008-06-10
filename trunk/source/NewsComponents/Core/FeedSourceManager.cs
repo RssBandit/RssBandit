@@ -40,8 +40,18 @@ namespace NewsComponents
 		[XmlIgnore]
 		public FeedSource Source { get; internal set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSourceEntry"/> class.
+		/// </summary>
 		public FeedSourceEntry() { }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSourceEntry"/> class.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="source">The source.</param>
+		/// <param name="name">The name.</param>
+		/// <param name="ordinal">The ordinal.</param>
 		public FeedSourceEntry(int id, FeedSource source, string name, int ordinal)
 		{
 			ID = id;
@@ -64,10 +74,18 @@ namespace NewsComponents
 		[XmlAttribute("ordinal")]
 		public int Ordinal { get; set; }
 
+		/// <summary>
+		/// Gets or sets the ID.
+		/// </summary>
+		/// <value>The ID.</value>
 		[XmlAttribute("id")]
 		public int ID { get; set; }
 
 		private FeedSourceType _serializedSourceType = FeedSourceType.Unknown;
+		/// <summary>
+		/// Gets or sets the type of the source.
+		/// </summary>
+		/// <value>The type of the source.</value>
 		[XmlAttribute("type")]
 		public FeedSourceType SourceType
 		{
@@ -81,6 +99,10 @@ namespace NewsComponents
 		}
 
 		private StringProperties _serializedSourceProperties = new StringProperties();
+		/// <summary>
+		/// Gets or sets the properties collection.
+		/// </summary>
+		/// <value>The properties.</value>
 		[XmlElement("properties")]
 		public StringProperties Properties
 		{
@@ -96,6 +118,13 @@ namespace NewsComponents
 
 		#region IComparable<FeedSourceEntry> Members
 
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>.
+		/// </returns>
 		int IComparable<FeedSourceEntry>.CompareTo(FeedSourceEntry other)
 		{
 			if (other == null) return 1;
@@ -109,15 +138,33 @@ namespace NewsComponents
 		
 	}
 
+	/// <summary>
+	/// String property container
+	/// </summary>
 	[Serializable]
 	public class StringProperties: KeyItemCollection<string, string>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StringProperties"/> class.
+		/// </summary>
 		public StringProperties() {}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StringProperties"/> class.
+		/// </summary>
+		/// <param name="capacity">The capacity.</param>
 		public StringProperties(int capacity): base(capacity) {}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StringProperties"/> class.
+		/// </summary>
+		/// <param name="info">The info.</param>
+		/// <param name="context">The context.</param>
 		protected StringProperties(SerializationInfo info, StreamingContext context) : 
 			base(info, context) { }
 	}
 
+	/// <summary>
+	/// Feed sources serializable root class
+	/// </summary>
 	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
 	[XmlRoot("feedsources", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
 	public class SerializableFeedSources
@@ -199,10 +246,14 @@ namespace NewsComponents
 		/// <param name="source">The source.</param>
 		/// <param name="name">The name.</param>
 		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">If source or name are null</exception>
+		/// <exception cref="ArgumentOutOfRangeException">If name is empty</exception>
+		/// <exception cref="InvalidOperationException">If source with provided name yet exists</exception>
 		public FeedSourceEntry Add(FeedSource source, string name)
 		{
-			if (String.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
+			source.ExceptionIfNull("source");
+			name.ExceptionIfNullOrEmpty("name");
+			
 			if (Contains(name))
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
 
@@ -218,10 +269,13 @@ namespace NewsComponents
 		/// <param name="type">The type.</param>
 		/// <param name="properties">The properties.</param>
 		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">If name is null</exception>
+		/// <exception cref="ArgumentOutOfRangeException">If name is empty</exception>
+		/// <exception cref="InvalidOperationException">If source with provided name yet exists</exception>
 		public FeedSourceEntry Add(string name, FeedSourceType type, IDictionary properties)
 		{
-			if (String.IsNullOrEmpty(name))
-				throw new ArgumentNullException("name");
+			name.ExceptionIfNullOrEmpty("name");
+			
 			if (Contains(name))
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
 			
@@ -234,7 +288,7 @@ namespace NewsComponents
 		}
 
 		/// <summary>
-		/// Clears this instance (removing all feedsources).
+		/// Clears this instance (removing all feed sources).
 		/// </summary>
 		public void Clear()
 		{
@@ -265,7 +319,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="name">The name of the feed source</param>
         /// <returns>The requested feed source</returns>
-        /// <exception cref="KeyNotFoundException">if the name is not found in the FeedSourceManager</exception>
+        /// <exception cref="KeyNotFoundException">if the name is not found in the <see cref="FeedSourceManager"/></exception>
         public FeedSourceEntry this[string name]
         {
             get {
@@ -282,7 +336,7 @@ namespace NewsComponents
 		/// </summary>
 		/// <param name="id">The id of the feed source</param>
 		/// <returns>The requested feed source</returns>
-		/// <exception cref="KeyNotFoundException">if the name is not found in the FeedSourceManager</exception>
+		/// <exception cref="KeyNotFoundException">if the name is not found in the <see cref="FeedSourceManager"/></exception>
 		public FeedSourceEntry this[int id]
 		{
 			get
@@ -320,7 +374,7 @@ namespace NewsComponents
 		/// <param name="source">The source.</param>
 		public void Remove(FeedSourceEntry source)
 		{
-			if (_feedSources.ContainsKey(source.ID))
+			if (source != null && _feedSources.ContainsKey(source.ID))
 				_feedSources.Remove(source.ID);
 		}
 
@@ -370,8 +424,8 @@ namespace NewsComponents
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="newsFeed">The news feed.</param>
-		/// <returns>Null, if newsFeed is null, else the requested extension instance</returns>
-		/// <exception cref="InvalidCastException">If extension is not implemented by the newsFeed source</exception>
+		/// <returns>Null, if <paramref name="newsFeed"/> is null, else the requested extension instance</returns>
+		/// <exception cref="InvalidCastException">If extension is not implemented by the <c>newsFeed</c> source</exception>
 		public T GetSourceExtension<T>(INewsFeed newsFeed)
 		{
 			FeedSourceEntry sid = SourceOf(newsFeed);
@@ -383,6 +437,10 @@ namespace NewsComponents
 			return default(T);
 		}
 
+		/// <summary>
+		/// Loads the feed sources.
+		/// </summary>
+		/// <param name="feedSourcesUrl">The feed sources URL.</param>
 		public void LoadFeedSources(string feedSourcesUrl)
 		{
 			if (String.IsNullOrEmpty(feedSourcesUrl))
@@ -409,6 +467,10 @@ namespace NewsComponents
 			}
 		}
 
+		/// <summary>
+		/// Gets a unique key for a new feed source.
+		/// </summary>
+		/// <value>The unique key.</value>
 		public int UniqueKey
 		{
 			get
