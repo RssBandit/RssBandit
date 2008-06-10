@@ -1640,92 +1640,92 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Converts the tree view to using favicons as feed icons where available
-        /// </summary>
-        public void ApplyFavicons()
+		/// <summary>
+		/// Converts the tree view to using favicons as feed icons where available
+		/// </summary>
+		/// <param name="useFavicons">if set to <c>true</c> [use favicons].</param>
+        public void ApplyFavicons(bool useFavicons)
         {
             try
             {
-                string[] keys;
+				foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
+				{
+					// The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
+					// exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)					
+					var feeds = entry.Source.GetFeeds();
+					if (feeds.Count == 0)
+						continue;
+					
+					TreeFeedsNodeBase root = GetSubscriptionRootNode(entry);
+					
+					string[] keys = new string[feeds.Count];
+					feeds.Keys.CopyTo(keys, 0);
+					
+					for (int i = 0, len = keys.Length; i < len; i++)
+					{
+						string feedUrl = keys[i];
+						INewsFeed f;
 
-                // The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
-                // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)					
-                lock (owner.FeedHandler.GetFeeds())
-                {
-                    keys = new string[owner.FeedHandler.GetFeeds().Count];
-                    if (owner.FeedHandler.GetFeeds().Count > 0)
-                        owner.FeedHandler.GetFeeds().Keys.CopyTo(keys, 0);
-                }
+						if (!feeds.TryGetValue(feedUrl, out f))
+						{
+							continue;
+						}
 
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
-                {
-                    string feedUrl = keys[i];
-                    INewsFeed f;
-
-                    if (!owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
-                    {
-                        continue;
-                    }
-
-                    if (owner.Preferences.UseFavicons)
-                    {
-                        if (string.IsNullOrEmpty(f.favicon))
-                        {
-                            continue;
-                        }
+						if (useFavicons)
+						{
+							if (string.IsNullOrEmpty(f.favicon))
+							{
+								continue;
+							}
 
 
-                        string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), f.favicon);
-                        Image icon = null;
+							string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), f.favicon);
+							Image icon = null;
 
-                        if (_favicons.ContainsKey(f.favicon))
-                        {
-                            icon = _favicons[f.favicon];
-                        }
-                        else if (File.Exists(location))
-                        {
-                            try
-                            {
-                                icon = ResizeFavicon(Image.FromFile(location), location);
-                                lock (_favicons)
-                                {
-                                    if (!_favicons.ContainsKey(f.favicon))
-                                        _favicons.Add(f.favicon, icon);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                //we had an issue loading or resizing the icon
-                                _log.Error("Error in ApplyFavicons(): {0}", e);
-                            }
-                        } //else
+							if (_favicons.ContainsKey(f.favicon))
+							{
+								icon = _favicons[f.favicon];
+							}
+							else if (File.Exists(location))
+							{
+								try
+								{
+									icon = ResizeFavicon(Image.FromFile(location), location);
+									lock (_favicons)
+									{
+										if (!_favicons.ContainsKey(f.favicon))
+											_favicons.Add(f.favicon, icon);
+									}
+								}
+								catch (Exception e)
+								{
+									//we had an issue loading or resizing the icon
+									_log.Error("Error in ApplyFavicons(): {0}", e);
+								}
+							} //else
 
-                        if (icon != null)
-                        {
-                            TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
-                            if (tn != null)
-                            {
-                                tn.SetIndividualImage(icon);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //if(owner.Preferences.UseFavicons){	
+							if (icon != null)
+							{
+								TreeFeedsNodeBase tn = TreeHelper.FindNode(root, feedUrl);
+								if (tn != null)
+								{
+									tn.SetIndividualImage(icon);
+								}
+							}
+						}
+						else
+						{
+							//if(owner.Preferences.UseFavicons){	
 
-                        TreeFeedsNodeBase tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), feedUrl);
+							TreeFeedsNodeBase tn = TreeHelper.FindNode(root, feedUrl);
 
-                        if (tn != null)
-                        {
-                            SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
-                        }
-                    } //else
-                } //for(int i...)
+							if (tn != null)
+							{
+								SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
+							}
+						} //else
+					} //for(int i...)
+				} // foreach (FeedSourceEntry...)
             }
             catch (InvalidOperationException ioe)
             {
@@ -1747,7 +1747,7 @@ namespace RssBandit.WinGui.Forms
 
             string feedUrl = feedUri.CanonicalizedUri();
             INewsFeed feed;
-            TreeFeedsNodeBase tn;
+            TreeFeedsNodeBase tn = null;
             INewsItem item = null;
             bool modified = false;
 
@@ -1773,11 +1773,15 @@ namespace RssBandit.WinGui.Forms
             if (feed != null && feed.Tag != null)
             {
                 var itemFeed = (INewsFeed) feed.Tag;
-                var itemFeedInfo = owner.FeedHandler.GetFeedDetails(itemFeed.link) as FeedInfo;
+            	FeedSourceEntry entry = owner.SourceManager.SourceOf(itemFeed);
+            	FeedInfo itemFeedInfo = null;
+				if (entry != null)
+				{
+					itemFeedInfo = entry.Source.GetFeedDetails(itemFeed.link) as FeedInfo;
+					tn = TreeHelper.FindNode(GetSubscriptionRootNode(entry), itemFeed);
+				}
 
-                tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), itemFeed);
-
-                if (tn != null && itemFeedInfo != null)
+            	if (tn != null && itemFeedInfo != null)
                 {
                     lock (itemFeedInfo.ItemsList)
                     {
@@ -1865,7 +1869,7 @@ namespace RssBandit.WinGui.Forms
 					 */
                     if (modified)
                     {
-                        owner.FeedHandler.ApplyFeedModifications(itemFeed.link);
+                        entry.Source.ApplyFeedModifications(itemFeed.link);
                     }
                 } //if (tn != null && itemFeedInfo != null) {
             } //if (feed != null && feed.Tag != null) {					
