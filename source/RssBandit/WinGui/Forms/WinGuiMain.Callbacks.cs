@@ -2883,13 +2883,13 @@ namespace RssBandit.WinGui.Forms
                 // get the current item/feedNode
                 INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-                FeedSource source = FeedSourceOf(tn).Source; 
+                FeedSourceEntry entry = FeedSourceOf(tn); 
                 string stylesheet;
 
                 //load item content from disk if not in memory
-                if (item != null && !item.HasContent)
+				if (item != null && !item.HasContent && entry != null)
                 {                    
-                    source.GetCachedContentForItem(item);
+                    entry.Source.GetCachedContentForItem(item);
                 }
 
                 // refresh context menu items
@@ -2918,7 +2918,9 @@ namespace RssBandit.WinGui.Forms
                     if (item is SearchHitNewsItem)
                     {
                         var sItem = item as SearchHitNewsItem;
-                        INewsItem realItem = source.FindNewsItem(sItem);
+                    	INewsItem realItem = null;
+						if (entry != null)
+							realItem= entry.Source.FindNewsItem(sItem);
 
                         if (realItem != null)
                         {
@@ -2949,7 +2951,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         // not allowed: just display the Read On... 
-                        stylesheet = (item.Feed != null ? source.GetStyleSheet(item.Feed.link) : String.Empty);
+                        stylesheet = (item.Feed != null && entry != null ? entry.Source.GetStyleSheet(item.Feed.link) : String.Empty);
                         htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
                         htmlDetail.Navigate(null);
                     }
@@ -2966,7 +2968,7 @@ namespace RssBandit.WinGui.Forms
                 }
                 else
                 {
-                    stylesheet = (item.Feed != null ? source.GetStyleSheet(item.Feed.link) : String.Empty);
+					stylesheet = (item.Feed != null && entry != null ? entry.Source.GetStyleSheet(item.Feed.link) : String.Empty);
                     htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
                     htmlDetail.Navigate(null);
 
