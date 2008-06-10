@@ -3037,7 +3037,8 @@ namespace NewsComponents
         /// <param name="item">the item to delete</param>
         public virtual void DeleteItem(INewsItem item)
         {
-            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link))
+            if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) &&
+				itemsTable.ContainsKey(item.Feed.link))
             {
                 /* 
 				 * There is no attempt to load feed from disk because it is 

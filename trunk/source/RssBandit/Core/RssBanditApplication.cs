@@ -1736,7 +1736,7 @@ namespace RssBandit
                 try
                 {
                     //reload tree view					 
-                    guiMain.ApplyFavicons();
+					guiMain.ApplyFavicons(Preferences.UseFavicons);
                 }
                 catch (Exception ex)
                 {
@@ -3951,7 +3951,9 @@ namespace RssBandit
                 yetDeleted = true;
             }
 
-            feedHandler.DeleteItem(theItem);
+        	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+            if (entry != null)
+				entry.Source.DeleteItem(theItem);
 
             deletedItemsFeed.Modified = true;
             FeedWasModified(theItem.Feed, NewsFeedProperty.FeedItemsDeleteUndelete);

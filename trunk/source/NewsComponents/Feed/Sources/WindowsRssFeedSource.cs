@@ -40,7 +40,7 @@ namespace NewsComponents.Feed
     #region IWindowsRssFeedSource
 
     /// <summary>
-	/// public FeedSource extension offered by NewsGator Feed Source
+	/// public <see cref="FeedSource"/> extension offered by NewsGator Feed Source
 	/// </summary>
     public interface IWindowsRssFeedSource
     {
@@ -53,10 +53,14 @@ namespace NewsComponents.Feed
     #region WindowsRssPlatformException
 
     /// <summary>
-    /// Indicates that an exception occured in the Windows RSS platform and the feed list must be reloaded. 
+    /// Indicates that an exception occurred in the Windows RSS platform and the feed list must be reloaded. 
     /// </summary>
     public class WindowsRssPlatformException : Exception {
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WindowsRssPlatformException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
         public WindowsRssPlatformException(string message) : base(message) { }
     }
 
@@ -170,7 +174,7 @@ namespace NewsComponents.Feed
 
              foreach (string key in keys)
              {
-                 INewsFeed f = null;
+                 INewsFeed f;
                  feedsTable.TryGetValue(key, out f);
                  WindowsRssNewsFeed feed = f as WindowsRssNewsFeed;
 
@@ -362,7 +366,7 @@ namespace NewsComponents.Feed
         /* TODO: Why does this lead to InvalidComException later on? */ 
          public override IFeedDetails GetFeedDetails(string feedUrl)
         {
-            INewsFeed f = null;
+            INewsFeed f;
             feedsTable.TryGetValue(feedUrl, out f);
             return f as IFeedDetails; 
         } 
@@ -371,7 +375,7 @@ namespace NewsComponents.Feed
         /// Retrieves items from local cache. 
         /// </summary>
         /// <param name="feedUrl"></param>
-        /// <returns>A ArrayList of NewsItem objects</returns>
+        /// <returns>A List of NewsItem objects</returns>
         public override IList<INewsItem> GetCachedItemsForFeed(string feedUrl)
         {
             return this.GetItemsForFeed(feedUrl, false); 
@@ -398,7 +402,7 @@ namespace NewsComponents.Feed
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
-        /// the blog posts or articles to an arraylist of items. 
+        /// the blog posts or articles to an list of items. 
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to download</param>
         /// <param name="force_download">Flag indicates whether cached feed items 
@@ -410,21 +414,21 @@ namespace NewsComponents.Feed
         /// RSS feed</exception>
         /// <exception cref="WebException">If an error occurs while attempting to download from the URL</exception>
         /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
-        /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>		
+        /// <returns>An list of News items (i.e. instances of the NewsItem class)</returns>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public override IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
         {          
             //We need a reference to the feed so we can see if a cached object exists
-            WindowsRssNewsFeed theFeed = null;
-            INewsFeed f = null;
+        	INewsFeed f;
             feedsTable.TryGetValue(feedUrl, out f);                
 
             if (f == null) // not anymore in feedTable
                 return EmptyItemList;
-            else
-                theFeed = f as WindowsRssNewsFeed;
+        	
+			WindowsRssNewsFeed theFeed = f as WindowsRssNewsFeed;
 
-            try
+			if (theFeed != null)
+        	try
             {
                 if (force_download)
                 {
@@ -510,16 +514,15 @@ namespace NewsComponents.Feed
         /// Changes the category of a particular INewsFeedCategory. This method should be when moving a category. Also 
         /// changes the category of call child feeds and categories.   
         /// </summary>        
-        /// <param name="cat">The category whose parent category to change</param>
+        /// <param name="category">The category whose parent category to change</param>
         /// <param name="parent">The new category for the feed. If this value is null then the feed is no longer 
         /// categorized. If this parameter is null then the parent is considered to be the root node.</param>
         /// <param name="moveFolder">Indicates whether the underlying folder in the Windows RSS platform should be moved.</param>
-        private void ChangeCategory(INewsFeedCategory cat, INewsFeedCategory parent, bool moveFolder)
+        private void ChangeCategory(INewsFeedCategory category, INewsFeedCategory parent, bool moveFolder)
         {
-            if (cat == null)
-                throw new ArgumentNullException("cat");
-
-            WindowsRssNewsFeedCategory c = cat as WindowsRssNewsFeedCategory;
+			category.ExceptionIfNull("category");
+            
+            WindowsRssNewsFeedCategory c = category as WindowsRssNewsFeedCategory;
 
             if (c != null)
             {
@@ -585,8 +588,7 @@ namespace NewsComponents.Feed
         /// categorized</param>
         public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
         {
-            if (feed == null)
-                throw new ArgumentNullException("feed");
+			feed.ExceptionIfNull("feed");
         
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
 
@@ -612,11 +614,8 @@ namespace NewsComponents.Feed
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
-            if (StringHelper.EmptyTrimOrNull(oldName))
-                throw new ArgumentNullException("oldName");
-
-            if (StringHelper.EmptyTrimOrNull(newName))
-                throw new ArgumentNullException("newName");
+			oldName.ExceptionIfNullOrEmpty("oldName");
+			newName.ExceptionIfNullOrEmpty("newName");
 
             if (this.categories.ContainsKey(oldName))
             {
@@ -964,7 +963,7 @@ namespace NewsComponents.Feed
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(bool force_download)
         {
-            string[] keys = GetFeedsTableKeys();
+            GetFeedsTableKeys();
             this.feedManager.AsyncSyncAll();            
             this.RaiseOnAllAsyncRequestsCompleted();
         }
@@ -990,7 +989,7 @@ namespace NewsComponents.Feed
 
                 WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
 
-                if (current.category != null && IsChildOrSameCategory(category, current.category))
+				if (current != null && current.category != null && IsChildOrSameCategory(category, current.category))
                 {
                     current.RefreshFeed(true);
                 }
@@ -1168,12 +1167,12 @@ namespace NewsComponents.Feed
 
             for (int i = 0; i < keys.Length; i++)
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
 
                 if (f != null)
                 {
-                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    if (f.title.Equals(title) && (Equals(f.category, categoryName)))
                     {
                         this.feedsTable.Remove(f.link); 
                         this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
@@ -1219,7 +1218,7 @@ namespace NewsComponents.Feed
 
             for (int i = 0; i < keys.Length; i++)
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
 
                 if (f != null)
@@ -1418,7 +1417,7 @@ namespace NewsComponents.Feed
                 }
             }
 
-            IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
+			IFeed ifeed = (IFeed)feedManager.GetFeed(Path);
             Uri requestUri = new Uri(ifeed.DownloadUrl);
 
             if (Error == FEEDS_DOWNLOAD_ERROR.FDE_NONE)
@@ -1427,7 +1426,7 @@ namespace NewsComponents.Feed
             }
             else
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 feedsTable.TryGetValue(ifeed.DownloadUrl, out f);
                 WindowsRssNewsFeed wf = f as WindowsRssNewsFeed;
 
@@ -1487,17 +1486,17 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Indicates that the object has been disposed
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// The actual IFeedItem instance that this object is wrapping
         /// </summary>
-        private IFeedItem myitem = null;
+        private IFeedItem myitem;
 
         /// <summary>
         /// The INewsFeed instance which this item belongs to
         /// </summary>
-        private WindowsRssNewsFeed myfeed = null;
+        private WindowsRssNewsFeed myfeed;
 
         /// <summary>
         /// Used for logging. 
@@ -1519,33 +1518,30 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Disposes of the class
         /// </summary>
-        public void Dispose()
-        {
-
-            if (!disposed)
-            {
-                Dispose(true);
-            }
-
-        }
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
         /// <summary>
         /// Disposes of the class
         /// </summary>
         /// <param name="disposing"></param>
-        public void Dispose(bool disposing)
-        {
-            lock (this)
-            {                
-                if (myitem != null)
-                {
-                    Marshal.ReleaseComObject(myitem);
-                	myitem = null;
-                }
-                System.GC.SuppressFinalize(this);
-                disposed = true; 
-            }
-        }
+		public void Dispose(bool disposing)
+		{
+			if (!disposed)
+				lock (this)
+				{
+					if (!disposed && myitem != null)
+					{
+						Marshal.ReleaseComObject(myitem);
+						myitem = null;
+					}
+
+					disposed = true;
+				}
+		}
 
         #endregion
 
@@ -2028,19 +2024,19 @@ namespace NewsComponents.Feed
             writer.WriteStartElement("item");
 
             // xml:lang attribute
-            if ((Language != null) && (Language.Length != 0))
+            if (!string.IsNullOrEmpty(Language))
             {
                 writer.WriteAttributeString("xml", "lang", null, Language);
             }
 
             // <title />
-            if ((Title != null) && (Title.Length != 0))
+            if (!string.IsNullOrEmpty(Title))
             {
                 writer.WriteElementString("title", Title);
             }
 
             // <link /> 
-            if ((HRef != null) && (HRef.Length != 0))
+            if (!string.IsNullOrEmpty(HRef))
             {
                 writer.WriteElementString("link", HRef);
             }
@@ -2056,13 +2052,13 @@ namespace NewsComponents.Feed
             }
 
             // <category />
-            if ((Subject != null) && (Subject.Length != 0))
+            if (!string.IsNullOrEmpty(Subject))
             {
                 writer.WriteElementString("category", Subject);
             }
 
             //<guid>
-            if ((Id != null) && (Id.Length != 0) && (Id.Equals(HRef) == false))
+            if (!string.IsNullOrEmpty(Id) && (Id.Equals(HRef) == false))
             {
                 writer.WriteStartElement("guid");
                 writer.WriteAttributeString("isPermaLink", "false");
@@ -2071,13 +2067,13 @@ namespace NewsComponents.Feed
             }
 
             //<dc:creator>
-            if ((Author != null) && (Author.Length != 0))
+            if (!string.IsNullOrEmpty(Author))
             {
                 writer.WriteElementString("creator", "http://purl.org/dc/elements/1.1/", Author);
             }
 
             //<annotate:reference>
-            if ((ParentId != null) && (ParentId.Length != 0))
+            if (!string.IsNullOrEmpty(ParentId))
             {
                 writer.WriteStartElement("annotate", "reference", "http://purl.org/rss/1.0/modules/annotate/");
                 writer.WriteAttributeString("rdf", "resource", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", ParentId);
@@ -2094,7 +2090,7 @@ namespace NewsComponents.Feed
             }
 
             //<wfw:comment />
-            if ((CommentUrl != null) && (CommentUrl.Length != 0))
+            if (!string.IsNullOrEmpty(CommentUrl))
             {
                 if (CommentStyle == SupportedCommentStyle.CommentAPI)
                 {
@@ -2105,7 +2101,7 @@ namespace NewsComponents.Feed
             }
 
             //<wfw:commentRss />
-            if ((CommentRssUrl != null) && (CommentRssUrl.Length != 0))
+            if (!string.IsNullOrEmpty(CommentRssUrl))
             {
                 writer.WriteStartElement("wfw", "commentRss", RssHelper.NsCommentAPI);
                 writer.WriteString(CommentRssUrl);
@@ -2287,6 +2283,13 @@ namespace NewsComponents.Feed
             return Equals(obj as INewsItem);
         }
 
+		/// <summary>
+		/// Indicates whether the current object is equal to another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// </returns>
         public bool Equals(INewsItem other)
         {
             return Equals(other as WindowsRssNewsItem);
@@ -2305,7 +2308,7 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Returns a hashcode for the given item
+        /// Returns a hash code for the given item
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -2327,6 +2330,11 @@ namespace NewsComponents.Feed
             return CompareTo(obj as WindowsRssNewsItem);
         }
 
+		/// <summary>
+		/// Compares to another instance.
+		/// </summary>
+		/// <param name="other">The other.</param>
+		/// <returns></returns>
         public int CompareTo(WindowsRssNewsItem other)
         {
             if (ReferenceEquals(this, other))
@@ -2338,6 +2346,13 @@ namespace NewsComponents.Feed
             return this.Date.CompareTo(other.Date);
         }
 
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>.
+		/// </returns>
         public int CompareTo(IRelation other)
         {
             return CompareTo(other as WindowsRssNewsItem);
@@ -2398,7 +2413,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The IFeedEnclosure instance wrapped by this object
         /// </summary>
-        private IFeedEnclosure myenclosure = null; 
+        private IFeedEnclosure myenclosure; 
 
         #endregion 
 
@@ -2506,17 +2521,14 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override int GetHashCode()
         {
-            if (string.IsNullOrEmpty(Url))
+        	if (string.IsNullOrEmpty(Url))
             {
                 return String.Empty.GetHashCode();
             }
-            else
-            {
-                return Url.GetHashCode();
-            }
+        	return Url.GetHashCode();
         }
 
-        #endregion
+    	#endregion
     }
 
     #endregion 
@@ -2601,7 +2613,7 @@ namespace NewsComponents.Feed
         public void Dispose()
         {
             Dispose(true);
-			System.GC.SuppressFinalize(this);
+			GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -2616,6 +2628,7 @@ namespace NewsComponents.Feed
 					if (!disposed && myfeed != null)
 					{
 						Marshal.ReleaseComObject(myfeed);
+						myfeed = null;
 					}
 
 					disposed = true;
@@ -2630,17 +2643,17 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Indicates that the object has been disposed
         /// </summary>
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// The actual IFeed instance that this object is wrapping
         /// </summary>
-        private IFeed myfeed = null;
+        private IFeed myfeed;
 
         /// <summary>
         /// The list of WindowsRssNewsItem instances contained by this feed. 
         /// </summary>
-        private List<INewsItem> items = new List<INewsItem>(); 
+        private readonly List<INewsItem> items = new List<INewsItem>(); 
 
 
         private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssNewsFeed));
@@ -2659,10 +2672,11 @@ namespace NewsComponents.Feed
             this.items.Clear();
             IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
 
-            foreach (IFeedItem item in feedItems)
-            {
-                this.items.Add(new WindowsRssNewsItem(item, this));
-            }
+			if (feedItems != null)
+				foreach (IFeedItem item in feedItems)
+				{
+					this.items.Add(new WindowsRssNewsItem(item, this));
+				}
             _log.DebugFormat("LOAD_ITEMS_LIST:'{0}' loaded {1} item(s)", myfeed.Path, items.Count); 
         }
 
@@ -3610,14 +3624,10 @@ namespace NewsComponents.Feed
         /// Disposes of the class
         /// </summary>
         public void Dispose()
-        {
-
-            if (!disposed)
-            {
-                Dispose(true);
-            }
-
-        }
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
         /// <summary>
         /// Disposes of the class
@@ -3625,13 +3635,14 @@ namespace NewsComponents.Feed
         /// <param name="disposing"></param>
         public void Dispose(bool disposing)
         {
+			if (!disposed)
             lock (this)
-            {                
-                if (myfolder != null)
+            {
+				if (!disposed && myfolder != null)
                 {
                     Marshal.ReleaseComObject(myfolder);
+                	myfolder = null;
                 }
-                GC.SuppressFinalize(this);
                 disposed = true; 
             }
         }
