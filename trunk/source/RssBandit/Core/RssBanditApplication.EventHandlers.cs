@@ -342,7 +342,7 @@ namespace RssBandit
                                     }
                                 }
                                 Trace.WriteLine(e.ExceptionThrown.StackTrace);
-                                UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true);
+                                UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true, entry);
                                 stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
                             });
         }
@@ -379,6 +379,10 @@ namespace RssBandit
         }
 
         #endregion
+
+        #region OnLoadingFeedlistProgress - dead code
+
+        /* 
 
         private void OnLoadingFeedlistProgress(object sender, ThreadWorkerProgressArgs args)
         {
@@ -478,5 +482,8 @@ namespace RssBandit
                 guiMain.UpdateAllFeeds(this.Preferences.FeedRefreshOnStartup);
             }
         }
+         */
+
+        #endregion 
     }
 }

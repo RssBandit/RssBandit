@@ -2049,7 +2049,8 @@ namespace RssBandit.WinGui.Forms
             if (!tn.Selected || tn.Type != FeedNodeType.Feed)
                 return;
 
-            INewsFeed f = owner.GetFeed(FeedSourceOf(tn), tn.DataKey);
+            FeedSourceEntry entry = FeedSourceOf(tn); 
+            INewsFeed f = owner.GetFeed(entry, tn.DataKey);
 
             if (f != null)
             {
@@ -2060,7 +2061,7 @@ namespace RssBandit.WinGui.Forms
                     // Old: call may initiate a web request, if eTag/last retrived is too old:
                     //ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
                     // this will just get the items from cache:
-                    IList<INewsItem> items = FeedSourceOf(tn).Source.GetCachedItemsForFeed(tn.DataKey);
+                    IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(tn.DataKey);
                     IList<INewsItem> unread = FilterUnreadFeedItems(items, true);
 
                     if ((DisplayFeedAlertWindow.All == owner.Preferences.ShowAlertWindow ||
@@ -2141,7 +2142,7 @@ namespace RssBandit.WinGui.Forms
                 catch (Exception e)
                 {
                     EmptyListView();
-                    owner.PublishXmlFeedError(e, tn.DataKey, true);
+                    owner.PublishXmlFeedError(e, tn.DataKey, true, entry);
                 }
                 owner.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
             }
@@ -2346,7 +2347,7 @@ namespace RssBandit.WinGui.Forms
                         }
                         catch (Exception e)
                         {
-                            owner.PublishXmlFeedError(e, feedUrl, true);
+                            owner.PublishXmlFeedError(e, feedUrl, true, entry);
                         }
                     }
                 } //for

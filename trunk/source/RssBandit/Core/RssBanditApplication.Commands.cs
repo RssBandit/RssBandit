@@ -1420,6 +1420,7 @@ namespace RssBandit
                 (guiMain.CurrentSelectedFeedsNode.Type == FeedNodeType.Category))
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
+                FeedSourceEntry entry = guiMain.FeedSourceOf(tn); 
 
                 string category = null, catPlusSep, categoryName;
                 int refreshrate = Preferences.RefreshRate;
@@ -1434,9 +1435,9 @@ namespace RssBandit
 
                     try
                     {
-                        refreshrate = feedHandler.GetCategoryRefreshRate(category);
-                        feedMaxItemAge = feedHandler.GetCategoryMaxItemAge(category);
-                        feedMarkItemsReadOnExit = feedHandler.GetCategoryMarkItemsReadOnExit(category);
+                        refreshrate = entry.Source.GetCategoryRefreshRate(category);
+                        feedMaxItemAge = entry.Source.GetCategoryMaxItemAge(category);
+                        feedMarkItemsReadOnExit = entry.Source.GetCategoryMarkItemsReadOnExit(category);
                     }
                     catch
                     {
@@ -1451,13 +1452,13 @@ namespace RssBandit
 
                 CategoryProperties propertiesDialog =
                     new CategoryProperties(tn.Text, refreshrate/MilliSecsMultiplier, feedMaxItemAge,
-                                           feedHandler.GetCategoryStyleSheet(category));
+                                           entry.Source.GetCategoryStyleSheet(category));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
                 propertiesDialog.checkMarkItemsReadOnExit.Checked = feedMarkItemsReadOnExit;
                 propertiesDialog.checkDownloadEnclosures.Checked =
-                    feedHandler.GetCategoryDownloadEnclosures(category);
+                    entry.Source.GetCategoryDownloadEnclosures(category);
                 propertiesDialog.checkEnableEnclosureAlerts.Checked =
-                    feedHandler.GetCategoryEnclosureAlert(category);
+                    entry.Source.GetCategoryEnclosureAlert(category);
 
 
                 propertiesDialog.ShowDialog(guiMain);
@@ -1479,7 +1480,7 @@ namespace RssBandit
                             categoryName = propertiesDialog.textBox2.Text.Trim();
                             // this call yet cause a FeedModified() notification:
                             guiMain.RenameTreeNode(tn, categoryName);
-                            feedHandler.RenameCategory(category, tn.CategoryStoreName);
+                            entry.Source.RenameCategory(category, tn.CategoryStoreName);
                             /* 
                             category c = feedHandler.Categories.GetByKey(category);
                             feedHandler.Categories.Remove(category);
@@ -1496,16 +1497,16 @@ namespace RssBandit
                             Int32 intIn = Int32.Parse(propertiesDialog.comboBox1.Text.Trim());
                             if (intIn <= 0)
                             {
-                                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
+                                foreach (NewsFeed f in entry.Source.GetFeeds().Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
                                     {
                                         f.refreshrateSpecified = false;
-                                        DisableFeed(f.link);
+                                        DisableFeed(f.link, entry);
                                     }
                                 }
-                                feedHandler.SetCategoryRefreshRate(category, 0);
+                                entry.Source.SetCategoryRefreshRate(category, 0);
                             }
                             else
                             {
@@ -1549,23 +1550,23 @@ namespace RssBandit
                                 }
                             }
 
-                            feedHandler.SetCategoryMaxItemAge(category, propertiesDialog.MaxItemAge);
+                            entry.Source.SetCategoryMaxItemAge(category, propertiesDialog.MaxItemAge);
                             changes |= NewsFeedProperty.General;
                             //this.FeedWasModified(f.link);
                         }
                     }
 
-                    feedHandler.SetCategoryMarkItemsReadOnExit(category,
+                    entry.Source.SetCategoryMarkItemsReadOnExit(category,
                                                                propertiesDialog.checkMarkItemsReadOnExit.Checked);
-                    feedHandler.SetCategoryDownloadEnclosures(category,
+                    entry.Source.SetCategoryDownloadEnclosures(category,
                                                               propertiesDialog.checkDownloadEnclosures.Checked);
-                    feedHandler.SetCategoryEnclosureAlert(category,
+                    entry.Source.SetCategoryEnclosureAlert(category,
                                                           propertiesDialog.checkEnableEnclosureAlerts.Checked);
 
                     if (propertiesDialog.checkCustomFormatter.Checked)
                     {
                         string stylesheet = propertiesDialog.comboFormatters.Text;
-                        feedHandler.SetCategoryStyleSheet(category, stylesheet);
+                        entry.Source.SetCategoryStyleSheet(category, stylesheet);
 
                         if (!NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
                         {
@@ -1575,10 +1576,10 @@ namespace RssBandit
                     }
                     else
                     {
-                        feedHandler.SetCategoryStyleSheet(category, String.Empty);
+                        entry.Source.SetCategoryStyleSheet(category, String.Empty);
                     }
 
-                    SubscriptionModified(changes);
+                    SubscriptionModified(entry, changes);
                     //this.FeedlistModified = true; 
                 }
 
@@ -1643,7 +1644,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdPostNewItem(ICommand sender)
         {
-            TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
+            TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;            
             if (tn == null || tn.Type != FeedNodeType.Feed)
             {
                 Mediator.SetEnabled("-cmdFeedItemNewPost");
@@ -1651,9 +1652,11 @@ namespace RssBandit
             }
 
             string feedUrl = tn.DataKey;
+            FeedSource source = guiMain.FeedSourceOf(tn).Source; 
+
             if (feedUrl == null ||
                 !RssHelper.IsNntpUrl(feedUrl) ||
-                !FeedHandler.IsSubscribed(feedUrl))
+                !source.IsSubscribed(feedUrl))
             {
                 Mediator.SetEnabled("-cmdFeedItemNewPost");
                 return;
@@ -1667,7 +1670,7 @@ namespace RssBandit
 
             INewsFeed f;
 
-            if (FeedHandler.GetFeeds().TryGetValue(feedUrl, out f)) {
+            if (source.GetFeeds().TryGetValue(feedUrl, out f)) {
                 postReplyForm.PostToFeed = f;
 
                 postReplyForm.Show(); // open non-modal
