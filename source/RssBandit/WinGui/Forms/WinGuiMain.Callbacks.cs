@@ -2493,7 +2493,7 @@ namespace RssBandit.WinGui.Forms
                 }
                 catch (Exception e)
                 {
-                    owner.PublishXmlFeedError(e, feedUrl, true);
+                    owner.PublishXmlFeedError(e, feedUrl, true, entry);
                 }
             }
 

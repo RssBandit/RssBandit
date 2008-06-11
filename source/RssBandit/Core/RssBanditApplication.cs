@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq; 
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -327,41 +328,11 @@ namespace RssBandit
                     return false;
             }
 
-            // for now:
-#if TEST_GOOGLE_READER
-
-            if (!sourceManager.Contains(SR.FeedNodeMyGoogleReaderFeedsCaption)) {
-				HashTable props = new HashTable();
-				props.Add(FeedSourceManager.PropertyKey.UserName, Environment.GetEnvironmentVariable("GOOGLE_READER_USERNAME"));
-				props.Add(FeedSourceManager.PropertyKey.Password, Environment.GetEnvironmentVariable("GOOGLE_READER_PASSWORD"));
-				sourceManager.Add(SR.FeedNodeMyGoogleReaderFeedsCaption, FeedSourceType.Google, props);
-			}
-
-			feedHandler = sourceManager[SR.FeedNodeMyGoogleReaderFeedsCaption].Source;
-
-#elif TEST_NEWSGATOR_ONLINE
-
-			if (!sourceManager.Contains(SR.FeedNodeMyNewsGatorFeedsCaption))
-			{
-				HashTable props = new HashTable();
-				props.Add(FeedSourceManager.PropertyKey.UserName, Environment.GetEnvironmentVariable("NEWSGATOR_USERNAME"));
-				props.Add(FeedSourceManager.PropertyKey.Password, Environment.GetEnvironmentVariable("NEWSGATOR_PASSWORD"));
-				sourceManager.Add(SR.FeedNodeMyNewsGatorFeedsCaption, FeedSourceType.NewsGator, props);
-			}
-
-			feedHandler = sourceManager[SR.FeedNodeMyNewsGatorFeedsCaption].Source;
-
-#elif TEST_WINRSS_PLATFORM
-			if (!sourceManager.Contains(SR.FeedNodeMyWindowsRssFeedsCaption))
-				sourceManager.Add(SR.FeedNodeMyWindowsRssFeedsCaption, FeedSourceType.WindowsRSS, null);
-
-			feedHandler = sourceManager[SR.FeedNodeMyWindowsRssFeedsCaption].Source;
-#else
+            //make sure we have a direct access feed source
             if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
                 sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
 
             feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
-#endif
 
             // save the test enviroment:
             sourceManager.SaveFeedSources(GetFeedSourcesFileName());
@@ -3381,12 +3352,13 @@ namespace RssBandit
         /// Disable a feed (with UI update)
         /// </summary>
         /// <param name="feedUrl">string</param>
-        public void DisableFeed(string feedUrl)
+        /// <param name="source">The FeedSource the feed is in</param>
+        public void DisableFeed(string feedUrl, FeedSourceEntry entry)
         {
             INewsFeed f;
-            if (feedUrl != null && FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
+            if (feedUrl != null && entry.Source.GetFeeds().TryGetValue(feedUrl, out f))
             {
-                DisableFeed(f, TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), feedUrl));
+                DisableFeed(f, TreeHelper.FindNode(guiMain.GetSubscriptionRootNode(entry), feedUrl));
             }
         }
 
@@ -3399,7 +3371,8 @@ namespace RssBandit
         {
             if (f != null)
             {
-                FeedHandler.DisableFeed(f.link);
+                FeedSource source = guiMain.FeedSourceOf(feedsNode).Source;
+                source.DisableFeed(f.link);
                 guiMain.SetSubscriptionNodeState(f, feedsNode, FeedProcessingState.Normal);
             }
         }
@@ -4063,7 +4036,8 @@ namespace RssBandit
         /// <param name="e">XmlException to publish</param>
         /// <param name="feedLink">The errornous feed url</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
-        public void PublishXmlFeedError(Exception e, string feedLink, bool updateNodeIcon)
+        /// <param name="entry">The feed source the feed belongs to</param>
+        public void PublishXmlFeedError(Exception e, string feedLink, bool updateNodeIcon, FeedSourceEntry entry)
         {
             if (feedLink != null)
             {
@@ -4071,7 +4045,7 @@ namespace RssBandit
 				try {
 					uri = new Uri(feedLink);
 				} catch (UriFormatException) {} */
-                UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, feedLink), feedLink, updateNodeIcon);
+                UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, feedLink), feedLink, updateNodeIcon, entry);
             }
         }
 
@@ -4081,11 +4055,12 @@ namespace RssBandit
         /// <param name="e">XmlException to publish</param>
         /// <param name="f">The errornous NewsFeed</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
-        public void PublishXmlFeedError(Exception e, NewsFeed f, bool updateNodeIcon)
+        /// <param name="entry">The feed source the NewsFeed belongs to</param>
+        public void PublishXmlFeedError(Exception e, NewsFeed f, bool updateNodeIcon, FeedSourceEntry entry)
         {
             if (f != null && !string.IsNullOrEmpty(f.link))
             {
-                PublishXmlFeedError(e, f.link, updateNodeIcon);
+                PublishXmlFeedError(e, f.link, updateNodeIcon, entry);
             }
         }
 
@@ -4120,7 +4095,8 @@ namespace RssBandit
         /// <param name="e">An Exception to publish</param>
         /// <param name="resourceUri">The resource Uri that raise the exception.</param>
         /// <param name="updateNodeIcon">Set this to true, if you want to get the icon state reflecting the reported exception</param>
-        private void UpdateXmlFeedErrorFeed(Exception e, string resourceUri, bool updateNodeIcon)
+        /// <param name="entry">The Feed Source which the feed belongs to</param>
+        private void UpdateXmlFeedErrorFeed(Exception e, string resourceUri, bool updateNodeIcon, FeedSourceEntry entry)
         {
             if (e != null)
             {
@@ -4128,11 +4104,11 @@ namespace RssBandit
 
                 ResourceGoneException goneex = e as ResourceGoneException ?? e.InnerException as ResourceGoneException;
 
-                if (goneex != null)
+                if (goneex != null && entry != null)
                 {
                     INewsFeed f;
-                    if (feedHandler.GetFeeds().TryGetValue(resourceUri, out f))
-                        DisableFeed(f.link);
+                    if (entry.Source.GetFeeds().TryGetValue(resourceUri, out f))
+                        DisableFeed(f.link, entry);
                 }
                 else if (updateNodeIcon && resourceUri != null)
                 {
@@ -4243,7 +4219,7 @@ namespace RssBandit
 
         private void OnNewsItemTransformationError(object sender, FeedExceptionEventArgs e)
         {
-            PublishXmlFeedError(e.FailureException, e.FeedLink, false);
+            PublishXmlFeedError(e.FailureException, e.FeedLink, false, null);
         }
 
         private void OnNewsItemFormatterStylesheetError(object sender, ExceptionEventArgs e)
@@ -5468,7 +5444,7 @@ namespace RssBandit
         }
 
         public string[] GetCategories()
-        {
+        {            
             var cats = new string[1 + FeedHandler.GetCategories().Count];
             cats[0] = DefaultCategory;
             if (cats.Length > 1)
