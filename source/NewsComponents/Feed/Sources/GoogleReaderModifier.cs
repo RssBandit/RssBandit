@@ -684,12 +684,22 @@ namespace NewsComponents.Feed
         /// <param name="feedUrl">The URL of the feed to delete</param>
         public void DeleteFeedFromGoogleReader(string googleUserID, string feedUrl)
         {
-            var op = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteFeed, new object[] {feedUrl},
-                                                      googleUserID);
+            var deleteOp = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteFeed, 
+                                                            new object[] {feedUrl},googleUserID);
 
             lock (pendingGoogleReaderOperations)
             {
-                pendingGoogleReaderOperations.Add(op);
+                //remove all pending operations related to the feed since it is going to be unsubscribed
+                IEnumerable<PendingGoogleReaderOperation> ops2remove 
+                  = pendingGoogleReaderOperations.Where(op => op.GoogleUserName.Equals(deleteOp.GoogleUserName)
+                                                        && op.Parameters.Contains(feedUrl));
+
+                foreach (PendingGoogleReaderOperation op2remove in ops2remove)
+                {
+                    pendingGoogleReaderOperations.Remove(op2remove); 
+                }
+
+                pendingGoogleReaderOperations.Add(deleteOp);   
             }
         }
 
