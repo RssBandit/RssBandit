@@ -5443,13 +5443,17 @@ namespace RssBandit
             get { return defaultCategory; }
         }
 
-        public string[] GetCategories()
-        {            
-            var cats = new string[1 + FeedHandler.GetCategories().Count];
-            cats[0] = DefaultCategory;
-            if (cats.Length > 1)
-                FeedHandler.GetCategories().Keys.CopyTo(cats, 1);
-            return cats;
+        public IEnumerable<string> GetCategories()
+        {
+            //list containing default category used for bootstrapping the Aggregate function
+            var c = new List<string>();
+            c.Add(DefaultCategory);
+            IEnumerable<string> all_categories = c; 
+
+            //get a list of the distinct categories used across all feed sources
+            all_categories = FeedSources.Sources.Aggregate(all_categories, 
+                                 (list, s) => list.Union(s.Source.GetCategories().Keys, StringComparer.InvariantCultureIgnoreCase));                        
+            return all_categories;
         }
 
         /// <summary>
