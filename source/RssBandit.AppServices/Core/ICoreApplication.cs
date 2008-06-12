@@ -202,7 +202,7 @@ namespace RssBandit.AppServices
 		/// Gets the list of categories including the default category.
 		/// </summary>
 		/// <returns></returns>
-		string[] GetCategories();
+		IEnumerable<string> GetCategories();
 		/// <summary>
 		/// Use this method to add a new category.
 		/// </summary>

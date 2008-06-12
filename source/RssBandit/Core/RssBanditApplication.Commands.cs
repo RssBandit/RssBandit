@@ -1164,6 +1164,7 @@ namespace RssBandit
             if (guiMain.CurrentSelectedFeedsNode != null && guiMain.CurrentSelectedFeedsNode.DataKey != null)
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
+                FeedSourceEntry entry = guiMain.FeedSourceOf(tn); 
 
                 INewsFeed f;
 				int refreshrate = Preferences.RefreshRate;
@@ -1173,13 +1174,13 @@ namespace RssBandit
 
                 try
                 {
-                    f = feedHandler.GetFeeds()[tn.DataKey];
+                    f = entry.Source.GetFeeds()[tn.DataKey];
                     //refreshrate = (f.refreshrateSpecified ? f.refreshrate : this.refreshRate); 							
                     try
                     {
-                        refreshrate = feedHandler.GetRefreshRate(f.link);
-                        feedMaxItemAge = feedHandler.GetMaxItemAge(f.link);
-                        feedMarkItemsReadOnExit = feedHandler.GetMarkItemsReadOnExit(f.link);
+                        refreshrate = entry.Source.GetRefreshRate(f.link);
+                        feedMaxItemAge = entry.Source.GetMaxItemAge(f.link);
+                        feedMarkItemsReadOnExit = entry.Source.GetMarkItemsReadOnExit(f.link);
                     }
                     catch
                     {
@@ -1189,18 +1190,19 @@ namespace RssBandit
                 catch (Exception e)
                 {
                     MessageError(String.Format(SR.GUIStatusErrorGeneralFeedMessage,tn.DataKey, e.Message));
+                    _log.Error(String.Format(SR.GUIStatusErrorGeneralFeedMessage, tn.DataKey, e.Message), e); 
                     return;
                 }
 
                 FeedProperties propertiesDialog =
                     new FeedProperties(f.title, f.link, refreshrate/MilliSecsMultiplier, feedMaxItemAge,
                                        (f.category ?? defaultCategory), defaultCategory,
-                                       feedHandler.GetCategories().Keys, feedHandler.GetStyleSheet(f.link));
+                                       entry.Source.GetCategories().Keys, entry.Source.GetStyleSheet(f.link));
                 propertiesDialog.comboMaxItemAge.Enabled = !feedMaxItemAge.Equals(TimeSpan.Zero);
                 propertiesDialog.checkEnableAlerts.Checked = f.alertEnabled;
                 propertiesDialog.checkMarkItemsReadOnExit.Checked = feedMarkItemsReadOnExit;
-                propertiesDialog.checkDownloadEnclosures.Checked = feedHandler.GetDownloadEnclosures(f.link);
-                propertiesDialog.checkEnableEnclosureAlerts.Checked = feedHandler.GetEnclosureAlert(f.link);
+                propertiesDialog.checkDownloadEnclosures.Checked = entry.Source.GetDownloadEnclosures(f.link);
+                propertiesDialog.checkEnableEnclosureAlerts.Checked = entry.Source.GetEnclosureAlert(f.link);
 
                 if (f.authUser != null)
                 {
@@ -1249,7 +1251,7 @@ namespace RssBandit
                                 }
                             }
 
-                            f = feedHandler.ChangeFeedUrl(f, newLink); 
+                            f = entry.Source.ChangeFeedUrl(f, newLink); 
                             tn.DataKey = f.link;
 
                             refreshThisFeed = true;
@@ -1277,7 +1279,7 @@ namespace RssBandit
                             else
                             {
                                 intIn = intIn*MilliSecsMultiplier;
-                                feedHandler.SetRefreshRate(f.link, intIn);
+                                entry.Source.SetRefreshRate(f.link, intIn);
                                 /*
 								f.refreshrate = intIn;
 								f.refreshrateSpecified = (this.refreshRate != intIn);// default refresh rate?
@@ -1306,12 +1308,12 @@ namespace RssBandit
                     if (!String.Equals(category, f.category))
                     {                       
                         changes |= NewsFeedProperty.FeedCategory;
-                        if (category != null && !feedHandler.HasCategory(category))
+                        if (category != null && !entry.Source.HasCategory(category))
                         {
-                            feedHandler.AddCategory(category);
+                            entry.Source.AddCategory(category);
                         }
-                        INewsFeedCategory targetCategory = category == null ? null : feedHandler.GetCategories()[category]; 
-                        feedHandler.ChangeCategory(f, targetCategory);
+                        INewsFeedCategory targetCategory = category == null ? null : entry.Source.GetCategories()[category];
+                        entry.Source.ChangeCategory(f, targetCategory);
                         // find/create the target node:
                         TreeFeedsNodeBase target =
                             guiMain.CreateSubscriptionsCategoryHive(guiMain.GetRoot(RootFolderType.MyFeeds), category);
@@ -1324,7 +1326,7 @@ namespace RssBandit
                         if (feedMaxItemAge.CompareTo(propertiesDialog.MaxItemAge) != 0)
                         {
                             refreshThisFeed = true;
-                            feedHandler.SetMaxItemAge(f.link, propertiesDialog.MaxItemAge);
+                            entry.Source.SetMaxItemAge(f.link, propertiesDialog.MaxItemAge);
                             changes |= NewsFeedProperty.FeedMaxItemAge;
                         }
                     }
@@ -1350,26 +1352,26 @@ namespace RssBandit
                     f.alertEnabledSpecified = f.alertEnabled = propertiesDialog.checkEnableAlerts.Checked;
 
 
-                    if (propertiesDialog.checkMarkItemsReadOnExit.Checked != feedHandler.GetMarkItemsReadOnExit(f.link))
+                    if (propertiesDialog.checkMarkItemsReadOnExit.Checked != entry.Source.GetMarkItemsReadOnExit(f.link))
                     {
-                        feedHandler.SetMarkItemsReadOnExit(f.link,
+                        entry.Source.SetMarkItemsReadOnExit(f.link,
                                                            propertiesDialog.checkMarkItemsReadOnExit.Checked);
                         changes |= NewsFeedProperty.FeedMarkItemsReadOnExit;
                     }
 
                     if (refreshThisFeed && !feedDisabled)
                     {
-                        feedHandler.MarkForDownload(f);
+                        entry.Source.MarkForDownload(f);
                     }
 
-                    if (feedHandler.GetDownloadEnclosures(f.link) != propertiesDialog.checkDownloadEnclosures.Checked)
+                    if (entry.Source.GetDownloadEnclosures(f.link) != propertiesDialog.checkDownloadEnclosures.Checked)
                     {
-                        feedHandler.SetDownloadEnclosures(f.link, propertiesDialog.checkDownloadEnclosures.Checked);
+                        entry.Source.SetDownloadEnclosures(f.link, propertiesDialog.checkDownloadEnclosures.Checked);
                     }
 
-                    if (feedHandler.GetEnclosureAlert(f.link) != propertiesDialog.checkEnableEnclosureAlerts.Checked)
+                    if (entry.Source.GetEnclosureAlert(f.link) != propertiesDialog.checkEnableEnclosureAlerts.Checked)
                     {
-                        feedHandler.SetEnclosureAlert(f.link, propertiesDialog.checkEnableEnclosureAlerts.Checked);
+                        entry.Source.SetEnclosureAlert(f.link, propertiesDialog.checkEnableEnclosureAlerts.Checked);
                     }
 
 
@@ -1377,9 +1379,9 @@ namespace RssBandit
                     {
                         string stylesheet = propertiesDialog.comboFormatters.Text;
 
-                        if (!stylesheet.Equals(feedHandler.GetStyleSheet(f.link)))
+                        if (!stylesheet.Equals(entry.Source.GetStyleSheet(f.link)))
                         {
-                            feedHandler.SetStyleSheet(f.link, stylesheet);
+                            entry.Source.SetStyleSheet(f.link, stylesheet);
                             changes |= NewsFeedProperty.FeedStylesheet;
 
                             if (!NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
@@ -1391,9 +1393,9 @@ namespace RssBandit
                     }
                     else
                     {
-                        if (!String.Empty.Equals(feedHandler.GetStyleSheet(f.link)))
+                        if (!String.Empty.Equals(entry.Source.GetStyleSheet(f.link)))
                         {
-                            feedHandler.SetStyleSheet(f.link, String.Empty);
+                            entry.Source.SetStyleSheet(f.link, String.Empty);
                             changes |= NewsFeedProperty.FeedStylesheet;
                         }
                     }
