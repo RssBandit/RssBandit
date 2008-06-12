@@ -536,11 +536,21 @@ namespace NewsComponents.Feed
        /// <param name="feedUrl">The URL of the feed to delete. </param>
         public void DeleteFeedFromNewsGatorOnline(string newsgatorUserID, string feedUrl)
         {
-            PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.DeleteFeed, new object[] { feedUrl }, newsgatorUserID);
+            PendingNewsGatorOperation deleteOp = new PendingNewsGatorOperation(NewsGatorOperation.DeleteFeed, new object[] { feedUrl }, newsgatorUserID);
 
             lock (this.pendingNewsGatorOperations)
             {
-                this.pendingNewsGatorOperations.Add(op);
+                //remove all pending operations related to the feed since it is going to be unsubscribed
+                IEnumerable<PendingNewsGatorOperation> ops2remove
+                  = pendingNewsGatorOperations.Where(op => op.NewsGatorUserName.Equals(deleteOp.NewsGatorUserName)
+                                                        && op.Parameters.Contains(feedUrl));
+
+                foreach (PendingNewsGatorOperation op2remove in ops2remove)
+                {
+                    pendingNewsGatorOperations.Remove(op2remove);
+                }
+
+                pendingNewsGatorOperations.Add(deleteOp);  
             }
         }
 
