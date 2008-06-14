@@ -2084,6 +2084,7 @@ namespace RssBandit.WinGui.Forms
             if (CurrentSelectedFeedsNode != null && CurrentSelectedFeedsNode.AllowedChild(FeedNodeType.Category))
             {
                 TreeFeedsNodeBase curFeedsNode = CurrentSelectedFeedsNode;
+                FeedSourceEntry entry = FeedSourceOf(curFeedsNode); 
 
                 int i = 1;
                 string s = SR.GeneralNewItemText;
@@ -2105,10 +2106,10 @@ namespace RssBandit.WinGui.Forms
                 TreeSelectedFeedsNode = newFeedsNode;
                 s = newFeedsNode.CategoryStoreName;
 
-                if (!owner.FeedHandler.HasCategory(s))
+                if (!entry.Source.HasCategory(s))
                 {
-                    owner.FeedHandler.AddCategory(s);
-                    owner.SubscriptionModified(NewsFeedProperty.FeedCategoryAdded);
+                    entry.Source.AddCategory(s);
+                    owner.SubscriptionModified(entry, NewsFeedProperty.FeedCategoryAdded);
                     //owner.FeedlistModified = true;
                 }
 
@@ -2248,8 +2249,8 @@ namespace RssBandit.WinGui.Forms
             if (selectedNode.Type == FeedNodeType.Root)
             {
                 // all
-                owner.FeedHandler.MarkAllCachedItemsAsRead();
-                UpdateTreeStatus(owner.FeedHandler.GetFeeds());
+                source.MarkAllCachedItemsAsRead();
+                UpdateTreeStatus(source.GetFeeds());
                 ResetFindersReadStatus();
                 UnreadItemsNode.Items.Clear();
                 UnreadItemsNode.UpdateReadStatus();
