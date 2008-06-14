@@ -53,10 +53,6 @@ namespace NewsComponents.Feed
 
             rssParser = new RssParser(this);
 
-
-            // initialize (later on loaded from feedlist):
-            PodcastFolder = Configuration.DownloadedFilesDataPath;
-
             if (!String.IsNullOrEmpty(EnclosureFolder))
             {
                 enclosureDownloader = new BackgroundDownloadManager(Configuration, this);
@@ -317,15 +313,14 @@ namespace NewsComponents.Feed
                 //if podcast folder specified in imported feed then use that
                 if (!string.IsNullOrEmpty(myFeeds.podcastfolder))
                 {
-                    PodcastFolder = myFeeds.podcastfolder;
+					MigrationProperties.Add("PodcastFolder", myFeeds.podcastfolder);
                 }
 
                 //if podcast file extensions specified in imported feed then use that
                 if (!string.IsNullOrEmpty(myFeeds.podcastfileexts))
                 {
-                    PodcastFileExtensionsAsString = myFeeds.podcastfileexts;
+					MigrationProperties.Add("PodcastFileExtensions", myFeeds.podcastfileexts);
                 }
-
 
                 //if listview layout specified in imported feed then use that
                 if (!string.IsNullOrEmpty(myFeeds.listviewlayout))

@@ -428,7 +428,13 @@ namespace RssBandit
             string s = Path.Combine(mydocs, "RSS Bandit\\My Downloaded Files");
             return s;
         }
-
+		
+		public static string GetDefaultPodcastPath()
+		{
+			string mydocs = GetDefaultEnclosuresPath();
+			string s = Path.Combine(mydocs, "Podcasts");
+			return s;
+		}
 
         public static string GetPlugInPath()
         {
