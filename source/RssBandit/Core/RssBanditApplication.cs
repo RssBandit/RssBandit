@@ -106,7 +106,7 @@ namespace RssBandit
         private static Settings guiSettings;
         private static readonly ServiceContainer Services = new ServiceContainer( /* no other parent, we are at top */);
 
-        private const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
+        internal const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
         private CommandMediator cmdMediator;
         private FeedSourceManager sourceManager;
@@ -307,6 +307,8 @@ namespace RssBandit
             // set static properties:
             FeedSource.EnclosureFolder = Preferences.EnclosureFolder;
             FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
+        	FeedSource.PodcastFolder = Preferences.PodcastFolder;
+			FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
 
             LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += OnRequestCertificateIssue;
@@ -339,32 +341,13 @@ namespace RssBandit
             // save the test enviroment:
             sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
-			//TODO: move to preferences/static prop. at FeedSource
-            feedHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
-
 			sourceManager.ForEach(delegate (FeedSource f) { ConnectFeedSourceEvents(f);});
-			
-			//feedHandler.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
-			//feedHandler.UpdateFeedsStarted += OnUpdateFeedsStarted;
-			//feedHandler.OnUpdatedFavicon += OnUpdatedFavicon;
-			//feedHandler.OnDownloadedEnclosure += OnDownloadedEnclosure;
-
-			//feedHandler.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
-			//feedHandler.OnAddedCategory += OnAddedCategory;
-			//feedHandler.OnDeletedCategory += OnDeletedCategory;
-			//feedHandler.OnMovedCategory += OnMovedCategory;
-			//feedHandler.OnRenamedCategory += OnRenamedCategory;
-			//feedHandler.OnAddedFeed += OnAddedFeed;
-			//feedHandler.OnDeletedFeed += OnDeletedFeed;
-			//feedHandler.OnRenamedFeed += OnRenamedFeed;
-			//feedHandler.OnMovedFeed += OnMovedFeed;
 
             commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
                                                               CreateCommentFeedHandlerConfiguration(
                                                                   FeedSource.DefaultConfiguration));
             // not really needed here, but init:
-            commentFeedsHandler.PodcastFileExtensionsAsString = DefaultPodcastFileExts;
             commentFeedsHandler.OnAllAsyncRequestsCompleted += OnAllCommentFeedRequestsCompleted;
             commentFeedsHandler.OnUpdatedFeed += OnUpdatedCommentFeed;
 
@@ -2181,6 +2164,21 @@ namespace RssBandit
                 FeedSource.EnclosureAlert = Preferences.EnclosureAlert;
                 saveChanges = true;
             }
+
+			// migrate PodcastFolder saved previously at feedlist to preferences:
+			if (FeedSource.MigrationProperties.ContainsKey("PodcastFolder"))
+			{
+				Preferences.PodcastFolder = (string)FeedSource.MigrationProperties["PodcastFolder"];
+				FeedSource.PodcastFolder = Preferences.PodcastFolder;
+				saveChanges = true;
+			}
+			// migrate PodcastFileExtensions saved previously at feedlist to preferences:
+			if (FeedSource.MigrationProperties.ContainsKey("PodcastFileExtensions"))
+			{
+				Preferences.PodcastFileExtensions = (string)FeedSource.MigrationProperties["PodcastFileExtensions"];
+				FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
+				saveChanges = true;
+			}
 
             if (FeedSource.MigrationProperties.ContainsKey("MarkItemsReadOnExit"))
             {
@@ -5338,15 +5336,16 @@ namespace RssBandit
                 if (optionDialog.DialogResult == DialogResult.OK)
                 {
                     //modify preferences with data from dialog
-                    feedHandler.PodcastFileExtensionsAsString = optionDialog.textPodcastFilesExtensions.Text;
-
+                    Preferences.PodcastFileExtensions = 
+						FeedSource.PodcastFileExtensionsAsString = optionDialog.textPodcastFilesExtensions.Text;
+					 
                     if (optionDialog.chkCopyPodcastToFolder.Checked)
                     {
-                        feedHandler.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
+						FeedSource.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
                     }
                     else
                     {
-                        feedHandler.PodcastFolder = FeedSource.EnclosureFolder;
+						FeedSource.PodcastFolder = FeedSource.EnclosureFolder;
                     }
 
                     Preferences.AddPodcasts2Folder = optionDialog.chkCopyPodcastToFolder.Checked;
@@ -5355,7 +5354,6 @@ namespace RssBandit
 
                     Preferences.SinglePodcastPlaylist = optionDialog.optSinglePlaylistName.Checked;
                     Preferences.SinglePlaylistName = optionDialog.textSinglePlaylistName.Text;
-
 
                     // apply to backend, UI etc. and save:
                     ApplyPreferences();

@@ -215,10 +215,7 @@ namespace NewsComponents.Feed
             ValidateAndThrow(this.Configuration);
 
             this.rssParser = new RssParser(this);
-
-            // initialize (later on loaded from feedlist):
-            this.PodcastFolder = this.Configuration.DownloadedFilesDataPath;
-            
+ 
             if (String.IsNullOrEmpty(EnclosureFolder))
             {
                 this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
