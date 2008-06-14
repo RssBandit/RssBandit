@@ -10,6 +10,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using NewsComponents.Core;
@@ -121,6 +122,14 @@ namespace NewsComponents.Net
             get
             {
                 return _createDate;
+            }
+        }
+
+        public string FileName
+        {
+            get
+            {
+                return Path.Combine(DownloadFilesBase, DownloadItem.File.LocalName);
             }
         }
 

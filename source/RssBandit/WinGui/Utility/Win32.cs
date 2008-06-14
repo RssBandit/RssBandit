@@ -41,6 +41,7 @@
 #endregion
 
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -48,11 +49,15 @@ using System.Security;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using NewsComponents.Utils;
 using RssBandit.Resources;
+using Application=System.Windows.Forms.Application;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit
@@ -355,6 +360,19 @@ namespace RssBandit
 			public IntPtr hStdError;
 		}
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SHFILEINFO
+        {
+            public IntPtr hIcon;
+            public IntPtr iIcon;
+            public uint dwAttributes;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szDisplayName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+            public string szTypeName;
+        };
+
+
 		[StructLayout(LayoutKind.Sequential)]
 		internal class HDITEM {
 			public int     mask = 0; 
@@ -479,7 +497,38 @@ namespace RssBandit
 		[ DllImport( "kernel32.dll", SetLastError=true )]
 		private static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi );
 
-		#endregion
+        [DllImport("shell32.dll")]
+        private static extern IntPtr SHGetFileInfo(string pszPath,
+                                    uint dwFileAttributes,
+                                    ref SHFILEINFO psfi,
+                                    uint cbSizeFileInfo,
+                                    ShellFileInfoFlags uFlags);
+
+        [DllImport("user32.dll")]
+        private static extern bool DestroyIcon(IntPtr hIcon);
+
+
+
+        public static BitmapSource GetShellIconForFile(string fileName)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException("fileName");
+
+            var info = new SHFILEINFO();
+
+            SHGetFileInfo(fileName, 0, ref info, (uint)Marshal.SizeOf(info),
+                                    ShellFileInfoFlags.Icon | ShellFileInfoFlags.LargeIcon | ShellFileInfoFlags.UseFileAttributes);
+
+            BitmapSource src = Imaging.CreateBitmapSourceFromHIcon(info.hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            DestroyIcon(info.hIcon);
+
+            src.Freeze();
+
+            return src;
+        }
+
+	    #endregion
 
 		#region MultiMedia
 		
@@ -516,6 +565,15 @@ namespace RssBandit
 //#endif
 		}
 
+        [Flags]
+        private enum ShellFileInfoFlags : uint
+        {
+            Icon = 0x100,
+            LargeIcon = 0x0,
+            SmallIcon = 0x1,
+            UseFileAttributes = 0x000000010,
+
+        }
 		/// <summary>
 		/// Sets/Gets if application sounds are anabled.
 		/// </summary>
