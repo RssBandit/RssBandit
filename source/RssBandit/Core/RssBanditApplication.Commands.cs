@@ -900,20 +900,25 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdNavigateFeedHome(ICommand sender)
         {
-            CmdNavigateFeedHome(guiMain.CurrentSelectedFeedsNode.DataKey);
-            if (sender is AppContextMenuCommand)
+        	TreeFeedsNodeBase current = guiMain.CurrentSelectedFeedsNode;
+			if (current != null)
+			{
+				NavigateToFeedHome(guiMain.FeedSourceOf(current), current.DataKey);
+			}
+        	if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
         }
 
-        /// <summary>
-        /// Overloaded. Navigates to feed home page (feed link).
-        /// </summary>
-        /// <param name="feedLink">Feed link</param>
-        public void CmdNavigateFeedHome(string feedLink)
+		/// <summary>
+		/// Overloaded. Navigates to feed home page (feed link).
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feedLink">Feed link</param>
+        public void NavigateToFeedHome(FeedSourceEntry entry, string feedLink)
         {
-            if (!string.IsNullOrEmpty(feedLink))
+            if (entry != null && !string.IsNullOrEmpty(feedLink))
             {
-                IFeedDetails feedInfo = feedHandler.GetFeedDetails(feedLink);
+                IFeedDetails feedInfo = entry.Source.GetFeedDetails(feedLink);
 
                 if (feedInfo != null)
                 {
@@ -928,20 +933,25 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdNavigateFeedLinkCosmos(ICommand sender)
         {
-            CmdNavigateFeedLinkCosmos(guiMain.CurrentSelectedFeedsNode.DataKey);
-            if (sender is AppContextMenuCommand)
+			TreeFeedsNodeBase current = guiMain.CurrentSelectedFeedsNode;
+			if (current != null)
+			{
+				NavigateToFeedLinkCosmos(guiMain.FeedSourceOf(current), current.DataKey);
+			}
+        	if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
         }
 
-        /// <summary>
-        /// Overloaded. Display technorati link cosmos of the feed.
-        /// </summary>
-        /// <param name="feedLink">Feed link</param>
-        public void CmdNavigateFeedLinkCosmos(string feedLink)
+		/// <summary>
+		/// Overloaded. Display technorati link cosmos of the feed.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feedLink">Feed link</param>
+		public void NavigateToFeedLinkCosmos(FeedSourceEntry entry, string feedLink)
         {
-            if (!string.IsNullOrEmpty(feedLink))
+            if (entry != null && !string.IsNullOrEmpty(feedLink))
             {
-                IFeedDetails feedInfo = feedHandler.GetFeedDetails(feedLink);
+                IFeedDetails feedInfo = entry.Source.GetFeedDetails(feedLink);
                 if (feedInfo != null)
                 {
                     NavigateToUrlAsUserPreferred(linkCosmosUrlBase + HttpUtility.UrlEncode(feedInfo.Link),
