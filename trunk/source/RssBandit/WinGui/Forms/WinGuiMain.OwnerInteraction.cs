@@ -1773,7 +1773,7 @@ namespace RssBandit.WinGui.Forms
             if (feed != null && feed.Tag != null)
             {
                 var itemFeed = (INewsFeed) feed.Tag;
-            	FeedSourceEntry entry = owner.SourceManager.SourceOf(itemFeed);
+            	FeedSourceEntry entry = owner.FeedSources.SourceOf(itemFeed);
             	FeedInfo itemFeedInfo = null;
 				if (entry != null)
 				{
@@ -2818,8 +2818,8 @@ namespace RssBandit.WinGui.Forms
         /// <param name="storyId">The URL of the story</param>
         public void MarkDiscussionAsRead(string storyId)
         {
-            //BUGBUG: make this the same as the value used by top stories; 
-            DateTime since = DateTime.Now - new TimeSpan(7, 0, 0, 0, 0);
+            int numDays = RssBanditApplication.ReadAppSettingsEntry("TopStoriesTimeSpanInDays", SevenDays.Days);
+            DateTime since = DateTime.Now - new TimeSpan(numDays, 0, 0, 0, 0);
 
             IList<INewsItem> affectedItems = owner.FeedHandler.GetItemsWithIncomingLinks(storyId, since);
             var affectedItemsInListView = new List<ThreadedListViewItem>();

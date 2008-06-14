@@ -2475,10 +2475,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
     <value>Please specify a valid playlist name</value>
   </data>
   <data name="NoTopStoriesMessage" xml:space="preserve">
-    <value>No stories found that have been linked from your subscriptions in the past week.</value>
+    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
   </data>
   <data name="TopStoriesDescription" xml:space="preserve">
-    <value>Below is the list of the most popular links from your subscriptions over the past week. </value>
+    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
   </data>
   <data name="ExceptionNoFeedSourceName" xml:space="preserve">
     <value>Please provide a name for this subscription list</value>

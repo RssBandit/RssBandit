@@ -25,7 +25,7 @@ namespace RssBandit.WinGui.Forms
     /// <summary>
     /// SynchronizeFeedsWizard handles adding new FeedSources including Google Reader, Windows RSS platform and NewsGator Online.
     /// </summary>
-    internal class SynchronizeFeedsWizard : Form, IServiceProvider, IWaitDialog
+    internal class SynchronizeFeedsWizard : Form, IServiceProvider
     {
         private enum WizardValidationTask
         {
@@ -143,35 +143,6 @@ namespace RssBandit.WinGui.Forms
             coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));         
 
             this.wizard.SelectedPage = this.pageStartImport;
-        }
-
-        #endregion
-
-        #region IWaitDialog Members
-
-        public void Initialize(AutoResetEvent waitHandle, TimeSpan timeout, Icon dialogIcon)
-        {
-            this.waitHandle = waitHandle;
-            this.timeout = timeout;
-            this.timeCounter = 0;
-            this.operationResult = DialogResult.None;
-        }
-
-        public DialogResult StartWaiting(IWin32Window owner, string waitMessage, bool allowCancel)
-        {
-            // start animation
-            this.wizard.SelectedPage.AllowCancel = allowCancel;
-            // wait for thread end or timeout (set by timerIncreaseProgress)
-            do
-            {
-                Thread.Sleep(50);
-                Application.DoEvents();
-            } while (this.operationResult == DialogResult.None);
-
-            if (this.operationTimeout || this.operationResult == DialogResult.Cancel)
-                return DialogResult.Cancel;
-
-            return DialogResult.OK;
         }
 
         #endregion
