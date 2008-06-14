@@ -5060,7 +5060,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No stories found that have been linked from your subscriptions in the past week..
+        ///   Looks up a localized string similar to No stories found that have been linked from your subscriptions in &apos;{0}&apos; over the past week..
         /// </summary>
         internal static string NoTopStoriesMessage {
             get {
@@ -5958,7 +5958,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Below is the list of the most popular links from your subscriptions over the past week. .
+        ///   Looks up a localized string similar to Below is the list of the most popular links from your subscriptions in &apos;{0}&apos; over the past week. .
         /// </summary>
         internal static string TopStoriesDescription {
             get {

@@ -205,7 +205,7 @@ namespace RssBandit.WinGui.Forms
 			// init feedsource combo:
 			//TODO: that cast should not be there (extend interface!)
         	RssBanditApplication core = (RssBanditApplication)coreApplication;
-			foreach (FeedSourceEntry entry in core.SourceManager.Sources)
+			foreach (FeedSourceEntry entry in core.FeedSources.Sources)
 				this.cboFeedSources.Items.Add(entry.Name);
         	this.FeedSourceName = this.cboFeedSources.Items[0] as string;	
 
