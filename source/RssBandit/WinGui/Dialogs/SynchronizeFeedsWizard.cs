@@ -41,23 +41,17 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         internal NewsFeed Feed = null;
 
-        private AddSubscriptionWizardMode wizardMode;
         private readonly IServiceProvider serviceProvider;
         private readonly WindowSerializer windowSerializer;
         private IInternetService internetService;
         private readonly ICoreApplication coreApplication;
 
         private TimeSpan timeout = TimeSpan.Zero;	// no timeout
-        private bool operationTimeout;
         private DialogResult operationResult;
-        private int timeCounter;
         private AutoResetEvent waitHandle;
-        private FeedInfo feedInfo;
-        private bool credentialsStepReWired;
-
+      
         #region Designer Form variables
 
-        private System.Windows.Forms.ToolTip toolTip;
         private CheckBox chkDisplayWelcome;
         private WizardPage pageFeedCredentials;
         private Label lblFeedCredentialsIntro;
