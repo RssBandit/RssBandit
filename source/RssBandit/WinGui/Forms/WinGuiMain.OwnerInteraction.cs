@@ -2846,7 +2846,8 @@ namespace RssBandit.WinGui.Forms
         public void SwitchPage(string pageType, bool go2nextPage)
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
-            if (tn == null)
+            FeedSourceEntry entry = FeedSourceOf(tn); 
+            if (tn == null || entry == null)
                 return;
 
             if (go2nextPage)
@@ -2863,7 +2864,7 @@ namespace RssBandit.WinGui.Forms
                 FeedInfo fi = GetFeedItemsAtPage(_currentPageNumber);
                 if (fi != null)
                 {
-                    BeginTransformFeed(fi, tn, owner.FeedHandler.GetStyleSheet(tn.DataKey));
+                    BeginTransformFeed(fi, tn, entry.Source.GetStyleSheet(tn.DataKey));
                 }
             }
             else
@@ -2872,7 +2873,7 @@ namespace RssBandit.WinGui.Forms
                 FeedInfoList fil = GetCategoryItemsAtPage(_currentPageNumber);
                 if (fil != null)
                 {
-                    BeginTransformFeedList(fil, tn, owner.FeedHandler.GetCategoryStyleSheet(tn.CategoryStoreName));
+                    BeginTransformFeedList(fil, tn, entry.Source.GetCategoryStyleSheet(tn.CategoryStoreName));
                 }
             }
         }
@@ -3118,8 +3119,10 @@ namespace RssBandit.WinGui.Forms
                     TreeFeedsNodeBase refNode = lookupItem != null ? lookupItem.Node : null;
                     if (refNode == null)
                     {
+                        FeedSourceEntry entry = FeedSourceOf(feedurl); 
+
                         // corresponding node can be at any hierarchy level, or temporary (if commentRss)
-                        if (owner.FeedHandler.IsSubscribed(feedurl))
+                        if (entry != null)
                             refNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), item);
                         else
                             refNode = TreeHelper.FindNode(GetRoot(RootFolderType.SmartFolders), item);
