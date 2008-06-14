@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -9,10 +10,9 @@
 
 using System;
 using System.Collections;
-using System.IO;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using System.Xml.XPath;
 using NewsComponents.Feed;
 using NewsComponents.Search.BooleanSearch;
 using NewsComponents.Utils;
@@ -115,8 +115,17 @@ namespace NewsComponents.Search
 	/// Defines how to handle the NewsItem read state
 	/// </summary>
 	public enum ItemReadState {
+		/// <summary>
+		/// 
+		/// </summary>
 		Ignore,
+		/// <summary>
+		/// 
+		/// </summary>
 		BeenRead,
+		/// <summary>
+		/// 
+		/// </summary>
 		Unread,
 	}
 
@@ -124,9 +133,10 @@ namespace NewsComponents.Search
 	/// Implements a collection of ISearchCriteria's
 	/// </summary>
 	[Serializable]
-	public class SearchCriteriaCollection: ICollection {
-
-		ArrayList criteriaList = new ArrayList(1); // list of ISearchCriteria instances
+	public class SearchCriteriaCollection: ICollection 
+	{
+		readonly List<ISearchCriteria> criteriaList = new List<ISearchCriteria>(1); // list of ISearchCriteria instances
+		object _syncRoot = new object();
 		/// <summary>
 		/// Method applies the match call to all contained search criteria's for the
 		/// specified NewsItem. It will only return true, if ALL criteria match on that item!
@@ -189,13 +199,45 @@ namespace NewsComponents.Search
 		}
 		#region ICollection Members
 
-		public bool IsSynchronized { get {	return criteriaList.IsSynchronized;}	}
-		public void CopyTo(Array array, int index) { criteriaList.CopyTo(array, index);	}
-		public object SyncRoot { get {	return criteriaList.SyncRoot;	}	}
+		/// <summary>
+		/// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
+		/// </summary>
+		/// <value></value>
+		/// <returns>true if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe); otherwise, false.</returns>
+		public bool IsSynchronized { get {	return false;}	}
+		/// <summary>
+		/// Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
+		/// </summary>
+		/// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param>
+		/// <param name="index">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+		/// <exception cref="T:System.ArgumentNullException">
+		/// 	<paramref name="array"/> is null. </exception>
+		/// <exception cref="T:System.ArgumentOutOfRangeException">
+		/// 	<paramref name="index"/> is less than zero. </exception>
+		/// <exception cref="T:System.ArgumentException">
+		/// 	<paramref name="array"/> is multidimensional.-or- <paramref name="index"/> is equal to or greater than the length of <paramref name="array"/>.-or- The number of elements in the source <see cref="T:System.Collections.ICollection"/> is greater than the available space from <paramref name="index"/> to the end of the destination <paramref name="array"/>. </exception>
+		/// <exception cref="T:System.ArgumentException">The type of the source <see cref="T:System.Collections.ICollection"/> cannot be cast automatically to the type of the destination <paramref name="array"/>. </exception>
+		public void CopyTo(Array array, int index)
+		{
+			for (int i = index; i < Count; i++ )
+				array.SetValue(criteriaList[i],i-index );
+		}
+		/// <summary>
+		/// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+		/// </summary>
+		/// <value></value>
+		/// <returns>An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.</returns>
+		public object SyncRoot { get { return _syncRoot; } }
 
 		#endregion
 
 		#region IEnumerable Members
+		/// <summary>
+		/// Returns an enumerator that iterates through a collection.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+		/// </returns>
 		public IEnumerator GetEnumerator() {	return criteriaList.GetEnumerator();	}
 		#endregion
 	}
@@ -432,13 +474,26 @@ namespace NewsComponents.Search
 	/// </summary>
 	[Serializable]
 	public class SearchCriteriaProperty: ISearchCriteria {
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool BeenRead;
+		/// <summary>
+		/// 
+		/// </summary>
 		public Flagged Flags;  //as defined in RssParser.cs
+		/// <summary>
+		/// 
+		/// </summary>
 		public PropertyExpressionKind WhatKind;
 
-		public SearchCriteriaProperty() {}
-		
 		// interface impl.
+		/// <summary>
+		/// Method to implement for a single NewsItem compare. Should return true,
+		/// if the criteria match that item.
+		/// </summary>
+		/// <param name="item">NewsItem to comapre (work on)</param>
+		/// <returns>true, if this criteria match that item</returns>
 		public override bool Match(INewsItem item) { 
 			switch(WhatKind){ 
 			
@@ -451,7 +506,13 @@ namespace NewsComponents.Search
 				default:
 					return false;
 			}
-		}  
+		}
+		/// <summary>
+		/// Method to implement for a feed compare. Should return true,
+		/// if the criteria match that feed.
+		/// </summary>
+		/// <param name="feed">FeedInfo to compare (work on)</param>
+		/// <returns>true, if the feed match</returns>
 		public override bool  Match(FeedInfo feed) { 
 			//compare as defined ...
 			return false;

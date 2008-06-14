@@ -5,6 +5,9 @@ using System.Collections.Generic;
 namespace NewsComponents.Collections
 {
 
+	/// <summary>
+	/// Relation link (href) entry
+	/// </summary>
     [Serializable]
     public class RelationHRefEntry : IEquatable<RelationHRefEntry>
     {
@@ -15,9 +18,21 @@ namespace NewsComponents.Collections
             Score = score;
             References = new List<INewsItem>();
         }
+		/// <summary>
+		/// Score of the entry
+		/// </summary>
         public float Score;
+		/// <summary>
+		/// Display text
+		/// </summary>
         public string Text;
+		/// <summary>
+		/// link
+		/// </summary>
         public string HRef;
+		/// <summary>
+		/// List of references
+		/// </summary>
         public IList<INewsItem> References;
 
 
@@ -32,6 +47,13 @@ namespace NewsComponents.Collections
             return Equals(obj as RelationHRefEntry);
         }
 
+		/// <summary>
+		/// Indicates whether the current object is equal to another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// </returns>
         public bool Equals(RelationHRefEntry other)
         {
             if (ReferenceEquals(this, other)) { return true; }

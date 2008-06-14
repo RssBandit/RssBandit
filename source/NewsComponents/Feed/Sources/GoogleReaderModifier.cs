@@ -33,15 +33,45 @@ namespace NewsComponents.Feed
     /// </summary>
     public enum GoogleReaderOperation : byte
     {
+		/// <summary>
+		/// 
+		/// </summary>
         AddFeed = 51, // == queue priority!
+		/// <summary>
+		/// 
+		/// </summary>
         AddLabel = 41,
+		/// <summary>
+		/// 
+		/// </summary>
         DeleteFeed = 50,
+		/// <summary>
+		/// 
+		/// </summary>
         DeleteLabel = 40,
+		/// <summary>
+		/// 
+		/// </summary>
         MarkAllItemsRead = 61,
+		/// <summary>
+		/// 
+		/// </summary>
         MarkSingleItemRead = 60,
+		/// <summary>
+		/// 
+		/// </summary>
         MarkSingleItemTagged = 59,
+		/// <summary>
+		/// 
+		/// </summary>
         MoveFeed = 45,
+		/// <summary>
+		/// 
+		/// </summary>
         RenameFeed = 21,
+		/// <summary>
+		/// 
+		/// </summary>
         RenameLabel = 20,
     }
 
@@ -55,8 +85,17 @@ namespace NewsComponents.Feed
     /// </summary>
     public class PendingGoogleReaderOperation : IEquatable<PendingGoogleReaderOperation>
     {
+		/// <summary>
+		/// Google Reader Operation action
+		/// </summary>
         public GoogleReaderOperation Action;
+		/// <summary>
+		/// Google user name
+		/// </summary>
         public string GoogleUserName;
+		/// <summary>
+		/// 
+		/// </summary>
         public object[] Parameters;
 
         /// <summary>
@@ -472,13 +511,15 @@ namespace NewsComponents.Feed
         }
 
 
-        /// <summary>
-        /// Checks whether the specified URL is in the pending operations queue as a new URL subscription to 
-        /// Google Reader.
-        /// </summary>
-        /// <param name="url">The feed URL</param>
-        /// <returns>True if there is a pending GoogleReaderOperation.AddFeed for the target URL in the pending operation
-        /// queue</returns>
+		/// <summary>
+		/// Checks whether the specified URL is in the pending operations queue as a new URL subscription to
+		/// Google Reader.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <returns>
+		/// True if there is a pending GoogleReaderOperation.AddFeed for the target URL in the pending operation
+		/// queue
+		/// </returns>
         internal bool IsPendingSubscription(string feedUrl)
         {
             return

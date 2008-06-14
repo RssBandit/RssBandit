@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -22,13 +23,15 @@ namespace NewsComponents
 	{
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-		private SortedList _newsItemChannels = new SortedList(new ChannelComparer());
-		private SortedList _feedChannels = new SortedList(new ChannelComparer());
-		private ReaderWriterLock _newsItemChannelsLock = new ReaderWriterLock();
-		private ReaderWriterLock _feedChannelsLock = new ReaderWriterLock();
+		private readonly SortedList _newsItemChannels = new SortedList(new ChannelComparer());
+		private readonly SortedList _feedChannels = new SortedList(new ChannelComparer());
+		private readonly ReaderWriterLock _newsItemChannelsLock = new ReaderWriterLock();
+		private readonly ReaderWriterLock _feedChannelsLock = new ReaderWriterLock();
 
-		public NewsChannelServices(){}
-
+		/// <summary>
+		/// Registers the news channel.
+		/// </summary>
+		/// <param name="channel">The channel.</param>
 		public void RegisterNewsChannel(INewsChannel channel)
 		{
 			if (channel == null)
@@ -60,6 +63,10 @@ namespace NewsComponents
 
 		}
 
+		/// <summary>
+		/// Unregisters the news channel.
+		/// </summary>
+		/// <param name="channel">The channel.</param>
 		public void UnregisterNewsChannel(INewsChannel channel) {
 			if (channel == null)
 				throw new ArgumentNullException("channel");
@@ -92,6 +99,11 @@ namespace NewsComponents
 
 		}
 
+		/// <summary>
+		/// Processes the item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
 		public INewsItem ProcessItem(INewsItem item)
 		{
 			try {
@@ -120,6 +132,11 @@ namespace NewsComponents
 			return item;
 		}
 
+		/// <summary>
+		/// Processes the item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
 		public IFeedDetails ProcessItem(IFeedDetails item) {
 			try {
 				_feedChannelsLock.AcquireReaderLock(0);
@@ -169,12 +186,3 @@ namespace NewsComponents
 	}
 
 }
-
-#region CVS Version Log
-/*
- * $Log: NewsChannelServices.cs,v $
- * Revision 1.5  2007/04/30 10:58:16  t_rendelmann
- * better error logging for NewsChannelServices implementors (AddIn's)
- *
- */
-#endregion

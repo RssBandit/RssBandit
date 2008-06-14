@@ -53,9 +53,21 @@ namespace NewsComponents.Net
     /// </summary>
     public enum HttpMethod
     {
+		/// <summary>
+		/// 
+		/// </summary>
         DELETE,
-        GET, 
-        POST, 
+		/// <summary>
+		/// 
+		/// </summary>
+        GET,
+		/// <summary>
+		/// 
+		/// </summary>
+        POST,
+		/// <summary>
+		/// 
+		/// </summary>
         PUT
     }
     
@@ -1074,7 +1086,7 @@ namespace NewsComponents.Net
         /// <returns>True if the status code is a redirect</returns>
         public static bool IsRedirect(HttpStatusCode statusCode)
         {
-            if ((statusCode == HttpStatusCode.Ambiguous)
+        	if ((statusCode == HttpStatusCode.Ambiguous)
                 || (statusCode == HttpStatusCode.Found)
                 || (statusCode == HttpStatusCode.MultipleChoices)
                 || (statusCode == HttpStatusCode.Redirect)
@@ -1085,13 +1097,10 @@ namespace NewsComponents.Net
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+        	return false;
         }
 
-        /// <summary>
+    	/// <summary>
         /// Helper method checks if a status code is a unauthorized or not
         /// </summary>
         /// <param name="statusCode"></param>
@@ -1104,7 +1113,7 @@ namespace NewsComponents.Net
         }
 
         /// <summary>
-        /// Can be called syncronized to get a HttpWebResponse.
+        /// Can be called synchronized to get a HttpWebResponse.
         /// </summary>
         /// <param name="method">The HTTP method being used</param>
         /// <param name="address">Url to request</param>
@@ -1199,10 +1208,7 @@ namespace NewsComponents.Net
                 {
                     return we.Response;
                 }
-                else
-                {
-                    throw;
-                }
+            	throw;
             } //end try/catch
         }
 
@@ -1257,10 +1263,7 @@ namespace NewsComponents.Net
                 {
                     return we.Response;
                 }
-                else
-                {
-                    throw;
-                }
+            	throw;
             } //end try/catch
         }
 
@@ -1269,14 +1272,15 @@ namespace NewsComponents.Net
         #region GetSyncResponseStream() 
 
 
-        /// <summary>
-        /// Can be called syncronized to get a Http Web Response.
-        /// </summary>
-        /// <param name="address">Url to request</param>
-        /// <param name="body">The body of the request</param>
-        /// <param name="cookies">The cookies to send with the request</param>
-        /// <param name="credentials">Url credentials</param>
-        /// <param name="proxy">Proxy to use</param>
+		/// <summary>
+		/// Can be called syncronized to get a Http Web Response.
+		/// </summary>
+		/// <param name="address">Url to request</param>
+		/// <param name="body">The body of the request</param>
+		/// <param name="cookie">The cookie.</param>
+		/// <param name="credentials">Url credentials</param>
+		/// <param name="proxy">Proxy to use</param>
+		/// <returns></returns>
         public static HttpWebResponse PostSyncResponse(string address, string body, Cookie cookie, ICredentials credentials, IWebProxy proxy)
         {
 
@@ -1286,15 +1290,15 @@ namespace NewsComponents.Net
                                       null /* eTag */, DefaultTimeout, cookie, body, null /* additonalHeaders */) as HttpWebResponse;
         }
 
-        /// <summary>
-        /// Can be called syncronized to send a POST Http request.
-        /// </summary>
-        /// <param name="address">Url to request</param>
-        /// <param name="body">The body of the request</param>
-        /// <param name="cookies">The cookies to send with the request</param>
-        /// <param name="credentials">Url credentials</param>
-        /// <param name="proxy">Proxy to use</param>
-        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+		/// <summary>
+		/// Can be called syncronized to send a POST Http request.
+		/// </summary>
+		/// <param name="address">Url to request</param>
+		/// <param name="body">The body of the request</param>
+		/// <param name="credentials">Url credentials</param>
+		/// <param name="proxy">Proxy to use</param>
+		/// <param name="additionalHeaders">The additional headers.</param>
+		/// <returns></returns>
         public static HttpWebResponse PostSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
         {
 
@@ -1304,15 +1308,15 @@ namespace NewsComponents.Net
                                       null /* eTag */, DefaultTimeout, null /* cookie */, body, additionalHeaders) as HttpWebResponse;
         }
 
-        /// <summary>
-        /// Can be called syncronized to send a PUT Http request.
-        /// </summary>
-        /// <param name="address">Url to request</param>
-        /// <param name="body">The body of the request</param>
-        /// <param name="cookies">The cookies to send with the request</param>
-        /// <param name="credentials">Url credentials</param>
-        /// <param name="proxy">Proxy to use</param>
-        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+		/// <summary>
+		/// Can be called syncronized to send a PUT Http request.
+		/// </summary>
+		/// <param name="address">Url to request</param>
+		/// <param name="body">The body of the request</param>
+		/// <param name="credentials">Url credentials</param>
+		/// <param name="proxy">Proxy to use</param>
+		/// <param name="additionalHeaders">The additional headers.</param>
+		/// <returns></returns>
         public static HttpWebResponse PutSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
         {
 
@@ -1323,15 +1327,15 @@ namespace NewsComponents.Net
         }
 
 
-        /// <summary>
-        /// Can be called syncronized to send a DELETE Http request
-        /// </summary>
-        /// <param name="address">Url to request</param>
-        /// <param name="body">The body of the request</param>
-        /// <param name="cookies">The cookies to send with the request</param>
-        /// <param name="credentials">Url credentials</param>
-        /// <param name="proxy">Proxy to use</param>
-        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>       
+		/// <summary>
+		/// Can be called syncronized to send a DELETE Http request
+		/// </summary>
+		/// <param name="address">Url to request</param>
+		/// <param name="body">The body of the request</param>
+		/// <param name="credentials">Url credentials</param>
+		/// <param name="proxy">Proxy to use</param>
+		/// <param name="additionalHeaders">The additional headers.</param>
+		/// <returns></returns>
         public static HttpWebResponse DeleteSyncResponse(string address, string body, ICredentials credentials, IWebProxy proxy, WebHeaderCollection additionalHeaders)
         {
 
@@ -1416,14 +1420,14 @@ namespace NewsComponents.Net
         }
 
 
-        /// <summary>
-        /// Can be called syncronized to get a Http Web ResponseStream.
-        /// </summary>
-        /// <param name="address">Url to request</param>
-        /// <param name="credentials">Url credentials</param>
-        /// <param name="proxy">Proxy to use</param>
-        /// <param name="cookie">The HTTP cookie to send along with the request</param>
-        /// <param name="additonalHeaders">These are additional headers that are being specified to the Web request</param>    
+		/// <summary>
+		/// Can be called syncronized to get a Http Web ResponseStream.
+		/// </summary>
+		/// <param name="address">Url to request</param>
+		/// <param name="credentials">Url credentials</param>
+		/// <param name="proxy">Proxy to use</param>
+		/// <param name="additionalHeaders">The additional headers.</param>
+		/// <returns></returns>
         public static Stream GetSyncResponseStream(string address, ICredentials credentials,
                                                    IWebProxy proxy, WebHeaderCollection additionalHeaders)
         {
@@ -1584,16 +1588,16 @@ namespace NewsComponents.Net
                 response.Close();
 				throw new WebException(String.Format("Request of '{0}' gets repeated HTTP response: {1}", requestUri, returnCode));
             }
-            else if (fileresponse != null)
-            {
-                responseResult = RequestResult.OK;
-                Stream ret = GetDeflatedResponse(fileresponse);
-                fileresponse.Close();
-                return ret;
-            }
             else
             {
-                throw new ApplicationException("no handler for WebResponse. Address: " + requestUri);
+            	if (fileresponse != null)
+            	{
+            		responseResult = RequestResult.OK;
+            		Stream ret = GetDeflatedResponse(fileresponse);
+            		fileresponse.Close();
+            		return ret;
+            	}
+            	throw new ApplicationException("no handler for WebResponse. Address: " + requestUri);
             }
         }
 
@@ -1657,25 +1661,73 @@ namespace NewsComponents.Net
     /// <summary>
     /// Possible Certificate issues.
     /// </summary>
-    /// <remarks> The .NET Framwork should expose these, but they don't.</remarks>
+    /// <remarks> The .NET Framework should expose these, but they don't.</remarks>
     [Serializable]
     public enum CertificateIssue : long
     {
+		/// <summary>
+		/// 
+		/// </summary>
         CertEXPIRED = 0x800B0101,
+		/// <summary>
+		/// 
+		/// </summary>
         CertVALIDITYPERIODNESTING = 0x800B0102,
+		/// <summary>
+		/// 
+		/// </summary>
         CertROLE = 0x800B0103,
+		/// <summary>
+		/// 
+		/// </summary>
         CertPATHLENCONST = 0x800B0104,
+		/// <summary>
+		/// 
+		/// </summary>
         CertCRITICAL = 0x800B0105,
+		/// <summary>
+		/// 
+		/// </summary>
         CertPURPOSE = 0x800B0106,
+		/// <summary>
+		/// 
+		/// </summary>
         CertISSUERCHAINING = 0x800B0107,
+		/// <summary>
+		/// 
+		/// </summary>
         CertMALFORMED = 0x800B0108,
+		/// <summary>
+		/// 
+		/// </summary>
         CertUNTRUSTEDROOT = 0x800B0109,
+		/// <summary>
+		/// 
+		/// </summary>
         CertCHAINING = 0x800B010A,
+		/// <summary>
+		/// 
+		/// </summary>
         CertREVOKED = 0x800B010C,
+		/// <summary>
+		/// 
+		/// </summary>
         CertUNTRUSTEDTESTROOT = 0x800B010D,
+		/// <summary>
+		/// 
+		/// </summary>
         CertREVOCATION_FAILURE = 0x800B010E,
+		/// <summary>
+		/// 
+		/// </summary>
         CertCN_NO_MATCH = 0x800B010F,
+		/// <summary>
+		/// 
+		/// </summary>
         CertWRONG_USAGE = 0x800B0110,
+		/// <summary>
+		/// 
+		/// </summary>
         CertUNTRUSTEDCA = 0x800B0112
     }
 

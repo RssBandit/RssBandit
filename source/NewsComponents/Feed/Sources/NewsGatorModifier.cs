@@ -496,7 +496,7 @@ namespace NewsComponents.Feed
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Enqueues a task to clip or unclip a post in NewsGator Online
         /// </summary>
         /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
@@ -513,7 +513,8 @@ namespace NewsComponents.Feed
         }
 
 
-        /// Marks an item as flagged or unflagged in NewsGator Online
+		/// <summary>
+		/// Marks an item as flagged or unflagged in NewsGator Online
         /// </summary>
         /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
         /// <param name="itemId">The NewsGator ID of the news item</param>      
@@ -554,13 +555,13 @@ namespace NewsComponents.Feed
             }
         }
 
-        
-        /// <summary>
-        /// Enqueus a task that adds the specified feed in NewsGator Online
-        /// </summary>
-           /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
-     /// <param name="feedUrl">The URL of the feed to add</param>
-        public void AddFeedInNewsGatorOnline(string newsgatorUserID, string feedUrl)
+
+		/// <summary>
+		/// Enqueus a task that adds the specified feed in NewsGator Online
+		/// </summary>
+		/// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
+		/// <param name="feedUrl">The URL of the feed to add</param>
+		public void AddFeedInNewsGatorOnline(string newsgatorUserID, string feedUrl)
         {
             PendingNewsGatorOperation op = new PendingNewsGatorOperation(NewsGatorOperation.AddFeed, new object[] { feedUrl }, newsgatorUserID);
 
@@ -571,7 +572,8 @@ namespace NewsComponents.Feed
         }
 
 
-         /// Enqueues a task that adds the folder in NewsGator Online
+		/// <summary>
+		/// Enqueues a task that adds the folder in NewsGator Online
         /// </summary>
         /// <param name="newsgatorUserID">The NewsGator User ID of the account under which this operation will be performed.</param>
         /// <param name="name">The name of the folder to add</param>

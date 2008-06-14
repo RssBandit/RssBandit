@@ -603,7 +603,12 @@ namespace NewsComponents.Utils
 
 
 		#region zip support
-		
+
+		/// <summary>
+		/// Zips the files.
+		/// </summary>
+		/// <param name="files">The files.</param>
+		/// <param name="zipToFile">The zip to file.</param>
 		public static void ZipFiles(string[] files, string zipToFile) {
 			using (ZipOutputStream zipStream = OpenForWriteCompressed(zipToFile)) {
 				ZipFiles(files, zipStream);

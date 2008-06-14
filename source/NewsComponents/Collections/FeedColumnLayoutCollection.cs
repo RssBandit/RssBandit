@@ -4489,6 +4489,10 @@ namespace NewsComponents.Collections.Old {
 		}
 
 
+		/// <summary>
+		/// Gets or sets the <see cref="NewsComponents.Collections.Old.listviewLayoutEntry"/> at the specified index.
+		/// </summary>
+		/// <value></value>
 		public virtual listviewLayoutEntry this[int index] {
 			get {
 				ValidateIndex(index);

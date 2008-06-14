@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 using NewsComponents.Xml.Serialization;
 
@@ -14,13 +16,20 @@ namespace NewsComponents
 	/// <summary>
 	/// NewsComponents Namespaces.
 	/// </summary>
-	public sealed class NamespaceCore
+	public static class NamespaceCore
 	{
+		/// <summary>
+		/// Historical namespace (required for migration, etc.)
+		/// </summary>
 		public const string Feeds_v2003 = "http://www.25hoursaday.com/2003/RSSBandit/feeds/";
+		/// <summary>
+		/// The newest namespace in use
+		/// </summary>
 		public const string Feeds_v2004 = "http://www.25hoursaday.com/2004/RSSBandit/feeds/";
+		/// <summary>
+		/// Currently used namespace
+		/// </summary>
 		public const string Feeds_vCurrent = Feeds_v2004;
-		
-		private NamespaceCore(){}
 	}
 
 	#region NamespaceXml
@@ -29,13 +38,7 @@ namespace NewsComponents
 	/// Provides public constants for wellknown XML namespaces.
 	/// </summary>
 	/// <remarks>Author: Daniel Cazzulino, kzu.net@gmail.com</remarks>
-	public sealed class NamespaceXml {
-
-		#region Ctor
-
-		private NamespaceXml() {}
-
-		#endregion Ctor
+	public static class NamespaceXml {
 
 		#region Public Constants
 
@@ -78,10 +81,8 @@ namespace NewsComponents
 	/// <summary>
 	/// Provides a instance of the XmlSerializerCache 
 	/// </summary>
-	public sealed class XmlHelper
+	public static class XmlHelper
 	{
-		private XmlHelper() {}
-				
 		/// <summary>
 		/// Returns a instance of XmlSerializerCache.
 		/// </summary>
@@ -101,15 +102,3 @@ namespace NewsComponents
 		}
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: Namespaces.cs,v $
- * Revision 1.1  2006/10/05 14:43:43  t_rendelmann
- * added the XmlSerializerCache code from the Mvp.Xml project (to prevent the Xml Serializer leak)
- *
- * Revision 1.1  2006/10/05 08:00:13  t_rendelmann
- * refactored: use string constants for our XML namespaces
- *
- */
-#endregion

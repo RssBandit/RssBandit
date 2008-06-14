@@ -248,8 +248,15 @@ namespace NewsComponents.Search
 			
 			return new Result(items.Count, matchedFeeds.Count, items, new ArrayList(matchedFeeds.Values));
 			
-		}	
-		
+		}
+
+		/// <summary>
+		/// Validates the search criteria.
+		/// </summary>
+		/// <param name="criteria">The criteria.</param>
+		/// <param name="cultureName">Name of the culture.</param>
+		/// <param name="validationException">The validation exception.</param>
+		/// <returns></returns>
 		public bool ValidateSearchCriteria(SearchCriteriaCollection criteria, string cultureName, out Exception validationException) {
 			validationException = null;
 			
@@ -921,8 +928,11 @@ namespace NewsComponents.Search
 		
 
 		#endregion
-	
-		
+
+
+		/// <summary>
+		/// Container for our known lucense search key words
+		/// </summary>
 		public sealed class Keyword {
 			// feed item keywords
 			public const string ItemAuthor = "author";

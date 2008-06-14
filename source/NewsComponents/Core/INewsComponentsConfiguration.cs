@@ -189,16 +189,24 @@ namespace NewsComponents
 		public static INewsComponentsConfiguration Default = CreateDefaultConfiguration();
 		
 		const string defaultApplicationID = "NewsComponents";
-		
-		protected string appID = null;
+		/// <summary/>
+		protected string appID;
+		/// <summary/>
 		protected Version appVersion = new Version(1, 0);
-		protected string applicationDataPath = null;
-		protected string applicationLocalDataPath = null;
-		protected string applicationDownloadPath = null;
+		/// <summary/>
+		protected string applicationDataPath;
+		/// <summary/>
+		protected string applicationLocalDataPath;
+		/// <summary/>
+		protected string applicationDownloadPath;
+		/// <summary/>
 		protected SearchIndexBehavior searchBehavior = NewsComponents.SearchIndexBehavior.Default;
-		protected IPersistedSettings settings = null;
-		protected CacheManager p_cacheManager = null;
+		/// <summary/>
+		protected IPersistedSettings settings;
+		/// <summary/>
+		protected CacheManager p_cacheManager;
 
+		/// <summary/>
 		protected int p_refreshRate = -1;
 		private bool downloadEnclosures;
 		

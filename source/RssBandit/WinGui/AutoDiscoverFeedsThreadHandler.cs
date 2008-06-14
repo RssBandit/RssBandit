@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -30,54 +31,101 @@ namespace RssBandit.WinGui
 		private string webPageUrl = String.Empty;
 		private string searchTerms = String.Empty;
 		private FeedLocationMethod locationMethod = FeedLocationMethod.AutoDiscoverUrl;
-		private Hashtable discoveredFeeds = null;
+		private Dictionary<string, string[]> discoveredFeeds;
 		private IWebProxy proxy;
 		private ICredentials credentials = CredentialCache.DefaultCredentials;
 
-		public AutoDiscoverFeedsThreadHandler():base() {;}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AutoDiscoverFeedsThreadHandler"/> class.
+		/// </summary>
+		public AutoDiscoverFeedsThreadHandler()
+		{;}
 
+		/// <summary>
+		/// Gets or sets the proxy.
+		/// </summary>
+		/// <value>The proxy.</value>
 		public IWebProxy Proxy {
 			get {	return proxy;		}
 			set {	proxy = value;	}
 		}
+		/// <summary>
+		/// Gets or sets the credentials.
+		/// </summary>
+		/// <value>The credentials.</value>
 		public ICredentials Credentials {
 			get {	return credentials;		}
 			set {	credentials = value;	}
 		}
+		/// <summary>
+		/// Gets or sets the web page URL.
+		/// </summary>
+		/// <value>The web page URL.</value>
 		public string WebPageUrl {
 			get {	return webPageUrl;	}
 			set {	webPageUrl = value;	}
 		}
 
+		/// <summary>
+		/// Gets or sets the search terms.
+		/// </summary>
+		/// <value>The search terms.</value>
 		public string SearchTerms {
 			get {	return searchTerms;	}
 			set {	searchTerms = value;	}
 		}
+		/// <summary>
+		/// Gets or sets the location method.
+		/// </summary>
+		/// <value>The location method.</value>
 		public FeedLocationMethod LocationMethod {
 			get {	return locationMethod;	}
 			set {	locationMethod = value;	}
 		}
 
-		public Hashtable DiscoveredFeeds {
+		/// <summary>
+		/// Gets the discovered feeds.
+		/// </summary>
+		/// <value>The discovered feeds.</value>
+		public Dictionary<string, string[]> DiscoveredFeeds
+		{
 			get {	return discoveredFeeds;	}
 		}
 
+		/// <summary>
+		/// Implentation required for the Thread start call
+		/// </summary>
+		/// <example>
+		/// Here is the impl. recommendation:
+		/// <code>
+		/// try {
+		/// // long running task
+		/// } catch (System.Threading.ThreadAbortException) {
+		/// // eat up: op. cancelled
+		/// } catch(Exception ex) {
+		/// // handle them, or publish:
+		/// p_operationException = ex;
+		/// } finally {
+		/// this.WorkDone.Set();	// signal end of operation to dismiss the dialog
+		/// }
+		/// </code>
+		/// </example>
 		protected override void Run() {
 			RssLocater locator = new RssLocater(proxy, RssBanditApplication.UserAgent, this.Credentials); 
-			ArrayList arrFeedUrls = null;
-			Hashtable htFeedUrls = null;
+			List<string> arrFeedUrls;
+			Dictionary<string,string[]> htFeedUrls = null;
 			
 			// can raise System.Net.WebException: The remote server returned an error: (403) Forbidden
 			try {
 				if (locationMethod == FeedLocationMethod.AutoDiscoverUrl) {
 
 					arrFeedUrls = locator.GetRssFeedsForUrl(webPageUrl, true);
-					htFeedUrls = new Hashtable(arrFeedUrls.Count);
+					htFeedUrls = new Dictionary<string, string[]>(arrFeedUrls.Count);
 					
 					foreach (string rssurl in arrFeedUrls) {
 						NewsFeed discoveredFeed = new NewsFeed();
 						discoveredFeed.link = rssurl;
-						IFeedDetails feedInfo = null;
+						IFeedDetails feedInfo;
 						try {
 							// can raise System.Net.WebException: The remote server returned an error: (403) Forbidden
 							feedInfo = RssParser.GetItemsForFeed(discoveredFeed, this.GetWebResponseStream(rssurl), false);
@@ -101,14 +149,14 @@ namespace RssBandit.WinGui
 //				MessageBox.Show(
 //					SR.WebExceptionOnUrlAccess(webPageUrl, wex.Message), 
 //					SR.GUIAutoDiscoverFeedFailedCaption, MessageBoxButtons.OK,MessageBoxIcon.Error);
-				htFeedUrls = new Hashtable();
+				htFeedUrls = new Dictionary<string, string[]>();
 
 			} catch (Exception e) {	// fatal errors				
 				p_operationException = e;
 //				MessageBox.Show(
 //					SR.WebExceptionOnUrlAccess(webPageUrl, e.Message), 
 //					SR.GUIAutoDiscoverFeedFailedCaption, MessageBoxButtons.OK,MessageBoxIcon.Error);
-				htFeedUrls = new Hashtable();
+				htFeedUrls = new Dictionary<string, string[]>();
 			} finally {
 				discoveredFeeds = htFeedUrls;
 				WorkDone.Set();
