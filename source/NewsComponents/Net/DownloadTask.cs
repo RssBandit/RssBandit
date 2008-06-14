@@ -30,6 +30,8 @@ namespace NewsComponents.Net
         /// </summary>
         private readonly Guid id;
 
+        private readonly DateTime _createDate;
+
         /// <summary>
         /// The status of the download task.
         /// </summary>
@@ -47,6 +49,7 @@ namespace NewsComponents.Net
         public DownloadTask(DownloadItem item, IDownloadInfoProvider info)
         {
             id = Guid.NewGuid();
+            _createDate = DateTime.Now;
 
             Init(item, info);
         }
@@ -110,6 +113,14 @@ namespace NewsComponents.Net
             {
                 state = value;
                 RaisePropertyChanged("State");
+            }
+        }
+
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createDate;
             }
         }
 
@@ -216,6 +227,7 @@ namespace NewsComponents.Net
             JobId = (Guid?) reader.GetValue("_jobId", typeof (Guid?), null);
             TransferredSize = (long) reader.GetValue("_transferSize", typeof(long), 0);
             FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
+            _createDate = TimeZoneInfo.ConvertTimeFromUtc((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
 
             if (reader.Contains("_downloadFilesBase"))
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
@@ -238,6 +250,7 @@ namespace NewsComponents.Net
             info.AddValue("_jobId", JobId);
             info.AddValue("_transferSize", TransferredSize);
             info.AddValue("_fileSize", FileSize);
+            info.AddValue("_createDate", TimeZoneInfo.ConvertTimeToUtc(_createDate));
         }
 
         #endregion
