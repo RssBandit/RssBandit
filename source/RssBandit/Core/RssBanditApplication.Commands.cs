@@ -852,19 +852,18 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdViewSourceOfFeed(ICommand sender)
         {
-
-            if (guiMain.CurrentSelectedFeedsNode != null && guiMain.CurrentSelectedFeedsNode.DataKey != null)
+        	TreeFeedsNodeBase current = guiMain.CurrentSelectedFeedsNode;
+			if (current != null && current.DataKey != null)
             {
-                string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
-                string title = String.Format(SR.TabFeedSourceCaption,guiMain.CurrentSelectedFeedsNode.Text);
-
+				string feedUrl = current.DataKey;
+				string title = String.Format(SR.TabFeedSourceCaption, current.Text);
+            	FeedSourceEntry entry = guiMain.FeedSourceOf(current);
                 using (
                     FeedSourceDialog dialog =
-                        new FeedSourceDialog(Proxy, feedHandler.GetFeedCredentials(feedUrl), feedUrl, title))
+						new FeedSourceDialog(Proxy, entry.Source.GetFeedCredentials(feedUrl), feedUrl, title))
                 {
                     dialog.ShowDialog(guiMain);
                 }
-                //				this.NavigateToUrlAsUserPreferred(tmpFile, SR.TabFeedSourceCaption(guiMain.CurrentSelectedFeedsNode.Text),true, true);
             }
 
             if (sender is AppContextMenuCommand)
