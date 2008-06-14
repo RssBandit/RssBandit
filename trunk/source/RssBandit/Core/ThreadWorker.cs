@@ -99,7 +99,7 @@ namespace RssBandit
 						FeedSource.SetFeedCredentials(cmtFeed, u, p);
 					}
 						
-					object result = RssParser.DownloadItemsFromFeed(cmtFeed, app.FeedHandler.Proxy, app.FeedHandler.Offline);
+					object result = RssParser.DownloadItemsFromFeed(cmtFeed, app.Proxy, app.FeedHandler.Offline);
 					RaiseBackgroundTaskFinished(task, maxTasks, currentTask, null, new object[]{result, item, task.Arguments[1], task.Arguments[2]});
 					return null;
 

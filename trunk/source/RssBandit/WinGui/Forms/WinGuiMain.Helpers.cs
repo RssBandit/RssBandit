@@ -1793,13 +1793,16 @@ namespace RssBandit.WinGui.Forms
 
             unreadFeeds = unreadMessages = 0;
 
-            foreach (var f in owner.FeedHandler.GetFeeds().Values)
+            foreach (FeedSourceEntry entry in owner.SourceManager.Sources)
             {
-                if (f.containsNewMessages)
+                foreach (INewsFeed f in entry.Source.GetFeeds().Values)
                 {
-                    unreadFeeds++;
-                    int urm = CountUnreadFeedItems(f);
-                    unreadMessages += urm;
+                    if (f.containsNewMessages)
+                    {
+                        unreadFeeds++;
+                        int urm = CountUnreadFeedItems(f);
+                        unreadMessages += urm;
+                    }
                 }
             }
         }
@@ -2118,7 +2121,7 @@ namespace RssBandit.WinGui.Forms
                         _currentCategoryNewsItems = null;
                         _currentPageNumber = _lastPageNumber = 1;
                         int numItems = _currentFeedNewsItems.ItemsList.Count;
-                        string stylesheet = owner.FeedHandler.GetStyleSheet(tn.DataKey);
+                        string stylesheet = entry.Source.GetStyleSheet(tn.DataKey);
 
                         if (numItems > 0)
                         {
@@ -2158,6 +2161,7 @@ namespace RssBandit.WinGui.Forms
             listFeedItems.BeginUpdate();
             string category = tn.CategoryStoreName;
             var unreadItems = new FeedInfoList(category);
+            FeedSourceEntry entry = FeedSourceOf(tn); 
 
             PopulateListView(tn, new List<INewsItem>(), true);
             htmlDetail.Clear();
@@ -2185,7 +2189,7 @@ namespace RssBandit.WinGui.Forms
             FeedInfoList fil2 = _currentCategoryNewsItems = unreadItems;
             _currentPageNumber = _lastPageNumber = 1;
             int numItems = _currentCategoryNewsItems.NewsItemCount;
-            string stylesheet = owner.FeedHandler.GetCategoryStyleSheet(category);
+            string stylesheet = entry.Source.GetCategoryStyleSheet(category);
 
             if (numItems > 0)
             {
