@@ -110,7 +110,8 @@ namespace RssBandit
 
         private CommandMediator cmdMediator;
         private FeedSourceManager sourceManager;
-        private FeedSource feedHandler;
+        [Obsolete("use FeedSources")]
+		private FeedSource feedHandler;
         // BanditFeedSource: used to read/get old 1.6.x settings
         private FeedSource feedHandler4Migration;
         private FeedSource commentFeedsHandler;
