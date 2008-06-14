@@ -1131,6 +1131,10 @@ namespace RssBandit.WinGui.Forms
 			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
 			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
 			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
+            this.listFeedItems.ListLayoutModified += new System.EventHandler<ListLayoutEventArgs>(this.OnFeedListLayoutModified);
+            this.listFeedItems.ListLayoutChanged += new System.EventHandler<ListLayoutEventArgs>(this.OnFeedListLayoutChanged);
+            this.listFeedItems.ExpandThread += new System.EventHandler<ThreadEventArgs>(this.OnFeedListExpandThread);
+            this.listFeedItems.AfterExpandThread += new System.EventHandler<ThreadEventArgs>(this.OnFeedListAfterExpandThread);            
 			// 
 			// colHeadline
 			// 
