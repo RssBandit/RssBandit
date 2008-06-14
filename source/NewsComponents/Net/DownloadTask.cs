@@ -236,7 +236,7 @@ namespace NewsComponents.Net
             JobId = (Guid?) reader.GetValue("_jobId", typeof (Guid?), null);
             TransferredSize = (long) reader.GetValue("_transferSize", typeof(long), 0);
             FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
-            _createDate = TimeZoneInfo.ConvertTimeFromUtc((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
+            _createDate = TimeZoneInfo.ConvertTime((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
 
             if (reader.Contains("_downloadFilesBase"))
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
