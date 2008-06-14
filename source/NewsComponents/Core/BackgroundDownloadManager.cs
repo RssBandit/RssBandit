@@ -16,14 +16,10 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-
 using log4net;
-
 using NewsComponents.Net;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
-
-using RssBandit.Common;
 using RssBandit.Common.Logging;
 
 namespace NewsComponents
@@ -84,11 +80,6 @@ namespace NewsComponents
         /// </summary>
         private readonly FeedSource downloadInfoProvider;
 
-        /// <summary>
-        /// Key in the task context.
-        /// </summary>
-        private const string AsyncTaskKey = "IsAsyncTask";
-
         #endregion
 
         #region Public Properties
@@ -100,10 +91,7 @@ namespace NewsComponents
         /// <returns></returns>
         public string InitialDownloadLocation
         {
-            get
-            {
-                return downloadInfoProvider.CacheLocation;
-            }
+            get { return downloadInfoProvider.CacheLocation; }
         }
 
         /// <summary>
@@ -111,10 +99,7 @@ namespace NewsComponents
         /// </summary>
         public IWebProxy Proxy
         {
-            get
-            {
-                return downloadInfoProvider.Proxy;
-            }
+            get { return downloadInfoProvider.Proxy; }
         }
 
         #endregion
@@ -124,22 +109,12 @@ namespace NewsComponents
         /// <summary>
         /// Notifies downloads have started.
         /// </summary>
-        public event DownloadStartedEventHandler DownloadStarted;
-
-        /// <summary>
-        /// Notifies download progress.
-        /// </summary>
-        public event DownloadProgressEventHandler DownloadProgress;
-
-        /// <summary>
-        /// Notifies download errors.
-        /// </summary>
-        public event DownloadErrorEventHandler DownloadError;
+        public event EventHandler<DownloadStartedEventArgs> DownloadStarted;
 
         /// <summary>
         /// Notifies that download is complete.
         /// </summary>
-        public event DownloadCompletedEventHandler DownloadCompleted;
+        public event EventHandler<DownloadItemEventArgs> DownloadCompleted;
 
         #endregion
 
@@ -148,16 +123,15 @@ namespace NewsComponents
         /// <summary>
         /// Initializes a new instance of the <see cref="BackgroundDownloadManager"/> class.
         /// </summary>
-        /// <param name="configuration">The configuration. Used: ApplicationID and UserLocalApplicationDataPath</param>
         /// <param name="downloadInfoProvider">The IDownloadInfoProvider instance. It is used to 
         /// request the download informations like proxy or credentials at the time the real
         /// download is queued.</param>
-        public BackgroundDownloadManager(INewsComponentsConfiguration configuration, FeedSource downloadInfoProvider)
+        public BackgroundDownloadManager(FeedSource downloadInfoProvider)
         {
-            applicationId = configuration.ApplicationID;
+            applicationId = FeedSource.DefaultConfiguration.ApplicationID;
             this.downloadInfoProvider = downloadInfoProvider;
 
-            DownloadRegistryManager.Current.SetBaseFolder(configuration.UserLocalApplicationDataPath);
+            DownloadRegistryManager.Current.SetBaseFolder(FeedSource.DefaultConfiguration.UserLocalApplicationDataPath);
         }
 
         /// <summary>
@@ -193,7 +167,7 @@ namespace NewsComponents
         /// <summary>
         /// Used for logging information about download progress.
         /// </summary>
-        private static readonly ILog _log = Log.GetLogger(typeof(BackgroundDownloadManager));
+        private static readonly ILog _log = Log.GetLogger(typeof (BackgroundDownloadManager));
 
 
         /// <summary>
@@ -201,10 +175,7 @@ namespace NewsComponents
         /// </summary>
         public static AsyncWebRequest AsyncWebRequest
         {
-            get
-            {
-                return asyncWebRequest;
-            }
+            get { return asyncWebRequest; }
         }
 
         /// <summary>
@@ -228,16 +199,17 @@ namespace NewsComponents
         /// <param name="proxy">The proxy server to send requests through</param>
         /// <remarks>Relevant HTTP Headers are: Content-Length, Content-Type and Content-Diposition</remarks>
         /// <returns>A hashtable containing entries for the Content-Length, Content-Type and Content-Diposition headers.</returns>
-        public static IDictionary<string, string> GetRelevantHttpHeaders(DownloadFile file, ICredentials credentials, IWebProxy proxy)
+        public static IDictionary<string, string> GetRelevantHttpHeaders(DownloadFile file, ICredentials credentials,
+                                                                         IWebProxy proxy)
         {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
+            var headers = new Dictionary<string, string>();
 
             if (file == null || StringHelper.EmptyTrimOrNull(file.Source))
                 return headers;
 
             if (file.Source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(file.Source);
+                var request = (HttpWebRequest) WebRequest.Create(file.Source);
                 if (credentials != null)
                     request.Credentials = credentials;
                 request.AllowAutoRedirect = true;
@@ -331,18 +303,18 @@ namespace NewsComponents
         /// is available</returns>
         private static long GetFileSize(DownloadTask task)
         {
-        	if (task.DownloadItem.File.FileSize > 0)
+            if (task.DownloadItem.File.FileSize > 0)
             {
                 return task.DownloadItem.File.FileSize;
             }
-        	if (task.DownloadItem.Enclosure.Length > 0)
-        	{
-        		return task.DownloadItem.Enclosure.Length;
-        	}
-        	return -1;
+            if (task.DownloadItem.Enclosure.Length > 0)
+            {
+                return task.DownloadItem.Enclosure.Length;
+            }
+            return -1;
         }
 
-    	/// <summary>
+        /// <summary>
         /// Updates the information about the download task based on performing an HTTP HEAD 
         /// request on the file to download. 
         /// </summary>
@@ -359,8 +331,9 @@ namespace NewsComponents
 			 */
             try
             {
-                IDictionary<string, string> headers = GetRelevantHttpHeaders(task.DownloadItem.File, task.DownloadItem.Credentials,
-                                                           task.DownloadItem.Proxy);
+                IDictionary<string, string> headers = GetRelevantHttpHeaders(task.DownloadItem.File,
+                                                                             task.DownloadItem.Credentials,
+                                                                             task.DownloadItem.Proxy);
 
                 contentLength = long.Parse(headers["Content-Length"], CultureInfo.InvariantCulture);
                 if (contentLength > 0)
@@ -375,9 +348,9 @@ namespace NewsComponents
 
                 if (!string.IsNullOrEmpty(headers["Content-Disposition"]))
                 {
-                    string[] components = headers["Content-Disposition"].Split(new char[] {';'});
+                    string[] components = headers["Content-Disposition"].Split(new[] {';'});
 
-                    foreach (string s in components)
+                    foreach (var s in components)
                     {
                         string str = s.Trim();
 
@@ -390,7 +363,6 @@ namespace NewsComponents
             }
             catch
             {
-                ;
             }
 
             return (contentLength > 0);
@@ -471,14 +443,14 @@ namespace NewsComponents
             IDownloader downloader = GetDownloader(task);
 
 
-			if (FeedSource.EnclosureCacheSize != FeedSource.DefaultEnclosureCacheSize)
+            if (FeedSource.EnclosureCacheSize != FeedSource.DefaultEnclosureCacheSize)
             {
                 //BUGBUG: If we don't know the file size then we don't error because we treat it is -1 to 
                 //err on the side of allowing instead of disallowing. 
-				long limitInBytes = FeedSource.EnclosureCacheSize * 1024 * 1024;
+                long limitInBytes = FeedSource.EnclosureCacheSize*1024*1024;
                 long filesize = GetFileSize(task);
 
-                DirectoryInfo targetDir = new DirectoryInfo(FeedSource.EnclosureFolder);
+                var targetDir = new DirectoryInfo(FeedSource.EnclosureFolder);
                 long spaceUsed = FileHelper.GetSize(targetDir);
 
 				if (!String.Equals(FeedSource.EnclosureFolder, FeedSource.PodcastFolder, StringComparison.OrdinalIgnoreCase))
@@ -492,8 +464,9 @@ namespace NewsComponents
                     DownloadRegistryManager.Current.UnRegisterTask(task);
 
                     string fileName = task.DownloadItem.File.LocalName;
-					int limit = FeedSource.EnclosureCacheSize;
-                    throw new DownloaderException(String.Format(ComponentsText.ExceptionEnclosureCacheLimitReached, fileName, limit));
+                    int limit = FeedSource.EnclosureCacheSize;
+                    throw new DownloaderException(String.Format(ComponentsText.ExceptionEnclosureCacheLimitReached,
+                                                                fileName, limit));
                 }
             }
 
@@ -544,7 +517,7 @@ namespace NewsComponents
         {
             // If there are pending tasks for this application, resume them
             // accordingly to their state
-            foreach (DownloadTask task in DownloadRegistryManager.Current.GetTasks())
+            foreach (var task in DownloadRegistryManager.Current.GetTasks())
             {
                 switch (task.State)
                 {
@@ -555,7 +528,7 @@ namespace NewsComponents
                         break;
                     case DownloadTaskState.Downloaded:
                         // Unregister the task if we somehow missed it on previous run
-                        DownloadRegistryManager.Current.UnRegisterTask(task);
+                      //  DownloadRegistryManager.Current.UnRegisterTask(task);
                         break;
                 }
             }
@@ -569,10 +542,13 @@ namespace NewsComponents
         public void CancelPendingDownloads(string ownerId)
         {
             DownloadTask[] pendingTasks = DownloadRegistryManager.Current.GetByOwnerId(ownerId);
-            foreach (DownloadTask task in pendingTasks)
+            foreach (var task in pendingTasks)
             {
+                if (task.State == DownloadTaskState.Cancelled)
+                    continue;
+
                 GetDownloader(task).CancelDownload(task);
-                DownloadRegistryManager.Current.UnRegisterTask(task);
+                //DownloadRegistryManager.Current.UnRegisterTask(task);
             }
         }
 
@@ -583,10 +559,13 @@ namespace NewsComponents
         public void CancelPendingDownloads()
         {
             DownloadTask[] pendingTasks = DownloadRegistryManager.Current.GetTasks();
-            foreach (DownloadTask task in pendingTasks)
+            foreach (var task in pendingTasks)
             {
+                if (task.State == DownloadTaskState.Cancelled)
+                    continue;
+
                 GetDownloader(task).CancelDownload(task);
-                DownloadRegistryManager.Current.UnRegisterTask(task);
+                //DownloadRegistryManager.Current.UnRegisterTask(task);
             }
         }
 
@@ -598,7 +577,7 @@ namespace NewsComponents
         /// <param name="maxWaitTime">The maximum amount of time for download to complete before timeout.</param>
         public void Download(DownloadItem[] items, TimeSpan maxWaitTime)
         {
-            foreach (DownloadItem item in items)
+            foreach (var item in items)
             {
                 Download(item, maxWaitTime);
             }
@@ -612,12 +591,12 @@ namespace NewsComponents
         /// <param name="maxWaitTime">The maximum amount of time for download to complete before timeout.</param>
         public void Download(DownloadItem item, TimeSpan maxWaitTime)
         {
-            DownloadTask task = new DownloadTask(item, this);
+            var task = new DownloadTask(item, this);
 
             if (DownloadRegistryManager.Current.TaskAlreadyExists(task))
             {
                 DownloadRegistryManager.Current.RegisterTask(task);
-                task[AsyncTaskKey] = false;
+
                 SubmitTask(task, maxWaitTime);
             }
         }
@@ -629,7 +608,7 @@ namespace NewsComponents
         /// <param name="items">The list of DownloadItems to process.</param>
         public void BeginDownload(DownloadItem[] items)
         {
-            foreach (DownloadItem item in items)
+            foreach (var item in items)
             {
                 BeginDownload(item);
             }
@@ -642,13 +621,14 @@ namespace NewsComponents
         /// <param name="item">The DownloadItem to process.</param>
         public void BeginDownload(DownloadItem item)
         {
-            DownloadTask task = new DownloadTask(item, this);
-            _log.InfoFormat("Starting to download enclosure '{0}' from item '{1}' in feed '{2}' to {3}", item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId, item.TargetFolder);
+            var task = new DownloadTask(item, this);
+            _log.InfoFormat("Starting to download enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
+                            item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId, item.TargetFolder);
 
             if (!DownloadRegistryManager.Current.TaskAlreadyExists(task))
             {
                 DownloadRegistryManager.Current.RegisterTask(task);
-                task[AsyncTaskKey] = true;
+
                 SubmitTaskAsync(task);
             }
         }
@@ -663,7 +643,8 @@ namespace NewsComponents
         public void CancelDownload(DownloadItem item)
         {
             DownloadTask task = DownloadRegistryManager.Current.GetByItemID(item.ItemId);
-            _log.InfoFormat("Cancelling download of enclosure '{0}' from item '{1}' in feed '{2}'", item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId);
+            _log.InfoFormat("Cancelling download of enclosure '{0}' from item '{1}' in feed '{2}'", item.Enclosure.Url,
+                            item.OwnerItemId, item.OwnerFeedId);
 
 
             if (task != null)
@@ -672,27 +653,26 @@ namespace NewsComponents
                 {
                     case DownloadTaskState.None:
                         {
-                            DownloadRegistryManager.Current.UnRegisterTask(task);
+                         //   DownloadRegistryManager.Current.UnRegisterTask(task);
                             break;
                         }
                     case DownloadTaskState.DownloadError:
                     case DownloadTaskState.Downloading:
                         {
                             EndTask(task);
-                            DownloadRegistryManager.Current.UnRegisterTask(task);
+                          //  DownloadRegistryManager.Current.UnRegisterTask(task);
                             break;
                         }
                     case DownloadTaskState.Downloaded:
                         {
-                            DownloadRegistryManager.Current.UnRegisterTask(task);
+                         //  DownloadRegistryManager.Current.UnRegisterTask(task);
                             break;
                         }
                 }
 
-                lock (task.SyncRoot)
-                {
-                    task.State = DownloadTaskState.Cancelled;
-                }
+
+                task.State = DownloadTaskState.Cancelled;
+                DownloadRegistryManager.Current.UpdateTask(task);
             }
         }
 
@@ -710,7 +690,9 @@ namespace NewsComponents
             string fileLocation = Path.Combine(e.Task.DownloadFilesBase, e.Task.DownloadItem.File.LocalName);
             string finalLocation = Path.Combine(e.Task.DownloadItem.TargetFolder, e.Task.DownloadItem.File.LocalName);
 
-            _log.InfoFormat("Finished downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}", e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId, e.Task.DownloadItem.OwnerFeedId, finalLocation);
+            _log.InfoFormat("Finished downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
+                            e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId,
+                            e.Task.DownloadItem.OwnerFeedId, finalLocation);
 
 
             /*
@@ -718,8 +700,10 @@ namespace NewsComponents
 				DownloadRegistryManager.Current.UpdateTask(e.Task); 
 			 */
 
-            //TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
-            DownloadRegistryManager.Current.UnRegisterTask(e.Task);
+            e.Task.State = DownloadTaskState.Downloaded;
+            DownloadRegistryManager.Current.UpdateTask(e.Task);
+            ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
+            //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
 
             try
             {
@@ -727,7 +711,7 @@ namespace NewsComponents
 				 * Add Zone.Identifier to File to indicate that the file was downloaded from the Web
 				 * See http://geekswithblogs.net/ssimakov/archive/2004/08/17/9805.aspx for more details
 				 */
-                FileStreams FS = new FileStreams(fileLocation);
+                var FS = new FileStreams(fileLocation);
 
                 //Remove Zone.Identifier if it already exists since we can't trust it
                 //Not sure if this can happen. 
@@ -739,7 +723,7 @@ namespace NewsComponents
 
                 FS.Add("Zone.Identifier");
                 FileStream fs = FS["Zone.Identifier"].Open(FileMode.OpenOrCreate, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(fs);
+                var writer = new StreamWriter(fs);
                 writer.WriteLine("[ZoneTransfer]");
                 writer.WriteLine("ZoneId=3");
                 writer.Close();
@@ -759,8 +743,8 @@ namespace NewsComponents
                     DownloadCompleted(this, new DownloadItemEventArgs(e.Task.DownloadItem));
                 }
 
-				IDownloader downloader = sender as IDownloader;
-				if (downloader != null)
+                var downloader = sender as IDownloader;
+                if (downloader != null)
                 {
                     Release(downloader);
                 }
@@ -783,16 +767,17 @@ namespace NewsComponents
 				e.Task.State = DownloadTaskState.DownloadError;					
 				DownloadRegistryManager.Current.UpdateTask( e.Task );
 			*/
-            _log.InfoFormat("Error downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}", e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId, e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
+            _log.InfoFormat("Error downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
+                            e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId,
+                            e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
 
-            //TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
-            DownloadRegistryManager.Current.UnRegisterTask(e.Task);
+            ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 
+            e.Task.State = DownloadTaskState.DownloadError;
+            //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
 
-            if (DownloadError != null)
-            {
-                DownloadError(this, new DownloadItemErrorEventArgs(e.Task.DownloadItem, e.Exception));
-            }
-            IDownloader downloader = (IDownloader) sender;
+            DownloadRegistryManager.Current.UpdateTask(e.Task);
+
+            var downloader = (IDownloader) sender;
             Release(downloader);
         }
 
@@ -801,22 +786,12 @@ namespace NewsComponents
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The download progress task information.</param>
-        private void OnDownloadProgress(object sender, DownloadTaskProgressEventArgs e)
+        private static void OnDownloadProgress(object sender, DownloadTaskProgressEventArgs e)
         {
-            if (DownloadProgress != null)
-            {
-                DownloadProgressEventArgs eventArgs = new DownloadProgressEventArgs(
-                    e.BytesTotal,
-                    e.BytesTransferred,
-                    e.FilesTotal,
-                    e.FilesTransferred,
-                    e.Task.DownloadItem);
-                DownloadProgress(this, eventArgs);
-                if (eventArgs.Cancel)
-                {
-                    CancelDownload(e.Task.DownloadItem);
-                }
-            }
+            e.Task.FileSize = e.BytesTotal;
+            e.Task.TransferredSize = e.BytesTransferred;
+
+            DownloadRegistryManager.Current.UpdateTask(e.Task);
         }
 
         /// <summary>
@@ -831,7 +806,7 @@ namespace NewsComponents
 
             if (DownloadStarted != null)
             {
-                DownloadStartedEventArgs eventArgs = new DownloadStartedEventArgs(e.Task.DownloadItem);
+                var eventArgs = new DownloadStartedEventArgs(e.Task.DownloadItem);
                 DownloadStarted(this, eventArgs);
                 if (eventArgs.Cancel)
                 {
@@ -854,7 +829,7 @@ namespace NewsComponents
             downloader.DownloadCompleted -= OnDownloadCompleted;
             downloader.DownloadError -= OnDownloadError;
 
-            IDisposable disposable = downloader as IDisposable;
+            var disposable = downloader as IDisposable;
             if (disposable != null)
             {
                 disposable.Dispose();
@@ -896,22 +871,22 @@ namespace NewsComponents
         /// <summary>
         /// Notifies about the download progress for the update.
         /// </summary>
-        event DownloadTaskProgressEventHandler DownloadProgress;
+        event EventHandler<DownloadTaskProgressEventArgs> DownloadProgress;
 
         /// <summary>
         /// Notifies that the downloading for an DownloadTask has started.
         /// </summary>
-        event DownloadTaskStartedEventHandler DownloadStarted;
+        event EventHandler<TaskEventArgs> DownloadStarted;
 
         /// <summary>
         /// Notifies that the downloading for an DownloadTask has finished.
         /// </summary>
-        event DownloadTaskCompletedEventHandler DownloadCompleted;
+        event EventHandler<TaskEventArgs> DownloadCompleted;
 
         /// <summary>
         /// Notifies that an error ocurred while downloading the files for an DownloadTask.
         /// </summary>
-        event DownloadTaskErrorEventHandler DownloadError;
+        event EventHandler<DownloadTaskErrorEventArgs> DownloadError;
     }
 
     #endregion
@@ -953,7 +928,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         protected DownloaderException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }

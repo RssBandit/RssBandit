@@ -9,7 +9,7 @@
 
 using System;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	/// <summary>
 	/// Positions of the ThreadedListView background image

@@ -12,7 +12,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Globalization;
 
-namespace System.Windows.Forms.ThListView.Sorting
+namespace RssBandit.WinGui.Controls.ThListView.Sorting
 {
 	/// <summary>
 	/// Provides simple text sorting (case sensitive)

@@ -11,7 +11,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	internal class ThreadedListViewItemCollectionEditor : System.ComponentModel.Design.CollectionEditor { 
 

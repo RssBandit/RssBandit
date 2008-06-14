@@ -218,7 +218,7 @@ namespace NewsComponents.Feed
  
             if (String.IsNullOrEmpty(EnclosureFolder))
             {
-                this.enclosureDownloader = new BackgroundDownloadManager(this.Configuration, this);
+                this.enclosureDownloader = new BackgroundDownloadManager(this);
                 this.enclosureDownloader.DownloadCompleted += this.OnEnclosureDownloadComplete;
             }
 

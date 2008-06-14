@@ -10,7 +10,7 @@
 using System;
 using System.ComponentModel; 
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	/// <summary>
 	/// Summary description for ThreadedListViewGroup.

@@ -55,7 +55,7 @@ namespace NewsComponents.Feed
 
             if (!String.IsNullOrEmpty(EnclosureFolder))
             {
-                enclosureDownloader = new BackgroundDownloadManager(Configuration, this);
+                enclosureDownloader = new BackgroundDownloadManager(this);
                 enclosureDownloader.DownloadCompleted += OnEnclosureDownloadComplete;
             }
 

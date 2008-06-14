@@ -2489,4 +2489,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   <data name="ExceptionNoUserName" xml:space="preserve">
     <value>Please provide a valid username</value>
   </data>
+  <data name="MenuDownloadManager" xml:space="preserve">
+    <value>Download Manager...</value>
+  </data>
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
+    <value>Launches the download manager</value>
+  </data>
 </root>

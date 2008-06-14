@@ -19,14 +19,14 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-using System.Windows.Forms.ThListView.Sorting;
+using System.Windows.Forms;
+using RssBandit.WinGui.Controls.ThListView.Sorting;
 using NewsComponents.Feed;
 using RssBandit;
 using RssBandit.Resources;
-using THLV = System.Windows.Forms.ThListView;
 using System.Collections.Generic;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
     /// <summary>
     /// ThreadedListView, an extended listview control.

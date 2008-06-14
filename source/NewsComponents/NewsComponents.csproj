@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30428</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -148,6 +148,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\Log.cs">
@@ -173,6 +176,8 @@
     <Compile Include="Core\BackgroundDownloadManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\BindableObject.cs" />
+    <Compile Include="Core\Enclosure.cs" />
     <Compile Include="Core\FeedSourceManager.cs" />
     <Compile Include="Core\INewsComponentsConfiguration.cs">
       <SubType>Code</SubType>
