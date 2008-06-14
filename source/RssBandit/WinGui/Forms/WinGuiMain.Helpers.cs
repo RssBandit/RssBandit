@@ -2232,10 +2232,11 @@ namespace RssBandit.WinGui.Forms
                 TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(categoryFeedsNode);
                 RefreshFeedDisplay(TreeSelectedFeedsNode, true);
             }
-           
-            WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode);
+                       
             string catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);
             FeedSourceEntry entry = FeedSourceOf(categoryFeedsNode);
+            WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode, entry);
+
             if (entry != null)
             {
                 entry.Source.DeleteCategory(catName);
@@ -2370,6 +2371,8 @@ namespace RssBandit.WinGui.Forms
         {
             if (startNode == null) return;
 
+            FeedSourceEntry entry = FeedSourceOf(startNode);             
+
             if (startNode.Type == FeedNodeType.Category)
             {
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
@@ -2381,14 +2384,14 @@ namespace RssBandit.WinGui.Forms
                         // rely on unread cached items:
                         UnreadItemsNodeRemoveItems(child.DataKey);
                         // and now mark cached items read:
-                        owner.FeedHandler.MarkAllCachedItemsAsRead(child.DataKey);
+                        entry.Source.MarkAllCachedItemsAsRead(child.DataKey);
                         UpdateTreeNodeUnreadStatus(child, 0);
                     }
                 }
             }
             else
             {
-                owner.FeedHandler.MarkAllCachedItemsAsRead(startNode.DataKey);
+                entry.Source.MarkAllCachedItemsAsRead(startNode.DataKey);
             }
         }
 
@@ -2397,16 +2400,17 @@ namespace RssBandit.WinGui.Forms
         /// Then delete all child categories and FeedNode refs in owner.FeedHandler.
         /// </summary>
         /// <param name="startNode">new full category name (long name, with all the '\').</param>
-        private void WalkdownThenDeleteFeedsOrCategories(TreeFeedsNodeBase startNode)
+        /// <param name="entry">The feed source the node belongs to</param>
+        private void WalkdownThenDeleteFeedsOrCategories(TreeFeedsNodeBase startNode, FeedSourceEntry entry)
         {
-            if (startNode == null) return;
+            if (startNode == null || entry == null) return;
 
             if (startNode.Type == FeedNodeType.Feed)
             {
-                if (owner.FeedHandler.IsSubscribed(startNode.DataKey))
+                if (entry.Source.IsSubscribed(startNode.DataKey))
                 {
 					// TODO: make it more efficient (we should not get feedsource in each recursion call level)
-					INewsFeed f = owner.GetFeed(FeedSourceOf(startNode), startNode.DataKey);
+					INewsFeed f = owner.GetFeed(entry, startNode.DataKey);
                     if (f != null)
                     {
                         UnreadItemsNodeRemoveItems(f);
@@ -2420,7 +2424,7 @@ namespace RssBandit.WinGui.Forms
 
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
                 {
-                    WalkdownThenDeleteFeedsOrCategories(child);
+                    WalkdownThenDeleteFeedsOrCategories(child, entry);
                 }
             }
         }
