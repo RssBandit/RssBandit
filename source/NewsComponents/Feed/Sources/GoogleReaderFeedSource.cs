@@ -459,7 +459,6 @@ namespace NewsComponents.Feed
         /// Returns the Google Reader URL from which to download the Atom feed for the GoogleReaderNewsFeed object. 
         /// </summary>
         /// <param name="feed">The target feed</param>
-       
         /// <returns></returns>
         private static string CreateDownloadUrl(GoogleReaderNewsFeed feed)
         {

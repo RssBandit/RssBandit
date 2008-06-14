@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace RssBandit.Common
 {
@@ -22,13 +21,12 @@ namespace RssBandit.Common
         public int Compare(string x, string y){
             if( x == null || y == null) return -1; 
             
-            Uri a = null, b = null; 
+            Uri a, b; 
             Uri.TryCreate(x,UriKind.Absolute, out a);
-            Uri.TryCreate(y, UriKind.Absolute, out b); 
-            if( a != null && b != null)
-                return a.CanonicalizedUri().CompareTo(b.CanonicalizedUri());
-            else 
-                return x.CompareTo(y); 
+            Uri.TryCreate(y, UriKind.Absolute, out b);
+        	return a != null && b != null
+        	       	? a.CanonicalizedUri().CompareTo(b.CanonicalizedUri())
+        	       	: x.CompareTo(y);
         }
     }
 
@@ -70,9 +68,9 @@ namespace RssBandit.Common
             UriBuilder builder = new UriBuilder(uri);
             if (replaceWWW)
             {
-                builder.Host = (builder.Host.ToLower().StartsWith("www.") ? builder.Host.Substring(4) : builder.Host);
+                builder.Host = (builder.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? builder.Host.Substring(4) : builder.Host);
             }
-            builder.Path = (builder.Path.EndsWith("/") ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);
+			builder.Path = (builder.Path.EndsWith("/", StringComparison.Ordinal) ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);
 
             string strUri = builder.ToString();
 
@@ -80,7 +78,7 @@ namespace RssBandit.Common
                 strUri = strUri.Replace(":" + builder.Port + "/", "/");
 
             if (builder.Scheme == "https" && builder.Port == 443)
-                strUri = strUri.ToString().Replace(":" + builder.Port + "/", "/");
+                strUri = strUri.Replace(":" + builder.Port + "/", "/");
 
             return strUri;
         }

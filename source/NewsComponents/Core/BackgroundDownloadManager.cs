@@ -235,7 +235,7 @@ namespace NewsComponents
             if (file == null || StringHelper.EmptyTrimOrNull(file.Source))
                 return headers;
 
-            if (file.Source.StartsWith("http"))
+            if (file.Source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
                 HttpWebRequest request = (HttpWebRequest) WebRequest.Create(file.Source);
                 if (credentials != null)
@@ -381,7 +381,7 @@ namespace NewsComponents
                     {
                         string str = s.Trim();
 
-                        if (str.StartsWith("filename=") && str.Length > 9)
+                        if (str.StartsWith("filename=", StringComparison.OrdinalIgnoreCase) && str.Length > 9)
                         {
                             task.DownloadItem.File.LocalName = str.Substring(9);
                         }
@@ -759,9 +759,9 @@ namespace NewsComponents
                     DownloadCompleted(this, new DownloadItemEventArgs(e.Task.DownloadItem));
                 }
 
-                if (sender is IDownloader)
+				IDownloader downloader = sender as IDownloader;
+				if (downloader != null)
                 {
-                    IDownloader downloader = (IDownloader) sender;
                     Release(downloader);
                 }
             }

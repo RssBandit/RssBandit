@@ -1239,7 +1239,7 @@ namespace RssBandit.WinGui.Forms
 					return false;
 				}
 
-				Hashtable feedUrls = autoDiscover.DiscoveredFeeds;
+				Dictionary<string,string[]> feedUrls = autoDiscover.DiscoveredFeeds;
                     
 				if(feedUrls.Count == 0) {
 					SetWizardTaskInfo(taskIndex, WizardValidationTask.Failed, SR.GUIStatusInfoMessageNoFeedsFound);
@@ -1329,7 +1329,7 @@ namespace RssBandit.WinGui.Forms
 			ListViewItem lv;
 			this.listFeeds.Items.Clear();
 
-			foreach(object feedUrl in rssFeeds.Keys) {
+			foreach(string feedUrl in rssFeeds.Keys) {
 				object feedinfo = rssFeeds[feedUrl];
 				Type t = feedinfo.GetType();
 				if (t.IsArray) {

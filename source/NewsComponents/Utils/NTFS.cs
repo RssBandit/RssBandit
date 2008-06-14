@@ -14,7 +14,7 @@ namespace NewsComponents.Utils
     /// <summary>
     /// Wraps the API functions, structures and constants.
     /// </summary>
-    internal class Kernel32
+    internal static class Kernel32
     {
         public const char STREAM_SEP = ':';
         public const int INVALID_HANDLE_VALUE = -1;
@@ -76,11 +76,11 @@ namespace NewsComponents.Utils
             public int dwStreamNameSize;
         }
 
-        [DllImport("kernel32")]
-        public static extern SafeFileHandle CreateFile(string Name, FileAccessAPI Access, FileShare Share, int Security,
-                                               FileMode Creation, FileFlags Flags, int Template);
+		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern SafeFileHandle CreateFile(string Name, [MarshalAs(UnmanagedType.U4)] FileAccessAPI Access, [MarshalAs(UnmanagedType.U4)] FileShare Share, IntPtr securityAttributes,
+											   [MarshalAs(UnmanagedType.U4)] FileMode Creation, [MarshalAs(UnmanagedType.U4)] FileFlags Flags, IntPtr template);
 
-        [DllImport("kernel32")]
+		[DllImport("kernel32", CharSet = CharSet.Unicode)]
         public static extern bool DeleteFile(string Name);
 
 
@@ -135,23 +135,39 @@ namespace NewsComponents.Utils
             }
         }
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
         public override string ToString()
         {
             return String.Format("{1}{0}{2}{0}$DATA", Kernel32.STREAM_SEP, _parent.FileName, _name);
         }
 
+		/// <summary>
+		/// Equalses the specified o.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <returns></returns>
         public override bool Equals(Object o)
-        {
-            if (o is string)
+		{
+			if (o is string)
             {
                 return ((string)o).Equals(ToString());
             }
 
-            else
-                return Equals(o as StreamInfo);
-        }
+			return Equals(o as StreamInfo);
+		}
 
-        public override int GetHashCode()
+		/// <summary>
+		/// Serves as a hash function for a particular type.
+		/// </summary>
+		/// <returns>
+		/// A hash code for the current <see cref="T:System.Object"/>.
+		/// </returns>
+    	public override int GetHashCode()
         {
             return ToString().GetHashCode();
         }
@@ -199,7 +215,7 @@ namespace NewsComponents.Utils
         {
             try
             {
-                SafeFileHandle hFile = Kernel32.CreateFile(ToString(), Kernel32.Access2API(Access), Share, 0, Mode, 0, 0);
+				SafeFileHandle hFile = Kernel32.CreateFile(ToString(), Kernel32.Access2API(Access), Share, IntPtr.Zero, Mode, 0, IntPtr.Zero);
                 return new FileStream(hFile, Access);
             }
             catch
@@ -225,6 +241,13 @@ namespace NewsComponents.Utils
 
         #region IEquatable<StreamInfo> Members
 
+		/// <summary>
+		/// Indicates whether the current object is equal to another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// </returns>
         public bool Equals(StreamInfo other)
         {
             if(ReferenceEquals(other, null))
@@ -250,12 +273,20 @@ namespace NewsComponents.Utils
 
         #region Constructors
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FileStreams"/> class.
+		/// </summary>
+		/// <param name="File">The file.</param>
         public FileStreams(string File)
         {
             _file = new FileInfo(File);
             initStreams();
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FileStreams"/> class.
+		/// </summary>
+		/// <param name="file">The file.</param>
         public FileStreams(FileInfo file)
         {
             _file = file;
@@ -269,8 +300,8 @@ namespace NewsComponents.Utils
         {
             //Open the file with backup semantics
             using (SafeFileHandle hFile =
-                Kernel32.CreateFile(_file.FullName, Kernel32.FileAccessAPI.GENERIC_READ, FileShare.Read, 0,
-                                    FileMode.Open, Kernel32.FileFlags.BackupSemantics, 0))
+                Kernel32.CreateFile(_file.FullName, Kernel32.FileAccessAPI.GENERIC_READ, FileShare.Read, IntPtr.Zero,
+									FileMode.Open, Kernel32.FileFlags.BackupSemantics, IntPtr.Zero))
             {
                 if (hFile.IsInvalid) return;
 
@@ -482,14 +513,17 @@ namespace NewsComponents.Utils
         }
 
 
+		/// <summary>
+		/// Gets the <see cref="NewsComponents.Utils.StreamInfo"/> with the specified name.
+		/// </summary>
+		/// <value></value>
         public StreamInfo this[string Name]
         {
             get
             {
                 int i = IndexOf(Name);
                 if (i == -1) return null;
-                else 
-                    return Items[i];
+            	return Items[i];
             }
         }
 

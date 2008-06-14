@@ -41,6 +41,7 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.ThListView;
 using System.Xml;
@@ -4519,7 +4520,7 @@ namespace RssBandit
             if (url.IsLoopback)
             {
                 bool captured = false;
-                ArrayList feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
+				List<string> feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
 
                 foreach (string feedurl in feedurls)
                 {

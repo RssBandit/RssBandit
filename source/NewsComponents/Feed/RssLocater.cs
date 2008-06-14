@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml; 
@@ -134,7 +135,9 @@ namespace NewsComponents.Feed {
 		/// Examines the provided webUrl for wellknown local listeners
 		/// </summary>
 		/// <param name="webUrl">Url string to examine</param>
-		/// <returns>ArrayList with the found Urls (strings), or an empty ArrayList</returns>
+		/// <returns>
+		/// ArrayList with the found Urls (strings), or an empty ArrayList
+		/// </returns>
 		/// <remarks>
 		/// Examine the link:
 		/// we try to find out if someone provides a link to import
@@ -145,23 +148,18 @@ namespace NewsComponents.Feed {
 		/// These links are of the form (Userland):
 		/// <code>http://127.0.0.1:5335/system/pages/subscriptions?url=&lt;FEED_URL&gt;</code>
 		/// or (Amphetadesk, see also <a href="http://www.disobey.com/amphetadesk/website_integration.html">Website integration</a>):
-		/// <code> 
-		/// http://127.0.0.1:8888/index.html?add_url=&lt;FEED_URL>
-		/// http://127.0.0.1:8888/index.html?add_urls=&lt;FEED_URL1>,&lt;FEED_URL2>,...
-		/// http://127.0.0.1:8888/index.html?add_url=&lt;OPML_URL>
+		/// <code>
+		/// http://127.0.0.1:8888/index.html?add_url=&lt;FEED_URL&gt;
+		/// http://127.0.0.1:8888/index.html?add_urls=&lt;FEED_URL1&gt;,&lt;FEED_URL2&gt;,...
+		/// http://127.0.0.1:8888/index.html?add_url=&lt;OPML_URL&gt;
 		/// </code>
 		/// </remarks>
-		public static ArrayList UrlsFromWellknownListener(string webUrl) 
+		public static List<string> UrlsFromWellknownListener(string webUrl) 
 		{
-			Uri url = null;
-			ArrayList feedurls = new ArrayList();
-
-			try {
-				url = new Uri(webUrl);
-			} catch {
-				// catch invalid url formats
+			Uri url;
+			List<string> feedurls = new List<string>();
+			if (!Uri.TryCreate(webUrl, UriKind.Absolute, out url))
 				return feedurls;
-			}
 
 			// first look for localhost
 			if (url.IsLoopback) {
@@ -268,9 +266,9 @@ namespace NewsComponents.Feed {
 		/// <param name="content">Content.</param>
 		/// <param name="deepSearch">Deep search.</param>
 		/// <returns></returns>
-		public  ArrayList GetRssFeedsForUrlContent(string url, string content, bool deepSearch)
+		public List<string> GetRssFeedsForUrlContent(string url, string content, bool deepSearch)
 		{
-			ArrayList list = null;
+			List<string> list;
 		
 			if(!url.ToLower().StartsWith("http")){
 				url = "http://" + url; 
@@ -280,9 +278,9 @@ namespace NewsComponents.Feed {
 			return list; 
 		}
 
-		private ArrayList GetRssFeedsFromXml(string htmlContent, bool deepSearch, string url)
+		private List<string> GetRssFeedsFromXml(string htmlContent, bool deepSearch, string url)
 		{
-			ArrayList list = new ArrayList();
+			List<string> list = new List<string>();
 			list.AddRange(GetRssAutoDiscoveryLinks(htmlContent, url)); 
 	
 			if(list.Count == 0){ //no RSS autodiscovery links , examine "feed:" link or "localhost" listeners
@@ -327,9 +325,9 @@ namespace NewsComponents.Feed {
 		/// <remarks>
 		/// If the URL is not available or down, returns an empty ArrayList.
 		/// </remarks>
-		public ArrayList GetRssFeedsForUrl(string url, bool throwExceptions)
+		public List<string> GetRssFeedsForUrl(string url, bool throwExceptions)
 		{
-			ArrayList list = null;
+			List<string> list;
 		
 			if(!url.ToLower().StartsWith("http")){
 				url = "http://" + url; 
@@ -338,12 +336,12 @@ namespace NewsComponents.Feed {
 			try
 			{
 				if (LooksLikeRssFeed(url))
-					return new ArrayList(new string[]{url});
+					return new List<string>(new string[]{url});
 				list = GetRssFeedsFromXml(GetHtmlContent(url), false, url);
 			}
 			catch(WebException)
 			{
-				list = new ArrayList();
+				list = new List<string>();
 				if (throwExceptions)
 					throw;
 			}
@@ -367,16 +365,22 @@ namespace NewsComponents.Feed {
 		/// </summary>
 		/// <param name="url">URL.</param>
 		/// <returns></returns>
-		public  ArrayList GetRssAutoDiscoveryLinks(string url)
+		public List<string> GetRssAutoDiscoveryLinks(string url)
 		{
 			return GetRssAutoDiscoveryLinks(GetHtmlContent(url), url);
 		}
 
-		public ArrayList GetRssAutoDiscoveryLinks(string htmlContent, string baseUri)
+		/// <summary>
+		/// Gets the RSS auto discovery links.
+		/// </summary>
+		/// <param name="htmlContent">Content of the HTML.</param>
+		/// <param name="baseUri">The base URI.</param>
+		/// <returns></returns>
+		public List<string> GetRssAutoDiscoveryLinks(string htmlContent, string baseUri)
 		{
 			Regex autoDiscoverRegex = new Regex(autoDiscoverRegexPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-			
-			ArrayList list = new ArrayList();
+
+			List<string> list = new List<string>();
 	    
 			// Note that right now we only check that 
 			// type="application/rss+xml" and href="urlToRssFile"
@@ -402,9 +406,9 @@ namespace NewsComponents.Feed {
 			return list; 
 		}
 
-		private  ArrayList GetLinksFromWellknownLocalListenersOrProtocol(string htmlContent)
+		private List<string> GetLinksFromWellknownLocalListenersOrProtocol(string htmlContent)
 		{
-			ArrayList list = new ArrayList(); 
+			List<string> list = new List<string>(); 
 	    
 			//Matches any href with a value starting with feed: or feed://
 			Regex regexfeedProtocolHrefRegex = new Regex(hrefFeedProtocolPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -430,11 +434,11 @@ namespace NewsComponents.Feed {
 			return list; 
 		}
 
-		private  ArrayList GetLinksToInternalXmlFiles(string htmlContent, string baseUri, FeedUrlSearchType searchType)
+		private List<string> GetLinksToInternalXmlFiles(string htmlContent, string baseUri, FeedUrlSearchType searchType)
 		{
-			ArrayList list = new ArrayList(); 
+			List<string> list = new List<string>(); 
 
-			MatchCollection matches = null;
+			MatchCollection matches;
 
 			if(searchType == FeedUrlSearchType.Extension)
 			{
@@ -459,11 +463,11 @@ namespace NewsComponents.Feed {
 			return list; 
 		}
 
-		private  ArrayList GetLinksToExternalXmlFiles(string htmlContent, string baseUri, FeedUrlSearchType searchType)
+		private List<string> GetLinksToExternalXmlFiles(string htmlContent, string baseUri, FeedUrlSearchType searchType)
 		{
-			ArrayList list = new ArrayList(); 
+			List<string> list = new List<string>(); 
 
-			MatchCollection matches = null;
+			MatchCollection matches;
 			if(searchType == FeedUrlSearchType.Extension)
 			{
 				Regex feedExtensionLinkRegex = new Regex(hrefRegexFeedExtensionPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -587,18 +591,16 @@ namespace NewsComponents.Feed {
 
 		private string GetResponseString(HttpWebResponse response){
 
-			StringBuilder sb = new StringBuilder(); 
-			StringWriter writeStream = null; 
-			StreamReader readStream = null; 
-	    
-			writeStream = new StringWriter(sb); 
+			StringBuilder sb = new StringBuilder();
+
+			StringWriter writeStream = new StringWriter(sb); 
 	      
 			//Retrieve input stream from response and specify encoding 
 			Stream receiveStream     = response.GetResponseStream();
-			Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+			Encoding encode = Encoding.GetEncoding("utf-8");
 	    
 			// Pipe the stream to a higher level stream reader with the required encoding format. 
-			readStream = new StreamReader( receiveStream, encode );	      
+			StreamReader readStream = new StreamReader( receiveStream, encode );	      
 			Char[] read = new Char[256]; 	      						
 			int count = readStream.Read( read, 0, 256 );
 	    
@@ -617,9 +619,15 @@ namespace NewsComponents.Feed {
 
 
 
-		public  Hashtable GetFeedsFromSyndic8(string searchTerm, FeedLocationMethod locationMethod){
+		/// <summary>
+		/// Gets the feeds from syndic8.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="locationMethod">The location method.</param>
+		/// <returns></returns>
+		public Dictionary<string, string[]> GetFeedsFromSyndic8(string searchTerm, FeedLocationMethod locationMethod){
 
-			string rpc_method_name = null; 
+			string rpc_method_name; 
 		  
 			switch(locationMethod){
 				case FeedLocationMethod.AutoDiscoverUrl:
@@ -657,9 +665,9 @@ namespace NewsComponents.Feed {
 			requestArray.Append("</data></array>"); 
 
 			response = SendRequestToSyndic8("syndic8.GetFeedInfo", requestArray.ToString()); 
-			syndic8response   = GetResponseString(response); 
-			
-			Hashtable list =   new Hashtable(); 
+			syndic8response   = GetResponseString(response);
+
+			Dictionary<string, string[]> list = new Dictionary<string, string[]>(); 
 
 			try { 
 
@@ -680,12 +688,18 @@ namespace NewsComponents.Feed {
 			}
 
 			return list; 
-		}	 	 
+		}
 
 
-		public  ArrayList GetFeedsFromSyndic8(string url){
-			Hashtable ht = this.GetFeedsFromSyndic8(url, FeedLocationMethod.AutoDiscoverUrl);
-			return new ArrayList(ht.Keys); 
+		/// <summary>
+		/// Gets the feeds from syndic8.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+		public List<string> GetFeedsFromSyndic8(string url)
+		{
+			Dictionary<string, string[]> ht = this.GetFeedsFromSyndic8(url, FeedLocationMethod.AutoDiscoverUrl);
+			return new List<string>(ht.Keys); 
 		}
 
 		/// <summary>

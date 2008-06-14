@@ -652,6 +652,12 @@ namespace NewsComponents.Utils
 			}
 			return dictionary;
 		}
+		/// <summary>
+		/// Adds the value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="type">The type.</param>
 		public void AddValue(string name, object value,Type type) {
 			if (!keys.Contains(name)) {
 				keys.Add(name);
@@ -659,6 +665,11 @@ namespace NewsComponents.Utils
 			}
 		}
 
+		/// <summary>
+		/// Adds the value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="value">The value.</param>
 		public void AddValue(string name, object value) {
 			if (!keys.Contains(name)) {
 				keys.Add(name);
@@ -666,12 +677,25 @@ namespace NewsComponents.Utils
 			}
 		}
 
+		/// <summary>
+		/// Adds the value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="type">The type.</param>
+		/// <param name="defaultValue">The default value.</param>
 		public void AddValue(string name, object value, Type type, object defaultValue) {
 			if (value!=defaultValue) {
 				this.AddValue(name,value,type);
 			}
 		}
 
+		/// <summary>
+		/// Adds the value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="defaultValue">The default value.</param>
 		public void AddValue(string name, object value, object defaultValue) {
 			if (value!=defaultValue) {
 				this.AddValue(name,value);
