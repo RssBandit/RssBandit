@@ -1206,7 +1206,7 @@ namespace RssBandit.WinGui.Forms
 			group.Settings.AppearancesLarge.HeaderAppearance = large;
 
 			// add ordered, but before the default "search" group:
-			this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);
+			this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);            
 			view.ResumeLayout(false); 
 		}
 

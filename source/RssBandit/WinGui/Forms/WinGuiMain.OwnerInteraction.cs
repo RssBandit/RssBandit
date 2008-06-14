@@ -3174,9 +3174,11 @@ namespace RssBandit.WinGui.Forms
 
             NewsFeedProperty changes = NewsFeedProperty.None;
 
+            FeedSourceEntry entry = FeedSourceOf(theNode); 
+
             if (theNode.Type == FeedNodeType.Feed)
             {
-				INewsFeed f = owner.GetFeed(FeedSourceOf(theNode), theNode.DataKey);
+				INewsFeed f = owner.GetFeed(entry, theNode.DataKey);
                 if (f == null)
                     return;
 
@@ -3184,13 +3186,13 @@ namespace RssBandit.WinGui.Forms
                 {
                     string category = target.CategoryStoreName;
                     //owner.FeedlistModified = true;
-                    if (category != null && !owner.FeedHandler.HasCategory(category))
+                    if (category != null && !entry.Source.HasCategory(category))
                     {
-                        owner.FeedHandler.AddCategory(category);
+                        entry.Source.AddCategory(category);
                         changes |= NewsFeedProperty.FeedCategoryAdded;
                     }
 
-                    owner.FeedHandler.ChangeCategory(f, category);
+                    entry.Source.ChangeCategory(f, category);
                     changes |= NewsFeedProperty.FeedCategory;
                 }
 
@@ -3221,20 +3223,20 @@ namespace RssBandit.WinGui.Forms
                     INewsFeedCategory source = null, parent = null;
 
                     //get source category
-                    if (sourceCategory != null && owner.FeedHandler.HasCategory(sourceCategory))
+                    if (sourceCategory != null && entry.Source.HasCategory(sourceCategory))
                     {
-                        source = owner.FeedHandler.GetCategories()[sourceCategory];
+                        source = entry.Source.GetCategories()[sourceCategory];
                         changes |= NewsFeedProperty.FeedCategoryRemoved; //will be removed by ChangeCategory
                     }
 
                     // get target category if it isn't the rootNodes
-                    if (targetCategory != null && owner.FeedHandler.HasCategory(targetCategory))
+                    if (targetCategory != null && entry.Source.HasCategory(targetCategory))
                     {
-                        parent = owner.FeedHandler.GetCategories()[targetCategory];
+                        parent = entry.Source.GetCategories()[targetCategory];
                         changes |= NewsFeedProperty.FeedCategoryAdded; //will be added by ChangeCategory
                     }
 
-                    owner.FeedHandler.ChangeCategory(source, parent);
+                    entry.Source.ChangeCategory(source, parent);
                 }
 
                 treeFeeds.BeginUpdate();
@@ -3347,8 +3349,13 @@ namespace RssBandit.WinGui.Forms
 			else
 				feedUrl = feedUri.AbsoluteUri; */
 
+            FeedSourceEntry entry = FeedSourceOf(feedUrl);
+
+            if (entry == null) //we couldn't find it's feed source
+                return; 
+
             INewsFeed f = null;
-            if (owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
+            if (entry.Source.GetFeeds().TryGetValue(feedUrl, out f))
             {
                 feedsNode = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f);
             }
@@ -3372,10 +3379,15 @@ namespace RssBandit.WinGui.Forms
 
             string feedUrl = e.WebRequest.RequestUri.CanonicalizedUri();
 
+            FeedSourceEntry entry = FeedSourceOf(feedUrl);
+
+            if (entry == null) //we couldn't find it's feed source
+                return; 
+
             INewsFeed f = null;
             string issueCaption, issueDesc;
 
-            if (owner.FeedHandler.GetFeeds().TryGetValue(feedUrl, out f))
+            if (entry.Source.GetFeeds().TryGetValue(feedUrl, out f))
             {
                 issueCaption = String.Format(SR.CertificateIssueOnFeedCaption, f.title);
             }

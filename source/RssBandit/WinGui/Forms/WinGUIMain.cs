@@ -1347,7 +1347,7 @@ namespace RssBandit.WinGui.Forms
 			this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
 			this.Navigator.Location = new System.Drawing.Point(37, 5);
 			this.Navigator.Name = "Navigator";
-			this.Navigator.NavigationMaxGroupHeaders = 0;
+			this.Navigator.NavigationMaxGroupHeaders = 5;
 			this.helpProvider1.SetShowHelp(this.Navigator, false);
 			this.Navigator.Size = new System.Drawing.Size(230, 441);
 			this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
