@@ -775,16 +775,20 @@ namespace RssBandit
 
         #endregion
 
+
+        public FeedSourceEntry CurrentFeedSource
+        {
+            get
+            {
+                return guiMain.CurrentSelectedFeedSource;              
+            }
+        }
+
         public FeedSourceManager FeedSources
         {
             get { return sourceManager; }
         }
 
-
-        public FeedSourceManager SourceManager
-        {
-            get { return sourceManager; }
-        }
 
 		[Obsolete("Please call FeedSources property")]
         public FeedSource FeedHandler

@@ -753,6 +753,15 @@ namespace RssBandit.WinGui.Forms
             imng.ShowNewsServerSubscriptionsDialog(this);
         }
 
+
+        public FeedSourceEntry CurrentSelectedFeedSource
+        {
+            get
+            {
+                return owner.FeedSources.Sources.FirstOrDefault(entry => entry.ID.ToString() == Navigator.SelectedGroup.Key);               
+            }
+        }
+
         /// <summary>
         /// Gets or sets the current internal selected tree node (FeedTreeNodeBase).
         /// </summary>

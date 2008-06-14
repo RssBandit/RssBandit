@@ -62,8 +62,14 @@ namespace RssBandit.WinGui{
         protected override void Run() {
 
             try {
-                TopStories = new  List<RelationHRefEntry>(rssBanditApp.FeedHandler.GetTopStories(new TimeSpan(7, 0, 0, 0), 10));
-                this.GenerateTopStoriesPage();
+                FeedSourceEntry entry = rssBanditApp.CurrentFeedSource;
+
+                if (entry != null)
+                {
+                    int numDays = RssBanditApplication.ReadAppSettingsEntry("TopStoriesTimeSpanInDays", 7);
+                    TopStories = new List<RelationHRefEntry>(entry.Source.GetTopStories(new TimeSpan(numDays, 0, 0, 0), 10));
+                    this.GenerateTopStoriesPage(entry.Name);
+                }
             } catch (ThreadAbortException) {
                 // eat up
             } catch (Exception ex) {
@@ -78,7 +84,9 @@ namespace RssBandit.WinGui{
         /// <summary>
         /// Generates a the Top Stories HTML page 
         /// </summary>
-        private void GenerateTopStoriesPage() {
+        /// <param name="name">The name of the feed source that contains the subscriptions used to generate the 
+        /// Top Stories list.</param>
+        private void GenerateTopStoriesPage(string name) {
 
             XmlWriter writer = XmlWriter.Create(memeFile);
 
@@ -90,12 +98,12 @@ namespace RssBandit.WinGui{
 
             if (TopStories.Count == 0)
             {
-                writer.WriteString(SR.NoTopStoriesMessage);
+                writer.WriteString(String.Format(SR.NoTopStoriesMessage, name));
             }
             else
             {
                 writer.WriteElementString("h1", SR.TopStoriesHtmlPageTitle.Replace("{0}",String.Empty));
-                writer.WriteElementString("p", SR.TopStoriesDescription); 
+                writer.WriteElementString("p", String.Format(SR.TopStoriesDescription, name)); 
                 writer.WriteStartElement("ol");
 
                 for (int i = 0; i < TopStories.Count; i++)

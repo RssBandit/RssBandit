@@ -208,7 +208,7 @@ namespace RssBandit
 			this.processResult = uiDispatcher;
 			resultInfos = PriorityQueue.Synchronize(new PriorityQueue());
 
-            this.owner.SourceManager.ForEach(delegate(FeedSource f) { ConnectFeedSourceEvents(f); });
+            this.owner.FeedSources.ForEach(delegate(FeedSource f) { ConnectFeedSourceEvents(f); });
 									
 			//processResult = new System.Timers.Timer(250);
 			processResult.Tick += new EventHandler(OnProcessResultTick); //new System.Timers.ElapsedEventHandler(OnProcessResultElapsed);

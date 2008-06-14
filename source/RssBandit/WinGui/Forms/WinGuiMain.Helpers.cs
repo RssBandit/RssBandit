@@ -1793,7 +1793,7 @@ namespace RssBandit.WinGui.Forms
 
             unreadFeeds = unreadMessages = 0;
 
-            foreach (FeedSourceEntry entry in owner.SourceManager.Sources)
+            foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
             {
                 foreach (INewsFeed f in entry.Source.GetFeeds().Values)
                 {
