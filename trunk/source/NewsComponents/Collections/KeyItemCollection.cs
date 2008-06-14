@@ -112,6 +112,11 @@ namespace NewsComponents.Collections
 		}
 		#endregion
 
+		/// <summary>
+		/// Called if Collection was the changed.
+		/// </summary>
+		/// <param name="change">The change.</param>
+		/// <param name="position">The position.</param>
 		protected virtual void CollectionChanged(KeyItemChange change, int position)
 		{			
 
@@ -508,13 +513,24 @@ namespace NewsComponents.Collections
 
 		#region Serialization
 
+		/// <summary>
+		/// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
+		/// </summary>
+		/// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
+		/// <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
+		/// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 		    info.AddValue(SerialVersion, Version_1, typeof (int));	
             SerializationInfoReader.AddGenericList(context, info, Serialitems,items);
             SerializationInfoReader.AddGenericDictionary(context, info, Serialpositions, positions);
 		}
-		
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// </summary>
+		/// <param name="info">The info.</param>
+		/// <param name="context">The context.</param>
 		protected KeyItemCollection(SerializationInfo info, StreamingContext context)
 		{
 			reader = new SerializationInfoReader(info,context);			
@@ -714,6 +730,12 @@ namespace NewsComponents.Collections
 
 		#region IEnumerable<Object> Members
 
+		/// <summary>
+		/// Returns an enumerator that iterates through the collection.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+		/// </returns>
 		public IEnumerator<Object> GetEnumerator()
 		{
 			return new KeyItemEnumerator(this);
@@ -721,6 +743,12 @@ namespace NewsComponents.Collections
 
 		#region IEnumerable Members
 
+		/// <summary>
+		/// Returns an enumerator that iterates through a collection.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+		/// </returns>
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
@@ -734,6 +762,12 @@ namespace NewsComponents.Collections
 
 		#region ICloneable Members
 
+		/// <summary>
+		/// Creates a new object that is a copy of the current instance.
+		/// </summary>
+		/// <returns>
+		/// A new object that is a copy of this instance.
+		/// </returns>
 		public virtual object Clone()
 		{
 			KeyItemCollection<Key,Object> clone=new KeyItemCollection<Key, Object>();

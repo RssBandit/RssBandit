@@ -10,10 +10,12 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
+using NewsComponents;
 using NewsComponents.Collections;
 using NewsComponents.Utils;
 using RssBandit.Common;
@@ -249,7 +251,7 @@ namespace RssBandit.WinGui
 			} else {
 
 				NewsComponents.Feed.RssLocater locator = new NewsComponents.Feed.RssLocater(Proxy, RssBanditApplication.UserAgent);	//we did not really need the proxy. Content is allready loaded
-				ArrayList feeds = null;
+				List<string> feeds = null;
 				try {
 					// You can use this to simplify debugging IEControl HTML output.
 					// That is slightly different than the HTML we would get from a direct request!
@@ -414,7 +416,7 @@ namespace RssBandit.WinGui
 						if (0 == String.Compare(itemInfo.SiteBaseUrl, info.SiteBaseUrl, true)) {
 							foundItem = item;
 						} else {
-							ArrayList knownFeeds = itemInfo.FeedLinks;
+							List<string> knownFeeds = itemInfo.FeedLinks;
 							foreach (string feedLink in knownFeeds) {
 								if (info.FeedLinks.Contains(feedLink)) {
 									foundItem = item;
@@ -427,13 +429,14 @@ namespace RssBandit.WinGui
 			}
 			return foundItem;
 		}
-		
-		private ArrayList CheckAndRemoveSubscribedFeeds(ArrayList feeds, string baseUrl) {
-			ArrayList ret = new ArrayList(feeds.Count);
+
+		private List<string> CheckAndRemoveSubscribedFeeds(List<string> feeds, string baseUrl)
+		{
+			List<string> ret = new List<string>(feeds.Count);
 			Uri baseUri = null;
 			
 			try { 
-				if (baseUrl != null && baseUrl.Length > 0)
+				if (!string.IsNullOrEmpty(baseUrl))
 					baseUri = new Uri(baseUrl);
 			} catch (UriFormatException) {}
 
@@ -446,7 +449,17 @@ namespace RssBandit.WinGui
 						uri = new Uri(url);
 					}
                     string key = uri.CanonicalizedUri();
-					if (!this.app.FeedHandler.IsSubscribed(key)) {
+					bool anySourceSubscribedThis = false;
+					foreach (FeedSourceEntry entry in this.app.FeedSources.Sources)
+					   {
+						   if (entry.Source.IsSubscribed(key))
+						   {
+						   	anySourceSubscribedThis = true;
+						   	break;
+						   }
+					   }
+					if (!anySourceSubscribedThis)
+					{
 						ret.Add(key);
 					}
 				} catch (UriFormatException) { /* ignore invalid urls */ }
@@ -506,21 +519,46 @@ namespace RssBandit.WinGui
 	/// Container class to store all the informations needed to describe autodiscovered feeds for a website.
 	/// </summary>
 	public class DiscoveredFeedsInfo {
-		public ArrayList FeedLinks;
+		/// <summary>
+		/// Gets the list of feed links
+		/// </summary>
+		public List<string> FeedLinks;
+		/// <summary>
+		/// Gets the feed title
+		/// </summary>
 		public string Title;
+		/// <summary>
+		/// Gets the site base url
+		/// </summary>
 		public string SiteBaseUrl;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfo"/> class.
+		/// </summary>
 		public DiscoveredFeedsInfo() {
-			this.FeedLinks = new ArrayList(1);
+			this.FeedLinks = new List<string>(1);
 			this.Title = String.Empty;
 			this.SiteBaseUrl = String.Empty;
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfo"/> class.
+		/// </summary>
+		/// <param name="feedLink">The feed link.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="baseUrl">The base URL.</param>
 		public DiscoveredFeedsInfo(string feedLink, string title, string baseUrl):this() {
 			this.FeedLinks.Add(feedLink);
 			this.Title = title;
 			this.SiteBaseUrl = baseUrl;
 		}
-		public DiscoveredFeedsInfo(ArrayList feedLinks, string title, string baseUrl) {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfo"/> class.
+		/// </summary>
+		/// <param name="feedLinks">The feed links.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="baseUrl">The base URL.</param>
+		public DiscoveredFeedsInfo(List<string> feedLinks, string title, string baseUrl)
+		{
 			this.FeedLinks = feedLinks;
 			this.Title = title;
 			this.SiteBaseUrl = baseUrl;

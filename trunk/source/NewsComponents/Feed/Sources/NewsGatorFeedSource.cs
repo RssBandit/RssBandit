@@ -57,12 +57,33 @@ namespace NewsComponents.Feed
     /// </summary>
     public enum NewsGatorFlagStatus
     {
-        None = 0, 
-        FollowUp = 6, //Red 
-        Forward = 5,   //Blue
-        Read = 3,   //Green
-        Review = 4, //Yellow
-        Reply = 1, //Purple
+		/// <summary>
+		/// 
+		/// </summary>
+        None = 0,
+		/// <summary>
+		/// Red 
+		/// </summary>
+        FollowUp = 6, 
+		/// <summary>
+		/// Blue
+		/// </summary>
+        Forward = 5,  
+		/// <summary>
+		/// Green
+		/// </summary>
+        Read = 3,   
+		/// <summary>
+		/// Yellow
+		/// </summary>
+        Review = 4,
+		/// <summary>
+		/// Purple
+		/// </summary>
+        Reply = 1, 
+		/// <summary>
+		/// 
+		/// </summary>
         Complete = 1000
     }
 
@@ -1378,8 +1399,9 @@ namespace NewsComponents.Feed
 
             return this.AddCategory(new category(cat)); 
         }
-
-          /// Adds the folder in NewsGator Online
+		
+		/// <summary>
+		/// Adds the folder in NewsGator Online
         /// </summary>
         /// <param name="name">The name of the folder to add</param>
         internal void AddFolderInNewsGatorOnline(string name)
@@ -1387,7 +1409,7 @@ namespace NewsComponents.Feed
             if (StringHelper.EmptyTrimOrNull(name))
                 return;
 
-            INewsFeedCategory cat = null;
+            INewsFeedCategory cat;
             this.categories.TryGetValue(name, out cat);
 
             if (cat == null) //this shouldn't happen unless app shutdown before category added in NewsGator
@@ -1405,7 +1427,7 @@ namespace NewsComponents.Feed
             //create rest of category hierarchy if it doesn't exist in NewsGator Online
             for (int i = ancestors.Count; i-- > 0; )
             {
-                INewsFeedCategory c = null;
+                INewsFeedCategory c;
                 if (!this.categories.TryGetValue(ancestors[i], out c)) //this shouldn't happen
                 {
                     c = new category(ancestors[i]);

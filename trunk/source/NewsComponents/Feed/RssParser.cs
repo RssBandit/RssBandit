@@ -1,12 +1,11 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
 
 using System;
@@ -2294,6 +2293,9 @@ namespace NewsComponents.Feed
         }
     } //RssParser
 
+	/// <summary>
+	/// RSS parse exception
+	/// </summary>
     [Serializable]
     public class RssParserException : ApplicationException
     {
@@ -2304,18 +2306,35 @@ namespace NewsComponents.Feed
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
         //
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RssParserException"/> class.
+		/// </summary>
         public RssParserException()
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RssParserException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
         public RssParserException(string message) : base(message)
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RssParserException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
+		/// <param name="inner">The inner.</param>
         public RssParserException(string message, Exception inner) : base(message, inner)
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RssParserException"/> class.
+		/// </summary>
+		/// <param name="info">The object that holds the serialized object data.</param>
+		/// <param name="context">The contextual information about the source or destination.</param>
         protected RssParserException(
             SerializationInfo info,
             StreamingContext context)
@@ -2519,93 +2538,3 @@ namespace NewsComponents.Feed
 
     #endregion
 }
-
-#region CVS Version Log
-
-/*
- * $Log: RssParser.cs,v $
- * Revision 1.90  2007/08/02 01:00:06  carnage4life
- * Changes related to shipping ShadowCat beta 2
- *
- * Revision 1.89  2007/08/01 20:08:26  carnage4life
- * Added entity include files for XHTML DTD
- *
- * Revision 1.88  2007/07/29 17:38:33  carnage4life
- * Added DTDs for XHTML Strict & Transitional
- *
- * Revision 1.87  2007/07/08 07:14:45  carnage4life
- * Images don't show up on certain items when clicking on feed or category view if the feed uses relative links such as http://www.tbray.org/ongoing/ongoing.atom
- *
- * Revision 1.86  2007/06/19 16:29:11  t_rendelmann
- * changed: prevent NullRefException
- *
- * Revision 1.85  2007/03/10 15:01:21  t_rendelmann
- * changed: use our own xslt to display XML sources in IE
- *
- * Revision 1.84  2007/03/10 08:15:07  t_rendelmann
- * fixed: "object reference exception" reported as feed error (now runtime dependent, not compile time dependent)
- *
- * Revision 1.83  2007/03/09 17:02:33  t_rendelmann
- * fixed: "object reference exception" reported as feed error
- *
- * Revision 1.82  2007/03/03 19:05:30  carnage4life
- * Made changes to show duration for podcasts in newspaper view
- *
- * Revision 1.81  2007/02/18 17:39:10  t_rendelmann
- * fixed: dtd resource reference issue
- *
- * Revision 1.80  2007/02/17 16:23:34  carnage4life
- * RSS 0.91 DTDs now fetched from local machine instead of http://my.netscape.com/publish/formats/rss-0.91.dtd to cope with announcement made by Netscape that the file will stop being available on July 1, 2007.
- *
- * Revision 1.79  2007/02/17 14:45:52  t_rendelmann
- * switched: Resource.Manager indexer usage to strongly typed resources (StringResourceTool)
- *
- * Revision 1.78  2007/02/15 20:03:50  t_rendelmann
- * changed: now catching IOException in resolver
- *
- * Revision 1.77  2007/02/15 16:37:49  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.76  2006/12/19 04:39:51  carnage4life
- * Made changes to AsyncRequest and RequestThread to become instance based instead of static
- *
- * Revision 1.75  2006/12/16 22:26:51  carnage4life
- * Added CopyItemTo method that copies a NewsItem to a specific NewsFeed and does the logic to load item content from disk if needed
- *
- * Revision 1.74  2006/12/14 18:13:29  carnage4life
- * Fixed issue where TypePad feeds showed raw markup instead of rendered HTML
- *
- * Revision 1.73  2006/12/10 20:38:04  t_rendelmann
- * small fix to prevent NullRefExceptions (catched, but costs)
- *
- * Revision 1.72  2006/12/09 22:57:03  carnage4life
- * Added support for specifying how many podcasts downloaded from new feeds
- *
- * Revision 1.71  2006/11/24 17:11:00  carnage4life
- * Items with new comments not remembered on restart
- *
- * Revision 1.70  2006/11/17 19:48:07  carnage4life
- * Updated Atom Threading Extensions support
- *
- * Revision 1.69  2006/10/27 19:18:38  t_rendelmann
- * added: code to fix encoding issues (test) - if HTTP header encoding is wrong, but XML encoding attribute were correct (activated by a define)
- *
- * Revision 1.68  2006/10/21 23:34:16  carnage4life
- * Changes related to adding the "Download Attachment" right-click menu option in the list view
- *
- * Revision 1.67  2006/10/19 07:59:13  t_rendelmann
- * replaced duplicate code with the appropriate function call (ResolveRelativeUrls); catching the relative urls erlier now
- *
- * Revision 1.66  2006/10/18 00:19:50  carnage4life
- * Fixed NullReferenceException in MakeAtomItem
- *
- * Revision 1.65  2006/10/17 11:40:08  t_rendelmann
- * fixed: HTML entities in feed (-item) urls not decoded (https://sourceforge.net/tracker/index.php?func=detail&aid=1564959&group_id=96589&atid=615248)
- *
- * Revision 1.64  2006/10/15 17:22:47  t_rendelmann
- * fixed: relative urls in feed links (feed homepage urls)
- *
- */
-
-#endregion

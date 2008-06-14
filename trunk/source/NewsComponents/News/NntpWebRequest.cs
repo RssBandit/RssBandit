@@ -513,6 +513,13 @@ namespace NewsComponents.News {
 			return response;
 		}
 
+		/// <summary>
+		/// Aborts the Request
+		/// </summary>
+		/// <exception cref="T:System.NotImplementedException">Any attempt is made to access the method, when the method is not overridden in a descendant class. </exception>
+		/// <PermissionSet>
+		/// 	<IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+		/// </PermissionSet>
 		public override void Abort()
 		{
 			//TODO: what to do here?

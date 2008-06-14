@@ -1,13 +1,13 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
+
 
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,9 @@ namespace NewsComponents.RelationCosmos
     public abstract class RelationBase<T> : IRelation, IComparable
         where T : IRelation
     {
+		/// <summary>
+		/// Gets an empty list
+		/// </summary>
         protected static List<string> EmptyList = new List<string>(0);
 
         /// <summary>
@@ -165,6 +168,11 @@ namespace NewsComponents.RelationCosmos
             return CompareTo(obj as RelationBase<T>);
         }
 
+		/// <summary>
+		/// Compares to another instance.
+		/// </summary>
+		/// <param name="other">The other.</param>
+		/// <returns></returns>
         public int CompareTo(RelationBase<T> other)
         {
             if (ReferenceEquals(this, other))
@@ -176,6 +184,13 @@ namespace NewsComponents.RelationCosmos
             return aPointInTime.CompareTo(other.aPointInTime);
         }
 
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>.
+		/// </returns>
         public int CompareTo(IRelation other)
         {
             return CompareTo(other as RelationBase<T>);
@@ -185,7 +200,7 @@ namespace NewsComponents.RelationCosmos
     }
 
     /// <summary>
-    /// A base impl. of RelationBase.
+    /// A implementation of <see cref="RelationBase&lt;T&gt;"/>.
     /// </summary>
     public class RelationProxy<T> : RelationBase<T>
         where T : RelationBase<T>
@@ -265,14 +280,3 @@ namespace NewsComponents.RelationCosmos
         #endregion
     }
 }
-
-#region CVS Version Log
-
-/*
- * $Log: RelationBase.cs,v $
- * Revision 1.6  2006/10/17 15:33:01  t_rendelmann
- * made the Id public writable
- *
- */
-
-#endregion

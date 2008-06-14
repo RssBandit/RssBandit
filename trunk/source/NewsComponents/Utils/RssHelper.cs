@@ -22,13 +22,37 @@ namespace NewsComponents.Utils
 	/// Enumeration used to tell which field a NewsItemComparer should use when comparing NewsItem objects
 	/// </summary>
 	public enum NewsItemSortField{
+		/// <summary>
+		/// 
+		/// </summary>
 		Title,
+		/// <summary>
+		/// 
+		/// </summary>
 		Date,
+		/// <summary>
+		/// 
+		/// </summary>
 		Subject,
+		/// <summary>
+		/// 
+		/// </summary>
 		Author,
+		/// <summary>
+		/// 
+		/// </summary>
 		FeedTitle,
+		/// <summary>
+		/// 
+		/// </summary>
 		CommentCount,
+		/// <summary>
+		/// 
+		/// </summary>
 		Enclosure,
+		/// <summary>
+		/// 
+		/// </summary>
 		Flag
 	}
 

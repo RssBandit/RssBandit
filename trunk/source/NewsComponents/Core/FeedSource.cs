@@ -155,7 +155,7 @@ namespace NewsComponents
 #if DEBUG
     [CLSCompliant(false)]
 #endif
-    public abstract class FeedSource : ISharedProperty //, IDisposable 
+    public abstract class FeedSource : ISharedProperty, IDisposable 
     {
         #region ctor's
 
@@ -180,6 +180,9 @@ namespace NewsComponents
             NumEnclosuresToDownloadOnNewFeed = DefaultNumEnclosuresToDownloadOnNewFeed;
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSource"/> class.
+		/// </summary>
         protected FeedSource()
         {
             MaxItemAge = new TimeSpan(90, 0, 0, 0);
@@ -412,12 +415,6 @@ namespace NewsComponents
         /// The file extensions of enclosures that should be treated as podcasts. 
         /// </summary>
         protected readonly ArrayList podcastfileextensions = new ArrayList();
-
-        /// <summary>
-        /// The Application Name or ID that uses the component. This will be used to 
-        /// initialize the user path to store the feeds file and cached items.
-        /// </summary>
-        internal string applicationName = "NewsComponents";
 
         /// <summary>
         /// Used for making asynchronous Web requests
@@ -1346,7 +1343,7 @@ namespace NewsComponents
                          */
                         p_searchHandler = new LuceneSearch(DefaultConfiguration);
                     }
-                    catch (TypeInitializationException tie)
+                    catch (TypeInitializationException)
                     {
                         NewsComponentsConfiguration noIndexingConfig = new NewsComponentsConfiguration();
                         noIndexingConfig.SearchIndexBehavior =  SearchIndexBehavior.NoIndexing;
@@ -1973,6 +1970,11 @@ namespace NewsComponents
             get { return p_traceMode; }
         }
 
+		/// <summary>
+		/// Traces the specified format string.
+		/// </summary>
+		/// <param name="formatString">The format string.</param>
+		/// <param name="paramArray">The param array.</param>
         protected static void Trace(string formatString, params object[] paramArray)
         {
             if (p_traceMode)
@@ -5512,7 +5514,7 @@ namespace NewsComponents
             {
                 foreach (Enclosure enc in item.Enclosures)
                 {
-                    if (enc.Url.EndsWith(fileName))
+                    if (enc.Url.EndsWith(fileName, StringComparison.OrdinalIgnoreCase))
                     {
                         var di = new DownloadItem(item.Feed.link, item.Id, enc, enclosureDownloader);
                         enclosureDownloader.BeginDownload(di);
@@ -6606,10 +6608,11 @@ namespace NewsComponents
 
         private static void SetSharedPropertyValue(ISharedProperty instance, string propertyName, object value)
         {
+        	string strval = value as string;
             switch (propertyName)
             {
                 case "maxitemage":
-                    instance.maxitemage = value as string;
+					instance.maxitemage = strval;
                     break;
                 case "downloadenclosures":
                     instance.downloadenclosures = (bool) value;
@@ -6624,10 +6627,10 @@ namespace NewsComponents
                     instance.enclosurealertSpecified = (bool) value;
                     break;
                 case "enclosurefolder":
-                    instance.enclosurefolder = value as string;
+					instance.enclosurefolder = strval;
                     break;
                 case "listviewlayout":
-                    instance.listviewlayout = value as string;
+					instance.listviewlayout = strval;
                     break;
                 case "markitemsreadonexit":
                     instance.markitemsreadonexit = (bool) value;
@@ -6642,7 +6645,7 @@ namespace NewsComponents
                     instance.refreshrateSpecified = (bool) value;
                     break;
                 case "stylesheet":
-                    instance.stylesheet = value as string;
+					instance.stylesheet = strval;
                     break;
                 default:
                     Debug.Assert(true, "unknown shared property name: " + propertyName);
@@ -7044,7 +7047,7 @@ namespace NewsComponents
             if (categories.ContainsKey(cat.Value))
             {
                 string parentPath = parent == null ? String.Empty : parent.Value;
-                int index = cat.Value.LastIndexOf(CategorySeparator);
+                int index = cat.Value.LastIndexOf(CategorySeparator, StringComparison.Ordinal);
                 index = (index == -1 ? 0 : index + 1);
 
                 List<INewsFeedCategory> categories2move = GetDescendantCategories(cat);
@@ -7185,7 +7188,7 @@ namespace NewsComponents
 
             foreach (var c in categories.Values)
             {
-                if (c.Value.StartsWith(name + CategorySeparator))
+                if (c.Value.StartsWith(name + CategorySeparator, StringComparison.OrdinalIgnoreCase))
                 {
                     list.Add(c.Value);
                 }
@@ -7206,7 +7209,7 @@ namespace NewsComponents
 
             foreach (var c in categories.Values)
             {
-                if (c.Value.StartsWith(parent.Value + CategorySeparator))
+                if (c.Value.StartsWith(parent.Value + CategorySeparator, StringComparison.OrdinalIgnoreCase))
                 {
                     list.Add(c);
                 }
@@ -7415,6 +7418,27 @@ namespace NewsComponents
         public abstract void BootstrapAndLoadFeedlist(feeds feedlist);
 
         #endregion
+
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				
+			}
+		}
+
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+    	public void Dispose()
+    	{
+    		Dispose(true);
+			GC.SuppressFinalize(this);
+    	}
     }
 
     #region NewsFeedProperty enum
@@ -7597,7 +7621,7 @@ namespace NewsComponents
             }
         }
 
-        public virtual string ReadContentAsString()
+        public override string ReadContentAsString()
         {
             string content = base.ReadContentAsString();
 
