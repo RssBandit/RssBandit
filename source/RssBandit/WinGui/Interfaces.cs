@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms.ThListView;
+using RssBandit.WinGui.Controls.ThListView;
 using NewsComponents;
 using RssBandit.WinGui.Utility;
 

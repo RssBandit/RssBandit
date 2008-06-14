@@ -10,7 +10,7 @@
 using System;
 using System.Collections;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	/// <summary>
 	/// ListHelper contains static helper functions.

@@ -49,26 +49,24 @@ namespace NewsComponents.Net
         #region Downloader events
 
         /// <summary>
-        /// Notifies the application of the download progress. 
+        /// Notifies about the download progress for the update.
         /// </summary>
-        public event DownloadTaskProgressEventHandler DownloadProgress;
-
+        public event EventHandler<DownloadTaskProgressEventArgs> DownloadProgress;
 
         /// <summary>
-        /// Notifies the application when the download is complete.
+        /// Notifies that the downloading for an DownloadTask has started.
         /// </summary>
-        public event DownloadTaskCompletedEventHandler DownloadCompleted;
+        public event EventHandler<TaskEventArgs> DownloadStarted;
 
         /// <summary>
-        /// Notifies the application when there is a download error. 
+        /// Notifies that the downloading for an DownloadTask has finished.
         /// </summary>
-        public event DownloadTaskErrorEventHandler DownloadError;
-
+        public event EventHandler<TaskEventArgs> DownloadCompleted;
 
         /// <summary>
-        /// Notifies the application that the download has started. 
+        /// Notifies that an error ocurred while downloading the files for an DownloadTask.
         /// </summary>
-        public event DownloadTaskStartedEventHandler DownloadStarted;
+        public event EventHandler<DownloadTaskErrorEventArgs> DownloadError;
 
         /// <summary>
         /// Helper method to fire the event.

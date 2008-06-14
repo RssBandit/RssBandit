@@ -13,8 +13,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
     /// <summary>
     /// Summary description for ThreadedListViewItemCollection.

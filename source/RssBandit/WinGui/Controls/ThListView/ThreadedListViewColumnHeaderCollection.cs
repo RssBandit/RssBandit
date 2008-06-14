@@ -11,7 +11,7 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	public enum ThreadedListViewColumnHeaderChangedAction {
 		Add,

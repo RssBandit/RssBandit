@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30428</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -195,6 +195,12 @@
     <Reference Include="mscorlib">
       <Name>mscorlib</Name>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="SandDock">
       <Name>SandDock</Name>
       <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
@@ -236,6 +242,15 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WizardFramework">
       <Name>WizardFramework</Name>
@@ -434,7 +449,7 @@
     <None Include="Resources\add.newsserver.16.png" />
     <None Include="Resources\add.user.16.png" />
     <EmbeddedResource Include="Resources\AniImagesXP.png" />
-    <EmbeddedResource Include="Resources\App.ico" />
+    <Resource Include="Resources\App.ico" />
     <EmbeddedResource Include="Resources\AppBusy.ico" />
     <EmbeddedResource Include="Resources\AppBusyXP.ico" />
     <EmbeddedResource Include="Resources\AppTray.ico" />
@@ -1936,6 +1951,9 @@
     <Compile Include="WinGui\Dialogs\CategoryProperties.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinGui\Dialogs\DownloadManagerWindow.xaml.cs">
+      <DependentUpon>DownloadManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2233,6 +2251,12 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WinGui\Dialogs\DownloadManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

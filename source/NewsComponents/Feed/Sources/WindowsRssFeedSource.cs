@@ -23,7 +23,7 @@ using System.Xml.XPath;
 
 using System.Runtime.InteropServices;
 using Microsoft.Feeds.Interop;
-
+using NewsComponents.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 
@@ -2384,7 +2384,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents an enclosure from the Windows RSS platform
     /// </summary>
-    public class WindowsRssEnclosure : IEnclosure
+    public class WindowsRssEnclosure : BindableObject, IEnclosure
     {
 
         #region constructors 
@@ -2461,7 +2461,11 @@ namespace NewsComponents.Feed
         public bool Downloaded
         {
             get { return _downloaded; }
-            set { _downloaded = value;  }
+            set
+            {
+                _downloaded = value;
+                RaisePropertyChanged("Downloaded");
+            }
         }
 
 
