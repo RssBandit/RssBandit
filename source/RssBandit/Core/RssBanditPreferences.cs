@@ -111,6 +111,8 @@ namespace RssBandit {
 		private string enclosureFolder = String.Empty;
 		private int numEnclosuresToDownloadOnNewFeed;
 		private int enclosureCacheSize;
+		private string podcastFolder = String.Empty;
+		private string podcastFileExtensions = String.Empty;
 
 		private string singlePlaylistName    = String.Empty;
 
@@ -1007,6 +1009,38 @@ namespace RssBandit {
 		}
 
 		/// <summary>
+		/// Gets or sets the podcast download folder.
+		/// </summary>
+		/// <value>The podcast folder.</value>
+		public string PodcastFolder
+		{
+			[DebuggerStepThrough]
+			get { return podcastFolder; }
+			set
+			{
+				podcastFolder = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("PodcastFolder"));
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the podcast file extensions.
+		/// </summary>
+		/// <value>The podcast file extensions.</value>
+		public string PodcastFileExtensions
+		{
+			[DebuggerStepThrough]
+			get { return podcastFileExtensions; }
+			set
+			{
+				podcastFileExtensions = value;
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs("PodcastFileExtensions"));
+			}
+		}
+		
+		/// <summary>
 		/// Sets/Get the behavior how to handle requests to open new
 		/// window(s) while browsing
 		/// </summary>
@@ -1402,6 +1436,8 @@ namespace RssBandit {
             this.EnclosureFolder = reader.GetString("EnclosureFolder", RssBanditApplication.GetDefaultEnclosuresPath());
 			this.NumEnclosuresToDownloadOnNewFeed = reader.GetInt("NumEnclosuresToDownloadOnNewFeed", FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
 			this.EnclosureCacheSize = reader.GetInt("EnclosureCacheSize", FeedSource.DefaultEnclosureCacheSize);
+			this.PodcastFolder = reader.GetString("PodcastFolder", RssBanditApplication.GetDefaultPodcastPath());
+			this.PodcastFileExtensions = reader.GetString("PodcastFileExtensions", RssBanditApplication.DefaultPodcastFileExts);
 		}
 
 		/// <summary>
@@ -1456,6 +1492,8 @@ namespace RssBandit {
 			info.AddValue("EnclosureFolder", this.EnclosureFolder);
 			info.AddValue("NumEnclosuresToDownloadOnNewFeed", this.NumEnclosuresToDownloadOnNewFeed);
 			info.AddValue("EnclosureCacheSize", this.EnclosureCacheSize);
+			info.AddValue("PodcastFolder", this.PodcastFolder);
+			info.AddValue("PodcastFileExtensions", this.PodcastFileExtensions);
 		}
 		#endregion
 

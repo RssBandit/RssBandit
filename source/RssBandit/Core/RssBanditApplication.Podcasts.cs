@@ -29,7 +29,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.PodcastFolder;
+				return Preferences.PodcastFolder;
             }
         }
 
@@ -64,7 +64,7 @@ namespace RssBandit
         {
             get
             {
-                return feedHandler.PodcastFileExtensionsAsString;
+                return Preferences.PodcastFileExtensions;
             }
         }
 

@@ -414,7 +414,7 @@ namespace NewsComponents
         /// <summary>
         /// The file extensions of enclosures that should be treated as podcasts. 
         /// </summary>
-        protected readonly ArrayList podcastfileextensions = new ArrayList();
+		static readonly List<string> podcastfileextensions = new List<string>();
 
         /// <summary>
         /// Used for making asynchronous Web requests
@@ -1429,7 +1429,7 @@ namespace NewsComponents
         /// Gets the list of file extensions of enclosures that should be treated as podcasts
         /// as a string. 
         /// </summary>
-        public string PodcastFileExtensionsAsString
+        public static string PodcastFileExtensionsAsString
         {
             get
             {
@@ -1462,7 +1462,7 @@ namespace NewsComponents
         /// <summary>
         /// Gets or sets the folder for downloading podcasts
         /// </summary>
-        public string PodcastFolder { get; set; }
+        public static string PodcastFolder { get; set; }
 
         /// <summary>
         /// Gets or sets whether items in the feed should be marked as read on exiting
@@ -3368,10 +3368,10 @@ namespace NewsComponents
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
 					feedlist.enclosurefolder = this.EnclosureFolder;
-					 */
+					
                     feedlist.podcastfolder = PodcastFolder;
                     feedlist.podcastfileexts = PodcastFileExtensionsAsString;
-                    /* not anymore required to store that in feedlist/now provided static:
+                     not anymore required to store that in feedlist/now provided static:
                     feedlist.markitemsreadonexit = this.markitemsreadonexit;
                     feedlist.markitemsreadonexitSpecified = true;
 					*/

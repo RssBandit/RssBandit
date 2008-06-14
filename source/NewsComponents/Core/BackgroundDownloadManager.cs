@@ -481,9 +481,9 @@ namespace NewsComponents
                 DirectoryInfo targetDir = new DirectoryInfo(FeedSource.EnclosureFolder);
                 long spaceUsed = FileHelper.GetSize(targetDir);
 
-				if (!String.Equals(FeedSource.EnclosureFolder,downloadInfoProvider.PodcastFolder, StringComparison.OrdinalIgnoreCase))
+				if (!String.Equals(FeedSource.EnclosureFolder, FeedSource.PodcastFolder, StringComparison.OrdinalIgnoreCase))
                 {
-					DirectoryInfo podcastDir = new DirectoryInfo(FeedSource.EnclosureFolder);
+					DirectoryInfo podcastDir = new DirectoryInfo(FeedSource.PodcastFolder);
                     spaceUsed += FileHelper.GetSize(podcastDir);
                 }
 
