@@ -10,7 +10,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	/// <summary>
 	/// ThreadedListViewColumnHeader.

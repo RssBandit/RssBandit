@@ -10,7 +10,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using System.Windows.Forms.ThListView;
+using RssBandit.WinGui.Controls.ThListView;
 using IEControl;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
@@ -67,6 +67,11 @@ namespace RssBandit.WinGui.Forms
             bool enable = owner.Mediator.IsChecked(sender);
             owner.Mediator.SetChecked(enable, "cmdToggleWebSearchTBViewState");
             toolbarHelper.SetToolbarVisible(Resource.Toolbar.SearchTools, enable);
+        }
+
+        internal void CmdLauchDownloadManager(ICommand sender)
+        {
+            owner.LaunchDownloadManagerWindow();
         }
 
         /// <summary>

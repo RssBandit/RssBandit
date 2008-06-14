@@ -43,7 +43,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.ThListView;
+using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -79,6 +79,8 @@ using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using Logger = RssBandit.Common.Logging;
 using SortOrder=NewsComponents.SortOrder;
 using Timer=System.Threading.Timer;
+using System.Windows.Threading;
+using System.Windows.Forms.Integration;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -166,6 +168,9 @@ namespace RssBandit
         private bool commentFeedlistModified;
         private bool trustedCertIssuesModified;
         private Queue modifiedFeeds;
+
+        private Thread _dispatcherThread;
+        private Dispatcher _dispatcher;
 
         //private INetState connectionState = INetState.Invalid;	// moved to GuiStateManager
 
@@ -548,6 +553,14 @@ namespace RssBandit
 			Application.ThreadException += this.OnThreadException;
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
+
+            _dispatcherThread = new Thread(DispatcherThread);
+            _dispatcherThread.TrySetApartmentState(ApartmentState.STA);
+            _dispatcherThread.Name = "Dispatcher Thread";
+            _dispatcherThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            _dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+            _dispatcherThread.Start();
+
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
 
             GuiInvoker.Initialize();
@@ -556,6 +569,7 @@ namespace RssBandit
             threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
             ThreadWorkerBase.SynchronizingObject = guiMain;
 
+#if !DEBUG
             enter_mainevent_loop:
             try
             {
@@ -571,6 +585,19 @@ namespace RssBandit
                     goto enter_mainevent_loop;
                 Application.Exit();
             }
+#else
+            Application.Run(this);
+#endif
+
+        }
+
+        private void DispatcherThread()
+        {
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+            DownloadRegistryManager.Current.Initialize();
+
+            Dispatcher.Run();
         }
 
         internal void CheckAndLoadAddIns()
@@ -4207,7 +4234,14 @@ namespace RssBandit
             {
                 autoSaveTimer.Dispose();
 
-                InvokeOnGuiSync(() => guiMain.Close(true));
+
+                _dispatcher.InvokeShutdown();
+
+                InvokeOnGuiSync(() =>
+                                    {
+                                        
+                                        guiMain.Close(true);
+                                    });
 
                 SaveApplicationState(true);
                 guiMain = null;
@@ -5863,6 +5897,34 @@ namespace RssBandit
                 }
             }
         }
+
+        public void LaunchDownloadManagerWindow()
+        {
+            //var coords = 
+
+            _dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                (SendOrPostCallback)delegate
+                {
+                    if (_downloadManager == null)
+                    {
+
+                        _downloadManager = new DownloadManagerWindow();
+                        _downloadManager.Closed += delegate
+                                                       {
+                                                           _downloadManager = null;
+                                                       };
+
+                        //ElementHost.EnableModelessKeyboardInterop(_downloadManager);
+                        _downloadManager.Show();
+                    }
+                    else
+                    {
+                        _downloadManager.Activate();
+                    }
+                }, null);
+        }
+
+        private DownloadManagerWindow _downloadManager;
 
         #region NewsChannel Manangement		
 

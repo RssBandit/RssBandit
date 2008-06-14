@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 
 	/// <summary>

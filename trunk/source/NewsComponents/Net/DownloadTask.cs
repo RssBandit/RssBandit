@@ -1,239 +1,245 @@
 #region CVS Version Header
+
 /*
  * $Id$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
+
 #endregion
 
 using System;
-using System.Collections;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using NewsComponents.Core;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Net
 {
+    /// <summary>
+    /// Holds the state information about an download in progress.
+    /// </summary>
+    [Serializable]
+    public class DownloadTask : BindableObject, ISerializable
+    {
+        #region Private fields
 
-	/// <summary>
-	/// Holds the state information about an download in progress.
-	/// </summary>
-	[Serializable]
-	public class DownloadTask : ISerializable {
-		#region Private fields
+        /// <summary>
+        /// The task Id.
+        /// </summary>
+        private readonly Guid id;
 
-		/// <summary>
-		/// The task Id.
-		/// </summary>
-		private Guid id;
+        /// <summary>
+        /// The status of the download task.
+        /// </summary>
+        private DownloadTaskState state = DownloadTaskState.None;
 
-		/// <summary>
-		/// The base folder where files will be downloaded.
-		/// </summary>
-		private string downloadFilesBase;
+        #endregion
 
-		/// <summary>
-		/// The item that is being processed.
-		/// </summary>
-		private DownloadItem item;
+        #region Constructors
 
-		/// <summary>
-		/// The task context where all the components can set information for later retrieval.
-		/// </summary>
-		private StateBag context;
+        /// <summary>
+        /// Creates an instance of the updater task using the specified item.
+        /// </summary>
+        /// <param name="item">The item corresponding to an updater task.</param>
+        /// <param name="info">IDownloadInfo</param>
+        public DownloadTask(DownloadItem item, IDownloadInfoProvider info)
+        {
+            id = Guid.NewGuid();
 
-		/// <summary>
-		/// The status of the download task.
-		/// </summary>
-		private DownloadTaskState state = DownloadTaskState.None;
+            Init(item, info);
+        }
 
-		/// <summary>
-		/// An object that can be used to synchronize access to the DownloadTask.
-		/// </summary>
-		private object syncRoot = new object();
+        #endregion
 
-		/// <summary>
-		/// The Downloader that is responsible for downloading this task.
-		/// </summary>
-		private IDownloader downloader = null;
+        #region DownloadTask Members
 
-		#endregion
 
-		#region Constructors
+        /// <summary>
+        /// The base folder where files will be downloaded.
+        /// </summary>
+        public string DownloadFilesBase { get; private set; }
 
-		/// <summary>
-		/// Creates an instance of the updater task using the specified item.
-		/// </summary>
-		/// <param name="item">The item corresponding to an updater task.</param>
-		/// <param name="info">IDownloadInfo</param>
-		public DownloadTask( DownloadItem item, IDownloadInfoProvider info) {
-			id = Guid.NewGuid();
-			context = new StateBag();
-			Init( item, info );
-		}
+        /// <summary>
+        /// Initializes an existing DownloadTask with the specified item.
+        /// </summary>
+        /// <param name="item">The item corresponding to an updater task.</param>
+        /// <param name="info">IDownloadInfoProvider</param>
+        public void Init(DownloadItem item, IDownloadInfoProvider info)
+        {
+            DownloadItem = item;
+            if (DownloadItem != null && info != null)
+            {
+                DownloadFilesBase = info.InitialDownloadLocation;
+                DownloadItem.Init(info);
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// An unique identifier for the DownloadTask used internally
+        /// </summary>
+        public Guid TaskId
+        {
+            get { return id; }
+        }
 
-		#region DownloadTask Members
+        private Guid? _jobId;
 
-		/// <summary>
-		/// A property bag where components can set key-value pairs of information for later retrieval.
-		/// </summary>
-		/// <param name="key">The index key of the item to locate.</param>
-		public object this[ string key ] {
-			get {
-				return context[ key ];
-			}
-			set {
-				context[ key ] = value;
-			}
-		}
+        /// <summary>
+        /// An external Id that can be used for tracking
+        /// </summary>
+        public Guid? JobId
+        {
+            get { return _jobId; }
+            set
+            {
+                _jobId = value;
+                RaisePropertyChanged("JobId");
+            }
+        }
 
-		/// <summary>
-		/// Gets an object that can be used to synchronize access to the DownloadTask.
-		/// </summary>
-		public object SyncRoot {
-			get { return syncRoot; }
-		}
+        /// <summary>
+        /// The current state of the DownloadTask.
+        /// <see cref="DownloadTaskState"/>
+        /// </summary>
+        public DownloadTaskState State
+        {
+            get { return state; }
+            set
+            {
+                state = value;
+                RaisePropertyChanged("State");
+            }
+        }
 
-		/// <summary>
-		/// The base folder where files will be downloaded.
-		/// </summary>
-		public string DownloadFilesBase {
-			get {
-				return downloadFilesBase;
-			}
-		}
+        private long _fileSize;
 
-		/// <summary>
-		/// Initializes an existing DownloadTask with the specified item.
-		/// </summary>
-		/// <param name="item">The item corresponding to an updater task.</param>
-		/// <param name="info">IDownloadInfoProvider</param>
-		public void Init(DownloadItem item, IDownloadInfoProvider info) {
-			this.item = item;
-			if (this.item != null && info != null ) {
-				downloadFilesBase = info.InitialDownloadLocation;
-				this.item.Init(info);
-			}
-		}
+        public long FileSize
+        {
+            get { return _fileSize; }
+            internal set
+            {
+                _fileSize = value;
+                RaisePropertyChanged("FileSize");
 
-		/// <summary>
-		/// An unique identifier for the DownloadTask.
-		/// </summary>
-		public Guid TaskId {
-			get {
-				return id;
-			}
-		}
+                CalculatePercentComplete();
+            }
+        }
 
-		/// <summary>
-		/// The current state of the DownloadTask.
-		/// <see cref="DownloadTaskState"/>
-		/// </summary>
-		public DownloadTaskState State {
-			get {
-				return state;
-			}
-			set {
-				state = value;
-			}
-		} 
+        private long _transferredSize;
 
-		/// <summary>
-		/// The item corresponding to the current DownloadTask.
-		/// </summary>
-		public DownloadItem DownloadItem {
-			get {
-				return item;
-			}
-		}
+        public long TransferredSize
+        {
+            get { return _transferredSize; }
+            internal set
+            {
+                _transferredSize = value;
+                RaisePropertyChanged("TransferredSize");
 
-		/// <summary>
-		/// The IDownloader instance responsible for downloading this task
-		/// </summary>
-		internal IDownloader Downloader{
-			get{ 
-				return this.downloader;
-			}
+                CalculatePercentComplete();
+            }
+        }
 
-			set{
-				this.downloader = value; 
-			}
-		}
-		
-		#endregion
+        public double PercentComplete
+        {
+            get;
+            private set;
+        }
 
-		#region ISerializable Members
+        private void CalculatePercentComplete()
+        {
+            if(FileSize > 0)
+            {
+                PercentComplete = (TransferredSize / (double)FileSize) * 100;
+            }
+            else
+            {
+                PercentComplete = 0;
+            }
 
-		/// <summary>
-		/// Constructor to support serialization required for storing the task.
-		/// </summary>
-		/// <param name="info">The serialization information.</param>
-		/// <param name="context">The serialization context.</param>
-		[System.Security.Permissions.SecurityPermission(SecurityAction.LinkDemand)]
-		protected DownloadTask(SerializationInfo info, StreamingContext context) {
-			SerializationInfoReader reader = new SerializationInfoReader(info, context);
-			item = (DownloadItem)reader.GetValue( "_manifest", typeof( DownloadItem), null );
-			state = (DownloadTaskState)reader.GetValue( "_state",typeof( DownloadTaskState), DownloadTaskState.None );
-			id = (Guid)reader.GetValue( "_id", typeof( Guid ), Guid.Empty );
-			this.context = (StateBag)reader.GetValue( "_context", typeof( StateBag ), null );
-			if (reader.Contains("_downloadFilesBase"))
-				downloadFilesBase = reader.GetString( "_downloadFilesBase", null );
-			else /* there used to be a typo in the field name */
-				downloadFilesBase = reader.GetString( "_donwnloadFilesBase", null );
-		}
+            RaisePropertyChanged("PercentComplete");
+        }
 
-		/// <summary>
-		/// Method used by the seralization mechanism to retrieve the serialized information.
-		/// </summary>
-		/// <param name="info">The serialization information.</param>
-		/// <param name="context">The serialization context.</param>
-		[System.Security.Permissions.SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context) {
-			info.AddValue( "_manifest", item );
-			info.AddValue( "_state", state );
-			info.AddValue( "_id", id );
-			info.AddValue( "_context", this.context );
-			info.AddValue( "_downloadFilesBase", downloadFilesBase );
-		}
+        public bool CanCancelResume
+        {
+            get
+            {
+                return _downloader != null;
+            }
+            
+        }
 
-		#endregion
+        public void Cancel()
+        {
+            if(CanCancelResume)
+                Downloader.CancelDownload(this);
+        }
 
-	}
+        /// <summary>
+        /// The item corresponding to the current DownloadTask.
+        /// </summary>
+        public DownloadItem DownloadItem { get; private set; }
 
-	#region StateBag class
-	/// <summary>
-	/// A helper class to hold any state information needed in the DownloadTask.
-	/// </summary>
-	[Serializable]
-	internal class StateBag : DictionaryBase {
-		#region Constructor
+        private IDownloader _downloader;
 
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public StateBag() {
-		}
+        /// <summary>
+        /// The IDownloader instance responsible for downloading this task
+        /// </summary>
+        internal IDownloader Downloader
+        {
+            get { return _downloader; }
+            set
+            {
+                _downloader = value;
+                RaisePropertyChanged("CanCancelResume");
+                RaisePropertyChanged("Downloader");
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Public properties
+        #region ISerializable Members
 
-		/// <summary>
-		/// Gets or sets and object value associated with a string key.
-		/// </summary>
-		public object this [ string key ] {
-			get {
-				return Dictionary[ key ];
-			}
-			set {
-				Dictionary[ key ] = value;
-			}
-		}
+        /// <summary>
+        /// Constructor to support serialization required for storing the task.
+        /// </summary>
+        /// <param name="info">The serialization information.</param>
+        /// <param name="context">The serialization context.</param>
+        [SecurityPermission(SecurityAction.LinkDemand)]
+        protected DownloadTask(SerializationInfo info, StreamingContext context)
+        {
+            var reader = new SerializationInfoReader(info, context);
+            DownloadItem = (DownloadItem) reader.GetValue("_manifest", typeof (DownloadItem), null);
+            state = (DownloadTaskState) reader.GetValue("_state", typeof (DownloadTaskState), DownloadTaskState.None);
+            id = (Guid) reader.GetValue("_id", typeof (Guid), Guid.Empty);
+            JobId = (Guid?) reader.GetValue("_jobId", typeof (Guid?), null);
+            TransferredSize = (long) reader.GetValue("_transferSize", typeof(long), 0);
+            FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
 
-		#endregion
-	}
-	#endregion
+            if (reader.Contains("_downloadFilesBase"))
+                DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
+            else /* there used to be a typo in the field name */
+                DownloadFilesBase = reader.GetString("_donwnloadFilesBase", null);
+        }
+
+        /// <summary>
+        /// Method used by the seralization mechanism to retrieve the serialized information.
+        /// </summary>
+        /// <param name="info">The serialization information.</param>
+        /// <param name="context">The serialization context.</param>
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_manifest", DownloadItem);
+            info.AddValue("_state", state);
+            info.AddValue("_id", id);
+            info.AddValue("_downloadFilesBase", DownloadFilesBase);
+            info.AddValue("_jobId", JobId);
+            info.AddValue("_transferSize", TransferredSize);
+            info.AddValue("_fileSize", FileSize);
+        }
+
+        #endregion
+    }
 }

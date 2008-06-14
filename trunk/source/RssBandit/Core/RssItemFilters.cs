@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Forms.ThListView;
+using RssBandit.WinGui.Controls.ThListView;
 using NewsComponents;
 using RssBandit.AppServices;
 using RssBandit.WinGui.Interfaces;

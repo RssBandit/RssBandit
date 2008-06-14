@@ -13,7 +13,7 @@ using System.ComponentModel;
 using NewsComponents;
 using NewsComponents.Feed;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
 	/// <summary>
 	/// Summary description for ThreadCancelEventArgs.

@@ -12,8 +12,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Windows.Forms;
 
-namespace System.Windows.Forms.ThListView
+namespace RssBandit.WinGui.Controls.ThListView
 {
     /// <summary>
     /// Win32.

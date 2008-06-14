@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Windows.Forms.ThListView;
+using RssBandit.WinGui.Controls.ThListView;
 using IEControl;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;

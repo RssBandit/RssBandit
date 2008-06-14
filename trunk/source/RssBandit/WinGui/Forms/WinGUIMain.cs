@@ -25,7 +25,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.ThListView;
 using IEControl;
 using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinExplorerBar;
@@ -53,6 +52,7 @@ using Syndication.Extensibility;
 using TD.SandDock;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using K = RssBandit.Utility.Keyboard;
+using RssBandit.WinGui.Controls.ThListView;
 
 
 namespace RssBandit.WinGui.Forms
@@ -926,10 +926,10 @@ namespace RssBandit.WinGui.Forms
 			this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
 			this.panelFeedItems = new System.Windows.Forms.Panel();
 			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
-			this.listFeedItems = new System.Windows.Forms.ThListView.ThreadedListView();
-			this.colHeadline = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
-			this.colDate = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
-			this.colTopic = new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader();
+			this.listFeedItems = new RssBandit.WinGui.Controls.ThListView.ThreadedListView();
+			this.colHeadline = new ThreadedListViewColumnHeader();
+			this.colDate = new ThreadedListViewColumnHeader();
+			this.colTopic = new ThreadedListViewColumnHeader();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._status = new System.Windows.Forms.StatusBar();
 			this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
@@ -1112,7 +1112,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.listFeedItems.Activation = System.Windows.Forms.ItemActivation.OneClick;
 			this.listFeedItems.AllowColumnReorder = true;
-			this.listFeedItems.Columns.AddRange(new System.Windows.Forms.ThListView.ThreadedListViewColumnHeader[] {
+			this.listFeedItems.Columns.AddRange(new ThreadedListViewColumnHeader[] {
             this.colHeadline,
             this.colDate,
             this.colTopic});

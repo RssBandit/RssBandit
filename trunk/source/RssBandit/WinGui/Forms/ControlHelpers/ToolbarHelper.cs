@@ -294,10 +294,15 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			subTbWebSearch.Checked = true;	// default
 			subTbWebSearch.SharedProps.ShowInCustomizer = false;
 
+            AppButtonToolCommand tbDownload = new AppButtonToolCommand(
+                "cmdLauchDownloadManager", owner.Mediator, main.CmdLauchDownloadManager,
+                SR.MenuDownloadManager, SR.MenuDownloadManagerDesc, shortcutHandler);
+          
+
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {subTbMain, subTbWeb, subTbWebSearch});
-			
-			toolbarsDropDownMenu.Tools.AddRange(new ToolBase[]{subTbMain, subTbWeb, subTbWebSearch});
+            this.manager.Tools.AddRange(new ToolBase[] { subTbMain, subTbWeb, subTbWebSearch });
+
+            toolbarsDropDownMenu.Tools.AddRange(new ToolBase[] { subTbMain, subTbWeb, subTbWebSearch });
 			foreach (ToolBase tool in toolbarsDropDownMenu.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
 			}
@@ -429,8 +434,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
             }
 
 			// must be added to the toolbar first:
-            this.manager.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
-            mc.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
+            this.manager.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, tbDownload, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
+            mc.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, tbDownload, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
 			}
