@@ -5307,8 +5307,21 @@ namespace RssBandit
 
         #region global app helper
 
+		/// <summary>
+		/// RSS Bandit command line parameter class
+		/// </summary>
         public class CommandLineOptions
         {
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CommandLineOptions"/> class.
+			/// </summary>
+			public CommandLineOptions()
+			{
+				// allow users to specify commandline options via app.config:
+				StartInTaskbarNotificationAreaOnly = ReadAppSettingsEntry("ui.display.taskbar", false);
+				LocalCulture = ReadAppSettingsEntry("ui.display.culture", String.Empty);
+			}
+
             /// <summary>
             /// Have a look to http://blogs.gotdotnet.com/raymondc/permalink.aspx/5a811e6f-cd12-48de-8994-23409290faea,
             /// that is why we does not name it "StartInSystemTray" or such.
