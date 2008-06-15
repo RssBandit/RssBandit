@@ -440,7 +440,7 @@ namespace RssBandit.WinGui.Forms
 
             #region root menu
 
-            _treeRootContextMenu = new ContextMenu();
+            _subscriptionTreeRootContextMenu = new ContextMenu();
 
             var sub1 = new AppContextMenuCommand("cmdNewFeed",
                                                  owner.Mediator,
@@ -489,9 +489,20 @@ namespace RssBandit.WinGui.Forms
                                                   SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 10,
                                                   _shortcutHandler);
 
+			var subSourceRename = new AppContextMenuCommand("cmdRenameFeedSource",
+												  owner.Mediator,
+												  new ExecuteCommandHandler(CmdRenameFeedSource),
+												  SR.MenuRenameFeedSourceCaption, SR.MenuRenameFeedSourceDesc,
+												  _shortcutHandler);
+			var subSourceDelete = new AppContextMenuCommand("cmdDeleteFeedSource",
+												  owner.Mediator,
+												  new ExecuteCommandHandler(CmdDeleteFeedSource),
+												  SR.MenuDeleteFeedSourceCaption, SR.MenuDeleteFeedSourceDesc,
+												  _shortcutHandler);
+
             // append items
-            _treeRootContextMenu.MenuItems.AddRange(
-                new[] {sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subR4});
+            _subscriptionTreeRootContextMenu.MenuItems.AddRange(
+				new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subSourceRename, subSourceDelete, sep.CloneMenu(), subR4 });
 
             #endregion
 
@@ -854,7 +865,7 @@ namespace RssBandit.WinGui.Forms
 
             #endregion
 
-            treeFeeds.ContextMenu = _treeRootContextMenu; // init to root context
+            treeFeeds.ContextMenu = _subscriptionTreeRootContextMenu; // init to root context
 
             #endregion
 
