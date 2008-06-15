@@ -290,6 +290,18 @@ namespace RssBandit
             }
         }
 
+		/// <summary>
+		/// Gets the search index behavior.
+		/// </summary>
+		/// <value>The search index behavior.</value>
+		public static SearchIndexBehavior SearchIndexBehavior
+		{
+			get
+			{
+				return searchIndexBehavior;
+			}
+		}
+
         private static string ApplicationDataFolderFromEnv
         {
             get
@@ -893,6 +905,7 @@ namespace RssBandit
 		/// <param name="name">The name of the entry.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns>Value read or defaultValue</returns>
+		/// <exception cref="ConfigurationErrorsException">On type conversion failures</exception>
 		public static T ReadAppSettingsEntry<T>(string name, T defaultValue)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -905,12 +918,16 @@ namespace RssBandit
 			{
 				if (t == typeof(string))
 					return (T)(object)value;
-
-				TypeConverter converter = TypeDescriptor.GetConverter(t);
-				if (converter != null && converter.CanConvertFrom(typeof(string)))
-					return (T)converter.ConvertFrom(value);
-
-				throw new InvalidOperationException(String.Format("ReadAppSettingsEntry('{0}') cannot convert entry string to type '{1}'", name, t.FullName));
+				try
+				{
+					TypeConverter converter = TypeDescriptor.GetConverter(t);
+					if (converter != null && converter.CanConvertFrom(typeof(string)))
+						return (T)converter.ConvertFrom(value);
+				} catch (Exception ex)
+				{
+					throw new ConfigurationErrorsException(String.Format("RssBandit.exe.config value '{1}' with key '{0}' cannot be converted to target type '{2}': {3}", name, value, t.FullName, ex.Message), ex);
+				}
+				throw new ConfigurationErrorsException(String.Format("RssBandit.exe.config value '{1}' with key '{0}' cannot be converted to target type '{2}'", name, value, t.FullName));
 
 			}
 			return defaultValue;

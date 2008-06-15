@@ -81,6 +81,7 @@ using SortOrder=NewsComponents.SortOrder;
 using Timer=System.Threading.Timer;
 using System.Windows.Threading;
 using System.Windows.Forms.Integration;
+using System.Configuration;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -225,6 +226,8 @@ namespace RssBandit
         /// </summary>
         private static bool portableApplicationMode;
 
+		private static SearchIndexBehavior searchIndexBehavior;
+
         private static Version appVersion;
         private static string appDataFolderPath;
         private static string appCacheFolderPath;
@@ -250,32 +253,63 @@ namespace RssBandit
 
         internal static void StaticInit()
         {
-            // according to http://blogs.msdn.com/shawnste/archive/2007/07/11/security-patch-breakes-some-culture-names-for-net-2-0-on-windows-xp-2003-2000.aspx
-            //TR 30-Aug-2007: we do not make use of that fix. We assume,
-            //the user will have installed the framework security hotfix
-            //provided via windows update!
-            //ApplyResourceNameFix();
+            // set initial defaults:
+			validationUrlBase = SR.URL_FeedValidationBase;
+			linkCosmosUrlBase = SR.URL_FeedLinkCosmosUrlBase;
+			bugReportUrl = SR.URL_BugReport;
+			webHelpUrl = SR.URL_WebHelp;
+			workspaceNewsUrl = SR.URL_ProjectNews;
+			wikiNewsUrl = SR.URL_WikiWebNews;
+			forumUrl = SR.URL_UserForum;
+			projectDonationUrl = SR.URL_ProjectDonation;
+			projectDownloadUrl = SR.URL_ProjectDownload;
+
+			// advanced settings:
+			unconditionalCommentRss = false;
+			automaticColorSchemes =  true;
+			FeedSource.SetCookies = true;
+			portableApplicationMode = false;
+        	searchIndexBehavior = SearchIndexBehavior.Default;
 
             // read app.config If a key was not found, take defaults from the embedded resources
-            validationUrlBase = ReadAppSettingsEntry("validationUrlBase", SR.URL_FeedValidationBase);
-            linkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", SR.URL_FeedLinkCosmosUrlBase);
-            bugReportUrl = ReadAppSettingsEntry("bugReportUrl", SR.URL_BugReport);
-            webHelpUrl = ReadAppSettingsEntry("webHelpUrl", SR.URL_WebHelp);
-            workspaceNewsUrl = ReadAppSettingsEntry("projectNewsUrl", SR.URL_ProjectNews);
-            wikiNewsUrl = ReadAppSettingsEntry("wikiWebUrl", SR.URL_WikiWebNews);
-            forumUrl = ReadAppSettingsEntry("userForumUrl", SR.URL_UserForum);
-            projectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", SR.URL_ProjectDonation);
-            projectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", SR.URL_ProjectDownload);
+            List<ConfigurationErrorsException> configErrors = new List<ConfigurationErrorsException>();
+
+			CollectConfigurationException(() => validationUrlBase = ReadAppSettingsEntry("validationUrlBase", SR.URL_FeedValidationBase), configErrors);
+            CollectConfigurationException(() => linkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", SR.URL_FeedLinkCosmosUrlBase), configErrors);
+            CollectConfigurationException(() => bugReportUrl = ReadAppSettingsEntry("bugReportUrl", SR.URL_BugReport), configErrors);
+            CollectConfigurationException(() => webHelpUrl = ReadAppSettingsEntry("webHelpUrl", SR.URL_WebHelp), configErrors);
+            CollectConfigurationException(() => workspaceNewsUrl = ReadAppSettingsEntry("projectNewsUrl", SR.URL_ProjectNews), configErrors);
+            CollectConfigurationException(() => wikiNewsUrl = ReadAppSettingsEntry("wikiWebUrl", SR.URL_WikiWebNews), configErrors);
+            CollectConfigurationException(() => forumUrl = ReadAppSettingsEntry("userForumUrl", SR.URL_UserForum), configErrors);
+            CollectConfigurationException(() => projectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", SR.URL_ProjectDonation), configErrors);
+            CollectConfigurationException(() => projectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", SR.URL_ProjectDownload), configErrors);
 
             // read advanced settings:
-            unconditionalCommentRss = ReadAppSettingsEntry("UnconditionalCommentRss", false);
-            automaticColorSchemes = ReadAppSettingsEntry("AutomaticColorSchemes", true);
-            FeedSource.SetCookies = ReadAppSettingsEntry("UseCookiesFromIE", true);
-            portableApplicationMode = ReadAppSettingsEntry("PortableApplicationMode", false);
+            CollectConfigurationException(() => unconditionalCommentRss = ReadAppSettingsEntry("UnconditionalCommentRss", false), configErrors);
+            CollectConfigurationException(() => automaticColorSchemes = ReadAppSettingsEntry("AutomaticColorSchemes", true), configErrors);
+            CollectConfigurationException(() => FeedSource.SetCookies = ReadAppSettingsEntry("UseCookiesFromIE", true), configErrors);
+			CollectConfigurationException(() => portableApplicationMode = ReadAppSettingsEntry("PortableApplicationMode", false), configErrors);
+			CollectConfigurationException(() => searchIndexBehavior = ReadAppSettingsEntry("Lucene.SearchIndexBehavior",
+				                            	SearchIndexBehavior.Default), configErrors);
+
+			if (configErrors.Count > 0)
+			{
+				StringBuilder b = new StringBuilder();
+				foreach (var ex in configErrors)
+					b.AppendFormat("- {0}{1}", ex.Message, Environment.NewLine);
+
+				b.AppendFormat("{0}{0}Default value(s) will be used.", Environment.NewLine);
+				MessageBox.Show(b.ToString(), "Configuration error(s) detected", MessageBoxButtons.OK);	
+			}
 
             // Gui Settings (Form position, layouts,...)
             guiSettings = new Settings(String.Empty);
         }
+
+		private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
+		{
+			ExceptionHelper.CatchAndCollectExceptions(action, exceptions);
+		}
 
         public RssBanditApplication()
         {
@@ -450,9 +484,8 @@ namespace RssBandit
                           };
             try
             {
-                cfg.SearchIndexBehavior =
-                    ReadAppSettingsEntry("Lucene.SearchIndexBehavior",
-                                         SearchIndexBehavior.Default);
+            	cfg.SearchIndexBehavior = SearchIndexBehavior;
+                    
             }
             catch (Exception configException)
             {
