@@ -2508,4 +2508,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
     <value>Rename this feed source</value>
   </data>
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
+    <value>Remove Synchronization Source</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
+    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+  </data>
 </root>

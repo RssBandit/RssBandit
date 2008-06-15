@@ -1465,7 +1465,7 @@ namespace RssBandit
 				Win32.SetForegroundWindow(MainForm.Handle);
 			DialogResult res = MessageBox.Show(
 				MainForm, text,
-				CaptionOnly + captionPostfix,
+				CaptionOnly + " " + captionPostfix,
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
 
@@ -3218,17 +3218,48 @@ namespace RssBandit
 
                 if (entry != null)
                 {
-                    this.guiMain.CreateFeedSourceView(entry);
+                    this.guiMain.CreateFeedSourceView(entry, true);
                     this.guiMain.AddToSubscriptionTree(entry);
                     this.guiMain.SelectFeedSource(entry);
+                	this.guiMain.MaximizeNavigatorSelectedGroup();
                     this.LoadFeedSourceSubscriptions(entry);
                     this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
-                	ConnectFeedSourceEvents(entry.Source);
+					TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
+					if (root != null) root.Expanded = true;
+					ConnectFeedSourceEvents(entry.Source);
                     threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
-					sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+					SaveFeedSources();
                 }
             }
         }
+
+		public void SaveFeedSources()
+		{
+			try
+			{
+				guiMain.ApplyOrderToFeedSources(sourceManager.Sources);
+				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+			} catch (Exception saveException)
+			{
+				_log.Error("Error saving feed sources", saveException);
+				MessageError("Error saving your feed sources: " + saveException.Message);
+			}
+		}
+
+		public void RemoveFeedSource(FeedSourceEntry entry)
+		{
+			if (entry == null)
+				return;
+			
+			DisconnectFeedSourceEvents(entry.Source);
+			sourceManager.Remove(entry);
+			SaveFeedSources();
+			//TODO: handle case where all sources removed!
+			if (sourceManager.Count > 0)
+				guiMain.SelectFeedSource(sourceManager.Sources.First());
+			guiMain.RemoveFromSubscriptionTree(entry);
+			guiMain.RemoveFeedSourceView(entry);
+		}
 
 		private void ConnectFeedSourceEvents(FeedSource source)
 		{

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
+using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
@@ -31,7 +32,7 @@ namespace RssBandit.WinGui.Forms
             MouseDown += OnFormMouseDown;
             Resize += OnFormResize;
             Closing += OnFormClosing;
-            Load += OnLoad;
+			Load += OnLoad;
             HandleCreated += OnFormHandleCreated;
             Move += OnFormMove;
             Activated += OnFormActivated;
@@ -65,6 +66,7 @@ namespace RssBandit.WinGui.Forms
             InitTrayIcon();
             InitWidgets();
         }
+
 
         // set/reset major UI colors
         protected void InitColors()
@@ -103,7 +105,7 @@ namespace RssBandit.WinGui.Forms
             Navigator.GroupClick += OnNavigatorGroupClick;
             Navigator.SelectedGroupChanging += OnNavigatorSelectedGroupChanging;
 			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;          
-			if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
+			if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
             {
                 //ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
                 owner.Mediator.SetDisabled("cmdToggleRssSearchTabState");
@@ -111,8 +113,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-
-        private void InitOutlookListView()
+    	private void InitOutlookListView()
         {
             listFeedItemsO.ViewStyle = ViewStyle.OutlookExpress;
             var sc = new UltraTreeNodeExtendedDateTimeComparer();
