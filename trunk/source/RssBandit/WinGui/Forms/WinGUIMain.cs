@@ -197,7 +197,7 @@ namespace RssBandit.WinGui.Forms
         private ImageList _listImages;
 
         private MenuItem _feedInfoContextMenu;
-        private ContextMenu _treeRootContextMenu;
+        private ContextMenu _subscriptionTreeRootContextMenu;
         private ContextMenu _treeCategoryContextMenu;
         private ContextMenu _treeFeedContextMenu;
         private ContextMenu _notifyContextMenu;
