@@ -11,8 +11,7 @@
    <feed category='RSS Bandit'>
  	<title>Dare's RSS Bandit Blog</title>
 	<link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRssCategory?categoryName=RSS%20Bandit</link>
-    <refresh-rate>86400000</refresh-rate> 
-   </feed>
+  </feed>
    <feed category='News'>
  	<title>BBC News</title>
 	<link>http://news.bbc.co.uk/rss/newsonline_world_edition/front_page/rss091.xml</link>
@@ -22,8 +21,8 @@
 	<link>http://rss.news.yahoo.com/rss/topstories</link>
    </feed>
    <feed category='Entertainment'>
- 	<title>Rolling Stone</title>
-	<link>http://www.rollingstone.com/rssxml/music_news.xml</link>
+ 	<title>TMZ</title>
+	<link>http://www.tmz.com/rss.xml</link>
    </feed>
    <feed category='Entertainment'>
  	<title>Yahoo News [Entertainment]</title>
@@ -56,8 +55,8 @@
     <link>http://www.scripting.com/rss.xml</link>
   </feed>
     <feed category='Blogs'>
-     <title>Jason Kottke</title>
-     <link>http://www.kottke.org/index.xml</link>
+     <title>Dare Obasanjo</title>
+     <link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRss</link>
    </feed>
   <feed category='Comics'>
     <title>XKCD</title>
@@ -72,8 +71,8 @@
      <link>http://www.tapestrycomics.com/peanuts.xml</link>
    </feed>
     <feed category="Podcasts">
-	 <title>Ze Frank</title>
-     <link>http://feeds.feedburner.com/theshowzefrank</link>
+	 <title>Onion News Network (Video)</title>
+     <link>http://feeds.theonion.com/OnionNewsNetwork/</link>
     </feed>
     <feed category="Podcasts">
      <title>This week in Tech</title>
@@ -85,7 +84,7 @@
     <category>News</category>
     <category>News\Technology</category>
     <category>RSS Bandit</category>
-	<category>Blogs</category>
+	  <category>Blogs</category>
     <category>Comics</category>
     <category>Podcasts</category>
    </categories>
