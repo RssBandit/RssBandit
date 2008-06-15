@@ -788,7 +788,17 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void RefreshListviewColumnContextMenu()
+		private void CmdRenameFeedSource(ICommand sender)
+		{
+			MessageBox.Show("Not yet implemented.");
+		}
+		
+		private void CmdDeleteFeedSource(ICommand sender)
+		{
+			MessageBox.Show("Not yet implemented.");
+		}
+
+    	private void RefreshListviewColumnContextMenu()
         {
             ColumnKeyIndexMap map = listFeedItems.Columns.GetColumnIndexMap();
 
@@ -1234,7 +1244,7 @@ namespace RssBandit.WinGui.Forms
 			// create RootFolderType.MyFeeds:
 			//TODO: Add feedsource specific context menu's?
 			TreeFeedsNodeBase root = new SubscriptionRootNode(entry.ID, entry.Name, Resource.SubscriptionTreeImage.AllSubscriptions,
-							 Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
+							 Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _subscriptionTreeRootContextMenu);
 			treeFeeds.Nodes.Insert(0, root);
 			root.Visible = false;
 			root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;

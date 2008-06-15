@@ -1180,7 +1180,7 @@ for detailed information about the error occured.</value>
     <value>Display the flag state column of a news item...</value>
   </data>
   <data name="MenuColumnChooserResetLayoutToDefaultCaption" xml:space="preserve">
-    <value>Reset layout to default	</value>
+    <value>Reset layout to default</value>
   </data>
   <data name="MenuColumnChooserResetLayoutToDefaultDesc" xml:space="preserve">
     <value>Layout will be removed from the selected subscription node...</value>
@@ -1204,7 +1204,7 @@ for detailed information about the error occured.</value>
     <value>Layout will be valid for all category nodes without an individual assigned layout...</value>
   </data>
   <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" xml:space="preserve">
-    <value>Use layout as default for feeds	</value>
+    <value>Use layout as default for feeds</value>
   </data>
   <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" xml:space="preserve">
     <value>Layout will be valid for all feed nodes without an individual assigned layout...</value>
@@ -1279,7 +1279,7 @@ for detailed information about the error occured.</value>
     <value>Deletes this category and the containing feeds...</value>
   </data>
   <data name="MenuDeleteSelectedFeedItemsCaption" xml:space="preserve">
-    <value>Delete	</value>
+    <value>Delete</value>
     <comment> Caption within context menu, was formerly "Delete selected items"</comment>
   </data>
   <data name="MenuDeleteSelectedFeedItemsDesc" xml:space="preserve">
@@ -1340,10 +1340,10 @@ for detailed information about the error occured.</value>
     <value>Download the item's enclosure files to the specified Podcasts folder</value>
   </data>
   <data name="MenuDownloadFeedsCaption" xml:space="preserve">
-    <value>&amp;Download Feeds...	</value>
+    <value>&amp;Download Feeds...</value>
   </data>
   <data name="MenuDownloadFeedsDesc" xml:space="preserve">
-    <value>Download feed list from remote storage.	</value>
+    <value>Download feed list from remote storage.</value>
   </data>
   <data name="MenuExportFeedsCaption" xml:space="preserve">
     <value>&amp;Export Feeds...</value>
@@ -1496,7 +1496,7 @@ for detailed information about the error occured.</value>
     <value>Add the selected feed item(s) to the Flagged Items Collection...</value>
   </data>
   <data name="MenuIBlogExtensionCommandDesc" xml:space="preserve">
-    <value>IBlogExtension (PlugIn) command	</value>
+    <value>IBlogExtension (PlugIn) command</value>
   </data>
   <data name="MenuIBlogExtensionConfigCommandDesc" xml:space="preserve">
     <value>IBlogExtension (PlugIn) configuration</value>
@@ -1565,10 +1565,10 @@ for detailed information about the error occured.</value>
     <value>&amp;Feed Subscription...</value>
   </data>
   <data name="MenuNewFeedCaption2" xml:space="preserve">
-    <value>&amp;New Feed Subscription...	</value>
+    <value>&amp;New Feed Subscription...</value>
   </data>
   <data name="MenuNewFeedDesc" xml:space="preserve">
-    <value>Subscribe to a new feed	</value>
+    <value>Subscribe to a new feed</value>
   </data>
   <data name="MenuNewFinderCaption" xml:space="preserve">
     <value>New Search Folder</value>
@@ -1690,7 +1690,7 @@ for detailed information about the error occured.</value>
     <value>Display alert window notifications as configured per feed...</value>
   </data>
   <data name="MenuShowFeedPropertiesCaption" xml:space="preserve">
-    <value>Properties...	</value>
+    <value>Properties...</value>
   </data>
   <data name="MenuShowFeedPropertiesDesc" xml:space="preserve">
     <value>Display the Feed properties dialog...</value>
@@ -1723,7 +1723,8 @@ for detailed information about the error occured.</value>
     <value>Never</value>
   </data>
   <data name="MenuShowNoneAlertWindowsDesc" xml:space="preserve">
-    <value>Display no alert window notifications at all...	Description within context menu</value>
+    <value>Display no alert window notifications at all...</value>
+    <comment>Description within context menu</comment>
   </data>
   <data name="MenuSubscribeToFinderResultCaption" xml:space="preserve">
     <value>Subscribe...</value>
@@ -1765,7 +1766,7 @@ for detailed information about the error occured.</value>
     <value>&amp;Upload Feeds...</value>
   </data>
   <data name="MenuUploadFeedsDesc" xml:space="preserve">
-    <value>Upload feed list to remote storage.	</value>
+    <value>Upload feed list to remote storage.</value>
   </data>
   <data name="MenuValidateFeedCaption" xml:space="preserve">
     <value>Validate</value>
@@ -1906,7 +1907,7 @@ referrer-url: {2}</value>
  Parameters: 0 - generator (string) </comment>
   </data>
   <data name="RefreshFeedExceptionReportContactInfo" xml:space="preserve">
-    <value>Contact information(s):	</value>
+    <value>Contact information(s):</value>
   </data>
   <data name="RefreshFeedExceptionReportHomePage" xml:space="preserve">
     <value>Feed Homepage</value>
@@ -2082,7 +2083,7 @@ Do you want to continue?</value>
     <value>Get the web feed title...</value>
   </data>
   <data name="WizardValidationTask_InvalidFeedMessage" xml:space="preserve">
-    <value>Invalid web feed.	</value>
+    <value>Invalid web feed.</value>
   </data>
   <data name="WizardValidationTask_PrefetchCanceledMessage" xml:space="preserve">
     <value>Prefetch web feed cancelled.</value>
@@ -2494,5 +2495,17 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   </data>
   <data name="MenuDownloadManagerDesc" xml:space="preserve">
     <value>Launches the download manager</value>
+  </data>
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
+    <value>Delete Feed Source...</value>
+  </data>
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
+    <value>Delete this feed source</value>
+  </data>
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
+    <value>Rename Feed Source...</value>
+  </data>
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
+    <value>Rename this feed source</value>
   </data>
 </root>
