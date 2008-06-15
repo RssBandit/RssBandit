@@ -176,6 +176,10 @@
       <Name>Interop.SHDocVw</Name>
       <HintPath>..\Common\Libraries\Interop.SHDocVw.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.ThumbCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Interop.ThumbCache.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.WMPLib">
       <Name>Interop.WMPLib</Name>
       <HintPath>..\Common\Libraries\Interop.WMPLib.dll</HintPath>
