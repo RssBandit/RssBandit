@@ -528,8 +528,10 @@ namespace RssBandit
     IShellItem **ppsi
 );*/
 
+        // This is here just because the TlbImp'd one had an incorrect
+        // signature on GetSharedBitmap
         [ComImport, InterfaceType((short)1), SuppressUnmanagedCodeSecurity, Guid("091162A4-BC96-411F-AAE8-C5122CD03363"), ComConversionLoss]
-        public interface ISharedBitmap1
+        private interface ISharedBitmap1
         {
             [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
             void GetSharedBitmap([Out, ComAliasName("Interop.ThumbCache.wireHBITMAP")] out IntPtr phbm);
@@ -599,15 +601,12 @@ namespace RssBandit
                 
                 SHCreateShellItem(IntPtr.Zero, IntPtr.Zero, ppidl, out ppsi);
 
-                string name;
-                ppsi.GetDisplayName(tagSIGDN.SIGDN_FILESYSPATH, out name);
-
                 IThumbnailCache cache = new LocalThumbnailCacheClass();
 
                 SharedBitmap sb;
 
                 uint size = 100;
-                uint flag = 1; //WTS_EXTRACT
+                uint flag = 0; //WTS_EXTRACT
                 uint outFlags = 0;
 
                 tagTHUMBNAILID ttid = new tagTHUMBNAILID();
