@@ -292,6 +292,7 @@ namespace RssBandit.WinGui.Forms
 
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
+        	treeFeeds.HideSelection = false;
 
 			//// create RootFolderType.MyFeeds:
 			//TreeFeedsNodeBase root =
@@ -311,7 +312,7 @@ namespace RssBandit.WinGui.Forms
                                    _treeSearchFolderRootContextMenu);
             treeFeeds.Nodes.Add(root);
             //_roots[(int) RootFolderType.Finder] = root;
-            if (SearchIndexBehavior.NoIndexing == owner.FeedHandler.Configuration.SearchIndexBehavior)
+            if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
                 root.Visible = false;
 
             // create RootFolderType.SmartFolder:

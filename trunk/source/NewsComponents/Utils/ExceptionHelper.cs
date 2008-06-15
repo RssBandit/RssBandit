@@ -11,6 +11,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -200,6 +201,18 @@ namespace NewsComponents.Utils
 			{
 				throw new IndexOutOfRangeException();
 			}
+		}
+
+		/// <summary>
+		/// Catches the exception and collect them in the provided list.
+		/// </summary>
+		/// <typeparam name="ET">The type of the Exception.</typeparam>
+		/// <param name="action">The action.</param>
+		/// <param name="exceptions">The exceptions list.</param>
+		public static void CatchAndCollectExceptions<ET>(Action action, ICollection<ET> exceptions) where ET : Exception
+		{
+			try { action(); }
+			catch (ET ex) { exceptions.Add(ex); }
 		}
 	}
 
