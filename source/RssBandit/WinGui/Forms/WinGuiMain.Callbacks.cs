@@ -3150,6 +3150,7 @@ namespace RssBandit.WinGui.Forms
             if (commentsJustRead && (CurrentSelectedFeedsNode != null))
             {
                 TreeFeedsNodeBase refNode = null;
+                owner.FeedWasModified(feed, NewsFeedProperty.FeedItemNewCommentsRead);
 
                 if (tn.Type == FeedNodeType.Feed)
                 {
@@ -3208,8 +3209,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         feed.containsNewComments = (refNode.ItemsWithNewCommentsCount != 0);
                     }
-
-                    owner.FeedWasModified(feed, NewsFeedProperty.FeedItemNewCommentsRead);
+                   
                 } //if (tn.Type == FeedNodeType.Feed )
             } //if(commentsJustRead && (this.CurrentSelectedFeedsNode!= null))
         }

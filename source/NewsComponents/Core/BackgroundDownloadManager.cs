@@ -594,7 +594,7 @@ namespace NewsComponents
         {
             var task = new DownloadTask(item, this);
 
-            if (DownloadRegistryManager.Current.TaskAlreadyExists(task))
+            if (DownloadRegistryManager.Current.IsTaskActive(task))
             {
                 DownloadRegistryManager.Current.RegisterTask(task);
 
@@ -626,7 +626,7 @@ namespace NewsComponents
             _log.InfoFormat("Starting to download enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
                             item.Enclosure.Url, item.OwnerItemId, item.OwnerFeedId, item.TargetFolder);
 
-            if (!DownloadRegistryManager.Current.TaskAlreadyExists(task))
+            if (!DownloadRegistryManager.Current.IsTaskActive(task))
             {
                 DownloadRegistryManager.Current.RegisterTask(task);
 
