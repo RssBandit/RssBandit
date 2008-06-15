@@ -4988,6 +4988,24 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Synchronization Source.
+        /// </summary>
+        internal static string MessageBoxDeleteThisFeedSourceCaption {
+            get {
+                return ResourceManager.GetString("MessageBoxDeleteThisFeedSourceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to remove &apos;{0}&apos; from your list of synchronization sources?.
+        /// </summary>
+        internal static string MessageBoxDeleteThisFeedSourceQuestion {
+            get {
+                return ResourceManager.GetString("MessageBoxDeleteThisFeedSourceQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to delete this search folder?.
         /// </summary>
         internal static string MessageBoxDeleteThisFinderQuestion {

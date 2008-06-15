@@ -689,6 +689,8 @@ namespace RssBandit.WinGui.Forms
             if (startNode == null)
                 startNode = rootNode;
 
+			if (startNode == null)
+				return;
 
             if (startNode.Type == FeedNodeType.Feed)
             {
