@@ -134,15 +134,20 @@ namespace NewsComponents.Net
 
 
         /// <summary>
-        /// Indicates whether a download task already exists that corresponds to the input task
+        /// Indicates whether a download task is already being downloaded that corresponds to the input task
         /// </summary>
         /// <param name="task">The DownloadTask instance</param>
         /// <returns>True if there is already a download task for the enclosure</returns>
-        public bool TaskAlreadyExists(DownloadTask task)
+        public bool IsTaskActive(DownloadTask task)
         {
             lock(registry)
             {
-                return TasksDictionary.ContainsKey(task.DownloadItem.Enclosure.Url);
+                if (TasksDictionary.ContainsKey(task.DownloadItem.Enclosure.Url))
+                {
+                    DownloadTask existingTask = TasksDictionary[task.DownloadItem.Enclosure.Url];
+                    return existingTask.State == DownloadTaskState.Downloading; 
+                }
+                return false; 
             }
         }
 
@@ -158,6 +163,10 @@ namespace NewsComponents.Net
                 {
                     TasksDictionary.Add(task.DownloadItem.Enclosure.Url, task);
                     AddTask(task);
+                }
+                else //change state to downloading because we are reattempting
+                {
+                    TasksDictionary[task.DownloadItem.Enclosure.Url].State = DownloadTaskState.Downloading; 
                 }
             }
             SaveTask(task);
