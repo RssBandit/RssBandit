@@ -701,8 +701,7 @@ namespace NewsComponents
 				DownloadRegistryManager.Current.UpdateTask(e.Task); 
 			 */
 
-            e.Task.State = DownloadTaskState.Downloaded;
-            DownloadRegistryManager.Current.UpdateTask(e.Task);
+       
             ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
             //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
 
@@ -755,6 +754,9 @@ namespace NewsComponents
                 OnDownloadError(this, new DownloadTaskErrorEventArgs(e.Task, error));
                 return;
             }
+
+            e.Task.State = DownloadTaskState.Downloaded;
+            DownloadRegistryManager.Current.UpdateTask(e.Task);
         }
 
         /// <summary>
