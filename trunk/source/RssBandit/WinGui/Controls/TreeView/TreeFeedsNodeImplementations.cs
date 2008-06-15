@@ -33,11 +33,10 @@ namespace RssBandit.WinGui.Controls
     	public int SourceID;
 
         public SubscriptionRootNode(int sourceID, string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
-            : base(text, FeedNodeType.Root, false, imageIndex, selectedImageIndex)
+            : base(text, FeedNodeType.Root, true, imageIndex, selectedImageIndex)
         {
         	SourceID = sourceID;
             _popup = menu;
-            base.Editable = false;
         }
 
         public override object Clone()

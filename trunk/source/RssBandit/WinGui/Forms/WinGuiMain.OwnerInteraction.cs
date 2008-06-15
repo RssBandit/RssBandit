@@ -1164,6 +1164,12 @@ namespace RssBandit.WinGui.Forms
             }
             else if (feedsNode.Type == FeedNodeType.Root)
             {
+            	SubscriptionRootNode rootNode = feedsNode as SubscriptionRootNode;
+				if (rootNode != null)
+				{
+					owner.Mediator.SetEnabled(FeedSourceType.DirectAccess != owner.FeedSources[rootNode.SourceID].SourceType, 
+						"cmdDeleteFeedSource");
+				}
                 if ((feedsNode as FinderRootNode) != null)
                     owner.Mediator.SetEnabled("+cmdDeleteAllFinders", "-cmdDeleteFinder", "-cmdShowFinderProperties");
             }

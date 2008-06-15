@@ -790,12 +790,33 @@ namespace RssBandit.WinGui.Forms
 
 		private void CmdRenameFeedSource(ICommand sender)
 		{
-			MessageBox.Show("Not yet implemented.");
+			TreeFeedsNodeBase root = CurrentSelectedFeedsNode; 
+			if (root != null && !(root is SubscriptionRootNode))
+				root = root.RootNode as TreeFeedsNodeBase;
+			if (root != null)
+			{
+				if (treeFeeds.ActiveNode != root)
+					treeFeeds.ActiveNode = root;
+				root.BeginEdit();
+			}
 		}
-		
+
 		private void CmdDeleteFeedSource(ICommand sender)
 		{
-			MessageBox.Show("Not yet implemented.");
+			TreeFeedsNodeBase root = CurrentSelectedFeedsNode;
+			if (root != null && !(root is SubscriptionRootNode))
+				root = root.RootNode as TreeFeedsNodeBase;
+			
+			if (root != null && DialogResult.Yes == owner.MessageQuestion(
+										String.Format(SR.MessageBoxDeleteThisFeedSourceQuestion, root.Text),
+										SR.MessageBoxDeleteThisFeedSourceCaption))
+			{
+				FeedSourceEntry entry = FeedSourceOf(root);
+				if (entry != null)
+				{
+					owner.RemoveFeedSource(entry);		
+				}
+			}
 		}
 
     	private void RefreshListviewColumnContextMenu()
@@ -1192,12 +1213,12 @@ namespace RssBandit.WinGui.Forms
 		{
 			foreach (FeedSourceEntry source in sources)
 			{
-				CreateFeedSourceView(source);
+				CreateFeedSourceView(source, false);
 				AddToSubscriptionTree(source);
 			}
 		}
 
-        public void CreateFeedSourceView(FeedSourceEntry entry)
+        public void CreateFeedSourceView(FeedSourceEntry entry, bool onTop)
 		{
 			UltraExplorerBarContainerControl view = new UltraExplorerBarContainerControl();
 			view.SuspendLayout();
@@ -1224,20 +1245,67 @@ namespace RssBandit.WinGui.Forms
 			large.Image = Properties.Resources.subscriptions_folder_32;
 			group.Settings.AppearancesLarge.HeaderAppearance = large;
 
-			// add ordered, but before the default "search" group:
-			this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);            
-			view.ResumeLayout(false); 
+			if (onTop)
+			{
+				this.Navigator.Groups.Insert(0, group);
+			}
+			else
+			{
+				// add ordered, but before the default "search" group:
+				this.Navigator.Groups.Insert(this.Navigator.Groups.Count - 1, group);
+			}
+        	view.ResumeLayout(false); 
 		}
 
+		public void RemoveFeedSourceView(FeedSourceEntry entry)
+		{
+			var group =
+					this.Navigator.Groups.Cast<UltraExplorerBarGroup>().FirstOrDefault(
+						g =>
+						{
+							if (g.Key == entry.ID.ToString())
+								return true;
+							return false;
+						});
+
+			if (group != null)
+			{
+				this.Navigator.Groups.Remove(group);
+			}
+		}
+		
+		public void ApplyOrderToFeedSources(IEnumerable<FeedSourceEntry> entries)
+		{
+			foreach (FeedSourceEntry entry in entries)
+			{
+				var group =
+					this.Navigator.Groups.Cast<UltraExplorerBarGroup>().FirstOrDefault(
+						g =>
+						{
+							if (g.Key == entry.ID.ToString())
+								return true;
+							return false;
+						});
+
+				if (group != null)
+					entry.Ordinal = group.Index;
+			}
+		}
 
         public void SelectFeedSource(FeedSourceEntry entry)
         {
             var group = from g in this.Navigator.Groups.Cast<UltraExplorerBarGroup>()
-                        where g.Key == entry.ID.ToString()
+                        where g.Key == entry.ID.ToString() 
                         select g; 
-
-            this.Navigator.SelectedGroup = group.FirstOrDefault(); 
+			
+            this.Navigator.SelectedGroup = group.FirstOrDefault();
         }
+
+		internal void MaximizeNavigatorSelectedGroup()
+		{
+			if (this.Navigator.NavigationMaxGroupHeaders <= 0)
+				this.Navigator.NavigationMaxGroupHeaders = 1;
+		}
 
 		public void AddToSubscriptionTree(FeedSourceEntry entry)
 		{
@@ -1248,6 +1316,23 @@ namespace RssBandit.WinGui.Forms
 			treeFeeds.Nodes.Insert(0, root);
 			root.Visible = false;
 			root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
+		}
+
+		public void RemoveFromSubscriptionTree(FeedSourceEntry entry)
+		{
+			SubscriptionRootNode toRemove = null;
+			foreach (TreeFeedsNodeBase root in treeFeeds.Nodes)
+			{
+				SubscriptionRootNode n = root as SubscriptionRootNode;
+				if (n!= null && n.SourceID == entry.ID)
+				{
+					toRemove = n;
+					break;
+				}
+			}
+
+			if (toRemove != null)
+				treeFeeds.Nodes.Remove(toRemove);
 		}
 
     	private void OnFormMove(object sender, EventArgs e)
@@ -1998,6 +2083,7 @@ namespace RssBandit.WinGui.Forms
                 _trayAni.Visible = false;
                 toastNotifier.Dispose();
                 _uiTasksTimer.Stop();
+				owner.SaveFeedSources();
                 SaveUIConfiguration(true);
             }
         }
@@ -2575,7 +2661,15 @@ namespace RssBandit.WinGui.Forms
             //item was currently selected. This resets the current 
             //this.CurrentSelectedFeedsNode = this.TreeSelectedFeedsNode;
 
-            if (editedNode.Type == FeedNodeType.Feed)
+			if (editedNode.Type == FeedNodeType.Root)
+			{
+				// subscription node (feed source)
+				FeedSourceEntry entry = FeedSourceOf(editedNode);
+				entry.Name = newLabel;
+				Navigator.SelectedGroup.Text = newLabel;
+				owner.SaveFeedSources();
+			} 
+			else if (editedNode.Type == FeedNodeType.Feed)
             {
                 //feed node 
 
