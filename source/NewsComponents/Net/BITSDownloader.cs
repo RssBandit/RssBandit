@@ -844,7 +844,8 @@ namespace NewsComponents.Net
         /// <param name="isDisposing">whether or not to clean up managed + unmanaged/large (true) or just unmanaged(false)</param>
         private void Dispose(bool isDisposing)
         {
-            const uint BG_JOB_ENUM_ALL_USERS = 0x0001;
+            const uint BG_JOB_ENUM_CURRENT_USER = 0; 
+            // const uint BG_JOB_ENUM_ALL_USERS = 0x0001; leads to ACCESS DENIED errors
 
             IBackgroundCopyManager mgr = null;
             IEnumBackgroundCopyJobs jobs = null;
@@ -855,7 +856,7 @@ namespace NewsComponents.Net
                 {
                     mgr = (IBackgroundCopyManager) (new BackgroundCopyManager());
 
-                    mgr.EnumJobs(BG_JOB_ENUM_ALL_USERS, out jobs);
+                    mgr.EnumJobs(BG_JOB_ENUM_CURRENT_USER, out jobs);
 
                     uint numJobs;
                     jobs.GetCount(out numJobs);

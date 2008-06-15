@@ -1031,7 +1031,11 @@ namespace RssBandit.WinGui.Forms
                     if (browser != null)
                     {
                         browser.Tag = null; // remove ref to containing doc
-                        browser.Dispose();
+                        // browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
+                        System.Reflection.FieldInfo fi = typeof(System.Windows.Forms.AxHost).GetField("oleSite", 
+                            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                        object o = fi.GetValue(browser);
+                        GC.SuppressFinalize(o);
                     }
                 }
                 catch (Exception ex)

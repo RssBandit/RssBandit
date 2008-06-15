@@ -850,9 +850,9 @@ namespace RssBandit.WinGui.Forms
             // we just take over some generic resource settings from htmlDetail:
             hc.AllowDrop = true;
             resources.ApplyResources(hc, "htmlDetail");
-            hc.Name = tabName;
+            hc.Name = tabName ?? String.Empty;
             hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
-            helpProvider1.SetShowHelp(hc, ((bool) (resources.GetObject("htmlDetail.ShowHelp"))));
+            //helpProvider1.SetShowHelp(hc, ((bool) (resources.GetObject("htmlDetail.ShowHelp"))));
             hc.ContainingControl = this;
 
             //hc.AccessibleDescription = resources.GetString("htmlDetail.AccessibleDescription");
