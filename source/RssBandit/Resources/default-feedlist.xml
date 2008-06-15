@@ -54,7 +54,15 @@
     <title>Dave Winer</title>
     <link>http://www.scripting.com/rss.xml</link>
   </feed>
-    <feed category='Blogs'>
+  <feed category='Blogs'>
+    <title>Violent Acres</title>
+    <link>http://feeds.feedburner.com/ViolentAcres</link>
+  </feed>
+  <feed category='Blogs'>
+    <title>Dooce</title>
+    <link>http://www.dooce.com/feed_main/feed?q=rss.xml</link>
+  </feed>
+  <feed category='Blogs'>
      <title>Dare Obasanjo</title>
      <link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRss</link>
    </feed>
