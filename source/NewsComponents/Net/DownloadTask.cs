@@ -77,6 +77,8 @@ namespace NewsComponents.Net
             {
                 DownloadFilesBase = info.InitialDownloadLocation;
                 DownloadItem.Init(info);
+
+                RaisePropertyChanged("FileName");
             }
         }
 
@@ -129,7 +131,7 @@ namespace NewsComponents.Net
         {
             get
             {
-                return Path.Combine(DownloadFilesBase, DownloadItem.File.LocalName);
+                return Path.Combine(DownloadItem.TargetFolder, DownloadItem.File.LocalName);
             }
         }
 

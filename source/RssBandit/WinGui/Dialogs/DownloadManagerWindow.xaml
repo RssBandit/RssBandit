@@ -34,7 +34,14 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Image Grid.RowSpan="3" Source="{Binding Path=FileName, Converter={StaticResource fileNameToIcon}}" />
+                            <Image Grid.RowSpan="3">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource fileNameToIcon}">
+                                        <Binding Path="FileName" />
+                                        <Binding Path="State" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
 
                             <TextBlock Grid.Column="1" >
                             <Hyperlink NavigateUri="{Binding Path=FileName}" >

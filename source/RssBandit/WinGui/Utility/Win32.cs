@@ -41,10 +41,13 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Permissions;
 using System.Text;
@@ -54,6 +57,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using Interop.ThumbCache;
 using Microsoft.Win32;
 using NewsComponents.Utils;
 using RssBandit.Resources;
@@ -506,26 +510,125 @@ namespace RssBandit
 
         [DllImport("user32.dll")]
         private static extern bool DestroyIcon(IntPtr hIcon);
+           
+        [DllImport("gdi32.dll")]
+      private static extern bool DeleteObject(IntPtr handle);
 
+        [DllImport("shell32.dll", SetLastError=true)]
+        private static extern bool SHILCreateFromPath([MarshalAs(UnmanagedType.LPWStr)] string path, out IntPtr ppidl, ref IShellItem rgflnOut);
+        /*
+        HRESULT SHILCreateFromPath(LPCWSTR pszPath,
+    PIDLIST_ABSOLUTE* ppidl,
+    DWORD* rgflnOut
+);*/
+        /*
+         HRESULT SHCreateShellItem(          PCIDLIST_ABSOLUTE pidlParent,
+    IShellFolder *psfParent,
+    PCUITEMID_CHILD pidl,
+    IShellItem **ppsi
+);*/
 
+        [ComImport, InterfaceType((short)1), SuppressUnmanagedCodeSecurity, Guid("091162A4-BC96-411F-AAE8-C5122CD03363"), ComConversionLoss]
+        public interface ISharedBitmap1
+        {
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void GetSharedBitmap([Out, ComAliasName("Interop.ThumbCache.wireHBITMAP")] out IntPtr phbm);
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void GetSize(out tagSIZE pSize);
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void GetFormat(out uint pat);
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void InitializeBitmap([In, ComAliasName("Interop.ThumbCache.wireHBITMAP")] ref _userHBITMAP hbm, [In] uint wtsAT);
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void Detach([Out, ComAliasName("Interop.ThumbCache.wireHBITMAP")] IntPtr phbm);
+        }
+
+ 
+
+        [DllImport("shell32.dll", SetLastError=true)]
+        private static extern bool SHCreateShellItem(IntPtr pidlParent, IntPtr psfParent, IntPtr ppidl, out IShellItem ppsi);
 
         public static BitmapSource GetShellIconForFile(string fileName)
         {
             if (fileName == null)
                 throw new ArgumentNullException("fileName");
 
-            var info = new SHFILEINFO();
+            BitmapSource src = null;
+            if(IsOSAtLeastWindowsVista)
+            {
+                src = GetVistaIconCache(fileName);
+            }
 
-            SHGetFileInfo(fileName, 0, ref info, (uint)Marshal.SizeOf(info),
-                                    ShellFileInfoFlags.Icon | ShellFileInfoFlags.LargeIcon | ShellFileInfoFlags.UseFileAttributes);
+            // fall back to regular
 
-            BitmapSource src = Imaging.CreateBitmapSourceFromHIcon(info.hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            if (src == null)
+            {
 
-            DestroyIcon(info.hIcon);
+                var info = new SHFILEINFO();
 
-            src.Freeze();
+                SHGetFileInfo(fileName, 0, ref info, (uint) Marshal.SizeOf(info),
+                              ShellFileInfoFlags.Icon | ShellFileInfoFlags.LargeIcon |
+                              ShellFileInfoFlags.UseFileAttributes);
+
+                src = Imaging.CreateBitmapSourceFromHIcon(info.hIcon, Int32Rect.Empty,
+                                                          BitmapSizeOptions.FromEmptyOptions());
+
+                DestroyIcon(info.hIcon);
+
+                src.Freeze();
+            }
 
             return src;
+        }
+
+        private static BitmapSource GetVistaIconCache(string fileName)
+        {
+            try
+            {
+
+                //int attrs = 0;
+                IShellItem ppsi = null;
+                IntPtr ppidl;
+
+                SHILCreateFromPath(fileName, out ppidl, ref ppsi);
+
+
+                if (ppidl == IntPtr.Zero)
+                    return null;
+                
+                
+                SHCreateShellItem(IntPtr.Zero, IntPtr.Zero, ppidl, out ppsi);
+
+                string name;
+                ppsi.GetDisplayName(tagSIGDN.SIGDN_FILESYSPATH, out name);
+
+                IThumbnailCache cache = new LocalThumbnailCacheClass();
+
+                SharedBitmap sb;
+
+                uint size = 100;
+                uint flag = 1; //WTS_EXTRACT
+                uint outFlags = 0;
+
+                tagTHUMBNAILID ttid = new tagTHUMBNAILID();
+                cache.GetThumbnail(ppsi, size, flag, out sb, ref outFlags, ref ttid);
+
+                IntPtr hbmap = IntPtr.Zero;
+
+                ISharedBitmap1 sb1 = (ISharedBitmap1)sb;
+
+                sb1.GetSharedBitmap(out hbmap);
+
+                BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(hbmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+                DeleteObject(hbmap);
+
+                return bs;
+            }
+            catch
+            {
+            }
+            return null;
         }
 
 	    #endregion
