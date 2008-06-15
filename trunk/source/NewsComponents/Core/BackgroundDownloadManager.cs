@@ -527,6 +527,7 @@ namespace NewsComponents
                         SubmitTaskAsync(task);
                         break;
                     case DownloadTaskState.Downloaded:
+                        task.Init(task.DownloadItem, this); // this will set the target folder
                         // Unregister the task if we somehow missed it on previous run
                       //  DownloadRegistryManager.Current.UnRegisterTask(task);
                         break;

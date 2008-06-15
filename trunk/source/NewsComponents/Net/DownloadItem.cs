@@ -124,7 +124,13 @@ namespace NewsComponents.Net
         /// </summary>
         public string TargetFolder
         {
-            get { return downloadInfo.GetTargetFolder(this); }
+            get 
+            {
+                if (downloadInfo != null)
+                    return downloadInfo.GetTargetFolder(this);
+                else
+                    return FeedSource.EnclosureFolder;
+            }
         }
 
 
@@ -179,6 +185,7 @@ namespace NewsComponents.Net
             enclosure = new Enclosure(info.GetString("_mimetype"), info.GetInt64("_length"), info.GetString("_url"),
                                       info.GetString("_description"));
             file = new DownloadFile(enclosure);
+
         }
 
         /// <summary>
@@ -196,6 +203,7 @@ namespace NewsComponents.Net
             info.AddValue("_mimetype", enclosure.MimeType);
             info.AddValue("_length", enclosure.Length);
             info.AddValue("_description", enclosure.Description);
+
         }
 
         #endregion
