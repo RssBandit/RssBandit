@@ -612,17 +612,22 @@ namespace RssBandit
                 tagTHUMBNAILID ttid = new tagTHUMBNAILID();
                 cache.GetThumbnail(ppsi, size, flag, out sb, ref outFlags, ref ttid);
 
-                IntPtr hbmap = IntPtr.Zero;
+                // according to the docs, sb might be null
+                if (sb != null)
+                {
+                    IntPtr hbmap = IntPtr.Zero;
 
-                ISharedBitmap1 sb1 = (ISharedBitmap1)sb;
+                    ISharedBitmap1 sb1 = (ISharedBitmap1) sb;
 
-                sb1.GetSharedBitmap(out hbmap);
+                    sb1.GetSharedBitmap(out hbmap);
 
-                BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(hbmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(hbmap, IntPtr.Zero, Int32Rect.Empty,
+                                                                            BitmapSizeOptions.FromEmptyOptions());
 
-                DeleteObject(hbmap);
+                    DeleteObject(hbmap);
 
-                return bs;
+                    return bs;
+                }
             }
             catch
             {
