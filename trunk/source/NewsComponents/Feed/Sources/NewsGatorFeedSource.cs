@@ -459,9 +459,101 @@ namespace NewsComponents.Feed
 
         }
 
+
+        /// <summary>
+        /// This method fetches the feed list from Google Reader, figures out the differences between it and our local feed list, 
+        /// then applies the changes. 
+        /// </summary>
+        private void UpdateFeedList()
+        {
+            bool feedlistModified = false, categoriesModified = false;
+
+            feeds ngFeeds = this.LoadFeedlistFromNewsGatorOnline();
+
+            var addedFeeds = from feed in ngFeeds.feed
+                             where !feedsTable.ContainsKey(feed.link)
+                             select feed;
+
+            foreach (NewsFeed newFeed in addedFeeds)
+            {
+                if (!newFeed.link.Equals(NoXmlUrlFoundInOpml))
+                {                    
+                    newFeed.owner = this;
+                    newFeed.PropertyChanged += this.OnNewsFeedPropertyChanged;
+                   
+                    this.feedsTable.Add(newFeed.link, newFeed);
+                    RaiseOnAddedFeed(new FeedChangedEventArgs(newFeed.link));
+                    feedlistModified = true;
+                }
+              
+            }
+
+            var removedFeeds = from url in feedsTable.Keys
+                               where !ngFeeds.feed.Any(ngf => ngf.link == url)
+                               select url;
+
+            string[] deletedFeeds = removedFeeds.ToArray(); //prevent InvalidOperationException due to modifying feedsTable
+
+            foreach (string deletedFeed in deletedFeeds)
+            {
+                INewsFeed f = null;
+                if (feedsTable.TryGetValue(deletedFeed, out f))
+                {
+                    this.feedsTable.Remove(deletedFeed);
+                    RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
+                    feedlistModified = true;
+                }
+            }
+
+            var movedFeeds = from ngfeed in ngFeeds.feed
+                             where feedsTable.ContainsKey(ngfeed.link) 
+                                && !ngfeed.categories.Any(c => String.Compare(c, feedsTable[ngfeed.link].category, true /* ignoreCase */) == 0)
+                             select ngfeed;
+
+            foreach (NewsFeed relocatedFeed in movedFeeds)
+            {
+                INewsFeed f = null;
+                if (feedsTable.TryGetValue(relocatedFeed.link, out f))
+                {
+                    f.categories.Clear();
+                    f.categories.AddRange(relocatedFeed.categories);
+                    RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, f.category));
+                    categoriesModified = true;
+                }
+            }
+
+            if (feedlistModified)
+            {
+                readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+            }
+
+            if (categoriesModified)
+            {
+                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
+            }
+        }
+
         #endregion 
 
         #region feed downloading methods
+
+
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(bool force_download)
+        {
+            if (!this.Offline)
+            {
+                this.UpdateFeedList();
+            }
+            base.RefreshFeeds(force_download);
+        }
 
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
