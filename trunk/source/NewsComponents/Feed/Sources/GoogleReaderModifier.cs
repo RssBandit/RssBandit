@@ -735,7 +735,9 @@ namespace NewsComponents.Feed
                   = pendingGoogleReaderOperations.Where(op => op.GoogleUserName.Equals(deleteOp.GoogleUserName)
                                                         && op.Parameters.Contains(feedUrl));
 
-                foreach (PendingGoogleReaderOperation op2remove in ops2remove)
+                var ops2remove_array = ops2remove.ToArray(); //prevent collection modified Exceptions
+
+                foreach (PendingGoogleReaderOperation op2remove in ops2remove_array)
                 {
                     pendingGoogleReaderOperations.Remove(op2remove); 
                 }
