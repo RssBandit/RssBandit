@@ -341,6 +341,70 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
+        /// This method fetches the feed list from Google Reader, figures out the differences between it and our local feed list, 
+        /// then applies the changes. 
+        /// </summary>
+        private void UpdateFeedList()
+        {
+            bool feedlistModified = false, categoriesModified = false; 
+
+            IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
+            var addedFeeds = from feed in gReaderFeeds
+                             where !feedsTable.ContainsKey(feed.FeedUrl)
+                             select feed;
+
+            foreach (GoogleReaderSubscription newFeed in addedFeeds)
+            {
+                this.feedsTable.Add(newFeed.FeedUrl, new GoogleReaderNewsFeed(newFeed,null, this));
+                RaiseOnAddedFeed(new FeedChangedEventArgs(newFeed.FeedUrl));
+                feedlistModified = true; 
+            }
+            
+            var removedFeeds = from url in feedsTable.Keys
+                               where !gReaderFeeds.Any(gf => gf.FeedUrl == url)
+                               select url;
+
+            string[] deletedFeeds = removedFeeds.ToArray(); //prevent InvalidOperationException due to modifying feedsTable
+
+            foreach (string deletedFeed in deletedFeeds)
+            {
+                INewsFeed f = null;
+                if (feedsTable.TryGetValue(deletedFeed, out f))
+                {
+                    this.feedsTable.Remove(deletedFeed);
+                    RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
+                    feedlistModified = true;
+                }
+            }
+            
+            var movedFeeds   = from gfeed in gReaderFeeds
+                               where feedsTable.ContainsKey(gfeed.FeedUrl) && !gfeed.Categories.Any(l => l.Label.Equals(feedsTable[gfeed.FeedUrl].category))
+                               select gfeed;
+
+            foreach (GoogleReaderSubscription relocatedFeed in movedFeeds)
+            {
+                INewsFeed f = null;
+                if (feedsTable.TryGetValue(relocatedFeed.FeedUrl, out f))
+                {
+                    f.categories.Clear();
+                    f.categories.AddRange(relocatedFeed.Categories.Select(l => l.Label));
+                    RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, f.category));
+                    categoriesModified = true;
+                }
+            }
+
+            if (feedlistModified)
+            {
+                readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
+            }
+
+            if (categoriesModified)
+            {
+                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories); 
+            }
+        }
+
+        /// <summary>
         /// Helper function which creates a Google Reader subscription node
         /// </summary>
         /// <param name="node"></param>
@@ -506,6 +570,23 @@ namespace NewsComponents.Feed
             return new Uri(Uri.UnescapeDataString(downloadUrl.Substring(startIndex, endIndex - startIndex))); 
         }       
 
+
+        /// <summary>
+        /// Downloads every feed that has either never been downloaded before or 
+        /// whose elapsed time since last download indicates a fresh attempt should be made. 
+        /// </summary>
+        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// or whether the cache can be used.</param>
+        /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
+        /// HTTP headers when downloading feeds.</remarks>	
+        public override void RefreshFeeds(bool force_download)
+        {
+            if (!this.Offline)
+            {
+                this.UpdateFeedList();
+            }
+            base.RefreshFeeds(force_download); 
+        }
 
          /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
