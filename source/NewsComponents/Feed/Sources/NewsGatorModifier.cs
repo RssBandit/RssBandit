@@ -546,7 +546,10 @@ namespace NewsComponents.Feed
                   = pendingNewsGatorOperations.Where(op => op.NewsGatorUserName.Equals(deleteOp.NewsGatorUserName)
                                                         && op.Parameters.Contains(feedUrl));
 
-                foreach (PendingNewsGatorOperation op2remove in ops2remove)
+                var ops2remove_array = ops2remove.ToArray(); //prevent collection modified Exceptions
+
+
+                foreach (PendingNewsGatorOperation op2remove in ops2remove_array)
                 {
                     pendingNewsGatorOperations.Remove(op2remove);
                 }
