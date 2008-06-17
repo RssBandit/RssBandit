@@ -80,36 +80,41 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid >
+    <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="39" />
         </Grid.RowDefinitions>
         <Border BorderThickness="1" BorderBrush="{DynamicResource ResourceKey={x:Static SystemColors.ControlDarkBrushKey}}">
-            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Source={StaticResource tasks}}" 
-                          HorizontalContentAlignment="Stretch" BorderThickness="0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
-                            <DataTemplate.Triggers>
+            <ListBox ItemsSource="{Binding Source={StaticResource tasks}}" 
+                          HorizontalContentAlignment="Stretch" 
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!--Virtualizing Stack panel doesn't resize right-->
+                        <StackPanel /> 
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
+                        <DataTemplate.Triggers>
 
-                                <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
-                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                                </DataTrigger>
-                                <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
-                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                                </DataTrigger>
-                                <DataTrigger  Binding="{Binding Path=State}" Value="None">
-                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
+                            <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
+                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                            </DataTrigger>
+                            <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
+                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                            </DataTrigger>
+                            <DataTrigger  Binding="{Binding Path=State}" Value="None">
+                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
 
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
 
-                </ItemsControl>
-            </ScrollViewer>
+            </ListBox>
         </Border>
         <Canvas Grid.Row="1" Background="{DynamicResource ResourceKey={x:Static SystemColors.ControlBrushKey}}" >
             <Button HorizontalAlignment="Left" Margin="12,6,0,6" Name="btnClear" Click="btnClear_Click">Clear Finished</Button>      
