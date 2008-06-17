@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -35,6 +36,12 @@ namespace RssBandit.WinGui.Dialogs
                 
                 DownloadRegistryManager.Current.UnRegisterTask(task);
             }
+        }
+
+        private void Grid_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
+            e.Handled = true;
         }
     }
 }
