@@ -196,16 +196,18 @@ namespace NewsComponents.Feed
         #region feed list methods
 
 
+
         /// <summary>
-        /// Saves the feed list to the specified stream. The feed is written in 
+        /// Saves the feed list to the SubscriptionLocation.Location. The feed is written in
         /// the RSS Bandit feed file format as described in feeds.xsd
         /// </summary>
-        /// <param name="feedStream">The stream to save the feed list to</param>
-        public override void SaveFeedList(Stream feedStream)
+        public override void SaveFeedList()
         {
-            base.SaveFeedList(feedStream);
+            base.SaveFeedList();
             GoogleReaderUpdater.SavePendingOperations(); 
         }
+
+     
 
         /// <summary>
         /// Loads the feedlist from the FeedLocation. 
@@ -583,7 +585,14 @@ namespace NewsComponents.Feed
         {
             if (!this.Offline)
             {
-                this.UpdateFeedList();
+                try
+                {
+                    this.UpdateFeedList();
+                }
+                catch (WebException we)
+                {
+                    _log.Error(we.Message, we); 
+                }
             }
             base.RefreshFeeds(force_download); 
         }
@@ -1426,7 +1435,7 @@ namespace NewsComponents.Feed
                 DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 string markReadUrl = apiUrlPrefix + "mark-all-as-read";
 
-                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt32((olderThan.ToUniversalTime() - UnixEpoch).TotalSeconds) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
+                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt64((olderThan.ToUniversalTime() - UnixEpoch).TotalMilliseconds * 1000) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
