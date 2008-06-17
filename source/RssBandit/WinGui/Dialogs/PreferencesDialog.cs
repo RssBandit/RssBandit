@@ -648,18 +648,19 @@ namespace RssBandit.WinGui.Forms {
 					labelExperimental.Text = SR.LabelTextRemoteStorageLocation_dasBlog_hint;
 					showAuth = true;
 					break; */
-				case 4: //"WebDAV"
+				case 3: //"WebDAV"
 					labelRemoteStorageLocation.Text = SR.LabelTextRemoteStorageLocation_WebDAV;
 					labelExperimental.Text = SR.LabelTextRemoteStorageLocation_WebDAV_hint;
 					showAuth = true;
 					break;
-				case 3: //"NewsgatorOnline"
+			/*	case 3: //"NewsgatorOnline"
 					labelRemoteStorageLocation.Text = SR.LabelTextRemoteStorageLocation_NewsgatorOnline;
 					labelExperimental.Text = SR.LabelTextRemoteStorageLocation_NewsgatorOnline_hint;
 					showAuth = true;
 					textRemoteStorageLocation.Text = NgosDefaultLocation;
 					textRemoteStorageLocation.Enabled = false;
-					break;
+				    break;
+           */ 
 				default:
 					// There is no selected protocol or the selected one is invalid;
 					// use some defaults

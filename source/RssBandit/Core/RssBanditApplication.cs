@@ -832,12 +832,15 @@ namespace RssBandit
             get { return sourceManager; }
         }
 
+        public FeedSource BanditFeedSource
+        {
+            get { return sourceManager.Sources.FirstOrDefault(entry => entry.Source.Type == FeedSourceType.DirectAccess).Source; }
+        }
 
 		[Obsolete("Please call FeedSources property")]
         public FeedSource FeedHandler
         {
-            get { return feedHandler; }
-        }
+            get { return feedHandler; }        }
 
         public FeedSource CommentFeedsHandler
         {
@@ -2178,7 +2181,7 @@ namespace RssBandit
 
                 FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
                 saveChanges = true;
-            }
+            }            
 
             // migrate refreshrate:
             if (FeedSource.MigrationProperties.ContainsKey("RefreshRate"))
@@ -3003,8 +3006,34 @@ namespace RssBandit
             }
         }
 
+        /// <summary>
+        /// Migrate NewsGator settings from Remote Feed List Storage to Feed Source. 
+        /// </summary>
+        internal void CheckAndMigrateNewsGatorSettings()
+        {
+            //migrate newsgator feed source
+            if (Preferences.RemoteStorageProtocol == RemoteStorageProtocolType.NewsgatorOnline)
+            {
+                if (!String.IsNullOrEmpty(Preferences.RemoteStorageUserName) && !String.IsNullOrEmpty(Preferences.RemoteStoragePassword))
+                {
+                    var creds = new NetworkCredential(Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword);
+                    var loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), creds);
+                    FeedSource fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
+                    FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);                   
+                }
+                Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.UNC; //default 
+                Preferences.RemoteStorageUserName = Preferences.RemoteStoragePassword = Preferences.RemoteStorageLocation = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Load the various subscription lists. 
+        /// </summary>
         internal void LoadFeedLists()
         {
+            CheckAndMigrateNewsGatorSettings(); 
+
             foreach (FeedSourceEntry fs in sourceManager.Sources)
             {
                 if (fs.SourceType == FeedSourceType.DirectAccess)
@@ -3218,19 +3247,25 @@ namespace RssBandit
 
                 if (entry != null)
                 {
-                    this.guiMain.CreateFeedSourceView(entry, true);
-                    this.guiMain.AddToSubscriptionTree(entry);
-                    this.guiMain.SelectFeedSource(entry);
-                	this.guiMain.MaximizeNavigatorSelectedGroup();
-                    this.LoadFeedSourceSubscriptions(entry);
-                    this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
-					TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
-					if (root != null) root.Expanded = true;
-					ConnectFeedSourceEvents(entry.Source);
-                    threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
-					SaveFeedSources();
+                    AddFeedSourceToUserInterface(entry); 
                 }
             }
+        }
+
+
+        private void AddFeedSourceToUserInterface(FeedSourceEntry entry)
+        {
+            this.guiMain.CreateFeedSourceView(entry, true);
+            this.guiMain.AddToSubscriptionTree(entry);
+            this.guiMain.SelectFeedSource(entry);
+            this.guiMain.MaximizeNavigatorSelectedGroup();
+            this.LoadFeedSourceSubscriptions(entry);
+            this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
+            TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
+            if (root != null) root.Expanded = true;
+            ConnectFeedSourceEvents(entry.Source);
+            threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
+            SaveFeedSources();
         }
 
 		public void SaveFeedSources()

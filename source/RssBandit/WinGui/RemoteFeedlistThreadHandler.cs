@@ -21,19 +21,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using log4net;
-using RssBandit.CLR20.com.newsgator.services;
-using RssBandit.CLR20.com.newsgator.services1;
-using RssBandit.CLR20.com.newsgator.services2;
-using RssBandit.CLR20.com.newsgator.services3;
-using RssBandit.CLR20.com.newsgator.services4;
 using RssBandit.CLR20.DasBlog;
 using RssBandit.Common.Logging;
 using ClrMappedWebReference = RssBandit.CLR20.DasBlog;
-using NgosLocation = RssBandit.CLR20.com.newsgator.services;
-using NgosFolder = RssBandit.CLR20.com.newsgator.services1;
-using NgosFeed = RssBandit.CLR20.com.newsgator.services2;
-using NgosSubscription = RssBandit.CLR20.com.newsgator.services3;
-using NgosPostItem = RssBandit.CLR20.com.newsgator.services4;
 using ICSharpCode.SharpZipLib.Zip;
 using Logger = RssBandit.Common.Logging;
 using NewsComponents;
@@ -42,7 +32,6 @@ using NewsComponents.Utils;
 using NewsComponents.Threading;
 using RssBandit.SpecialFeeds;
 using RssBandit.WinGui.Utility;
-using NGAPIToken=RssBandit.CLR20.com.newsgator.services3.NGAPIToken;
 
 
 namespace RssBandit.WinGui
@@ -63,16 +52,7 @@ namespace RssBandit.WinGui
         Siam
     }
 
-    /// <summary>
-    /// Helper class used for passing data between callbacks
-    /// </summary>
-    internal class NgosDownloadFeedState
-    {
-        public INewsFeed feed;
-        public StringCollection readItems2Sync;
-        public StringCollection deletedItems2Sync;
-        public FeedWebService fws;
-    }
+   
 
     /// <summary>
     /// Summary description for RemoteFeedlistThreadHandler.
@@ -101,13 +81,6 @@ namespace RssBandit.WinGui
         }
 
         private static readonly ILog _log = Log.GetLogger(typeof (RemoteFeedlistThreadHandler));
-        private static readonly string NgosProductKey = "7AF62582A5334A9CADF967818E734558";
-
-        private static readonly string NgosLocationName = "RssBandit-" + Environment.MachineName;
-                                       //"NewsGator Web Edition"; 
-
-        private static readonly string InvalidFeedUrl =
-            "http://www.example.com/no-url-for-rss-feed-provided-in-imported-opml";
 
         private readonly Operation operationToRun = Operation.None;
         private readonly RssBanditApplication rssBanditApp = null;
@@ -117,10 +90,6 @@ namespace RssBandit.WinGui
         private readonly string credentialPassword = null;
         private string remoteFileName = "rssbandit-state.zip";
         private readonly Settings settings = null;
-        private ManualResetEvent eventX;
-        private int ngosFeedsToDownload = 0;
-        private int ngosDownloadedFeeds = 0;
-        private static readonly string NgosOpmlNamespace = "http://newsgator.com/schema/opml";
 
         protected override void Run()
         {
@@ -248,165 +217,7 @@ namespace RssBandit.WinGui
                             zos.Close();
 
                             break;
-
-                        case RemoteStorageProtocolType.NewsgatorOnline:
-
-                            StringCollection readItems2Sync = new StringCollection(),
-                                             deletedItems2Sync = new StringCollection();
-                            bool feedListChanged = false;
-
-                            //initialize resources used for threaded requests
-                            eventX = new ManualResetEvent(false);
-
-                            //initialize web services 							
-                            FolderWebService fows = new FolderWebService();
-                            SubscriptionWebService sws = new SubscriptionWebService();
-                            FeedWebService fws = new FeedWebService();
-                            PostItem pws = new PostItem();
-                            LocationWebService lws = new LocationWebService();
-                            fows.Credentials =
-                                lws.Credentials =
-                                pws.Credentials =
-                                fws.Credentials =
-                                sws.Credentials = new NetworkCredential(credentialUser, credentialPassword);
-                            fows.Proxy = lws.Proxy = pws.Proxy = fws.Proxy = sws.Proxy = rssBanditApp.Proxy;
-                            sws.NGAPITokenValue = new NGAPIToken();
-                            fws.NGAPITokenValue = new CLR20.com.newsgator.services2.NGAPIToken();
-                            pws.NGAPITokenValue = new CLR20.com.newsgator.services4.NGAPIToken();
-                            lws.NGAPITokenValue = new CLR20.com.newsgator.services.NGAPIToken();
-                            fows.NGAPITokenValue = new CLR20.com.newsgator.services1.NGAPIToken();
-                            fows.NGAPITokenValue.Token =
-                                lws.NGAPITokenValue.Token =
-                                pws.NGAPITokenValue.Token =
-                                fws.NGAPITokenValue.Token = sws.NGAPITokenValue.Token = NgosProductKey;
-
-                            //create a location for RSS Bandit if it doesn't exist. If it already does, then this operation is redundant which is fine
-                            try
-                            {
-                                lws.CreateLocation(NgosLocationName, true);
-                            }
-                            catch (Exception e)
-                            {
-                                _log.Error(e);
-                            }
-
-                            //since we aren't actually syncing our read state with that of Newsgator Online, we don't send a sync token
-                            XmlElement opmlFeedList = sws.GetSubscriptionList(NgosLocationName, null);
-
-                            /* convert OPML feeds list to RSS Bandit data structures */
-                            XmlDocument opmlDoc = new XmlDocument();
-                            opmlDoc.AppendChild(opmlDoc.ImportNode(opmlFeedList, true));
-
-                            XmlNodeReader reader = new XmlNodeReader(rssBanditApp.FeedHandler.ConvertFeedList(opmlDoc));
-                            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
-                            feeds myFeeds = (feeds) serializer.Deserialize(reader);
-                            reader.Close();
-
-                            ArrayList deletedFeeds = new ArrayList();
-
-                            //foreach(NewsFeed feed in myFeeds.feed){
-                            for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
-                            {
-                                INewsFeed feed = myFeeds.feed[i];
-
-                                if (!feed.link.Equals(InvalidFeedUrl) &&
-                                    rssBanditApp.FeedHandler.IsSubscribed(feed.link))
-                                {
-                                    NgosDownloadFeedState state = new NgosDownloadFeedState();
-                                    state.feed = feed;
-                                    state.deletedItems2Sync = deletedItems2Sync;
-                                    state.readItems2Sync = readItems2Sync;
-                                    state.fws = fws;
-
-                                    PriorityThreadPool.QueueUserWorkItem(
-                                        NgosDownloadFeedToSetReadItems, state,
-                                        (int) ThreadPriority.Normal);
-                                }
-                                else
-                                {
-                                    //feed deleted locally but still in Newsgator Online
-                                    feedListChanged = true;
-                                    try
-                                    {
-                                        deletedFeeds.Add(
-                                            Int32.Parse(
-                                                NewsFeed.GetElementWildCardValue(feed, "http://newsgator.com/schema/opml", "id")));
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        _log.Error("Error while trying to parse Newsgator feed ID for" + feed.link, e);
-                                    }
-                                    //we don't need to download this feed from Newsgator Online
-                                    Interlocked.Decrement(ref ngosFeedsToDownload);
-                                }
-                            } //foreach(NewsFeed feed...)												
-
-
-                            // Wait until all feed information has been obtained from Newsgator Online
-                            // meaning eventX.Set() was called:
-                            if (ngosFeedsToDownload != 0)
-                            {
-                                eventX.WaitOne(System.Threading.Timeout.Infinite, true);
-                            }
-
-                            string[] readItems = new string[readItems2Sync.Count];
-                            readItems2Sync.CopyTo(readItems, 0);
-                            string[] deletedItems = new string[deletedItems2Sync.Count];
-                            deletedItems2Sync.CopyTo(deletedItems, 0);
-                            pws.SetState(NgosLocationName, null, readItems, null /* unread posts */);
-
-                            ArrayList addedFeeds = new ArrayList();
-
-                            //check if a feed added locally that isn't in Newsgator Online
-                            if ((myFeeds.feed.Count != rssBanditApp.FeedHandler.GetFeeds().Count) || feedListChanged)
-                            {
-                                feedListChanged = true;
-
-                                NewsFeed[] currentFeeds =
-                                    new NewsFeed[rssBanditApp.FeedHandler.GetFeeds().Values.Count];
-                                rssBanditApp.FeedHandler.GetFeeds().Values.CopyTo(currentFeeds, 0);
-
-                                foreach (NewsFeed f in currentFeeds)
-                                {
-                                    if (!myFeeds.feed.Contains(f))
-                                    {
-                                        addedFeeds.Add(f);
-                                    }
-                                } //foreach
-                            } //if(myFeeds.feed.Count != ...)							
-
-                            //update feed list in Newsgator if it differs from local one							
-                            if (feedListChanged)
-                            {
-                                if (deletedFeeds.Count > 0)
-                                {
-                                    int[] deleted = new int[deletedFeeds.Count];
-                                    deletedFeeds.CopyTo(deleted, 0);
-                                    sws.DeleteSubscriptions(deleted);
-                                }
-
-                                if (addedFeeds.Count > 0)
-                                {
-                                    foreach (NewsFeed f in addedFeeds)
-                                    {
-                                        //we should do something better with folders
-                                        try
-                                        {
-                                            sws.AddSubscription(f.link, GetFolderId(fows, f, opmlFeedList), null);
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            //intranet or local file system URLs
-                                            _log.Error("Error adding subscription " + f.link + " to NewsGator Online", e);
-                                        }
-                                    }
-                                }
-                            } //if(feedListChanged)
-
-                            //reset counters
-                            ngosDownloadedFeeds = ngosFeedsToDownload = 0;
-                            break;
-
+                     
                         case RemoteStorageProtocolType.dasBlog:
 
                             //save feed list
@@ -618,168 +429,11 @@ namespace RssBandit.WinGui
                         doc.Save(importStream);
                         importStream.Position = 0;
                         break;
-
-
-                    case RemoteStorageProtocolType.NewsgatorOnline:
-
-                        syncedFeeds = new feeds();
-                        string syncToken = rssBanditApp.Preferences.NgosSyncToken;
-
-                        //initialize resources used for threaded requests
-                        eventX = new ManualResetEvent(false);
-
-                        SubscriptionWebService sws = new SubscriptionWebService();
-                        FeedWebService fws = new FeedWebService();
-                        LocationWebService lws = new LocationWebService();
-                        lws.Credentials =
-                            fws.Credentials =
-                            sws.Credentials = new NetworkCredential(credentialUser, credentialPassword);
-                        lws.Proxy = fws.Proxy = sws.Proxy = rssBanditApp.Proxy;
-                        sws.NGAPITokenValue = new NGAPIToken();
-                        fws.NGAPITokenValue = new CLR20.com.newsgator.services2.NGAPIToken();
-                        lws.NGAPITokenValue = new CLR20.com.newsgator.services.NGAPIToken();
-                        lws.NGAPITokenValue.Token =
-                            fws.NGAPITokenValue.Token = sws.NGAPITokenValue.Token = NgosProductKey;
-
-                        //create a location for RSS Bandit if it doesn't exist. If it already does, then this operation is redundant which is fine						
-                        try
-                        {
-                            lws.CreateLocation(NgosLocationName, true);
-                        }
-                        catch (Exception)
-                        {
-                            ;
-                        }
-
-                        XmlElement opmlFeedList = sws.GetSubscriptionList(NgosLocationName, syncToken);
-
-                        XmlNode tokenNode =
-                            opmlFeedList.Attributes.GetNamedItem("token", "http://newsgator.com/schema/opml");
-                        if (tokenNode != null)
-                        {
-                            syncToken = tokenNode.Value;
-                        }
-
-                        /* convert OPML feeds list to RSS Bandit data structures */
-                        XmlDocument opmlDoc = new XmlDocument();
-                        opmlDoc.AppendChild(opmlDoc.ImportNode(opmlFeedList, true));
-
-                        XmlNodeReader reader = new XmlNodeReader(rssBanditApp.FeedHandler.ConvertFeedList(opmlDoc));
-                        XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
-                        feeds myFeeds = (feeds) serializer.Deserialize(reader);
-                        reader.Close();
-
-                        //foreach(NewsFeed feed in myFeeds.feed){
-                        for (int i = myFeeds.feed.Count; i-- > 0; Interlocked.Increment(ref ngosFeedsToDownload))
-                        {
-                            INewsFeed feed = myFeeds.feed[i];
-
-                            string unseen = NewsFeed.GetElementWildCardValue(feed, "http://newsgator.com/schema/opml", "unseen");
-
-                            if (!feed.link.Equals(InvalidFeedUrl) &&
-                                ((unseen != null) && unseen.ToLower().Equals("true")))
-                            {
-                                NgosDownloadFeedState state = new NgosDownloadFeedState();
-                                state.feed = feed;
-                                state.fws = fws;
-
-                                PriorityThreadPool.QueueUserWorkItem(NgosDownloadFeedToGetReadItems,
-                                                                     state, (int) ThreadPriority.Normal);
-                            }
-                            else
-                            {
-                                Interlocked.Decrement(ref ngosFeedsToDownload);
-                            }
-
-                            if (!feed.link.Equals(InvalidFeedUrl))
-                            {
-                                syncedFeeds.feed.Add(feed as NewsFeed);
-                            }
-                        } //foreach
-
-                        //make sure we do not overwrite feeds not supported by NewsGator
-                        syncedFeeds.feed.AddRange(rssBanditApp.FeedHandler.GetNonInternetFeeds() as IEnumerable<NewsFeed>);
-
-                        // Wait until all feed information has been obtained from Newsgator Online
-                        // meaning eventX.Set() was called:
-                        if (ngosFeedsToDownload != 0)
-                        {
-                            eventX.WaitOne(System.Threading.Timeout.Infinite, true);
-                        }
-
-                        rssBanditApp.Preferences.NgosSyncToken = syncToken; //synchronization successful
-                        //reset counters
-                        ngosDownloadedFeeds = ngosFeedsToDownload = 0;
-                        break;
-
+                   
 
                     case RemoteStorageProtocolType.FTP:
-                        // Fetch from FTP
-
-                        /* old code 
-                        Uri remoteUri = null;
-                        string serverName = remoteLocation;
-                        string remotePath = "/";
-                        int remotePort = 21;
-
-                        remoteUri = new Uri(remoteLocation);
-                        serverName = remoteUri.Host;
-                        remotePath = remoteUri.AbsolutePath;
-                        if (!remoteUri.IsDefaultPort) {
-                            remotePort = remoteUri.Port;
-                        }
-
-                        // look here for documentation: http://www.enterprisedt.com/downloads/csftp/doc/com.enterprisedt.net.ftp.html
-                        FTPClient ftpClient = new FTPClient(serverName, remotePort);
-                        bool connectionMode_Passive = settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
-                        if (connectionMode_Passive) {
-                            ftpClient.ConnectMode = FTPConnectMode.PASV;
-                        } else {
-                            ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-                        }
-
-                        ftpClient.Login(credentialUser, credentialPassword);
-
-                        if (remotePath.Length > 1 && remotePath.StartsWith("/")) {
-                            remotePath = remotePath.Substring(1);	// ChDir fails, if it starts with a "/"
-                        }
-
-                        if (remotePath.Length > 1) {	// if not at ftp root:
-                            ftpClient.ChDir(remotePath);
-                        }
-
-                        // Create a memory stream and get the file into that
-                        tempFileName = Path.GetTempFileName();
-                        Stream fileStream = File.Create(tempFileName);
-
-                        try {
-                            ftpClient.TransferType = FTPTransferType.BINARY;
-                            ftpClient.Get(fileStream, remoteFileName);
-
-                        } catch (System.Net.Sockets.SocketException soex) {
-
-                            // if (soex.ErrorCode == 10060 || soex.ErrorCode == 10061){  WSAECONNTIMEOUT, WSAECONNREFUSED, see http://msdn.microsoft.com/library/en-us/winsock/winsock/windows_sockets_error_codes_2.asp?frame=true 
-
-                            // try again, with Mode switched:
-                            // see also: http://slacksite.com/other/ftp.html
-                            if (connectionMode_Passive) {
-                                ftpClient.ConnectMode = FTPConnectMode.ACTIVE;
-                            } else {
-                                ftpClient.ConnectMode = FTPConnectMode.PASV;
-                            }
-                            connectionMode_Passive = !connectionMode_Passive;
-
-                            // try again:
-                            ftpClient.Get(fileStream, remoteFileName);
-
-                            // } else {
-                              //  throw;
-                           // } 
-                        } */
-
-                        Uri remoteUri = new Uri(remoteLocation);
-           
-
+                        // Fetch from FTP                    
+                        Uri remoteUri = new Uri(remoteLocation);           
                         UriBuilder builder = new UriBuilder(remoteUri);
                         builder.Path = remoteFileName;
 
@@ -992,218 +646,6 @@ namespace RssBandit.WinGui
             } //if(syncFormat == SynchronizationFormat.Zip
         }
 
-        #region Newsgator Online related methods
-
-        /// <summary>
-        /// Helper method which downloads a feed from Newsgator Online so we can 
-        /// determine what we've read in NewsgatorOnline that aren't marked as read in RSS Bandit
-        /// </summary>
-        /// <param name="stateInfo">The state information needed to perform the operation</param>	
-        private void NgosDownloadFeedToGetReadItems(object stateInfo)
-        {
-            try
-            {
-                NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
-
-                string feedId = NewsFeed.GetElementWildCardValue(state.feed, "http://newsgator.com/schema/opml", "id");
-                XmlElement feed2Sync =
-                    state.fws.GetNews(Int32.Parse(feedId), NgosLocationName, null
-                                      /* this.rssBanditApp.Preferences.NgosSyncToken */, false);
-                XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable());
-
-                nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions");
-
-                foreach (XmlNode item in feed2Sync.SelectNodes("//item[ng:read='True']", nsMgr))
-                {
-                    // TODO: Fix this to work for feeds with guids since NewsGator doesn't provide them in the feed
-                    XmlNode link = item.SelectSingleNode("./link");
-                    XmlNode guid = item.SelectSingleNode("./guid");
-
-                    if (guid != null)
-                    {
-                        state.feed.AddViewedStory(guid.InnerText);
-                    }
-                    else if (link != null)
-                    {
-                        state.feed.AddViewedStory(link.InnerText);
-                    }
-                } //foreach(XmlNode item...)	
-            }
-            finally
-            {
-                Interlocked.Increment(ref ngosDownloadedFeeds);
-                if (ngosDownloadedFeeds == ngosFeedsToDownload)
-                {
-                    eventX.Set();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Helper method which downloads a feed from Newsgator Online so we can get 
-        /// the Post IDs of items we've read that aren't marked as read on Newsgator Online. 
-        /// </summary>
-        /// <param name="stateInfo">The state information needed to perform the operation</param>
-        private void NgosDownloadFeedToSetReadItems(object stateInfo)
-        {
-            try
-            {
-                NgosDownloadFeedState state = (NgosDownloadFeedState)stateInfo;
-
-                INewsFeed feedInBandit = rssBanditApp.FeedHandler.GetFeeds()[state.feed.link];
-                List<string> readItems = new List<string>();
-                // this.GetReadItemUrls(feedInBandit, readItems); not needed since NewsGator now exposes guids
-               // readItems.InsertRange(0, feedInBandit.storiesrecentlyviewed);
-                readItems.AddRange(feedInBandit.storiesrecentlyviewed);
-
-                string feedId = NewsFeed.GetElementWildCardValue(state.feed, "http://newsgator.com/schema/opml", "id");
-
-                XmlElement feed2Sync =
-                    state.fws.GetNews(Int32.Parse(feedId), NgosLocationName, null
-                                      /* this.rssBanditApp.Preferences.NgosSyncToken */, false);
-                XmlNamespaceManager nsMgr = new XmlNamespaceManager(new NameTable());
-                nsMgr.AddNamespace("ng", "http://newsgator.com/schema/extensions");
-
-                foreach (XmlNode item in feed2Sync.SelectNodes("//item"))
-                {
-                    XmlNode link = item.SelectSingleNode("./link");
-                    XmlNode guid = item.SelectSingleNode("./guid");
-                    XmlNode read = item.SelectSingleNode("./ng:read", nsMgr);
-                    bool itemRead = false;
-
-                    if (read != null && read.InnerText.ToLower().Equals("true"))
-                    {
-                        itemRead = true;
-                    }
-
-                    string ngosId = item.SelectSingleNode("./ng:postId", nsMgr).InnerText;
-
-                    string id;
-                    if (guid != null)
-                    {
-                        id = guid.InnerText;
-                    }
-                    else if (link != null)
-                    {
-                        id = link.InnerText;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                    //see if we've read the item in RSS Bandit 
-                    if (!itemRead && readItems.Contains(id))
-                    {
-                        state.readItems2Sync.Add(ngosId);
-                    }
-                        /* else if(feedInBandit.deletedstories.Contains(id)){
-						state.deletedItems2Sync.Add(ngosId);
-					}*/
-                } //foreach(XmlNode item...)		
-            }
-            finally
-            {
-                Interlocked.Increment(ref ngosDownloadedFeeds);
-                if (ngosDownloadedFeeds == ngosFeedsToDownload)
-                {
-                    eventX.Set();
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Helper method which gets the FolderID for the specified folder from NewsGator. 	
-        /// </summary>
-        /// <param name="fows">The NewsGator folder Web service</param>
-        /// <param name="feed">The feed whose folder ID we are seeking</param>
-        /// <param name="newsgatorOpml">The NewsGator OPML file</param>
-        /// <returns>The NewsGator folder ID of the item</returns>
-        private static int GetFolderId(FolderWebService fows, NewsFeed feed, XmlElement newsgatorOpml)
-        {
-            int folderId;
-
-            //create a category hive in NewsGator 
-            folderId = CreateNewsgatorCategoryHive(fows, feed, newsgatorOpml);
-            return folderId;
-        }
-
-        /// <summary>
-        /// Helper method used for constructing folders in NewsGator Online.
-        /// </summary>
-        /// <param name="fows">The NewsGator folder Web service</param>
-        /// <param name="feed">The feed whose folder ID we are seeking</param>
-        /// <param name="newsgatorOpml">The NewsGator OPML file</param>
-        /// <returns>The NewsGator folder ID of the item</returns>
-        private static int CreateNewsgatorCategoryHive(FolderWebService fows, NewsFeed feed, XmlElement newsgatorOpml)
-        {
-            string category = feed.category;
-            if (newsgatorOpml == null)
-                return 0;
-
-
-            if (category == null || category.Length == 0) 
-                return 0;
-
-            XmlElement startNode = (XmlElement) newsgatorOpml.ChildNodes[1];
-            int folderId = 0;
-
-
-            try
-            {
-                string[] catHives = category.Split(FeedSource.CategorySeparator.ToCharArray());
-                XmlElement n;
-                bool wasNew = false;
-
-                foreach (string catHive in catHives)
-                {
-                    if (!wasNew)
-                    {
-                        string xpath = "child::outline[@title=" + FeedSource.buildXPathString(catHive) +
-                                       " and (count(@*)= 1)]";
-                        n = (XmlElement) startNode.SelectSingleNode(xpath);
-                    }
-                    else
-                    {
-                        n = null;
-                    }
-
-                    if (n == null)
-                    {
-                        n = startNode.OwnerDocument.CreateElement("outline");
-                        n.SetAttribute("title", catHive);
-                        startNode.AppendChild(n);
-                        wasNew = true; // shorten search
-
-                        /* get folderId of parent node */
-                        int parentId = 0;
-                        XmlNode parentFolderIdNode = startNode.Attributes.GetNamedItem("folderId", NgosOpmlNamespace);
-                        if (parentFolderIdNode != null)
-                        {
-                            //check if it is <body> element
-                            parentId = Convert.ToInt32(parentFolderIdNode.Value);
-                        }
-                        /* create folder in NewsGator */
-                        folderId = fows.GetOrCreateFolder(catHive, parentId, "MYF");
-                        /* add folderId to input OPML */
-                        XmlAttribute folderIdNode = n.SetAttributeNode("folderId", NgosOpmlNamespace);
-                        folderIdNode.Value = folderId.ToString();
-                    }
-                    startNode = n;
-                } //foreach
-
-                return folderId;
-            }
-            catch (Exception e)
-            {
-                _log.Error("Error in CreateNewsgatorCategoryHive() when attempting to create " + category, e);
-            }
-
-            return 0;
-        }
-
-        #endregion
     }
 }
 
