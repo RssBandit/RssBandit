@@ -32,7 +32,7 @@ namespace RssBandit.WinGui.Dialogs
                 // skip in-progress downloads
                 if (task.State == DownloadTaskState.Downloading)
                     continue;
-
+                
                 DownloadRegistryManager.Current.UnRegisterTask(task);
             }
         }
