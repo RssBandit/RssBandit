@@ -257,6 +257,7 @@ namespace NewsComponents.Feed
                 //<newspaper type="channel">
                 writer.WriteStartElement("newspaper");
                 writer.WriteAttributeString("type", "channel");
+                writer.WriteAttributeString("xmlns", "bndt", null, "http://www.25hoursaday.com/2003/RSSBandit/feeds/");
                 writer.WriteElementString("title", title);
             }
             else if (format != NewsItemSerializationFormat.Channel)
@@ -264,6 +265,7 @@ namespace NewsComponents.Feed
                 //<rss version="2.0">
                 writer.WriteStartElement("rss");
                 writer.WriteAttributeString("version", "2.0");
+                writer.WriteAttributeString("xmlns", "bndt", null, "http://www.25hoursaday.com/2003/RSSBandit/feeds/");
             }
 
             /* These are here because so many people cut & paste into blogs from Microsoft Word 
