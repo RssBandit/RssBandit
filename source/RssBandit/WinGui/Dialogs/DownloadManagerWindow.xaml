@@ -12,7 +12,6 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Converters:FileNameToIconConverter x:Key="fileNameToIcon" />
-        
         <DataTemplate x:Key="defaultProgress">
             <Grid Margin="2,2,2,2" >
                 <Grid.ColumnDefinitions>
@@ -81,35 +80,39 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="39" />
         </Grid.RowDefinitions>
-        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Source={StaticResource tasks}}" 
-                          HorizontalContentAlignment="Stretch" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
-                        <DataTemplate.Triggers>
-                            
-                            <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                            <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                            <DataTrigger  Binding="{Binding Path=State}" Value="None">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
+        <Border BorderThickness="1" BorderBrush="{DynamicResource ResourceKey={x:Static SystemColors.ControlDarkBrushKey}}">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Source={StaticResource tasks}}" 
+                          HorizontalContentAlignment="Stretch" BorderThickness="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
+                            <DataTemplate.Triggers>
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="None">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
 
-            </ItemsControl>
-        </ScrollViewer>
-        <Button Grid.Row="1" HorizontalAlignment="Left" Margin="12,6,0,6" Name="btnClear" Click="btnClear_Click">Clear Finished</Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+        <Canvas Grid.Row="1" Background="{DynamicResource ResourceKey={x:Static SystemColors.ControlBrushKey}}" >
+            <Button HorizontalAlignment="Left" Margin="12,6,0,6" Name="btnClear" Click="btnClear_Click">Clear Finished</Button>      
+            </Canvas>
     </Grid>
 </Window>
