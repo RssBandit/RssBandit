@@ -271,10 +271,9 @@ namespace NewsComponents.Feed
         /// Saves the feed list to the specified stream. The feed is written in 
         /// the RSS Bandit feed file format as described in feeds.xsd
         /// </summary>
-        /// <param name="feedStream">The stream to save the feed list to</param>
-        public override void SaveFeedList(Stream feedStream)
+        public override void SaveFeedList()
         {
-            base.SaveFeedList(feedStream);
+            base.SaveFeedList();
             NewsGatorUpdater.SavePendingOperations();
         }        
 
@@ -550,7 +549,14 @@ namespace NewsComponents.Feed
         {
             if (!this.Offline)
             {
-                this.UpdateFeedList();
+                try
+                {
+                    this.UpdateFeedList();
+                }
+                catch (WebException we)
+                {
+                    _log.Error(we.Message, we);
+                }
             }
             base.RefreshFeeds(force_download);
         }
