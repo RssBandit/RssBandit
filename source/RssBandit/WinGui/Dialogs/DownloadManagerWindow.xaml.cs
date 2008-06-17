@@ -27,9 +27,7 @@ namespace RssBandit.WinGui.Dialogs
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            // ToList is required to get a copy of the items for iteration
-            // since we're about remove them
-            foreach(var task in DownloadRegistryManager.Current.GetTasks().ToList())
+            foreach(var task in DownloadRegistryManager.Current.GetTasks())
             {
                 // skip in-progress downloads
                 if (task.State == DownloadTaskState.Downloading)
