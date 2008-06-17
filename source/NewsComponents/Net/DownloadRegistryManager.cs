@@ -289,6 +289,10 @@ namespace NewsComponents.Net
                         //always load all tasks. 
                         if (!registry.ContainsKey(task.DownloadItem.Enclosure.Url))
                         {
+                            // Revert to error if it was in a downloading state
+                            if (task.State == DownloadTaskState.Downloading)
+                                task.State = DownloadTaskState.DownloadError; 
+
                             registry.Add(task.DownloadItem.Enclosure.Url, task);
                             AddTask(task);
                         }
