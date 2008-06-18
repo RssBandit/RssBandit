@@ -4,7 +4,7 @@
     xmlns:Net="clr-namespace:NewsComponents.Net;assembly=NewsComponents"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:Converters="clr-namespace:RssBandit.Converters"
-    Height="318" Width="475" Icon="/Resources/App.ico" Title="Download Manager" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
+    Height="318" Width="475" Icon="/Resources/App.ico" Title="Download Manager" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner" Visibility="Hidden">
     <Window.Resources>
         <CollectionViewSource x:Key="tasks" Source="{Binding Source={x:Static Net:DownloadRegistryManager.Current}, Path=Tasks}">
             <CollectionViewSource.SortDescriptions>
@@ -12,6 +12,8 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Converters:FileNameToIconConverter x:Key="fileNameToIcon" />
+        <Converters:CountToVisibilityConverter x:Key="countToVis" />
+        <Converters:NotVisibleConverter x:Key="notViz" />
         <DataTemplate x:Key="defaultProgress">
             <Grid Margin="2,2,2,2" >
                 <Grid.ColumnDefinitions>
@@ -86,35 +88,39 @@
             <RowDefinition Height="39" />
         </Grid.RowDefinitions>
         <Border BorderThickness="1" BorderBrush="{DynamicResource ResourceKey={x:Static SystemColors.ControlDarkBrushKey}}">
-            <ListBox ItemsSource="{Binding Source={StaticResource tasks}}" 
+            <Grid>
+                <TextBlock Text="No items currently downloaded." Visibility="{Binding ElementName=itemsList, Path=Visibility, Converter={StaticResource notViz}}" />
+                <ListBox x:Name="itemsList" ItemsSource="{Binding Source={StaticResource tasks}}" 
                           HorizontalContentAlignment="Stretch" 
+                     Visibility="{Binding RelativeSource={RelativeSource Self}, Path=ItemsSource.Count, Converter={StaticResource countToVis}}"
                      ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <!--Virtualizing Stack panel doesn't resize right-->
-                        <StackPanel /> 
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
-                        <DataTemplate.Triggers>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!--Virtualizing Stack panel doesn't resize right-->
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter x:Name="cp" Content="{Binding}" ContentTemplate="{StaticResource defaultProgress}" />
+                            <DataTemplate.Triggers>
 
-                            <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                            <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                            <DataTrigger  Binding="{Binding Path=State}" Value="None">
-                                <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="Downloaded">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="Cancelled">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                                <DataTrigger  Binding="{Binding Path=State}" Value="None">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource downloaded}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
 
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-            </ListBox>
+                </ListBox>
+            </Grid>
         </Border>
         <Canvas Grid.Row="1" Background="{DynamicResource ResourceKey={x:Static SystemColors.ControlBrushKey}}" >
             <Button HorizontalAlignment="Left" Margin="12,6,0,6" Name="btnClear" Click="btnClear_Click">Clear Finished</Button>      
