@@ -6836,35 +6836,43 @@ namespace NewsComponents
         /// <returns></returns>
         public Hashtable GetFailureContext(INewsFeed f)
         {
-            if (f == null)
-            {
-                // how about nntpFeeds? They are within the FeedsTable (with different class type)?
-                return new Hashtable();
-            }
-
-            FeedInfo fi = null;
-            lock (itemsTable)
-            {
-                if (itemsTable.ContainsKey(f.link))
-                {
-                    fi = itemsTable[f.link] as FeedInfo;
-                }
-            }
-
-            return GetFailureContext(f, fi);
+			FeedInfo fi = null;
+			if (f != null)
+			{
+				lock (itemsTable)
+				{
+					if (itemsTable.ContainsKey(f.link))
+					{
+						fi = itemsTable[f.link] as FeedInfo;
+					}
+				}
+			}
+			return GetFailureContext(f, fi);
         }
 
-        /// <summary>
+		/// <summary>
         /// Overloaded.
         /// </summary>
         /// <param name="f"></param>
         /// <param name="fi"></param>
         /// <returns></returns>
-        public static Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
+		public Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
+		{
+			Hashtable context = CreateFailureContext(f, fi);
+			context.Add("SUBSCRIPTION_SOURCE", this);
+			return context;
+		}
+
+    	/// <summary>
+        /// Overloaded.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="fi"></param>
+        /// <returns></returns>
+        public static Hashtable CreateFailureContext(INewsFeed f, IFeedDetails fi)
         {
             var context = new Hashtable();
-
-            if (f == null)
+			if (f == null)
             {
                 return context;
             }
@@ -7381,7 +7389,7 @@ namespace NewsComponents
         /// <returns>True if this feed is used by the FeedSource</returns>
         public virtual bool IsSubscribed(string feedUrl)
         {
-            if (StringHelper.EmptyTrimOrNull(feedUrl))
+            if (String.IsNullOrEmpty(feedUrl))
             {
                 return false;
             }

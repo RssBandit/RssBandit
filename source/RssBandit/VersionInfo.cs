@@ -26,7 +26,7 @@ using System.Resources;
 //
 // Please raise Build Number on each modification !!!
 [assembly: AssemblyVersion("1.7.0.1")]
-[assembly: AssemblyFileVersion("1.7.0.*")]
+[assembly: AssemblyFileVersion("1.7.0.1")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.

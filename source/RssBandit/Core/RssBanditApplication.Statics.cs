@@ -891,7 +891,7 @@ namespace RssBandit
         /// <returns></returns>
         public static FeedRequestException CreateLocalFeedRequestException(Exception e, NewsFeed f, IFeedDetails fi)
         {
-            return new FeedRequestException(e.Message, e, FeedSource.GetFailureContext(f, fi));
+            return new FeedRequestException(e.Message, e, FeedSource.CreateFailureContext(f, fi));
         }
 
 		/// <summary>

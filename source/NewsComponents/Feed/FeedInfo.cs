@@ -256,8 +256,9 @@ namespace NewsComponents.Feed
             {
                 //<newspaper type="channel">
                 writer.WriteStartElement("newspaper");
-                writer.WriteAttributeString("type", "channel");
-                writer.WriteAttributeString("xmlns", "bndt", null, "http://www.25hoursaday.com/2003/RSSBandit/feeds/");
+				writer.WriteAttributeString("type", "channel");
+				// NamespaceCore.Feeds_v2003 == "http://www.25hoursaday.com/2003/RSSBandit/feeds/"
+				writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_v2003);
                 writer.WriteElementString("title", title);
             }
             else if (format != NewsItemSerializationFormat.Channel)
@@ -265,7 +266,7 @@ namespace NewsComponents.Feed
                 //<rss version="2.0">
                 writer.WriteStartElement("rss");
                 writer.WriteAttributeString("version", "2.0");
-                writer.WriteAttributeString("xmlns", "bndt", null, "http://www.25hoursaday.com/2003/RSSBandit/feeds/");
+				writer.WriteAttributeString("xmlns", String.Empty /*NamespaceCore.BanditPrefix*/, null, NamespaceCore.Feeds_v2003);
             }
 
             /* These are here because so many people cut & paste into blogs from Microsoft Word 

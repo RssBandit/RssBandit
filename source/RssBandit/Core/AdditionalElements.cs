@@ -1,149 +1,321 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+using System;
+using System.Collections.Generic;
 using System.Xml;
+using NewsComponents;
+using NewsComponents.Utils;
 
 namespace RssBandit
 {
-	/// <summary>
-	/// AdditionalFeedElements contains the RSS Bandit owned
-	/// additional feed XML elements/attributes and namespaces
-	/// used to annotate, keep relations between feeds etc.
-	/// </summary>
-	internal sealed class AdditionalFeedElements
+	internal static class OptionalItemElement
 	{
 		#region Const defs.
 
 		/// <summary>
-		/// Gets the common namespace used for RSS Bandit extensions
+		/// Used for migration to version 1.7.x and higher
 		/// </summary>
-		//TODO: check: do we should use the v2004/vCurrent namespace instead?
-		public const string Namespace = NewsComponents.NamespaceCore.Feeds_v2003;
+		internal static class OldVersion
+		{
+			/// <summary>
+			/// Gets the common old name space used for RSS Bandit extensions
+			/// </summary>
+			public const string Namespace = NamespaceCore.Feeds_v2003;
+
+			/// <summary>
+			/// Gets the former common name space extension prefix
+			/// </summary>
+			public const string OldElementPrefix = "bandit";
+
+			/// <summary>
+			/// Gets the common name space extension prefix
+			/// </summary>
+			public const string ElementPrefix = "rssbandit";
+
+			/// <summary>
+			/// Gets the element name used to store flag state of new items
+			/// </summary>
+			public const string FeedUrlElementName = "feed-url";
+
+			/// <summary>
+			/// Gets the element name used to keep the feed URL of deleted news items 
+			/// </summary>
+			public const string ContainerUrlElementName = "container-url";
+
+			/// <summary>
+			/// Gets the element name used to keep the feed URL of failed feeds 
+			/// (messages stored as news items) 
+			/// </summary>
+			public const string ErrorElementName = "failed-url";
+
+		}
 		
 		/// <summary>
-		/// Gets the former common namespace extension prefix
+		/// Gets the current RssBandit name space extension prefix
 		/// </summary>
-		public const string OldElementPrefix = "bandit";
+		public static string Prefix { get { return NamespaceCore.BanditPrefix; } }
 
 		/// <summary>
-		/// Gets the common namespace extension prefix
+		/// Gets the element name used to store the original feed reference of a news item (link back to original owner feed and source)
 		/// </summary>
-		public const string ElementPrefix = "rssbandit";
-
+		const string OriginalFeedRef = "feed-ref";
+		
 		/// <summary>
-		/// Gets the element name used to store flag state of new items
+		/// Gets the attribute name used to store the feed source id (link back to original owner feed source)
 		/// </summary>
-		public const string FlaggedElementName = "feed-url";
+		const string OriginalSourceID = "source-id";
 
-		/// <summary>
-		/// Gets the element name used to keep the feed url of deleted news items 
-		/// </summary>
-		public const string DeletedElementName = "container-url";
-
-		/// <summary>
-		/// Gets the element name used to keep the feed url of failed feeds 
-		/// (messages stored as news items) 
-		/// </summary>
-		public const string ErrorElementName = "failed-url";
 		#endregion
+		/// <summary>
+		/// Adds the or replace the optional feed reference element.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="sourceID">The source ID.</param>
+		/// <returns></returns>
+		public static XmlElement AddOrReplaceOriginalFeedReference(INewsItem newsItem, string feedUrl, int sourceID)
+		{
+			if (newsItem == null)
+				throw new ArgumentNullException("newsItem");
 
-		private static volatile XmlQualifiedName _originalFeedOfFlaggedItem = null;
-		private static volatile XmlQualifiedName _originalFeedOfDeletedItem = null;
-		private static volatile XmlQualifiedName _originalFeedOfErrorItem = null;
-		private static volatile XmlQualifiedName _originalFeedOfWatchedItem = null;
+			XmlQualifiedName key = AdditionalElements.GetQualifiedName(OriginalFeedRef);
+			XmlQualifiedName attrKey = AdditionalElements.GetQualifiedName(OriginalSourceID);
+			
+			if (newsItem.OptionalElements == null)
+				newsItem.OptionalElements = new Dictionary<XmlQualifiedName, string>(2);
 
-		private static object creationLock = new object();
+			if (newsItem.OptionalElements.ContainsKey(key))
+				newsItem.OptionalElements.Remove(key);
 
-		#region public properties
+			XmlElement element = RssHelper.CreateXmlElement(Prefix, key, feedUrl);
+			element.Attributes.Append(RssHelper.CreateXmlAttribute(String.Empty, attrKey, sourceID.ToString()));
+			newsItem.OptionalElements.Add(key, element.OuterXml);
+			
+			return element;
+		}
 
 		/// <summary>
-		/// Gets the <see cref="XmlQualifiedName"/> used to reference 
-		/// the original feed of flagged items.
+		/// Returns the feed URL and source ID of the optional feed reference element for this <paramref name="newsItem"/>.
 		/// </summary>
-		/// <value>XmlQualifiedName</value>
-		public static XmlQualifiedName OriginalFeedOfFlaggedItem {
-			get {
-				if (_originalFeedOfFlaggedItem == null) {
-					lock(creationLock) {
-						_originalFeedOfFlaggedItem = new XmlQualifiedName(FlaggedElementName, Namespace);
-					}
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="sourceID">out: The source ID. -1 in case no source ID is available</param>
+		/// <returns>
+		/// The feed URL of the source feed if a pointer to it exists and NULL otherwise.
+		/// </returns>
+		public static string GetOriginalFeedReference(INewsItem newsItem, out int sourceID)
+		{
+			if (newsItem == null)
+				throw new ArgumentNullException("newsItem");
+			
+			sourceID = -1;
+			string feedUrl = null;
+			XmlQualifiedName key = AdditionalElements.GetQualifiedName(OriginalFeedRef);
+
+			if (key != null && newsItem.OptionalElements.ContainsKey(key))
+			{
+				string str = newsItem.OptionalElements[key];
+
+				int startIndex = str.IndexOf(">") + 1;
+				int endIndex = str.LastIndexOf("<");
+				feedUrl = str.Substring(startIndex, endIndex - startIndex);
+
+				endIndex = startIndex;
+				startIndex = str.IndexOf(OriginalSourceID + "=", 0, endIndex);
+				if (startIndex > 0)
+				{
+					startIndex = startIndex + (OriginalSourceID + "=").Length + 1;
+					endIndex = str.IndexOf("\"", startIndex);
+					string fs = str.Substring(startIndex, endIndex - startIndex);
+					if (String.IsNullOrEmpty(fs))
+						Int32.TryParse(fs, out sourceID);
 				}
-				return _originalFeedOfFlaggedItem;
 			}
-		}  
+
+			return feedUrl;
+		}
 
 		/// <summary>
-		/// Gets the <see cref="XmlQualifiedName"/> used to reference 
-		/// the original feed of deleted items.
+		/// Removes the optional feed reference element from <paramref name="newsItem"/>'s optional elements.
 		/// </summary>
-		/// <value>XmlQualifiedName</value>
-		public static XmlQualifiedName OriginalFeedOfDeletedItem {
-			get {
-				if (_originalFeedOfDeletedItem == null) {
-					lock(creationLock) {
-						_originalFeedOfDeletedItem = new XmlQualifiedName(DeletedElementName, Namespace); 
-					}
-				}
-				return _originalFeedOfDeletedItem;
-			}
-		} 
+		/// <param name="newsItem">The news item.</param>
+		public static void RemoveOriginalFeedReference(INewsItem newsItem)
+		{
+			if (newsItem == null)
+				throw new ArgumentNullException("newsItem");
 
+			XmlQualifiedName key = AdditionalElements.GetQualifiedName(OriginalFeedRef);
 
-		/// <summary>
-		/// Gets the <see cref="XmlQualifiedName"/> used to reference 
-		/// the original feed of watched items.
-		/// </summary>
-		/// <value>XmlQualifiedName</value>
-		public static XmlQualifiedName OriginalFeedOfWatchedItem {
-			get {
-				if (_originalFeedOfWatchedItem == null) {
-					lock(creationLock) {
-						_originalFeedOfWatchedItem = new XmlQualifiedName(FlaggedElementName, Namespace); 
-					}
-				}
-				return _originalFeedOfWatchedItem;
-			}
-		} 
-
-		/// <summary>
-		/// Gets the <see cref="XmlQualifiedName"/> used to reference 
-		/// the original feed of deleted items.
-		/// </summary>
-		/// <value>XmlQualifiedName</value>
-		public static XmlQualifiedName OriginalFeedOfErrorItem {
-			get {
-				if (_originalFeedOfErrorItem == null) {
-					lock(creationLock) {
-						_originalFeedOfErrorItem = new XmlQualifiedName(ErrorElementName, Namespace); 
-					}
-				}
-				return _originalFeedOfErrorItem;
+			if (key != null && newsItem.OptionalElements.ContainsKey(key))
+			{
+				newsItem.OptionalElements.Remove(key);
 			}
 		}
 
+	}
+
+	/// <summary>
+	/// AdditionalElements contains the RSS Bandit owned
+	/// additional feed XML elements/attributes and name spaces
+	/// used to annotate, keep relations between feeds etc.
+	/// </summary>
+	internal static class AdditionalElements
+	{
+		#region Const defs.
+
+		/// <summary>
+		/// Gets the common current name space used for RSS Bandit extensions
+		/// </summary>
+		public const string Namespace = NamespaceCore.Feeds_vCurrent;
+		
+		
 		#endregion
 
-		private AdditionalFeedElements() {}
+		
+		#region public members
+
+		/// <summary>
+		/// Returns the value of a optional element for the specified <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="newsItem">The news item.</param>
+		/// <returns>
+		/// The value (content) of the optional element if it exists and NULL otherwise.
+		/// </returns>
+		public static string GetElementValue(XmlQualifiedName key, INewsItem newsItem)
+		{
+			string val = null;
+			
+			if (key != null && newsItem.OptionalElements != null && newsItem.OptionalElements.ContainsKey(key))
+			{
+				string str = newsItem.OptionalElements[key];
+
+				int startIndex = str.IndexOf(">") + 1;
+				int endIndex = str.LastIndexOf("<");
+				val = str.Substring(startIndex, endIndex - startIndex);
+			}
+
+			return val;
+		}
+
+		/// <summary>
+		/// Removes the optional element for the specified <paramref name="newsItem"/> from the optional elements.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="newsItem">The news item.</param>
+		public static void RemoveElement(XmlQualifiedName key, INewsItem newsItem)
+		{
+			if (key != null && newsItem.OptionalElements != null && newsItem.OptionalElements.ContainsKey(key))
+			{
+				newsItem.OptionalElements.Remove(key);
+			}
+		}
+
+
+		///// <summary>
+		///// Gets the <see cref="XmlQualifiedName"/> used to reference 
+		///// the original feed of flagged items.
+		///// </summary>
+		///// <value>XmlQualifiedName</value>
+		//public static XmlQualifiedName OriginalFeedOfFlaggedItem 
+		//{
+		//    get { return GetQualifiedName(FeedUrlElementName); }
+		//}
+		///// <summary>
+		///// Gets the <see cref="XmlQualifiedName"/> used to reference 
+		///// the original feed of sent items.
+		///// </summary>
+		///// <value>XmlQualifiedName</value>
+		//public static XmlQualifiedName OriginalFeedOfSentItem
+		//{
+		//    get { return GetQualifiedName(FeedUrlElementName); }
+		//}  
+		///// <summary>
+		///// Gets the <see cref="XmlQualifiedName"/> used to reference 
+		///// the original feed of deleted items.
+		///// </summary>
+		///// <value>XmlQualifiedName</value>
+		//public static XmlQualifiedName OriginalFeedOfDeletedItem 
+		//{
+		//    get { return GetQualifiedName(ContainerUrlElementName); }
+		//} 
+
+
+		///// <summary>
+		///// Gets the <see cref="XmlQualifiedName"/> used to reference 
+		///// the original feed of watched items.
+		///// </summary>
+		///// <value>XmlQualifiedName</value>
+		//public static XmlQualifiedName OriginalFeedOfWatchedItem 
+		//{
+		//    get { return GetQualifiedName(FeedUrlElementName); }
+		//} 
+
+		///// <summary>
+		///// Gets the <see cref="XmlQualifiedName"/> used to reference 
+		///// the original feed of deleted items.
+		///// </summary>
+		///// <value>XmlQualifiedName</value>
+		//public static XmlQualifiedName OriginalFeedOfErrorItem
+		//{
+		//    get { return GetQualifiedName(ErrorElementName); }
+		//}
+
+		#endregion
+
+		#region private members
+
+		/// <summary>
+		/// Qualified names cache
+		/// </summary>
+		private static readonly Dictionary<string, XmlQualifiedName> _names = new Dictionary<string, XmlQualifiedName>();
+		private static readonly object creationLock = new object();
+
+		/// <summary>
+		/// Gets the name of the qualified.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns></returns>
+		internal static XmlQualifiedName GetQualifiedName(string key)
+		{
+			if (key == null) return null;
+			return GetQualifiedName(key, Namespace);
+		}
+
+		/// <summary>
+		/// Gets the name of the qualified.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="xmlNamespace">The XML name space.</param>
+		/// <returns></returns>
+		internal static XmlQualifiedName GetQualifiedName(string key, string xmlNamespace)
+		{
+			if (key == null) return null;
+
+			XmlQualifiedName name;
+			if (!_names.TryGetValue(key, out name))
+			{
+				lock (creationLock)
+				{
+					if (!_names.TryGetValue(key, out name))
+					{
+						name = new XmlQualifiedName(key, xmlNamespace);
+						_names.Add(key, name);
+					}
+				}
+			}
+			return name;
+		}
+		
+		#endregion
+
 	}
 }
 
-#region CVS Version Log
-/*
- * $Log: AdditionalElements.cs,v $
- * Revision 1.5  2006/12/14 18:52:20  carnage4life
- * Removed redundant 'Subscribe in defautl aggregator' option added to IE right-click menu
- *
- * Revision 1.4  2006/12/07 23:18:54  carnage4life
- * Fixed issue where Feed Title column in Smart Folders does not show the original feed
- *
- * Revision 1.3  2006/10/05 08:01:55  t_rendelmann
- * refactored: use string constants for our XML namespaces
- *
- */
-#endregion

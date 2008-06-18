@@ -34,7 +34,7 @@ namespace RssBandit
 		/// </summary>
 		public enum Task {
 			//LoadFeedlists,
-			LoadSpecialFeeds,
+			//LoadSpecialFeeds,
 			RefreshFeeds,
 			RefreshCategoryFeeds,
 			TransformFeed,			
@@ -62,10 +62,11 @@ namespace RssBandit
 				//case Task.LoadFeedlists:
 				//    app.LoadFeedLists();
 				//    break;
-			
-				case Task.LoadSpecialFeeds:
-					app.InitializeFlaggedItems();
-					break;
+
+				// code mocved to FlaggedItemsFeed migrate method:
+				//case Task.LoadSpecialFeeds:
+				//    app.InitializeFlaggedItems();
+				//    break;
 
 				case Task.RefreshFeeds:
 					force = (bool)task.Arguments[0];

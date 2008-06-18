@@ -198,13 +198,13 @@ namespace NewsComponents
         /// <param name="credentials">The credentials.</param>
         /// <param name="proxy">The proxy server to send requests through</param>
         /// <remarks>Relevant HTTP Headers are: Content-Length, Content-Type and Content-Diposition</remarks>
-        /// <returns>A hashtable containing entries for the Content-Length, Content-Type and Content-Diposition headers.</returns>
+        /// <returns>A hash table containing entries for the Content-Length, Content-Type and Content-Diposition headers.</returns>
         public static IDictionary<string, string> GetRelevantHttpHeaders(DownloadFile file, ICredentials credentials,
                                                                          IWebProxy proxy)
         {
             var headers = new Dictionary<string, string>();
 
-            if (file == null || StringHelper.EmptyTrimOrNull(file.Source))
+            if (file == null || String.IsNullOrEmpty(file.Source))
                 return headers;
 
             if (file.Source.StartsWith("http", StringComparison.OrdinalIgnoreCase))

@@ -115,8 +115,6 @@ namespace RssBandit
         private FeedSourceManager sourceManager;
         [Obsolete("use FeedSources")]
 		private FeedSource feedHandler;
-        // BanditFeedSource: used to read/get old 1.6.x settings
-        private FeedSource feedHandler4Migration;
         private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
@@ -446,36 +444,40 @@ namespace RssBandit
 
         private void InitLocalFeeds()
         {
-            flaggedItemsFeed = new LocalFeedsFeed(
-                GetFlagItemsFileName(),
-                SR.FeedNodeFlaggedFeedsCaption,
-                SR.FeedNodeFlaggedFeedsDesc);
+			FeedSourceEntry migrationEntry = GetMigrationFeedSourceEntry();
 
-            watchedItemsFeed = new LocalFeedsFeed(
-                GetWatchedItemsFileName(),
-                SR.FeedNodeWatchedItemsCaption,
-                SR.FeedNodeWatchedItemsDesc);
-
-            sentItemsFeed = new LocalFeedsFeed(
-                GetSentItemsFileName(),
-                SR.FeedNodeSentItemsCaption,
-                SR.FeedNodeSentItemsDesc);
-
-            deletedItemsFeed = new LocalFeedsFeed(
-                GetDeletedItemsFileName(),
-                SR.FeedNodeDeletedItemsCaption,
-                SR.FeedNodeDeletedItemsDesc);
-
-            unreadItemsFeed = new LocalFeedsFeed(
-                "virtualfeed://rssbandit.org/local/unreaditems",
-                SR.FeedNodeUnreadItemsCaption,
-                SR.FeedNodeUnreadItemsDesc,
-                false);
+			flaggedItemsFeed = new FlaggedItemsFeed(migrationEntry);
+			watchedItemsFeed = new WatchedItemsFeed(migrationEntry);
+			sentItemsFeed = new SentItemsFeed(migrationEntry);
+			deletedItemsFeed = new DeletedItemsFeed(migrationEntry);
+			unreadItemsFeed = new UnreadItemsFeed(migrationEntry);
 
             findersSearchRoot = LoadSearchFolders();
+			
+			// flush possible migration changes:
+			if (flaggedItemsFeed.Modified)
+				flaggedItemsFeed.Save();
+			if (watchedItemsFeed.Modified)
+				watchedItemsFeed.Save();
+			if (sentItemsFeed.Modified)
+				sentItemsFeed.Save();
+			if (deletedItemsFeed.Modified)
+				deletedItemsFeed.Save();
         }
 
-        private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
+		/// <summary>
+		/// Gets the migration feed source entry. (BanditFeedSource: used to read/get/migrate old 1.6.x settings)
+		/// </summary>
+		/// <returns></returns>
+		public FeedSourceEntry GetMigrationFeedSourceEntry()
+		{
+			return FeedSources.Sources.FirstOrDefault(e =>
+			{
+				return (e.SourceType == FeedSourceType.DirectAccess);
+			});
+		}
+        
+		private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
         {
             var cfg = new NewsComponentsConfiguration
                           {
@@ -741,13 +743,13 @@ namespace RssBandit
 		//    MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
 		//}
 
-        public void BeginLoadingSpecialFeeds()
-        {
-            MakeAndQueueTask(ThreadWorker.Task.LoadSpecialFeeds,
-                             OnLoadingSpecialFeedsProgress);
-//			ThreadWorkerProgressHandler handler = new ThreadWorkerProgressHandler(this.OnLoadingSpecialFeedsProgress);
-//			ThreadWorker.StartTask(ThreadWorker.Task.LoadSpecialFeeds, this.guiMain, handler, this);
-        }
+//        public void BeginLoadingSpecialFeeds()
+//        {
+//            MakeAndQueueTask(ThreadWorker.Task.LoadSpecialFeeds,
+//                             OnLoadingSpecialFeedsProgress);
+////			ThreadWorkerProgressHandler handler = new ThreadWorkerProgressHandler(this.OnLoadingSpecialFeedsProgress);
+////			ThreadWorker.StartTask(ThreadWorker.Task.LoadSpecialFeeds, this.guiMain, handler, this);
+//        }
 
         private void OnLoadingSpecialFeedsProgress(object sender, ThreadWorkerProgressArgs args)
         {
@@ -1011,6 +1013,11 @@ namespace RssBandit
         {
             get { return guiSettings; }
         }
+
+		public static IPersistedSettings PersistedSettings
+		{
+			get { return guiSettings; }
+		}
 
         /// <summary>
         /// Gets or sets the last auto update check date.
@@ -2135,15 +2142,16 @@ namespace RssBandit
             if (!string.IsNullOrEmpty(Preferences.UserName) &&
                 string.IsNullOrEmpty(Preferences.UserIdentityForComments))
             {
-                if (feedHandler4Migration != null &&
-                    !feedHandler4Migration.UserIdentity.ContainsKey(Preferences.UserName))
+				FeedSourceEntry entry4migration = GetMigrationFeedSourceEntry();
+				if (entry4migration != null &&
+					!entry4migration.Source.UserIdentity.ContainsKey(Preferences.UserName))
                 {
                     //create a UserIdentity from Prefs. properties
                     var ui = new UserIdentity();
                     ui.Name = ui.RealName = Preferences.UserName;
                     ui.ResponseAddress = ui.MailAddress = Preferences.UserMailAddress;
                     ui.ReferrerUrl = Preferences.Referer;
-                    feedHandler4Migration.UserIdentity.Add(ui.Name, ui);
+					entry4migration.Source.UserIdentity.Add(ui.Name, ui);
                     feedlistModified = true;
                 }
                 else
@@ -3443,7 +3451,7 @@ namespace RssBandit
                 return;
 
             // was possibly an error causing feed:
-            ExceptionManager.GetInstance().RemoveFeed(url);
+            ExceptionManager.GetInstance().RemoveFeed(entry, url);
 
             INewsFeed f = GetFeed(entry, url);
             if (f != null)
@@ -3544,24 +3552,20 @@ namespace RssBandit
             {
                 try
                 {
-                    XmlQualifiedName key =
-                        RssHelper.GetOptionalElementKey(ri.OptionalElements,
-                                                        AdditionalFeedElements.OriginalFeedOfFlaggedItem);
-
-                    XmlElement elem = null;
-                    //find bandit:feed-url element 
-                    if (null != key)
-                        elem = RssHelper.GetOptionalElement(ri, key);
-
-                    if (elem != null)
-                    {
-                        string feedUrl = elem.InnerText;
-
-                        if (feedHandler.IsSubscribed(feedUrl))
+                	int sourceID;
+                	string feedUrl = OptionalItemElement.GetOriginalFeedReference(ri, out sourceID);
+					
+					if (feedUrl != null) 
+					{
+						FeedSourceEntry entry = null;
+						if (FeedSources.ContainsKey(sourceID))
+							entry = FeedSources[sourceID];
+						
+						if (entry != null && entry.Source.IsSubscribed(feedUrl))
                         {
                             //check if feed exists 
 
-                            IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+							IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                             //find this item 
                             int itemIndex = itemsForFeed.IndexOf(ri);
@@ -3573,8 +3577,9 @@ namespace RssBandit
 
                                 INewsItem item = itemsForFeed[itemIndex];
                                 item.FlagStatus = Flagged.None;
-                                item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfFlaggedItem);
-                                break;
+								OptionalItemElement.RemoveOriginalFeedReference(item);
+                                
+								break;
                             }
                         } //if(this.feedHan...)
                     } //if(elem.Equals...)						
@@ -3597,21 +3602,26 @@ namespace RssBandit
         {
             if (theItem == null)
                 return;
+			
+			int sourceID;
+            string feedUrl = OptionalItemElement.GetOriginalFeedReference(theItem, out sourceID); // the corresponding feed Url
 
-            string feedUrl = null; // the corresponding feed Url
+			FeedSourceEntry entry = null;
+			if (FeedSources.ContainsKey(sourceID))
+				entry = FeedSources[sourceID];
 
-            try
-            {
-                XmlElement elem =
-                    RssHelper.GetOptionalElement(theItem, AdditionalFeedElements.OriginalFeedOfFlaggedItem);
-                if (elem != null)
-                {
-                    feedUrl = elem.InnerText;
-                }
-            }
-            catch
-            {
-            }
+			//try
+			//{
+			//    XmlElement elem =
+			//        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfFlaggedItem);
+			//    if (elem != null)
+			//    {
+			//        feedUrl = elem.InnerText;
+			//    }
+			//}
+			//catch
+			//{
+			//}
 
             if (theItem.FlagStatus == Flagged.None || theItem.FlagStatus == Flagged.Complete)
             {
@@ -3635,11 +3645,10 @@ namespace RssBandit
                 }
             }
 
-            if (feedUrl != null && feedHandler.IsSubscribed(feedUrl))
+        	if (feedUrl != null && entry!= null && entry.Source.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
-
-                IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+				IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -3669,20 +3678,25 @@ namespace RssBandit
             if (theItem == null)
                 return;
 
-            string feedUrl = null; // the corresponding feed Url
+			int sourceID;
+			string feedUrl = OptionalItemElement.GetOriginalFeedReference(theItem, out sourceID); // the corresponding feed Url
 
-            try
-            {
-                XmlElement elem =
-                    RssHelper.GetOptionalElement(theItem, AdditionalFeedElements.OriginalFeedOfWatchedItem);
-                if (elem != null)
-                {
-                    feedUrl = elem.InnerText;
-                }
-            }
-            catch
-            {
-            }
+			FeedSourceEntry entry = null;
+			if (FeedSources.ContainsKey(sourceID))
+				entry = FeedSources[sourceID];
+
+			//try
+			//{
+			//    XmlElement elem =
+			//        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfWatchedItem);
+			//    if (elem != null)
+			//    {
+			//        feedUrl = elem.InnerText;
+			//    }
+			//}
+			//catch
+			//{
+			//}
 
 
             //find this item in watched feeds and set watched state
@@ -3698,11 +3712,10 @@ namespace RssBandit
 
 
             //find this item in main feed list and set watched state
-            if (feedUrl != null && feedHandler.IsSubscribed(feedUrl))
+            if (feedUrl != null && entry != null && entry.Source.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
-
-                IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+				IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -3742,25 +3755,20 @@ namespace RssBandit
             {
                 if (!flaggedItemsFeed.Items.Contains(theItem))
                 {
-                    // now create a full copy (including item content)
-                    INewsItem flagItem = feedHandler.CopyNewsItemTo(theItem, flaggedItemsFeed);
+                	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+					// can we flag items in non-source'd feeds?
+					if (entry == null)
+						return;
+
+					// now create a full copy (including item content)
+					INewsItem flagItem = entry.Source.CopyNewsItemTo(theItem, flaggedItemsFeed);
 
                     //take over flag status
                     flagItem.FlagStatus = theItem.FlagStatus;
 
-                    if (null ==
-                        RssHelper.GetOptionalElementKey(flagItem.OptionalElements,
-                                                        AdditionalFeedElements.OriginalFeedOfFlaggedItem))
-                    {
-                        XmlElement originalFeed = RssHelper.CreateXmlElement(
-                            AdditionalFeedElements.ElementPrefix,
-                            AdditionalFeedElements.OriginalFeedOfFlaggedItem.Name,
-                            AdditionalFeedElements.OriginalFeedOfFlaggedItem.Namespace,
-                            theItem.Feed.link);
-                        flagItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfFlaggedItem,
-                                                      originalFeed.OuterXml);
-                    }
-
+                	OptionalItemElement.AddOrReplaceOriginalFeedReference(
+                		flagItem, theItem.Feed.link, entry.ID);
+                	
                     flagItem.BeenRead = theItem.BeenRead;
                     flaggedItemsFeed.Add(flagItem);
                 }
@@ -3815,25 +3823,39 @@ namespace RssBandit
             {
                 if (watchedItemsFeed.Items.Contains(ni))
                 {
-                    watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
+                	int sourceID;
+                	string feedUrlOfWatchedItem = OptionalItemElement.GetOriginalFeedReference(
+                		ni, out sourceID);
 
-                    XmlElement originalFeed = RssHelper.CreateXmlElement(
-                        AdditionalFeedElements.ElementPrefix,
-                        AdditionalFeedElements.OriginalFeedOfWatchedItem.Name,
-                        AdditionalFeedElements.OriginalFeedOfWatchedItem.Namespace,
-                        ni.Feed.link);
+					if (!String.IsNullOrEmpty(feedUrlOfWatchedItem) && FeedSources.ContainsKey(sourceID))
+					{
+						// still there, so we can update the item.
+						
+						watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
+						FeedSourceEntry entry = FeedSources[sourceID];
+						INewsItem watchedItem = entry.Source.CopyNewsItemTo(ni, watchedItemsFeed);
+						OptionalItemElement.AddOrReplaceOriginalFeedReference(watchedItem, ni.Feed.link, sourceID);
+						watchedItemsFeed.Add(watchedItem);
+					}
 
-                    INewsItem watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
+					//watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
 
-                    if (null ==
-                        RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
-                                                        AdditionalFeedElements.OriginalFeedOfWatchedItem))
-                    {
-                        watchedItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfWatchedItem,
-                                                         originalFeed.OuterXml);
-                    }
+					//XmlElement originalFeed = RssHelper.CreateXmlElement(
+					//    OptionalItemElement.Prefix,
+					//    AdditionalElements.OriginalFeedOfWatchedItem,
+					//    ni.Feed.link);
 
-                    watchedItemsFeed.Add(watchedItem);
+					//INewsItem watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
+
+					//if (null ==
+					//    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
+					//                                    AdditionalElements.OriginalFeedOfWatchedItem))
+					//{
+					//    watchedItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfWatchedItem,
+					//                                     originalFeed.OuterXml);
+					//}
+
+					//watchedItemsFeed.Add(watchedItem);
                 }
             }
         }
@@ -3864,23 +3886,32 @@ namespace RssBandit
             }
             else
             {
-                XmlElement originalFeed = RssHelper.CreateXmlElement(
-                    AdditionalFeedElements.ElementPrefix,
-                    AdditionalFeedElements.OriginalFeedOfWatchedItem.Name,
-                    AdditionalFeedElements.OriginalFeedOfWatchedItem.Namespace,
-                    theItem.Feed.link);
+				FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+				// can we watch items in non-source'd feeds?
+				if (entry == null)
+					return;
+
+            	XmlElement originalSource = null;
+            	XmlElement originalFeed = null; //RssHelper.CreateXmlElement(
+				//    AdditionalFeedElements.CurrentPrefix,
+				//    AdditionalFeedElements.OriginalFeedOfWatchedItem,
+				//    theItem.Feed.link);
 
                 if (!watchedItemsFeed.Items.Contains(theItem))
                 {
-                    INewsItem watchedItem = feedHandler.CopyNewsItemTo(theItem, watchedItemsFeed);
+                    INewsItem watchedItem = entry.Source.CopyNewsItemTo(theItem, watchedItemsFeed);
 
-                    if (null ==
-                        RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
-                                                        AdditionalFeedElements.OriginalFeedOfWatchedItem))
-                    {
-                        watchedItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfWatchedItem,
-                                                         originalFeed.OuterXml);
-                    }
+					originalFeed = OptionalItemElement.AddOrReplaceOriginalFeedReference(
+						watchedItem, theItem.Feed.link, entry.ID);
+                	
+					
+					//if (null ==
+					//    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
+					//                                    AdditionalFeedElements.OriginalFeedOfWatchedItem))
+					//{
+					//    watchedItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfWatchedItem,
+					//                                     originalFeed.OuterXml);
+					//}
 
                     watchedItemsFeed.Add(watchedItem);
                 }
@@ -3919,7 +3950,7 @@ namespace RssBandit
                     f = commentFeedsHandler.AddFeed(f);
 
                     // set properties the backend requires the feed just added
-                    int intIn = feedHandler.GetRefreshRate(theItem.Feed.link)/2*MilliSecsMultiplier;
+                    int intIn = entry.Source.GetRefreshRate(theItem.Feed.link)/2*MilliSecsMultiplier;
                     //fetch comments twice as often as feed
                     commentFeedsHandler.SetRefreshRate(f.link, intIn);
                     commentFeedsHandler.SetMaxItemAge(f.link, new TimeSpan(365, 0, 0, 0));
@@ -3963,18 +3994,33 @@ namespace RssBandit
                             OptionalElements = (new Dictionary<XmlQualifiedName, string>(replyItem.OptionalElements))
                         };
 
-                if (null ==
-                    RssHelper.GetOptionalElementKey(newItem.OptionalElements,
-                                                    AdditionalFeedElements.OriginalFeedOfFlaggedItem))
-                {
-                    XmlElement originalFeed = RssHelper.CreateXmlElement(AdditionalFeedElements.ElementPrefix,
-                                                                         AdditionalFeedElements.
-                                                                             OriginalFeedOfFlaggedItem.Name,
-                                                                         AdditionalFeedElements.
-                                                                             OriginalFeedOfFlaggedItem.Namespace,
-                                                                         inResponse2item.Feed.link);
-                    newItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfFlaggedItem, originalFeed.OuterXml);
-                }
+				int sourceID = -1;
+				FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
+				if (entry != null)
+						sourceID = entry.ID;
+
+            	OptionalItemElement.AddOrReplaceOriginalFeedReference(
+            		newItem, inResponse2item.Feed.link, sourceID);
+
+				//XmlQualifiedName key = AdditionalElements.OriginalFeedOfSentItem;
+				//if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
+				//{
+				//    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
+				//                                                         inResponse2item.Feed.link);
+				//    newItem.OptionalElements.Add(key, element.OuterXml);
+				//}
+
+				//key = AdditionalElements.OriginalSourceOfItem;
+				//if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
+				//{
+				//    string sourceID = "-1";
+				//    FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
+				//    if (entry != null)
+				//        sourceID = entry.ID.ToString();
+				//    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
+				//                                                         sourceID);
+				//    newItem.OptionalElements.Add(key, element.OuterXml);
+				//}
 
                 newItem.BeenRead = false;
                 sentItemsFeed.Add(newItem);
@@ -4033,18 +4079,21 @@ namespace RssBandit
 
 
             // add a optional element to remember the original feed container (for later restore)
-            if (null != theItem.Feed &&
-                null ==
-                RssHelper.GetOptionalElementKey(theItem.OptionalElements,
-                                                AdditionalFeedElements.OriginalFeedOfDeletedItem))
-            {
-                XmlElement originalFeed = RssHelper.CreateXmlElement(
-                    AdditionalFeedElements.ElementPrefix,
-                    AdditionalFeedElements.OriginalFeedOfDeletedItem.Name,
-                    AdditionalFeedElements.OriginalFeedOfDeletedItem.Namespace,
-                    theItem.Feed.link);
-                theItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfDeletedItem, originalFeed.OuterXml);
-            }
+        	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+			if (null != theItem.Feed && entry != null)
+				OptionalItemElement.AddOrReplaceOriginalFeedReference(theItem, theItem.Feed.link, entry.ID);
+
+			//if (null != theItem.Feed &&
+			//    null ==
+			//    RssHelper.GetOptionalElementKey(theItem.OptionalElements,
+			//                                    AdditionalElements.OriginalFeedOfDeletedItem))
+			//{
+			//    XmlElement originalFeed = RssHelper.CreateXmlElement(
+			//        OptionalItemElement.Prefix,
+			//        AdditionalElements.OriginalFeedOfDeletedItem,
+			//        theItem.Feed.link);
+			//    theItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfDeletedItem, originalFeed.OuterXml);
+			//}
 
             bool yetDeleted = false;
             if (!deletedItemsFeed.Items.Contains(theItem))
@@ -4054,8 +4103,7 @@ namespace RssBandit
                 yetDeleted = true;
             }
 
-        	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
-            if (entry != null)
+        	if (entry != null)
 				entry.Source.DeleteItem(theItem);
 
             deletedItemsFeed.Modified = true;
@@ -4081,14 +4129,15 @@ namespace RssBandit
             if (item == null)
                 return null;
 
-            string containerFeedUrl = null;
-            XmlElement elem = RssHelper.GetOptionalElement(item, AdditionalFeedElements.OriginalFeedOfDeletedItem);
-            if (null != elem)
-            {
-                containerFeedUrl = elem.InnerText;
-                item.OptionalElements.Remove(AdditionalFeedElements.OriginalFeedOfDeletedItem);
-            }
+            int ownerSourceID ;
+			string containerFeedUrl = OptionalItemElement.GetOriginalFeedReference(item, out ownerSourceID);
+        	
+        	FeedSourceEntry entry = null;
+			if (FeedSources.ContainsKey(ownerSourceID))
+				entry = FeedSources[ownerSourceID];
 
+			OptionalItemElement.RemoveOriginalFeedReference(item);
+			
             if (string.IsNullOrEmpty(containerFeedUrl))
             {
                 containerFeedUrl = item.Feed.link;
@@ -4103,25 +4152,22 @@ namespace RssBandit
             bool foundAndRestored = false;
             TreeFeedsNodeBase feedsNode = null;
 
-
-            if (null !=
-                RssHelper.GetOptionalElementKey(item.OptionalElements, AdditionalFeedElements.OriginalFeedOfFlaggedItem))
-            {
+			if (item.FlagStatus != Flagged.None && item.FlagStatus != Flagged.Complete)
+			{
                 // it was a flagged item
                 flaggedItemsFeed.Add(item);
                 feedsNode = (TreeFeedsNodeBase) guiMain.FlaggedFeedsNode(item.FlagStatus);
                 foundAndRestored = true;
             }
-            else if (FeedHandler.IsSubscribed(containerFeedUrl))
+			else if (entry != null && entry.Source.IsSubscribed(containerFeedUrl))
             {
-                FeedHandler.RestoreDeletedItem(item);
-                feedsNode = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.MyFeeds), containerFeedUrl);
+				entry.Source.RestoreDeletedItem(item);
+                feedsNode = TreeHelper.FindNode(guiMain.GetSubscriptionRootNode(entry), containerFeedUrl);
                 foundAndRestored = true;
             }
             else
             {
-                var isFolder =
-                    TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.SmartFolders), containerFeedUrl) as ISmartFolder;
+                var isFolder = TreeHelper.FindNode(guiMain.GetRoot(RootFolderType.SmartFolders), containerFeedUrl) as ISmartFolder;
                 if (null != isFolder)
                 {
                     isFolder.Add(item);
@@ -4138,7 +4184,9 @@ namespace RssBandit
             }
             else
             {
-                _log.Error("Cannot restore item: container feed not found. Url was '" + containerFeedUrl + "'.");
+				// deletedItemsFeed still contains item, so add previously removed reference back:
+				OptionalItemElement.AddOrReplaceOriginalFeedReference(item, containerFeedUrl, ownerSourceID);
+				_log.Error("Cannot restore item: container feed not found. Url was '" + containerFeedUrl + "'.");
             }
 
             return feedsNode;
@@ -4230,7 +4278,7 @@ namespace RssBandit
         {
             if (e != null)
             {
-                ExceptionManager.GetInstance().Add(e);
+                ExceptionManager.GetInstance().Add(e, entry);
 
                 ResourceGoneException goneex = e as ResourceGoneException ?? e.InnerException as ResourceGoneException;
 
@@ -4250,77 +4298,78 @@ namespace RssBandit
             }
         }
 
-        /// <summary>
-        /// Flags the NewsItems in the regular feeds that are currently in the flagItemList.
-        /// </summary>
-        public void InitializeFlaggedItems()
-        {
-            // as long the FlagStatus of NewsItem's wasn't persisted all the time, 
-            // we have to re-init the feed item's FlagStatus from the flagged items collection:
-            bool runSelfHealingFlagStatus = GuiSettings.GetBoolean("RunSelfHealing.FlagStatus", true);
+		// code mocved to FlaggedItemsFeed migrate method:
+//        /// <summary>
+//        /// Flags the NewsItems in the regular feeds that are currently in the flagItemList.
+//        /// </summary>
+//        public void InitializeFlaggedItems()
+//        {
+//            // as long the FlagStatus of NewsItem's wasn't persisted all the time, 
+//            // we have to re-init the feed item's FlagStatus from the flagged items collection:
+//            bool runSelfHealingFlagStatus = GuiSettings.GetBoolean("RunSelfHealing.FlagStatus", true);
 
-            foreach (NewsItem ri in flaggedItemsFeed.Items)
-            {
-                if (ri.FlagStatus == Flagged.None)
-                {
-                    // correction: older Bandit versions are not able to store flagStatus
-                    ri.FlagStatus = Flagged.FollowUp;
-                    flaggedItemsFeed.Modified = true;
-                }
-                else
-                {
-                    if (!runSelfHealingFlagStatus)
-                        continue; // done
-                }
+//            foreach (NewsItem ri in flaggedItemsFeed.Items)
+//            {
+//                if (ri.FlagStatus == Flagged.None)
+//                {
+//                    // correction: older Bandit versions are not able to store flagStatus
+//                    ri.FlagStatus = Flagged.FollowUp;
+//                    flaggedItemsFeed.Modified = true;
+//                }
+//                else
+//                {
+//                    if (!runSelfHealingFlagStatus)
+//                        continue; // done
+//                }
 
-                // self-healing processing:
+//                // self-healing processing:
 
-                string feedUrl = null; // the corresponding feed Url
+//                string feedUrl = null; // the corresponding feed Url
 
-                try
-                {
-                    XmlElement e = RssHelper.GetOptionalElement(ri, AdditionalFeedElements.OriginalFeedOfFlaggedItem);
-                    if (e != null)
-                    {
-                        feedUrl = e.InnerText;
-                    }
-                }
-                catch
-                {
-                }
+//                try
+//                {
+//                    XmlElement e = RssHelper.GetOptionalElement(ri, AdditionalElements.OriginalFeedOfFlaggedItem);
+//                    if (e != null)
+//                    {
+//                        feedUrl = e.InnerText;
+//                    }
+//                }
+//                catch
+//                {
+//                }
 
-                if (feedUrl != null && feedHandler.IsSubscribed(feedUrl))
-                {
-                    //check if feed exists 
+//                if (feedUrl != null && feedHandler.IsSubscribed(feedUrl))
+//                {
+//                    //check if feed exists 
 
-                    IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
+//                    IList<INewsItem> itemsForFeed = feedHandler.GetItemsForFeed(feedUrl, false);
 
-                    //find this item 
-                    int itemIndex = itemsForFeed.IndexOf(ri);
+//                    //find this item 
+//                    int itemIndex = itemsForFeed.IndexOf(ri);
 
 
-                    if (itemIndex != -1)
-                    {
-                        //check if item still exists 
+//                    if (itemIndex != -1)
+//                    {
+//                        //check if item still exists 
 
-                        INewsItem item = itemsForFeed[itemIndex];
-                        if (item.FlagStatus != ri.FlagStatus)
-                        {
-// correction: older Bandit versions are not able to store flagStatus
-                            item.FlagStatus = ri.FlagStatus;
-                            flaggedItemsFeed.Modified = true;
-                            FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag); // self-healing
-                        }
-                    }
-                } //if(this.feedHan...)
-            } //foreach(NewsItem ri...)
+//                        INewsItem item = itemsForFeed[itemIndex];
+//                        if (item.FlagStatus != ri.FlagStatus)
+//                        {
+//// correction: older Bandit versions are not able to store flagStatus
+//                            item.FlagStatus = ri.FlagStatus;
+//                            flaggedItemsFeed.Modified = true;
+//                            FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag); // self-healing
+//                        }
+//                    }
+//                } //if(this.feedHan...)
+//            } //foreach(NewsItem ri...)
 
-            if (runSelfHealingFlagStatus)
-            {
-                // remember the state:
-                GuiSettings.SetProperty("RunSelfHealing.FlagStatus", false);
-            }
-        }
+//            if (runSelfHealingFlagStatus)
+//            {
+//                // remember the state:
+//                GuiSettings.SetProperty("RunSelfHealing.FlagStatus", false);
+//            }
+//        }
 
         /// <summary>
         /// Called on Application Exit. Close the main form and save application state (RSS Feeds).

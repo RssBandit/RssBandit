@@ -1432,7 +1432,7 @@ namespace NewsComponents.Feed
 
                 if (wf == null)
                 {
-                    Exception e = new FeedRequestException(Error.ToString(), new WebException(Error.ToString()), FeedSource.GetFailureContext(wf, wf));
+                    Exception e = new FeedRequestException(Error.ToString(), new WebException(Error.ToString()), GetFailureContext(wf, wf));
                     RaiseOnUpdateFeedException(ifeed.DownloadUrl, e, 1100);
                 }
 
@@ -1772,7 +1772,8 @@ namespace NewsComponents.Feed
             set { } 
         }
 
-        private readonly bool _beenRead;
+		// hold for speed (COM interop is slow to query often...)
+        private bool _beenRead;
         /// <summary>
         /// Indicates whether the story has been read or not. 
         /// </summary>
@@ -1780,17 +1781,10 @@ namespace NewsComponents.Feed
         {
             get 
             {
-                try
-                {
-                    return _beenRead;
-                }
-                catch (Exception e)
-                {
-                    _log.Debug(e.StackTrace);
-                    return false; 
-                }
+                return _beenRead;
             }
             set {
+            	_beenRead = value;
                 lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
                     WindowsRssFeedSource.event_caused_by_rssbandit = true;

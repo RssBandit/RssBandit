@@ -876,7 +876,7 @@ namespace RssBandit.WinGui.Forms
                 switch ((NewsItemSortField) Enum.Parse(typeof (NewsItemSortField), colKey, true))
                 {
                     case NewsItemSortField.Title:
-                        lvItems[colIndex[colKey]] = StringHelper.ShortenByEllipsis(newsItem.Title, MaxHeadlineWidth);
+                        lvItems[colIndex[colKey]] = StringHelper.ShortenByEllipsis(StringHelper.StripNonDisplayChars(newsItem.Title), MaxHeadlineWidth);
                         break;
                     case NewsItemSortField.Subject:
                         if (authorInTopicColumn && !colIndex.ContainsKey("Author"))
@@ -891,12 +891,15 @@ namespace RssBandit.WinGui.Forms
                     case NewsItemSortField.FeedTitle:
                         INewsFeed f = newsItem.Feed;
                         //if we are in a Smart Folder then use the original title of the feed 
-                        string feedUrl = GetOriginalFeedUrl(newsItem);
-                        if ((feedUrl != null) && owner.FeedHandler.IsSubscribed(feedUrl))
-                        {
-                            f = owner.FeedHandler.GetFeeds()[feedUrl];
-                        }
-
+						int sourceID;
+                		string feedUrl = OptionalItemElement.GetOriginalFeedReference(newsItem, out sourceID); //GetOriginalFeedUrl(newsItem);
+                		
+						FeedSourceEntry entry = null;
+						if (owner.FeedSources.ContainsKey(sourceID))
+							entry = owner.FeedSources[sourceID];
+						if (feedUrl != null && entry != null && entry.Source.IsSubscribed(feedUrl))
+							f = entry.Source.GetFeeds()[feedUrl];
+                        
                         lvItems[colIndex[colKey]] = HtmlHelper.HtmlDecode(f.title);
                         break;
                     case NewsItemSortField.Author:

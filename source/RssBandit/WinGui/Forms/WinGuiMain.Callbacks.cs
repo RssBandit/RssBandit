@@ -3030,16 +3030,28 @@ namespace RssBandit.WinGui.Forms
 
                     if (item is SearchHitNewsItem)
                     {
-                        var sItem = item as SearchHitNewsItem;
-                    	INewsItem realItem = null;
-						if (entry != null)
-							realItem= entry.Source.FindNewsItem(sItem);
 
-                        if (realItem != null)
-                        {
-                            realItem.BeenRead = true;
-                            item = realItem;
-                        }
+						var sItem = item as SearchHitNewsItem;
+						owner.FeedSources.ForEach(source =>
+							{
+								INewsItem realItem = source.FindNewsItem(sItem);
+								if (realItem != null)
+								{
+									realItem.BeenRead = true;
+									item = realItem;
+								}
+							});
+						
+						//var sItem = item as SearchHitNewsItem;
+						//INewsItem realItem = null;
+						//if (entry != null)
+						//    realItem= entry.Source.FindNewsItem(sItem);
+
+						//if (realItem != null)
+						//{
+						//    realItem.BeenRead = true;
+						//    item = realItem;
+						//}
                     }
                 }
 
@@ -3200,34 +3212,36 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Returns the URL of the original feed for this NewsItem. 
-        /// </summary>
-        /// <remarks>Assumes the NewsItem is in the flagged or watched items smart folder</remarks>
-        /// <param name="currentNewsItem"></param>
-        /// <returns>The feed URL of the source feed if  a pointer to it exists and NULL otherwise.</returns>
-        private static string GetOriginalFeedUrl(INewsItem currentNewsItem)
-        {
-            string feedUrl = null;
+		///// <summary>
+		///// Returns the URL of the original feed for this NewsItem. 
+		///// </summary>
+		///// <remarks>Assumes the NewsItem is in the flagged or watched items smart folder</remarks>
+		///// <param name="currentNewsItem"></param>
+		///// <returns>The feed URL of the source feed if  a pointer to it exists and NULL otherwise.</returns>
+		//private static string GetOriginalFeedUrl(INewsItem currentNewsItem)
+		//{
+		//    string feedUrl = null;
 
-            if (currentNewsItem.OptionalElements.ContainsKey(AdditionalFeedElements.OriginalFeedOfWatchedItem))
-            {
-                string str = currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
+		//    if (currentNewsItem.OptionalElements.ContainsKey(AdditionalFeedElements.OriginalFeedOfWatchedItem))
+		//    {
+		//        string str = currentNewsItem.OptionalElements[AdditionalFeedElements.OriginalFeedOfWatchedItem];
 
-                if (
-                    str.StartsWith("<" + AdditionalFeedElements.ElementPrefix + ":" +
-                                   AdditionalFeedElements.OriginalFeedOfWatchedItem.Name) ||
-                    str.StartsWith("<" + AdditionalFeedElements.OldElementPrefix + ":" +
-                                   AdditionalFeedElements.OriginalFeedOfWatchedItem.Name))
-                {
-                    int startIndex = str.IndexOf(">") + 1;
-                    int endIndex = str.LastIndexOf("<");
-                    feedUrl = str.Substring(startIndex, endIndex - startIndex);
-                }
-            }
+		//        if (
+		//            str.StartsWith("<" + AdditionalFeedElements.CurrentPrefix + ":" +
+		//                           AdditionalFeedElements.OriginalFeedOfWatchedItem.Name) ||
+		//            str.StartsWith("<" + AdditionalFeedElements.ElementPrefix + ":" +
+		//                           AdditionalFeedElements.OriginalFeedOfWatchedItem.Name) ||
+		//            str.StartsWith("<" + AdditionalFeedElements.OldElementPrefix + ":" +
+		//                           AdditionalFeedElements.OriginalFeedOfWatchedItem.Name))
+		//        {
+		//            int startIndex = str.IndexOf(">") + 1;
+		//            int endIndex = str.LastIndexOf("<");
+		//            feedUrl = str.Substring(startIndex, endIndex - startIndex);
+		//        }
+		//    }
 
-            return feedUrl;
-        }
+		//    return feedUrl;
+		//}
 
         /// <summary>
         /// Marks the comments for a NewsItem as read in a given feed node and across any other feed nodes 
@@ -3267,13 +3281,21 @@ namespace RssBandit.WinGui.Forms
                         //things are more complicated if we are on a smart folder such as the 'Watched Items' folder
 
                         /* first get the feed URL */
-                        string feedUrl = GetOriginalFeedUrl(currentNewsItem);
-                        FeedSource source = FeedSourceOf(tn).Source; 
-                        /* 
+						int sourceID;
+						string feedUrl = OptionalItemElement.GetOriginalFeedReference(currentNewsItem, out sourceID); //GetOriginalFeedUrl(currentNewsItem);
+						
+						FeedSource source = null;
+						if (owner.FeedSources.ContainsKey(sourceID))
+							source = owner.FeedSources[sourceID].Source;
+
+						if (source == null && FeedSourceOf(tn) != null)
+							source = FeedSourceOf(tn).Source; 
+                        
+						/* 
 						 * now, locate NewsItem in actual feed and mark comments as viewed 
 						 * then update tree node comment status. 							 
 						 */
-                        if (feedUrl != null && source.GetFeeds().TryGetValue(feedUrl, out feed))
+						if (feedUrl != null && source != null && source.GetFeeds().TryGetValue(feedUrl, out feed))
                         {
                             IList<INewsItem> newsItems = source.GetCachedItemsForFeed(feedUrl);
 

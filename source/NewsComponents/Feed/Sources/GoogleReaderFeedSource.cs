@@ -1341,7 +1341,7 @@ namespace NewsComponents.Feed
                     XmlElement elem = RssHelper.GetOptionalElement(item, qname);
                     if (elem == null)
                     {
-                        elem = RssHelper.CreateXmlElement("gr", qname.Name, qname.Namespace, "1");
+                        elem = RssHelper.CreateXmlElement("gr", qname, "1");
                     }
                     else
                     {

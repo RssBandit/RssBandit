@@ -1,46 +1,29 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: SpecialLocalFeeds.cs,v $
- * Revision 1.46  2007/06/15 11:02:01  t_rendelmann
- * new: enabled user failure actions within feed error reports (validate, navigate to, delete subscription)
- *
- * Revision 1.45  2007/02/11 15:58:53  carnage4life
- * 1.) Added proper handling for when a podcast download exceeds the size limit on the podcast folder
- *
- * Revision 1.44  2006/12/08 17:00:22  t_rendelmann
- * fixed: flag a item with no content did not show content anymore in the flagged item view (linked) (was regression because of the dynamic load of item content from cache);
- * fixed: "View Outlook Reading Pane" was not working correctly (regression from the toolbars migration);
- *
- * Revision 1.43  2006/11/01 16:03:53  t_rendelmann
- * small optimizations
- *
- * Revision 1.42  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- */
-#endregion
-
 using System;
 using System.IO;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Web;
 using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
+using log4net;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Net;
 using NewsComponents.Utils;
 using RssBandit;
+using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.Common;
 using Logger = RssBandit.Common.Logging;
@@ -48,249 +31,419 @@ using Logger = RssBandit.Common.Logging;
 namespace RssBandit.SpecialFeeds
 {
 
-	#region specialized local NewsFeed
-		
+	#region FlaggedItemsFeed
+
 	/// <summary>
-	/// Special local feeds
+	/// The local feed for flagged items
 	/// </summary>
-	public class LocalFeedsFeed:NewsFeed {
-		
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(LocalFeedsFeed));
+	public class FlaggedItemsFeed:LocalFeedsFeed
+	{
+		private const string MigrationKey = "FlaggedItemsFeed.migrated.to.1.7";
+		// as long the FlagStatus of NewsItem's wasn't persisted all the time, 
+		// we have to re-init the feed item's FlagStatus from the flagged items collection:
+		private const string SelfHealingFlagStatusKey = "RunSelfHealing.FlagStatus";
 
-        
-		private string filePath;
-		protected FeedInfo feedInfo;
-		private string description = null;
-		private bool modified;
-
-		public LocalFeedsFeed() {
-			base.refreshrate = 0;		
-			base.refreshrateSpecified = true;
-			this.feedInfo = new FeedInfo(null, null, null);
-			// required, to make items with no content work:
-			base.cacheurl = "non.cached.feed";
-		}
-			
+		private readonly bool runSelfHealingFlagStatus;
 
 		/// <summary>
-		/// Initializer.
+		/// Initializes a new instance of the <see cref="FlaggedItemsFeed"/> class.
 		/// </summary>
-		/// <param name="feedUrl"></param>
-		/// <param name="feedTitle"></param>
-		/// <param name="feedDescription"></param>
-		/// <exception cref="UriFormatException">If feedUrl could not be formatted as a Uri</exception>
-		public LocalFeedsFeed(string feedUrl, string feedTitle, string feedDescription):	
-			this(feedUrl, feedTitle, feedDescription, true) {
-		}
-		
-		/// <summary>
-		/// Initializer.
-		/// </summary>
-		/// <param name="feedUrl"></param>
-		/// <param name="feedTitle"></param>
-		/// <param name="feedDescription"></param>
-		/// <param name="loadItems">bool</param>
-		/// <exception cref="UriFormatException">If feedUrl could not be formatted as a Uri</exception>
-		public LocalFeedsFeed(string feedUrl, string feedTitle, string feedDescription, bool loadItems):this() {
-			description = feedDescription;
-			filePath = feedUrl;
-			try {
-				Uri feedUri = new Uri(feedUrl);
-				base.link = feedUri.CanonicalizedUri();
-			} catch {
-				base.link = feedUrl;
-			}
-			base.title = feedTitle;
-			
-			this.feedInfo = new FeedInfo(null, filePath, new List<INewsItem>(), feedTitle, base.link, feedDescription);
-			
-			if (loadItems)
-				LoadItems(this.GetDefaultReader());
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		public FlaggedItemsFeed(FeedSourceEntry migratedItemsOwner): 
+			this(migratedItemsOwner, null)
+		{
 		}
 
 		/// <summary>
-		/// Initializer.
+		/// Initializes a new instance of the <see cref="FlaggedItemsFeed"/> class.
 		/// </summary>
-		/// <param name="feedUrl">local file path</param>
-		/// <param name="feedTitle"></param>
-		/// <param name="feedDescription"></param>
-		/// <param name="reader"></param>
-		/// <exception cref="UriFormatException">If feedUrl could not be formatted as a Uri</exception>
-		public LocalFeedsFeed(string feedUrl, string feedTitle, string feedDescription, XmlReader reader):
-			this(feedUrl, feedTitle, feedDescription, false) {
-			LoadItems(reader);
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="reader">The reader.</param>
+		public FlaggedItemsFeed(FeedSourceEntry migratedItemsOwner, XmlReader reader) :
+			base(migratedItemsOwner, RssBanditApplication.GetFlagItemsFileName(),
+			     SR.FeedNodeFlaggedFeedsCaption,
+			     SR.FeedNodeFlaggedFeedsDesc, false)
+		{
+			runSelfHealingFlagStatus = (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                                 	SelfHealingFlagStatusKey, typeof(bool), true);
+
+			// set this to indicate required migration:
+			migrationRequired = runSelfHealingFlagStatus || (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                                                      	MigrationKey, typeof(bool), true);
+
+			if (reader == null)
+				reader = this.GetDefaultReader();
+
+			using (reader)
+				LoadItems(reader, migratedItemsOwner);
 		}
 
-		public List<INewsItem> Items {
-			get { return this.feedInfo.ItemsList;  }
-			set { this.feedInfo.ItemsList = new List<INewsItem>(value); }
-		}
-
-		public void Add(LocalFeedsFeed lff){
-			foreach(INewsItem item in lff.Items){
-				if(!this.feedInfo.ItemsList.Contains(item)){
-					this.Add(item); 
-				}
-			}		
-		}
-
-		public void Add(INewsItem item) {
-			if (item == null)
-				return;
-			
-			item.FeedDetails = this.feedInfo;
-			this.feedInfo.ItemsList.Add(item);
-			this.modified = true;
-		}
-
-		public void Remove(INewsItem item) {
-			if (item != null)
+		/// <summary>
+		/// Overridden to migrate an item.
+		/// Base implementation just return the <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <returns></returns>
+		protected override NewsItem MigrateItem(NewsItem newsItem, FeedSourceEntry migratedItemsOwner)
+		{
+			if (migratedItemsOwner != null)
 			{
-				int index = this.feedInfo.ItemsList.IndexOf(item);
-				if (index >= 0)
+				if (runSelfHealingFlagStatus)
 				{
-					this.feedInfo.ItemsList.RemoveAt(index);
-					this.modified = true;
-				}
-			}
-		}
-
-
-		public void Remove(string commentFeedUrl){
-			if(!string.IsNullOrEmpty(commentFeedUrl)){
-			
-				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
-					INewsItem ni = feedInfo.ItemsList[i]; 
-					if(!StringHelper.EmptyTrimOrNull(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
-						this.feedInfo.ItemsList.RemoveAt(i); 
-						break; 
+					if (newsItem.FlagStatus == Flagged.None)
+					{
+						// correction: older Bandit versions are not able to store flagStatus
+						newsItem.FlagStatus = Flagged.FollowUp;
+						Modified = true;
 					}
 				}
-			}				
-		}
 
-		public string Location {
-			get { return this.filePath;	}
-			set { this.filePath = value;	}
-		}
-					
-		public string Url {
-			get { return base.link;  }
-		}
+				XmlQualifiedName key = AdditionalElements.GetQualifiedName(
+					OptionalItemElement.OldVersion.FeedUrlElementName, OptionalItemElement.OldVersion.Namespace);
+				string feedUrl = AdditionalElements.GetElementValue(key, newsItem);
+				if (!String.IsNullOrEmpty(feedUrl))
+				{
+					if (runSelfHealingFlagStatus && migratedItemsOwner.Source.IsSubscribed(feedUrl))
+					{
+						//check if feed exists 
+						IList<INewsItem> itemsForFeed = migratedItemsOwner.Source.GetItemsForFeed(feedUrl, false);
 
-		public bool Modified {
-			get { return this.modified;  }
-			set { this.modified = value; }
-		}
+						//find this item 
+						int itemIndex = itemsForFeed.IndexOf(newsItem);
 
-		public string Description {
-			get { return this.feedInfo.Description;  }
-		}
-
-		protected void LoadItems(XmlReader reader){
-			if (feedInfo.ItemsList.Count > 0)
-				feedInfo.ItemsList.Clear(); 
-
-			if (reader != null) {
-				try{				
-					XmlDocument doc = new XmlDocument(); 
-					doc.Load(reader); 
-					foreach(XmlElement elem in doc.SelectNodes("//item")){				
-						NewsItem item = RssParser.MakeRssItem(this,  new XmlNodeReader(elem)); 
-						item.BeenRead = true;
-						item.FeedDetails = this.feedInfo;
-						feedInfo.ItemsList.Add(item); 
+						if (itemIndex != -1)
+						{
+							//check if item still exists 
+							INewsItem item = itemsForFeed[itemIndex];
+							if (item.FlagStatus != newsItem.FlagStatus)
+							{
+								// correction: older Bandit versions are not able to store flagStatus
+								item.FlagStatus = newsItem.FlagStatus;
+								Modified = true;
+								//FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag); // self-healing
+							}
+						}
 					}
-				}catch(Exception e){
-					ExceptionManager.GetInstance().Add(RssBanditApplication.CreateLocalFeedRequestException(e, this, this.feedInfo));
-				}			
-			}
-		}
 
-		protected XmlReader GetDefaultReader(){
-			
-			if (File.Exists(this.filePath)) {
-				return new XmlTextReader(this.filePath);
+					AdditionalElements.RemoveElement(key, newsItem);
+					OptionalItemElement.AddOrReplaceOriginalFeedReference(newsItem, feedUrl, migratedItemsOwner.ID);
+					Modified = true;
+				}
 			}
 
-			return null;
+			return base.MigrateItem(newsItem, migratedItemsOwner);
 		}
 
 		/// <summary>
-		/// Writes this object as an RSS 2.0 feed to the specified writer
+		/// Called when items are loaded.
 		/// </summary>
-		/// <param name="writer"></param>
-		public void WriteTo(XmlWriter writer){
-			this.feedInfo.WriteTo(writer);
+		protected override void OnItemsLoaded()
+		{
+			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
 		}
-		
-		public void Save() {
-
-			XmlTextWriter writer = null;
-			try {
-				writer = new XmlTextWriter(new StreamWriter( this.filePath ));
-				this.WriteTo(writer); 
-				writer.Flush(); 
-				writer.Close();
-				Modified = false;
-			} catch (Exception e) { 
-				_log.Error("LocalFeedsFeed.Save()", e);
-			}
-			finally { if (writer!=null) writer.Close(); }
-		}
-
 	}
 
 	#endregion
 
+	#region WatchedItemsFeed
+
 	/// <summary>
-	/// Threadsafe ExceptionManager to handle and report
+	/// The local feed for watched items
+	/// </summary>
+	public class WatchedItemsFeed : LocalFeedsFeed
+	{
+		private const string MigrationKey = "WatchedItemsFeed.migrated.to.1.7";
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WatchedItemsFeed"/> class.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		public WatchedItemsFeed(FeedSourceEntry migratedItemsOwner) :
+			base(migratedItemsOwner, RssBanditApplication.GetWatchedItemsFileName(),
+			     SR.FeedNodeWatchedItemsCaption,
+			     SR.FeedNodeWatchedItemsDesc, false)
+		{
+			// set this to indicate required migration:
+			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                          	MigrationKey, typeof(bool), true);
+			
+			using (XmlReader reader = this.GetDefaultReader())
+				LoadItems(reader, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Overridden to migrate an item.
+		/// Base implementation just return the <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <returns></returns>
+		protected override NewsItem MigrateItem(NewsItem newsItem, FeedSourceEntry migratedItemsOwner)
+		{
+			if (migratedItemsOwner != null)
+			{
+				XmlQualifiedName key =
+					AdditionalElements.GetQualifiedName(
+						OptionalItemElement.OldVersion.FeedUrlElementName, OptionalItemElement.OldVersion.Namespace);
+				string feedUrl = AdditionalElements.GetElementValue(key, newsItem);
+				if (!String.IsNullOrEmpty(feedUrl))
+				{
+					AdditionalElements.RemoveElement(key, newsItem);
+					OptionalItemElement.AddOrReplaceOriginalFeedReference(newsItem, feedUrl, migratedItemsOwner.ID);
+					Modified = true;
+				}
+			}
+			return base.MigrateItem(newsItem, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Called when items are loaded.
+		/// </summary>
+		protected override void OnItemsLoaded()
+		{
+			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+		}
+	}
+
+	#endregion
+
+	#region SentItemsFeed
+
+	/// <summary>
+	/// The local feed for sent items
+	/// </summary>
+	public class SentItemsFeed : LocalFeedsFeed
+	{
+		private const string MigrationKey = "SentItemsFeed.migrated.to.1.7";
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SentItemsFeed"/> class.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		public SentItemsFeed(FeedSourceEntry migratedItemsOwner) :
+			this(migratedItemsOwner, null)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SentItemsFeed"/> class.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="reader">The reader.</param>
+		public SentItemsFeed(FeedSourceEntry migratedItemsOwner, XmlReader reader) :
+			base(migratedItemsOwner, RssBanditApplication.GetSentItemsFileName(),
+			     SR.FeedNodeSentItemsCaption,
+			     SR.FeedNodeSentItemsDesc, false)
+		{
+			// set this to indicate required migration:
+			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                          	MigrationKey, typeof(bool), true);
+			
+			if (reader == null)
+				reader = this.GetDefaultReader();
+			using (reader)
+				LoadItems(reader, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Overridden to migrate an item.
+		/// Base implementation just return the <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <returns></returns>
+		protected override NewsItem MigrateItem(NewsItem newsItem, FeedSourceEntry migratedItemsOwner)
+		{
+			if (migratedItemsOwner != null)
+			{
+				XmlQualifiedName key =
+					AdditionalElements.GetQualifiedName(
+						OptionalItemElement.OldVersion.FeedUrlElementName, OptionalItemElement.OldVersion.Namespace);
+				string feedUrl = AdditionalElements.GetElementValue(key, newsItem);
+				if (!String.IsNullOrEmpty(feedUrl))
+				{
+					AdditionalElements.RemoveElement(key, newsItem);
+					OptionalItemElement.AddOrReplaceOriginalFeedReference(newsItem, feedUrl, migratedItemsOwner.ID);
+					Modified = true;
+				}
+			}
+			return base.MigrateItem(newsItem, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Called when items are loaded.
+		/// </summary>
+		protected override void OnItemsLoaded()
+		{
+			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+		}
+	}
+
+	#endregion
+
+	#region DeletedItemsFeed
+
+	/// <summary>
+	/// The local feed for deleted items
+	/// </summary>
+	public class DeletedItemsFeed : LocalFeedsFeed
+	{
+		private const string MigrationKey = "DeletedItemsFeed.migrated.to.1.7";
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DeletedItemsFeed"/> class.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		public DeletedItemsFeed(FeedSourceEntry migratedItemsOwner) :
+			base(migratedItemsOwner, RssBanditApplication.GetDeletedItemsFileName(),
+			     SR.FeedNodeDeletedItemsCaption,
+			     SR.FeedNodeDeletedItemsDesc, false)
+		{
+			// set this to indicate required migration:
+			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                          	MigrationKey, typeof(bool), true);
+
+			using (XmlReader reader = this.GetDefaultReader())
+				LoadItems(reader, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Overridden to migrate an item.
+		/// Base implementation just return the <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <returns></returns>
+		protected override NewsItem MigrateItem(NewsItem newsItem, FeedSourceEntry migratedItemsOwner)
+		{
+			if (migratedItemsOwner != null)
+			{
+				XmlQualifiedName key =
+					AdditionalElements.GetQualifiedName(
+						OptionalItemElement.OldVersion.ContainerUrlElementName, OptionalItemElement.OldVersion.Namespace);
+				string feedUrl = AdditionalElements.GetElementValue(key, newsItem);
+				if (!String.IsNullOrEmpty(feedUrl))
+				{
+					AdditionalElements.RemoveElement(key, newsItem);
+					OptionalItemElement.AddOrReplaceOriginalFeedReference(newsItem, feedUrl, migratedItemsOwner.ID);
+					Modified = true;
+				}
+			}
+			return base.MigrateItem(newsItem, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Called when items are loaded.
+		/// </summary>
+		protected override void OnItemsLoaded()
+		{
+			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+		}
+	}
+
+	#endregion
+
+	#region UnreadItemsFeed
+
+	/// <summary>
+	/// The local (virtual, non-persisted) feed for unread items
+	/// </summary>
+	public class UnreadItemsFeed : LocalFeedsFeed
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UnreadItemsFeed"/> class.
+		/// </summary>
+		public UnreadItemsFeed(FeedSourceEntry migratedItemsOwner) :
+			base(migratedItemsOwner, "virtualfeed://rssbandit.org/local/unreaditems",
+			     SR.FeedNodeUnreadItemsCaption,
+			     SR.FeedNodeUnreadItemsDesc,
+			     false)
+		{
+		}
+	}
+
+	#endregion
+
+	#region ExceptionManager (LocalFeedsFeed)
+
+	/// <summary>
+	/// Thread safe ExceptionManager to handle and report
 	/// Feed errors and other errors that needs to be published 
 	/// to a user. Singleton is implemented 
 	/// (see also http://www.yoda.arachsys.com/csharp/beforefieldinit.html).
 	/// </summary>
-	public sealed class ExceptionManager:LocalFeedsFeed
+	public sealed class ExceptionManager : LocalFeedsFeed
 	{
 
-		private ExceptionManager() {	}
-		public ExceptionManager(string feedUrl, string feedTitle, string feedDescription):base(feedUrl, feedTitle, feedDescription, false){ 
-			try {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExceptionManager"/> class.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="feedTitle">The feed title.</param>
+		/// <param name="feedDescription">The feed description.</param>
+		public ExceptionManager(string feedUrl, string feedTitle, string feedDescription)
+			: base(null, feedUrl, feedTitle, feedDescription, false)
+		{
+			try
+			{
 				Save();	// re-create a new file with no items
-			} catch (Exception ex) {
-				Common.Logging.Log.Fatal("ExceptionManager.Save() failed", ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Fatal("ExceptionManager.Save() failed", ex);
 			}
 		}
 
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-		public void Add(Exception e) {
-			FeedException fe = new FeedException(this, e);
+		/// <summary>
+		/// Adds the specified exception.
+		/// </summary>
+		/// <param name="e">The exception.</param>
+		/// <param name="entry">The entry.</param>
+		[MethodImpl(MethodImplOptions.Synchronized)]
+		public void Add(Exception e, FeedSourceEntry entry)
+		{
+			FeedException fe = new FeedException(this, e, entry);
 			Add(fe.NewsItemInstance);
-			try {
+			try
+			{
 				Save();
-			} catch (Exception ex) {
-				Common.Logging.Log.Fatal("ExceptionManager.Save() failed", ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Fatal("ExceptionManager.Save() failed", ex);
 			}
 		}
 
 		/// <summary>
 		/// Removes the entries for the specified feed URL.
 		/// </summary>
+		/// <param name="entry">The entry.</param>
 		/// <param name="feedUrl">The feed URL.</param>
-		public void RemoveFeed(string feedUrl) {
-			
+		public void RemoveFeed(FeedSourceEntry entry, string feedUrl)
+		{
+
 			if (string.IsNullOrEmpty(feedUrl) || feedInfo.ItemsList.Count == 0)
 				return;
-			
+
 			Stack removeAtIndex = new Stack();
-			for (int i = 0; i < feedInfo.ItemsList.Count; i++) {
-				NewsItem n = feedInfo.ItemsList[i] as NewsItem;
-				if (n != null) {
-					XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalFeedElements.OriginalFeedOfErrorItem);
-					if (xe != null && xe.InnerText == feedUrl) {
+			for (int i = 0; i < feedInfo.ItemsList.Count; i++)
+			{
+				INewsItem n = feedInfo.ItemsList[i];
+				if (n != null)
+				{
+					int sourceID;
+					string feedUrlRef = OptionalItemElement.GetOriginalFeedReference(n, out sourceID);
+					if (!String.IsNullOrEmpty(feedUrlRef) && sourceID == entry.ID)
 						removeAtIndex.Push(i);
-						break;
-					}
-					
+
+					//XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalElements.OriginalFeedOfErrorItem);
+					//if (xe != null && xe.InnerText == feedUrl)
+					//{
+					//    removeAtIndex.Push(i);
+					//    break;
+					//}
+
 				}
 			}
 
@@ -298,33 +451,41 @@ namespace RssBandit.SpecialFeeds
 				feedInfo.ItemsList.RemoveAt((int)removeAtIndex.Pop());
 		}
 
-		public new IList<INewsItem> Items {
-			get { return base.feedInfo.ItemsList; }
+		/// <summary>
+		/// Gets the items.
+		/// </summary>
+		/// <value>The items.</value>
+		public new IList<INewsItem> Items
+		{
+			get { return feedInfo.ItemsList; }
 		}
 
 		/// <summary>
 		/// Returns a instance of ExceptionManager.
 		/// </summary>
 		/// <returns>Instance of the ExceptionManageer class</returns>
-		public static ExceptionManager GetInstance() {
+		public static ExceptionManager GetInstance()
+		{
 			return InstanceHelper.instance;
 		}
 
 		/// <summary>
 		/// Private instance helper class to impl. Singleton
 		/// </summary>
-		private class InstanceHelper {
+		private class InstanceHelper
+		{
 			// Explicit static constructor to tell C# compiler
 			// not to mark type as beforefieldinit
-			static InstanceHelper() {;}
-			internal static readonly ExceptionManager instance = new ExceptionManager(				
-				RssBanditApplication.GetFeedErrorFileName(), 
-				SR.FeedNodeFeedExceptionsCaption, 
+			static InstanceHelper() { ;}
+			internal static readonly ExceptionManager instance = new ExceptionManager(
+				RssBanditApplication.GetFeedErrorFileName(),
+				SR.FeedNodeFeedExceptionsCaption,
 				SR.FeedNodeFeedExceptionsDesc);
 		}
 
-		public class FeedException {
-			
+		public class FeedException
+		{
+
 			private static int idCounter;
 
 			private NewsItem _delegateTo;	// cannot inherit, so we use the old containment
@@ -340,26 +501,44 @@ namespace RssBandit.SpecialFeeds
 			private string _techContact = String.Empty;
 			private string _generator = String.Empty;
 			private readonly string _fullErrorInfoFile = String.Empty;
+			private readonly string _feedSourceName = String.Empty;
+			private readonly int _feedSourceID = 0;
 
-			public FeedException(ExceptionManager ownerFeed, Exception e) {
+
+			/// <summary>
+			/// Initializes a new instance of the <see cref="FeedException"/> class.
+			/// </summary>
+			/// <param name="ownerFeed">The owner feed.</param>
+			/// <param name="e">The e.</param>
+			/// <param name="entry">The entry.</param>
+			public FeedException(ExceptionManager ownerFeed, Exception e, FeedSourceEntry entry)
+			{
 
 				idCounter++;
 				this._ID = String.Concat("#", idCounter.ToString());
+
+				if (entry != null)
+				{
+					_feedSourceName = entry.Name;
+					_feedSourceID = entry.ID;
+				}
 
 				if (e is FeedRequestException)
 					this.InitWith(ownerFeed, (FeedRequestException)e);
 				else if (e is XmlException)
 					this.InitWith(ownerFeed, (XmlException)e);
-				else if (e is System.Net.WebException)
-					this.InitWith(ownerFeed, (System.Net.WebException)e);
-				else if (e is System.Net.ProtocolViolationException)
-					this.InitWith(ownerFeed, (System.Net.ProtocolViolationException)e);
+				else if (e is WebException)
+					this.InitWith(ownerFeed, (WebException)e);
+				else if (e is ProtocolViolationException)
+					this.InitWith(ownerFeed, (ProtocolViolationException)e);
 				else
 					this.InitWith(ownerFeed, e);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, FeedRequestException e) {
-				if (e.Feed != null) {
+			private void InitWith(ExceptionManager ownerFeed, FeedRequestException e)
+			{
+				if (e.Feed != null)
+				{
 					this._feedCategory = e.Feed.category;
 					this._feedTitle = e.Feed.title;
 					this._resourceUrl = e.Feed.link;
@@ -370,150 +549,142 @@ namespace RssBandit.SpecialFeeds
 				this._techContact = e.TechnicalContact;
 				this._publisher = e.Publisher;
 				this._generator = e.Generator;
-				
+
 				if (e.InnerException is XmlException)
 					this.InitWith(ownerFeed, (XmlException)e.InnerException);
-				else if (e.InnerException is System.Net.WebException)
-					this.InitWith(ownerFeed, (System.Net.WebException)e.InnerException);
-				else if (e.InnerException is System.Net.ProtocolViolationException)
-					this.InitWith(ownerFeed, (System.Net.ProtocolViolationException)e.InnerException);
+				else if (e.InnerException is WebException)
+					this.InitWith(ownerFeed, (WebException)e.InnerException);
+				else if (e.InnerException is ProtocolViolationException)
+					this.InitWith(ownerFeed, (ProtocolViolationException)e.InnerException);
 				else
 					this.InitWith(ownerFeed, e.InnerException);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, XmlException e) {
+			private void InitWith(ExceptionManager ownerFeed, XmlException e)
+			{
 				this.InitWith(ownerFeed, e, SR.XmlExceptionCategory);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, System.Net.WebException e) {
+			private void InitWith(ExceptionManager ownerFeed, WebException e)
+			{
 				this.InitWith(ownerFeed, e, SR.WebExceptionCategory);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, System.Net.ProtocolViolationException e) {
+			private void InitWith(ExceptionManager ownerFeed, ProtocolViolationException e)
+			{
 				this.InitWith(ownerFeed, e, SR.ProtocolViolationExceptionCategory);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, Exception e) {
+			private void InitWith(ExceptionManager ownerFeed, Exception e)
+			{
 				this.InitWith(ownerFeed, e, SR.ExceptionCategory);
 			}
 
-			private void InitWith(ExceptionManager ownerFeed, Exception e, string categoryName) {
-				FeedInfo fi = new FeedInfo(null, String.Empty, ownerFeed.Items , ownerFeed.title, ownerFeed.link, ownerFeed.Description );
+			private void InitWith(ExceptionManager ownerFeed, Exception e, string categoryName)
+			{
+				FeedInfo fi = new FeedInfo(null, String.Empty, ownerFeed.Items, ownerFeed.title, ownerFeed.link, ownerFeed.Description);
 				// to prevent confusing about daylight saving time and to work similar to RssComponts, that save item DateTime's
 				// as GMT, we convert DateTime to universal to be conform
 				DateTime exDT = new DateTime(DateTime.Now.Ticks).ToUniversalTime();
 				bool enableValidation = (e is XmlException);
 
-				string link = this.BuildBaseLink(e, enableValidation); 
+				string link = this.BuildBaseLink(e, enableValidation);
 				_delegateTo = new NewsItem(ownerFeed, this._feedTitle, link,
-					this.BuildBaseDesc(e, enableValidation), 
-					exDT, categoryName,
-					ContentType.Xhtml, CreateAdditionalElements(this._resourceUrl), link, null );
+										   this.BuildBaseDesc(e, enableValidation),
+										   exDT, categoryName,
+										   ContentType.Xhtml, new Dictionary<XmlQualifiedName, string>(1), link, null);
 
 				_delegateTo.FeedDetails = fi;
 				_delegateTo.BeenRead = false;
+				OptionalItemElement.AddOrReplaceOriginalFeedReference(
+					_delegateTo, this._resourceUrl, this._feedSourceID);	
 			}
-
-            private Dictionary<XmlQualifiedName, string> CreateAdditionalElements(string errorCausingFeedUrl)
-            {
-                Dictionary<XmlQualifiedName, string> r = new Dictionary<XmlQualifiedName, string>();
-				// add a optional element to remember the original feed container (for later ref)
-				if (null != errorCausingFeedUrl) {
-					XmlElement originalFeed = RssHelper.CreateXmlElement(
-						AdditionalFeedElements.ElementPrefix, 
-						AdditionalFeedElements.OriginalFeedOfErrorItem.Name, 
-						AdditionalFeedElements.OriginalFeedOfErrorItem.Namespace, 
-						errorCausingFeedUrl); 
-					
-					r.Add(AdditionalFeedElements.OriginalFeedOfErrorItem, 
-						originalFeed.OuterXml);
-				}
-				return r;
-			}
-
-			public string ID { get {return _ID; }	}
-			public INewsItem NewsItemInstance { 
-				get { 
-					INewsItem ri = (INewsItem)_delegateTo.Clone(); 
-					ri.FeedDetails = _delegateTo.FeedDetails;	// not cloned!
-					return ri;
-				} 
-			}
-
-
 
 			/// <summary>
-			/// Used to test whether a string contains any character that is illegal in XML 1.0. 
-			/// Specifically it checks for the ASCII control characters except for tab, carriage return 
-			/// and newline which are the only ones allowed in XML. 
+			/// Gets the ID.
 			/// </summary>
-			/// <param name="errorMessage">the string to test</param>
-			/// <returns>true if the string contains a character that is illegal in XML</returns>
-			private static bool ContainsInvalidXmlCharacter(string errorMessage){
+			/// <value>The ID.</value>
+			public string ID { get { return _ID; } }
 			
-				foreach(char c in errorMessage){				
-					if(Char.IsControl(c) && !c.Equals('\t') && !c.Equals('\r') && !c.Equals('\n')){
-						return true; 
-					}
+			/// <summary>
+			/// Gets the news item instance.
+			/// </summary>
+			/// <value>The news item instance.</value>
+			public INewsItem NewsItemInstance
+			{
+				get
+				{
+					INewsItem ri = (INewsItem)_delegateTo.Clone();
+					ri.FeedDetails = _delegateTo.FeedDetails;	// not cloned!
+					return ri;
 				}
-
-				return false; 
-
 			}
 
-			private string BuildBaseDesc(Exception e, bool provideXMLValidationUrl) {
+			private string BuildBaseDesc(Exception e, bool provideXMLValidationUrl)
+			{
 				StringBuilder s = new StringBuilder();
-				XmlTextWriter writer = new XmlTextWriter(new StringWriter(s)); 
-				writer.Formatting = Formatting.Indented; 
+				XmlTextWriter writer = new XmlTextWriter(new StringWriter(s));
+				writer.Formatting = Formatting.Indented;
 
-				string msg = e.Message; 
+				string msg = e.Message;
 
-				if((e is XmlException) && ContainsInvalidXmlCharacter(e.Message)){
+				if ((e is XmlException) && StringHelper.ContainsInvalidXmlChars(e.Message))
+				{
 					msg = e.Message.Substring(5);
 				}
 
-				if (msg.IndexOf("<") >= 0) {
-					msg = System.Web.HttpUtility.HtmlEncode(msg);
+				if (msg.IndexOf("<") >= 0)
+				{
+					msg = HttpUtility.HtmlEncode(msg);
 				}
 
 				writer.WriteStartElement("p");
-				writer.WriteRaw(String.Format(SR.RefreshFeedExceptionReportStringPart,this._resourceUIText, msg));
+				writer.WriteRaw(String.Format(SR.RefreshFeedExceptionReportStringPart, this._resourceUIText, msg));
 				writer.WriteEndElement();	// </p>
-				
-				if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 ) 
+
+				if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0)
 				{
 					writer.WriteStartElement("p");
 					writer.WriteString(SR.RefreshFeedExceptionReportContactInfo);
 					writer.WriteStartElement("ul");
-					if (this._publisher.Length > 0) {
+					if (this._publisher.Length > 0)
+					{
 						writer.WriteStartElement("li");
 						writer.WriteString(SR.RefreshFeedExceptionReportManagingEditor + ": ");
-						if (StringHelper.IsEMailAddress(this._publisher)) {
+						if (StringHelper.IsEMailAddress(this._publisher))
+						{
 							string mail = StringHelper.GetEMailAddress(this._publisher);
 							writer.WriteStartElement("a");
-							writer.WriteAttributeString("href", "mailto:"+mail);
+							writer.WriteAttributeString("href", "mailto:" + mail);
 							writer.WriteString(mail);
 							writer.WriteEndElement();	// </a>
-						} else {
+						}
+						else
+						{
 							writer.WriteString(this._publisher);
 						}
 						writer.WriteEndElement();	// </li>
 					}
-					if (this._techContact.Length > 0) {
+					if (this._techContact.Length > 0)
+					{
 						writer.WriteStartElement("li");
 						writer.WriteString(SR.RefreshFeedExceptionReportWebMaster + ": ");
-						if (StringHelper.IsEMailAddress(this._techContact)) {
+						if (StringHelper.IsEMailAddress(this._techContact))
+						{
 							string mail = StringHelper.GetEMailAddress(this._techContact);
 							writer.WriteStartElement("a");
-							writer.WriteAttributeString("href", "mailto:"+mail);
+							writer.WriteAttributeString("href", "mailto:" + mail);
 							writer.WriteString(mail);
 							writer.WriteEndElement();	// </a>
-						} else {
+						}
+						else
+						{
 							writer.WriteString(this._techContact);
 						}
 						writer.WriteEndElement();	// </li>
 					}
-					if (this._publisherHomepage.Length > 0) {
+					if (this._publisherHomepage.Length > 0)
+					{
 						writer.WriteStartElement("li");
 						writer.WriteString(SR.RefreshFeedExceptionReportHomePage + ": ");
 						writer.WriteStartElement("a");
@@ -523,23 +694,25 @@ namespace RssBandit.SpecialFeeds
 						writer.WriteEndElement();	// </li>
 					}
 					writer.WriteEndElement();	// </ul>
-					if (this._generator .Length > 0) {
-						writer.WriteString(String.Format(SR.RefreshFeedExceptionGeneratorStringPart,this._generator));
+					if (this._generator.Length > 0)
+					{
+						writer.WriteString(String.Format(SR.RefreshFeedExceptionGeneratorStringPart, this._generator));
 					}
 					writer.WriteEndElement();	// </p>
-					
+
 				}//if (this._publisher.Length > 0 || this._techContact.Length > 0 || this._publisherHomepage.Length > 0 )
-				
+
 				// render actions section:
 				writer.WriteStartElement("p");
 				writer.WriteString(SR.RefreshFeedExceptionUserActionIntroText);
 				// List:
 				writer.WriteStartElement("ul");
 				// Validate entry (optional):
-				if (provideXMLValidationUrl && this._resourceUrl.StartsWith("http")) {
+				if (provideXMLValidationUrl && this._resourceUrl.StartsWith("http"))
+				{
 					writer.WriteStartElement("li");
 					writer.WriteStartElement("a");
-					writer.WriteAttributeString("href", RssBanditApplication.FeedValidationUrlBase+this._resourceUrl);
+					writer.WriteAttributeString("href", RssBanditApplication.FeedValidationUrlBase + this._resourceUrl);
 					writer.WriteRaw(SR.RefreshFeedExceptionReportValidationPart);
 					writer.WriteEndElement();	// </a>
 					writer.WriteEndElement();	// </li>
@@ -560,28 +733,36 @@ namespace RssBandit.SpecialFeeds
 				writer.WriteRaw(SR.RefreshFeedExceptionUserActionDeleteSubscription);
 				writer.WriteEndElement();	// </a>
 				writer.WriteEndElement();	// </li>
-					
+
 				writer.WriteEndElement();	// </ul>
 				writer.WriteEndElement();	// </p>
-				
+
 				return s.ToString();
 			}
 
 
-			private string BuildBaseLink(Exception e, bool provideXMLValidationUrl) {
+			private string BuildBaseLink(Exception e, bool provideXMLValidationUrl)
+			{
 				string sLink = String.Empty;
-				if (e.HelpLink != null) {
+				if (e.HelpLink != null)
+				{
 					//TODO: may be, we can later use the e.HelpLink
 					// to setup "Read On..." link
 				}
-				if (this._fullErrorInfoFile.Length == 0) {
-					if (this._resourceUrl.StartsWith("http")) {
+				if (this._fullErrorInfoFile.Length == 0)
+				{
+					if (this._resourceUrl.StartsWith("http"))
+					{
 						sLink = (provideXMLValidationUrl ? RssBanditApplication.FeedValidationUrlBase : String.Empty) + this._resourceUrl;
-					} else {
+					}
+					else
+					{
 						sLink = this._resourceUrl;
 					}
-				} else {
-					sLink = this._fullErrorInfoFile;	
+				}
+				else
+				{
+					sLink = this._fullErrorInfoFile;
 				}
 
 				return sLink;
@@ -591,5 +772,298 @@ namespace RssBandit.SpecialFeeds
 
 	}
 
+	#endregion
+
+	#region LocalFeedsFeed (base class)
+
+	/// <summary>
+	/// Special local feeds base class
+	/// </summary>
+	public class LocalFeedsFeed:NewsFeed {
+
+		/// <summary>
+		/// Logger instance
+		/// </summary>
+		protected static readonly ILog _log = Log.GetLogger(typeof(LocalFeedsFeed));
+
+		/// <summary>
+		/// Set this to true, to indicate a item migration is required.
+		/// If true, the method <see cref="MigrateItem"/> is called for every loaded item
+		/// during the load items process.
+		/// </summary>
+		protected bool migrationRequired;
+
+		private string filePath;
+		/// <summary>
+		/// Gets/Sets the FeedInfo
+		/// </summary>
+		protected FeedInfo feedInfo;
+		private bool modified;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="LocalFeedsFeed"/> class.
+		/// </summary>
+		public LocalFeedsFeed() {
+			base.refreshrate = 0;		
+			base.refreshrateSpecified = true;
+			this.feedInfo = new FeedInfo(null, null, null);
+			// required, to make items with no content work:
+			base.cacheurl = "non.cached.feed";
+		}
+
+
+		/// <summary>
+		/// Initializer.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="feedTitle">The feed title.</param>
+		/// <param name="feedDescription">The feed description.</param>
+		/// <exception cref="UriFormatException">If <paramref name="feedUrl"/> could not be formatted as a Uri</exception>
+		public LocalFeedsFeed(FeedSourceEntry migratedItemsOwner,string feedUrl, string feedTitle, string feedDescription):
+			this(migratedItemsOwner, feedUrl, feedTitle, feedDescription, true)
+		{
+		}
+
+		/// <summary>
+		/// Initializer.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="feedTitle">The feed title.</param>
+		/// <param name="feedDescription">The feed description.</param>
+		/// <param name="loadItems">bool</param>
+		/// <exception cref="UriFormatException">If <paramref name="feedUrl"/> could not be formatted as a Uri</exception>
+		public LocalFeedsFeed(FeedSourceEntry migratedItemsOwner, string feedUrl, string feedTitle, string feedDescription, bool loadItems):this() {
+			filePath = feedUrl;
+			try {
+				Uri feedUri = new Uri(feedUrl);
+				base.link = feedUri.CanonicalizedUri();
+			} catch {
+				base.link = feedUrl;
+			}
+			base.title = feedTitle;
+			
+			this.feedInfo = new FeedInfo(null, filePath, new List<INewsItem>(), feedTitle, base.link, feedDescription);
+			
+			if (loadItems)
+				using (XmlReader reader = this.GetDefaultReader())
+					LoadItems(reader, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Initializer.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="feedUrl">local file path</param>
+		/// <param name="feedTitle">The feed title.</param>
+		/// <param name="feedDescription">The feed description.</param>
+		/// <param name="reader">The reader.</param>
+		/// <exception cref="UriFormatException">If <paramref name="feedUrl"/> could not be formatted as a Uri</exception>
+		public LocalFeedsFeed(FeedSourceEntry migratedItemsOwner, string feedUrl, string feedTitle, string feedDescription, XmlReader reader) :
+			this(migratedItemsOwner, feedUrl, feedTitle, feedDescription, false)
+		{
+			LoadItems(reader, migratedItemsOwner);
+		}
+
+		/// <summary>
+		/// Gets or sets the items.
+		/// </summary>
+		/// <value>The items.</value>
+		public List<INewsItem> Items {
+			get { return this.feedInfo.ItemsList;  }
+			set { this.feedInfo.ItemsList = new List<INewsItem>(value); }
+		}
+
+		/// <summary>
+		/// Adds the specified LFF.
+		/// </summary>
+		/// <param name="lff">The LFF.</param>
+		public void Add(LocalFeedsFeed lff){
+			foreach(INewsItem item in lff.Items){
+				if(!this.feedInfo.ItemsList.Contains(item)){
+					this.Add(item); 
+				}
+			}		
+		}
+
+		/// <summary>
+		/// Adds the specified item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		public void Add(INewsItem item) {
+			if (item == null)
+				return;
+			
+			item.FeedDetails = this.feedInfo;
+			this.feedInfo.ItemsList.Add(item);
+			this.modified = true;
+		}
+
+		/// <summary>
+		/// Removes the specified item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		public void Remove(INewsItem item) {
+			if (item != null)
+			{
+				int index = this.feedInfo.ItemsList.IndexOf(item);
+				if (index >= 0)
+				{
+					this.feedInfo.ItemsList.RemoveAt(index);
+					this.modified = true;
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Removes the item(s) with the specified comment feed URL.
+		/// </summary>
+		/// <param name="commentFeedUrl">The comment feed URL.</param>
+		public void Remove(string commentFeedUrl){
+			if(!string.IsNullOrEmpty(commentFeedUrl)){
+			
+				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
+					INewsItem ni = feedInfo.ItemsList[i]; 
+					if(!StringHelper.EmptyTrimOrNull(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
+						this.feedInfo.ItemsList.RemoveAt(i); 
+						break; 
+					}
+				}
+			}				
+		}
+
+		/// <summary>
+		/// Gets or sets the location.
+		/// </summary>
+		/// <value>The location.</value>
+		public string Location {
+			get { return this.filePath;	}
+			set { this.filePath = value;	}
+		}
+
+		/// <summary>
+		/// Gets the URL.
+		/// </summary>
+		/// <value>The URL.</value>
+		public string Url {
+			get { return base.link;  }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="LocalFeedsFeed"/> is modified.
+		/// </summary>
+		/// <value><c>true</c> if modified; otherwise, <c>false</c>.</value>
+		public bool Modified {
+			get { return this.modified;  }
+			set { this.modified = value; }
+		}
+
+		/// <summary>
+		/// Gets the description.
+		/// </summary>
+		/// <value>The description.</value>
+		public string Description {
+			get { return this.feedInfo.Description;  }
+		}
+
+		/// <summary>
+		/// Loads the items.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		protected void LoadItems(XmlReader reader, FeedSourceEntry migratedItemsOwner){
+			if (feedInfo.ItemsList.Count > 0)
+				feedInfo.ItemsList.Clear(); 
+
+			if (reader != null) {
+				try{				
+					XmlDocument doc = new XmlDocument(); 
+					doc.Load(reader); 
+					foreach(XmlElement elem in doc.SelectNodes("//item")){				
+						NewsItem item = RssParser.MakeRssItem(this,  new XmlNodeReader(elem)); 
+						
+						//Question: why we do this?
+						item.BeenRead = true;
+						
+						item.FeedDetails = this.feedInfo;
+						if (migrationRequired)
+							item = MigrateItem(item, migratedItemsOwner);
+						
+						if (item != null)
+							feedInfo.ItemsList.Add(item); 
+					}
+				}catch(Exception e){
+					ExceptionManager.GetInstance().Add(RssBanditApplication.CreateLocalFeedRequestException(e, this, this.feedInfo), migratedItemsOwner);
+				}			
+			}
+			
+			OnItemsLoaded();
+		}
+
+		/// <summary>
+		/// Should be overridden to migrate the item. 
+		/// Base implementation just return the <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <returns></returns>
+		protected virtual NewsItem MigrateItem(NewsItem newsItem, FeedSourceEntry migratedItemsOwner)
+		{
+			return newsItem;
+		}
+
+		/// <summary>
+		/// Called when items are loaded.
+		/// </summary>
+		protected virtual void OnItemsLoaded()
+		{
+		}
+
+		/// <summary>
+		/// Gets the default reader.
+		/// </summary>
+		/// <returns></returns>
+		protected XmlReader GetDefaultReader(){
+			
+			if (File.Exists(this.filePath)) {
+				return new XmlTextReader(this.filePath);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Writes this object as an RSS 2.0 feed to the specified writer
+		/// </summary>
+		/// <param name="writer"></param>
+		public void WriteTo(XmlWriter writer){
+			this.feedInfo.WriteTo(writer);
+		}
+
+		/// <summary>
+		/// Saves the feed items.
+		/// </summary>
+		public void Save()
+		{
+			try
+			{
+				using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(this.filePath)))
+				{
+					this.WriteTo(writer);
+					writer.Flush();
+					Modified = false;
+				}
+			}
+			catch (Exception e)
+			{
+				_log.Error("LocalFeedsFeed.Save()", e);
+			}
+		}
+
+	}
+
+	#endregion
 
 }
