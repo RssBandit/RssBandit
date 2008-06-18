@@ -130,8 +130,8 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		static public IList ItemListToHRefList(IList items) {
-			ArrayList retList = new ArrayList(items.Count);
+		static public List<string> ItemListToHRefList(IList items) {
+			List<string> retList = new List<string>(items.Count);
 			foreach (NewsItem item in items) {
 				if (!string.IsNullOrEmpty(item.Link))
 					retList.Add(item.Link);
@@ -158,13 +158,13 @@ namespace NewsComponents.Utils
 			if (item == null) return null;
 			System.Text.StringBuilder newHash = new System.Text.StringBuilder();
 			
-			if (item.Feed != null && item.Feed.link != null && item.Feed.link.Length > 0)
+			if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link))
 				newHash.Append(item.Feed.link.GetHashCode().ToString());
 
-			if (item.Link != null && item.Link.Length > 0)
+			if (!string.IsNullOrEmpty(item.Link))
 				newHash.Append(item.Link.GetHashCode().ToString());
 			
-			if (item.Title != null && item.Title.Length > 0)
+			if (!string.IsNullOrEmpty(item.Title))
 				newHash.Append(item.Title.GetHashCode().ToString());
 
 			if (item.HasContent)
@@ -247,14 +247,14 @@ namespace NewsComponents.Utils
 			
 			XmlQualifiedName[] qnames = GetOptionalElementKeys(elements, elementName, elementNamespace);
 			if (qnames != null) {
-				ArrayList xElements = new ArrayList();
+				List<XmlElement> xElements = new List<XmlElement>();
 				foreach (XmlQualifiedName qname in qnames) {
 					string elem  = (string) elements[qname];
 					if(elem != null) {
-						xElements.Add(elementCreator.ReadNode(new XmlTextReader(new StringReader(elem)))); 
+						xElements.Add((XmlElement)elementCreator.ReadNode(new XmlTextReader(new StringReader(elem)))); 
 					}
 				}
-				return (XmlElement[])xElements.ToArray( typeof(XmlElement) );
+				return xElements.ToArray();
 			}
 			return null;
 		}
@@ -305,14 +305,28 @@ namespace NewsComponents.Utils
 			if (elements == null || elements.Count == 0)
 				return null;
 
-			ArrayList names = new ArrayList();
+			List<XmlQualifiedName> names = new List<XmlQualifiedName>();
 			//have to do this because XmlQualifiedName.Equals() is stupid
 			foreach(XmlQualifiedName qname in elements.Keys){						
 				if (qname.Namespace.Equals(elementNamespace) && qname.Name.IndexOf(elementName) >= 0) {
 					names.Add(qname);
 				}
 			}
-			return (XmlQualifiedName[])names.ToArray( typeof(XmlQualifiedName) );
+			return names.ToArray();
+		}
+
+		/// <summary>
+		/// Creates the XML attribute.
+		/// </summary>
+		/// <param name="prefix">The prefix.</param>
+		/// <param name="qualifiedName">Qualified name of the attribute.</param>
+		/// <param name="value">The value.</param>
+		/// <returns></returns>
+		static public XmlAttribute CreateXmlAttribute(string prefix, XmlQualifiedName qualifiedName, string value)
+		{
+			XmlAttribute a = elementCreator.CreateAttribute(prefix, qualifiedName.Name, qualifiedName.Namespace);
+			a.InnerText = value;
+			return a;
 		}
 
 		/// <summary>
@@ -330,6 +344,19 @@ namespace NewsComponents.Utils
 			return e;
 		}
 
+		/// <summary>
+		/// Creates the XML element.
+		/// </summary>
+		/// <param name="prefix">The prefix.</param>
+		/// <param name="qualifiedName">Name of the qualified.</param>
+		/// <param name="value">The value.</param>
+		/// <returns></returns>
+		static public XmlElement CreateXmlElement(string prefix, XmlQualifiedName qualifiedName, string value)
+		{
+			XmlElement e = elementCreator.CreateElement(prefix, qualifiedName.Name, qualifiedName.Namespace);
+			e.InnerText = value;
+			return e;
+		}
 		/// <summary>
 		/// Creates and returns a new XmlElement from the provided XmlReader
 		/// </summary>

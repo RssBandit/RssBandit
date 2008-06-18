@@ -95,6 +95,10 @@ namespace NewsComponents.Net
 		/// Gets the NewsFeed causing the exception
 		/// </summary>
 		public INewsFeed Feed { get { return (INewsFeed)this.GetObject("FAILURE_OBJECT"); } }
+		/// <summary>
+		/// Gets the NewsFeed causing the exception
+		/// </summary>
+		public FeedSource FeedSource { get { return (FeedSource)this.GetObject("SUBSCRIPTION_SOURCE"); } }
 
 	}
 

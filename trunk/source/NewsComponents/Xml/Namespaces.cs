@@ -30,6 +30,11 @@ namespace NewsComponents
 		/// Currently used namespace
 		/// </summary>
 		public const string Feeds_vCurrent = Feeds_v2004;
+
+		/// <summary>
+		/// Gets the current RssBandit namespace extension prefix
+		/// </summary>
+		public const string BanditPrefix = "bndt";
 	}
 
 	#region NamespaceXml
