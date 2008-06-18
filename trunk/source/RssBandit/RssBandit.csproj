@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30428</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -311,7 +311,9 @@
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\FileNameToIconConverter.cs" />
+    <Compile Include="Converters\NotVisibleConverter.cs" />
     <Compile Include="Core\ApplicationExceptionHandler.cs" />
     <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
     <Compile Include="Core\Exceptions.cs" />
