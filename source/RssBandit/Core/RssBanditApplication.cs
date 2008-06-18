@@ -632,6 +632,10 @@ namespace RssBandit
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
             DownloadRegistryManager.Current.Initialize();
 
+            // create this here to pre-load the WPF libraries
+            var dm = new DownloadManagerWindow();
+            dm.Close();
+
             Dispatcher.Run();
         }
 
@@ -6069,7 +6073,7 @@ namespace RssBandit
                     if (_downloadManager == null)
                     {
 
-                        _downloadManager = new DownloadManagerWindow();
+                        _downloadManager = new DownloadManagerWindow() { Visibility = System.Windows.Visibility.Visible };
                         _downloadManager.Closed += delegate
                                                        {
                                                            _downloadManager = null;
