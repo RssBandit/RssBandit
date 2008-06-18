@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -62,16 +63,14 @@ namespace NewsComponents.Utils
 		/// <remarks>Considers newline and linefeed</remarks>
 		public static string ShortenByEllipsis(string text, int allowedLength) {
 			if (text == null) return String.Empty;
-
+			text = text.Trim();
 			if (text.Length > allowedLength + 3) {
 				int nlPos = text.IndexOfAny(new char[]{'\n','\r'});
 				if (nlPos >= 0 && nlPos < allowedLength)
 					return text.Substring(0, nlPos) + "...";
-				else
-					return text.Substring(0, allowedLength) + "...";
+				return text.Substring(0, allowedLength) + "...";
 			}
-			else
-				return text;
+			return text;
 		}
 
 		/// <summary>
@@ -123,11 +122,8 @@ namespace NewsComponents.Utils
 			if (m.Success) 
 			{
 				return m.Groups["address"].Value;
-			} 
-			else 
-			{
-				return text;
 			}
+			return text;
 		}
 
 		/// <summary>
@@ -140,5 +136,50 @@ namespace NewsComponents.Utils
 		{
 			return string.Compare(original, comparand, true, CultureInfo.InvariantCulture) == 0;
 		}
+
+		private static readonly List<char> validChars = new List<char>(new[] { '\t', '\r', '\n' });
+		
+		/// <summary>
+		/// Used to test whether a string contains any character that is illegal in XML 1.0. 
+		/// Specifically it checks for the ASCII control characters except for tab, carriage return 
+		/// and newline which are the only ones allowed in XML. 
+		/// </summary>
+		/// <param name="text">the string to test</param>
+		/// <returns>true if the string contains a character that is illegal in XML</returns>
+		public static bool ContainsInvalidXmlChars(string text)
+		{
+			if (text != null)
+				foreach (char c in text)
+				{
+					if (Char.IsControl(c) && !validChars.Contains(c))
+					{
+						return true;
+					}
+				}
+
+			return false;
+		}
+		/// <summary>
+		/// Strips the non display chars from text.
+		/// </summary>
+		/// <param name="text">The text.</param>
+		/// <returns></returns>
+		public static string StripNonDisplayChars(string text)
+		{
+
+			if (String.IsNullOrEmpty(text) )
+				return text;
+			
+			StringBuilder b = new StringBuilder(text.Length);
+			
+			foreach (char c in text) {
+				if (!Char.IsControl(c))
+				{
+					b.Append(c);
+				}
+			}
+			return b.ToString();
+		}
+
 	}
 }

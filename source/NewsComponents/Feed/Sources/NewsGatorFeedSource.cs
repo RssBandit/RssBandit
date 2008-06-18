@@ -1033,7 +1033,7 @@ namespace NewsComponents.Feed
                 XmlElement clippedElem = RssHelper.GetOptionalElement(item, qname);
                 if (clippedElem == null)
                 {
-                    clippedElem = RssHelper.CreateXmlElement("ng", qname.Name, qname.Namespace, "True");
+                    clippedElem = RssHelper.CreateXmlElement("ng", qname, "True");
                 }
                 else
                 {

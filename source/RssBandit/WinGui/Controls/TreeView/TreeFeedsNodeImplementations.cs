@@ -707,7 +707,7 @@ namespace RssBandit.WinGui.Controls
         public FinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
             base(text, FeedNodeType.Finder, true, imageIndex, selectedImageIndex)
         {
-            itemsFeed = new LocalFeedsFeed(
+            itemsFeed = new LocalFeedsFeed(null,
                 "http://localhost/rssbandit/searchfolder?id=" + Guid.NewGuid(),
                 text, String.Empty, false);
             _popup = menu;

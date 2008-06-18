@@ -1619,7 +1619,7 @@ namespace RssBandit.WinGui.Forms
 
         private void StartNewsSearch(FinderNode node)
         {
-            owner.FeedHandler.SearchNewsItems(
+			CurrentSelectedFeedSource.Source.SearchNewsItems(
                 node.Finder.SearchCriterias,
                 node.Finder.SearchScope,
                 node.Finder,
@@ -1771,9 +1771,9 @@ namespace RssBandit.WinGui.Forms
             {
                 foreach (string url in feedUrls)
                 {
-                    if (url != null && owner.FeedHandler.IsSubscribed(url))
+					if (url != null && CurrentSelectedFeedSource.Source.IsSubscribed(url))
                     {
-                        result.Add(owner.FeedHandler.GetFeeds()[url]);
+						result.Add(CurrentSelectedFeedSource.Source.GetFeeds()[url]);
                     }
                 }
             }
@@ -1841,26 +1841,25 @@ namespace RssBandit.WinGui.Forms
                                  ExternalSearchUrl = searchUrl
                              };
 
-            _searchResultNode.Finder = finder;
-            Action<string, FinderNode> start = StartRssRemoteSearch;
-            start.BeginInvoke(searchUrl, _searchResultNode, cb =>
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        start.EndInvoke(cb);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        _log.Error(
-                                                                            "AsyncCall 'StartRssRemoteSearch' caused this exception",
-                                                                            ex);
-                                                                    }
-                                                                }, null);
+			_searchResultNode.Finder = finder;
+			Action<string, FinderNode> start = StartRssRemoteSearch;
+			start.BeginInvoke(searchUrl, _searchResultNode,
+				cb =>
+				{
+					try
+					{
+						start.EndInvoke(cb);
+					}
+					catch (Exception ex)
+					{
+						_log.Error("AsyncCall 'StartRssRemoteSearch' caused this exception", ex);
+					}
+				}, null);
 
-            if (mergeWithLocalResults)
-            {
-                // start also the local search
-                AsyncStartNewsSearch(_searchResultNode);
+			if (mergeWithLocalResults)
+			{
+				// start also the local search
+				AsyncStartNewsSearch(_searchResultNode);
             }
         }
 
@@ -1868,7 +1867,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                owner.FeedHandler.SearchRemoteFeed(searchUrl, resultContainer.Finder);
+				CurrentSelectedFeedSource.Source.SearchRemoteFeed(searchUrl, resultContainer.Finder);
             }
             catch (Exception ex)
             {
