@@ -1359,7 +1359,7 @@ namespace RssBandit.WinGui.Forms
             if (!_timerRefreshFeeds.Enabled)
                 _timerRefreshFeeds.Start();
 #endif
-            if (!_faviconsDownloaded && owner.Preferences.UseFavicons)
+            if (!entry.FaviconsDownloaded && owner.Preferences.UseFavicons)
             {
                 try
                 {
@@ -1367,7 +1367,7 @@ namespace RssBandit.WinGui.Forms
                 }
                 finally
                 {
-                    _faviconsDownloaded = true;
+                    entry.FaviconsDownloaded = true;
                 }
             }
         }

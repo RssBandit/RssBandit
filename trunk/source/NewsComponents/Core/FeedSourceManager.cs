@@ -60,6 +60,12 @@ namespace NewsComponents
 			Source = source;
 		}
 
+        /// <summary>
+        /// Gets or sets whether favicons have been downloaded for the source. 
+        /// </summary>
+        [XmlIgnore]
+        public bool FaviconsDownloaded { get; set; }
+
 		/// <summary>
 		/// Gets or sets the name of the source.
 		/// </summary>
