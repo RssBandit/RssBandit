@@ -1489,41 +1489,7 @@ namespace RssBandit.WinGui.Forms
         {
             get { return (CurrentSelectedFeedsNode != null && CurrentSelectedFeedsNode.IsEditing); }
         }
-
-        //		protected void DeleteFeed(TreeFeedsNodeBase tn) 
-        //		{
-        //			if (tn == null) tn = CurrentSelectedFeedsNode;
-        //			if (tn == null) return;
-        //			if(tn.Type != FeedNodeType.Feed) return;
-        //			this.UpdateTreeNodeUnreadStatus(tn, 0);
-        //			tn.UpdateCommentStatus(tn, 0);
-        //
-        //			if (tn.Selected) 
-        //			{ // not just right-clicked elsewhere on a node:
-        //				this.EmptyListView();					
-        //				this.htmlDetail.Clear();
-        //				//TreeSelectedNode = this.GetRootType(RootFolderType.MyFeeds);
-        //			}
-        //			
-        //			try 
-        //			{
-        //				NewsFeed f = owner.GetFeed(tn.DataKey);
-        //				if (f != null) {
-        //					UnreadItemsNodeRemoveItems(f);
-        //					WatchedItemsNodeRemoveItems(f);
-        //					f.Tag = null;
-        //				}
-        //				if (tn.DataKey != null)
-        //					owner.FeedHandler.DeleteFeed(tn.DataKey);
-        //				// next line causes OnTreeBefore-/AfterSelected events:
-        //				tn.Parent.Nodes.Remove(tn); 
-        //				CurrentSelectedFeedsNode = null;
-        //				this.DelayTask(DelayedTasks.SyncRssSearchTree);
-        //			} 
-        //			catch { /* ignore delete errors (may raised by FileCacheManager) */}
-        //		}
-
-
+     
         private static bool NodeIsChildOf(UltraTreeNode tn, UltraTreeNode parent)
         {
             if (parent == null)
