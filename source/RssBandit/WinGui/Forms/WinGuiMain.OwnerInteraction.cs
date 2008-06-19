@@ -260,26 +260,7 @@ namespace RssBandit.WinGui.Forms
 				{
 					_log.Error("Feed source reported list was not OK: " + entry.Name);
 				}
-			}
-
-			//if (owner.FeedHandler.FeedsListOK == false)
-			//{
-			//    SetGuiStateFeedback(SR.GUIStatusNoFeedlistFile, ApplicationTrayState.NormalIdle);
-			//    return;
-			//}
-        	
-
-			////Ensure we update the UI in the correct thread. Since this method is likely 
-			////to have been called from a thread that is not the UI thread we should ensure 
-			////that calls to UI components are actually made from the UI thread or marshalled
-			////accordingly. 
-			//InvokeOnGui(delegate
-			//                {
-			//                    PopulateFeedSubscriptions(owner.FeedHandler.GetCategories().Values,
-			//                                              owner.FeedHandler.GetFeeds(),
-			//                                              RssBanditApplication.DefaultCategory);
-			//                    PopulateTreeSpecialFeeds();
-			//                });
+			}		
         }
 
         private void CheckForFlaggedNodeAndCreate(INewsItem ri)
