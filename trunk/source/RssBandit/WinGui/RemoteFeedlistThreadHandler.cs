@@ -221,7 +221,7 @@ namespace RssBandit.WinGui
                         case RemoteStorageProtocolType.dasBlog:
 
                             //save feed list
-                            rssBanditApp.FeedHandler.SaveFeedList(tempStream, FeedListFormat.OPML);
+                            rssBanditApp.BanditFeedSource.SaveFeedList(tempStream, FeedListFormat.OPML);
                             tempStream.Position = 0;
 
                             XmlDocument doc = new XmlDocument();
@@ -537,11 +537,11 @@ namespace RssBandit.WinGui
                     if ((remoteProtocol == RemoteStorageProtocolType.dasBlog) ||
                         (remoteProtocol == RemoteStorageProtocolType.dasBlog_1_3))
                     {
-                        rssBanditApp.FeedHandler.ImportFeedlist(importStream);
+                        rssBanditApp.BanditFeedSource.ImportFeedlist(importStream);
                     }
                     else if (remoteProtocol == RemoteStorageProtocolType.NewsgatorOnline)
                     {
-                        rssBanditApp.FeedHandler.ImportFeedlist(syncedFeeds, null, true /* replace */, true
+                        rssBanditApp.BanditFeedSource.ImportFeedlist(syncedFeeds, null, true /* replace */, true
                             /* keepLocalSettings */);
                     }
                     else
@@ -608,11 +608,11 @@ namespace RssBandit.WinGui
                     if (theEntry.Name == feedlist)
                     {
                         subscriptionsXmlSeen = true;
-                        rssBanditApp.FeedHandler.ReplaceFeedlist(zis);
+                        rssBanditApp.BanditFeedSource.ReplaceFeedlist(zis);
                     }
                     else if (!subscriptionsXmlSeen && (theEntry.Name == oldschoolfeedlist))
                     {
-                        rssBanditApp.FeedHandler.ReplaceFeedlist(zis);
+                        rssBanditApp.BanditFeedSource.ReplaceFeedlist(zis);
                     }
                     else if (theEntry.Name == flaggeditems)
                     {
