@@ -1,49 +1,15 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: Win32.cs,v $
- * Revision 1.41  2007/07/01 17:59:54  t_rendelmann
- * feature: support for portable application mode (running Bandit from a stick)
- *
- * Revision 1.40  2007/02/24 19:42:50  t_rendelmann
- * fixed: Application event sounds related issue [https://sourceforge.net/tracker/index.php?func=detail&aid=1667881&group_id=96589&atid=615248 bug 1667881]
- *
- * Revision 1.39  2007/02/24 18:06:52  t_rendelmann
- * fixed: cross-thread-exception in ToastNotifier classes
- *
- * Revision 1.38  2007/02/13 16:21:24  t_rendelmann
- * security/UAC required changes
- *
- * Revision 1.37  2007/01/30 21:17:43  carnage4life
- * Added support for remembering browser tab state on restart
- *
- * Revision 1.36  2006/12/17 14:55:45  t_rendelmann
- * added: consider sound configuration setting (allowed, not allowed)
- *
- * Revision 1.35  2006/12/16 15:09:36  t_rendelmann
- * feature: application sound support (configurable via Windows Sounds Control Panel)
- *
- * Revision 1.34  2006/12/14 18:52:20  carnage4life
- * Removed redundant 'Subscribe in defautl aggregator' option added to IE right-click menu
- *
- * Revision 1.33  2006/10/03 10:35:37  t_rendelmann
- * fixed: FormatException in WriteIEExtensionScript(), if we manage the "Subscribe in RSS Bandit" IE context menu
- *
- */
-#endregion
 
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -313,7 +279,7 @@ namespace RssBandit
 		/// The RECT structure defines the coordinates of the upper-left 
 		/// and lower-right corners of a rectangle
 		/// </summary>
-		[Serializable(), StructLayout(LayoutKind.Sequential)]
+		[Serializable, StructLayout(LayoutKind.Sequential)]
 		internal struct RECT {
 			/// <summary>Specifies the x-coordinate of the upper-left corner of the rectangle</summary>
 			public int left;
@@ -379,15 +345,15 @@ namespace RssBandit
 
 		[StructLayout(LayoutKind.Sequential)]
 		internal class HDITEM {
-			public int     mask = 0; 
-			public int     cxy = 0; 
+			public int     mask; 
+			public int     cxy; 
 			public IntPtr  pszText = IntPtr.Zero; 
 			public IntPtr  hbm = IntPtr.Zero; 
-			public int     cchTextMax = 0; 
-			public int     fmt = 0;
+			public int     cchTextMax; 
+			public int     fmt;
             public IntPtr lParam = IntPtr.Zero; 
-			public int     iImage = 0;
-			public int     iOrder = 0;
+			public int     iImage;
+			public int     iOrder;
 		};
 
 		/// <summary>
@@ -466,7 +432,7 @@ namespace RssBandit
 		[DllImport("user32.dll")] public static extern 
 			IntPtr GetWindowThreadProcessId(IntPtr hWnd, ref IntPtr ProcessId);
 		[DllImport("user32.dll", SetLastError=true)] public static extern 
-			int GetWindowText(IntPtr hWnd, System.Text.StringBuilder title, int size);
+			int GetWindowText(IntPtr hWnd, StringBuilder title, int size);
 		[DllImport("user32.dll")] public static extern 
 			int EnumWindows(EnumWindowsProc ewp, IntPtr lParam); 
 		[DllImport("User32", CharSet=CharSet.Auto)] public static extern
@@ -811,8 +777,20 @@ namespace RssBandit
 			/// </summary>
 			/// <param name="extension">The extension.</param>
 			void UnRegisterInternetExplorerExtension(IEMenuExtension extension) ;
-			
+
+			/// <summary>
+			/// Gets the internet explorer version.
+			/// </summary>
+			/// <returns></returns>
 			Version GetInternetExplorerVersion();
+
+			/// <summary>
+			/// Gets or sets a value indicating whether [current RSS bandit version executes first time after installation].
+			/// </summary>
+			/// <value>
+			/// 	<c>true</c> if [current RSS bandit version executes first time after installation]; otherwise, <c>false</c>.
+			/// </value>
+			bool ThisVersionExecutesFirstTimeAfterInstallation { get; set; }
 		}
 
 		#endregion
@@ -840,7 +818,13 @@ namespace RssBandit
 				return registryInstance;
 			}
 		}
-		
+
+		// used in win registry:
+		private static readonly string versionTagName = String.Format("version.{0}", RssBanditApplication.Version.ToString(2));
+		// used in portable registry:
+		private static readonly string versionTagFile = String.Format(".version.{0}", RssBanditApplication.Version.ToString(2));
+			
+			
 		/// <summary>
 		/// Wrap the windows registry access needed for Bandit
 		/// </summary>
@@ -853,12 +837,12 @@ namespace RssBandit
 
             static WindowsRegistry()
             {
-                BanditSettings = @"Software\RssBandit\Settings";
+                BanditSettings = @"Software\rssbandit.org\RssBandit\Settings";
 
 #if ALT_CONFIG_PATH
-                BanditSettings = @"Software\RssBandit\Settings\Debug";
+                BanditSettings = @"Software\rssbandit.org\RssBandit\Settings\Debug";
 #endif
-            }
+			}
 
 			/// <summary>
 			/// Gets the internet explorer version.
@@ -917,8 +901,11 @@ namespace RssBandit
 						if (keySettings == null) {
 							keySettings = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(BanditSettings);
 						}
-						keySettings.SetValue("InstanceActivatorPort", newPort.ToString());
-						keySettings.Close();
+						if (keySettings != null)
+						{
+							keySettings.SetValue("InstanceActivatorPort", newPort.ToString());
+							keySettings.Close();
+						}
 					} catch (Exception ex) {
 						Win32._log.Error("Cannot set InstanceActivatorPort", ex);
 					} 
@@ -981,12 +968,13 @@ namespace RssBandit
 			/// <remarks>
 			/// See also: http://blogs.msdn.com/larryosterman/archive/2006/01/24/517183.aspx
 			/// </remarks>
-			void IRegistry.CheckAndInitSounds(string appKey) {
-				string rootKey = "AppEvents\\Schemes\\Apps";
-				string rootLabels = "AppEvents\\EventLabels";
-				string appName = "RSS Bandit";
-				string defaultKeyName = ".default";
-				string currentKeyName = ".current";
+			void IRegistry.CheckAndInitSounds(string appKey) 
+			{
+				const string rootKey = "AppEvents\\Schemes\\Apps";
+				const string rootLabels = "AppEvents\\EventLabels";
+				const string appName = "RSS Bandit";
+				const string defaultKeyName = ".default";
+				const string currentKeyName = ".current";
 			
 				RegistryKey labelRoot = null, schemeRoot = null;
 				// we use the installed OS UI Language to set our sound names:
@@ -1004,10 +992,10 @@ namespace RssBandit
 					if (labelRoot == null)
 						return;
 				
-					RegistryKey appSchemeRoot = null;
-					RegistryKey sndSchemeDefinition = null;
-					RegistryKey sndSchemeLabel = null;
-					RegistryKey currentKey = null, defaultKey = null;
+					RegistryKey appSchemeRoot;
+					RegistryKey sndSchemeDefinition;
+					RegistryKey sndSchemeLabel;
+					RegistryKey currentKey, defaultKey;
 				
 					if (null == (appSchemeRoot = schemeRoot.OpenSubKey(appKey, true))) {
 						appSchemeRoot = schemeRoot.CreateSubKey(appKey);
@@ -1114,8 +1102,10 @@ namespace RssBandit
 							s = key.GetValue(BanditKey) as string;
 							key.Close();
 						}
-						if (s != null) {
-							string location = Assembly.GetEntryAssembly().Location.ToString(CultureInfo.CurrentUICulture);
+						Assembly a = Assembly.GetEntryAssembly();
+						if (s != null && a != null && a.Location != null)
+						{
+							string location = a.Location.ToString(CultureInfo.CurrentUICulture);
 							if (s == "\"" + location + "\" -t")
 								return true;
 						}
@@ -1128,8 +1118,10 @@ namespace RssBandit
 					try {
 						// UACManager registered action: 
 						RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-						string location = Assembly.GetEntryAssembly().Location.ToString(CultureInfo.CurrentUICulture);
-						if (key != null) {
+						Assembly a = Assembly.GetEntryAssembly();
+						string location = a != null && a.Location != null ? a.Location.ToString(CultureInfo.CurrentUICulture) : null;
+						if (key != null && location != null)
+						{
 							if (value) {
 								key.SetValue(BanditKey, "\"" + location + "\" -t");
 							}
@@ -1170,7 +1162,7 @@ namespace RssBandit
 			}
 
 			/// <summary>
-			/// Registers the internet explorer extension.
+			/// Registers the Internet explorer extension.
 			/// </summary>
 			/// <param name="extension">The extension.</param>
 			void IRegistry.RegisterInternetExplorerExtension(IEMenuExtension extension) {
@@ -1179,7 +1171,7 @@ namespace RssBandit
 			}
 
 			/// <summary>
-			/// Uns the register internet explorer extension.
+			/// Unregister Internet explorer extension.
 			/// </summary>
 			/// <param name="extension">The extension.</param>
 			void IRegistry.UnRegisterInternetExplorerExtension(IEMenuExtension extension) {
@@ -1188,11 +1180,91 @@ namespace RssBandit
 			}
 			
 			/// <summary>
-			/// Gets the internet explorer version.
+			/// Gets the Internet explorer version.
 			/// </summary>
 			/// <returns></returns>
 			Version IRegistry.GetInternetExplorerVersion() { 
-				return WindowsRegistry.GetInternetExplorerVersion();
+				return GetInternetExplorerVersion();
+			}
+
+			private bool? firstTimeExecution;
+				
+			/// <summary>
+			/// Gets or sets a value indicating whether [current RSS bandit version executes first time after installation].
+			/// </summary>
+			/// <value>
+			/// 	<c>true</c> if [current RSS bandit version executes first time after installation]; otherwise, <c>false</c>.
+			/// </value>
+			bool IRegistry.ThisVersionExecutesFirstTimeAfterInstallation 
+			{
+				get
+				{
+					if (firstTimeExecution == null)
+					{
+						firstTimeExecution = true;
+						RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, false);
+						string val = ((key == null) ? null : (key.GetValue(versionTagName) as string));
+						if (!string.IsNullOrEmpty(val))
+						{
+							firstTimeExecution = false;
+							// currently we just relay on if the key exist:
+							//try
+							//{
+							//    Version installedVersion = new Version(val);
+							//}
+							//catch { }
+						}
+						if (key != null) key.Close();
+					}
+					return firstTimeExecution.Value;
+				}
+				set
+				{
+					if (firstTimeExecution == value)
+						return;
+
+					firstTimeExecution = value;
+					if (false == value)
+					{
+						// create reg. entry:
+						try
+						{
+							RegistryKey keySettings = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, true);
+							if (keySettings == null)
+								keySettings = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(BanditSettings);
+							
+							if (keySettings != null)
+							{
+								keySettings.SetValue(versionTagName, RssBanditApplication.Version.ToString());
+								keySettings.Close();
+							}
+						}
+						catch (Exception ex)
+						{
+							Win32._log.Error("Cannot set " + versionTagName, ex);
+						} 
+						
+					} else
+					{
+						// remove reg. entry:
+						try
+						{
+							RegistryKey keySettings = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(BanditSettings, true);
+							if (keySettings == null)
+								return;
+
+							keySettings.DeleteValue(versionTagName);
+							keySettings.Close();
+							
+						}
+						catch (Exception ex)
+						{
+							Win32._log.Error("Cannot remove " + versionTagName, ex);
+						} 
+					}
+					
+				}
+			
 			}
 			#endregion
 
@@ -1227,7 +1299,7 @@ namespace RssBandit
 			private static void WriteIEExtensionRegistryEntry(IEMenuExtension extension) {
 				
 				string scriptName = GetIEExtensionScriptName(extension);
-				string caption = null;
+				string caption;
 				if (extension == IEMenuExtension.DefaultFeedAggregator) {
 					caption = SR.InternetExplorerMenuExtDefaultCaption;
 				} else {
@@ -1256,7 +1328,7 @@ namespace RssBandit
 
 				try {
 					
-					string scriptContent = null;
+					string scriptContent;
 
 					using (Stream resStream = Resource.GetStream("Resources."+scriptName)) {
 						StreamReader reader = new StreamReader(resStream);
@@ -1271,7 +1343,7 @@ namespace RssBandit
 							scriptContent = scriptContent.Replace("__COMMAND_PATH_PLACEHOLDER__", Application.ExecutablePath.Replace(@"\", @"\\"));
 						}
 
-						using (Stream outStream = NewsComponents.Utils.FileHelper.OpenForWrite(Path.Combine(RssBanditApplication.GetUserPath(), scriptName))) {
+						using (Stream outStream = FileHelper.OpenForWrite(Path.Combine(RssBanditApplication.GetUserPath(), scriptName))) {
 							StreamWriter writer = new StreamWriter(outStream);
 							writer.Write(scriptContent);
 							writer.Flush();
@@ -1295,7 +1367,7 @@ namespace RssBandit
 				string scriptName = GetIEExtensionScriptName(extension);
 				string scriptPath = Path.Combine(RssBanditApplication.GetUserPath(), scriptName);
 				if (File.Exists(scriptPath)) {
-					NewsComponents.Utils.FileHelper.Delete(scriptPath);
+					FileHelper.Delete(scriptPath);
 				}
 			}
 
@@ -1345,7 +1417,7 @@ namespace RssBandit
 		/// </summary>
 		private class PortableRegistry : IRegistry
 		{
-			private int instanceActivatorPort = 0;
+			private int instanceActivatorPort;
 			
 			/// <summary>
 			/// Set/Get the Port number to be used by the Single Instance Activator.
@@ -1379,7 +1451,7 @@ namespace RssBandit
 						return instanceActivatorPort;
 						
 					} catch (Exception ex) {
-						Win32._log.Error("Cannot get InstanceActivatorPort from .port file", ex);
+						_log.Error("Cannot get InstanceActivatorPort from .port file", ex);
 						return 0;
 					} 
 				}
@@ -1476,6 +1548,81 @@ namespace RssBandit
 			Version IRegistry.GetInternetExplorerVersion() {
 				return WindowsRegistry.GetInternetExplorerVersion();
 			}
+
+			private bool? firstTimeExecution;
+			
+			/// <summary>
+			/// Gets or sets a value indicating whether [current RSS bandit version executes first time after installation].
+			/// </summary>
+			/// <value>
+			/// 	<c>true</c> if [current RSS bandit version executes first time after installation]; otherwise, <c>false</c>.
+			/// </value>
+			bool IRegistry.ThisVersionExecutesFirstTimeAfterInstallation 
+			{
+				get
+				{
+					if (firstTimeExecution == null)
+					{
+						firstTimeExecution = true;
+						string verFile = Path.Combine(RssBanditApplication.GetUserPath(), versionTagFile);
+						try
+						{
+							firstTimeExecution = !File.Exists(verFile);
+						}
+						catch (Exception ex)
+						{
+							_log.Error(String.Format("Cannot get version info from file {0}", verFile), ex);
+						}
+					}
+					return firstTimeExecution.Value;
+				}
+				set
+				{
+					if (firstTimeExecution == value)
+						return;
+
+					firstTimeExecution = value;
+					
+					if (false == value)
+					{
+						// create tag file:
+						string verFilePath = RssBanditApplication.GetUserPath();
+						string verFile = Path.Combine(verFilePath, versionTagFile);
+						try
+						{
+							if (!Directory.Exists(verFilePath))
+								Directory.CreateDirectory(verFilePath);
+
+							using (Stream s = FileHelper.OpenForWrite(verFile))
+							{
+								TextWriter w = new StreamWriter(s);
+								w.Write(RssBanditApplication.Version.ToString());
+								w.Flush();
+							}
+						}
+						catch (Exception ex)
+						{
+							_log.Error(String.Format("Cannot set version info in file {0}", verFile), ex);
+						}
+					} 
+					else
+					{
+						// remove tag file
+						string verFile = Path.Combine(RssBanditApplication.GetUserPath(), versionTagFile);
+						try
+						{
+							if (File.Exists(verFile))
+								File.Delete(verFile);
+						}
+						catch (Exception ex)
+						{
+							_log.Error(String.Format("Cannot remove version info file {0}", verFile), ex);
+						}
+					}
+					
+				}
+			}
+			
 		}
 
 		#endregion
@@ -1487,29 +1634,29 @@ namespace RssBandit
 		{
 			_os = Environment.OSVersion;
 			if (_os.Platform == PlatformID.Win32Windows) {
-				Win32.IsWin9x = true;
+				IsWin9x = true;
 			} else {
 				try {
-					Win32.IsAspNetServer = Thread.GetDomain().GetData(".appDomain") != null;
+					IsAspNetServer = Thread.GetDomain().GetData(".appDomain") != null;
 				}
 				catch { /* all */ }
 
-				Win32.IsWinNt = true;
+				IsWinNt = true;
 				
 				int spMajor, spMinor;
-				Win32.GetWindowsServicePackInfo(out spMajor, out spMinor);
+				GetWindowsServicePackInfo(out spMajor, out spMinor);
 				
 				if ((_os.Version.Major == 5) && (_os.Version.Minor == 0)) {
-					Win32.IsWin2K = true;
-					Win32.IsWinHttp51 = (spMajor >= 3);
+					IsWin2K = true;
+					IsWinHttp51 = (spMajor >= 3);
 				} else {
-					Win32.IsPostWin2K = true;
+					IsPostWin2K = true;
 					if ((_os.Version.Major == 5) && (_os.Version.Minor == 1)) {
-						Win32.IsWinHttp51 = (spMajor >= 1);
+						IsWinHttp51 = (spMajor >= 1);
 					}
 					else {
-						Win32.IsWinHttp51 = true;
-						Win32.IsWin2k3 = true;
+						IsWinHttp51 = true;
+						IsWin2k3 = true;
 					}
 				}
 			}
@@ -1519,8 +1666,8 @@ namespace RssBandit
 		}
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Win32));
-		private static int _paintFrozen = 0;
-		private static OperatingSystem _os;
+		private static int _paintFrozen;
+		private static readonly OperatingSystem _os;
 
 		// General info fields
 		internal static readonly bool IsAspNetServer;
@@ -1571,14 +1718,14 @@ namespace RssBandit
 		/// Returns true, if the OS is Windows XP SP2 and higher, else false.
 		/// </summary>
 		public static bool IsOSAtLeastWindowsXPSP2 {
-			get { 
+			get
+			{
 				if (IsOSWindowsXP) {
 					int spMajor, spMinor;
 					GetWindowsServicePackInfo(out spMajor, out spMinor);
 					return spMajor <= 2;
-				} else {
-					return IsOSAtLeastWindowsXP;
 				}
+				return IsOSAtLeastWindowsXP;
 			}
 		}
 		/// <summary>
@@ -1644,7 +1791,7 @@ namespace RssBandit
 		/// API Wrapper to retrive the startup process window state.
 		/// </summary>
 		/// <returns>FormWindowState</returns>
-		public static System.Windows.Forms.FormWindowState GetStartupWindowState() {
+		public static FormWindowState GetStartupWindowState() {
 			API_STARTUPINFO sti = new API_STARTUPINFO();
 			try {
 				sti.cb = Marshal.SizeOf(typeof(API_STARTUPINFO));
@@ -1654,15 +1801,14 @@ namespace RssBandit
 
 				if (sti.wShowWindow == (short)ShowWindowStyles.SW_MINIMIZE || sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMINIMIZED ||
 				    sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMINNOACTIVE || sti.wShowWindow == (short)ShowWindowStyles.SW_FORCEMINIMIZE)
-					return System.Windows.Forms.FormWindowState.Minimized;
-				else if (sti.wShowWindow == (short)ShowWindowStyles.SW_MAXIMIZE || sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMAXIMIZED ||
-				         sti.wShowWindow == (short)ShowWindowStyles.SW_MAX)
-					return System.Windows.Forms.FormWindowState.Maximized;
-				
+					return FormWindowState.Minimized;
+				if (sti.wShowWindow == (short)ShowWindowStyles.SW_MAXIMIZE || sti.wShowWindow == (short)ShowWindowStyles.SW_SHOWMAXIMIZED ||
+				    sti.wShowWindow == (short)ShowWindowStyles.SW_MAX)
+					return FormWindowState.Maximized;
 			} catch (Exception e) {
 				_log.Error("GetStartupWindowState() caused exception", e);
 			}
-			return System.Windows.Forms.FormWindowState.Normal;
+			return FormWindowState.Normal;
 		}
 
 		/// <summary>
@@ -1764,7 +1910,7 @@ namespace RssBandit
 			get {
 				bool themed = false;
 			
-				OperatingSystem os = System.Environment.OSVersion;
+				OperatingSystem os = Environment.OSVersion;
 
 				// check if the OS id XP or higher
 				// fix:	Win2k3 now recognised
@@ -1894,7 +2040,7 @@ namespace RssBandit
 		/// number of characters allowed in the size name</param>
 		/// <returns>Returns S_OK if successful, otherwise an error code</returns>
 		[DllImport("UxTheme.dll", ExactSpelling=true, CharSet=CharSet.Unicode)]
-		internal static extern int GetCurrentThemeName(System.Text.StringBuilder pszThemeFileName, int dwMaxNameChars, System.Text.StringBuilder pszColorBuff, int cchMaxColorChars, System.Text.StringBuilder pszSizeBuff, int cchMaxSizeChars);
+		internal static extern int GetCurrentThemeName(StringBuilder pszThemeFileName, int dwMaxNameChars, StringBuilder pszColorBuff, int cchMaxColorChars, StringBuilder pszSizeBuff, int cchMaxSizeChars);
 
 
 		/// <summary>

@@ -617,7 +617,7 @@ namespace RssBandit.WinGui
                     else if (theEntry.Name == flaggeditems)
                     {
                         LocalFeedsFeed flaggedItemsFeed = rssBanditApp.FlaggedItemsFeed;
-						LocalFeedsFeed lff = new FlaggedItemsFeed(rssBanditApp.GetMigrationFeedSourceEntry(), new XmlTextReader(zis));
+						LocalFeedsFeed lff = new FlaggedItemsFeed(rssBanditApp.BanditFeedSourceEntry, new XmlTextReader(zis));
                         rssBanditApp.ClearFlaggedItems();
 
                         foreach (NewsItem item in lff.Items)
@@ -629,7 +629,7 @@ namespace RssBandit.WinGui
                     else if (theEntry.Name == sentitems)
                     {
                         LocalFeedsFeed sentItemsFeed = rssBanditApp.SentItemsFeed;
-						LocalFeedsFeed lff2 = new SentItemsFeed(rssBanditApp.GetMigrationFeedSourceEntry(), new XmlTextReader(zis));
+						LocalFeedsFeed lff2 = new SentItemsFeed(rssBanditApp.BanditFeedSourceEntry, new XmlTextReader(zis));
 
                         sentItemsFeed.Add(lff2);
                     }

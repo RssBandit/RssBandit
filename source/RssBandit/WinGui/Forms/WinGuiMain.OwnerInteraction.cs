@@ -456,98 +456,109 @@ namespace RssBandit.WinGui.Forms
         public void PopulateFeedSubscriptions(FeedSourceEntry entry,
                                               string defaultCategory)
         {
-            EmptyListView();
-
-        	ICollection<INewsFeedCategory> categories = entry.Source.GetCategories().Values;
-        	IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
+            //EmptyListView();
 
             TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
-            try
-            {
-                treeFeeds.BeginUpdate();
+			try
+			{
+				ICollection<INewsFeedCategory> categories = entry.Source.GetCategories().Values;
+				IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
+
+				treeFeeds.BeginUpdate();
 
                 TreeFeedsNodeBase tn;
-                // reset nodes and unread counter
+                
+				// reset nodes and unread counter
                 root.Nodes.Clear();
                 UpdateTreeNodeUnreadStatus(root, 0);
 
-                //UnreadItemsNode.Items.Clear();
+				if (entry.Source.FeedsListOK)
+				{
+					//UnreadItemsNode.Items.Clear();
 
-                var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
-                var categoryList = new List<INewsFeedCategory>(categories);
+					var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
+					var categoryList = new List<INewsFeedCategory>(categories);
 
-                foreach (var f in feedsTable.Values)
-                {
-                    if (Disposing)
-                        return;
+					foreach (var f in feedsTable.Values)
+					{
+						if (Disposing)
+							return;
 
-                    if (RssHelper.IsNntpUrl(f.link))
-                    {
-                        tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Nntp,
-                                          Resource.SubscriptionTreeImage.NntpSelected,
-                                          _treeFeedContextMenu);
-                    }
-                    else
-                    {
-                        tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed,
-                                          Resource.SubscriptionTreeImage.FeedSelected,
-                                          _treeFeedContextMenu,
-                                          (owner.Preferences.UseFavicons ? LoadFavicon(f.favicon) : null));
-                    }
+						if (RssHelper.IsNntpUrl(f.link))
+						{
+							tn = new FeedNode(
+								f.title, Resource.SubscriptionTreeImage.Nntp,
+								Resource.SubscriptionTreeImage.NntpSelected,
+								_treeFeedContextMenu);
+						}
+						else
+						{
+							tn = new FeedNode(
+								f.title, Resource.SubscriptionTreeImage.Feed,
+								Resource.SubscriptionTreeImage.FeedSelected,
+								_treeFeedContextMenu,
+								(owner.Preferences.UseFavicons ? LoadFavicon(f.favicon) : null));
+						}
 
-                    //interconnect for speed:
-                    tn.DataKey = f.link;
-                    f.Tag = tn;
+						//interconnect for speed:
+						tn.DataKey = f.link;
+						f.Tag = tn;
 
-                    string category = (f.category ?? String.Empty);
+						string category = (f.category ?? String.Empty);
 
-                    TreeFeedsNodeBase catnode;
-                    if (categoryTable.ContainsKey(category))
-                        catnode = categoryTable[category];
-                    else
-                    {
-                        catnode = TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
-                        categoryTable.Add(category, catnode);
-                    }
+						TreeFeedsNodeBase catnode;
+						if (categoryTable.ContainsKey(category))
+							catnode = categoryTable[category];
+						else
+						{
+							catnode = TreeHelper.CreateCategoryHive(root, category, _treeCategoryContextMenu);
+							categoryTable.Add(category, catnode);
+						}
 
-                    catnode.Nodes.Add(tn);
+						catnode.Nodes.Add(tn);
 
-                    SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
+						SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
 
-                    if (f.containsNewMessages)
-                    {
-                        IList<INewsItem> unread = FilterUnreadFeedItems(f);
-                        if (unread.Count > 0)
-                        {
-                            // we build up the tree, so the call to 
-                            // UpdateReadStatus(tn , 0) is not neccesary:
-                            UpdateTreeNodeUnreadStatus(tn, unread.Count);
-                            UnreadItemsNode.Items.AddRange(unread);
-                            UnreadItemsNode.UpdateReadStatus();
-                        }
-                    }
+						if (f.containsNewMessages)
+						{
+							IList<INewsItem> unread = FilterUnreadFeedItems(f);
+							if (unread.Count > 0)
+							{
+								// we build up the tree, so the call to 
+								// UpdateReadStatus(tn , 0) is not neccesary:
+								UpdateTreeNodeUnreadStatus(tn, unread.Count);
+								UnreadItemsNode.Items.AddRange(unread);
+								UnreadItemsNode.UpdateReadStatus();
+							}
+						}
 
-                    if (f.containsNewComments)
-                    {
-                        UpdateCommentStatus(tn, f);
-                    }
+						if (f.containsNewComments)
+						{
+							UpdateCommentStatus(tn, f);
+						}
 
-                    for (int i = 0; i < categoryList.Count; i++)
-                    {
-                        if (categoryList[i].Value.Equals(category))
-                        {
-                            categoryList.RemoveAt(i);
-                            break;
-                        }
-                    }
-                }
+						for (int i = 0; i < categoryList.Count; i++)
+						{
+							if (categoryList[i].Value.Equals(category))
+							{
+								categoryList.RemoveAt(i);
+								break;
+							}
+						}
+					}
 
-                //add categories, we not already have
-                foreach (var c in categoryList)
-                {
-                    TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
-                }
-            }
+					//add categories, we not already have
+					foreach (var c in categoryList)
+					{
+						TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
+					}
+				} 
+				else
+				{
+					//TODO: indicate the error in the UI
+				}
+
+			}
             finally
             {
                 treeFeeds.EndUpdate();
@@ -556,15 +567,17 @@ namespace RssBandit.WinGui.Forms
             if (Disposing)
                 return;
 
-            TreeSelectedFeedsNode = root;
+			if (root.Visible)
+				TreeSelectedFeedsNode = root;
 
+			//from here these are candidates for the AllSubscriptionsLoaded event:
             if (!IsTreeStateAvailable())
                 root.Expanded = true;
 
             // also this one:
             DelayTask(DelayedTasks.SyncRssSearchTree);
 
-            SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
+            //SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
 
             //we'll need to fetch favicons for the newly loaded/imported feeds
             _faviconsDownloaded = false;

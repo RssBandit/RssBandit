@@ -1,21 +1,20 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-using System;
-using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui
 {
 	/// <summary>
-	/// The various states for the application.
+	/// The various busy states for the feed source.
 	/// </summary>
-	public enum NewsHandlerState {
+	public enum FeedSourceBusyState {
 		Idle,
 		RefreshOne,
 		RefreshOneDone,
@@ -34,9 +33,9 @@ namespace RssBandit.WinGui
 	public class GuiStateManager
 	{
 		#region FeedSource state handling
-		public delegate void NewsHandlerBeforeStateMoveHandler(NewsHandlerState oldState, NewsHandlerState newState, ref bool cancel);
+		public delegate void NewsHandlerBeforeStateMoveHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState, ref bool cancel);
 		public event NewsHandlerBeforeStateMoveHandler NewsHandlerBeforeStateMove;
-		public delegate void NewsHandlerStateMovedHandler(NewsHandlerState oldState, NewsHandlerState newState);
+		public delegate void NewsHandlerStateMovedHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState);
 		public event NewsHandlerStateMovedHandler NewsHandlerStateMoved;
 
 		/// <summary>
@@ -44,8 +43,8 @@ namespace RssBandit.WinGui
 		/// transitioned form one state to another.
 		/// </summary>
 		/// <param name="newState"></param>
-		public void MoveNewsHandlerStateTo(NewsHandlerState newState) {
-			NewsHandlerState oldState = this.handlerState;
+		public void MoveNewsHandlerStateTo(FeedSourceBusyState newState) {
+			FeedSourceBusyState oldState = this.sourceBusyState;
 			bool shouldCancel = false;
 			
 			if (newState == oldState)	// not really a new state
@@ -59,21 +58,21 @@ namespace RssBandit.WinGui
 			if (shouldCancel)
 				return;
 
-			this.handlerState = newState;
+			this.sourceBusyState = newState;
 			if (NewsHandlerStateMoved != null) {
 				try {
 					NewsHandlerStateMoved(oldState, newState);
 				} catch {}
 			}
 		}
-		private NewsHandlerState handlerState = NewsHandlerState.Idle;
+		private FeedSourceBusyState sourceBusyState = FeedSourceBusyState.Idle;
 		
 		/// <summary>
 		/// Gets the state of the news handler.
 		/// </summary>
 		/// <value></value>
-		public NewsHandlerState NewsHandlerState {
-			get { return handlerState; }
+		public FeedSourceBusyState FeedSourceBusyState {
+			get { return sourceBusyState; }
 		}
 		#endregion
 
@@ -133,11 +132,6 @@ namespace RssBandit.WinGui
 		}
 		private INetState internetConnectionState = INetState.Invalid;
 		#endregion
-
-		/// <summary>
-		/// Creates a new <see cref="GuiStateManager"/> instance.
-		/// </summary>
-		public GuiStateManager() {}
 
 	}
 }
