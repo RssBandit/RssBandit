@@ -755,7 +755,7 @@ namespace RssBandit
         {
             if (MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
-                sourceManager.ForEach( source => source.DeleteAllFeedsAndCategories());
+                sourceManager.ForEach( source => source.DeleteAllFeedsAndCategories(true));
                 FeedSource.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;

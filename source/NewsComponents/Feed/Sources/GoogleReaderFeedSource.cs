@@ -1118,6 +1118,20 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        /// <param name="deleteFromSource">Indicates whether the feeds should also be deleted from the feed source</param>
+        public override void DeleteAllFeedsAndCategories(bool deleteFromSource)
+        {
+            if (deleteFromSource)
+            {
+                GoogleReaderUpdater.CancelPendingOperations();
+            }
+            base.DeleteAllFeedsAndCategories(deleteFromSource);
+        }
+
+
+        /// <summary>
         /// Removes all information related to a feed from the FeedSource.   
         /// </summary>
         /// <remarks>If no feed with that URL exists then nothing is done.</remarks>

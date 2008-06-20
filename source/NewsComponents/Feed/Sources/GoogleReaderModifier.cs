@@ -226,7 +226,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Name of the file where pending network operations are saved on shut down. 
         /// </summary>
-        private readonly string pendingGoogleOperationsFile = "pending-googlereader-operations.xml";
+        private readonly string pendingGoogleReaderOperationsFile = "pending-googlereader-operations.xml";
 
         /// <summary>
         /// for logging/tracing:
@@ -261,7 +261,7 @@ namespace NewsComponents.Feed
         /// </summary>
         public GoogleReaderModifier(string applicationDataPath)
         {
-            pendingGoogleOperationsFile = Path.Combine(applicationDataPath, pendingGoogleOperationsFile);
+            pendingGoogleReaderOperationsFile = Path.Combine(applicationDataPath, pendingGoogleReaderOperationsFile);
             LoadPendingOperations();
         }
 
@@ -274,12 +274,12 @@ namespace NewsComponents.Feed
         /// </summary>
         private void LoadPendingOperations()
         {
-            if (File.Exists(pendingGoogleOperationsFile))
+            if (File.Exists(pendingGoogleReaderOperationsFile))
             {
                 XmlSerializer serializer =
                     XmlHelper.SerializerCache.GetSerializer(typeof (List<PendingGoogleReaderOperation>));
                 pendingGoogleReaderOperations =
-                    serializer.Deserialize(XmlReader.Create(pendingGoogleOperationsFile)) as
+                    serializer.Deserialize(XmlReader.Create(pendingGoogleReaderOperationsFile)) as
                     List<PendingGoogleReaderOperation>;
             }
         }
@@ -475,6 +475,19 @@ namespace NewsComponents.Feed
             SavePendingOperations();
         }
 
+
+        /// <summary>
+        /// Empties the pending operations queue and deletes the pending operations file
+        /// </summary>
+        public void CancelPendingOperations()
+        {
+            lock (pendingGoogleReaderOperations)
+            {
+                pendingGoogleReaderOperations.Clear();
+            }
+            NewsComponents.Utils.FileHelper.Delete(pendingGoogleReaderOperationsFile);
+        }
+
         /// <summary>
         /// Saves pending operations to disk
         /// </summary>
@@ -485,7 +498,7 @@ namespace NewsComponents.Feed
             var settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.OmitXmlDeclaration = true;
-            serializer.Serialize(XmlWriter.Create(pendingGoogleOperationsFile, settings), pendingGoogleReaderOperations);
+            serializer.Serialize(XmlWriter.Create(pendingGoogleReaderOperationsFile, settings), pendingGoogleReaderOperations);
         }
 
         /// <summary>
