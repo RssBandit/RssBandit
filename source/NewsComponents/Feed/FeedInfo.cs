@@ -266,7 +266,7 @@ namespace NewsComponents.Feed
                 //<rss version="2.0">
                 writer.WriteStartElement("rss");
                 writer.WriteAttributeString("version", "2.0");
-				writer.WriteAttributeString("xmlns", String.Empty /*NamespaceCore.BanditPrefix*/, null, NamespaceCore.Feeds_v2003);
+				writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_vCurrent);
             }
 
             /* These are here because so many people cut & paste into blogs from Microsoft Word 
