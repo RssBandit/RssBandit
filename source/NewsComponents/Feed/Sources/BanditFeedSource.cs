@@ -128,7 +128,9 @@ namespace NewsComponents.Feed
             validationErrorOccured = false;
 
             //convert XML to objects
-            XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof (feeds));
+			// this gets a null serializer sometimes if called async. (why?)
+			//XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+			XmlSerializer serializer = new XmlSerializer(typeof(feeds));
             var myFeeds = (feeds) serializer.Deserialize(reader);
             reader.Close();
 

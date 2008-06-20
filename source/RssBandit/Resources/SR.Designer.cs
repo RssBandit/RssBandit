@@ -1489,6 +1489,15 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Subscription list(s) loaded.
+        /// </summary>
+        internal static string GUIStatusAllSubscriptionListsLoaded {
+            get {
+                return ResourceManager.GetString("GUIStatusAllSubscriptionListsLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Busy, refresh....
         /// </summary>
         internal static string GUIStatusBusyRefresh {
@@ -1841,6 +1850,15 @@ namespace RssBandit.Resources {
         internal static string GUIStatusWaitMessageUpLoadingFeedlist {
             get {
                 return ResourceManager.GetString("GUIStatusWaitMessageUpLoadingFeedlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} Subscription list(s) loaded.
+        /// </summary>
+        internal static string GUIStatusXofYFeedSourceSubscriptionsLoaded {
+            get {
+                return ResourceManager.GetString("GUIStatusXofYFeedSourceSubscriptionsLoaded", resourceCulture);
             }
         }
         

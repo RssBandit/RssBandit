@@ -166,11 +166,11 @@ namespace RssBandit.Filter
     {
         private string _referrer;
 
-        public NewsItemReferrerFilter(ICoreApplication app)
+        public NewsItemReferrerFilter(RssBanditApplication app)
         {
             _referrer = null;
             app.PreferencesChanged += OnPreferencesChanged;
-            app.FeedlistLoaded += OnFeedlistLoaded;
+            app.FeedSourceSubscriptionsLoaded += OnFeedlistLoaded;
         }
 
         /// <summary>
@@ -179,15 +179,18 @@ namespace RssBandit.Filter
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnFeedlistLoaded(object sender, EventArgs e)
+        private void OnFeedlistLoaded(object sender, FeedSourceEventArgs e)
         {
-            RssBanditApplication app = sender as RssBanditApplication;
-            if (app != null)
-            {
-                if (app.FeedHandler.UserIdentity != null &&
-                    app.FeedHandler.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
-                    InitWith(app.FeedHandler.UserIdentity[app.Preferences.UserIdentityForComments]);
-            }
+			if (e.Entry.SourceType == FeedSourceType.DirectAccess)
+			{
+				RssBanditApplication app = sender as RssBanditApplication;
+				if (app != null)
+				{
+					if (e.Entry.Source.UserIdentity != null &&
+					    e.Entry.Source.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
+						InitWith(e.Entry.Source.UserIdentity[app.Preferences.UserIdentityForComments]);
+				}
+			}
         }
 
         /// <summary>

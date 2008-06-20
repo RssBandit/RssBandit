@@ -2514,4 +2514,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
     <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
   </data>
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
+    <value>{0} of {1} Subscription list(s) loaded</value>
+  </data>
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
+    <value>All Subscription list(s) loaded</value>
+  </data>
 </root>

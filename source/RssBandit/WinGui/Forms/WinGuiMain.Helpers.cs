@@ -734,7 +734,7 @@ namespace RssBandit.WinGui.Forms
 
             if (!unreadFound)
             {
-                if (owner.StateHandler.NewsHandlerState == NewsHandlerState.Idle)
+                if (owner.StateHandler.FeedSourceBusyState == FeedSourceBusyState.Idle)
                     SetGuiStateFeedback(SR.GUIStatusNoUnreadFeedItemsLeft, ApplicationTrayState.NormalIdle);
             }
         }
@@ -2062,7 +2062,7 @@ namespace RssBandit.WinGui.Forms
 
             if (f != null)
             {
-                owner.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOne);
+                owner.StateHandler.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOne);
                 try
                 {
                     htmlDetail.Clear();
@@ -2152,7 +2152,7 @@ namespace RssBandit.WinGui.Forms
                     EmptyListView();
                     owner.PublishXmlFeedError(e, tn.DataKey, true, entry);
                 }
-                owner.StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
+                owner.StateHandler.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOneDone);
             }
         }
 

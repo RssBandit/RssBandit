@@ -2114,10 +2114,10 @@ namespace RssBandit.WinGui.Forms
                 owner.CmdNewFeed(category, feedUrl, feedTitle);
         }
 
-        private void OnFeedlistsLoaded()
+        private void ApplyAfterAllSubscriptionListsLoaded()
         {
             listFeedItems.FeedColumnLayout = owner.GlobalFeedColumnLayout;
-            //TODO: set remembered Navigator group (subscriptions)
+            
 			LoadAndRestoreSubscriptionTreeState();
             if (Visible)
             {
@@ -2197,7 +2197,7 @@ namespace RssBandit.WinGui.Forms
                             });
         }
 
-        private void OnFeedDeleted(object sender, FeedDeletedEventArgs e)
+        private void OnFeedDeleted(object sender, FeedSourceFeedUrlTitleEventArgs e)
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
 
@@ -2206,7 +2206,7 @@ namespace RssBandit.WinGui.Forms
 
             if (tn == null || tn.Type != FeedNodeType.Feed || e.FeedUrl != tn.DataKey)
             {
-                tn = TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), e.FeedUrl);
+                tn = TreeHelper.FindNode(GetSubscriptionRootNode(e.Entry), e.FeedUrl);
             }
 
             if (tn == null || tn.Type != FeedNodeType.Feed || e.FeedUrl != tn.DataKey)
@@ -2243,6 +2243,27 @@ namespace RssBandit.WinGui.Forms
             {
             }
         }
+
+		private void OnFeedSourceSubscriptionsLoaded(object sender, FeedSourceEventArgs e)
+		{
+			PopulateFeedSubscriptions(e.Entry, RssBanditApplication.DefaultCategory);
+		}
+
+		void OnAllFeedSourceSubscriptionsLoaded(object sender, EventArgs e)
+		{
+			//remember subscription tree state:
+			ApplyAfterAllSubscriptionListsLoaded();
+
+			SetGuiStateFeedback(SR.GUIStatusDone);
+			
+#if !NOAUTO_REFRESH
+			// start the refresh timers
+			_timerRefreshFeeds.Start();
+			_timerRefreshCommentFeeds.Start();
+#else
+			Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
+#endif
+		}
 
         /// <summary>
         /// Callback for DelayedTasks timer
