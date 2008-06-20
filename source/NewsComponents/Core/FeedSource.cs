@@ -445,7 +445,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
-        protected bool isOffline;
+        protected static bool isOffline;
 
         /// <summary>
         /// Represents the list of available feed column layouts for feeds. 
@@ -1384,13 +1384,12 @@ namespace NewsComponents
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
-        public bool Offline
+        public static bool Offline
         {
             set
             {
                 isOffline = value;
-                if (RssParserInstance != null)
-                    RssParserInstance.Offline = value;
+                RssParser.Offline = value;
             }
             get { return isOffline; }
         }
