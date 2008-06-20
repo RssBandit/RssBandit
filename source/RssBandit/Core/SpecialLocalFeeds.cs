@@ -138,9 +138,11 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Called when items are loaded.
 		/// </summary>
-		protected override void OnItemsLoaded()
+		/// <param name="loadSucceeds">if set to <c>true</c> [load succeeds].</param>
+		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
-			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+			if (migrationRequired && loadSucceeds)
+				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
 		}
 	}
 
@@ -200,9 +202,11 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Called when items are loaded.
 		/// </summary>
-		protected override void OnItemsLoaded()
+		/// <param name="loadSucceeds">if set to <c>true</c> [load succeeds].</param>
+		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
-			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+			if (migrationRequired && loadSucceeds)
+				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
 		}
 	}
 
@@ -274,9 +278,11 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Called when items are loaded.
 		/// </summary>
-		protected override void OnItemsLoaded()
+		/// <param name="loadSucceeds">if set to <c>true</c> [load succeeds].</param>
+		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
-			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+			if (migrationRequired && loadSucceeds)
+				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
 		}
 	}
 
@@ -336,9 +342,11 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Called when items are loaded.
 		/// </summary>
-		protected override void OnItemsLoaded()
+		/// <param name="loadSucceeds">if set to <c>true</c> [load succeeds].</param>
+		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
-			RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, true);
+			if (migrationRequired && loadSucceeds)
+				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
 		}
 	}
 
@@ -975,9 +983,11 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="migratedItemsOwner">The migrated items owner.</param>
 		protected void LoadItems(XmlReader reader, FeedSourceEntry migratedItemsOwner){
 			if (feedInfo.ItemsList.Count > 0)
-				feedInfo.ItemsList.Clear(); 
+				feedInfo.ItemsList.Clear();
 
-			if (reader != null) {
+			bool success = false;
+			if (reader != null) 
+			{
 				try{				
 					XmlDocument doc = new XmlDocument(); 
 					doc.Load(reader); 
@@ -994,12 +1004,15 @@ namespace RssBandit.SpecialFeeds
 						if (item != null)
 							feedInfo.ItemsList.Add(item); 
 					}
+
+					success = true;
 				}catch(Exception e){
+					
 					ExceptionManager.GetInstance().Add(RssBanditApplication.CreateLocalFeedRequestException(e, this, this.feedInfo), migratedItemsOwner);
 				}			
 			}
-			
-			OnItemsLoaded();
+
+			OnItemsLoaded(success);
 		}
 
 		/// <summary>
@@ -1017,7 +1030,8 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Called when items are loaded.
 		/// </summary>
-		protected virtual void OnItemsLoaded()
+		/// <param name="loadSucceeds">if set to <c>true</c> [load succeeds].</param>
+		protected virtual void OnItemsLoaded(bool loadSucceeds)
 		{
 		}
 
