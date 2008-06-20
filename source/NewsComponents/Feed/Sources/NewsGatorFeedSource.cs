@@ -417,7 +417,7 @@ namespace NewsComponents.Feed
             }
 
             //matchup feeds from NewsGator Online with local feeds
-            feeds ngFeeds = (this.Offline ? feedlist : this.LoadFeedlistFromNewsGatorOnline());
+            feeds ngFeeds = (Offline ? feedlist : this.LoadFeedlistFromNewsGatorOnline());
 
             foreach (NewsFeed ngFeed in ngFeeds.feed)
             {
@@ -547,7 +547,7 @@ namespace NewsComponents.Feed
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(bool force_download)
         {
-            if (!this.Offline)
+            if (!Offline)
             {
                 try
                 {
@@ -602,7 +602,7 @@ namespace NewsComponents.Feed
             {
                 try
                 {
-                    if ((!forceDownload) || this.isOffline)
+                    if ((!forceDownload) || Offline)
                     {
                         GetCachedItemsForFeed(feedUri.CanonicalizedUri()); //load feed into itemsTable
                         RaiseOnUpdatedFeed(feedUri, null, RequestResult.NotModified, priority, false);

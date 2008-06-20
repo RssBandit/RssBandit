@@ -968,7 +968,11 @@ namespace RssBandit
                 }
                 else if (NewsFeedProperty.FeedAdded == (property & NewsFeedProperty.FeedAdded))
                 {
-                    FeedSource.SearchHandler.ReIndex(feed, feedHandler.GetCachedItemsForFeed(feed.link));
+                    FeedSource source = feed.owner as FeedSource;
+                    if (source != null)
+                    {
+                        FeedSource.SearchHandler.ReIndex(feed, source.GetCachedItemsForFeed(feed.link));
+                    }
                 }
             }
         }
@@ -3423,7 +3427,7 @@ namespace RssBandit
                         if (uri != null)
                         {
                             var fileHandler =
-                                new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), feedHandler.Proxy);
+                                new HttpRequestFileThreadHandler(uri.CanonicalizedUri(), this.Proxy);
                             DialogResult result =
                                 fileHandler.Start(guiMain,
                                                   String.Format(SR.GUIStatusWaitMessageRequestFile,
@@ -4451,7 +4455,7 @@ namespace RssBandit
             bool connected = ((newState & INetState.Connected) > 0);
             bool internet_allowed = connected && (newState & INetState.Online) > 0;
 
-            feedHandler.Offline = !internet_allowed;
+            FeedSource.Offline = !internet_allowed;
 
             if (oldState != newState)
             {
@@ -4559,7 +4563,7 @@ namespace RssBandit
                     autoSaveTimer = null;
                 }
 
-                feedHandler.Offline = true;
+                FeedSource.Offline = true;
             }
         }
 

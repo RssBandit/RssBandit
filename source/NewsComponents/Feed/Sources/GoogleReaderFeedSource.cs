@@ -255,7 +255,7 @@ namespace NewsComponents.Feed
                 bootstrapCategories.Add(c.Value, c);
             }
 
-            if (this.Offline)
+            if (Offline)
             {
                 foreach (NewsFeed ff in feedlist.feed) { this.feedsTable.Add(ff.link, ff); }
                 foreach (category cc in feedlist.categories) { this.categories.Add(cc.Value, cc); }
@@ -583,7 +583,7 @@ namespace NewsComponents.Feed
         /// HTTP headers when downloading feeds.</remarks>	
         public override void RefreshFeeds(bool force_download)
         {
-            if (!this.Offline)
+            if (!Offline)
             {
                 try
                 {
@@ -667,7 +667,7 @@ namespace NewsComponents.Feed
             {
                 try
                 {
-                    if ((!forceDownload) || this.isOffline)
+                    if ((!forceDownload) || Offline)
                     {
                         GetCachedItemsForFeed(feedUri.CanonicalizedUri()); //load feed into itemsTable
                         RaiseOnUpdatedFeed(feedUri, null, RequestResult.NotModified, priority, false);
@@ -742,7 +742,7 @@ namespace NewsComponents.Feed
             Trace("AsyncRequest.OnRequestStart('{0}') downloading", requestUri.ToString());
             this.RaiseBeforeDownloadFeedStarted(CreateFeedUriFromDownloadUri(requestUri), ref cancel);
             if (!cancel)
-                cancel = this.Offline;
+                cancel = Offline;
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using iTunesLib;
+using NewsComponents;
 using NewsComponents.Net;
 using WMPLib;
 
@@ -144,10 +145,11 @@ namespace RssBandit
                 }
 
                 string playlistName = Preferences.SinglePlaylistName;
+                FeedSourceEntry entry = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
 
-                if (!Preferences.SinglePodcastPlaylist && feedHandler.IsSubscribed(podcast.OwnerFeedId))
-                {
-                    playlistName = feedHandler.GetFeeds()[podcast.OwnerFeedId].title;
+                if (!Preferences.SinglePodcastPlaylist && entry!= null)
+                {                    
+                    playlistName = entry.Source.GetFeeds()[podcast.OwnerFeedId].title;
                 }
 
                 WindowsMediaPlayer wmp = new WindowsMediaPlayer();
@@ -216,10 +218,11 @@ namespace RssBandit
                 }
 
                 string playlistName = Preferences.SinglePlaylistName;
+                FeedSourceEntry entry = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
 
-                if (!Preferences.SinglePodcastPlaylist && feedHandler.IsSubscribed(podcast.OwnerFeedId))
+                if (!Preferences.SinglePodcastPlaylist && entry!= null)
                 {
-                    playlistName = feedHandler.GetFeeds()[podcast.OwnerFeedId].title;
+                    playlistName = entry.Source.GetFeeds()[podcast.OwnerFeedId].title;
                 }
 
                 // initialize iTunes application connection
