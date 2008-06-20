@@ -166,7 +166,7 @@ namespace RssBandit
         private bool feedlistModified;
         private bool commentFeedlistModified;
         private bool trustedCertIssuesModified;
-        private Queue modifiedFeeds;
+        private Dictionary<int, List<string>> modifiedFeeds;
 
         private Thread _dispatcherThread;
         private Dispatcher _dispatcher;
@@ -423,7 +423,7 @@ namespace RssBandit
             BackgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
             BackgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += OnBackgroundDiscoveredFeedsSubscribe;
 
-            modifiedFeeds = new Queue(feedHandler.GetFeeds().Count + 11);
+            modifiedFeeds = new Dictionary<int,List<string>>();
 
             // Create a timer that waits three minutes , then invokes every five minutes.
             autoSaveTimer = new Timer(OnAutoSave, this, 3*MilliSecsMultiplier, 5*MilliSecsMultiplier);
@@ -895,7 +895,7 @@ namespace RssBandit
             if (feed == null)
                 return;
 
-            HandleFeedCacheRelevantChange(feed.link, property);
+            HandleFeedCacheRelevantChange(sourceManager.SourceOf(feed.owner as FeedSource), feed.link, property);
             HandleIndexRelevantChange(feed, property);
         }
 
@@ -904,35 +904,45 @@ namespace RssBandit
         /// </summary>
         /// <param name="feedUrl">The feed URL.</param>
         /// <param name="property">The property.</param>
-        public void FeedWasModified(string feedUrl, NewsFeedProperty property)
+        public void FeedWasModified(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
         {
             HandleSubscriptionRelevantChange(property);
 
             if (string.IsNullOrEmpty(feedUrl))
                 return;
 
-            HandleFeedCacheRelevantChange(feedUrl, property);
+            HandleFeedCacheRelevantChange(entry, feedUrl, property);
             HandleIndexRelevantChange(feedUrl, property);
         }
 
         private void HandleSubscriptionRelevantChange(NewsFeedProperty property)
         {
 			//TODO: move save state handling to FeedSourceManager
-            if (feedHandler.IsSubscriptionRelevantChange(property))
+            if (FeedSource.IsSubscriptionRelevantChange(property))
                 feedlistModified = true;
         }
 
-        private void HandleFeedCacheRelevantChange(string feedUrl, NewsFeedProperty property)
+        private void HandleFeedCacheRelevantChange(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            if (feedHandler.IsCacheRelevantChange(property))
+            if (FeedSource.IsCacheRelevantChange(property))
             {
                 // we queue up the cache file refresh requests:
                 lock (modifiedFeeds)
                 {
-                    if (!modifiedFeeds.Contains(feedUrl))
-                        modifiedFeeds.Enqueue(feedUrl);
+                    if (modifiedFeeds.ContainsKey(entry.ID))
+                    {
+                        if (!modifiedFeeds[entry.ID].Contains(feedUrl))
+                        {
+                            modifiedFeeds[entry.ID].Add(feedUrl); 
+                        }
+                    }
+                    else
+                    {
+                        var modified_list = new List<string> { feedUrl }; 
+                        modifiedFeeds.Add(entry.ID, modified_list);
+                    }
                 }
             }
         }
@@ -1188,10 +1198,10 @@ namespace RssBandit
             // now they live in a separate collection
 
             // we assume we should have always at least the default layouts:
-            if (feedHandler.ColumnLayouts.Count == 0)
+            if (this.BanditFeedSource.ColumnLayouts.Count == 0)
             {
                 ListViewLayout oldLayout;
-                foreach (var f in feedHandler.GetFeeds().Values)
+                foreach (var f in this.BanditFeedSource.GetFeeds().Values)
                 {
                     if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -1204,17 +1214,17 @@ namespace RssBandit
 
                         if (!fc.Equals(DefaultFeedColumnLayout, true))
                         {
-                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
-                                f.listviewlayout = feedHandler.ColumnLayouts.GetKey(found);
+                                f.listviewlayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
                             }
                             else
                             {
                                 // add and assign key
                                 f.listviewlayout = Guid.NewGuid().ToString("N");
-                                feedHandler.ColumnLayouts.Add(f.listviewlayout, fc);
+                                this.BanditFeedSource.ColumnLayouts.Add(f.listviewlayout, fc);
                             }
                         }
                         else
@@ -1228,7 +1238,7 @@ namespace RssBandit
                     }
                 }
 
-                foreach (var c in feedHandler.GetCategories().Values)
+                foreach (var c in this.BanditFeedSource.GetCategories().Values)
                 {
                     if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
                         continue;
@@ -1241,17 +1251,17 @@ namespace RssBandit
 
                         if (!fc.Equals(DefaultCategoryColumnLayout, true))
                         {
-                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
-                                c.listviewlayout = feedHandler.ColumnLayouts.GetKey(found);
+                                c.listviewlayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
                             }
                             else
                             {
                                 // add and assign key
                                 c.listviewlayout = Guid.NewGuid().ToString("N");
-                                feedHandler.ColumnLayouts.Add(c.listviewlayout, fc);
+                                this.BanditFeedSource.ColumnLayouts.Add(c.listviewlayout, fc);
                             }
                         }
                         else
@@ -1266,37 +1276,37 @@ namespace RssBandit
                 }
 
                 // now add the default layouts
-                feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
-                feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
-                feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
-                feedHandler.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
+                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
+                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
+                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
+                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
 
-                if (!string.IsNullOrEmpty(feedHandler.FeedColumnLayout))
+                if (!string.IsNullOrEmpty(this.BanditFeedSource.FeedColumnLayout))
                     try
                     {
-                        oldLayout = ListViewLayout.CreateFromXML(feedHandler.FeedColumnLayout);
+                        oldLayout = ListViewLayout.CreateFromXML(this.BanditFeedSource.FeedColumnLayout);
                         var fc = new FeedColumnLayout(oldLayout.ColumnList,
                                                       oldLayout.ColumnWidthList, oldLayout.SortByColumn,
                                                       oldLayout.SortOrder, LayoutType.IndividualLayout);
 
                         if (!fc.Equals(DefaultCategoryColumnLayout, true))
                         {
-                            int found = feedHandler.ColumnLayouts.IndexOfSimilar(fc);
+                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
                             if (found >= 0)
                             {
                                 // assign key
-                                feedHandler.FeedColumnLayout = feedHandler.ColumnLayouts.GetKey(found);
+                                this.BanditFeedSource.FeedColumnLayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
                             }
                             else
                             {
                                 // add and assign key
-                                feedHandler.FeedColumnLayout = Guid.NewGuid().ToString("N");
-                                feedHandler.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
+                                this.BanditFeedSource.FeedColumnLayout = Guid.NewGuid().ToString("N");
+                                this.BanditFeedSource.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
                             }
                         }
                         else
                         {
-                            feedHandler.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
+                            this.BanditFeedSource.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
                         }
                     }
                     catch (Exception ex)
@@ -1555,19 +1565,27 @@ namespace RssBandit
         {
             while (modifiedFeeds.Count > 0)
             {
-                string feedUrl;
+                List<string> modifiedUrls = null;
+                FeedSourceEntry entry = null; 
+
                 lock (modifiedFeeds)
                 {
-                    feedUrl = (string) modifiedFeeds.Dequeue();
+                    entry = sourceManager[modifiedFeeds.ElementAt(0).Key];                     
+                    modifiedUrls = modifiedFeeds.ElementAt(0).Value;
+                    modifiedFeeds.Remove(0); 
                 }
                 try
                 {
-                    feedHandler.ApplyFeedModifications(feedUrl);
+                    foreach (string feedUrl in modifiedUrls)
+                    {
+                        entry.Source.ApplyFeedModifications(feedUrl);
+                    }
                 }
                 catch
                 {
                 }
             }
+
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -3664,7 +3682,7 @@ namespace RssBandit
                     INewsItem item = itemsForFeed[itemIndex];
                     item.FlagStatus = theItem.FlagStatus;
 
-                    FeedWasModified(feedUrl, NewsFeedProperty.FeedItemFlag);
+                    FeedWasModified(entry, feedUrl, NewsFeedProperty.FeedItemFlag);
                 }
             } //if(this.feedHan...)
 
@@ -3731,7 +3749,7 @@ namespace RssBandit
                     INewsItem item = itemsForFeed[itemIndex];
                     item.WatchComments = theItem.WatchComments;
 
-                    FeedWasModified(feedUrl, NewsFeedProperty.FeedItemWatchComments);
+                    FeedWasModified(entry, feedUrl, NewsFeedProperty.FeedItemWatchComments);
                 }
             } //if(this.feedHan...)
 
@@ -4184,7 +4202,7 @@ namespace RssBandit
             {
                 deletedItemsFeed.Remove(item);
                 deletedItemsFeed.Modified = true;
-                FeedWasModified(containerFeedUrl, NewsFeedProperty.FeedItemsDeleteUndelete);
+                FeedWasModified(entry, containerFeedUrl, NewsFeedProperty.FeedItemsDeleteUndelete);
             }
             else
             {
