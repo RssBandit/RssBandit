@@ -748,18 +748,26 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Delete all Feeds subscribed to.
+        /// Delete all Feeds subscribed from the feed source.
         /// </summary>
         /// <param name="sender">Object that initiates the call</param>
         public void CmdDeleteAll(ICommand sender)
         {
-            if (MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
+            TreeFeedsNodeBase root = guiMain.CurrentSelectedFeedsNode;
+            if (root != null && !(root is SubscriptionRootNode))
+                root = root.RootNode as TreeFeedsNodeBase;
+
+            if (root != null && MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
-                sourceManager.ForEach( source => source.DeleteAllFeedsAndCategories(true));
-                FeedSource.SearchHandler.IndexRemoveAll();
-                SubscriptionModified(NewsFeedProperty.General);
-                //this.FeedlistModified = true;
-                guiMain.InitiatePopulateTreeFeeds();
+                FeedSourceEntry entry = guiMain.FeedSourceOf(root);
+                if (entry != null)
+                {
+                    entry.Source.DeleteAllFeedsAndCategories(true);
+                    FeedSource.SearchHandler.IndexRemoveAll();
+                    SubscriptionModified(NewsFeedProperty.General);
+                    //this.FeedlistModified = true;
+                    guiMain.InitiatePopulateTreeFeeds();
+                }
             }
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
