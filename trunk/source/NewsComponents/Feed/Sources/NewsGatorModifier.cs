@@ -197,7 +197,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Name of the file where pending network operations are saved on shut down. 
         /// </summary>
-        private readonly string pendingNewsGatorOperationsFile = "pending-newsgator-operations.xml";
+        internal readonly string pendingNewsGatorOperationsFile = "pending-newsgator-operations.xml";
 
         /// <summary>
         /// for logging/tracing:
@@ -427,6 +427,19 @@ namespace NewsComponents.Feed
                 Thread.Sleep(50);
 
             this.SavePendingOperations();
+        }
+
+
+        /// <summary>
+        /// Empties the pending operations queue and deletes the pending operations file
+        /// </summary>
+        public void CancelPendingOperations()
+        {
+            lock (pendingNewsGatorOperations)
+            {
+                pendingNewsGatorOperations.Clear();
+            }
+            NewsComponents.Utils.FileHelper.Delete(pendingNewsGatorOperationsFile); 
         }
 
         /// <summary>

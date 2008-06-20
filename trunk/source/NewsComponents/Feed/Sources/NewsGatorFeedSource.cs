@@ -267,6 +267,9 @@ namespace NewsComponents.Feed
 
         #region feed list methods
 
+
+
+
         /// <summary>
         /// Saves the feed list to the specified stream. The feed is written in 
         /// the RSS Bandit feed file format as described in feeds.xsd
@@ -1788,6 +1791,20 @@ namespace NewsComponents.Feed
                     }
                 
             }//if(StringHelper...)
+        }
+
+
+        /// <summary>
+        /// Deletes all subscribed feeds and categories 
+        /// </summary>
+        /// <param name="deleteFromSource">Indicates whether the feeds should also be deleted from the feed source</param>
+        public override void DeleteAllFeedsAndCategories(bool deleteFromSource)
+        {
+            if (deleteFromSource)
+            {
+                NewsGatorUpdater.CancelPendingOperations();
+            }
+            base.DeleteAllFeedsAndCategories(deleteFromSource);
         }
 
         /// <summary>

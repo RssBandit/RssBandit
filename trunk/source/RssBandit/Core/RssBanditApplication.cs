@@ -3323,6 +3323,9 @@ namespace RssBandit
 			DisconnectFeedSourceEvents(entry.Source);
 			sourceManager.Remove(entry);
 			SaveFeedSources();
+
+            entry.Source.DeleteAllFeedsAndCategories(false); 
+
 			//TODO: handle case where all sources removed!
 			if (sourceManager.Count > 0)
 				guiMain.SelectFeedSource(sourceManager.Sources.First());
