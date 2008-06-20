@@ -32,14 +32,16 @@ namespace RssBandit.WinGui.Forms
             MouseDown += OnFormMouseDown;
             Resize += OnFormResize;
             Closing += OnFormClosing;
-			Load += OnLoad;
+			Load += OnFormLoad;
             HandleCreated += OnFormHandleCreated;
             Move += OnFormMove;
             Activated += OnFormActivated;
             Deactivate += OnFormDeactivate;
 
             owner.PreferencesChanged += OnPreferencesChanged;
-            owner.FeedDeleted += OnFeedDeleted;
+			owner.FeedSourceFeedDeleted += OnFeedDeleted;
+			owner.FeedSourceSubscriptionsLoaded += OnFeedSourceSubscriptionsLoaded;
+			owner.AllFeedSourceSubscriptionsLoaded += OnAllFeedSourceSubscriptionsLoaded;
 
             wheelSupport = new WheelSupport(this);
             wheelSupport.OnGetChildControl += OnWheelSupportGetChildControl;
@@ -67,7 +69,7 @@ namespace RssBandit.WinGui.Forms
             InitWidgets();
         }
 
-
+		
         // set/reset major UI colors
         protected void InitColors()
         {
@@ -201,7 +203,6 @@ namespace RssBandit.WinGui.Forms
 
             listFeedItems.SmallImageList = _listImages;
             listFeedItemsO.ImageList = _listImages;
-            // owner.FeedlistLoaded += OnFeedlistsLoaded; NO LONGER AN EVENT 
             listFeedItems.ColumnClick += OnFeedListItemsColumnClick;
             listFeedItems.SelectedIndexChanged += listFeedItems_SelectedIndexChanged;
 

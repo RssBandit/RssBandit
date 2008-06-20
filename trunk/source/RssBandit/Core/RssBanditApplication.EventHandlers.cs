@@ -81,7 +81,7 @@ namespace RssBandit
         private void OnDeletedFeed(object sender, FeedSource.FeedDeletedEventArgs e)
         {
 			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
-			InvokeOnGui(delegate
+        	InvokeOnGui(delegate
             {
                 RaiseFeedDeleted(entry, e.FeedUrl, e.Title);
                 SubscriptionModified(entry, NewsFeedProperty.FeedRemoved); 
@@ -205,9 +205,9 @@ namespace RssBandit
             InvokeOnGui(delegate
                             {
                                 if (e.ForcedRefresh)
-                                    stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllForced);
+                                    stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshAllForced);
                                 else
-                                    stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllAuto);
+                                    stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshAllAuto);
                             });
         }
 
@@ -237,7 +237,7 @@ namespace RssBandit
         {
             InvokeOnGui(delegate
                             {
-                                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOne);
+                                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOne);
                             });
         }
 
@@ -259,7 +259,7 @@ namespace RssBandit
                                     SubscriptionModified(entry, NewsFeedProperty.FeedCacheUrl);
                                     //this.FeedlistModified = true; 
                                 }
-                                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
+                                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOneDone);
                             });
         }
 
@@ -336,14 +336,14 @@ namespace RssBandit
                                         if (!InternetAccessAllowed)
                                         {
                                             guiMain.UpdateFeed(entry, e.FeedUri, null, false);
-                                            stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
+                                            stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOneDone);
                                             return;
                                         }
                                     }
                                 }
                                 Trace.WriteLine(e.ExceptionThrown.StackTrace);
                                 UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true, entry);
-                                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshOneDone);
+                                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOneDone);
                             });
         }
 
@@ -371,7 +371,7 @@ namespace RssBandit
 			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
 			InvokeOnGui(delegate
                             {
-                                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.RefreshAllDone);
+                                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshAllDone);
                                 guiMain.TriggerGUIStateOnNewFeeds(true);
                                 guiMain.OnAllAsyncUpdateFeedsFinished(entry);
                                 // GC.Collect();

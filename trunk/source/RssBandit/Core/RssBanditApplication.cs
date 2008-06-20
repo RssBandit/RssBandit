@@ -232,7 +232,15 @@ namespace RssBandit
         private static readonly ILog _log = Log.GetLogger(typeof (RssBanditApplication));
 
         public event EventHandler PreferencesChanged;
-        public event EventHandler FeedlistLoaded;
+
+		public event EventHandler AllFeedSourcesLoaded;
+		public event EventHandler<FeedSourceEventArgs> FeedSourceLoaded;
+		public event EventHandler AllFeedSourceSubscriptionsLoaded;
+		public event EventHandler<FeedSourceEventArgs> FeedSourceSubscriptionsLoaded;
+		public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
+        
+		// old:
+		public event EventHandler FeedlistLoaded;
         public event FeedDeletedHandler FeedDeleted;
 
         /// <summary>
@@ -444,7 +452,7 @@ namespace RssBandit
 
         private void InitLocalFeeds()
         {
-			FeedSourceEntry migrationEntry = GetMigrationFeedSourceEntry();
+			FeedSourceEntry migrationEntry = BanditFeedSourceEntry;
 
 			flaggedItemsFeed = new FlaggedItemsFeed(migrationEntry);
 			watchedItemsFeed = new WatchedItemsFeed(migrationEntry);
@@ -465,17 +473,7 @@ namespace RssBandit
 				deletedItemsFeed.Save();
         }
 
-		/// <summary>
-		/// Gets the migration feed source entry. (BanditFeedSource: used to read/get/migrate old 1.6.x settings)
-		/// </summary>
-		/// <returns></returns>
-		public FeedSourceEntry GetMigrationFeedSourceEntry()
-		{
-			return FeedSources.Sources.FirstOrDefault(e =>
-			{
-				return (e.SourceType == FeedSourceType.DirectAccess);
-			});
-		}
+		
         
 		private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
         {
@@ -747,40 +745,75 @@ namespace RssBandit
 		//    MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
 		//}
 
-//        public void BeginLoadingSpecialFeeds()
-//        {
-//            MakeAndQueueTask(ThreadWorker.Task.LoadSpecialFeeds,
-//                             OnLoadingSpecialFeedsProgress);
-////			ThreadWorkerProgressHandler handler = new ThreadWorkerProgressHandler(this.OnLoadingSpecialFeedsProgress);
-////			ThreadWorker.StartTask(ThreadWorker.Task.LoadSpecialFeeds, this.guiMain, handler, this);
-//        }
+		/// <summary>
+		/// Begins the load of feed source subscriptions for one source in async. manner.
+		/// </summary>
+		/// <param name="sourceEntry">The source entry.</param>
+		public void BeginLoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
+		{
+			MakeAndQueueTask(ThreadWorker.Task.LoadFeedSourceSubscriptions,
+							 (sender, args) =>
+							 {
+							 	 if (args.Exception != null)
+								 {
+									 // failure(s)
+									 args.Cancel = true;
+									 PublishException(args.Exception);
+								 }
+								 else if (!args.Done)
+								 {
+									 // in progress
+								 }
+								 else if (args.Done)
+								 {
+									 guiMain.PopulateFeedSubscriptions(sourceEntry, DefaultCategory);
+								 }
+							 }, sourceEntry);
+		}
 
-        private void OnLoadingSpecialFeedsProgress(object sender, ThreadWorkerProgressArgs args)
-        {
-            if (args.Exception != null)
-            {
-                // failure(s)
-                args.Cancel = true;
-                PublishException(args.Exception);
-            }
-            else if (!args.Done)
-            {
-                // in progress
-            }
-            else if (args.Done)
-            {
-                // done
-                guiMain.PopulateTreeSpecialFeeds();
-            }
-        }
+		/// <summary>
+		/// Begins the load of all feed source subscriptions in async. manner.
+		/// </summary>
+		public void BeginLoadAllFeedSourcesSubscriptions()
+		{
+			MakeAndQueueTask(
+				ThreadWorker.Task.LoadAllFeedSourcesSubscriptions,
+				(sender, args) =>
+				{
+					FeedSourceEntry current = (FeedSourceEntry)args.Result;
+						
+					if (args.Exception != null)
+					{
+						// failure(s)
+						PublishException(args.Exception);
+						// always call (callee can detect an error using current.Source.FeedListOK):
+						RaiseFeedSourceSubscriptionsLoaded(current);
+					
+					}
+					else if (!args.Done)
+					{
+						// notify current progress:
+						RaiseFeedSourceSubscriptionsLoaded(current);
+						// in progress counters:
+						//TODO: we should have our own ApplicationTrayState  (not Idle) !
+						guiMain.SetGuiStateFeedback(String.Format(SR.GUIStatusXofYFeedSourceSubscriptionsLoaded, args.CurrentProgress, args.MaxProgress), ApplicationTrayState.NormalIdle);
+					}
+					else if (args.Done)
+					{
+						guiMain.SetGuiStateFeedback(SR.GUIStatusAllSubscriptionListsLoaded, ApplicationTrayState.NormalIdle);
+						RaiseAllFeedSourcesSubscriptionsLoaded();
+					}
+
+				}, FeedSources.GetOrderedFeedSources());
+		}
 
         public void BeginRefreshFeeds(bool forceDownload)
         {
             //if (this.InternetAccessAllowed) {
             // handled via NewsHander.Offline flag
             StateHandler.MoveNewsHandlerStateTo(forceDownload
-                                                    ? NewsHandlerState.RefreshAllForced
-                                                    : NewsHandlerState.RefreshAllAuto);
+                                                    ? FeedSourceBusyState.RefreshAllForced
+                                                    : FeedSourceBusyState.RefreshAllAuto);
             MakeAndQueueTask(ThreadWorker.Task.RefreshFeeds, OnRefreshFeedsProgress, forceDownload);
             //}
         }
@@ -797,7 +830,7 @@ namespace RssBandit
         {
             //if (this.InternetAccessAllowed) {
             // handled via NewsHander.Offline flag
-            StateHandler.MoveNewsHandlerStateTo(NewsHandlerState.RefreshCategory);
+            StateHandler.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshCategory);
             MakeAndQueueTask(ThreadWorker.Task.RefreshCategoryFeeds, OnRefreshFeedsProgress, entry, category,
                              forceDownload);
             //}
@@ -840,8 +873,24 @@ namespace RssBandit
 
         public FeedSource BanditFeedSource
         {
-            get { return sourceManager.Sources.FirstOrDefault(entry => entry.Source.Type == FeedSourceType.DirectAccess).Source; }
+			get { return BanditFeedSourceEntry.Source; }
         }
+
+		/// <summary>
+		/// Gets the migration feed source entry. (BanditFeedSource: used to read/get/migrate old 1.6.x settings)
+		/// </summary>
+		/// <returns></returns>
+		public FeedSourceEntry BanditFeedSourceEntry
+		{
+			get
+			{
+				return FeedSources.Sources.FirstOrDefault(
+					entry =>
+					{
+						return (entry.SourceType == FeedSourceType.DirectAccess);
+					});
+			}
+		}
 
 		[Obsolete("Please call FeedSources property")]
         public FeedSource FeedHandler
@@ -2168,7 +2217,7 @@ namespace RssBandit
             if (!string.IsNullOrEmpty(Preferences.UserName) &&
                 string.IsNullOrEmpty(Preferences.UserIdentityForComments))
             {
-				FeedSourceEntry entry4migration = GetMigrationFeedSourceEntry();
+				FeedSourceEntry entry4migration = BanditFeedSourceEntry;
 				if (entry4migration != null &&
 					!entry4migration.Source.UserIdentity.ContainsKey(Preferences.UserName))
                 {
@@ -3064,36 +3113,48 @@ namespace RssBandit
         /// <summary>
         /// Load the various subscription lists. 
         /// </summary>
-        internal void LoadFeedLists()
+        internal void LoadAllFeedSourcesSubscriptions()
         {
-            CheckAndMigrateNewsGatorSettings(); 
+			// can always run:
+            CheckAndMigrateNewsGatorSettings();
 
-            foreach (FeedSourceEntry fs in sourceManager.Sources)
-            {
-                if (fs.SourceType == FeedSourceType.DirectAccess)
-                {
-                    // migrate old subscriptions or install a default one:
-                    MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
-					LoadFeedSourceSubscriptions(fs);
-					// needs the feedlist to be loaded:
-					CheckAndMigrateSettingsAndPreferences(); 
-					CheckAndMigrateListViewLayouts();
+			// run only at first startup after installation.
+			// we load synchronized, to get migration done:
 
-                } else {
-                    LoadFeedSourceSubscriptions(fs);
-                }
+			if (Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
+			{
+				foreach (FeedSourceEntry fs in sourceManager.Sources)
+				{
+					if (fs.SourceType == FeedSourceType.DirectAccess)
+					{
+						// migrate old subscriptions or install a default one:
+						MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+						LoadFeedSourceSubscriptions(fs, false);
+						// needs the feedlist to be loaded:
+						CheckAndMigrateSettingsAndPreferences();
+						CheckAndMigrateListViewLayouts();
+					}
+					else
+					{
+						LoadFeedSourceSubscriptions(fs, false);
+					}
 
-				//resume pending enclosure downloads
-				fs.Source.ResumePendingDownloads();
+					//resume pending enclosure downloads
+					fs.Source.ResumePendingDownloads();
+
+					RaiseFeedSourceSubscriptionsLoaded(fs);
 				
-				// user may have stopped loading:
-				if (!IsFormAvailable(guiMain))
-					return;
-            }
-			
-			if (FeedlistLoaded != null)
-                FeedlistLoaded(this, EventArgs.Empty);
-				
+				}//foreach
+
+				//reset first app start flag:
+				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
+							
+				RaiseAllFeedSourcesSubscriptionsLoaded();
+			} 
+			else
+			{
+				BeginLoadAllFeedSourcesSubscriptions();
+			}
 
             LoadWatchedCommentsFeedlist();
         }
@@ -3103,7 +3164,7 @@ namespace RssBandit
         /// </summary>
         /// <param name="currentFeedListFileName">Name of the current feed list file.</param>
         /// <exception cref="BanditApplicationException">On any failure</exception>
-        internal void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
+        internal static void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
         {
             if (File.Exists(currentFeedListFileName))
                 return;
@@ -3137,7 +3198,44 @@ namespace RssBandit
             }
         }
 
-        internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
+		private void RaiseFeedSourceSubscriptionsLoaded(FeedSourceEntry entry)
+		{
+			if (FeedSourceSubscriptionsLoaded != null)
+			{
+				try
+				{
+					FeedSourceSubscriptionsLoaded(this, new FeedSourceEventArgs(entry));
+				} catch (Exception ex)
+				{
+					_log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
+				}
+			}
+		}
+
+		private void RaiseAllFeedSourcesSubscriptionsLoaded()
+		{
+			if (AllFeedSourceSubscriptionsLoaded != null)
+			{
+				try
+				{
+					AllFeedSourceSubscriptionsLoaded(this, EventArgs.Empty);
+				}
+				catch (Exception ex)
+				{
+					_log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
+				}
+			}
+		}
+		internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
+		{
+			if (sourceEntry == null)
+				return;
+			
+			LoadFeedSourceSubscriptions(sourceEntry, false);
+		}
+
+		
+    	internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry, bool IsAsyncCall)
         {
 			if (sourceEntry == null)
                 return;
@@ -3145,9 +3243,26 @@ namespace RssBandit
             try
             {
 				sourceEntry.Source.LoadFeedlist();
+
+				if (sourceEntry.Source.FeedsListOK )
+				{
+					/* All right here... 	*/
+				}
+				else if (FeedSource.validationErrorOccured)
+				{
+					FeedSource.validationErrorOccured = false;
+					throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
+				}
+				else
+				{
+					throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
+				}
             }
             catch (Exception e)
             {
+				if (IsAsyncCall)
+					throw;
+
 				//TODO: change/add error messages to include source name/file!
 				e.PreserveExceptionStackTrace();
 				BanditApplicationException ex = e as BanditApplicationException;
@@ -3187,20 +3302,6 @@ namespace RssBandit
 					this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
 				}
                 
-            }
-
-            if (feedHandler.FeedsListOK && guiMain != null)
-            {
-                /* All right here... 	*/
-            }
-            else if (FeedSource.validationErrorOccured)
-            {
-                FeedSource.validationErrorOccured = false;
-                throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
-            }
-            else
-            {
-                throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
             }
         }
 
@@ -3293,7 +3394,7 @@ namespace RssBandit
             this.guiMain.AddToSubscriptionTree(entry);
             this.guiMain.SelectFeedSource(entry);
             this.guiMain.MaximizeNavigatorSelectedGroup();
-            this.LoadFeedSourceSubscriptions(entry);
+            this.LoadFeedSourceSubscriptions(entry, false);
             this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
             TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
             if (root != null) root.Expanded = true;
@@ -3413,6 +3514,7 @@ namespace RssBandit
                                 return;
                             }
                             guiMain.SaveSubscriptionTreeState();
+							//TODO: we should reload only the imported source:
                             guiMain.InitiatePopulateTreeFeeds();
                             guiMain.LoadAndRestoreSubscriptionTreeState();
                         }
@@ -3483,9 +3585,9 @@ namespace RssBandit
             ExceptionManager.GetInstance().RemoveFeed(entry, url);
 
             INewsFeed f = GetFeed(entry, url);
-            if (f != null)
+			    
+			if (f != null)
             {
-                RaiseFeedDeleted(entry, url, f.title);
                 f.Tag = null;
                 try
                 {
@@ -3498,15 +3600,19 @@ namespace RssBandit
                 FeedWasModified(f, NewsFeedProperty.FeedRemoved);
                 //this.FeedlistModified = true;
             }
+			
+			// behave the same as FeedSource event(s): feed is already removed from source
+			// before we raise/get the event:
+			RaiseFeedDeleted(entry, url, f != null ? f.title : null);
         }
 
-        private void RaiseFeedDeleted(FeedSourceEntry entry, string feedUrl, string feedTitle)
+		private void RaiseFeedDeleted(FeedSourceEntry entry, string feedUrl, string feedTitle)
         {
-            if (FeedDeleted != null)
+            if (FeedSourceFeedDeleted != null)
             {
                 try
                 {
-                    FeedDeleted(this, new FeedDeletedEventArgs(feedUrl, feedTitle));
+					FeedSourceFeedDeleted(this, new FeedSourceFeedUrlTitleEventArgs(entry, feedUrl, feedTitle));
                 }
                 catch (Exception ex)
                 {
@@ -3515,11 +3621,11 @@ namespace RssBandit
             }
         }
 
-        /// <summary>
-        /// Disable a feed (with UI update)
-        /// </summary>
-        /// <param name="feedUrl">string</param>
-        /// <param name="source">The FeedSource the feed is in</param>
+		/// <summary>
+		/// Disable a feed (with UI update)
+		/// </summary>
+		/// <param name="feedUrl">string</param>
+		/// <param name="entry">The entry.</param>
         public void DisableFeed(string feedUrl, FeedSourceEntry entry)
         {
             INewsFeed f;
@@ -4481,49 +4587,49 @@ namespace RssBandit
             }
         }
 
-        private static void OnRssParserBeforeStateChange(NewsHandlerState oldState, NewsHandlerState newState,
+        private static void OnRssParserBeforeStateChange(FeedSourceBusyState oldState, FeedSourceBusyState newState,
                                                          ref bool cancel)
         {
             // move to idle states
-            if (newState == NewsHandlerState.RefreshOneDone)
+            if (newState == FeedSourceBusyState.RefreshOneDone)
             {
-                if (oldState >= NewsHandlerState.RefreshCategory)
+                if (oldState >= FeedSourceBusyState.RefreshCategory)
                 {
                     cancel = true; // not allowed. Only RefreshAllDone can switch to idle
                 }
             }
-            else if (newState < NewsHandlerState.RefreshCategory &&
-                     newState != NewsHandlerState.Idle &&
-                     oldState >= NewsHandlerState.RefreshCategory)
+            else if (newState < FeedSourceBusyState.RefreshCategory &&
+                     newState != FeedSourceBusyState.Idle &&
+                     oldState >= FeedSourceBusyState.RefreshCategory)
             {
                 cancel = true; // not allowed. RefreshAll or Categories in progress
             }
         }
 
-        private void OnNewsHandlerStateChanged(NewsHandlerState oldState, NewsHandlerState newState)
+        private void OnNewsHandlerStateChanged(FeedSourceBusyState oldState, FeedSourceBusyState newState)
         {
             // move to idle states
-            if (newState == NewsHandlerState.RefreshOneDone)
+            if (newState == FeedSourceBusyState.RefreshOneDone)
             {
-                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.Idle);
+                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.Idle);
             }
-            else if (newState == NewsHandlerState.RefreshAllDone)
+            else if (newState == FeedSourceBusyState.RefreshAllDone)
             {
-                stateManager.MoveNewsHandlerStateTo(NewsHandlerState.Idle);
+                stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.Idle);
             }
-            else if (newState == NewsHandlerState.Idle)
+            else if (newState == FeedSourceBusyState.Idle)
             {
                 SetGuiStateFeedbackText(String.Empty, ApplicationTrayState.NormalIdle);
             }
-            else if (newState == NewsHandlerState.RefreshCategory)
+            else if (newState == FeedSourceBusyState.RefreshCategory)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusRefreshFeedsMessage, ApplicationTrayState.BusyRefreshFeeds);
             }
-            else if (newState == NewsHandlerState.RefreshOne)
+            else if (newState == FeedSourceBusyState.RefreshOne)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusLoadingFeed, ApplicationTrayState.BusyRefreshFeeds);
             }
-            else if (newState == NewsHandlerState.RefreshAllAuto || newState == NewsHandlerState.RefreshAllForced)
+            else if (newState == FeedSourceBusyState.RefreshAllAuto || newState == FeedSourceBusyState.RefreshAllForced)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusRefreshFeedsMessage, ApplicationTrayState.BusyRefreshFeeds);
             }
@@ -6225,4 +6331,99 @@ namespace RssBandit
 		}
 */
     } //end class RssBanditApplication
+
+	#region to be moved to AppServices project later on!
+
+	
+	#region event args
+
+	
+	/// <summary>
+	/// Event arguments class to transport feed source and simple feed infos.
+	/// </summary>
+	public class FeedSourceFeedUrlTitleEventArgs : FeedSourceEventArgs
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSourceFeedUrlTitleEventArgs"/> class.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <param name="feedTitle">The feed title.</param>
+		public FeedSourceFeedUrlTitleEventArgs(FeedSourceEntry entry, string feedUrl, string feedTitle):
+			base(entry)
+		{
+			FeedUrl = feedUrl;
+			FeedTitle = feedTitle;
+		}
+
+		/// <summary>
+		/// Gets the feed URL.
+		/// </summary>
+		/// <value>The feed URL.</value>
+		public string FeedUrl { get; private set; }
+		/// <summary>
+		/// Gets the feed title.
+		/// </summary>
+		/// <value>The feed title.</value>
+		public string FeedTitle { get; private set; }
+	}
+
+	/// <summary>
+	/// Event arguments class to transport feed source and feed infos.
+	/// </summary>
+	public class FeedSourceFeedEventArgs : FeedSourceEventArgs
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedDeletedEventArgs"/> class.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <param name="feed">The feed.</param>
+		public FeedSourceFeedEventArgs(FeedSourceEntry entry, INewsFeed feed) :
+			base(entry)
+		{
+			_feed = feed;
+		}
+
+		/// <summary>
+		/// Gets the feed .
+		/// </summary>
+		public INewsFeed Feed
+		{
+			get { return _feed; }
+		}
+
+		private readonly INewsFeed _feed;
+	}
+	
+	#endregion
+
+	/// <summary>
+	/// Event arguments class to inform about a feed event
+	/// </summary>
+	public class FeedSourceEventArgs : EventArgs
+	{
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedSourceEventArgs"/> class.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		public FeedSourceEventArgs(FeedSourceEntry entry)
+		{
+			this._feedSource = entry;
+		}
+
+		/// <summary>
+		/// Gets the feed source entry.
+		/// </summary>
+		public FeedSourceEntry Entry
+		{
+			get { return _feedSource; }
+		}
+
+		private readonly FeedSourceEntry _feedSource;
+
+	}
+	
+
+	#endregion
 } //end namespace RssBandit

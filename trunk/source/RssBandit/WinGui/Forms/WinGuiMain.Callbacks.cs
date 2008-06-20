@@ -1121,14 +1121,14 @@ namespace RssBandit.WinGui.Forms
         private void OnFormHandleCreated(object sender, EventArgs e)
         {
             // if the form is started minimized (via Shortcut Properties "Run-Minimized"
-            // it seems the OnLoad event does not gets fired, so we call it here...
+            // it seems the OnFormLoad event does not gets fired, so we call it here...
             if (InitialStartupState == FormWindowState.Minimized)
-                OnLoad(this, new EventArgs());
+                OnFormLoad(this, new EventArgs());
             // init idle task event handler:
             Application.Idle += OnApplicationIdle;
         }
 
-        private void OnLoad(object sender, EventArgs eva)
+        private void OnFormLoad(object sender, EventArgs eva)
         {
             // do not display the ugly form init/resizing...
             Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_HIDE);
@@ -1145,9 +1145,12 @@ namespace RssBandit.WinGui.Forms
             CheckForAddIns();
             InitFilter();
 
+			// feedsources list was yet loaded, now make it visible:
+			VisualizeFeedSources(owner.FeedSources.GetOrderedFeedSources());
+			ToggleNavigationPaneView(NavigationPaneView.LastVisibleSubscription);
+
             SetGuiStateFeedback(SR.GUIStatusLoadingFeedlist);
 
-            //IdleTask.AddTask(IdleTasks.InitOnFinishLoading);
             DelayTask(DelayedTasks.InitOnFinishLoading);
         }
 
@@ -1174,40 +1177,39 @@ namespace RssBandit.WinGui.Forms
             // about a still existing Offline Mode...
             Utils.SetIEOffline(owner.InternetConnectionOffline);
 
-
-            owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
-
-            RssBanditApplication.CheckAndInitSoundEvents();
+			RssBanditApplication.CheckAndInitSoundEvents();
+            
+			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
 
 			Splash.Close();
-			// feedsources list was yet loaded, now make it visible:
-        	VisualizeFeedSources(owner.FeedSources.GetOrderedFeedSources());
-			ToggleNavigationPaneView(NavigationPaneView.LastVisibleSubscription);
-
-			// load the subscriptions of each feedsource:
-			owner.LoadFeedLists();
-		    
-			// display the subscriptions per feedsource:
-			InitiatePopulateTreeFeeds();
-
-            //remember subscription tree state
-            OnFeedlistsLoaded();
-
-			SetGuiStateFeedback(SR.GUIStatusDone);
 			
-			//owner.BeginLoadingFeedlists();
-			//owner.BeginLoadingSpecialFeeds();
+			// contains unread folder (required immediately, if a feed yet gets updated):
+			PopulateTreeSpecialFeeds();
+			
+			// load the subscriptions of each feedsource:
+        	owner.LoadAllFeedSourcesSubscriptions();
 
-            //Splash.Close();
-            owner.AskAndCheckForDefaultAggregator();
+			#region code moved to OnAllFeedSourceSubscriptionsLoaded():
 
-            //Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
-#if !NOAUTO_REFRESH
-            // start the refresh timers
-            _timerRefreshFeeds.Start();
-            _timerRefreshCommentFeeds.Start();
-#endif
-        }
+			//            //remember subscription tree state
+//            ApplyAfterAllSubscriptionListsLoaded();
+
+//            SetGuiStateFeedback(SR.GUIStatusDone);
+			
+//            //owner.BeginLoadingFeedlists();
+//            //owner.BeginLoadingSpecialFeeds();
+
+//            //Splash.Close();
+//            owner.AskAndCheckForDefaultAggregator();
+
+//            //Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
+//#if !NOAUTO_REFRESH
+//            // start the refresh timers
+//            _timerRefreshFeeds.Start();
+//            _timerRefreshCommentFeeds.Start();
+			//#endif
+			#endregion
+		}
 
 		void VisualizeFeedSources(IEnumerable<FeedSourceEntry> sources)
 		{

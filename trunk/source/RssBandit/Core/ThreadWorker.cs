@@ -9,9 +9,12 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents.Collections;
+using NewsComponents.Threading;
 using NewsComponents.Utils;
 using RssBandit;
 using NewsComponents;
@@ -33,7 +36,9 @@ namespace RssBandit
 		/// Our tasks to work on in background
 		/// </summary>
 		public enum Task {
-			//LoadFeedlists,
+			AnonymousDelegate,
+			LoadAllFeedSourcesSubscriptions,
+			LoadFeedSourceSubscriptions,
 			//LoadSpecialFeeds,
 			RefreshFeeds,
 			RefreshCategoryFeeds,
@@ -50,18 +55,69 @@ namespace RssBandit
 		/// <param name="task"></param>
 		protected override Exception DoTaskWork(ThreadWorkerTaskBase task) {
 
+			//if ((Task)task.TaskID == Task.AnonymousDelegate)
+			//{
+			//    Action action = (Action)task.Arguments[0];
+			//    if (action == null)
+			//        throw new InvalidOperationException("no Action delegate specified");
+				
+			//    action();
+			//    // default event if no result(s) from processing:
+			//    RaiseBackgroundTaskFinished(task, 1, 1, null, null);
+			//    return null;
+			//}
+
 			RssBanditApplication app = ((ThreadWorkerTask) task).Application;
 			int maxTasks = 0, currentTask = 0;
 
-			bool force = false;			
+			bool force;			
 			UltraTreeNode feedNode;
 			string stylesheet, html;
 
 			switch ((Task)task.TaskID) {
 
-				//case Task.LoadFeedlists:
-				//    app.LoadFeedLists();
-				//    break;
+				case Task.LoadAllFeedSourcesSubscriptions:
+					List<FeedSourceEntry> entries = (List<FeedSourceEntry>)task.Arguments[0];
+					var finished = new ManualResetEvent(false);
+					int max = entries.Count;
+					int current = 0;
+								
+					foreach (FeedSourceEntry e in entries)
+					{
+						
+						PriorityThreadPool.QueueUserWorkItem(
+							delegate(object state)
+							{
+								FeedSourceEntry fs = (FeedSourceEntry)state;
+								int threadCurrent = current;
+								try
+								{
+									app.LoadFeedSourceSubscriptions(fs, true);
+									this.RaiseBackroundTaskProgress(task, max, threadCurrent + 1, null, fs);
+								}
+								catch (Exception loadEx)
+								{
+									this.RaiseBackroundTaskProgress(task, max, threadCurrent + 1, loadEx, fs);
+								}
+								finally
+								{
+									if (Interlocked.Increment(ref current) >= max)
+									{
+										if (finished != null)
+											finished.Set();
+									}
+								}
+							}, e, 1); 	
+					}
+					
+					if (max > 0)
+						finished.WaitOne(Timeout.Infinite, true);
+					
+					break;
+
+				case Task.LoadFeedSourceSubscriptions:
+					app.LoadFeedSourceSubscriptions((FeedSourceEntry)task.Arguments[0], true);
+				    break;
 
 				// code mocved to FlaggedItemsFeed migrate method:
 				//case Task.LoadSpecialFeeds:
