@@ -30,9 +30,10 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdCatchUpCurrentSelectedNode(ICommand sender)
         {
-            guiMain.MarkSelectedNodeRead(guiMain.CurrentSelectedFeedsNode);
+            TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode; 
+            guiMain.MarkSelectedNodeRead(tn);
             if (guiMain.CurrentSelectedFeedsNode != null)
-                FeedWasModified(guiMain.CurrentSelectedFeedsNode.DataKey, NewsFeedProperty.FeedItemReadState);
+                FeedWasModified(guiMain.FeedSourceOf(tn), guiMain.CurrentSelectedFeedsNode.DataKey, NewsFeedProperty.FeedItemReadState);
             //this.FeedlistModified = true;
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -754,7 +755,7 @@ namespace RssBandit
         {
             if (MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
-                feedHandler.DeleteAllFeedsAndCategories();
+                sourceManager.ForEach( source => source.DeleteAllFeedsAndCategories());
                 FeedSource.SearchHandler.IndexRemoveAll();
                 SubscriptionModified(NewsFeedProperty.General);
                 //this.FeedlistModified = true;
@@ -1521,7 +1522,7 @@ namespace RssBandit
                             }
                             else
                             {
-                                foreach (NewsFeed f in feedHandler.GetFeeds().Values)
+                                foreach (NewsFeed f in entry.Source.GetFeeds().Values)
                                 {
                                     if ((f.category != null) &&
                                         (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))
@@ -1533,7 +1534,7 @@ namespace RssBandit
                                 }
 
                                 intIn = intIn*MilliSecsMultiplier;
-                                feedHandler.SetCategoryRefreshRate(category, intIn);
+                                entry.Source.SetCategoryRefreshRate(category, intIn);
                             }
                         }
                     }
@@ -1552,7 +1553,7 @@ namespace RssBandit
                     {
                         if (feedMaxItemAge.CompareTo(propertiesDialog.MaxItemAge) != 0)
                         {
-                            foreach (NewsFeed f in feedHandler.GetFeeds().Values)
+                            foreach (NewsFeed f in entry.Source.GetFeeds().Values)
                             {
                                 if ((f.category != null) &&
                                     (f.category.Equals(category) || f.category.StartsWith(catPlusSep)))

@@ -3605,7 +3605,7 @@ namespace NewsComponents
         /// <returns>
         /// 	<c>true</c> if it is a cache relevant change; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsCacheRelevantChange(NewsFeedProperty changedProperty)
+        public static bool IsCacheRelevantChange(NewsFeedProperty changedProperty)
         {
             return (cacheRelevantPropertyChanges & changedProperty) != NewsFeedProperty.None;
         }
@@ -3618,7 +3618,7 @@ namespace NewsComponents
         /// <returns>
         /// 	<c>true</c> if it is a subscription relevant change; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsSubscriptionRelevantChange(NewsFeedProperty changedProperty)
+        public static bool IsSubscriptionRelevantChange(NewsFeedProperty changedProperty)
         {
             return (subscriptionRelevantPropertyChanges & changedProperty) != NewsFeedProperty.None;
         }
@@ -7402,6 +7402,11 @@ namespace NewsComponents
         /// </summary>
         public virtual void DeleteAllFeedsAndCategories()
         {
+            foreach (string url in GetFeedsTableKeys())
+            {
+                try { this.DeleteFeed(url); } catch { } 
+            }
+            
             feedsTable.Clear();
             categories.Clear();
             readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
