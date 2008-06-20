@@ -738,22 +738,27 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Deletes all subscribed feeds and categories 
         /// </summary>
-        public override void DeleteAllFeedsAndCategories()
+        public override void DeleteAllFeedsAndCategories(bool deleteFromSource)
         {
-            string[] keys = new string[categories.Count];
-            this.categories.Keys.CopyTo(keys, 0);
-            foreach (string categoryName in keys)
+            if (deleteFromSource)
             {
-                this.DeleteCategory(categoryName);
+                string[] keys = new string[categories.Count];
+                this.categories.Keys.CopyTo(keys, 0);
+                foreach (string categoryName in keys)
+                {
+                    this.DeleteCategory(categoryName);
+                }
+
+                keys = new string[feedsTable.Count];
+                this.feedsTable.Keys.CopyTo(keys, 0);
+                foreach (string feedUrl in keys)
+                {
+                    this.DeleteFeed(feedUrl);
+                }
             }
 
-            keys = new string[feedsTable.Count];
-            this.feedsTable.Keys.CopyTo(keys, 0);
-            foreach (string feedUrl in keys) {
-                this.DeleteFeed(feedUrl);             
-            }          
-
-            base.DeleteAllFeedsAndCategories();             
+                base.DeleteAllFeedsAndCategories(deleteFromSource);            
+          
         }
 
         /// <summary>

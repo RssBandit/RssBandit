@@ -7396,20 +7396,46 @@ namespace NewsComponents
             return feedsTable.ContainsKey(feedUrl);
         }
 
+      
+
         /// <summary>
         /// Deletes all subscribed feeds and categories 
         /// </summary>
-        public virtual void DeleteAllFeedsAndCategories()
+        /// <param name="deleteFromSource">Indicates whether the feeds should also be deleted from the feed source</param>
+        public virtual void DeleteAllFeedsAndCategories(bool deleteFromSource)
         {
             foreach (string url in GetFeedsTableKeys())
             {
-                try { this.DeleteFeed(url); } catch { } 
+                if (deleteFromSource)
+                {
+                    this.DeleteFeed(url);
+                }
+                else
+                {
+                    INewsFeed f = null;
+                    if (feedsTable.TryGetValue(url, out f))
+                    {
+                        SearchHandler.IndexRemove(f.id);
+                        try
+                        {
+                            CacheHandler.RemoveFeed(f);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
             }
+
+            if (enclosureDownloader != null)
+                enclosureDownloader.CancelPendingDownloads();            
             
             feedsTable.Clear();
             categories.Clear();
             readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
             readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
+
+            ClearItemsCache(); 
         }
 
         #endregion

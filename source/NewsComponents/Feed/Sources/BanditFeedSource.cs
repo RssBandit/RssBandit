@@ -348,16 +348,7 @@ namespace NewsComponents.Feed
 
         #region public methods
 
-        #region feed and category management 
-
-        /// <summary>
-        /// Deletes all subscribed feeds and categories 
-        /// </summary>
-        public override void DeleteAllFeedsAndCategories()
-        {
-            base.DeleteAllFeedsAndCategories();
-            ClearItemsCache();
-        }
+        #region feed and category management        
 
         #endregion
 

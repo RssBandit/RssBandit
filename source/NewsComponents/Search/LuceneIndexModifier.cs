@@ -200,7 +200,8 @@ namespace NewsComponents.Search
 			// force flush all:
             try
             {
-                FlushPendingOperations(Int32.MaxValue);
+                //BUGBUG: We don't index every document in this case. 
+                FlushPendingOperations( Math.Max(pendingIndexOperations.Count, 250 /* Int32.MaxValue - locks up the UI on shutdown */));
                 FlushIndex();
             }
             catch (Exception e)
