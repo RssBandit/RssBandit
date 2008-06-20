@@ -210,12 +210,8 @@ namespace NewsComponents.Feed
         private bool Offline
         {
             get
-            {
-                if (FeedSources.Count > 0)
-                {
-                    return FeedSources.Values.ElementAt(0).Offline;
-                }
-                return false;
+            {              
+                    return FeedSource.Offline;             
             }
         }
 

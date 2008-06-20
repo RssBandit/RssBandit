@@ -76,12 +76,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
-        private bool offline = false;
+        private static bool offline = false;
 
         /// <summary>
         /// Indicates whether the application is offline or not. 
         /// </summary>
-        public bool Offline
+        public static bool Offline
         {
             set
             {
