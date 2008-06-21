@@ -102,7 +102,7 @@ namespace RssBandit
         /// </summary>
         /// <remarks>Next Final Release: remove the temp. preferences file 
         /// reading/writing before publishing!</remarks>
-        private static readonly string versionPostfix = String.Empty; // e.g. 'beta 1' or '(CVS)'
+        public static readonly string versionPostfix = "(Phoenix - Alpha release)"; // String.Empty; // e.g. 'beta 1' or '(CVS)'
 
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
