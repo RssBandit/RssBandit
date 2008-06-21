@@ -58,8 +58,8 @@ namespace NewsComponents.Xml.Serialization {
 		/// <summary>
 		/// The Dictionary to store cached serializer instances.
 		/// </summary>
-		//private Dictionary<string, System.Xml.Serialization.XmlSerializer> Serializers;
-		private Hashtable Serializers;
+		private System.Collections.Generic.Dictionary<string, System.Xml.Serialization.XmlSerializer> Serializers;
+		//private Hashtable Serializers;
 
 		/// <summary>
 		/// An object to synchonize access to the Dictionary instance.
@@ -79,7 +79,7 @@ namespace NewsComponents.Xml.Serialization {
 			stats = new PerfCounterManager();
 #endif
 			//Serializers = new Dictionary<string, System.Xml.Serialization.XmlSerializer>();
-			Serializers = new Hashtable();
+			Serializers = new System.Collections.Generic.Dictionary<string,XmlSerializer>();
 		}
 
 		/// <summary>
@@ -188,28 +188,33 @@ namespace NewsComponents.Xml.Serialization {
 				, root
 				, defaultNamespace);
 
-			System.Xml.Serialization.XmlSerializer serializer = null; 
-			if (false == Serializers.ContainsKey(key)) {
+			System.Xml.Serialization.XmlSerializer serializer = null;
+            if (false == Serializers.ContainsKey(key))
+            {
 				lock (SyncRoot) {
-					if (false == Serializers.ContainsKey(key)) {
+                    if (false == Serializers.ContainsKey(key))
+                    {
 #if USE_PERF_COUNTER
 						stats.IncrementInstanceCount();
 #endif
-						serializer = new System.Xml.Serialization.XmlSerializer(type
-							, overrides
-							, types
-							, root
-							, defaultNamespace);
-						Serializers.Add( key, serializer );
+                        serializer = new System.Xml.Serialization.XmlSerializer(type
+                            , overrides
+                            , types
+                            , root
+                            , defaultNamespace);
+                        Serializers.Add(key, serializer);
 
-						if (null != NewSerializer) {
-							NewSerializer(type
-								, overrides
-								, types
-								, root
-								, defaultNamespace);
-						}
-					} // if( null == Serializers[key] )
+                        if (null != NewSerializer)
+                        {
+                            NewSerializer(type
+                                , overrides
+                                , types
+                                , root
+                                , defaultNamespace);
+                        }
+                    }else{
+                        serializer = Serializers[key] as XmlSerializer;
+                    }
 				} // lock
 			} // if( null == Serializers[key] )
 			else {
