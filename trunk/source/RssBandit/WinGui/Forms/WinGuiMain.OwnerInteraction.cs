@@ -3230,7 +3230,7 @@ namespace RssBandit.WinGui.Forms
                 // reset category references on feeds - after moving node to 
                 // have the correct FullPath info within this call:
                 /* WalkdownThenRenameFeedCategory(theNode, targetCategory); */
-                owner.SubscriptionModified(changes);
+                owner.SubscriptionModified(entry, changes);
                 //owner.FeedlistModified = true;
 
                 if (theNode.UnreadCount > 0)

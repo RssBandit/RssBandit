@@ -764,7 +764,7 @@ namespace RssBandit
                 {
                     entry.Source.DeleteAllFeedsAndCategories(true);
                     FeedSource.SearchHandler.IndexRemoveAll();
-                    SubscriptionModified(NewsFeedProperty.General);
+                    SubscriptionModified(entry, NewsFeedProperty.General);
                     //this.FeedlistModified = true;
                     guiMain.InitiatePopulateTreeFeeds();
                 }
@@ -818,7 +818,7 @@ namespace RssBandit
                 // walks down the hierarchy and delete each child feed,
                 // removes the node:
                 guiMain.DeleteCategory(tn);
-                SubscriptionModified(NewsFeedProperty.FeedCategoryRemoved);
+                SubscriptionModified(guiMain.FeedSourceOf(tn), NewsFeedProperty.FeedCategoryRemoved);
                 //this.FeedlistModified = true;
             }
             if (sender is AppContextMenuCommand)

@@ -3496,6 +3496,8 @@ namespace RssBandit
             {
                 string s = dialog.FeedsUrlOrFile;
                 string cat = (dialog.FeedCategory == DefaultCategory ? null : dialog.FeedCategory);
+                FeedSourceEntry entry = sourceManager[dialog.FeedSource]; 
+
                 if (!string.IsNullOrEmpty(s))
                 {
                     Stream myStream;
@@ -3505,8 +3507,8 @@ namespace RssBandit
                         {
                             try
                             {
-                                feedHandler.ImportFeedlist(myStream, cat);
-                                SubscriptionModified(NewsFeedProperty.General);
+                                entry.Source.ImportFeedlist(myStream, cat);
+                                SubscriptionModified(entry, NewsFeedProperty.General);
                             }
                             catch (Exception ex)
                             {
@@ -3556,8 +3558,8 @@ namespace RssBandit
                                 {
                                     try
                                     {
-                                        feedHandler.ImportFeedlist(myStream, cat);
-                                        SubscriptionModified(NewsFeedProperty.General);
+                                        entry.Source.ImportFeedlist(myStream, cat);
+                                        SubscriptionModified(entry, NewsFeedProperty.General);
                                         //this.FeedlistModified = true;									}
                                     }
                                     catch (Exception ex)
