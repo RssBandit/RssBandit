@@ -2704,10 +2704,11 @@ namespace RssBandit.WinGui.Forms
                 if (GetRootType(editedNode) == RootFolderType.MyFeeds)
                 {
                     string newFullname = editedNode.CategoryStoreName;
-                    FeedSource source = FeedSourceOf(editedNode).Source; 
-                    source.RenameCategory(oldFullname, newFullname);
+                    
+                    FeedSourceEntry entry = FeedSourceOf(editedNode);
+                    entry.Source.RenameCategory(oldFullname, newFullname);
 
-                    owner.SubscriptionModified(NewsFeedProperty.FeedCategory);
+                    owner.SubscriptionModified(entry, NewsFeedProperty.FeedCategory);
                 }
             }
         }

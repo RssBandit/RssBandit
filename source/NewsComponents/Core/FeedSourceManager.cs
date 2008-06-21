@@ -247,7 +247,10 @@ namespace NewsComponents
 		/// </summary>
 		public void ForEach(Action<FeedSource> action)
 		{
-			foreach (FeedSourceEntry entry in _feedSources.Values) {
+            //copy to array so we don't get collection modified exception if an new source is added or one is removed
+            FeedSourceEntry[] entries = _feedSources.Values.ToArray(); 
+
+			foreach (FeedSourceEntry entry in entries) { 
 				action(entry.Source);
 			}
 		}
