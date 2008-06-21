@@ -163,8 +163,6 @@ namespace RssBandit
         private static string defaultSpecialFolderColumnLayoutKey;
 
         private Timer autoSaveTimer;
-        private bool appIsSavingState = false;
-        private Object SaveStateMutex = new Object(); 
         private bool feedlistModified;
         private bool commentFeedlistModified;
         private bool trustedCertIssuesModified;
@@ -4695,6 +4693,7 @@ namespace RssBandit
         /// <summary>
         /// Saves Application State: the feedlist, changed cached files, search folders, flagged items and sent items
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SaveApplicationState()
         {
             SaveApplicationState(false);
@@ -4704,23 +4703,10 @@ namespace RssBandit
         /// Saves Application State: the feedlist, changed cached files, search folders, flagged items and sent items
         /// </summary>
         /// <param name="appIsClosing">if set to <c>true</c> [app is closing].</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SaveApplicationState(bool appIsClosing)
         {
-            if (guiMain == null) return;
-
-            if (appIsSavingState)
-            {
-                return;
-            }
-            else
-            {
-                lock (SaveStateMutex)
-                {
-                    if (appIsSavingState) return; 
-                    else appIsSavingState = true;
-                }
-            }
-
+            if (guiMain == null) return;           
 
             /* 
 			 * we handle the exit error here, because it does not make sense
@@ -4804,10 +4790,7 @@ namespace RssBandit
             {
                 PublishException(new BanditApplicationException("Unexpected Exception on SaveApplicationState()", ex));
             }
-            finally
-            {
-                appIsSavingState = false; 
-            }
+           
         }
 
         /// <summary>
