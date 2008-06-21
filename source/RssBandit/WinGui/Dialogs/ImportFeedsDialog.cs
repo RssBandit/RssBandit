@@ -88,7 +88,8 @@ namespace RssBandit.WinGui.Forms
 		}
 		
 		public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }
-		public string FeedCategory { get { return comboCategory.Text; } } 
+		public string FeedCategory { get { return comboCategory.Text; } }
+        public string FeedSource { get { return comboFeedSource.Text; } }
 
 		/// <summary>
 		/// Clean up any resources being used.
