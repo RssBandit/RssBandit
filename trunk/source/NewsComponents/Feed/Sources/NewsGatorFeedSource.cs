@@ -333,13 +333,20 @@ namespace NewsComponents.Feed
             XmlWriterSettings xws = new XmlWriterSettings();
             xws.OmitXmlDeclaration = true;
 
-            serializer.Serialize(XmlWriter.Create(sb, xws), location); 
+            serializer.Serialize(XmlWriter.Create(sb, xws), location);
 
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(LocationApiUrl, sb.ToString(), this.location.Credentials , this.Proxy, NgosTokenHeader);
-
-            if (response.StatusCode != HttpStatusCode.OK)
+            try
             {
-                _log.Debug(String.Format("Error occured when creating location in NewsGator Online: {0}-{1}", response.StatusCode, response.StatusDescription));
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(LocationApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    _log.Debug(String.Format("Error occured when creating location in NewsGator Online: {0}-{1}", response.StatusCode, response.StatusDescription));
+                }
+            }
+            catch (Exception e)
+            {
+                _log.Error("Error occured when creating location in NewsGator Online:", e);
             }
         }
 
