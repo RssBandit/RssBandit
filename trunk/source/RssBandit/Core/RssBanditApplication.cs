@@ -43,6 +43,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Infragistics.Win.UltraWinTree;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
@@ -924,6 +925,14 @@ namespace RssBandit
 		public void SubscriptionModified(FeedSourceEntry entry, NewsFeedProperty property)
 		{
 			HandleSubscriptionRelevantChange(property);
+
+            if( property == NewsFeedProperty.FeedAdded || 
+                property == NewsFeedProperty.FeedCategoryAdded || 
+                property == NewsFeedProperty.FeedCategory)
+            {
+                // Resort
+                guiMain.SortFeed(entry);
+            }
 		}
 
 		[Obsolete("call SubscriptionModified(FeedSourceEntry, NewsFeedProperty)")]
@@ -946,6 +955,9 @@ namespace RssBandit
 
             HandleFeedCacheRelevantChange(sourceManager.SourceOf(feed.owner as FeedSource), feed.link, property);
             HandleIndexRelevantChange(feed, property);
+
+            if (property == NewsFeedProperty.FeedTitle)
+                guiMain.SortFeed(sourceManager.SourceOf(feed.owner as FeedSource));
         }
 
         /// <summary>
