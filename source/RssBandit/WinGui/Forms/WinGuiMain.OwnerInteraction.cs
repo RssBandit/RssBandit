@@ -461,8 +461,13 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
 			try
 			{
-				ICollection<INewsFeedCategory> categories = entry.Source.GetCategories().Values;
-				IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
+                var categories = from cat in entry.Source.GetCategories()
+                                 join f in entry.Source.GetFeeds() on cat.Key equals f.Value.category
+                                 orderby cat.Value, f.Value.title
+                                 select new { Category = cat.Value, Feed = f.Value };
+
+
+				//IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
 
 				treeFeeds.BeginUpdate();
 
@@ -477,10 +482,12 @@ namespace RssBandit.WinGui.Forms
 					//UnreadItemsNode.Items.Clear();
 
 					var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
-					var categoryList = new List<INewsFeedCategory>(categories);
+					var categoryList = new List<INewsFeedCategory>(categories.Select(c => c.Category));
 
-					foreach (var f in feedsTable.Values)
+					foreach (var pair in categories)
 					{
+                        INewsFeed f = pair.Feed;
+
 						if (Disposing)
 							return;
 
