@@ -453,6 +453,40 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
+        internal void SortFeed(FeedSourceEntry entry)
+        {
+            TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
+
+            treeFeeds.BeginUpdate();
+
+            var tree = new Stack<UltraTreeNode>();
+
+            tree.Push(root);
+
+            while (tree.Count > 0)
+            {
+                // Loop through the tree and sort at each level
+
+                UltraTreeNode item = tree.Pop();
+
+                var sortedChildren = (from c in item.Nodes.Cast<UltraTreeNode>()
+                                      orderby c.Text
+                                      select c).ToArray();
+
+
+                item.Nodes.Clear();
+                item.Nodes.AddRange(sortedChildren);
+
+                foreach (var child in item.Nodes)
+                {
+                    tree.Push(child);
+                }
+
+            }
+
+            treeFeeds.EndUpdate();
+        }
+
         public void PopulateFeedSubscriptions(FeedSourceEntry entry,
                                               string defaultCategory)
         {
@@ -559,30 +593,8 @@ namespace RssBandit.WinGui.Forms
 						TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
 					}
 
-                    var tree = new Stack<UltraTreeNode>();
 
-                    tree.Push(root);
-
-                    while(tree.Count > 0)
-                    {
-                        // Loop through the tree and sort at each level
-
-                        UltraTreeNode item = tree.Pop();
-
-                        var sortedChildren = (from c in item.Nodes.Cast<UltraTreeNode>()
-                                             orderby c.Text
-                                             select c).ToArray();
-
-
-                        item.Nodes.Clear();
-                        item.Nodes.AddRange(sortedChildren);
-
-                        foreach (var child in item.Nodes)
-                        {
-                            tree.Push(child);
-                        }
-
-                    }
+                    SortFeed(entry);
 				} 
 				else
 				{
