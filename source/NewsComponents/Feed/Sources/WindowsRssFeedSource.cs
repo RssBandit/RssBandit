@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -2556,6 +2557,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents a NewsFeed obtained from the Windows RSS platform
     /// </summary>
+    [DebuggerDisplay("Title = {title}, Uri = {link}")]
     internal class WindowsRssNewsFeed : INewsFeed, IDisposable, IFeedDetails
     {
 
@@ -3565,8 +3567,8 @@ namespace NewsComponents.Feed
     #endregion
 
     #region WindowsRssNewsFeedCategory
-
-    internal class WindowsRssNewsFeedCategory : INewsFeedCategory, IDisposable 
+    [DebuggerDisplay("Category = {Value}")]
+    internal class WindowsRssNewsFeedCategory : INewsFeedCategory, IDisposable, IEquatable<WindowsRssNewsFeedCategory>
     {
 
         #region constructor 
@@ -3777,19 +3779,10 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override bool Equals(Object obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            WindowsRssNewsFeedCategory c = obj as WindowsRssNewsFeedCategory;
-
-            if (c == null)
-            {
-                return false;
-            }
-
-            return this.myfolder.Path.Equals(c.myfolder.Path);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (WindowsRssNewsFeedCategory)) return false;
+            return Equals((WindowsRssNewsFeedCategory) obj);
         }
 
         /// <summary>
@@ -3798,10 +3791,22 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return this.myfolder.Path.GetHashCode();
+            return (stylesheet != null ? stylesheet.GetHashCode() : 0);
         }
 
         #endregion
+
+        public bool Equals(WindowsRssNewsFeedCategory obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals(obj.Value, Value);
+        }
+
+        public bool Equals(INewsFeedCategory other)
+        {
+            return Equals(other as WindowsRssNewsFeedCategory);
+        }
     }
 
     #endregion 

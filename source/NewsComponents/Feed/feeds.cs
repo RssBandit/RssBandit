@@ -594,7 +594,7 @@ namespace NewsComponents.Feed
     }
 
 
-    public interface INewsFeedCategory : ISharedProperty
+    public interface INewsFeedCategory : ISharedProperty, IEquatable<INewsFeedCategory>
 	{ 
 		//TODO: Implement INotifyPropertyChange ?
 
@@ -612,9 +612,11 @@ namespace NewsComponents.Feed
         XmlAttribute[] AnyAttr { get; set; }
     }
 
+
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class category : INewsFeedCategory
+    [DebuggerDisplay("Category = {Value}")]
+    public class category : INewsFeedCategory, IEquatable<category>
     {
         /// <summary>
         /// A category must have a name
@@ -756,24 +758,10 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override bool Equals(Object obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            category c = obj as category;
-
-            if (c == null)
-            {
-                return false;
-            }
-
-            if (Value.Equals(c.Value))
-            {
-                return true;
-            }
-
-            return false;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (category)) return false;
+            return Equals((category) obj);
         }
 
         /// <summary>
@@ -782,7 +770,25 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return (Value != null ? Value.GetHashCode() : 0);
+        }
+
+        #endregion
+
+        public bool Equals(category obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals(obj.Value, Value);
+        }
+
+
+
+        #region IEquatable<INewsFeedCategory> Members
+
+        public bool Equals(INewsFeedCategory other)
+        {
+            return Equals(other as category);
         }
 
         #endregion
@@ -794,6 +800,7 @@ namespace NewsComponents.Feed
     /// <remarks/>
     [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
     [XmlInclude(typeof(GoogleReaderNewsFeed))]
+    [DebuggerDisplay("Title = {title}, Uri = {link}")]
     public class NewsFeed : INewsFeed
     {
 
