@@ -463,7 +463,6 @@ namespace RssBandit.WinGui.Forms
 			{
                 var categories = from cat in entry.Source.GetCategories()
                                  join f in entry.Source.GetFeeds() on cat.Key equals f.Value.category
-                                 orderby cat.Value, f.Value.title
                                  select new { Category = cat.Value, Feed = f.Value };
 
 
@@ -482,12 +481,12 @@ namespace RssBandit.WinGui.Forms
 					//UnreadItemsNode.Items.Clear();
 
 					var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
-					var categoryList = new List<INewsFeedCategory>(categories.Select(c => c.Category));
+					var categoryList = new List<INewsFeedCategory>(categories.Select(c => c.Category).Distinct());
 
 					foreach (var pair in categories)
 					{
                         INewsFeed f = pair.Feed;
-
+                        
 						if (Disposing)
 							return;
 
@@ -559,6 +558,31 @@ namespace RssBandit.WinGui.Forms
 					{
 						TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
 					}
+
+                    var tree = new Stack<UltraTreeNode>();
+
+                    tree.Push(root);
+
+                    while(tree.Count > 0)
+                    {
+                        // Loop through the tree and sort at each level
+
+                        UltraTreeNode item = tree.Pop();
+
+                        var sortedChildren = (from c in item.Nodes.Cast<UltraTreeNode>()
+                                             orderby c.Text
+                                             select c).ToArray();
+
+
+                        item.Nodes.Clear();
+                        item.Nodes.AddRange(sortedChildren);
+
+                        foreach (var child in item.Nodes)
+                        {
+                            tree.Push(child);
+                        }
+
+                    }
 				} 
 				else
 				{
