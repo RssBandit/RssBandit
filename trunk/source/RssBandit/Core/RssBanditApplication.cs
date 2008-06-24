@@ -379,16 +379,17 @@ namespace RssBandit
             }
 
             //make sure we have a direct access feed source
-            if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
-                sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
+			//DISCUSS: should we do so in the final release?
+			if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
+			{
+				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
+				// save the test enviroment:
+				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+			}
 
-            feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
-
-            // save the test enviroment:
-            sourceManager.SaveFeedSources(GetFeedSourcesFileName());
-
-			sourceManager.ForEach(delegate (FeedSource f) { ConnectFeedSourceEvents(f);});
-
+			//TODO: remove, if all references got replaced:
+        	feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
+            
             commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
                                                               CreateCommentFeedHandlerConfiguration(
@@ -598,6 +599,12 @@ namespace RssBandit
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
 
             GuiInvoker.Initialize();
+			
+			// now we are ready to receive events from the backend:
+			sourceManager.ForEach(delegate(FeedSource f)
+			                      {
+			                      	ConnectFeedSourceEvents(f);
+			                      });
 
             // thread results to UI serialization/sync.:
             threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
