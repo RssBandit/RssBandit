@@ -453,40 +453,6 @@ namespace RssBandit.WinGui.Forms
             finderRoot.InitFromFinders(owner.FinderList, _treeSearchFolderContextMenu);
         }
 
-        internal void SortFeed(FeedSourceEntry entry)
-        {
-            TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
-
-            treeFeeds.BeginUpdate();
-
-            var tree = new Stack<UltraTreeNode>();
-
-            tree.Push(root);
-
-            while (tree.Count > 0)
-            {
-                // Loop through the tree and sort at each level
-
-                UltraTreeNode item = tree.Pop();
-
-                var sortedChildren = (from c in item.Nodes.Cast<UltraTreeNode>()
-                                      orderby c.Text
-                                      select c).ToArray();
-
-
-                item.Nodes.Clear();
-                item.Nodes.AddRange(sortedChildren);
-
-                foreach (var child in item.Nodes)
-                {
-                    tree.Push(child);
-                }
-
-            }
-
-            treeFeeds.EndUpdate();
-        }
-
         public void PopulateFeedSubscriptions(FeedSourceEntry entry,
                                               string defaultCategory)
         {
@@ -495,12 +461,8 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
 			try
 			{
-                var categories = from cat in entry.Source.GetCategories()
-                                 join f in entry.Source.GetFeeds() on cat.Key equals f.Value.category
-                                 select new { Category = cat.Value, Feed = f.Value };
-
-
-				//IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
+				ICollection<INewsFeedCategory> categories = entry.Source.GetCategories().Values;
+				IDictionary<string, INewsFeed> feedsTable = entry.Source.GetFeeds();
 
 				treeFeeds.BeginUpdate();
 
@@ -515,12 +477,10 @@ namespace RssBandit.WinGui.Forms
 					//UnreadItemsNode.Items.Clear();
 
 					var categoryTable = new Dictionary<string, TreeFeedsNodeBase>();
-					var categoryList = new List<INewsFeedCategory>(categories.Select(c => c.Category).Distinct());
+					var categoryList = new List<INewsFeedCategory>(categories);
 
-					foreach (var pair in categories)
+					foreach (var f in feedsTable.Values)
 					{
-                        INewsFeed f = pair.Feed;
-                        
 						if (Disposing)
 							return;
 
@@ -592,9 +552,6 @@ namespace RssBandit.WinGui.Forms
 					{
 						TreeHelper.CreateCategoryHive(root, c.Value, _treeCategoryContextMenu);
 					}
-
-
-                    SortFeed(entry);
 				} 
 				else
 				{
