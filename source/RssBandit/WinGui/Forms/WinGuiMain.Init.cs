@@ -289,12 +289,20 @@ namespace RssBandit.WinGui.Forms
             //Win32.ModifyWindowStyle(treeFeeds.Handle, 0, Win32.TVS_INFOTIP);
             treeFeeds.PathSeparator = FeedSource.CategorySeparator;
             treeFeeds.ImageList = _treeImages;
-            treeFeeds.Nodes.Override.Sort = SortType.None; // do not sort the root entries
-            treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
+            
+			treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
 
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
-        	treeFeeds.HideSelection = false;
+        	// we could also have impl. sorting by using a IComparable impl. at TreeFeedsNodeBase
+			// and it's inherited classes. But it is easier to handle the various different
+			// types at one place:
+			treeFeeds.Override.SortComparer = new TreeNodesSortHelper(System.Windows.Forms.SortOrder.Ascending);
+        	treeFeeds.Override.Sort = SortType.Ascending;
+			// do not sort the root entries:
+			//treeFeeds.Nodes.Override.Sort = SortType.None; 
+            
+			treeFeeds.HideSelection = false;
 
 			//// create RootFolderType.MyFeeds:
 			//TreeFeedsNodeBase root =
