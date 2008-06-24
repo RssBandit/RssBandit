@@ -1642,9 +1642,9 @@ namespace RssBandit {
 			/// <returns>
 			/// The type of the object the formatter creates a new instance of.
 			/// </returns>
-			public override System.Type BindToType(string assemblyName, string typeName) 
+			public override Type BindToType(string assemblyName, string typeName) 
 			{
-				System.Type typeToDeserialize = null;
+				Type typeToDeserialize = null;
 
 				// For each assemblyName/typeName that you wish to deserialize 
 				// to a different type, set typeToDeserialize to the desired type
@@ -1673,6 +1673,16 @@ namespace RssBandit {
 						typeName, assemblyName));
 				}
 
+				// old file with strong named assembly refs (e.g. "RssBandit.AppServices, Version=1.6.0.3, Culture=neutral, PublicKeyToken=39cb28311174616c")
+				int simpleAssemblyNameEnd = assemblyName.IndexOf(", Version=");
+				if (typeToDeserialize == null && simpleAssemblyNameEnd >= 0)
+				{
+					typeToDeserialize = Type.GetType(String.Format("{0}, {1}",
+							typeName, assemblyName.Substring(0, simpleAssemblyNameEnd)), false);
+					// in case System.Drawing assemlby was not yet loaded:
+					if (typeToDeserialize == null && typeName == "System.Drawing.Color")
+						typeToDeserialize = typeof(Color);
+				}
 				return typeToDeserialize;
 			}
 
