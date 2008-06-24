@@ -58,11 +58,12 @@ namespace RssBandit.WinGui.Controls
 	/// <summary>
 	/// Base class of the tree view nodes
 	/// </summary>
-	public abstract class TreeFeedsNodeBase: UltraTreeNode {
+	public abstract class TreeFeedsNodeBase: UltraTreeNode 
+	{
 		/// <summary>
 		/// Gets raised, if the node's read counter reach zero
 		/// </summary>
-		public event System.EventHandler ReadCounterZero;
+		public event EventHandler ReadCounterZero;
 
 		/// <summary>
 		/// Used in the node editing events to keep the old node Text
