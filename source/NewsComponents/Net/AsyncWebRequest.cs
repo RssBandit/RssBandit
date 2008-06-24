@@ -279,8 +279,9 @@ namespace NewsComponents.Net
                 httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
                 httpRequest.Proxy = requestParameter.Proxy;
                 httpRequest.AllowAutoRedirect = false;
-                httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
-
+                //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+				httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
+													 DecompressionMethods.Deflate;
                 if (requestParameter.Headers != null)
                 {
                     httpRequest.Headers.Add(requestParameter.Headers);
@@ -907,27 +908,29 @@ namespace NewsComponents.Net
                     {
                         state.OnRequestProgress(state.InitialRequestUri, state.bytesTransferred);
                     }
+					
+					// continue read:
                     return;
                 }
-                else
-                {
-                    // completed
-                    if (state.Response is HttpWebResponse)
-                    {
-                        state.ResponseStream =
-                            GetDeflatedResponse(((HttpWebResponse) state.Response).ContentEncoding, state.RequestData);
-                    }
-                    else
-                    {
-                        state.ResponseStream = GetDeflatedResponse(String.Empty, state.RequestData);
-                    }
-                    state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri,
-                                             state.RequestParams.ETag, state.RequestParams.LastModified,
-                                             RequestResult.OK);
-                    // usual cleanup:
-                    responseStream.Close();
-                    state.RequestData.Close();
-                }
+            	
+				// completed (stream yet deflated/unzipped, just reset pos.)
+            	state.ResponseStream = state.RequestData;
+            	state.ResponseStream.Seek(0, SeekOrigin.Begin);
+					
+            	//if (state.Response is HttpWebResponse)
+            	//{
+            	//    state.ResponseStream = GetDeflatedResponse(((HttpWebResponse) state.Response).ContentEncoding, state.RequestData);
+            	//}
+            	//else
+            	//{
+            	//    state.ResponseStream = GetDeflatedResponse(String.Empty, state.RequestData);
+            	//}
+            	state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri,
+            	                         state.RequestParams.ETag, state.RequestParams.LastModified,
+            	                         RequestResult.OK);
+            	// usual cleanup:
+            	responseStream.Close();
+            	state.RequestData.Close();
             }
             catch (WebException e)
             {
@@ -954,130 +957,130 @@ namespace NewsComponents.Net
 //			if (response is HttpWebResponse)
 //				return GetDeflatedResponse((HttpWebResponse)response);
 //			else
-//				return ResponseToMemory(response.GetResponseStream());
+//				return MakeSeekableStream(response.GetResponseStream());
 //		}
 
-        /// <summary>
-        /// Returns a deflated version of the response sent by the web server. If the 
-        /// web server did not send a compressed stream then the original stream is returned
-        /// as a seekable MemoryStream. 
-        /// </summary>
-        /// <param name="response">HttpWebResponse</param>
-        /// <returns>seekable Stream</returns>
-        public static Stream GetDeflatedResponse(HttpWebResponse response)
-        {
-            return GetDeflatedResponse(response.ContentEncoding,
-                                       ResponseToMemory(response.GetResponseStream()));
-        }
+		///// <summary>
+		///// Returns a deflated version of the response sent by the web server. If the 
+		///// web server did not send a compressed stream then the original stream is returned
+		///// as a seekable MemoryStream. 
+		///// </summary>
+		///// <param name="response">HttpWebResponse</param>
+		///// <returns>seekable Stream</returns>
+		//public static Stream GetDeflatedResponse(HttpWebResponse response)
+		//{
+		//    return GetDeflatedResponse(response.ContentEncoding,
+		//                               MakeSeekableStream(response.GetResponseStream()));
+		//}
 
-        /// <summary>
-        /// Overload for FileWebResponse.
-        /// </summary>
-        /// <param name="response">FileWebResponse</param>
-        /// <returns>seekable Stream</returns>
-        public static Stream GetDeflatedResponse(FileWebResponse response)
-        {
-            return ResponseToMemory(response.GetResponseStream());
-        }
+		///// <summary>
+		///// Overload for FileWebResponse.
+		///// </summary>
+		///// <param name="response">FileWebResponse</param>
+		///// <returns>seekable Stream</returns>
+		//public static Stream GetDeflatedResponse(FileWebResponse response)
+		//{
+		//    return MakeSeekableStream(response.GetResponseStream());
+		//}
 
-        /// <summary>
-        /// Returns a deflated version of the response sent by the web server. If the 
-        /// web server did not send a compressed stream then the original stream is returned. 
-        /// </summary>
-        /// <param name="encoding">Encoding of the stream. One of 'deflate' or 'gzip' or Empty.</param>
-        /// <param name="inputStream">Input Stream</param>
-        /// <returns>Seekable Stream</returns>
-        public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
-        {
-            const int BUFFER_SIZE = 4096; // 4K read buffer
+		///// <summary>
+		///// Returns a deflated version of the response sent by the web server. If the 
+		///// web server did not send a compressed stream then the original stream is returned. 
+		///// </summary>
+		///// <param name="encoding">Encoding of the stream. One of 'deflate' or 'gzip' or Empty.</param>
+		///// <param name="inputStream">Input Stream</param>
+		///// <returns>Seekable Stream</returns>
+		//public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
+		//{
+		//    const int BUFFER_SIZE = 4096; // 4K read buffer
 
-            Stream compressed, input = inputStream;
-            bool tryAgainDeflate = true;
+		//    Stream compressed, input = inputStream;
+		//    bool tryAgainDeflate = true;
 
-            if (input.CanSeek)
-                input.Seek(0, SeekOrigin.Begin);
+		//    if (input.CanSeek)
+		//        input.Seek(0, SeekOrigin.Begin);
 
-            if (encoding == "deflate")
-            {
-                //to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
-                //input = ResponseToMemory(input);			// need them within mem to have a seekable stream
-                compressed = new InflaterInputStream(input); // try deflate with headers
-            }
-            else if (encoding == "gzip")
-            {
-                compressed = new GZipInputStream(input);
-            }
-            else
-            {
-                // allready seeked, just return
-                return input;
-            }
+		//    if (encoding == "deflate")
+		//    {
+		//        //to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
+		//        //input = MakeSeekableStream(input);			// need them within mem to have a seekable stream
+		//        compressed = new InflaterInputStream(input); // try deflate with headers
+		//    }
+		//    else if (encoding == "gzip")
+		//    {
+		//        compressed = new GZipInputStream(input);
+		//    }
+		//    else
+		//    {
+		//        // allready seeked, just return
+		//        return input;
+		//    }
 
-            while (true)
-            {
-                MemoryStream decompressed = new MemoryStream();
+		//    while (true)
+		//    {
+		//        MemoryStream decompressed = new MemoryStream();
 
-                try
-                {
-                    int size = BUFFER_SIZE;
-                    byte[] writeData = new byte[BUFFER_SIZE];
-                    while (true)
-                    {
-                        size = compressed.Read(writeData, 0, size);
-                        if (size > 0)
-                        {
-                            decompressed.Write(writeData, 0, size);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
+		//        try
+		//        {
+		//            int size = BUFFER_SIZE;
+		//            byte[] writeData = new byte[BUFFER_SIZE];
+		//            while (true)
+		//            {
+		//                size = compressed.Read(writeData, 0, size);
+		//                if (size > 0)
+		//                {
+		//                    decompressed.Write(writeData, 0, size);
+		//                }
+		//                else
+		//                {
+		//                    break;
+		//                }
+		//            }
 
-                    //reposition to beginning of decompressed stream then return
-                    decompressed.Seek(0, SeekOrigin.Begin);
-                    return decompressed;
-                }
-                catch (SharpZipBaseException)
-                {
-                    if (tryAgainDeflate && (encoding == "deflate"))
-                    {
-                        input.Seek(0, SeekOrigin.Begin); // reset position
-                        compressed = new InflaterInputStream(input, new Inflater(true));
-                        tryAgainDeflate = false;
-                    }
-                    else
-                        throw;
-                }
-            } // while(true)
-        }
+		//            //reposition to beginning of decompressed stream then return
+		//            decompressed.Seek(0, SeekOrigin.Begin);
+		//            return decompressed;
+		//        }
+		//        catch (SharpZipBaseException)
+		//        {
+		//            if (tryAgainDeflate && (encoding == "deflate"))
+		//            {
+		//                input.Seek(0, SeekOrigin.Begin); // reset position
+		//                compressed = new InflaterInputStream(input, new Inflater(true));
+		//                tryAgainDeflate = false;
+		//            }
+		//            else
+		//                throw;
+		//        }
+		//    } // while(true)
+		//}
 
-        /// <summary>
-        /// Helper to copy a non-seekable stream (like from a HttpResponse) to a seekable memory stream.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private static Stream ResponseToMemory(Stream input)
-        {
-            const int BUFFER_SIZE = 4096; // 4K read buffer
-            MemoryStream output = new MemoryStream();
-            int size = BUFFER_SIZE;
-            byte[] writeData = new byte[BUFFER_SIZE];
-            while (true)
-            {
-                size = input.Read(writeData, 0, size);
-                if (size > 0)
-                {
-                    output.Write(writeData, 0, size);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            output.Seek(0, SeekOrigin.Begin);
-            return output;
-        }
+		/// <summary>
+		/// Helper to copy a non-seekable stream (like from a HttpResponse) 
+		/// to a seekable memory stream. 
+		/// </summary>
+		/// <param name="input">Input stream. Does not gets closed herein!</param>
+		/// <returns>Seekable stream</returns>
+		private static Stream MakeSeekableStream(Stream input)
+		{
+			MemoryStream output = new MemoryStream();
+			int size = RequestState.BUFFER_SIZE; // 4K read buffer
+			byte[] writeData = new byte[size];
+			while (true)
+			{
+				size = input.Read(writeData, 0, size);
+				if (size > 0)
+				{
+					output.Write(writeData, 0, size);
+				}
+				else
+				{
+					break;
+				}
+			}
+			output.Seek(0, SeekOrigin.Begin);
+			return output;
+		}
 
         /// <summary>
         /// Helper method checks if a status code is a redirect or not
@@ -1146,7 +1149,9 @@ namespace NewsComponents.Net
                     httpRequest.Proxy = proxy;
                     httpRequest.AllowAutoRedirect = false;
                     httpRequest.IfModifiedSince = ifModifiedSince;
-                    httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                    //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                	httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
+                	                                     DecompressionMethods.Deflate;
                     httpRequest.Method = method.ToString();
 
                     if (additonalHeaders != null)
@@ -1524,59 +1529,60 @@ namespace NewsComponents.Net
                     HttpExtendedStatusCode.IMUsed == (HttpExtendedStatusCode) response.StatusCode)
                 {
                     responseResult = RequestResult.OK;
-                    Stream ret = GetDeflatedResponse(response);
+					// stream will be disposed on response.Close():
+					Stream ret = MakeSeekableStream(response.GetResponseStream());//GetDeflatedResponse(response);
                     response.Close();
                     return ret;
                 }
-                else if ((response.StatusCode == HttpStatusCode.MovedPermanently)
-                         || (response.StatusCode == HttpStatusCode.Moved))
-                {
-                    newAddress = HtmlHelper.ConvertToAbsoluteUrl(response.Headers["Location"], address, false);
-                    address = newAddress;
-                    response.Close();
+            	if ((response.StatusCode == HttpStatusCode.MovedPermanently)
+            	    || (response.StatusCode == HttpStatusCode.Moved))
+            	{
+            		newAddress = HtmlHelper.ConvertToAbsoluteUrl(response.Headers["Location"], address, false);
+            		address = newAddress;
+            		response.Close();
 
-                    if (requestRetryCount < MaxRetries)
-                    {
-                        requestRetryCount++;
-                        goto send_request;
-                    }
-                }
-                else if (IsUnauthorized(response.StatusCode))
-                {
-                    //try with default credentials
+            		if (requestRetryCount < MaxRetries)
+            		{
+            			requestRetryCount++;
+            			goto send_request;
+            		}
+            	}
+            	else if (IsUnauthorized(response.StatusCode))
+            	{
+            		//try with default credentials
 
-                    useDefaultCred = true;
-                    response.Close();
+            		useDefaultCred = true;
+            		response.Close();
 
-                    if (requestRetryCount < MaxRetries)
-                    {
-                        requestRetryCount++;
-                        goto send_request;
-                    }
-                }
-                else if (IsRedirect(response.StatusCode))
-                {
-                    address = HtmlHelper.ConvertToAbsoluteUrl(response.Headers["Location"], address, false);
-                    response.Close();
+            		if (requestRetryCount < MaxRetries)
+            		{
+            			requestRetryCount++;
+            			goto send_request;
+            		}
+            	}
+            	else if (IsRedirect(response.StatusCode))
+            	{
+            		address = HtmlHelper.ConvertToAbsoluteUrl(response.Headers["Location"], address, false);
+            		response.Close();
 
-                    if (requestRetryCount < MaxRetries)
-                    {
-                        requestRetryCount++;
-                        goto send_request;
-                    }
-                }
-                else if (response.StatusCode == HttpStatusCode.Gone)
-                {
-                    throw new ResourceGoneException();
-                }
-                else
-                {
-                    string statusCode = response.StatusCode.ToString();
-                    response.Close();
-                    throw new WebException(String.Format("Request of '{0}' gets unexpected HTTP response: {1}" , requestUri, statusCode));
-                }
+            		if (requestRetryCount < MaxRetries)
+            		{
+            			requestRetryCount++;
+            			goto send_request;
+            		}
+            	}
+            	else if (response.StatusCode == HttpStatusCode.Gone)
+            	{
+            		throw new ResourceGoneException();
+            	}
+            	else
+            	{
+            		string statusCode = response.StatusCode.ToString();
+            		response.Close();
+            		throw new WebException(String.Format("Request of '{0}' gets unexpected HTTP response: {1}" , requestUri, statusCode));
+            	}
 
-                // unauthorized more than MaxRetries
+            	// unauthorized more than MaxRetries
                 if (IsUnauthorized(response.StatusCode))
                 {
                     response.Close();
@@ -1588,17 +1594,16 @@ namespace NewsComponents.Net
                 response.Close();
 				throw new WebException(String.Format("Request of '{0}' gets repeated HTTP response: {1}", requestUri, returnCode));
             }
-            else
-            {
-            	if (fileresponse != null)
-            	{
-            		responseResult = RequestResult.OK;
-            		Stream ret = GetDeflatedResponse(fileresponse);
-            		fileresponse.Close();
-            		return ret;
-            	}
-            	throw new ApplicationException("no handler for WebResponse. Address: " + requestUri);
-            }
+        	
+			if (fileresponse != null)
+        	{
+        		responseResult = RequestResult.OK;
+        		// stream will be disposed on response.Close():
+        		Stream ret = MakeSeekableStream(fileresponse.GetResponseStream()); //GetDeflatedResponse(fileresponse);
+        		fileresponse.Close();
+        		return ret;
+        	}
+        	throw new ApplicationException("no handler for WebResponse. Address: " + requestUri);
         }
 
         #endregion
