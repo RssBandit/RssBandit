@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 using System.Reflection;
 using System.Resources;
@@ -25,8 +27,8 @@ using System.Resources;
 //	The build number should be incremented after each successful build/checkin. 
 //
 // Please raise Build Number on each modification !!!
-[assembly: AssemblyVersion("1.7.0.2")]
-[assembly: AssemblyFileVersion("1.7.0.2")]
+[assembly: AssemblyVersion("1.7.0.3")]
+[assembly: AssemblyFileVersion("1.7.0.3")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.

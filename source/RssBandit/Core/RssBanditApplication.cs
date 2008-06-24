@@ -36,6 +36,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Security;
@@ -2126,7 +2127,12 @@ namespace RssBandit
         {
             string pName = GetPreferencesFileName();
             bool migrate = false;
-            IFormatter formatter = new SoapFormatter();
+			SoapFormatter sf = new SoapFormatter();
+        	// we don't rely on strong assembly names for prefs.:
+			sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+			sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
+            
+			IFormatter formatter = sf;
 
             if (! File.Exists(pName))
             {
@@ -2183,7 +2189,12 @@ namespace RssBandit
         {
             using (var stream = new MemoryStream())
             {
-                IFormatter formatter = new SoapFormatter();
+				SoapFormatter sf = new SoapFormatter();
+				// we don't rely on strong assembly names for prefs.:
+				sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+				sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
+
+				IFormatter formatter = sf;
                 try
                 {
                     formatter.Serialize(stream, Preferences);
