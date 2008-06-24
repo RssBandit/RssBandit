@@ -113,20 +113,20 @@ namespace NewsComponents.Net
 		}
 		private Stream _requestData;
 
-		public bool movedPermanently = false;
-		public bool requestFinalized = false;
+		public bool movedPermanently;
+		public bool requestFinalized;
 
-		public RequestParameter RequestParams = null; 
+		public RequestParameter RequestParams; 
 		public WebRequest Request;
-		public AsyncWebRequest myAsyncWebRequest = null; 
-		public WebResponse Response = null;
+		public AsyncWebRequest myAsyncWebRequest; 
+		public WebResponse Response;
 		public Stream ResponseStream;
 		
 		public int RetryCount;
 		public DateTime StartTime = DateTime.Now;
-		public int Priority = 0;
-		public Uri InitialRequestUri = null;
-		public long bytesTransferred = 0;
+		public int Priority;
+		public Uri InitialRequestUri;
+		public long bytesTransferred;
 		
 		#region experimental code
 		//public System.Threading.AutoResetEvent allDone;
