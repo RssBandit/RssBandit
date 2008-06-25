@@ -1684,7 +1684,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
-                    Control mouseControl = wheelSupport.GetTopmostChild(this, MousePosition);
+                    Control mouseControl = wheelSupport.GetTopmostVisibleChild(this, MousePosition);
                     _webUserNavigated = (mouseControl is HtmlControl); // set
                     _webForceNewTab = false;
                     if (_webUserNavigated)
