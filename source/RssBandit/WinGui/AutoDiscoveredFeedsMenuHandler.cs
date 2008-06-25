@@ -11,12 +11,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Forms;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using NewsComponents;
-using NewsComponents.Collections;
 using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
@@ -43,33 +42,29 @@ namespace RssBandit.WinGui
 		
 
 		#region private variables
-		//private delegate void AsyncDiscoverFeedInContentCallback(string htmlContent, string pageUrl, string pageTitle);
-		private RssBanditApplication app = null;
-		internal CommandMediator mediator = null;
 		
-		internal AppPopupMenuCommand itemDropdown = null;
-		private AppButtonToolCommand clearListButton = null;
-		private Infragistics.Win.Appearance[] discoveredAppearance;
+		private readonly RssBanditApplication app;
+		internal CommandMediator mediator;
 		
-		internal Hashtable discoveredFeeds = null;
-		internal Queue newDiscoveredFeeds = null;
-		
-		private Hashtable discoveredItems = null;
-		private Queue newItems = null;
-		private PriorityThread worker;
-		private int workerPriorityCounter = 0;
-		internal static long cmdKeyPostfix = 0;
+		internal AppPopupMenuCommand itemDropdown;
+		private AppButtonToolCommand clearListButton;
+		private Appearance[] discoveredAppearance;
+
+		private Dictionary<AppButtonToolCommand, DiscoveredFeedsInfo> discoveredFeeds;
+		private Queue newDiscoveredFeeds;
+		private readonly object SyncRoot = new Object();
+
+		private readonly PriorityThread worker;
+		private int workerPriorityCounter;
+		internal static long cmdKeyPostfix;
 		#endregion
 
 		#region ctor's
 		private AutoDiscoveredFeedsMenuHandler() {
 			worker = new PriorityThread();
-			//TODO:remove
-			newItems = new Queue(1);
-			discoveredItems = new Hashtable(11);
-			//end
+			
 			newDiscoveredFeeds = new Queue(1);
-			discoveredFeeds = new Hashtable(9);
+			discoveredFeeds = new Dictionary<AppButtonToolCommand, DiscoveredFeedsInfo>(7);
 			mediator = new CommandMediator();
 		}
 
@@ -82,15 +77,16 @@ namespace RssBandit.WinGui
 		#region public methods/properties
 
 		/// <summary>
-		/// Callback used for OnDiscoveredFeedsSubscribe event
-		/// </summary>
-		public delegate void DiscoveredFeedsSubscribeCallback(object sender, DiscoveredFeedsSubscribeCancelEventArgs e);
-		/// <summary>
 		/// Gets fired, if a user click/select a discovered entry from the dropdown control.
-		/// If you do not cancel the event via DiscoveredFeedsSubscribeCancelEventArgs Cancel property,
+		/// If you do not cancel the event via DiscoveredFeedsInfoCancelEventArgs Cancel property,
 		/// this entry will be removed from the dropdown list.
 		/// </summary>
-		public event DiscoveredFeedsSubscribeCallback OnDiscoveredFeedsSubscribe;
+		public event EventHandler<DiscoveredFeedsInfoCancelEventArgs> DiscoveredFeedsSubscribe;
+
+		/// <summary>
+		/// Occurs when new feeds discovered.
+		/// </summary>
+		public event EventHandler<DiscoveredFeedsInfoEventArgs> NewFeedsDiscovered;
 
 		internal void SetControls (AppPopupMenuCommand dropDown, AppButtonToolCommand clearList) 
 		{
@@ -99,15 +95,15 @@ namespace RssBandit.WinGui
 			this.discoveredAppearance = new Appearance[4];
 			
 			// index 0 and 1: non-discovered small (0) and large (1)
-			this.discoveredAppearance[0] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[0] = new Appearance();
 			this.discoveredAppearance[0].Image = Properties.Resources.no_feed_discovered_16;
-			this.discoveredAppearance[1] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[1] = new Appearance();
 			this.discoveredAppearance[1].Image = Properties.Resources.no_feed_discovered_32;
 			
 			// index 2 and 3: discovered small (2) and large (3)
-			this.discoveredAppearance[2] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[2] = new Appearance();
 			this.discoveredAppearance[2].Image = Properties.Resources.feed_discovered_16;
-			this.discoveredAppearance[3] = new Infragistics.Win.Appearance();
+			this.discoveredAppearance[3] = new Appearance();
 			this.discoveredAppearance[3].Image = Properties.Resources.feed_discovered_32;
 			
 			// init:
@@ -155,47 +151,60 @@ namespace RssBandit.WinGui
 		public void Add(DiscoveredFeedsInfo info) {
 			if (info == null)
 				return;
+			
 			// detect duplicates:
 			AppButtonToolCommand duplicateItem = FindYetDiscoveredFeedMenuItem(info);
 
-			if (duplicateItem != null) {	
-
-				// update title:
+			if (duplicateItem != null) 
+			{	
+				// update title/desc:
 				duplicateItem.SharedProps.Caption = StripAndShorten(info.Title);
+				duplicateItem.SharedProps.StatusText = info.FeedLinks[0];
 
-				lock(discoveredFeeds) {	// we will refresh the existing info item to the new one
+				lock(SyncRoot) {	
+					// refresh the existing info item to the new one
 					discoveredFeeds.Remove(duplicateItem);
+					discoveredFeeds.Add(duplicateItem, info);
 				}
 
-			} else {
+			} 
+			else 
+			{
 				// new entry:
 				WinGuiMain guiMain = (WinGuiMain)app.MainForm; 
 
 				GuiInvoker.InvokeAsync(guiMain, delegate
                 {
-					guiMain.AddAutoDiscoveredUrl(info); 
+					//guiMain.AddAutoDiscoveredUrl(info); 
+					
+					AppButtonToolCommand newItem = new AppButtonToolCommand(
+					String.Concat("cmdDiscoveredFeed_", ++(cmdKeyPostfix)),
+					mediator,
+					OnDiscoveredItemClick,
+					StripAndShorten(info.Title), info.FeedLinks[0]);
+
+					if (itemDropdown.ToolbarsManager.Tools.Exists(newItem.Key))
+						itemDropdown.ToolbarsManager.Tools.Remove(newItem);
+
+					itemDropdown.ToolbarsManager.Tools.Add(newItem);
+					newItem.SharedProps.StatusText = info.SiteBaseUrl;
+					newItem.SharedProps.ShowInCustomizer = false;
+
+					lock (SyncRoot)
+					{
+						// add a fresh version of info
+						discoveredFeeds.Add(newItem, info);
+					}
+
+					lock (newDiscoveredFeeds.SyncRoot)
+					{
+						// re-order to top of list, in RefreshItemContainer()
+						newDiscoveredFeeds.Enqueue(newItem);
+					}
+
+                	RaiseNewFeedsDiscovered(info);
 				});
 
-				/* 
-				duplicateItem = new AppButtonToolCommand(String.Concat("cmdDiscoveredFeed_", ++cmdKeyPostfix), mediator, 
-					new ExecuteCommandHandler(this.OnDiscoveredItemClick), 
-					StripAndShorten(info.Title), (string)info.FeedLinks[0]);
-				if (this.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
-					this.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
-				this.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
-				duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
-				duplicateItem.SharedProps.ShowInCustomizer = false;
-				Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
-			
-				lock(discoveredFeeds) {	// add a fresh version of info
-					discoveredFeeds.Add(duplicateItem, info);
-				}
-			
-				lock(newDiscoveredFeeds) {// re-order to top of list, in RefreshItemContainer()
-					newDiscoveredFeeds.Enqueue(duplicateItem);
-				}
-			
-				*/
 			}
 
 			RefreshDiscoveredItemContainer();
@@ -205,7 +214,7 @@ namespace RssBandit.WinGui
 
 		#region private methods/properties
 		
-		internal string StripAndShorten(string s) {
+		internal static string StripAndShorten(string s) {
 			return Utilities.StripMnemonics(StringHelper.ShortenByEllipsis(s, 40));
 		}
 		
@@ -232,11 +241,18 @@ namespace RssBandit.WinGui
 			string baseUrl = GetBaseUrlOf(pageUrl);
 			AppButtonToolCommand foundItem = null;
 			
-			lock(discoveredFeeds) {		// simple search for baseUrl, so we may prevent lookup of the content
-				foreach (AppButtonToolCommand item in discoveredFeeds.Keys) {
-					string url = ((DiscoveredFeedsInfo)discoveredFeeds[item]).SiteBaseUrl;
-					if (0 == String.Compare(baseUrl, url, true)) {
-						foundItem = item;
+			lock(SyncRoot) {		
+				// simple search for baseUrl, so we may prevent lookup of the content
+				foreach (AppButtonToolCommand item in discoveredFeeds.Keys)
+				{
+					DiscoveredFeedsInfo info;
+					if (discoveredFeeds.TryGetValue(item, out info))
+					{
+						string url = info.SiteBaseUrl;
+						if (0 == String.Compare(baseUrl, url, true))
+						{
+							foundItem = item;
+						}
 					}
 				}
 			}
@@ -244,9 +260,6 @@ namespace RssBandit.WinGui
 			if (foundItem != null) {	
 
 				foundItem.SharedProps.Caption = StripAndShorten(pageTitle);
-				lock(newItems) { // enqueue for re-order to top of list
-					newItems.Enqueue(foundItem);
-				}
 
 			} else {
 
@@ -281,11 +294,11 @@ namespace RssBandit.WinGui
 		}
 		
 		
-		private string GetBaseUrlOf(string pageUrl) {
+		private static string GetBaseUrlOf(string pageUrl) {
 			Uri uri = null;
-			try {
-				uri = new Uri(pageUrl);
-			} catch {}
+			if (pageUrl != null) 
+				Uri.TryCreate(pageUrl, UriKind.Absolute, out uri);
+			
 			if (uri == null)
 				return pageUrl;
 			string leftPart = uri.GetLeftPart(UriPartial.Path);
@@ -293,21 +306,30 @@ namespace RssBandit.WinGui
 		}
 		
 		
-		internal void CmdClearFeedsList(ICommand sender) {
-			this.itemDropdown.Tools.Clear();
-			this.discoveredFeeds.Clear();
-			this.itemDropdown.Tools.Add(clearListButton);
-			this.itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
+		internal void CmdClearFeedsList(ICommand sender) 
+		{
+			lock(SyncRoot) 
+				discoveredFeeds.Clear();
+			
+			lock (itemDropdown.Tools)
+			{
+				itemDropdown.Tools.Clear();
+				itemDropdown.Tools.Add(clearListButton);
+				itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
+			}
+
 			RefreshDiscoveredItemContainer();
 		}
 		
-		
 		internal void OnDiscoveredItemClick(ICommand sender) {
 			AppButtonToolCommand itemClicked = sender as AppButtonToolCommand;
-			Debug.Assert(itemClicked != null);
-			DiscoveredFeedsInfo info = discoveredFeeds[itemClicked] as DiscoveredFeedsInfo;
-			Debug.Assert(info != null);
-			bool cancel = this.RaiseOnDiscoveredFeedsSubscribe(info);
+			Debug.Assert(itemClicked != null, "sender is not a AppButtonToolCommand");
+			DiscoveredFeedsInfo info;
+			lock(SyncRoot)
+				discoveredFeeds.TryGetValue(itemClicked, out info);
+			Debug.Assert(info != null, "discoveredFeeds has no matching key");
+			
+			bool cancel = this.RaiseDiscoveredFeedsSubscribe(info);
 			if (! cancel) {
 				
 				//remove divider
@@ -317,11 +339,15 @@ namespace RssBandit.WinGui
 				}
 
 				//remove entry
-				discoveredFeeds.Remove(itemClicked);
-				itemDropdown.Tools.Remove(itemClicked);
-				if (itemDropdown.Tools.Count > 1)
-					itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
-				
+				lock (SyncRoot)
+					discoveredFeeds.Remove(itemClicked);
+				lock (itemDropdown.Tools)
+				{
+					itemDropdown.Tools.Remove(itemClicked);
+					if (itemDropdown.Tools.Count > 1)
+						itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;
+				}
+
 				RefreshDiscoveredItemContainer();
 			}
 		}
@@ -342,7 +368,7 @@ namespace RssBandit.WinGui
                     while (newDiscoveredFeeds.Count > 0)
                     {
                         AppButtonToolCommand item;
-                        lock (newDiscoveredFeeds)
+                        lock (newDiscoveredFeeds.SyncRoot)
                         {
                             item = (AppButtonToolCommand)newDiscoveredFeeds.Dequeue();
                         }
@@ -390,79 +416,102 @@ namespace RssBandit.WinGui
 			this.mediator.Execute(e.Tool.Key);
 		}
 		
-		private bool RaiseOnDiscoveredFeedsSubscribe(DiscoveredFeedsInfo feedInfo) {
+		private bool RaiseDiscoveredFeedsSubscribe(DiscoveredFeedsInfo feedInfo) {
 			bool cancel = false;
-			if (OnDiscoveredFeedsSubscribe != null) try {
-				DiscoveredFeedsSubscribeCancelEventArgs ea = new DiscoveredFeedsSubscribeCancelEventArgs(feedInfo, cancel);
-				OnDiscoveredFeedsSubscribe(this, ea);
+			if (DiscoveredFeedsSubscribe != null) try {
+				DiscoveredFeedsInfoCancelEventArgs ea = new DiscoveredFeedsInfoCancelEventArgs(feedInfo, cancel);
+				DiscoveredFeedsSubscribe(this, ea);
 				cancel = ea.Cancel;
 			} catch (Exception ex) {
-				Log.Error("OnDiscoveredFeedsSubscribe() event causes an exception", ex);
+				Log.Error("DiscoveredFeedsSubscribe() event causes an exception", ex);
 			}
 			return cancel;
 		}
-
+		private void RaiseNewFeedsDiscovered(DiscoveredFeedsInfo feedInfo)
+		{
+			if (NewFeedsDiscovered != null) try {
+				NewFeedsDiscovered(this, new DiscoveredFeedsInfoEventArgs(feedInfo));
+			} catch (Exception ex) {
+				Log.Error("NewFeedsDiscovered() event causes an exception", ex);
+			}
+		}
 		
 		private AppButtonToolCommand FindYetDiscoveredFeedMenuItem(DiscoveredFeedsInfo info) {
 			if (info == null)
 				return null;
 
 			AppButtonToolCommand foundItem = null;
-			
-			lock(discoveredItems) {
-				foreach (AppButtonToolCommand item in discoveredFeeds.Keys) {
-					if (null == foundItem) {
-						DiscoveredFeedsInfo itemInfo = (DiscoveredFeedsInfo) discoveredFeeds[item];
-						if (0 == String.Compare(itemInfo.SiteBaseUrl, info.SiteBaseUrl, true)) {
-							foundItem = item;
-						} else {
-							List<string> knownFeeds = itemInfo.FeedLinks;
-							foreach (string feedLink in knownFeeds) {
-								if (info.FeedLinks.Contains(feedLink)) {
-									foundItem = item;
-									break;
-								}
+
+			lock (SyncRoot)
+			{
+				foreach (AppButtonToolCommand item in discoveredFeeds.Keys)
+				{
+					DiscoveredFeedsInfo itemInfo;
+					if (!discoveredFeeds.TryGetValue(item, out itemInfo))
+						continue;
+
+					if (0 == String.Compare(itemInfo.SiteBaseUrl, info.SiteBaseUrl, true))
+					{
+						foundItem = item;
+					}
+					else
+					{
+						List<string> knownFeeds = itemInfo.FeedLinks;
+						foreach (string feedLink in knownFeeds)
+						{
+							if (info.FeedLinks.Contains(feedLink))
+							{
+								foundItem = item;
+								break;
 							}
 						}
 					}
+
+					if (null != foundItem)
+						break;
 				}
 			}
 			return foundItem;
 		}
 
-		private List<string> CheckAndRemoveSubscribedFeeds(List<string> feeds, string baseUrl)
+		private List<string> CheckAndRemoveSubscribedFeeds(ICollection<string> feeds, string baseUrl)
 		{
 			List<string> ret = new List<string>(feeds.Count);
 			Uri baseUri = null;
 			
-			try { 
-				if (!string.IsNullOrEmpty(baseUrl))
-					baseUri = new Uri(baseUrl);
-			} catch (UriFormatException) {}
+			if (!string.IsNullOrEmpty(baseUrl))
+				Uri.TryCreate(baseUrl, UriKind.Absolute, out baseUri);
 
-			foreach (string url in feeds) {
+			foreach (string feedUrl in feeds)
+			{
 				Uri uri;
-				try { 
-					if (baseUri != null) {
-						uri = new Uri(baseUri, url);
-					} else {
-						uri = new Uri(url);
-					}
-                    string key = uri.CanonicalizedUri();
+
+				if (baseUri != null)
+				{
+					Uri.TryCreate(baseUri, feedUrl, out uri);
+				}
+				else
+				{
+					Uri.TryCreate(feedUrl, UriKind.Absolute, out uri);
+				}
+
+				if (uri != null)
+				{
+					string key = uri.CanonicalizedUri();
 					bool anySourceSubscribedThis = false;
 					foreach (FeedSourceEntry entry in this.app.FeedSources.Sources)
-					   {
-						   if (entry.Source.IsSubscribed(key))
-						   {
-						   	anySourceSubscribedThis = true;
-						   	break;
-						   }
-					   }
+					{
+						if (entry.Source.IsSubscribed(key))
+						{
+							anySourceSubscribedThis = true;
+							break;
+						}
+					}
 					if (!anySourceSubscribedThis)
 					{
 						ret.Add(key);
 					}
-				} catch (UriFormatException) { /* ignore invalid urls */ }
+				}
 			}
 			return ret;
 		}
@@ -489,24 +538,74 @@ namespace RssBandit.WinGui
 	} 
 
 	#region Helper classes
-	
+
 	/// <summary>
-	/// Used as a parameter on the
-	/// AutoDiscoveredFeedsMenuHandler.DiscoveredFeedsSubscribeCallback delegate
+	/// Parameter envent class
 	/// </summary>
-	public class DiscoveredFeedsSubscribeCancelEventArgs: System.ComponentModel.CancelEventArgs {
-		
+	public class DiscoveredFeedsInfoEventArgs : EventArgs
+	{
+
 		#region ctor's
-		public DiscoveredFeedsSubscribeCancelEventArgs():base(false) {
-			feedsInfo = new DiscoveredFeedsInfo();
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfoEventArgs"/> class.
+		/// </summary>
+		internal DiscoveredFeedsInfoEventArgs()
+			: this(new DiscoveredFeedsInfo())
+		{
 		}
-		public DiscoveredFeedsSubscribeCancelEventArgs(DiscoveredFeedsInfo feedsInfo, bool cancel) {
-			base.Cancel = cancel;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfoEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedsInfo">The feeds info.</param>
+		internal DiscoveredFeedsInfoEventArgs(DiscoveredFeedsInfo feedsInfo)
+		{
 			this.feedsInfo = feedsInfo;
 		}
 		#endregion
 
 		#region public properties
+		/// <summary>
+		/// Gets the feeds info.
+		/// </summary>
+		/// <value>The feeds info.</value>
+		public DiscoveredFeedsInfo FeedsInfo
+		{
+			get { return this.feedsInfo; }
+		}
+		private DiscoveredFeedsInfo feedsInfo;
+		#endregion
+
+	}
+	/// <summary>
+	/// Used as event parameters
+	/// </summary>
+	public class DiscoveredFeedsInfoCancelEventArgs: CancelEventArgs {
+		
+		#region ctor's
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfoCancelEventArgs"/> class.
+		/// </summary>
+		internal DiscoveredFeedsInfoCancelEventArgs():base(false) {
+			feedsInfo = new DiscoveredFeedsInfo();
+		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscoveredFeedsInfoCancelEventArgs"/> class.
+		/// </summary>
+		/// <param name="feedsInfo">The feeds info.</param>
+		/// <param name="cancel">if set to <c>true</c> [cancel].</param>
+		internal DiscoveredFeedsInfoCancelEventArgs(DiscoveredFeedsInfo feedsInfo, bool cancel)
+		{
+			Cancel = cancel;
+			this.feedsInfo = feedsInfo;
+		}
+		#endregion
+
+		#region public properties
+		/// <summary>
+		/// Gets the feeds info.
+		/// </summary>
+		/// <value>The feeds info.</value>
 		public DiscoveredFeedsInfo FeedsInfo {
 			get { return this.feedsInfo; }
 		}

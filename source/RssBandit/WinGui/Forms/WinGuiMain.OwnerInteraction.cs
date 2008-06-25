@@ -3246,40 +3246,40 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Adds an autodiscovered URL to the auto discovered feeds drop down
-        /// </summary>
-        /// <param name="info"></param>
-        public void AddAutoDiscoveredUrl(DiscoveredFeedsInfo info)
-        {
-            var duplicateItem =
-                new AppButtonToolCommand(
-                    String.Concat("cmdDiscoveredFeed_", ++(AutoDiscoveredFeedsMenuHandler.cmdKeyPostfix)),
-                    owner.BackgroundDiscoverFeedsHandler.mediator,
-                    owner.BackgroundDiscoverFeedsHandler.OnDiscoveredItemClick,
-                    owner.BackgroundDiscoverFeedsHandler.StripAndShorten(info.Title), (string) info.FeedLinks[0]);
+		///// <summary>
+		///// Adds an autodiscovered URL to the auto discovered feeds drop down
+		///// </summary>
+		///// <param name="info"></param>
+		//public void AddAutoDiscoveredUrl(DiscoveredFeedsInfo info)
+		//{
+		//    var duplicateItem =
+		//        new AppButtonToolCommand(
+		//            String.Concat("cmdDiscoveredFeed_", ++(AutoDiscoveredFeedsMenuHandler.cmdKeyPostfix)),
+		//            owner.BackgroundDiscoverFeedsHandler.mediator,
+		//            owner.BackgroundDiscoverFeedsHandler.OnDiscoveredItemClick,
+		//            AutoDiscoveredFeedsMenuHandler.StripAndShorten(info.Title), (string) info.FeedLinks[0]);
 
-            if (owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
-                owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
+		//    if (owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
+		//        owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
 
-            owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
-            duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
-            duplicateItem.SharedProps.ShowInCustomizer = false;
+		//    owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
+		//    duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
+		//    duplicateItem.SharedProps.ShowInCustomizer = false;
 
-            Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+		//    Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
 
-            lock (owner.BackgroundDiscoverFeedsHandler.discoveredFeeds)
-            {
-                // add a fresh version of info
-                owner.BackgroundDiscoverFeedsHandler.discoveredFeeds.Add(duplicateItem, info);
-            }
+		//    lock (owner.BackgroundDiscoverFeedsHandler.discoveredFeeds)
+		//    {
+		//        // add a fresh version of info
+		//        owner.BackgroundDiscoverFeedsHandler.discoveredFeeds.Add(duplicateItem, info);
+		//    }
 
-            lock (owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds)
-            {
-                // re-order to top of list, in RefreshItemContainer()
-                owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds.Enqueue(duplicateItem);
-            }
-        }
+		//    lock (owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds)
+		//    {
+		//        // re-order to top of list, in RefreshItemContainer()
+		//        owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds.Enqueue(duplicateItem);
+		//    }
+		//}
 
         /// <summary>
         /// Calls/Open the newFeedDialog on the GUI thread, if required.
