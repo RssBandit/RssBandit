@@ -1062,7 +1062,8 @@ namespace RssBandit.WinGui.Forms
                     if (browser != null)
                     {
                         browser.Tag = null; // remove ref to containing doc
-                        // browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
+                    	DetachEvents(browser, true);
+						// browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
                         System.Reflection.FieldInfo fi = typeof(System.Windows.Forms.AxHost).GetField("oleSite", 
                             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
                         object o = fi.GetValue(browser);
@@ -3905,14 +3906,17 @@ namespace RssBandit.WinGui.Forms
         private void OnHtmlWindowError(string description, string url, int line)
         {
             /* don't show script error dialog and don't disable script due to a single script error */
-            var hc = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
+			if (_docContainer.ActiveDocument != null && _docContainer.ActiveDocument.Controls.Count > 0)
+			{
+				var hc = (HtmlControl)_docContainer.ActiveDocument.Controls[0];
 
-            if (hc != null)
-            {
-                var window = (IHTMLWindow2) hc.Document2.GetParentWindow();
-                IHTMLEventObj eventObj = window.eventobj;
-                eventObj.ReturnValue = true;
-            }
+				if (hc != null)
+				{
+					var window = (IHTMLWindow2)hc.Document2.GetParentWindow();
+					IHTMLEventObj eventObj = window.eventobj;
+					eventObj.ReturnValue = true;
+				}
+			}
         }
 
 
@@ -4092,39 +4096,92 @@ namespace RssBandit.WinGui.Forms
 
         private void OnWebNewWindow(object sender, BrowserNewWindowEvent e)
         {
-            try
-            {
-                bool userNavigates = _webUserNavigated;
-                bool forceNewTab = _webForceNewTab;
+			ConfiguredWebBrowserNewWindowAction(e.url, true);
+			e.Cancel = true;
+			
+			//try
+			//{
+			//    bool userNavigates = _webUserNavigated;
+			//    bool forceNewTab = _webForceNewTab;
 
-                _webForceNewTab = _webUserNavigated = false; // reset
+			//    _webForceNewTab = _webUserNavigated = false; // reset
 
-                e.Cancel = true;
+			//    e.Cancel = true;
 
-                string url = e.url;
-                _log.Debug("OnWebNewWindow(): '" + url + "'");
+			//    string url = e.url;
+			//    _log.Debug("OnWebNewWindow(): '" + url + "'");
 
-                bool forceSetFocus = true;
-                // Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
+			//    bool forceSetFocus = true;
+			//    // Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
 
-                if (UrlRequestHandledExternally(url, forceNewTab))
-                {
-                    return;
-                }
+			//    if (UrlRequestHandledExternally(url, forceNewTab))
+			//    {
+			//        return;
+			//    }
 
-                if (userNavigates)
-                {
-                    // Delay gives time to the sender control to cancel request
-                    DelayTask(DelayedTasks.NavigateToWebUrl, new object[] {url, null, true, forceSetFocus});
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error("OnWebNewWindow(): " + e.url, ex);
-            }
+			//    if (userNavigates)
+			//    {
+			//        // Delay gives time to the sender control to cancel request
+			//        DelayTask(DelayedTasks.NavigateToWebUrl, new object[] {url, null, true, forceSetFocus});
+			//    }
+			//}
+			//catch (Exception ex)
+			//{
+			//    _log.Error("OnWebNewWindow(): " + e.url, ex);
+			//}
         }
 
-        private void OnWebQuit(object sender, EventArgs e)
+		// because this event gets fired without a BeforeNavigate(), we
+		// have to handle such things like "Ctrl-Click" again here
+		private void OnWebNewWindow3(object sender, BrowserNewWindow3Event e)
+		{
+			if (IEControl.Interop.NWMF.NWMF_FORCETAB == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCETAB))
+			{
+				bool forceSetFocus = true;
+				// if Ctrl-Click is true, Tab should open in background:
+				if ((ModifierKeys & Keys.Control) == Keys.Control)
+					forceSetFocus = false;
+				ConfiguredWebBrowserNewWindowAction(e.bstrUrl, forceSetFocus);
+			} 
+			else
+			{
+				owner.NavigateToUrlInExternalBrowser(e.bstrUrl);
+			}
+
+			// if we do not cancel here, we would get the OnWebNewWindow event too:
+			e.Cancel = true;
+		}
+
+		private void ConfiguredWebBrowserNewWindowAction(string url, bool forceSetFocus)
+		{
+			try
+			{
+				bool userNavigates = _webUserNavigated;
+				bool forceNewTab = _webForceNewTab;
+
+				_webForceNewTab = _webUserNavigated = false; // reset
+
+				//const bool forceSetFocus = true;
+				// Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
+
+				if (UrlRequestHandledExternally(url, forceNewTab))
+				{
+					return;
+				}
+
+				if (userNavigates)
+				{
+					// Delay gives time to the sender control to cancel request
+					DelayTask(DelayedTasks.NavigateToWebUrl, new object[] { url, null, true, forceSetFocus });
+				}
+			}
+			catch (Exception ex)
+			{
+				_log.Error("ConfiguredWebBrowserNewWindowAction(): " + url, ex);
+			}
+		}
+
+    	private void OnWebQuit(object sender, EventArgs e)
         {
             try
             {

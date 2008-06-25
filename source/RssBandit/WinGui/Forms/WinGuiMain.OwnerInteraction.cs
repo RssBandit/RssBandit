@@ -846,23 +846,8 @@ namespace RssBandit.WinGui.Forms
             resources.ApplyResources(hc, "htmlDetail");
             hc.Name = tabName ?? String.Empty;
             hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
-            //helpProvider1.SetShowHelp(hc, ((bool) (resources.GetObject("htmlDetail.ShowHelp"))));
             hc.ContainingControl = this;
-
-            //hc.AccessibleDescription = resources.GetString("htmlDetail.AccessibleDescription");
-            //hc.AccessibleName = tabName;
-            //hc.AllowDrop = true;
-            //hc.ContainingControl = this;
-            //this.helpProvider1.SetHelpKeyword(hc, resources.GetString("htmlDetail.HelpKeyword"));
-            //this.helpProvider1.SetHelpNavigator(hc, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("htmlDetail.HelpNavigator"))));
-            //this.helpProvider1.SetHelpString(hc, resources.GetString("htmlDetail.HelpString"));
-            //hc.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("htmlDetail.ImeMode")));
-            //hc.Name = tabName;
-            //hc.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-            //hc.RightToLeft = ((bool)(resources.GetObject("htmlDetail.RightToLeft")));
-            //this.helpProvider1.SetShowHelp(hc, ((bool)(resources.GetObject("htmlDetail.ShowHelp"))));
-
-            hc.EndInit();
+			hc.EndInit();
 
             hc.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
             hc.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
@@ -879,16 +864,8 @@ namespace RssBandit.WinGui.Forms
             hc.SilentModeEnabled = true;
             hc.Border3d = true;
 
-            hc.StatusTextChanged += OnWebStatusTextChanged;
-            hc.BeforeNavigate += OnWebBeforeNavigate;
-            hc.NavigateComplete += OnWebNavigateComplete;
-            hc.DocumentComplete += OnWebDocumentComplete;
-            hc.TitleChanged += OnWebTitleChanged;
-            hc.CommandStateChanged += OnWebCommandStateChanged;
-            hc.NewWindow += OnWebNewWindow;
-            hc.ProgressChanged += OnWebProgressChanged;
-            hc.TranslateAccelerator += OnWebTranslateAccelerator;
-            hc.OnQuit += OnWebQuit;
+        	AttachEvents(hc, true);
+            
             return hc;
         }
 
