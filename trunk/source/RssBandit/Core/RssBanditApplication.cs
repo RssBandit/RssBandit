@@ -431,7 +431,9 @@ namespace RssBandit
             InitLocalFeeds();
 
             BackgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
-            BackgroundDiscoverFeedsHandler.OnDiscoveredFeedsSubscribe += OnBackgroundDiscoveredFeedsSubscribe;
+            BackgroundDiscoverFeedsHandler.DiscoveredFeedsSubscribe += OnBackgroundDiscoveredFeedsSubscribe;
+			BackgroundDiscoverFeedsHandler.NewFeedsDiscovered += OnBackgroundNewFeedsDiscovered;
+
 
             modifiedFeeds = new Dictionary<int,List<string>>();
 
@@ -1215,11 +1217,19 @@ namespace RssBandit
 
         public AutoDiscoveredFeedsMenuHandler BackgroundDiscoverFeedsHandler { get; private set; }
 
-        private void OnBackgroundDiscoveredFeedsSubscribe(object sender, DiscoveredFeedsSubscribeCancelEventArgs e)
+		private void OnBackgroundNewFeedsDiscovered(object sender, DiscoveredFeedsInfoEventArgs e)
+		{
+			// currently we just play a sound.
+			// But we could also display a tooltip at the command button
+			// to indicate new feeds detected here
+			Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+		}
+
+    	private void OnBackgroundDiscoveredFeedsSubscribe(object sender, DiscoveredFeedsInfoCancelEventArgs e)
         {
             if (e.FeedsInfo.FeedLinks.Count == 1)
             {
-                e.Cancel = !CmdNewFeed(DefaultCategory, (string) e.FeedsInfo.FeedLinks[0], e.FeedsInfo.Title);
+                e.Cancel = !CmdNewFeed(DefaultCategory, e.FeedsInfo.FeedLinks[0], e.FeedsInfo.Title);
             }
             else if (e.FeedsInfo.FeedLinks.Count > 1)
             {
