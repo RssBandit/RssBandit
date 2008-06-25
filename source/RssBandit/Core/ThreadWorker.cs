@@ -81,23 +81,25 @@ namespace RssBandit
 					var finished = new ManualResetEvent(false);
 					int max = entries.Count;
 					int current = 0;
-								
-					foreach (FeedSourceEntry e in entries)
+
+					for (int i = 0; i < max; i++ )
 					{
+						IndexedFeedSourceEntry e = new IndexedFeedSourceEntry(entries[i], i);
 						
 						PriorityThreadPool.QueueUserWorkItem(
 							delegate(object state)
 							{
-								FeedSourceEntry fs = (FeedSourceEntry)state;
-								int threadCurrent = current;
+								IndexedFeedSourceEntry fs = (IndexedFeedSourceEntry)state;
+								int threadCurrent = fs.Index+1;
+								
 								try
 								{
-									app.LoadFeedSourceSubscriptions(fs, true);
-									this.RaiseBackroundTaskProgress(task, max, threadCurrent + 1, null, fs);
+									app.LoadFeedSourceSubscriptions(fs.Entry, true);
+									this.RaiseBackroundTaskProgress(task, max, threadCurrent, null, fs.Entry);
 								}
 								catch (Exception loadEx)
 								{
-									this.RaiseBackroundTaskProgress(task, max, threadCurrent + 1, loadEx, fs);
+									this.RaiseBackroundTaskProgress(task, max, threadCurrent, loadEx, fs.Entry);
 								}
 								finally
 								{
@@ -107,7 +109,7 @@ namespace RssBandit
 											finished.Set();
 									}
 								}
-							}, e, 1); 	
+							}, e, 1);
 					}
 					
 					if (max > 0)
@@ -190,6 +192,16 @@ namespace RssBandit
 			return null;
 		}
 
+		struct IndexedFeedSourceEntry
+		{
+			public FeedSourceEntry Entry;
+			public int Index;
+			public IndexedFeedSourceEntry(FeedSourceEntry e, int i)
+			{
+				Entry = e;
+				Index = i;
+			}
+		}
 		#region ctor's
 		/// <summary>
 		/// Constructor used by caller using ThreadPool
