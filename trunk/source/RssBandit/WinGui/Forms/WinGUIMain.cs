@@ -927,9 +927,9 @@ namespace RssBandit.WinGui.Forms
 			this.panelFeedItems = new System.Windows.Forms.Panel();
 			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
 			this.listFeedItems = new RssBandit.WinGui.Controls.ThListView.ThreadedListView();
-			this.colHeadline = new ThreadedListViewColumnHeader();
-			this.colDate = new ThreadedListViewColumnHeader();
-			this.colTopic = new ThreadedListViewColumnHeader();
+			this.colHeadline = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
+			this.colDate = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
+			this.colTopic = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._status = new System.Windows.Forms.StatusBar();
 			this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
@@ -988,7 +988,7 @@ namespace RssBandit.WinGui.Forms
 			this.NavigatorSearch.Location = new System.Drawing.Point(1, 26);
 			this.NavigatorSearch.Name = "NavigatorSearch";
 			this.helpProvider1.SetShowHelp(this.NavigatorSearch, false);
-			this.NavigatorSearch.Size = new System.Drawing.Size(228, 376);
+			this.NavigatorSearch.Size = new System.Drawing.Size(228, 336);
 			this.NavigatorSearch.TabIndex = 1;
 			// 
 			// panelRssSearch
@@ -999,7 +999,7 @@ namespace RssBandit.WinGui.Forms
 			this.panelRssSearch.Location = new System.Drawing.Point(0, 0);
 			this.panelRssSearch.Name = "panelRssSearch";
 			this.helpProvider1.SetShowHelp(this.panelRssSearch, false);
-			this.panelRssSearch.Size = new System.Drawing.Size(228, 376);
+			this.panelRssSearch.Size = new System.Drawing.Size(228, 336);
 			this.panelRssSearch.TabIndex = 0;
 			// 
 			// treeFeeds
@@ -1112,7 +1112,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.listFeedItems.Activation = System.Windows.Forms.ItemActivation.OneClick;
 			this.listFeedItems.AllowColumnReorder = true;
-			this.listFeedItems.Columns.AddRange(new ThreadedListViewColumnHeader[] {
+			this.listFeedItems.Columns.AddRange(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader[] {
             this.colHeadline,
             this.colDate,
             this.colTopic});
@@ -1127,14 +1127,14 @@ namespace RssBandit.WinGui.Forms
 			this.listFeedItems.TabIndex = 0;
 			this.listFeedItems.UseCompatibleStateImageBehavior = false;
 			this.listFeedItems.View = System.Windows.Forms.View.Details;
+			this.listFeedItems.ListLayoutModified += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ListLayoutEventArgs>(this.OnFeedListLayoutModified);
 			this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
+			this.listFeedItems.ExpandThread += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ThreadEventArgs>(this.OnFeedListExpandThread);
+			this.listFeedItems.ListLayoutChanged += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ListLayoutEventArgs>(this.OnFeedListLayoutChanged);
 			this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
 			this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
+			this.listFeedItems.AfterExpandThread += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ThreadEventArgs>(this.OnFeedListAfterExpandThread);
 			this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
-            this.listFeedItems.ListLayoutModified += new System.EventHandler<ListLayoutEventArgs>(this.OnFeedListLayoutModified);
-            this.listFeedItems.ListLayoutChanged += new System.EventHandler<ListLayoutEventArgs>(this.OnFeedListLayoutChanged);
-            this.listFeedItems.ExpandThread += new System.EventHandler<ThreadEventArgs>(this.OnFeedListExpandThread);
-            this.listFeedItems.AfterExpandThread += new System.EventHandler<ThreadEventArgs>(this.OnFeedListAfterExpandThread);            
 			// 
 			// colHeadline
 			// 

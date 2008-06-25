@@ -231,7 +231,7 @@ namespace RssBandit.WinGui.Forms
             ResetHtmlDetail(true);
         }
 
-        private void ResetHtmlDetail(bool clearContent)
+        private void ResetHtmlDetail(bool initializeControlUsage)
         {
             // enable enhanced browser security available with XP SP2:
             htmlDetail.EnhanceBrowserSecurityForProcess();
@@ -268,20 +268,67 @@ namespace RssBandit.WinGui.Forms
 
             htmlDetail.Tag = _docFeedDetails;
 
-            htmlDetail.StatusTextChanged += OnWebStatusTextChanged;
-            htmlDetail.BeforeNavigate += OnWebBeforeNavigate;
-            htmlDetail.NavigateComplete += OnWebNavigateComplete;
-            htmlDetail.DocumentComplete += OnWebDocumentComplete;
-            htmlDetail.NewWindow += OnWebNewWindow;
-            htmlDetail.ProgressChanged += OnWebProgressChanged;
-
-            htmlDetail.TranslateAccelerator += OnWebTranslateAccelerator;
-
-            if (clearContent)
+			if (initializeControlUsage)
             {
+				AttachEvents(htmlDetail, false);
                 htmlDetail.Clear();
             }
         }
+
+		// MUST attach the same events that are detached in DetachEvents(...) !
+		private void AttachEvents(HtmlControl hc, bool isClosableWindow)
+		{
+			hc.StatusTextChanged += OnWebStatusTextChanged;
+			hc.BeforeNavigate += OnWebBeforeNavigate;
+			hc.NavigateComplete += OnWebNavigateComplete;
+			hc.DocumentComplete += OnWebDocumentComplete;
+			
+			hc.NewWindow += OnWebNewWindow;
+
+			if (Win32.IEVersion.Major >= 7)
+			{
+				hc.NewWindow3 += OnWebNewWindow3;
+				HtmlControl.SetInternetFeatureEnabled(
+					InternetFeatureList.FEATURE_TABBED_BROWSING,
+					SetFeatureFlag.SET_FEATURE_ON_PROCESS, true);
+			}
+
+			hc.ProgressChanged += OnWebProgressChanged;
+			hc.TranslateAccelerator += OnWebTranslateAccelerator;
+
+			if (isClosableWindow)
+			{
+				hc.OnQuit += OnWebQuit;
+				hc.TitleChanged += OnWebTitleChanged;
+				hc.CommandStateChanged += OnWebCommandStateChanged;
+			}
+		}
+
+		// MUST detach the same events that are attached in AttachEvents(...) !
+		private void DetachEvents(HtmlControl hc, bool isClosableWindow)
+		{
+			hc.StatusTextChanged -= OnWebStatusTextChanged;
+			hc.BeforeNavigate -= OnWebBeforeNavigate;
+			hc.NavigateComplete -= OnWebNavigateComplete;
+			hc.DocumentComplete -= OnWebDocumentComplete;
+			
+			hc.NewWindow -= OnWebNewWindow;
+
+			if (Win32.IEVersion.Major >= 7)
+			{
+				hc.NewWindow3 -= OnWebNewWindow3;
+			}
+
+			hc.ProgressChanged -= OnWebProgressChanged;
+			hc.TranslateAccelerator -= OnWebTranslateAccelerator;
+
+			if (isClosableWindow)
+			{
+				hc.OnQuit -= OnWebQuit;
+				hc.TitleChanged -= OnWebTitleChanged;
+				hc.CommandStateChanged -= OnWebCommandStateChanged;
+			}
+		}
 
         private void InitFeedTreeView()
         {
