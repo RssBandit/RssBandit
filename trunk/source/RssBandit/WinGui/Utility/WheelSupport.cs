@@ -1,6 +1,15 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 using System;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Infragistics.Win.UltraWinTree;
@@ -26,9 +35,8 @@ namespace RssBandit.WinGui.Utility
 		/// like document manager or toolbars</remarks>
 		public event OnGetChildControlHandler OnGetChildControl;
 
-		private Form parent;
+		private readonly Form parent;
 
-		private WheelSupport()	{}
 		/// <summary>
 		/// Add support for wheel scrolling on non-focused UI widgets 
 		/// to the form f.
@@ -36,8 +44,8 @@ namespace RssBandit.WinGui.Utility
 		/// <param name="f"></param>
 		public WheelSupport(Form f) {
 			this.parent = f;
-			this.parent.Activated += new EventHandler(this.OnParentActivated);
-			this.parent.Deactivate += new EventHandler(this.OnParentDeactivate);
+			this.parent.Activated += this.OnParentActivated;
+			this.parent.Deactivate += this.OnParentDeactivate;
 		}
 
 		private void OnParentActivated(object sender, EventArgs e) {
@@ -59,10 +67,10 @@ namespace RssBandit.WinGui.Utility
 					if (Control.ModifierKeys != Keys.None)
 						return false;
 					
-					// get position (better debug support than calling Control.MousePosition in GetTopmostChild):
+					// get position (better debug support than calling Control.MousePosition in GetTopmostVisibleChild):
 					Point screenPoint = new Point(m.LParam.ToInt32());
 					// redirect the wheel message to the topmost child control
-					Control child = GetTopmostChild(parent, screenPoint);
+					Control child = GetTopmostVisibleChild(parent, screenPoint);
 					
 					if (child != null) {
 						
@@ -95,29 +103,28 @@ namespace RssBandit.WinGui.Utility
 		}
 		
 		/// <summary>
-		/// Gets the topmost child.
+		/// Gets the topmost visible child.
 		/// </summary>
-		/// <param name="ctrl">The control to start.</param>
+		/// <param name="control">The control to start.</param>
 		/// <param name="mousePosition">The mouse position.</param>
 		/// <returns>Control</returns>
-		public Control GetTopmostChild(Control ctrl, Point mousePosition) {
+		public Control GetTopmostVisibleChild(Control control, Point mousePosition) {
 			if (this.OnGetChildControl != null) {
-				Control childControl = this.OnGetChildControl(ctrl);
+				Control childControl = this.OnGetChildControl(control);
 				if (childControl != null)
-					ctrl = childControl;
+					control = childControl;
 			}
 
-			if (ctrl.Controls.Count > 0) {
-				Point p = ctrl.PointToClient(mousePosition);
-				Control child = ctrl.GetChildAtPoint(p);
+			if (control.Controls.Count > 0) {
+				Point p = control.PointToClient(mousePosition);
+				Control child = control.GetChildAtPoint(p, GetChildAtPointSkip.Disabled | 
+					GetChildAtPointSkip.Invisible | GetChildAtPointSkip.Transparent);
 				if (child != null) {
-					return GetTopmostChild(child, mousePosition);
-				} else {
-					return ctrl;
+					return GetTopmostVisibleChild(child, mousePosition);
 				}
-			} else {
-				return ctrl;
+				return control;
 			}
+			return control;
 		}
 		
 		/// <summary>
@@ -133,7 +140,7 @@ namespace RssBandit.WinGui.Utility
 			IEControl.Interop.IOleWindow oleWindow = null;
 			try {
 				oleWindow = control.Document2 as IEControl.Interop.IOleWindow;
-			} catch (Exception){}
+			} catch {}
 
 			if (oleWindow == null)
 				return false;
@@ -152,10 +159,10 @@ namespace RssBandit.WinGui.Utility
 
 		#region Win32 interop/helpers
 
-		public static int SignedHIWORD(int n) {
+		static int SignedHIWORD(int n) {
 			return (short) ((n >> 0x10) & 0xffff);
 		}
-		public static int SignedHIWORD(IntPtr n) {
+		static int SignedHIWORD(IntPtr n) {
 			return SignedHIWORD((int) ((long) n));
 		}
 
