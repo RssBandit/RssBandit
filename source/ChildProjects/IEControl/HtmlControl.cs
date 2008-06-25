@@ -693,6 +693,8 @@ namespace IEControl
 		/// </summary>
 		/// <value>The application.</value>
 		/// <remarks>See http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=12559&SiteID=1</remarks>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public object Application
 		{
 			get { return iwb2app.Application; }
@@ -923,6 +925,7 @@ namespace IEControl
 		/// <summary>
 		/// Returns the MSHTML document's inner HTML content
 		/// </summary>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
 		public string DocumentInnerHTML {
 			get { 
@@ -942,6 +945,7 @@ namespace IEControl
 		/// <summary>
 		/// Returns the MSHTML document's outer HTML content
 		/// </summary>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
 		public string DocumentOuterHTML {
 			get { 
@@ -961,6 +965,7 @@ namespace IEControl
 		/// <summary>
 		/// Returns the MSHTML document's inner Text content
 		/// </summary>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
 		public string DocumentInnerText {
 			get { 
@@ -979,6 +984,7 @@ namespace IEControl
 		/// <summary>
 		/// Returns the MSHTML document's outer Text content
 		/// </summary>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
 		public string DocumentOuterText {
 			get { 
@@ -1839,6 +1845,8 @@ namespace IEControl
 
 		private void SynchAmbientPropertyChange()
 		{
+			if (DesignMode)
+				return;
 			try
 			{
 				//Signal change of ambient properties
