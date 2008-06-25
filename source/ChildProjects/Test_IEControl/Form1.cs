@@ -201,7 +201,7 @@ namespace Test
 		}
 
 		private void htmlCommandStateChanged(object sender, BrowserCommandStateChangeEvent e) {
-			Trace.WriteLine("htmlCommandStateChanged(): "+ e.command.ToString() + ":" + e.enable.ToString());
+			//Trace.WriteLine("htmlCommandStateChanged(): "+ e.command.ToString() + ":" + e.enable.ToString());
 		}
 
 		private void htmlStatusTextChanged(object sender, BrowserStatusTextChangeEvent e) {
