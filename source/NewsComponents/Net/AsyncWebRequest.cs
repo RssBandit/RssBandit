@@ -84,7 +84,7 @@ namespace NewsComponents.Net
         /// in local Time, so we don't use DateTime.MinValue! It goes out
         /// of range if converted to universal time (e.g. if we have GMT +xy)
         /// </summary>
-        private static readonly DateTime MinValue = new DateTime(1981, 1, 1);
+        public static readonly DateTime MinValue = new DateTime(1981, 1, 1);
 
         private static readonly ILog _log = Log.GetLogger(typeof (AsyncWebRequest));
 
@@ -1443,6 +1443,7 @@ namespace NewsComponents.Net
                 GetSyncResponseStream(HttpMethod.GET, address, out newAddress, credentials, FullUserAgent(null), proxy, ref ifModifiedSince,
                                       ref eTag, DefaultTimeout, out result, null /* cookie */, null /* body */, additionalHeaders );
         }
+
 
         /// <summary>
         /// Can be called syncronized to get a Http Web ResponseStream.

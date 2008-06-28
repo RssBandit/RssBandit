@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 
 using log4net;
 
@@ -332,10 +333,10 @@ namespace NewsComponents.Feed
             this.AuthenticateUser();
             
             //load feed list XML
-            XmlDocument doc = new XmlDocument();
-            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+            var doc = new XPathDocument(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+            var nav = doc.CreateNavigator(); 
 
-            var feedlist = from XmlNode node in doc.SelectNodes("/object/list[@name='subscriptions']/object")
+            var feedlist = from XPathNavigator node in nav.Select("/object/list[@name='subscriptions']/object")
                            select MakeSubscription(node);
             
             return feedlist; 
@@ -411,15 +412,15 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static GoogleReaderSubscription MakeSubscription(XmlNode node)
+        private static GoogleReaderSubscription MakeSubscription(XPathNavigator node)
         {
-            XmlNode id_node = node.SelectSingleNode("string[@name='id']");
-            string feedid = (id_node == null ? String.Empty : id_node.InnerText);
-            XmlNode title_node = node.SelectSingleNode("string[@name='title']");
-            string title = (title_node == null ? String.Empty : title_node.InnerText);
-            XmlNode fim_node = node.SelectSingleNode("string[@name='firstitemmsec']");
-            long firstitemmsec = (fim_node == null ? 0 : Int64.Parse(fim_node.InnerText));
-            List<GoogleReaderLabel> categories = MakeLabelList(node.SelectNodes("list[@name='categories']/object"));
+            XPathNavigator id_node = node.SelectSingleNode("string[@name='id']");
+            string feedid = (id_node == null ? String.Empty : id_node.Value);
+            XPathNavigator title_node = node.SelectSingleNode("string[@name='title']");
+            string title = (title_node == null ? String.Empty : title_node.Value);
+            XPathNavigator fim_node = node.SelectSingleNode("string[@name='firstitemmsec']");
+            long firstitemmsec = (fim_node == null ? 0 : Int64.Parse(fim_node.Value));
+            List<GoogleReaderLabel> categories = MakeLabelList(node.Select("list[@name='categories']/object").Cast<XPathNavigator>());
 
             return new GoogleReaderSubscription(feedid, title, categories, firstitemmsec);         
         }
@@ -430,15 +431,15 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="nodes"></param>
         /// <returns></returns>
-        private static List<GoogleReaderLabel> MakeLabelList(XmlNodeList nodes)
+        private static List<GoogleReaderLabel> MakeLabelList(IEnumerable<XPathNavigator> nodes)
         {
             List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>(); 
 
-            foreach (XmlNode node in nodes) {
-                XmlNode id_node = node.SelectSingleNode("string[@name='id']");
-                string catid = (id_node == null ? String.Empty : id_node.InnerText);
-                XmlNode label_node = node.SelectSingleNode("string[@name='label']");
-                string label = (label_node == null ? String.Empty : label_node.InnerText); 
+            foreach (XPathNavigator node in nodes) {
+                XPathNavigator id_node = node.SelectSingleNode("string[@name='id']");
+                string catid = (id_node == null ? String.Empty : id_node.Value);
+                XPathNavigator label_node = node.SelectSingleNode("string[@name='label']");
+                string label = (label_node == null ? String.Empty : label_node.Value); 
                 labels.Add(new GoogleReaderLabel(label, catid));                 
             }
 
@@ -951,8 +952,11 @@ namespace NewsComponents.Feed
                         theFeed.lastmodified = lastModified;
                     }
 
-                    theFeed.cacheurl = this.SaveFeed(theFeed);
-                    SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+                    if (newReceivedItems.Count > 0)
+                    {
+                        theFeed.cacheurl = this.SaveFeed(theFeed);
+                        SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+                    }
 
                     theFeed.causedException = false;
                     itemsForFeed = fi.ItemsList;
