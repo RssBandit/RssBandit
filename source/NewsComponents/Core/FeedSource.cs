@@ -4865,8 +4865,11 @@ namespace NewsComponents
                     theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
                     theFeed.lastretrievedSpecified = true;
 
-                    theFeed.cacheurl = SaveFeed(theFeed);
-                    SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+                    if (newReceivedItems.Count > 0)
+                    {
+                        theFeed.cacheurl = SaveFeed(theFeed);
+                        SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
+                    }
 
                     theFeed.causedException = false;
                     itemsForFeed = fi.ItemsList;

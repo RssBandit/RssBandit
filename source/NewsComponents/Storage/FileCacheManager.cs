@@ -126,15 +126,20 @@ namespace NewsComponents.Storage {
 				string feedContentLocation = feedLocation.Substring(0, feedLocation.Length - 4) + ".bin";								
 
 				//write main RSS feed
-				using (MemoryStream stream = new MemoryStream()) {
+				//using (MemoryStream stream = new MemoryStream()) {
+                using(FileStream stream = FileHelper.OpenForWrite(Path.GetTempFileName())){
 					XmlTextWriter writer = new XmlTextWriter(new StreamWriter(stream )); 
 					feed.WriteTo(writer,true); 
 					writer.Flush(); 
-					FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedLocation), stream);
+					//FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedLocation), stream);
+                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedLocation), MoveFileFlag.ReplaceExisting);
+                    stream.Close();
+                    FileHelper.Delete(stream.Name); 
 				}
 			
 				//write binary file containing RSS item contents 
-				using (MemoryStream stream = new MemoryStream()) {
+				//using (MemoryStream stream = new MemoryStream()) {
+                using (FileStream stream = FileHelper.OpenForWrite(Path.GetTempFileName())){				
 					FileStream fs = null; 
 					BinaryReader reader = null; 
 					BinaryWriter writer = new BinaryWriter(stream);
@@ -154,7 +159,10 @@ namespace NewsComponents.Storage {
 						}
 					}
 
-					FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedContentLocation), stream);									
+				 //	FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedContentLocation), stream);									
+                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedContentLocation), MoveFileFlag.ReplaceExisting);
+                    stream.Close();
+                    FileHelper.Delete(stream.Name); 
 				}//using(MemoryStream...) {
 
 //			} else if (feed.Type == FeedType.Nntp) {
