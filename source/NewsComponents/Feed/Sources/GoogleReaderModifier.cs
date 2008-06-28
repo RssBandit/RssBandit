@@ -349,7 +349,7 @@ namespace NewsComponents.Feed
                         break;
 
                     case GoogleReaderOperation.DeleteFeed:
-                        source.DeleteFeedFromGoogleReader(current.Parameters[0] as string);
+                        source.DeleteFeedFromGoogleReader(current.Parameters[0] as string, current.Parameters[1] as string);
                         break;
 
                     case GoogleReaderOperation.DeleteLabel:
@@ -732,10 +732,11 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>                         
         /// <param name="feedUrl">The URL of the feed to delete</param>
-        public void DeleteFeedFromGoogleReader(string googleUserID, string feedUrl)
+        /// <param name="feedTitle">The title of the feed to delete</param>
+        public void DeleteFeedFromGoogleReader(string googleUserID, string feedUrl, string feedTitle)
         {
             var deleteOp = new PendingGoogleReaderOperation(GoogleReaderOperation.DeleteFeed, 
-                                                            new object[] {feedUrl},googleUserID);
+                                                            new object[] {feedUrl, feedTitle},googleUserID);
 
             lock (pendingGoogleReaderOperations)
             {

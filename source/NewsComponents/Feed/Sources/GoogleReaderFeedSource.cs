@@ -1097,14 +1097,16 @@ namespace NewsComponents.Feed
         /// Deletes a feed from the list of user's subscriptions in Google Reader
         /// </summary>
         /// <param name="feedUrl">The URL of the feed to delete</param>
-        internal void DeleteFeedFromGoogleReader(string feedUrl)
+        /// <param name="feedTitle">The title of the feed to delete</param>
+        internal void DeleteFeedFromGoogleReader(string feedUrl, string feedTitle)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl))
             {
                 string subscribeUrl = apiUrlPrefix + "subscription/edit";
-                string feedId = "feed/" + feedUrl;               
+                string feedId = "feed/" + feedUrl;
+                string feedTitleParam = StringHelper.EmptyTrimOrNull(feedTitle) ? String.Empty : "&t=" + Uri.EscapeDataString(feedTitle); 
 
-                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null" /* + "&t" + Uri.EscapeDataString(f.title) */ ; 
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null" + feedTitleParam ; 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -1141,7 +1143,12 @@ namespace NewsComponents.Feed
         /// for details</exception>
         public override void DeleteFeed(string feedUrl)
         {
-            GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl);  
+            INewsFeed f = null;
+            if (feedsTable.TryGetValue(feedUrl, out f))
+            {
+                GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl, f.title);
+                base.DeleteFeed(feedUrl); 
+            }
         }
 
 
@@ -1565,7 +1572,7 @@ namespace NewsComponents.Feed
              */ 
             string dummyFeed = "http://rss.netflix.com/QueueRSS?id=P2792793912689011005960561087208982";
             this.AddFeedInGoogleReader(dummyFeed, name);
-            this.DeleteFeedFromGoogleReader(dummyFeed); 
+            this.DeleteFeedFromGoogleReader(dummyFeed, String.Empty); 
         }
 
          /// <summary>
@@ -1595,8 +1602,10 @@ namespace NewsComponents.Feed
                 {
                     foreach (var feedUrl in feeds2remove)
                     {
-                        this.feedsTable.Remove(feedUrl);
-                        GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl); 
+                        this.DeleteFeed(feedUrl);                         
+                        /*  this.feedsTable.Remove(feedUrl);
+                        * GoogleReaderUpdater.DeleteFeedFromGoogleReader(this.GoogleUserName, feedUrl); 
+                        */ 
                     }
                 }
 
@@ -1734,15 +1743,7 @@ namespace NewsComponents.Feed
             get
             {
                 string url = Id.Substring("feed/".Length);
-                Uri uri = null;
-                if (Uri.TryCreate(url, UriKind.Absolute, out uri))
-                {
-                    return uri.CanonicalizedUri(); 
-                }
-                else
-                {
-                    return url;
-                }
+                return url;                
             }
         }
 
