@@ -2112,13 +2112,13 @@ namespace RssBandit
                 else
                     proxy = new WebProxy(p.ProxyAddress);
 
-                proxy.Credentials = CredentialCache.DefaultCredentials;
                 (proxy).BypassProxyOnLocal = p.BypassProxyOnLocal;
                 //Get rid of String.Empty in by pass list because it means bypass on all URLs
                 (proxy).BypassList = ListHelper.StripEmptyEntries(p.ProxyBypassList);
 
                 if (p.ProxyCustomCredentials)
                 {
+					proxy.Credentials = CredentialCache.DefaultCredentials;
                     if (!string.IsNullOrEmpty(p.ProxyUser))
                     {
                         proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
@@ -2128,10 +2128,22 @@ namespace RssBandit
                 return proxy;
             } /* endif UseProxy */
 
-            if (p.UseIEProxySettings)
-                return WebRequest.GetSystemWebProxy();
+			if (p.UseIEProxySettings)
+			{
+				// IE proxy settings do not include proxy credentials!
+				IWebProxy proxy= WebRequest.GetSystemWebProxy();
+				if (p.ProxyCustomCredentials)
+				{
+					proxy.Credentials = CredentialCache.DefaultCredentials;
+					if (!string.IsNullOrEmpty(p.ProxyUser))
+					{
+						proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
+					}
+				}
+				return proxy;
+			}
 
-            // default proxy init -
+        	// default proxy init -
 
             // No need to do anything special for .NET 2.0:
             // http://msdn.microsoft.com/msdnmag/issues/05/08/AutomaticProxyDetection/default.aspx#S3
