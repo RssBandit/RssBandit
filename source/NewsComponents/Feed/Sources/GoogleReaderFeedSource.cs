@@ -414,12 +414,34 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         private static GoogleReaderSubscription MakeSubscription(XPathNavigator node)
         {
-            XPathNavigator id_node = node.SelectSingleNode("string[@name='id']");
-            string feedid = (id_node == null ? String.Empty : id_node.Value);
-            XPathNavigator title_node = node.SelectSingleNode("string[@name='title']");
-            string title = (title_node == null ? String.Empty : title_node.Value);
-            XPathNavigator fim_node = node.SelectSingleNode("string[@name='firstitemmsec']");
-            long firstitemmsec = (fim_node == null ? 0 : Int64.Parse(fim_node.Value));
+            string feedid = null, title = null;
+            long firstitemmsec = 0; 
+
+            //node starts positioned on <object>
+            node.MoveToFirstChild(); //move to first <string> 
+
+            while (node.Name == "string") //iterate through each <string>
+            {
+                node.MoveToAttribute("name", String.Empty);
+                switch (node.Value)
+                {
+                    case "id":
+                        node.MoveToParent();
+                        feedid = node.Value;
+                        break; 
+                    case "title":
+                        node.MoveToParent();
+                        title = node.Value;
+                        break;      
+                    default:
+                        node.MoveToParent();
+                        break; 
+                }
+
+                node.MoveToNext(XPathNodeType.Element); 
+            }
+
+            node.MoveToParent(); //go back to <object>
             List<GoogleReaderLabel> categories = MakeLabelList(node.Select("list[@name='categories']/object").Cast<XPathNavigator>());
 
             return new GoogleReaderSubscription(feedid, title, categories, firstitemmsec);         
@@ -436,12 +458,34 @@ namespace NewsComponents.Feed
             List<GoogleReaderLabel> labels = new List<GoogleReaderLabel>(); 
 
             foreach (XPathNavigator node in nodes) {
-                XPathNavigator id_node = node.SelectSingleNode("string[@name='id']");
-                string catid = (id_node == null ? String.Empty : id_node.Value);
-                XPathNavigator label_node = node.SelectSingleNode("string[@name='label']");
-                string label = (label_node == null ? String.Empty : label_node.Value); 
+                string catid = null, label = null;
+
+                //node starts positioned on <object>
+                node.MoveToFirstChild(); //move to first <string> 
+
+                while (node.Name == "string") //iterate through each <string>
+                {
+                    node.MoveToAttribute("name", String.Empty);
+                    switch (node.Value)
+                    {
+                        case "id":
+                            node.MoveToParent();
+                            catid = node.Value;
+                            break;
+                        case "label":
+                            node.MoveToParent();
+                            label = node.Value;
+                            break;
+                        default:
+                            node.MoveToParent();
+                            break; 
+                    }
+
+                    if (!node.MoveToNext(XPathNodeType.Element)) break; 
+                }//while
+
                 labels.Add(new GoogleReaderLabel(label, catid));                 
-            }
+            }//foreach
 
             return labels; 
         }

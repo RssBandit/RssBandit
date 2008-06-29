@@ -130,11 +130,10 @@ namespace NewsComponents.Storage {
                 using(FileStream stream = FileHelper.OpenForWrite(Path.GetTempFileName())){
 					XmlTextWriter writer = new XmlTextWriter(new StreamWriter(stream )); 
 					feed.WriteTo(writer,true); 
-					writer.Flush(); 
+					writer.Flush();                   
+                    writer.Close(); 
 					//FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedLocation), stream);
-                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedLocation), MoveFileFlag.ReplaceExisting);
-                    stream.Close();
-                    FileHelper.Delete(stream.Name); 
+                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedLocation), MoveFileFlag.ReplaceExisting);                                      
 				}
 			
 				//write binary file containing RSS item contents 
@@ -157,12 +156,10 @@ namespace NewsComponents.Storage {
 							reader.Close(); 
 							fs.Close(); 
 						}
-					}
-
+					}              
+                    writer.Close(); 
 				 //	FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedContentLocation), stream);									
-                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedContentLocation), MoveFileFlag.ReplaceExisting);
-                    stream.Close();
-                    FileHelper.Delete(stream.Name); 
+                    FileHelper.MoveFile(stream.Name, Path.Combine(this.cacheDirectory, feedContentLocation), MoveFileFlag.ReplaceExisting);                    
 				}//using(MemoryStream...) {
 
 //			} else if (feed.Type == FeedType.Nntp) {
