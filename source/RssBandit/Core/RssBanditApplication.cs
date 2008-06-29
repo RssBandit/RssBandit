@@ -4587,21 +4587,34 @@ namespace RssBandit
 
         private void OnNewsItemTransformationError(object sender, FeedExceptionEventArgs e)
         {
-            PublishXmlFeedError(e.FailureException, e.FeedLink, false, null);
+			InvokeOnGui (delegate
+        		{
+        			PublishXmlFeedError(e.FailureException, e.FeedLink, false, null);
+        		});
         }
 
         private void OnNewsItemFormatterStylesheetError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetError() called", e.FailureException);
-            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
-                                       e.FailureException.Message));
+        	InvokeOnGui(delegate
+        		{
+        			MessageError(
+        				String.Format(
+        					SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+        					e.FailureException.Message));
+        		});
         }
 
         private void OnNewsItemFormatterStylesheetValidationError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetValidationError() called", e.FailureException);
-            MessageError(String.Format(SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
-                                       e.FailureException.Message));
+        	InvokeOnGui(delegate
+        		{
+        			MessageError(
+        				String.Format(
+        					SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+        					e.FailureException.Message));
+        		});
         }
 
 
