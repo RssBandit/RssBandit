@@ -2485,7 +2485,7 @@ namespace RssBandit.WinGui.Forms
 
                                 if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0)
                                 {
-                                    FeedInfoList fiList = CreateFeedInfoList(FeedSourceOf(tn), tn.Text, UnreadItemsNode.Items);
+                                    FeedInfoList fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
                                     BeginTransformFeedList(fiList, tn, owner.Stylesheet);
                                 }
                             }
@@ -2546,21 +2546,20 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        /// <summary>
-        /// Creates the feed info list. It takes the items and groups the
-        /// unread items by feed for display.
-        /// </summary>
-        /// <param name="entry">The feed source</param>
-        /// <param name="title">The title.</param>
-        /// <param name="items">The items.</param>
-        /// <returns></returns>
-        private FeedInfoList CreateFeedInfoList(FeedSourceEntry entry, string title, IList<INewsItem> items)
+		/// <summary>
+		/// Creates the feed info list. It takes the items and groups the
+		/// unread items by feed for display.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <param name="items">The items.</param>
+		/// <returns></returns>
+        private FeedInfoList CreateFeedInfoList(string title, IList<INewsItem> items)
         {
             var result = new FeedInfoList(title);
             if (items == null || items.Count == 0)
                 return result;
 
-            var fiCache = new Hashtable();
+            var fiCache = new Dictionary<string, FeedInfo>(items.Count);
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -2568,17 +2567,17 @@ namespace RssBandit.WinGui.Forms
                 if (item == null || item.Feed == null)
                     continue;
 
+				// unread items contains a mix of feed items from various sources:
+            	FeedSourceEntry entry = owner.FeedSources.SourceOf(item.Feed);
                 string feedUrl = item.Feed.link;
 
-                if (feedUrl == null || !entry.Source.IsSubscribed(feedUrl))
+                if (feedUrl == null || entry == null || !entry.Source.IsSubscribed(feedUrl))
                     continue;
 
                 try
                 {
                     FeedInfo fi;
-                    if (fiCache.ContainsKey(feedUrl))
-                        fi = fiCache[feedUrl] as FeedInfo;
-                    else
+                    if (!fiCache.TryGetValue(feedUrl, out fi))
                     {
                         fi = (FeedInfo) owner.GetFeedDetails(entry, feedUrl);
                         if (fi != null)
