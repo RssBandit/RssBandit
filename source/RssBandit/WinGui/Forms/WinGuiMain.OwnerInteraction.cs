@@ -1904,8 +1904,7 @@ namespace RssBandit.WinGui.Forms
                         // if (feed.containsNewMessages) No longer applies due to syncing state from Google Reader & NewsGator Online
                     {
                         // if (modified)
-                        owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
-
+                    
                         unread = FilterUnreadFeedItems(items, true);
                         UnreadItemsNodeRemoveItems(unread);
                         UnreadItemsNode.Items.AddRange(unread);
