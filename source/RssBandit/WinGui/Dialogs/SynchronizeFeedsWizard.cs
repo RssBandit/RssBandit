@@ -546,8 +546,7 @@ namespace RssBandit.WinGui.Forms
 
             if (ReferenceEquals(wizard.SelectedPage, pageSourceName) && sender == textFeedSourceName)
             {
-                textFeedSourceName.Text = textFeedSourceName.Text.Trim();
-                if (textFeedSourceName.Text.Length == 0)
+                if (textFeedSourceName.Text.Trim().Length == 0)
                 {
                     errorProvider1.SetError(textFeedSourceName, SR.ExceptionNoFeedSourceName);
                     this.pageSourceName.AllowMoveNext = false;
@@ -558,7 +557,7 @@ namespace RssBandit.WinGui.Forms
             else if (ReferenceEquals(wizard.SelectedPage, pageFeedCredentials) && sender == textUser)
             {
                 textUser.Text = textUser.Text.Trim();
-                if (textUser.Text.Length == 0)
+                if (textUser.Text.Trim().Length == 0)
                 {
                     errorProvider1.SetError(textUser, SR.ExceptionNoUserName);
                     e.Cancel = true;
@@ -567,7 +566,7 @@ namespace RssBandit.WinGui.Forms
             else if (ReferenceEquals(wizard.SelectedPage, pageFeedCredentials) && sender == textPassword)
             {
                 textPassword.Text = textPassword.Text.Trim();
-                if (textPassword.Text.Length == 0)
+                if (textPassword.Text.Trim().Length == 0)
                 {
                     errorProvider1.SetError(textPassword, SR.ExceptionNoPassword);
                     e.Cancel = true;
