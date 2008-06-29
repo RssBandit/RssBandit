@@ -163,10 +163,11 @@ namespace RssBandit.WinGui.Forms {
 			this.checkUseIEProxySettings.Checked = prefs.UseIEProxySettings;
 			this.checkProxyAuth.Checked = prefs.ProxyCustomCredentials;
 
-			if (!this.checkUseProxy.Checked && !this.checkUseIEProxySettings.Checked)
+			// Checked_Change event not fired if no change happened before:
+			if (!this.checkUseProxy.Checked && 
+				!this.checkUseIEProxySettings.Checked &&
+				!this.checkProxyAuth.Checked)
 				this.checkUseProxy_CheckedChanged(this, null);
-			if (!this.checkProxyAuth.Checked)
-				this.checkProxyAuth_CheckedChanged(this, null);
 			
 			// font tab
 			this.SetFontForState(FontStates.Read, prefs.NormalFont);	// default font
@@ -465,12 +466,15 @@ namespace RssBandit.WinGui.Forms {
 		private void checkUseProxy_CheckedChanged(object sender, EventArgs e) {
 		
 			bool useProxy = checkUseProxy.Checked;
+			bool useProxyAuth = checkUseProxy.Checked | checkUseIEProxySettings.Checked;
 
 			labelProxyAddress.Enabled = textProxyAddress.Enabled = useProxy; 
 			labelProxyPort.Enabled = textProxyPort.Enabled = useProxy;
-			checkProxyBypassLocal.Enabled = checkProxyAuth.Enabled = useProxy;
+			checkProxyBypassLocal.Enabled = useProxy;
+			checkProxyAuth.Enabled = useProxyAuth;
 			
-			if(useProxy) {
+			if(useProxy)
+			{
 				if (textProxyAddress.Text.Trim().Length == 0)
 					errorProvider1.SetError(textProxyAddress, SR.ExceptionNoProxyUrl);
 				if (textProxyPort.Text.Trim().Length == 0)
@@ -478,20 +482,26 @@ namespace RssBandit.WinGui.Forms {
 				if (checkProxyBypassLocal.Checked) {
 					labelProxyBypassList.Enabled = labelProxyBypassListHint.Enabled = textProxyBypassList.Enabled = true;
 				}
-				if (checkProxyAuth.Checked) {
-					labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = true; 
-					labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = true;
-					if (textProxyCredentialUser.Text.Trim().Length == 0)
-						errorProvider1.SetError(textProxyCredentialUser, SR.ExceptionNoProxyAuthUser);
-				}
 			}
-			else {
+			else 
+			{
 				labelProxyBypassList.Enabled = labelProxyBypassListHint.Enabled = textProxyBypassList.Enabled = false;
-				labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = false; 
-				labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = false;
 				errorProvider1.SetError(textProxyAddress, null);
 				errorProvider1.SetError(textProxyPort, null);
-				errorProvider1.SetError(textProxyCredentialUser, null);
+			}
+
+			if (useProxyAuth)
+			{
+				if (checkProxyAuth.Checked)
+				{
+					labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = true;
+					labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = true;
+				}
+			} 
+			else
+			{
+				labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = false;
+				labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = false;
 			}
 
 			if (e != null)		// not caused by calling from another code location, enable Apply button
@@ -506,13 +516,7 @@ namespace RssBandit.WinGui.Forms {
 		private void checkProxyAuth_CheckedChanged(object sender, EventArgs e) {
 			labelProxyCredentialUserName.Enabled = textProxyCredentialUser.Enabled = checkProxyAuth.Checked; 
 			labelProxyCredentialPassword.Enabled = textProxyCredentialPassword.Enabled = checkProxyAuth.Checked;
-			if (checkProxyAuth.Checked) {
-				if (textProxyCredentialUser.Text.Trim().Length == 0)
-					errorProvider1.SetError(textProxyCredentialUser, SR.ExceptionNoProxyAuthUser);
-			}
-			else {
-				errorProvider1.SetError(textProxyCredentialUser, null);
-			}
+		
 			if (e != null)		// not caused by calling from another code location
 				this.OnControlValidated(this, EventArgs.Empty);
 		}
@@ -532,13 +536,9 @@ namespace RssBandit.WinGui.Forms {
 			this.OnControlValidated(this, EventArgs.Empty);
 		}
 
-		private void OnOKClick(object sender, EventArgs e) {
-			if (checkProxyAuth.Checked) {
-				if (textProxyCredentialUser.Text.Trim().Length == 0 ||
-					textProxyCredentialPassword.Text.Trim().Length == 0)
-					checkProxyAuth.Checked = false;
-			}
-
+		private void OnOKClick(object sender, EventArgs e) 
+		{
+			
 			if (checkUseProxy.Checked) {
 				if (textProxyAddress.Text.Trim().Length == 0 ||
 					textProxyPort.Text.Trim().Length == 0) {
@@ -970,14 +970,6 @@ namespace RssBandit.WinGui.Forms {
 					}
 				}
 
-			} else if (sender == textProxyCredentialUser && checkProxyAuth.Checked) {
-				
-				textProxyCredentialUser.Text = textProxyCredentialUser.Text.Trim();
-				if (textProxyCredentialUser.Text.Length == 0) {
-					errorProvider1.SetError(textProxyCredentialUser, SR.ExceptionNoProxyAuthUser);
-					e.Cancel = true;
-				}
-				
 			} else if (sender == comboRefreshRate) {
 				if (comboRefreshRate.Text.Length == 0)
 					comboRefreshRate.Text = "60";	
