@@ -66,7 +66,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The URL for authenticating a Google user.
         /// </summary>
-        private static readonly string authUrl  = @"https://www.google.com/accounts/ClientLogin?continue=http://www.google.com&service=reader&source=RssBandit&Email={0}&Passwd={1}";
+        private static readonly string authUrl = @"https://www.google.com/accounts/ClientLogin"; 
+
+        /// <summary>
+        /// The body of the request that will authenticate the Google user. 
+        /// </summary>
+        private static readonly string authBody = @"continue=http://www.google.com&service=reader&source=RssBandit&Email={0}&Passwd={1}";
 
         /// <summary>
         /// The first part of the URL to a feed stored in the Google Reader service
@@ -499,11 +504,9 @@ namespace NewsComponents.Feed
         /// </summary>
         private void AuthenticateUser()
         {
-            string requestUrl = String.Format(authUrl, location.Credentials.UserName, location.Credentials.Password); 
-            WebRequest req = HttpWebRequest.Create(requestUrl); 
-            
-            WebResponse resp = req.GetResponse(); 
-            StreamReader reader = new StreamReader(AsyncWebRequest.GetSyncResponseStream(requestUrl, null, this.Proxy));
+            string body = String.Format(authBody, location.Credentials.UserName, location.Credentials.Password);  
+
+            StreamReader reader = new StreamReader(AsyncWebRequest.PostSyncResponseStream(authUrl, body, null, null, this.Proxy));
             string[] response = reader.ReadToEnd().Split('\n');
 
             foreach(string s in response){
