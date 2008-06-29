@@ -2579,10 +2579,10 @@ namespace RssBandit.WinGui.Forms
                     FeedInfo fi;
                     if (!fiCache.TryGetValue(feedUrl, out fi))
                     {
-                        fi = (FeedInfo) owner.GetFeedDetails(entry, feedUrl);
-                        if (fi != null)
+                        IFeedDetails fd =  owner.GetFeedDetails(entry, feedUrl);
+                        if (fd != null)
                         {
-                            fi = fi.Clone(false);
+                            fi = new FeedInfo(fd);
                         }
                     }
 
