@@ -201,7 +201,7 @@ namespace NewsComponents.Search
             try
             {
                 //BUGBUG: We don't index every document in this case. 
-                FlushPendingOperations( Math.Max(pendingIndexOperations.Count, 250 /* Int32.MaxValue - locks up the UI on shutdown */));
+                FlushPendingOperations( Math.Min(pendingIndexOperations.Count, 250 /* Int32.MaxValue - locks up the UI on shutdown */));
                 FlushIndex();
             }
             catch (Exception e)
