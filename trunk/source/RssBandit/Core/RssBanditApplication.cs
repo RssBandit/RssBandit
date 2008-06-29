@@ -3456,10 +3456,15 @@ namespace RssBandit
             entry.Source.DeleteAllFeedsAndCategories(false); 
 
 			//TODO: handle case where all sources removed!
-			if (sourceManager.Count > 0)
-				guiMain.SelectFeedSource(sourceManager.Sources.First());
+            if (sourceManager.Count > 0)
+            {
+                FeedSourceEntry next = sourceManager.Sources.First();
+                guiMain.SelectFeedSource(next);
+                guiMain.GetSubscriptionRootNode(next).Selected = true; 
+            }
 			guiMain.RemoveFromSubscriptionTree(entry);
 			guiMain.RemoveFeedSourceView(entry);
+            
 		}
 
 		private void ConnectFeedSourceEvents(FeedSource source)
