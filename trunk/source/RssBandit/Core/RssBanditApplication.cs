@@ -983,7 +983,7 @@ namespace RssBandit
 
         private void HandleFeedCacheRelevantChange(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
         {
-            if (string.IsNullOrEmpty(feedUrl))
+            if (string.IsNullOrEmpty(feedUrl) || entry == null)
                 return;
             if (FeedSource.IsCacheRelevantChange(property))
             {
