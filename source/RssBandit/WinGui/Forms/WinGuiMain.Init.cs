@@ -178,7 +178,7 @@ namespace RssBandit.WinGui.Forms
             panelRssSearch.Controls.Add(searchPanel);
 
             //this.owner.FeedHandler.NewsItemSearchResult += new FeedSource.NewsItemSearchResultEventHandler(this.OnNewsItemSearchResult);
-            owner.FeedHandler.SearchFinished += OnNewsItemSearchFinished;
+            owner.FeedSources.SearchFinished += OnNewsItemSearchFinished;
 
             searchPanel.BeforeNewsItemSearch += OnSearchPanelBeforeNewsItemSearch;
             searchPanel.NewsItemSearch += OnSearchPanelStartNewsItemSearch;
