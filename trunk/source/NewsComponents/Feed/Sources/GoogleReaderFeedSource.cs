@@ -274,7 +274,10 @@ namespace NewsComponents.Feed
                 foreach (GoogleReaderSubscription gfeed in gReaderFeeds)
                 {
                     NewsFeed feed = null;
-                    this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+                    if (!feedsTable.ContainsKey(gfeed.FeedUrl))
+                    {
+                        this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+                    }
                 }
 
                 IEnumerable<string> gReaderLabels = this.LoadTaglistFromGoogleReader();
