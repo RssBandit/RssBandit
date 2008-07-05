@@ -431,7 +431,7 @@ namespace NewsComponents.Feed
 
             foreach (NewsFeed ngFeed in ngFeeds.feed)
             {
-                if (!ngFeed.link.Equals(NoXmlUrlFoundInOpml))
+                if (!ngFeed.link.Equals(NoXmlUrlFoundInOpml) && !feedsTable.ContainsKey(ngFeed.link))
                 {
                     NewsFeed feed = null;
                     bootstrapFeeds.TryGetValue(ngFeed.link, out feed);
