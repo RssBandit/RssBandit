@@ -547,10 +547,7 @@ namespace NewsComponents
         /// Callback delegate used on event OnRenamedFeed.
         /// </summary>
         public delegate void RenamedFeedCallback(object sender, FeedRenamedEventArgs e);
-
-        /// <summary>Signature for <see cref="SearchFinished">SearchFinished</see>  event</summary>
-        public delegate void SearchFinishedEventHandler(object sender, SearchFinishedEventArgs e);
-
+      
         /// <summary>
         /// Callback delegate used on event OnUpdatedFavicon.
         /// </summary>
@@ -666,8 +663,6 @@ namespace NewsComponents
         /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
         public event NewsItemSearchResultEventHandler NewsItemSearchResult;
 
-        /// <summary>Called on a search finished</summary>
-        public event SearchFinishedEventHandler SearchFinished;
 
         #region Nested type: CategoryChangedEventArgs
 
@@ -862,81 +857,6 @@ namespace NewsComponents
                 List<INewsItem> items, object tag, bool cancel) : base(cancel)
             {
                 NewsItems = items;
-                Tag = tag;
-            }
-        }
-
-        #endregion
-
-        #region Nested type: SearchFinishedEventArgs
-
-        /// <summary>
-        /// Provide informations about a finished search. Used on SearchFinished event.
-        /// </summary>
-        public class SearchFinishedEventArgs : EventArgs
-        {
-            /// <summary></summary>
-            public readonly FeedInfoList MatchingFeeds;
-
-            /// <summary></summary>
-            public readonly int MatchingFeedsCount;
-
-            /// <summary></summary>
-            public readonly List<INewsItem> MatchingItems;
-
-            /// <summary></summary>
-            public readonly int MatchingItemsCount;
-
-            /// <summary></summary>
-            public readonly object Tag;
-
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <remarks>This modifies the input FeedInfoList by replacing its NewsItem contents 
-            /// with SearchHitNewsItems</remarks>
-            /// <param name="tag">Object used by caller</param>
-            /// <param name="matchingFeeds"></param>
-            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
-            public SearchFinishedEventArgs(
-                object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount) :
-                    this(tag, matchingFeeds, new List<INewsItem>(), matchingFeedsCount, matchingItemsCount)
-            {
-                var temp = new List<INewsItem>();
-
-                foreach (FeedInfo fi in matchingFeeds)
-                {
-                    foreach (var ni in fi.ItemsList)
-                    {
-                        if (ni is SearchHitNewsItem)
-                            temp.Add(ni);
-                        else
-                            temp.Add(new SearchHitNewsItem(ni));
-                    }
-                    fi.ItemsList.Clear();
-                    fi.ItemsList.AddRange(temp);
-                    MatchingItems.AddRange(temp);
-                    temp.Clear();
-                } //foreach
-            }
-
-            /// <summary>
-            /// Initializer
-            /// </summary>
-            /// <param name="tag">Object used by caller</param>
-            /// <param name="matchingFeeds">The matching feeds.</param>
-            /// <param name="matchingNewsItems">The matching news items.</param>
-            /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
-            public SearchFinishedEventArgs(
-                object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingNewsItems, int matchingFeedsCount,
-                int matchingItemsCount)
-            {
-                MatchingFeedsCount = matchingFeedsCount;
-                MatchingItemsCount = matchingItemsCount;
-                MatchingFeeds = matchingFeeds;
-                MatchingItems = new List<INewsItem>(matchingNewsItems);
                 Tag = tag;
             }
         }
@@ -2189,131 +2109,7 @@ namespace NewsComponents
                 c.maxitemage = null;
             }
         }
-
-
-        private List<INewsItem> SearchNewsItemsHelper(IEnumerable<INewsItem> prevMatchItems,
-                                                      SearchCriteriaCollection criteria, IFeedDetails fi,
-                                                      IFeedDetails fiMatchedItems, ref int itemmatches,
-                                                      ref int feedmatches, object tag)
-        {
-            var matchItems = new List<INewsItem>(maxItemsPerSearchResult);
-            matchItems.AddRange(prevMatchItems);
-            bool cancel = false;
-            bool feedmatch = false;
-
-            foreach (NewsItem item in fi.ItemsList)
-            {
-                if (criteria.Match(item))
-                {
-                    //_log.Info("MATCH FOUND: " + item.Title);  
-                    feedmatch = true;
-                    matchItems.Add(item);
-                    fiMatchedItems.ItemsList.Add(item);
-                    itemmatches++;
-                    if ((itemmatches%50) == 0)
-                    {
-                        //Caller return results On the last feed we found results 
-                        cancel = RaiseNewsItemSearchResultEvent(matchItems, tag);
-                        matchItems.Clear();
-                    }
-                    if (cancel) throw new InvalidOperationException("SEARCH CANCELLED");
-                }
-            } //foreach(NewsItem...)
-
-            if (feedmatch) feedmatches++;
-
-            return matchItems;
-        }
-
-        /// <summary>
-        /// Search for NewsItems, that match a provided criteria collection within a optional search scope.
-        /// </summary>
-        /// <param name="criteria">SearchCriteriaCollection containing the defined search criteria</param>
-        /// <param name="scope">Search scope: an array of NewsFeed</param>
-        /// <param name="tag">optional object to be used by the caller to identify this search</param>
-        /// <param name="cultureName">Name of the culture.</param>
-        /// <param name="returnFullItemText">if set to <c>true</c>, full item texts are returned instead of the summery.</param>
-        public void SearchNewsItems(SearchCriteriaCollection criteria, INewsFeed[] scope, object tag, string cultureName,
-                                    bool returnFullItemText)
-        {
-            // if scope is an empty array: search all, else search only in spec. feeds
-            int feedmatches = 0;
-            int itemmatches = 0;
-
-            IList<INewsItem> unreturnedMatchItems = new List<INewsItem>();
-            var fiList = new FeedInfoList(String.Empty);
-
-            Exception ex;
-            bool valid = SearchHandler.ValidateSearchCriteria(criteria, cultureName, out ex);
-
-            if (ex != null) // report always any error (warnings)
-            {
-                // render the error in-line (search result):
-                fiList.Add(CreateHelpNewsItemFromException(ex).FeedDetails);
-                feedmatches = fiList.Count;
-                unreturnedMatchItems = fiList.GetAllNewsItems();
-                itemmatches = unreturnedMatchItems.Count;
-            }
-
-            if (valid)
-            {
-                try
-                {
-                    // do the search (using lucene):
-                    LuceneSearch.Result r = SearchHandler.ExecuteSearch(criteria, scope, new List<FeedSource>
-                                                                                             {
-                                                                                                 this
-                                                                                             }, cultureName);
-
-                    // we iterate r.ItemsMatched to build a
-                    // NewsItemIdentifier and ArrayList list with items, that
-                    // match the read status (if this was a search criteria)
-                    // then call FindNewsItems(NewsItemIdentifier[]) to get also
-                    // the FeedInfoList.
-                    // Raise ONE event, instead of two to return all (counters, lists)
-
-                    SearchCriteriaProperty criteriaProperty = null;
-                    foreach (ISearchCriteria sc in criteria)
-                    {
-                        criteriaProperty = sc as SearchCriteriaProperty;
-                        if (criteriaProperty != null &&
-                            PropertyExpressionKind.Unread == criteriaProperty.WhatKind)
-                            break;
-                    }
-
-
-                    ItemReadState readState = ItemReadState.Ignore;
-                    if (criteriaProperty != null)
-                    {
-                        readState = criteriaProperty.BeenRead ? ItemReadState.BeenRead : ItemReadState.Unread;
-                    }
-
-
-                    if (r != null && r.ItemMatchCount > 0)
-                    {
-                        // append results
-
-                        var nids = new SearchHitNewsItem[r.ItemsMatched.Count];
-                        r.ItemsMatched.CopyTo(nids, 0);
-                        fiList.AddRange(FindNewsItems(nids, readState, returnFullItemText));
-                        feedmatches = fiList.Count;
-
-                        unreturnedMatchItems = fiList.GetAllNewsItems();
-                        itemmatches = unreturnedMatchItems.Count;
-                    }
-                }
-                catch (Exception searchEx)
-                {
-                    // render the error in-line (search result):
-                    fiList.Add(CreateHelpNewsItemFromException(searchEx).FeedDetails);
-                    feedmatches = fiList.Count;
-                    unreturnedMatchItems = fiList.GetAllNewsItems();
-                    itemmatches = unreturnedMatchItems.Count;
-                }
-            }
-
-            RaiseSearchFinishedEvent(tag, fiList, unreturnedMatchItems, feedmatches, itemmatches);
-        }
+     
 
         /// <summary>
         /// Builds a ExceptionalNewsItem from a exception.
@@ -2324,7 +2120,7 @@ namespace NewsComponents
         /// <param name="e">Exception</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">If e is null</exception>
-        private static ExceptionalNewsItem CreateHelpNewsItemFromException(Exception e)
+        internal static ExceptionalNewsItem CreateHelpNewsItemFromException(Exception e)
         {
             if (e == null)
                 throw new ArgumentNullException("e");
@@ -2354,147 +2150,7 @@ namespace NewsComponents
             newsItem.FeedDetails = fi;
             return newsItem;
         }
-
-        /// <summary>
-        /// Search for NewsItems, that match a provided criteria collection within a optional search scope.
-        /// </summary>
-        /// <param name="criteria">SearchCriteriaCollection containing the defined search criteria</param>
-        /// <param name="scope">Search scope: an array of NewsFeed</param>
-        /// <param name="tag">optional object to be used by the caller to identify this search</param>
-        public void SearchNewsItems(SearchCriteriaCollection criteria, NewsFeed[] scope, object tag)
-        {
-            // if scope is an empty array: search all, else search only in spec. feeds
-            int feedmatches = 0;
-            int itemmatches = 0;
-            int feedcounter = 0;
-
-            var unreturnedMatchItems = new List<INewsItem>();
-            var fiList = new FeedInfoList(String.Empty);
-
-            try
-            {
-                FeedInfo[] feedInfos;
-                if (scope.Length == 0)
-                {
-                    // we search a copy of the current content to prevent the lock(itemsTable)
-                    // while we do the more time consuming search ops. New received items are
-                    // automatically recognized to be searched as they are float into the system.
-                    lock (itemsTable)
-                    {
-                        feedInfos = new FeedInfo[itemsTable.Count];
-                        itemsTable.Values.CopyTo(feedInfos, 0);
-                    }
-                    foreach (var fi in feedInfos)
-                    {
-                        FeedInfo fiClone = fi.Clone(false);
-                        //fiClone.ItemsList.Clear(); 
-
-                        unreturnedMatchItems =
-                            SearchNewsItemsHelper(unreturnedMatchItems, criteria, fi, fiClone, ref itemmatches,
-                                                  ref feedmatches, tag);
-                        feedcounter++;
-
-                        if ((feedcounter%5) == 0)
-                        {
-                            // to shorten search if user want to cancel. Above modulo will only stop if it founds at least 100 matches...
-                            bool cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
-                            unreturnedMatchItems.Clear();
-                            if (cancel)
-                                break;
-                        }
-
-                        if (fiClone.ItemsList.Count != 0)
-                        {
-                            fiList.Add(fiClone);
-                        }
-                    } //foreach(FeedInfo...)
-                }
-                else
-                {
-                    lock (itemsTable)
-                    {
-                        feedInfos = new FeedInfo[scope.Length];
-                        for (int i = 0; i < scope.Length; i++)
-                        {
-                            feedInfos[i] = (FeedInfo) itemsTable[scope[i].link];
-                        }
-                    }
-
-                    foreach (var fi in feedInfos)
-                    {
-                        if (fi != null)
-                        {
-                            FeedInfo fiClone = fi.Clone(false);
-                            //fiClone.ItemsList.Clear();
-
-                            unreturnedMatchItems =
-                                SearchNewsItemsHelper(unreturnedMatchItems, criteria, fi, fiClone, ref itemmatches,
-                                                      ref feedmatches, tag);
-                            feedcounter++;
-
-                            if ((feedcounter%5) == 0)
-                            {
-                                // to shorten search if user want to cancel. Above modulo will only stop if it founds at least 100 matches...
-                                bool cancel = RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
-                                unreturnedMatchItems.Clear();
-                                if (cancel)
-                                    break;
-                            }
-
-                            if (fiClone.ItemsList.Count != 0)
-                            {
-                                fiList.Add(fiClone);
-                            }
-                        }
-                    }
-                }
-
-                if (unreturnedMatchItems.Count > 0)
-                {
-                    RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
-                }
-            }
-            catch (InvalidOperationException ioe)
-            {
-// New feeds added to FeedsTable from another thread  
-                Trace("SearchNewsItems() casued InvalidOperationException: {0}", ioe);
-            }
-
-            RaiseSearchFinishedEvent(tag, fiList, feedmatches, itemmatches);
-        }
-
-        /// <summary>
-        /// Initiate a remote (web) search using the engine incl. search expression specified
-        /// by searchFeedUrl. We assume, the specified Url will return a RSS feed.
-        /// This can be used e.g. to get a RSS search result from feedster.
-        /// </summary>
-        /// <param name="searchFeedUrl">Complete Url of the search engine incl. search expression</param>
-        /// <param name="tag">optional, can be used by the caller</param>
-        public void SearchRemoteFeed(string searchFeedUrl, object tag)
-        {
-            var unreturnedMatchItems = new List<INewsItem>(1);
-            try
-            {
-                unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
-            }
-            catch (Exception remoteSearchException)
-            {
-                unreturnedMatchItems.Add(CreateHelpNewsItemFromException(remoteSearchException));
-            }
-
-            RaiseNewsItemSearchResultEvent(unreturnedMatchItems, tag);
-
-            int feedmatches = 1;
-            int itemmatches = unreturnedMatchItems.Count;
-            var fi =
-                new FeedInfo(String.Empty, String.Empty, unreturnedMatchItems, String.Empty, String.Empty, String.Empty,
-                             new Dictionary<XmlQualifiedName, string>(), String.Empty);
-            var fil = new FeedInfoList(String.Empty)
-                          {
-                              fi
-                          };
-            RaiseSearchFinishedEvent(tag, fil, feedmatches, itemmatches);
-        }
+           
 
         /// <summary>
         /// [To be provided]
@@ -2517,61 +2173,6 @@ namespace NewsComponents
 			RaiseSearchFinishedEvent(tag, matches, 0); */
 
             throw new NotSupportedException();
-        }
-
-        private bool RaiseNewsItemSearchResultEvent(IEnumerable<INewsItem> matchItems, object tag)
-        {
-            try
-            {
-                if (NewsItemSearchResult != null)
-                {
-                    var ea =
-                        new NewsItemSearchResultEventArgs(new List<INewsItem>(matchItems), tag, false);
-                    NewsItemSearchResult(this, ea);
-                    return ea.Cancel;
-                }
-            }
-            catch
-            {
-            }
-            return false;
-        }
-
-        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds, int matchingFeedsCount,
-                                              int matchingItemsCount)
-        {
-            try
-            {
-                if (SearchFinished != null)
-                {
-                    SearchFinished(this,
-                                   new SearchFinishedEventArgs(tag, matchingFeeds, matchingFeedsCount,
-                                                               matchingItemsCount));
-                }
-            }
-            catch (Exception e)
-            {
-                Trace("SearchFinished() event code raises exception: {0}", e);
-            }
-        }
-
-        private void RaiseSearchFinishedEvent(object tag, FeedInfoList matchingFeeds,
-                                              IEnumerable<INewsItem> matchingItems,
-                                              int matchingFeedsCount, int matchingItemsCount)
-        {
-            try
-            {
-                if (SearchFinished != null)
-                {
-                    SearchFinished(this,
-                                   new SearchFinishedEventArgs(tag, matchingFeeds, matchingItems, matchingFeedsCount,
-                                                               matchingItemsCount));
-                }
-            }
-            catch (Exception e)
-            {
-                Trace("SearchFinished() event code raises exception: {0}", e);
-            }
         }
 
         /// <summary>

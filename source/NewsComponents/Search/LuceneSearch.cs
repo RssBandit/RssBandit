@@ -180,7 +180,7 @@ namespace NewsComponents.Search
 		/// <param name="newsHandlers">The news handlers.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IList<FeedSource> newsHandlers, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IEnumerable<FeedSource> newsHandlers, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;

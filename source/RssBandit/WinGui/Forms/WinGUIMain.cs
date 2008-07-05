@@ -1585,7 +1585,7 @@ namespace RssBandit.WinGui.Forms
 
         #region SearchPanel routines
 
-        private void OnNewsItemSearchFinished(object sender, FeedSource.SearchFinishedEventArgs e)
+        private void OnNewsItemSearchFinished(object sender, FeedSourceManager.SearchFinishedEventArgs e)
         {
             InvokeOnGui(
                 () => SearchFinishedAction(e.Tag, e.MatchingFeeds, e.MatchingItems, e.MatchingFeedsCount,
@@ -1619,7 +1619,7 @@ namespace RssBandit.WinGui.Forms
 
         private void StartNewsSearch(FinderNode node)
         {
-			CurrentSelectedFeedSource.Source.SearchNewsItems(
+			owner.FeedSources.SearchNewsItems(
                 node.Finder.SearchCriterias,
                 node.Finder.SearchScope,
                 node.Finder,
@@ -1867,7 +1867,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-				CurrentSelectedFeedSource.Source.SearchRemoteFeed(searchUrl, resultContainer.Finder);
+				owner.FeedSources.SearchRemoteFeed(searchUrl, resultContainer.Finder);
             }
             catch (Exception ex)
             {
