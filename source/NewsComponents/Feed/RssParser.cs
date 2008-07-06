@@ -837,6 +837,22 @@ namespace NewsComponents.Feed
 
             bool nodeRead = false; //indicates whether the last node was read using XmlReader.ReadOuterXml()	
 
+            //handle attributes of atom:entry
+            if (reader.HasAttributes)
+            {
+                reader.MoveToFirstAttribute();
+
+                do
+                {
+                    string elementFmtString = "<{0}{1} xmlns{4}='{2}'>{3}</{0}{1}>";
+                    string elementString = String.Format(elementFmtString, String.IsNullOrEmpty(reader.Prefix) ? String.Empty : reader.Prefix + ":",
+                                                   reader.LocalName, reader.NamespaceURI, reader.Value,
+                                                   String.IsNullOrEmpty(reader.Prefix) ? String.Empty : ":" + reader.Prefix); 
+                    optionalElements.Add(new XmlQualifiedName(reader.LocalName, reader.NamespaceURI), elementString); 
+                        
+                } while (reader.MoveToNextAttribute()); 
+            }
+
 
             while ((nodeRead || reader.Read()) && reader.NodeType != XmlNodeType.EndElement)
             {

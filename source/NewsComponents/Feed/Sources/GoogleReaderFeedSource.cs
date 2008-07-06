@@ -88,6 +88,12 @@ namespace NewsComponents.Feed
         /// </summary>
         private static readonly XmlQualifiedName continuationQName = new XmlQualifiedName("continuation", "http://www.google.com/schemas/reader/atom/");
 
+
+        /// <summary>
+        /// Qname for the crawl timestamp of a feed item that indicates the age of the news item to Google Reader
+        /// </summary>
+        private static readonly XmlQualifiedName crawltimestampQname = new XmlQualifiedName("crawl-timestamp-msec", "http://www.google.com/schemas/reader/atom/");
+
         /// <summary>
         /// This is the most recently retrieved edit token from the Google Reader service. 
         /// </summary>
@@ -1502,15 +1508,14 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="feedUrl">The feed URL</param>
         /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
-        internal void MarkAllItemsAsReadInGoogleReader(string feedUrl, DateTime olderThan)
+        internal void MarkAllItemsAsReadInGoogleReader(string feedUrl, string olderThan)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;                
                 string markReadUrl = apiUrlPrefix + "mark-all-as-read";
-                TimeSpan offset = TimeZone.CurrentTimeZone.GetUtcOffset(olderThan); 
 
-                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt64((DateTime.Now - unixEpoch - offset).TotalMilliseconds * 1000)
+                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + olderThan
                                + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + "&t=" + Uri.EscapeDataString(f.title); 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
@@ -1528,9 +1533,10 @@ namespace NewsComponents.Feed
         /// </summary>        
         /// <param name="feed">The RSS feed</param>
         public override void MarkAllCachedItemsAsRead(INewsFeed feed)
-        {
-           
+        {           
+            //we need to use the time stamp from the newest news item (in microseconds) to indicate which items should be marked read
             DateTime newestItemAge = DateTime.MinValue;
+            string newestItemTimeStamp = ( (DateTime.Now.Ticks - unixEpoch.Ticks) / 10).ToString();  //default value is right now
 
             if (feed != null && feed.containsNewMessages && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {
@@ -1543,7 +1549,16 @@ namespace NewsComponents.Feed
                     {
                         ri.PropertyChanged -= this.OnNewsItemPropertyChanged;
                         ri.BeenRead = true;
-                        newestItemAge = (ri.Date > newestItemAge ? ri.Date : newestItemAge);
+
+                        if (ri.Date > newestItemAge)
+                        {
+                            newestItemAge = ri.Date;
+                            if (ri.OptionalElements.ContainsKey(crawltimestampQname))
+                            {
+                                newestItemTimeStamp = RssHelper.GetOptionalElement(ri, crawltimestampQname).InnerText + "999";
+                            }
+                        }
+                        
                         ri.PropertyChanged += this.OnNewsItemPropertyChanged;
                     }
                 }
@@ -1553,7 +1568,7 @@ namespace NewsComponents.Feed
 
             if (newestItemAge != DateTime.MinValue)
             {
-                GoogleReaderUpdater.MarkAllItemsAsReadInGoogleReader(this.GoogleUserName, feed.link, newestItemAge); 
+                GoogleReaderUpdater.MarkAllItemsAsReadInGoogleReader(this.GoogleUserName, feed.link, newestItemTimeStamp); 
             }
         }
 
