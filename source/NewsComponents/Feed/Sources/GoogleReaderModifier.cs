@@ -358,7 +358,7 @@ namespace NewsComponents.Feed
 
                     case GoogleReaderOperation.MarkAllItemsRead:
                         source.MarkAllItemsAsReadInGoogleReader(current.Parameters[0] as string,
-                                                                (DateTime) current.Parameters[1]);
+                                                                current.Parameters[1] as string);
                         break;
 
                     case GoogleReaderOperation.MarkSingleItemRead:
@@ -625,7 +625,7 @@ namespace NewsComponents.Feed
         /// <param name="googleUserID">The Google User ID of the account under which this operation will be performed.</param>     
         /// <param name="feedUrl">The feed URL</param>
         /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
-        public void MarkAllItemsAsReadInGoogleReader(string googleUserID, string feedUrl, DateTime olderThan)
+        public void MarkAllItemsAsReadInGoogleReader(string googleUserID, string feedUrl, string olderThan)
         {
             var op = new PendingGoogleReaderOperation(GoogleReaderOperation.MarkAllItemsRead,
                                                       new object[] {feedUrl, olderThan}, googleUserID);
