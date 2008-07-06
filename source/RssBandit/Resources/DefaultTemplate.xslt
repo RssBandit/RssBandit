@@ -83,7 +83,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
     </xsl:if>	  
 <xsl:for-each select="//channel">
 
-  <xsl:if test="current()/image">
+  <xsl:if test="string-length(current()/image/url) &gt; 0">
 <div class="PostTitle" style="FLOAT: right"> 
   <a href="{current()/image/link}" title="{current()/image/title}"><img src="{current()/image/url}"  alt="{current()/image/title}" border="0">
   <xsl:if test="current()/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="current()/image/width"/></xsl:attribute></xsl:if>
@@ -220,8 +220,8 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   <table height="100%" width="100%">
 <tr>
   <td class="PostFrame" height="100%" width="100%" valign="top">
-	<xsl:if test="//channel/image">
-	  <div class="PostTitle" style="FLOAT: right">
+	<xsl:if test="string-length(//channel/image/url) &gt; 0">    
+    <div class="PostTitle" style="FLOAT: right">
 	<a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
 	<xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
 	<xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>

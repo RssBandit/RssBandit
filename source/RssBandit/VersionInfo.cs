@@ -27,8 +27,8 @@ using System.Resources;
 //	The build number should be incremented after each successful build/checkin. 
 //
 // Please raise Build Number on each modification !!!
-[assembly: AssemblyVersion("1.7.0.3")]
-[assembly: AssemblyFileVersion("1.7.0.3")]
+[assembly: AssemblyVersion("1.7.0.4")]
+[assembly: AssemblyFileVersion("1.7.0.4")]
 
 // This attribute attaches additional version information to 
 // an assembly for documentation purposes only.
