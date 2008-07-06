@@ -1506,11 +1506,12 @@ namespace NewsComponents.Feed
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
-                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
-                DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;                
                 string markReadUrl = apiUrlPrefix + "mark-all-as-read";
+                TimeSpan offset = TimeZone.CurrentTimeZone.GetUtcOffset(olderThan); 
 
-                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt64((olderThan.ToUniversalTime() - UnixEpoch).TotalMilliseconds * 1000) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
+                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + Convert.ToInt64((DateTime.Now - unixEpoch - offset).TotalMilliseconds * 1000)
+                               + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + "&t=" + Uri.EscapeDataString(f.title); 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
