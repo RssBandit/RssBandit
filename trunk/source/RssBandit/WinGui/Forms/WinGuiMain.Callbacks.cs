@@ -3358,7 +3358,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     foreach (NewsItem o in outGoingItems)
                     {
-                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath, source);
                         newListItem =
                             CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.OutgoingRead, colIndex, false);
 
@@ -3377,7 +3377,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     foreach (NewsItem o in inComingItems)
                     {
-                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath, source);
                         newListItem =
                             CreateThreadedLVItem(o, hasRelations, Resource.NewsItemImage.IncomingRead, colIndex, false);
 
@@ -3426,7 +3426,7 @@ namespace RssBandit.WinGui.Forms
 
                         foreach (INewsItem o in currentNewsItem.GetExternalRelations())
                         {
-                            bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                            bool hasRelations = NewsItemHasRelations(o, itemKeyPath, source);
 
                             o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
                             newListItem =
