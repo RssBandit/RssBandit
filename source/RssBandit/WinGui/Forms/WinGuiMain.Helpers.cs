@@ -1239,7 +1239,7 @@ namespace RssBandit.WinGui.Forms
                     if (!item.BeenRead)
                         unread.Add(item);
 
-                    bool hasRelations = NewsItemHasRelations(item);
+                    bool hasRelations = NewsItemHasRelations(item, FeedSourceOf(item.Feed.link).Source);
 
                     ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
                                                                         Resource.NewsItemImage.DefaultRead, colIndex,
@@ -1308,7 +1308,7 @@ namespace RssBandit.WinGui.Forms
                 for (int i = 0; i < list.Count; i++)
                 {
                     INewsItem item = list[i];
-                    bool hasRelations = NewsItemHasRelations(item);
+                    bool hasRelations = NewsItemHasRelations(item, FeedSourceOf(CurrentSelectedFeedsNode).Source);
                     bool isDuplicate = false;
                     ThreadedListViewItem tlvi = null;
 
@@ -1415,17 +1415,17 @@ namespace RssBandit.WinGui.Forms
         //			return listFeedItems.Items.Count;
         //		}
 
-        private bool NewsItemHasRelations(INewsItem item)
+        private bool NewsItemHasRelations(INewsItem item, FeedSource source)
         {
-            return NewsItemHasRelations(item, new INewsItem[] {});
+            return NewsItemHasRelations(item, new INewsItem[] {}, source);
         }
 
-        private bool NewsItemHasRelations(INewsItem item, IList<INewsItem> itemKeyPath)
+        private bool NewsItemHasRelations(INewsItem item, IList<INewsItem> itemKeyPath, FeedSource source)
         {
             bool hasRelations = false;
-            if (item.Feed != null & owner.FeedHandler.IsSubscribed(item.Feed.link))
+            if (item.Feed != null && source != null && source.IsSubscribed(item.Feed.link))
             {
-                hasRelations = owner.FeedHandler.HasItemAnyRelations(item, itemKeyPath);
+                hasRelations = source.HasItemAnyRelations(item, itemKeyPath);
             }
             if (!hasRelations) hasRelations = (item.HasExternalRelations && owner.InternetAccessAllowed);
             return hasRelations;
@@ -1495,7 +1495,7 @@ namespace RssBandit.WinGui.Forms
                             continue;
 
 
-                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath);
+                        bool hasRelations = NewsItemHasRelations(o, itemKeyPath, null);
 
                         o.BeenRead = tempFeedItemsRead.ContainsKey(RssHelper.GetHashCode(o));
                         ThreadedListViewItem newListItem =
