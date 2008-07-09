@@ -805,8 +805,8 @@ namespace NewsComponents.Feed
                     //Update our recently read stories. This is very necessary for 
                     //dynamically generated feeds which always return 200(OK) even if unchanged							
 
-                    FeedDetailsInternal fi = RssParser.GetItemsForFeed(theFeed, response, false);
-                    FeedDetailsInternal fiFromCache = null;
+                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, response, false);
+                    IInternalFeedDetails fiFromCache = null;
 
                     // Sometimes we may not have loaded feed from cache. So ensure it is 
                     // loaded into memory if cached. We don't lock here because loading from
@@ -866,7 +866,7 @@ namespace NewsComponents.Feed
                             if ((String.Compare(fi2.Link, fi.Link, true) != 0) &&
                                 (newReceivedItems.Count == fi.ItemsList.Count))
                             {
-                                foreach (FeedDetailsInternal fdi in itemsTable.Values)
+                                foreach (IInternalFeedDetails fdi in itemsTable.Values)
                                 {
                                     if (String.Compare(fdi.Link, fi.Link, true) == 0)
                                     {
@@ -978,7 +978,7 @@ namespace NewsComponents.Feed
                     theFeed.lastretrievedSpecified = true;
                     theFeed.causedException = false;
 
-                    //FeedDetailsInternal feedInfo = itemsTable[feedUrl];
+                    //IInternalFeedDetails feedInfo = itemsTable[feedUrl];
                     //if (feedInfo != null)
                     //    itemsForFeed = feedInfo.ItemsList;
                     //else

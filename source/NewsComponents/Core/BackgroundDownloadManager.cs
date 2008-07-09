@@ -91,8 +91,14 @@ namespace NewsComponents
         /// <returns></returns>
         public string InitialDownloadLocation
         {
-            get { return downloadInfoProvider.CacheLocation; }
-        }
+            //get { return downloadInfoProvider.CacheLocation; }
+			get
+			{
+				return Path.Combine(
+					downloadInfoProvider.Configuration.UserLocalApplicationDataPath,
+					"downloading");
+			}
+		}
 
         /// <summary>
         /// The proxy that must be used when accessing the Web

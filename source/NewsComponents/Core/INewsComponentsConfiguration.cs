@@ -80,7 +80,7 @@ namespace NewsComponents
 		/// </summary>
 		/// <remarks>Required</remarks>
 		/// <value>The cache manager.</value>
-		CacheManager CacheManager { get; }
+		INewsDataService DataService { get; }
 
 		/// <summary>
 		/// Gets the search index behavior.
@@ -204,7 +204,7 @@ namespace NewsComponents
 		/// <summary/>
 		protected IPersistedSettings settings;
 		/// <summary/>
-		protected CacheManager p_cacheManager;
+		protected INewsDataService p_dataService;
 
 		/// <summary/>
 		protected int p_refreshRate = -1;
@@ -300,11 +300,11 @@ namespace NewsComponents
 		/// Gets the cache manager.
 		/// </summary>
 		/// <value>The cache manager.</value>
-		public virtual CacheManager CacheManager {
-			get { return p_cacheManager; }
+		public virtual INewsDataService DataService {
+			get { return p_dataService; }
 			set {
-				p_cacheManager = value;
-				this.OnPropertyChanged("CacheManager");
+				p_dataService = value;
+				this.OnPropertyChanged("DataService");
 			}
 		}
 		/// <summary>
@@ -367,7 +367,7 @@ namespace NewsComponents
 			string path = Path.Combine(cfg.UserApplicationDataPath, "Cache");
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
-			cfg.CacheManager = new FileCacheManager(path);
+			cfg.DataService = new FileStorageDataService(path);
 			
 			cfg.PersistedSettings = new SettingStore(cfg.ApplicationID);
 
