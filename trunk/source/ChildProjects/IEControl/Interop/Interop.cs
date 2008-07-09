@@ -218,6 +218,31 @@ namespace IEControl {
 			S_OK = 0,
 			
 			OLEIVERB_UIACTIVATE = -4,
+
+			/*
+			 * From the IE 8 (beta) zoom v2 docs at http://code.msdn.microsoft.com/ie8whitepapers/Release/ProjectReleases.aspx?ReleaseId=563
+			 * Zoom APIs 
+			 * 
+			 * OLECMDID_ZOOM – This corresponds to the View menu's Text Size command. 
+			 * Only the text is scaled by using this command. 
+			 * Sites that have fixed text size are not changed in anyway. 
+			 * This command is used for primarily three purposes: 
+			 *   querying the current zoom value, displaying the zoom dialog box, 
+			 *   and setting a zoom value. 
+			 *   
+			 * OLECMDID_GETZOOMRANGE – This command returns two values (LOWORD, HIWORD) 
+			 * that represent the minimum and maximum of the zoom value range. 
+			 * This command is used when the user activates zoom UI. 
+			 * 
+			 * OLECMDID_OPTICAL_ZOOM – Internet Explorer 7 and later. 
+			 * Sets the zoom factor of the browser. 
+			 * Takes a VT_I4 parameter in the range of 10 to 1000 (percent). 
+			 * 
+			 * OLECMDID_OPTICAL_GETZOOMRANGE – Internet Explorer 7 and later. 
+			 * Retrieves the minimum and maximum browser zoom factor limits. 
+			 * Returns a VT_I4 parameter, where the LOWORD is the minimum zoom factor, 
+			 * and the HIWORD is the maximum.
+			 */
 			OLECMDID_OPTICAL_ZOOM = 63,
 
 			WM_CLOSE = 0x0010,
