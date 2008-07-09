@@ -21,9 +21,9 @@ using NewsComponents.Utils;
 namespace NewsComponents.Feed
 {
     /// <summary>
-    /// represents information about a particular rss feed. 
+    /// represents information about a particular RSS feed. 
     /// </summary>
-    public class FeedInfo : FeedDetailsInternal, ISizeInfo
+    public class FeedInfo : IInternalFeedDetails, ISizeInfo
     {
         /// <summary>
         /// Gets the empty feed info instance.
@@ -690,39 +690,3 @@ namespace NewsComponents.Feed
         #endregion
     }
 }
-
-#region CVS Version Log
-
-/*
- * $Log: FeedInfo.cs,v $
- * Revision 1.25  2007/07/18 00:07:19  carnage4life
- * Fixed bug where we lost content of feed items no longer in the RSS feed
- *
- * Revision 1.24  2007/07/07 20:59:36  carnage4life
- * Fixed typo
- *
- * Revision 1.23  2007/07/07 20:58:41  carnage4life
- * Fixed issue where deleted items weren't being deleted from the cache
- *
- * Revision 1.22  2007/06/07 19:51:22  carnage4life
- * Added full support for pagination in newspaper views
- *
- * Revision 1.21  2007/02/15 16:37:49  t_rendelmann
- * changed: persisted searches now return full item texts;
- * fixed: we do now show the error of not supported search kinds to the user;
- *
- * Revision 1.20  2007/01/16 00:27:54  carnage4life
- * Made some perf improvements related to SearchNewsItems()
- *
- * Revision 1.19  2007/01/14 19:30:47  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.18  2006/10/27 19:15:43  t_rendelmann
- * added: Clone(bool) overload for speed opt.
- *
- * Revision 1.17  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- */
-
-#endregion

@@ -1204,12 +1204,12 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Gets the cache manager.
+        /// Gets the data service instance.
         /// </summary>
-        /// <value>The cache manager.</value>
-        internal CacheManager CacheHandler
+        /// <value>The data service.</value>
+        internal INewsDataService DataService
         {
-            get { return p_configuration.CacheManager; }
+            get { return p_configuration.DataService; }
         }
 
         /// <summary>
@@ -1219,21 +1219,6 @@ namespace NewsComponents
         public bool DownloadIntervalReached
         {
             get { return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= RefreshRate; }
-        }
-
-//		/// <summary>
-//		/// Manages the cache. 
-//		/// </summary>
-//		[Obsolete("Use CacheHandler property")]
-//		private CacheManager cacheHandler; 
-
-
-        /// <summary>
-        /// The location where feed items are cached.
-        /// </summary>
-        internal string CacheLocation
-        {
-            get { return CacheHandler.CacheLocation; }
         }
 
         /// <summary>
@@ -2064,8 +2049,8 @@ namespace NewsComponents
             if (string.IsNullOrEmpty(configuration.ApplicationID))
                 throw new InvalidOperationException(
                     "INewsComponentsConfiguration.ApplicationID cannot be null or empty.");
-            if (configuration.CacheManager == null)
-                throw new InvalidOperationException("INewsComponentsConfiguration.CacheManager cannot be null.");
+            if (configuration.DataService == null)
+                throw new InvalidOperationException("INewsComponentsConfiguration.DataService cannot be null.");
             if (configuration.PersistedSettings == null)
                 throw new InvalidOperationException("INewsComponentsConfiguration.PersistedSettings cannot be null.");
             if (string.IsNullOrEmpty(configuration.UserApplicationDataPath))
@@ -2749,6 +2734,64 @@ namespace NewsComponents
             SearchHandler.IndexAdd(deletedItems);
         }
 
+    	#region favicon handling
+
+    	/// <summary>
+    	/// Gets true, if the feed has a favicon.
+    	/// </summary>
+    	/// <param name="feed">The feed.</param>
+    	/// <returns></returns>
+    	public virtual bool FeedHasFavicon(INewsFeed feed)
+    	{
+    		if (feed != null)
+    			return !String.IsNullOrEmpty(feed.favicon);
+    		return false;
+    	}
+
+    	/// <summary>
+    	/// Gets the favicon for feed, or null in case there is none.
+    	/// </summary>
+    	/// <param name="feed">The feed.</param>
+    	/// <returns></returns>
+    	public virtual byte[] GetFaviconForFeed(INewsFeed feed)
+    	{
+    		if (FeedHasFavicon(feed))
+    		{
+    			return DataService.GetBinaryContent(feed.favicon);
+    		}
+    		return null;
+    	}
+
+    	/// <summary>
+    	/// Sets the favicon for a feed. Assigns the favicon property and 
+    	/// store the byte array.
+    	/// </summary>
+    	/// <param name="feed">The feed.</param>
+    	/// <param name="contentId">The content id.</param>
+    	/// <param name="imageData">The image data.</param>
+    	public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
+    	{
+    		if (feed != null && !String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
+    		{
+    			DataService.SaveBinaryContent(contentId, imageData);
+    			feed.favicon = contentId;
+    		}
+    	}
+
+		/// <summary>
+		/// Removes the favicon from feed.
+		/// </summary>
+		/// <param name="feed">The feed.</param>
+		public void RemoveFaviconFromFeed(INewsFeed feed)
+		{
+			if (FeedHasFavicon(feed))
+			{
+				DataService.DeleteBinaryContent(feed.favicon);
+			}
+		}
+    	#endregion
+
+
         /// <summary>
         /// Saves the feed list to the SubscriptionLocation.Location. The feed is written in
         /// the RSS Bandit feed file format as described in feeds.xsd
@@ -3109,7 +3152,7 @@ namespace NewsComponents
         public void ClearItemsCache()
         {
             itemsTable.Clear();
-            CacheHandler.ClearCache();
+            DataService.RemoveAllNewsItems();
         }
 
 
@@ -3938,7 +3981,7 @@ namespace NewsComponents
             {
                 if (((!force_download) || isOffline) && (!itemsTable.ContainsKey(feedUrl)) &&
                     (!string.IsNullOrEmpty(theFeed.cacheurl) &&
-                     (CacheHandler.FeedExists(theFeed))))
+                     (DataService.FeedExists(theFeed))))
                 {
                     bool getFromCache;
                     lock (itemsTable)
@@ -3948,7 +3991,7 @@ namespace NewsComponents
                     if (getFromCache)
                     {
                         // do not call from within a lock:
-                        FeedDetailsInternal fi = GetFeed(theFeed);
+                        IInternalFeedDetails fi = GetFeed(theFeed);
                         if (fi != null)
                         {
                             lock (itemsTable)
@@ -4026,7 +4069,7 @@ namespace NewsComponents
         /// <param name="item"></param>
         public void GetCachedContentForItem(INewsItem item)
         {
-            CacheHandler.LoadItemContent(item);
+            DataService.LoadItemContent(item);
         }
 
         /// <summary>
@@ -4064,7 +4107,7 @@ namespace NewsComponents
                 if (feedsTable.TryGetValue(feedUrl, out theFeed))
                 {
                     if ((theFeed.cacheurl != null) && (theFeed.cacheurl.Trim().Length > 0) &&
-                        (CacheHandler.FeedExists(theFeed)))
+                        (DataService.FeedExists(theFeed)))
                     {
                         bool getFromCache;
                         lock (itemsTable)
@@ -4073,7 +4116,7 @@ namespace NewsComponents
                         }
                         if (getFromCache)
                         {
-                            FeedDetailsInternal fi = GetFeed(theFeed);
+                            IInternalFeedDetails fi = GetFeed(theFeed);
                             if (fi != null)
                             {
                                 lock (itemsTable)
@@ -4096,7 +4139,7 @@ namespace NewsComponents
             {
                 //cached file is not well-formed so we remove it from cache. 	
                 Trace("Xml Error retrieving feed '{0}' from cache: {1}", feedUrl, xe.ToDescriptiveString());
-                CacheHandler.RemoveFeed(theFeed);
+                DataService.RemoveFeed(theFeed);
             }
             catch (Exception ex)
             {
@@ -4354,7 +4397,7 @@ namespace NewsComponents
                     //Update our recently read stories. This is very necessary for 
                     //dynamically generated feeds which always return 200(OK) even if unchanged							
 
-                    FeedDetailsInternal fi;
+                    IInternalFeedDetails fi;
 
                     if ((requestUri.Scheme == NntpWebRequest.NntpUriScheme) ||
                         (requestUri.Scheme == NntpWebRequest.NewsUriScheme))
@@ -4366,7 +4409,7 @@ namespace NewsComponents
                         fi = RssParser.GetItemsForFeed(theFeed, response, false);
                     }
 
-                    FeedDetailsInternal fiFromCache = null;
+                    IInternalFeedDetails fiFromCache = null;
 
                     // Sometimes we may not have loaded feed from cache. So ensure it is 
                     // loaded into memory if cached. We don't lock here because loading from
@@ -4427,7 +4470,7 @@ namespace NewsComponents
                             if ((String.Compare(fi2.Link, fi.Link, true) != 0) &&
                                 (newReceivedItems.Count == fi.ItemsList.Count))
                             {
-                                foreach (FeedDetailsInternal fdi in itemsTable.Values)
+                                foreach (IInternalFeedDetails fdi in itemsTable.Values)
                                 {
                                     if (String.Compare(fdi.Link, fi.Link, true) == 0)
                                     {
@@ -4540,7 +4583,7 @@ namespace NewsComponents
                     theFeed.lastretrievedSpecified = true;
                     theFeed.causedException = false;
 
-                    //FeedDetailsInternal feedInfo = itemsTable[feedUrl];
+                    //IInternalFeedDetails feedInfo = itemsTable[feedUrl];
                     //if (feedInfo != null)
                     //    itemsForFeed = feedInfo.ItemsList;
                     //else
@@ -4682,20 +4725,21 @@ namespace NewsComponents
                         if (ext != null)
                         {
                             favicon = GenerateFaviconUrl(requestUri, ext);
-                            string filelocation = Path.Combine(CacheHandler.CacheLocation, favicon);
+							DataService.SaveBinaryContent(favicon, bytes);
+							//string filelocation = Path.Combine(DataService.CacheLocation, favicon);
 
-                            using (FileStream fs = FileHelper.OpenForWrite(filelocation))
-                            {
-                                var bw = new BinaryWriter(fs);
-                                bw.Write(bytes);
-                                bw.Flush();
-                            }
+							//using (FileStream fs = FileHelper.OpenForWrite(filelocation))
+							//{
+							//    var bw = new BinaryWriter(fs);
+							//    bw.Write(bytes);
+							//    bw.Flush();
+							//}
                         }
                     }
-                    else
-                    {
-                        // favicon == null; reset
-                    }
+                    //else
+                    //{
+                    //     favicon == null; reset
+                    //}
 
                     // The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
                     // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
@@ -4715,16 +4759,9 @@ namespace NewsComponents
                         {
                             string websiteUrl = ((FeedInfo) itemsTable[feedUrl]).Link;
 
-                            Uri uri = null;
-                            try
-                            {
-                                uri = new Uri(websiteUrl);
-                            }
-                            catch (Exception)
-                            {
-                            }
-
-                            if ((uri != null) && uri.Authority.Equals(requestUri.Authority))
+                        	Uri uri;
+							if (Uri.TryCreate(websiteUrl, UriKind.Absolute, out uri) 
+								&& uri.Authority.Equals(requestUri.Authority))
                             {
                                 feedUrls.Add(feedUrl);
                                 INewsFeed f = feedsTable[feedUrl];
@@ -5318,7 +5355,7 @@ namespace NewsComponents
                             {
                                 // not in itemsTable, cacheurl set - but no cache file anymore?
                                 if (!string.IsNullOrEmpty(current.cacheurl) &&
-                                    !CacheHandler.FeedExists(current))
+                                    !DataService.FeedExists(current))
                                     force_download = true;
                             }
 
@@ -5918,7 +5955,7 @@ namespace NewsComponents
         protected string SaveFeed(INewsFeed feed)
         {
             TimeSpan maxItemAge = GetMaxItemAge(feed.link);
-            var fi = itemsTable[feed.link] as FeedDetailsInternal;
+            var fi = itemsTable[feed.link] as IInternalFeedDetails;
             IList<INewsItem> items = fi.ItemsList;
 
             /* remove items that have expired according to users cache requirements */
@@ -5945,7 +5982,7 @@ namespace NewsComponents
             } //if(maxItemAge != TimeSpan.MinValue)						
 
 
-            return CacheHandler.SaveFeed(fi);
+            return DataService.SaveFeed(fi);
         }
 
         /// <summary>
@@ -5953,9 +5990,9 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feed">The feed whose FeedInfo is required.</param>
         /// <returns>The requested feed or null if it doesn't exist</returns>
-        internal FeedDetailsInternal GetFeed(INewsFeed feed)
+        internal IInternalFeedDetails GetFeed(INewsFeed feed)
         {
-            FeedDetailsInternal fi = CacheHandler.GetFeed(feed);
+            IInternalFeedDetails fi = DataService.GetFeed(feed);
 
             if (fi != null)
             {
@@ -6947,7 +6984,7 @@ namespace NewsComponents
 
             try
             {
-                CacheHandler.RemoveFeed(f);
+                DataService.RemoveFeed(f);
             }
             catch (Exception e)
             {
@@ -7022,7 +7059,7 @@ namespace NewsComponents
                         SearchHandler.IndexRemove(f.id);
                         try
                         {
-                            CacheHandler.RemoveFeed(f);
+                            DataService.RemoveFeed(f);
                         }
                         catch (Exception)
                         {
@@ -7164,7 +7201,7 @@ namespace NewsComponents
     /// Interface represents extended information about a particular feed
     /// (internal use only)
     /// </summary>
-    internal interface FeedDetailsInternal : IFeedDetails
+    public interface IInternalFeedDetails : IFeedDetails
     {
         /* new Dictionary<XmlQualifiedName, string> OptionalElements { get; }
         List<INewsItem> ItemsList { get; set; }

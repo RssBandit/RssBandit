@@ -1581,7 +1581,7 @@ namespace NewsComponents.Feed
                 feedReader.Close();
             }
 
-            // CacheManager works with FeedInfo only and requires a feedLink.
+            // DataService works with FeedInfo only and requires a feedLink.
             // So we check/set it here if not found in the feed itself or relative.
             // It will be updated the time the feed owner provide a valid value.
             if (string.IsNullOrEmpty(feedLink))

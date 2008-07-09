@@ -504,7 +504,7 @@ namespace RssBandit
             else
                 cfg.DownloadedFilesDataPath = GetDefaultEnclosuresPath();
 
-            cfg.CacheManager = new FileCacheManager(GetFeedFileCachePath());
+            cfg.DataService = new FileStorageDataService(GetFeedFileCachePath());
             cfg.PersistedSettings = GuiSettings;
 
             // once written a valid value:
@@ -525,7 +525,7 @@ namespace RssBandit
                               UserApplicationDataPath = configTemplate.UserApplicationDataPath,
                               UserLocalApplicationDataPath = configTemplate.UserLocalApplicationDataPath,
                               DownloadedFilesDataPath = null,
-                              CacheManager = new FileCacheManager(GetFeedFileCachePath()),
+                              DataService = new FileStorageDataService(GetFeedFileCachePath()),
                               PersistedSettings = configTemplate.PersistedSettings,
                               RefreshRate = configTemplate.RefreshRate
                           };

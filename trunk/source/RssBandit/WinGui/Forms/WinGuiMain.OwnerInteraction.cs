@@ -497,7 +497,7 @@ namespace RssBandit.WinGui.Forms
 								f.title, Resource.SubscriptionTreeImage.Feed,
 								Resource.SubscriptionTreeImage.FeedSelected,
 								_treeFeedContextMenu,
-								(owner.Preferences.UseFavicons ? LoadFavicon(f.favicon) : null));
+								(owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
 						}
 
 						//interconnect for speed:
@@ -631,46 +631,58 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        /// <summary>
-        /// Loads a favicon from the cache 
-        /// </summary>
-        /// <param name="name">The name of the favicon</param>
-        /// <returns>The favicon as an image or null if there was an error loading the image</returns>
-        private Image LoadFavicon(string name)
+		/// <summary>
+		/// Loads a favicon from the cache
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <param name="feed">The feed.</param>
+		/// <returns>
+		/// The favicon as an image or null if there was an error loading the image
+		/// </returns>
+        private Image LoadCachedFavicon(FeedSource source, INewsFeed feed)
+		{
+			if (feed == null || source == null)
+				return null;
+
+			if (!source.FeedHasFavicon(feed))
+				return null;
+
+			if (_favicons.ContainsKey(feed.favicon))
+				return _favicons[feed.favicon];
+
+			return LoadFavicon(source, feed);
+		}
+
+		/// <summary>
+		/// Loads a favicon from the cache
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <param name="feed">The feed.</param>
+		/// <returns>
+		/// The favicon as an image or null if there was an error loading the image
+		/// </returns>
+        private Image LoadFavicon(FeedSource source, INewsFeed feed)
         {
+			if (feed == null || source == null)
+				return null;
+
+			if (!source.FeedHasFavicon(feed))
+				return null;
+
             Image favicon = null;
 
-            try
-            {
-                //if there is a favicon, load it from disk and resize to 16x16 if necessary
-                if (!string.IsNullOrEmpty(name))
-                {
-                    if (_favicons.ContainsKey(name))
-                    {
-                        return _favicons[name];
-                    }
-
-                    string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), name);
-                    if (!File.Exists(location))
-                        return null;
-
-                    if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
-                        try
-                        {
+			try
+			{
+				byte[] imageData = source.GetFaviconForFeed(feed);
+				if (imageData != null)
+				{
+					using (Stream s = new MemoryStream(imageData))
+					{
+						if (String.Compare(Path.GetExtension(feed.favicon), ".ico", true) == 0)
+							try
+							{
                             // looks like an ICO:
-                            //using (MultiIcon ico = new MultiIcon(location))
-                            //{
-                            //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
-                            //    //HACK: this is a workaround to the AccessViolationException caused
-                            //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                            //    if (smallest.Width != smallest.Height)
-                            //    {
-                            //        return null;
-                            //    }
-                            //    //resize, but do not save:
-                            //    favicon = ResizeFavicon(smallest.ToBitmap(), null);
-                            //}
-                            using (var ico = new Icon(location, new Size(16, 16)))
+                            using (var ico = new Icon(s, new Size(16, 16)))
                             {
                                 if (!Win32.IsOSAtLeastWindowsVista)
                                 {
@@ -681,59 +693,168 @@ namespace RssBandit.WinGui.Forms
                                         return null;
                                 }
 
-                                favicon = ResizeFavicon(ico.ToBitmap(), null);
+                                favicon = ResizeFavicon(ico.ToBitmap());
                             }
                         }
                         catch (Exception e)
                         {
-                            _log.Debug("LoadFavicon(" + name + ") failed with error:", e);
+							_log.Debug("LoadFavicon(" + feed.favicon + ") failed with error:", e);
                             // may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
                         }
-                    // fallback to init an icon from other image file formats:
-                    if (favicon == null)
-                        favicon = ResizeFavicon(Image.FromFile(location, true), location);
+						
+						// fallback to init an icon from other image file formats:
+						if (favicon == null)
+						{
+							bool changed;
+							favicon = ResizeFavicon(Image.FromStream(s, true), out changed);
+							if (changed)
+								using (MemoryStream saveStream = new MemoryStream())
+								{
+									favicon.Save(saveStream, favicon.RawFormat);
+									source.SetFaviconForFeed(feed, feed.favicon, saveStream.ToArray());
+								}
+						}
 
-                    lock (_favicons)
-                    {
-                        if (!_favicons.ContainsKey(name))
-                            _favicons.Add(name, favicon);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                _log.Debug("LoadFavicon(" + name + ") failed with error:", e);
-            }
+						lock (_favicons)
+						{
+							if (!_favicons.ContainsKey(feed.favicon))
+								_favicons.Add(feed.favicon, favicon);
+						}
+					}
+				}
 
-            return favicon;
+			}
+			catch (Exception e)
+			{
+				//we had an issue loading or resizing the icon
+				_log.Error("Error in ApplyFavicons(): {0}", e);
+			}
+
+			#region old code (for reference)
+			//try
+			//{
+			//    //if there is a favicon, load it from backend and resize to 16x16 if necessary
+			//    if (!string.IsNullOrEmpty(name))
+			//    {
+			//        if (_favicons.ContainsKey(name))
+			//        {
+			//            return _favicons[name];
+			//        }
+
+			//        string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), name);
+			//        if (!File.Exists(location))
+			//            return null;
+
+			//        if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
+			//            try
+			//            {
+			//                // looks like an ICO:
+			//                //using (MultiIcon ico = new MultiIcon(location))
+			//                //{
+			//                //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+			//                //    //HACK: this is a workaround to the AccessViolationException caused
+			//                //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+			//                //    if (smallest.Width != smallest.Height)
+			//                //    {
+			//                //        return null;
+			//                //    }
+			//                //    //resize, but do not save:
+			//                //    favicon = ResizeFavicon(smallest.ToBitmap(), null);
+			//                //}
+			//                using (var ico = new Icon(location, new Size(16, 16)))
+			//                {
+			//                    if (!Win32.IsOSAtLeastWindowsVista)
+			//                    {
+			//                        //HACK: this is a workaround to the AccessViolationException caused
+			//                        // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+			//                        // XP and below can't handle non-square icons
+			//                        if (ico.Width != ico.Height)
+			//                            return null;
+			//                    }
+
+			//                    favicon = ResizeFavicon(ico.ToBitmap(), null);
+			//                }
+			//            }
+			//            catch (Exception e)
+			//            {
+			//                _log.Debug("LoadFavicon(" + name + ") failed with error:", e);
+			//                // may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
+			//            }
+			//        // fallback to init an icon from other image file formats:
+			//        if (favicon == null)
+			//            favicon = ResizeFavicon(Image.FromFile(location, true), location);
+
+			//        lock (_favicons)
+			//        {
+			//            if (!_favicons.ContainsKey(name))
+			//                _favicons.Add(name, favicon);
+			//        }
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    _log.Debug("LoadFavicon(" + name + ") failed with error:", e);
+			//}
+			#endregion
+
+			return favicon;
         }
 
-        /// <summary>
-        /// Resizes the image to 16x16 so it can be used as a favicon in the treeview
-        /// </summary>
-        /// <param name="toResize"></param>
-        /// <param name="location">The name of the image on the file system so it can be saved if 
-        /// if resized. </param>
-        /// <returns></returns>
-        private static Image ResizeFavicon(Image toResize, string location)
-        {
-            if ((toResize.Height == 16) && (toResize.Width == 16))
-            {
-                return toResize;
-            }
+		/// <summary>
+		/// Resizes the image to 16x16 so it can be used as a favicon in the treeview
+		/// </summary>
+		/// <param name="toResize">Image to resize.</param>
+		/// <returns></returns>
+		private static Image ResizeFavicon(Image toResize)
+		{
+			bool resized;
+			return ResizeFavicon(toResize, out resized);
+		}
 
-            var result = new Bitmap(16, 16, toResize.PixelFormat);
-            result.SetResolution(toResize.HorizontalResolution, toResize.VerticalResolution);
-            using (Graphics g = Graphics.FromImage(result))
-            {
-                g.DrawImage(toResize, 0, 0, 16, 16);
-            }
-            toResize.Dispose();
-            if (location != null)
-                result.Save(location);
+    	/// <summary>
+		/// Resizes the image to 16x16 so it can be used as a favicon in the treeview
+		/// </summary>
+		/// <param name="toResize">To resize.</param>
+		/// <param name="resized">if set to <c>true</c> the returned image was resized/changed.</param>
+		/// <returns></returns>
+		private static Image ResizeFavicon(Image toResize, out bool resized)
+		{
+			resized = false;
+			if ((toResize.Height == 16) && (toResize.Width == 16))
+			{
+				return toResize;
+			}
 
-            return result;
-        }
+			resized = true;
+			var result = new Bitmap(16, 16, toResize.PixelFormat);
+			result.SetResolution(toResize.HorizontalResolution, toResize.VerticalResolution);
+			using (Graphics g = Graphics.FromImage(result))
+			{
+				g.DrawImage(toResize, 0, 0, 16, 16);
+			}
+			toResize.Dispose();
+			return result;
+		}
+		
+		//private static Image ResizeFavicon(Image toResize, string location)
+		//{
+		//    if ((toResize.Height == 16) && (toResize.Width == 16))
+		//    {
+		//        return toResize;
+		//    }
+
+		//    var result = new Bitmap(16, 16, toResize.PixelFormat);
+		//    result.SetResolution(toResize.HorizontalResolution, toResize.VerticalResolution);
+		//    using (Graphics g = Graphics.FromImage(result))
+		//    {
+		//        g.DrawImage(toResize, 0, 0, 16, 16);
+		//    }
+		//    toResize.Dispose();
+		//    if (location != null)
+		//        result.Save(location);
+
+		//    return result;
+		//}
 
         private void PopulateTreeRssSearchScope()
         {
@@ -1423,7 +1544,7 @@ namespace RssBandit.WinGui.Forms
                 tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed,
                                   Resource.SubscriptionTreeImage.FeedSelected,
                                   _treeFeedContextMenu,
-                                  (owner.Preferences.UseFavicons ? LoadFavicon(f.favicon) : null));
+                                  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
             }
 
             //interconnect for speed:
@@ -1503,73 +1624,86 @@ namespace RssBandit.WinGui.Forms
 		/// <param name="feedUrls">The list of URLs that will utilize this favicon</param>
         public void UpdateFavicon(FeedSourceEntry entry, string favicon, StringCollection feedUrls)
         {
+			if (feedUrls == null || feedUrls.Count == 0)
+				return;
+
             Image icon = null;
             if (!string.IsNullOrEmpty(favicon))
-            {
-                string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), favicon);
+			{
+				INewsFeed feed;
+				if (entry.Source.GetFeeds().TryGetValue(feedUrls[0], out feed))
+				{
+					icon = LoadFavicon(entry.Source, feed);
+				}
 
-                if (String.Compare(Path.GetExtension(location), ".ico", true) == 0)
-                    try
-                    {
-                        // looks like an ICO:
-                        //using (MultiIcon ico = new MultiIcon(location))
-                        //{
-                        //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
-                        //    //HACK: this is a workaround to the AccessViolationException caused
-                        //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                        //    if (smallest.Width == smallest.Height) //resize, but do not save:
-                        //        icon = ResizeFavicon(smallest.ToBitmap(), null);
-                        //}
-                        using (var ico = new Icon(location, new Size(16, 16)))
-                        {
-                            if (!Win32.IsOSAtLeastWindowsVista)
-                            {
-                                icon = ResizeFavicon(ico.ToBitmap(), null);
-                            }
-                            else
-                            {
-                                //HACK: this is a workaround to the AccessViolationException caused
-                                // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                                // XP and below can't handle non-square icons
-                                if (ico.Width == ico.Height) //resize, but do not save:
-                                    icon = ResizeFavicon(ico.ToBitmap(), null);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Debug("UpdateFavicon(" + location + ") failed with error:", e);
-                        // may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
-                    }
-                else
-                    // fallback to init an icon from other image file formats:
-                    try
-                    {
-                        icon = ResizeFavicon(Image.FromFile(location, true), location);
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Debug("UpdateFavicon() failed", e);
-                    }
-            }
+				#region old code (for reference)
+				//string location = Path.Combine(RssBanditApplication.GetFeedFileCachePath(), favicon);
 
-            if (feedUrls != null)
-            {
-                foreach (var feedUrl in feedUrls)
-                {
-                    TreeFeedsNodeBase tn = TreeHelper.FindNode(GetSubscriptionRootNode(entry), feedUrl);
-                    if (tn == null)
-                    {
-                        _log.Debug("TreeHelper.FindNode() could not find matching tree node for " + feedUrl);
-                    }
-                    else
-                    {
-                        tn.SetIndividualImage(icon);
-                    }
-                }
-            }
+				//if (String.Compare(Path.GetExtension(favicon), ".ico", true) == 0)
+				//    try
+				//    {
+				//        // looks like an ICO:
+				//        //using (MultiIcon ico = new MultiIcon(location))
+				//        //{
+				//        //    Icon smallest = ico.FindIcon(MultiIcon.DisplayType.Smallest);
+				//        //    //HACK: this is a workaround to the AccessViolationException caused
+				//        //    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+				//        //    if (smallest.Width == smallest.Height) //resize, but do not save:
+				//        //        icon = ResizeFavicon(smallest.ToBitmap(), null);
+				//        //}
+				//        using (var ico = new Icon(location, new Size(16, 16)))
+				//        {
+				//            if (!Win32.IsOSAtLeastWindowsVista)
+				//            {
+				//                icon = ResizeFavicon(ico.ToBitmap(), null);
+				//            }
+				//            else
+				//            {
+				//                //HACK: this is a workaround to the AccessViolationException caused
+				//                // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+				//                // XP and below can't handle non-square icons
+				//                if (ico.Width == ico.Height) //resize, but do not save:
+				//                    icon = ResizeFavicon(ico.ToBitmap(), null);
+				//            }
+				//        }
+				//    }
+				//    catch (Exception e)
+				//    {
+				//        _log.Debug("UpdateFavicon(" + location + ") failed with error:", e);
+				//        // may happens, if we just downloaded a new icon from Web, that is not a real ICO (e.g. .png)
+				//    }
+				//else
+				//    // fallback to init an icon from other image file formats:
+				//    try
+				//    {
+				//        icon = ResizeFavicon(Image.FromFile(location, true), location);
+				//    }
+				//    catch (Exception e)
+				//    {
+				//        _log.Debug("UpdateFavicon() failed", e);
+				//    }
+				#endregion
+			}
 
-            if (icon != null)
+			// set or reset icon(s) at nodes:
+			SubscriptionRootNode root = GetSubscriptionRootNode(entry);
+			if (root != null)
+			{
+				foreach (var feedUrl in feedUrls)
+				{
+					TreeFeedsNodeBase tn = TreeHelper.FindNode(root, feedUrl);
+					if (tn == null)
+					{
+						_log.Debug("TreeHelper.FindNode() could not find matching tree node for " + feedUrl);
+					}
+					else
+					{
+						tn.SetIndividualImage(icon);
+					}
+				}
+			}
+
+			if (icon != null)
             {
                 lock (_favicons)
                 {
@@ -1578,7 +1712,6 @@ namespace RssBandit.WinGui.Forms
                 }
                 //<favicon> entries added to subscriptions.xml
                 owner.SubscriptionModified(entry, NewsFeedProperty.General);
-                //this.owner.FeedlistModified = true; 
             }
         }
 
@@ -1629,23 +1762,54 @@ namespace RssBandit.WinGui.Forms
 							{
 								icon = _favicons[f.favicon];
 							}
-							else if (File.Exists(location))
+							else if (entry.Source.FeedHasFavicon(f))
 							{
 								try
 								{
-									icon = ResizeFavicon(Image.FromFile(location), location);
-									lock (_favicons)
+									byte[] imageData = entry.Source.GetFaviconForFeed(f);
+									if (imageData != null)
 									{
-										if (!_favicons.ContainsKey(f.favicon))
-											_favicons.Add(f.favicon, icon);
+										using (Stream s = new MemoryStream(imageData))
+										{
+											bool changed;
+											icon = ResizeFavicon(Image.FromStream(s), out changed);
+											if (changed) using (MemoryStream saveStream = new MemoryStream())
+											{
+												icon.Save(saveStream, icon.RawFormat);
+												entry.Source.SetFaviconForFeed(f, f.favicon, saveStream.ToArray());
+											}
+											lock (_favicons)
+											{
+												if (!_favicons.ContainsKey(f.favicon))
+													_favicons.Add(f.favicon, icon);
+											}
+										}
 									}
+									
 								}
 								catch (Exception e)
 								{
 									//we had an issue loading or resizing the icon
 									_log.Error("Error in ApplyFavicons(): {0}", e);
 								}
-							} //else
+							}
+							//else if (File.Exists(location))
+							//{
+							//    try
+							//    {
+							//        icon = ResizeFavicon(Image.FromFile(location), location);
+							//        lock (_favicons)
+							//        {
+							//            if (!_favicons.ContainsKey(f.favicon))
+							//                _favicons.Add(f.favicon, icon);
+							//        }
+							//    }
+							//    catch (Exception e)
+							//    {
+							//        //we had an issue loading or resizing the icon
+							//        _log.Error("Error in ApplyFavicons(): {0}", e);
+							//    }
+							//} //else
 
 							if (icon != null)
 							{
