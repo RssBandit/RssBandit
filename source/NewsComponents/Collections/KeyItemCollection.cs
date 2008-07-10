@@ -997,7 +997,7 @@ namespace NewsComponents.Collections
 
 			public object Current
 			{
-				get { return Current; }
+				get { return parent.items[pos];  }
 			}
 
 			#endregion
