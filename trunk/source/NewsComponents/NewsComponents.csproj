@@ -164,6 +164,7 @@
     <Compile Include="..\Common\UriHelper.cs">
       <Link>UriHelper.cs</Link>
     </Compile>
+    <Compile Include="Collections\DisposableItemCollection.cs" />
     <Compile Include="Collections\FeedColumnLayoutCollection.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -320,14 +321,15 @@
     <Compile Include="Search\RssSearch.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Storage\IInitNewsDataService.cs" />
-    <Compile Include="Storage\NewsDataService.cs">
+    <Compile Include="Storage\DataServiceFactory.cs" />
+    <Compile Include="Storage\IInitDataService.cs" />
+    <Compile Include="Storage\DataServiceBase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Storage\FileStorageDataService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Storage\INewsDataService.cs" />
+    <Compile Include="Storage\IUserCacheDataService.cs" />
     <Compile Include="Threading\BinaryHeap.cs">
       <SubType>Code</SubType>
     </Compile>

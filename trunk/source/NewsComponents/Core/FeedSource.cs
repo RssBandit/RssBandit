@@ -198,9 +198,9 @@ namespace NewsComponents
         /// <param name="handlerType">The type of FeedSource to create</param>
         /// <param name="location">The location of the subscriptions</param>
         /// <returns>A new FeedSource</returns>
-        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location)
+        public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location)
         {
-            return CreateFeedSource(handlerType, location, DefaultConfiguration);
+            return CreateFeedSource(id, handlerType, location, DefaultConfiguration);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace NewsComponents
         /// <param name="location">The location of the subscriptions</param>
         /// <param name="configuration"></param>
         /// <returns>A new FeedSource</returns>
-        public static FeedSource CreateFeedSource(FeedSourceType handlerType, SubscriptionLocation location,
+        public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location,
                                                   INewsComponentsConfiguration configuration)
         {
             if (location == null)
@@ -242,6 +242,7 @@ namespace NewsComponents
             if (handler != null)
             {
                 handler.sourceType = handlerType;
+            	handler.sourceID = id;
 
                 if (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing &&
                     handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior)
@@ -1195,6 +1196,16 @@ namespace NewsComponents
             get { return sourceType; }
         }
 
+		internal int sourceID;
+
+		/// <summary>
+		/// Gets the ID of the source.
+		/// </summary>
+		/// <value>The ID.</value>
+		public int SourceID
+		{
+			get { return sourceID; }
+		}
         /// <summary>
         /// Gets the NewsComponents configuration.
         /// </summary>
@@ -1204,14 +1215,65 @@ namespace NewsComponents
             get { return p_configuration; }
         }
 
+
+		// per instance:
+		private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
+
+		/// <summary>
+		/// Gets the user cache data service instance.
+		/// </summary>
+		/// <value>The user cache data service.</value>
+		internal IUserCacheDataService UserCacheDataService
+		{
+			get
+			{
+				if (_domainStores.ContainsKey(StorageDomain.UserCacheData))
+					return (IUserCacheDataService)_domainStores[StorageDomain.UserCacheData];
+				IUserCacheDataService service = (IUserCacheDataService)DataServiceFactory.GetService(
+					StorageDomain.UserCacheData, p_configuration);
+				_domainStores.Add(StorageDomain.UserCacheData, service);
+				
+				return service;
+			}
+		}
+
         /// <summary>
-        /// Gets the data service instance.
+        /// Gets the user data service instance.
         /// </summary>
         /// <value>The data service.</value>
-        internal INewsDataService DataService
+        internal IUserDataService UserDataService
         {
-            get { return p_configuration.DataService; }
+            get
+            {
+				if (_domainStores.ContainsKey(StorageDomain.UserData))
+					return (IUserDataService)_domainStores[StorageDomain.UserData];
+
+				IUserDataService service = (IUserDataService)DataServiceFactory.GetService(
+					StorageDomain.UserData, p_configuration);
+				_domainStores.Add(StorageDomain.UserData, service);
+				
+				return service;
+            }
         }
+
+		/// <summary>
+		/// Gets the local/roaming user data service instance.
+		/// </summary>
+		/// <value>The data service.</value>
+		internal IUserRoamingDataService UserRoamingDataService
+		{
+			get
+			{
+				if (_domainStores.ContainsKey(StorageDomain.UserRoamingData))
+					return (IUserRoamingDataService)_domainStores[StorageDomain.UserRoamingData];
+
+				IUserRoamingDataService service = (IUserRoamingDataService)DataServiceFactory.GetService(
+					StorageDomain.UserRoamingData, p_configuration);
+				_domainStores.Add(StorageDomain.UserRoamingData, service);
+				
+				return service;
+			}
+		}
 
         /// <summary>
         /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
@@ -2047,8 +2109,6 @@ namespace NewsComponents
             if (string.IsNullOrEmpty(configuration.ApplicationID))
                 throw new InvalidOperationException(
                     "INewsComponentsConfiguration.ApplicationID cannot be null or empty.");
-            if (configuration.DataService == null)
-                throw new InvalidOperationException("INewsComponentsConfiguration.DataService cannot be null.");
             if (configuration.PersistedSettings == null)
                 throw new InvalidOperationException("INewsComponentsConfiguration.PersistedSettings cannot be null.");
             if (string.IsNullOrEmpty(configuration.UserApplicationDataPath))
@@ -2795,7 +2855,7 @@ namespace NewsComponents
 			
 			if (FeedHasFavicon(feed))
     		{
-    			return DataService.GetBinaryContent(feed.favicon);
+    			return UserCacheDataService.GetBinaryContent(feed.favicon);
     		}
     		return null;
     	}
@@ -2834,7 +2894,7 @@ namespace NewsComponents
 			
 			if (!String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
     		{
-    			DataService.SaveBinaryContent(contentId, imageData);
+    			UserCacheDataService.SaveBinaryContent(contentId, imageData);
     			feed.favicon = contentId;
     		}
     	}
@@ -2850,7 +2910,7 @@ namespace NewsComponents
 			
 			if (FeedHasFavicon(feed))
 			{
-				DataService.DeleteBinaryContent(feed.favicon);
+				UserCacheDataService.DeleteBinaryContent(feed.favicon);
 			}
 		}
     	#endregion
@@ -3216,7 +3276,7 @@ namespace NewsComponents
         public void ClearItemsCache()
         {
             itemsTable.Clear();
-            DataService.RemoveAllNewsItems();
+            UserCacheDataService.RemoveAllNewsItems();
         }
 
 
@@ -4045,7 +4105,7 @@ namespace NewsComponents
             {
                 if (((!force_download) || isOffline) && (!itemsTable.ContainsKey(feedUrl)) &&
                     (!string.IsNullOrEmpty(theFeed.cacheurl) &&
-                     (DataService.FeedExists(theFeed))))
+                     (UserCacheDataService.FeedExists(theFeed))))
                 {
                     bool getFromCache;
                     lock (itemsTable)
@@ -4133,7 +4193,7 @@ namespace NewsComponents
         /// <param name="item"></param>
         public void GetCachedContentForItem(INewsItem item)
         {
-            DataService.LoadItemContent(item);
+            UserCacheDataService.LoadItemContent(item);
         }
 
         /// <summary>
@@ -4171,7 +4231,7 @@ namespace NewsComponents
                 if (feedsTable.TryGetValue(feedUrl, out theFeed))
                 {
                     if ((theFeed.cacheurl != null) && (theFeed.cacheurl.Trim().Length > 0) &&
-                        (DataService.FeedExists(theFeed)))
+                        (UserCacheDataService.FeedExists(theFeed)))
                     {
                         bool getFromCache;
                         lock (itemsTable)
@@ -4203,7 +4263,7 @@ namespace NewsComponents
             {
                 //cached file is not well-formed so we remove it from cache. 	
                 Trace("Xml Error retrieving feed '{0}' from cache: {1}", feedUrl, xe.ToDescriptiveString());
-                DataService.RemoveFeed(theFeed);
+                UserCacheDataService.RemoveFeed(theFeed);
             }
             catch (Exception ex)
             {
@@ -4789,8 +4849,8 @@ namespace NewsComponents
                         if (ext != null)
                         {
                             favicon = GenerateFaviconUrl(requestUri, ext);
-							DataService.SaveBinaryContent(favicon, bytes);
-							//string filelocation = Path.Combine(DataService.CacheLocation, favicon);
+							UserCacheDataService.SaveBinaryContent(favicon, bytes);
+							//string filelocation = Path.Combine(UserCacheDataService.CacheLocation, favicon);
 
 							//using (FileStream fs = FileHelper.OpenForWrite(filelocation))
 							//{
@@ -5419,7 +5479,7 @@ namespace NewsComponents
                             {
                                 // not in itemsTable, cacheurl set - but no cache file anymore?
                                 if (!string.IsNullOrEmpty(current.cacheurl) &&
-                                    !DataService.FeedExists(current))
+                                    !UserCacheDataService.FeedExists(current))
                                     force_download = true;
                             }
 
@@ -6046,7 +6106,7 @@ namespace NewsComponents
             } //if(maxItemAge != TimeSpan.MinValue)						
 
 
-            return DataService.SaveFeed(fi);
+            return UserCacheDataService.SaveFeed(fi);
         }
 
         /// <summary>
@@ -6056,7 +6116,7 @@ namespace NewsComponents
         /// <returns>The requested feed or null if it doesn't exist</returns>
         internal IInternalFeedDetails GetFeed(INewsFeed feed)
         {
-            IInternalFeedDetails fi = DataService.GetFeed(feed);
+            IInternalFeedDetails fi = UserCacheDataService.GetFeed(feed);
 
             if (fi != null)
             {
@@ -7051,7 +7111,7 @@ namespace NewsComponents
 
             try
             {
-                DataService.RemoveFeed(f);
+                UserCacheDataService.RemoveFeed(f);
             }
             catch (Exception e)
             {
@@ -7126,7 +7186,7 @@ namespace NewsComponents
                         SearchHandler.IndexRemove(f.id);
                         try
                         {
-                            DataService.RemoveFeed(f);
+                            UserCacheDataService.RemoveFeed(f);
                         }
                         catch (Exception)
                         {
@@ -7173,7 +7233,8 @@ namespace NewsComponents
 		{
 			if (disposing)
 			{
-				
+				if (_domainStores != null)
+					_domainStores.Dispose();
 			}
 		}
 

@@ -24,10 +24,17 @@ namespace NewsComponents.Storage {
 	/// <summary>
 	/// An implementation of the DataService that uses the file system as a cache. 
 	/// </summary>
-	public class FileStorageDataService : NewsDataService
+	public class FileStorageDataService : DataServiceBase
 	{		
 
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(FileStorageDataService));
+
+		/// <summary>
+		/// Constructor initializes class
+		/// </summary>
+		internal FileStorageDataService()
+		{
+		}
 
 		/// <summary>
 		/// Returns the location of the cache. The format of the location is dependent 
@@ -39,20 +46,21 @@ namespace NewsComponents.Storage {
 			get { return initializationData; }
 		}
 
-
 		/// <summary>
-		/// Constructor initializes class and sets the cache directory
+		/// Initializes the data service with the specified initialization data.
 		/// </summary>
-		/// <param name="cacheDirectory">The cache directory</param>
-		/// <exception cref="IOException">If the directory doesn't exist</exception>
-		public FileStorageDataService(string cacheDirectory){
-			if(Directory.Exists(cacheDirectory)){
-				this.initializationData = cacheDirectory; 
-			}else{
-				throw new IOException(String.Format(ComponentsText.ExceptionDirectoryNotExistsMessage, cacheDirectory)); 
-			}
-		}				
-		
+		/// <param name="initData">The initialization data.
+		/// Can be a connection string, or a file path;
+		/// depending on the implementation of the data service</param>
+		public override void Initialize(string initData)
+		{
+			initData.ExceptionIfNullOrEmpty("initData");
+			base.Initialize(initData);
+			
+			if(!Directory.Exists(CacheLocation))
+				Directory.CreateDirectory(CacheLocation); 
+		}
+
 		/// <summary>
 		/// Returns an RSS feed. 
 		/// </summary>
