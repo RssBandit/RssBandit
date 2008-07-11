@@ -390,7 +390,7 @@ namespace RssBandit
 			//TODO: remove, if all references got replaced:
         	feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
             
-            commentFeedsHandler = FeedSource.CreateFeedSource(FeedSourceType.DirectAccess,
+            commentFeedsHandler = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
                                                               CreateCommentFeedHandlerConfiguration(
                                                                   FeedSource.DefaultConfiguration));
@@ -504,7 +504,6 @@ namespace RssBandit
             else
                 cfg.DownloadedFilesDataPath = GetDefaultEnclosuresPath();
 
-            cfg.DataService = new FileStorageDataService(GetFeedFileCachePath());
             cfg.PersistedSettings = GuiSettings;
 
             // once written a valid value:
@@ -525,7 +524,6 @@ namespace RssBandit
                               UserApplicationDataPath = configTemplate.UserApplicationDataPath,
                               UserLocalApplicationDataPath = configTemplate.UserLocalApplicationDataPath,
                               DownloadedFilesDataPath = null,
-                              DataService = new FileStorageDataService(GetFeedFileCachePath()),
                               PersistedSettings = configTemplate.PersistedSettings,
                               RefreshRate = configTemplate.RefreshRate
                           };
@@ -3141,7 +3139,7 @@ namespace RssBandit
                 {
                     var creds = new NetworkCredential(Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword);
                     var loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), creds);
-                    FeedSource fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
+					FeedSource fs = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.NewsGator, loc);
                     FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);                   
                 }
                 Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.UNC; //default 
@@ -3398,17 +3396,17 @@ namespace RssBandit
             if (wiz.DialogResult == DialogResult.OK)
             {
                 FeedSourceEntry entry = null;
-                FeedSource fs; 
-                
+                FeedSource fs;
+            	int id = sourceManager.UniqueKey;
                 if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
                 {
-                    fs = FeedSource.CreateFeedSource(FeedSourceType.WindowsRSS, new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS), null));
+                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.WindowsRSS, new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS), null));
                     entry = sourceManager.Add(fs, wiz.FeedSourceName);
                 }
                 else if (wiz.SelectedFeedSource == FeedSourceType.Google)
                 {
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google), new NetworkCredential(wiz.UserName, wiz.Password));
-                    fs = FeedSource.CreateFeedSource(FeedSourceType.Google, loc); 
+                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc); 
                     entry = sourceManager.Add(fs, wiz.FeedSourceName);
 
                 }
@@ -3416,7 +3414,7 @@ namespace RssBandit
                 {
 
                     SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
-                    fs = FeedSource.CreateFeedSource(FeedSourceType.NewsGator, loc);
+                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
                     entry = sourceManager.Add(fs, wiz.FeedSourceName);
                 }
 
