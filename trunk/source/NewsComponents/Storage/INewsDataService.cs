@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System.Collections.Generic;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage
@@ -58,6 +59,8 @@ namespace NewsComponents.Storage
 		/// <param name="item"></param>
 		void LoadItemContent(INewsItem item);
 
+		#region BinaryContent
+
 		/// <summary>
 		/// Saves the content of the binary data.
 		/// </summary>
@@ -77,5 +80,24 @@ namespace NewsComponents.Storage
 		/// </summary>
 		/// <param name="contentId">The content id.</param>
 		void DeleteBinaryContent(string contentId);
+
+		#endregion
+
+		#region NntpServerDefinitions
+
+		/// <summary>
+		/// Saves the NNTP server definitions.
+		/// </summary>
+		/// <param name="nntpServerDefinitions">The NNTP server definitions.</param>
+		void SaveNntpServerDefinitions(List<NntpServerDefinition> nntpServerDefinitions);
+
+		/// <summary>
+		/// Loads the NNTP server definitions.
+		/// </summary>
+		/// <returns></returns>
+		List<NntpServerDefinition> LoadNntpServerDefinitions();
+
+		#endregion
+
 	}
 }

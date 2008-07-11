@@ -10,9 +10,11 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
 using NewsComponents.Feed;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
@@ -388,6 +390,64 @@ namespace NewsComponents.Storage {
 			}
 		}
 
+		#region NntpServerDefinitions
+
+		/// <summary>
+		/// Feed sources serializable root class
+		/// </summary>
+		[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
+		[XmlRoot("nntp-servers", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
+		public class SerializableNntpServerDefinitions
+		{
+			/// <remarks/>
+			[XmlElement("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
+			//public ArrayList List = new ArrayList();
+			public List<NntpServerDefinition> List = new List<NntpServerDefinition>();
+		}
+
+		/// <summary>
+		/// Saves the NNTP server definitions.
+		/// </summary>
+		/// <param name="nntpServerDefinitions">The NNTP server definitions.</param>
+		public override void SaveNntpServerDefinitions(List<NntpServerDefinition> nntpServerDefinitions)
+		{
+			string fileName = Path.Combine(CacheLocation, "nntp-server-definitions.xml");
+			if (nntpServerDefinitions == null || nntpServerDefinitions.Count == 0)
+            {
+				if (File.Exists(fileName)) 
+					FileHelper.Delete(fileName);
+            	return;
+            }  
+				
+			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SerializableNntpServerDefinitions));
+            using (Stream s = FileHelper.OpenForWrite(fileName))
+            {
+				SerializableNntpServerDefinitions root = new SerializableNntpServerDefinitions();
+            	root.List = nntpServerDefinitions;
+            	serializer.Serialize(s, root);
+            }
+		}
+
+		/// <summary>
+		/// Loads the NNTP server definitions.
+		/// </summary>
+		/// <returns></returns>
+		public override List<NntpServerDefinition> LoadNntpServerDefinitions()
+		{
+			string fileName = Path.Combine(CacheLocation, "nntp-server-definitions.xml");
+			if (File.Exists(fileName))
+			{
+				XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+				using (Stream s = FileHelper.OpenForRead(fileName))
+				{
+					SerializableNntpServerDefinitions root = (SerializableNntpServerDefinitions)serializer.Deserialize(s);
+					return root.List;
+				}
+			}
+			return null;
+		}
+
+		#endregion
 		/// <summary>
 		/// Get a file name that the file can be cached.
 		/// </summary>
@@ -395,7 +455,7 @@ namespace NewsComponents.Storage {
 		/// <param name="uri">The uri of the rss document.</param>
 		/// <returns>a filename that may be used to save the cached file.</returns>
 		private static string GetCacheUrlName(string id, Uri uri) {
-			string path = null;
+			string path;
 			if (uri.IsFile || uri.IsUnc) {
 				path = uri.GetHashCode() + "." + id + ".xml";
 			}else{
