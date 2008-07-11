@@ -45,6 +45,7 @@ using NewsComponents.Utils;
 using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
+using System.Drawing;
 
 #endregion
 
@@ -1822,11 +1823,10 @@ namespace NewsComponents
             if (f == null || ! RssHelper.IsNntpUrl(f.link))
                 return c;
 
-            try
+			Uri feedUri;
+			if (Uri.TryCreate(f.link, UriKind.Absolute, out feedUri))
             {
-                var feedUri = new Uri(f.link);
-
-                foreach (NntpServerDefinition nsd  in nntpServers.Values)
+                foreach (INntpServerDefinition nsd in nntpServers.Values)
                 {
                     if (nsd.Server.Equals(feedUri.Authority))
                     {
@@ -1835,9 +1835,7 @@ namespace NewsComponents
                     }
                 }
             }
-            catch (UriFormatException)
-            {
-            }
+            
             return c;
         }
 
@@ -2736,31 +2734,91 @@ namespace NewsComponents
 
     	#region favicon handling
 
+		/// <summary>
+		/// Gets true, if the feed has a favicon.
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
+		public virtual bool FeedHasFavicon(string feedUrl)
+		{
+			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+			
+			INewsFeed f;
+			if (!feedsTable.TryGetValue(feedUrl, out f))
+			{
+				return false;
+			}
+			return FeedHasFavicon(f);
+		}
+
     	/// <summary>
     	/// Gets true, if the feed has a favicon.
     	/// </summary>
     	/// <param name="feed">The feed.</param>
     	/// <returns></returns>
-    	public virtual bool FeedHasFavicon(INewsFeed feed)
+		/// <exception cref="ArgumentNullException">If feed is null</exception>
+		public virtual bool FeedHasFavicon(INewsFeed feed)
     	{
-    		if (feed != null)
-    			return !String.IsNullOrEmpty(feed.favicon);
-    		return false;
+			feed.ExceptionIfNull("feed");
+			
+    		return !String.IsNullOrEmpty(feed.favicon);
     	}
+
+		/// <summary>
+    	/// Gets the favicon for feed, or null in case there is none.
+    	/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
+		public virtual byte[] GetFaviconForFeed(string feedUrl)
+		{
+			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+			
+			INewsFeed f;
+			if (!feedsTable.TryGetValue(feedUrl, out f))
+			{
+				return null;
+			}
+			return GetFaviconForFeed(f);
+		}
 
     	/// <summary>
     	/// Gets the favicon for feed, or null in case there is none.
     	/// </summary>
     	/// <param name="feed">The feed.</param>
     	/// <returns></returns>
-    	public virtual byte[] GetFaviconForFeed(INewsFeed feed)
+		/// <exception cref="ArgumentNullException">If feed is null</exception>
+		public virtual byte[] GetFaviconForFeed(INewsFeed feed)
     	{
-    		if (FeedHasFavicon(feed))
+			feed.ExceptionIfNull("feed");
+			
+			if (FeedHasFavicon(feed))
     		{
     			return DataService.GetBinaryContent(feed.favicon);
     		}
     		return null;
     	}
+
+		/// <summary>
+    	/// Sets the favicon for a feed. Assigns the favicon property and 
+    	/// store the byte array.
+    	/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+    	/// <param name="contentId">The content id.</param>
+    	/// <param name="imageData">The image data.</param>
+		/// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
+		public virtual void SetFaviconForFeed(string feedUrl, string contentId, byte[] imageData)
+		{
+			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+			
+			INewsFeed f;
+			if (!feedsTable.TryGetValue(feedUrl, out f))
+			{
+				return;
+			}
+			SetFaviconForFeed(f, contentId, imageData);
+		}
 
     	/// <summary>
     	/// Sets the favicon for a feed. Assigns the favicon property and 
@@ -2769,9 +2827,12 @@ namespace NewsComponents
     	/// <param name="feed">The feed.</param>
     	/// <param name="contentId">The content id.</param>
     	/// <param name="imageData">The image data.</param>
-    	public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
+		/// <exception cref="ArgumentNullException">If feed is null</exception>
+		public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
     	{
-    		if (feed != null && !String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
+			feed.ExceptionIfNull("feed");
+			
+			if (!String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
     		{
     			DataService.SaveBinaryContent(contentId, imageData);
     			feed.favicon = contentId;
@@ -2782,8 +2843,11 @@ namespace NewsComponents
 		/// Removes the favicon from feed.
 		/// </summary>
 		/// <param name="feed">The feed.</param>
+		/// <exception cref="ArgumentNullException">If feed is null</exception>
 		public void RemoveFaviconFromFeed(INewsFeed feed)
 		{
+			feed.ExceptionIfNull("feed");
+			
 			if (FeedHasFavicon(feed))
 			{
 				DataService.DeleteBinaryContent(feed.favicon);
@@ -6957,17 +7021,20 @@ namespace NewsComponents
         /// </summary>
         /// <remarks>If no feed with that URL exists then nothing is done.</remarks>
         /// <param name="feedUrl">The URL of the feed to delete. </param>
-        /// <exception cref="ApplicationException">If an error occured while 
+        /// <exception cref="ApplicationException">If an error occurred while 
         /// attempting to delete the cached feed. Examine the InnerException property 
         /// for details</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
         public virtual void DeleteFeed(string feedUrl)
         {
-            if (!feedsTable.ContainsKey(feedUrl))
+        	feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+
+			INewsFeed f;
+            if (!feedsTable.TryGetValue(feedUrl, out f))
             {
                 return;
             }
 
-            INewsFeed f = feedsTable[feedUrl];
             lock (feedsTable)
             {
                 feedsTable.Remove(feedUrl);
