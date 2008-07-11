@@ -9,7 +9,7 @@
 #endregion
 
 using System;
-
+using System.Collections.Generic;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage {
@@ -83,6 +83,22 @@ namespace NewsComponents.Storage {
 		/// </summary>
 		/// <param name="contentId">The content id.</param>
 		public abstract void DeleteBinaryContent(string contentId);
+
+		#region NntpServerDefinitions
+
+		/// <summary>
+		/// Saves the NNTP server definitions.
+		/// </summary>
+		/// <param name="nntpServerDefinitions">The NNTP server definitions.</param>
+		public abstract void SaveNntpServerDefinitions(List<NntpServerDefinition> nntpServerDefinitions);
+
+		/// <summary>
+		/// Loads the NNTP server definitions.
+		/// </summary>
+		/// <returns></returns>
+		public abstract List<NntpServerDefinition> LoadNntpServerDefinitions();
+
+		#endregion
 
 		#region Implementation of IInitNewsDataService
 
