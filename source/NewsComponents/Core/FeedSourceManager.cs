@@ -282,7 +282,8 @@ namespace NewsComponents
 			if (Contains(name))
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
 
-			FeedSourceEntry fs = new FeedSourceEntry(UniqueKey, source, name, _feedSources.Count);
+			source.sourceID = UniqueKey;
+			FeedSourceEntry fs = new FeedSourceEntry(source.sourceID, source, name, _feedSources.Count);
 			_feedSources.Add(fs.ID, fs);
 			return fs;
 		}
@@ -305,7 +306,8 @@ namespace NewsComponents
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
 			
 			int id = UniqueKey;
-			FeedSource source = FeedSource.CreateFeedSource(type, CreateSubscriptionLocation(id, type, properties));
+			FeedSource source = FeedSource.CreateFeedSource(id, type, 
+				CreateSubscriptionLocation(id, type, properties));
 			FeedSourceEntry fse = new FeedSourceEntry(id, source, name, _feedSources.Count);
 			//fse.Properties =
 			_feedSources.Add(fse.ID, fse);
@@ -501,7 +503,8 @@ namespace NewsComponents
 					if (maxUsedKey < fs.ID)
 						maxUsedKey = fs.ID;
 					_feedSources.Add(fs.ID, fs);
-					fs.Source = FeedSource.CreateFeedSource(fs.SourceType, CreateSubscriptionLocation(fs.ID, fs.SourceType, fs.Properties));
+					fs.Source = FeedSource.CreateFeedSource(fs.ID, fs.SourceType, 
+						CreateSubscriptionLocation(fs.ID, fs.SourceType, fs.Properties));
 				}
 				if (maxUsedKey > lastUsedKey)
 					lastUsedKey = maxUsedKey;

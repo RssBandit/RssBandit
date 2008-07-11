@@ -76,13 +76,6 @@ namespace NewsComponents
 		IPersistedSettings PersistedSettings { get; }
 		
 		/// <summary>
-		/// Gets the cache manager.
-		/// </summary>
-		/// <remarks>Required</remarks>
-		/// <value>The cache manager.</value>
-		INewsDataService DataService { get; }
-
-		/// <summary>
 		/// Gets the search index behavior.
 		/// </summary>
 		/// <remarks>Required</remarks>
@@ -203,9 +196,7 @@ namespace NewsComponents
 		protected SearchIndexBehavior searchBehavior = NewsComponents.SearchIndexBehavior.Default;
 		/// <summary/>
 		protected IPersistedSettings settings;
-		/// <summary/>
-		protected INewsDataService p_dataService;
-
+		
 		/// <summary/>
 		protected int p_refreshRate = -1;
 		private bool downloadEnclosures;
@@ -297,17 +288,6 @@ namespace NewsComponents
 		}
 
 		/// <summary>
-		/// Gets the cache manager.
-		/// </summary>
-		/// <value>The cache manager.</value>
-		public virtual INewsDataService DataService {
-			get { return p_dataService; }
-			set {
-				p_dataService = value;
-				this.OnPropertyChanged("DataService");
-			}
-		}
-		/// <summary>
 		/// Gets the search index behavior.
 		/// </summary>
 		/// <value>The search index behavior.</value>
@@ -363,11 +343,10 @@ namespace NewsComponents
 
 			string mydocs = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), cfg.ApplicationID);
 			cfg.DownloadedFilesDataPath = Path.Combine(mydocs, "My Downloaded Files");
-			
-			string path = Path.Combine(cfg.UserApplicationDataPath, "Cache");
+
+			string path = Path.Combine(cfg.UserLocalApplicationDataPath, "Cache");
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
-			cfg.DataService = new FileStorageDataService(path);
 			
 			cfg.PersistedSettings = new SettingStore(cfg.ApplicationID);
 
