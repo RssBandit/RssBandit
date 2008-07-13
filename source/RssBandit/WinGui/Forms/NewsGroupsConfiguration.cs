@@ -167,8 +167,8 @@ namespace RssBandit.WinGui.Forms
 
 			this.wheelSupport = new WheelSupport(this);
 
-			this.treeServers.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeServersAfterSelect);
-			this.listAccounts.SelectedIndexChanged += new System.EventHandler(this.OnListAccountsSelectedIndexChanged);
+			this.treeServers.AfterSelect += this.OnTreeServersAfterSelect;
+			this.listAccounts.SelectedIndexChanged += this.OnListAccountsSelectedIndexChanged;
 
 			this.BackColor = SystemColors.Window;
 			this.splitter1.BackColor = FontColorHelper.UiColorScheme.ToolbarGradientLight;
@@ -184,10 +184,10 @@ namespace RssBandit.WinGui.Forms
 			EnableView(accountSettingsPane, false);
 
 			if (!RssBanditApplication.AutomaticColorSchemes ) {
-				TD.Eyefinder.Office2003Renderer sdRenderer = new TD.Eyefinder.Office2003Renderer();
-				sdRenderer.ColorScheme = TD.Eyefinder.Office2003Renderer.Office2003ColorScheme.Automatic;
+				Office2003Renderer sdRenderer = new Office2003Renderer();
+				sdRenderer.ColorScheme = Office2003Renderer.Office2003ColorScheme.Automatic;
 				if (!RssBanditApplication.AutomaticColorSchemes) {
-					sdRenderer.ColorScheme = TD.Eyefinder.Office2003Renderer.Office2003ColorScheme.Standard;
+					sdRenderer.ColorScheme = Office2003Renderer.Office2003ColorScheme.Standard;
 				}
 				navigationBar.SetActiveRenderer(sdRenderer);
 			}
@@ -2442,8 +2442,8 @@ namespace RssBandit.WinGui.Forms
 					chkConsiderServerOnRefresh.Checked = !sd.PreventDownloadOnRefresh;
 
 				txtNewsServerName.Text = sd.Server;
-				string u = sd.AuthUser, p = null;
-				FeedSource.GetNntpServerCredentials(sd, ref u, ref p);
+				string u, p;
+				FeedSource.GetNntpServerCredentials(sd, out u, out p);
 				chkUseAuthentication.Checked = false;
 				txtServerAuthName.Enabled = txtServerAuthPassword.Enabled = false;
 				if (!string.IsNullOrEmpty(u)) {
@@ -2796,7 +2796,10 @@ namespace RssBandit.WinGui.Forms
 			}
 			if (sender == this.txtServerAuthPassword) {
 				if (selectedServer != null)
-					FeedSource.SetNntpServerCredentials(selectedServer, this.txtServerAuthName.Text, txtServerAuthPassword.Text);
+				{
+					FeedSource.SetNntpServerCredentials(
+						selectedServer, this.txtServerAuthName.Text, txtServerAuthPassword.Text);
+				}
 			}			
 			if (sender == this.txtServerPort) {
 				if (selectedServer != null) {

@@ -419,7 +419,7 @@ namespace NewsComponents.Storage {
 		/// <param name="nntpServerDefinitions">The NNTP server definitions.</param>
 		public override void SaveNntpServerDefinitions(List<NntpServerDefinition> nntpServerDefinitions)
 		{
-			string fileName = Path.Combine(CacheLocation, "nntp-server-definitions.xml");
+			string fileName = NntpServerDefsFileName;
 			if (nntpServerDefinitions == null || nntpServerDefinitions.Count == 0)
             {
 				if (File.Exists(fileName)) 
@@ -442,10 +442,10 @@ namespace NewsComponents.Storage {
 		/// <returns></returns>
 		public override List<NntpServerDefinition> LoadNntpServerDefinitions()
 		{
-			string fileName = Path.Combine(CacheLocation, "nntp-server-definitions.xml");
+			string fileName = NntpServerDefsFileName;
 			if (File.Exists(fileName))
 			{
-				XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(feeds));
+				XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SerializableNntpServerDefinitions));
 				using (Stream s = FileHelper.OpenForRead(fileName))
 				{
 					SerializableNntpServerDefinitions root = (SerializableNntpServerDefinitions)serializer.Deserialize(s);
@@ -455,7 +455,47 @@ namespace NewsComponents.Storage {
 			return null;
 		}
 
+		/// <summary>
+		/// Gets the used user data file names.
+		/// </summary>
+		/// <returns></returns>
+		public override string[] GetUserDataFileNames()
+		{
+			return new string[]{NntpServerDefsFileName};
+		}
+
+		public override DataEntityName SetContentForDataFile(string dataFileName, Stream content)
+		{
+			string fileName = Path.GetFileName(NntpServerDefsFileName);
+			if (String.Equals(dataFileName, fileName, StringComparison.OrdinalIgnoreCase))
+			{
+				using (Stream s = FileHelper.OpenForWrite(NntpServerDefsFileName))
+				{
+					byte[] buf = new byte[4096];
+					int offset = 0, bytesRead;
+					while (0 <= (bytesRead = content.Read(buf, offset, 4096)))
+					{
+						s.Write(buf, 0, bytesRead);
+						offset += bytesRead;
+					}
+				}
+
+				return DataEntityName.NntpServerDefinitions;
+			}
+
+			return DataEntityName.None;
+		}
 		#endregion
+
+		private string NntpServerDefsFileName
+		{
+			get
+			{
+				return Path.Combine(CacheLocation,
+					"nntp-server-definitions.xml");
+			}
+		}
+
 		/// <summary>
 		/// Get a file name that the file can be cached.
 		/// </summary>

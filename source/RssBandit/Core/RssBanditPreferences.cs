@@ -156,8 +156,7 @@ namespace RssBandit {
 			set
 			{
 				refreshRate = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("RefreshRate"));
+				RaisePropertyChanged("RefreshRate");
 			}
 		}
 
@@ -171,8 +170,7 @@ namespace RssBandit {
             set
             {
                 readingPaneTextSize = value;
-                EventsHelper.Fire(PropertyChanged, this,
-                    new PropertyChangedEventArgs("ReadingPaneTextSize"));
+                RaisePropertyChanged("ReadingPaneTextSize");
             }	
         }
 
@@ -184,8 +182,7 @@ namespace RssBandit {
 			get { return numNewsItemsPerPage; }
 			set { 
 				numNewsItemsPerPage = value; 
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NumNewsItemsPerPage"));
+				RaisePropertyChanged("NumNewsItemsPerPage");
 			}		
 		}
 
@@ -198,8 +195,7 @@ namespace RssBandit {
 			get { return ngosSyncToken; }
 			set { 
 				ngosSyncToken = value; 
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NgosSyncToken"));
+				RaisePropertyChanged("NgosSyncToken");
 			}
 		}
 
@@ -211,8 +207,7 @@ namespace RssBandit {
 			get { return userIdentityForComments; }
 			set { 
 				userIdentityForComments = value; 
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UserIdentityForComments"));
+				RaisePropertyChanged("UserIdentityForComments");
 			}
 		}
 
@@ -259,8 +254,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.RefreshFeedsOnStartup); }
 			set {	
 				SetOption(OptionalFlags.RefreshFeedsOnStartup, value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("FeedRefreshOnStartup"));
+				RaisePropertyChanged("FeedRefreshOnStartup");
 			}
 		}
 
@@ -273,8 +267,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.CustomProxy);		}
 			set {	
 				SetOption(OptionalFlags.CustomProxy, value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UseProxy"));
+				RaisePropertyChanged("UseProxy");
 			}
 		}
 
@@ -288,8 +281,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.TakeIEProxySettings);	}
 			set { 
 				SetOption(OptionalFlags.TakeIEProxySettings, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UseIEProxySettings"));
+				RaisePropertyChanged("UseIEProxySettings");
 			}
 		}
 
@@ -302,8 +294,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.ByPassProxyOnLocal);		}
 			set {	
 				SetOption(OptionalFlags.ByPassProxyOnLocal, value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BypassProxyOnLocal"));
+				RaisePropertyChanged("BypassProxyOnLocal");
 			}
 		}
 
@@ -317,8 +308,7 @@ namespace RssBandit {
 			get {	return !GetOption(OptionalFlags.DisableAutoMarkItemsRead);		}
 			set {	
 				SetOption(OptionalFlags.DisableAutoMarkItemsRead, !value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("MarkItemsAsReadWhenViewed"));
+				RaisePropertyChanged("MarkItemsAsReadWhenViewed");
 			}
 		}
 
@@ -331,8 +321,7 @@ namespace RssBandit {
 			get {	return !GetOption(OptionalFlags.ShowAllNewsItemsPerPage);		}
 			set {	
 				SetOption(OptionalFlags.ShowAllNewsItemsPerPage, !value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("LimitNewsItemsPerPage"));
+				RaisePropertyChanged("LimitNewsItemsPerPage");
 			}
 		}
 
@@ -345,8 +334,7 @@ namespace RssBandit {
 			get {	return proxyBypassList;			}
 			set {	
 				proxyBypassList = value;		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyBypassList"));
+				RaisePropertyChanged("ProxyBypassList");
 			}
 		}
 
@@ -358,8 +346,7 @@ namespace RssBandit {
 			get {	return proxyAddress;	}
 			set {	
 				proxyAddress = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyAddress"));
+				RaisePropertyChanged("ProxyAddress");
 			}
 		}
 
@@ -371,8 +358,7 @@ namespace RssBandit {
 			get {	return proxyPort;		}
 			set {	
 				proxyPort = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyPort"));
+				RaisePropertyChanged("ProxyPort");
 			}
 		}
 
@@ -385,8 +371,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.ProxyCustomCredentials);		}
 			set {	
 				SetOption(OptionalFlags.ProxyCustomCredentials, value);		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyCustomCredentials"));
+				RaisePropertyChanged("ProxyCustomCredentials");
 			}
 		}
 
@@ -398,8 +383,7 @@ namespace RssBandit {
 			get {	return proxyUser;		}
 			set {	
 				proxyUser = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyUser"));
+				RaisePropertyChanged("ProxyUser");
 			}
 		}
 
@@ -411,8 +395,7 @@ namespace RssBandit {
 			get {	return proxyPassword;		}
 			set {	
 				proxyPassword = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ProxyPassword"));
+				RaisePropertyChanged("ProxyPassword");
 			}
 		}
 		
@@ -425,8 +408,7 @@ namespace RssBandit {
 			get {	return newsItemStylesheetFile;		}
 			set {	
 				newsItemStylesheetFile = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NewsItemStylesheetFile"));
+				RaisePropertyChanged("NewsItemStylesheetFile");
 			}
 		}
 
@@ -440,8 +422,7 @@ namespace RssBandit {
 			get {	return singlePlaylistName;		}
 			set {	
 				singlePlaylistName = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("SinglePlaylistName"));
+				RaisePropertyChanged("SinglePlaylistName");
 			}
 		}
 		
@@ -455,8 +436,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.ReUseFirstBrowserTab);		}
 			set {	
 				SetOption(OptionalFlags.ReUseFirstBrowserTab, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ReuseFirstBrowserTab"));
+				RaisePropertyChanged("ReuseFirstBrowserTab");
 			}
 		}	
 
@@ -469,8 +449,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.OpenNewTabsInBackground);		}
 			set {	
 				SetOption(OptionalFlags.OpenNewTabsInBackground, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("OpenNewTabsInBackground"));
+				RaisePropertyChanged("OpenNewTabsInBackground");
 			}
 		}	
 
@@ -486,8 +465,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AllowAppEventSounds);		}
 			set {	
 				SetOption(OptionalFlags.AllowAppEventSounds, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("AllowAppEventSounds"));
+				RaisePropertyChanged("AllowAppEventSounds");
 			}
 		}	
 
@@ -503,7 +481,10 @@ namespace RssBandit {
 			get { return Win32.Registry.RunAtStartup; }
 			set {
 				if (Win32.Registry.RunAtStartup != value)
+				{
 					Win32.Registry.RunAtStartup = value;
+					RaisePropertyChanged("RunBanditAsWindowsUserLogon");
+				}
 			}
 		}
 		
@@ -517,8 +498,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.SinglePodcastPlaylist);		}
 			set {	
 				SetOption(OptionalFlags.SinglePodcastPlaylist, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("SinglePodcastPlaylist"));
+				RaisePropertyChanged("SinglePodcastPlaylist");
 			}
 		}	
 
@@ -531,8 +511,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2Folder);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2Folder, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("AddPodcasts2Folder"));
+				RaisePropertyChanged("AddPodcasts2Folder");
 			}
 		}	
 
@@ -545,8 +524,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2WMP);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2WMP, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("AddPodcasts2WMP"));
+				RaisePropertyChanged("AddPodcasts2WMP");
 			}
 		}	
 
@@ -559,8 +537,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2ITunes);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2ITunes, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("AddPodcasts2ITunes"));
+				RaisePropertyChanged("AddPodcasts2ITunes");
 			}
 		}	
 
@@ -573,8 +550,7 @@ namespace RssBandit {
 			get {	return !GetOption(OptionalFlags.DisableFavicons);		}
 			set {	
 				SetOption(OptionalFlags.DisableFavicons, !value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UseFavicons"));
+				RaisePropertyChanged("UseFavicons");
 			}
 		}	
 		/// <summary>
@@ -586,8 +562,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.MarkFeedItemsReadOnExit);	}
 			set { 
 				SetOption(OptionalFlags.MarkFeedItemsReadOnExit, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("MarkItemsReadOnExit"));
+				RaisePropertyChanged("MarkItemsReadOnExit");
 			}
 		}
 
@@ -600,8 +575,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow);	}
 			set { 
 				SetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow, value);	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NewsItemOpenLinkInDetailWindow"));
+				RaisePropertyChanged("NewsItemOpenLinkInDetailWindow");
 			}
 		}
 
@@ -615,8 +589,7 @@ namespace RssBandit {
 			get {	return hideToTrayAction;		}
 			set {	
 				hideToTrayAction = value;		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("HideToTrayAction"));
+				RaisePropertyChanged("HideToTrayAction");
 			}
 		}
 
@@ -629,8 +602,7 @@ namespace RssBandit {
 			get {	return autoUpdateFrequency;		}
 			set {	
 				autoUpdateFrequency = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("AutoUpdateFrequency"));
+				RaisePropertyChanged("AutoUpdateFrequency");
 			}
 		}
 
@@ -655,8 +627,7 @@ namespace RssBandit {
 //			get {	return lastAutoUpdateCheck;		}
 //			set {	
 //				lastAutoUpdateCheck = value;	
-//				EventsHelper.Fire(PropertyChanged, this, 
-//					new PropertyChangedEventArgs("LastAutoUpdateCheck"));
+//				RaisePropertyChanged("LastAutoUpdateCheck");
 //			}
 		} 
 
@@ -669,8 +640,7 @@ namespace RssBandit {
 			get {	return normalFont;		}
 			set {	
 				normalFont = value;		
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NormalFont"));
+				RaisePropertyChanged("NormalFont");
 			}
 		}
 
@@ -683,8 +653,7 @@ namespace RssBandit {
 			get {	return normalFontColor;		}
 			set {
 				normalFontColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NormalFontColor"));
+				RaisePropertyChanged("NormalFontColor");
 			}
 		}
 
@@ -697,8 +666,7 @@ namespace RssBandit {
 			get {	return unreadFont;		}
 			set {
 				unreadFont = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UnreadFont"));
+				RaisePropertyChanged("UnreadFont");
 			}
 		}
 
@@ -711,8 +679,7 @@ namespace RssBandit {
 			get {	return unreadFontColor;		}
 			set {
 				unreadFontColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UnreadFontColor"));
+				RaisePropertyChanged("UnreadFontColor");
 			}
 		}
 
@@ -724,8 +691,7 @@ namespace RssBandit {
 			get {	return flagFont;		}
 			set {
 				flagFont = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("FlagFont"));
+				RaisePropertyChanged("FlagFont");
 			}
 		}
 		
@@ -737,8 +703,7 @@ namespace RssBandit {
 			get {	return flagFontColor;		}
 			set {
 				flagFontColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("FlagFontColor"));
+				RaisePropertyChanged("FlagFontColor");
 			}
 		}
 
@@ -751,8 +716,7 @@ namespace RssBandit {
 			get {	return refererFont;		}
 			set {
 				refererFont = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RefererFont"));
+				RaisePropertyChanged("RefererFont");
 			}
 		}
 
@@ -765,8 +729,7 @@ namespace RssBandit {
 			get {	return refererFontColor;	}
 			set {
 				refererFontColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RefererFontColor"));
+				RaisePropertyChanged("RefererFontColor");
 			}
 		}
 
@@ -778,8 +741,7 @@ namespace RssBandit {
 			get {	return errorFont;		}
 			set {
 				errorFont = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ErrorFont"));
+				RaisePropertyChanged("ErrorFont");
 			}
 		}
 
@@ -791,8 +753,7 @@ namespace RssBandit {
 			get {	return errorFontColor;		}
 			set {
 				errorFontColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ErrorFontColor"));
+				RaisePropertyChanged("ErrorFontColor");
 			}
 		}
 
@@ -804,8 +765,7 @@ namespace RssBandit {
 			get {	return newCommentsFont;		}
 			set {
 				newCommentsFont = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NewCommentsFont"));
+				RaisePropertyChanged("NewCommentsFont");
 			}
 		}
 
@@ -817,8 +777,7 @@ namespace RssBandit {
 			get {	return newCommentsColor;		}
 			set {
 				newCommentsColor = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("NewCommentsFontColor"));
+				RaisePropertyChanged("NewCommentsFontColor");
 			}
 		}
 		
@@ -831,8 +790,7 @@ namespace RssBandit {
 			get {	return maxItemAge;	}
 			set {	
 				maxItemAge = value;	
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("MaxItemAge"));
+				RaisePropertyChanged("MaxItemAge");
 			}
 		}
 
@@ -845,8 +803,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.UseRemoteStorage); }
 			set {
 				SetOption(OptionalFlags.UseRemoteStorage, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("UseRemoteStorage"));
+				RaisePropertyChanged("UseRemoteStorage");
 
 			}
 		}
@@ -860,8 +817,7 @@ namespace RssBandit {
 			get { return remoteStorageUserName; }
 			set {
 				remoteStorageUserName = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RemoteStorageUserName"));
+				RaisePropertyChanged("RemoteStorageUserName");
 			}
 		}
 
@@ -874,8 +830,7 @@ namespace RssBandit {
 			get { return remoteStoragePassword; }
 			set {
 				remoteStoragePassword = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RemoteStoragePassword"));
+				RaisePropertyChanged("RemoteStoragePassword");
 			}
 		}
 
@@ -887,8 +842,7 @@ namespace RssBandit {
 			get { return remoteStorageProtocol; }
 			set {
 				remoteStorageProtocol = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RemoteStorageProtocol"));
+				RaisePropertyChanged("RemoteStorageProtocol");
 			}
 		}
 
@@ -901,8 +855,7 @@ namespace RssBandit {
 			get { return remoteStorageLocation; }
 			set {
 				remoteStorageLocation = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("RemoteStorageLocation"));
+				RaisePropertyChanged("RemoteStorageLocation");
 			}
 		}
 
@@ -917,8 +870,7 @@ namespace RssBandit {
 			set
 			{
 				enclosureFolder = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("EnclosureFolder"));
+				RaisePropertyChanged("EnclosureFolder");
 			}
 		}
 		/// <summary>
@@ -935,8 +887,7 @@ namespace RssBandit {
 			set
 			{
 				this.numEnclosuresToDownloadOnNewFeed = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("NumEnclosuresToDownloadOnNewFeed"));
+				RaisePropertyChanged("NumEnclosuresToDownloadOnNewFeed");
 			}
 		}
 		/// <summary>
@@ -953,8 +904,7 @@ namespace RssBandit {
 			set
 			{
 				this.enclosureCacheSize = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("EnclosureCacheSize"));
+				RaisePropertyChanged("EnclosureCacheSize");
 			
 			}
 		}
@@ -970,8 +920,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.DownloadEnclosures, value);
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("DownloadEnclosures"));
+				RaisePropertyChanged("DownloadEnclosures");
 			}
 		}
 		/// <summary>
@@ -984,8 +933,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.EnclosureAlert, value);
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("EnclosureAlert"));
+				RaisePropertyChanged("EnclosureAlert");
 			}
 		}
 
@@ -1003,8 +951,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.CreateSubfoldersForEnclosures, value);
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("CreateSubfoldersForEnclosures"));
+				RaisePropertyChanged("CreateSubfoldersForEnclosures");
 			}
 		}
 
@@ -1019,8 +966,7 @@ namespace RssBandit {
 			set
 			{
 				podcastFolder = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("PodcastFolder"));
+				RaisePropertyChanged("PodcastFolder");
 			}
 		}
 
@@ -1035,8 +981,7 @@ namespace RssBandit {
 			set
 			{
 				podcastFileExtensions = value;
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs("PodcastFileExtensions"));
+				RaisePropertyChanged("PodcastFileExtensions");
 			}
 		}
 		
@@ -1049,8 +994,7 @@ namespace RssBandit {
 			get { return browserBehaviorOnNewWindow; }
 			set {
 				browserBehaviorOnNewWindow = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserOnNewWindow"));
+				RaisePropertyChanged("BrowserOnNewWindow");
 			}
 		}
 
@@ -1066,8 +1010,7 @@ namespace RssBandit {
 					browserCustomExecOnNewWindow = String.Empty;
 				 else	  
 					browserCustomExecOnNewWindow = value; 
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserCustomExecOnNewWindow"));
+				RaisePropertyChanged("BrowserCustomExecOnNewWindow");
 			}
 		}
 
@@ -1079,8 +1022,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowJavascriptInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowJavascriptInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserJavascriptAllowed"));
+				RaisePropertyChanged("BrowserJavascriptAllowed");
 			}
 		}
 
@@ -1092,8 +1034,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowJavaInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowJavaInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserJavaAllowed"));
+				RaisePropertyChanged("BrowserJavaAllowed");
 			}
 		}
 
@@ -1105,8 +1046,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowActiveXInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowActiveXInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserActiveXAllowed"));
+				RaisePropertyChanged("BrowserActiveXAllowed");
 			}
 		}
 
@@ -1118,8 +1058,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowBGSoundInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowBGSoundInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserBGSoundAllowed"));
+				RaisePropertyChanged("BrowserBGSoundAllowed");
 			}
 		}
 
@@ -1131,8 +1070,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowVideoInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowVideoInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserVideoAllowed"));
+				RaisePropertyChanged("BrowserVideoAllowed");
 			}
 		}
 
@@ -1144,8 +1082,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.AllowImagesInBrowser); }
 			set {
 				SetOption(OptionalFlags.AllowImagesInBrowser, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("BrowserImagesAllowed"));
+				RaisePropertyChanged("BrowserImagesAllowed");
 			}
 		}
 
@@ -1157,8 +1094,7 @@ namespace RssBandit {
 			get { return feedAlertWindow; }
 			set {
 				feedAlertWindow = value;
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ShowAlertWindow"));
+				RaisePropertyChanged("ShowAlertWindow");
 			}
 		}
 
@@ -1171,8 +1107,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.ShowNewItemsReceivedBalloon); }
 			set {
 				SetOption(OptionalFlags.ShowNewItemsReceivedBalloon, value);
-				EventsHelper.Fire(PropertyChanged, this, 
-					new PropertyChangedEventArgs("ShowNewItemsReceivedBalloon"));
+				RaisePropertyChanged("ShowNewItemsReceivedBalloon");
 			}
 		}
 
@@ -1504,6 +1439,19 @@ namespace RssBandit {
 		#endregion
 
 		#region IPropertyChanged interface
+		/// <summary>
+		/// Raises the property changed.
+		/// </summary>
+		/// <param name="propertyName">Name of the property.</param>
+		protected void RaisePropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+			{
+				EventsHelper.Fire(PropertyChanged, this,
+					new PropertyChangedEventArgs(propertyName ?? String.Empty));
+			}
+		}
+
 		/// <summary>
 		/// Gets fired on a change of any preference property.
 		/// </summary>
