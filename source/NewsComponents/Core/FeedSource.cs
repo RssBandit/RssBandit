@@ -45,7 +45,6 @@ using NewsComponents.Utils;
 using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using System.Drawing;
 
 #endregion
 
@@ -464,13 +463,7 @@ namespace NewsComponents
             get { return location; }
         }
 
-        /// <summary>
-        /// Collection contains NntpServerDefinition objects.
-        /// Keys are the account name(s) - friendly names for the news server def.:
-        /// NntpServerDefinition.Name's
-        /// </summary>
-        private IDictionary<string, INntpServerDefinition> nntpServers = new Dictionary<string, INntpServerDefinition>();
-
+ 
         /// <summary>
         /// Configuration provider
         /// </summary>
@@ -1275,6 +1268,32 @@ namespace NewsComponents
 			}
 		}
 
+		/// <summary>
+		/// Gets the data service files used by each data service.
+		/// </summary>
+		/// <returns></returns>
+		public string [] GetDataServiceFiles()
+		{
+			// currently only the IUserDataService has relevant files:
+			IUserDataService service = UserDataService;
+			return service.GetUserDataFileNames();
+		}
+
+		/// <summary>
+		/// Sets the content for data service file.
+		/// </summary>
+		/// <param name="dataFileName">Name of the data file.</param>
+		/// <param name="content">The content.</param>
+		public void SetContentForDataServiceFile(string dataFileName, Stream content )
+		{
+			ReplaceDataWithContent(dataFileName, content);
+		}
+		
+		protected virtual void ReplaceDataWithContent(string dataFileName, Stream content)
+		{
+			// can be overridden by FeedSource impl.
+		}
+
         /// <summary>
         /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
         /// until this property is true. 
@@ -1485,25 +1504,6 @@ namespace NewsComponents
                 }
 
                 return layouts;
-            }
-        }
-
-        /// <summary>
-        /// Accesses the list of NntpServerDefinition objects 
-        /// Keys are the account name(s) - friendly names for the news server def.:
-        /// NewsServerDefinition.Name's
-        /// </summary>
-        public IDictionary<string, INntpServerDefinition> NntpServers
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                if (nntpServers == null)
-                {
-                    nntpServers = new Dictionary<string, INntpServerDefinition>();
-                }
-
-                return nntpServers;
             }
         }
 
@@ -1833,46 +1833,27 @@ namespace NewsComponents
 
         #region NntpServerDefinition Credentials handling
 
-        /// <summary>
-        /// Set the authorization credentials for a Nntp Server.
-        /// </summary>
-        /// <param name="sd">NntpServerDefinition to be modified</param>
-        /// <param name="user">username, identifier</param>
-        /// <param name="pwd">password</param>
-        public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd)
-        {
-            var server = (NntpServerDefinition) sd;
-            if (server == null) return;
-            server.AuthPassword = CryptHelper.EncryptB(pwd);
-            server.AuthUser = user;
-        }
+		/// <summary>
+		/// Set the authorization credentials for a Nntp Server.
+		/// </summary>
+		/// <param name="sd">NntpServerDefinition to be modified</param>
+		/// <param name="user">username, identifier</param>
+		/// <param name="pwd">password</param>
+		public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd)
+		{
+			BanditFeedSource.SetNntpServerCredentials(sd as NntpServerDefinition, user,pwd);
+		}
 
-        /// <summary>
-        /// Get the authorization credentials for a feed.
-        /// </summary>
-        /// <param name="sd">NntpServerDefinition, where the credentials are taken from</param>
-        /// <param name="user">String return parameter containing the username</param>
-        /// <param name="pwd">String return parameter, containing the password</param>
-        public static void GetNntpServerCredentials(INntpServerDefinition sd, ref string user, ref string pwd)
-        {
-            var server = (NntpServerDefinition) sd;
-            if (server == null) return;
-            pwd = (server.AuthPassword != null ? CryptHelper.Decrypt(server.AuthPassword) : null);
-            user = server.AuthUser;
-        }
-
-
-        /// <summary>
-        /// Return ICredentials of a nntp server. 
-        /// </summary>
-        /// <param name="serverAccountName">account name of the server</param>
-        /// <returns>null in the case the server does not have credentials</returns>
-        public ICredentials GetNntpServerCredentials(string serverAccountName)
-        {
-            if (serverAccountName != null && nntpServers.ContainsKey(serverAccountName))
-                return GetFeedCredentials(nntpServers[serverAccountName]);
-            return null;
-        }
+		/// <summary>
+		/// Get the authorization credentials for a feed.
+		/// </summary>
+		/// <param name="sd">NntpServerDefinition, where the credentials are taken from</param>
+		/// <param name="user">String return parameter containing the username</param>
+		/// <param name="pwd">String return parameter, containing the password</param>
+		public static void GetNntpServerCredentials(INntpServerDefinition sd, out string user, out string pwd)
+		{
+			BanditFeedSource.GetNntpServerCredentials(sd as NntpServerDefinition, out user, out pwd);
+		}
 
         /// <summary>
         /// Gets the NNTP server credentials for a feed.
@@ -1885,38 +1866,47 @@ namespace NewsComponents
             if (f == null || ! RssHelper.IsNntpUrl(f.link))
                 return c;
 
+        	IBanditFeedSource extension = this as IBanditFeedSource;
+
 			Uri feedUri;
-			if (Uri.TryCreate(f.link, UriKind.Absolute, out feedUri))
+			if (extension != null && Uri.TryCreate(f.link, UriKind.Absolute, out feedUri))
             {
-                foreach (INntpServerDefinition nsd in nntpServers.Values)
-                {
-                    if (nsd.Server.Equals(feedUri.Authority))
-                    {
-                        c = GetNntpServerCredentials(nsd.Name);
-                        break;
-                    }
-                }
+				// this could be called asynchron, so we have to lock the defs.
+				// to be in sync. with potential user modifications at the definitions
+				// the same time:
+				lock (extension.NntpServers)
+				{
+					foreach (INntpServerDefinition nsd in extension.NntpServers.Values)
+					{
+						if (nsd.Server.Equals(feedUri.Authority))
+						{
+							if (nsd.Name != null)
+								c = extension.GetFeedCredentials(nsd);
+							break;
+						}
+					}
+				}
             }
             
             return c;
         }
 
-        /// <summary>
-        /// Return ICredentials of a feed. 
-        /// </summary>
-        /// <param name="sd">NntpServerDefinition</param>
-        /// <returns>null in the case the nntp server does not have credentials</returns>
-        public static ICredentials GetFeedCredentials(INntpServerDefinition sd)
-        {
-            ICredentials c = null;
-            if (sd.AuthUser != null)
-            {
-                string u = null, p = null;
-                GetNntpServerCredentials(sd, ref u, ref p);
-                c = CreateCredentialsFrom(u, p);
-            }
-            return c;
-        }
+		///// <summary>
+		///// Return ICredentials of a feed. 
+		///// </summary>
+		///// <param name="sd">NntpServerDefinition</param>
+		///// <returns>null in the case the nntp server does not have credentials</returns>
+		//public static ICredentials GetFeedCredentials(INntpServerDefinition sd)
+		//{
+		//    ICredentials c = null;
+		//    if (sd.AuthUser != null)
+		//    {
+		//        string u = null, p = null;
+		//        BanditFeedSource.GetNntpServerCredentials(sd, ref u, ref p);
+		//        c = CreateCredentialsFrom(u, p);
+		//    }
+		//    return c;
+		//}
 
         #endregion
 
@@ -3219,12 +3209,13 @@ namespace NewsComponents
                 feedlist.listviewLayouts = lvl.Count == 0 ? null : lvl;
 
 
-                var nntps = new List<NntpServerDefinition>(nntpServers.Values.Count);
-                foreach (var val in nntpServers.Values)
-                    nntps.Add((NntpServerDefinition) val);
+				//var nntps = new List<NntpServerDefinition>(nntpServers.Values.Count);
+				//foreach (var val in nntpServers.Values)
+				//    nntps.Add((NntpServerDefinition) val);
 
-                //we don't want to write out empty <nntp-servers /> into the schema. 				
-                feedlist.nntpservers = nntps.Count == 0 ? null : nntps;
+				////we don't want to write out empty <nntp-servers /> into the schema. 				
+				//feedlist.nntpservers = nntps.Count == 0 ? null : nntps;
+            	feedlist.nntpservers = null;
 
                 var ids = new List<UserIdentity>(identities.Values);
 
@@ -5895,7 +5886,7 @@ namespace NewsComponents
             }
 
 
-            IDictionary<string, INntpServerDefinition> serverList = new Dictionary<string, INntpServerDefinition>();
+            //IDictionary<string, INntpServerDefinition> serverList = new Dictionary<string, INntpServerDefinition>();
             IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>();
 
             /* copy over user identity information */
@@ -5913,17 +5904,17 @@ namespace NewsComponents
 
 
             /* copy over newsgroup information */
-            foreach (var server in myFeeds.nntpservers)
-            {
-                if (replace)
-                {
-                    serverList.Add(server.Name, server);
-                }
-                else if (!identities.ContainsKey(server.Name))
-                {
-                    nntpServers.Add(server.Name, server);
-                }
-            }
+			//foreach (var server in myFeeds.nntpservers)
+			//{
+			//    if (replace)
+			//    {
+			//        serverList.Add(server.Name, server);
+			//    }
+			//    else if (!nntpServers.ContainsKey(server.Name))
+			//    {
+			//        nntpServers.Add(server.Name, server);
+			//    }
+			//}
 
             // copy over layout information 
             foreach (var layout in myFeeds.listviewLayouts)
@@ -5957,7 +5948,7 @@ namespace NewsComponents
                 /* update identities */
                 identities = identityList;
                 /* update servers */
-                nntpServers = serverList;
+                //nntpServers = serverList;
                 /* update layouts */
                 layouts = colLayouts;
             }

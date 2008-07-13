@@ -181,14 +181,19 @@ namespace RssBandit.WinGui
         {
             string feedlistXml = Path.Combine(Path.GetTempPath(), "feedlist.xml");
 
-            string[] files = {
+            List<string> files = new List<string>(new[] {
                                  RssBanditApplication.GetFeedListFileName(),
                                  RssBanditApplication.GetFlagItemsFileName(),
                                  RssBanditApplication.GetSearchFolderFileName(),
                                  RssBanditApplication.GetSentItemsFileName(),
                                  feedlistXml
-                             };
+                             });
 
+			rssBanditApp.FeedSources.ForEach(f =>
+				{
+					files.AddRange(f.GetDataServiceFiles());
+				});
+			
             ZipOutputStream zos;
 
             try
@@ -637,6 +642,14 @@ namespace RssBandit.WinGui
                     {
                         XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
                         rssBanditApp.FindersSearchRoot = (FinderSearchNodes) ser.Deserialize(zis);
+                    } 
+					else
+                    {
+						rssBanditApp.FeedSources.ForEach(
+							f =>
+							{
+								f.SetContentForDataServiceFile(theEntry.Name, zis);
+							});
                     }
                 } //while
 

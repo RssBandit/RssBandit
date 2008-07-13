@@ -10,10 +10,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage
 {
+
+	public enum DataEntityName
+	{
+		None,
+		NntpServerDefinitions,
+	}
 
 	/// <summary>
 	/// News Components Data Service interface.
@@ -110,6 +117,13 @@ namespace NewsComponents.Storage
 		/// <returns></returns>
 		List<NntpServerDefinition> LoadNntpServerDefinitions();
 
+		/// <summary>
+		/// Gets the used user data file names.
+		/// </summary>
+		/// <returns></returns>
+		string[] GetUserDataFileNames();
+
+		DataEntityName SetContentForDataFile(string dataFileName, Stream content);
 		#endregion
 	}
 

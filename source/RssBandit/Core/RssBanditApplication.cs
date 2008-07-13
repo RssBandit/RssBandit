@@ -879,6 +879,11 @@ namespace RssBandit
             get { return sourceManager; }
         }
 
+		public IBanditFeedSource BanditFeedSourceExtension
+		{
+			get { return BanditFeedSourceEntry.Source as IBanditFeedSource; }
+		}
+
         public FeedSource BanditFeedSource
         {
 			get { return BanditFeedSourceEntry.Source; }
@@ -6147,12 +6152,11 @@ namespace RssBandit
 
         IList ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer)
         {
+        	INntpServerDefinition sd;
             if (! string.IsNullOrEmpty(nntpServerName) &&
-                NntpServerManager.CurrentNntpServers.ContainsKey(nntpServerName))
+                NntpServerManager.CurrentNntpServers.TryGetValue(nntpServerName, out sd))
             {
-                INntpServerDefinition sd = NntpServerManager.CurrentNntpServers[nntpServerName];
-                if (sd != null)
-                    return (IList) NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
+                return (IList) NntpServerManager.LoadNntpNewsGroups(guiMain, sd, forceReloadFromServer);
             }
             return new string[] {};
         }

@@ -68,9 +68,17 @@ namespace RssBandit
 		public IDictionary<string, UserIdentity> CurrentIdentities {
 			get { return this.app.FeedHandler.UserIdentity; }
 		}
-        public IDictionary<string, INntpServerDefinition> CurrentNntpServers
+        
+		public IDictionary<string, INntpServerDefinition> CurrentNntpServers
         {
-			get { return this.app.FeedHandler.NntpServers; }
+			get
+			{
+				IBanditFeedSource extension = app.BanditFeedSourceExtension;
+				if (extension != null)
+					return extension.NntpServers;
+				return new Dictionary<string, INntpServerDefinition>(0);
+				//return this.app.FeedHandler.NntpServers;
+			}
 		}
 
 		/// <summary>
@@ -191,11 +199,11 @@ namespace RssBandit
 		/// <returns>List of groups a server offer</returns>
 		/// <exception cref="ArgumentNullException">If <see paramref="sd">param sd</see> is null</exception>
 		/// <exception cref="Exception">On any failure we get on request</exception>
-		static IList<string> FetchNewsGroupsFromServer(IWin32Window owner, INntpServerDefinition sd) {
+		IList<string> FetchNewsGroupsFromServer(IWin32Window owner, INntpServerDefinition sd) {
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
-			FetchNewsgroupsThreadHandler threadHandler = new FetchNewsgroupsThreadHandler(sd);
+			FetchNewsgroupsThreadHandler threadHandler = new FetchNewsgroupsThreadHandler(app, sd);
 			DialogResult result = threadHandler.Start(owner, SR.NntpLoadingGroupsWaitMessage, true);
 
 			if (DialogResult.OK != result)
@@ -267,14 +275,31 @@ namespace RssBandit
 				}
 			}
 
-			lock (app.FeedHandler.NntpServers) {
-				app.FeedHandler.NntpServers.Clear();
-				if (cfg.ConfiguredNntpServers != null) {
-					foreach (NntpServerDefinition sd in cfg.ConfiguredNntpServers.Values) {
-						app.FeedHandler.NntpServers.Add(sd.Name, (NntpServerDefinition)sd.Clone());
-					}	
+			IBanditFeedSource extension = app.BanditFeedSourceExtension;
+			if (extension != null)
+			{
+				lock (extension.NntpServers)
+				{
+					extension.NntpServers.Clear();
+					if (cfg.ConfiguredNntpServers != null)
+					{
+						foreach (NntpServerDefinition sd in cfg.ConfiguredNntpServers.Values)
+						{
+							extension.NntpServers.Add(sd.Name, (NntpServerDefinition)sd.Clone());
+						}
+					}
+					extension.SaveNntpServers();
 				}
 			}
+
+			//lock (app.FeedHandler.NntpServers) {
+			//    app.FeedHandler.NntpServers.Clear();
+			//    if (cfg.ConfiguredNntpServers != null) {
+			//        foreach (NntpServerDefinition sd in cfg.ConfiguredNntpServers.Values) {
+			//            app.FeedHandler.NntpServers.Add(sd.Name, (NntpServerDefinition)sd.Clone());
+			//        }	
+			//    }
+			//}
 
 			//if (!app.FeedlistModified)
 			//	app.FeedlistModified = true;
@@ -306,9 +331,11 @@ namespace RssBandit
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
 		private readonly INntpServerDefinition serverDef;
+		private RssBanditApplication app;
 		public List<string> Newsgroups;
 
-		public FetchNewsgroupsThreadHandler(INntpServerDefinition sd) {
+		public FetchNewsgroupsThreadHandler(RssBanditApplication app, INntpServerDefinition sd)
+		{
 			this.serverDef = sd;
             this.Newsgroups = new List<string>(0);
 		}
@@ -322,9 +349,12 @@ namespace RssBandit
 				request.Method = "LIST"; 
 					
 				if (!string.IsNullOrEmpty(serverDef.AuthUser)) {
-					string u = null, p = null;
-					FeedSource.GetNntpServerCredentials(serverDef, ref u, ref p);
-					request.Credentials = FeedSource.CreateCredentialsFrom(u, p);
+					IBanditFeedSource extension = app.BanditFeedSourceExtension;
+					if (extension != null)
+						request.Credentials = extension.GetFeedCredentials(serverDef);
+					//string u = null, p = null;
+					//FeedSource.GetNntpServerCredentials(serverDef, ref u, ref p);
+					//request.Credentials = FeedSource.CreateCredentialsFrom(u, p);
 				}
 
 				//TODO: implement proxy support in NntpWebRequest

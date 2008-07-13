@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage 
@@ -99,7 +100,15 @@ namespace NewsComponents.Storage
 		/// </summary>
 		/// <returns></returns>
 		public abstract List<NntpServerDefinition> LoadNntpServerDefinitions();
+		
+		/// <summary>
+		/// Gets the used data file names.
+		/// </summary>
+		/// <returns></returns>
+		public abstract string[] GetUserDataFileNames();
 
+		public abstract DataEntityName SetContentForDataFile(string dataFileName, Stream content);
+		
 		#endregion
 
 		#region Implementation of IDisposable
@@ -123,6 +132,7 @@ namespace NewsComponents.Storage
 		}
 
 		#endregion
+		
 		#region Implementation of IInitDataService
 
 		/// <summary>
@@ -142,5 +152,6 @@ namespace NewsComponents.Storage
 		}
 
 		#endregion
+
 	}
 }
