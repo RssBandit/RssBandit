@@ -24,4 +24,16 @@ namespace NewsComponents.Storage
 		/// depending on the implementation of the data service</param>
 		void Initialize(string initData);
 	}
+
+	/// <summary>
+	/// Can be used to request infos about a data service 
+	/// </summary>
+	public interface IDataServiceContext
+	{
+		/// <summary>
+		/// Gets the used data file names.
+		/// </summary>
+		/// <returns></returns>
+		string[] GetUsedDataFileNames();
+	}
 }
