@@ -1575,11 +1575,13 @@ namespace RssBandit.WinGui.Forms
 
 			} else if (this.wizardMode == AddSubscriptionWizardMode.SubscribeURL ||
 					this.wizardMode == AddSubscriptionWizardMode.SubscribeURLDirect ) {
-				
-				if (this.listFeeds.SelectedItems.Count > 0)
-					return (string)this.listFeeds.SelectedItems[index].Tag;
-				else
-					return this.FeedUrl;
+
+                        if (this.listFeeds.Items.Count == 1)
+                            return (string)this.listFeeds.Items[0].Tag; 
+                        else if (this.listFeeds.SelectedItems.Count > 0)
+                            return (string)this.listFeeds.SelectedItems[index].Tag;
+                        else
+                            return this.FeedUrl;
 
 			} else {
 
