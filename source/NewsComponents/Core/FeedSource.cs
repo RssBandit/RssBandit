@@ -3262,12 +3262,11 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Removes all the RSS items cached in-memory and on-disk for all feeds. 
+        /// Removes all the RSS items cached in-memory. 
         /// </summary>
         public void ClearItemsCache()
         {
-            itemsTable.Clear();
-            UserCacheDataService.RemoveAllNewsItems();
+            itemsTable.Clear();          
         }
 
 
