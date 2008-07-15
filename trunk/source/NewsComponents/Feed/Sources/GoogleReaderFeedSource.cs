@@ -579,11 +579,13 @@ namespace NewsComponents.Feed
         /// Returns the Google Reader URL from which to download the Atom feed for the GoogleReaderNewsFeed object. 
         /// </summary>
         /// <param name="feed">The target feed</param>
+        /// <param name="fetchAll">Indicates that all items from the feed should be fetched not just the items since 
+        /// the last time the feed was retrieved</param>
         /// <returns></returns>
-        private static string CreateDownloadUrl(GoogleReaderNewsFeed feed)
+        private static string CreateDownloadUrl(GoogleReaderNewsFeed feed, bool fetchAll)
         {
             //either download all items since last retrieved or last 1 month of stuff (default if value to low) if never fetched items from feed
-            TimeSpan maxItemAge = (feed.lastretrievedSpecified ? feed.lastretrieved - unixEpoch : new TimeSpan(0,0,1));
+            TimeSpan maxItemAge = (feed.lastretrievedSpecified && !fetchAll ? feed.lastretrieved - unixEpoch : new TimeSpan(0,0,1));
             string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt64(maxItemAge.TotalSeconds);          
 
             return feedUrl; 
@@ -747,7 +749,7 @@ namespace NewsComponents.Feed
 
                 if (continuationToken == null)
                 {
-                    reqUri = new Uri(CreateDownloadUrl(theFeed));
+                    reqUri = new Uri(CreateDownloadUrl(theFeed, manual));
                 }
 
                 // only if we "real" go over the wire for an update:

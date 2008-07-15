@@ -4359,7 +4359,7 @@ namespace NewsComponents
                 //DateTime lastRetrieved = DateTime.MinValue; 
                 DateTime lastModified = DateTime.MinValue;
 
-                if (itemsTable.ContainsKey(feedUrl))
+                if (!manual && itemsTable.ContainsKey(feedUrl)) 
                 {
                     etag = theFeed.etag;
                     lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
