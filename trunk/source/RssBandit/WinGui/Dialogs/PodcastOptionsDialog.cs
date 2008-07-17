@@ -75,24 +75,24 @@ namespace RssBandit.WinGui.Dialogs
 		protected override void InitializeComponentTranslation() {
 			base.InitializeComponentTranslation ();
 			
-			this.Text = SR.PodcastOptionDialog_Title;
+			this.Text = DR.PodcastOptionDialog_Title;
 			// general section
-			this.sectionPanelGeneral.Text = SR.PodcastOptionDialog_GeneralSectionCaption;
-			this.lblTreatThisFilesAsPodcasts.Text = SR.PodcastOptionDialog_TreatFileTypesCaption;
-			this.toolTip.SetToolTip(this.btnSelectCopyPodcastToFolder, SR.PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip);
-			this.toolTip.SetToolTip(this.textPodcastFilesExtensions, SR.PodcastOptionDialog_TreatFileTypesTip);
-			this.toolTip.SetToolTip(this.txtCopyPodcastToFolder, SR.PodcastOptionDialog_CopyPodcastFilesLocationTip);
-			this.lblAfterDownloadingCopyTo.Text = SR.PodcastOptionDialog_CopyPodcastFilesLabelCaption;
-			this.chkCopyPodcastToFolder.Text = SR.PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption;
-			this.chkCopyPodcastToITunesPlaylist.Text = SR.PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption;
-			this.chkCopyPodcastToWMPlaylist.Text = SR.PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption;
+			this.sectionPanelGeneral.Text = DR.PodcastOptionDialog_GeneralSectionCaption;
+			this.lblTreatThisFilesAsPodcasts.Text = DR.PodcastOptionDialog_TreatFileTypesCaption;
+			this.toolTip.SetToolTip(this.btnSelectCopyPodcastToFolder, DR.PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip);
+			this.toolTip.SetToolTip(this.textPodcastFilesExtensions, DR.PodcastOptionDialog_TreatFileTypesTip);
+			this.toolTip.SetToolTip(this.txtCopyPodcastToFolder, DR.PodcastOptionDialog_CopyPodcastFilesLocationTip);
+			this.lblAfterDownloadingCopyTo.Text = DR.PodcastOptionDialog_CopyPodcastFilesLabelCaption;
+			this.chkCopyPodcastToFolder.Text = DR.PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption;
+			this.chkCopyPodcastToITunesPlaylist.Text = DR.PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption;
+			this.chkCopyPodcastToWMPlaylist.Text = DR.PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption;
 		
 			// playlist section
-			this.sectionPanelPlaylist.Text = SR.PodcastOptionDialog_PlaylistSectionCaption;
-			this.lblSectionPanelPlaylistName.Text = SR.PodcastOptionDialog_PlaylistSectionLabelCaption;
-			this.optFeedNameAsPlaylistName.Text = SR.PodcastOptionDialog_PlaylistFromFeedOptionCaption;
-			this.optSinglePlaylistName.Text = SR.PodcastOptionDialog_PlaylistFromCustomNameOptionCaption;
-			this.toolTip.SetToolTip(this.textSinglePlaylistName, SR.PodcastOptionDialog_PlaylistCustomNameTip);
+			this.sectionPanelPlaylist.Text = DR.PodcastOptionDialog_PlaylistSectionCaption;
+			this.lblSectionPanelPlaylistName.Text = DR.PodcastOptionDialog_PlaylistSectionLabelCaption;
+			this.optFeedNameAsPlaylistName.Text = DR.PodcastOptionDialog_PlaylistFromFeedOptionCaption;
+			this.optSinglePlaylistName.Text = DR.PodcastOptionDialog_PlaylistFromCustomNameOptionCaption;
+			this.toolTip.SetToolTip(this.textSinglePlaylistName, DR.PodcastOptionDialog_PlaylistCustomNameTip);
 			
 		}
 

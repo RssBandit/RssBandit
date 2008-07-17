@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NewsComponents.Net;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Dialogs
 {
@@ -21,10 +22,16 @@ namespace RssBandit.WinGui.Dialogs
     /// </summary>
     public partial class DownloadManagerWindow : Window
     {
-        public DownloadManagerWindow()
+    	private RssBanditApplication owner;
+        
+		public DownloadManagerWindow()
         {
             InitializeComponent();
         }
+		internal DownloadManagerWindow(RssBanditApplication app) :this()
+		{
+			owner = app;
+		}
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -40,8 +47,15 @@ namespace RssBandit.WinGui.Dialogs
 
         private void Grid_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
-            e.Handled = true;
+			try
+			{
+				Process.Start(new ProcessStartInfo(e.Uri.ToString()) {UseShellExecute = true});
+				e.Handled = true;
+			} 
+			catch (Exception startupEx)
+			{
+				owner.MessageWarn(String.Format(SR.ExecutableForFileStartupFailure, e.Uri, startupEx.Message));
+			}
         }
     }
 }

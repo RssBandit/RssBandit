@@ -774,6 +774,75 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.bg.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.de.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.es.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.fr.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.hi.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.it.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ja.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.nl-NL.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.pl.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.pt-BR.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DR.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ru.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Cyrl-CS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Latn-CS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.tr.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHT.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.bg.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -982,71 +1051,7 @@
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.bg.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.de.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.es.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.fr.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.hi.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.it.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ja.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.nl-NL.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pl.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.pt-BR.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.ru.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-Cyrl-CS.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.sr-Latn-CS.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.tr.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHS.resx">
-      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.zh-CHT.resx">
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1898,6 +1903,14 @@
     </Compile>
     <Compile Include="WinGui\Dialogs\DownloadManagerWindow.xaml.cs">
       <DependentUpon>DownloadManagerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
+      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
       <SubType>Form</SubType>

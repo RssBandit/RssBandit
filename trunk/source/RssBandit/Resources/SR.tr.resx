@@ -59,51 +59,52 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
-		<xsd:element name="root" msdata:IsDataSet="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="metadata">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" />
-		</xsd:sequence>
-		<xsd:attribute name="name" use="required" type="xsd:string" />
-		<xsd:attribute name="type" type="xsd:string" />
-		<xsd:attribute name="mimetype" type="xsd:string" />
-		<xsd:attribute ref="xml:space" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="assembly">
-				 <xsd:complexType>
-		<xsd:attribute name="alias" type="xsd:string" />
-		<xsd:attribute name="name" type="xsd:string" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="data">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		<xsd:attribute ref="xml:space" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -116,43 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="URL_WebHelp">
+  <data name="URL_WebHelp" xml:space="preserve">
     <value>http://www.rssbandit.org/docs/</value>
     <comment>used to navigate to Bandit docs (Help)</comment>
   </data>
-  <data name="URL_FeedValidationBase">
+  <data name="URL_FeedValidationBase" xml:space="preserve">
     <value>http://www.feedvalidator.org/check?url=</value>
     <comment>used to validate a RSSfeed, default on invalid .config</comment>
   </data>
-  <data name="URL_FeedLinkCosmosUrlBase">
+  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
     <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
     <comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
   </data>
-  <data name="URL_BugReport">
+  <data name="URL_BugReport" xml:space="preserve">
     <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
     <comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
   </data>
-  <data name="URL_ProjectNews">
+  <data name="URL_ProjectNews" xml:space="preserve">
     <value>http://sourceforge.net/news/?group_id=96589</value>
     <comment>News page at Sourceforge, default on invalid .config</comment>
   </data>
-  <data name="URL_WikiWebNews">
+  <data name="URL_WikiWebNews" xml:space="preserve">
     <value>http://www.rssbandit.org/</value>
     <comment>Bandit Wiki Site, default on invalid .config</comment>
   </data>
-  <data name="URL_UserForum">
+  <data name="URL_UserForum" xml:space="preserve">
     <value>http://www.rssbandit.org/forum/</value>
     <comment>Bandit User Forum, default on invalid .config</comment>
   </data>
-  <data name="FeedDefaultCategory">
+  <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Kategorize Edilmemiş Kaynaklar]</value>
     <comment>localizable</comment>
   </data>
-  <data name="UpgradeInfoBoxCaption">
+  <data name="UpgradeInfoBoxCaption" xml:space="preserve">
     <value>Güncelleme Bilgisi</value>
     <comment>Caption of the Upgrade Info Messagebox</comment>
   </data>
-  <data name="UpgradeFeedlistInfoText">
+  <data name="UpgradeFeedlistInfoText" xml:space="preserve">
     <value>{0}'in yeni sürümü, kaynak listesi dosya biçiminin değiştirilmesini gerektiren yeni 
 program özellikleri ve hata düzeltmelerini içeriyor.
 
@@ -163,19 +164,19 @@ Eski dosyanıza dokunulmayacak.
 Devam etmek istiyor musunuz?</value>
     <comment>Info text used to inform a user about a feedlist file format change.</comment>
   </data>
-  <data name="InvalidFeedFileInfoBoxCaption">
+  <data name="InvalidFeedFileInfoBoxCaption" xml:space="preserve">
     <value>Geçersiz Kaynak Dosyası</value>
     <comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
   </data>
-  <data name="InvalidFeedURIBoxText">
+  <data name="InvalidFeedURIBoxText" xml:space="preserve">
     <value>Yeni kaynak için belirtilen adres geçerli bir adres (URL) değil</value>
     <comment>Text of dialog if invalid URI specified when creating a new feed</comment>
   </data>
-  <data name="InvalidFeedURIBoxCaption">
+  <data name="InvalidFeedURIBoxCaption" xml:space="preserve">
     <value>Geçersiz Adres</value>
     <comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
   </data>
-  <data name="ExceptionReadingFeedlistFile">
+  <data name="ExceptionReadingFeedlistFile" xml:space="preserve">
     <value>Kaynak listesi yüklenirken beklenmeyen hata oluştu:
 '{0}'.
 Oluşan hatayla ilgili daha fazla bilgi için lütfen
@@ -183,1178 +184,1178 @@ Oluşan hatayla ilgili daha fazla bilgi için lütfen
 dosyasına bir göz atın.</value>
     <comment>Exception message</comment>
   </data>
-  <data name="GUIStatusErrorReadingFeedlistFile">
+  <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
     <value>Kaynak liste dosyası yüklenirken hata oluştu</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="InvalidFeedlistFileMessage">
+  <data name="InvalidFeedlistFileMessage" xml:space="preserve">
     <value>Kaynak dosyası geçersiz. Oluşan hatayla ilgili detaylı bilgi için 
   '{0}' 
 dosyasına gözatın.</value>
     <comment>Validation Error message</comment>
   </data>
-  <data name="GUIStatusDone">
+  <data name="GUIStatusDone" xml:space="preserve">
     <value>Bitti</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="GUIStatusRetriveCommentRssFeed">
+  <data name="GUIStatusRetriveCommentRssFeed" xml:space="preserve">
     <value>commentRss kaynağı isteniyor, lütfen bekleyin...</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="GUIExceptionRetriveCommentRssFeed">
+  <data name="GUIExceptionRetriveCommentRssFeed" xml:space="preserve">
     <value>commentRss kaynağı istenirken hata oluştu: {0}</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="GUIStatusValidationErrorReadingFeedlistFile">
+  <data name="GUIStatusValidationErrorReadingFeedlistFile" xml:space="preserve">
     <value>Kaynak listesi yüklenirken doğrulama hatası oluştu.</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="GUIStatusNoFeedlistFile">
+  <data name="GUIStatusNoFeedlistFile" xml:space="preserve">
     <value>Kaynak listesi yok.</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="GUIStatusIdle">
+  <data name="GUIStatusIdle" xml:space="preserve">
     <value>Boşta</value>
     <comment>also displayed as a Tooltip on the tray icon</comment>
   </data>
-  <data name="GUIStatusNewFeedItemsReceived">
+  <data name="GUIStatusNewFeedItemsReceived" xml:space="preserve">
     <value>Yeni mesajlar alındı...</value>
     <comment>also displayed as a tooltip </comment>
   </data>
-  <data name="GUIStatusNewFeedItemsReceivedMessage">
+  <data name="GUIStatusNewFeedItemsReceivedMessage" xml:space="preserve">
     <value>{0} kaynakta {1} yeni mesaj</value>
     <comment>also displayed as a tooltip </comment>
   </data>
-  <data name="GUIStatusBusyRefresh">
+  <data name="GUIStatusBusyRefresh" xml:space="preserve">
     <value>Meşkul, güncelleniyor...</value>
     <comment>also displayed as a tooltip </comment>
   </data>
-  <data name="GUIStatusUnreadFeedItemsAvailable">
+  <data name="GUIStatusUnreadFeedItemsAvailable" xml:space="preserve">
     <value>Okunmamış mesajlar var...</value>
   </data>
-  <data name="GUIStatusFeedsAreUpdatedMessage">
+  <data name="GUIStatusFeedsAreUpdatedMessage" xml:space="preserve">
     <value>{0} kaynak güncellendi.</value>
   </data>
-  <data name="GUIStatusNoFeedsAreUpdated">
+  <data name="GUIStatusNoFeedsAreUpdated" xml:space="preserve">
     <value>Güncellenmiş kaynak yok.</value>
   </data>
-  <data name="GUIStatusUnreadFeedItemsLeftMessage">
+  <data name="GUIStatusUnreadFeedItemsLeftMessage" xml:space="preserve">
     <value>{0} okunmamış mesaj kaldı.</value>
   </data>
-  <data name="GUIStatusNoUnreadFeedItemsLeft">
+  <data name="GUIStatusNoUnreadFeedItemsLeft" xml:space="preserve">
     <value>Başka okunmamış mesaj yok.</value>
   </data>
-  <data name="GUIFieldLinkTitleInvalid">
+  <data name="GUIFieldLinkTitleInvalid" xml:space="preserve">
     <value>Kaynağın adresi veya başlığı boş olamaz!</value>
   </data>
-  <data name="GUIFieldTitleInvalid">
+  <data name="GUIFieldTitleInvalid" xml:space="preserve">
     <value>Kategori başlığı boş olamaz!</value>
     <comment>NEW</comment>
   </data>
-  <data name="GUIBlankFieldDetectedCaption">
+  <data name="GUIBlankFieldDetectedCaption" xml:space="preserve">
     <value>Boş Alan Saptandı</value>
   </data>
-  <data name="GUIFieldWebUrlInvalid">
+  <data name="GUIFieldWebUrlInvalid" xml:space="preserve">
     <value>Web Sayfası adresi belirtilmemiş</value>
   </data>
-  <data name="GUIFieldKeywordsInvalid">
+  <data name="GUIFieldKeywordsInvalid" xml:space="preserve">
     <value>Anahtar sözcük(ler) belirtilmemiş</value>
   </data>
-  <data name="GUIStatusWaitMessageDetectingFeeds">
+  <data name="GUIStatusWaitMessageDetectingFeeds" xml:space="preserve">
     <value>{0} 
 sayfasındaki kaynaklar belirleniyor.</value>
   </data>
-  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords">
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" xml:space="preserve">
     <value>{0}
  anahtar sözcüğünü içeren kaynaklar belirleniyor.</value>
   </data>
-  <data name="GUIStatusWaitMessagePrefetchFeed">
+  <data name="GUIStatusWaitMessagePrefetchFeed" xml:space="preserve">
     <value>{0}
  kaynağı isteniyor.</value>
   </data>
-  <data name="GUIStatusWaitMessageRequestFile">
+  <data name="GUIStatusWaitMessageRequestFile" xml:space="preserve">
     <value>{0} 
 dosyası isteniyor.</value>
   </data>
-  <data name="GUIStatusInfoMessageNoFeedsFound">
+  <data name="GUIStatusInfoMessageNoFeedsFound" xml:space="preserve">
     <value>Üzgünüm, hiç RSS kaynağı bulunamadı.</value>
   </data>
-  <data name="GUIStatusWaitMessageUpLoadingFeedlist">
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist" xml:space="preserve">
     <value>({0}) kaynak listesi gönderiliyor, lütfen bekleyin...</value>
   </data>
-  <data name="GUIFeedlistUploadExceptionMessage">
+  <data name="GUIFeedlistUploadExceptionMessage" xml:space="preserve">
     <value>Kaynak listesi gönderimi başarısız, hata:
 {0}</value>
   </data>
-  <data name="GUIStatusWaitMessageDownLoadingFeedlist">
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist" xml:space="preserve">
     <value>({0}) kaynak listesi indiriliyor, lütfen bekleyin...</value>
   </data>
-  <data name="GUIFeedlistDownloadExceptionMessage">
+  <data name="GUIFeedlistDownloadExceptionMessage" xml:space="preserve">
     <value>Kaynak listesi indirimi başarısız, hata:
 {0}</value>
   </data>
-  <data name="GUIStatusInfoCaptionNoFeeds">
+  <data name="GUIStatusInfoCaptionNoFeeds" xml:space="preserve">
     <value>Kaynak Bulunamadı</value>
   </data>
-  <data name="GUIFieldLinkRedundantInfo">
+  <data name="GUIFieldLinkRedundantInfo" xml:space="preserve">
     <value>Bu kaynağa zaten abonesiniz.
  Kategori/İsim: {0}
  Bağlantı: {1}.</value>
     <comment>NEW</comment>
   </data>
-  <data name="GUIStatusRefreshThisFeedMessage">
+  <data name="GUIStatusRefreshThisFeedMessage" xml:space="preserve">
     <value>Güncelleniyor: {0} ...</value>
   </data>
-  <data name="ExceptionRefreshThisFeedXMLFailed">
+  <data name="ExceptionRefreshThisFeedXMLFailed" xml:space="preserve">
     <value>{0} güncellemesi başarısız  (XML hatası): {1}</value>
   </data>
-  <data name="ExceptionRefreshThisFeedFatalFailed">
+  <data name="ExceptionRefreshThisFeedFatalFailed" xml:space="preserve">
     <value>{0} güncellemesi başarısız (ölümcül hata): {1}</value>
   </data>
-  <data name="WebExceptionOnUrlAccess">
+  <data name="WebExceptionOnUrlAccess" xml:space="preserve">
     <value>{0} adresinin istemi başarısız: {1}</value>
   </data>
-  <data name="GUIAutoDiscoverFeedFailedCaption">
+  <data name="GUIAutoDiscoverFeedFailedCaption" xml:space="preserve">
     <value>Otomatik kaynak keşfi başarısız</value>
   </data>
-  <data name="GUIStatusRefreshFeedsMessage">
+  <data name="GUIStatusRefreshFeedsMessage" xml:space="preserve">
     <value>Kaynaklar güncelleniyor...</value>
   </data>
-  <data name="GUIStatusLoadingFeedlist">
+  <data name="GUIStatusLoadingFeedlist" xml:space="preserve">
     <value>Kaynak listesi yükleniyor...</value>
   </data>
-  <data name="GUIStatusLoadingChildItems">
+  <data name="GUIStatusLoadingChildItems" xml:space="preserve">
     <value>Yükleniyor, lütfen bekleyin...</value>
   </data>
-  <data name="GUIStatusChildItemsNA">
+  <data name="GUIStatusChildItemsNA" xml:space="preserve">
     <value>Alt mesajlar yüklenemiyor, bağlantınız kopuk.</value>
   </data>
-  <data name="GUIStatusRefreshConnectionState">
+  <data name="GUIStatusRefreshConnectionState" xml:space="preserve">
     <value>Şu anki internet bağlantı durumunu sına...</value>
   </data>
-  <data name="GUICurrentConnectionState_Info">
+  <data name="GUICurrentConnectionState_Info" xml:space="preserve">
     <value>Şu anki internet bağlantı durumu...</value>
   </data>
-  <data name="GUIStatusLoadingFeed">
+  <data name="GUIStatusLoadingFeed" xml:space="preserve">
     <value>Yükleniyor...</value>
   </data>
-  <data name="ExceptionLoadingSearchEnginesMessage">
+  <data name="ExceptionLoadingSearchEnginesMessage" xml:space="preserve">
     <value>Arama yapılandırmasını yüklerken beklenmeyen bir hata oluştu: {0}.
 Lütfen hatanın detaylarıyla ilgili '{1}' dosyasına gözatın.</value>
   </data>
-  <data name="GUIErrorMessageBoxCaption">
+  <data name="GUIErrorMessageBoxCaption" xml:space="preserve">
     <value>Hata oluşuyor</value>
   </data>
-  <data name="GUIStatusErrorLoadingSearchConfig">
+  <data name="GUIStatusErrorLoadingSearchConfig" xml:space="preserve">
     <value>Arama yapılandırması yüklenirken hata oluştu</value>
   </data>
-  <data name="GUIStatusErrorInvalidSearchConfig">
+  <data name="GUIStatusErrorInvalidSearchConfig" xml:space="preserve">
     <value>Arama yapılandırma listesi yüklenirken doğrulama hatası oluştu</value>
   </data>
-  <data name="ExceptionInvalidSearchEnginesMessage">
+  <data name="ExceptionInvalidSearchEnginesMessage" xml:space="preserve">
     <value>Arama yapılandırmasını yüklerken doğrulama hatası oldu.
 Lütfen hatanın detaylarıyla ilgili '{0}' dosyasına gözatın.</value>
   </data>
-  <data name="GeneralNewItemText">
+  <data name="GeneralNewItemText" xml:space="preserve">
     <value>[Yeni]</value>
   </data>
-  <data name="GeneralNewItemTextWithCounter">
+  <data name="GeneralNewItemTextWithCounter" xml:space="preserve">
     <value>[Yeni {0}]</value>
   </data>
-  <data name="GUIStatusErrorInvalidFeed">
+  <data name="GUIStatusErrorInvalidFeed" xml:space="preserve">
     <value>Geçersiz Kaynak.</value>
   </data>
-  <data name="GUIStatusErrorLoadingFeedMessage">
+  <data name="GUIStatusErrorLoadingFeedMessage" xml:space="preserve">
     <value>Kaynak yüklenmesi başarısız: {0}</value>
   </data>
-  <data name="GUIStatusErrorGeneralFeedMessage">
+  <data name="GUIStatusErrorGeneralFeedMessage" xml:space="preserve">
     <value>İşlem iptal edildi. '{0}' kaynağı hata veriyor: {1}</value>
   </data>
-  <data name="ExceptionNewsItemTransformation">
+  <data name="ExceptionNewsItemTransformation" xml:space="preserve">
     <value>RSS mesajı HTML'e dönüştürülemiyor.</value>
   </data>
-  <data name="ExceptionNewsItemFormatterStylesheetCompile">
+  <data name="ExceptionNewsItemFormatterStylesheetCompile" xml:space="preserve">
     <value>Xslt şablonu derlenemiyor.</value>
   </data>
-  <data name="ExceptionNewsItemFormatterInvalidStylesheet">
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet" xml:space="preserve">
     <value>Xslt şablonu geçersiz.</value>
   </data>
-  <data name="ExceptionNewsItemFormatterStylesheetMessage">
+  <data name="ExceptionNewsItemFormatterStylesheetMessage" xml:space="preserve">
     <value>Seçili Xslt şablonu şu hatayı bildiriyor:
 {0}
 Ayrıntılar: {1}</value>
   </data>
-  <data name="ExceptionInvalidXmlChracterMessage">
+  <data name="ExceptionInvalidXmlChracterMessage" xml:space="preserve">
     <value>geçersiz bir karakter</value>
     <comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
 		a specific error message by string matching (this one) to find the message reporting 
 		a invalid character (they include the invalid char, that breaks our rendering)</comment>
   </data>
-  <data name="GUIStatusErrorEmptyTitleNotAllowed">
+  <data name="GUIStatusErrorEmptyTitleNotAllowed" xml:space="preserve">
     <value>İşlem iptal edildi. Başlık boş bırakılamaz.</value>
   </data>
-  <data name="MainMenuFileCaption">
+  <data name="MainMenuFileCaption" xml:space="preserve">
     <value>&amp;Dosya</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuFileDesc">
+  <data name="MainMenuFileDesc" xml:space="preserve">
     <value>RSS Bandit dosya komutları</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MainMenuViewCaption">
+  <data name="MainMenuViewCaption" xml:space="preserve">
     <value>&amp;Görünüm</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuViewDesc">
+  <data name="MainMenuViewDesc" xml:space="preserve">
     <value>RSS Bandit görünüm komutları</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MainMenuToolsCaption">
+  <data name="MainMenuToolsCaption" xml:space="preserve">
     <value>A&amp;raçlar</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuToolsDesc">
+  <data name="MainMenuToolsDesc" xml:space="preserve">
     <value>RSS Bandit araç komutları</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MainMenuSearchCaption">
+  <data name="MainMenuSearchCaption" xml:space="preserve">
     <value>&amp;Arama</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuSearchDesc">
+  <data name="MainMenuSearchDesc" xml:space="preserve">
     <value>RSS Bandit web araması yapılandırma komutları</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MainMenuHelpCaption">
+  <data name="MainMenuHelpCaption" xml:space="preserve">
     <value>&amp;Yardım</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuHelpDesc">
+  <data name="MainMenuHelpDesc" xml:space="preserve">
     <value>RSS Bandit yardımı...</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MenuWebSearchRequiresNewTabCaption">
+  <data name="MenuWebSearchRequiresNewTabCaption" xml:space="preserve">
     <value>Sonuçlar için Yeni Sekme</value>
     <comment>Caption within search menu</comment>
   </data>
-  <data name="MenuWebSearchRequiresNewTabDesc">
+  <data name="MenuWebSearchRequiresNewTabDesc" xml:space="preserve">
     <value>Web Arama Sonuçları yeni sekmede gösterilir...</value>
     <comment>Description within search menu</comment>
   </data>
-  <data name="MenuWebSearchToogleEngineDesc">
+  <data name="MenuWebSearchToogleEngineDesc" xml:space="preserve">
     <value>Eşzamanlı aramalarda kullanmak için bunu işaretleyin...</value>
     <comment>Description within search menu</comment>
   </data>
-  <data name="MenuAboutCaption">
+  <data name="MenuAboutCaption" xml:space="preserve">
     <value>&amp;Hakkında...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuAboutDesc">
+  <data name="MenuAboutDesc" xml:space="preserve">
     <value>Bu uygulama hakkında bilgiler verir</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuWebHelpCaption">
+  <data name="MenuWebHelpCaption" xml:space="preserve">
     <value>&amp;Çevrimiçi Belgeler</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuWebHelpDesc">
+  <data name="MenuWebHelpDesc" xml:space="preserve">
     <value>Uygulama hakkında yardım, başlarken, SSS, vb.</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuWorkspaceNewsCaption">
+  <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
     <value>&amp;Haberleri göster (Sourceforge)...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuWorkspaceNewsDesc">
+  <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
     <value>Bu Uygulamayla ilgili Sourceforge.net sitesindeki son haberleri okuyun</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuBugReportCaption">
+  <data name="MenuBugReportCaption" xml:space="preserve">
     <value>&amp;Hata bildir (Sourceforge)...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuBugReportDesc">
+  <data name="MenuBugReportDesc" xml:space="preserve">
     <value>Bu uygulamayla ilgili bir hatayı Sourceforge.net'te bildirmenizi sağlar</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuCheckForUpdatesCaption">
+  <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
     <value>Güncellemeleri Kontrol Et...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuCheckForUpdatesDesc">
+  <data name="MenuCheckForUpdatesDesc" xml:space="preserve">
     <value>Uygulama güncellemelerini kontrol eder</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuBanditWikiCaption">
+  <data name="MenuBanditWikiCaption" xml:space="preserve">
     <value>RSS Bandit A&amp;nasayfasına Git...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuBanditWikiDesc">
+  <data name="MenuBanditWikiDesc" xml:space="preserve">
     <value>Haber oku, yeni özellik tavsiye et, SSS ve fazlası...</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuBanditForumCaption">
+  <data name="MenuBanditForumCaption" xml:space="preserve">
     <value>RSS Bandit &amp;Forumlarına Git...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuBanditForumDesc">
+  <data name="MenuBanditForumDesc" xml:space="preserve">
     <value>İlgili herhangi bir konuda tartış...</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="MenuToggleTreeViewStateCaption">
+  <data name="MenuToggleTreeViewStateCaption" xml:space="preserve">
     <value>&amp;Kaynak Abonelikleri</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuToggleTreeViewStateDesc">
+  <data name="MenuToggleTreeViewStateDesc" xml:space="preserve">
     <value>Kaynak listesi panosunun görünme durumunu değiştirir.</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuToggleRssSearchTabStateCaption">
+  <data name="MenuToggleRssSearchTabStateCaption" xml:space="preserve">
     <value>&amp;Ara</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuToggleRssSearchTabStateDesc">
+  <data name="MenuToggleRssSearchTabStateDesc" xml:space="preserve">
     <value>Kaynak arama panosunun görünme durumunu değiştirir.</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuViewToolbarsCaption">
+  <data name="MenuViewToolbarsCaption" xml:space="preserve">
     <value>&amp;Araç Çubukları</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuViewToolbarsDesc">
+  <data name="MenuViewToolbarsDesc" xml:space="preserve">
     <value>Çeşitli araç çubuklarının görüntülenme durumunu değiştirir.</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuViewToolbarMainCaption">
+  <data name="MenuViewToolbarMainCaption" xml:space="preserve">
     <value>Standart</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuViewToolbarMainDesc">
+  <data name="MenuViewToolbarMainDesc" xml:space="preserve">
     <value>Standart araç çubuğunun görüntülenme durumunu değiştirir.</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuViewToolbarWebNavigationCaption">
+  <data name="MenuViewToolbarWebNavigationCaption" xml:space="preserve">
     <value>Web Gezintisi</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuViewToolbarWebNavigationDesc">
+  <data name="MenuViewToolbarWebNavigationDesc" xml:space="preserve">
     <value>Web gezintisi araç çubuğunun görüntülenme durumunu değiştirir.</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuViewToolbarWebSearchCaption">
+  <data name="MenuViewToolbarWebSearchCaption" xml:space="preserve">
     <value>Web'de Ara</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuViewToolbarWebSearchDesc">
+  <data name="MenuViewToolbarWebSearchDesc" xml:space="preserve">
     <value>Web'de Ara araç çubuğunun görüntülenme durumunu değiştirir...</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuImportFeedsCaption">
+  <data name="MenuImportFeedsCaption" xml:space="preserve">
     <value>&amp;Kaynakları Al...</value>
     <comment>Caption within file menu</comment>
   </data>
-  <data name="MenuImportFeedsDesc">
+  <data name="MenuImportFeedsDesc" xml:space="preserve">
     <value>Bir kaynak listesini ithal eder (.xml, .ocs veya .opml)</value>
     <comment>Description within file menu</comment>
   </data>
-  <data name="MenuExportFeedsCaption">
+  <data name="MenuExportFeedsCaption" xml:space="preserve">
     <value>&amp;Kaynakları Ver...</value>
     <comment>Caption within file menu</comment>
   </data>
-  <data name="MenuExportFeedsDesc">
+  <data name="MenuExportFeedsDesc" xml:space="preserve">
     <value>Kaynak listesini ihraç eder...</value>
     <comment>Description within file menu</comment>
   </data>
-  <data name="MenuAppOptionsCaption">
+  <data name="MenuAppOptionsCaption" xml:space="preserve">
     <value>&amp;Seçenekler...</value>
     <comment>Caption within tools menu</comment>
   </data>
-  <data name="MenuAppOptionsDesc">
+  <data name="MenuAppOptionsDesc" xml:space="preserve">
     <value>Uygulama seçenekleri penceresini gösterir...</value>
     <comment>Description within tools menu</comment>
   </data>
-  <data name="MenuAppCloseExitCaption">
+  <data name="MenuAppCloseExitCaption" xml:space="preserve">
     <value>&amp;Çıkış</value>
     <comment>Caption within file menu</comment>
   </data>
-  <data name="MenuAppCloseExitDesc">
+  <data name="MenuAppCloseExitDesc" xml:space="preserve">
     <value>RSS Bandit uygulamasını kapatır ve çıkar</value>
     <comment>Description within file menu</comment>
   </data>
-  <data name="MenuAppInternetConnectionModeCaption">
+  <data name="MenuAppInternetConnectionModeCaption" xml:space="preserve">
     <value>Çe&amp;vrimdışı Çalış</value>
     <comment>Caption within file menu</comment>
   </data>
-  <data name="MenuAppInternetConnectionModeDesc">
+  <data name="MenuAppInternetConnectionModeDesc" xml:space="preserve">
     <value>İnternet bağlantı durumunu değiştirir</value>
     <comment>Description within file menu</comment>
   </data>
-  <data name="MenuAppInternetConnectionModeOffline">
+  <data name="MenuAppInternetConnectionModeOffline" xml:space="preserve">
     <value>[Çevrimdışı Çalışma]</value>
     <comment>Caption Postfix on the main window</comment>
   </data>
-  <data name="MenuViewOutlookReadingPane">
+  <data name="MenuViewOutlookReadingPane" xml:space="preserve">
     <value>Mesajları Grupla</value>
   </data>
-  <data name="MenuNewFeedCaption">
+  <data name="MenuNewFeedCaption" xml:space="preserve">
     <value>&amp;Kaynak Aboneliği...</value>
     <comment>CHANGED: Caption within tool dropdown</comment>
   </data>
-  <data name="MenuNewFeedDesc">
+  <data name="MenuNewFeedDesc" xml:space="preserve">
     <value>Yeni bir kaynağa abone olur</value>
     <comment>Description within file/context menu</comment>
   </data>
-  <data name="MenuNewCategoryCaption">
+  <data name="MenuNewCategoryCaption" xml:space="preserve">
     <value>Yeni &amp;Kategori</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuNewCategoryDesc">
+  <data name="MenuNewCategoryDesc" xml:space="preserve">
     <value>Kaynak gruplarına yeni bir kategori ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowMainGuiCaption">
+  <data name="MenuShowMainGuiCaption" xml:space="preserve">
     <value>RSS Bandit'i Aç</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowMainGuiDesc">
+  <data name="MenuShowMainGuiDesc" xml:space="preserve">
     <value>RSS Bandit ana penceresini (yeniden) açar...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowAlertWindowsCaption">
+  <data name="MenuShowAlertWindowsCaption" xml:space="preserve">
     <value>Kaynak Uyarı Pencerelerini Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowAlertWindowsDesc">
+  <data name="MenuShowAlertWindowsDesc" xml:space="preserve">
     <value>Yapılandırılmış uyarı pencerelerinin gösterilmesini denetler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowConfiguredFeedAlertWindowsCaption">
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption" xml:space="preserve">
     <value>Her kaynak için yapılandırıldığı gibi</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowConfiguredFeedAlertWindowsDesc">
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc" xml:space="preserve">
     <value>Uyarı pencerelerini her kaynak için yapılandırıldıı gibi gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowNoneAlertWindowsCaption">
+  <data name="MenuShowNoneAlertWindowsCaption" xml:space="preserve">
     <value>Asla</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowNoneAlertWindowsDesc">
+  <data name="MenuShowNoneAlertWindowsDesc" xml:space="preserve">
     <value>Hiçbir zaman uyarı penceresi gösterilmez...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowAllAlertWindowsCaption">
+  <data name="MenuShowAllAlertWindowsCaption" xml:space="preserve">
     <value>Daima</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowAllAlertWindowsDesc">
+  <data name="MenuShowAllAlertWindowsDesc" xml:space="preserve">
     <value>Uyarı pencerelerini alınan her yeni mesaj için gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowNewItemsReceivedBalloonCaption">
+  <data name="MenuShowNewItemsReceivedBalloonCaption" xml:space="preserve">
     <value>Yeni Mesaj Masaüstü Uyarısını Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowNewItemsReceivedBalloonDesc">
+  <data name="MenuShowNewItemsReceivedBalloonDesc" xml:space="preserve">
     <value>Yeni alınan mesajlar için uyarı balonunun gösterilmesini denetler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuUpdateAllFeedsCaption">
+  <data name="MenuUpdateAllFeedsCaption" xml:space="preserve">
     <value>Bütün Kaynakları &amp;Güncelle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuUpdateAllFeedsDesc">
+  <data name="MenuUpdateAllFeedsDesc" xml:space="preserve">
     <value>Tüm kaynakların güncelleme sürecini başlatır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuCatchUpOnAllCaption">
+  <data name="MenuCatchUpOnAllCaption" xml:space="preserve">
     <value>Tüm Mesajları Okunmuş Yap</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCatchUpOnAllDesc">
+  <data name="MenuCatchUpOnAllDesc" xml:space="preserve">
     <value>Tüm mesajları okunmuş olarak işaretler</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDeleteAllFeedsCaption">
+  <data name="MenuDeleteAllFeedsCaption" xml:space="preserve">
     <value>Tüm Kaynakları Sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDeleteAllFeedsDesc">
+  <data name="MenuDeleteAllFeedsDesc" xml:space="preserve">
     <value>Tüm kaynakları siler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuUpdateCategoryCaption">
+  <data name="MenuUpdateCategoryCaption" xml:space="preserve">
     <value>Kategoriyi Güncelle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuUpdateCategoryDesc">
+  <data name="MenuUpdateCategoryDesc" xml:space="preserve">
     <value>Bu kategori içindeki tüm kaynakları günceller...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuCatchUpCategoryCaption">
+  <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
     <value>Kategorideki Tüm Mesajları Okunmuş Yap</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCatchUpCategoryDesc">
+  <data name="MenuCatchUpCategoryDesc" xml:space="preserve">
     <value>Kategorideki tüm kaynakları okunmuş olarak işaretler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuRenameCategoryCaption">
+  <data name="MenuRenameCategoryCaption" xml:space="preserve">
     <value>Kategoriye Yeni İsim Ver</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuRenameCategoryDesc">
+  <data name="MenuRenameCategoryDesc" xml:space="preserve">
     <value>Bu kategoriye yeni bir isim verir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDeleteCategoryCaption">
+  <data name="MenuDeleteCategoryCaption" xml:space="preserve">
     <value>Kategoriyi Sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDeleteCategoryDesc">
+  <data name="MenuDeleteCategoryDesc" xml:space="preserve">
     <value>Bu kategoriyi ve içindekileri siler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowCategoryPropertiesCaption">
+  <data name="MenuShowCategoryPropertiesCaption" xml:space="preserve">
     <value>Özellikler...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuShowCategoryPropertiesDesc">
+  <data name="MenuShowCategoryPropertiesDesc" xml:space="preserve">
     <value>Kategori özellikleri penceresini gösterir...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuUpdateThisFeedCaption">
+  <data name="MenuUpdateThisFeedCaption" xml:space="preserve">
     <value>&amp;Kaynağı Güncelle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuUpdateThisFeedDesc">
+  <data name="MenuUpdateThisFeedDesc" xml:space="preserve">
     <value>Bu kaynağı günceller...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuCatchUpThisFeedCaption">
+  <data name="MenuCatchUpThisFeedCaption" xml:space="preserve">
     <value>Tüm Mesajları Okunmuş Yap</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCatchUpThisFeedDesc">
+  <data name="MenuCatchUpThisFeedDesc" xml:space="preserve">
     <value>Tüm mesajları okunmuş olarak işaretler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuRenameThisFeedCaption">
+  <data name="MenuRenameThisFeedCaption" xml:space="preserve">
     <value>Kaynağa Ye&amp;ni İsim Ver</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuRenameThisFeedDesc">
+  <data name="MenuRenameThisFeedDesc" xml:space="preserve">
     <value>Bu kaynağa yeni bir isim verir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDeleteThisFeedCaption">
+  <data name="MenuDeleteThisFeedCaption" xml:space="preserve">
     <value>Kaynağı Sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDeleteThisFeedDesc">
+  <data name="MenuDeleteThisFeedDesc" xml:space="preserve">
     <value>Bu kaynağı siler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuCatchUpSelectedNodeCaption">
+  <data name="MenuCatchUpSelectedNodeCaption" xml:space="preserve">
     <value>Okunmuş yap</value>
     <comment>Caption within menu/tool/context</comment>
   </data>
-  <data name="MenuCatchUpSelectedNodeDesc">
+  <data name="MenuCatchUpSelectedNodeDesc" xml:space="preserve">
     <value>Seçili abonelikteki tüm mesajları okunmuş olarak işaretler...</value>
     <comment>Description within menu/tool/context</comment>
   </data>
-  <data name="MenuAutodiscoveredFeedsDropdownCaption">
+  <data name="MenuAutodiscoveredFeedsDropdownCaption" xml:space="preserve">
     <value>Keşfedilen Kaynaklar</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuAutodiscoveredFeedsDropdownDesc">
+  <data name="MenuAutodiscoveredFeedsDropdownDesc" xml:space="preserve">
     <value>Ziyaret edilen web sitelerinde keşfedilen tüm kaynakları gösterir...</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MenuClearAutodiscoveredFeedsListCaption">
+  <data name="MenuClearAutodiscoveredFeedsListCaption" xml:space="preserve">
     <value>Keşfedilen kaynaklar listesini boşalt</value>
     <comment>Caption within view menu</comment>
   </data>
-  <data name="MenuClearAutodiscoveredFeedsListDesc">
+  <data name="MenuClearAutodiscoveredFeedsListDesc" xml:space="preserve">
     <value>Aşağıda gösterilen tüm keşfedilmiş kaynakları siler...</value>
     <comment>Description within view menu</comment>
   </data>
-  <data name="MessageBoxDeleteAllFeedsQuestion">
+  <data name="MessageBoxDeleteAllFeedsQuestion" xml:space="preserve">
     <value>Tüm kaynakları silmek istediğinize emin misiniz?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion">
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" xml:space="preserve">
     <value>Bu kategoriyi içindeki tüm kategorilerle/kaynaklarla birlikte silmek istediğinize emin misiniz?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="MessageBoxDeleteThisFeedQuestion">
+  <data name="MessageBoxDeleteThisFeedQuestion" xml:space="preserve">
     <value>Bu kaynak aboneliğini silmek istediğinize emin misiniz?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="MenuViewSourceOfFeedCaption">
+  <data name="MenuViewSourceOfFeedCaption" xml:space="preserve">
     <value>Yuvayı Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuViewSourceOfFeedDesc">
+  <data name="MenuViewSourceOfFeedDesc" xml:space="preserve">
     <value>Bu kaynağın yuvasını gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuValidateFeedCaption">
+  <data name="MenuValidateFeedCaption" xml:space="preserve">
     <value>Doğrula</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuValidateFeedDesc">
+  <data name="MenuValidateFeedDesc" xml:space="preserve">
     <value>Bu kaynağın bağlantısının geçerliliğini doğrular...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuAdvancedFeedInfoCaption">
+  <data name="MenuAdvancedFeedInfoCaption" xml:space="preserve">
     <value>Bu Kaynak</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuAdvancedFeedInfoDesc">
+  <data name="MenuAdvancedFeedInfoDesc" xml:space="preserve">
     <value>Gelişmiş/Daha fazla kaynak bilgisi...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuNavigateToFeedHomeCaption">
+  <data name="MenuNavigateToFeedHomeCaption" xml:space="preserve">
     <value>Anasayfa</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuNavigateToFeedHomeDesc">
+  <data name="MenuNavigateToFeedHomeDesc" xml:space="preserve">
     <value>Kaynak anasayfasına gider...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowLinkCosmosCaption">
+  <data name="MenuShowLinkCosmosCaption" xml:space="preserve">
     <value>Bağlantı Evreni</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowLinkCosmosDesc">
+  <data name="MenuShowLinkCosmosDesc" xml:space="preserve">
     <value>Technorati sitesine gider ve kaynağın bağlantı evrenini görüntüler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowFeedPropertiesCaption">
+  <data name="MenuShowFeedPropertiesCaption" xml:space="preserve">
     <value>Özellikler...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowFeedPropertiesDesc">
+  <data name="MenuShowFeedPropertiesDesc" xml:space="preserve">
     <value>Kaynak özellikleri penceresini gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuMarkFeedItemsUnreadCaption">
+  <data name="MenuMarkFeedItemsUnreadCaption" xml:space="preserve">
     <value>Okunmamış &amp;olarak İşaretle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuMarkFeedItemsUnreadDesc">
+  <data name="MenuMarkFeedItemsUnreadDesc" xml:space="preserve">
     <value>Seçili mesajları okunmamış olarak işaretler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFeedItemPostReplyCaption">
+  <data name="MenuFeedItemPostReplyCaption" xml:space="preserve">
     <value>&amp;Yanıtla...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedItemPostReplyDesc">
+  <data name="MenuFeedItemPostReplyDesc" xml:space="preserve">
     <value>Bu mesaja bir yanıt gönderin...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="GuiStateNoFeedItemSelectedMessage">
+  <data name="GuiStateNoFeedItemSelectedMessage" xml:space="preserve">
     <value>Hiçbir kaynak seçilmemiş</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuNewFinderCaption">
+  <data name="MenuNewFinderCaption" xml:space="preserve">
     <value>Yeni Arama Dizini</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuNewFinderDesc">
+  <data name="MenuNewFinderDesc" xml:space="preserve">
     <value>Yeni bir arama dizini oluşturur...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuFinderRenameCaption">
+  <data name="MenuFinderRenameCaption" xml:space="preserve">
     <value>Arama Dizinine Yeni İsim Ver</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuRenameCaptionDesc">
+  <data name="MenuRenameCaptionDesc" xml:space="preserve">
     <value>Bu arama dizinine yeni bir isim verir...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MessageBoxDeleteThisFinderQuestion">
+  <data name="MessageBoxDeleteThisFinderQuestion" xml:space="preserve">
     <value>Bu arama dizinini silmek istediğinize emin misiniz?</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuFinderDeleteCaption">
+  <data name="MenuFinderDeleteCaption" xml:space="preserve">
     <value>Sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFinderDeleteDesc">
+  <data name="MenuFinderDeleteDesc" xml:space="preserve">
     <value>Seçili arama dizinini sil...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuRefreshFinderCaption">
+  <data name="MenuRefreshFinderCaption" xml:space="preserve">
     <value>Aramayı Güncelle</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuRefreshFinderDesc">
+  <data name="MenuRefreshFinderDesc" xml:space="preserve">
     <value>Arama dizinindeki sonuçları günceller...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuFinderDeleteAllCaption">
+  <data name="MenuFinderDeleteAllCaption" xml:space="preserve">
     <value>Hepsini Sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFinderDeleteAllDesc">
+  <data name="MenuFinderDeleteAllDesc" xml:space="preserve">
     <value>Seçili düğümün altındaki tüm arama dizinlerini siler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuShowFinderPropertiesCaption">
+  <data name="MenuShowFinderPropertiesCaption" xml:space="preserve">
     <value>Özellikler...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuShowFinderPropertiesDesc">
+  <data name="MenuShowFinderPropertiesDesc" xml:space="preserve">
     <value>Bul özellikleri penceresini gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuSubscribeToFinderResultCaption">
+  <data name="MenuSubscribeToFinderResultCaption" xml:space="preserve">
     <value>Abone Ol...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuSubscribeToFinderResultDesc">
+  <data name="MenuSubscribeToFinderResultDesc" xml:space="preserve">
     <value>Bulunan sonuçlara abone olmak için yeni kaynak penceresini açar...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="AppLoadStateLoading">
+  <data name="AppLoadStateLoading" xml:space="preserve">
     <value>Uygulama Yükleniyor...</value>
     <comment>Splash screen state message</comment>
   </data>
-  <data name="AppLoadStateGuiLoading">
+  <data name="AppLoadStateGuiLoading" xml:space="preserve">
     <value>Uygulama Arayüzü Yükleniyor...</value>
     <comment>Splash screen state message</comment>
   </data>
-  <data name="MenuFlagFeedItemCaption">
+  <data name="MenuFlagFeedItemCaption" xml:space="preserve">
     <value>Mesajı Bayrakla İşaretle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemDesc">
+  <data name="MenuFlagFeedItemDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemFollowUpCaption">
+  <data name="MenuFlagFeedItemFollowUpCaption" xml:space="preserve">
     <value>İzle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemFollowUpDesc">
+  <data name="MenuFlagFeedItemFollowUpDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReviewCaption">
+  <data name="MenuFlagFeedItemReviewCaption" xml:space="preserve">
     <value>İncele</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReviewDesc">
+  <data name="MenuFlagFeedItemReviewDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReplyCaption">
+  <data name="MenuFlagFeedItemReplyCaption" xml:space="preserve">
     <value>Yanıtla</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReplyDesc">
+  <data name="MenuFlagFeedItemReplyDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReadCaption">
+  <data name="MenuFlagFeedItemReadCaption" xml:space="preserve">
     <value>Oku</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemReadDesc">
+  <data name="MenuFlagFeedItemReadDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemForwardCaption">
+  <data name="MenuFlagFeedItemForwardCaption" xml:space="preserve">
     <value>İlet</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemForwardDesc">
+  <data name="MenuFlagFeedItemForwardDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna ekler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemCompleteCaption">
+  <data name="MenuFlagFeedItemCompleteCaption" xml:space="preserve">
     <value>Tamamlandı</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemCompleteDesc">
+  <data name="MenuFlagFeedItemCompleteDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna kaldırır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemClearCaption">
+  <data name="MenuFlagFeedItemClearCaption" xml:space="preserve">
     <value>Temizle</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFlagFeedItemClearDesc">
+  <data name="MenuFlagFeedItemClearDesc" xml:space="preserve">
     <value>Seçili mesajları İşaretlenmiş Mesajlar Koleksiyonuna kaldırır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemCaption">
+  <data name="MenuCopyFeedItemCaption" xml:space="preserve">
     <value>Kopyala</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemDesc">
+  <data name="MenuCopyFeedItemDesc" xml:space="preserve">
     <value>Mesajın Alanlarını Kopyala...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemLinkToClipboardCaption">
+  <data name="MenuCopyFeedItemLinkToClipboardCaption" xml:space="preserve">
     <value>Mesaj Bağlantısını Panoya</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemLinkToClipboardDesc">
+  <data name="MenuCopyFeedItemLinkToClipboardDesc" xml:space="preserve">
     <value>Seçili mesajın bağlantısını panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption">
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption" xml:space="preserve">
     <value>Mesaj Başlığını Bağlantı Olarak Panoya</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc">
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc" xml:space="preserve">
     <value>Seçili mesajın başlığını bağlantı olarak panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemContentToClipboardCaption">
+  <data name="MenuCopyFeedItemContentToClipboardCaption" xml:space="preserve">
     <value>Mesaj İçeriğini Panoya</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedItemContentToClipboardDesc">
+  <data name="MenuCopyFeedItemContentToClipboardDesc" xml:space="preserve">
     <value>Seçili mesajın içeriğini panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedCaption">
+  <data name="MenuCopyFeedCaption" xml:space="preserve">
     <value>Kopyala</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedDesc">
+  <data name="MenuCopyFeedDesc" xml:space="preserve">
     <value>Seçili kaynağın alanlarını kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedLinkToClipboardCaption">
+  <data name="MenuCopyFeedLinkToClipboardCaption" xml:space="preserve">
     <value>Kaynak Bağlantısını Panoya</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedLinkToClipboardDesc">
+  <data name="MenuCopyFeedLinkToClipboardDesc" xml:space="preserve">
     <value>Seçili kaynağın bağlantısını panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedHomeLinkToClipboardCaption">
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
     <value>Kaynak Anasayfasını Bağlantı olarak Panoya Kopyala</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedHomeLinkToClipboardDesc">
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc" xml:space="preserve">
     <value>Kaynak anasayfasını seçili kaynağın bağlantısı olarak panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption">
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption" xml:space="preserve">
     <value>Kaynak Anasayfasını başlığıyla birlikte Bağlantı olarak Panoya Kopyala</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc">
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc" xml:space="preserve">
     <value>Kaynak anasayfasını başlığıyla birlikte seçili kaynağın bağlantısı olarak panoya kopyalar...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDeleteAllFeedItemsCaption">
+  <data name="MenuDeleteAllFeedItemsCaption" xml:space="preserve">
     <value>Tüm mesajları sil</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDeleteAllFeedItemsDesc">
+  <data name="MenuDeleteAllFeedItemsDesc" xml:space="preserve">
     <value>Barındırılan bütün mesajları kaldırır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDeleteSelectedFeedItemsCaption">
+  <data name="MenuDeleteSelectedFeedItemsCaption" xml:space="preserve">
     <value>Sil</value>
     <comment>Caption within context menu, was formerly "Delete selected items"</comment>
   </data>
-  <data name="MenuDeleteSelectedFeedItemsDesc">
+  <data name="MenuDeleteSelectedFeedItemsDesc" xml:space="preserve">
     <value>Tüm seçili mesajları siler... </value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuRestoreSelectedFeedItemsCaption">
+  <data name="MenuRestoreSelectedFeedItemsCaption" xml:space="preserve">
     <value>Geriye Getir</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuRestoreSelectedFeedItemsDesc">
+  <data name="MenuRestoreSelectedFeedItemsDesc" xml:space="preserve">
     <value>Tüm seçili mesajları geri getirir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuNextUnreadItemCaption">
+  <data name="MenuNextUnreadItemCaption" xml:space="preserve">
     <value>Sıradaki Okunmamış Mesaj</value>
     <comment>Caption within tool menu</comment>
   </data>
-  <data name="MenuNextUnreadItemDesc">
+  <data name="MenuNextUnreadItemDesc" xml:space="preserve">
     <value>Sıradaki okunmamış mesaja gider...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuAutoDiscoverFeedCaption">
+  <data name="MenuAutoDiscoverFeedCaption" xml:space="preserve">
     <value>&amp;Kaynak Bul</value>
     <comment>Caption within tool menu</comment>
   </data>
-  <data name="MenuAutoDiscoverFeedDesc">
+  <data name="MenuAutoDiscoverFeedDesc" xml:space="preserve">
     <value>Belirli bir web sitesinde veya konuda RSS kaynağı bulur</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuPostReplyFeedItemCaption">
+  <data name="MenuPostReplyFeedItemCaption" xml:space="preserve">
     <value>&amp;Yanıtla...</value>
     <comment>Caption within tool menu</comment>
   </data>
-  <data name="MenuPostReplyFeedItemDesc">
+  <data name="MenuPostReplyFeedItemDesc" xml:space="preserve">
     <value>Bu mesaja bir yanıt gönderir...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuNewRssSearchCaption">
+  <data name="MenuNewRssSearchCaption" xml:space="preserve">
     <value>Ara</value>
     <comment>Caption within tool menu</comment>
   </data>
-  <data name="MenuNewRssSearchDesc">
+  <data name="MenuNewRssSearchDesc" xml:space="preserve">
     <value>Mesajları yerel olarak arar...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNavigateBackCaption">
+  <data name="MenuBrowserNavigateBackCaption" xml:space="preserve">
     <value>Geri</value>
     <comment>CHANGED Caption within tool menu</comment>
   </data>
-  <data name="MenuBrowserNavigateBackDesc">
+  <data name="MenuBrowserNavigateBackDesc" xml:space="preserve">
     <value>Geçmişte geri gider...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNavigateForwardCaption">
+  <data name="MenuBrowserNavigateForwardCaption" xml:space="preserve">
     <value>İleri</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserNavigateForwardDesc">
+  <data name="MenuBrowserNavigateForwardDesc" xml:space="preserve">
     <value>İleri gider...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNavigateComboBoxCaption">
+  <data name="MenuBrowserNavigateComboBoxCaption" xml:space="preserve">
     <value>Url</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserNavigateComboBoxDesc">
+  <data name="MenuBrowserNavigateComboBoxDesc" xml:space="preserve">
     <value>Gidilecek web adresi...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNavigateCancelCaption">
+  <data name="MenuBrowserNavigateCancelCaption" xml:space="preserve">
     <value>Dur</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserNavigateCancelDesc">
+  <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
     <value>Ziyaretten vazgeç...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserRefreshCaption">
+  <data name="MenuBrowserRefreshCaption" xml:space="preserve">
     <value>Güncelle</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserRefreshDesc">
+  <data name="MenuBrowserRefreshDesc" xml:space="preserve">
     <value>Sayfayı günceller...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserDoNavigateCaption">
+  <data name="MenuBrowserDoNavigateCaption" xml:space="preserve">
     <value>Git</value>
     <comment>Caption within tool menu</comment>
   </data>
-  <data name="MenuBrowserDoNavigateDesc">
+  <data name="MenuBrowserDoNavigateDesc" xml:space="preserve">
     <value>Belirtilen adrese gider...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNewTabCaption">
+  <data name="MenuBrowserNewTabCaption" xml:space="preserve">
     <value>Yeni Sekme</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserNewTabDesc">
+  <data name="MenuBrowserNewTabDesc" xml:space="preserve">
     <value>Yeni bir tarayıcı sekmesi açar...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuBrowserNewExternalWindowCaption">
+  <data name="MenuBrowserNewExternalWindowCaption" xml:space="preserve">
     <value>Varsayılan tarayıcıda aç</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuBrowserNewExternalWindowDesc">
+  <data name="MenuBrowserNewExternalWindowDesc" xml:space="preserve">
     <value>Bağlantıyı varsayılan tarayıcı ile açar...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuDoSearchComboBoxCaption">
+  <data name="MenuDoSearchComboBoxCaption" xml:space="preserve">
     <value>Şunu Ara</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuDoSearchComboBoxDesc">
+  <data name="MenuDoSearchComboBoxDesc" xml:space="preserve">
     <value>Web'de aranacak sözcükler...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuDoSearchWebCaption">
+  <data name="MenuDoSearchWebCaption" xml:space="preserve">
     <value>Web'de Ara</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="MenuDoSearchWebDesc">
+  <data name="MenuDoSearchWebDesc" xml:space="preserve">
     <value>İfadeyi webde arar...</value>
     <comment>Description within tool menu</comment>
   </data>
-  <data name="MenuIBlogExtensionCommandDesc">
+  <data name="MenuIBlogExtensionCommandDesc" xml:space="preserve">
     <value>IBlogExtension (Eklenti) komutu</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuConfigCommandCaption">
+  <data name="MenuConfigCommandCaption" xml:space="preserve">
     <value>Yapılandır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuIBlogExtensionConfigCommandDesc">
+  <data name="MenuIBlogExtensionConfigCommandDesc" xml:space="preserve">
     <value>IBlogExtension (Eklenti) yapılandırması</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseCurrentCaption">
+  <data name="MenuDocTabsCloseCurrentCaption" xml:space="preserve">
     <value>Belgeyi kapat</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseCurrentDesc">
+  <data name="MenuDocTabsCloseCurrentDesc" xml:space="preserve">
     <value>Seçili belge sekmesini kapatır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseAllOnStripCaption">
+  <data name="MenuDocTabsCloseAllOnStripCaption" xml:space="preserve">
     <value>Şeritteki tüm belgeleri kapat</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseAllOnStripDesc">
+  <data name="MenuDocTabsCloseAllOnStripDesc" xml:space="preserve">
     <value>Seçili şeritteki tüm belge sekmelerini kapatır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseAllCaption">
+  <data name="MenuDocTabsCloseAllCaption" xml:space="preserve">
     <value>Tüm belgeleri kapat</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDocTabsCloseAllDesc">
+  <data name="MenuDocTabsCloseAllDesc" xml:space="preserve">
     <value>Tüm şeritlerdeki tüm belge sekmelerini kapatır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDocTabsLayoutHorizontalCaption">
+  <data name="MenuDocTabsLayoutHorizontalCaption" xml:space="preserve">
     <value>Yatay ayrık yerleşim düzeni</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDocTabsLayoutHorizontalDesc">
+  <data name="MenuDocTabsLayoutHorizontalDesc" xml:space="preserve">
     <value>Seçildiğinde ayrık belge sekmeleri yatay yerleşim düzenine geçer...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="ExceptionIBlogExtensionFunctionCall">
+  <data name="ExceptionIBlogExtensionFunctionCall" xml:space="preserve">
     <value>IBlogExtension (Eklenti) fonksiyonu '{0}' çağrısı bir hataya sebep oldu:
 '{1}'.</value>
     <comment>Error message text</comment>
   </data>
-  <data name="FeedNodeFeedExceptionsCaption">
+  <data name="FeedNodeFeedExceptionsCaption" xml:space="preserve">
     <value>Kaynak Hataları</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFeedExceptionsDesc">
+  <data name="FeedNodeFeedExceptionsDesc" xml:space="preserve">
     <value>Abone olunan kaynakların neden olduğu hataların kutusu</value>
     <comment>SmartNode desc</comment>
   </data>
-  <data name="FeedNodeFlaggedFeedsCaption">
+  <data name="FeedNodeFlaggedFeedsCaption" xml:space="preserve">
     <value>İşaretlenmiş Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFlaggedFeedsDesc">
+  <data name="FeedNodeFlaggedFeedsDesc" xml:space="preserve">
     <value>İşaretlenmiş mesajların kutusu</value>
     <comment>SmartNode desc</comment>
   </data>
-  <data name="FeedNodeFlaggedForFollowUpCaption">
+  <data name="FeedNodeFlaggedForFollowUpCaption" xml:space="preserve">
     <value>İzlenecek Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFlaggedForReadCaption">
+  <data name="FeedNodeFlaggedForReadCaption" xml:space="preserve">
     <value>Okunacak Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFlaggedForReviewCaption">
+  <data name="FeedNodeFlaggedForReviewCaption" xml:space="preserve">
     <value>İncelenecek Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFlaggedForForwardCaption">
+  <data name="FeedNodeFlaggedForForwardCaption" xml:space="preserve">
     <value>İletilecek Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeFlaggedForReplyCaption">
+  <data name="FeedNodeFlaggedForReplyCaption" xml:space="preserve">
     <value>Yanıtlanacak Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeMyFeedsCaption">
+  <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
     <value>Kaynaklarım</value>
     <comment>RootNode caption</comment>
   </data>
-  <data name="FeedNodeMyFeedsDesc">
+  <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
     <value>Abone olunan kaynakların kutusu</value>
     <comment>RootNode desc</comment>
   </data>
-  <data name="FeedNodeSpecialFeedsCaption">
+  <data name="FeedNodeSpecialFeedsCaption" xml:space="preserve">
     <value>Özel Kaynaklar</value>
     <comment>RootNode caption</comment>
   </data>
-  <data name="FeedNodeSpecialFeedsDesc">
+  <data name="FeedNodeSpecialFeedsDesc" xml:space="preserve">
     <value>Özel kaynakların kutusu</value>
     <comment>RootNode desc</comment>
   </data>
-  <data name="FeedNodeFinderRootCaption">
+  <data name="FeedNodeFinderRootCaption" xml:space="preserve">
     <value>Arama Dizinleri</value>
     <comment>RootNode caption</comment>
   </data>
-  <data name="FeedNodeFinderRootDesc">
+  <data name="FeedNodeFinderRootDesc" xml:space="preserve">
     <value>Kalıcı kaynak aramalarının kutusu</value>
     <comment>RootNode desc</comment>
   </data>
-  <data name="FeedNodeSentItemsCaption">
+  <data name="FeedNodeSentItemsCaption" xml:space="preserve">
     <value>Gönderilmiş Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeSentItemsDesc">
+  <data name="FeedNodeSentItemsDesc" xml:space="preserve">
     <value>Gönderilmiş mesajların kutusu (yanıtlanan)</value>
     <comment>SmartNode desc</comment>
   </data>
-  <data name="TabValidationResultCaption">
+  <data name="TabValidationResultCaption" xml:space="preserve">
     <value>Kaynak Doğrulama Sonucu</value>
     <comment>Tab caption of the feed validation results (Webpage)</comment>
   </data>
-  <data name="TabFeedHomeCaption">
+  <data name="TabFeedHomeCaption" xml:space="preserve">
     <value>Kaynak Anasayfası: {0}</value>
     <comment>Tab caption of the feed home page (Webpage)</comment>
   </data>
-  <data name="TabLinkCosmosCaption">
+  <data name="TabLinkCosmosCaption" xml:space="preserve">
     <value>Kaynak Bağlantı Evreni: {0}</value>
     <comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
   </data>
-  <data name="TabFeedSourceCaption">
+  <data name="TabFeedSourceCaption" xml:space="preserve">
     <value>Kaynak Yuvası: {0}</value>
     <comment>Tab caption of the feed source view (Xml Webpage)</comment>
   </data>
-  <data name="CmdLineStartInTaskbarDesc">
+  <data name="CmdLineStartInTaskbarDesc" xml:space="preserve">
     <value>Görev çubuğu bildirim alanına küçültülmüş olarak başlat</value>
     <comment>CommandLine Option description</comment>
   </data>
-  <data name="CmdLineSubscribeToDesc">
+  <data name="CmdLineSubscribeToDesc" xml:space="preserve">
     <value>Belirtilen kaynaklara abone ol</value>
     <comment>CommandLine Option description</comment>
   </data>
-  <data name="CmdLineHelpDesc">
+  <data name="CmdLineHelpDesc" xml:space="preserve">
     <value>Bu mesajı yazdır</value>
     <comment>CommandLine Option description</comment>
   </data>
-  <data name="CmdLineCultureDesc">
+  <data name="CmdLineCultureDesc" xml:space="preserve">
     <value>Uygulamayı farklı bir dil (ISO lisan kodu) ile başlat</value>
     <comment>CommandLine Option description</comment>
   </data>
-  <data name="MenuUploadFeedsCaption">
+  <data name="MenuUploadFeedsCaption" xml:space="preserve">
     <value>&amp;Kaynakları Gönder...</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuDownloadFeedsCaption">
+  <data name="MenuDownloadFeedsCaption" xml:space="preserve">
     <value>Kaynakları &amp;İndir...</value>
   </data>
-  <data name="MenuUploadFeedsDesc">
+  <data name="MenuUploadFeedsDesc" xml:space="preserve">
     <value>Kaynak listesini uzak bir depoya yükler...</value>
   </data>
-  <data name="MenuDownloadFeedsDesc">
+  <data name="MenuDownloadFeedsDesc" xml:space="preserve">
     <value>Kaynak listesini uzak bir depodan indirir.</value>
   </data>
-  <data name="ExceptionStartDefaultBrowserMessage">
+  <data name="ExceptionStartDefaultBrowserMessage" xml:space="preserve">
     <value>Varsayılan tarayıcınızın başlatılmasınıda bir sorun var:
 		
 		'{0}'.
@@ -1362,7 +1363,7 @@ Ayrıntılar: {1}</value>
 		 '{1}' adresi yeni bir sekmede açılsın mı?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="ExceptionStartBrowserCustomExecMessage">
+  <data name="ExceptionStartBrowserCustomExecMessage" xml:space="preserve">
     <value>Yapılandırdığınız çalıştırılabilir dosya '{0}'nın  başlatılmasında bir sorun var:
 		
 		'{1}'.
@@ -1370,456 +1371,456 @@ Ayrıntılar: {1}</value>
 		'{2}' adresi yeni bir sekmede açılsın mı?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="ExceptionOpenFileMessage">
+  <data name="ExceptionOpenFileMessage" xml:space="preserve">
     <value>'{0}' dosyası açılamıyor, çünkü:
 		
 		'{1}'.
 	</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="ExceptionSaveFileMessage">
+  <data name="ExceptionSaveFileMessage" xml:space="preserve">
     <value>'{0}' dosyası kaydedilemiyor, çünkü:
 		
 		'{1}'.
 	</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="FileDialogFilterOPMLFiles">
+  <data name="FileDialogFilterOPMLFiles" xml:space="preserve">
     <value>OPML Dosyaları</value>
     <comment>Text used to build Open/Save File Dialog file filters</comment>
   </data>
-  <data name="FileDialogFilterXMLFiles">
+  <data name="FileDialogFilterXMLFiles" xml:space="preserve">
     <value>XML Dosyaları</value>
     <comment>Text used to build Open/Save File Dialog file filters</comment>
   </data>
-  <data name="FileDialogFilterAllFiles">
+  <data name="FileDialogFilterAllFiles" xml:space="preserve">
     <value>Bütün Dosyalar</value>
     <comment>Text used to build Open/Save File Dialog file filters</comment>
   </data>
-  <data name="WrongImageSizeMessage">
+  <data name="WrongImageSizeMessage" xml:space="preserve">
     <value>Resim 16x16 piksel boyutlarında değil.</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="PreferencesExceptionMessageTitle">
+  <data name="PreferencesExceptionMessageTitle" xml:space="preserve">
     <value>Tercihler ayar istisna hatası</value>
     <comment>Title of the messagebox displayed on exceptions with it's settings</comment>
   </data>
-  <data name="FormatExceptionRefreshRate">
+  <data name="FormatExceptionRefreshRate" xml:space="preserve">
     <value>Güncelleme değeri bir sayı değil.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="OverflowExceptionRefreshRate">
+  <data name="OverflowExceptionRefreshRate" xml:space="preserve">
     <value>Güncelleme değeri için belirtilen sayı çok yüksek.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionRefreshRateInvalid">
+  <data name="ExceptionRefreshRateInvalid" xml:space="preserve">
     <value>Geçersiz güncelleme değeri.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionNoProxyUrl">
+  <data name="ExceptionNoProxyUrl" xml:space="preserve">
     <value>Lütfen proxy adresini (IP veya sunucu adı) verin.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="FormatExceptionProxyPort">
+  <data name="FormatExceptionProxyPort" xml:space="preserve">
     <value>Proxy bağlantı noktası bir sayı değil.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionProxyPortRange">
+  <data name="ExceptionProxyPortRange" xml:space="preserve">
     <value>Proxy bağlantı noktası geçerli aralık olan 0 - 65535 arasında değil.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionProxyPortInvalid">
+  <data name="ExceptionProxyPortInvalid" xml:space="preserve">
     <value>Geçersiz proxy bağlantı noktası.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionNoProxyAuthUser">
+  <data name="ExceptionNoProxyAuthUser" xml:space="preserve">
     <value>Lütfen proxy kimlik doğrulaması için kullanıcı adı verin.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionNoOnNewWindowExecutable">
+  <data name="ExceptionNoOnNewWindowExecutable" xml:space="preserve">
     <value>Lütfen çalıştırılabilir dosya yolunu ve adını verin.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionNoRemoteStorageLocation">
+  <data name="ExceptionNoRemoteStorageLocation" xml:space="preserve">
     <value>Lütfen uzak depolama adresi verin.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation">
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation" xml:space="preserve">
     <value>FTP uzak bölgeleri 'ftp:' adres şemasını kullanmalı.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="ExceptionNoRemoteStorageAuthUser">
+  <data name="ExceptionNoRemoteStorageAuthUser" xml:space="preserve">
     <value>Lütfen uzak depolama kimlik doğrulaması için kullanıcı adı verin.</value>
     <comment>Text used within errorProvider</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_WebDAV">
+  <data name="LabelTextRemoteStorageLocation_WebDAV" xml:space="preserve">
     <value>WebDAV dizin adresi:</value>
     <comment>Dynamic label text (Preferences)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_WebDAV_hint">
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint" xml:space="preserve">
     <value>Uygulamanızın durumunu rssbandit-state.zip olarak bir WebDAV dizininde saklayabilirsiniz. Depolama servisi adresi bir WebDAV dizinini göstermeli, mesela 'http://mywebdav.com/kişisel/' ve orada dosyaları okuyabiliyor ve yazabiliyor olmalısınız.</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_dasBlog">
+  <data name="LabelTextRemoteStorageLocation_dasBlog" xml:space="preserve">
     <value>Web servisi adresi:</value>
     <comment>Dynamic label text (Preferences)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_dasBlog_hint">
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint" xml:space="preserve">
     <value>dasBlog (http://www.dasblog.net) kullanıcısıysanız, abone olduğunuz kaynakları blogroll.opml olarak saklayabilirsiniz. Depolama servisi adresi http://yourblog.com/dasblog/ConfigEditingService.asmx olmalı ve dasBlog'daki Configuration Editing servisini etkin hale getirmelisiniz.</value>
     <comment>Dynamic hint label text (Preferences)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_fileShare">
+  <data name="LabelTextRemoteStorageLocation_fileShare" xml:space="preserve">
     <value>Dizin yolu:</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_fileShare_hint">
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint" xml:space="preserve">
     <value>Uygulamanızın durumunu rssbandit-state.zip olarak yerel veya ağ dosya paylaşımında saklayabilirsiniz. Dizin yolunu '\\ağpaylaşımınız\kaynaklistesi\' veya 'H:\' şeklinde belirtin.</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_ftp">
+  <data name="LabelTextRemoteStorageLocation_ftp" xml:space="preserve">
     <value>FTP sunucusu/yolu:</value>
     <comment>Dynamic label text (Preferences)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_ftp_hint">
+  <data name="LabelTextRemoteStorageLocation_ftp_hint" xml:space="preserve">
     <value>Uygulamanızın durumunu rssbandit-state.zip olarak bir FTP sunucusunda saklayabilirsiniz. FTP sunucusunu ve yolunu  'ftp://sunucunuz.com:7788/kaynaklistesidizini/' şeklinde belirtin.</value>
     <comment>CHANGED</comment>
   </data>
-  <data name="RemoteStorageFeature_Info">
+  <data name="RemoteStorageFeature_Info" xml:space="preserve">
     <value>Bu komutu kullanmadan önce tercihler penceresindeki Uzak Depolama ayarlarını yapmalısınız.</value>
     <comment>Messagebox info text</comment>
   </data>
-  <data name="RemoteStorageUpload_Question">
+  <data name="RemoteStorageUpload_Question" xml:space="preserve">
     <value>Yerel kaynak listeniz Uzak Depolama ayarlarında 
 belirttiğiniz servise gönderilecek.
 
 Devam edilsin mi?</value>
     <comment>Messagebox question text</comment>
   </data>
-  <data name="RemoteStorageUploadSucceeds_Info">
+  <data name="RemoteStorageUploadSucceeds_Info" xml:space="preserve">
     <value>Kaynak listesi başarıyla gönderildi.</value>
     <comment>Messagebox info text</comment>
   </data>
-  <data name="RemoteStorageDownload_Question">
+  <data name="RemoteStorageDownload_Question" xml:space="preserve">
     <value>Yerel kaynak listeniz tercihler penceresinde uzak depolama sekmesinde yapılandırdığınız servisten indirilen listeyle değiştirilecek
 
 Devam edilsin mi?</value>
     <comment>Messagebox question text</comment>
   </data>
-  <data name="ExceptionWebSearchEnginesSave">
+  <data name="ExceptionWebSearchEnginesSave" xml:space="preserve">
     <value>Arama motoru ayarlarını kaydederken beklenmeyen bir hata oluştu:
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="NotYetImplementedFeature_Info">
+  <data name="NotYetImplementedFeature_Info" xml:space="preserve">
     <value>Üzgünüm ama bu özellik henüz etkin değil.</value>
     <comment>Messagebox info text</comment>
   </data>
-  <data name="ExceptionLoadingNewsItemFormatterStylesheet">
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet" xml:space="preserve">
     <value>Mesaj biçimlendirmesi için XSLT şablonu yüklenirken beklenmeyen bir hata oluştu:
 
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="ExceptionImportFeedlist">
+  <data name="ExceptionImportFeedlist" xml:space="preserve">
     <value>'{0}'dan kaynak listesini alırken bir hata oluıştu:
 
 '{1}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="GUIStatusPostReplyToItem">
+  <data name="GUIStatusPostReplyToItem" xml:space="preserve">
     <value>Yanıt gönderiliyor, Lütfen bekleyin...</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="ExceptionPostReplyToNewsItem">
+  <data name="ExceptionPostReplyToNewsItem" xml:space="preserve">
     <value>'{0}' (Mesaj bağlantısı/başlığı) mesajı yanıtlanırken bir hata oluşuyor:
         
 '{1}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="ExceptionGeneral">
+  <data name="ExceptionGeneral" xml:space="preserve">
     <value>Üzgünüm, ama bir hata oluştu:
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="ExceptionDuplicateCategoryName">
+  <data name="ExceptionDuplicateCategoryName" xml:space="preserve">
     <value>Üzgünüm, ama '{0}' ismi zaten kullanımda görünüyor.</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="ExceptionSettingDefaultAggregator">
+  <data name="ExceptionSettingDefaultAggregator" xml:space="preserve">
     <value>Varsayılan okuyucu ayarlanmaya çalışırken sistem bir hata bildirdi:
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="ListviewColumnCaptionHeadline">
+  <data name="ListviewColumnCaptionHeadline" xml:space="preserve">
     <value>Manşet</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionTopic">
+  <data name="ListviewColumnCaptionTopic" xml:space="preserve">
     <value>Konu</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionDate">
+  <data name="ListviewColumnCaptionDate" xml:space="preserve">
     <value>Tarih</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionFeedTitle">
+  <data name="ListviewColumnCaptionFeedTitle" xml:space="preserve">
     <value>Kaynak Başlığı</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionCreator">
+  <data name="ListviewColumnCaptionCreator" xml:space="preserve">
     <value>Yazar</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionFeedDesc">
+  <data name="ListviewColumnCaptionFeedDesc" xml:space="preserve">
     <value>Kaynak Tanımı</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionFeedUrl">
+  <data name="ListviewColumnCaptionFeedUrl" xml:space="preserve">
     <value>Kaynak Adresi</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionSiteUrl">
+  <data name="ListviewColumnCaptionSiteUrl" xml:space="preserve">
     <value>Site Adresi</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionCommentCount">
+  <data name="ListviewColumnCaptionCommentCount" xml:space="preserve">
     <value>Yorumlar</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="ListviewColumnCaptionEnclosure">
+  <data name="ListviewColumnCaptionEnclosure" xml:space="preserve">
     <value>Ek</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="AutoDiscoveredDefaultTitle">
+  <data name="AutoDiscoveredDefaultTitle" xml:space="preserve">
     <value>[Keşfedilen]</value>
     <comment>Column caption within listview </comment>
   </data>
-  <data name="FeedDetailDocumentTabCaption">
+  <data name="FeedDetailDocumentTabCaption" xml:space="preserve">
     <value>Kaynak Detayları</value>
     <comment>Document Tab Caption</comment>
   </data>
-  <data name="ToolbarAddRemoveButtonsCaption">
+  <data name="ToolbarAddRemoveButtonsCaption" xml:space="preserve">
     <value>Düğmeleri Ekle veya Kaldır</value>
     <comment>Toolbar chevron dropdown menu caption</comment>
   </data>
-  <data name="ToolbarOptionsCaption">
+  <data name="ToolbarOptionsCaption" xml:space="preserve">
     <value>Araç Çubuğu Seçenekleri</value>
     <comment>Toolbar chevron dropdown menu tip</comment>
   </data>
-  <data name="DragDockablePanelInfo">
+  <data name="DragDockablePanelInfo" xml:space="preserve">
     <value>Tutunmayı önlemek için CTRL'ye basılı tutun.</value>
     <comment>StatusBar feedback text</comment>
   </data>
-  <data name="RssSearchDialogButtonSearchCaption">
+  <data name="RssSearchDialogButtonSearchCaption" xml:space="preserve">
     <value>Ara</value>
     <comment>Dialog button text</comment>
   </data>
-  <data name="RssSearchDialogButtonSearchDesc">
+  <data name="RssSearchDialogButtonSearchDesc" xml:space="preserve">
     <value>Belirtilen aramayı yapmak için basınız...</value>
     <comment>Dialog button text tooltip</comment>
   </data>
-  <data name="RssSearchDialogButtonCancelCaption">
+  <data name="RssSearchDialogButtonCancelCaption" xml:space="preserve">
     <value>Vazgeç</value>
     <comment>Dialog button text</comment>
   </data>
-  <data name="RssSearchDialogButtonCancelDesc">
+  <data name="RssSearchDialogButtonCancelDesc" xml:space="preserve">
     <value>Aramayı iptal etmek için basınız...</value>
     <comment>Dialog button text tooltip</comment>
   </data>
-  <data name="RssSearchStateMessage">
+  <data name="RssSearchStateMessage" xml:space="preserve">
     <value>Aranıyor, ...</value>
     <comment>Message text</comment>
   </data>
-  <data name="RssSearchCancelledStateMessage">
+  <data name="RssSearchCancelledStateMessage" xml:space="preserve">
     <value>Arama iptali sürüyor, ...</value>
     <comment>Message text</comment>
   </data>
-  <data name="RssSearchNoResultMessage">
+  <data name="RssSearchNoResultMessage" xml:space="preserve">
     <value>Hiçbir öğe bulunamadı.</value>
     <comment>Message text</comment>
   </data>
-  <data name="RssSearchSuccessResultMessage">
+  <data name="RssSearchSuccessResultMessage" xml:space="preserve">
     <value>{0} öğe bulundu.</value>
     <comment>Message text</comment>
   </data>
-  <data name="RssSearchResultNodeCaption">
+  <data name="RssSearchResultNodeCaption" xml:space="preserve">
     <value>Arama Sonucu</value>
     <comment>SearchResultNode caption</comment>
   </data>
-  <data name="MenuFeedDetailLayoutCaption">
+  <data name="MenuFeedDetailLayoutCaption" xml:space="preserve">
     <value>&amp;Okuma Panosu Pozisyonu</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutDesc">
+  <data name="MenuFeedDetailLayoutDesc" xml:space="preserve">
     <value>Kaynak detayları yerleşim düzenini seçer/değiştirir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutTopCaption">
+  <data name="MenuFeedDetailLayoutTopCaption" xml:space="preserve">
     <value>Okuma Panosu Altta</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutTopDesc">
+  <data name="MenuFeedDetailLayoutTopDesc" xml:space="preserve">
     <value>Mesaj listesi üstte, içerik altta yerleşim...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutLeftCaption">
+  <data name="MenuFeedDetailLayoutLeftCaption" xml:space="preserve">
     <value>Okuma Panosu Sağda</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutLeftDesc">
+  <data name="MenuFeedDetailLayoutLeftDesc" xml:space="preserve">
     <value>Mesaj listesi solda, içerik sağda yerleşim...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutRightCaption">
+  <data name="MenuFeedDetailLayoutRightCaption" xml:space="preserve">
     <value>Okuma Panosu Solda</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutRightDesc">
+  <data name="MenuFeedDetailLayoutRightDesc" xml:space="preserve">
     <value>Mesaj listesi sağda, içerik solda yerleşim...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutBottomCaption">
+  <data name="MenuFeedDetailLayoutBottomCaption" xml:space="preserve">
     <value>Okuma Panosu Üstte</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuFeedDetailLayoutBottomDesc">
+  <data name="MenuFeedDetailLayoutBottomDesc" xml:space="preserve">
     <value>Mesaj listesi altta, içerik üstte yerleşim...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="GUIStatusFeedJustReceivedItemsMessage">
+  <data name="GUIStatusFeedJustReceivedItemsMessage" xml:space="preserve">
     <value>Alınan: {0} mesaj</value>
     <comment>displayed in the Toast window(s)</comment>
   </data>
-  <data name="ControlCollapsiblePanelExpandTooltip">
+  <data name="ControlCollapsiblePanelExpandTooltip" xml:space="preserve">
     <value>Panoyu genişlet...</value>
     <comment>displayed as a tooltip on a collapsible panel button</comment>
   </data>
-  <data name="ControlCollapsiblePanelCollapseTooltip">
+  <data name="ControlCollapsiblePanelCollapseTooltip" xml:space="preserve">
     <value>Panoyu daralt...</value>
     <comment>displayed as a tooltip on a collapsible panel button</comment>
   </data>
-  <data name="RssSearchTypeRegExHintCaption">
+  <data name="RssSearchTypeRegExHintCaption" xml:space="preserve">
     <value>Bir sıradan ifade ile eşleşen sözcük veya terimleri içeren tüm mesajları bul.</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
-  <data name="RssSearchTypeTextHintCaption">
+  <data name="RssSearchTypeTextHintCaption" xml:space="preserve">
     <value>Belirtilen sözcük veya ifadeyi içeren tüm mesajları bul.</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
-  <data name="RssSearchTypeXPathHintCaption">
+  <data name="RssSearchTypeXPathHintCaption" xml:space="preserve">
     <value>RSS 2.0 sunumu belirtilen XPath ile eşleşen tüm mesajları bul.</value>
     <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
   </data>
-  <data name="WindowAboutCaption">
+  <data name="WindowAboutCaption" xml:space="preserve">
     <value>{0} Hakkında</value>
     <comment>window caption. Parameter is the product name</comment>
   </data>
-  <data name="RefreshFeedExceptionReportStringPart">
+  <data name="RefreshFeedExceptionReportStringPart" xml:space="preserve">
     <value>'&lt;strong&gt;{0}&lt;/strong&gt;' kaynağının güncellemesi başarısız, hata: {1}</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionReportValidationPart">
+  <data name="RefreshFeedExceptionReportValidationPart" xml:space="preserve">
     <value>Kaynağı &lt;strong&gt;doğrulamak&lt;/strong&gt; için buraya tıkla.</value>
     <comment>Part of the error text displayed for refresh feed XML exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionGeneratorStringPart">
+  <data name="RefreshFeedExceptionGeneratorStringPart" xml:space="preserve">
     <value>Kaynak '{0}' tarafından oluşturuldu.</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionReportContactInfo">
+  <data name="RefreshFeedExceptionReportContactInfo" xml:space="preserve">
     <value>İletişim Bilgileri:</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionReportManagingEditor">
+  <data name="RefreshFeedExceptionReportManagingEditor" xml:space="preserve">
     <value>Baş Editor</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionReportWebMaster">
+  <data name="RefreshFeedExceptionReportWebMaster" xml:space="preserve">
     <value>Web Master</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="RefreshFeedExceptionReportHomePage">
+  <data name="RefreshFeedExceptionReportHomePage" xml:space="preserve">
     <value>Kaynak Anasayfası</value>
     <comment>Part of the error text displayed for refresh feed exceptions</comment>
   </data>
-  <data name="XmlExceptionCategory">
+  <data name="XmlExceptionCategory" xml:space="preserve">
     <value>Xml Hatası</value>
     <comment>Exception topic text</comment>
   </data>
-  <data name="WebExceptionCategory">
+  <data name="WebExceptionCategory" xml:space="preserve">
     <value>Web Hatası</value>
     <comment>Exception topic text</comment>
   </data>
-  <data name="ProtocolViolationExceptionCategory">
+  <data name="ProtocolViolationExceptionCategory" xml:space="preserve">
     <value>Protokol ihlal istisna hatası</value>
     <comment>Category name displayed for refresh feed exceptions (listview)</comment>
   </data>
-  <data name="ExceptionCategory">
+  <data name="ExceptionCategory" xml:space="preserve">
     <value>Genel Hata</value>
     <comment>Exception topic text</comment>
   </data>
-  <data name="InternetExplorerMenuExtDefaultCaption">
+  <data name="InternetExplorerMenuExtDefaultCaption" xml:space="preserve">
     <value>Varsayılan RSS okuyucuyla abone ol</value>
     <comment>Internet Explorer Menu Extension Caption</comment>
   </data>
-  <data name="InternetExplorerMenuExtBanditCaption">
+  <data name="InternetExplorerMenuExtBanditCaption" xml:space="preserve">
     <value>RSS Bandit ile abone ol</value>
     <comment>Internet Explorer Menu Extension Caption</comment>
   </data>
-  <data name="PostReplyFormCaption">
+  <data name="PostReplyFormCaption" xml:space="preserve">
     <value>Yanıtla - Kaynak: {0}</value>
     <comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
   </data>
-  <data name="PostReplyTitlePrefix">
+  <data name="PostReplyTitlePrefix" xml:space="preserve">
     <value>Ynt: {0}</value>
     <comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
   </data>
-  <data name="PostReplySentIdentityInfoText">
+  <data name="PostReplySentIdentityInfoText" xml:space="preserve">
     <value>kullanıcı-adı: {0}
 e-posta: {1}
 öneren-adres: {2}</value>
     <comment>Post reply identity infos about properties we provide to the receiver.</comment>
   </data>
-  <data name="PostReplySentIdentityInfoTextEmptyValue">
+  <data name="PostReplySentIdentityInfoTextEmptyValue" xml:space="preserve">
     <value>&lt;yok&gt;</value>
     <comment>Post reply identity info displayed for an empty property</comment>
   </data>
-  <data name="StatisticsAllFeedsCountMessage">
+  <data name="StatisticsAllFeedsCountMessage" xml:space="preserve">
     <value>Abone Olunan Kaynaklar: {0}</value>
     <comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
   </data>
-  <data name="StatisticsItemsDisplayedMessage">
+  <data name="StatisticsItemsDisplayedMessage" xml:space="preserve">
     <value>Seçim {0} mesaj içeriyor</value>
     <comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
   </data>
-  <data name="DirectoryDoesNotExistMessage">
+  <data name="DirectoryDoesNotExistMessage" xml:space="preserve">
     <value>Belirtilen dizin mevcut değil</value>
     <comment>Used in Options dialog for remote storage UNC.</comment>
   </data>
-  <data name="ExceptionUISettingsSave">
+  <data name="ExceptionUISettingsSave" xml:space="preserve">
     <value>Arayüz ayarlarını kaydederken beklenmeyen bir hata oluştu (.settings.xml):
         
 '{0}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="NameRequiredInPostReplyMessage">
+  <data name="NameRequiredInPostReplyMessage" xml:space="preserve">
     <value>Yanıt gönderirken mutlaka bir isim belirtmelisiniz</value>
     <comment>Message used in Post reply dialog.</comment>
   </data>
-  <data name="ExceptionInvalidShortcutSettingsFile">
+  <data name="ExceptionInvalidShortcutSettingsFile" xml:space="preserve">
     <value>Kısayol Ayarları Dosyası doğrulanamadı</value>
     <comment>Failure Message if the file is not valid XML.</comment>
   </data>
-  <data name="ExceptionGeneralCritical">
+  <data name="ExceptionGeneralCritical" xml:space="preserve">
     <value>Bir hata oluştu ve '{0}' dosyasına kaydedildi
 
 Lütfen dosyanın içeriğini aşağıdaki bilgiyle beraber dev.rssbandit.org geliştirme ekibine bildirin.</value>
     <comment>Exception message</comment>
   </data>
-  <data name="SecurityExceptionCausedByRegistryAccess">
+  <data name="SecurityExceptionCausedByRegistryAccess" xml:space="preserve">
     <value>Bu özelliği kullanabilmek için, uygulama Windows kayıt defterindeki
 '{0}' anahtarına yazma erişim haklarına sahip olmalıdır.
 
@@ -1830,478 +1831,478 @@ Yönetici hakları yalnızca istenilen özelliğin eklenebilmesi için gereklidi
 uygulamayı her başlattığınızda bu işlemi yapmanız gerekmez. Sizi yorduğumuz için üzgünüz.</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="FeedNodeDeletedItemsCaption">
+  <data name="FeedNodeDeletedItemsCaption" xml:space="preserve">
     <value>Silinmiş Mesajlar</value>
     <comment>SmartNode caption</comment>
   </data>
-  <data name="FeedNodeDeletedItemsDesc">
+  <data name="FeedNodeDeletedItemsDesc" xml:space="preserve">
     <value>Silinmiş mesajların kutusu </value>
     <comment>SmartNode desc</comment>
   </data>
-  <data name="MessageBoxDeleteAllFindersQuestion">
+  <data name="MessageBoxDeleteAllFindersQuestion" xml:space="preserve">
     <value>Tüm arama dizinlerini silmek istediğinize emin misiniz?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="MessageBoxDeleteAllItemsQuestion">
+  <data name="MessageBoxDeleteAllItemsQuestion" xml:space="preserve">
     <value>Tüm mesajları silmek istediğinize emin misiniz?</value>
     <comment>Text within a messagebox</comment>
   </data>
-  <data name="MenuOpenConfigIdentitiesDialogCaption">
+  <data name="MenuOpenConfigIdentitiesDialogCaption" xml:space="preserve">
     <value>Kimlikleri Düzenle...</value>
     <comment>menu caption text</comment>
   </data>
-  <data name="MenuOpenConfigIdentitiesDialogdesc">
+  <data name="MenuOpenConfigIdentitiesDialogdesc" xml:space="preserve">
     <value>Kimlikleri düzenleyebilmek için bir pencere açar...</value>
     <comment>menu caption tooltip text</comment>
   </data>
-  <data name="MenuOpenConfigNntpServerDialogCaption">
+  <data name="MenuOpenConfigNntpServerDialogCaption" xml:space="preserve">
     <value>Habergrupları...</value>
     <comment>menu caption text</comment>
   </data>
-  <data name="MenuOpenConfigNntpServerDialogDesc">
+  <data name="MenuOpenConfigNntpServerDialogDesc" xml:space="preserve">
     <value>NNTP sunucularını ve habergruplarını düzenlemek için bir pencere açar...</value>
     <comment>menu caption tooltip text</comment>
   </data>
-  <data name="ConfigIdentitiesDialogCaption">
+  <data name="ConfigIdentitiesDialogCaption" xml:space="preserve">
     <value>Kimlikleri Düzenle</value>
     <comment>window caption text</comment>
   </data>
-  <data name="ConfigNewsServerDialogCaption">
+  <data name="ConfigNewsServerDialogCaption" xml:space="preserve">
     <value>Habergruplarını Düzenle</value>
     <comment>window caption text</comment>
   </data>
-  <data name="CertificateIssueOnFeedCaption">
+  <data name="CertificateIssueOnFeedCaption" xml:space="preserve">
     <value>'{0}' kaynağıyla takas ettiğiniz bilgi başka kullanıcılar tarafından görüntülenemez veya değiştirilemez. Ancak, kaynağın güvenlik sertifikasıyla ilgili bir sorun var.</value>
     <comment>Certificate issue dialog heading text</comment>
   </data>
-  <data name="CertificateIssueOnSiteCaption">
+  <data name="CertificateIssueOnSiteCaption" xml:space="preserve">
     <value>'{0}' sitesiyle takas ettiğiniz bilgi başka kullanıcılar tarafından görüntülenemez veya değiştirilemez. Ancak, sitenin güvenlik sertifikasıyla ilgili bir sorun var.</value>
     <comment>Certificate issue dialog heading text</comment>
   </data>
-  <data name="CertificateIssue_CertCN_NO_MATCH">
+  <data name="CertificateIssue_CertCN_NO_MATCH" xml:space="preserve">
     <value>Güvenlik sertifikasındaki isim geçerli değil veya sitenin ismiyle eşleşmiyor.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertEXPIRED">
+  <data name="CertificateIssue_CertEXPIRED" xml:space="preserve">
     <value>Yayınlanan sertifikanın süresi {0} tarihinde doluyor.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertREVOKED">
+  <data name="CertificateIssue_CertREVOKED" xml:space="preserve">
     <value>Sertifika geçersiz kılındı.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertUNTRUSTEDCA">
+  <data name="CertificateIssue_CertUNTRUSTEDCA" xml:space="preserve">
     <value>Sertifika güvenli olmayan bir CA (Certification Authory)'ya sahip.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertUNTRUSTEDROOT">
+  <data name="CertificateIssue_CertUNTRUSTEDROOT" xml:space="preserve">
     <value>Sertifika güvenli olmayan bir CA (Certification Authory) köküne sahip.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT">
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT" xml:space="preserve">
     <value>Sertifika güvenli olmayan bir test CA (Certification Authory) köküne sahip.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertPURPOSE">
+  <data name="CertificateIssue_CertPURPOSE" xml:space="preserve">
     <value>Sertifikanın amacı yapılması istenen görevle eşleşmiyor.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertCHAINING">
+  <data name="CertificateIssue_CertCHAINING" xml:space="preserve">
     <value>Sertifika zaten güven zincirinin bir üyesi.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertCRITICAL">
+  <data name="CertificateIssue_CertCRITICAL" xml:space="preserve">
     <value>Sertiika kritik bir hataya sebep oldu.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertISSUERCHAINING">
+  <data name="CertificateIssue_CertISSUERCHAINING" xml:space="preserve">
     <value>Sertifika yayıncısı zaten güven zincirinin bir üyesi.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertMALFORMED">
+  <data name="CertificateIssue_CertMALFORMED" xml:space="preserve">
     <value>Sertifika kötü biçimlendirilmiş.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertPATHLENCONST">
+  <data name="CertificateIssue_CertPATHLENCONST" xml:space="preserve">
     <value>Sertifika bir hataya yol açtı: yol uzunluğu sabiti.</value>
     <comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
   </data>
-  <data name="CertificateIssue_CertREVOCATION_FAILURE">
+  <data name="CertificateIssue_CertREVOCATION_FAILURE" xml:space="preserve">
     <value>Sertifikanın kaldırılması başarısız oldu.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertROLE">
+  <data name="CertificateIssue_CertROLE" xml:space="preserve">
     <value>Sertifikanın rolü yanlış.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertVALIDITYPERIODNESTING">
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING" xml:space="preserve">
     <value>Sertifikanın geçerlilik süresi doluyor.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_CertWRONG_USAGE">
+  <data name="CertificateIssue_CertWRONG_USAGE" xml:space="preserve">
     <value>Sertifika yapılması istenen görev için kullanılamaz.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="CertificateIssue_Unknown">
+  <data name="CertificateIssue_Unknown" xml:space="preserve">
     <value>Güvenlik sertifikası bilinmeyen bir genel hataya yol açtı: '{0}'.</value>
     <comment>Certificate issue dialog detail text</comment>
   </data>
-  <data name="MenuColumnChooserCaption">
+  <data name="MenuColumnChooserCaption" xml:space="preserve">
     <value>Sütun Düzeni</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserDesc">
+  <data name="MenuColumnChooserDesc" xml:space="preserve">
     <value>Görüntülenen sütunları ve yerleşimlerini düzenler...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserTitleCaption">
+  <data name="MenuColumnChooserTitleCaption" xml:space="preserve">
     <value>Manşeti Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserTitleDesc">
+  <data name="MenuColumnChooserTitleDesc" xml:space="preserve">
     <value>Bir mesajın manşet sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserDateCaption">
+  <data name="MenuColumnChooserDateCaption" xml:space="preserve">
     <value>Tarihi Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserDateDesc">
+  <data name="MenuColumnChooserDateDesc" xml:space="preserve">
     <value>Bir mesajın tarih sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserSubjectCaption">
+  <data name="MenuColumnChooserSubjectCaption" xml:space="preserve">
     <value>Konuyu Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserSubjectDesc">
+  <data name="MenuColumnChooserSubjectDesc" xml:space="preserve">
     <value>Bir mesajın konu sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserAuthorCaption">
+  <data name="MenuColumnChooserAuthorCaption" xml:space="preserve">
     <value>Yazarı Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserAuthorDesc">
+  <data name="MenuColumnChooserAuthorDesc" xml:space="preserve">
     <value>Bir mesajın yazar sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserFeedTitleCaption">
+  <data name="MenuColumnChooserFeedTitleCaption" xml:space="preserve">
     <value>Abonelik Başlığını Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserFeedTitleDesc">
+  <data name="MenuColumnChooserFeedTitleDesc" xml:space="preserve">
     <value>Bir mesajın abonelik başlığı sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserCommentCountCaption">
+  <data name="MenuColumnChooserCommentCountCaption" xml:space="preserve">
     <value>Yorum Sayacını Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserCommentCountDesc">
+  <data name="MenuColumnChooserCommentCountDesc" xml:space="preserve">
     <value>Bir mesajın yorum sayaç sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserEnclosureCaption">
+  <data name="MenuColumnChooserEnclosureCaption" xml:space="preserve">
     <value>Ek Durumunu Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserEnclosureDesc">
+  <data name="MenuColumnChooserEnclosureDesc" xml:space="preserve">
     <value>Bir mesajın ek durumu sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserFlagCaption">
+  <data name="MenuColumnChooserFlagCaption" xml:space="preserve">
     <value>İşaret Bayrağını Göster</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserFlagDesc">
+  <data name="MenuColumnChooserFlagDesc" xml:space="preserve">
     <value>Bir mesajın işaret bayrağı sütununu gösterir...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption">
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption" xml:space="preserve">
     <value>Yerleşimi kategoriler için varsayılan olarak kullan</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc">
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc" xml:space="preserve">
     <value>Bu yerleşim özel bir yerleşim düzeni olmayan tüm kategoriler için geçerli olacaktır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption">
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" xml:space="preserve">
     <value>Yerleşimi kaynaklar için varsayılan olarak kullan</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc">
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" xml:space="preserve">
     <value>Bu yerleşim özel bir yerleşim düzeni olmayan tüm kaynaklar için geçerli olacaktır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuColumnChooserResetLayoutToDefaultCaption">
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption" xml:space="preserve">
     <value>Yerleşimi varsayılana ayarla</value>
     <comment>Caption within context menu</comment>
   </data>
-  <data name="MenuColumnChooserResetLayoutToDefaultDesc">
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc" xml:space="preserve">
     <value>Seçili aboneliğin özel yerleşim düzeni kaldırılır...</value>
     <comment>Description within context menu</comment>
   </data>
-  <data name="MenuDonateToProjectCaption">
+  <data name="MenuDonateToProjectCaption" xml:space="preserve">
     <value>Bağış Yap...</value>
     <comment>Caption within help menu</comment>
   </data>
-  <data name="MenuDonateToProjectDesc">
+  <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>Uygulamayı bağışlarınızla destekleyebileceğiniz bir adrese bağlanır...</value>
     <comment>Description within help menu</comment>
   </data>
-  <data name="URL_ProjectDownload">
+  <data name="URL_ProjectDownload" xml:space="preserve">
     <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
     <comment>Download package page at Sourceforge, default on invalid .config</comment>
   </data>
-  <data name="URL_ProjectDonation">
+  <data name="URL_ProjectDonation" xml:space="preserve">
     <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
     <comment>Bandit Project Donation Url, default on invalid .config</comment>
   </data>
-  <data name="ListviewColumnCaptionFlagStatus">
+  <data name="ListviewColumnCaptionFlagStatus" xml:space="preserve">
     <value>Bayrak</value>
     <comment>Column caption within listview</comment>
   </data>
-  <data name="DialogQuestionNewAppVersionAvailable">
+  <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
     <value>İndirilebilecek yeni bir sürüm var.
 Daha fazla bilgi almak istermisiniz?
 
 Eğer 'Hayır'ı seçerseniz, daha sonra tekrar hatırlatılacak.</value>
     <comment>Question Dialog Text</comment>
   </data>
-  <data name="WaitDialogMessageCheckForNewAppVersion">
+  <data name="WaitDialogMessageCheckForNewAppVersion" xml:space="preserve">
     <value>Yeni güncellemeler kontrol ediliyor...</value>
     <comment>Waiting Message Dialog Text</comment>
   </data>
-  <data name="DialogMessageNoNewAppVersionAvailable">
+  <data name="DialogMessageNoNewAppVersionAvailable" xml:space="preserve">
     <value>İndirilebilecek yeni güncelleme yok.</value>
     <comment>Message Dialog Text</comment>
   </data>
-  <data name="FeedListNoChildsMessage">
+  <data name="FeedListNoChildsMessage" xml:space="preserve">
     <value>Hiç alt mesaj yok...</value>
     <comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline">
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline" xml:space="preserve">
     <value>Adres:</value>
     <comment>Dynamic label text (Preferences)</comment>
   </data>
-  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint">
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint" xml:space="preserve">
     <value>Uygulamanızın durumunu abone olduğunuz kaynaklarla birlikte Newsgator Online sitesinde saklayabilirsiniz. Newsgator Online'a abone olmak için http://www.newsgator.com adresini ziyaret edin.</value>
     <comment>Dynamic hint label text (Preferences)</comment>
   </data>
-  <data name="NntpLoadingGroupsWaitMessage">
+  <data name="NntpLoadingGroupsWaitMessage" xml:space="preserve">
     <value>Habergrupları yükleniyor. Bu işlem biraz zaman alabilir...</value>
     <comment>Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
   </data>
-  <data name="ExceptionNntpLoadingGroupsFailed">
+  <data name="ExceptionNntpLoadingGroupsFailed" xml:space="preserve">
     <value>'{0}'dan Habergruplarının yüklenmesi başarısız oldu: {1}</value>
     <comment>{0} param is the news server, {1} the exception message</comment>
   </data>
-  <data name="GUINntpLoadingGroupsFailedCaption">
+  <data name="GUINntpLoadingGroupsFailedCaption" xml:space="preserve">
     <value>Habergruplarının yüklenmesi başarısız oldu</value>
   </data>
-  <data name="Syndic8FeedSearchTitle">
+  <data name="Syndic8FeedSearchTitle" xml:space="preserve">
     <value>Syndic8 Servisi</value>
     <comment>syndic8.com Feed search service caption</comment>
   </data>
-  <data name="MainMenuEditCaption">
+  <data name="MainMenuEditCaption" xml:space="preserve">
     <value>&amp;Düzen</value>
     <comment>Caption within main menu</comment>
   </data>
-  <data name="MainMenuEditDesc">
+  <data name="MainMenuEditDesc" xml:space="preserve">
     <value>RSS Bandit düzenleme komutları</value>
     <comment>Description within main menu</comment>
   </data>
-  <data name="MenuListViewSelectAllCaption">
+  <data name="MenuListViewSelectAllCaption" xml:space="preserve">
     <value>Tümünü &amp;Seç</value>
     <comment>Caption edit view menu</comment>
   </data>
-  <data name="MenuListViewSelectAllDesc">
+  <data name="MenuListViewSelectAllDesc" xml:space="preserve">
     <value>Mesaj listesi panosundaki tüm mesajları seçer.</value>
     <comment>Description within edit menu</comment>
   </data>
-  <data name="MenuNewCmdsCaption">
+  <data name="MenuNewCmdsCaption" xml:space="preserve">
     <value>&amp;Yeni...</value>
     <comment>Caption for the 'new' command toolbar/dropdown</comment>
   </data>
-  <data name="MenuNewCmdsDesc">
+  <data name="MenuNewCmdsDesc" xml:space="preserve">
     <value>Yeni abonelik yaratır</value>
     <comment>Caption within toolbar/dropdown</comment>
   </data>
-  <data name="MenuNewSubscriptionByWizardCaption">
+  <data name="MenuNewSubscriptionByWizardCaption" xml:space="preserve">
     <value>&amp;Yeni Abonelik...</value>
     <comment>Caption within menu to call the subscription wizard</comment>
   </data>
-  <data name="MenuNewSubscriptionByWizardDesc">
+  <data name="MenuNewSubscriptionByWizardDesc" xml:space="preserve">
     <value>Sihirbaz yardımıyla yeni abonelik oluşturur</value>
     <comment>Caption within menu</comment>
   </data>
-  <data name="MenuNewFeedCaption2">
+  <data name="MenuNewFeedCaption2" xml:space="preserve">
     <value>&amp;Yeni Kaynak Aboneliği...</value>
     <comment>NEW</comment>
   </data>
-  <data name="MenuNewNntpFeedCaption">
+  <data name="MenuNewNntpFeedCaption" xml:space="preserve">
     <value>&amp;Habergrubu Aboneliği...</value>
     <comment>Caption within tool dropdown</comment>
   </data>
-  <data name="MenuNewNntpFeedDesc">
+  <data name="MenuNewNntpFeedDesc" xml:space="preserve">
     <value>Yeni bir kaynağa abone olur</value>
     <comment>Description within tool dropdown</comment>
   </data>
-  <data name="MenuNewDiscoveredFeedCaption">
+  <data name="MenuNewDiscoveredFeedCaption" xml:space="preserve">
     <value>&amp;Arama Sonuçları Aboneliği...</value>
     <comment>Caption within tool dropdown</comment>
   </data>
-  <data name="MenuNewDiscoveredFeedDesc">
+  <data name="MenuNewDiscoveredFeedDesc" xml:space="preserve">
     <value>Bir kaynak bulur veya arama sonucu kaynağına abone olur</value>
     <comment>Description within tool dropdown</comment>
   </data>
-  <data name="MenuOpenManageAddInsDialogCaption">
+  <data name="MenuOpenManageAddInsDialogCaption" xml:space="preserve">
     <value>&amp;Eklentiler...</value>
     <comment>Caption within tools menu</comment>
   </data>
-  <data name="MenuOpenManageAddInsDialogDesc">
+  <data name="MenuOpenManageAddInsDialogDesc" xml:space="preserve">
     <value>Uygulama eklenti düzenleme penceresini açar...</value>
     <comment>Description within tools menu</comment>
   </data>
-  <data name="ExceptionProxyConfiguration">
+  <data name="ExceptionProxyConfiguration" xml:space="preserve">
     <value>Geçersiz proxy yapılandırması:
 {0}.
 
 Ayarlarınız proxy kullanmamak üzere değiştirildi.</value>
     <comment>Failure message on proxy config errors</comment>
   </data>
-  <data name="WizardValidationTask_SuccessMessage">
+  <data name="WizardValidationTask_SuccessMessage" xml:space="preserve">
     <value>Web kaynağı alındı.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_Success_xFeedsFound_Message">
+  <data name="WizardValidationTask_Success_xFeedsFound_Message" xml:space="preserve">
     <value>{0} Web kaynağı bulundu.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_VerifyingUrlMessage">
+  <data name="WizardValidationTask_VerifyingUrlMessage" xml:space="preserve">
     <value>Adres sınanıyor...</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_GetWebFeedTitleMessage">
+  <data name="WizardValidationTask_GetWebFeedTitleMessage" xml:space="preserve">
     <value>Web kaynak başlığını al...</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_SearchingMessage">
+  <data name="WizardValidationTask_SearchingMessage" xml:space="preserve">
     <value>Arıyor...</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_PrefetchCanceledMessage">
+  <data name="WizardValidationTask_PrefetchCanceledMessage" xml:space="preserve">
     <value>Web kaynağı denetiminden vazgeçildi.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_PrefetchFailedMessage">
+  <data name="WizardValidationTask_PrefetchFailedMessage" xml:space="preserve">
     <value>Web kaynağı denetimi başarısız oldu.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_SearchCanceledMessage">
+  <data name="WizardValidationTask_SearchCanceledMessage" xml:space="preserve">
     <value>Arama iptal edildi.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_SearchFailedMessage">
+  <data name="WizardValidationTask_SearchFailedMessage" xml:space="preserve">
     <value>Arama başarısız oldu.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardValidationTask_InvalidFeedMessage">
+  <data name="WizardValidationTask_InvalidFeedMessage" xml:space="preserve">
     <value>Geçersiz web kaynağı.</value>
     <comment>Subscription wizard task info</comment>
   </data>
-  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage">
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage" xml:space="preserve">
     <value>Anahtar sözcüğü değiştirmek için geri gidin veya 'Vazgeç'e tıklayın</value>
     <comment>Subscription wizard info</comment>
   </data>
-  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage">
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage" xml:space="preserve">
     <value>Adresi değiştirmek için geri gidin veya 'Vazgeç'e tıklayın</value>
     <comment>Subscription wizard info</comment>
   </data>
-  <data name="AddInLoadFailure">
+  <data name="AddInLoadFailure" xml:space="preserve">
     <value>'{1}' eklentisi yüklenemedi:
         
 {0}</value>
     <comment>Subscription wizard info</comment>
   </data>
-  <data name="NntpServerConfig_GeneralSettingsNodeCaption">
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption" xml:space="preserve">
     <value>Genel Ayarlar</value>
     <comment>NNTP Server Configuration Settings Node caption</comment>
   </data>
-  <data name="NntpServerConfig_ServerSettingsNodeCaption">
+  <data name="NntpServerConfig_ServerSettingsNodeCaption" xml:space="preserve">
     <value>Sunucu Ayarları</value>
     <comment>NNTP Server Configuration Settings Node caption</comment>
   </data>
-  <data name="NntpServerConfig_AdvancedSettingsNodeCaption">
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption" xml:space="preserve">
     <value>Gelişmiş Ayarlar</value>
     <comment>NNTP Server Configuration Settings Node caption</comment>
   </data>
-  <data name="MenuPostNewFeedItemCaption">
+  <data name="MenuPostNewFeedItemCaption" xml:space="preserve">
     <value>Yeni Mesaj</value>
     <comment>Toolbar button caption (post a new item to a NNTP group)</comment>
   </data>
-  <data name="MenuPostNewFeedItemDesc">
+  <data name="MenuPostNewFeedItemDesc" xml:space="preserve">
     <value>Seçili kaynağa göndermek için yeni mesaj oluştur</value>
     <comment>Toolbar button descr. (post a new item to a NNTP group)</comment>
   </data>
-  <data name="NewPostToFeedFormCaption">
+  <data name="NewPostToFeedFormCaption" xml:space="preserve">
     <value>{0} Kaynağına Yeni Mesaj</value>
     <comment>New Post to a Feed Form Caption. Param {0} is the feed title.</comment>
   </data>
-  <data name="GUIStatusPostNewFeedItem">
+  <data name="GUIStatusPostNewFeedItem" xml:space="preserve">
     <value>Yeni mesaj gönderiliyor, lütfen bekleyin...</value>
     <comment>GUI status info</comment>
   </data>
-  <data name="ExceptionPostNewFeedItem">
+  <data name="ExceptionPostNewFeedItem" xml:space="preserve">
     <value>'{0}' (RSS Mesaj bağı/başlık) yeni mesaj gönderilirken bir hata oluştu:
         
 '{1}'</value>
     <comment>Messagebox error text</comment>
   </data>
-  <data name="AddInUnloadFailure">
+  <data name="AddInUnloadFailure" xml:space="preserve">
     <value>'{1}' eklentisinin durdurulması başarısız oldu:
         
 {0}</value>
     <comment>AddIn failure message box</comment>
   </data>
-  <data name="AddInGeneralFailure">
+  <data name="AddInGeneralFailure" xml:space="preserve">
     <value>'{1}' eklentisinde genel hata oluştu:
         
 {0}</value>
     <comment>AddIn failure message box</comment>
   </data>
-  <data name="XsltDefaultTemplate_ItemPublisher">
+  <data name="XsltDefaultTemplate_ItemPublisher" xml:space="preserve">
     <value>Yayıncı</value>
     <comment> Xslt default template language resources</comment>
   </data>
-  <data name="XsltDefaultTemplate_ItemAuthor">
+  <data name="XsltDefaultTemplate_ItemAuthor" xml:space="preserve">
     <value>Yazar</value>
   </data>
-  <data name="XsltDefaultTemplate_ItemDate">
+  <data name="XsltDefaultTemplate_ItemDate" xml:space="preserve">
     <value>tarihinde yayınlandı</value>
   </data>
-  <data name="XsltDefaultTemplate_ItemEnclosure">
+  <data name="XsltDefaultTemplate_ItemEnclosure" xml:space="preserve">
     <value>Eklenti</value>
   </data>
-  <data name="XsltDefaultTemplate_ToggleReadState">
+  <data name="XsltDefaultTemplate_ToggleReadState" xml:space="preserve">
     <value>Okundu veya okunmadı olarak işaretle</value>
   </data>
-  <data name="XsltDefaultTemplate_ToggleFlagState">
+  <data name="XsltDefaultTemplate_ToggleFlagState" xml:space="preserve">
     <value>Bayrağı ekle veya kaldır</value>
   </data>
-  <data name="SearchEnginePropertiesSearchUrlEmpty">
+  <data name="SearchEnginePropertiesSearchUrlEmpty" xml:space="preserve">
     <value>Bir arama URL'si belirtin lütfen</value>
   </data>
-  <data name="SearchEnginePropertiesSearchCaptionEmpty">
+  <data name="SearchEnginePropertiesSearchCaptionEmpty" xml:space="preserve">
     <value>Arama için bir başlık belirleyin lütfen</value>
   </data>
-  <data name="SearchEnginePropertiesSearchUrlMissingParam">
+  <data name="SearchEnginePropertiesSearchUrlMissingParam" xml:space="preserve">
     <value>'{0}' parametresi eksik</value>
     <comment>.
  Parameters: 0 - parameter (string) </comment>
   </data>
-  <data name="CacheFolderInvalid_CannotBeMoved">
+  <data name="CacheFolderInvalid_CannotBeMoved" xml:space="preserve">
     <value>Veri depolama alanı
 
 {0}
@@ -2311,7 +2312,7 @@ Eski depo klasörü kullanılmaya devam edilecek...</value>
     <comment>.
  Parameters: 0 - folderName (string) </comment>
   </data>
-  <data name="CacheFolderInvalid_CannotBeMovedException">
+  <data name="CacheFolderInvalid_CannotBeMovedException" xml:space="preserve">
     <value>Eski depo klasörü
 
 {0}
@@ -2326,35 +2327,35 @@ Eski depo klasörü kullanılmaya devam edilecek...</value>
     <comment>.
  Parameters: 0 - folderName (string), 1 - exception (string) </comment>
   </data>
-  <data name="MenuFinderRenameDesc">
+  <data name="MenuFinderRenameDesc" xml:space="preserve">
     <value>Seçili arama klasörünü yeniden adlandır</value>
   </data>
-  <data name="DetailHeaderCaptionWelcome">
+  <data name="DetailHeaderCaptionWelcome" xml:space="preserve">
     <value>Hoşgeldiniz!</value>
   </data>
-  <data name="FeedNodeWatchedItemsCaption">
+  <data name="FeedNodeWatchedItemsCaption" xml:space="preserve">
     <value>Takip Edilen Mesajlar</value>
   </data>
-  <data name="FeedNodeWatchedItemsDesc">
+  <data name="FeedNodeWatchedItemsDesc" xml:space="preserve">
     <value>Takip edilen mesajların kutusu</value>
   </data>
-  <data name="MenuSendLogsByMailCaption">
+  <data name="MenuSendLogsByMailCaption" xml:space="preserve">
     <value>Kayıt dosyalarını e-posta ile gönder...</value>
     <comment> Improve the Bandit</comment>
   </data>
-  <data name="MenuSendLogsByMailDesc">
+  <data name="MenuSendLogsByMailDesc" xml:space="preserve">
     <value>Sorunların araştırılması için hata kayıt dosyalarını e-posta ile gönderir</value>
   </data>
-  <data name="MenuFeedItemWatchCommentsCaption">
+  <data name="MenuFeedItemWatchCommentsCaption" xml:space="preserve">
     <value>Yorumları &amp;Takip Et</value>
   </data>
-  <data name="MenuFeedItemWatchCommentsDesc">
+  <data name="MenuFeedItemWatchCommentsDesc" xml:space="preserve">
     <value>Bu öğeye gelecek yeni yorumlardan haberdar olun</value>
   </data>
-  <data name="CmdLineResetUIDesc">
+  <data name="CmdLineResetUIDesc" xml:space="preserve">
     <value>Kullanıcı arayüzü varsayılan ayarlara geri dönecek</value>
   </data>
-  <data name="ExceptionProcessStartToPlayEnclosure">
+  <data name="ExceptionProcessStartToPlayEnclosure" xml:space="preserve">
     <value>Sistem şu eki oynatmaya çalışırken hata verdi:
 
 {0}
@@ -2363,154 +2364,90 @@ Hata:{1}.</value>
     <comment>.
  Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
   </data>
-  <data name="FeedNodeUnreadItemsCaption">
+  <data name="FeedNodeUnreadItemsCaption" xml:space="preserve">
     <value>Okunmamış Mesajlar</value>
     <comment> Special local feed for unread items</comment>
   </data>
-  <data name="FeedNodeUnreadItemsDesc">
+  <data name="FeedNodeUnreadItemsDesc" xml:space="preserve">
     <value>Okunmamış mesajların kutusu</value>
   </data>
-  <data name="BrowseForFolderEnclosureDownloadLocation">
+  <data name="BrowseForFolderEnclosureDownloadLocation" xml:space="preserve">
     <value>İndirilen eklerin dosyalanacağı bir klasör seçin veya yaratın</value>
     <comment> Text in the browse for folder dialog</comment>
   </data>
-  <data name="MenuDownloadAttachmentCaption">
+  <data name="MenuDownloadAttachmentCaption" xml:space="preserve">
     <value>Eki İndir</value>
   </data>
-  <data name="MenuDownloadAttachmentDesc">
+  <data name="MenuDownloadAttachmentDesc" xml:space="preserve">
     <value>Ekli öğeleri önceden belirlenen Podcast klasörüne indirir</value>
   </data>
-  <data name="DialogBase_SubmitButtonCaption">
-    <value>Tamam</value>
-    <comment> DialogBase control captions</comment>
-  </data>
-  <data name="DialogBase_SubmitButtonCaptionTip">
-    <value>Değişiklikleri onayla ve kapat</value>
-  </data>
-  <data name="DialogBase_CancelButtonCaption">
-    <value>Vazgeç</value>
-  </data>
-  <data name="DialogBase_CancelButtonCaptionTip">
-    <value>Değişiklikleri iptal et ve kapat</value>
-  </data>
-  <data name="ExceptionInvalidEnclosurePath">
+  <data name="ExceptionInvalidEnclosurePath" xml:space="preserve">
     <value>İndirme klasörünün yolu geçersiz</value>
   </data>
-  <data name="ExceptionProcessCommandlineCulture">
+  <data name="ExceptionProcessCommandlineCulture" xml:space="preserve">
     <value>Uygulama '{0}' kültürüne geçirilemiyor:
 
 Hata:{1}.</value>
     <comment>.
  Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
   </data>
-  <data name="GUIStatusEnclosureJustReceivedItemsMessage">
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage" xml:space="preserve">
     <value>Alındı: 1 dosya</value>
     <comment> displayed in the Toast window(s)</comment>
   </data>
-  <data name="PodcastOptionDialog_Title">
-    <value>Podcast Seçenekleri</value>
-    <comment> Podcast option dialog title</comment>
-  </data>
-  <data name="PodcastOptionDialog_GeneralSectionCaption">
-    <value>Genel</value>
-    <comment> Podcast option dialog general section</comment>
-  </data>
-  <data name="PodcastOptionDialog_TreatFileTypesCaption">
-    <value>Şu dosya tiplerini podcast olarak kabul et - ayraç olarak noktalı virgül (';') kullanın:</value>
-  </data>
-  <data name="PodcastOptionDialog_TreatFileTypesTip">
-    <value>Noktalı virgülle ayrılmış olarak podcast dosya uzantılarının listesi</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption">
-    <value>İndirdikten sonra podcast'i şuraya kopyala:</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip">
-    <value>Podcast'lerin indirileceği klasör</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip">
-    <value>Podcast'lerin indirileceği klasörü belirlemek için tıklayın</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
-    <value>Windows Media Player playlist</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
-    <value>iTunes playlist</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
-    <value>Bu klasör:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistSectionCaption">
-    <value>Playlist</value>
-    <comment> Podcast option dialog playlist section</comment>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
-    <value>playlist ismi olarak:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
-    <value>Dosyanın kaynağının adını kullan</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption">
-    <value>Kaynak adını kullan</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption">
-    <value>Tüm dosyaları şu isimdeki tek bir playlist'e ekle:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistCustomNameTip">
-    <value>Playlist ismini belirleyin</value>
-  </data>
-  <data name="MainForm_MainMenuToolbarCaption">
+  <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
     <value>Ana Menu Çubuğu</value>
     <comment> Main Form control captions</comment>
   </data>
-  <data name="MainForm_MainAppToolbarCaption">
+  <data name="MainForm_MainAppToolbarCaption" xml:space="preserve">
     <value>Ana Uygulama Araçları</value>
   </data>
-  <data name="MainForm_MainWebToolbarCaption">
+  <data name="MainForm_MainWebToolbarCaption" xml:space="preserve">
     <value>Tarayıcı Araçları</value>
   </data>
-  <data name="MainForm_MainSearchToolbarCaption">
+  <data name="MainForm_MainSearchToolbarCaption" xml:space="preserve">
     <value>Arama Araçları</value>
   </data>
-  <data name="MainForm_ToolCategoryMenu">
+  <data name="MainForm_ToolCategoryMenu" xml:space="preserve">
     <value>Menü</value>
   </data>
-  <data name="MainForm_ToolCategoryFile">
+  <data name="MainForm_ToolCategoryFile" xml:space="preserve">
     <value>Dosya</value>
   </data>
-  <data name="MainForm_ToolCategoryEdit">
+  <data name="MainForm_ToolCategoryEdit" xml:space="preserve">
     <value>Düzen</value>
   </data>
-  <data name="MainForm_ToolCategoryView">
+  <data name="MainForm_ToolCategoryView" xml:space="preserve">
     <value>Görünüm</value>
   </data>
-  <data name="MainForm_ToolCategoryTools">
+  <data name="MainForm_ToolCategoryTools" xml:space="preserve">
     <value>Araçlar</value>
   </data>
-  <data name="MainForm_ToolCategoryHelp">
+  <data name="MainForm_ToolCategoryHelp" xml:space="preserve">
     <value>Yardım</value>
   </data>
-  <data name="MainForm_ToolCategoryBrowse">
+  <data name="MainForm_ToolCategoryBrowse" xml:space="preserve">
     <value>Gözat</value>
   </data>
-  <data name="MainForm_ToolCategorySearch">
+  <data name="MainForm_ToolCategorySearch" xml:space="preserve">
     <value>Arama</value>
   </data>
-  <data name="MainForm_ToolUrlDropdownCueText">
+  <data name="MainForm_ToolUrlDropdownCueText" xml:space="preserve">
     <value>Gözatmak istediğiniz URL'yi yazın</value>
   </data>
-  <data name="WindowsSoundControlPanelNewFeedDiscovered">
+  <data name="WindowsSoundControlPanelNewFeedDiscovered" xml:space="preserve">
     <value>Kaynak Bulundu</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
-  <data name="WindowsSoundControlPanelNewItemsReceived">
+  <data name="WindowsSoundControlPanelNewItemsReceived" xml:space="preserve">
     <value>Yeni Mesaj(lar) Alındı</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
-  <data name="WindowsSoundControlPanelNewAttachmentDownloaded">
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded" xml:space="preserve">
     <value>Yeni Eklenti İndirildi</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
-  <data name="WindowsSoundControlPanelDisplayFailed">
+  <data name="WindowsSoundControlPanelDisplayFailed" xml:space="preserve">
     <value>Üzgünüm, Sistem ve Uygulama Seslerinin yapılandırılması için gereken Windows Denetim Masası gösterilemiyor:
 
 {0}
@@ -2519,203 +2456,200 @@ Lütfen Başlat Menu'sunden kendiniz elle açmayı deneyin.</value>
     <comment> Windows Sound Control Panel - start Control panel configuration failed.
  Parameters: 0 - failure (string) </comment>
   </data>
-  <data name="NewsGroupConfiguration_MainToolbarCaption">
+  <data name="NewsGroupConfiguration_MainToolbarCaption" xml:space="preserve">
     <value>Ana Araçlar</value>
     <comment> NewsGroupConfiguration dialog toolbar caption</comment>
   </data>
-  <data name="NewsGroupConfiguration_NewIdentityToolCaption">
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption" xml:space="preserve">
     <value>Kimlik Ekle</value>
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
-  <data name="NewsGroupConfiguration_NewIdentityToolDesc">
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc" xml:space="preserve">
     <value>Yeni bir kimlik oluşturur...</value>
   </data>
-  <data name="NewsGroupConfiguration_NewNewsServerToolCaption">
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption" xml:space="preserve">
     <value>Haber Sunucusu Ekle</value>
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
-  <data name="NewsGroupConfiguration_NewNewsServerToolDesc">
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc" xml:space="preserve">
     <value>Yeni bir NNTP haber sunucusu ekler...</value>
   </data>
-  <data name="NewsGroupConfiguration_DeleteToolCaption">
+  <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
     <value>Sil</value>
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
-  <data name="NewsGroupConfiguration_DeleteToolDesc">
+  <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
     <value>Seçili öğeyi siler</value>
   </data>
-  <data name="XsltDefaultTemplate_RelatedLinks">
+  <data name="XsltDefaultTemplate_RelatedLinks" xml:space="preserve">
     <value>İlgili Bağlantılar</value>
   </data>
-  <data name="XsltDefaultTemplate_ToggleWatchState">
+  <data name="XsltDefaultTemplate_ToggleWatchState" xml:space="preserve">
     <value>Yorumları takip et veya etme</value>
   </data>
-  <data name="MainForm_SubscriptionNavigatorCaption">
+  <data name="MainForm_SubscriptionNavigatorCaption" xml:space="preserve">
     <value>Kaynak Abonelikleri</value>
   </data>
-  <data name="MainForm_SearchNavigatorCaption">
+  <data name="MainForm_SearchNavigatorCaption" xml:space="preserve">
     <value>Arama</value>
   </data>
-  <data name="MainForm_StatusBarBrowser_ToolTipText">
+  <data name="MainForm_StatusBarBrowser_ToolTipText" xml:space="preserve">
     <value>Tarayıcı durumu...</value>
   </data>
-  <data name="MainForm_StatusBarBrowserProgress_ToolTipText">
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText" xml:space="preserve">
     <value>Sayfa indirilme durumu...</value>
   </data>
-  <data name="MainForm_StatusBarConnectionState_ToolTipText">
+  <data name="MainForm_StatusBarConnectionState_ToolTipText" xml:space="preserve">
     <value>Ağ bağlantı durumu...</value>
   </data>
-  <data name="MainForm_StatusBarRssParser_ToolTipText">
+  <data name="MainForm_StatusBarRssParser_ToolTipText" xml:space="preserve">
     <value>RSS motor durumu...</value>
   </data>
-  <data name="MainForm_DetailHeaderCaption_AtStartup">
+  <data name="MainForm_DetailHeaderCaption_AtStartup" xml:space="preserve">
     <value>Hoşgeldiniz!</value>
   </data>
-  <data name="SearchPanel_btnRssSearchSave_Text">
+  <data name="SearchPanel_btnRssSearchSave_Text" xml:space="preserve">
     <value>Kaydet</value>
     <comment> SearchPanel control</comment>
   </data>
-  <data name="SearchPanel_checkBoxRssSearchInLink_Text">
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text" xml:space="preserve">
     <value>Mesaj Bağlantısı</value>
   </data>
-  <data name="SearchPanel_checkBoxRssSearchInCategory_Text">
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text" xml:space="preserve">
     <value>Başlık</value>
   </data>
-  <data name="SearchPanel_checkBoxRssSearchInDesc_Text">
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text" xml:space="preserve">
     <value>&amp;Açıklama</value>
   </data>
-  <data name="SearchPanel_checkBoxRssSearchInTitle_Text">
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text" xml:space="preserve">
     <value>&amp;Başlık</value>
   </data>
-  <data name="SearchPanel_labelSearchFieldsHint_Text">
+  <data name="SearchPanel_labelSearchFieldsHint_Text" xml:space="preserve">
     <value>Arama yapmak istediğiniz tüm alanları işaretleyin</value>
   </data>
-  <data name="SearchPanel_advancedOptionItemPostedGroup_Text">
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text" xml:space="preserve">
     <value>Mesaj tarihi</value>
   </data>
-  <data name="SearchPanel_advancedOptionItemAgeGroup_Text">
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text" xml:space="preserve">
     <value>Mesaj &amp;Yaşı</value>
   </data>
-  <data name="SearchPanel_optionSetItemAge_Text">
+  <data name="SearchPanel_optionSetItemAge_Text" xml:space="preserve">
     <value>&amp;Şundan daha yeni</value>
   </data>
-  <data name="SearchPanel_advancedOptionReadStatusGroup_Text">
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text" xml:space="preserve">
     <value>&amp;Okunma Durumu</value>
   </data>
-  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text">
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text" xml:space="preserve">
     <value>Okunmamış &amp;Öğeler</value>
   </data>
-  <data name="SearchPanel_btnNewSearch_Text">
+  <data name="SearchPanel_btnNewSearch_Text" xml:space="preserve">
     <value>Aramayı Sıfırla</value>
   </data>
-  <data name="SearchPanel_btnSearch_Text">
+  <data name="SearchPanel_btnSearch_Text" xml:space="preserve">
     <value>Ara</value>
   </data>
-  <data name="SearchPanel_btnSearchCancel_Text">
+  <data name="SearchPanel_btnSearchCancel_Text" xml:space="preserve">
     <value>İptal et</value>
   </data>
-  <data name="SearchPanel_searchTaskPaneSaveOptions_Text">
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text" xml:space="preserve">
     <value>&amp;Bu aramayı isimle kaydet</value>
   </data>
-  <data name="SearchPanel_searchTaskPaneFields_Text">
+  <data name="SearchPanel_searchTaskPaneFields_Text" xml:space="preserve">
     <value>Arama &amp;Alanları</value>
   </data>
-  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text">
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text" xml:space="preserve">
     <value>Gelişmiş &amp;Seçenekler</value>
   </data>
-  <data name="SearchPanel_searchTaskPaneScope_Text">
+  <data name="SearchPanel_searchTaskPaneScope_Text" xml:space="preserve">
     <value>Arama Çapı</value>
   </data>
-  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at">
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at" xml:space="preserve">
     <value>da</value>
   </data>
-  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before">
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before" xml:space="preserve">
     <value>önce</value>
   </data>
-  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after">
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after" xml:space="preserve">
     <value>sonra</value>
   </data>
-  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between">
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between" xml:space="preserve">
     <value>arasında</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_1_hour">
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour" xml:space="preserve">
     <value>1 saat</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_x_hours">
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours" xml:space="preserve">
     <value>{0} saat</value>
     <comment>.
  Parameters: 0 - hours (int) </comment>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_1_day">
+  <data name="SearchPanel_comboRssSearchItemAge_1_day" xml:space="preserve">
     <value>1 gün</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_x_days">
+  <data name="SearchPanel_comboRssSearchItemAge_x_days" xml:space="preserve">
     <value>{0} gün</value>
     <comment>.
  Parameters: 0 - days (int) </comment>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_1_month">
+  <data name="SearchPanel_comboRssSearchItemAge_1_month" xml:space="preserve">
     <value>1 ay</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_x_months">
+  <data name="SearchPanel_comboRssSearchItemAge_x_months" xml:space="preserve">
     <value>{0} ay</value>
     <comment>.
  Parameters: 0 - months (int) </comment>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_1_quarter">
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter" xml:space="preserve">
     <value>1 çeyrek</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_x_quarters">
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters" xml:space="preserve">
     <value>{0} çeyrek</value>
     <comment>.
  Parameters: 0 - quarters (int) </comment>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_1_year">
+  <data name="SearchPanel_comboRssSearchItemAge_1_year" xml:space="preserve">
     <value>1 yıl</value>
   </data>
-  <data name="SearchPanel_comboRssSearchItemAge_x_years">
+  <data name="SearchPanel_comboRssSearchItemAge_x_years" xml:space="preserve">
     <value>{0} yıl</value>
     <comment>.
  Parameters: 0 - years (int) </comment>
   </data>
-  <data name="DialogBase_UACShieldedHint">
-    <value>Bu seçenek daha yüksek kullanıcı ayrıcalıkları gerektiriyor (Yönetici)...</value>
-  </data>
-  <data name="ExceptionEnclosureDownloadError">
+  <data name="ExceptionEnclosureDownloadError" xml:space="preserve">
     <value>İndirme Başarısız</value>
   </data>
-  <data name="MenuFinderShowExcerptsCaption">
+  <data name="MenuFinderShowExcerptsCaption" xml:space="preserve">
     <value>Arama sonuçlarında özet göster</value>
   </data>
-  <data name="MenuFinderShowExcerptsDesc">
+  <data name="MenuFinderShowExcerptsDesc" xml:space="preserve">
     <value>Özet ve tam metin arasında geçiş yapar</value>
   </data>
-<data name="SearchPanel_optionSetItemAgeOlderThan_Text">
+  <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
     <value>&amp;Older than</value>
   </data>
-	<data name="RefreshFeedExceptionUserActionIntroText">
+  <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
     <value>What do you want to do now?</value>
   </data>
-	<data name="RefreshFeedExceptionUserActionNavigateToSubscription">
+  <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
     <value>Navigate to the subscription...</value>
   </data>
-	<data name="RefreshFeedExceptionUserActionDeleteSubscription">
+  <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
     <value>Remove this subscription...</value>
   </data>
-	<data name="XsltDefaultTemplate_Previous">
+  <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
     <value>Previous</value>
     <comment> Xslt default template language resources</comment>
   </data>
-	<data name="XsltDefaultTemplate_Next">
+  <data name="XsltDefaultTemplate_Next" xml:space="preserve">
     <value>Next</value>
   </data>
-	<data name="XsltDefaultTemplate_Displaying_page">
+  <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
     <value>Displaying page</value>
   </data>
-	<data name="XsltDefaultTemplate_of">
+  <data name="XsltDefaultTemplate_of" xml:space="preserve">
     <value>of</value>
   </data>
-	<data name="GUILoadFileOperationExceptionMessage">
+  <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
     <value>Loading of file
 {0}
 failed with error:
@@ -2725,7 +2659,7 @@ failed with error:
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
-	<data name="GUISaveFileOperationExceptionMessage">
+  <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
     <value>Saving of file
 {0}
 failed with error:
@@ -2735,62 +2669,62 @@ failed with error:
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
-	<data name="GUIUserInfoAboutDefaultTreeState">
+  <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
     <value>Using defaults for the subscription tree folder states.</value>
   </data>
-	<data name="MenuTopStoriesCaption">
+  <data name="MenuTopStoriesCaption" xml:space="preserve">
     <value>Top Stories</value>
   </data>
-	<data name="MenuTopStoriesDesc" >
+  <data name="MenuTopStoriesDesc" xml:space="preserve">
     <value>View the most recently popular links in your subscriptions</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="ProcessTopStoriesEntertainmentWaitMessage" >
+  <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
     <value>Determining Top Stories, please wait...</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="TopStoriesHtmlPageTitle" >
+  <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
     <value>{0} Top Stories: Most Linked Recent Stories</value>
     <comment>CHANGED.
  Parameters: 0 - appTitle (string) </comment>
   </data>
-	<data name="TopStoriesHtmlDiscussionSectionTitle">
+  <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
     <value>Discussion:</value>
   </data>
-	<data name="MenuFeedDetailTextSizeCaption" >
+  <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
     <value>Text Size</value>
   </data>
-	<data name="MenuFeedDetailTextSizeDesc" >
+  <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
     <value>Select/Change the feed details text size...</value>
   </data>
-	<data name="MenuFeedDetailTextSizeSmallestCaption" >
+  <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
     <value>Smallest</value>
   </data>
-	<data name="MenuFeedDetailTextSizeSmallestDesc" >
+  <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
     <value>Select/Change the feed details text to smallest size...</value>
   </data>
-	<data name="MenuFeedDetailTextSizeSmallerCaption" >
+  <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
     <value>Smaller</value>
   </data>
-	<data name="MenuFeedDetailTextSizeSmallerDesc" >
+  <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
     <value>Select/Change the feed details text to smaller size...</value>
   </data>
-	<data name="MenuFeedDetailTextSizeMediumCaption" >
+  <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
     <value>Medium</value>
   </data>
-	<data name="MenuFeedDetailTextSizeMediumDesc" >
+  <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
     <value>Select/Change the feed details text to medium size...</value>
   </data>
-	<data name="MenuFeedDetailTextSizeLargerCaption" >
+  <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
     <value>Larger</value>
   </data>
-	<data name="MenuFeedDetailTextSizeLargerDesc" >
+  <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
     <value>Select/Change the feed details text to larger size...</value>
   </data>
-	<data name="MenuFeedDetailTextSizeLargestCaption" >
+  <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
     <value>Largest</value>
   </data>
-	<data name="MenuFeedDetailTextSizeLargestDesc" >
+  <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
     <value>Select/Change the feed details text to largest size...</value>
   </data>
-	</root>
+</root>
