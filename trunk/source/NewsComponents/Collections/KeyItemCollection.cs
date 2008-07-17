@@ -60,9 +60,9 @@ namespace NewsComponents.Collections
 
 	    private SerializationInfoReader reader;
 		private readonly object SyncRoot = new object();
-		private static readonly List<Object> Defaultitems= new List<Object>(0);
+		private const List<Object> Defaultitems= null;
 		private const string Serialitems="items";
-		private static readonly Dictionary<Key, int> Defaultpositions = new Dictionary<Key, int>(0);
+		private const Dictionary<Key, int> Defaultpositions = null;
 		private const string Serialpositions="positions";
 	    private const int DefaultVersion = Version_1;
 	    private const string SerialVersion = "Version";
@@ -456,9 +456,9 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <param name="array">The one-dimensional <see cref="T:System.Array"></see> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1"></see>. The <see cref="T:System.Array"></see> must have zero-based indexing.</param>
 		/// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-		/// <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
+		/// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception>
 		/// <exception cref="T:System.ArgumentNullException">array is null.</exception>
-		/// <exception cref="T:System.ArgumentException">array is multidimensional.-or-arrayIndex is equal to or greater than the length of array.-or-The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"></see> is greater than the available space from arrayIndex to the end of the destination array.-or-Type T cannot be cast automatically to the type of the destination array.</exception>
+		/// <exception cref="T:System.ArgumentException">array is multidimensional.-or-<paramref name="arrayIndex"/> is equal to or greater than the length of array.-or-The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"></see> is greater than the available space from arrayIndex to the end of the destination array.-or-Type T cannot be cast automatically to the type of the destination array.</exception>
 		void ICollection<KeyValuePair<Key, Object>>.CopyTo(KeyValuePair<Key, Object>[] array, int arrayIndex)
 		{
 			int pos = arrayIndex;
