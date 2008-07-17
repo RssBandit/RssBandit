@@ -2338,19 +2338,6 @@ Error:{1}.</value>
 	<data name="MenuDownloadAttachmentDesc">
     <value>Download the item's enclosure files to the specified Podcasts folder</value>
   </data>
-	<data name="DialogBase_SubmitButtonCaption">
-    <value>OK</value>
-    <comment> DialogBase control captions</comment>
-  </data>
-	<data name="DialogBase_SubmitButtonCaptionTip">
-    <value>Accept all changes and close</value>
-  </data>
-	<data name="DialogBase_CancelButtonCaption">
-    <value>Cancel</value>
-  </data>
-	<data name="DialogBase_CancelButtonCaptionTip">
-    <value>Dismiss any changes and close</value>
-  </data>
 	<data name="ExceptionInvalidEnclosurePath">
     <value>Invalid path to download directory specified</value>
   </data>
@@ -2364,57 +2351,6 @@ Error:{1}.</value>
 	<data name="GUIStatusEnclosureJustReceivedItemsMessage">
     <value>Received: 1 file</value>
     <comment> displayed in the Toast window(s)</comment>
-  </data>
-	<data name="PodcastOptionDialog_Title">
-    <value>Podcast Options</value>
-    <comment> Podcast option dialog title</comment>
-  </data>
-	<data name="PodcastOptionDialog_GeneralSectionCaption">
-    <value>General</value>
-    <comment> Podcast option dialog general section</comment>
-  </data>
-	<data name="PodcastOptionDialog_TreatFileTypesCaption">
-    <value>Treat these file types as podcasts - use semicolons (';') to separate entries:</value>
-  </data>
-	<data name="PodcastOptionDialog_TreatFileTypesTip">
-    <value>List of podcast file extensions separated by semicolons</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption">
-    <value>After downloading copy the podcast to:</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFilesLocationTip">
-    <value>Destination folder of podcasts</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip">
-    <value>Click to select the destination folder of podcasts</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption">
-    <value>Windows Media Player playlist</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption">
-    <value>iTunes playlist</value>
-  </data>
-	<data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption">
-    <value>This folder:</value>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistSectionCaption">
-    <value>Playlist</value>
-    <comment> Podcast option dialog playlist section</comment>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistSectionLabelCaption">
-    <value>As playlist name:</value>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption">
-    <value>Use the file's source name</value>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption">
-    <value>Use the Feed name</value>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption">
-    <value>Add all files to a single playlist with this name:</value>
-  </data>
-	<data name="PodcastOptionDialog_PlaylistCustomNameTip">
-    <value>Provide the name of the playlist</value>
   </data>
 	<data name="MainForm_MainMenuToolbarCaption">
     <value>Main Menu Bar</value>

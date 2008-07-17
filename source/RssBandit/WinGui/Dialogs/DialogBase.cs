@@ -32,7 +32,7 @@ namespace RssBandit.WinGui.Dialogs
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DialogBase"/> class.
 		/// </summary>
-		public DialogBase():base()
+		public DialogBase()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -56,10 +56,10 @@ namespace RssBandit.WinGui.Dialogs
 		/// </summary>
 		protected virtual void InitializeComponentTranslation() {
 			// translate the default button captions
-			this.btnSubmit.Text = SR.DialogBase_SubmitButtonCaption;
-			this.toolTip.SetToolTip(this.btnSubmit, SR.DialogBase_SubmitButtonCaptionTip);
-			this.btnCancel.Text = SR.DialogBase_CancelButtonCaption;
-			this.toolTip.SetToolTip(this.btnCancel, SR.DialogBase_CancelButtonCaptionTip);
+			this.btnSubmit.Text = DR.DialogBase_SubmitButtonCaption;
+			this.toolTip.SetToolTip(this.btnSubmit, DR.DialogBase_SubmitButtonCaptionTip);
+			this.btnCancel.Text = DR.DialogBase_CancelButtonCaption;
+			this.toolTip.SetToolTip(this.btnCancel, DR.DialogBase_CancelButtonCaptionTip);
 		}
 		
 		/// <summary>
@@ -173,13 +173,3 @@ namespace RssBandit.WinGui.Dialogs
 
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: DialogBase.cs,v $
- * Revision 1.1  2006/11/11 14:42:45  t_rendelmann
- * added: DialogBase base Form to be able to inherit simple OK/Cancel dialogs;
- * added new PodcastOptionsDialog (inherits DialogBase)
- *
- */
-#endregion
