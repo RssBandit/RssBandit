@@ -705,4 +705,16 @@
 	<data name="checkLimitNewsItemsPerPage.ToolTip">
     <value>Wenn aktiviert, werden Feed-Einträge in separaten Seiten angezeigt. Jede dieser Seiten enhält die Anzahl der hier angegebenen Feed-Einträge</value>
   </data>
-</root>
+<data name="checkClearFeedCategoryItemAgeSettings.Text" space="preserve">
+    <value>Alle individuellen Werte pro Feed/Kategorie für max. Alter von Feed-Einträgen entfernen</value>
+  </data>
+	<data name="checkResetIndividualRefreshRates.Text" space="preserve">
+    <value>Alle individuellen Werte pro Feed/Kategorie für Refresh-Rate von Feed-Einträgen zurücksetzen</value>
+  </data>
+	<data name="comboRefreshRate.ToolTip" space="preserve">
+    <value>Ändert die Refresh-Rate für alle Feeds</value>
+  </data>
+	<data name="comboMaxItemAge.ToolTip" space="preserve">
+    <value>Ändert das Max. Alter für Feed-Einträge für alle Feeds</value>
+  </data>
+	</root>

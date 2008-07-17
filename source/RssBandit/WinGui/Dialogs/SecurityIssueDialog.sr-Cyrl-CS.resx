@@ -100,21 +100,6 @@
 	<data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
 		<value>Inherit</value>
 	</data>
-	<data name="buttonNo.Text">
-		<value>&amp;Не</value>
-	</data>
-	<data name="buttonYes.Text">
-		<value>&amp;Да</value>
-	</data>
-	<data name="$this.Text">
-		<value>Сигурносно упозорење</value>
-	</data>
-	<data name="CustomCommand.Text">
-		<value>&amp;Види сертификат...</value>
-	</data>
-	<data name="labelProceedMessage.Text">
-		<value>Да ли желите да наставите?</value>
-	</data>
 <data name="buttonNo.Text" xmlns="">
     <value>&amp;Не</value>
   </data>
@@ -132,62 +117,5 @@
   </data>
 	<data name="buttonYes.Text" xmlns="">
     <value>&amp;Да</value>
-  </data>
-	<data name="buttonNo.Text" xmlns="">
-    <value>&amp;Не</value>
-  </data>
-	<data name="labelProceedMessage.Text" xmlns="">
-    <value>Да ли желите да наставите?</value>
-  </data>
-	<data name="CustomCommand.Text" xmlns="">
-    <value>&amp;Види сертификат...</value>
-  </data>
-	<data name="$this.Text" xmlns="">
-    <value>Сигурносно упозорење</value>
-  </data>
-	<data name="buttonYes.Text" xmlns="">
-    <value>&amp;Да</value>
-  </data>
-	<data name="buttonNo.Text" xmlns="">
-    <value>&amp;Не</value>
-  </data>
-	<data name="labelProceedMessage.Text" xmlns="">
-    <value>Да ли желите да наставите?</value>
-  </data>
-	<data name="CustomCommand.Text" xmlns="">
-    <value>&amp;Види сертификат...</value>
-  </data>
-	<data name="$this.Text" xmlns="">
-    <value>Сигурносно упозорење</value>
-  </data>
-	<data name="buttonYes.Text" xmlns="">
-    <value>&amp;Да</value>
-  </data>
-	<data name="buttonNo.Text" xmlns="">
-    <value>&amp;Не</value>
-  </data>
-	<data name="labelProceedMessage.Text" xmlns="">
-    <value>Да ли желите да наставите?</value>
-  </data>
-	<data name="CustomCommand.Text" xmlns="">
-    <value>&amp;Види сертификат...</value>
-  </data>
-	<data name="$this.Text" xmlns="">
-    <value>Сигурносно упозорење</value>
-  </data>
-	<data name="buttonYes.Text" xmlns="">
-    <value>&amp;Да</value>
-  </data>
-	<data name="buttonNo.Text" xmlns="">
-    <value>&amp;Не</value>
-  </data>
-	<data name="labelProceedMessage.Text" xmlns="">
-    <value>Да ли желите да наставите?</value>
-  </data>
-	<data name="CustomCommand.Text" xmlns="">
-    <value>&amp;Види сертификат...</value>
-  </data>
-	<data name="$this.Text" xmlns="">
-    <value>Сигурносно упозорење</value>
   </data>
 	</root>

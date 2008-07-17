@@ -2458,4 +2458,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
 
 Error: {1}</value>
   </data>
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
+    <value>Properties...</value>
+  </data>
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
+    <value>Show the feed source properties</value>
+  </data>
 </root>
