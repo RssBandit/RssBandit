@@ -557,6 +557,8 @@ namespace NewsComponents.Collections
                         }
                         break;
                 }
+                if (items == null) items = new List<Object>();
+                if (positions==null) positions=new Dictionary<Key, int>();
                 reader = null;
             }
 	    }
