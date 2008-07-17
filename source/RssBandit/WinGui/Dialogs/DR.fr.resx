@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>Options des Podcasts</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>Général</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>Traiter ces types de fichiers comme des podcasts: utiliser un point-virgule (';') afin de séparer les entrées:</value>
+    <comment>Treat these file types as podcasts - use semicolons (';') to separate entries:</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>Liste des extensions de fichier podcast séparée par un point-virgule</value>
+    <comment>List of podcast file extensions separated by semicolons</comment>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>Après le téléchargement, copier le podcast dans:</value>
+    <comment>After downloading copy the podcast to:</comment>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>Dossier de destination des podcasts</value>
+    <comment>Destination folder of podcasts</comment>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>Cliquer pour sélectionner le dossier de destination des podcasts</value>
+    <comment>Click to select the destination folder of podcasts</comment>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>Liste Windows Media Player</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>Liste iTunes</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>Ce dossier:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>Liste</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>Comme nom de liste:</value>
+    <comment>As playlist name:</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>Utiliser le nom du fichier source</value>
+    <comment>Use the file's source name</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>Utiliser le nom du flux</value>
+    <comment>Use the Feed name</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>Ajouter tout les fichiers dans une playlist unique avec le nom:</value>
+    <comment>Add all files to a single playlist with this name:</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>Fournir le nom de la playlist</value>
+    <comment>Provide the name of the playlist</comment>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
+    <value>Annuler tout les changements et fermer</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
+    <value>Accepter tout les changements et fermer</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
+    <value>Cet option requiert des privilèges utilisateur plus élevés (Administrateur)...</value>
+    <comment>Option requires higher user privileges (Administrator)...</comment>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
+    <value>&amp;Enregistrer</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
+    <value>Opération terminée. Exportation en cours...</value>
+  </data>
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
+    <value>Sélectionnez le(s) flux à &amp;exporter:</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
+    <value>Inclure l'état de &amp;lecture des éléments</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
+    <value>Inclure les &amp;catégories vides</value>
+  </data>
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
+    <value>&amp;Natif</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
+    <value>&amp;OPML</value>
+  </data>
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
+    <value>From Feed Source</value>
+  </data>
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
+    <value>Exporter les flux</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
+    <value>Format utilisé en interne par cette application</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
+    <value>Format (Outline Processor Markup Language)</value>
+  </data>
+</root>

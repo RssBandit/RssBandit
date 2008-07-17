@@ -280,7 +280,7 @@ namespace RssBandit.WinGui.Forms {
 				if (UACManager.Denied(ElevationRequiredAction.RunBanditAsWindowsUserLogon)) {
 					securityHintProvider.SetIconAlignment(checkRunAtStartup, ErrorIconAlignment.MiddleLeft);
 					securityHintProvider.SetIconPadding(checkRunAtStartup, 5);
-					securityHintProvider.SetError(checkRunAtStartup, SR.DialogBase_UACShieldedHint);
+					securityHintProvider.SetError(checkRunAtStartup, DR.DialogBase_UACShieldedHint);
 					checkRunAtStartup.Enabled = false;
 				} else {
 					securityHintProvider.SetError(checkRunAtStartup, null);
@@ -291,7 +291,7 @@ namespace RssBandit.WinGui.Forms {
 				    UACManager.Denied(ElevationRequiredAction.MakeDefaultAggregator)) {
 					securityHintProvider.SetIconAlignment(btnMakeDefaultAggregator, ErrorIconAlignment.MiddleLeft);
 					securityHintProvider.SetIconPadding(btnMakeDefaultAggregator, 5);
-					securityHintProvider.SetError(btnMakeDefaultAggregator, SR.DialogBase_UACShieldedHint);
+					securityHintProvider.SetError(btnMakeDefaultAggregator, DR.DialogBase_UACShieldedHint);
 					btnMakeDefaultAggregator.Enabled = false;
 				} else {
 					securityHintProvider.SetError(btnMakeDefaultAggregator, null);

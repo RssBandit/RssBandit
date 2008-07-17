@@ -3118,6 +3118,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="beenRead">if set to <c>true</c> [been read].</param>
         public void SetNewsItemsReadState(IList<INewsItem> items, bool beenRead)
         {
+        	var modifiedSources = new List<FeedSourceEntry>(1);
             var modifiedItems = new List<INewsItem>(listFeedItems.SelectedItems.Count);
             int amount = (beenRead ? -1 : 1);
 
@@ -3129,6 +3130,10 @@ namespace RssBandit.WinGui.Forms
                 {
                     item.BeenRead = beenRead;
                     modifiedItems.Add(item);
+                	
+					FeedSourceEntry src = owner.FeedSources.SourceOf(item.Feed);
+					if (src != null && !modifiedSources.Contains(src))
+						modifiedSources.Add(src);
 
                     if (beenRead)
                     {
@@ -3150,8 +3155,12 @@ namespace RssBandit.WinGui.Forms
 							{
 								INewsItem realItem = source.FindNewsItem(sItem);
 								if (realItem != null)
+								{
 									realItem.BeenRead = sItem.BeenRead;
-								
+									if (modifiedSources.Contains(owner.FeedSources[source.SourceID]))
+										modifiedSources.Add(owner.FeedSources[source.SourceID]);
+
+								}
 							});
 					}
                 	//INewsItem realItem = owner.FeedHandler.FindNewsItem(sItem);
@@ -3188,16 +3197,21 @@ namespace RssBandit.WinGui.Forms
                                 // object ref is unequal, but other criteria match the item to be equal...
                                 selfRef.BeenRead = beenRead;
                                 deepModifiedItems.Add(selfRef);
+								FeedSourceEntry src = owner.FeedSources.SourceOf(selfRef.Feed);
+								if (src != null && !modifiedSources.Contains(src))
+									modifiedSources.Add(src);
                             }
                         }
                     }
                 }
 
                 modifiedItems.AddRange(deepModifiedItems);
-                // we store stories-read in the feedlist, so enable save the new state 
-                owner.SubscriptionModified(NewsFeedProperty.FeedItemReadState);
-                //owner.FeedlistModified = true;	
-                // and apply mods. to finders:
+                
+				// we store stories-read in the feedlist, so enable save the new state 
+                foreach (FeedSourceEntry src in modifiedSources)
+					owner.SubscriptionModified(src, NewsFeedProperty.FeedItemReadState);
+                
+				// and apply mods. to finders:
                 UpdateFindersReadStatus(modifiedItems);
 
                 //TODO: verify correct location  of that code here:

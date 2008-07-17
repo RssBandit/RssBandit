@@ -149,7 +149,7 @@
   </data>
   <data name="CertificateIssue_CertCHAINING" xml:space="preserve">
     <value>The certificate is already a member of the trust chain.</value>
-    <comment> Certificate issue dialog detail texts</comment>
+    <comment>Certificate issue dialog detail texts</comment>
   </data>
   <data name="CertificateIssue_CertCN_NO_MATCH" xml:space="preserve">
     <value>The name on the security certificate is invalid or does not match the name of the site.</value>
@@ -2187,73 +2187,6 @@ Do you want to continue?</value>
   <data name="URL_WikiWebNews" xml:space="preserve">
     <value>http://www.rssbandit.org/</value>
   </data>
-  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
-    <value>OK</value>
-    <comment> DialogBase control captions</comment>
-  </data>
-  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
-    <value>Accept all changes and close</value>
-  </data>
-  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
-    <value>Dismiss any changes and close</value>
-  </data>
-  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
-    <value>Option requires higher user privileges (Administrator)...</value>
-  </data>
-  <data name="PodcastOptionDialog_Title" xml:space="preserve">
-    <value>Podcast Options</value>
-    <comment> Podcast option dialog title</comment>
-  </data>
-  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
-    <value>General</value>
-    <comment> Podcast option dialog general section</comment>
-  </data>
-  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
-    <value>Treat these file types as podcasts - use semicolons (';') to separate entries:</value>
-  </data>
-  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
-    <value>List of podcast file extensions separated by semicolons</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
-    <value>After downloading copy the podcast to:</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
-    <value>Destination folder of podcasts</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
-    <value>Click to select the destination folder of podcasts</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
-    <value>Windows Media Player playlist</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
-    <value>iTunes playlist</value>
-  </data>
-  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
-    <value>This folder:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
-    <value>Playlist</value>
-    <comment> Podcast option dialog playlist section</comment>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
-    <value>As playlist name:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
-    <value>Use the file's source name</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
-    <value>Use the Feed name</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
-    <value>Add all files to a single playlist with this name:</value>
-  </data>
-  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
-    <value>Provide the name of the playlist</value>
-  </data>
   <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
     <value>Main Menu Bar</value>
     <comment> Main Form control captions</comment>
@@ -2519,5 +2452,10 @@ Please try to open the Panel manually using the Control Panel Start Menu.</value
   </data>
   <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
     <value>All Subscription list(s) loaded</value>
+  </data>
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
+    <value>Failed to start an application for file: {0}.
+
+Error: {1}</value>
   </data>
 </root>
