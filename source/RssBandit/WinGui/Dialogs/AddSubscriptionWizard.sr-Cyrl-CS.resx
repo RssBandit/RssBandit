@@ -424,4 +424,7 @@
 	<data name="linkLabelCanonicalUrl.ToolTip">
     <value>За правилан URL користићемо</value>
   </data>
+	<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
 	</root>

@@ -115,7 +115,13 @@ namespace NewsComponents
     /// </summary>
     public class SubscriptionLocation
     {
-        /// <summary>
+		/// <summary>
+		/// Gets true, if credentials are supported (and most often required) by
+		/// a feed source.
+		/// </summary>
+    	public bool CredentialsSupported = false;
+       
+		/// <summary>
         /// Initializes the subscription location
         /// </summary>
         /// <param name="location">The path or identifier to the list of subscriptions</param>
@@ -124,6 +130,7 @@ namespace NewsComponents
         {
             Location = location;
             Credentials = credentials;
+			CredentialsSupported = true;
         }
 
         /// <summary>

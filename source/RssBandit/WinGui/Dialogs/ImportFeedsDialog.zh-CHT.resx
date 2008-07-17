@@ -126,4 +126,10 @@
 	<data name="textUrlOrFile.ToolTip">
     <value>Supported formats are e.g. OCS, OPML, Bandit feedlist...</value>
   </data>
+	<data name="comboFeedSource.ToolTip" space="preserve">
+    <value>Select a category, or provide a new one where the new feeds should be located within your subscriptions</value>
+  </data>
+	<data name="label1.Text" space="preserve">
+    <value>In &amp;Feed Source</value>
+  </data>
 	</root>

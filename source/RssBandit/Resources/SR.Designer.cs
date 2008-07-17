@@ -4497,6 +4497,24 @@ namespace RssBandit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Properties....
         /// </summary>
+        internal static string MenuShowFeedSourceProperties {
+            get {
+                return ResourceManager.GetString("MenuShowFeedSourceProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the feed source properties.
+        /// </summary>
+        internal static string MenuShowFeedSourcePropertiesDesc {
+            get {
+                return ResourceManager.GetString("MenuShowFeedSourcePropertiesDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties....
+        /// </summary>
         internal static string MenuShowFinderPropertiesCaption {
             get {
                 return ResourceManager.GetString("MenuShowFinderPropertiesCaption", resourceCulture);

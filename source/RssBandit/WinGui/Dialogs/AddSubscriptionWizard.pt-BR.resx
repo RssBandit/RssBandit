@@ -560,4 +560,7 @@
   <data name="linkLabelCanonicalUrl.ToolTip">
     <value>O endereço de internet canonizado que usaremos</value>
   </data>
-</root>
+<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
+	</root>

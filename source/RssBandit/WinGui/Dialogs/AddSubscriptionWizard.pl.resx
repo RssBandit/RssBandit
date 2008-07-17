@@ -431,4 +431,7 @@
 	<data name="linkLabelCanonicalUrl.ToolTip">
     <value>Kanioniczny URL którego będziemy używać</value>
   </data>
+	<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
 	</root>
