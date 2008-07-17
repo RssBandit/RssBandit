@@ -701,4 +701,16 @@
 	<data name="checkLimitNewsItemsPerPage.ToolTip">
     <value>Se selezionato, il pannello di lettura sarà suddiviso in pagine diverse ognuna contenente il numero specificato di elementi news</value>
   </data>
+	<data name="checkClearFeedCategoryItemAgeSettings.Text" space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+	<data name="checkResetIndividualRefreshRates.Text" space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+	<data name="comboRefreshRate.ToolTip" space="preserve">
+    <value>Changes refresh rate setting for all feeds</value>
+  </data>
+	<data name="comboMaxItemAge.ToolTip" space="preserve">
+    <value>Changes default item age setting for all feeds</value>
+  </data>
 	</root> 

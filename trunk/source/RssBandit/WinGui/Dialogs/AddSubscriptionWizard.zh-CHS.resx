@@ -561,4 +561,7 @@
   <data name="pageFoundMultipleFeeds.Description">
     <value>请为订阅选择合适的feed</value>
   </data>
-</root>
+<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
+	</root>

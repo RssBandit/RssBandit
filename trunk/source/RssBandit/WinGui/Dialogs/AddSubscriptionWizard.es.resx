@@ -425,4 +425,7 @@
   <data name="linkLabelCanonicalUrl.ToolTip">
     <value>La URL redirigida que usaremos</value>
   </data>
-</root>
+<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
+	</root>

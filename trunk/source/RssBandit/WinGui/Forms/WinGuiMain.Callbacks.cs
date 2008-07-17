@@ -24,6 +24,7 @@ using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Tools;
@@ -815,6 +816,31 @@ namespace RssBandit.WinGui.Forms
 				if (entry != null)
 				{
 					owner.RemoveFeedSource(entry);		
+				}
+			}
+		}
+
+		private void CmdShowFeedSourceProperties(ICommand sender)
+		{
+			SubscriptionRootNode root = CurrentSelectedFeedsNode as SubscriptionRootNode;
+			if (root != null)
+			{
+				FeedSourceEntry entry = owner.FeedSources[root.SourceID];
+				using (FeedSourceProperties dialog = new FeedSourceProperties(entry))
+				{
+					if (DialogResult.Cancel != dialog.ShowDialog(this))
+					{
+						entry.Name = dialog.FeedSoureName;
+						if (entry.Source.SubscriptionLocation.CredentialsSupported)
+						{
+							entry.Source.SubscriptionLocation.Credentials =
+								FeedSource.CreateCredentialsFrom(dialog.Username, dialog.Password);
+						}
+
+						root.Text = entry.Name;
+						Navigator.SelectedGroup.Text = entry.Name;
+						owner.SaveFeedSources();
+					}
 				}
 			}
 		}

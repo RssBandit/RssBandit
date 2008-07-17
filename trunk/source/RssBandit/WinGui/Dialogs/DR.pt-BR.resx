@@ -220,4 +220,19 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Linguagem de Marcação de Linhas Gerais do Processador) Formato</value>
   </data>
-</root>
+<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+    <value>Credentials</value>
+  </data>
+	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+    <value>Feed Source Name:</value>
+  </data>
+	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+    <value>Password:</value>
+  </data>
+	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+    <value>Username:</value>
+  </data>
+	<data name="FeedSourceProperties_Title" space="preserve">
+    <value>Feed Source Properties</value>
+  </data>
+	</root>

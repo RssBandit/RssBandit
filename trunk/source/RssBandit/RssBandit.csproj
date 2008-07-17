@@ -843,6 +843,10 @@
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedSourceProperties.resx">
+      <DependentUpon>FeedSourceProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.bg.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1123,8 +1127,8 @@
       <DependentUpon>FeedProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedSourceDialog.resx">
-      <DependentUpon>FeedSourceDialog.cs</DependentUpon>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedFileContentSourceDialog.resx">
+      <DependentUpon>FeedFileContentSourceDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.bg.resx">
@@ -1912,6 +1916,12 @@
     <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinGui\Dialogs\FeedSourceProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedSourceProperties.Designer.cs">
+      <DependentUpon>FeedSourceProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1930,7 +1940,7 @@
     <Compile Include="WinGui\Dialogs\FeedProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinGui\Dialogs\FeedSourceDialog.cs">
+    <Compile Include="WinGui\Dialogs\FeedFileContentSourceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Dialogs\ImportFeedsDialog.cs">

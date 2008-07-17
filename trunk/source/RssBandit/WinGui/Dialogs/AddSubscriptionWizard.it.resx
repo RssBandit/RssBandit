@@ -426,4 +426,7 @@
 <data name="linkLabelCanonicalUrl.ToolTip">
     <value>L'URL canonicalizzato che verrà usato</value>
   </data>
+	<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
 	</root>

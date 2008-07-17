@@ -540,11 +540,11 @@ namespace RssBandit.WinGui.Forms
                                                   SR.MenuDeleteAllFeedsDesc, 2, _shortcutHandler);
             //subR3.ImageList           = _toolImages;
 
-            var subR4 = new AppContextMenuCommand("cmdShowMainAppOptions",
-                                                  owner.Mediator,
-                                                  new ExecuteCommandHandler(owner.CmdShowOptions),
-                                                  SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 10,
-                                                  _shortcutHandler);
+			//var subR4 = new AppContextMenuCommand("cmdShowMainAppOptions",
+			//                                      owner.Mediator,
+			//                                      new ExecuteCommandHandler(owner.CmdShowOptions),
+			//                                      SR.MenuAppOptionsCaption, SR.MenuAppOptionsDesc, 10,
+			//                                      _shortcutHandler);
 
 			var subSourceRename = new AppContextMenuCommand("cmdRenameFeedSource",
 												  owner.Mediator,
@@ -557,9 +557,16 @@ namespace RssBandit.WinGui.Forms
 												  SR.MenuDeleteFeedSourceCaption, SR.MenuDeleteFeedSourceDesc,
 												  _shortcutHandler);
 
+			var subSourceProperties = new AppContextMenuCommand("cmdFeedSourceProperties",
+												  owner.Mediator,
+												  new ExecuteCommandHandler(CmdShowFeedSourceProperties),
+												  SR.MenuShowFeedSourceProperties, SR.MenuShowFeedSourcePropertiesDesc,
+												  _shortcutHandler);
+
             // append items
             _subscriptionTreeRootContextMenu.MenuItems.AddRange(
-				new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subSourceRename, subSourceDelete, sep.CloneMenu(), subR4 });
+				new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subSourceRename, subSourceDelete, 
+					sep.CloneMenu(), subSourceProperties });
 
             #endregion
 

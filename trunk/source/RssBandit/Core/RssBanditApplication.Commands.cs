@@ -869,8 +869,8 @@ namespace RssBandit
 				string title = String.Format(SR.TabFeedSourceCaption, current.Text);
             	FeedSourceEntry entry = guiMain.FeedSourceOf(current);
                 using (
-                    FeedSourceDialog dialog =
-						new FeedSourceDialog(Proxy, entry.Source.GetFeedCredentials(feedUrl), feedUrl, title))
+                    FeedFileContentSourceDialog dialog =
+						new FeedFileContentSourceDialog(Proxy, entry.Source.GetFeedCredentials(feedUrl), feedUrl, title))
                 {
                     dialog.ShowDialog(guiMain);
                 }

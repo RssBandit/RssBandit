@@ -214,6 +214,51 @@ namespace RssBandit.WinGui.Dialogs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credentials.
+        /// </summary>
+        internal static string FeedSourceProperties_groupCredentials_Text {
+            get {
+                return ResourceManager.GetString("FeedSourceProperties_groupCredentials_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feed Source Name:.
+        /// </summary>
+        internal static string FeedSourceProperties_labelFeedSourceName_Text {
+            get {
+                return ResourceManager.GetString("FeedSourceProperties_labelFeedSourceName_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password:.
+        /// </summary>
+        internal static string FeedSourceProperties_labelPassword_Text {
+            get {
+                return ResourceManager.GetString("FeedSourceProperties_labelPassword_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username:.
+        /// </summary>
+        internal static string FeedSourceProperties_labelUsername_Text {
+            get {
+                return ResourceManager.GetString("FeedSourceProperties_labelUsername_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feed Source Properties.
+        /// </summary>
+        internal static string FeedSourceProperties_Title {
+            get {
+                return ResourceManager.GetString("FeedSourceProperties_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This folder:.
         /// </summary>
         internal static string PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption {

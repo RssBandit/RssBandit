@@ -745,4 +745,10 @@
 	<data name="comboMaxItemAge.ToolTip">
     <value>Changer l'âge par défaut de chaque flux</value>
   </data>
+	<data name="checkClearFeedCategoryItemAgeSettings.Text" space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+	<data name="checkResetIndividualRefreshRates.Text" space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
 	</root>

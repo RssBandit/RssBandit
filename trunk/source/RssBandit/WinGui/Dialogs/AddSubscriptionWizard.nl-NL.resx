@@ -541,4 +541,7 @@ Watvoor type wil je toevoegen?</value>
 	<data name="$this.Text">
     <value>Feed Toevoegen Wizard</value>
   </data>
-</root>
+<data name="lblFeedSources.Text" space="preserve">
+    <value>Subscription Source:</value>
+  </data>
+	</root>
