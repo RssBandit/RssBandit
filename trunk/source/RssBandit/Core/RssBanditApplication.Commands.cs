@@ -630,9 +630,10 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdOpenManageAddInsDialog(ICommand sender)
         {
-            ManageAddInDialog dialog = new ManageAddInDialog(this);
-            dialog.ShowDialog(MainForm);
-            dialog.Dispose();
+            using (ManageAddInDialog dialog = new ManageAddInDialog())
+            {
+            	dialog.ShowDialog(MainForm);
+            }
         }
 
 
