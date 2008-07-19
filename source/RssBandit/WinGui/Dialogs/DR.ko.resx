@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>팟케스트(Podcast) 옵션</value>
+    <comment> 팟케스트(Podcast) 옵션 창 제목</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>일반</value>
+    <comment> 팟케스트(Podcast) 옵션 창에 대한 일반 섹션</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>다음 파일 종류를 팟케스트(podcasts)로 구분합니다 - 세미콜론 (';')을 사용하여 각 파일들을 구분하여 줍니다.</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>팟케스트(podcast)파을 확장자들을 세미콜론으로 구분한 리스트</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>다운로드를 한 후에 팟케스(podcasts)를 다음 장소로 저장:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>팟케스트(podcasts)의 저장 폴더</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>팟케스트(podcasts)의 저장 폴더를 클릭하여 선택 합니다.</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>윈도우 미디어 플레이어 플레이리스트</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>아이튠(iTunes) 플레이리스트</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>이 폴더:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>플레이리스트</value>
+    <comment> 팟케스트(Podcast) 옵션 창 플레이리스트 섹션</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>플레이리스트 이름을 다음과 같이 저장:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>파일의 소스 이름을 사용 합니다</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>피드(Feed)의 이름을 사용합니다</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>다음의 이름의 싱글 플레이리스트에 모든 파일들을 더 합니다:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>플레이리스트의 이름을 제공 합니다.</value>
+  </data>
+<data name="DialogBase_CancelButtonCaption" space="preserve">
+    <value>취소</value>
+  </data>
+	<data name="DialogBase_CancelButtonCaptionTip" space="preserve">
+    <value>모든 변경한 것을 취소하고 창을 닫습니다</value>
+  </data>
+	<data name="DialogBase_SubmitButtonCaption" space="preserve">
+    <value>확인</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+	<data name="DialogBase_SubmitButtonCaptionTip" space="preserve">
+    <value>모든 변경을 확인하고 창을 닫습니다</value>
+  </data>
+	<data name="DialogBase_UACShieldedHint" space="preserve">
+    <value>이 옵션을 적용하시려면, 더 높은 사용자 권한(Administrator)이 필요합니다...</value>
+  </data>
+	<data name="ExportFeedsDialog_btnOK_Text" space="preserve">
+    <value>&amp;저장</value>
+  </data>
+	<data name="ExportFeedsDialog_btnOK_Tip" space="preserve">
+    <value>완료. 지금 익스포트하는 중...</value>
+  </data>
+	<data name="ExportFeedsDialog_labelForCheckedTree_Text" space="preserve">
+    <value>피드(feed(s))를 &amp;익스포드 하기 위해서 선택 하기:</value>
+  </data>
+	<data name="ExportFeedsDialog_checkFormatNativeFull_Text" space="preserve">
+    <value>&amp;읽은 상태로 아이템을 지정 하기</value>
+  </data>
+	<data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" space="preserve">
+    <value>비어있는 &amp;카타고리로 지정 하기</value>
+  </data>
+	<data name="ExportFeedsDialog_labelFormats_Text" space="preserve">
+    <value>포멧</value>
+  </data>
+	<data name="ExportFeedsDialog_radioFormatNative_Text" space="preserve">
+    <value>Native</value>
+  </data>
+	<data name="ExportFeedsDialog_radioFormatOPML_Text" space="preserve">
+    <value>OPML</value>
+  </data>
+	<data name="ExportFeedsDialog_grpFromFeedSource_Text" space="preserve">
+    <value>피드(Feed) 소스로 부터</value>
+  </data>
+	<data name="ExportFeedsDialog_Text" space="preserve">
+    <value>피드(Feeds)를 익스포트 하기</value>
+  </data>
+	<data name="ExportFeedsDialog_radioFormatNative_Tip" space="preserve">
+    <value> 내부적으로 이 애플리케이션에 의한 형식이 사용 되었습니다</value>
+  </data>
+	<data name="ExportFeedsDialog_radioFormatOPML_Tip" space="preserve">
+    <value>온라인 형식 마크업 언어(Outline Processor Markup Language) 형식</value>
+  </data>
+	<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+    <value>인증</value>
+  </data>
+	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+    <value>피드(Feed) 소스 이름:</value>
+  </data>
+	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+    <value>비밀번호:</value>
+  </data>
+	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+    <value>사용자 이름:</value>
+  </data>
+	<data name="FeedSourceProperties_Title" space="preserve">
+    <value>피드(Feed) 스스 설정</value>
+  </data>
+	</root>
