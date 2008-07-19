@@ -1,3 +1,14 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -30,7 +41,7 @@ namespace RssBandit.WinGui.Forms
 	///   NNTP Groups
 	///   Direct NNTP Group
 	/// </summary>
-	internal class AddSubscriptionWizard : System.Windows.Forms.Form, IServiceProvider, IWaitDialog
+	internal class AddSubscriptionWizard : Form, IWaitDialog
 	{
 		private enum WizardValidationTask {
 			None,
@@ -43,10 +54,9 @@ namespace RssBandit.WinGui.Forms
 		/// <summary>
 		/// The new subscription - feed, if not null it is ready to be subscribed.
 		/// </summary>
-		internal NewsFeed Feed = null;
+		internal NewsFeed Feed;
 
 		private AddSubscriptionWizardMode wizardMode; 
-		private IServiceProvider serviceProvider;
 		private WindowSerializer windowSerializer;
 		private IInternetService internetService;
 		private ICoreApplication coreApplication;
@@ -57,7 +67,7 @@ namespace RssBandit.WinGui.Forms
 		private int timeCounter;
 		private AutoResetEvent waitHandle;
 		private FeedInfo feedInfo;
-		private bool credentialsStepReWired = false;
+		private bool credentialsStepReWired;
 
 		#region Designer Form variables
 
@@ -165,10 +175,9 @@ namespace RssBandit.WinGui.Forms
 			this.lblUsenetHelp.LinkArea = new LinkArea(0, this.lblUsenetHelp.Text.Length);
 		}
 
-        public AddSubscriptionWizard(IServiceProvider provider, AddSubscriptionWizardMode mode)
+        public AddSubscriptionWizard(AddSubscriptionWizardMode mode)
             : this()
 		{
-			serviceProvider = provider;
 			wizardMode = mode;
 
 			// form location management:
@@ -180,16 +189,16 @@ namespace RssBandit.WinGui.Forms
 			windowSerializer.SaveStateEvent += OnWindowSerializerSaveStateEvent;
 
 			// to get notified, if the inet connection state changes:
-			internetService = (IInternetService)this.GetService(typeof(IInternetService));
+			internetService = IoC.Resolve<IInternetService>();
 			if (internetService != null) {
 				internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
 				checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetService.InternetAccessAllowed;
 			}
 			// to checkout the defaults to be used for the new feed:
-			IUserPreferences preferencesService = (IUserPreferences)this.GetService(typeof(IUserPreferences));
+			IUserPreferences preferencesService = IoC.Resolve<IUserPreferences>();
 			this.MaxItemAge = preferencesService.MaxItemAge;
 
-			coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));
+			coreApplication = IoC.Resolve<ICoreApplication>();
 			this.cboUpdateFrequency.Text = String.Format("{0}", RssBanditApplication.DefaultGlobalRefreshRateMinutes);
 			if (coreApplication.CurrentGlobalRefreshRate > 0)	// if not disabled refreshing
 				this.cboUpdateFrequency.Text = String.Format("{0}", coreApplication.CurrentGlobalRefreshRate); 
@@ -240,25 +249,6 @@ namespace RssBandit.WinGui.Forms
 				return DialogResult.Cancel;
 
 			return DialogResult.OK;
-		}
-
-		#endregion
-		
-		#region IServiceProvider Members
-
-		public new object GetService(Type serviceType) {
-			
-			object srv = null;
-
-			if (serviceProvider != null) {
-				srv = serviceProvider.GetService(serviceType);
-				if (srv != null)
-					return srv;
-			}
-
-			//TODO: own services...?
-
-			return srv;
 		}
 
 		#endregion
@@ -2075,7 +2065,7 @@ namespace RssBandit.WinGui.Forms
 		private void OnAnyLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			LinkLabel o = sender as LinkLabel;
 			if (o != null) {
-				ICoreApplication coreApp = (ICoreApplication)this.serviceProvider.GetService(typeof(ICoreApplication));
+				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 				if (coreApp != null) {
 					string url = (string)o.Tag;
 					if (url == null)
@@ -2086,7 +2076,7 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 		
-		private void OnReloadNntpGroupList(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) {
+		private void OnReloadNntpGroupList(object sender, LinkLabelLinkClickedEventArgs e) {
 			try {
 				this.PopulateNntpServerGroups(true);
 			} catch (Exception ex) {
