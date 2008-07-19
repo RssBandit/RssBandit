@@ -2490,6 +2490,8 @@ namespace RssBandit.WinGui.Forms
         {
             if (Navigator.Visible)
             {
+                owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
+                owner.Mediator.SetEnabled("+cmdDeleteFeedSource");
             	
                 // also raised by OnNavigatorCollapseClick (via GroupHeaderClick)!
                 if (Navigator.SelectedGroup.Key == Resource.NavigatorGroup.Subscriptions)
@@ -2501,6 +2503,8 @@ namespace RssBandit.WinGui.Forms
                 {
                     owner.Mediator.SetChecked("-cmdToggleTreeViewState");
                     owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
+                    owner.Mediator.SetEnabled("-cmdFeedSourceProperties");
+                    owner.Mediator.SetEnabled("-cmdDeleteFeedSource");
                 }
             }
         }

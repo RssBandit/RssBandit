@@ -804,28 +804,21 @@ namespace RssBandit.WinGui.Forms
 
 		private void CmdDeleteFeedSource(ICommand sender)
 		{
-			TreeFeedsNodeBase root = CurrentSelectedFeedsNode;
-			if (root != null && !(root is SubscriptionRootNode))
-				root = root.RootNode as TreeFeedsNodeBase;
+            FeedSourceEntry entry = CurrentSelectedFeedSource;             
 			
-			if (root != null && DialogResult.Yes == owner.MessageQuestion(
-										String.Format(SR.MessageBoxDeleteThisFeedSourceQuestion, root.Text),
+			if (entry != null && DialogResult.Yes == owner.MessageQuestion(
+										String.Format(SR.MessageBoxDeleteThisFeedSourceQuestion, entry.Name),
 										SR.MessageBoxDeleteThisFeedSourceCaption))
-			{
-				FeedSourceEntry entry = FeedSourceEntryOf(root);
-				if (entry != null)
-				{
+			{				
 					owner.RemoveFeedSource(entry);		
-				}
 			}
 		}
 
 		private void CmdShowFeedSourceProperties(ICommand sender)
 		{
-			SubscriptionRootNode root = CurrentSelectedFeedsNode as SubscriptionRootNode;
-			if (root != null)
+            FeedSourceEntry entry = CurrentSelectedFeedSource; 
+			if (entry != null)
 			{
-				FeedSourceEntry entry = owner.FeedSources[root.SourceID];
 				using (FeedSourceProperties dialog = new FeedSourceProperties(entry))
 				{
 					if (DialogResult.Cancel != dialog.ShowDialog(this))
@@ -836,8 +829,9 @@ namespace RssBandit.WinGui.Forms
 							entry.Source.SubscriptionLocation.Credentials =
 								FeedSource.CreateCredentialsFrom(dialog.Username, dialog.Password);
 						}
-
-						root.Text = entry.Name;
+						
+                        SubscriptionRootNode root = this.GetSubscriptionRootNode(entry);
+                        root.Text = entry.Name;
 						Navigator.SelectedGroup.Text = entry.Name;
 						owner.SaveFeedSources();
 					}

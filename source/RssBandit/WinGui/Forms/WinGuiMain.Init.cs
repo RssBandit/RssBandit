@@ -107,8 +107,24 @@ namespace RssBandit.WinGui.Forms
             Navigator.GroupClick += OnNavigatorGroupClick;
             Navigator.SelectedGroupChanging += OnNavigatorSelectedGroupChanging;
 			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;
-            Navigator.ShowDefaultContextMenu = false;  
-			if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
+           
+            Navigator.ShowDefaultContextMenu = false;
+            Navigator.ContextMenu = new ContextMenu();
+
+            var subSourceDelete = new AppContextMenuCommand("cmdDeleteFeedSource",
+                                                  owner.Mediator,
+                                                  new ExecuteCommandHandler(CmdDeleteFeedSource),
+                                                  SR.MenuDeleteFeedSourceCaption, SR.MenuDeleteFeedSourceDesc,
+                                                  _shortcutHandler);
+            var subSourceProperties = new AppContextMenuCommand("cmdFeedSourceProperties",
+                                                  owner.Mediator,
+                                                  new ExecuteCommandHandler(CmdShowFeedSourceProperties),
+                                                  SR.MenuShowFeedSourceProperties, SR.MenuShowFeedSourcePropertiesDesc,
+                                                  _shortcutHandler);
+
+            Navigator.ContextMenu.MenuItems.AddRange(new[]{subSourceDelete, subSourceProperties}); 
+             
+            if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
             {
                 //ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
                 owner.Mediator.SetDisabled("cmdToggleRssSearchTabState");
@@ -116,7 +132,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-    	private void InitOutlookListView()
+        private void InitOutlookListView()
         {
             listFeedItemsO.ViewStyle = ViewStyle.OutlookExpress;
             var sc = new UltraTreeNodeExtendedDateTimeComparer();
@@ -223,7 +239,7 @@ namespace RssBandit.WinGui.Forms
         public void ResetHtmlDetail()
         {
             /* NOTE: ActiveX security band behavior isn't reset in this case because it seems Internet Feature
-			 * Settings only applies on newly created IE Controls and cannot be changed after creation */
+             * Settings only applies on newly created IE Controls and cannot be changed after creation */
             ResetHtmlDetail(false);
         }
 
