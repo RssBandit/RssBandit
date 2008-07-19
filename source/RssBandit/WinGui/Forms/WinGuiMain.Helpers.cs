@@ -1239,7 +1239,7 @@ namespace RssBandit.WinGui.Forms
                     if (!item.BeenRead)
                         unread.Add(item);
 
-                    bool hasRelations = NewsItemHasRelations(item, FeedSourceOf(item.Feed.link).Source);
+					bool hasRelations = NewsItemHasRelations(item);
 
                     ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
                                                                         Resource.NewsItemImage.DefaultRead, colIndex,
@@ -1305,10 +1305,11 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
+            	FeedSourceEntry entry = FeedSourceOf(CurrentSelectedFeedsNode);
                 for (int i = 0; i < list.Count; i++)
                 {
                     INewsItem item = list[i];
-                    bool hasRelations = NewsItemHasRelations(item, FeedSourceOf(CurrentSelectedFeedsNode).Source);
+                    bool hasRelations = NewsItemHasRelations(item, null, entry != null ? entry.Source: null);
                     bool isDuplicate = false;
                     ThreadedListViewItem tlvi = null;
 
@@ -1415,18 +1416,30 @@ namespace RssBandit.WinGui.Forms
         //			return listFeedItems.Items.Count;
         //		}
 
-        private bool NewsItemHasRelations(INewsItem item, FeedSource source)
+        private bool NewsItemHasRelations(INewsItem item)
         {
-            return NewsItemHasRelations(item, new INewsItem[] {}, source);
+            return NewsItemHasRelations(item, null, null);
         }
 
         private bool NewsItemHasRelations(INewsItem item, IList<INewsItem> itemKeyPath, FeedSource source)
         {
             bool hasRelations = false;
-            if (item.Feed != null && source != null && source.IsSubscribed(item.Feed.link))
-            {
-                hasRelations = source.HasItemAnyRelations(item, itemKeyPath);
-            }
+			if (item.Feed != null)
+			{
+				if (source == null)
+				{
+					FeedSourceEntry entry = owner.FeedSources.SourceOf(item.Feed);
+					if (entry != null)
+						source = entry.Source;
+				}
+				if (source != null && source.IsSubscribed(item.Feed.link))
+				{
+					if (itemKeyPath == null)
+						itemKeyPath = new INewsItem[] {};
+					hasRelations = source.HasItemAnyRelations(item, itemKeyPath);
+				}
+			}
+        	
             if (!hasRelations) hasRelations = (item.HasExternalRelations && owner.InternetAccessAllowed);
             return hasRelations;
         }
