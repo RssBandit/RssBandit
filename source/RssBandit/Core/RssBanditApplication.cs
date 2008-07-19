@@ -534,14 +534,18 @@ namespace RssBandit
 
         private void InitApplicationServices()
         {
-            IServiceContainer top = Services;
-            // allow other services to add themself to the chain:
-            top.AddService(typeof (IServiceContainer), top);
-            // our default topmost services:
-            top.AddService(typeof (IInternetService), this);
-            top.AddService(typeof (IUserPreferences), Preferences);
-            top.AddService(typeof (ICoreApplication), this);
-            top.AddService(typeof (IAddInManager), addInManager);
+			// init service container. We init the parent parameter to this,
+			// so we can fallback for services to return instances
+			// on demand (and report about service requests we could not deliver):
+			IoC.Initialize(new ServiceProviderDependencyResolver(this));
+			
+			// create and register main services (keep the order!):
+			IServiceDependencyContainer container = IoC.Resolve<IServiceDependencyContainer>();
+			container.Register<ICoreApplication>(this);
+			container.Register<IInternetService>(this);
+			container.Register<IUserPreferences>(Preferences);
+			container.Register<IAddInManager>(addInManager);
+			
             //TODO: add all the other services we provide...
         }
 
@@ -555,14 +559,12 @@ namespace RssBandit
         /// 	<para>
         /// 		<see langword="null"/> if there is no service object of type <paramref name="serviceType"/>.</para>
         /// </returns>
-        public object GetService(Type serviceType)
+        object IServiceProvider.GetService(Type serviceType)
         {
-            object o = Services.GetService(serviceType);
-            if (o != null) return o;
-
-            if (serviceType == typeof (IServiceContainer))
-                return Services;
-
+			// this is now just a fallback of IoC resolve calls.
+			// we are here for service requests, that are not registered,
+			// or unregistered meanwhile.
+            
             return null;
         }
 
@@ -3407,50 +3409,62 @@ namespace RssBandit
 
         public void SynchronizeFeeds()
         {
-            var wiz = new SynchronizeFeedsWizard(this);
+			using (var wiz = new SynchronizeFeedsWizard())
+			{
 
-            try
-            {
-                if (MainForm.IsHandleCreated)
-                    Win32.SetForegroundWindow(MainForm.Handle);
-                wiz.ShowDialog(guiMain);
-            }
-            catch (Exception ex)
-            {
-                _log.Error("SynchronizeFeeds caused exception.", ex);
-                wiz.DialogResult = DialogResult.Cancel;
-            }
+				try
+				{
+					if (MainForm.IsHandleCreated)
+						Win32.SetForegroundWindow(MainForm.Handle);
+					wiz.ShowDialog(guiMain);
+				}
+				catch (Exception ex)
+				{
+					_log.Error("SynchronizeFeeds caused exception.", ex);
+					wiz.DialogResult = DialogResult.Cancel;
+				}
 
-            if (wiz.DialogResult == DialogResult.OK)
-            {
-                FeedSourceEntry entry = null;
-                FeedSource fs;
-            	int id = sourceManager.UniqueKey;
-                if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
-                {
-                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.WindowsRSS, new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS), null));
-                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
-                }
-                else if (wiz.SelectedFeedSource == FeedSourceType.Google)
-                {
-                    SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google), new NetworkCredential(wiz.UserName, wiz.Password));
-                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc); 
-                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
+				if (wiz.DialogResult == DialogResult.OK)
+				{
+					FeedSourceEntry entry = null;
+					FeedSource fs;
+					int id = sourceManager.UniqueKey;
+					if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
+					{
+						fs = FeedSource.CreateFeedSource(
+							id, FeedSourceType.WindowsRSS,
+							new SubscriptionLocation(
+								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS),
+								null));
+						entry = sourceManager.Add(fs, wiz.FeedSourceName);
+					}
+					else if (wiz.SelectedFeedSource == FeedSourceType.Google)
+					{
+						SubscriptionLocation loc =
+							new SubscriptionLocation(
+								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google),
+								new NetworkCredential(wiz.UserName, wiz.Password));
+						fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc);
+						entry = sourceManager.Add(fs, wiz.FeedSourceName);
 
-                }
-                else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
-                {
+					}
+					else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
+					{
 
-                    SubscriptionLocation loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), new NetworkCredential(wiz.UserName, wiz.Password));
-                    fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
-                    entry = sourceManager.Add(fs, wiz.FeedSourceName);
-                }
+						SubscriptionLocation loc =
+							new SubscriptionLocation(
+								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator),
+								new NetworkCredential(wiz.UserName, wiz.Password));
+						fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
+						entry = sourceManager.Add(fs, wiz.FeedSourceName);
+					}
 
-                if (entry != null)
-                {
-                    AddFeedSourceToUserInterface(entry); 
-                }
-            }
+					if (entry != null)
+					{
+						AddFeedSourceToUserInterface(entry);
+					}
+				}
+			}
         }
 
 
@@ -5805,7 +5819,7 @@ namespace RssBandit
                 LoadSearchEngines();
 
             using (var propertiesDialog =
-                new PreferencesDialog(this, CurrentGlobalRefreshRateMinutes, Preferences, searchEngines, IdentityManager)
+                new PreferencesDialog(CurrentGlobalRefreshRateMinutes, Preferences, searchEngines, IdentityManager)
                 )
             {
                 propertiesDialog.OnApplyPreferences += OnApplyPreferences;
@@ -5956,85 +5970,82 @@ namespace RssBandit
         public bool SubscribeToFeed(string url, string category, string title, string searchTerms,
                                     AddSubscriptionWizardMode mode)
         {
-            var wiz = new AddSubscriptionWizard(this, mode)
-                          {
-                              FeedUrl = (url ?? String.Empty),
-                              FeedTitle = (title ?? String.Empty),
-                              SearchTerms = (searchTerms ?? String.Empty)
-                          };
-
-            if (category != null) // does remember the last category:
-                wiz.FeedCategory = category;
-
-
-        	List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
-			if (visibleRoots.Count > 0)
-			{
-				FeedSourceEntry entry = guiMain.FeedSourceEntryOf(visibleRoots[0]);
-				wiz.FeedSourceName = entry != null ? entry.Name : null;
-			}
-        	try
+            using (var wiz = new AddSubscriptionWizard(mode){
+            		FeedUrl = (url ?? String.Empty),
+            		FeedTitle = (title ?? String.Empty),
+            		SearchTerms = (searchTerms ?? String.Empty)
+            	})
             {
-                if (MainForm.IsHandleCreated)
-                    Win32.SetForegroundWindow(MainForm.Handle);
-                wiz.ShowDialog(guiMain);
+
+            	if (category != null) // does remember the last category:
+            		wiz.FeedCategory = category;
+
+
+            	List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
+            	if (visibleRoots.Count > 0)
+            	{
+            		FeedSourceEntry entry = guiMain.FeedSourceEntryOf(visibleRoots[0]);
+            		wiz.FeedSourceName = entry != null ? entry.Name : null;
+            	}
+            	try
+            	{
+            		if (MainForm.IsHandleCreated)
+            			Win32.SetForegroundWindow(MainForm.Handle);
+            		wiz.ShowDialog(guiMain);
+            	}
+            	catch (Exception ex)
+            	{
+            		_log.Error("SubscribeToFeed caused exception.", ex);
+            		wiz.DialogResult = DialogResult.Cancel;
+            	}
+
+            	if (wiz.DialogResult == DialogResult.OK)
+            	{
+            		INewsFeed f;
+            		FeedSourceEntry entry = sourceManager[wiz.FeedSourceName];
+
+            		if (wiz.MultipleFeedsToSubscribe)
+            		{
+            			bool anySubscription = false;
+
+            			for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
+            			{
+            				f = CreateFeedFromWizard(wiz, entry, i);
+            				if (f == null)
+            				{
+            					continue;
+            				}
+
+            				// add feed visually
+            				guiMain.AddNewFeedNode(entry, f.category, f);
+
+            				if (wiz.FeedInfo == null)
+            					guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+
+            				anySubscription = true;
+            			}
+
+            			return anySubscription;
+            		}
+
+            		f = CreateFeedFromWizard(wiz, entry, 0);
+
+            		if (f == null)
+            		{
+            			return false;
+            		}
+
+            		// add feed visually
+            		guiMain.AddNewFeedNode(entry, f.category, f);
+
+            		if (wiz.FeedInfo == null)
+            			guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+
+            		return true;
+            	}
+
             }
-            catch (Exception ex)
-            {
-                _log.Error("SubscribeToFeed caused exception.", ex);
-                wiz.DialogResult = DialogResult.Cancel;
-            }
-
-            if (wiz.DialogResult == DialogResult.OK)
-            {
-                INewsFeed f;
-				FeedSourceEntry entry = sourceManager[wiz.FeedSourceName];
-
-                if (wiz.MultipleFeedsToSubscribe)
-                {
-                    bool anySubscription = false;
-
-                    for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
-                    {
-                        f = CreateFeedFromWizard(wiz, entry, i);
-                        if (f == null)
-                        {
-                            continue;
-                        }
-
-                        // add feed visually
-                        guiMain.AddNewFeedNode(entry, f.category, f);
-
-                        if (wiz.FeedInfo == null)
-                            guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
-
-                        anySubscription = true;
-                    }
-
-                    wiz.Dispose();
-                    return anySubscription;
-                }
-
-                f = CreateFeedFromWizard(wiz, entry, 0);
-
-                if (f == null)
-                {
-                    wiz.Dispose();
-                    return false;
-                }
-
-                // add feed visually
-                guiMain.AddNewFeedNode(entry, f.category, f);
-
-                if (wiz.FeedInfo == null)
-                    guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
-
-                wiz.Dispose();
-                return true;
-            }
-
-            wiz.Dispose();
-            return false;
+        	return false;
         }
 
         private INewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, FeedSourceEntry entry, int index)
