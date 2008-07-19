@@ -33,7 +33,7 @@ namespace RssBandit
             TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode; 
             guiMain.MarkSelectedNodeRead(tn);
             if (guiMain.CurrentSelectedFeedsNode != null)
-                FeedWasModified(guiMain.FeedSourceOf(tn), guiMain.CurrentSelectedFeedsNode.DataKey, NewsFeedProperty.FeedItemReadState);
+                FeedWasModified(guiMain.FeedSourceEntryOf(tn), guiMain.CurrentSelectedFeedsNode.DataKey, NewsFeedProperty.FeedItemReadState);
             //this.FeedlistModified = true;
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -760,7 +760,7 @@ namespace RssBandit
 
             if (root != null && MessageQuestion(SR.MessageBoxDeleteAllFeedsQuestion) == DialogResult.Yes)
             {
-                FeedSourceEntry entry = guiMain.FeedSourceOf(root);
+                FeedSourceEntry entry = guiMain.FeedSourceEntryOf(root);
                 if (entry != null)
                 {
                     entry.Source.DeleteAllFeedsAndCategories(true);
@@ -819,7 +819,7 @@ namespace RssBandit
                 // walks down the hierarchy and delete each child feed,
                 // removes the node:
                 guiMain.DeleteCategory(tn);
-                SubscriptionModified(guiMain.FeedSourceOf(tn), NewsFeedProperty.FeedCategoryRemoved);
+                SubscriptionModified(guiMain.FeedSourceEntryOf(tn), NewsFeedProperty.FeedCategoryRemoved);
                 //this.FeedlistModified = true;
             }
             if (sender is AppContextMenuCommand)
@@ -832,7 +832,7 @@ namespace RssBandit
         public void CmdUpdateFeed(ICommand sender)
         {
             string feedUrl = guiMain.CurrentSelectedFeedsNode.DataKey;
-            FeedSource source = guiMain.FeedSourceOf(guiMain.CurrentSelectedFeedsNode).Source; 
+            FeedSource source = guiMain.FeedSourceOf(guiMain.CurrentSelectedFeedsNode); 
 
             if (!string.IsNullOrEmpty(feedUrl))
             {
@@ -867,7 +867,7 @@ namespace RssBandit
             {
 				string feedUrl = current.DataKey;
 				string title = String.Format(SR.TabFeedSourceCaption, current.Text);
-            	FeedSourceEntry entry = guiMain.FeedSourceOf(current);
+            	FeedSourceEntry entry = guiMain.FeedSourceEntryOf(current);
                 using (
                     FeedFileContentSourceDialog dialog =
 						new FeedFileContentSourceDialog(Proxy, entry.Source.GetFeedCredentials(feedUrl), feedUrl, title))
@@ -913,7 +913,7 @@ namespace RssBandit
         	TreeFeedsNodeBase current = guiMain.CurrentSelectedFeedsNode;
 			if (current != null)
 			{
-				NavigateToFeedHome(guiMain.FeedSourceOf(current), current.DataKey);
+				NavigateToFeedHome(guiMain.FeedSourceEntryOf(current), current.DataKey);
 			}
         	if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -946,7 +946,7 @@ namespace RssBandit
 			TreeFeedsNodeBase current = guiMain.CurrentSelectedFeedsNode;
 			if (current != null)
 			{
-				NavigateToFeedLinkCosmos(guiMain.FeedSourceOf(current), current.DataKey);
+				NavigateToFeedLinkCosmos(guiMain.FeedSourceEntryOf(current), current.DataKey);
 			}
         	if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -1183,7 +1183,7 @@ namespace RssBandit
             if (guiMain.CurrentSelectedFeedsNode != null && guiMain.CurrentSelectedFeedsNode.DataKey != null)
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
-                FeedSourceEntry entry = guiMain.FeedSourceOf(tn); 
+                FeedSourceEntry entry = guiMain.FeedSourceEntryOf(tn); 
 
                 INewsFeed f;
 				int refreshrate = Preferences.RefreshRate;
@@ -1441,7 +1441,7 @@ namespace RssBandit
                 (guiMain.CurrentSelectedFeedsNode.Type == FeedNodeType.Category))
             {
                 TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;
-                FeedSourceEntry entry = guiMain.FeedSourceOf(tn); 
+                FeedSourceEntry entry = guiMain.FeedSourceEntryOf(tn); 
 
                 string category = null, catPlusSep, categoryName;
                 int refreshrate = Preferences.RefreshRate;
@@ -1673,7 +1673,7 @@ namespace RssBandit
             }
 
             string feedUrl = tn.DataKey;
-            FeedSource source = guiMain.FeedSourceOf(tn).Source; 
+            FeedSource source = guiMain.FeedSourceOf(tn); 
 
             if (feedUrl == null ||
                 !RssHelper.IsNntpUrl(feedUrl) ||

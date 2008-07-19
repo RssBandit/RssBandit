@@ -145,11 +145,11 @@ namespace RssBandit
                 }
 
                 string playlistName = Preferences.SinglePlaylistName;
-                FeedSourceEntry entry = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
+                FeedSource source = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
 
-                if (!Preferences.SinglePodcastPlaylist && entry!= null)
+                if (!Preferences.SinglePodcastPlaylist && source != null)
                 {                    
-                    playlistName = entry.Source.GetFeeds()[podcast.OwnerFeedId].title;
+                    playlistName = source.GetFeeds()[podcast.OwnerFeedId].title;
                 }
 
                 WindowsMediaPlayer wmp = new WindowsMediaPlayer();
@@ -218,11 +218,11 @@ namespace RssBandit
                 }
 
                 string playlistName = Preferences.SinglePlaylistName;
-                FeedSourceEntry entry = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
+                FeedSource source = guiMain.FeedSourceOf(podcast.OwnerFeedId); 
 
-                if (!Preferences.SinglePodcastPlaylist && entry!= null)
+                if (!Preferences.SinglePodcastPlaylist && source != null)
                 {
-                    playlistName = entry.Source.GetFeeds()[podcast.OwnerFeedId].title;
+                    playlistName = source.GetFeeds()[podcast.OwnerFeedId].title;
                 }
 
                 // initialize iTunes application connection
