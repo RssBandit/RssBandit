@@ -3363,7 +3363,8 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                FeedSource source = FeedSourceOf(CurrentSelectedFeedsNode).Source; 
+            	FeedSourceEntry entry = FeedSourceOf(CurrentSelectedFeedsNode);
+				FeedSource source = entry != null ? entry.Source:null; 
                 var currentNewsItem = (INewsItem) e.Item.Key;
                 var ikp = new INewsItem[e.Item.KeyPath.Length];
                 e.Item.KeyPath.CopyTo(ikp, 0);
