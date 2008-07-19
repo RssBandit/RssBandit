@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.w3.org/XML/1998/namespace">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ComponentsText_app1.xsd" />
+    <xs:element name="root" msdata:IsDataSet="true" msdata:Locale="en-US">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+              <xs:attribute ref="app1:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xs:string" />
+              <xs:attribute name="name" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="comment" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="type" type="xs:string" />
+              <xs:attribute name="mimetype" type="xs:string" />
+              <xs:attribute ref="app1:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <data name="ExceptionUnsupportedAtomVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>지원되지 않는 ATOM 버젼</value>
+  </data>
+  <data name="ExceptionUnknownXmlDialect" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>이 XML 문서는 RSS 피드(feed) 문서가 아닙니다</value>
+  </data>
+  <data name="ExceptionDirectoryNotExistsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>존재 하지 않는 디렉토리: {0}</value>
+    <comment>.
+ Parameters: 0 - directoryName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822ParseGroupsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.</value>
+    <comment>.
+ Parameters: 0 - exceptionTypeName (string) </comment>
+  </data>
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>존재 하지 않는 시간대 설정: {0}.</value>
+    <comment>.
+ Parameters: 0 - originalDateTimeString (string) </comment>
+  </data>
+  <data name="ExceptionNoProcessingHandlerMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>피드(Feed) Url '{0}' 을 실행할 수 없습니다. 해당되는 핸들러가 실행 되지 않았습니다.</value>
+    <comment>.
+ Parameters: 0 - url (string) </comment>
+  </data>
+  <data name="ExceptionEnclosureCacheLimitReached" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>다운로드 하시려던'{0}' 이 최대 제한 용량 1 매가 (1 MB) 를 넘으셨기에 실행 할실 수가 없습니다. 죄대 제한 용량을 변경하시거나, 이전에 다운 하셨던 파일을 지우셔서, 필요한 공간을 만드세요</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  </data>
+  <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>검색 하시려는 해당 분야가 존재 하지 않습니다.</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilder" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>검색 분야로 부터 쿼리를 만들수 없었습니다.</value>
+  </data>
+  <data name="ExceptionSearchQueryBuilderFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>검색 분야로 부터 쿼리를 만들수 없었습니다. 에러가 발생하였습니다: {0}</value>
+    <comment>.
+ Parameters: 0 - error (string) </comment>
+  </data>
+  <data name="ExceptionLuceneSearchKindNotSupported" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>이런 식의 검색은 더 이상 지원되지 않습니다 ('{0}').</value>
+    <comment>.
+ Parameters: 0 - typeOfSearch (string) </comment>
+  </data>
+  <data name="ExceptionSearchFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>치명적인 검색 에러</value>
+  </data>
+  <data name="ExceptionHelpFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>에러에 관한 도움말</value>
+  </data>
+  <data name="ExceptionHelpFeedItemTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>에러의 종류: {0}</value>
+    <comment>.
+ Parameters: 0 - typeOfError (string) </comment>
+  </data>
+  <data name="ExceptionHelpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+    <value>발생된 에러들에 대한 도움말이 제공 됩니다.</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+<data name="ExceptionNntpServerAuthenticationFailed">
+    <value>NNTP 서버에 접속하시려던 시도가 올바르지 않은 '{0}' 인증 정보로 실패 했습니다: 사용자 이름이나 혹은 비밀 번호가 올바르지 않습니다</value>
+    <comment>.
+ Parameters: 0 - nntpServer (string) </comment>
+  </data>
+	<data name="ExceptionResourceAuthorization">
+    <value> 인증 정보가 필요 하거나 틀린 인증 정보로 인하여 접근 불가 입니다 (HTTP status 401)  </value>
+  </data>
+	<data name="ExceptionResourceGone">
+    <value>요구하신 정보는 더 이상 존재 하지 않습니다 (HTTP status 410)</value>
+  </data>
+	</root>
