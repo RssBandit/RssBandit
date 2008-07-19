@@ -30,7 +30,7 @@ namespace RssBandit
 	/// <summary>
 	/// Summary description for IdentityNewsServerManager.
 	/// </summary>
-	public class IdentityNewsServerManager: IServiceProvider
+	public class IdentityNewsServerManager
 	{
 		public event EventHandler NewsServerDefinitionsModified;
 		public event EventHandler IdentityDefinitionsModified;
@@ -312,18 +312,6 @@ namespace RssBandit
 		}
 		#endregion
 
-		#region IServiceProvider Members
-
-		public object GetService(Type serviceType)
-		{
-			IServiceProvider p = this.app;
-			if (p != null)
-				return p.GetService(serviceType);
-			
-			return null;
-		}
-
-		#endregion
 	}
 	#endregion
 
