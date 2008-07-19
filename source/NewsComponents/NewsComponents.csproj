@@ -408,6 +408,10 @@
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>
+    <EmbeddedResource Include="Resources\ComponentsText.ko.resx">
+      <SubType>Designer</SubType>
+	  <DependentUpon>ComponentsText.Resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ComponentsText.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>

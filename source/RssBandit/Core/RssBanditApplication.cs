@@ -3454,8 +3454,8 @@ namespace RssBandit
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 			} catch (Exception saveException)
 			{
-				_log.Error("Error saving feed sources", saveException);
-				MessageError("Error saving your feed sources: " + saveException.Message);
+				_log.Error("Error saving feed sources (" + GetFeedSourcesFileName() + ")", saveException);
+				MessageError(String.Format(SR.ExceptionSaveFileMessage,GetFeedSourcesFileName(),saveException.Message));
 			}
 		}
 

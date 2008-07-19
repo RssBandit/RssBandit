@@ -598,6 +598,10 @@
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ko.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.nl-NL.resx">
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -663,6 +667,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ja.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ko.resx">
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -734,6 +742,10 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ko.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.nl-NL.resx">
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -774,6 +786,10 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ko.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DR.bg.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
@@ -801,6 +817,10 @@
     <EmbeddedResource Include="WinGui\Dialogs\DR.ja.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ko.resx">
+		<DependentUpon>DR.resx</DependentUpon>
+		<SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DR.nl-NL.resx">
       <DependentUpon>DR.resx</DependentUpon>
@@ -841,6 +861,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHT.resx">
       <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ko.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ko.resx">
+      <DependentUpon>FeedProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedSourceProperties.resx">
