@@ -103,7 +103,7 @@ namespace RssBandit
         /// </summary>
         /// <remarks>Next Final Release: remove the temp. preferences file 
         /// reading/writing before publishing!</remarks>
-        public static readonly string versionPostfix = "(Phoenix - Alpha release)"; // String.Empty; // e.g. 'beta 1' or '(CVS)'
+        public static readonly string versionPostfix = /* "(Phoenix - Beta release)"; */ String.Empty; // e.g. 'beta 1' or '(CVS)'
 
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
@@ -779,6 +779,61 @@ namespace RssBandit
 							 }, sourceEntry);
 		}
 
+
+        /// <summary>
+        /// Handles an exception in loading a feed list. 
+        /// </summary>
+        /// <param name="e">The exception</param>
+        public void HandleFeedlistException(Exception e)
+        {
+            //TODO: change/add error messages to include source name/file!
+            e.PreserveExceptionStackTrace();
+
+            ResourceAuthorizationException rae = e as ResourceAuthorizationException; 
+            BanditApplicationException ex = e as BanditApplicationException;
+            
+            if (rae != null)
+            {
+                this.MessageError(String.Format(SR.ExceptionFeedlistCredentials, rae.Source, rae.Message));
+                this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+            }
+            else if (ex != null)
+            {
+                if (ex.Number == ApplicationExceptions.FeedlistOldFormat)
+                {
+                    Application.Exit();
+                }
+                else if (ex.Number == ApplicationExceptions.FeedlistOnRead)
+                {
+                    PublishException(ex);
+                    this.MessageError(String.Format(SR.ExceptionReadingFeedlistFile, ex.InnerException.Message, GetLogFileName()));
+                    this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+                }
+                else if (ex.Number == ApplicationExceptions.FeedlistOnProcessContent)
+                {
+                    this.MessageError(String.Format(SR.InvalidFeedlistFileMessage, GetLogFileName()));
+                    this.SetGuiStateFeedbackText(SR.GUIStatusValidationErrorReadingFeedlistFile);
+                }
+                else if (ex.Number == ApplicationExceptions.FeedlistNA)
+                {
+                    if (this.Preferences.RefreshRate < 0)
+                        this.Preferences.RefreshRate = FeedSource.DefaultRefreshRate;
+                    this.SetGuiStateFeedbackText(SR.GUIStatusNoFeedlistFile);
+                }
+                else
+                {
+                    PublishException(ex);
+                    this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+                }
+            }
+            else
+            {
+                // unhandled
+                PublishException(e);
+                this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
+            }
+        }
+
 		/// <summary>
 		/// Begins the load of all feed source subscriptions in async. manner.
 		/// </summary>
@@ -793,7 +848,7 @@ namespace RssBandit
 					if (args.Exception != null)
 					{
 						// failure(s)
-						PublishException(args.Exception);
+						HandleFeedlistException(args.Exception);
 						// always call (callee can detect an error using current.Source.FeedListOK):
 						RaiseFeedSourceSubscriptionsLoaded(current);
 					
@@ -3307,48 +3362,12 @@ namespace RssBandit
             }
             catch (Exception e)
             {
+                e.Source = sourceEntry.Name; 
+
 				if (IsAsyncCall)
 					throw;
-
-				//TODO: change/add error messages to include source name/file!
-				e.PreserveExceptionStackTrace();
-				BanditApplicationException ex = e as BanditApplicationException;
-				if (ex != null)
-				{
-					if (ex.Number == ApplicationExceptions.FeedlistOldFormat)
-					{
-						Application.Exit();
-					}
-					else if (ex.Number == ApplicationExceptions.FeedlistOnRead)
-					{
-						PublishException(ex);
-						this.MessageError(String.Format(SR.ExceptionReadingFeedlistFile, ex.InnerException.Message, GetLogFileName()));
-						this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
-					}
-					else if (ex.Number == ApplicationExceptions.FeedlistOnProcessContent)
-					{
-						this.MessageError(String.Format(SR.InvalidFeedlistFileMessage, GetLogFileName()));
-						this.SetGuiStateFeedbackText(SR.GUIStatusValidationErrorReadingFeedlistFile);
-					}
-					else if (ex.Number == ApplicationExceptions.FeedlistNA)
-					{
-						if (this.Preferences.RefreshRate < 0)
-							this.Preferences.RefreshRate = FeedSource.DefaultRefreshRate;
-						this.SetGuiStateFeedbackText(SR.GUIStatusNoFeedlistFile);
-					}
-					else
-					{
-						PublishException(ex);
-						this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
-					}
-				}
-				else
-				{
-					// unhandled
-					PublishException(e);
-					this.SetGuiStateFeedbackText(SR.GUIStatusErrorReadingFeedlistFile);
-				}
-                
+				
+                HandleFeedlistException(e);                 
             }
         }
 
