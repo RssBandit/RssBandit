@@ -178,7 +178,23 @@ namespace RssBandit.WinGui.Forms
 			return null;
 		}
 
-        public FeedSourceEntry FeedSourceOf(string feedUrl)
+		public FeedSource FeedSourceOf(string feedUrl)
+		{
+			FeedSourceEntry entry = FeedSourceEntryOf(feedUrl);
+			if (entry != null)
+				return entry.Source;
+			return null;
+		}
+
+		public FeedSource FeedSourceOf(TreeFeedsNodeBase node)
+		{
+			FeedSourceEntry entry = FeedSourceEntryOf(node);
+			if (entry != null)
+				return entry.Source;
+			return null;
+		}
+
+    	public FeedSourceEntry FeedSourceEntryOf(string feedUrl)
         {
             if (StringHelper.EmptyTrimOrNull(feedUrl))
                 return null;
@@ -187,7 +203,7 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-		public FeedSourceEntry FeedSourceOf(TreeFeedsNodeBase node)
+		public FeedSourceEntry FeedSourceEntryOf(TreeFeedsNodeBase node)
 		{
 			if (node == null)
 				return null;
@@ -408,7 +424,7 @@ namespace RssBandit.WinGui.Forms
             //long measure = 0;	// used only for profiling...
 
             if (tn.Type == FeedNodeType.Feed)
-                f = owner.GetFeed(FeedSourceOf(tn), tn.DataKey);
+                f = owner.GetFeed(FeedSourceEntryOf(tn), tn.DataKey);
 
             bool containsUnread = ((f != null && f.containsNewMessages) ||
                                    (tn == TreeSelectedFeedsNode && tn.UnreadCount > 0));
@@ -418,7 +434,7 @@ namespace RssBandit.WinGui.Forms
                 if (tn != TreeSelectedFeedsNode && f != null)
                 {
                     containsUnread = false;
-                    FeedSource source = FeedSourceOf(tn).Source;
+                    FeedSource source = FeedSourceOf(tn);
                     IList<INewsItem> items = source.GetCachedItemsForFeed(f.link);
 
                     for (int i = 0; i < items.Count; i++)
@@ -1305,7 +1321,7 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
-            	FeedSourceEntry entry = FeedSourceOf(CurrentSelectedFeedsNode);
+            	FeedSourceEntry entry = FeedSourceEntryOf(CurrentSelectedFeedsNode);
                 for (int i = 0; i < list.Count; i++)
                 {
                     INewsItem item = list[i];
@@ -1660,7 +1676,7 @@ namespace RssBandit.WinGui.Forms
                 return; 
             }
                 
-            FeedSourceEntry fse = FeedSourceOf(feedLink);
+            FeedSourceEntry fse = FeedSourceEntryOf(feedLink);
             if (fse != null)
             {
                 IList<INewsItem> items = fse.Source.GetCachedItemsForFeed(feedLink);
@@ -1709,7 +1725,7 @@ namespace RssBandit.WinGui.Forms
                 IList<INewsItem> items = null;
                 try
                 {
-                    items = FeedSourceOf(f.link).Source.GetCachedItemsForFeed(f.link);
+                    items = FeedSourceEntryOf(f.link).Source.GetCachedItemsForFeed(f.link);
                 }
                 catch
                 {
@@ -1779,7 +1795,7 @@ namespace RssBandit.WinGui.Forms
                 IList<INewsItem> items = null;
                 try
                 {
-                    items = FeedSourceOf(f.link).Source.GetCachedItemsForFeed(f.link);
+                    items = FeedSourceEntryOf(f.link).Source.GetCachedItemsForFeed(f.link);
                 }
                 catch
                 {
@@ -2070,7 +2086,7 @@ namespace RssBandit.WinGui.Forms
             if (!tn.Selected || tn.Type != FeedNodeType.Feed)
                 return;
 
-            FeedSourceEntry entry = FeedSourceOf(tn); 
+            FeedSourceEntry entry = FeedSourceEntryOf(tn); 
             INewsFeed f = owner.GetFeed(entry, tn.DataKey);
 
             if (f != null)
@@ -2109,7 +2125,7 @@ namespace RssBandit.WinGui.Forms
                         PopulateListView(tn, items, true, false, tn);
                     }
 
-                    IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(tn), tn.DataKey);
+                    IFeedDetails fi = owner.GetFeedDetails(FeedSourceEntryOf(tn), tn.DataKey);
 
                     if (fi != null)
                     {
@@ -2179,7 +2195,7 @@ namespace RssBandit.WinGui.Forms
             listFeedItems.BeginUpdate();
             string category = tn.CategoryStoreName;
             var unreadItems = new FeedInfoList(category);
-            FeedSourceEntry entry = FeedSourceOf(tn); 
+            FeedSourceEntry entry = FeedSourceEntryOf(tn); 
 
             PopulateListView(tn, new List<INewsItem>(), true);
             htmlDetail.Clear();
@@ -2256,7 +2272,7 @@ namespace RssBandit.WinGui.Forms
             }
                        
             string catName = TreeFeedsNodeBase.BuildCategoryStoreName(categoryFeedsNode);
-            FeedSourceEntry entry = FeedSourceOf(categoryFeedsNode);
+            FeedSourceEntry entry = FeedSourceEntryOf(categoryFeedsNode);
             WalkdownThenDeleteFeedsOrCategories(categoryFeedsNode, entry);
 
             if (entry != null)
@@ -2295,7 +2311,7 @@ namespace RssBandit.WinGui.Forms
                 return; // do not continue, if selection was changed
 			
 			// TODO: make it more efficient (we should not get feedsource in each recursion call level)
-        	FeedSourceEntry entry = FeedSourceOf(startNode);
+        	FeedSourceEntry entry = FeedSourceEntryOf(startNode);
             try
             {
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
@@ -2393,7 +2409,7 @@ namespace RssBandit.WinGui.Forms
         {
             if (startNode == null) return;
 
-            FeedSourceEntry entry = FeedSourceOf(startNode);             
+            FeedSourceEntry entry = FeedSourceEntryOf(startNode);             
 
             if (startNode.Type == FeedNodeType.Category)
             {

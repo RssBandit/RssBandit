@@ -2007,7 +2007,7 @@ namespace RssBandit.WinGui.Forms
             if (parent == null)
                 parent = GetRoot(RootFolderType.MyFeeds);
 
-        	FeedSourceEntry entry = FeedSourceOf(parent);
+        	FeedSourceEntry entry = FeedSourceEntryOf(parent);
             string feedTitle = null;
             string category = parent.CategoryStoreName;
 
@@ -2308,7 +2308,7 @@ namespace RssBandit.WinGui.Forms
             {
                 _uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
                 var feedUrl = (string) _uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
-                FeedSource source = FeedSourceOf(feedUrl).Source; 
+                FeedSource source = FeedSourceOf(feedUrl); 
                 source.AsyncGetItemsForFeed(feedUrl, true, true);
             }
 
@@ -2563,7 +2563,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-                FeedSource source = FeedSourceOf(tn).Source; 
+                FeedSource source = FeedSourceOf(tn); 
                 if (tn != null)
                 {
                     if (tn.Type == FeedNodeType.Category)

@@ -3694,7 +3694,7 @@ namespace RssBandit
         {
             if (f != null)
             {
-                FeedSource source = guiMain.FeedSourceOf(feedsNode).Source;
+                FeedSource source = guiMain.FeedSourceOf(feedsNode);
                 source.DisableFeed(f.link);
                 guiMain.SetSubscriptionNodeState(f, feedsNode, FeedProcessingState.Normal);
             }
@@ -5946,9 +5946,11 @@ namespace RssBandit
 
         	List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
 			if (visibleRoots.Count > 0)
-				wiz.FeedSourceName = guiMain.FeedSourceOf(visibleRoots[0]).Name;
-
-			try
+			{
+				FeedSourceEntry entry = guiMain.FeedSourceEntryOf(visibleRoots[0]);
+				wiz.FeedSourceName = entry != null ? entry.Name : null;
+			}
+        	try
             {
                 if (MainForm.IsHandleCreated)
                     Win32.SetForegroundWindow(MainForm.Handle);

@@ -385,7 +385,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
-                IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
+                IFeedDetails fd = owner.GetFeedDetails(FeedSourceEntryOf(feedsNode), feedsNode.DataKey);
 
                 string link = fd != null ? fd.Link : feedsNode.DataKey;
 
@@ -405,7 +405,7 @@ namespace RssBandit.WinGui.Forms
             if (feedsNode != null && feedsNode.Type == FeedNodeType.Feed)
             {
 
-				IFeedDetails fd = owner.GetFeedDetails(FeedSourceOf(feedsNode), feedsNode.DataKey);
+				IFeedDetails fd = owner.GetFeedDetails(FeedSourceEntryOf(feedsNode), feedsNode.DataKey);
 				string link, title;
 
                 if (fd != null)
@@ -749,7 +749,7 @@ namespace RssBandit.WinGui.Forms
         {
             string fileName = sender.CommandID.Split(new[] {'<'})[1];
             INewsItem item = CurrentSelectedFeedItem;
-            FeedSource source = FeedSourceOf(CurrentSelectedFeedsNode).Source; 
+            FeedSource source = FeedSourceOf(CurrentSelectedFeedsNode); 
 
             try
             {
@@ -812,7 +812,7 @@ namespace RssBandit.WinGui.Forms
 										String.Format(SR.MessageBoxDeleteThisFeedSourceQuestion, root.Text),
 										SR.MessageBoxDeleteThisFeedSourceCaption))
 			{
-				FeedSourceEntry entry = FeedSourceOf(root);
+				FeedSourceEntry entry = FeedSourceEntryOf(root);
 				if (entry != null)
 				{
 					owner.RemoveFeedSource(entry);		
@@ -2270,7 +2270,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if a feed was selected in the treeview, we display the feed homepage,
                                 // not the feed url in the Url dropdown box:
-								IFeedDetails fi = owner.GetFeedDetails(FeedSourceOf(selectedNode), selectedNode.DataKey);
+								IFeedDetails fi = owner.GetFeedDetails(FeedSourceEntryOf(selectedNode), selectedNode.DataKey);
                                 if (fi != null && fi.Link == FeedDetailTabState.Url)
                                     return; // no user navigation happened in listview/detail pane
                             }
@@ -2409,7 +2409,7 @@ namespace RssBandit.WinGui.Forms
             {
                 listFeedItems.CheckForLayoutModifications();
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-				FeedSourceEntry entry = FeedSourceOf(tn);
+				FeedSourceEntry entry = FeedSourceEntryOf(tn);
                     
                 if (tn.Type == FeedNodeType.Category)
                 {
@@ -2472,7 +2472,7 @@ namespace RssBandit.WinGui.Forms
                     else
                     {
                         string feedUrl = tn.DataKey;
-                    	FeedSourceEntry entry = FeedSourceOf(tn);
+                    	FeedSourceEntry entry = FeedSourceEntryOf(tn);
 						if (feedUrl != null && entry != null && 
 							entry.Source.IsSubscribed(feedUrl))
                         {
@@ -2550,7 +2550,7 @@ namespace RssBandit.WinGui.Forms
                             htmlDetail.Navigate(null);
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
-							FeedSourceEntry entry = FeedSourceOf(tn);
+							FeedSourceEntry entry = FeedSourceEntryOf(tn);
 							if (entry != null)
 								SetGuiStateFeedback(String.Format(SR.StatisticsAllFeedsCountMessage,
                                                     entry.Source.GetFeeds().Count));
@@ -2692,7 +2692,7 @@ namespace RssBandit.WinGui.Forms
 			if (editedNode.Type == FeedNodeType.Root)
 			{
 				// subscription node (feed source)
-				FeedSourceEntry entry = FeedSourceOf(editedNode);
+				FeedSourceEntry entry = FeedSourceEntryOf(editedNode);
 				entry.Name = newLabel;
 				Navigator.SelectedGroup.Text = newLabel;
 				owner.SaveFeedSources();
@@ -2701,7 +2701,7 @@ namespace RssBandit.WinGui.Forms
             {
                 //feed node 
 
-                INewsFeed f = owner.GetFeed(FeedSourceOf(editedNode), editedNode.DataKey);
+                INewsFeed f = owner.GetFeed(FeedSourceEntryOf(editedNode), editedNode.DataKey);
                 if (f != null)
                 {
                     f.title = newLabel;
@@ -2731,7 +2731,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     string newFullname = editedNode.CategoryStoreName;
                     
-                    FeedSourceEntry entry = FeedSourceOf(editedNode);
+                    FeedSourceEntry entry = FeedSourceEntryOf(editedNode);
                     entry.Source.RenameCategory(oldFullname, newFullname);
 
                     owner.SubscriptionModified(entry, NewsFeedProperty.FeedCategory);
@@ -2756,7 +2756,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     IFeedDetails fd = null;
                     if (CurrentDragNode.Type == FeedNodeType.Feed)
-						fd = owner.GetFeedDetails(FeedSourceOf(CurrentDragNode), CurrentDragNode.DataKey);
+						fd = owner.GetFeedDetails(FeedSourceEntryOf(CurrentDragNode), CurrentDragNode.DataKey);
                     if (fd != null)
                     {
                         dragObject = fd.Link;
@@ -3025,7 +3025,7 @@ namespace RssBandit.WinGui.Forms
                 // get the current item/feedNode
                 INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
-                FeedSourceEntry entry = FeedSourceOf(tn); 
+                FeedSourceEntry entry = FeedSourceEntryOf(tn); 
                 string stylesheet;
 
                 //load item content from disk if not in memory
@@ -3317,8 +3317,8 @@ namespace RssBandit.WinGui.Forms
 						if (owner.FeedSources.ContainsKey(sourceID))
 							source = owner.FeedSources[sourceID].Source;
 
-						if (source == null && FeedSourceOf(tn) != null)
-							source = FeedSourceOf(tn).Source; 
+						if (source == null)
+							source = FeedSourceOf(tn); 
                         
 						/* 
 						 * now, locate NewsItem in actual feed and mark comments as viewed 
@@ -3363,7 +3363,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-            	FeedSourceEntry entry = FeedSourceOf(CurrentSelectedFeedsNode);
+            	FeedSourceEntry entry = FeedSourceEntryOf(CurrentSelectedFeedsNode);
 				FeedSource source = entry != null ? entry.Source:null; 
                 var currentNewsItem = (INewsItem) e.Item.Key;
                 var ikp = new INewsItem[e.Item.KeyPath.Length];
@@ -3557,7 +3557,7 @@ namespace RssBandit.WinGui.Forms
                 if (fi.ItemsList.Count > 0)
                     redispItems.Add(fi);
             }
-            FeedSource source = FeedSourceOf(feedsNode).Source; 
+            FeedSource source = FeedSourceOf(feedsNode); 
             BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode,
                                    source.GetCategoryStyleSheet(category));
         }
